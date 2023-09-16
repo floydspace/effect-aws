@@ -17,6 +17,7 @@ export class TypeScriptLibProject extends typescript.TypeScriptProject {
       defaultReleaseBranch: "main",
       authorEmail: "ifloydrose@gmail.com",
       authorName: "Victor Korzunin",
+      license: "MIT",
       packageManager: javascript.NodePackageManager.PNPM,
       outdir: `packages/${options.name}`,
       prettier: true,

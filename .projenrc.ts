@@ -6,6 +6,7 @@ const project = new monorepo.MonorepoTsProject({
   name: "effect-aws",
   authorEmail: "ifloydrose@gmail.com",
   authorName: "Victor Korzunin",
+  license: "MIT",
   packageManager: javascript.NodePackageManager.PNPM,
   devDeps: ["@aws/pdk"],
 });
