@@ -75,5 +75,7 @@ export class TypeScriptLibProject extends typescript.TypeScriptProject {
     this.compileTask.reset("tsc -b ./tsconfig.json ./tsconfig.esm.json");
 
     this.npmignore?.addPatterns("/tsconfig.esm.json");
+
+    this.package.addField("publishConfig", { access: "public" });
   }
 }

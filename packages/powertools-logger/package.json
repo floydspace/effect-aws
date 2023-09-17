@@ -45,6 +45,9 @@
   "pnpm": {},
   "main": "lib/index.js",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "version": "0.0.0",
   "types": "lib/index.d.ts",
   "module": "lib/esm/index.js",
