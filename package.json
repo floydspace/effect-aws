@@ -17,7 +17,9 @@
     "upgrade": "pnpm exec projen upgrade",
     "upgrade-deps": "pnpm exec projen upgrade-deps",
     "watch": "pnpm exec projen watch",
-    "synth-workspace": "pnpm exec projen"
+    "synth-workspace": "pnpm exec projen",
+    "changeset": "changeset",
+    "version": "changeset version && pnpm install --no-frozen-lockfile"
   },
   "author": {
     "name": "Victor Korzunin",
@@ -26,6 +28,8 @@
   },
   "devDependencies": {
     "@aws/pdk": "^0",
+    "@changesets/changelog-github": "^0.4.8",
+    "@changesets/cli": "^2.26.2",
     "@types/node": "^16",
     "@typescript-eslint/eslint-plugin": "^6",
     "@typescript-eslint/parser": "^6",

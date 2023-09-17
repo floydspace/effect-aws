@@ -176,13 +176,13 @@
           "exec": "pnpm update npm-check-updates"
         },
         {
-          "exec": "npm-check-updates --upgrade --target=minor --peer --dep=dev,peer,prod,optional --filter=@aws/pdk,@types/node,@typescript-eslint/eslint-plugin,@typescript-eslint/parser,eslint-config-prettier,eslint-import-resolver-node,eslint-import-resolver-typescript,eslint-plugin-import,eslint-plugin-prettier,eslint,npm-check-updates,prettier,projen,syncpack,ts-node,typescript,nx,aws-cdk-lib,cdk-nag,constructs"
+          "exec": "npm-check-updates --upgrade --target=minor --peer --dep=dev,peer,prod,optional --filter=@aws/pdk,@changesets/changelog-github,@changesets/cli,@types/node,@typescript-eslint/eslint-plugin,@typescript-eslint/parser,eslint-config-prettier,eslint-import-resolver-node,eslint-import-resolver-typescript,eslint-plugin-import,eslint-plugin-prettier,eslint,npm-check-updates,prettier,projen,syncpack,ts-node,typescript,nx,aws-cdk-lib,cdk-nag,constructs"
         },
         {
           "exec": "pnpm i --no-frozen-lockfile"
         },
         {
-          "exec": "pnpm update @aws/pdk @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-config-prettier eslint-import-resolver-node eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint npm-check-updates prettier projen syncpack ts-node typescript nx aws-cdk-lib cdk-nag constructs"
+          "exec": "pnpm update @aws/pdk @changesets/changelog-github @changesets/cli @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-config-prettier eslint-import-resolver-node eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint npm-check-updates prettier projen syncpack ts-node typescript nx aws-cdk-lib cdk-nag constructs"
         },
         {
           "exec": "pnpm exec projen"

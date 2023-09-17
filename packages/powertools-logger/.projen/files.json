@@ -1,5 +1,6 @@
 {
   "files": [
+    "./tsconfig.esm.json",
     ".eslintrc.json",
     ".gitattributes",
     ".gitignore",

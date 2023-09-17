@@ -1,3 +1,4 @@
+import path from "path";
 import { JsonFile, javascript, typescript } from "projen";
 
 type PredefinedProps = "defaultReleaseBranch" | "authorName" | "authorEmail";
@@ -20,7 +21,8 @@ export class TypeScriptLibProject extends typescript.TypeScriptProject {
       license: "MIT",
       packageManager: javascript.NodePackageManager.PNPM,
       outdir: `packages/${options.name}`,
-      prettier: true,
+      prettier: true, // Monorepo prettier doesn't work for some reason
+      package: false, // It will be created by @changesets/cli
       jest: true,
       jestOptions: {
         ...jestOptions,
@@ -33,6 +35,11 @@ export class TypeScriptLibProject extends typescript.TypeScriptProject {
               tsconfig: "tsconfig.dev.json",
             }),
           },
+        },
+      },
+      tsconfig: {
+        compilerOptions: {
+          moduleResolution: javascript.TypeScriptModuleResolution.NODE,
         },
       },
       ...options,
@@ -48,23 +55,25 @@ export class TypeScriptLibProject extends typescript.TypeScriptProject {
       }
     }
 
-    // // Add tsconfig for esm
-    // new JsonFile(this, `${path.dirname(this.srcdir)}/tsconfig.esm.json`, {
-    //   obj: {
-    //     extends: "./tsconfig.json",
-    //     compilerOptions: {
-    //       outDir: "./lib/esm",
-    //       module: "es6", // esm
-    //       resolveJsonModule: false, // JSON modules are not supported in esm
-    //       declaration: false, // Declaration are generated for cjs
-    //     },
-    //   },
-    // });
+    // Add tsconfig for esm
+    new JsonFile(this, `${path.dirname(this.srcdir)}/tsconfig.esm.json`, {
+      obj: {
+        extends: "./tsconfig.json",
+        compilerOptions: {
+          outDir: "./lib/esm",
+          module: "es6", // esm
+          resolveJsonModule: false, // JSON modules are not supported in esm
+          declaration: false, // Declaration are generated for cjs
+        },
+      },
+    });
 
-    // // Reference to esm index for root imports
-    // this.package.addField("module", "lib/esm/index.js");
+    // Reference to esm index for root imports
+    this.package.addField("module", "lib/esm/index.js");
 
-    // // Build both cjs and esm
-    // this.compileTask.reset("tsc -b ./tsconfig.json ./tsconfig.esm.json");
+    // Build both cjs and esm
+    this.compileTask.reset("tsc -b ./tsconfig.json ./tsconfig.esm.json");
+
+    this.npmignore?.addPatterns("/tsconfig.esm.json");
   }
 }

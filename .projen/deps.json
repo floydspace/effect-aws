@@ -6,6 +6,14 @@
       "type": "build"
     },
     {
+      "name": "@changesets/changelog-github",
+      "type": "build"
+    },
+    {
+      "name": "@changesets/cli",
+      "type": "build"
+    },
+    {
       "name": "@types/node",
       "version": "^16",
       "type": "build"

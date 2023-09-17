@@ -40,4 +40,5 @@ jspm_packages/
 /lib
 /dist/
 !/.eslintrc.json
+!/./tsconfig.esm.json
 !/project.json

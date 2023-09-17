@@ -1,3 +1,4 @@
+import { Logger } from "@aws-lambda-powertools/logger";
 import type {
   LogItemExtraInput,
   LogItemMessage,
@@ -10,15 +11,8 @@ import * as Effect from "@effect/io/Effect";
 import * as FiberId from "@effect/io/FiberId";
 import * as FiberRef from "@effect/io/FiberRef";
 import * as FiberRefs from "@effect/io/FiberRefs";
+import * as Layer from "@effect/io/Layer";
 import * as Log from "@effect/io/Logger";
-
-export interface Logger {
-  trace?: (message: any, ...content: any[]) => void;
-  debug: (message: any, ...content: any[]) => void;
-  info: (message: any, ...content: any[]) => void;
-  warn: (message: any, ...content: any[]) => void;
-  error: (message: any, ...content: any[]) => void;
-}
 
 export const LoggerInstanceTag = Context.Tag<Logger>(
   "@effect-aws/Powertools/Logger",
@@ -104,10 +98,28 @@ export const powerToolsImpl = (logger: Logger) => {
   });
 };
 
+export const DefaultLoggerInstanceLayer = Layer.succeed(
+  LoggerInstanceTag,
+  new Logger(),
+);
+
+const PowerToolsDefaultLogger = LoggerInstanceTag.pipe(
+  Effect.map(powerToolsImpl),
+  Effect.provideLayer(DefaultLoggerInstanceLayer),
+);
+
 /**
- * Creates a logger effect layer implementation that uses the AWS Lambda Powertools Logger.
+ * Creates a logger layer implementation that uses the default AWS Lambda Powertools Logger instance.
  */
-export const PowerToolsImpl = Log.replaceEffect(
+export const PowerToolsDefaultLoggerLayer = Log.replaceEffect(
+  Log.defaultLogger,
+  PowerToolsDefaultLogger,
+);
+
+/**
+ * Creates a logger layer implementation that uses the AWS Lambda Powertools Logger instance provided by implementation layer.
+ */
+export const PowerToolsLoggerLayer = Log.replaceEffect(
   Log.defaultLogger,
   LoggerInstanceTag.pipe(Effect.map(powerToolsImpl)),
 );
