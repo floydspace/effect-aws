@@ -1,24 +1,23 @@
 import { monorepo } from "@aws/pdk";
 import { javascript } from "projen";
-import { TypeScriptLibProject } from "./projenrc";
+import { Changesets, TypeScriptLibProject } from "./projenrc";
 
 const project = new monorepo.MonorepoTsProject({
   name: "effect-aws",
+  description: "Effectful AWS",
+  repository: "https://github.com/floydspace/effect-aws",
   authorEmail: "ifloydrose@gmail.com",
   authorName: "Victor Korzunin",
   license: "MIT",
   packageManager: javascript.NodePackageManager.PNPM,
   clobber: false, // enable it and run `pnpm default && pnpm clobber`, if you need to reset the project
   depsUpgrade: false, // enable it and run `pnpm default && pnpm upgrade` to upgrade projen and monorepo deps
-  devDeps: ["@aws/pdk", "@changesets/changelog-github", "@changesets/cli"],
 });
 
-project.addScripts({
-  changeset: "changeset",
-  version: "changeset version && pnpm install --no-frozen-lockfile",
+new Changesets(project, {
+  repo: "floydspace/effect-aws",
+  onlyUpdatePeerDependentsWhenOutOfRange: true,
 });
-
-project.addGitIgnore(".direnv/");
 
 new TypeScriptLibProject({
   parent: project,
@@ -36,5 +35,7 @@ new TypeScriptLibProject({
   ],
   jest: false,
 });
+
+project.addGitIgnore(".direnv/");
 
 project.synth();

@@ -45,5 +45,6 @@ jspm_packages/
 !/nx.json
 !/.nxignore
 !/.syncpackrc.json
+!/.changeset/config.json
 .direnv/
 !/pnpm-workspace.yaml

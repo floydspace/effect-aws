@@ -10,6 +10,18 @@
         }
       ]
     },
+    "bump": {
+      "name": "bump",
+      "description": "Bump package versions with changesets",
+      "steps": [
+        {
+          "exec": "changeset version"
+        },
+        {
+          "spawn": "install"
+        }
+      ]
+    },
     "compile": {
       "name": "compile",
       "description": "Only compile for all affected projects",

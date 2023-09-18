@@ -1,7 +1,13 @@
 {
   "name": "effect-aws",
+  "description": "Effectful AWS",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/floydspace/effect-aws"
+  },
   "scripts": {
     "build": "pnpm exec projen build",
+    "bump": "pnpm exec projen bump",
     "compile": "pnpm exec projen compile",
     "default": "pnpm exec projen default",
     "eject": "pnpm exec projen eject",
@@ -15,8 +21,7 @@
     "upgrade-deps": "pnpm exec projen upgrade-deps",
     "watch": "pnpm exec projen watch",
     "synth-workspace": "pnpm exec projen",
-    "changeset": "changeset",
-    "version": "changeset version && pnpm install --no-frozen-lockfile"
+    "changeset": "changeset"
   },
   "author": {
     "name": "Victor Korzunin",
