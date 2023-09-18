@@ -17,7 +17,6 @@
     "organization": false
   },
   "devDependencies": {
-    "@aws-lambda-powertools/logger": "1.6.0",
     "@effect/data": "0.18.4",
     "@effect/io": "0.40.0",
     "@types/aws-lambda": "^8.10.121",
@@ -35,9 +34,11 @@
     "typescript": "^5.2.2"
   },
   "peerDependencies": {
-    "@aws-lambda-powertools/logger": "^1.6.0",
     "@effect/data": "^0.18.4",
     "@effect/io": "^0.40.0"
+  },
+  "dependencies": {
+    "@aws-lambda-powertools/logger": "^1"
   },
   "pnpm": {},
   "main": "lib/index.js",

@@ -3,7 +3,7 @@
 ## Installation
 
 ```bash
-npm install --save @effect-aws/powertools-logger @aws-lambda-powertools/logger@^1
+npm install --save @effect-aws/powertools-logger
 ```
 
 ## Usage

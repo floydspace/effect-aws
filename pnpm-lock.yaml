@@ -152,10 +152,11 @@ importers:
         version: 5.2.2
 
   packages/powertools-logger:
-    devDependencies:
+    dependencies:
       '@aws-lambda-powertools/logger':
-        specifier: 1.6.0
-        version: 1.6.0
+        specifier: ^1
+        version: 1.13.0
+    devDependencies:
       '@effect/data':
         specifier: 0.18.4
         version: 0.18.4
@@ -306,16 +307,21 @@ packages:
       tslib: 1.14.1
     dev: false
 
-  /@aws-lambda-powertools/commons@1.12.1:
-    resolution: {integrity: sha512-VChNfDUxxcB5KTfQPkJgxYihEZkrmeOzU9/A9FRBc+3v33EEM59T2pIgBkFy0VoINvGi3MoBEln/wyu2jV0ivA==}
-    dev: true
+  /@aws-lambda-powertools/commons@1.13.0:
+    resolution: {integrity: sha512-jIL1dj1pjAX5SOtQCagUF3ChIntbcDzy2Xwp08vTfvrRAqf4DMcWaW8z0Qb5A5CwrbIEXR0yFUIEEylkA4XXSQ==}
+    dev: false
 
-  /@aws-lambda-powertools/logger@1.6.0:
-    resolution: {integrity: sha512-RIx8nHDH8exxPfMhkTnxWZMNOEOgf1CjkzbisLvX89/8Z0tMyruDFHdnolZXQ6Z1AyUE5FVaqN5FWlkmyqxS4A==}
+  /@aws-lambda-powertools/logger@1.13.0:
+    resolution: {integrity: sha512-koACdj9RXwcrZTIdL8FBMujgqk3cFTHH9zYv0/gZ0ov21rSDXhMRkL4Xsu/Gdci9xtwJGPGiZFYxRa4MqtfegA==}
+    peerDependencies:
+      '@middy/core': '>=3.x <4.x'
+    peerDependenciesMeta:
+      '@middy/core':
+        optional: true
     dependencies:
-      '@aws-lambda-powertools/commons': 1.12.1
+      '@aws-lambda-powertools/commons': 1.13.0
       lodash.merge: 4.6.2
-    dev: true
+    dev: false
 
   /@aws-sdk/client-s3@3.414.0:
     resolution: {integrity: sha512-uEag2GPuuxWmnzOxUhAy0EYo3LW3u/UyCw1IxU3zkaTRQnD6TZ07kjv3Q6Zytqt82yKzJPZInzNNRdtGJdyxbw==}
@@ -6522,7 +6528,6 @@ packages:
 
   /lodash.merge@4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
-    dev: true
 
   /lodash.omit@4.5.0:
     resolution: {integrity: sha512-XeqSp49hNGmlkj2EJlfrQFIzQ6lXdNro9sddtQzcJY8QaoC2GO0DT7xaIokHeyM+mIT0mPMlPvkYzg2xCuHdZg==}

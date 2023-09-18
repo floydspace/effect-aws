@@ -29,17 +29,13 @@ new Changesets(project, {
 new TypeScriptLibProject({
   parent: project,
   name: "powertools-logger",
+  deps: ["@aws-lambda-powertools/logger@^1"],
   devDeps: [
-    "@aws-lambda-powertools/logger",
     "@effect/data@^0.18.4",
     "@effect/io@^0.40.0",
     "@types/aws-lambda", // peer for @aws-lambda-powertools/logger
   ],
-  peerDeps: [
-    "@aws-lambda-powertools/logger@^1.6.0",
-    "@effect/data@^0.18.4",
-    "@effect/io@^0.40.0",
-  ],
+  peerDeps: ["@effect/data@^0.18.4", "@effect/io@^0.40.0"],
   jest: false,
 });
 
