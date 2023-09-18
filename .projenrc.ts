@@ -16,6 +16,8 @@ project.addScripts({
   version: "changeset version && pnpm install --no-frozen-lockfile",
 });
 
+project.addGitIgnore(".direnv/");
+
 new TypeScriptLibProject({
   parent: project,
   name: "powertools-logger",

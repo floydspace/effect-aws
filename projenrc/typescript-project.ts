@@ -1,4 +1,6 @@
-import path from "path";
+import fs from "node:fs";
+import path from "node:path";
+
 import { JsonFile, javascript, typescript } from "projen";
 
 type PredefinedProps = "defaultReleaseBranch" | "authorName" | "authorEmail";
@@ -77,5 +79,10 @@ export class TypeScriptLibProject extends typescript.TypeScriptProject {
     this.npmignore?.addPatterns("/tsconfig.esm.json");
 
     this.package.addField("publishConfig", { access: "public" });
+
+    // preserve the version number set by @changesets/cli
+    const file = path.join(this.outdir, "package.json");
+    const prev = JSON.parse(fs.readFileSync(file, "utf-8"));
+    this.package.addVersion(prev.version);
   }
 }
