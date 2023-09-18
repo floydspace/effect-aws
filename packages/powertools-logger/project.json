@@ -51,20 +51,6 @@
         "cwd": "packages/powertools-logger"
       }
     },
-    "post-upgrade": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "pnpm exec projen post-upgrade",
-        "cwd": "packages/powertools-logger"
-      }
-    },
-    "upgrade": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "pnpm exec projen upgrade",
-        "cwd": "packages/powertools-logger"
-      }
-    },
     "watch": {
       "executor": "nx:run-commands",
       "options": {
