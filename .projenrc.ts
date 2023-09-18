@@ -8,6 +8,7 @@ const project = new monorepo.MonorepoTsProject({
   authorName: "Victor Korzunin",
   license: "MIT",
   packageManager: javascript.NodePackageManager.PNPM,
+  clobber: false, // enable it and run `pnpm default && pnpm clobber`, if you need to reset the project
   devDeps: ["@aws/pdk", "@changesets/changelog-github", "@changesets/cli"],
 });
 

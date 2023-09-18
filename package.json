@@ -2,7 +2,6 @@
   "name": "effect-aws",
   "scripts": {
     "build": "pnpm exec projen build",
-    "clobber": "pnpm exec projen clobber",
     "compile": "pnpm exec projen compile",
     "default": "pnpm exec projen default",
     "eject": "pnpm exec projen eject",
@@ -39,10 +38,10 @@
     "eslint-import-resolver-typescript": "^3.6.0",
     "eslint-plugin-import": "^2.28.1",
     "eslint-plugin-prettier": "^5.0.0",
-    "npm-check-updates": "^16.14.3",
+    "npm-check-updates": "^16.14.4",
     "nx": "16.0.0",
     "prettier": "^3.0.3",
-    "projen": "^0.73.22",
+    "projen": "^0.73.24",
     "syncpack": "^11.2.1",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
@@ -52,7 +51,7 @@
   },
   "dependencies": {
     "aws-cdk-lib": "^2.96.2",
-    "cdk-nag": "^2.27.132",
+    "cdk-nag": "^2.27.134",
     "constructs": "^10.2.70"
   },
   "pnpm": {

@@ -34,7 +34,7 @@
     "eslint-plugin-prettier": "^5.0.0",
     "npm-check-updates": "^16",
     "prettier": "^3.0.3",
-    "projen": "^0.73.22",
+    "projen": "^0.73.24",
     "typescript": "^5.2.2"
   },
   "peerDependencies": {
