@@ -3,7 +3,7 @@
   "description": "Effectful AWS",
   "repository": {
     "type": "git",
-    "url": "https://github.com/floydspace/effect-aws"
+    "url": "github:floydspace/effect-aws"
   },
   "scripts": {
     "build": "pnpm exec projen build",

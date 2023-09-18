@@ -1,11 +1,15 @@
 import { monorepo } from "@aws/pdk";
-import { javascript } from "projen";
+import { javascript, YamlFile } from "projen";
 import { Changesets, TypeScriptLibProject } from "./projenrc";
 
+const org = "floydspace";
+const name = "effect-aws";
+const repo = `${org}/${name}`;
+
 const project = new monorepo.MonorepoTsProject({
-  name: "effect-aws",
+  name: name,
   description: "Effectful AWS",
-  repository: "https://github.com/floydspace/effect-aws",
+  repository: `github:${repo}`,
   authorEmail: "ifloydrose@gmail.com",
   authorName: "Victor Korzunin",
   license: "MIT",
@@ -14,8 +18,10 @@ const project = new monorepo.MonorepoTsProject({
   depsUpgrade: false, // enable it and run `pnpm default && pnpm upgrade` to upgrade projen and monorepo deps
 });
 
+new YamlFile(project, ".github/FUNDING.yml", { obj: { github: org } });
+
 new Changesets(project, {
-  repo: "floydspace/effect-aws",
+  repo: repo,
   onlyUpdatePeerDependentsWhenOutOfRange: true,
 });
 
@@ -26,7 +32,7 @@ new TypeScriptLibProject({
     "@aws-lambda-powertools/logger",
     "@effect/data@^0.18.4",
     "@effect/io@^0.40.0",
-    "@types/aws-lambda",
+    "@types/aws-lambda", // peer for @aws-lambda-powertools/logger
   ],
   peerDeps: [
     "@aws-lambda-powertools/logger@^1.6.0",
@@ -36,6 +42,6 @@ new TypeScriptLibProject({
   jest: false,
 });
 
-project.addGitIgnore(".direnv/");
+project.addGitIgnore(".direnv/"); // flake environment creates .direnv folder
 
 project.synth();

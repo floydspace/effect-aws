@@ -1,5 +1,4 @@
-import { MonorepoTsProject } from "@aws/pdk/monorepo";
-import { Component, Project, JsonFile } from "projen";
+import { Component, JsonFile, Project, javascript } from "projen";
 
 export interface ChangesetsOptions {
   /**
@@ -20,7 +19,7 @@ export class Changesets extends Component {
     return project.components.find(isChangesets);
   }
 
-  constructor(project: MonorepoTsProject, options: ChangesetsOptions) {
+  constructor(project: javascript.NodeProject, options: ChangesetsOptions) {
     super(project);
 
     project.addDevDeps("@changesets/changelog-github", "@changesets/cli");

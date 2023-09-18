@@ -3,6 +3,7 @@
     ".changeset/config.json",
     ".eslintrc.json",
     ".gitattributes",
+    ".github/FUNDING.yml",
     ".gitignore",
     ".npmignore",
     ".npmrc",
