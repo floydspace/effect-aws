@@ -99,10 +99,6 @@
         }
       ]
     },
-    "post-upgrade": {
-      "name": "post-upgrade",
-      "description": "Runs after upgrading dependencies"
-    },
     "pre-compile": {
       "name": "pre-compile",
       "description": "Prepare the project for compilation for all affected projects",
@@ -130,33 +126,6 @@
         {
           "exec": "pnpm exec nx run-many --target=test --output-style=stream --nx-bail",
           "receiveArgs": true
-        }
-      ]
-    },
-    "upgrade": {
-      "name": "upgrade",
-      "description": "upgrade dependencies",
-      "env": {
-        "CI": "0"
-      },
-      "steps": [
-        {
-          "exec": "pnpm update npm-check-updates"
-        },
-        {
-          "exec": "npm-check-updates --upgrade --target=minor --peer --dep=dev,peer,prod,optional --filter=@aws/pdk,@changesets/changelog-github,@changesets/cli,@types/node,@typescript-eslint/eslint-plugin,@typescript-eslint/parser,eslint-config-prettier,eslint-import-resolver-node,eslint-import-resolver-typescript,eslint-plugin-import,eslint-plugin-prettier,eslint,npm-check-updates,prettier,projen,syncpack,ts-node,typescript,nx,aws-cdk-lib,cdk-nag,constructs"
-        },
-        {
-          "exec": "pnpm i --no-frozen-lockfile"
-        },
-        {
-          "exec": "pnpm update @aws/pdk @changesets/changelog-github @changesets/cli @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-config-prettier eslint-import-resolver-node eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint npm-check-updates prettier projen syncpack ts-node typescript nx aws-cdk-lib cdk-nag constructs"
-        },
-        {
-          "exec": "pnpm exec projen"
-        },
-        {
-          "spawn": "post-upgrade"
         }
       ]
     },

@@ -9,6 +9,7 @@ const project = new monorepo.MonorepoTsProject({
   license: "MIT",
   packageManager: javascript.NodePackageManager.PNPM,
   clobber: false, // enable it and run `pnpm default && pnpm clobber`, if you need to reset the project
+  depsUpgrade: false, // enable it and run `pnpm default && pnpm upgrade` to upgrade projen and monorepo deps
   devDeps: ["@aws/pdk", "@changesets/changelog-github", "@changesets/cli"],
 });
 
