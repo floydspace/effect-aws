@@ -45,7 +45,7 @@
     "npm-check-updates": "^16.14.4",
     "nx": "16.0.0",
     "prettier": "^3.0.3",
-    "projen": "^0.73.24",
+    "projen": "^0.73.25",
     "syncpack": "^11.2.1",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
@@ -55,7 +55,7 @@
   },
   "dependencies": {
     "aws-cdk-lib": "^2.96.2",
-    "cdk-nag": "^2.27.134",
+    "cdk-nag": "^2.27.135",
     "constructs": "^10.2.70"
   },
   "pnpm": {

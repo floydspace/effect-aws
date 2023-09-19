@@ -282,7 +282,11 @@ import {
 import { HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
 import * as RR from "@effect/data/ReadonlyRecord";
 import * as Effect from "@effect/io/Effect";
-import { DefaultS3ClientInstanceLayer, S3ClientInstanceTag } from "./Context";
+import {
+  DefaultS3ClientInstanceLayer,
+  S3ClientInstanceLayer,
+  S3ClientInstanceTag,
+} from "./Context";
 
 const commands = {
   AbortMultipartUploadCommand,
@@ -1218,7 +1222,7 @@ export interface S3Service {
   ) => Effect.Effect<never, unknown, WriteGetObjectResponseCommandOutput>;
 }
 
-export const S3ServiceEffect = Effect.gen(function* (_) {
+export const BaseS3ServiceEffect = Effect.gen(function* (_) {
   const client = yield* _(S3ClientInstanceTag);
 
   return RR.toEntries(commands).reduce((acc, [command]) => {
@@ -1235,6 +1239,10 @@ export const S3ServiceEffect = Effect.gen(function* (_) {
   }, {}) as S3Service;
 });
 
-export const DefaultS3ServiceEffect = S3ServiceEffect.pipe(
+export const S3ServiceEffect = BaseS3ServiceEffect.pipe(
+  Effect.provideLayer(S3ClientInstanceLayer),
+);
+
+export const DefaultS3ServiceEffect = BaseS3ServiceEffect.pipe(
   Effect.provideLayer(DefaultS3ClientInstanceLayer),
 );
