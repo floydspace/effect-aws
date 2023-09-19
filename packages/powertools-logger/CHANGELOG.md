@@ -1,5 +1,11 @@
 # @effect-aws/powertools-logger
 
+## 0.2.1
+
+### Patch Changes
+
+- [`3d37bc9`](https://github.com/floydspace/effect-aws/commit/3d37bc931118d2b55558b54727022445b39438a9) Thanks [@floydspace](https://github.com/floydspace)! - fix breaking change occurred in powertools logger version 1.9.0 and drop support of lower versions
+
 ## 0.2.0
 
 ### Minor Changes
