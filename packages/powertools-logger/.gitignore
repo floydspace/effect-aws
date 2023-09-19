@@ -30,6 +30,8 @@ jspm_packages/
 .yarn-integrity
 .cache
 !/.projenrc.js
+!/jest.config.json
+/coverage/
 !/.prettierignore
 !/.prettierrc.json
 !/.npmrc

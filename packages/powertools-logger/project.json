@@ -51,6 +51,13 @@
         "cwd": "packages/powertools-logger"
       }
     },
+    "test:watch": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm exec projen test:watch",
+        "cwd": "packages/powertools-logger"
+      }
+    },
     "watch": {
       "executor": "nx:run-commands",
       "options": {

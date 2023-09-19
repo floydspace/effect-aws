@@ -13,6 +13,7 @@ import * as FiberRef from "@effect/io/FiberRef";
 import * as FiberRefs from "@effect/io/FiberRefs";
 import * as Layer from "@effect/io/Layer";
 import * as Log from "@effect/io/Logger";
+import * as LogLevel from "@effect/io/LogLevel";
 
 export const LoggerInstanceTag = Context.Tag<Logger>(
   "@effect-aws/Powertools/Logger",
@@ -90,8 +91,12 @@ export const powerToolsImpl = (logger: Logger) => {
       })),
     });
 
-    (logger as any).processLogItem(
-      options.logLevel.label === "FATAL" ? "CRITICAL" : options.logLevel.label,
+    const unsafeLogger = logger as any;
+
+    unsafeLogger.processLogItem(
+      unsafeLogger.logLevelThresholds[
+        options.logLevel.label === "FATAL" ? "CRITICAL" : options.logLevel.label
+      ],
       options.message,
       extraInputs,
     );
@@ -103,23 +108,24 @@ export const DefaultLoggerInstanceLayer = Layer.succeed(
   new Logger(),
 );
 
-const PowerToolsDefaultLogger = LoggerInstanceTag.pipe(
-  Effect.map(powerToolsImpl),
+const PowerToolsLogger = LoggerInstanceTag.pipe(Effect.map(powerToolsImpl));
+
+const PowerToolsDefaultLogger = PowerToolsLogger.pipe(
   Effect.provideLayer(DefaultLoggerInstanceLayer),
 );
 
 /**
  * Creates a logger layer implementation that uses the default AWS Lambda Powertools Logger instance.
  */
-export const PowerToolsDefaultLoggerLayer = Log.replaceEffect(
-  Log.defaultLogger,
-  PowerToolsDefaultLogger,
+export const PowerToolsDefaultLoggerLayer = Layer.merge(
+  Log.replaceEffect(Log.defaultLogger, PowerToolsDefaultLogger),
+  Log.minimumLogLevel(LogLevel.All), // Log level is controlled by the PowerTools Logger instance
 );
 
 /**
  * Creates a logger layer implementation that uses the AWS Lambda Powertools Logger instance provided by implementation layer.
  */
-export const PowerToolsLoggerLayer = Log.replaceEffect(
-  Log.defaultLogger,
-  LoggerInstanceTag.pipe(Effect.map(powerToolsImpl)),
+export const PowerToolsLoggerLayer = Layer.merge(
+  Log.replaceEffect(Log.defaultLogger, PowerToolsLogger),
+  Log.minimumLogLevel(LogLevel.All),
 );

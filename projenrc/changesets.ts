@@ -46,7 +46,7 @@ export class Changesets extends Component {
         fixed: [],
         linked: [],
         access: "restricted",
-        baseBranch: project.release?.branches?.[0] ?? "main", // assume the first branch is the default release branches
+        baseBranch: project.release?.branches?.[0] ?? "main", // assume the first element is the default release branch
         updateInternalDependencies: "patch",
         ignore: [],
         ___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH: {
@@ -64,13 +64,16 @@ export class Changesets extends Component {
       if (subproject instanceof javascript.NodeProject) {
         // preserve the version number set by @changesets/cli
         const prev = this.readProjectPackageJson(subproject) ?? {};
-        subproject.package.addVersion(prev?.version ?? "0.0.0");
+        if (prev.version) {
+          subproject.package.addVersion(prev.version);
+        }
       }
     }
   }
 
   private readProjectPackageJson(project: javascript.NodeProject) {
     const file = path.join(project.outdir, "package.json");
+
     if (!fs.existsSync(file)) {
       return undefined;
     }
