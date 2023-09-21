@@ -9,7 +9,7 @@ Effect Docs: https://www.effect.website<br>
 - [x] PowerTools Logger
 - [x] S3 Client
 - [ ] DynamoDB Client
-- [ ] SQS Client
+- [x] SQS Client
 - [x] SNS Client
 - [ ] EventBridge Client
 - [ ] Lambda Client

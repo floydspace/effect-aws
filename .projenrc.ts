@@ -26,42 +26,42 @@ new Changesets(project, {
   onlyUpdatePeerDependentsWhenOutOfRange: true,
 });
 
+const commonDevDeps = ["aws-sdk-client-mock", "aws-sdk-client-mock-jest"];
+const commonPeerDeps = ["@effect/data@^0.18.4", "@effect/io@^0.40.0"];
+
 new TypeScriptLibProject({
   parent: project,
   name: "powertools-logger",
   deps: ["@aws-lambda-powertools/logger@^1.9.0"], // lower versions are not supported, raise an issue if you need it
   devDeps: [
-    "@effect/data@^0.18.4",
-    "@effect/io@^0.40.0",
+    ...commonPeerDeps,
     "@types/aws-lambda", // peer for @aws-lambda-powertools/logger
   ],
-  peerDeps: ["@effect/data@^0.18.4", "@effect/io@^0.40.0"],
+  peerDeps: commonPeerDeps,
 });
 
 new TypeScriptLibProject({
   parent: project,
   name: "client-s3",
   deps: ["@aws-sdk/types@^3", "@aws-sdk/client-s3@^3"],
-  devDeps: [
-    "@effect/data@^0.18.4",
-    "@effect/io@^0.40.0",
-    "aws-sdk-client-mock",
-    "aws-sdk-client-mock-jest",
-  ],
-  peerDeps: ["@effect/data@^0.18.4", "@effect/io@^0.40.0"],
+  devDeps: [...commonPeerDeps, ...commonDevDeps],
+  peerDeps: commonPeerDeps,
 });
 
 new TypeScriptLibProject({
   parent: project,
   name: "client-sns",
   deps: ["@aws-sdk/types@^3", "@aws-sdk/client-sns@^3"],
-  devDeps: [
-    "@effect/data@^0.18.4",
-    "@effect/io@^0.40.0",
-    "aws-sdk-client-mock",
-    "aws-sdk-client-mock-jest",
-  ],
-  peerDeps: ["@effect/data@^0.18.4", "@effect/io@^0.40.0"],
+  devDeps: [...commonPeerDeps, ...commonDevDeps],
+  peerDeps: commonPeerDeps,
+});
+
+new TypeScriptLibProject({
+  parent: project,
+  name: "client-sqs",
+  deps: ["@aws-sdk/types@^3", "@aws-sdk/client-sqs@^3"],
+  devDeps: [...commonPeerDeps, ...commonDevDeps],
+  peerDeps: commonPeerDeps,
 });
 
 project.addGitIgnore(".direnv/"); // flake environment creates .direnv folder
