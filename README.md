@@ -10,7 +10,7 @@ Effect Docs: https://www.effect.website<br>
 - [x] S3 Client
 - [ ] DynamoDB Client
 - [ ] SQS Client
-- [ ] SNS Client
+- [x] SNS Client
 - [ ] EventBridge Client
 - [ ] Lambda Client
 

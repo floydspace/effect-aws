@@ -2,4 +2,5 @@
 
 packages:
   - packages/client-s3
+  - packages/client-sns
   - packages/powertools-logger

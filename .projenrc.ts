@@ -51,6 +51,19 @@ new TypeScriptLibProject({
   peerDeps: ["@effect/data@^0.18.4", "@effect/io@^0.40.0"],
 });
 
+new TypeScriptLibProject({
+  parent: project,
+  name: "client-sns",
+  deps: ["@aws-sdk/types@^3", "@aws-sdk/client-sns@^3"],
+  devDeps: [
+    "@effect/data@^0.18.4",
+    "@effect/io@^0.40.0",
+    "aws-sdk-client-mock",
+    "aws-sdk-client-mock-jest",
+  ],
+  peerDeps: ["@effect/data@^0.18.4", "@effect/io@^0.40.0"],
+});
+
 project.addGitIgnore(".direnv/"); // flake environment creates .direnv folder
 
 project.synth();
