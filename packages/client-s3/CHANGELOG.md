@@ -1,5 +1,11 @@
 # @effect-aws/client-s3
 
+## 0.2.1
+
+### Patch Changes
+
+- [`f7e9e3e`](https://github.com/floydspace/effect-aws/commit/f7e9e3ed4c2cb5dc0e0b9e0895278307a182a0d2) Thanks [@floydspace](https://github.com/floydspace)! - correct way of propagating default logger instance inside S3Client, thanks to @mikearnaldi
+
 ## 0.2.0
 
 ### Minor Changes
