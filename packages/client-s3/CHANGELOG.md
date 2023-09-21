@@ -1,5 +1,11 @@
 # @effect-aws/client-s3
 
+## 0.2.0
+
+### Minor Changes
+
+- [`73d43f9`](https://github.com/floydspace/effect-aws/commit/73d43f94752109bdad9682b8260e8f84ac8c6d5b) Thanks [@floydspace](https://github.com/floydspace)! - add an ability to provide S3Client configuration through layer, and provide default logger as part of default configuration
+
 ## 0.1.0
 
 ### Minor Changes
