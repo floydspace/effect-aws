@@ -1,5 +1,11 @@
 # @effect-aws/powertools-logger
 
+## 0.3.0
+
+### Minor Changes
+
+- [`d43c957`](https://github.com/floydspace/effect-aws/commit/d43c95706d5798502d1794c3ed92fa301afd4a02) Thanks [@floydspace](https://github.com/floydspace)! - add an ability provide config options through layer, renamed the layer variables
+
 ## 0.2.1
 
 ### Patch Changes
