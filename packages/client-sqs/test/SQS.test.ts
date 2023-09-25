@@ -14,6 +14,7 @@ import {
   DefaultSQSServiceEffect,
   SQSClientConfigTag,
   SQSClientInstanceTag,
+  SQSClientOptions,
   SQSServiceEffect,
 } from "../src";
 
@@ -53,9 +54,10 @@ describe("SQSClientImpl", () => {
       sqs.sendMessage(args),
     );
 
-    const SQSClientConfigLayer = Layer.succeed(SQSClientConfigTag, {
-      region: "eu-central-1",
-    });
+    const SQSClientConfigLayer = Layer.succeed(
+      SQSClientConfigTag,
+      new SQSClientOptions({ region: "eu-central-1" }),
+    );
 
     const result = await pipe(
       program,

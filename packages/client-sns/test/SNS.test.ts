@@ -14,6 +14,7 @@ import {
   DefaultSNSServiceEffect,
   SNSClientConfigTag,
   SNSClientInstanceTag,
+  SNSClientOptions,
   SNSServiceEffect,
 } from "../src";
 
@@ -47,9 +48,10 @@ describe("SNSClientImpl", () => {
       sns.publish(args),
     );
 
-    const SNSClientConfigLayer = Layer.succeed(SNSClientConfigTag, {
-      region: "eu-central-1",
-    });
+    const SNSClientConfigLayer = Layer.succeed(
+      SNSClientConfigTag,
+      new SNSClientOptions({ region: "eu-central-1" }),
+    );
 
     const result = await pipe(
       program,

@@ -1,26 +1,34 @@
 import { SNSClient, SNSClientConfig } from "@aws-sdk/client-sns";
 import * as Context from "@effect/data/Context";
+import * as Data from "@effect/data/Data";
 import { flow } from "@effect/data/Function";
 import * as Effect from "@effect/io/Effect";
 import * as Layer from "@effect/io/Layer";
 import * as Runtime from "@effect/io/Runtime";
 
-export const SNSClientConfigTag = Context.Tag<SNSClientConfig>(
+export class SNSClientOptions extends Data.TaggedClass(
+  "SNSClientOptions",
+)<SNSClientConfig> {}
+
+export const SNSClientConfigTag = Context.Tag<SNSClientOptions>(
   "@effect-aws/SNSClient/Config",
 );
 
 export const DefaultSNSClientConfigLayer = Layer.effect(
   SNSClientConfigTag,
   Effect.runtime<never>().pipe(
-    Effect.map((runtime) => ({
-      logger: {
-        info: flow(Effect.logInfo, Runtime.runSync(runtime)),
-        warn: flow(Effect.logWarning, Runtime.runSync(runtime)),
-        error: flow(Effect.logError, Runtime.runSync(runtime)),
-        debug: flow(Effect.logDebug, Runtime.runSync(runtime)),
-        trace: flow(Effect.logTrace, Runtime.runSync(runtime)),
-      },
-    })),
+    Effect.map(
+      (runtime) =>
+        new SNSClientOptions({
+          logger: {
+            info: flow(Effect.logInfo, Runtime.runSync(runtime)),
+            warn: flow(Effect.logWarning, Runtime.runSync(runtime)),
+            error: flow(Effect.logError, Runtime.runSync(runtime)),
+            debug: flow(Effect.logDebug, Runtime.runSync(runtime)),
+            trace: flow(Effect.logTrace, Runtime.runSync(runtime)),
+          },
+        }),
+    ),
   ),
 );
 
@@ -33,7 +41,6 @@ export const SNSClientInstanceLayer = Layer.effect(
   SNSClientConfigTag.pipe(Effect.map((config) => new SNSClient(config))),
 );
 
-export const DefaultSNSClientInstanceLayer = Layer.provide(
-  DefaultSNSClientConfigLayer,
-  SNSClientInstanceLayer,
+export const DefaultSNSClientInstanceLayer = SNSClientInstanceLayer.pipe(
+  Layer.use(DefaultSNSClientConfigLayer),
 );

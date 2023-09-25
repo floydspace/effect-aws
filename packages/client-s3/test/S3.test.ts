@@ -10,6 +10,7 @@ import {
   DefaultS3ServiceEffect,
   S3ClientConfigTag,
   S3ClientInstanceTag,
+  S3ClientOptions,
   S3ServiceEffect,
 } from "../src";
 
@@ -43,9 +44,10 @@ describe("S3ClientImpl", () => {
       s3.headObject(args),
     );
 
-    const S3ClientConfigLayer = Layer.succeed(S3ClientConfigTag, {
-      region: "eu-central-1",
-    });
+    const S3ClientConfigLayer = Layer.succeed(
+      S3ClientConfigTag,
+      new S3ClientOptions({ region: "eu-central-1" }),
+    );
 
     const result = await pipe(
       program,
