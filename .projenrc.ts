@@ -26,6 +26,7 @@ new Changesets(project, {
   onlyUpdatePeerDependentsWhenOutOfRange: true,
 });
 
+const commonDeps = ["@aws-sdk/types@^3"];
 const commonDevDeps = ["aws-sdk-client-mock", "aws-sdk-client-mock-jest"];
 const commonPeerDeps = ["@effect/data@^0.18.4", "@effect/io@^0.40.0"];
 
@@ -42,8 +43,32 @@ new TypeScriptLibProject({
 
 new TypeScriptLibProject({
   parent: project,
+  name: "client-dynamodb",
+  deps: [...commonDeps, "@aws-sdk/client-dynamodb@^3"],
+  devDeps: [...commonPeerDeps, ...commonDevDeps],
+  peerDeps: commonPeerDeps,
+});
+
+new TypeScriptLibProject({
+  parent: project,
+  name: "client-eventbridge",
+  deps: [...commonDeps, "@aws-sdk/client-eventbridge@^3"],
+  devDeps: [...commonPeerDeps, ...commonDevDeps],
+  peerDeps: commonPeerDeps,
+});
+
+new TypeScriptLibProject({
+  parent: project,
+  name: "client-lambda",
+  deps: [...commonDeps, "@aws-sdk/client-lambda@^3"],
+  devDeps: [...commonPeerDeps, ...commonDevDeps],
+  peerDeps: commonPeerDeps,
+});
+
+new TypeScriptLibProject({
+  parent: project,
   name: "client-s3",
-  deps: ["@aws-sdk/types@^3", "@aws-sdk/client-s3@^3"],
+  deps: [...commonDeps, "@aws-sdk/client-s3@^3"],
   devDeps: [...commonPeerDeps, ...commonDevDeps],
   peerDeps: commonPeerDeps,
 });
@@ -51,7 +76,7 @@ new TypeScriptLibProject({
 new TypeScriptLibProject({
   parent: project,
   name: "client-sns",
-  deps: ["@aws-sdk/types@^3", "@aws-sdk/client-sns@^3"],
+  deps: [...commonDeps, "@aws-sdk/client-sns@^3"],
   devDeps: [...commonPeerDeps, ...commonDevDeps],
   peerDeps: commonPeerDeps,
 });
@@ -59,7 +84,7 @@ new TypeScriptLibProject({
 new TypeScriptLibProject({
   parent: project,
   name: "client-sqs",
-  deps: ["@aws-sdk/types@^3", "@aws-sdk/client-sqs@^3"],
+  deps: [...commonDeps, "@aws-sdk/client-sqs@^3"],
   devDeps: [...commonPeerDeps, ...commonDevDeps],
   peerDeps: commonPeerDeps,
 });

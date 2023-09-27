@@ -8,11 +8,12 @@ Effect Docs: https://www.effect.website<br>
 
 - [x] PowerTools Logger
 - [x] S3 Client
-- [ ] DynamoDB Client
+- [x] DynamoDB Client
 - [x] SQS Client
 - [x] SNS Client
-- [ ] EventBridge Client
-- [ ] Lambda Client
+- [x] EventBridge Client
+- [x] Lambda Client
+- [ ] Other AWS Clients (By Request)
 
 # Contributing Guidelines
 
