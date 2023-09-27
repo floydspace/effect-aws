@@ -45,7 +45,7 @@
     "npm-check-updates": "^16.14.4",
     "nx": "16.0.0",
     "prettier": "^3.0.3",
-    "projen": "^0.73.33",
+    "projen": "^0.73.34",
     "syncpack": "^11.2.1",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
@@ -76,6 +76,7 @@
   "private": true,
   "workspaces": {
     "packages": [
+      "packages/client-api-gateway-management-api",
       "packages/client-dynamodb",
       "packages/client-eventbridge",
       "packages/client-lambda",

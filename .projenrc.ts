@@ -43,6 +43,14 @@ new TypeScriptLibProject({
 
 new TypeScriptLibProject({
   parent: project,
+  name: "client-api-gateway-management-api",
+  deps: [...commonDeps, "@aws-sdk/client-apigatewaymanagementapi@^3"],
+  devDeps: [...commonPeerDeps, ...commonDevDeps],
+  peerDeps: commonPeerDeps,
+});
+
+new TypeScriptLibProject({
+  parent: project,
   name: "client-dynamodb",
   deps: [...commonDeps, "@aws-sdk/client-dynamodb@^3"],
   devDeps: [...commonPeerDeps, ...commonDevDeps],
