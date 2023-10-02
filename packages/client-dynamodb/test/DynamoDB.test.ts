@@ -16,6 +16,7 @@ import {
   DynamoDBClientInstanceTag,
   DynamoDBClientOptions,
   DynamoDBServiceEffect,
+  SdkError,
 } from "../src";
 
 import "aws-sdk-client-mock-jest";
@@ -148,7 +149,15 @@ describe("DynamoDBClientImpl", () => {
 
     const result = await pipe(program, Effect.runPromiseExit);
 
-    expect(result).toEqual(Exit.fail(new Error("test")));
+    expect(result).toEqual(
+      Exit.fail(
+        SdkError({
+          ...new Error("test"),
+          name: "SdkError",
+          stack: expect.any(String),
+        }),
+      ),
+    );
     expect(dynamodbMock).toHaveReceivedCommandTimes(PutItemCommand, 1);
     expect(dynamodbMock).toHaveReceivedCommandWith(PutItemCommand, args);
   });

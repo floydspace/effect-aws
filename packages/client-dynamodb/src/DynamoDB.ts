@@ -68,6 +68,7 @@ import {
   DisableKinesisStreamingDestinationCommand,
   DisableKinesisStreamingDestinationCommandInput,
   DisableKinesisStreamingDestinationCommandOutput,
+  DynamoDBServiceException,
   EnableKinesisStreamingDestinationCommand,
   EnableKinesisStreamingDestinationCommandInput,
   EnableKinesisStreamingDestinationCommandOutput,
@@ -160,6 +161,7 @@ import {
   UpdateTimeToLiveCommandOutput,
 } from "@aws-sdk/client-dynamodb";
 import { HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
+import * as Data from "@effect/data/Data";
 import * as RR from "@effect/data/ReadonlyRecord";
 import * as Effect from "@effect/io/Effect";
 import {
@@ -167,6 +169,42 @@ import {
   DynamoDBClientInstanceLayer,
   DynamoDBClientInstanceTag,
 } from "./Context";
+import {
+  BackupInUseError,
+  BackupNotFoundError,
+  ConditionalCheckFailedError,
+  ContinuousBackupsUnavailableError,
+  DuplicateItemError,
+  ExportConflictError,
+  ExportNotFoundError,
+  GlobalTableAlreadyExistsError,
+  GlobalTableNotFoundError,
+  IdempotentParameterMismatchError,
+  ImportConflictError,
+  ImportNotFoundError,
+  IndexNotFoundError,
+  InternalServerError,
+  InvalidEndpointError,
+  InvalidExportTimeError,
+  InvalidRestoreTimeError,
+  ItemCollectionSizeLimitExceededError,
+  LimitExceededError,
+  PointInTimeRecoveryUnavailableError,
+  ProvisionedThroughputExceededError,
+  ReplicaAlreadyExistsError,
+  ReplicaNotFoundError,
+  RequestLimitExceededError,
+  ResourceInUseError,
+  ResourceNotFoundError,
+  SdkError,
+  TableAlreadyExistsError,
+  TableInUseError,
+  TableNotFoundError,
+  TaggedException,
+  TransactionCanceledError,
+  TransactionConflictError,
+  TransactionInProgressError,
+} from "./Errors";
 
 const commands = {
   BatchExecuteStatementCommand,
@@ -231,7 +269,11 @@ export interface DynamoDBService {
   batchExecuteStatement(
     args: BatchExecuteStatementCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, BatchExecuteStatementCommandOutput>;
+  ): Effect.Effect<
+    never,
+    SdkError | InternalServerError | RequestLimitExceededError,
+    BatchExecuteStatementCommandOutput
+  >;
 
   /**
    * @see {@link BatchGetItemCommand}
@@ -239,7 +281,16 @@ export interface DynamoDBService {
   batchGetItem(
     args: BatchGetItemCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, BatchGetItemCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | InternalServerError
+    | InvalidEndpointError
+    | ProvisionedThroughputExceededError
+    | RequestLimitExceededError
+    | ResourceNotFoundError,
+    BatchGetItemCommandOutput
+  >;
 
   /**
    * @see {@link BatchWriteItemCommand}
@@ -247,7 +298,17 @@ export interface DynamoDBService {
   batchWriteItem(
     args: BatchWriteItemCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, BatchWriteItemCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | InternalServerError
+    | InvalidEndpointError
+    | ItemCollectionSizeLimitExceededError
+    | ProvisionedThroughputExceededError
+    | RequestLimitExceededError
+    | ResourceNotFoundError,
+    BatchWriteItemCommandOutput
+  >;
 
   /**
    * @see {@link CreateBackupCommand}
@@ -255,7 +316,18 @@ export interface DynamoDBService {
   createBackup(
     args: CreateBackupCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, CreateBackupCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | BackupInUseError
+    | ContinuousBackupsUnavailableError
+    | InternalServerError
+    | InvalidEndpointError
+    | LimitExceededError
+    | TableInUseError
+    | TableNotFoundError,
+    CreateBackupCommandOutput
+  >;
 
   /**
    * @see {@link CreateGlobalTableCommand}
@@ -263,7 +335,16 @@ export interface DynamoDBService {
   createGlobalTable(
     args: CreateGlobalTableCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, CreateGlobalTableCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | GlobalTableAlreadyExistsError
+    | InternalServerError
+    | InvalidEndpointError
+    | LimitExceededError
+    | TableNotFoundError,
+    CreateGlobalTableCommandOutput
+  >;
 
   /**
    * @see {@link CreateTableCommand}
@@ -271,7 +352,15 @@ export interface DynamoDBService {
   createTable(
     args: CreateTableCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, CreateTableCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | InternalServerError
+    | InvalidEndpointError
+    | LimitExceededError
+    | ResourceInUseError,
+    CreateTableCommandOutput
+  >;
 
   /**
    * @see {@link DeleteBackupCommand}
@@ -279,7 +368,16 @@ export interface DynamoDBService {
   deleteBackup(
     args: DeleteBackupCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, DeleteBackupCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | BackupInUseError
+    | BackupNotFoundError
+    | InternalServerError
+    | InvalidEndpointError
+    | LimitExceededError,
+    DeleteBackupCommandOutput
+  >;
 
   /**
    * @see {@link DeleteItemCommand}
@@ -287,7 +385,19 @@ export interface DynamoDBService {
   deleteItem(
     args: DeleteItemCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, DeleteItemCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | ConditionalCheckFailedError
+    | InternalServerError
+    | InvalidEndpointError
+    | ItemCollectionSizeLimitExceededError
+    | ProvisionedThroughputExceededError
+    | RequestLimitExceededError
+    | ResourceNotFoundError
+    | TransactionConflictError,
+    DeleteItemCommandOutput
+  >;
 
   /**
    * @see {@link DeleteTableCommand}
@@ -295,7 +405,16 @@ export interface DynamoDBService {
   deleteTable(
     args: DeleteTableCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, DeleteTableCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | InternalServerError
+    | InvalidEndpointError
+    | LimitExceededError
+    | ResourceInUseError
+    | ResourceNotFoundError,
+    DeleteTableCommandOutput
+  >;
 
   /**
    * @see {@link DescribeBackupCommand}
@@ -303,7 +422,11 @@ export interface DynamoDBService {
   describeBackup(
     args: DescribeBackupCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, DescribeBackupCommandOutput>;
+  ): Effect.Effect<
+    never,
+    SdkError | BackupNotFoundError | InternalServerError | InvalidEndpointError,
+    DescribeBackupCommandOutput
+  >;
 
   /**
    * @see {@link DescribeContinuousBackupsCommand}
@@ -311,7 +434,11 @@ export interface DynamoDBService {
   describeContinuousBackups(
     args: DescribeContinuousBackupsCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, DescribeContinuousBackupsCommandOutput>;
+  ): Effect.Effect<
+    never,
+    SdkError | InternalServerError | InvalidEndpointError | TableNotFoundError,
+    DescribeContinuousBackupsCommandOutput
+  >;
 
   /**
    * @see {@link DescribeContributorInsightsCommand}
@@ -319,7 +446,11 @@ export interface DynamoDBService {
   describeContributorInsights(
     args: DescribeContributorInsightsCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, DescribeContributorInsightsCommandOutput>;
+  ): Effect.Effect<
+    never,
+    SdkError | InternalServerError | ResourceNotFoundError,
+    DescribeContributorInsightsCommandOutput
+  >;
 
   /**
    * @see {@link DescribeEndpointsCommand}
@@ -327,7 +458,7 @@ export interface DynamoDBService {
   describeEndpoints(
     args: DescribeEndpointsCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, DescribeEndpointsCommandOutput>;
+  ): Effect.Effect<never, SdkError, DescribeEndpointsCommandOutput>;
 
   /**
    * @see {@link DescribeExportCommand}
@@ -335,7 +466,11 @@ export interface DynamoDBService {
   describeExport(
     args: DescribeExportCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, DescribeExportCommandOutput>;
+  ): Effect.Effect<
+    never,
+    SdkError | ExportNotFoundError | InternalServerError | LimitExceededError,
+    DescribeExportCommandOutput
+  >;
 
   /**
    * @see {@link DescribeGlobalTableCommand}
@@ -343,7 +478,14 @@ export interface DynamoDBService {
   describeGlobalTable(
     args: DescribeGlobalTableCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, DescribeGlobalTableCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | GlobalTableNotFoundError
+    | InternalServerError
+    | InvalidEndpointError,
+    DescribeGlobalTableCommandOutput
+  >;
 
   /**
    * @see {@link DescribeGlobalTableSettingsCommand}
@@ -351,7 +493,14 @@ export interface DynamoDBService {
   describeGlobalTableSettings(
     args: DescribeGlobalTableSettingsCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, DescribeGlobalTableSettingsCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | GlobalTableNotFoundError
+    | InternalServerError
+    | InvalidEndpointError,
+    DescribeGlobalTableSettingsCommandOutput
+  >;
 
   /**
    * @see {@link DescribeImportCommand}
@@ -359,7 +508,11 @@ export interface DynamoDBService {
   describeImport(
     args: DescribeImportCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, DescribeImportCommandOutput>;
+  ): Effect.Effect<
+    never,
+    SdkError | ImportNotFoundError,
+    DescribeImportCommandOutput
+  >;
 
   /**
    * @see {@link DescribeKinesisStreamingDestinationCommand}
@@ -369,7 +522,10 @@ export interface DynamoDBService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     never,
-    unknown,
+    | SdkError
+    | InternalServerError
+    | InvalidEndpointError
+    | ResourceNotFoundError,
     DescribeKinesisStreamingDestinationCommandOutput
   >;
 
@@ -379,7 +535,11 @@ export interface DynamoDBService {
   describeLimits(
     args: DescribeLimitsCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, DescribeLimitsCommandOutput>;
+  ): Effect.Effect<
+    never,
+    SdkError | InternalServerError | InvalidEndpointError,
+    DescribeLimitsCommandOutput
+  >;
 
   /**
    * @see {@link DescribeTableCommand}
@@ -387,7 +547,14 @@ export interface DynamoDBService {
   describeTable(
     args: DescribeTableCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, DescribeTableCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | InternalServerError
+    | InvalidEndpointError
+    | ResourceNotFoundError,
+    DescribeTableCommandOutput
+  >;
 
   /**
    * @see {@link DescribeTableReplicaAutoScalingCommand}
@@ -397,7 +564,7 @@ export interface DynamoDBService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     never,
-    unknown,
+    SdkError | InternalServerError | ResourceNotFoundError,
     DescribeTableReplicaAutoScalingCommandOutput
   >;
 
@@ -407,7 +574,14 @@ export interface DynamoDBService {
   describeTimeToLive(
     args: DescribeTimeToLiveCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, DescribeTimeToLiveCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | InternalServerError
+    | InvalidEndpointError
+    | ResourceNotFoundError,
+    DescribeTimeToLiveCommandOutput
+  >;
 
   /**
    * @see {@link DisableKinesisStreamingDestinationCommand}
@@ -417,7 +591,12 @@ export interface DynamoDBService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     never,
-    unknown,
+    | SdkError
+    | InternalServerError
+    | InvalidEndpointError
+    | LimitExceededError
+    | ResourceInUseError
+    | ResourceNotFoundError,
     DisableKinesisStreamingDestinationCommandOutput
   >;
 
@@ -429,7 +608,12 @@ export interface DynamoDBService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     never,
-    unknown,
+    | SdkError
+    | InternalServerError
+    | InvalidEndpointError
+    | LimitExceededError
+    | ResourceInUseError
+    | ResourceNotFoundError,
     EnableKinesisStreamingDestinationCommandOutput
   >;
 
@@ -439,7 +623,19 @@ export interface DynamoDBService {
   executeStatement(
     args: ExecuteStatementCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, ExecuteStatementCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | ConditionalCheckFailedError
+    | DuplicateItemError
+    | InternalServerError
+    | ItemCollectionSizeLimitExceededError
+    | ProvisionedThroughputExceededError
+    | RequestLimitExceededError
+    | ResourceNotFoundError
+    | TransactionConflictError,
+    ExecuteStatementCommandOutput
+  >;
 
   /**
    * @see {@link ExecuteTransactionCommand}
@@ -447,7 +643,18 @@ export interface DynamoDBService {
   executeTransaction(
     args: ExecuteTransactionCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, ExecuteTransactionCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | IdempotentParameterMismatchError
+    | InternalServerError
+    | ProvisionedThroughputExceededError
+    | RequestLimitExceededError
+    | ResourceNotFoundError
+    | TransactionCanceledError
+    | TransactionInProgressError,
+    ExecuteTransactionCommandOutput
+  >;
 
   /**
    * @see {@link ExportTableToPointInTimeCommand}
@@ -455,7 +662,17 @@ export interface DynamoDBService {
   exportTableToPointInTime(
     args: ExportTableToPointInTimeCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, ExportTableToPointInTimeCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | ExportConflictError
+    | InternalServerError
+    | InvalidExportTimeError
+    | LimitExceededError
+    | PointInTimeRecoveryUnavailableError
+    | TableNotFoundError,
+    ExportTableToPointInTimeCommandOutput
+  >;
 
   /**
    * @see {@link GetItemCommand}
@@ -463,7 +680,16 @@ export interface DynamoDBService {
   getItem(
     args: GetItemCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, GetItemCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | InternalServerError
+    | InvalidEndpointError
+    | ProvisionedThroughputExceededError
+    | RequestLimitExceededError
+    | ResourceNotFoundError,
+    GetItemCommandOutput
+  >;
 
   /**
    * @see {@link ImportTableCommand}
@@ -471,7 +697,11 @@ export interface DynamoDBService {
   importTable(
     args: ImportTableCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, ImportTableCommandOutput>;
+  ): Effect.Effect<
+    never,
+    SdkError | ImportConflictError | LimitExceededError | ResourceInUseError,
+    ImportTableCommandOutput
+  >;
 
   /**
    * @see {@link ListBackupsCommand}
@@ -479,7 +709,11 @@ export interface DynamoDBService {
   listBackups(
     args: ListBackupsCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, ListBackupsCommandOutput>;
+  ): Effect.Effect<
+    never,
+    SdkError | InternalServerError | InvalidEndpointError,
+    ListBackupsCommandOutput
+  >;
 
   /**
    * @see {@link ListContributorInsightsCommand}
@@ -487,7 +721,11 @@ export interface DynamoDBService {
   listContributorInsights(
     args: ListContributorInsightsCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, ListContributorInsightsCommandOutput>;
+  ): Effect.Effect<
+    never,
+    SdkError | InternalServerError | ResourceNotFoundError,
+    ListContributorInsightsCommandOutput
+  >;
 
   /**
    * @see {@link ListExportsCommand}
@@ -495,7 +733,11 @@ export interface DynamoDBService {
   listExports(
     args: ListExportsCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, ListExportsCommandOutput>;
+  ): Effect.Effect<
+    never,
+    SdkError | InternalServerError | LimitExceededError,
+    ListExportsCommandOutput
+  >;
 
   /**
    * @see {@link ListGlobalTablesCommand}
@@ -503,7 +745,11 @@ export interface DynamoDBService {
   listGlobalTables(
     args: ListGlobalTablesCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, ListGlobalTablesCommandOutput>;
+  ): Effect.Effect<
+    never,
+    SdkError | InternalServerError | InvalidEndpointError,
+    ListGlobalTablesCommandOutput
+  >;
 
   /**
    * @see {@link ListImportsCommand}
@@ -511,7 +757,11 @@ export interface DynamoDBService {
   listImports(
     args: ListImportsCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, ListImportsCommandOutput>;
+  ): Effect.Effect<
+    never,
+    SdkError | LimitExceededError,
+    ListImportsCommandOutput
+  >;
 
   /**
    * @see {@link ListTablesCommand}
@@ -519,7 +769,11 @@ export interface DynamoDBService {
   listTables(
     args: ListTablesCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, ListTablesCommandOutput>;
+  ): Effect.Effect<
+    never,
+    SdkError | InternalServerError | InvalidEndpointError,
+    ListTablesCommandOutput
+  >;
 
   /**
    * @see {@link ListTagsOfResourceCommand}
@@ -527,7 +781,14 @@ export interface DynamoDBService {
   listTagsOfResource(
     args: ListTagsOfResourceCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, ListTagsOfResourceCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | InternalServerError
+    | InvalidEndpointError
+    | ResourceNotFoundError,
+    ListTagsOfResourceCommandOutput
+  >;
 
   /**
    * @see {@link PutItemCommand}
@@ -535,7 +796,19 @@ export interface DynamoDBService {
   putItem(
     args: PutItemCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, PutItemCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | ConditionalCheckFailedError
+    | InternalServerError
+    | InvalidEndpointError
+    | ItemCollectionSizeLimitExceededError
+    | ProvisionedThroughputExceededError
+    | RequestLimitExceededError
+    | ResourceNotFoundError
+    | TransactionConflictError,
+    PutItemCommandOutput
+  >;
 
   /**
    * @see {@link QueryCommand}
@@ -543,7 +816,16 @@ export interface DynamoDBService {
   query(
     args: QueryCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, QueryCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | InternalServerError
+    | InvalidEndpointError
+    | ProvisionedThroughputExceededError
+    | RequestLimitExceededError
+    | ResourceNotFoundError,
+    QueryCommandOutput
+  >;
 
   /**
    * @see {@link RestoreTableFromBackupCommand}
@@ -551,7 +833,18 @@ export interface DynamoDBService {
   restoreTableFromBackup(
     args: RestoreTableFromBackupCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, RestoreTableFromBackupCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | BackupInUseError
+    | BackupNotFoundError
+    | InternalServerError
+    | InvalidEndpointError
+    | LimitExceededError
+    | TableAlreadyExistsError
+    | TableInUseError,
+    RestoreTableFromBackupCommandOutput
+  >;
 
   /**
    * @see {@link RestoreTableToPointInTimeCommand}
@@ -559,7 +852,19 @@ export interface DynamoDBService {
   restoreTableToPointInTime(
     args: RestoreTableToPointInTimeCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, RestoreTableToPointInTimeCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | InternalServerError
+    | InvalidEndpointError
+    | InvalidRestoreTimeError
+    | LimitExceededError
+    | PointInTimeRecoveryUnavailableError
+    | TableAlreadyExistsError
+    | TableInUseError
+    | TableNotFoundError,
+    RestoreTableToPointInTimeCommandOutput
+  >;
 
   /**
    * @see {@link ScanCommand}
@@ -567,7 +872,16 @@ export interface DynamoDBService {
   scan(
     args: ScanCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, ScanCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | InternalServerError
+    | InvalidEndpointError
+    | ProvisionedThroughputExceededError
+    | RequestLimitExceededError
+    | ResourceNotFoundError,
+    ScanCommandOutput
+  >;
 
   /**
    * @see {@link TagResourceCommand}
@@ -575,7 +889,16 @@ export interface DynamoDBService {
   tagResource(
     args: TagResourceCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, TagResourceCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | InternalServerError
+    | InvalidEndpointError
+    | LimitExceededError
+    | ResourceInUseError
+    | ResourceNotFoundError,
+    TagResourceCommandOutput
+  >;
 
   /**
    * @see {@link TransactGetItemsCommand}
@@ -583,7 +906,17 @@ export interface DynamoDBService {
   transactGetItems(
     args: TransactGetItemsCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, TransactGetItemsCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | InternalServerError
+    | InvalidEndpointError
+    | ProvisionedThroughputExceededError
+    | RequestLimitExceededError
+    | ResourceNotFoundError
+    | TransactionCanceledError,
+    TransactGetItemsCommandOutput
+  >;
 
   /**
    * @see {@link TransactWriteItemsCommand}
@@ -591,7 +924,19 @@ export interface DynamoDBService {
   transactWriteItems(
     args: TransactWriteItemsCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, TransactWriteItemsCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | IdempotentParameterMismatchError
+    | InternalServerError
+    | InvalidEndpointError
+    | ProvisionedThroughputExceededError
+    | RequestLimitExceededError
+    | ResourceNotFoundError
+    | TransactionCanceledError
+    | TransactionInProgressError,
+    TransactWriteItemsCommandOutput
+  >;
 
   /**
    * @see {@link UntagResourceCommand}
@@ -599,7 +944,16 @@ export interface DynamoDBService {
   untagResource(
     args: UntagResourceCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, UntagResourceCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | InternalServerError
+    | InvalidEndpointError
+    | LimitExceededError
+    | ResourceInUseError
+    | ResourceNotFoundError,
+    UntagResourceCommandOutput
+  >;
 
   /**
    * @see {@link UpdateContinuousBackupsCommand}
@@ -607,7 +961,15 @@ export interface DynamoDBService {
   updateContinuousBackups(
     args: UpdateContinuousBackupsCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, UpdateContinuousBackupsCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | ContinuousBackupsUnavailableError
+    | InternalServerError
+    | InvalidEndpointError
+    | TableNotFoundError,
+    UpdateContinuousBackupsCommandOutput
+  >;
 
   /**
    * @see {@link UpdateContributorInsightsCommand}
@@ -615,7 +977,11 @@ export interface DynamoDBService {
   updateContributorInsights(
     args: UpdateContributorInsightsCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, UpdateContributorInsightsCommandOutput>;
+  ): Effect.Effect<
+    never,
+    SdkError | InternalServerError | ResourceNotFoundError,
+    UpdateContributorInsightsCommandOutput
+  >;
 
   /**
    * @see {@link UpdateGlobalTableCommand}
@@ -623,7 +989,17 @@ export interface DynamoDBService {
   updateGlobalTable(
     args: UpdateGlobalTableCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, UpdateGlobalTableCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | GlobalTableNotFoundError
+    | InternalServerError
+    | InvalidEndpointError
+    | ReplicaAlreadyExistsError
+    | ReplicaNotFoundError
+    | TableNotFoundError,
+    UpdateGlobalTableCommandOutput
+  >;
 
   /**
    * @see {@link UpdateGlobalTableSettingsCommand}
@@ -631,7 +1007,18 @@ export interface DynamoDBService {
   updateGlobalTableSettings(
     args: UpdateGlobalTableSettingsCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, UpdateGlobalTableSettingsCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | GlobalTableNotFoundError
+    | IndexNotFoundError
+    | InternalServerError
+    | InvalidEndpointError
+    | LimitExceededError
+    | ReplicaNotFoundError
+    | ResourceInUseError,
+    UpdateGlobalTableSettingsCommandOutput
+  >;
 
   /**
    * @see {@link UpdateItemCommand}
@@ -639,7 +1026,19 @@ export interface DynamoDBService {
   updateItem(
     args: UpdateItemCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, UpdateItemCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | ConditionalCheckFailedError
+    | InternalServerError
+    | InvalidEndpointError
+    | ItemCollectionSizeLimitExceededError
+    | ProvisionedThroughputExceededError
+    | RequestLimitExceededError
+    | ResourceNotFoundError
+    | TransactionConflictError,
+    UpdateItemCommandOutput
+  >;
 
   /**
    * @see {@link UpdateTableCommand}
@@ -647,7 +1046,16 @@ export interface DynamoDBService {
   updateTable(
     args: UpdateTableCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, UpdateTableCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | InternalServerError
+    | InvalidEndpointError
+    | LimitExceededError
+    | ResourceInUseError
+    | ResourceNotFoundError,
+    UpdateTableCommandOutput
+  >;
 
   /**
    * @see {@link UpdateTableReplicaAutoScalingCommand}
@@ -655,7 +1063,15 @@ export interface DynamoDBService {
   updateTableReplicaAutoScaling(
     args: UpdateTableReplicaAutoScalingCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, UpdateTableReplicaAutoScalingCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | InternalServerError
+    | LimitExceededError
+    | ResourceInUseError
+    | ResourceNotFoundError,
+    UpdateTableReplicaAutoScalingCommandOutput
+  >;
 
   /**
    * @see {@link UpdateTimeToLiveCommand}
@@ -663,7 +1079,16 @@ export interface DynamoDBService {
   updateTimeToLive(
     args: UpdateTimeToLiveCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, UpdateTimeToLiveCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | InternalServerError
+    | InvalidEndpointError
+    | LimitExceededError
+    | ResourceInUseError
+    | ResourceNotFoundError,
+    UpdateTimeToLiveCommandOutput
+  >;
 }
 
 export const BaseDynamoDBServiceEffect = Effect.gen(function* (_) {
@@ -672,9 +1097,22 @@ export const BaseDynamoDBServiceEffect = Effect.gen(function* (_) {
   return RR.toEntries(commands).reduce((acc, [command]) => {
     const CommandCtor = commands[command] as any;
     const methodImpl = (args: any, options: any) =>
-      Effect.tryPromise(() =>
-        client.send(new CommandCtor(args), options ?? {}),
-      );
+      Effect.tryPromise({
+        try: () => client.send(new CommandCtor(args), options ?? {}),
+        catch: (e) => {
+          if (e instanceof DynamoDBServiceException) {
+            const ServiceException = Data.tagged<
+              TaggedException<DynamoDBServiceException>
+            >(e.name);
+
+            return ServiceException({ ...e, stack: e.stack });
+          }
+          if (e instanceof Error) {
+            return SdkError({ ...e, name: "SdkError", stack: e.stack });
+          }
+          return e;
+        },
+      });
     const methodName = (command[0].toLowerCase() + command.slice(1)).replace(
       /Command$/,
       "",

@@ -205,7 +205,11 @@ describe("ApiGatewayManagementApiClientImpl", () => {
 
     expect(result).toEqual(
       Exit.fail(
-        new SdkError({ ...new Error("test"), stack: expect.any(String) }),
+        SdkError({
+          ...new Error("test"),
+          name: "SdkError",
+          stack: expect.any(String),
+        }),
       ),
     );
     expect(apigatewaymanagementapiMock).toHaveReceivedCommandTimes(

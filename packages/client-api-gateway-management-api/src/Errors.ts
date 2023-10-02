@@ -6,18 +6,12 @@ import type {
 } from "@aws-sdk/client-apigatewaymanagementapi";
 import * as Data from "@effect/data/Data";
 
-export class SdkError extends Data.TaggedClass("SdkError")<Error> {}
+export type TaggedException<T extends { name: string }> = Data.Case &
+  T & { readonly _tag: T["name"] };
 
-export class ForbiddenError extends Data.TaggedClass(
-  "ForbiddenError",
-)<ForbiddenException> {}
-
-export class GoneError extends Data.TaggedClass("GoneError")<GoneException> {}
-
-export class LimitExceededError extends Data.TaggedClass(
-  "LimitExceededError",
-)<LimitExceededException> {}
-
-export class PayloadTooLargeError extends Data.TaggedClass(
-  "PayloadTooLargeError",
-)<PayloadTooLargeException> {}
+export type ForbiddenError = TaggedException<ForbiddenException>;
+export type GoneError = TaggedException<GoneException>;
+export type LimitExceededError = TaggedException<LimitExceededException>;
+export type PayloadTooLargeError = TaggedException<PayloadTooLargeException>;
+export type SdkError = TaggedException<Error & { name: "SdkError" }>;
+export const SdkError = Data.tagged<SdkError>("SdkError");

@@ -1,19 +1,17 @@
 import {
+  ApiGatewayManagementApiServiceException,
   DeleteConnectionCommand,
   DeleteConnectionCommandInput,
   DeleteConnectionCommandOutput,
-  ForbiddenException,
   GetConnectionCommand,
   GetConnectionCommandInput,
   GetConnectionCommandOutput,
-  GoneException,
-  LimitExceededException,
-  PayloadTooLargeException,
   PostToConnectionCommand,
   PostToConnectionCommandInput,
   PostToConnectionCommandOutput,
 } from "@aws-sdk/client-apigatewaymanagementapi";
 import { HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
+import * as Data from "@effect/data/Data";
 import * as RR from "@effect/data/ReadonlyRecord";
 import * as Effect from "@effect/io/Effect";
 import {
@@ -27,6 +25,7 @@ import {
   LimitExceededError,
   PayloadTooLargeError,
   SdkError,
+  TaggedException,
 } from "./Errors";
 
 const commands = {
@@ -87,20 +86,15 @@ export const BaseApiGatewayManagementApiServiceEffect = Effect.gen(
         Effect.tryPromise({
           try: () => client.send(new CommandCtor(args), options ?? {}),
           catch: (e) => {
-            if (e instanceof ForbiddenException) {
-              return new ForbiddenError({ ...e, stack: e.stack });
-            }
-            if (e instanceof GoneException) {
-              return new GoneError({ ...e, stack: e.stack });
-            }
-            if (e instanceof LimitExceededException) {
-              return new LimitExceededError({ ...e, stack: e.stack });
-            }
-            if (e instanceof PayloadTooLargeException) {
-              return new PayloadTooLargeError({ ...e, stack: e.stack });
+            if (e instanceof ApiGatewayManagementApiServiceException) {
+              const ServiceException = Data.tagged<
+                TaggedException<ApiGatewayManagementApiServiceException>
+              >(e.name);
+
+              return ServiceException({ ...e, stack: e.stack });
             }
             if (e instanceof Error) {
-              return new SdkError({ ...e, stack: e.stack });
+              return SdkError({ ...e, name: "SdkError", stack: e.stack });
             }
             return e;
           },
