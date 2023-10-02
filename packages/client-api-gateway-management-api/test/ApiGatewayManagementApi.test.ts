@@ -1,7 +1,7 @@
 import {
+  ApiGatewayManagementApiClient,
   PostToConnectionCommand,
   PostToConnectionCommandInput,
-  ApiGatewayManagementApiClient,
 } from "@aws-sdk/client-apigatewaymanagementapi";
 import { pipe } from "@effect/data/Function";
 import * as Effect from "@effect/io/Effect";
@@ -9,13 +9,14 @@ import * as Exit from "@effect/io/Exit";
 import * as Layer from "@effect/io/Layer";
 import { mockClient } from "aws-sdk-client-mock";
 import {
-  BaseApiGatewayManagementApiServiceEffect,
-  DefaultApiGatewayManagementApiClientConfigLayer,
-  DefaultApiGatewayManagementApiServiceEffect,
   ApiGatewayManagementApiClientConfigTag,
   ApiGatewayManagementApiClientInstanceTag,
   ApiGatewayManagementApiClientOptions,
   ApiGatewayManagementApiServiceEffect,
+  BaseApiGatewayManagementApiServiceEffect,
+  DefaultApiGatewayManagementApiClientConfigLayer,
+  DefaultApiGatewayManagementApiServiceEffect,
+  SdkError,
 } from "../src";
 
 import "aws-sdk-client-mock-jest";
@@ -202,7 +203,11 @@ describe("ApiGatewayManagementApiClientImpl", () => {
 
     const result = await pipe(program, Effect.runPromiseExit);
 
-    expect(result).toEqual(Exit.fail(new Error("test")));
+    expect(result).toEqual(
+      Exit.fail(
+        new SdkError({ ...new Error("test"), stack: expect.any(String) }),
+      ),
+    );
     expect(apigatewaymanagementapiMock).toHaveReceivedCommandTimes(
       PostToConnectionCommand,
       1,

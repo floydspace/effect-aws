@@ -2,9 +2,13 @@ import {
   DeleteConnectionCommand,
   DeleteConnectionCommandInput,
   DeleteConnectionCommandOutput,
+  ForbiddenException,
   GetConnectionCommand,
   GetConnectionCommandInput,
   GetConnectionCommandOutput,
+  GoneException,
+  LimitExceededException,
+  PayloadTooLargeException,
   PostToConnectionCommand,
   PostToConnectionCommandInput,
   PostToConnectionCommandOutput,
@@ -17,6 +21,13 @@ import {
   ApiGatewayManagementApiClientInstanceTag,
   DefaultApiGatewayManagementApiClientInstanceLayer,
 } from "./Context";
+import {
+  ForbiddenError,
+  GoneError,
+  LimitExceededError,
+  PayloadTooLargeError,
+  SdkError,
+} from "./Errors";
 
 const commands = {
   DeleteConnectionCommand,
@@ -31,7 +42,11 @@ export interface ApiGatewayManagementApiService {
   deleteConnection(
     args: DeleteConnectionCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, DeleteConnectionCommandOutput>;
+  ): Effect.Effect<
+    never,
+    SdkError | GoneError | ForbiddenError | LimitExceededError,
+    DeleteConnectionCommandOutput
+  >;
 
   /**
    * @see {@link GetConnectionCommand}
@@ -39,7 +54,11 @@ export interface ApiGatewayManagementApiService {
   getConnection(
     args: GetConnectionCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, GetConnectionCommandOutput>;
+  ): Effect.Effect<
+    never,
+    SdkError | GoneError | ForbiddenError | LimitExceededError,
+    GetConnectionCommandOutput
+  >;
 
   /**
    * @see {@link PostToConnectionCommand}
@@ -47,7 +66,15 @@ export interface ApiGatewayManagementApiService {
   postToConnection(
     args: PostToConnectionCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, PostToConnectionCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | GoneError
+    | ForbiddenError
+    | LimitExceededError
+    | PayloadTooLargeError,
+    PostToConnectionCommandOutput
+  >;
 }
 
 export const BaseApiGatewayManagementApiServiceEffect = Effect.gen(
@@ -57,9 +84,27 @@ export const BaseApiGatewayManagementApiServiceEffect = Effect.gen(
     return RR.toEntries(commands).reduce((acc, [command]) => {
       const CommandCtor = commands[command] as any;
       const methodImpl = (args: any, options: any) =>
-        Effect.tryPromise(() =>
-          client.send(new CommandCtor(args), options ?? {}),
-        );
+        Effect.tryPromise({
+          try: () => client.send(new CommandCtor(args), options ?? {}),
+          catch: (e) => {
+            if (e instanceof ForbiddenException) {
+              return new ForbiddenError({ ...e, stack: e.stack });
+            }
+            if (e instanceof GoneException) {
+              return new GoneError({ ...e, stack: e.stack });
+            }
+            if (e instanceof LimitExceededException) {
+              return new LimitExceededError({ ...e, stack: e.stack });
+            }
+            if (e instanceof PayloadTooLargeException) {
+              return new PayloadTooLargeError({ ...e, stack: e.stack });
+            }
+            if (e instanceof Error) {
+              return new SdkError({ ...e, stack: e.stack });
+            }
+            return e;
+          },
+        });
       const methodName = (command[0].toLowerCase() + command.slice(1)).replace(
         /Command$/,
         "",
