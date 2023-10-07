@@ -1,5 +1,11 @@
 # @effect-aws/powertools-logger
 
+## 0.4.0
+
+### Minor Changes
+
+- [#14](https://github.com/floydspace/effect-aws/pull/14) [`cddfb74`](https://github.com/floydspace/effect-aws/commit/cddfb74a00b10a13ccfe3749e90961119c4f0906) Thanks [@floydspace](https://github.com/floydspace)! - upgrade effect version to the next one
+
 ## 0.3.0
 
 ### Minor Changes
