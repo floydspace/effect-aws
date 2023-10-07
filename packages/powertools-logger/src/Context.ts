@@ -1,9 +1,9 @@
 import { Logger } from "@aws-lambda-powertools/logger";
 import { ConstructorOptions } from "@aws-lambda-powertools/logger/lib/types";
-import * as Context from "@effect/data/Context";
-import * as Data from "@effect/data/Data";
-import * as Effect from "@effect/io/Effect";
-import * as Layer from "@effect/io/Layer";
+import * as Context from "effect/Context";
+import * as Data from "effect/Data";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
 
 export class LoggerOptions extends Data.TaggedClass(
   "LoggerOptions",

@@ -3,11 +3,11 @@ import {
   SendMessageCommandInput,
   SQSClient,
 } from "@aws-sdk/client-sqs";
-import { pipe } from "@effect/data/Function";
-import * as Effect from "@effect/io/Effect";
-import * as Exit from "@effect/io/Exit";
-import * as Layer from "@effect/io/Layer";
 import { mockClient } from "aws-sdk-client-mock";
+import * as Effect from "effect/Effect";
+import * as Exit from "effect/Exit";
+import { pipe } from "effect/Function";
+import * as Layer from "effect/Layer";
 import {
   BaseSQSServiceEffect,
   DefaultSQSClientConfigLayer,
@@ -61,7 +61,7 @@ describe("SQSClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provideLayer(SQSClientConfigLayer),
+      Effect.provide(SQSClientConfigLayer),
       Effect.runPromiseExit,
     );
 
@@ -89,7 +89,7 @@ describe("SQSClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provideLayer(SQSClientInstanceLayer),
+      Effect.provide(SQSClientInstanceLayer),
       Effect.runPromiseExit,
     );
 
@@ -124,7 +124,7 @@ describe("SQSClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provideLayer(SQSClientInstanceLayer),
+      Effect.provide(SQSClientInstanceLayer),
       Effect.runPromiseExit,
     );
 

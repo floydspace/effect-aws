@@ -280,8 +280,8 @@ import {
   WriteGetObjectResponseCommandOutput,
 } from "@aws-sdk/client-s3";
 import { HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
-import * as RR from "@effect/data/ReadonlyRecord";
-import * as Effect from "@effect/io/Effect";
+import * as Effect from "effect/Effect";
+import * as RR from "effect/ReadonlyRecord";
 import {
   DefaultS3ClientInstanceLayer,
   S3ClientInstanceLayer,
@@ -1240,9 +1240,9 @@ export const BaseS3ServiceEffect = Effect.gen(function* (_) {
 });
 
 export const S3ServiceEffect = BaseS3ServiceEffect.pipe(
-  Effect.provideLayer(S3ClientInstanceLayer),
+  Effect.provide(S3ClientInstanceLayer),
 );
 
 export const DefaultS3ServiceEffect = BaseS3ServiceEffect.pipe(
-  Effect.provideLayer(DefaultS3ClientInstanceLayer),
+  Effect.provide(DefaultS3ClientInstanceLayer),
 );

@@ -28,7 +28,7 @@ new Changesets(project, {
 
 const commonDeps = ["@aws-sdk/types@^3"];
 const commonDevDeps = ["aws-sdk-client-mock", "aws-sdk-client-mock-jest"];
-const commonPeerDeps = ["@effect/data@^0.18.4", "@effect/io@^0.40.0"];
+const commonPeerDeps = ["effect"];
 
 new TypeScriptLibProject({
   parent: project,

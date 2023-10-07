@@ -3,11 +3,11 @@ import {
   PublishCommandInput,
   SNSClient,
 } from "@aws-sdk/client-sns";
-import { pipe } from "@effect/data/Function";
-import * as Effect from "@effect/io/Effect";
-import * as Exit from "@effect/io/Exit";
-import * as Layer from "@effect/io/Layer";
 import { mockClient } from "aws-sdk-client-mock";
+import * as Effect from "effect/Effect";
+import * as Exit from "effect/Exit";
+import { pipe } from "effect/Function";
+import * as Layer from "effect/Layer";
 import {
   BaseSNSServiceEffect,
   DefaultSNSClientConfigLayer,
@@ -55,7 +55,7 @@ describe("SNSClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provideLayer(SNSClientConfigLayer),
+      Effect.provide(SNSClientConfigLayer),
       Effect.runPromiseExit,
     );
 
@@ -80,7 +80,7 @@ describe("SNSClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provideLayer(SNSClientInstanceLayer),
+      Effect.provide(SNSClientInstanceLayer),
       Effect.runPromiseExit,
     );
 
@@ -112,7 +112,7 @@ describe("SNSClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provideLayer(SNSClientInstanceLayer),
+      Effect.provide(SNSClientInstanceLayer),
       Effect.runPromiseExit,
     );
 

@@ -3,16 +3,16 @@ import type {
   LogItemExtraInput,
   LogItemMessage,
 } from "@aws-lambda-powertools/logger/lib/types";
-import * as HashMap from "@effect/data/HashMap";
-import * as List from "@effect/data/List";
-import * as Cause from "@effect/io/Cause";
-import * as Effect from "@effect/io/Effect";
-import * as FiberId from "@effect/io/FiberId";
-import * as FiberRef from "@effect/io/FiberRef";
-import * as FiberRefs from "@effect/io/FiberRefs";
-import * as Layer from "@effect/io/Layer";
-import * as Log from "@effect/io/Logger";
-import * as LogLevel from "@effect/io/LogLevel";
+import * as Cause from "effect/Cause";
+import * as Effect from "effect/Effect";
+import * as FiberId from "effect/FiberId";
+import * as FiberRef from "effect/FiberRef";
+import * as FiberRefs from "effect/FiberRefs";
+import * as HashMap from "effect/HashMap";
+import * as Layer from "effect/Layer";
+import * as List from "effect/List";
+import * as Log from "effect/Logger";
+import * as LogLevel from "effect/LogLevel";
 import {
   DefaultLoggerOptionsLayer,
   LoggerInstanceLayer,

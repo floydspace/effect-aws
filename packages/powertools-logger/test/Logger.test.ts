@@ -1,6 +1,6 @@
 import { Logger as LoggerCtor } from "@aws-lambda-powertools/logger";
-import { pipe } from "@effect/data/Function";
-import * as Effect from "@effect/io/Effect";
+import * as Effect from "effect/Effect";
+import { pipe } from "effect/Function";
 import * as Logger from "../src";
 
 describe("Logger", () => {
@@ -22,7 +22,7 @@ describe("Logger", () => {
 
     await pipe(
       program,
-      Effect.provideLayer(Logger.DefaultPowerToolsLoggerLayer),
+      Effect.provide(Logger.DefaultPowerToolsLoggerLayer),
       Effect.runPromise,
     );
 
@@ -52,7 +52,7 @@ describe("Logger", () => {
 
     await pipe(
       program,
-      Effect.provideLayer(Logger.PowerToolsLoggerLayer),
+      Effect.provide(Logger.PowerToolsLoggerLayer),
       Effect.provideService(
         Logger.LoggerOptionsTag,
         new Logger.LoggerOptions({ logLevel: "DEBUG" }),
@@ -86,7 +86,7 @@ describe("Logger", () => {
 
     await pipe(
       program,
-      Effect.provideLayer(Logger.BasePowerToolsLoggerLayer),
+      Effect.provide(Logger.BasePowerToolsLoggerLayer),
       Effect.provideService(
         Logger.LoggerInstanceTag,
         new LoggerCtor({ logLevel: "ERROR" }),

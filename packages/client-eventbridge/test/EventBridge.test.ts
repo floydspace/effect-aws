@@ -3,11 +3,11 @@ import {
   PutEventsCommandInput,
   EventBridgeClient,
 } from "@aws-sdk/client-eventbridge";
-import { pipe } from "@effect/data/Function";
-import * as Effect from "@effect/io/Effect";
-import * as Exit from "@effect/io/Exit";
-import * as Layer from "@effect/io/Layer";
 import { mockClient } from "aws-sdk-client-mock";
+import * as Effect from "effect/Effect";
+import * as Exit from "effect/Exit";
+import { pipe } from "effect/Function";
+import * as Layer from "effect/Layer";
 import {
   BaseEventBridgeServiceEffect,
   DefaultEventBridgeClientConfigLayer,
@@ -59,7 +59,7 @@ describe("EventBridgeClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provideLayer(EventBridgeClientConfigLayer),
+      Effect.provide(EventBridgeClientConfigLayer),
       Effect.runPromiseExit,
     );
 
@@ -86,7 +86,7 @@ describe("EventBridgeClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provideLayer(EventBridgeClientInstanceLayer),
+      Effect.provide(EventBridgeClientInstanceLayer),
       Effect.runPromiseExit,
     );
 
@@ -121,7 +121,7 @@ describe("EventBridgeClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provideLayer(EventBridgeClientInstanceLayer),
+      Effect.provide(EventBridgeClientInstanceLayer),
       Effect.runPromiseExit,
     );
 

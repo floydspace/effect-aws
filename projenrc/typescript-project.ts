@@ -42,6 +42,7 @@ export class TypeScriptLibProject extends typescript.TypeScriptProject {
       tsconfig: {
         compilerOptions: {
           moduleResolution: javascript.TypeScriptModuleResolution.NODE,
+          lib: ["es2019", "dom"],
         },
       },
       ...options,
