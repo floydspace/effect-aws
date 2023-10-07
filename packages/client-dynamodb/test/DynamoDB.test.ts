@@ -3,11 +3,11 @@ import {
   DynamoDBClient,
   PutItemCommandInput,
 } from "@aws-sdk/client-dynamodb";
-import { pipe } from "@effect/data/Function";
-import * as Effect from "@effect/io/Effect";
-import * as Exit from "@effect/io/Exit";
-import * as Layer from "@effect/io/Layer";
 import { mockClient } from "aws-sdk-client-mock";
+import * as Effect from "effect/Effect";
+import * as Exit from "effect/Exit";
+import { pipe } from "effect/Function";
+import * as Layer from "effect/Layer";
 import {
   BaseDynamoDBServiceEffect,
   DefaultDynamoDBClientConfigLayer,
@@ -62,7 +62,7 @@ describe("DynamoDBClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provideLayer(DynamoDBClientConfigLayer),
+      Effect.provide(DynamoDBClientConfigLayer),
       Effect.runPromiseExit,
     );
 
@@ -90,7 +90,7 @@ describe("DynamoDBClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provideLayer(DynamoDBClientInstanceLayer),
+      Effect.provide(DynamoDBClientInstanceLayer),
       Effect.runPromiseExit,
     );
 
@@ -126,7 +126,7 @@ describe("DynamoDBClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provideLayer(DynamoDBClientInstanceLayer),
+      Effect.provide(DynamoDBClientInstanceLayer),
       Effect.runPromiseExit,
     );
 

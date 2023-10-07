@@ -1,9 +1,9 @@
 import { HeadObjectCommand, S3Client } from "@aws-sdk/client-s3";
-import { pipe } from "@effect/data/Function";
-import * as Effect from "@effect/io/Effect";
-import * as Exit from "@effect/io/Exit";
-import * as Layer from "@effect/io/Layer";
 import { mockClient } from "aws-sdk-client-mock";
+import * as Effect from "effect/Effect";
+import * as Exit from "effect/Exit";
+import { pipe } from "effect/Function";
+import * as Layer from "effect/Layer";
 import {
   BaseS3ServiceEffect,
   DefaultS3ClientConfigLayer,
@@ -51,7 +51,7 @@ describe("S3ClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provideLayer(S3ClientConfigLayer),
+      Effect.provide(S3ClientConfigLayer),
       Effect.runPromiseExit,
     );
 
@@ -76,7 +76,7 @@ describe("S3ClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provideLayer(S3ClientInstanceLayer),
+      Effect.provide(S3ClientInstanceLayer),
       Effect.runPromiseExit,
     );
 
@@ -108,7 +108,7 @@ describe("S3ClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provideLayer(S3ClientInstanceLayer),
+      Effect.provide(S3ClientInstanceLayer),
       Effect.runPromiseExit,
     );
 

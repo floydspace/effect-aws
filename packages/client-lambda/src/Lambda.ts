@@ -199,8 +199,8 @@ import {
   UpdateFunctionUrlConfigCommandOutput,
 } from "@aws-sdk/client-lambda";
 import { HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
-import * as RR from "@effect/data/ReadonlyRecord";
-import * as Effect from "@effect/io/Effect";
+import * as Effect from "effect/Effect";
+import * as RR from "effect/ReadonlyRecord";
 import {
   DefaultLambdaClientInstanceLayer,
   LambdaClientInstanceLayer,
@@ -856,9 +856,9 @@ export const BaseLambdaServiceEffect = Effect.gen(function* (_) {
 });
 
 export const LambdaServiceEffect = BaseLambdaServiceEffect.pipe(
-  Effect.provideLayer(LambdaClientInstanceLayer),
+  Effect.provide(LambdaClientInstanceLayer),
 );
 
 export const DefaultLambdaServiceEffect = BaseLambdaServiceEffect.pipe(
-  Effect.provideLayer(DefaultLambdaClientInstanceLayer),
+  Effect.provide(DefaultLambdaClientInstanceLayer),
 );

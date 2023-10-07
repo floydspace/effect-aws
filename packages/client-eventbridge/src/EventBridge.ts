@@ -169,8 +169,8 @@ import {
   UpdateEndpointCommandOutput,
 } from "@aws-sdk/client-eventbridge";
 import { HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
-import * as RR from "@effect/data/ReadonlyRecord";
-import * as Effect from "@effect/io/Effect";
+import * as Effect from "effect/Effect";
+import * as RR from "effect/ReadonlyRecord";
 import {
   DefaultEventBridgeClientInstanceLayer,
   EventBridgeClientInstanceLayer,
@@ -704,10 +704,10 @@ export const BaseEventBridgeServiceEffect = Effect.gen(function* (_) {
 });
 
 export const EventBridgeServiceEffect = BaseEventBridgeServiceEffect.pipe(
-  Effect.provideLayer(EventBridgeClientInstanceLayer),
+  Effect.provide(EventBridgeClientInstanceLayer),
 );
 
 export const DefaultEventBridgeServiceEffect =
   BaseEventBridgeServiceEffect.pipe(
-    Effect.provideLayer(DefaultEventBridgeClientInstanceLayer),
+    Effect.provide(DefaultEventBridgeClientInstanceLayer),
   );

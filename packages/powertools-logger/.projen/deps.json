@@ -1,16 +1,6 @@
 {
   "dependencies": [
     {
-      "name": "@effect/data",
-      "version": "0.18.4",
-      "type": "build"
-    },
-    {
-      "name": "@effect/io",
-      "version": "0.40.0",
-      "type": "build"
-    },
-    {
       "name": "@types/aws-lambda",
       "type": "build"
     },
@@ -31,6 +21,10 @@
     {
       "name": "@typescript-eslint/parser",
       "version": "^6",
+      "type": "build"
+    },
+    {
+      "name": "effect",
       "type": "build"
     },
     {
@@ -79,13 +73,7 @@
       "type": "build"
     },
     {
-      "name": "@effect/data",
-      "version": "^0.18.4",
-      "type": "peer"
-    },
-    {
-      "name": "@effect/io",
-      "version": "^0.40.0",
+      "name": "effect",
       "type": "peer"
     },
     {

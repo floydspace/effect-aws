@@ -3,11 +3,11 @@ import {
   PostToConnectionCommand,
   PostToConnectionCommandInput,
 } from "@aws-sdk/client-apigatewaymanagementapi";
-import { pipe } from "@effect/data/Function";
-import * as Effect from "@effect/io/Effect";
-import * as Exit from "@effect/io/Exit";
-import * as Layer from "@effect/io/Layer";
 import { mockClient } from "aws-sdk-client-mock";
+import * as Effect from "effect/Effect";
+import * as Exit from "effect/Exit";
+import { pipe } from "effect/Function";
+import * as Layer from "effect/Layer";
 import {
   ApiGatewayManagementApiClientConfigTag,
   ApiGatewayManagementApiClientInstanceTag,
@@ -78,7 +78,7 @@ describe("ApiGatewayManagementApiClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provideLayer(ApiGatewayManagementApiClientConfigLayer),
+      Effect.provide(ApiGatewayManagementApiClientConfigLayer),
       Effect.runPromiseExit,
     );
 
@@ -117,7 +117,7 @@ describe("ApiGatewayManagementApiClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provideLayer(ApiGatewayManagementApiClientInstanceLayer),
+      Effect.provide(ApiGatewayManagementApiClientInstanceLayer),
       Effect.runPromiseExit,
     );
 
@@ -167,7 +167,7 @@ describe("ApiGatewayManagementApiClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provideLayer(ApiGatewayManagementApiClientInstanceLayer),
+      Effect.provide(ApiGatewayManagementApiClientInstanceLayer),
       Effect.runPromiseExit,
     );
 

@@ -161,9 +161,9 @@ import {
   UpdateTimeToLiveCommandOutput,
 } from "@aws-sdk/client-dynamodb";
 import { HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
-import * as Data from "@effect/data/Data";
-import * as RR from "@effect/data/ReadonlyRecord";
-import * as Effect from "@effect/io/Effect";
+import * as Data from "effect/Data";
+import * as Effect from "effect/Effect";
+import * as RR from "effect/ReadonlyRecord";
 import {
   DefaultDynamoDBClientInstanceLayer,
   DynamoDBClientInstanceLayer,
@@ -1122,9 +1122,9 @@ export const BaseDynamoDBServiceEffect = Effect.gen(function* (_) {
 });
 
 export const DynamoDBServiceEffect = BaseDynamoDBServiceEffect.pipe(
-  Effect.provideLayer(DynamoDBClientInstanceLayer),
+  Effect.provide(DynamoDBClientInstanceLayer),
 );
 
 export const DefaultDynamoDBServiceEffect = BaseDynamoDBServiceEffect.pipe(
-  Effect.provideLayer(DefaultDynamoDBClientInstanceLayer),
+  Effect.provide(DefaultDynamoDBClientInstanceLayer),
 );

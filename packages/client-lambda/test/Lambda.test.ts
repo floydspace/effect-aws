@@ -3,11 +3,11 @@ import {
   LambdaClient,
   InvokeCommandInput,
 } from "@aws-sdk/client-lambda";
-import { pipe } from "@effect/data/Function";
-import * as Effect from "@effect/io/Effect";
-import * as Exit from "@effect/io/Exit";
-import * as Layer from "@effect/io/Layer";
 import { mockClient } from "aws-sdk-client-mock";
+import * as Effect from "effect/Effect";
+import * as Exit from "effect/Exit";
+import { pipe } from "effect/Function";
+import * as Layer from "effect/Layer";
 import {
   BaseLambdaServiceEffect,
   DefaultLambdaClientConfigLayer,
@@ -55,7 +55,7 @@ describe("LambdaClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provideLayer(LambdaClientConfigLayer),
+      Effect.provide(LambdaClientConfigLayer),
       Effect.runPromiseExit,
     );
 
@@ -80,7 +80,7 @@ describe("LambdaClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provideLayer(LambdaClientInstanceLayer),
+      Effect.provide(LambdaClientInstanceLayer),
       Effect.runPromiseExit,
     );
 
@@ -112,7 +112,7 @@ describe("LambdaClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provideLayer(LambdaClientInstanceLayer),
+      Effect.provide(LambdaClientInstanceLayer),
       Effect.runPromiseExit,
     );
 

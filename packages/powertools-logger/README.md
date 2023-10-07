@@ -11,8 +11,8 @@ npm install --save @effect-aws/powertools-logger
 With default PowerTools Logger instance:
 
 ```typescript
-import { pipe } from "@effect/data/Function";
-import * as Effect from "@effect/io/Effect";
+import { pipe } from "effect/Function";
+import * as Effect from "effect/Effect";
 import * as Logger from "@effect-aws/powertools-logger";
 
 const program = pipe(
@@ -30,8 +30,8 @@ const result = pipe(
 With custom PowerTools Logger options:
 
 ```typescript
-import { pipe } from "@effect/data/Function";
-import * as Effect from "@effect/io/Effect";
+import { pipe } from "effect/Function";
+import * as Effect from "effect/Effect";
 import * as Logger from "@effect-aws/powertools-logger";
 
 const program = pipe(
@@ -54,8 +54,8 @@ With custom PowerTools Logger instance:
 
 ```typescript
 import { Logger as LoggerCtor } from "@aws-lambda-powertools/logger";
-import { pipe } from "@effect/data/Function";
-import * as Effect from "@effect/io/Effect";
+import { pipe } from "effect/Function";
+import * as Effect from "effect/Effect";
 import * as Logger from "@effect-aws/powertools-logger";
 
 const program = pipe(

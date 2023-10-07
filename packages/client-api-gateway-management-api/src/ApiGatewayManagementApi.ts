@@ -11,9 +11,9 @@ import {
   PostToConnectionCommandOutput,
 } from "@aws-sdk/client-apigatewaymanagementapi";
 import { HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
-import * as Data from "@effect/data/Data";
-import * as RR from "@effect/data/ReadonlyRecord";
-import * as Effect from "@effect/io/Effect";
+import * as Data from "effect/Data";
+import * as Effect from "effect/Effect";
+import * as RR from "effect/ReadonlyRecord";
 import {
   ApiGatewayManagementApiClientInstanceLayer,
   ApiGatewayManagementApiClientInstanceTag,
@@ -110,10 +110,10 @@ export const BaseApiGatewayManagementApiServiceEffect = Effect.gen(
 
 export const ApiGatewayManagementApiServiceEffect =
   BaseApiGatewayManagementApiServiceEffect.pipe(
-    Effect.provideLayer(ApiGatewayManagementApiClientInstanceLayer),
+    Effect.provide(ApiGatewayManagementApiClientInstanceLayer),
   );
 
 export const DefaultApiGatewayManagementApiServiceEffect =
   BaseApiGatewayManagementApiServiceEffect.pipe(
-    Effect.provideLayer(DefaultApiGatewayManagementApiClientInstanceLayer),
+    Effect.provide(DefaultApiGatewayManagementApiClientInstanceLayer),
   );

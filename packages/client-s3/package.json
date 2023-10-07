@@ -18,14 +18,13 @@
     "organization": false
   },
   "devDependencies": {
-    "@effect/data": "0.18.4",
-    "@effect/io": "0.40.0",
     "@types/jest": "^29.5.5",
     "@types/node": "^16",
     "@typescript-eslint/eslint-plugin": "^6",
     "@typescript-eslint/parser": "^6",
     "aws-sdk-client-mock": "^3.0.0",
     "aws-sdk-client-mock-jest": "^3.0.0",
+    "effect": "2.0.0-next.47",
     "eslint": "^8",
     "eslint-config-prettier": "^9.0.0",
     "eslint-import-resolver-node": "^0.3.9",
@@ -39,8 +38,7 @@
     "typescript": "^5.2.2"
   },
   "peerDependencies": {
-    "@effect/data": "^0.18.4",
-    "@effect/io": "^0.40.0"
+    "effect": "^2.0.0-next.47"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3",

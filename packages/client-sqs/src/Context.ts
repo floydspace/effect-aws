@@ -1,10 +1,10 @@
 import { SQSClient, SQSClientConfig } from "@aws-sdk/client-sqs";
-import * as Context from "@effect/data/Context";
-import * as Data from "@effect/data/Data";
-import { flow } from "@effect/data/Function";
-import * as Effect from "@effect/io/Effect";
-import * as Layer from "@effect/io/Layer";
-import * as Runtime from "@effect/io/Runtime";
+import * as Context from "effect/Context";
+import * as Data from "effect/Data";
+import * as Effect from "effect/Effect";
+import { flow } from "effect/Function";
+import * as Layer from "effect/Layer";
+import * as Runtime from "effect/Runtime";
 
 export class SQSClientOptions extends Data.TaggedClass(
   "SQSClientOptions",

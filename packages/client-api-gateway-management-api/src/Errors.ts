@@ -4,7 +4,7 @@ import type {
   LimitExceededException,
   PayloadTooLargeException,
 } from "@aws-sdk/client-apigatewaymanagementapi";
-import * as Data from "@effect/data/Data";
+import * as Data from "effect/Data";
 
 export type TaggedException<T extends { name: string }> = Data.Case &
   T & { readonly _tag: T["name"] };
