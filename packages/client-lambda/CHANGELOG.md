@@ -1,5 +1,11 @@
 # @effect-aws/client-lambda
 
+## 0.2.1
+
+### Patch Changes
+
+- [`6b99904`](https://github.com/floydspace/effect-aws/commit/6b9990497bdb20f240d8261b6382db421e9a3ec2) Thanks [@floydspace](https://github.com/floydspace)! - as @mikearnaldi said: "we should really never do tacit passing"
+
 ## 0.2.0
 
 ### Minor Changes
