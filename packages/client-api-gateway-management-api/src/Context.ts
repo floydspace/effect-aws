@@ -5,7 +5,6 @@ import {
 import * as Context from "effect/Context";
 import * as Data from "effect/Data";
 import * as Effect from "effect/Effect";
-import { flow } from "effect/Function";
 import * as Layer from "effect/Layer";
 import * as Runtime from "effect/Runtime";
 
@@ -25,11 +24,11 @@ export const DefaultApiGatewayManagementApiClientConfigLayer = Layer.effect(
       (runtime) =>
         new ApiGatewayManagementApiClientOptions({
           logger: {
-            info: flow(Effect.logInfo, Runtime.runSync(runtime)),
-            warn: flow(Effect.logWarning, Runtime.runSync(runtime)),
-            error: flow(Effect.logError, Runtime.runSync(runtime)),
-            debug: flow(Effect.logDebug, Runtime.runSync(runtime)),
-            trace: flow(Effect.logTrace, Runtime.runSync(runtime)),
+            info: (m) => Effect.logInfo(m).pipe(Runtime.runSync(runtime)),
+            warn: (m) => Effect.logWarning(m).pipe(Runtime.runSync(runtime)),
+            error: (m) => Effect.logError(m).pipe(Runtime.runSync(runtime)),
+            debug: (m) => Effect.logDebug(m).pipe(Runtime.runSync(runtime)),
+            trace: (m) => Effect.logTrace(m).pipe(Runtime.runSync(runtime)),
           },
         }),
     ),
