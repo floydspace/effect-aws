@@ -266,6 +266,7 @@ import {
   RestoreObjectCommand,
   RestoreObjectCommandInput,
   RestoreObjectCommandOutput,
+  S3ServiceException,
   SelectObjectContentCommand,
   SelectObjectContentCommandInput,
   SelectObjectContentCommandOutput,
@@ -287,6 +288,7 @@ import {
   S3ClientInstanceLayer,
   S3ClientInstanceTag,
 } from "./Context";
+import { S3ServiceError, SdkError } from "./Errors";
 
 const commands = {
   AbortMultipartUploadCommand,
@@ -391,7 +393,11 @@ export interface S3Service {
   readonly abortMultipartUpload: (
     args: AbortMultipartUploadCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, AbortMultipartUploadCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    AbortMultipartUploadCommandOutput
+  >;
 
   /**
    * @see {@link CompleteMultipartUploadCommand}
@@ -399,7 +405,11 @@ export interface S3Service {
   readonly completeMultipartUpload: (
     args: CompleteMultipartUploadCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, CompleteMultipartUploadCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    CompleteMultipartUploadCommandOutput
+  >;
 
   /**
    * @see {@link CopyObjectCommand}
@@ -407,7 +417,7 @@ export interface S3Service {
   readonly copyObject: (
     args: CopyObjectCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, CopyObjectCommandOutput>;
+  ) => Effect.Effect<never, SdkError | S3ServiceError, CopyObjectCommandOutput>;
 
   /**
    * @see {@link CreateBucketCommand}
@@ -415,7 +425,11 @@ export interface S3Service {
   readonly createBucket: (
     args: CreateBucketCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, CreateBucketCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    CreateBucketCommandOutput
+  >;
 
   /**
    * @see {@link CreateMultipartUploadCommand}
@@ -423,7 +437,11 @@ export interface S3Service {
   readonly createMultipartUpload: (
     args: CreateMultipartUploadCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, CreateMultipartUploadCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    CreateMultipartUploadCommandOutput
+  >;
 
   /**
    * @see {@link DeleteBucketCommand}
@@ -431,7 +449,11 @@ export interface S3Service {
   readonly deleteBucket: (
     args: DeleteBucketCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, DeleteBucketCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    DeleteBucketCommandOutput
+  >;
 
   /**
    * @see {@link DeleteBucketAnalyticsConfigurationCommand}
@@ -441,7 +463,7 @@ export interface S3Service {
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
     never,
-    unknown,
+    SdkError | S3ServiceError,
     DeleteBucketAnalyticsConfigurationCommandOutput
   >;
 
@@ -451,7 +473,11 @@ export interface S3Service {
   readonly deleteBucketCors: (
     args: DeleteBucketCorsCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, DeleteBucketCorsCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    DeleteBucketCorsCommandOutput
+  >;
 
   /**
    * @see {@link DeleteBucketEncryptionCommand}
@@ -459,7 +485,11 @@ export interface S3Service {
   readonly deleteBucketEncryption: (
     args: DeleteBucketEncryptionCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, DeleteBucketEncryptionCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    DeleteBucketEncryptionCommandOutput
+  >;
 
   /**
    * @see {@link DeleteBucketIntelligentTieringConfigurationCommand}
@@ -469,7 +499,7 @@ export interface S3Service {
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
     never,
-    unknown,
+    SdkError | S3ServiceError,
     DeleteBucketIntelligentTieringConfigurationCommandOutput
   >;
 
@@ -481,7 +511,7 @@ export interface S3Service {
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
     never,
-    unknown,
+    SdkError | S3ServiceError,
     DeleteBucketInventoryConfigurationCommandOutput
   >;
 
@@ -491,7 +521,11 @@ export interface S3Service {
   readonly deleteBucketLifecycle: (
     args: DeleteBucketLifecycleCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, DeleteBucketLifecycleCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    DeleteBucketLifecycleCommandOutput
+  >;
 
   /**
    * @see {@link DeleteBucketMetricsConfigurationCommand}
@@ -501,7 +535,7 @@ export interface S3Service {
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
     never,
-    unknown,
+    SdkError | S3ServiceError,
     DeleteBucketMetricsConfigurationCommandOutput
   >;
 
@@ -513,7 +547,7 @@ export interface S3Service {
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
     never,
-    unknown,
+    SdkError | S3ServiceError,
     DeleteBucketOwnershipControlsCommandOutput
   >;
 
@@ -523,7 +557,11 @@ export interface S3Service {
   readonly deleteBucketPolicy: (
     args: DeleteBucketPolicyCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, DeleteBucketPolicyCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    DeleteBucketPolicyCommandOutput
+  >;
 
   /**
    * @see {@link DeleteBucketReplicationCommand}
@@ -531,7 +569,11 @@ export interface S3Service {
   readonly deleteBucketReplication: (
     args: DeleteBucketReplicationCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, DeleteBucketReplicationCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    DeleteBucketReplicationCommandOutput
+  >;
 
   /**
    * @see {@link DeleteBucketTaggingCommand}
@@ -539,7 +581,11 @@ export interface S3Service {
   readonly deleteBucketTagging: (
     args: DeleteBucketTaggingCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, DeleteBucketTaggingCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    DeleteBucketTaggingCommandOutput
+  >;
 
   /**
    * @see {@link DeleteBucketWebsiteCommand}
@@ -547,7 +593,11 @@ export interface S3Service {
   readonly deleteBucketWebsite: (
     args: DeleteBucketWebsiteCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, DeleteBucketWebsiteCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    DeleteBucketWebsiteCommandOutput
+  >;
 
   /**
    * @see {@link DeleteObjectCommand}
@@ -555,7 +605,11 @@ export interface S3Service {
   readonly deleteObject: (
     args: DeleteObjectCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, DeleteObjectCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    DeleteObjectCommandOutput
+  >;
 
   /**
    * @see {@link DeleteObjectsCommand}
@@ -563,7 +617,11 @@ export interface S3Service {
   readonly deleteObjects: (
     args: DeleteObjectsCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, DeleteObjectsCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    DeleteObjectsCommandOutput
+  >;
 
   /**
    * @see {@link DeleteObjectTaggingCommand}
@@ -571,7 +629,11 @@ export interface S3Service {
   readonly deleteObjectTagging: (
     args: DeleteObjectTaggingCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, DeleteObjectTaggingCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    DeleteObjectTaggingCommandOutput
+  >;
 
   /**
    * @see {@link DeletePublicAccessBlockCommand}
@@ -579,7 +641,11 @@ export interface S3Service {
   readonly deletePublicAccessBlock: (
     args: DeletePublicAccessBlockCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, DeletePublicAccessBlockCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    DeletePublicAccessBlockCommandOutput
+  >;
 
   /**
    * @see {@link GetBucketAccelerateConfigurationCommand}
@@ -589,7 +655,7 @@ export interface S3Service {
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
     never,
-    unknown,
+    SdkError | S3ServiceError,
     GetBucketAccelerateConfigurationCommandOutput
   >;
 
@@ -599,7 +665,11 @@ export interface S3Service {
   readonly getBucketAcl: (
     args: GetBucketAclCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, GetBucketAclCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    GetBucketAclCommandOutput
+  >;
 
   /**
    * @see {@link GetBucketAnalyticsConfigurationCommand}
@@ -609,7 +679,7 @@ export interface S3Service {
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
     never,
-    unknown,
+    SdkError | S3ServiceError,
     GetBucketAnalyticsConfigurationCommandOutput
   >;
 
@@ -619,7 +689,11 @@ export interface S3Service {
   readonly getBucketCors: (
     args: GetBucketCorsCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, GetBucketCorsCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    GetBucketCorsCommandOutput
+  >;
 
   /**
    * @see {@link GetBucketEncryptionCommand}
@@ -627,7 +701,11 @@ export interface S3Service {
   readonly getBucketEncryption: (
     args: GetBucketEncryptionCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, GetBucketEncryptionCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    GetBucketEncryptionCommandOutput
+  >;
 
   /**
    * @see {@link GetBucketIntelligentTieringConfigurationCommand}
@@ -637,7 +715,7 @@ export interface S3Service {
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
     never,
-    unknown,
+    SdkError | S3ServiceError,
     GetBucketIntelligentTieringConfigurationCommandOutput
   >;
 
@@ -649,7 +727,7 @@ export interface S3Service {
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
     never,
-    unknown,
+    SdkError | S3ServiceError,
     GetBucketInventoryConfigurationCommandOutput
   >;
 
@@ -661,7 +739,7 @@ export interface S3Service {
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
     never,
-    unknown,
+    SdkError | S3ServiceError,
     GetBucketLifecycleConfigurationCommandOutput
   >;
 
@@ -671,7 +749,11 @@ export interface S3Service {
   readonly getBucketLocation: (
     args: GetBucketLocationCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, GetBucketLocationCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    GetBucketLocationCommandOutput
+  >;
 
   /**
    * @see {@link GetBucketLoggingCommand}
@@ -679,7 +761,11 @@ export interface S3Service {
   readonly getBucketLogging: (
     args: GetBucketLoggingCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, GetBucketLoggingCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    GetBucketLoggingCommandOutput
+  >;
 
   /**
    * @see {@link GetBucketMetricsConfigurationCommand}
@@ -689,7 +775,7 @@ export interface S3Service {
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
     never,
-    unknown,
+    SdkError | S3ServiceError,
     GetBucketMetricsConfigurationCommandOutput
   >;
 
@@ -701,7 +787,7 @@ export interface S3Service {
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
     never,
-    unknown,
+    SdkError | S3ServiceError,
     GetBucketNotificationConfigurationCommandOutput
   >;
 
@@ -711,7 +797,11 @@ export interface S3Service {
   readonly getBucketOwnershipControls: (
     args: GetBucketOwnershipControlsCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, GetBucketOwnershipControlsCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    GetBucketOwnershipControlsCommandOutput
+  >;
 
   /**
    * @see {@link GetBucketPolicyCommand}
@@ -719,7 +809,11 @@ export interface S3Service {
   readonly getBucketPolicy: (
     args: GetBucketPolicyCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, GetBucketPolicyCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    GetBucketPolicyCommandOutput
+  >;
 
   /**
    * @see {@link GetBucketPolicyStatusCommand}
@@ -727,7 +821,11 @@ export interface S3Service {
   readonly getBucketPolicyStatus: (
     args: GetBucketPolicyStatusCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, GetBucketPolicyStatusCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    GetBucketPolicyStatusCommandOutput
+  >;
 
   /**
    * @see {@link GetBucketReplicationCommand}
@@ -735,7 +833,11 @@ export interface S3Service {
   readonly getBucketReplication: (
     args: GetBucketReplicationCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, GetBucketReplicationCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    GetBucketReplicationCommandOutput
+  >;
 
   /**
    * @see {@link GetBucketRequestPaymentCommand}
@@ -743,7 +845,11 @@ export interface S3Service {
   readonly getBucketRequestPayment: (
     args: GetBucketRequestPaymentCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, GetBucketRequestPaymentCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    GetBucketRequestPaymentCommandOutput
+  >;
 
   /**
    * @see {@link GetBucketTaggingCommand}
@@ -751,7 +857,11 @@ export interface S3Service {
   readonly getBucketTagging: (
     args: GetBucketTaggingCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, GetBucketTaggingCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    GetBucketTaggingCommandOutput
+  >;
 
   /**
    * @see {@link GetBucketVersioningCommand}
@@ -759,7 +869,11 @@ export interface S3Service {
   readonly getBucketVersioning: (
     args: GetBucketVersioningCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, GetBucketVersioningCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    GetBucketVersioningCommandOutput
+  >;
 
   /**
    * @see {@link GetBucketWebsiteCommand}
@@ -767,7 +881,11 @@ export interface S3Service {
   readonly getBucketWebsite: (
     args: GetBucketWebsiteCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, GetBucketWebsiteCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    GetBucketWebsiteCommandOutput
+  >;
 
   /**
    * @see {@link GetObjectCommand}
@@ -775,7 +893,7 @@ export interface S3Service {
   readonly getObject: (
     args: GetObjectCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, GetObjectCommandOutput>;
+  ) => Effect.Effect<never, SdkError | S3ServiceError, GetObjectCommandOutput>;
 
   /**
    * @see {@link GetObjectAclCommand}
@@ -783,7 +901,11 @@ export interface S3Service {
   readonly getObjectAcl: (
     args: GetObjectAclCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, GetObjectAclCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    GetObjectAclCommandOutput
+  >;
 
   /**
    * @see {@link GetObjectAttributesCommand}
@@ -791,7 +913,11 @@ export interface S3Service {
   readonly getObjectAttributes: (
     args: GetObjectAttributesCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, GetObjectAttributesCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    GetObjectAttributesCommandOutput
+  >;
 
   /**
    * @see {@link GetObjectLegalHoldCommand}
@@ -799,7 +925,11 @@ export interface S3Service {
   readonly getObjectLegalHold: (
     args: GetObjectLegalHoldCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, GetObjectLegalHoldCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    GetObjectLegalHoldCommandOutput
+  >;
 
   /**
    * @see {@link GetObjectLockConfigurationCommand}
@@ -807,7 +937,11 @@ export interface S3Service {
   readonly getObjectLockConfiguration: (
     args: GetObjectLockConfigurationCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, GetObjectLockConfigurationCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    GetObjectLockConfigurationCommandOutput
+  >;
 
   /**
    * @see {@link GetObjectRetentionCommand}
@@ -815,7 +949,11 @@ export interface S3Service {
   readonly getObjectRetention: (
     args: GetObjectRetentionCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, GetObjectRetentionCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    GetObjectRetentionCommandOutput
+  >;
 
   /**
    * @see {@link GetObjectTaggingCommand}
@@ -823,7 +961,11 @@ export interface S3Service {
   readonly getObjectTagging: (
     args: GetObjectTaggingCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, GetObjectTaggingCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    GetObjectTaggingCommandOutput
+  >;
 
   /**
    * @see {@link GetObjectTorrentCommand}
@@ -831,7 +973,11 @@ export interface S3Service {
   readonly getObjectTorrent: (
     args: GetObjectTorrentCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, GetObjectTorrentCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    GetObjectTorrentCommandOutput
+  >;
 
   /**
    * @see {@link GetPublicAccessBlockCommand}
@@ -839,7 +985,11 @@ export interface S3Service {
   readonly getPublicAccessBlock: (
     args: GetPublicAccessBlockCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, GetPublicAccessBlockCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    GetPublicAccessBlockCommandOutput
+  >;
 
   /**
    * @see {@link HeadBucketCommand}
@@ -847,7 +997,7 @@ export interface S3Service {
   readonly headBucket: (
     args: HeadBucketCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, HeadBucketCommandOutput>;
+  ) => Effect.Effect<never, SdkError | S3ServiceError, HeadBucketCommandOutput>;
 
   /**
    * @see {@link HeadObjectCommand}
@@ -855,7 +1005,7 @@ export interface S3Service {
   readonly headObject: (
     args: HeadObjectCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, HeadObjectCommandOutput>;
+  ) => Effect.Effect<never, SdkError | S3ServiceError, HeadObjectCommandOutput>;
 
   /**
    * @see {@link ListBucketAnalyticsConfigurationsCommand}
@@ -865,7 +1015,7 @@ export interface S3Service {
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
     never,
-    unknown,
+    SdkError | S3ServiceError,
     ListBucketAnalyticsConfigurationsCommandOutput
   >;
 
@@ -877,7 +1027,7 @@ export interface S3Service {
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
     never,
-    unknown,
+    SdkError | S3ServiceError,
     ListBucketIntelligentTieringConfigurationsCommandOutput
   >;
 
@@ -889,7 +1039,7 @@ export interface S3Service {
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
     never,
-    unknown,
+    SdkError | S3ServiceError,
     ListBucketInventoryConfigurationsCommandOutput
   >;
 
@@ -901,7 +1051,7 @@ export interface S3Service {
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
     never,
-    unknown,
+    SdkError | S3ServiceError,
     ListBucketMetricsConfigurationsCommandOutput
   >;
 
@@ -911,7 +1061,11 @@ export interface S3Service {
   readonly listBuckets: (
     args: ListBucketsCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, ListBucketsCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    ListBucketsCommandOutput
+  >;
 
   /**
    * @see {@link ListMultipartUploadsCommand}
@@ -919,7 +1073,11 @@ export interface S3Service {
   readonly listMultipartUploads: (
     args: ListMultipartUploadsCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, ListMultipartUploadsCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    ListMultipartUploadsCommandOutput
+  >;
 
   /**
    * @see {@link ListObjectsCommand}
@@ -927,7 +1085,11 @@ export interface S3Service {
   readonly listObjects: (
     args: ListObjectsCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, ListObjectsCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    ListObjectsCommandOutput
+  >;
 
   /**
    * @see {@link ListObjectsV2Command}
@@ -935,7 +1097,11 @@ export interface S3Service {
   readonly listObjectsV2: (
     args: ListObjectsV2CommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, ListObjectsV2CommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    ListObjectsV2CommandOutput
+  >;
 
   /**
    * @see {@link ListObjectVersionsCommand}
@@ -943,7 +1109,11 @@ export interface S3Service {
   readonly listObjectVersions: (
     args: ListObjectVersionsCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, ListObjectVersionsCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    ListObjectVersionsCommandOutput
+  >;
 
   /**
    * @see {@link ListPartsCommand}
@@ -951,7 +1121,7 @@ export interface S3Service {
   readonly listParts: (
     args: ListPartsCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, ListPartsCommandOutput>;
+  ) => Effect.Effect<never, SdkError | S3ServiceError, ListPartsCommandOutput>;
 
   /**
    * @see {@link PutBucketAccelerateConfigurationCommand}
@@ -961,7 +1131,7 @@ export interface S3Service {
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
     never,
-    unknown,
+    SdkError | S3ServiceError,
     PutBucketAccelerateConfigurationCommandOutput
   >;
 
@@ -971,7 +1141,11 @@ export interface S3Service {
   readonly putBucketAcl: (
     args: PutBucketAclCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, PutBucketAclCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    PutBucketAclCommandOutput
+  >;
 
   /**
    * @see {@link PutBucketAnalyticsConfigurationCommand}
@@ -981,7 +1155,7 @@ export interface S3Service {
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
     never,
-    unknown,
+    SdkError | S3ServiceError,
     PutBucketAnalyticsConfigurationCommandOutput
   >;
 
@@ -991,7 +1165,11 @@ export interface S3Service {
   readonly putBucketCors: (
     args: PutBucketCorsCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, PutBucketCorsCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    PutBucketCorsCommandOutput
+  >;
 
   /**
    * @see {@link PutBucketEncryptionCommand}
@@ -999,7 +1177,11 @@ export interface S3Service {
   readonly putBucketEncryption: (
     args: PutBucketEncryptionCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, PutBucketEncryptionCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    PutBucketEncryptionCommandOutput
+  >;
 
   /**
    * @see {@link PutBucketIntelligentTieringConfigurationCommand}
@@ -1009,7 +1191,7 @@ export interface S3Service {
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
     never,
-    unknown,
+    SdkError | S3ServiceError,
     PutBucketIntelligentTieringConfigurationCommandOutput
   >;
 
@@ -1021,7 +1203,7 @@ export interface S3Service {
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
     never,
-    unknown,
+    SdkError | S3ServiceError,
     PutBucketInventoryConfigurationCommandOutput
   >;
 
@@ -1033,7 +1215,7 @@ export interface S3Service {
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
     never,
-    unknown,
+    SdkError | S3ServiceError,
     PutBucketLifecycleConfigurationCommandOutput
   >;
 
@@ -1043,7 +1225,11 @@ export interface S3Service {
   readonly putBucketLogging: (
     args: PutBucketLoggingCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, PutBucketLoggingCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    PutBucketLoggingCommandOutput
+  >;
 
   /**
    * @see {@link PutBucketMetricsConfigurationCommand}
@@ -1053,7 +1239,7 @@ export interface S3Service {
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
     never,
-    unknown,
+    SdkError | S3ServiceError,
     PutBucketMetricsConfigurationCommandOutput
   >;
 
@@ -1065,7 +1251,7 @@ export interface S3Service {
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
     never,
-    unknown,
+    SdkError | S3ServiceError,
     PutBucketNotificationConfigurationCommandOutput
   >;
 
@@ -1075,7 +1261,11 @@ export interface S3Service {
   readonly putBucketOwnershipControls: (
     args: PutBucketOwnershipControlsCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, PutBucketOwnershipControlsCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    PutBucketOwnershipControlsCommandOutput
+  >;
 
   /**
    * @see {@link PutBucketPolicyCommand}
@@ -1083,7 +1273,11 @@ export interface S3Service {
   readonly putBucketPolicy: (
     args: PutBucketPolicyCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, PutBucketPolicyCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    PutBucketPolicyCommandOutput
+  >;
 
   /**
    * @see {@link PutBucketReplicationCommand}
@@ -1091,7 +1285,11 @@ export interface S3Service {
   readonly putBucketReplication: (
     args: PutBucketReplicationCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, PutBucketReplicationCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    PutBucketReplicationCommandOutput
+  >;
 
   /**
    * @see {@link PutBucketRequestPaymentCommand}
@@ -1099,7 +1297,11 @@ export interface S3Service {
   readonly putBucketRequestPayment: (
     args: PutBucketRequestPaymentCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, PutBucketRequestPaymentCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    PutBucketRequestPaymentCommandOutput
+  >;
 
   /**
    * @see {@link PutBucketTaggingCommand}
@@ -1107,7 +1309,11 @@ export interface S3Service {
   readonly putBucketTagging: (
     args: PutBucketTaggingCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, PutBucketTaggingCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    PutBucketTaggingCommandOutput
+  >;
 
   /**
    * @see {@link PutBucketVersioningCommand}
@@ -1115,7 +1321,11 @@ export interface S3Service {
   readonly putBucketVersioning: (
     args: PutBucketVersioningCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, PutBucketVersioningCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    PutBucketVersioningCommandOutput
+  >;
 
   /**
    * @see {@link PutBucketWebsiteCommand}
@@ -1123,7 +1333,11 @@ export interface S3Service {
   readonly putBucketWebsite: (
     args: PutBucketWebsiteCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, PutBucketWebsiteCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    PutBucketWebsiteCommandOutput
+  >;
 
   /**
    * @see {@link PutObjectCommand}
@@ -1131,7 +1345,7 @@ export interface S3Service {
   readonly putObject: (
     args: PutObjectCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, PutObjectCommandOutput>;
+  ) => Effect.Effect<never, SdkError | S3ServiceError, PutObjectCommandOutput>;
 
   /**
    * @see {@link PutObjectAclCommand}
@@ -1139,7 +1353,11 @@ export interface S3Service {
   readonly putObjectAcl: (
     args: PutObjectAclCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, PutObjectAclCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    PutObjectAclCommandOutput
+  >;
 
   /**
    * @see {@link PutObjectLegalHoldCommand}
@@ -1147,7 +1365,11 @@ export interface S3Service {
   readonly putObjectLegalHold: (
     args: PutObjectLegalHoldCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, PutObjectLegalHoldCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    PutObjectLegalHoldCommandOutput
+  >;
 
   /**
    * @see {@link PutObjectLockConfigurationCommand}
@@ -1155,7 +1377,11 @@ export interface S3Service {
   readonly putObjectLockConfiguration: (
     args: PutObjectLockConfigurationCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, PutObjectLockConfigurationCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    PutObjectLockConfigurationCommandOutput
+  >;
 
   /**
    * @see {@link PutObjectRetentionCommand}
@@ -1163,7 +1389,11 @@ export interface S3Service {
   readonly putObjectRetention: (
     args: PutObjectRetentionCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, PutObjectRetentionCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    PutObjectRetentionCommandOutput
+  >;
 
   /**
    * @see {@link PutObjectTaggingCommand}
@@ -1171,7 +1401,11 @@ export interface S3Service {
   readonly putObjectTagging: (
     args: PutObjectTaggingCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, PutObjectTaggingCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    PutObjectTaggingCommandOutput
+  >;
 
   /**
    * @see {@link PutPublicAccessBlockCommand}
@@ -1179,7 +1413,11 @@ export interface S3Service {
   readonly putPublicAccessBlock: (
     args: PutPublicAccessBlockCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, PutPublicAccessBlockCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    PutPublicAccessBlockCommandOutput
+  >;
 
   /**
    * @see {@link RestoreObjectCommand}
@@ -1187,7 +1425,11 @@ export interface S3Service {
   readonly restoreObject: (
     args: RestoreObjectCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, RestoreObjectCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    RestoreObjectCommandOutput
+  >;
 
   /**
    * @see {@link SelectObjectContentCommand}
@@ -1195,7 +1437,11 @@ export interface S3Service {
   readonly selectObjectContent: (
     args: SelectObjectContentCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, SelectObjectContentCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    SelectObjectContentCommandOutput
+  >;
 
   /**
    * @see {@link UploadPartCommand}
@@ -1203,7 +1449,7 @@ export interface S3Service {
   readonly uploadPart: (
     args: UploadPartCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, UploadPartCommandOutput>;
+  ) => Effect.Effect<never, SdkError | S3ServiceError, UploadPartCommandOutput>;
 
   /**
    * @see {@link UploadPartCopyCommand}
@@ -1211,7 +1457,11 @@ export interface S3Service {
   readonly uploadPartCopy: (
     args: UploadPartCopyCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, UploadPartCopyCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    UploadPartCopyCommandOutput
+  >;
 
   /**
    * @see {@link WriteGetObjectResponseCommand}
@@ -1219,7 +1469,11 @@ export interface S3Service {
   readonly writeGetObjectResponse: (
     args: WriteGetObjectResponseCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, unknown, WriteGetObjectResponseCommandOutput>;
+  ) => Effect.Effect<
+    never,
+    SdkError | S3ServiceError,
+    WriteGetObjectResponseCommandOutput
+  >;
 }
 
 export const BaseS3ServiceEffect = Effect.gen(function* (_) {
@@ -1228,9 +1482,22 @@ export const BaseS3ServiceEffect = Effect.gen(function* (_) {
   return RR.toEntries(commands).reduce((acc, [command]) => {
     const CommandCtor = commands[command] as any;
     const methodImpl = (args: any, options: any) =>
-      Effect.tryPromise(() =>
-        client.send(new CommandCtor(args), options ?? {}),
-      );
+      Effect.tryPromise({
+        try: () => client.send(new CommandCtor(args), options ?? {}),
+        catch: (e) => {
+          if (e instanceof S3ServiceException) {
+            return S3ServiceError({
+              ...e,
+              name: "S3ServiceError",
+              stack: e.stack,
+            });
+          }
+          if (e instanceof Error) {
+            return SdkError({ ...e, name: "SdkError", stack: e.stack });
+          }
+          return e;
+        },
+      });
     const methodName = (command[0].toLowerCase() + command.slice(1)).replace(
       /Command$/,
       "",

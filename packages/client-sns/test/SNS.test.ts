@@ -16,6 +16,7 @@ import {
   SNSClientInstanceTag,
   SNSClientOptions,
   SNSServiceEffect,
+  SdkError,
 } from "../src";
 
 import "aws-sdk-client-mock-jest";
@@ -132,7 +133,15 @@ describe("SNSClientImpl", () => {
 
     const result = await pipe(program, Effect.runPromiseExit);
 
-    expect(result).toEqual(Exit.fail(new Error("test")));
+    expect(result).toEqual(
+      Exit.fail(
+        SdkError({
+          ...new Error("test"),
+          name: "SdkError",
+          stack: expect.any(String),
+        }),
+      ),
+    );
     expect(snsMock).toHaveReceivedCommandTimes(PublishCommand, 1);
     expect(snsMock).toHaveReceivedCommandWith(PublishCommand, args);
   });

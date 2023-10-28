@@ -95,6 +95,7 @@ import {
   RemovePermissionCommand,
   RemovePermissionCommandInput,
   RemovePermissionCommandOutput,
+  SNSServiceException,
   SetEndpointAttributesCommand,
   SetEndpointAttributesCommandInput,
   SetEndpointAttributesCommandOutput,
@@ -127,6 +128,7 @@ import {
   VerifySMSSandboxPhoneNumberCommandOutput,
 } from "@aws-sdk/client-sns";
 import { HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
+import * as Data from "effect/Data";
 import * as Effect from "effect/Effect";
 import * as RR from "effect/ReadonlyRecord";
 import {
@@ -134,6 +136,42 @@ import {
   SNSClientInstanceLayer,
   SNSClientInstanceTag,
 } from "./Context";
+import {
+  AuthorizationError,
+  BatchEntryIdsNotDistinctError,
+  BatchRequestTooLongError,
+  ConcurrentAccessError,
+  EmptyBatchRequestError,
+  EndpointDisabledError,
+  FilterPolicyLimitExceededError,
+  InternalError,
+  InvalidBatchEntryIdError,
+  InvalidParameterError,
+  InvalidParameterValueError,
+  InvalidSecurityError,
+  KMSAccessDeniedError,
+  KMSDisabledError,
+  KMSInvalidStateError,
+  KMSNotFoundError,
+  KMSOptInRequiredError,
+  KMSThrottlingError,
+  NotFoundError,
+  OptedOutError,
+  PlatformApplicationDisabledError,
+  ResourceNotFoundError,
+  SdkError,
+  StaleTagError,
+  SubscriptionLimitExceededError,
+  TagLimitExceededError,
+  TagPolicyError,
+  TaggedException,
+  ThrottledError,
+  TooManyEntriesInBatchRequestError,
+  TopicLimitExceededError,
+  UserError,
+  ValidationError,
+  VerificationError,
+} from "./Errors";
 
 const commands = {
   AddPermissionCommand,
@@ -187,7 +225,15 @@ export interface SNSService {
   addPermission(
     args: AddPermissionCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, AddPermissionCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | AuthorizationError
+    | InternalError
+    | InvalidParameterError
+    | NotFoundError,
+    AddPermissionCommandOutput
+  >;
 
   /**
    * @see {@link CheckIfPhoneNumberIsOptedOutCommand}
@@ -195,7 +241,15 @@ export interface SNSService {
   checkIfPhoneNumberIsOptedOut(
     args: CheckIfPhoneNumberIsOptedOutCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, CheckIfPhoneNumberIsOptedOutCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | AuthorizationError
+    | InternalError
+    | InvalidParameterError
+    | ThrottledError,
+    CheckIfPhoneNumberIsOptedOutCommandOutput
+  >;
 
   /**
    * @see {@link ConfirmSubscriptionCommand}
@@ -203,7 +257,17 @@ export interface SNSService {
   confirmSubscription(
     args: ConfirmSubscriptionCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, ConfirmSubscriptionCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | AuthorizationError
+    | FilterPolicyLimitExceededError
+    | InternalError
+    | InvalidParameterError
+    | NotFoundError
+    | SubscriptionLimitExceededError,
+    ConfirmSubscriptionCommandOutput
+  >;
 
   /**
    * @see {@link CreatePlatformApplicationCommand}
@@ -211,7 +275,11 @@ export interface SNSService {
   createPlatformApplication(
     args: CreatePlatformApplicationCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, CreatePlatformApplicationCommandOutput>;
+  ): Effect.Effect<
+    never,
+    SdkError | AuthorizationError | InternalError | InvalidParameterError,
+    CreatePlatformApplicationCommandOutput
+  >;
 
   /**
    * @see {@link CreatePlatformEndpointCommand}
@@ -219,7 +287,15 @@ export interface SNSService {
   createPlatformEndpoint(
     args: CreatePlatformEndpointCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, CreatePlatformEndpointCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | AuthorizationError
+    | InternalError
+    | InvalidParameterError
+    | NotFoundError,
+    CreatePlatformEndpointCommandOutput
+  >;
 
   /**
    * @see {@link CreateSMSSandboxPhoneNumberCommand}
@@ -227,7 +303,17 @@ export interface SNSService {
   createSMSSandboxPhoneNumber(
     args: CreateSMSSandboxPhoneNumberCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, CreateSMSSandboxPhoneNumberCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | AuthorizationError
+    | InternalError
+    | InvalidParameterError
+    | OptedOutError
+    | ThrottledError
+    | UserError,
+    CreateSMSSandboxPhoneNumberCommandOutput
+  >;
 
   /**
    * @see {@link CreateTopicCommand}
@@ -235,7 +321,20 @@ export interface SNSService {
   createTopic(
     args: CreateTopicCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, CreateTopicCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | AuthorizationError
+    | ConcurrentAccessError
+    | InternalError
+    | InvalidParameterError
+    | InvalidSecurityError
+    | StaleTagError
+    | TagLimitExceededError
+    | TagPolicyError
+    | TopicLimitExceededError,
+    CreateTopicCommandOutput
+  >;
 
   /**
    * @see {@link DeleteEndpointCommand}
@@ -243,7 +342,11 @@ export interface SNSService {
   deleteEndpoint(
     args: DeleteEndpointCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, DeleteEndpointCommandOutput>;
+  ): Effect.Effect<
+    never,
+    SdkError | AuthorizationError | InternalError | InvalidParameterError,
+    DeleteEndpointCommandOutput
+  >;
 
   /**
    * @see {@link DeletePlatformApplicationCommand}
@@ -251,7 +354,11 @@ export interface SNSService {
   deletePlatformApplication(
     args: DeletePlatformApplicationCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, DeletePlatformApplicationCommandOutput>;
+  ): Effect.Effect<
+    never,
+    SdkError | AuthorizationError | InternalError | InvalidParameterError,
+    DeletePlatformApplicationCommandOutput
+  >;
 
   /**
    * @see {@link DeleteSMSSandboxPhoneNumberCommand}
@@ -259,7 +366,17 @@ export interface SNSService {
   deleteSMSSandboxPhoneNumber(
     args: DeleteSMSSandboxPhoneNumberCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, DeleteSMSSandboxPhoneNumberCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | AuthorizationError
+    | InternalError
+    | InvalidParameterError
+    | ResourceNotFoundError
+    | ThrottledError
+    | UserError,
+    DeleteSMSSandboxPhoneNumberCommandOutput
+  >;
 
   /**
    * @see {@link DeleteTopicCommand}
@@ -267,7 +384,18 @@ export interface SNSService {
   deleteTopic(
     args: DeleteTopicCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, DeleteTopicCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | AuthorizationError
+    | ConcurrentAccessError
+    | InternalError
+    | InvalidParameterError
+    | NotFoundError
+    | StaleTagError
+    | TagPolicyError,
+    DeleteTopicCommandOutput
+  >;
 
   /**
    * @see {@link GetDataProtectionPolicyCommand}
@@ -275,7 +403,16 @@ export interface SNSService {
   getDataProtectionPolicy(
     args: GetDataProtectionPolicyCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, GetDataProtectionPolicyCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | AuthorizationError
+    | InternalError
+    | InvalidParameterError
+    | InvalidSecurityError
+    | NotFoundError,
+    GetDataProtectionPolicyCommandOutput
+  >;
 
   /**
    * @see {@link GetEndpointAttributesCommand}
@@ -283,7 +420,15 @@ export interface SNSService {
   getEndpointAttributes(
     args: GetEndpointAttributesCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, GetEndpointAttributesCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | AuthorizationError
+    | InternalError
+    | InvalidParameterError
+    | NotFoundError,
+    GetEndpointAttributesCommandOutput
+  >;
 
   /**
    * @see {@link GetPlatformApplicationAttributesCommand}
@@ -293,7 +438,11 @@ export interface SNSService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     never,
-    unknown,
+    | SdkError
+    | AuthorizationError
+    | InternalError
+    | InvalidParameterError
+    | NotFoundError,
     GetPlatformApplicationAttributesCommandOutput
   >;
 
@@ -303,7 +452,15 @@ export interface SNSService {
   getSMSAttributes(
     args: GetSMSAttributesCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, GetSMSAttributesCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | AuthorizationError
+    | InternalError
+    | InvalidParameterError
+    | ThrottledError,
+    GetSMSAttributesCommandOutput
+  >;
 
   /**
    * @see {@link GetSMSSandboxAccountStatusCommand}
@@ -311,7 +468,11 @@ export interface SNSService {
   getSMSSandboxAccountStatus(
     args: GetSMSSandboxAccountStatusCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, GetSMSSandboxAccountStatusCommandOutput>;
+  ): Effect.Effect<
+    never,
+    SdkError | AuthorizationError | InternalError | ThrottledError,
+    GetSMSSandboxAccountStatusCommandOutput
+  >;
 
   /**
    * @see {@link GetSubscriptionAttributesCommand}
@@ -319,7 +480,15 @@ export interface SNSService {
   getSubscriptionAttributes(
     args: GetSubscriptionAttributesCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, GetSubscriptionAttributesCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | AuthorizationError
+    | InternalError
+    | InvalidParameterError
+    | NotFoundError,
+    GetSubscriptionAttributesCommandOutput
+  >;
 
   /**
    * @see {@link GetTopicAttributesCommand}
@@ -327,7 +496,16 @@ export interface SNSService {
   getTopicAttributes(
     args: GetTopicAttributesCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, GetTopicAttributesCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | AuthorizationError
+    | InternalError
+    | InvalidParameterError
+    | InvalidSecurityError
+    | NotFoundError,
+    GetTopicAttributesCommandOutput
+  >;
 
   /**
    * @see {@link ListEndpointsByPlatformApplicationCommand}
@@ -337,7 +515,11 @@ export interface SNSService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     never,
-    unknown,
+    | SdkError
+    | AuthorizationError
+    | InternalError
+    | InvalidParameterError
+    | NotFoundError,
     ListEndpointsByPlatformApplicationCommandOutput
   >;
 
@@ -347,7 +529,16 @@ export interface SNSService {
   listOriginationNumbers(
     args: ListOriginationNumbersCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, ListOriginationNumbersCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | AuthorizationError
+    | InternalError
+    | InvalidParameterError
+    | ThrottledError
+    | ValidationError,
+    ListOriginationNumbersCommandOutput
+  >;
 
   /**
    * @see {@link ListPhoneNumbersOptedOutCommand}
@@ -355,7 +546,15 @@ export interface SNSService {
   listPhoneNumbersOptedOut(
     args: ListPhoneNumbersOptedOutCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, ListPhoneNumbersOptedOutCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | AuthorizationError
+    | InternalError
+    | InvalidParameterError
+    | ThrottledError,
+    ListPhoneNumbersOptedOutCommandOutput
+  >;
 
   /**
    * @see {@link ListPlatformApplicationsCommand}
@@ -363,7 +562,11 @@ export interface SNSService {
   listPlatformApplications(
     args: ListPlatformApplicationsCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, ListPlatformApplicationsCommandOutput>;
+  ): Effect.Effect<
+    never,
+    SdkError | AuthorizationError | InternalError | InvalidParameterError,
+    ListPlatformApplicationsCommandOutput
+  >;
 
   /**
    * @see {@link ListSMSSandboxPhoneNumbersCommand}
@@ -371,7 +574,16 @@ export interface SNSService {
   listSMSSandboxPhoneNumbers(
     args: ListSMSSandboxPhoneNumbersCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, ListSMSSandboxPhoneNumbersCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | AuthorizationError
+    | InternalError
+    | InvalidParameterError
+    | ResourceNotFoundError
+    | ThrottledError,
+    ListSMSSandboxPhoneNumbersCommandOutput
+  >;
 
   /**
    * @see {@link ListSubscriptionsCommand}
@@ -379,7 +591,11 @@ export interface SNSService {
   listSubscriptions(
     args: ListSubscriptionsCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, ListSubscriptionsCommandOutput>;
+  ): Effect.Effect<
+    never,
+    SdkError | AuthorizationError | InternalError | InvalidParameterError,
+    ListSubscriptionsCommandOutput
+  >;
 
   /**
    * @see {@link ListSubscriptionsByTopicCommand}
@@ -387,7 +603,15 @@ export interface SNSService {
   listSubscriptionsByTopic(
     args: ListSubscriptionsByTopicCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, ListSubscriptionsByTopicCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | AuthorizationError
+    | InternalError
+    | InvalidParameterError
+    | NotFoundError,
+    ListSubscriptionsByTopicCommandOutput
+  >;
 
   /**
    * @see {@link ListTagsForResourceCommand}
@@ -395,7 +619,16 @@ export interface SNSService {
   listTagsForResource(
     args: ListTagsForResourceCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, ListTagsForResourceCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | AuthorizationError
+    | ConcurrentAccessError
+    | InvalidParameterError
+    | ResourceNotFoundError
+    | TagPolicyError,
+    ListTagsForResourceCommandOutput
+  >;
 
   /**
    * @see {@link ListTopicsCommand}
@@ -403,7 +636,11 @@ export interface SNSService {
   listTopics(
     args: ListTopicsCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, ListTopicsCommandOutput>;
+  ): Effect.Effect<
+    never,
+    SdkError | AuthorizationError | InternalError | InvalidParameterError,
+    ListTopicsCommandOutput
+  >;
 
   /**
    * @see {@link OptInPhoneNumberCommand}
@@ -411,7 +648,15 @@ export interface SNSService {
   optInPhoneNumber(
     args: OptInPhoneNumberCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, OptInPhoneNumberCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | AuthorizationError
+    | InternalError
+    | InvalidParameterError
+    | ThrottledError,
+    OptInPhoneNumberCommandOutput
+  >;
 
   /**
    * @see {@link PublishCommand}
@@ -419,7 +664,26 @@ export interface SNSService {
   publish(
     args: PublishCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, PublishCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | AuthorizationError
+    | EndpointDisabledError
+    | InternalError
+    | InvalidParameterError
+    | InvalidSecurityError
+    | KMSAccessDeniedError
+    | KMSDisabledError
+    | KMSInvalidStateError
+    | KMSNotFoundError
+    | KMSOptInRequiredError
+    | KMSThrottlingError
+    | NotFoundError
+    | InvalidParameterValueError
+    | PlatformApplicationDisabledError
+    | ValidationError,
+    PublishCommandOutput
+  >;
 
   /**
    * @see {@link PublishBatchCommand}
@@ -427,7 +691,31 @@ export interface SNSService {
   publishBatch(
     args: PublishBatchCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, PublishBatchCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | AuthorizationError
+    | BatchEntryIdsNotDistinctError
+    | BatchRequestTooLongError
+    | EmptyBatchRequestError
+    | EndpointDisabledError
+    | InternalError
+    | InvalidBatchEntryIdError
+    | InvalidParameterError
+    | InvalidSecurityError
+    | KMSAccessDeniedError
+    | KMSDisabledError
+    | KMSInvalidStateError
+    | KMSNotFoundError
+    | KMSOptInRequiredError
+    | KMSThrottlingError
+    | NotFoundError
+    | InvalidParameterValueError
+    | PlatformApplicationDisabledError
+    | TooManyEntriesInBatchRequestError
+    | ValidationError,
+    PublishBatchCommandOutput
+  >;
 
   /**
    * @see {@link PutDataProtectionPolicyCommand}
@@ -435,7 +723,16 @@ export interface SNSService {
   putDataProtectionPolicy(
     args: PutDataProtectionPolicyCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, PutDataProtectionPolicyCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | AuthorizationError
+    | InternalError
+    | InvalidParameterError
+    | InvalidSecurityError
+    | NotFoundError,
+    PutDataProtectionPolicyCommandOutput
+  >;
 
   /**
    * @see {@link RemovePermissionCommand}
@@ -443,7 +740,15 @@ export interface SNSService {
   removePermission(
     args: RemovePermissionCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, RemovePermissionCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | AuthorizationError
+    | InternalError
+    | InvalidParameterError
+    | NotFoundError,
+    RemovePermissionCommandOutput
+  >;
 
   /**
    * @see {@link SetEndpointAttributesCommand}
@@ -451,7 +756,15 @@ export interface SNSService {
   setEndpointAttributes(
     args: SetEndpointAttributesCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, SetEndpointAttributesCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | AuthorizationError
+    | InternalError
+    | InvalidParameterError
+    | NotFoundError,
+    SetEndpointAttributesCommandOutput
+  >;
 
   /**
    * @see {@link SetPlatformApplicationAttributesCommand}
@@ -461,7 +774,11 @@ export interface SNSService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     never,
-    unknown,
+    | SdkError
+    | AuthorizationError
+    | InternalError
+    | InvalidParameterError
+    | NotFoundError,
     SetPlatformApplicationAttributesCommandOutput
   >;
 
@@ -471,7 +788,15 @@ export interface SNSService {
   setSMSAttributes(
     args: SetSMSAttributesCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, SetSMSAttributesCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | AuthorizationError
+    | InternalError
+    | InvalidParameterError
+    | ThrottledError,
+    SetSMSAttributesCommandOutput
+  >;
 
   /**
    * @see {@link SetSubscriptionAttributesCommand}
@@ -479,7 +804,16 @@ export interface SNSService {
   setSubscriptionAttributes(
     args: SetSubscriptionAttributesCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, SetSubscriptionAttributesCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | AuthorizationError
+    | FilterPolicyLimitExceededError
+    | InternalError
+    | InvalidParameterError
+    | NotFoundError,
+    SetSubscriptionAttributesCommandOutput
+  >;
 
   /**
    * @see {@link SetTopicAttributesCommand}
@@ -487,7 +821,16 @@ export interface SNSService {
   setTopicAttributes(
     args: SetTopicAttributesCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, SetTopicAttributesCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | AuthorizationError
+    | InternalError
+    | InvalidParameterError
+    | InvalidSecurityError
+    | NotFoundError,
+    SetTopicAttributesCommandOutput
+  >;
 
   /**
    * @see {@link SubscribeCommand}
@@ -495,7 +838,18 @@ export interface SNSService {
   subscribe(
     args: SubscribeCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, SubscribeCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | AuthorizationError
+    | FilterPolicyLimitExceededError
+    | InternalError
+    | InvalidParameterError
+    | InvalidSecurityError
+    | NotFoundError
+    | SubscriptionLimitExceededError,
+    SubscribeCommandOutput
+  >;
 
   /**
    * @see {@link TagResourceCommand}
@@ -503,7 +857,18 @@ export interface SNSService {
   tagResource(
     args: TagResourceCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, TagResourceCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | AuthorizationError
+    | ConcurrentAccessError
+    | InvalidParameterError
+    | ResourceNotFoundError
+    | StaleTagError
+    | TagLimitExceededError
+    | TagPolicyError,
+    TagResourceCommandOutput
+  >;
 
   /**
    * @see {@link UnsubscribeCommand}
@@ -511,7 +876,16 @@ export interface SNSService {
   unsubscribe(
     args: UnsubscribeCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, UnsubscribeCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | AuthorizationError
+    | InternalError
+    | InvalidParameterError
+    | InvalidSecurityError
+    | NotFoundError,
+    UnsubscribeCommandOutput
+  >;
 
   /**
    * @see {@link UntagResourceCommand}
@@ -519,7 +893,18 @@ export interface SNSService {
   untagResource(
     args: UntagResourceCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, UntagResourceCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | AuthorizationError
+    | ConcurrentAccessError
+    | InvalidParameterError
+    | ResourceNotFoundError
+    | StaleTagError
+    | TagLimitExceededError
+    | TagPolicyError,
+    UntagResourceCommandOutput
+  >;
 
   /**
    * @see {@link VerifySMSSandboxPhoneNumberCommand}
@@ -527,7 +912,17 @@ export interface SNSService {
   verifySMSSandboxPhoneNumber(
     args: VerifySMSSandboxPhoneNumberCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, VerifySMSSandboxPhoneNumberCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | AuthorizationError
+    | InternalError
+    | InvalidParameterError
+    | ResourceNotFoundError
+    | ThrottledError
+    | VerificationError,
+    VerifySMSSandboxPhoneNumberCommandOutput
+  >;
 }
 
 export const BaseSNSServiceEffect = Effect.gen(function* (_) {
@@ -536,9 +931,22 @@ export const BaseSNSServiceEffect = Effect.gen(function* (_) {
   return RR.toEntries(commands).reduce((acc, [command]) => {
     const CommandCtor = commands[command] as any;
     const methodImpl = (args: any, options: any) =>
-      Effect.tryPromise(() =>
-        client.send(new CommandCtor(args), options ?? {}),
-      );
+      Effect.tryPromise({
+        try: () => client.send(new CommandCtor(args), options ?? {}),
+        catch: (e) => {
+          if (e instanceof SNSServiceException) {
+            const ServiceException = Data.tagged<
+              TaggedException<SNSServiceException>
+            >(e.name);
+
+            return ServiceException({ ...e, stack: e.stack });
+          }
+          if (e instanceof Error) {
+            return SdkError({ ...e, name: "SdkError", stack: e.stack });
+          }
+          return e;
+        },
+      });
     const methodName = (command[0].toLowerCase() + command.slice(1)).replace(
       /Command$/,
       "",

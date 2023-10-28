@@ -12,6 +12,7 @@ import {
   S3ClientInstanceTag,
   S3ClientOptions,
   S3ServiceEffect,
+  SdkError,
 } from "../src";
 
 import "aws-sdk-client-mock-jest";
@@ -128,7 +129,15 @@ describe("S3ClientImpl", () => {
 
     const result = await pipe(program, Effect.runPromiseExit);
 
-    expect(result).toEqual(Exit.fail(new Error("test")));
+    expect(result).toEqual(
+      Exit.fail(
+        SdkError({
+          ...new Error("test"),
+          name: "SdkError",
+          stack: expect.any(String),
+        }),
+      ),
+    );
     expect(s3Mock).toHaveReceivedCommandTimes(HeadObjectCommand, 1);
     expect(s3Mock).toHaveReceivedCommandWith(HeadObjectCommand, args);
   });
