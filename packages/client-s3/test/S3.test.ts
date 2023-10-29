@@ -1,4 +1,5 @@
 import {
+  GetObjectCommand,
   GetObjectCommandInput,
   HeadObjectCommand,
   S3Client,
@@ -8,6 +9,14 @@ import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
 import * as Layer from "effect/Layer";
+
+const getSignedUrl = jest
+  .fn()
+  .mockResolvedValue(
+    "https://test.s3.eu-central-1.amazonaws.com/test?whatever",
+  );
+jest.mock("@aws-sdk/s3-request-presigner", () => ({ getSignedUrl }));
+
 import {
   BaseS3ServiceEffect,
   DefaultS3ClientConfigLayer,
@@ -138,6 +147,7 @@ describe("S3ClientImpl", () => {
         SdkError({
           ...new Error("test"),
           name: "SdkError",
+          message: "test",
           stack: expect.any(String),
         }),
       ),
@@ -166,6 +176,12 @@ describe("S3ClientImpl", () => {
 
     expect(result).toMatch(
       /^https:\/\/test\.s3\.eu-central-1\.amazonaws\.com\/test\?/,
+    );
+    expect(getSignedUrl).toHaveBeenCalledTimes(1);
+    expect(getSignedUrl).toHaveBeenCalledWith(
+      expect.any(S3Client),
+      expect.any(GetObjectCommand),
+      { presigned: true, expiresIn: 100 },
     );
   });
 });

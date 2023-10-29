@@ -138,6 +138,7 @@ describe("SNSClientImpl", () => {
         SdkError({
           ...new Error("test"),
           name: "SdkError",
+          message: "test",
           stack: expect.any(String),
         }),
       ),

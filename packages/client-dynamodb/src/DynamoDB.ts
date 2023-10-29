@@ -1105,10 +1105,19 @@ export const BaseDynamoDBServiceEffect = Effect.gen(function* (_) {
               TaggedException<DynamoDBServiceException>
             >(e.name);
 
-            return ServiceException({ ...e, stack: e.stack });
+            return ServiceException({
+              ...e,
+              message: e.message,
+              stack: e.stack,
+            });
           }
           if (e instanceof Error) {
-            return SdkError({ ...e, name: "SdkError", stack: e.stack });
+            return SdkError({
+              ...e,
+              name: "SdkError",
+              message: e.message,
+              stack: e.stack,
+            });
           }
           throw e;
         },
