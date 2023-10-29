@@ -1,4 +1,8 @@
-import { HeadObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import {
+  GetObjectCommandInput,
+  HeadObjectCommand,
+  S3Client,
+} from "@aws-sdk/client-s3";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
@@ -140,5 +144,28 @@ describe("S3ClientImpl", () => {
     );
     expect(s3Mock).toHaveReceivedCommandTimes(HeadObjectCommand, 1);
     expect(s3Mock).toHaveReceivedCommandWith(HeadObjectCommand, args);
+  });
+
+  it("presigned url", async () => {
+    const args: GetObjectCommandInput = { Key: "test", Bucket: "test" };
+
+    const program = Effect.flatMap(BaseS3ServiceEffect, (s3) =>
+      s3.getObject(args, { presigned: true, expiresIn: 100 }),
+    );
+
+    const S3ClientInstanceLayer = Layer.succeed(
+      S3ClientInstanceTag,
+      new S3Client({ region: "eu-central-1" }),
+    );
+
+    const result = await pipe(
+      program,
+      Effect.provide(S3ClientInstanceLayer),
+      Effect.runPromise,
+    );
+
+    expect(result).toMatch(
+      /^https:\/\/test\.s3\.eu-central-1\.amazonaws\.com\/test\?/,
+    );
   });
 });

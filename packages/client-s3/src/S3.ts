@@ -280,7 +280,11 @@ import {
   WriteGetObjectResponseCommandInput,
   WriteGetObjectResponseCommandOutput,
 } from "@aws-sdk/client-s3";
-import { HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import {
+  HttpHandlerOptions as __HttpHandlerOptions,
+  RequestPresigningArguments,
+} from "@aws-sdk/types";
 import * as Effect from "effect/Effect";
 import * as RR from "effect/ReadonlyRecord";
 import {
@@ -890,10 +894,16 @@ export interface S3Service {
   /**
    * @see {@link GetObjectCommand}
    */
-  readonly getObject: (
-    args: GetObjectCommandInput,
-    options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, SdkError | S3ServiceError, GetObjectCommandOutput>;
+  readonly getObject: {
+    (
+      args: GetObjectCommandInput,
+      options?: { readonly presigned?: false } & __HttpHandlerOptions,
+    ): Effect.Effect<never, SdkError | S3ServiceError, GetObjectCommandOutput>;
+    (
+      args: GetObjectCommandInput,
+      options?: { readonly presigned: true } & RequestPresigningArguments,
+    ): Effect.Effect<never, SdkError | S3ServiceError, string>;
+  };
 
   /**
    * @see {@link GetObjectAclCommand}
@@ -1342,10 +1352,16 @@ export interface S3Service {
   /**
    * @see {@link PutObjectCommand}
    */
-  readonly putObject: (
-    args: PutObjectCommandInput,
-    options?: __HttpHandlerOptions,
-  ) => Effect.Effect<never, SdkError | S3ServiceError, PutObjectCommandOutput>;
+  readonly putObject: {
+    (
+      args: PutObjectCommandInput,
+      options?: { readonly presigned?: false } & __HttpHandlerOptions,
+    ): Effect.Effect<never, SdkError | S3ServiceError, PutObjectCommandOutput>;
+    (
+      args: PutObjectCommandInput,
+      options?: { readonly presigned: true } & RequestPresigningArguments,
+    ): Effect.Effect<never, SdkError | S3ServiceError, string>;
+  };
 
   /**
    * @see {@link PutObjectAclCommand}
@@ -1479,25 +1495,44 @@ export interface S3Service {
 export const BaseS3ServiceEffect = Effect.gen(function* (_) {
   const client = yield* _(S3ClientInstanceTag);
 
+  const catchErrors = (e: unknown) => {
+    if (e instanceof S3ServiceException) {
+      return S3ServiceError({
+        ...e,
+        name: "S3ServiceError",
+        message: e.message,
+        stack: e.stack,
+      });
+    }
+    if (e instanceof Error) {
+      return SdkError({
+        ...e,
+        name: "SdkError",
+        message: e.message,
+        stack: e.stack,
+      });
+    }
+    throw e;
+  };
+
   return RR.toEntries(commands).reduce((acc, [command]) => {
     const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options: any) =>
-      Effect.tryPromise({
-        try: () => client.send(new CommandCtor(args), options ?? {}),
-        catch: (e) => {
-          if (e instanceof S3ServiceException) {
-            return S3ServiceError({
-              ...e,
-              name: "S3ServiceError",
-              stack: e.stack,
-            });
-          }
-          if (e instanceof Error) {
-            return SdkError({ ...e, name: "SdkError", stack: e.stack });
-          }
-          return e;
-        },
-      });
+    const methodImpl = (
+      args: any,
+      options?:
+        | ({ readonly presigned?: false } & __HttpHandlerOptions)
+        | ({ readonly presigned: true } & RequestPresigningArguments),
+    ) =>
+      options?.presigned
+        ? Effect.tryPromise({
+            try: () =>
+              getSignedUrl(client as any, new CommandCtor(args), options),
+            catch: catchErrors,
+          })
+        : Effect.tryPromise({
+            try: () => client.send(new CommandCtor(args), options),
+            catch: catchErrors,
+          });
     const methodName = (command[0].toLowerCase() + command.slice(1)).replace(
       /Command$/,
       "",

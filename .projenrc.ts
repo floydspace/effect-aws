@@ -76,7 +76,11 @@ new TypeScriptLibProject({
 new TypeScriptLibProject({
   parent: project,
   name: "client-s3",
-  deps: [...commonDeps, "@aws-sdk/client-s3@^3"],
+  deps: [
+    ...commonDeps,
+    "@aws-sdk/client-s3@^3",
+    "@aws-sdk/s3-request-presigner@^3",
+  ],
   devDeps: [...commonPeerDeps, ...commonDevDeps],
   peerDeps: commonPeerDeps,
 });

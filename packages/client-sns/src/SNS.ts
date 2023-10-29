@@ -944,7 +944,7 @@ export const BaseSNSServiceEffect = Effect.gen(function* (_) {
           if (e instanceof Error) {
             return SdkError({ ...e, name: "SdkError", stack: e.stack });
           }
-          return e;
+          throw e;
         },
       });
     const methodName = (command[0].toLowerCase() + command.slice(1)).replace(
