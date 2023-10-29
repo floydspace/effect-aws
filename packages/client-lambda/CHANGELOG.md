@@ -1,5 +1,11 @@
 # @effect-aws/client-lambda
 
+## 0.2.2
+
+### Patch Changes
+
+- [`280d8bd`](https://github.com/floydspace/effect-aws/commit/280d8bd6686d6e7a2b73322a047e8eb22263b1e1) Thanks [@floydspace](https://github.com/floydspace)! - upgrade dependencies
+
 ## 0.2.1
 
 ### Patch Changes

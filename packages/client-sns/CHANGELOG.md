@@ -1,5 +1,15 @@
 # @effect-aws/client-sns
 
+## 0.4.0
+
+### Minor Changes
+
+- [`c3b6768`](https://github.com/floydspace/effect-aws/commit/c3b6768ec54b62e05f8fbb771cb890ba6aee27c2) Thanks [@floydspace](https://github.com/floydspace)! - return tagged errors in the failure channel
+
+### Patch Changes
+
+- [`280d8bd`](https://github.com/floydspace/effect-aws/commit/280d8bd6686d6e7a2b73322a047e8eb22263b1e1) Thanks [@floydspace](https://github.com/floydspace)! - upgrade dependencies
+
 ## 0.3.1
 
 ### Patch Changes
