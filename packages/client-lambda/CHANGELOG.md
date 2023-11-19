@@ -1,5 +1,11 @@
 # @effect-aws/client-lambda
 
+## 0.3.0
+
+### Minor Changes
+
+- [`0a969d8`](https://github.com/floydspace/effect-aws/commit/0a969d8a74c3bf1b87ff6a1c8bf689af849797e1) Thanks [@floydspace](https://github.com/floydspace)! - upgrade effect peer version
+
 ## 0.2.2
 
 ### Patch Changes
