@@ -16,6 +16,7 @@ import {
   SFNClientInstanceTag,
   SFNClientOptions,
   SFNServiceEffect,
+  SdkError,
 } from "../src";
 
 import "aws-sdk-client-mock-jest";
@@ -147,7 +148,16 @@ describe("SFNClientImpl", () => {
 
     const result = await pipe(program, Effect.runPromiseExit);
 
-    expect(result).toEqual(Exit.fail(new Error("test")));
+    expect(result).toEqual(
+      Exit.fail(
+        SdkError({
+          ...new Error("test"),
+          name: "SdkError",
+          message: "test",
+          stack: expect.any(String),
+        }),
+      ),
+    );
     expect(sfnMock).toHaveReceivedCommandTimes(StartExecutionCommand, 1);
     expect(sfnMock).toHaveReceivedCommandWith(StartExecutionCommand, args);
   });

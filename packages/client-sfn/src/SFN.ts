@@ -71,6 +71,7 @@ import {
   RedriveExecutionCommand,
   RedriveExecutionCommandInput,
   RedriveExecutionCommandOutput,
+  SFNServiceException,
   SendTaskFailureCommand,
   SendTaskFailureCommandInput,
   SendTaskFailureCommandOutput,
@@ -109,7 +110,7 @@ import {
   UpdateStateMachineCommandOutput,
 } from "@aws-sdk/client-sfn";
 import { HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
-import * as Cause from "effect/Cause";
+import * as Data from "effect/Data";
 import * as Effect from "effect/Effect";
 import * as RR from "effect/ReadonlyRecord";
 import {
@@ -117,6 +118,38 @@ import {
   SFNClientInstanceLayer,
   SFNClientInstanceTag,
 } from "./Context";
+import {
+  ActivityDoesNotExistError,
+  ActivityLimitExceededError,
+  ActivityWorkerLimitExceededError,
+  ConflictError,
+  ExecutionAlreadyExistsError,
+  ExecutionDoesNotExistError,
+  ExecutionLimitExceededError,
+  ExecutionNotRedrivableError,
+  InvalidArnError,
+  InvalidDefinitionError,
+  InvalidExecutionInputError,
+  InvalidLoggingConfigurationError,
+  InvalidNameError,
+  InvalidOutputError,
+  InvalidTokenError,
+  InvalidTracingConfigurationError,
+  MissingRequiredParameterError,
+  ResourceNotFoundError,
+  SdkError,
+  ServiceQuotaExceededError,
+  StateMachineAlreadyExistsError,
+  StateMachineDeletingError,
+  StateMachineDoesNotExistError,
+  StateMachineLimitExceededError,
+  StateMachineTypeNotSupportedError,
+  TaggedException,
+  TaskDoesNotExistError,
+  TaskTimedOutError,
+  TooManyTagsError,
+  ValidationError,
+} from "./Errors";
 
 const commands = {
   CreateActivityCommand,
@@ -164,7 +197,11 @@ export interface SFNService {
   createActivity(
     args: CreateActivityCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, Cause.UnknownException, CreateActivityCommandOutput>;
+  ): Effect.Effect<
+    never,
+    SdkError | ActivityLimitExceededError | InvalidNameError | TooManyTagsError,
+    CreateActivityCommandOutput
+  >;
   /**
    * @see {@link CreateStateMachineCommand}
    */
@@ -173,7 +210,19 @@ export interface SFNService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     never,
-    Cause.UnknownException,
+    | SdkError
+    | ConflictError
+    | InvalidArnError
+    | InvalidDefinitionError
+    | InvalidLoggingConfigurationError
+    | InvalidNameError
+    | InvalidTracingConfigurationError
+    | StateMachineAlreadyExistsError
+    | StateMachineDeletingError
+    | StateMachineLimitExceededError
+    | StateMachineTypeNotSupportedError
+    | TooManyTagsError
+    | ValidationError,
     CreateStateMachineCommandOutput
   >;
   /**
@@ -184,7 +233,14 @@ export interface SFNService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     never,
-    Cause.UnknownException,
+    | SdkError
+    | ConflictError
+    | InvalidArnError
+    | InvalidNameError
+    | ResourceNotFoundError
+    | ServiceQuotaExceededError
+    | StateMachineDeletingError
+    | ValidationError,
     CreateStateMachineAliasCommandOutput
   >;
   /**
@@ -193,7 +249,11 @@ export interface SFNService {
   deleteActivity(
     args: DeleteActivityCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, Cause.UnknownException, DeleteActivityCommandOutput>;
+  ): Effect.Effect<
+    never,
+    SdkError | InvalidArnError,
+    DeleteActivityCommandOutput
+  >;
   /**
    * @see {@link DeleteStateMachineCommand}
    */
@@ -202,7 +262,7 @@ export interface SFNService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     never,
-    Cause.UnknownException,
+    SdkError | InvalidArnError | ValidationError,
     DeleteStateMachineCommandOutput
   >;
   /**
@@ -213,7 +273,11 @@ export interface SFNService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     never,
-    Cause.UnknownException,
+    | SdkError
+    | ConflictError
+    | InvalidArnError
+    | ResourceNotFoundError
+    | ValidationError,
     DeleteStateMachineAliasCommandOutput
   >;
   /**
@@ -224,7 +288,7 @@ export interface SFNService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     never,
-    Cause.UnknownException,
+    SdkError | ConflictError | InvalidArnError | ValidationError,
     DeleteStateMachineVersionCommandOutput
   >;
   /**
@@ -235,7 +299,7 @@ export interface SFNService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     never,
-    Cause.UnknownException,
+    SdkError | ActivityDoesNotExistError | InvalidArnError,
     DescribeActivityCommandOutput
   >;
   /**
@@ -246,7 +310,7 @@ export interface SFNService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     never,
-    Cause.UnknownException,
+    SdkError | ExecutionDoesNotExistError | InvalidArnError,
     DescribeExecutionCommandOutput
   >;
   /**
@@ -255,7 +319,11 @@ export interface SFNService {
   describeMapRun(
     args: DescribeMapRunCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, Cause.UnknownException, DescribeMapRunCommandOutput>;
+  ): Effect.Effect<
+    never,
+    SdkError | InvalidArnError | ResourceNotFoundError,
+    DescribeMapRunCommandOutput
+  >;
   /**
    * @see {@link DescribeStateMachineCommand}
    */
@@ -264,7 +332,7 @@ export interface SFNService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     never,
-    Cause.UnknownException,
+    SdkError | InvalidArnError | StateMachineDoesNotExistError,
     DescribeStateMachineCommandOutput
   >;
   /**
@@ -275,7 +343,7 @@ export interface SFNService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     never,
-    Cause.UnknownException,
+    SdkError | InvalidArnError | ResourceNotFoundError | ValidationError,
     DescribeStateMachineAliasCommandOutput
   >;
   /**
@@ -286,7 +354,7 @@ export interface SFNService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     never,
-    Cause.UnknownException,
+    SdkError | ExecutionDoesNotExistError | InvalidArnError,
     DescribeStateMachineForExecutionCommandOutput
   >;
   /**
@@ -295,7 +363,14 @@ export interface SFNService {
   getActivityTask(
     args: GetActivityTaskCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, Cause.UnknownException, GetActivityTaskCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | ActivityDoesNotExistError
+    | ActivityWorkerLimitExceededError
+    | InvalidArnError,
+    GetActivityTaskCommandOutput
+  >;
   /**
    * @see {@link GetExecutionHistoryCommand}
    */
@@ -304,7 +379,7 @@ export interface SFNService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     never,
-    Cause.UnknownException,
+    SdkError | ExecutionDoesNotExistError | InvalidArnError | InvalidTokenError,
     GetExecutionHistoryCommandOutput
   >;
   /**
@@ -313,21 +388,39 @@ export interface SFNService {
   listActivities(
     args: ListActivitiesCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, Cause.UnknownException, ListActivitiesCommandOutput>;
+  ): Effect.Effect<
+    never,
+    SdkError | InvalidTokenError,
+    ListActivitiesCommandOutput
+  >;
   /**
    * @see {@link ListExecutionsCommand}
    */
   listExecutions(
     args: ListExecutionsCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, Cause.UnknownException, ListExecutionsCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | InvalidArnError
+    | InvalidTokenError
+    | ResourceNotFoundError
+    | StateMachineDoesNotExistError
+    | StateMachineTypeNotSupportedError
+    | ValidationError,
+    ListExecutionsCommandOutput
+  >;
   /**
    * @see {@link ListMapRunsCommand}
    */
   listMapRuns(
     args: ListMapRunsCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, Cause.UnknownException, ListMapRunsCommandOutput>;
+  ): Effect.Effect<
+    never,
+    SdkError | ExecutionDoesNotExistError | InvalidArnError | InvalidTokenError,
+    ListMapRunsCommandOutput
+  >;
   /**
    * @see {@link ListStateMachineAliasesCommand}
    */
@@ -336,7 +429,12 @@ export interface SFNService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     never,
-    Cause.UnknownException,
+    | SdkError
+    | InvalidArnError
+    | InvalidTokenError
+    | ResourceNotFoundError
+    | StateMachineDeletingError
+    | StateMachineDoesNotExistError,
     ListStateMachineAliasesCommandOutput
   >;
   /**
@@ -347,7 +445,7 @@ export interface SFNService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     never,
-    Cause.UnknownException,
+    SdkError | InvalidTokenError,
     ListStateMachinesCommandOutput
   >;
   /**
@@ -358,7 +456,7 @@ export interface SFNService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     never,
-    Cause.UnknownException,
+    SdkError | InvalidArnError | InvalidTokenError | ValidationError,
     ListStateMachineVersionsCommandOutput
   >;
   /**
@@ -369,7 +467,7 @@ export interface SFNService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     never,
-    Cause.UnknownException,
+    SdkError | InvalidArnError | ResourceNotFoundError,
     ListTagsForResourceCommandOutput
   >;
   /**
@@ -380,7 +478,13 @@ export interface SFNService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     never,
-    Cause.UnknownException,
+    | SdkError
+    | ConflictError
+    | InvalidArnError
+    | ServiceQuotaExceededError
+    | StateMachineDeletingError
+    | StateMachineDoesNotExistError
+    | ValidationError,
     PublishStateMachineVersionCommandOutput
   >;
   /**
@@ -391,7 +495,11 @@ export interface SFNService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     never,
-    Cause.UnknownException,
+    | SdkError
+    | ExecutionDoesNotExistError
+    | ExecutionLimitExceededError
+    | ExecutionNotRedrivableError
+    | InvalidArnError,
     RedriveExecutionCommandOutput
   >;
   /**
@@ -400,7 +508,11 @@ export interface SFNService {
   sendTaskFailure(
     args: SendTaskFailureCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, Cause.UnknownException, SendTaskFailureCommandOutput>;
+  ): Effect.Effect<
+    never,
+    SdkError | InvalidTokenError | TaskDoesNotExistError | TaskTimedOutError,
+    SendTaskFailureCommandOutput
+  >;
   /**
    * @see {@link SendTaskHeartbeatCommand}
    */
@@ -409,7 +521,7 @@ export interface SFNService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     never,
-    Cause.UnknownException,
+    SdkError | InvalidTokenError | TaskDoesNotExistError | TaskTimedOutError,
     SendTaskHeartbeatCommandOutput
   >;
   /**
@@ -418,14 +530,34 @@ export interface SFNService {
   sendTaskSuccess(
     args: SendTaskSuccessCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, Cause.UnknownException, SendTaskSuccessCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | InvalidOutputError
+    | InvalidTokenError
+    | TaskDoesNotExistError
+    | TaskTimedOutError,
+    SendTaskSuccessCommandOutput
+  >;
   /**
    * @see {@link StartExecutionCommand}
    */
   startExecution(
     args: StartExecutionCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, Cause.UnknownException, StartExecutionCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | ExecutionAlreadyExistsError
+    | ExecutionLimitExceededError
+    | InvalidArnError
+    | InvalidExecutionInputError
+    | InvalidNameError
+    | StateMachineDeletingError
+    | StateMachineDoesNotExistError
+    | ValidationError,
+    StartExecutionCommandOutput
+  >;
   /**
    * @see {@link StartSyncExecutionCommand}
    */
@@ -434,7 +566,13 @@ export interface SFNService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     never,
-    Cause.UnknownException,
+    | SdkError
+    | InvalidArnError
+    | InvalidExecutionInputError
+    | InvalidNameError
+    | StateMachineDeletingError
+    | StateMachineDoesNotExistError
+    | StateMachineTypeNotSupportedError,
     StartSyncExecutionCommandOutput
   >;
   /**
@@ -443,35 +581,59 @@ export interface SFNService {
   stopExecution(
     args: StopExecutionCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, Cause.UnknownException, StopExecutionCommandOutput>;
+  ): Effect.Effect<
+    never,
+    SdkError | ExecutionDoesNotExistError | InvalidArnError | ValidationError,
+    StopExecutionCommandOutput
+  >;
   /**
    * @see {@link TagResourceCommand}
    */
   tagResource(
     args: TagResourceCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, Cause.UnknownException, TagResourceCommandOutput>;
+  ): Effect.Effect<
+    never,
+    SdkError | InvalidArnError | ResourceNotFoundError | TooManyTagsError,
+    TagResourceCommandOutput
+  >;
   /**
    * @see {@link TestStateCommand}
    */
   testState(
     args: TestStateCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, Cause.UnknownException, TestStateCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | InvalidArnError
+    | InvalidDefinitionError
+    | InvalidExecutionInputError
+    | ValidationError,
+    TestStateCommandOutput
+  >;
   /**
    * @see {@link UntagResourceCommand}
    */
   untagResource(
     args: UntagResourceCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, Cause.UnknownException, UntagResourceCommandOutput>;
+  ): Effect.Effect<
+    never,
+    SdkError | InvalidArnError | ResourceNotFoundError,
+    UntagResourceCommandOutput
+  >;
   /**
    * @see {@link UpdateMapRunCommand}
    */
   updateMapRun(
     args: UpdateMapRunCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, Cause.UnknownException, UpdateMapRunCommandOutput>;
+  ): Effect.Effect<
+    never,
+    SdkError | InvalidArnError | ResourceNotFoundError | ValidationError,
+    UpdateMapRunCommandOutput
+  >;
   /**
    * @see {@link UpdateStateMachineCommand}
    */
@@ -480,7 +642,17 @@ export interface SFNService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     never,
-    Cause.UnknownException,
+    | SdkError
+    | ConflictError
+    | InvalidArnError
+    | InvalidDefinitionError
+    | InvalidLoggingConfigurationError
+    | InvalidTracingConfigurationError
+    | MissingRequiredParameterError
+    | ServiceQuotaExceededError
+    | StateMachineDeletingError
+    | StateMachineDoesNotExistError
+    | ValidationError,
     UpdateStateMachineCommandOutput
   >;
   /**
@@ -491,7 +663,12 @@ export interface SFNService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     never,
-    Cause.UnknownException,
+    | SdkError
+    | ConflictError
+    | InvalidArnError
+    | ResourceNotFoundError
+    | StateMachineDeletingError
+    | ValidationError,
     UpdateStateMachineAliasCommandOutput
   >;
 }
@@ -502,9 +679,31 @@ export const BaseSFNServiceEffect = Effect.gen(function* (_) {
   return RR.toEntries(commands).reduce((acc, [command]) => {
     const CommandCtor = commands[command] as any;
     const methodImpl = (args: any, options: any) =>
-      Effect.tryPromise(() =>
-        client.send(new CommandCtor(args), options ?? {}),
-      );
+      Effect.tryPromise({
+        try: () => client.send(new CommandCtor(args), options ?? {}),
+        catch: (e) => {
+          if (e instanceof SFNServiceException) {
+            const ServiceException = Data.tagged<
+              TaggedException<SFNServiceException>
+            >(e.name);
+
+            return ServiceException({
+              ...e,
+              message: e.message,
+              stack: e.stack,
+            });
+          }
+          if (e instanceof Error) {
+            return SdkError({
+              ...e,
+              name: "SdkError",
+              message: e.message,
+              stack: e.stack,
+            });
+          }
+          throw e;
+        },
+      });
     const methodName = (command[0].toLowerCase() + command.slice(1)).replace(
       /Command$/,
       "",
