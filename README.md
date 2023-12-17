@@ -13,6 +13,7 @@ Effect Docs: https://www.effect.website<br>
 - [x] SNS Client
 - [x] EventBridge Client
 - [x] Lambda Client
+- [x] Step Functions Client
 - [ ] Other AWS Clients (By Request)
 
 # Contributing Guidelines

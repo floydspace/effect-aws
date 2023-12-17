@@ -101,6 +101,14 @@ new TypeScriptLibProject({
   peerDeps: commonPeerDeps,
 });
 
+new TypeScriptLibProject({
+  parent: project,
+  name: "client-sfn",
+  deps: [...commonDeps, "@aws-sdk/client-sfn@^3"],
+  devDeps: [...commonPeerDeps, ...commonDevDeps],
+  peerDeps: commonPeerDeps,
+});
+
 project.addGitIgnore(".direnv/"); // flake environment creates .direnv folder
 
 project.synth();

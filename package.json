@@ -81,6 +81,7 @@
       "packages/client-eventbridge",
       "packages/client-lambda",
       "packages/client-s3",
+      "packages/client-sfn",
       "packages/client-sns",
       "packages/client-sqs",
       "packages/powertools-logger"
