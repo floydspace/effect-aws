@@ -1,5 +1,11 @@
 # @effect-aws/client-sns
 
+## 0.6.0
+
+### Minor Changes
+
+- [`744df3c`](https://github.com/floydspace/effect-aws/commit/744df3ca6406b3a35e3066d5fe11ca7082c4c454) Thanks [@floydspace](https://github.com/floydspace)! - upgrade effect dependency
+
 ## 0.5.0
 
 ### Minor Changes
