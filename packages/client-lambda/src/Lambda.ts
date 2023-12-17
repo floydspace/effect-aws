@@ -199,6 +199,7 @@ import {
   UpdateFunctionUrlConfigCommandOutput,
 } from "@aws-sdk/client-lambda";
 import { HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
+import * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as RR from "effect/ReadonlyRecord";
 import {
@@ -283,7 +284,11 @@ export interface LambdaService {
   addLayerVersionPermission(
     args: AddLayerVersionPermissionCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, AddLayerVersionPermissionCommandOutput>;
+  ): Effect.Effect<
+    never,
+    Cause.UnknownException,
+    AddLayerVersionPermissionCommandOutput
+  >;
 
   /**
    * @see {@link AddPermissionCommand}
@@ -291,7 +296,7 @@ export interface LambdaService {
   addPermission(
     args: AddPermissionCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, AddPermissionCommandOutput>;
+  ): Effect.Effect<never, Cause.UnknownException, AddPermissionCommandOutput>;
 
   /**
    * @see {@link CreateAliasCommand}
@@ -299,7 +304,7 @@ export interface LambdaService {
   createAlias(
     args: CreateAliasCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, CreateAliasCommandOutput>;
+  ): Effect.Effect<never, Cause.UnknownException, CreateAliasCommandOutput>;
 
   /**
    * @see {@link CreateCodeSigningConfigCommand}
@@ -307,7 +312,11 @@ export interface LambdaService {
   createCodeSigningConfig(
     args: CreateCodeSigningConfigCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, CreateCodeSigningConfigCommandOutput>;
+  ): Effect.Effect<
+    never,
+    Cause.UnknownException,
+    CreateCodeSigningConfigCommandOutput
+  >;
 
   /**
    * @see {@link CreateEventSourceMappingCommand}
@@ -315,7 +324,11 @@ export interface LambdaService {
   createEventSourceMapping(
     args: CreateEventSourceMappingCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, CreateEventSourceMappingCommandOutput>;
+  ): Effect.Effect<
+    never,
+    Cause.UnknownException,
+    CreateEventSourceMappingCommandOutput
+  >;
 
   /**
    * @see {@link CreateFunctionCommand}
@@ -323,7 +336,7 @@ export interface LambdaService {
   createFunction(
     args: CreateFunctionCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, CreateFunctionCommandOutput>;
+  ): Effect.Effect<never, Cause.UnknownException, CreateFunctionCommandOutput>;
 
   /**
    * @see {@link CreateFunctionUrlConfigCommand}
@@ -331,7 +344,11 @@ export interface LambdaService {
   createFunctionUrlConfig(
     args: CreateFunctionUrlConfigCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, CreateFunctionUrlConfigCommandOutput>;
+  ): Effect.Effect<
+    never,
+    Cause.UnknownException,
+    CreateFunctionUrlConfigCommandOutput
+  >;
 
   /**
    * @see {@link DeleteAliasCommand}
@@ -339,7 +356,7 @@ export interface LambdaService {
   deleteAlias(
     args: DeleteAliasCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, DeleteAliasCommandOutput>;
+  ): Effect.Effect<never, Cause.UnknownException, DeleteAliasCommandOutput>;
 
   /**
    * @see {@link DeleteCodeSigningConfigCommand}
@@ -347,7 +364,11 @@ export interface LambdaService {
   deleteCodeSigningConfig(
     args: DeleteCodeSigningConfigCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, DeleteCodeSigningConfigCommandOutput>;
+  ): Effect.Effect<
+    never,
+    Cause.UnknownException,
+    DeleteCodeSigningConfigCommandOutput
+  >;
 
   /**
    * @see {@link DeleteEventSourceMappingCommand}
@@ -355,7 +376,11 @@ export interface LambdaService {
   deleteEventSourceMapping(
     args: DeleteEventSourceMappingCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, DeleteEventSourceMappingCommandOutput>;
+  ): Effect.Effect<
+    never,
+    Cause.UnknownException,
+    DeleteEventSourceMappingCommandOutput
+  >;
 
   /**
    * @see {@link DeleteFunctionCommand}
@@ -363,7 +388,7 @@ export interface LambdaService {
   deleteFunction(
     args: DeleteFunctionCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, DeleteFunctionCommandOutput>;
+  ): Effect.Effect<never, Cause.UnknownException, DeleteFunctionCommandOutput>;
 
   /**
    * @see {@link DeleteFunctionCodeSigningConfigCommand}
@@ -373,7 +398,7 @@ export interface LambdaService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     never,
-    unknown,
+    Cause.UnknownException,
     DeleteFunctionCodeSigningConfigCommandOutput
   >;
 
@@ -383,7 +408,11 @@ export interface LambdaService {
   deleteFunctionConcurrency(
     args: DeleteFunctionConcurrencyCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, DeleteFunctionConcurrencyCommandOutput>;
+  ): Effect.Effect<
+    never,
+    Cause.UnknownException,
+    DeleteFunctionConcurrencyCommandOutput
+  >;
 
   /**
    * @see {@link DeleteFunctionEventInvokeConfigCommand}
@@ -393,7 +422,7 @@ export interface LambdaService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     never,
-    unknown,
+    Cause.UnknownException,
     DeleteFunctionEventInvokeConfigCommandOutput
   >;
 
@@ -403,7 +432,11 @@ export interface LambdaService {
   deleteFunctionUrlConfig(
     args: DeleteFunctionUrlConfigCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, DeleteFunctionUrlConfigCommandOutput>;
+  ): Effect.Effect<
+    never,
+    Cause.UnknownException,
+    DeleteFunctionUrlConfigCommandOutput
+  >;
 
   /**
    * @see {@link DeleteLayerVersionCommand}
@@ -411,7 +444,11 @@ export interface LambdaService {
   deleteLayerVersion(
     args: DeleteLayerVersionCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, DeleteLayerVersionCommandOutput>;
+  ): Effect.Effect<
+    never,
+    Cause.UnknownException,
+    DeleteLayerVersionCommandOutput
+  >;
 
   /**
    * @see {@link DeleteProvisionedConcurrencyConfigCommand}
@@ -421,7 +458,7 @@ export interface LambdaService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     never,
-    unknown,
+    Cause.UnknownException,
     DeleteProvisionedConcurrencyConfigCommandOutput
   >;
 
@@ -431,7 +468,11 @@ export interface LambdaService {
   getAccountSettings(
     args: GetAccountSettingsCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, GetAccountSettingsCommandOutput>;
+  ): Effect.Effect<
+    never,
+    Cause.UnknownException,
+    GetAccountSettingsCommandOutput
+  >;
 
   /**
    * @see {@link GetAliasCommand}
@@ -439,7 +480,7 @@ export interface LambdaService {
   getAlias(
     args: GetAliasCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, GetAliasCommandOutput>;
+  ): Effect.Effect<never, Cause.UnknownException, GetAliasCommandOutput>;
 
   /**
    * @see {@link GetCodeSigningConfigCommand}
@@ -447,7 +488,11 @@ export interface LambdaService {
   getCodeSigningConfig(
     args: GetCodeSigningConfigCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, GetCodeSigningConfigCommandOutput>;
+  ): Effect.Effect<
+    never,
+    Cause.UnknownException,
+    GetCodeSigningConfigCommandOutput
+  >;
 
   /**
    * @see {@link GetEventSourceMappingCommand}
@@ -455,7 +500,11 @@ export interface LambdaService {
   getEventSourceMapping(
     args: GetEventSourceMappingCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, GetEventSourceMappingCommandOutput>;
+  ): Effect.Effect<
+    never,
+    Cause.UnknownException,
+    GetEventSourceMappingCommandOutput
+  >;
 
   /**
    * @see {@link GetFunctionCommand}
@@ -463,7 +512,7 @@ export interface LambdaService {
   getFunction(
     args: GetFunctionCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, GetFunctionCommandOutput>;
+  ): Effect.Effect<never, Cause.UnknownException, GetFunctionCommandOutput>;
 
   /**
    * @see {@link GetFunctionCodeSigningConfigCommand}
@@ -471,7 +520,11 @@ export interface LambdaService {
   getFunctionCodeSigningConfig(
     args: GetFunctionCodeSigningConfigCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, GetFunctionCodeSigningConfigCommandOutput>;
+  ): Effect.Effect<
+    never,
+    Cause.UnknownException,
+    GetFunctionCodeSigningConfigCommandOutput
+  >;
 
   /**
    * @see {@link GetFunctionConcurrencyCommand}
@@ -479,7 +532,11 @@ export interface LambdaService {
   getFunctionConcurrency(
     args: GetFunctionConcurrencyCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, GetFunctionConcurrencyCommandOutput>;
+  ): Effect.Effect<
+    never,
+    Cause.UnknownException,
+    GetFunctionConcurrencyCommandOutput
+  >;
 
   /**
    * @see {@link GetFunctionConfigurationCommand}
@@ -487,7 +544,11 @@ export interface LambdaService {
   getFunctionConfiguration(
     args: GetFunctionConfigurationCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, GetFunctionConfigurationCommandOutput>;
+  ): Effect.Effect<
+    never,
+    Cause.UnknownException,
+    GetFunctionConfigurationCommandOutput
+  >;
 
   /**
    * @see {@link GetFunctionEventInvokeConfigCommand}
@@ -495,7 +556,11 @@ export interface LambdaService {
   getFunctionEventInvokeConfig(
     args: GetFunctionEventInvokeConfigCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, GetFunctionEventInvokeConfigCommandOutput>;
+  ): Effect.Effect<
+    never,
+    Cause.UnknownException,
+    GetFunctionEventInvokeConfigCommandOutput
+  >;
 
   /**
    * @see {@link GetFunctionUrlConfigCommand}
@@ -503,7 +568,11 @@ export interface LambdaService {
   getFunctionUrlConfig(
     args: GetFunctionUrlConfigCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, GetFunctionUrlConfigCommandOutput>;
+  ): Effect.Effect<
+    never,
+    Cause.UnknownException,
+    GetFunctionUrlConfigCommandOutput
+  >;
 
   /**
    * @see {@link GetLayerVersionCommand}
@@ -511,7 +580,7 @@ export interface LambdaService {
   getLayerVersion(
     args: GetLayerVersionCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, GetLayerVersionCommandOutput>;
+  ): Effect.Effect<never, Cause.UnknownException, GetLayerVersionCommandOutput>;
 
   /**
    * @see {@link GetLayerVersionByArnCommand}
@@ -519,7 +588,11 @@ export interface LambdaService {
   getLayerVersionByArn(
     args: GetLayerVersionByArnCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, GetLayerVersionByArnCommandOutput>;
+  ): Effect.Effect<
+    never,
+    Cause.UnknownException,
+    GetLayerVersionByArnCommandOutput
+  >;
 
   /**
    * @see {@link GetLayerVersionPolicyCommand}
@@ -527,7 +600,11 @@ export interface LambdaService {
   getLayerVersionPolicy(
     args: GetLayerVersionPolicyCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, GetLayerVersionPolicyCommandOutput>;
+  ): Effect.Effect<
+    never,
+    Cause.UnknownException,
+    GetLayerVersionPolicyCommandOutput
+  >;
 
   /**
    * @see {@link GetPolicyCommand}
@@ -535,7 +612,7 @@ export interface LambdaService {
   getPolicy(
     args: GetPolicyCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, GetPolicyCommandOutput>;
+  ): Effect.Effect<never, Cause.UnknownException, GetPolicyCommandOutput>;
 
   /**
    * @see {@link GetProvisionedConcurrencyConfigCommand}
@@ -545,7 +622,7 @@ export interface LambdaService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     never,
-    unknown,
+    Cause.UnknownException,
     GetProvisionedConcurrencyConfigCommandOutput
   >;
 
@@ -555,7 +632,11 @@ export interface LambdaService {
   getRuntimeManagementConfig(
     args: GetRuntimeManagementConfigCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, GetRuntimeManagementConfigCommandOutput>;
+  ): Effect.Effect<
+    never,
+    Cause.UnknownException,
+    GetRuntimeManagementConfigCommandOutput
+  >;
 
   /**
    * @see {@link InvokeCommand}
@@ -563,7 +644,7 @@ export interface LambdaService {
   invoke(
     args: InvokeCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, InvokeCommandOutput>;
+  ): Effect.Effect<never, Cause.UnknownException, InvokeCommandOutput>;
 
   /**
    * @see {@link InvokeAsyncCommand}
@@ -571,7 +652,7 @@ export interface LambdaService {
   invokeAsync(
     args: InvokeAsyncCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, InvokeAsyncCommandOutput>;
+  ): Effect.Effect<never, Cause.UnknownException, InvokeAsyncCommandOutput>;
 
   /**
    * @see {@link InvokeWithResponseStreamCommand}
@@ -579,7 +660,11 @@ export interface LambdaService {
   invokeWithResponseStream(
     args: InvokeWithResponseStreamCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, InvokeWithResponseStreamCommandOutput>;
+  ): Effect.Effect<
+    never,
+    Cause.UnknownException,
+    InvokeWithResponseStreamCommandOutput
+  >;
 
   /**
    * @see {@link ListAliasesCommand}
@@ -587,7 +672,7 @@ export interface LambdaService {
   listAliases(
     args: ListAliasesCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, ListAliasesCommandOutput>;
+  ): Effect.Effect<never, Cause.UnknownException, ListAliasesCommandOutput>;
 
   /**
    * @see {@link ListCodeSigningConfigsCommand}
@@ -595,7 +680,11 @@ export interface LambdaService {
   listCodeSigningConfigs(
     args: ListCodeSigningConfigsCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, ListCodeSigningConfigsCommandOutput>;
+  ): Effect.Effect<
+    never,
+    Cause.UnknownException,
+    ListCodeSigningConfigsCommandOutput
+  >;
 
   /**
    * @see {@link ListEventSourceMappingsCommand}
@@ -603,7 +692,11 @@ export interface LambdaService {
   listEventSourceMappings(
     args: ListEventSourceMappingsCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, ListEventSourceMappingsCommandOutput>;
+  ): Effect.Effect<
+    never,
+    Cause.UnknownException,
+    ListEventSourceMappingsCommandOutput
+  >;
 
   /**
    * @see {@link ListFunctionEventInvokeConfigsCommand}
@@ -611,7 +704,11 @@ export interface LambdaService {
   listFunctionEventInvokeConfigs(
     args: ListFunctionEventInvokeConfigsCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, ListFunctionEventInvokeConfigsCommandOutput>;
+  ): Effect.Effect<
+    never,
+    Cause.UnknownException,
+    ListFunctionEventInvokeConfigsCommandOutput
+  >;
 
   /**
    * @see {@link ListFunctionsCommand}
@@ -619,7 +716,7 @@ export interface LambdaService {
   listFunctions(
     args: ListFunctionsCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, ListFunctionsCommandOutput>;
+  ): Effect.Effect<never, Cause.UnknownException, ListFunctionsCommandOutput>;
 
   /**
    * @see {@link ListFunctionsByCodeSigningConfigCommand}
@@ -629,7 +726,7 @@ export interface LambdaService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     never,
-    unknown,
+    Cause.UnknownException,
     ListFunctionsByCodeSigningConfigCommandOutput
   >;
 
@@ -639,7 +736,11 @@ export interface LambdaService {
   listFunctionUrlConfigs(
     args: ListFunctionUrlConfigsCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, ListFunctionUrlConfigsCommandOutput>;
+  ): Effect.Effect<
+    never,
+    Cause.UnknownException,
+    ListFunctionUrlConfigsCommandOutput
+  >;
 
   /**
    * @see {@link ListLayersCommand}
@@ -647,7 +748,7 @@ export interface LambdaService {
   listLayers(
     args: ListLayersCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, ListLayersCommandOutput>;
+  ): Effect.Effect<never, Cause.UnknownException, ListLayersCommandOutput>;
 
   /**
    * @see {@link ListLayerVersionsCommand}
@@ -655,7 +756,11 @@ export interface LambdaService {
   listLayerVersions(
     args: ListLayerVersionsCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, ListLayerVersionsCommandOutput>;
+  ): Effect.Effect<
+    never,
+    Cause.UnknownException,
+    ListLayerVersionsCommandOutput
+  >;
 
   /**
    * @see {@link ListProvisionedConcurrencyConfigsCommand}
@@ -665,7 +770,7 @@ export interface LambdaService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     never,
-    unknown,
+    Cause.UnknownException,
     ListProvisionedConcurrencyConfigsCommandOutput
   >;
 
@@ -675,7 +780,7 @@ export interface LambdaService {
   listTags(
     args: ListTagsCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, ListTagsCommandOutput>;
+  ): Effect.Effect<never, Cause.UnknownException, ListTagsCommandOutput>;
 
   /**
    * @see {@link ListVersionsByFunctionCommand}
@@ -683,7 +788,11 @@ export interface LambdaService {
   listVersionsByFunction(
     args: ListVersionsByFunctionCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, ListVersionsByFunctionCommandOutput>;
+  ): Effect.Effect<
+    never,
+    Cause.UnknownException,
+    ListVersionsByFunctionCommandOutput
+  >;
 
   /**
    * @see {@link PublishLayerVersionCommand}
@@ -691,7 +800,11 @@ export interface LambdaService {
   publishLayerVersion(
     args: PublishLayerVersionCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, PublishLayerVersionCommandOutput>;
+  ): Effect.Effect<
+    never,
+    Cause.UnknownException,
+    PublishLayerVersionCommandOutput
+  >;
 
   /**
    * @see {@link PublishVersionCommand}
@@ -699,7 +812,7 @@ export interface LambdaService {
   publishVersion(
     args: PublishVersionCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, PublishVersionCommandOutput>;
+  ): Effect.Effect<never, Cause.UnknownException, PublishVersionCommandOutput>;
 
   /**
    * @see {@link PutFunctionCodeSigningConfigCommand}
@@ -707,7 +820,11 @@ export interface LambdaService {
   putFunctionCodeSigningConfig(
     args: PutFunctionCodeSigningConfigCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, PutFunctionCodeSigningConfigCommandOutput>;
+  ): Effect.Effect<
+    never,
+    Cause.UnknownException,
+    PutFunctionCodeSigningConfigCommandOutput
+  >;
 
   /**
    * @see {@link PutFunctionConcurrencyCommand}
@@ -715,7 +832,11 @@ export interface LambdaService {
   putFunctionConcurrency(
     args: PutFunctionConcurrencyCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, PutFunctionConcurrencyCommandOutput>;
+  ): Effect.Effect<
+    never,
+    Cause.UnknownException,
+    PutFunctionConcurrencyCommandOutput
+  >;
 
   /**
    * @see {@link PutFunctionEventInvokeConfigCommand}
@@ -723,7 +844,11 @@ export interface LambdaService {
   putFunctionEventInvokeConfig(
     args: PutFunctionEventInvokeConfigCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, PutFunctionEventInvokeConfigCommandOutput>;
+  ): Effect.Effect<
+    never,
+    Cause.UnknownException,
+    PutFunctionEventInvokeConfigCommandOutput
+  >;
 
   /**
    * @see {@link PutProvisionedConcurrencyConfigCommand}
@@ -733,7 +858,7 @@ export interface LambdaService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     never,
-    unknown,
+    Cause.UnknownException,
     PutProvisionedConcurrencyConfigCommandOutput
   >;
 
@@ -743,7 +868,11 @@ export interface LambdaService {
   putRuntimeManagementConfig(
     args: PutRuntimeManagementConfigCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, PutRuntimeManagementConfigCommandOutput>;
+  ): Effect.Effect<
+    never,
+    Cause.UnknownException,
+    PutRuntimeManagementConfigCommandOutput
+  >;
 
   /**
    * @see {@link RemoveLayerVersionPermissionCommand}
@@ -751,7 +880,11 @@ export interface LambdaService {
   removeLayerVersionPermission(
     args: RemoveLayerVersionPermissionCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, RemoveLayerVersionPermissionCommandOutput>;
+  ): Effect.Effect<
+    never,
+    Cause.UnknownException,
+    RemoveLayerVersionPermissionCommandOutput
+  >;
 
   /**
    * @see {@link RemovePermissionCommand}
@@ -759,7 +892,11 @@ export interface LambdaService {
   removePermission(
     args: RemovePermissionCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, RemovePermissionCommandOutput>;
+  ): Effect.Effect<
+    never,
+    Cause.UnknownException,
+    RemovePermissionCommandOutput
+  >;
 
   /**
    * @see {@link TagResourceCommand}
@@ -767,7 +904,7 @@ export interface LambdaService {
   tagResource(
     args: TagResourceCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, TagResourceCommandOutput>;
+  ): Effect.Effect<never, Cause.UnknownException, TagResourceCommandOutput>;
 
   /**
    * @see {@link UntagResourceCommand}
@@ -775,7 +912,7 @@ export interface LambdaService {
   untagResource(
     args: UntagResourceCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, UntagResourceCommandOutput>;
+  ): Effect.Effect<never, Cause.UnknownException, UntagResourceCommandOutput>;
 
   /**
    * @see {@link UpdateAliasCommand}
@@ -783,7 +920,7 @@ export interface LambdaService {
   updateAlias(
     args: UpdateAliasCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, UpdateAliasCommandOutput>;
+  ): Effect.Effect<never, Cause.UnknownException, UpdateAliasCommandOutput>;
 
   /**
    * @see {@link UpdateCodeSigningConfigCommand}
@@ -791,7 +928,11 @@ export interface LambdaService {
   updateCodeSigningConfig(
     args: UpdateCodeSigningConfigCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, UpdateCodeSigningConfigCommandOutput>;
+  ): Effect.Effect<
+    never,
+    Cause.UnknownException,
+    UpdateCodeSigningConfigCommandOutput
+  >;
 
   /**
    * @see {@link UpdateEventSourceMappingCommand}
@@ -799,7 +940,11 @@ export interface LambdaService {
   updateEventSourceMapping(
     args: UpdateEventSourceMappingCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, UpdateEventSourceMappingCommandOutput>;
+  ): Effect.Effect<
+    never,
+    Cause.UnknownException,
+    UpdateEventSourceMappingCommandOutput
+  >;
 
   /**
    * @see {@link UpdateFunctionCodeCommand}
@@ -807,7 +952,11 @@ export interface LambdaService {
   updateFunctionCode(
     args: UpdateFunctionCodeCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, UpdateFunctionCodeCommandOutput>;
+  ): Effect.Effect<
+    never,
+    Cause.UnknownException,
+    UpdateFunctionCodeCommandOutput
+  >;
 
   /**
    * @see {@link UpdateFunctionConfigurationCommand}
@@ -815,7 +964,11 @@ export interface LambdaService {
   updateFunctionConfiguration(
     args: UpdateFunctionConfigurationCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, UpdateFunctionConfigurationCommandOutput>;
+  ): Effect.Effect<
+    never,
+    Cause.UnknownException,
+    UpdateFunctionConfigurationCommandOutput
+  >;
 
   /**
    * @see {@link UpdateFunctionEventInvokeConfigCommand}
@@ -825,7 +978,7 @@ export interface LambdaService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     never,
-    unknown,
+    Cause.UnknownException,
     UpdateFunctionEventInvokeConfigCommandOutput
   >;
 
@@ -835,7 +988,11 @@ export interface LambdaService {
   updateFunctionUrlConfig(
     args: UpdateFunctionUrlConfigCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, UpdateFunctionUrlConfigCommandOutput>;
+  ): Effect.Effect<
+    never,
+    Cause.UnknownException,
+    UpdateFunctionUrlConfigCommandOutput
+  >;
 }
 
 export const BaseLambdaServiceEffect = Effect.gen(function* (_) {

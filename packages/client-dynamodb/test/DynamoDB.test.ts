@@ -112,7 +112,6 @@ describe("DynamoDBClientImpl", () => {
     );
 
     const DynamoDBClientInstanceLayer = Layer.provide(
-      DefaultDynamoDBClientConfigLayer,
       Layer.effect(
         DynamoDBClientInstanceTag,
         DynamoDBClientConfigTag.pipe(
@@ -122,6 +121,7 @@ describe("DynamoDBClientImpl", () => {
           ),
         ),
       ),
+      DefaultDynamoDBClientConfigLayer,
     );
 
     const result = await pipe(

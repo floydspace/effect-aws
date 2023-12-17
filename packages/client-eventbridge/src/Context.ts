@@ -47,5 +47,5 @@ export const EventBridgeClientInstanceLayer = Layer.effect(
 
 export const DefaultEventBridgeClientInstanceLayer =
   EventBridgeClientInstanceLayer.pipe(
-    Layer.use(DefaultEventBridgeClientConfigLayer),
+    Layer.provide(DefaultEventBridgeClientConfigLayer),
   );

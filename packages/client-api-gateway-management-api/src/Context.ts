@@ -49,5 +49,5 @@ export const ApiGatewayManagementApiClientInstanceLayer = Layer.effect(
 
 export const DefaultApiGatewayManagementApiClientInstanceLayer =
   ApiGatewayManagementApiClientInstanceLayer.pipe(
-    Layer.use(DefaultApiGatewayManagementApiClientConfigLayer),
+    Layer.provide(DefaultApiGatewayManagementApiClientConfigLayer),
   );

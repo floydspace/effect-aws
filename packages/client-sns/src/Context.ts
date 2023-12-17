@@ -41,5 +41,5 @@ export const SNSClientInstanceLayer = Layer.effect(
 );
 
 export const DefaultSNSClientInstanceLayer = SNSClientInstanceLayer.pipe(
-  Layer.use(DefaultSNSClientConfigLayer),
+  Layer.provide(DefaultSNSClientConfigLayer),
 );

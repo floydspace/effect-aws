@@ -99,7 +99,6 @@ describe("LambdaClientImpl", () => {
     );
 
     const LambdaClientInstanceLayer = Layer.provide(
-      DefaultLambdaClientConfigLayer,
       Layer.effect(
         LambdaClientInstanceTag,
         LambdaClientConfigTag.pipe(
@@ -108,6 +107,7 @@ describe("LambdaClientImpl", () => {
           ),
         ),
       ),
+      DefaultLambdaClientConfigLayer,
     );
 
     const result = await pipe(

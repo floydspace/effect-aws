@@ -70,6 +70,7 @@ import {
   UntagQueueCommandOutput,
 } from "@aws-sdk/client-sqs";
 import { HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
+import * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as RR from "effect/ReadonlyRecord";
 import {
@@ -111,7 +112,7 @@ export interface SQSService {
   addPermission(
     args: AddPermissionCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, AddPermissionCommandOutput>;
+  ): Effect.Effect<never, Cause.UnknownException, AddPermissionCommandOutput>;
 
   /**
    * @see {@link CancelMessageMoveTaskCommand}
@@ -119,7 +120,11 @@ export interface SQSService {
   cancelMessageMoveTask(
     args: CancelMessageMoveTaskCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, CancelMessageMoveTaskCommandOutput>;
+  ): Effect.Effect<
+    never,
+    Cause.UnknownException,
+    CancelMessageMoveTaskCommandOutput
+  >;
 
   /**
    * @see {@link ChangeMessageVisibilityCommand}
@@ -127,7 +132,11 @@ export interface SQSService {
   changeMessageVisibility(
     args: ChangeMessageVisibilityCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, ChangeMessageVisibilityCommandOutput>;
+  ): Effect.Effect<
+    never,
+    Cause.UnknownException,
+    ChangeMessageVisibilityCommandOutput
+  >;
 
   /**
    * @see {@link ChangeMessageVisibilityBatchCommand}
@@ -135,7 +144,11 @@ export interface SQSService {
   changeMessageVisibilityBatch(
     args: ChangeMessageVisibilityBatchCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, ChangeMessageVisibilityBatchCommandOutput>;
+  ): Effect.Effect<
+    never,
+    Cause.UnknownException,
+    ChangeMessageVisibilityBatchCommandOutput
+  >;
 
   /**
    * @see {@link CreateQueueCommand}
@@ -143,7 +156,7 @@ export interface SQSService {
   createQueue(
     args: CreateQueueCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, CreateQueueCommandOutput>;
+  ): Effect.Effect<never, Cause.UnknownException, CreateQueueCommandOutput>;
 
   /**
    * @see {@link DeleteMessageCommand}
@@ -151,7 +164,7 @@ export interface SQSService {
   deleteMessage(
     args: DeleteMessageCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, DeleteMessageCommandOutput>;
+  ): Effect.Effect<never, Cause.UnknownException, DeleteMessageCommandOutput>;
 
   /**
    * @see {@link DeleteMessageBatchCommand}
@@ -159,7 +172,11 @@ export interface SQSService {
   deleteMessageBatch(
     args: DeleteMessageBatchCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, DeleteMessageBatchCommandOutput>;
+  ): Effect.Effect<
+    never,
+    Cause.UnknownException,
+    DeleteMessageBatchCommandOutput
+  >;
 
   /**
    * @see {@link DeleteQueueCommand}
@@ -167,7 +184,7 @@ export interface SQSService {
   deleteQueue(
     args: DeleteQueueCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, DeleteQueueCommandOutput>;
+  ): Effect.Effect<never, Cause.UnknownException, DeleteQueueCommandOutput>;
 
   /**
    * @see {@link GetQueueAttributesCommand}
@@ -175,7 +192,11 @@ export interface SQSService {
   getQueueAttributes(
     args: GetQueueAttributesCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, GetQueueAttributesCommandOutput>;
+  ): Effect.Effect<
+    never,
+    Cause.UnknownException,
+    GetQueueAttributesCommandOutput
+  >;
 
   /**
    * @see {@link GetQueueUrlCommand}
@@ -183,7 +204,7 @@ export interface SQSService {
   getQueueUrl(
     args: GetQueueUrlCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, GetQueueUrlCommandOutput>;
+  ): Effect.Effect<never, Cause.UnknownException, GetQueueUrlCommandOutput>;
 
   /**
    * @see {@link ListDeadLetterSourceQueuesCommand}
@@ -191,7 +212,11 @@ export interface SQSService {
   listDeadLetterSourceQueues(
     args: ListDeadLetterSourceQueuesCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, ListDeadLetterSourceQueuesCommandOutput>;
+  ): Effect.Effect<
+    never,
+    Cause.UnknownException,
+    ListDeadLetterSourceQueuesCommandOutput
+  >;
 
   /**
    * @see {@link ListMessageMoveTasksCommand}
@@ -199,7 +224,11 @@ export interface SQSService {
   listMessageMoveTasks(
     args: ListMessageMoveTasksCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, ListMessageMoveTasksCommandOutput>;
+  ): Effect.Effect<
+    never,
+    Cause.UnknownException,
+    ListMessageMoveTasksCommandOutput
+  >;
 
   /**
    * @see {@link ListQueuesCommand}
@@ -207,7 +236,7 @@ export interface SQSService {
   listQueues(
     args: ListQueuesCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, ListQueuesCommandOutput>;
+  ): Effect.Effect<never, Cause.UnknownException, ListQueuesCommandOutput>;
 
   /**
    * @see {@link ListQueueTagsCommand}
@@ -215,7 +244,7 @@ export interface SQSService {
   listQueueTags(
     args: ListQueueTagsCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, ListQueueTagsCommandOutput>;
+  ): Effect.Effect<never, Cause.UnknownException, ListQueueTagsCommandOutput>;
 
   /**
    * @see {@link PurgeQueueCommand}
@@ -223,7 +252,7 @@ export interface SQSService {
   purgeQueue(
     args: PurgeQueueCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, PurgeQueueCommandOutput>;
+  ): Effect.Effect<never, Cause.UnknownException, PurgeQueueCommandOutput>;
 
   /**
    * @see {@link ReceiveMessageCommand}
@@ -231,7 +260,7 @@ export interface SQSService {
   receiveMessage(
     args: ReceiveMessageCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, ReceiveMessageCommandOutput>;
+  ): Effect.Effect<never, Cause.UnknownException, ReceiveMessageCommandOutput>;
 
   /**
    * @see {@link RemovePermissionCommand}
@@ -239,7 +268,11 @@ export interface SQSService {
   removePermission(
     args: RemovePermissionCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, RemovePermissionCommandOutput>;
+  ): Effect.Effect<
+    never,
+    Cause.UnknownException,
+    RemovePermissionCommandOutput
+  >;
 
   /**
    * @see {@link SendMessageCommand}
@@ -247,7 +280,7 @@ export interface SQSService {
   sendMessage(
     args: SendMessageCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, SendMessageCommandOutput>;
+  ): Effect.Effect<never, Cause.UnknownException, SendMessageCommandOutput>;
 
   /**
    * @see {@link SendMessageBatchCommand}
@@ -255,7 +288,11 @@ export interface SQSService {
   sendMessageBatch(
     args: SendMessageBatchCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, SendMessageBatchCommandOutput>;
+  ): Effect.Effect<
+    never,
+    Cause.UnknownException,
+    SendMessageBatchCommandOutput
+  >;
 
   /**
    * @see {@link SetQueueAttributesCommand}
@@ -263,7 +300,11 @@ export interface SQSService {
   setQueueAttributes(
     args: SetQueueAttributesCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, SetQueueAttributesCommandOutput>;
+  ): Effect.Effect<
+    never,
+    Cause.UnknownException,
+    SetQueueAttributesCommandOutput
+  >;
 
   /**
    * @see {@link StartMessageMoveTaskCommand}
@@ -271,7 +312,11 @@ export interface SQSService {
   startMessageMoveTask(
     args: StartMessageMoveTaskCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, StartMessageMoveTaskCommandOutput>;
+  ): Effect.Effect<
+    never,
+    Cause.UnknownException,
+    StartMessageMoveTaskCommandOutput
+  >;
 
   /**
    * @see {@link TagQueueCommand}
@@ -279,7 +324,7 @@ export interface SQSService {
   tagQueue(
     args: TagQueueCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, TagQueueCommandOutput>;
+  ): Effect.Effect<never, Cause.UnknownException, TagQueueCommandOutput>;
 
   /**
    * @see {@link UntagQueueCommand}
@@ -287,7 +332,7 @@ export interface SQSService {
   untagQueue(
     args: UntagQueueCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, unknown, UntagQueueCommandOutput>;
+  ): Effect.Effect<never, Cause.UnknownException, UntagQueueCommandOutput>;
 }
 
 export const BaseSQSServiceEffect = Effect.gen(function* (_) {

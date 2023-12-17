@@ -1,5 +1,6 @@
 import { Logger } from "@aws-lambda-powertools/logger";
 import type {
+  LogAttributes,
   LogItemExtraInput,
   LogItemMessage,
 } from "@aws-lambda-powertools/logger/lib/types";
@@ -24,7 +25,7 @@ const logExtraInput = FiberRef.unsafeMake<LogItemExtraInput>([]);
 const processLog = (
   effect: (message: string) => Effect.Effect<never, never, void>,
 ) => {
-  return (input: LogItemMessage, ...extraInput: LogItemExtraInput) => {
+  return (input: LogItemMessage, ...extraInput: LogAttributes[]) => {
     const message = typeof input === "string" ? input : input.message;
 
     const extraInputs =
@@ -119,12 +120,12 @@ export const BasePowerToolsLoggerLayer = Layer.merge(
  * Creates a logger layer implementation that uses the AWS Lambda Powertools Logger instance configured by logger options layer.
  */
 export const PowerToolsLoggerLayer = BasePowerToolsLoggerLayer.pipe(
-  Layer.use(LoggerInstanceLayer),
+  Layer.provide(LoggerInstanceLayer),
 );
 
 /**
  * Creates a logger layer implementation that uses the default AWS Lambda Powertools Logger instance.
  */
 export const DefaultPowerToolsLoggerLayer = PowerToolsLoggerLayer.pipe(
-  Layer.use(DefaultLoggerOptionsLayer),
+  Layer.provide(DefaultLoggerOptionsLayer),
 );

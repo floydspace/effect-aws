@@ -41,5 +41,5 @@ export const S3ClientInstanceLayer = Layer.effect(
 );
 
 export const DefaultS3ClientInstanceLayer = S3ClientInstanceLayer.pipe(
-  Layer.use(DefaultS3ClientConfigLayer),
+  Layer.provide(DefaultS3ClientConfigLayer),
 );

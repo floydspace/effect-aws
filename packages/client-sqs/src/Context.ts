@@ -41,5 +41,5 @@ export const SQSClientInstanceLayer = Layer.effect(
 );
 
 export const DefaultSQSClientInstanceLayer = SQSClientInstanceLayer.pipe(
-  Layer.use(DefaultSQSClientConfigLayer),
+  Layer.provide(DefaultSQSClientConfigLayer),
 );

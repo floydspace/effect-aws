@@ -43,4 +43,6 @@ export const DynamoDBClientInstanceLayer = Layer.effect(
 );
 
 export const DefaultDynamoDBClientInstanceLayer =
-  DynamoDBClientInstanceLayer.pipe(Layer.use(DefaultDynamoDBClientConfigLayer));
+  DynamoDBClientInstanceLayer.pipe(
+    Layer.provide(DefaultDynamoDBClientConfigLayer),
+  );

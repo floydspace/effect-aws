@@ -111,7 +111,6 @@ describe("SQSClientImpl", () => {
     );
 
     const SQSClientInstanceLayer = Layer.provide(
-      DefaultSQSClientConfigLayer,
       Layer.effect(
         SQSClientInstanceTag,
         SQSClientConfigTag.pipe(
@@ -120,6 +119,7 @@ describe("SQSClientImpl", () => {
           ),
         ),
       ),
+      DefaultSQSClientConfigLayer,
     );
 
     const result = await pipe(

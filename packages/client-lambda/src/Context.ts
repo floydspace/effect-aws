@@ -41,5 +41,5 @@ export const LambdaClientInstanceLayer = Layer.effect(
 );
 
 export const DefaultLambdaClientInstanceLayer = LambdaClientInstanceLayer.pipe(
-  Layer.use(DefaultLambdaClientConfigLayer),
+  Layer.provide(DefaultLambdaClientConfigLayer),
 );

@@ -59,7 +59,6 @@ const program = Effect.flatMap(BaseS3ServiceEffect, (s3) =>
 );
 
 const S3ClientInstanceLayer = Layer.provide(
-  DefaultS3ClientConfigLayer,
   Layer.effect(
     S3ClientInstanceTag,
     S3ClientConfigTag.pipe(
@@ -68,6 +67,7 @@ const S3ClientInstanceLayer = Layer.provide(
       ),
     ),
   ),
+  DefaultS3ClientConfigLayer,
 );
 
 const result = await pipe(

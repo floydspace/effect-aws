@@ -107,7 +107,6 @@ describe("EventBridgeClientImpl", () => {
     );
 
     const EventBridgeClientInstanceLayer = Layer.provide(
-      DefaultEventBridgeClientConfigLayer,
       Layer.effect(
         EventBridgeClientInstanceTag,
         EventBridgeClientConfigTag.pipe(
@@ -117,6 +116,7 @@ describe("EventBridgeClientImpl", () => {
           ),
         ),
       ),
+      DefaultEventBridgeClientConfigLayer,
     );
 
     const result = await pipe(

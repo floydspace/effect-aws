@@ -109,7 +109,6 @@ describe("S3ClientImpl", () => {
     );
 
     const S3ClientInstanceLayer = Layer.provide(
-      DefaultS3ClientConfigLayer,
       Layer.effect(
         S3ClientInstanceTag,
         S3ClientConfigTag.pipe(
@@ -118,6 +117,7 @@ describe("S3ClientImpl", () => {
           ),
         ),
       ),
+      DefaultS3ClientConfigLayer,
     );
 
     const result = await pipe(

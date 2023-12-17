@@ -100,7 +100,6 @@ describe("SNSClientImpl", () => {
     );
 
     const SNSClientInstanceLayer = Layer.provide(
-      DefaultSNSClientConfigLayer,
       Layer.effect(
         SNSClientInstanceTag,
         SNSClientConfigTag.pipe(
@@ -109,6 +108,7 @@ describe("SNSClientImpl", () => {
           ),
         ),
       ),
+      DefaultSNSClientConfigLayer,
     );
 
     const result = await pipe(

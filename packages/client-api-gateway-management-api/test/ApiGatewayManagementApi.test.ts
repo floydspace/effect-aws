@@ -150,7 +150,6 @@ describe("ApiGatewayManagementApiClientImpl", () => {
     );
 
     const ApiGatewayManagementApiClientInstanceLayer = Layer.provide(
-      DefaultApiGatewayManagementApiClientConfigLayer,
       Layer.effect(
         ApiGatewayManagementApiClientInstanceTag,
         ApiGatewayManagementApiClientConfigTag.pipe(
@@ -163,6 +162,7 @@ describe("ApiGatewayManagementApiClientImpl", () => {
           ),
         ),
       ),
+      DefaultApiGatewayManagementApiClientConfigLayer,
     );
 
     const result = await pipe(
