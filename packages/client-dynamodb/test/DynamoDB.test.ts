@@ -9,19 +9,20 @@ import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
 import * as Layer from "effect/Layer";
 import {
-  BaseDynamoDBServiceEffect,
+  BaseDynamoDBServiceLayer,
   DefaultDynamoDBClientConfigLayer,
-  DefaultDynamoDBServiceEffect,
-  DynamoDBClientConfigTag,
-  DynamoDBClientInstanceTag,
-  DynamoDBClientOptions,
-  DynamoDBServiceEffect,
+  DefaultDynamoDBServiceLayer,
+  DynamoDBClientInstance,
+  DynamoDBClientInstanceConfig,
+  DynamoDBService,
+  DynamoDBServiceLayer,
   SdkError,
 } from "../src";
 
 import "aws-sdk-client-mock-jest";
 
 const dynamodbMock = mockClient(DynamoDBClient);
+const { putItem } = Effect.serviceFunctions(DynamoDBService);
 
 describe("DynamoDBClientImpl", () => {
   it("default", async () => {
@@ -32,11 +33,13 @@ describe("DynamoDBClientImpl", () => {
       Item: { testAttr: { S: "test" } },
     };
 
-    const program = Effect.flatMap(DefaultDynamoDBServiceEffect, (dynamodb) =>
-      dynamodb.putItem(args),
-    );
+    const program = putItem(args);
 
-    const result = await pipe(program, Effect.runPromiseExit);
+    const result = await pipe(
+      program,
+      Effect.provide(DefaultDynamoDBServiceLayer),
+      Effect.runPromiseExit,
+    );
 
     expect(result).toEqual(Exit.succeed({}));
     expect(dynamodbMock).toHaveReceivedCommandTimes(PutItemCommand, 1);
@@ -51,18 +54,19 @@ describe("DynamoDBClientImpl", () => {
       Item: { testAttr: { S: "test" } },
     };
 
-    const program = Effect.flatMap(DynamoDBServiceEffect, (dynamodb) =>
-      dynamodb.putItem(args),
-    );
+    const program = putItem(args);
 
     const DynamoDBClientConfigLayer = Layer.succeed(
-      DynamoDBClientConfigTag,
-      new DynamoDBClientOptions({ region: "eu-central-1" }),
+      DynamoDBClientInstanceConfig,
+      { region: "eu-central-1" },
+    );
+    const CustomDynamoDBServiceLayer = DynamoDBServiceLayer.pipe(
+      Layer.provide(DynamoDBClientConfigLayer),
     );
 
     const result = await pipe(
       program,
-      Effect.provide(DynamoDBClientConfigLayer),
+      Effect.provide(CustomDynamoDBServiceLayer),
       Effect.runPromiseExit,
     );
 
@@ -79,18 +83,19 @@ describe("DynamoDBClientImpl", () => {
       Item: { testAttr: { S: "test" } },
     };
 
-    const program = Effect.flatMap(BaseDynamoDBServiceEffect, (dynamodb) =>
-      dynamodb.putItem(args),
-    );
+    const program = putItem(args);
 
     const DynamoDBClientInstanceLayer = Layer.succeed(
-      DynamoDBClientInstanceTag,
+      DynamoDBClientInstance,
       new DynamoDBClient({ region: "eu-central-1" }),
+    );
+    const CustomDynamoDBServiceLayer = BaseDynamoDBServiceLayer.pipe(
+      Layer.provide(DynamoDBClientInstanceLayer),
     );
 
     const result = await pipe(
       program,
-      Effect.provide(DynamoDBClientInstanceLayer),
+      Effect.provide(CustomDynamoDBServiceLayer),
       Effect.runPromiseExit,
     );
 
@@ -107,26 +112,23 @@ describe("DynamoDBClientImpl", () => {
       Item: { testAttr: { S: "test" } },
     };
 
-    const program = Effect.flatMap(BaseDynamoDBServiceEffect, (dynamodb) =>
-      dynamodb.putItem(args),
-    );
+    const program = putItem(args);
 
-    const DynamoDBClientInstanceLayer = Layer.provide(
-      Layer.effect(
-        DynamoDBClientInstanceTag,
-        DynamoDBClientConfigTag.pipe(
-          Effect.map(
-            (config) =>
-              new DynamoDBClient({ ...config, region: "eu-central-1" }),
-          ),
-        ),
+    const DynamoDBClientInstanceLayer = Layer.effect(
+      DynamoDBClientInstance,
+      Effect.map(
+        DynamoDBClientInstanceConfig,
+        (config) => new DynamoDBClient({ ...config, region: "eu-central-1" }),
       ),
-      DefaultDynamoDBClientConfigLayer,
+    );
+    const CustomDynamoDBServiceLayer = BaseDynamoDBServiceLayer.pipe(
+      Layer.provide(DynamoDBClientInstanceLayer),
+      Layer.provide(DefaultDynamoDBClientConfigLayer),
     );
 
     const result = await pipe(
       program,
-      Effect.provide(DynamoDBClientInstanceLayer),
+      Effect.provide(CustomDynamoDBServiceLayer),
       Effect.runPromiseExit,
     );
 
@@ -143,11 +145,13 @@ describe("DynamoDBClientImpl", () => {
       Item: { testAttr: { S: "test" } },
     };
 
-    const program = Effect.flatMap(DefaultDynamoDBServiceEffect, (dynamodb) =>
-      dynamodb.putItem(args, { requestTimeout: 1000 }),
-    );
+    const program = putItem(args, { requestTimeout: 1000 });
 
-    const result = await pipe(program, Effect.runPromiseExit);
+    const result = await pipe(
+      program,
+      Effect.provide(DefaultDynamoDBServiceLayer),
+      Effect.runPromiseExit,
+    );
 
     expect(result).toEqual(
       Exit.fail(

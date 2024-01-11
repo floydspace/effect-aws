@@ -161,14 +161,13 @@ import {
   UpdateTimeToLiveCommandOutput,
 } from "@aws-sdk/client-dynamodb";
 import { HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
-import * as Data from "effect/Data";
-import * as Effect from "effect/Effect";
-import * as RR from "effect/ReadonlyRecord";
+import { Context, Data, Effect, Layer, ReadonlyRecord } from "effect";
 import {
   DefaultDynamoDBClientInstanceLayer,
+  DynamoDBClientInstance,
   DynamoDBClientInstanceLayer,
-  DynamoDBClientInstanceTag,
-} from "./Context";
+} from "./DynamoDBClientInstance";
+import { DefaultDynamoDBClientConfigLayer } from "./DynamoDBClientInstanceConfig";
 import {
   BackupInUseError,
   BackupNotFoundError,
@@ -262,7 +261,13 @@ const commands = {
   UpdateTimeToLiveCommand,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface DynamoDBService {
+  readonly _: unique symbol;
+
   /**
    * @see {@link BatchExecuteStatementCommand}
    */
@@ -1091,10 +1096,22 @@ export interface DynamoDBService {
   >;
 }
 
-export const BaseDynamoDBServiceEffect = Effect.gen(function* (_) {
-  const client = yield* _(DynamoDBClientInstanceTag);
+/**
+ * @since 1.0.0
+ * @category tags
+ */
+export const DynamoDBService = Context.Tag<DynamoDBService>(
+  Symbol.for("@effect-aws/client-dynamodb/DynamoDBService"),
+);
 
-  return RR.toEntries(commands).reduce((acc, [command]) => {
+/**
+ * @since 1.0.0
+ * @category constructors
+ */
+export const makeDynamoDBService = Effect.gen(function* (_) {
+  const client = yield* _(DynamoDBClientInstance);
+
+  return ReadonlyRecord.toEntries(commands).reduce((acc, [command]) => {
     const CommandCtor = commands[command] as any;
     const methodImpl = (args: any, options: any) =>
       Effect.tryPromise({
@@ -1130,10 +1147,48 @@ export const BaseDynamoDBServiceEffect = Effect.gen(function* (_) {
   }, {}) as DynamoDBService;
 });
 
+/**
+ * @since 1.0.0
+ * @category layers
+ */
+export const BaseDynamoDBServiceLayer = Layer.effect(
+  DynamoDBService,
+  makeDynamoDBService,
+);
+
+/**
+ * @since 1.0.0
+ * @category layers
+ */
+export const DynamoDBServiceLayer = BaseDynamoDBServiceLayer.pipe(
+  Layer.provide(DynamoDBClientInstanceLayer),
+);
+
+/**
+ * @since 1.0.0
+ * @category layers
+ */
+export const DefaultDynamoDBServiceLayer = DynamoDBServiceLayer.pipe(
+  Layer.provide(DefaultDynamoDBClientConfigLayer),
+);
+
+// -------------------- Danger Zone --------------------
+
+/**
+ * @deprecated
+ */
+export const BaseDynamoDBServiceEffect = makeDynamoDBService;
+
+/**
+ * @deprecated
+ */
 export const DynamoDBServiceEffect = BaseDynamoDBServiceEffect.pipe(
   Effect.provide(DynamoDBClientInstanceLayer),
 );
 
+/**
+ * @deprecated
+ */
 export const DefaultDynamoDBServiceEffect = BaseDynamoDBServiceEffect.pipe(
   Effect.provide(DefaultDynamoDBClientInstanceLayer),
 );
