@@ -28,14 +28,13 @@ new Changesets(project, {
 
 const commonDeps = ["@aws-sdk/types@^3"];
 const commonDevDeps = ["aws-sdk-client-mock", "aws-sdk-client-mock-jest"];
-const commonPeerDeps = ["effect"];
+const commonPeerDeps = ["effect@^2"];
 
 new TypeScriptLibProject({
   parent: project,
   name: "powertools-logger",
   deps: ["@aws-lambda-powertools/logger@^1.9.0"], // lower versions are not supported, raise an issue if you need it
   devDeps: [
-    ...commonPeerDeps,
     "@types/aws-lambda", // peer for @aws-lambda-powertools/logger
   ],
   peerDeps: commonPeerDeps,
@@ -45,7 +44,7 @@ new TypeScriptLibProject({
   parent: project,
   name: "client-api-gateway-management-api",
   deps: [...commonDeps, "@aws-sdk/client-apigatewaymanagementapi@^3"],
-  devDeps: [...commonPeerDeps, ...commonDevDeps],
+  devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
 });
 
@@ -53,7 +52,7 @@ new TypeScriptLibProject({
   parent: project,
   name: "client-dynamodb",
   deps: [...commonDeps, "@aws-sdk/client-dynamodb@^3"],
-  devDeps: [...commonPeerDeps, ...commonDevDeps],
+  devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
 });
 
@@ -61,7 +60,7 @@ new TypeScriptLibProject({
   parent: project,
   name: "client-eventbridge",
   deps: [...commonDeps, "@aws-sdk/client-eventbridge@^3"],
-  devDeps: [...commonPeerDeps, ...commonDevDeps],
+  devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
 });
 
@@ -69,7 +68,7 @@ new TypeScriptLibProject({
   parent: project,
   name: "client-lambda",
   deps: [...commonDeps, "@aws-sdk/client-lambda@^3"],
-  devDeps: [...commonPeerDeps, ...commonDevDeps],
+  devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
 });
 
@@ -81,7 +80,7 @@ new TypeScriptLibProject({
     "@aws-sdk/client-s3@^3",
     "@aws-sdk/s3-request-presigner@^3",
   ],
-  devDeps: [...commonPeerDeps, ...commonDevDeps],
+  devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
 });
 
@@ -89,7 +88,7 @@ new TypeScriptLibProject({
   parent: project,
   name: "client-sns",
   deps: [...commonDeps, "@aws-sdk/client-sns@^3"],
-  devDeps: [...commonPeerDeps, ...commonDevDeps],
+  devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
 });
 
@@ -97,7 +96,7 @@ new TypeScriptLibProject({
   parent: project,
   name: "client-sqs",
   deps: [...commonDeps, "@aws-sdk/client-sqs@^3"],
-  devDeps: [...commonPeerDeps, ...commonDevDeps],
+  devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
 });
 
@@ -105,7 +104,7 @@ new TypeScriptLibProject({
   parent: project,
   name: "client-sfn",
   deps: [...commonDeps, "@aws-sdk/client-sfn@^3"],
-  devDeps: [...commonPeerDeps, ...commonDevDeps],
+  devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
 });
 
