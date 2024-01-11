@@ -1,5 +1,11 @@
 # @effect-aws/client-sfn
 
+## 1.0.0
+
+### Major Changes
+
+- [`3e5d0b3`](https://github.com/floydspace/effect-aws/commit/3e5d0b3b3882e0aa6d07bc06432990551316ac30) Thanks [@floydspace](https://github.com/floydspace)! - Upgrade to effect v2 and release stable version
+
 ## 0.2.0
 
 ### Minor Changes
