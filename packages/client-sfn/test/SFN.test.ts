@@ -9,19 +9,20 @@ import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
 import * as Layer from "effect/Layer";
 import {
-  BaseSFNServiceEffect,
+  BaseSFNServiceLayer,
   DefaultSFNClientConfigLayer,
-  DefaultSFNServiceEffect,
-  SFNClientConfigTag,
-  SFNClientInstanceTag,
-  SFNClientOptions,
-  SFNServiceEffect,
+  DefaultSFNServiceLayer,
+  SFNClientInstance,
+  SFNClientInstanceConfig,
+  SFNService,
+  SFNServiceLayer,
   SdkError,
 } from "../src";
 
 import "aws-sdk-client-mock-jest";
 
 const sfnMock = mockClient(SFNClient);
+const { startExecution } = Effect.serviceFunctions(SFNService);
 
 describe("SFNClientImpl", () => {
   it("default", async () => {
@@ -32,11 +33,13 @@ describe("SFNClientImpl", () => {
       input: "test",
     };
 
-    const program = Effect.flatMap(DefaultSFNServiceEffect, (sfn) =>
-      sfn.startExecution(args),
-    );
+    const program = startExecution(args);
 
-    const result = await pipe(program, Effect.runPromiseExit);
+    const result = await pipe(
+      program,
+      Effect.provide(DefaultSFNServiceLayer),
+      Effect.runPromiseExit,
+    );
 
     expect(result).toEqual(Exit.succeed({}));
     expect(sfnMock).toHaveReceivedCommandTimes(StartExecutionCommand, 1);
@@ -51,18 +54,18 @@ describe("SFNClientImpl", () => {
       input: "test",
     };
 
-    const program = Effect.flatMap(SFNServiceEffect, (sfn) =>
-      sfn.startExecution(args),
-    );
+    const program = startExecution(args);
 
-    const SFNClientConfigLayer = Layer.succeed(
-      SFNClientConfigTag,
-      new SFNClientOptions({ region: "eu-central-1" }),
+    const SFNClientConfigLayer = Layer.succeed(SFNClientInstanceConfig, {
+      region: "eu-central-1",
+    });
+    const CustomSFNServiceLayer = SFNServiceLayer.pipe(
+      Layer.provide(SFNClientConfigLayer),
     );
 
     const result = await pipe(
       program,
-      Effect.provide(SFNClientConfigLayer),
+      Effect.provide(CustomSFNServiceLayer),
       Effect.runPromiseExit,
     );
 
@@ -79,18 +82,19 @@ describe("SFNClientImpl", () => {
       input: "test",
     };
 
-    const program = Effect.flatMap(BaseSFNServiceEffect, (sfn) =>
-      sfn.startExecution(args),
-    );
+    const program = startExecution(args);
 
     const SFNClientInstanceLayer = Layer.succeed(
-      SFNClientInstanceTag,
+      SFNClientInstance,
       new SFNClient({ region: "eu-central-1" }),
+    );
+    const CustomSFNServiceLayer = BaseSFNServiceLayer.pipe(
+      Layer.provide(SFNClientInstanceLayer),
     );
 
     const result = await pipe(
       program,
-      Effect.provide(SFNClientInstanceLayer),
+      Effect.provide(CustomSFNServiceLayer),
       Effect.runPromiseExit,
     );
 
@@ -107,25 +111,23 @@ describe("SFNClientImpl", () => {
       input: "test",
     };
 
-    const program = Effect.flatMap(BaseSFNServiceEffect, (sfn) =>
-      sfn.startExecution(args),
-    );
+    const program = startExecution(args);
 
-    const SFNClientInstanceLayer = Layer.provide(
-      Layer.effect(
-        SFNClientInstanceTag,
-        SFNClientConfigTag.pipe(
-          Effect.map(
-            (config) => new SFNClient({ ...config, region: "eu-central-1" }),
-          ),
-        ),
+    const SFNClientInstanceLayer = Layer.effect(
+      SFNClientInstance,
+      Effect.map(
+        SFNClientInstanceConfig,
+        (config) => new SFNClient({ ...config, region: "eu-central-1" }),
       ),
-      DefaultSFNClientConfigLayer,
+    );
+    const CustomSFNServiceLayer = BaseSFNServiceLayer.pipe(
+      Layer.provide(SFNClientInstanceLayer),
+      Layer.provide(DefaultSFNClientConfigLayer),
     );
 
     const result = await pipe(
       program,
-      Effect.provide(SFNClientInstanceLayer),
+      Effect.provide(CustomSFNServiceLayer),
       Effect.runPromiseExit,
     );
 
@@ -142,11 +144,13 @@ describe("SFNClientImpl", () => {
       input: "test",
     };
 
-    const program = Effect.flatMap(DefaultSFNServiceEffect, (sfn) =>
-      sfn.startExecution(args, { requestTimeout: 1000 }),
-    );
+    const program = startExecution(args, { requestTimeout: 1000 });
 
-    const result = await pipe(program, Effect.runPromiseExit);
+    const result = await pipe(
+      program,
+      Effect.provide(DefaultSFNServiceLayer),
+      Effect.runPromiseExit,
+    );
 
     expect(result).toEqual(
       Exit.fail(

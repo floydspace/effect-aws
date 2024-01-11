@@ -110,14 +110,7 @@ import {
   UpdateStateMachineCommandOutput,
 } from "@aws-sdk/client-sfn";
 import { HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
-import * as Data from "effect/Data";
-import * as Effect from "effect/Effect";
-import * as RR from "effect/ReadonlyRecord";
-import {
-  DefaultSFNClientInstanceLayer,
-  SFNClientInstanceLayer,
-  SFNClientInstanceTag,
-} from "./Context";
+import { Context, Data, Effect, Layer, ReadonlyRecord } from "effect";
 import {
   ActivityDoesNotExistError,
   ActivityLimitExceededError,
@@ -150,6 +143,12 @@ import {
   TooManyTagsError,
   ValidationError,
 } from "./Errors";
+import {
+  DefaultSFNClientInstanceLayer,
+  SFNClientInstance,
+  SFNClientInstanceLayer,
+} from "./SFNClientInstance";
+import { DefaultSFNClientConfigLayer } from "./SFNClientInstanceConfig";
 
 const commands = {
   CreateActivityCommand,
@@ -190,7 +189,13 @@ const commands = {
   UpdateStateMachineAliasCommand,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface SFNService {
+  readonly _: unique symbol;
+
   /**
    * @see {@link CreateActivityCommand}
    */
@@ -673,10 +678,22 @@ export interface SFNService {
   >;
 }
 
-export const BaseSFNServiceEffect = Effect.gen(function* (_) {
-  const client = yield* _(SFNClientInstanceTag);
+/**
+ * @since 1.0.0
+ * @category tags
+ */
+export const SFNService = Context.Tag<SFNService>(
+  Symbol.for("@effect-aws/client-sfn/SFNService"),
+);
 
-  return RR.toEntries(commands).reduce((acc, [command]) => {
+/**
+ * @since 1.0.0
+ * @category constructors
+ */
+export const makeSFNService = Effect.gen(function* (_) {
+  const client = yield* _(SFNClientInstance);
+
+  return ReadonlyRecord.toEntries(commands).reduce((acc, [command]) => {
     const CommandCtor = commands[command] as any;
     const methodImpl = (args: any, options: any) =>
       Effect.tryPromise({
@@ -712,10 +729,45 @@ export const BaseSFNServiceEffect = Effect.gen(function* (_) {
   }, {}) as SFNService;
 });
 
+/**
+ * @since 1.0.0
+ * @category layers
+ */
+export const BaseSFNServiceLayer = Layer.effect(SFNService, makeSFNService);
+
+/**
+ * @since 1.0.0
+ * @category layers
+ */
+export const SFNServiceLayer = BaseSFNServiceLayer.pipe(
+  Layer.provide(SFNClientInstanceLayer),
+);
+
+/**
+ * @since 1.0.0
+ * @category layers
+ */
+export const DefaultSFNServiceLayer = SFNServiceLayer.pipe(
+  Layer.provide(DefaultSFNClientConfigLayer),
+);
+
+// -------------------- Danger Zone --------------------
+
+/**
+ * @deprecated
+ */
+export const BaseSFNServiceEffect = makeSFNService;
+
+/**
+ * @deprecated
+ */
 export const SFNServiceEffect = BaseSFNServiceEffect.pipe(
   Effect.provide(SFNClientInstanceLayer),
 );
 
+/**
+ * @deprecated
+ */
 export const DefaultSFNServiceEffect = BaseSFNServiceEffect.pipe(
   Effect.provide(DefaultSFNClientInstanceLayer),
 );

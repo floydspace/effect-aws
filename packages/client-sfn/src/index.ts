@@ -1,3 +1,4 @@
-export * from "./Context";
 export * from "./Errors";
-export * from "./SFN";
+export * from "./SFNClientInstance";
+export * from "./SFNClientInstanceConfig";
+export * from "./SFNService";
