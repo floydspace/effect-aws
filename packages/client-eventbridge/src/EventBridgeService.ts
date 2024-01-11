@@ -169,14 +169,13 @@ import {
   UpdateEndpointCommandOutput,
 } from "@aws-sdk/client-eventbridge";
 import { HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
-import * as Cause from "effect/Cause";
-import * as Effect from "effect/Effect";
-import * as RR from "effect/ReadonlyRecord";
+import { Cause, Context, Effect, Layer, ReadonlyRecord } from "effect";
 import {
   DefaultEventBridgeClientInstanceLayer,
+  EventBridgeClientInstance,
   EventBridgeClientInstanceLayer,
-  EventBridgeClientInstanceTag,
-} from "./Context";
+} from "./EventBridgeClientInstance";
+import { DefaultEventBridgeClientConfigLayer } from "./EventBridgeClientInstanceConfig";
 
 const commands = {
   ActivateEventSourceCommand,
@@ -237,7 +236,13 @@ const commands = {
   UpdateEndpointCommand,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface EventBridgeService {
+  readonly _: unique symbol;
+
   /**
    * @see {@link ActivateEventSourceCommand}
    */
@@ -795,10 +800,22 @@ export interface EventBridgeService {
   ): Effect.Effect<never, Cause.UnknownException, UpdateEndpointCommandOutput>;
 }
 
-export const BaseEventBridgeServiceEffect = Effect.gen(function* (_) {
-  const client = yield* _(EventBridgeClientInstanceTag);
+/**
+ * @since 1.0.0
+ * @category tags
+ */
+export const EventBridgeService = Context.Tag<EventBridgeService>(
+  Symbol.for("@effect-aws/client-eventbridge/EventBridgeService"),
+);
 
-  return RR.toEntries(commands).reduce((acc, [command]) => {
+/**
+ * @since 1.0.0
+ * @category constructors
+ */
+export const makeEventBridgeService = Effect.gen(function* (_) {
+  const client = yield* _(EventBridgeClientInstance);
+
+  return ReadonlyRecord.toEntries(commands).reduce((acc, [command]) => {
     const CommandCtor = commands[command] as any;
     const methodImpl = (args: any, options: any) =>
       Effect.tryPromise(() =>
@@ -812,10 +829,48 @@ export const BaseEventBridgeServiceEffect = Effect.gen(function* (_) {
   }, {}) as EventBridgeService;
 });
 
+/**
+ * @since 1.0.0
+ * @category layers
+ */
+export const BaseEventBridgeServiceLayer = Layer.effect(
+  EventBridgeService,
+  makeEventBridgeService,
+);
+
+/**
+ * @since 1.0.0
+ * @category layers
+ */
+export const EventBridgeServiceLayer = BaseEventBridgeServiceLayer.pipe(
+  Layer.provide(EventBridgeClientInstanceLayer),
+);
+
+/**
+ * @since 1.0.0
+ * @category layers
+ */
+export const DefaultEventBridgeServiceLayer = EventBridgeServiceLayer.pipe(
+  Layer.provide(DefaultEventBridgeClientConfigLayer),
+);
+
+// -------------------- Danger Zone --------------------
+
+/**
+ * @deprecated
+ */
+export const BaseEventBridgeServiceEffect = makeEventBridgeService;
+
+/**
+ * @deprecated
+ */
 export const EventBridgeServiceEffect = BaseEventBridgeServiceEffect.pipe(
   Effect.provide(EventBridgeClientInstanceLayer),
 );
 
+/**
+ * @deprecated
+ */
 export const DefaultEventBridgeServiceEffect =
   BaseEventBridgeServiceEffect.pipe(
     Effect.provide(DefaultEventBridgeClientInstanceLayer),

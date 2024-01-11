@@ -1,2 +1,3 @@
-export * from "./Context";
-export * from "./EventBridge";
+export * from "./EventBridgeClientInstance";
+export * from "./EventBridgeClientInstanceConfig";
+export * from "./EventBridgeService";
