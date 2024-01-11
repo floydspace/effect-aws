@@ -4,21 +4,20 @@ import type {
   LogItemExtraInput,
   LogItemMessage,
 } from "@aws-lambda-powertools/logger/lib/types";
-import * as Cause from "effect/Cause";
-import * as Effect from "effect/Effect";
-import * as FiberId from "effect/FiberId";
-import * as FiberRef from "effect/FiberRef";
-import * as FiberRefs from "effect/FiberRefs";
-import * as HashMap from "effect/HashMap";
-import * as Layer from "effect/Layer";
-import * as List from "effect/List";
-import * as Log from "effect/Logger";
-import * as LogLevel from "effect/LogLevel";
 import {
-  DefaultLoggerOptionsLayer,
-  LoggerInstanceLayer,
-  LoggerInstanceTag,
-} from "./Context";
+  Cause,
+  Effect,
+  FiberId,
+  FiberRef,
+  FiberRefs,
+  HashMap,
+  Layer,
+  List,
+  Logger as Log,
+  LogLevel,
+} from "effect";
+import { LoggerInstance, LoggerInstanceLayer } from "./LoggerInstance";
+import { DefaultLoggerOptionsLayer } from "./LoggerOptions";
 
 const logExtraInput = FiberRef.unsafeMake<LogItemExtraInput>([]);
 
@@ -67,7 +66,11 @@ export const logFatal = processLog(Effect.logFatal);
  */
 export const logCritical = processLog(Effect.logFatal);
 
-const powerToolsImpl = (logger: Logger) => {
+/**
+ * @since 1.0.0
+ * @category constructors
+ */
+const makeLoggerInstance = (logger: Logger) => {
   return Log.make<unknown, void>((options) => {
     const [...extraInputs] = FiberRefs.getOrDefault(
       options.context,
@@ -104,12 +107,13 @@ const powerToolsImpl = (logger: Logger) => {
   });
 };
 
-const PowerToolsLoggerEffect = LoggerInstanceTag.pipe(
-  Effect.map(powerToolsImpl),
-);
+const PowerToolsLoggerEffect = Effect.map(LoggerInstance, makeLoggerInstance);
 
 /**
  * Creates a logger layer implementation that uses the AWS Lambda Powertools Logger instance provided by implementation layer.
+ *
+ * @since 1.0.0
+ * @category layers
  */
 export const BasePowerToolsLoggerLayer = Layer.merge(
   Log.replaceEffect(Log.defaultLogger, PowerToolsLoggerEffect),
@@ -118,6 +122,9 @@ export const BasePowerToolsLoggerLayer = Layer.merge(
 
 /**
  * Creates a logger layer implementation that uses the AWS Lambda Powertools Logger instance configured by logger options layer.
+ *
+ * @since 1.0.0
+ * @category layers
  */
 export const PowerToolsLoggerLayer = BasePowerToolsLoggerLayer.pipe(
   Layer.provide(LoggerInstanceLayer),
@@ -125,6 +132,9 @@ export const PowerToolsLoggerLayer = BasePowerToolsLoggerLayer.pipe(
 
 /**
  * Creates a logger layer implementation that uses the default AWS Lambda Powertools Logger instance.
+ *
+ * @since 1.0.0
+ * @category layers
  */
 export const DefaultPowerToolsLoggerLayer = PowerToolsLoggerLayer.pipe(
   Layer.provide(DefaultLoggerOptionsLayer),

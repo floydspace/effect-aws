@@ -53,10 +53,7 @@ describe("Logger", () => {
     await pipe(
       program,
       Effect.provide(Logger.PowerToolsLoggerLayer),
-      Effect.provideService(
-        Logger.LoggerOptionsTag,
-        new Logger.LoggerOptions({ logLevel: "DEBUG" }),
-      ),
+      Effect.provideService(Logger.LoggerOptions, { logLevel: "DEBUG" }),
       Effect.runPromise,
     );
 
@@ -88,7 +85,7 @@ describe("Logger", () => {
       program,
       Effect.provide(Logger.BasePowerToolsLoggerLayer),
       Effect.provideService(
-        Logger.LoggerInstanceTag,
+        Logger.LoggerInstance,
         new LoggerCtor({ logLevel: "ERROR" }),
       ),
       Effect.runPromise,
