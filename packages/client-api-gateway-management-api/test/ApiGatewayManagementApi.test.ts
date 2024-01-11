@@ -9,199 +9,162 @@ import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
 import * as Layer from "effect/Layer";
 import {
-  ApiGatewayManagementApiClientConfigTag,
-  ApiGatewayManagementApiClientInstanceTag,
-  ApiGatewayManagementApiClientOptions,
-  ApiGatewayManagementApiServiceEffect,
-  BaseApiGatewayManagementApiServiceEffect,
+  ApiGatewayManagementApiClientInstance,
+  ApiGatewayManagementApiClientInstanceConfig,
+  ApiGatewayManagementApiService,
+  ApiGatewayManagementApiServiceLayer,
+  BaseApiGatewayManagementApiServiceLayer,
   DefaultApiGatewayManagementApiClientConfigLayer,
-  DefaultApiGatewayManagementApiServiceEffect,
+  DefaultApiGatewayManagementApiServiceLayer,
   SdkError,
 } from "../src";
 
 import "aws-sdk-client-mock-jest";
 
-const apigatewaymanagementapiMock = mockClient(ApiGatewayManagementApiClient);
+const apiMock = mockClient(ApiGatewayManagementApiClient);
+const { postToConnection } = Effect.serviceFunctions(
+  ApiGatewayManagementApiService,
+);
 
 describe("ApiGatewayManagementApiClientImpl", () => {
   it("default", async () => {
-    apigatewaymanagementapiMock
-      .reset()
-      .on(PostToConnectionCommand)
-      .resolves({});
+    apiMock.reset().on(PostToConnectionCommand).resolves({});
 
     const args: PostToConnectionCommandInput = {
       ConnectionId: "test",
       Data: "test",
     };
 
-    const program = Effect.flatMap(
-      DefaultApiGatewayManagementApiServiceEffect,
-      (apigatewaymanagementapi) =>
-        apigatewaymanagementapi.postToConnection(args),
-    );
+    const program = postToConnection(args);
 
-    const result = await pipe(program, Effect.runPromiseExit);
+    const result = await pipe(
+      program,
+      Effect.provide(DefaultApiGatewayManagementApiServiceLayer),
+      Effect.runPromiseExit,
+    );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(apigatewaymanagementapiMock).toHaveReceivedCommandTimes(
-      PostToConnectionCommand,
-      1,
-    );
-    expect(apigatewaymanagementapiMock).toHaveReceivedCommandWith(
-      PostToConnectionCommand,
-      args,
-    );
+    expect(apiMock).toHaveReceivedCommandTimes(PostToConnectionCommand, 1);
+    expect(apiMock).toHaveReceivedCommandWith(PostToConnectionCommand, args);
   });
 
   it("configurable", async () => {
-    apigatewaymanagementapiMock
-      .reset()
-      .on(PostToConnectionCommand)
-      .resolves({});
+    apiMock.reset().on(PostToConnectionCommand).resolves({});
 
     const args: PostToConnectionCommandInput = {
       ConnectionId: "test",
       Data: "test",
     };
 
-    const program = Effect.flatMap(
-      ApiGatewayManagementApiServiceEffect,
-      (apigatewaymanagementapi) =>
-        apigatewaymanagementapi.postToConnection(args),
-    );
+    const program = postToConnection(args);
 
     const ApiGatewayManagementApiClientConfigLayer = Layer.succeed(
-      ApiGatewayManagementApiClientConfigTag,
-      new ApiGatewayManagementApiClientOptions({ region: "eu-central-1" }),
+      ApiGatewayManagementApiClientInstanceConfig,
+      { region: "eu-central-1" },
     );
+    const CustomApiGatewayManagementApiServiceLayer =
+      ApiGatewayManagementApiServiceLayer.pipe(
+        Layer.provide(ApiGatewayManagementApiClientConfigLayer),
+      );
 
     const result = await pipe(
       program,
-      Effect.provide(ApiGatewayManagementApiClientConfigLayer),
+      Effect.provide(CustomApiGatewayManagementApiServiceLayer),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(apigatewaymanagementapiMock).toHaveReceivedCommandTimes(
-      PostToConnectionCommand,
-      1,
-    );
-    expect(apigatewaymanagementapiMock).toHaveReceivedCommandWith(
-      PostToConnectionCommand,
-      args,
-    );
+    expect(apiMock).toHaveReceivedCommandTimes(PostToConnectionCommand, 1);
+    expect(apiMock).toHaveReceivedCommandWith(PostToConnectionCommand, args);
   });
 
   it("base", async () => {
-    apigatewaymanagementapiMock
-      .reset()
-      .on(PostToConnectionCommand)
-      .resolves({});
+    apiMock.reset().on(PostToConnectionCommand).resolves({});
 
     const args: PostToConnectionCommandInput = {
       ConnectionId: "test",
       Data: "test",
     };
 
-    const program = Effect.flatMap(
-      BaseApiGatewayManagementApiServiceEffect,
-      (apigatewaymanagementapi) =>
-        apigatewaymanagementapi.postToConnection(args),
-    );
+    const program = postToConnection(args);
 
     const ApiGatewayManagementApiClientInstanceLayer = Layer.succeed(
-      ApiGatewayManagementApiClientInstanceTag,
+      ApiGatewayManagementApiClientInstance,
       new ApiGatewayManagementApiClient({ region: "eu-central-1" }),
     );
+    const CustomApiGatewayManagementApiServiceLayer =
+      BaseApiGatewayManagementApiServiceLayer.pipe(
+        Layer.provide(ApiGatewayManagementApiClientInstanceLayer),
+      );
 
     const result = await pipe(
       program,
-      Effect.provide(ApiGatewayManagementApiClientInstanceLayer),
+      Effect.provide(CustomApiGatewayManagementApiServiceLayer),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(apigatewaymanagementapiMock).toHaveReceivedCommandTimes(
-      PostToConnectionCommand,
-      1,
-    );
-    expect(apigatewaymanagementapiMock).toHaveReceivedCommandWith(
-      PostToConnectionCommand,
-      args,
-    );
+    expect(apiMock).toHaveReceivedCommandTimes(PostToConnectionCommand, 1);
+    expect(apiMock).toHaveReceivedCommandWith(PostToConnectionCommand, args);
   });
 
   it("extended", async () => {
-    apigatewaymanagementapiMock
-      .reset()
-      .on(PostToConnectionCommand)
-      .resolves({});
+    apiMock.reset().on(PostToConnectionCommand).resolves({});
 
     const args: PostToConnectionCommandInput = {
       ConnectionId: "test",
       Data: "test",
     };
 
-    const program = Effect.flatMap(
-      BaseApiGatewayManagementApiServiceEffect,
-      (apigatewaymanagementapi) =>
-        apigatewaymanagementapi.postToConnection(args),
-    );
+    const program = postToConnection(args);
 
-    const ApiGatewayManagementApiClientInstanceLayer = Layer.provide(
-      Layer.effect(
-        ApiGatewayManagementApiClientInstanceTag,
-        ApiGatewayManagementApiClientConfigTag.pipe(
-          Effect.map(
-            (config) =>
-              new ApiGatewayManagementApiClient({
-                ...config,
-                region: "eu-central-1",
-              }),
-          ),
-        ),
+    const ApiGatewayManagementApiClientInstanceLayer = Layer.effect(
+      ApiGatewayManagementApiClientInstance,
+      Effect.map(
+        ApiGatewayManagementApiClientInstanceConfig,
+        (config) =>
+          new ApiGatewayManagementApiClient({
+            ...config,
+            region: "eu-central-1",
+          }),
       ),
-      DefaultApiGatewayManagementApiClientConfigLayer,
     );
+    const CustomApiGatewayManagementApiServiceLayer =
+      BaseApiGatewayManagementApiServiceLayer.pipe(
+        Layer.provide(ApiGatewayManagementApiClientInstanceLayer),
+        Layer.provide(DefaultApiGatewayManagementApiClientConfigLayer),
+      );
 
     const result = await pipe(
       program,
-      Effect.provide(ApiGatewayManagementApiClientInstanceLayer),
+      Effect.provide(CustomApiGatewayManagementApiServiceLayer),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(apigatewaymanagementapiMock).toHaveReceivedCommandTimes(
-      PostToConnectionCommand,
-      1,
-    );
-    expect(apigatewaymanagementapiMock).toHaveReceivedCommandWith(
-      PostToConnectionCommand,
-      args,
-    );
+    expect(apiMock).toHaveReceivedCommandTimes(PostToConnectionCommand, 1);
+    expect(apiMock).toHaveReceivedCommandWith(PostToConnectionCommand, args);
   });
 
   it("fail", async () => {
-    apigatewaymanagementapiMock
-      .reset()
-      .on(PostToConnectionCommand)
-      .rejects(new Error("test"));
+    apiMock.reset().on(PostToConnectionCommand).rejects(new Error("test"));
 
     const args: PostToConnectionCommandInput = {
       ConnectionId: "test",
       Data: "test",
     };
 
-    const program = Effect.flatMap(
-      DefaultApiGatewayManagementApiServiceEffect,
-      (apigatewaymanagementapi) =>
-        apigatewaymanagementapi.postToConnection(args, {
-          requestTimeout: 1000,
-        }),
+    const program = Effect.flatMap(ApiGatewayManagementApiService, (api) =>
+      api.postToConnection(args, {
+        requestTimeout: 1000,
+      }),
     );
 
-    const result = await pipe(program, Effect.runPromiseExit);
+    const result = await pipe(
+      program,
+      Effect.provide(DefaultApiGatewayManagementApiServiceLayer),
+      Effect.runPromiseExit,
+    );
 
     expect(result).toEqual(
       Exit.fail(
@@ -213,13 +176,7 @@ describe("ApiGatewayManagementApiClientImpl", () => {
         }),
       ),
     );
-    expect(apigatewaymanagementapiMock).toHaveReceivedCommandTimes(
-      PostToConnectionCommand,
-      1,
-    );
-    expect(apigatewaymanagementapiMock).toHaveReceivedCommandWith(
-      PostToConnectionCommand,
-      args,
-    );
+    expect(apiMock).toHaveReceivedCommandTimes(PostToConnectionCommand, 1);
+    expect(apiMock).toHaveReceivedCommandWith(PostToConnectionCommand, args);
   });
 });

@@ -1,3 +1,4 @@
-export * from "./Context";
+export * from "./ApiGatewayManagementApiClientInstance";
+export * from "./ApiGatewayManagementApiClientInstanceConfig";
+export * from "./ApiGatewayManagementApiService";
 export * from "./Errors";
-export * from "./ApiGatewayManagementApi";
