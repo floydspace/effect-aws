@@ -9,18 +9,19 @@ import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
 import * as Layer from "effect/Layer";
 import {
-  BaseLambdaServiceEffect,
+  BaseLambdaServiceLayer,
   DefaultLambdaClientConfigLayer,
-  DefaultLambdaServiceEffect,
-  LambdaClientConfigTag,
-  LambdaClientInstanceTag,
-  LambdaClientOptions,
-  LambdaServiceEffect,
+  DefaultLambdaServiceLayer,
+  LambdaClientInstance,
+  LambdaClientInstanceConfig,
+  LambdaService,
+  LambdaServiceLayer,
 } from "../src";
 
 import "aws-sdk-client-mock-jest";
 
 const lambdaMock = mockClient(LambdaClient);
+const { invoke } = Effect.serviceFunctions(LambdaService);
 
 describe("LambdaClientImpl", () => {
   it("default", async () => {
@@ -28,11 +29,13 @@ describe("LambdaClientImpl", () => {
 
     const args: InvokeCommandInput = { FunctionName: "test", Payload: "test" };
 
-    const program = Effect.flatMap(DefaultLambdaServiceEffect, (lambda) =>
-      lambda.invoke(args),
-    );
+    const program = invoke(args);
 
-    const result = await pipe(program, Effect.runPromiseExit);
+    const result = await pipe(
+      program,
+      Effect.provide(DefaultLambdaServiceLayer),
+      Effect.runPromiseExit,
+    );
 
     expect(result).toEqual(Exit.succeed({}));
     expect(lambdaMock).toHaveReceivedCommandTimes(InvokeCommand, 1);
@@ -44,18 +47,18 @@ describe("LambdaClientImpl", () => {
 
     const args: InvokeCommandInput = { FunctionName: "test", Payload: "test" };
 
-    const program = Effect.flatMap(LambdaServiceEffect, (lambda) =>
-      lambda.invoke(args),
-    );
+    const program = invoke(args);
 
-    const LambdaClientConfigLayer = Layer.succeed(
-      LambdaClientConfigTag,
-      new LambdaClientOptions({ region: "eu-central-1" }),
+    const LambdaClientConfigLayer = Layer.succeed(LambdaClientInstanceConfig, {
+      region: "eu-central-1",
+    });
+    const CustomLambdaServiceLayer = LambdaServiceLayer.pipe(
+      Layer.provide(LambdaClientConfigLayer),
     );
 
     const result = await pipe(
       program,
-      Effect.provide(LambdaClientConfigLayer),
+      Effect.provide(CustomLambdaServiceLayer),
       Effect.runPromiseExit,
     );
 
@@ -69,18 +72,19 @@ describe("LambdaClientImpl", () => {
 
     const args: InvokeCommandInput = { FunctionName: "test", Payload: "test" };
 
-    const program = Effect.flatMap(BaseLambdaServiceEffect, (lambda) =>
-      lambda.invoke(args),
-    );
+    const program = invoke(args);
 
     const LambdaClientInstanceLayer = Layer.succeed(
-      LambdaClientInstanceTag,
+      LambdaClientInstance,
       new LambdaClient({ region: "eu-central-1" }),
+    );
+    const CustomLambdaServiceLayer = BaseLambdaServiceLayer.pipe(
+      Layer.provide(LambdaClientInstanceLayer),
     );
 
     const result = await pipe(
       program,
-      Effect.provide(LambdaClientInstanceLayer),
+      Effect.provide(CustomLambdaServiceLayer),
       Effect.runPromiseExit,
     );
 
@@ -94,25 +98,23 @@ describe("LambdaClientImpl", () => {
 
     const args: InvokeCommandInput = { FunctionName: "test", Payload: "test" };
 
-    const program = Effect.flatMap(BaseLambdaServiceEffect, (lambda) =>
-      lambda.invoke(args),
-    );
+    const program = invoke(args);
 
-    const LambdaClientInstanceLayer = Layer.provide(
-      Layer.effect(
-        LambdaClientInstanceTag,
-        LambdaClientConfigTag.pipe(
-          Effect.map(
-            (config) => new LambdaClient({ ...config, region: "eu-central-1" }),
-          ),
-        ),
+    const LambdaClientInstanceLayer = Layer.effect(
+      LambdaClientInstance,
+      Effect.map(
+        LambdaClientInstanceConfig,
+        (config) => new LambdaClient({ ...config, region: "eu-central-1" }),
       ),
-      DefaultLambdaClientConfigLayer,
+    );
+    const CustomLambdaServiceLayer = BaseLambdaServiceLayer.pipe(
+      Layer.provide(LambdaClientInstanceLayer),
+      Layer.provide(DefaultLambdaClientConfigLayer),
     );
 
     const result = await pipe(
       program,
-      Effect.provide(LambdaClientInstanceLayer),
+      Effect.provide(CustomLambdaServiceLayer),
       Effect.runPromiseExit,
     );
 
@@ -126,11 +128,13 @@ describe("LambdaClientImpl", () => {
 
     const args: InvokeCommandInput = { FunctionName: "test", Payload: "test" };
 
-    const program = Effect.flatMap(DefaultLambdaServiceEffect, (lambda) =>
-      lambda.invoke(args, { requestTimeout: 1000 }),
-    );
+    const program = invoke(args, { requestTimeout: 1000 });
 
-    const result = await pipe(program, Effect.runPromiseExit);
+    const result = await pipe(
+      program,
+      Effect.provide(DefaultLambdaServiceLayer),
+      Effect.runPromiseExit,
+    );
 
     expect(result).toEqual(Exit.fail(new Error("test")));
     expect(lambdaMock).toHaveReceivedCommandTimes(InvokeCommand, 1);

@@ -199,14 +199,13 @@ import {
   UpdateFunctionUrlConfigCommandOutput,
 } from "@aws-sdk/client-lambda";
 import { HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
-import * as Cause from "effect/Cause";
-import * as Effect from "effect/Effect";
-import * as RR from "effect/ReadonlyRecord";
+import { Cause, Context, Effect, Layer, ReadonlyRecord } from "effect";
 import {
   DefaultLambdaClientInstanceLayer,
+  LambdaClientInstance,
   LambdaClientInstanceLayer,
-  LambdaClientInstanceTag,
-} from "./Context";
+} from "./LambdaClientInstance";
+import { DefaultLambdaClientConfigLayer } from "./LambdaClientInstanceConfig";
 
 const commands = {
   AddLayerVersionPermissionCommand,
@@ -277,7 +276,13 @@ const commands = {
   UpdateFunctionUrlConfigCommand,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface LambdaService {
+  readonly _: unique symbol;
+
   /**
    * @see {@link AddLayerVersionPermissionCommand}
    */
@@ -995,10 +1000,22 @@ export interface LambdaService {
   >;
 }
 
-export const BaseLambdaServiceEffect = Effect.gen(function* (_) {
-  const client = yield* _(LambdaClientInstanceTag);
+/**
+ * @since 1.0.0
+ * @category tags
+ */
+export const LambdaService = Context.Tag<LambdaService>(
+  Symbol.for("@effect-aws/client-lambda/LambdaService"),
+);
 
-  return RR.toEntries(commands).reduce((acc, [command]) => {
+/**
+ * @since 1.0.0
+ * @category constructors
+ */
+export const makeLambdaService = Effect.gen(function* (_) {
+  const client = yield* _(LambdaClientInstance);
+
+  return ReadonlyRecord.toEntries(commands).reduce((acc, [command]) => {
     const CommandCtor = commands[command] as any;
     const methodImpl = (args: any, options: any) =>
       Effect.tryPromise(() =>
@@ -1012,10 +1029,48 @@ export const BaseLambdaServiceEffect = Effect.gen(function* (_) {
   }, {}) as LambdaService;
 });
 
+/**
+ * @since 1.0.0
+ * @category layers
+ */
+export const BaseLambdaServiceLayer = Layer.effect(
+  LambdaService,
+  makeLambdaService,
+);
+
+/**
+ * @since 1.0.0
+ * @category layers
+ */
+export const LambdaServiceLayer = BaseLambdaServiceLayer.pipe(
+  Layer.provide(LambdaClientInstanceLayer),
+);
+
+/**
+ * @since 1.0.0
+ * @category layers
+ */
+export const DefaultLambdaServiceLayer = LambdaServiceLayer.pipe(
+  Layer.provide(DefaultLambdaClientConfigLayer),
+);
+
+// -------------------- Danger Zone --------------------
+
+/**
+ * @deprecated
+ */
+export const BaseLambdaServiceEffect = makeLambdaService;
+
+/**
+ * @deprecated
+ */
 export const LambdaServiceEffect = BaseLambdaServiceEffect.pipe(
   Effect.provide(LambdaClientInstanceLayer),
 );
 
+/**
+ * @deprecated
+ */
 export const DefaultLambdaServiceEffect = BaseLambdaServiceEffect.pipe(
   Effect.provide(DefaultLambdaClientInstanceLayer),
 );

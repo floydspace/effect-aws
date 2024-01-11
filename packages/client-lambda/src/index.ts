@@ -1,2 +1,3 @@
-export * from "./Context";
-export * from "./Lambda";
+export * from "./LambdaClientInstance";
+export * from "./LambdaClientInstanceConfig";
+export * from "./LambdaService";
