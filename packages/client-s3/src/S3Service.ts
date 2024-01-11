@@ -285,14 +285,14 @@ import {
   HttpHandlerOptions as __HttpHandlerOptions,
   RequestPresigningArguments,
 } from "@aws-sdk/types";
-import * as Effect from "effect/Effect";
-import * as RR from "effect/ReadonlyRecord";
+import { Context, Effect, Layer, ReadonlyRecord } from "effect";
+import { S3ServiceError, SdkError } from "./Errors";
 import {
   DefaultS3ClientInstanceLayer,
+  S3ClientInstance,
   S3ClientInstanceLayer,
-  S3ClientInstanceTag,
-} from "./Context";
-import { S3ServiceError, SdkError } from "./Errors";
+} from "./S3ClientInstance";
+import { DefaultS3ClientConfigLayer } from "./S3ClientInstanceConfig";
 
 const commands = {
   AbortMultipartUploadCommand,
@@ -390,7 +390,13 @@ const commands = {
   WriteGetObjectResponseCommand,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface S3Service {
+  readonly _: unique symbol;
+
   /**
    * @see {@link AbortMultipartUploadCommand}
    */
@@ -1492,8 +1498,20 @@ export interface S3Service {
   >;
 }
 
-export const BaseS3ServiceEffect = Effect.gen(function* (_) {
-  const client = yield* _(S3ClientInstanceTag);
+/**
+ * @since 1.0.0
+ * @category tags
+ */
+export const S3Service = Context.Tag<S3Service>(
+  Symbol.for("@effect-aws/client-s3/S3Service"),
+);
+
+/**
+ * @since 1.0.0
+ * @category constructors
+ */
+export const makeS3Service = Effect.gen(function* (_) {
+  const client = yield* _(S3ClientInstance);
 
   const catchErrors = (e: unknown) => {
     if (e instanceof S3ServiceException) {
@@ -1515,7 +1533,7 @@ export const BaseS3ServiceEffect = Effect.gen(function* (_) {
     throw e;
   };
 
-  return RR.toEntries(commands).reduce((acc, [command]) => {
+  return ReadonlyRecord.toEntries(commands).reduce((acc, [command]) => {
     const CommandCtor = commands[command] as any;
     const methodImpl = (
       args: any,
@@ -1541,10 +1559,45 @@ export const BaseS3ServiceEffect = Effect.gen(function* (_) {
   }, {}) as S3Service;
 });
 
+/**
+ * @since 1.0.0
+ * @category layers
+ */
+export const BaseS3ServiceLayer = Layer.effect(S3Service, makeS3Service);
+
+/**
+ * @since 1.0.0
+ * @category layers
+ */
+export const S3ServiceLayer = BaseS3ServiceLayer.pipe(
+  Layer.provide(S3ClientInstanceLayer),
+);
+
+/**
+ * @since 1.0.0
+ * @category layers
+ */
+export const DefaultS3ServiceLayer = S3ServiceLayer.pipe(
+  Layer.provide(DefaultS3ClientConfigLayer),
+);
+
+// -------------------- Danger Zone --------------------
+
+/**
+ * @deprecated
+ */
+export const BaseS3ServiceEffect = makeS3Service;
+
+/**
+ * @deprecated
+ */
 export const S3ServiceEffect = BaseS3ServiceEffect.pipe(
   Effect.provide(S3ClientInstanceLayer),
 );
 
+/**
+ * @deprecated
+ */
 export const DefaultS3ServiceEffect = BaseS3ServiceEffect.pipe(
   Effect.provide(DefaultS3ClientInstanceLayer),
 );

@@ -1,3 +1,4 @@
-export * from "./Context";
 export * from "./Errors";
-export * from "./S3";
+export * from "./S3ClientInstance";
+export * from "./S3ClientInstanceConfig";
+export * from "./S3Service";
