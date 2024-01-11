@@ -1,3 +1,4 @@
-export * from "./Context";
 export * from "./Errors";
-export * from "./SNS";
+export * from "./SNSClientInstance";
+export * from "./SNSClientInstanceConfig";
+export * from "./SNSService";

@@ -128,14 +128,7 @@ import {
   VerifySMSSandboxPhoneNumberCommandOutput,
 } from "@aws-sdk/client-sns";
 import { HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
-import * as Data from "effect/Data";
-import * as Effect from "effect/Effect";
-import * as RR from "effect/ReadonlyRecord";
-import {
-  DefaultSNSClientInstanceLayer,
-  SNSClientInstanceLayer,
-  SNSClientInstanceTag,
-} from "./Context";
+import { Context, Data, Effect, Layer, ReadonlyRecord } from "effect";
 import {
   AuthorizationError,
   BatchEntryIdsNotDistinctError,
@@ -172,6 +165,12 @@ import {
   ValidationError,
   VerificationError,
 } from "./Errors";
+import {
+  DefaultSNSClientInstanceLayer,
+  SNSClientInstance,
+  SNSClientInstanceLayer,
+} from "./SNSClientInstance";
+import { DefaultSNSClientConfigLayer } from "./SNSClientInstanceConfig";
 
 const commands = {
   AddPermissionCommand,
@@ -218,7 +217,13 @@ const commands = {
   VerifySMSSandboxPhoneNumberCommand,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface SNSService {
+  readonly _: unique symbol;
+
   /**
    * @see {@link AddPermissionCommand}
    */
@@ -925,10 +930,22 @@ export interface SNSService {
   >;
 }
 
-export const BaseSNSServiceEffect = Effect.gen(function* (_) {
-  const client = yield* _(SNSClientInstanceTag);
+/**
+ * @since 1.0.0
+ * @category tags
+ */
+export const SNSService = Context.Tag<SNSService>(
+  Symbol.for("@effect-aws/client-sns/SNSService"),
+);
 
-  return RR.toEntries(commands).reduce((acc, [command]) => {
+/**
+ * @since 1.0.0
+ * @category constructors
+ */
+export const makeSNSService = Effect.gen(function* (_) {
+  const client = yield* _(SNSClientInstance);
+
+  return ReadonlyRecord.toEntries(commands).reduce((acc, [command]) => {
     const CommandCtor = commands[command] as any;
     const methodImpl = (args: any, options: any) =>
       Effect.tryPromise({
@@ -964,10 +981,45 @@ export const BaseSNSServiceEffect = Effect.gen(function* (_) {
   }, {}) as SNSService;
 });
 
+/**
+ * @since 1.0.0
+ * @category layers
+ */
+export const BaseSNSServiceLayer = Layer.effect(SNSService, makeSNSService);
+
+/**
+ * @since 1.0.0
+ * @category layers
+ */
+export const SNSServiceLayer = BaseSNSServiceLayer.pipe(
+  Layer.provide(SNSClientInstanceLayer),
+);
+
+/**
+ * @since 1.0.0
+ * @category layers
+ */
+export const DefaultSNSServiceLayer = SNSServiceLayer.pipe(
+  Layer.provide(DefaultSNSClientConfigLayer),
+);
+
+// -------------------- Danger Zone --------------------
+
+/**
+ * @deprecated
+ */
+export const BaseSNSServiceEffect = makeSNSService;
+
+/**
+ * @deprecated
+ */
 export const SNSServiceEffect = BaseSNSServiceEffect.pipe(
   Effect.provide(SNSClientInstanceLayer),
 );
 
+/**
+ * @deprecated
+ */
 export const DefaultSNSServiceEffect = BaseSNSServiceEffect.pipe(
   Effect.provide(DefaultSNSClientInstanceLayer),
 );

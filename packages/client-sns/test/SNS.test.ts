@@ -9,19 +9,20 @@ import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
 import * as Layer from "effect/Layer";
 import {
-  BaseSNSServiceEffect,
+  BaseSNSServiceLayer,
   DefaultSNSClientConfigLayer,
-  DefaultSNSServiceEffect,
-  SNSClientConfigTag,
-  SNSClientInstanceTag,
-  SNSClientOptions,
-  SNSServiceEffect,
+  DefaultSNSServiceLayer,
+  SNSClientInstance,
+  SNSClientInstanceConfig,
+  SNSService,
+  SNSServiceLayer,
   SdkError,
 } from "../src";
 
 import "aws-sdk-client-mock-jest";
 
 const snsMock = mockClient(SNSClient);
+const { publish } = Effect.serviceFunctions(SNSService);
 
 describe("SNSClientImpl", () => {
   it("default", async () => {
@@ -29,11 +30,13 @@ describe("SNSClientImpl", () => {
 
     const args: PublishCommandInput = { TopicArn: "test", Message: "test" };
 
-    const program = Effect.flatMap(DefaultSNSServiceEffect, (sns) =>
-      sns.publish(args),
-    );
+    const program = publish(args);
 
-    const result = await pipe(program, Effect.runPromiseExit);
+    const result = await pipe(
+      program,
+      Effect.provide(DefaultSNSServiceLayer),
+      Effect.runPromiseExit,
+    );
 
     expect(result).toEqual(Exit.succeed({}));
     expect(snsMock).toHaveReceivedCommandTimes(PublishCommand, 1);
@@ -45,18 +48,18 @@ describe("SNSClientImpl", () => {
 
     const args: PublishCommandInput = { TopicArn: "test", Message: "test" };
 
-    const program = Effect.flatMap(SNSServiceEffect, (sns) =>
-      sns.publish(args),
-    );
+    const program = publish(args);
 
-    const SNSClientConfigLayer = Layer.succeed(
-      SNSClientConfigTag,
-      new SNSClientOptions({ region: "eu-central-1" }),
+    const SNSClientConfigLayer = Layer.succeed(SNSClientInstanceConfig, {
+      region: "eu-central-1",
+    });
+    const CustomSNSServiceLayer = SNSServiceLayer.pipe(
+      Layer.provide(SNSClientConfigLayer),
     );
 
     const result = await pipe(
       program,
-      Effect.provide(SNSClientConfigLayer),
+      Effect.provide(CustomSNSServiceLayer),
       Effect.runPromiseExit,
     );
 
@@ -70,18 +73,19 @@ describe("SNSClientImpl", () => {
 
     const args: PublishCommandInput = { TopicArn: "test", Message: "test" };
 
-    const program = Effect.flatMap(BaseSNSServiceEffect, (sns) =>
-      sns.publish(args),
-    );
+    const program = publish(args);
 
     const SNSClientInstanceLayer = Layer.succeed(
-      SNSClientInstanceTag,
+      SNSClientInstance,
       new SNSClient({ region: "eu-central-1" }),
+    );
+    const CustomSNSServiceLayer = BaseSNSServiceLayer.pipe(
+      Layer.provide(SNSClientInstanceLayer),
     );
 
     const result = await pipe(
       program,
-      Effect.provide(SNSClientInstanceLayer),
+      Effect.provide(CustomSNSServiceLayer),
       Effect.runPromiseExit,
     );
 
@@ -95,25 +99,23 @@ describe("SNSClientImpl", () => {
 
     const args: PublishCommandInput = { TopicArn: "test", Message: "test" };
 
-    const program = Effect.flatMap(BaseSNSServiceEffect, (sns) =>
-      sns.publish(args),
-    );
+    const program = publish(args);
 
-    const SNSClientInstanceLayer = Layer.provide(
-      Layer.effect(
-        SNSClientInstanceTag,
-        SNSClientConfigTag.pipe(
-          Effect.map(
-            (config) => new SNSClient({ ...config, region: "eu-central-1" }),
-          ),
-        ),
+    const SNSClientInstanceLayer = Layer.effect(
+      SNSClientInstance,
+      Effect.map(
+        SNSClientInstanceConfig,
+        (config) => new SNSClient({ ...config, region: "eu-central-1" }),
       ),
-      DefaultSNSClientConfigLayer,
+    );
+    const CustomSNSServiceLayer = BaseSNSServiceLayer.pipe(
+      Layer.provide(SNSClientInstanceLayer),
+      Layer.provide(DefaultSNSClientConfigLayer),
     );
 
     const result = await pipe(
       program,
-      Effect.provide(SNSClientInstanceLayer),
+      Effect.provide(CustomSNSServiceLayer),
       Effect.runPromiseExit,
     );
 
@@ -127,11 +129,13 @@ describe("SNSClientImpl", () => {
 
     const args: PublishCommandInput = { TopicArn: "test", Message: "test" };
 
-    const program = Effect.flatMap(DefaultSNSServiceEffect, (sns) =>
-      sns.publish(args, { requestTimeout: 1000 }),
-    );
+    const program = publish(args, { requestTimeout: 1000 });
 
-    const result = await pipe(program, Effect.runPromiseExit);
+    const result = await pipe(
+      program,
+      Effect.provide(DefaultSNSServiceLayer),
+      Effect.runPromiseExit,
+    );
 
     expect(result).toEqual(
       Exit.fail(
