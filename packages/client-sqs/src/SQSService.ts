@@ -70,14 +70,13 @@ import {
   UntagQueueCommandOutput,
 } from "@aws-sdk/client-sqs";
 import { HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
-import * as Cause from "effect/Cause";
-import * as Effect from "effect/Effect";
-import * as RR from "effect/ReadonlyRecord";
+import { Cause, Context, Effect, Layer, ReadonlyRecord } from "effect";
 import {
   DefaultSQSClientInstanceLayer,
+  SQSClientInstance,
   SQSClientInstanceLayer,
-  SQSClientInstanceTag,
-} from "./Context";
+} from "./SQSClientInstance";
+import { DefaultSQSClientConfigLayer } from "./SQSClientInstanceConfig";
 
 const commands = {
   AddPermissionCommand,
@@ -105,7 +104,13 @@ const commands = {
   UntagQueueCommand,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface SQSService {
+  readonly _: unique symbol;
+
   /**
    * @see {@link AddPermissionCommand}
    */
@@ -335,10 +340,22 @@ export interface SQSService {
   ): Effect.Effect<never, Cause.UnknownException, UntagQueueCommandOutput>;
 }
 
-export const BaseSQSServiceEffect = Effect.gen(function* (_) {
-  const client = yield* _(SQSClientInstanceTag);
+/**
+ * @since 1.0.0
+ * @category tags
+ */
+export const SQSService = Context.Tag<SQSService>(
+  Symbol.for("@effect-aws/client-sqs/SQSService"),
+);
 
-  return RR.toEntries(commands).reduce((acc, [command]) => {
+/**
+ * @since 1.0.0
+ * @category constructors
+ */
+export const makeSQSService = Effect.gen(function* (_) {
+  const client = yield* _(SQSClientInstance);
+
+  return ReadonlyRecord.toEntries(commands).reduce((acc, [command]) => {
     const CommandCtor = commands[command] as any;
     const methodImpl = (args: any, options: any) =>
       Effect.tryPromise(() =>
@@ -352,10 +369,45 @@ export const BaseSQSServiceEffect = Effect.gen(function* (_) {
   }, {}) as SQSService;
 });
 
+/**
+ * @since 1.0.0
+ * @category layers
+ */
+export const BaseSQSServiceLayer = Layer.effect(SQSService, makeSQSService);
+
+/**
+ * @since 1.0.0
+ * @category layers
+ */
+export const SQSServiceLayer = BaseSQSServiceLayer.pipe(
+  Layer.provide(SQSClientInstanceLayer),
+);
+
+/**
+ * @since 1.0.0
+ * @category layers
+ */
+export const DefaultSQSServiceLayer = SQSServiceLayer.pipe(
+  Layer.provide(DefaultSQSClientConfigLayer),
+);
+
+// -------------------- Danger Zone --------------------
+
+/**
+ * @deprecated
+ */
+export const BaseSQSServiceEffect = makeSQSService;
+
+/**
+ * @deprecated
+ */
 export const SQSServiceEffect = BaseSQSServiceEffect.pipe(
   Effect.provide(SQSClientInstanceLayer),
 );
 
+/**
+ * @deprecated
+ */
 export const DefaultSQSServiceEffect = BaseSQSServiceEffect.pipe(
   Effect.provide(DefaultSQSClientInstanceLayer),
 );
