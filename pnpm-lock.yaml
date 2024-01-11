@@ -112,8 +112,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0(aws-sdk-client-mock@3.0.0)
       effect:
-        specifier: 2.0.0
-        version: 2.0.0
+        specifier: 2.0.1
+        version: 2.0.1
       eslint:
         specifier: ^8
         version: 8.49.0
@@ -176,8 +176,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0(aws-sdk-client-mock@3.0.0)
       effect:
-        specifier: 2.0.0
-        version: 2.0.0
+        specifier: 2.0.1
+        version: 2.0.1
       eslint:
         specifier: ^8
         version: 8.49.0
@@ -240,8 +240,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0(aws-sdk-client-mock@3.0.0)
       effect:
-        specifier: 2.0.0
-        version: 2.0.0
+        specifier: 2.0.1
+        version: 2.0.1
       eslint:
         specifier: ^8
         version: 8.49.0
@@ -304,8 +304,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0(aws-sdk-client-mock@3.0.0)
       effect:
-        specifier: 2.0.0
-        version: 2.0.0
+        specifier: 2.0.1
+        version: 2.0.1
       eslint:
         specifier: ^8
         version: 8.49.0
@@ -371,8 +371,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0(aws-sdk-client-mock@3.0.0)
       effect:
-        specifier: 2.0.0
-        version: 2.0.0
+        specifier: 2.0.1
+        version: 2.0.1
       eslint:
         specifier: ^8
         version: 8.49.0
@@ -435,8 +435,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0(aws-sdk-client-mock@3.0.0)
       effect:
-        specifier: 2.0.0
-        version: 2.0.0
+        specifier: 2.0.1
+        version: 2.0.1
       eslint:
         specifier: ^8
         version: 8.49.0
@@ -499,8 +499,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0(aws-sdk-client-mock@3.0.0)
       effect:
-        specifier: 2.0.0
-        version: 2.0.0
+        specifier: 2.0.1
+        version: 2.0.1
       eslint:
         specifier: ^8
         version: 8.49.0
@@ -563,8 +563,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0(aws-sdk-client-mock@3.0.0)
       effect:
-        specifier: 2.0.0
-        version: 2.0.0
+        specifier: 2.0.1
+        version: 2.0.1
       eslint:
         specifier: ^8
         version: 8.49.0
@@ -621,8 +621,8 @@ importers:
         specifier: ^6
         version: 6.7.0(eslint@8.49.0)(typescript@5.2.2)
       effect:
-        specifier: 2.0.0
-        version: 2.0.0
+        specifier: 2.0.1
+        version: 2.0.1
       eslint:
         specifier: ^8
         version: 8.49.0
@@ -4894,8 +4894,8 @@ packages:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
     dev: true
 
-  /effect@2.0.0:
-    resolution: {integrity: sha512-yYYNf91dlk7dEl+U1QzeSiMHIM9zz1/NqSJ5hNRZ6GrFwctaCQcdxmAhll6mQRCgXFIAMhMEawmATlGLWtU5qQ==}
+  /effect@2.0.1:
+    resolution: {integrity: sha512-S3QLBZZV5+zG6/kFIWUEqG265LRCEUZUPPi2dydkGNUAHaWO1W65xoDU+8pWF3cwp6FGkvLJ/MFx8R7SPdDrPw==}
     dev: true
 
   /electron-to-chromium@1.4.523:
