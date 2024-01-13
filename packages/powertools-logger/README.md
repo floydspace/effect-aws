@@ -22,7 +22,7 @@ const program = pipe(
 
 const result = pipe(
   program,
-  Effect.provideLayer(Logger.DefaultPowerToolsLoggerLayer),
+  Effect.provide(Logger.DefaultPowerToolsLoggerLayer),
   Effect.runPromise,
 );
 ```
@@ -41,11 +41,8 @@ const program = pipe(
 
 const result = pipe(
   program,
-  Effect.provideLayer(Logger.PowerToolsLoggerLayer),
-  Effect.provideService(
-    Logger.LoggerOptionsTag,
-    new Logger.LoggerOptions({ logLevel: "DEBUG" }),
-  ),
+  Effect.provide(Logger.PowerToolsLoggerLayer),
+  Effect.provideService(Logger.LoggerOptions, { logLevel: "DEBUG" }),
   Effect.runPromise,
 );
 ```
@@ -65,9 +62,9 @@ const program = pipe(
 
 const result = pipe(
   program,
-  Effect.provideLayer(Logger.BasePowerToolsLoggerLayer),
+  Effect.provide(Logger.BasePowerToolsLoggerLayer),
   Effect.provideService(
-    Logger.LoggerInstanceTag,
+    Logger.LoggerInstance,
     new LoggerCtor({ logLevel: "DEBUG" }),
   ),
   Effect.runPromise,
