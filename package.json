@@ -84,6 +84,7 @@
       "packages/client-sfn",
       "packages/client-sns",
       "packages/client-sqs",
+      "packages/lambda",
       "packages/powertools-logger"
     ]
   },

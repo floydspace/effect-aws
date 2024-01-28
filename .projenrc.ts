@@ -108,6 +108,13 @@ new TypeScriptLibProject({
   peerDeps: commonPeerDeps,
 });
 
+new TypeScriptLibProject({
+  parent: project,
+  name: "lambda",
+  devDeps: ["@types/aws-lambda"],
+  peerDeps: commonPeerDeps,
+});
+
 project.addGitIgnore(".direnv/"); // flake environment creates .direnv folder
 
 project.synth();
