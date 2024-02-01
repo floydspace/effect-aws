@@ -8,6 +8,7 @@ Effect Docs: https://www.effect.website<br>
 
 - [x] PowerTools Logger
 - [x] S3 Client
+- [x] IAM Client
 - [x] DynamoDB Client
 - [x] SQS Client
 - [x] SNS Client
