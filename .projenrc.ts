@@ -110,6 +110,14 @@ new TypeScriptLibProject({
 
 new TypeScriptLibProject({
   parent: project,
+  name: "client-iam",
+  deps: [...commonDeps, "@aws-sdk/client-iam@^3"],
+  devDeps: commonDevDeps,
+  peerDeps: commonPeerDeps,
+});
+
+new TypeScriptLibProject({
+  parent: project,
   name: "lambda",
   devDeps: ["@types/aws-lambda"],
   peerDeps: commonPeerDeps,

@@ -4,6 +4,7 @@ packages:
   - packages/client-api-gateway-management-api
   - packages/client-dynamodb
   - packages/client-eventbridge
+  - packages/client-iam
   - packages/client-lambda
   - packages/client-s3
   - packages/client-sfn
