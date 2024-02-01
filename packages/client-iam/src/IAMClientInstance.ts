@@ -20,7 +20,7 @@ export type IAMClientInstance = {
  * @category tags
  */
 export const IAMClientInstance = Context.Tag<IAMClientInstance, IAMClient>(
-  Symbol.for("@effect-aws/client-IAM/IAMClientInstance"),
+  Symbol.for("@effect-aws/client-iam/IAMClientInstance"),
 );
 
 /**

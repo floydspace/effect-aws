@@ -8,9 +8,9 @@ import * as Runtime from "effect/Runtime";
  * @since 1.0.0
  * @category tags
  */
-export type IAMClientInstanceConfig = {
+export interface IAMClientInstanceConfig {
   readonly _: unique symbol;
-};
+}
 
 /**
  * @since 1.0.0
@@ -19,7 +19,7 @@ export type IAMClientInstanceConfig = {
 export const IAMClientInstanceConfig = Context.Tag<
   IAMClientInstanceConfig,
   IAMClientConfig
->(Symbol.for("@effect-aws/client-IAM/IAMClientInstanceConfig"));
+>(Symbol.for("@effect-aws/client-iam/IAMClientInstanceConfig"));
 
 /**
  * @since 1.0.0

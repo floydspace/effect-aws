@@ -512,11 +512,7 @@ import {
   UnmodifiableEntityError,
   UnrecognizedPublicKeyEncodingError,
 } from "./Errors";
-import {
-  DefaultIAMClientInstanceLayer,
-  IAMClientInstance,
-  IAMClientInstanceLayer,
-} from "./IAMClientInstance";
+import { IAMClientInstance, IAMClientInstanceLayer } from "./IAMClientInstance";
 import { DefaultIAMClientConfigLayer } from "./IAMClientInstanceConfig";
 
 const commands = {
@@ -3139,7 +3135,7 @@ export type IAMService = {
  * @category tags
  */
 export const IAMService = Context.Tag<IAMService>(
-  Symbol.for("@effect-aws/client-IAM/IAMService"),
+  Symbol.for("@effect-aws/client-iam/IAMService"),
 );
 
 /**
@@ -3205,25 +3201,4 @@ export const IAMServiceLayer = BaseIAMServiceLayer.pipe(
  */
 export const DefaultIAMServiceLayer = IAMServiceLayer.pipe(
   Layer.provide(DefaultIAMClientConfigLayer),
-);
-
-// -------------------- Danger Zone --------------------
-
-/**
- * @deprecated
- */
-export const BaseIAMServiceEffect = makeIAMService;
-
-/**
- * @deprecated
- */
-export const IAMServiceEffect = BaseIAMServiceEffect.pipe(
-  Effect.provide(IAMClientInstanceLayer),
-);
-
-/**
- * @deprecated
- */
-export const DefaultIAMServiceEffect = BaseIAMServiceEffect.pipe(
-  Effect.provide(DefaultIAMClientInstanceLayer),
 );
