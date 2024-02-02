@@ -1,3 +1,6 @@
+/**
+ * @since 1.0.0
+ */
 import type { IAMClientConfig } from "@aws-sdk/client-iam";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";

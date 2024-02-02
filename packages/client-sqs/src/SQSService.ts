@@ -1,3 +1,6 @@
+/**
+ * @since 1.0.0
+ */
 import {
   AddPermissionCommand,
   AddPermissionCommandInput,
@@ -394,11 +397,13 @@ export const DefaultSQSServiceLayer = SQSServiceLayer.pipe(
 // -------------------- Danger Zone --------------------
 
 /**
+ * @since 0.1.0
  * @deprecated
  */
 export const BaseSQSServiceEffect = makeSQSService;
 
 /**
+ * @since 0.1.0
  * @deprecated
  */
 export const SQSServiceEffect = BaseSQSServiceEffect.pipe(
@@ -406,6 +411,7 @@ export const SQSServiceEffect = BaseSQSServiceEffect.pipe(
 );
 
 /**
+ * @since 0.1.0
  * @deprecated
  */
 export const DefaultSQSServiceEffect = BaseSQSServiceEffect.pipe(

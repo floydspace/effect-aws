@@ -1,3 +1,6 @@
+/**
+ * @since 1.0.0
+ */
 import { Logger } from "@aws-lambda-powertools/logger";
 import type {
   LogAttributes,
@@ -37,31 +40,43 @@ const processLog = (
 /**
  * Logs the specified message at the debug log level.
  * It prints a log item with level DEBUG.
+ * @since 1.0.0
+ * @category logging
  */
 export const logDebug = processLog(Effect.logDebug);
 /**
  * Logs the specified message at the info log level.
  * It prints a log item with level INFO.
+ * @since 1.0.0
+ * @category logging
  */
 export const logInfo = processLog(Effect.logInfo);
 /**
  * Logs the specified message at the warning log level.
  * It prints a log item with level WARN.
+ * @since 1.0.0
+ * @category logging
  */
 export const logWarning = processLog(Effect.logWarning);
 /**
  * Logs the specified message at the error log level.
  * It prints a log item with level ERROR.
+ * @since 1.0.0
+ * @category logging
  */
 export const logError = processLog(Effect.logError);
 /**
  * Logs the specified message at the fatal log level.
  * It prints a log item with level CRITICAL.
+ * @since 1.0.0
+ * @category logging
  */
 export const logFatal = processLog(Effect.logFatal);
 /**
  * Logs the specified message at the fatal log level.
  * It prints a log item with level CRITICAL.
+ * @since 1.0.0
+ * @category logging
  * @alias logFatal
  */
 export const logCritical = processLog(Effect.logFatal);

@@ -10,6 +10,7 @@
     ".projen/deps.json",
     ".projen/files.json",
     ".projen/tasks.json",
+    "docgen.json",
     "jest.config.json",
     "LICENSE",
     "project.json",

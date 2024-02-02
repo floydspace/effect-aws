@@ -1,3 +1,6 @@
+/**
+ * @since 1.0.0
+ */
 import {
   BatchExecuteStatementCommand,
   BatchExecuteStatementCommandInput,
@@ -1175,11 +1178,13 @@ export const DefaultDynamoDBServiceLayer = DynamoDBServiceLayer.pipe(
 // -------------------- Danger Zone --------------------
 
 /**
+ * @since 0.1.0
  * @deprecated
  */
 export const BaseDynamoDBServiceEffect = makeDynamoDBService;
 
 /**
+ * @since 0.1.0
  * @deprecated
  */
 export const DynamoDBServiceEffect = BaseDynamoDBServiceEffect.pipe(
@@ -1187,6 +1192,7 @@ export const DynamoDBServiceEffect = BaseDynamoDBServiceEffect.pipe(
 );
 
 /**
+ * @since 0.1.0
  * @deprecated
  */
 export const DefaultDynamoDBServiceEffect = BaseDynamoDBServiceEffect.pipe(

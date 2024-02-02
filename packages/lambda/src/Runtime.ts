@@ -1,3 +1,6 @@
+/**
+ * @since 1.0.0
+ */
 import { Console, Effect, Exit, Layer, Scope } from "effect";
 
 /**

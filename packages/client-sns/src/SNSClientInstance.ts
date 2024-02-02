@@ -1,3 +1,6 @@
+/**
+ * @since 1.0.0
+ */
 import { SNSClient } from "@aws-sdk/client-sns";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";

@@ -1,3 +1,6 @@
+/**
+ * @since 1.0.0
+ */
 import {
   AddPermissionCommand,
   AddPermissionCommandInput,
@@ -1006,11 +1009,13 @@ export const DefaultSNSServiceLayer = SNSServiceLayer.pipe(
 // -------------------- Danger Zone --------------------
 
 /**
+ * @since 0.1.0
  * @deprecated
  */
 export const BaseSNSServiceEffect = makeSNSService;
 
 /**
+ * @since 0.1.0
  * @deprecated
  */
 export const SNSServiceEffect = BaseSNSServiceEffect.pipe(
@@ -1018,6 +1023,7 @@ export const SNSServiceEffect = BaseSNSServiceEffect.pipe(
 );
 
 /**
+ * @since 0.1.0
  * @deprecated
  */
 export const DefaultSNSServiceEffect = BaseSNSServiceEffect.pipe(

@@ -1,8 +1,14 @@
+/**
+ * @since 1.0.0
+ */
 import type { Context } from "aws-lambda";
 import { Layer, Runtime } from "effect";
 import * as Effect from "effect/Effect";
 import { fromLayer } from "./Runtime";
 
+/**
+ * @since 1.0.0
+ */
 export type Handler<TEvent = unknown, TResult = any> = (
   event: TEvent,
   context: Context,

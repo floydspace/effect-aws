@@ -1,3 +1,6 @@
+/**
+ * @since 1.0.0
+ */
 import {
   ApiGatewayManagementApiServiceException,
   DeleteConnectionCommand,
@@ -165,12 +168,14 @@ export const DefaultApiGatewayManagementApiServiceLayer =
 // -------------------- Danger Zone --------------------
 
 /**
+ * @since 0.1.0
  * @deprecated
  */
 export const BaseApiGatewayManagementApiServiceEffect =
   makeApiGatewayManagementApiService;
 
 /**
+ * @since 0.1.0
  * @deprecated
  */
 export const ApiGatewayManagementApiServiceEffect =
@@ -179,6 +184,7 @@ export const ApiGatewayManagementApiServiceEffect =
   );
 
 /**
+ * @since 0.1.0
  * @deprecated
  */
 export const DefaultApiGatewayManagementApiServiceEffect =

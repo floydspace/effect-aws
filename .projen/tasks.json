@@ -41,6 +41,14 @@
         }
       ]
     },
+    "docgen": {
+      "name": "docgen",
+      "steps": [
+        {
+          "exec": "pnpm exec nx run-many --target=docgen --output-style=stream --nx-bail && node scripts/docs.mjs"
+        }
+      ]
+    },
     "eject": {
       "name": "eject",
       "description": "Remove projen from the project",

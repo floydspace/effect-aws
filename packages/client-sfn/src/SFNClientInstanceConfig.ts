@@ -1,3 +1,6 @@
+/**
+ * @since 1.0.0
+ */
 import type { SFNClientConfig } from "@aws-sdk/client-sfn";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";

@@ -1,3 +1,6 @@
+/**
+ * @since 1.0.0
+ */
 import {
   AddLayerVersionPermissionCommand,
   AddLayerVersionPermissionCommandInput,
@@ -1057,11 +1060,13 @@ export const DefaultLambdaServiceLayer = LambdaServiceLayer.pipe(
 // -------------------- Danger Zone --------------------
 
 /**
+ * @since 0.1.0
  * @deprecated
  */
 export const BaseLambdaServiceEffect = makeLambdaService;
 
 /**
+ * @since 0.1.0
  * @deprecated
  */
 export const LambdaServiceEffect = BaseLambdaServiceEffect.pipe(
@@ -1069,6 +1074,7 @@ export const LambdaServiceEffect = BaseLambdaServiceEffect.pipe(
 );
 
 /**
+ * @since 0.1.0
  * @deprecated
  */
 export const DefaultLambdaServiceEffect = BaseLambdaServiceEffect.pipe(

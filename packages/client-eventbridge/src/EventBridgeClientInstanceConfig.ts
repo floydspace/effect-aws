@@ -1,3 +1,6 @@
+/**
+ * @since 1.0.0
+ */
 import type { EventBridgeClientConfig } from "@aws-sdk/client-eventbridge";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";

@@ -1,3 +1,6 @@
+/**
+ * @since 1.0.0
+ */
 import {
   AbortMultipartUploadCommand,
   AbortMultipartUploadCommandInput,
@@ -1584,11 +1587,13 @@ export const DefaultS3ServiceLayer = S3ServiceLayer.pipe(
 // -------------------- Danger Zone --------------------
 
 /**
+ * @since 0.1.0
  * @deprecated
  */
 export const BaseS3ServiceEffect = makeS3Service;
 
 /**
+ * @since 0.1.0
  * @deprecated
  */
 export const S3ServiceEffect = BaseS3ServiceEffect.pipe(
@@ -1596,6 +1601,7 @@ export const S3ServiceEffect = BaseS3ServiceEffect.pipe(
 );
 
 /**
+ * @since 0.1.0
  * @deprecated
  */
 export const DefaultS3ServiceEffect = BaseS3ServiceEffect.pipe(

@@ -1,6 +1,10 @@
 {
   "dependencies": [
     {
+      "name": "@effect/docgen",
+      "type": "build"
+    },
+    {
       "name": "@types/aws-lambda",
       "type": "build"
     },

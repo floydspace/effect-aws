@@ -10,6 +10,7 @@ const project = new monorepo.MonorepoTsProject({
   name: name,
   description: "Effectful AWS",
   repository: `github:${repo}`,
+  homepage: `https://${org}.github.io/${name}`,
   authorEmail: "ifloydrose@gmail.com",
   authorName: "Victor Korzunin",
   license: "MIT",
@@ -17,6 +18,10 @@ const project = new monorepo.MonorepoTsProject({
   clobber: false, // enable it and run `pnpm default && pnpm clobber`, if you need to reset the project
   depsUpgrade: false, // enable it and run `pnpm default && pnpm upgrade` to upgrade projen and monorepo deps
   devDeps: ["@types/jest"], // needed for vscode to not complain about jest types
+});
+
+project.addTask("docgen", {
+  exec: "pnpm exec nx run-many --target=docgen --output-style=stream --nx-bail && node scripts/docs.mjs",
 });
 
 new YamlFile(project, ".github/FUNDING.yml", { obj: { github: org } });
@@ -124,5 +129,6 @@ new TypeScriptLibProject({
 });
 
 project.addGitIgnore(".direnv/"); // flake environment creates .direnv folder
+project.addGitIgnore("docs/"); // docs are generated
 
 project.synth();

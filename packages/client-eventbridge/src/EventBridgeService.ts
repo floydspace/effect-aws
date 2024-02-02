@@ -1,3 +1,6 @@
+/**
+ * @since 1.0.0
+ */
 import {
   ActivateEventSourceCommand,
   ActivateEventSourceCommandInput,
@@ -857,11 +860,13 @@ export const DefaultEventBridgeServiceLayer = EventBridgeServiceLayer.pipe(
 // -------------------- Danger Zone --------------------
 
 /**
+ * @since 0.1.0
  * @deprecated
  */
 export const BaseEventBridgeServiceEffect = makeEventBridgeService;
 
 /**
+ * @since 0.1.0
  * @deprecated
  */
 export const EventBridgeServiceEffect = BaseEventBridgeServiceEffect.pipe(
@@ -869,6 +874,7 @@ export const EventBridgeServiceEffect = BaseEventBridgeServiceEffect.pipe(
 );
 
 /**
+ * @since 0.1.0
  * @deprecated
  */
 export const DefaultEventBridgeServiceEffect =

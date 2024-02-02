@@ -1,3 +1,6 @@
+/**
+ * @since 1.0.0
+ */
 import {
   CreateActivityCommand,
   CreateActivityCommandInput,
@@ -754,11 +757,13 @@ export const DefaultSFNServiceLayer = SFNServiceLayer.pipe(
 // -------------------- Danger Zone --------------------
 
 /**
+ * @since 0.1.0
  * @deprecated
  */
 export const BaseSFNServiceEffect = makeSFNService;
 
 /**
+ * @since 0.1.0
  * @deprecated
  */
 export const SFNServiceEffect = BaseSFNServiceEffect.pipe(
@@ -766,6 +771,7 @@ export const SFNServiceEffect = BaseSFNServiceEffect.pipe(
 );
 
 /**
+ * @since 0.1.0
  * @deprecated
  */
 export const DefaultSFNServiceEffect = BaseSFNServiceEffect.pipe(

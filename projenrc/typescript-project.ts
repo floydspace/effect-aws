@@ -1,6 +1,7 @@
 import path from "node:path";
 
 import { JsonFile, javascript, typescript } from "projen";
+import { Docgen } from "./docgen";
 
 type PredefinedProps = "defaultReleaseBranch" | "authorName" | "authorEmail";
 
@@ -19,6 +20,8 @@ export class TypeScriptLibProject extends typescript.TypeScriptProject {
       defaultReleaseBranch: "main",
       authorEmail: "ifloydrose@gmail.com",
       authorName: "Victor Korzunin",
+      homepage: (options.parent as javascript.NodeProject)?.package.manifest
+        .homepage,
       license: "MIT",
       packageManager: javascript.NodePackageManager.PNPM,
       outdir: `packages/${options.name}`,
@@ -80,5 +83,7 @@ export class TypeScriptLibProject extends typescript.TypeScriptProject {
     this.npmignore?.addPatterns("/tsconfig.esm.json");
 
     this.package.addField("publishConfig", { access: "public" });
+
+    new Docgen(this);
   }
 }
