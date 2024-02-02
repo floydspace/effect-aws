@@ -1,3 +1,6 @@
+/**
+ * @since 1.0.0
+ */
 import { DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
 import {
   DefaultDynamoDBClientInstanceLayer,

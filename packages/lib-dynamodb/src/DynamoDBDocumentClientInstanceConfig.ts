@@ -1,3 +1,6 @@
+/**
+ * @since 1.0.0
+ */
 import type { TranslateConfig } from "@aws-sdk/lib-dynamodb";
 import { Context, Effect, Layer } from "effect";
 

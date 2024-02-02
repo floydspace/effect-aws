@@ -1,3 +1,6 @@
+/**
+ * @since 1.0.0
+ */
 import { DynamoDBServiceException } from "@aws-sdk/client-dynamodb";
 import {
   BatchExecuteStatementCommand,
