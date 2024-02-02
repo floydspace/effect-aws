@@ -8,6 +8,7 @@ import { fromLayer } from "./Runtime";
 
 /**
  * @since 1.0.0
+ * @category model
  */
 export type Handler<TEvent = unknown, TResult = any> = (
   event: TEvent,
