@@ -10,6 +10,7 @@ Effect Docs: https://www.effect.website<br>
 - [x] S3 Client
 - [x] IAM Client
 - [x] DynamoDB Client
+- [x] DynamoDB Document Client (lib-dynamodb)
 - [x] SQS Client
 - [x] SNS Client
 - [x] EventBridge Client

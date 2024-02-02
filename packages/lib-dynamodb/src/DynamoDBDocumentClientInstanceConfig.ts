@@ -1,7 +1,5 @@
 import type { TranslateConfig } from "@aws-sdk/lib-dynamodb";
-import * as Context from "effect/Context";
-import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
+import { Context, Effect, Layer } from "effect";
 
 /**
  * @since 1.0.0
@@ -18,7 +16,7 @@ export interface DynamoDBDocumentClientInstanceConfig {
 export const DynamoDBDocumentClientInstanceConfig = Context.Tag<
   DynamoDBDocumentClientInstanceConfig,
   TranslateConfig
->(Symbol.for("@effect-aws/lib-dynamodb/DynamoDBDocumentClientConfig"));
+>(Symbol.for("@effect-aws/lib-dynamodb/DynamoDBDocumentClientInstanceConfig"));
 
 /**
  * @since 1.0.0

@@ -1,8 +1,9 @@
 import { DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
-import { DynamoDBClientInstance } from "@effect-aws/client-dynamodb";
-import * as Context from "effect/Context";
-import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
+import {
+  DefaultDynamoDBClientInstanceLayer,
+  DynamoDBClientInstance,
+} from "@effect-aws/client-dynamodb";
+import { Context, Effect, Layer } from "effect";
 import {
   DefaultDynamoDBDocumentClientConfigLayer,
   DynamoDBDocumentClientInstanceConfig,
@@ -29,11 +30,7 @@ export const DynamoDBDocumentClientInstance = Context.Tag<
  * @since 1.0.0
  * @category constructors
  */
-export const makeDynamoDBDocumentClientInstance: Effect.Effect<
-  DynamoDBDocumentClientInstanceConfig | DynamoDBClientInstance,
-  never,
-  any
-> = Effect.all([
+export const makeDynamoDBDocumentClientInstance = Effect.all([
   DynamoDBClientInstance,
   DynamoDBDocumentClientInstanceConfig,
 ]).pipe(
@@ -47,7 +44,7 @@ export const makeDynamoDBDocumentClientInstance: Effect.Effect<
 export const DynamoDBDocumentClientInstanceLayer = Layer.effect(
   DynamoDBDocumentClientInstance,
   makeDynamoDBDocumentClientInstance,
-);
+).pipe(Layer.provide(DefaultDynamoDBClientInstanceLayer));
 
 /**
  * @since 1.0.0
@@ -56,4 +53,5 @@ export const DynamoDBDocumentClientInstanceLayer = Layer.effect(
 export const DefaultDynamoDBDocumentClientInstanceLayer =
   DynamoDBDocumentClientInstanceLayer.pipe(
     Layer.provide(DefaultDynamoDBDocumentClientConfigLayer),
+    Layer.provide(DefaultDynamoDBClientInstanceLayer),
   );

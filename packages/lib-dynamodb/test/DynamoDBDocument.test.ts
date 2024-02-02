@@ -5,7 +5,8 @@ import {
   PutCommandInput,
 } from "@aws-sdk/lib-dynamodb";
 import {
-  DefaultDynamoDBClientInstanceLayer,
+  DefaultDynamoDBClientConfigLayer,
+  DynamoDBClientInstanceConfig,
   SdkError,
 } from "@effect-aws/client-dynamodb";
 import { mockClient } from "aws-sdk-client-mock";
@@ -15,7 +16,6 @@ import { pipe } from "effect/Function";
 import * as Layer from "effect/Layer";
 import {
   BaseDynamoDBDocumentServiceLayer,
-  DefaultDynamoDBDocumentClientConfigLayer,
   DefaultDynamoDBDocumentServiceLayer,
   DynamoDBDocumentClientInstance,
   DynamoDBDocumentClientInstanceConfig,
@@ -24,6 +24,7 @@ import {
 } from "../src";
 
 import "aws-sdk-client-mock-jest";
+
 const dynamodbMock = mockClient(DynamoDBDocumentClient);
 const { put } = Effect.serviceFunctions(DynamoDBDocumentService);
 
@@ -50,13 +51,7 @@ describe("DynamoDBDocumentClientImpl", () => {
   });
 
   it("configurable", async () => {
-    dynamodbMock
-      .reset()
-      .on(PutCommand)
-      .callsFake((input) => {
-        console.log(input);
-        return Promise.resolve({});
-      });
+    dynamodbMock.reset().on(PutCommand).resolves({});
 
     const args: PutCommandInput = {
       TableName: "test",
@@ -72,7 +67,6 @@ describe("DynamoDBDocumentClientImpl", () => {
     const CustomDynamoDBDocumentServiceLayer =
       DynamoDBDocumentServiceLayer.pipe(
         Layer.provide(DynamoDBDocumentClientConfigLayer),
-        Layer.provide(DefaultDynamoDBClientInstanceLayer),
       );
 
     const result = await pipe(
@@ -131,17 +125,17 @@ describe("DynamoDBDocumentClientImpl", () => {
 
     const DynamoDBDocumentClientInstanceLayer = Layer.effect(
       DynamoDBDocumentClientInstance,
-      Effect.map(DynamoDBDocumentClientInstanceConfig, (config) =>
+      Effect.map(DynamoDBClientInstanceConfig, (config) =>
         DynamoDBDocumentClient.from(
-          new DynamoDBClient({ region: "eu-central-1" }),
-          { ...config, marshallOptions: { removeUndefinedValues: true } },
+          new DynamoDBClient({ ...config, region: "eu-central-1" }),
+          { marshallOptions: { removeUndefinedValues: true } },
         ),
       ),
     );
     const CustomDynamoDBDocumentServiceLayer =
       BaseDynamoDBDocumentServiceLayer.pipe(
         Layer.provide(DynamoDBDocumentClientInstanceLayer),
-        Layer.provide(DefaultDynamoDBDocumentClientConfigLayer),
+        Layer.provide(DefaultDynamoDBClientConfigLayer),
       );
 
     const result = await pipe(

@@ -5,6 +5,10 @@
       "type": "build"
     },
     {
+      "name": "@effect/docgen",
+      "type": "build"
+    },
+    {
       "name": "@types/jest",
       "type": "build"
     },

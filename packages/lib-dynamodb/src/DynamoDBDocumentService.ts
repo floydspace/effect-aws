@@ -41,14 +41,28 @@ import {
   UpdateCommandOutput,
 } from "@aws-sdk/lib-dynamodb";
 import { HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
-import { DefaultDynamoDBClientInstanceLayer } from "@effect-aws/client-dynamodb";
+import {
+  ConditionalCheckFailedError,
+  DuplicateItemError,
+  IdempotentParameterMismatchError,
+  InternalServerError,
+  InvalidEndpointError,
+  ItemCollectionSizeLimitExceededError,
+  ProvisionedThroughputExceededError,
+  RequestLimitExceededError,
+  ResourceNotFoundError,
+  SdkError,
+  TaggedException,
+  TransactionCanceledError,
+  TransactionConflictError,
+  TransactionInProgressError,
+} from "@effect-aws/client-dynamodb";
 import { Context, Data, Effect, Layer, ReadonlyRecord } from "effect";
 import {
   DynamoDBDocumentClientInstance,
   DynamoDBDocumentClientInstanceLayer,
 } from "./DynamoDBDocumentClientInstance";
 import { DefaultDynamoDBDocumentClientConfigLayer } from "./DynamoDBDocumentClientInstanceConfig";
-import { InternalServerError, SdkError, TaggedException } from "./Errors";
 
 const commands = {
   BatchExecuteStatementCommand,
@@ -81,7 +95,7 @@ export interface DynamoDBDocumentService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     never,
-    SdkError | InternalServerError,
+    SdkError | InternalServerError | RequestLimitExceededError,
     BatchExecuteStatementCommandOutput
   >;
 
@@ -93,7 +107,12 @@ export interface DynamoDBDocumentService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     never,
-    SdkError | InternalServerError,
+    | SdkError
+    | InternalServerError
+    | InvalidEndpointError
+    | ProvisionedThroughputExceededError
+    | RequestLimitExceededError
+    | ResourceNotFoundError,
     BatchGetCommandOutput
   >;
 
@@ -105,7 +124,13 @@ export interface DynamoDBDocumentService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     never,
-    SdkError | InternalServerError,
+    | SdkError
+    | InternalServerError
+    | InvalidEndpointError
+    | ItemCollectionSizeLimitExceededError
+    | ProvisionedThroughputExceededError
+    | RequestLimitExceededError
+    | ResourceNotFoundError,
     BatchWriteCommandOutput
   >;
 
@@ -115,7 +140,19 @@ export interface DynamoDBDocumentService {
   delete(
     args: DeleteCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, SdkError | InternalServerError, DeleteCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | ConditionalCheckFailedError
+    | InternalServerError
+    | InvalidEndpointError
+    | ItemCollectionSizeLimitExceededError
+    | ProvisionedThroughputExceededError
+    | RequestLimitExceededError
+    | ResourceNotFoundError
+    | TransactionConflictError,
+    DeleteCommandOutput
+  >;
 
   /**
    * @see {@link ExecuteStatementCommand}
@@ -125,7 +162,15 @@ export interface DynamoDBDocumentService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     never,
-    SdkError | InternalServerError,
+    | SdkError
+    | ConditionalCheckFailedError
+    | DuplicateItemError
+    | InternalServerError
+    | ItemCollectionSizeLimitExceededError
+    | ProvisionedThroughputExceededError
+    | RequestLimitExceededError
+    | ResourceNotFoundError
+    | TransactionConflictError,
     ExecuteStatementCommandOutput
   >;
 
@@ -137,7 +182,14 @@ export interface DynamoDBDocumentService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     never,
-    SdkError | InternalServerError,
+    | SdkError
+    | IdempotentParameterMismatchError
+    | InternalServerError
+    | ProvisionedThroughputExceededError
+    | RequestLimitExceededError
+    | ResourceNotFoundError
+    | TransactionCanceledError
+    | TransactionInProgressError,
     ExecuteTransactionCommandOutput
   >;
 
@@ -147,7 +199,16 @@ export interface DynamoDBDocumentService {
   get(
     args: GetCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, SdkError | InternalServerError, GetCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | InternalServerError
+    | InvalidEndpointError
+    | ProvisionedThroughputExceededError
+    | RequestLimitExceededError
+    | ResourceNotFoundError,
+    GetCommandOutput
+  >;
 
   /**
    * @see {@link PutCommand}
@@ -155,7 +216,19 @@ export interface DynamoDBDocumentService {
   put(
     args: PutCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, SdkError | InternalServerError, PutCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | ConditionalCheckFailedError
+    | InternalServerError
+    | InvalidEndpointError
+    | ItemCollectionSizeLimitExceededError
+    | ProvisionedThroughputExceededError
+    | RequestLimitExceededError
+    | ResourceNotFoundError
+    | TransactionConflictError,
+    PutCommandOutput
+  >;
 
   /**
    * @see {@link QueryCommand}
@@ -163,7 +236,16 @@ export interface DynamoDBDocumentService {
   query(
     args: QueryCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, SdkError | InternalServerError, QueryCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | InternalServerError
+    | InvalidEndpointError
+    | ProvisionedThroughputExceededError
+    | RequestLimitExceededError
+    | ResourceNotFoundError,
+    QueryCommandOutput
+  >;
 
   /**
    * @see {@link ScanCommand}
@@ -171,7 +253,16 @@ export interface DynamoDBDocumentService {
   scan(
     args: ScanCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, SdkError | InternalServerError, ScanCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | InternalServerError
+    | InvalidEndpointError
+    | ProvisionedThroughputExceededError
+    | RequestLimitExceededError
+    | ResourceNotFoundError,
+    ScanCommandOutput
+  >;
 
   /**
    * @see {@link TransactGetCommand}
@@ -181,7 +272,13 @@ export interface DynamoDBDocumentService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     never,
-    SdkError | InternalServerError,
+    | SdkError
+    | InternalServerError
+    | InvalidEndpointError
+    | ProvisionedThroughputExceededError
+    | RequestLimitExceededError
+    | ResourceNotFoundError
+    | TransactionCanceledError,
     TransactGetCommandOutput
   >;
 
@@ -193,7 +290,15 @@ export interface DynamoDBDocumentService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     never,
-    SdkError | InternalServerError,
+    | SdkError
+    | IdempotentParameterMismatchError
+    | InternalServerError
+    | InvalidEndpointError
+    | ProvisionedThroughputExceededError
+    | RequestLimitExceededError
+    | ResourceNotFoundError
+    | TransactionCanceledError
+    | TransactionInProgressError,
     TransactWriteCommandOutput
   >;
 
@@ -203,7 +308,19 @@ export interface DynamoDBDocumentService {
   update(
     args: UpdateCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, SdkError | InternalServerError, UpdateCommandOutput>;
+  ): Effect.Effect<
+    never,
+    | SdkError
+    | ConditionalCheckFailedError
+    | InternalServerError
+    | InvalidEndpointError
+    | ItemCollectionSizeLimitExceededError
+    | ProvisionedThroughputExceededError
+    | RequestLimitExceededError
+    | ResourceNotFoundError
+    | TransactionConflictError,
+    UpdateCommandOutput
+  >;
 }
 
 /**
@@ -282,5 +399,4 @@ export const DynamoDBDocumentServiceLayer =
 export const DefaultDynamoDBDocumentServiceLayer =
   DynamoDBDocumentServiceLayer.pipe(
     Layer.provide(DefaultDynamoDBDocumentClientConfigLayer),
-    Layer.provide(DefaultDynamoDBClientInstanceLayer),
   );
