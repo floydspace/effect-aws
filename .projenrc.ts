@@ -53,12 +53,20 @@ new TypeScriptLibProject({
   peerDeps: commonPeerDeps,
 });
 
-new TypeScriptLibProject({
+const clientDynamodb = new TypeScriptLibProject({
   parent: project,
   name: "client-dynamodb",
   deps: [...commonDeps, "@aws-sdk/client-dynamodb@^3"],
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
+});
+
+new TypeScriptLibProject({
+  parent: project,
+  name: "lib-dynamodb",
+  deps: [...commonDeps, "@aws-sdk/client-dynamodb@^3", "@aws-sdk/lib-dynamodb@^3"],
+  devDeps: commonDevDeps,
+  peerDeps: [...commonPeerDeps, clientDynamodb.package.packageName],
 });
 
 new TypeScriptLibProject({
