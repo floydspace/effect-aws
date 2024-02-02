@@ -53,12 +53,24 @@ new TypeScriptLibProject({
   peerDeps: commonPeerDeps,
 });
 
-new TypeScriptLibProject({
+const dynamodbClient = new TypeScriptLibProject({
   parent: project,
   name: "client-dynamodb",
   deps: [...commonDeps, "@aws-sdk/client-dynamodb@^3"],
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
+});
+
+const dynamodbLib = new TypeScriptLibProject({
+  parent: project,
+  name: "lib-dynamodb",
+  deps: [
+    ...commonDeps,
+    "@aws-sdk/client-dynamodb@^3",
+    "@aws-sdk/lib-dynamodb@^3",
+  ],
+  devDeps: commonDevDeps,
+  peerDeps: [...commonPeerDeps, dynamodbClient.package.packageName],
 });
 
 new TypeScriptLibProject({
@@ -127,6 +139,8 @@ new TypeScriptLibProject({
   devDeps: ["@types/aws-lambda"],
   peerDeps: commonPeerDeps,
 });
+
+project.addImplicitDependency(dynamodbLib, dynamodbClient);
 
 project.addGitIgnore(".direnv/"); // flake environment creates .direnv folder
 project.addGitIgnore("docs/"); // docs are generated
