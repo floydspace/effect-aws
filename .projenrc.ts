@@ -17,6 +17,7 @@ const project = new monorepo.MonorepoTsProject({
   packageManager: javascript.NodePackageManager.PNPM,
   clobber: false, // enable it and run `pnpm default && pnpm clobber`, if you need to reset the project
   depsUpgrade: false, // enable it and run `pnpm default && pnpm upgrade` to upgrade projen and monorepo deps
+  monorepoUpgradeDeps: false,
   devDeps: ["@types/jest"], // needed for vscode to not complain about jest types
 });
 

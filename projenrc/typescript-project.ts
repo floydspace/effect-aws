@@ -16,16 +16,17 @@ export class TypeScriptLibProject extends typescript.TypeScriptProject {
     jestOptions: { jestConfig, ...jestOptions } = {},
     ...options
   }: TypeScriptLibProjectOptions) {
+    const parent = options.parent as javascript.NodeProject | undefined;
     super({
       defaultReleaseBranch: "main",
       authorEmail: "ifloydrose@gmail.com",
       authorName: "Victor Korzunin",
-      homepage: (options.parent as javascript.NodeProject)?.package.manifest
-        .homepage,
+      homepage: parent?.package.manifest.homepage,
       license: "MIT",
       packageManager: javascript.NodePackageManager.PNPM,
       outdir: `packages/${options.name}`,
       prettier: true, // Monorepo prettier doesn't work for some reason
+      projenVersion: parent?.deps.getDependency("projen").version,
       package: false, // It will be created by @changesets/cli
       depsUpgrade: false, // Updates are handled by monorepo task
       jest: true,
@@ -33,14 +34,6 @@ export class TypeScriptLibProject extends typescript.TypeScriptProject {
         ...jestOptions,
         configFilePath: "jest.config.json",
         junitReporting: false,
-        jestConfig: {
-          ...jestConfig,
-          transform: {
-            "^.+\\.tsx?$": new javascript.Transform("ts-jest", {
-              tsconfig: "tsconfig.dev.json",
-            }),
-          },
-        },
       },
       tsconfig: {
         compilerOptions: {
@@ -51,15 +44,6 @@ export class TypeScriptLibProject extends typescript.TypeScriptProject {
       ...options,
       name: `@effect-aws/${options.name}`,
     });
-
-    if (options.jest ?? true) {
-      const jestConfigFile = this.jest?.file as JsonFile;
-      jestConfigFile.addDeletionOverride("globals");
-      if (!jestConfig?.preset) {
-        // See why https://kulshekhar.github.io/ts-jest/docs/getting-started/options
-        jestConfigFile.addDeletionOverride("preset");
-      }
-    }
 
     // Add tsconfig for esm
     new JsonFile(this, `${path.dirname(this.srcdir)}/tsconfig.esm.json`, {

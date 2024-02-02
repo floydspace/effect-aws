@@ -29,7 +29,6 @@ jspm_packages/
 *.tgz
 .yarn-integrity
 .cache
-!/.projenrc.js
 !/jest.config.json
 /coverage/
 !/.prettierignore
@@ -42,7 +41,7 @@ jspm_packages/
 /lib
 /dist/
 !/.eslintrc.json
-!/./tsconfig.esm.json
+!/tsconfig.esm.json
 !/docgen.json
 docs/
 !/project.json
