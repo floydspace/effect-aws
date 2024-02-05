@@ -1,6 +1,6 @@
 import { monorepo } from "@aws/pdk";
 import { javascript, YamlFile } from "projen";
-import { Changesets, TypeScriptLibProject } from "./projenrc";
+import { Changesets, TypeScriptLibProject, TypeScriptLibProjectOptions } from "./projenrc";
 
 const org = "floydspace";
 const name = "effect-aws";
@@ -36,7 +36,17 @@ const commonDeps = ["@aws-sdk/types@^3"];
 const commonDevDeps = ["aws-sdk-client-mock", "aws-sdk-client-mock-jest"];
 const commonPeerDeps = ["effect@^2.0.1"];
 
-new TypeScriptLibProject({
+class TypeScriptProject extends TypeScriptLibProject {
+  constructor(options: TypeScriptLibProjectOptions) {
+    super({
+      ...options,
+    });
+
+    this.addFields({ sideEffects: [] });
+  }
+}
+
+new TypeScriptProject({
   parent: project,
   name: "powertools-logger",
   deps: ["@aws-lambda-powertools/logger@^1.9.0"], // lower versions are not supported, raise an issue if you need it
@@ -46,7 +56,7 @@ new TypeScriptLibProject({
   peerDeps: commonPeerDeps,
 });
 
-new TypeScriptLibProject({
+new TypeScriptProject({
   parent: project,
   name: "client-api-gateway-management-api",
   deps: [...commonDeps, "@aws-sdk/client-apigatewaymanagementapi@^3"],
@@ -54,15 +64,16 @@ new TypeScriptLibProject({
   peerDeps: commonPeerDeps,
 });
 
-const dynamodbClient = new TypeScriptLibProject({
+const dynamodbClient = new TypeScriptProject({
   parent: project,
   name: "client-dynamodb",
   deps: [...commonDeps, "@aws-sdk/client-dynamodb@^3"],
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
 });
+dynamodbClient.addFields({ sideEffects: false });
 
-const dynamodbLib = new TypeScriptLibProject({
+const dynamodbLib = new TypeScriptProject({
   parent: project,
   name: "lib-dynamodb",
   deps: [
@@ -74,7 +85,7 @@ const dynamodbLib = new TypeScriptLibProject({
   peerDeps: [...commonPeerDeps, dynamodbClient.package.packageName],
 });
 
-new TypeScriptLibProject({
+new TypeScriptProject({
   parent: project,
   name: "client-eventbridge",
   deps: [...commonDeps, "@aws-sdk/client-eventbridge@^3"],
@@ -82,7 +93,7 @@ new TypeScriptLibProject({
   peerDeps: commonPeerDeps,
 });
 
-new TypeScriptLibProject({
+new TypeScriptProject({
   parent: project,
   name: "client-lambda",
   deps: [...commonDeps, "@aws-sdk/client-lambda@^3"],
@@ -90,7 +101,7 @@ new TypeScriptLibProject({
   peerDeps: commonPeerDeps,
 });
 
-new TypeScriptLibProject({
+new TypeScriptProject({
   parent: project,
   name: "client-s3",
   deps: [
@@ -102,7 +113,7 @@ new TypeScriptLibProject({
   peerDeps: commonPeerDeps,
 });
 
-new TypeScriptLibProject({
+new TypeScriptProject({
   parent: project,
   name: "client-sns",
   deps: [...commonDeps, "@aws-sdk/client-sns@^3"],
@@ -110,7 +121,7 @@ new TypeScriptLibProject({
   peerDeps: commonPeerDeps,
 });
 
-new TypeScriptLibProject({
+new TypeScriptProject({
   parent: project,
   name: "client-sqs",
   deps: [...commonDeps, "@aws-sdk/client-sqs@^3"],
@@ -118,7 +129,7 @@ new TypeScriptLibProject({
   peerDeps: commonPeerDeps,
 });
 
-new TypeScriptLibProject({
+new TypeScriptProject({
   parent: project,
   name: "client-sfn",
   deps: [...commonDeps, "@aws-sdk/client-sfn@^3"],
@@ -126,7 +137,7 @@ new TypeScriptLibProject({
   peerDeps: commonPeerDeps,
 });
 
-new TypeScriptLibProject({
+new TypeScriptProject({
   parent: project,
   name: "client-iam",
   deps: [...commonDeps, "@aws-sdk/client-iam@^3"],
@@ -134,7 +145,7 @@ new TypeScriptLibProject({
   peerDeps: commonPeerDeps,
 });
 
-new TypeScriptLibProject({
+new TypeScriptProject({
   parent: project,
   name: "lambda",
   devDeps: ["@types/aws-lambda"],
