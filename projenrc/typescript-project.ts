@@ -58,15 +58,17 @@ export class TypeScriptLibProject extends typescript.TypeScriptProject {
       },
     });
 
-    // Reference to esm index for root imports
-    this.package.addField("module", "lib/esm/index.js");
-
     // Build both cjs and esm
     this.compileTask.reset("tsc -b ./tsconfig.json ./tsconfig.esm.json");
 
     this.npmignore?.addPatterns("/tsconfig.esm.json");
 
-    this.package.addField("publishConfig", { access: "public" });
+    this.addFields({
+      // Reference to esm index for root imports
+      module: "lib/esm/index.js",
+      publishConfig: { access: "public" },
+      sideEffects: [],
+    });
 
     new Docgen(this);
   }
