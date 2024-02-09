@@ -754,7 +754,7 @@ importers:
         version: 3.468.0
     devDependencies:
       '@effect-aws/client-dynamodb':
-        specifier: 1.0.1
+        specifier: 1.0.2
         version: link:../client-dynamodb
       '@effect/docgen':
         specifier: ^0.3.8

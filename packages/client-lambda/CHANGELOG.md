@@ -1,5 +1,11 @@
 # @effect-aws/client-lambda
 
+## 1.0.2
+
+### Patch Changes
+
+- [`88676ae`](https://github.com/floydspace/effect-aws/commit/88676ae3a5f7fa514cab58ba83a50a0774be1aa1) Thanks [@floydspace](https://github.com/floydspace)! - use effect@~2.2 as maximum allowed peer version
+
 ## 1.0.1
 
 ### Patch Changes
