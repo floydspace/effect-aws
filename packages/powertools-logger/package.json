@@ -39,7 +39,7 @@
     "typescript": "^5.2.2"
   },
   "peerDependencies": {
-    "effect": "^2.0.1"
+    "effect": ">=2.0.1 <2.3.0"
   },
   "dependencies": {
     "@aws-lambda-powertools/logger": "^1.9.0"

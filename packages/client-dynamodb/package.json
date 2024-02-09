@@ -40,7 +40,7 @@
     "typescript": "^5.2.2"
   },
   "peerDependencies": {
-    "effect": "^2.0.1"
+    "effect": ">=2.0.1 <2.3.0"
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3",

@@ -42,7 +42,7 @@
   },
   "peerDependencies": {
     "@effect-aws/client-dynamodb": "^1.0.0",
-    "effect": "^2.0.1"
+    "effect": ">=2.0.1 <2.3.0"
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3",
