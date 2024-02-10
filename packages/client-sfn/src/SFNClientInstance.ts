@@ -14,17 +14,9 @@ import {
  * @since 1.0.0
  * @category tags
  */
-export interface SFNClientInstance {
-  readonly _: unique symbol;
-}
-
-/**
- * @since 1.0.0
- * @category tags
- */
-export const SFNClientInstance = Context.Tag<SFNClientInstance, SFNClient>(
-  Symbol.for("@effect-aws/client-sfn/SFNClientInstance"),
-);
+export class SFNClientInstance extends Context.Tag(
+  "@effect-aws/client-sfn/SFNClientInstance",
+)<SFNClientInstance, SFNClient>() {}
 
 /**
  * @since 1.0.0

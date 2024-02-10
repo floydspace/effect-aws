@@ -14,17 +14,9 @@ import {
  * @since 1.0.0
  * @category tags
  */
-export interface SQSClientInstance {
-  readonly _: unique symbol;
-}
-
-/**
- * @since 1.0.0
- * @category tags
- */
-export const SQSClientInstance = Context.Tag<SQSClientInstance, SQSClient>(
-  Symbol.for("@effect-aws/client-sqs/SQSClientInstance"),
-);
+export class SQSClientInstance extends Context.Tag(
+  "@effect-aws/client-sqs/SQSClientInstance",
+)<SQSClientInstance, SQSClient>() {}
 
 /**
  * @since 1.0.0

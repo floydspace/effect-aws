@@ -14,17 +14,9 @@ import {
  * @since 1.0.0
  * @category tags
  */
-export interface S3ClientInstance {
-  readonly _: unique symbol;
-}
-
-/**
- * @since 1.0.0
- * @category tags
- */
-export const S3ClientInstance = Context.Tag<S3ClientInstance, S3Client>(
-  Symbol.for("@effect-aws/client-s3/S3ClientInstance"),
-);
+export class S3ClientInstance extends Context.Tag(
+  "@effect-aws/client-s3/S3ClientInstance",
+)<S3ClientInstance, S3Client>() {}
 
 /**
  * @since 1.0.0

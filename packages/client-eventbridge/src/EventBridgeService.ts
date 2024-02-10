@@ -252,11 +252,7 @@ export interface EventBridgeService {
   activateEventSource(
     args: ActivateEventSourceCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<
-    never,
-    Cause.UnknownException,
-    ActivateEventSourceCommandOutput
-  >;
+  ): Effect.Effect<ActivateEventSourceCommandOutput, Cause.UnknownException>;
 
   /**
    * @see {@link CancelReplayCommand}
@@ -264,7 +260,7 @@ export interface EventBridgeService {
   cancelReplay(
     args: CancelReplayCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, Cause.UnknownException, CancelReplayCommandOutput>;
+  ): Effect.Effect<CancelReplayCommandOutput, Cause.UnknownException>;
 
   /**
    * @see {@link CreateApiDestinationCommand}
@@ -272,11 +268,7 @@ export interface EventBridgeService {
   createApiDestination(
     args: CreateApiDestinationCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<
-    never,
-    Cause.UnknownException,
-    CreateApiDestinationCommandOutput
-  >;
+  ): Effect.Effect<CreateApiDestinationCommandOutput, Cause.UnknownException>;
 
   /**
    * @see {@link CreateArchiveCommand}
@@ -284,7 +276,7 @@ export interface EventBridgeService {
   createArchive(
     args: CreateArchiveCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, Cause.UnknownException, CreateArchiveCommandOutput>;
+  ): Effect.Effect<CreateArchiveCommandOutput, Cause.UnknownException>;
 
   /**
    * @see {@link CreateConnectionCommand}
@@ -292,11 +284,7 @@ export interface EventBridgeService {
   createConnection(
     args: CreateConnectionCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<
-    never,
-    Cause.UnknownException,
-    CreateConnectionCommandOutput
-  >;
+  ): Effect.Effect<CreateConnectionCommandOutput, Cause.UnknownException>;
 
   /**
    * @see {@link CreateEndpointCommand}
@@ -304,7 +292,7 @@ export interface EventBridgeService {
   createEndpoint(
     args: CreateEndpointCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, Cause.UnknownException, CreateEndpointCommandOutput>;
+  ): Effect.Effect<CreateEndpointCommandOutput, Cause.UnknownException>;
 
   /**
    * @see {@link CreateEventBusCommand}
@@ -312,7 +300,7 @@ export interface EventBridgeService {
   createEventBus(
     args: CreateEventBusCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, Cause.UnknownException, CreateEventBusCommandOutput>;
+  ): Effect.Effect<CreateEventBusCommandOutput, Cause.UnknownException>;
 
   /**
    * @see {@link CreatePartnerEventSourceCommand}
@@ -321,9 +309,8 @@ export interface EventBridgeService {
     args: CreatePartnerEventSourceCommandInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    never,
-    Cause.UnknownException,
-    CreatePartnerEventSourceCommandOutput
+    CreatePartnerEventSourceCommandOutput,
+    Cause.UnknownException
   >;
 
   /**
@@ -332,11 +319,7 @@ export interface EventBridgeService {
   deactivateEventSource(
     args: DeactivateEventSourceCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<
-    never,
-    Cause.UnknownException,
-    DeactivateEventSourceCommandOutput
-  >;
+  ): Effect.Effect<DeactivateEventSourceCommandOutput, Cause.UnknownException>;
 
   /**
    * @see {@link DeauthorizeConnectionCommand}
@@ -344,11 +327,7 @@ export interface EventBridgeService {
   deauthorizeConnection(
     args: DeauthorizeConnectionCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<
-    never,
-    Cause.UnknownException,
-    DeauthorizeConnectionCommandOutput
-  >;
+  ): Effect.Effect<DeauthorizeConnectionCommandOutput, Cause.UnknownException>;
 
   /**
    * @see {@link DeleteApiDestinationCommand}
@@ -356,11 +335,7 @@ export interface EventBridgeService {
   deleteApiDestination(
     args: DeleteApiDestinationCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<
-    never,
-    Cause.UnknownException,
-    DeleteApiDestinationCommandOutput
-  >;
+  ): Effect.Effect<DeleteApiDestinationCommandOutput, Cause.UnknownException>;
 
   /**
    * @see {@link DeleteArchiveCommand}
@@ -368,7 +343,7 @@ export interface EventBridgeService {
   deleteArchive(
     args: DeleteArchiveCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, Cause.UnknownException, DeleteArchiveCommandOutput>;
+  ): Effect.Effect<DeleteArchiveCommandOutput, Cause.UnknownException>;
 
   /**
    * @see {@link DeleteConnectionCommand}
@@ -376,11 +351,7 @@ export interface EventBridgeService {
   deleteConnection(
     args: DeleteConnectionCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<
-    never,
-    Cause.UnknownException,
-    DeleteConnectionCommandOutput
-  >;
+  ): Effect.Effect<DeleteConnectionCommandOutput, Cause.UnknownException>;
 
   /**
    * @see {@link DeleteEndpointCommand}
@@ -388,7 +359,7 @@ export interface EventBridgeService {
   deleteEndpoint(
     args: DeleteEndpointCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, Cause.UnknownException, DeleteEndpointCommandOutput>;
+  ): Effect.Effect<DeleteEndpointCommandOutput, Cause.UnknownException>;
 
   /**
    * @see {@link DeleteEventBusCommand}
@@ -396,7 +367,7 @@ export interface EventBridgeService {
   deleteEventBus(
     args: DeleteEventBusCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, Cause.UnknownException, DeleteEventBusCommandOutput>;
+  ): Effect.Effect<DeleteEventBusCommandOutput, Cause.UnknownException>;
 
   /**
    * @see {@link DeletePartnerEventSourceCommand}
@@ -405,9 +376,8 @@ export interface EventBridgeService {
     args: DeletePartnerEventSourceCommandInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    never,
-    Cause.UnknownException,
-    DeletePartnerEventSourceCommandOutput
+    DeletePartnerEventSourceCommandOutput,
+    Cause.UnknownException
   >;
 
   /**
@@ -416,7 +386,7 @@ export interface EventBridgeService {
   deleteRule(
     args: DeleteRuleCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, Cause.UnknownException, DeleteRuleCommandOutput>;
+  ): Effect.Effect<DeleteRuleCommandOutput, Cause.UnknownException>;
 
   /**
    * @see {@link DescribeApiDestinationCommand}
@@ -424,11 +394,7 @@ export interface EventBridgeService {
   describeApiDestination(
     args: DescribeApiDestinationCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<
-    never,
-    Cause.UnknownException,
-    DescribeApiDestinationCommandOutput
-  >;
+  ): Effect.Effect<DescribeApiDestinationCommandOutput, Cause.UnknownException>;
 
   /**
    * @see {@link DescribeArchiveCommand}
@@ -436,7 +402,7 @@ export interface EventBridgeService {
   describeArchive(
     args: DescribeArchiveCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, Cause.UnknownException, DescribeArchiveCommandOutput>;
+  ): Effect.Effect<DescribeArchiveCommandOutput, Cause.UnknownException>;
 
   /**
    * @see {@link DescribeConnectionCommand}
@@ -444,11 +410,7 @@ export interface EventBridgeService {
   describeConnection(
     args: DescribeConnectionCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<
-    never,
-    Cause.UnknownException,
-    DescribeConnectionCommandOutput
-  >;
+  ): Effect.Effect<DescribeConnectionCommandOutput, Cause.UnknownException>;
 
   /**
    * @see {@link DescribeEndpointCommand}
@@ -456,11 +418,7 @@ export interface EventBridgeService {
   describeEndpoint(
     args: DescribeEndpointCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<
-    never,
-    Cause.UnknownException,
-    DescribeEndpointCommandOutput
-  >;
+  ): Effect.Effect<DescribeEndpointCommandOutput, Cause.UnknownException>;
 
   /**
    * @see {@link DescribeEventBusCommand}
@@ -468,11 +426,7 @@ export interface EventBridgeService {
   describeEventBus(
     args: DescribeEventBusCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<
-    never,
-    Cause.UnknownException,
-    DescribeEventBusCommandOutput
-  >;
+  ): Effect.Effect<DescribeEventBusCommandOutput, Cause.UnknownException>;
 
   /**
    * @see {@link DescribeEventSourceCommand}
@@ -480,11 +434,7 @@ export interface EventBridgeService {
   describeEventSource(
     args: DescribeEventSourceCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<
-    never,
-    Cause.UnknownException,
-    DescribeEventSourceCommandOutput
-  >;
+  ): Effect.Effect<DescribeEventSourceCommandOutput, Cause.UnknownException>;
 
   /**
    * @see {@link DescribePartnerEventSourceCommand}
@@ -493,9 +443,8 @@ export interface EventBridgeService {
     args: DescribePartnerEventSourceCommandInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    never,
-    Cause.UnknownException,
-    DescribePartnerEventSourceCommandOutput
+    DescribePartnerEventSourceCommandOutput,
+    Cause.UnknownException
   >;
 
   /**
@@ -504,7 +453,7 @@ export interface EventBridgeService {
   describeReplay(
     args: DescribeReplayCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, Cause.UnknownException, DescribeReplayCommandOutput>;
+  ): Effect.Effect<DescribeReplayCommandOutput, Cause.UnknownException>;
 
   /**
    * @see {@link DescribeRuleCommand}
@@ -512,7 +461,7 @@ export interface EventBridgeService {
   describeRule(
     args: DescribeRuleCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, Cause.UnknownException, DescribeRuleCommandOutput>;
+  ): Effect.Effect<DescribeRuleCommandOutput, Cause.UnknownException>;
 
   /**
    * @see {@link DisableRuleCommand}
@@ -520,7 +469,7 @@ export interface EventBridgeService {
   disableRule(
     args: DisableRuleCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, Cause.UnknownException, DisableRuleCommandOutput>;
+  ): Effect.Effect<DisableRuleCommandOutput, Cause.UnknownException>;
 
   /**
    * @see {@link EnableRuleCommand}
@@ -528,7 +477,7 @@ export interface EventBridgeService {
   enableRule(
     args: EnableRuleCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, Cause.UnknownException, EnableRuleCommandOutput>;
+  ): Effect.Effect<EnableRuleCommandOutput, Cause.UnknownException>;
 
   /**
    * @see {@link ListApiDestinationsCommand}
@@ -536,11 +485,7 @@ export interface EventBridgeService {
   listApiDestinations(
     args: ListApiDestinationsCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<
-    never,
-    Cause.UnknownException,
-    ListApiDestinationsCommandOutput
-  >;
+  ): Effect.Effect<ListApiDestinationsCommandOutput, Cause.UnknownException>;
 
   /**
    * @see {@link ListArchivesCommand}
@@ -548,7 +493,7 @@ export interface EventBridgeService {
   listArchives(
     args: ListArchivesCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, Cause.UnknownException, ListArchivesCommandOutput>;
+  ): Effect.Effect<ListArchivesCommandOutput, Cause.UnknownException>;
 
   /**
    * @see {@link ListConnectionsCommand}
@@ -556,7 +501,7 @@ export interface EventBridgeService {
   listConnections(
     args: ListConnectionsCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, Cause.UnknownException, ListConnectionsCommandOutput>;
+  ): Effect.Effect<ListConnectionsCommandOutput, Cause.UnknownException>;
 
   /**
    * @see {@link ListEndpointsCommand}
@@ -564,7 +509,7 @@ export interface EventBridgeService {
   listEndpoints(
     args: ListEndpointsCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, Cause.UnknownException, ListEndpointsCommandOutput>;
+  ): Effect.Effect<ListEndpointsCommandOutput, Cause.UnknownException>;
 
   /**
    * @see {@link ListEventBusesCommand}
@@ -572,7 +517,7 @@ export interface EventBridgeService {
   listEventBuses(
     args: ListEventBusesCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, Cause.UnknownException, ListEventBusesCommandOutput>;
+  ): Effect.Effect<ListEventBusesCommandOutput, Cause.UnknownException>;
 
   /**
    * @see {@link ListEventSourcesCommand}
@@ -580,11 +525,7 @@ export interface EventBridgeService {
   listEventSources(
     args: ListEventSourcesCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<
-    never,
-    Cause.UnknownException,
-    ListEventSourcesCommandOutput
-  >;
+  ): Effect.Effect<ListEventSourcesCommandOutput, Cause.UnknownException>;
 
   /**
    * @see {@link ListPartnerEventSourceAccountsCommand}
@@ -593,9 +534,8 @@ export interface EventBridgeService {
     args: ListPartnerEventSourceAccountsCommandInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    never,
-    Cause.UnknownException,
-    ListPartnerEventSourceAccountsCommandOutput
+    ListPartnerEventSourceAccountsCommandOutput,
+    Cause.UnknownException
   >;
 
   /**
@@ -605,9 +545,8 @@ export interface EventBridgeService {
     args: ListPartnerEventSourcesCommandInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    never,
-    Cause.UnknownException,
-    ListPartnerEventSourcesCommandOutput
+    ListPartnerEventSourcesCommandOutput,
+    Cause.UnknownException
   >;
 
   /**
@@ -616,7 +555,7 @@ export interface EventBridgeService {
   listReplays(
     args: ListReplaysCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, Cause.UnknownException, ListReplaysCommandOutput>;
+  ): Effect.Effect<ListReplaysCommandOutput, Cause.UnknownException>;
 
   /**
    * @see {@link ListRuleNamesByTargetCommand}
@@ -624,11 +563,7 @@ export interface EventBridgeService {
   listRuleNamesByTarget(
     args: ListRuleNamesByTargetCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<
-    never,
-    Cause.UnknownException,
-    ListRuleNamesByTargetCommandOutput
-  >;
+  ): Effect.Effect<ListRuleNamesByTargetCommandOutput, Cause.UnknownException>;
 
   /**
    * @see {@link ListRulesCommand}
@@ -636,7 +571,7 @@ export interface EventBridgeService {
   listRules(
     args: ListRulesCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, Cause.UnknownException, ListRulesCommandOutput>;
+  ): Effect.Effect<ListRulesCommandOutput, Cause.UnknownException>;
 
   /**
    * @see {@link ListTagsForResourceCommand}
@@ -644,11 +579,7 @@ export interface EventBridgeService {
   listTagsForResource(
     args: ListTagsForResourceCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<
-    never,
-    Cause.UnknownException,
-    ListTagsForResourceCommandOutput
-  >;
+  ): Effect.Effect<ListTagsForResourceCommandOutput, Cause.UnknownException>;
 
   /**
    * @see {@link ListTargetsByRuleCommand}
@@ -656,11 +587,7 @@ export interface EventBridgeService {
   listTargetsByRule(
     args: ListTargetsByRuleCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<
-    never,
-    Cause.UnknownException,
-    ListTargetsByRuleCommandOutput
-  >;
+  ): Effect.Effect<ListTargetsByRuleCommandOutput, Cause.UnknownException>;
 
   /**
    * @see {@link PutEventsCommand}
@@ -668,7 +595,7 @@ export interface EventBridgeService {
   putEvents(
     args: PutEventsCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, Cause.UnknownException, PutEventsCommandOutput>;
+  ): Effect.Effect<PutEventsCommandOutput, Cause.UnknownException>;
 
   /**
    * @see {@link PutPartnerEventsCommand}
@@ -676,11 +603,7 @@ export interface EventBridgeService {
   putPartnerEvents(
     args: PutPartnerEventsCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<
-    never,
-    Cause.UnknownException,
-    PutPartnerEventsCommandOutput
-  >;
+  ): Effect.Effect<PutPartnerEventsCommandOutput, Cause.UnknownException>;
 
   /**
    * @see {@link PutPermissionCommand}
@@ -688,7 +611,7 @@ export interface EventBridgeService {
   putPermission(
     args: PutPermissionCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, Cause.UnknownException, PutPermissionCommandOutput>;
+  ): Effect.Effect<PutPermissionCommandOutput, Cause.UnknownException>;
 
   /**
    * @see {@link PutRuleCommand}
@@ -696,7 +619,7 @@ export interface EventBridgeService {
   putRule(
     args: PutRuleCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, Cause.UnknownException, PutRuleCommandOutput>;
+  ): Effect.Effect<PutRuleCommandOutput, Cause.UnknownException>;
 
   /**
    * @see {@link PutTargetsCommand}
@@ -704,7 +627,7 @@ export interface EventBridgeService {
   putTargets(
     args: PutTargetsCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, Cause.UnknownException, PutTargetsCommandOutput>;
+  ): Effect.Effect<PutTargetsCommandOutput, Cause.UnknownException>;
 
   /**
    * @see {@link RemovePermissionCommand}
@@ -712,11 +635,7 @@ export interface EventBridgeService {
   removePermission(
     args: RemovePermissionCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<
-    never,
-    Cause.UnknownException,
-    RemovePermissionCommandOutput
-  >;
+  ): Effect.Effect<RemovePermissionCommandOutput, Cause.UnknownException>;
 
   /**
    * @see {@link RemoveTargetsCommand}
@@ -724,7 +643,7 @@ export interface EventBridgeService {
   removeTargets(
     args: RemoveTargetsCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, Cause.UnknownException, RemoveTargetsCommandOutput>;
+  ): Effect.Effect<RemoveTargetsCommandOutput, Cause.UnknownException>;
 
   /**
    * @see {@link StartReplayCommand}
@@ -732,7 +651,7 @@ export interface EventBridgeService {
   startReplay(
     args: StartReplayCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, Cause.UnknownException, StartReplayCommandOutput>;
+  ): Effect.Effect<StartReplayCommandOutput, Cause.UnknownException>;
 
   /**
    * @see {@link TagResourceCommand}
@@ -740,7 +659,7 @@ export interface EventBridgeService {
   tagResource(
     args: TagResourceCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, Cause.UnknownException, TagResourceCommandOutput>;
+  ): Effect.Effect<TagResourceCommandOutput, Cause.UnknownException>;
 
   /**
    * @see {@link TestEventPatternCommand}
@@ -748,11 +667,7 @@ export interface EventBridgeService {
   testEventPattern(
     args: TestEventPatternCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<
-    never,
-    Cause.UnknownException,
-    TestEventPatternCommandOutput
-  >;
+  ): Effect.Effect<TestEventPatternCommandOutput, Cause.UnknownException>;
 
   /**
    * @see {@link UntagResourceCommand}
@@ -760,7 +675,7 @@ export interface EventBridgeService {
   untagResource(
     args: UntagResourceCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, Cause.UnknownException, UntagResourceCommandOutput>;
+  ): Effect.Effect<UntagResourceCommandOutput, Cause.UnknownException>;
 
   /**
    * @see {@link UpdateApiDestinationCommand}
@@ -768,11 +683,7 @@ export interface EventBridgeService {
   updateApiDestination(
     args: UpdateApiDestinationCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<
-    never,
-    Cause.UnknownException,
-    UpdateApiDestinationCommandOutput
-  >;
+  ): Effect.Effect<UpdateApiDestinationCommandOutput, Cause.UnknownException>;
 
   /**
    * @see {@link UpdateArchiveCommand}
@@ -780,7 +691,7 @@ export interface EventBridgeService {
   updateArchive(
     args: UpdateArchiveCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, Cause.UnknownException, UpdateArchiveCommandOutput>;
+  ): Effect.Effect<UpdateArchiveCommandOutput, Cause.UnknownException>;
 
   /**
    * @see {@link UpdateConnectionCommand}
@@ -788,11 +699,7 @@ export interface EventBridgeService {
   updateConnection(
     args: UpdateConnectionCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<
-    never,
-    Cause.UnknownException,
-    UpdateConnectionCommandOutput
-  >;
+  ): Effect.Effect<UpdateConnectionCommandOutput, Cause.UnknownException>;
 
   /**
    * @see {@link UpdateEndpointCommand}
@@ -800,15 +707,15 @@ export interface EventBridgeService {
   updateEndpoint(
     args: UpdateEndpointCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<never, Cause.UnknownException, UpdateEndpointCommandOutput>;
+  ): Effect.Effect<UpdateEndpointCommandOutput, Cause.UnknownException>;
 }
 
 /**
  * @since 1.0.0
  * @category tags
  */
-export const EventBridgeService = Context.Tag<EventBridgeService>(
-  Symbol.for("@effect-aws/client-eventbridge/EventBridgeService"),
+export const EventBridgeService = Context.GenericTag<EventBridgeService>(
+  "@effect-aws/client-eventbridge/EventBridgeService",
 );
 
 /**

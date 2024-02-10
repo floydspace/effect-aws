@@ -97,9 +97,8 @@ export interface DynamoDBDocumentService {
     args: BatchExecuteStatementCommandInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    never,
-    SdkError | InternalServerError | RequestLimitExceededError,
-    BatchExecuteStatementCommandOutput
+    BatchExecuteStatementCommandOutput,
+    SdkError | InternalServerError | RequestLimitExceededError
   >;
 
   /**
@@ -109,14 +108,13 @@ export interface DynamoDBDocumentService {
     args: BatchGetCommandInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    never,
+    BatchGetCommandOutput,
     | SdkError
     | InternalServerError
     | InvalidEndpointError
     | ProvisionedThroughputExceededError
     | RequestLimitExceededError
-    | ResourceNotFoundError,
-    BatchGetCommandOutput
+    | ResourceNotFoundError
   >;
 
   /**
@@ -126,15 +124,14 @@ export interface DynamoDBDocumentService {
     args: BatchWriteCommandInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    never,
+    BatchWriteCommandOutput,
     | SdkError
     | InternalServerError
     | InvalidEndpointError
     | ItemCollectionSizeLimitExceededError
     | ProvisionedThroughputExceededError
     | RequestLimitExceededError
-    | ResourceNotFoundError,
-    BatchWriteCommandOutput
+    | ResourceNotFoundError
   >;
 
   /**
@@ -144,7 +141,7 @@ export interface DynamoDBDocumentService {
     args: DeleteCommandInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    never,
+    DeleteCommandOutput,
     | SdkError
     | ConditionalCheckFailedError
     | InternalServerError
@@ -153,8 +150,7 @@ export interface DynamoDBDocumentService {
     | ProvisionedThroughputExceededError
     | RequestLimitExceededError
     | ResourceNotFoundError
-    | TransactionConflictError,
-    DeleteCommandOutput
+    | TransactionConflictError
   >;
 
   /**
@@ -164,7 +160,7 @@ export interface DynamoDBDocumentService {
     args: ExecuteStatementCommandInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    never,
+    ExecuteStatementCommandOutput,
     | SdkError
     | ConditionalCheckFailedError
     | DuplicateItemError
@@ -173,8 +169,7 @@ export interface DynamoDBDocumentService {
     | ProvisionedThroughputExceededError
     | RequestLimitExceededError
     | ResourceNotFoundError
-    | TransactionConflictError,
-    ExecuteStatementCommandOutput
+    | TransactionConflictError
   >;
 
   /**
@@ -184,7 +179,7 @@ export interface DynamoDBDocumentService {
     args: ExecuteTransactionCommandInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    never,
+    ExecuteTransactionCommandOutput,
     | SdkError
     | IdempotentParameterMismatchError
     | InternalServerError
@@ -192,8 +187,7 @@ export interface DynamoDBDocumentService {
     | RequestLimitExceededError
     | ResourceNotFoundError
     | TransactionCanceledError
-    | TransactionInProgressError,
-    ExecuteTransactionCommandOutput
+    | TransactionInProgressError
   >;
 
   /**
@@ -203,14 +197,13 @@ export interface DynamoDBDocumentService {
     args: GetCommandInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    never,
+    GetCommandOutput,
     | SdkError
     | InternalServerError
     | InvalidEndpointError
     | ProvisionedThroughputExceededError
     | RequestLimitExceededError
-    | ResourceNotFoundError,
-    GetCommandOutput
+    | ResourceNotFoundError
   >;
 
   /**
@@ -220,7 +213,7 @@ export interface DynamoDBDocumentService {
     args: PutCommandInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    never,
+    PutCommandOutput,
     | SdkError
     | ConditionalCheckFailedError
     | InternalServerError
@@ -229,8 +222,7 @@ export interface DynamoDBDocumentService {
     | ProvisionedThroughputExceededError
     | RequestLimitExceededError
     | ResourceNotFoundError
-    | TransactionConflictError,
-    PutCommandOutput
+    | TransactionConflictError
   >;
 
   /**
@@ -240,14 +232,13 @@ export interface DynamoDBDocumentService {
     args: QueryCommandInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    never,
+    QueryCommandOutput,
     | SdkError
     | InternalServerError
     | InvalidEndpointError
     | ProvisionedThroughputExceededError
     | RequestLimitExceededError
-    | ResourceNotFoundError,
-    QueryCommandOutput
+    | ResourceNotFoundError
   >;
 
   /**
@@ -257,14 +248,13 @@ export interface DynamoDBDocumentService {
     args: ScanCommandInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    never,
+    ScanCommandOutput,
     | SdkError
     | InternalServerError
     | InvalidEndpointError
     | ProvisionedThroughputExceededError
     | RequestLimitExceededError
-    | ResourceNotFoundError,
-    ScanCommandOutput
+    | ResourceNotFoundError
   >;
 
   /**
@@ -274,15 +264,14 @@ export interface DynamoDBDocumentService {
     args: TransactGetCommandInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    never,
+    TransactGetCommandOutput,
     | SdkError
     | InternalServerError
     | InvalidEndpointError
     | ProvisionedThroughputExceededError
     | RequestLimitExceededError
     | ResourceNotFoundError
-    | TransactionCanceledError,
-    TransactGetCommandOutput
+    | TransactionCanceledError
   >;
 
   /**
@@ -292,7 +281,7 @@ export interface DynamoDBDocumentService {
     args: TransactWriteCommandInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    never,
+    TransactWriteCommandOutput,
     | SdkError
     | IdempotentParameterMismatchError
     | InternalServerError
@@ -301,8 +290,7 @@ export interface DynamoDBDocumentService {
     | RequestLimitExceededError
     | ResourceNotFoundError
     | TransactionCanceledError
-    | TransactionInProgressError,
-    TransactWriteCommandOutput
+    | TransactionInProgressError
   >;
 
   /**
@@ -312,7 +300,7 @@ export interface DynamoDBDocumentService {
     args: UpdateCommandInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    never,
+    UpdateCommandOutput,
     | SdkError
     | ConditionalCheckFailedError
     | InternalServerError
@@ -321,8 +309,7 @@ export interface DynamoDBDocumentService {
     | ProvisionedThroughputExceededError
     | RequestLimitExceededError
     | ResourceNotFoundError
-    | TransactionConflictError,
-    UpdateCommandOutput
+    | TransactionConflictError
   >;
 }
 
@@ -330,9 +317,10 @@ export interface DynamoDBDocumentService {
  * @since 1.0.0
  * @category tags
  */
-export const DynamoDBDocumentService = Context.Tag<DynamoDBDocumentService>(
-  Symbol.for("@effect-aws/lib-dynamodb/DynamoDBDocumentService"),
-);
+export const DynamoDBDocumentService =
+  Context.GenericTag<DynamoDBDocumentService>(
+    "@effect-aws/lib-dynamodb/DynamoDBDocumentService",
+  );
 
 /**
  * @since 1.0.0

@@ -14,17 +14,9 @@ import {
  * @since 1.0.0
  * @category tags
  */
-export type IAMClientInstance = {
-  readonly _: unique symbol;
-};
-
-/**
- * @since 1.0.0
- * @category tags
- */
-export const IAMClientInstance = Context.Tag<IAMClientInstance, IAMClient>(
-  Symbol.for("@effect-aws/client-iam/IAMClientInstance"),
-);
+export class IAMClientInstance extends Context.Tag(
+  "@effect-aws/client-iam/IAMClientInstance",
+)<IAMClientInstance, IAMClient>() {}
 
 /**
  * @since 1.0.0

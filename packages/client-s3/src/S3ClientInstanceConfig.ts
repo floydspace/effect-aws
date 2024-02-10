@@ -11,41 +11,29 @@ import * as Runtime from "effect/Runtime";
  * @since 1.0.0
  * @category tags
  */
-export interface S3ClientInstanceConfig {
-  readonly _: unique symbol;
-}
-
-/**
- * @since 1.0.0
- * @category tags
- */
-export const S3ClientInstanceConfig = Context.Tag<
-  S3ClientInstanceConfig,
-  S3ClientConfig
->(Symbol.for("@effect-aws/client-s3/S3ClientInstanceConfig"));
+export class S3ClientInstanceConfig extends Context.Tag(
+  "@effect-aws/client-s3/S3ClientInstanceConfig",
+)<S3ClientInstanceConfig, S3ClientConfig>() {}
 
 /**
  * @since 1.0.0
  * @category constructors
  */
-export const makeDefaultS3ClientInstanceConfig: Effect.Effect<
-  never,
-  never,
-  S3ClientConfig
-> = Effect.gen(function* (_) {
-  const runtime = yield* _(Effect.runtime<never>());
-  const runSync = Runtime.runSync(runtime);
+export const makeDefaultS3ClientInstanceConfig: Effect.Effect<S3ClientConfig> =
+  Effect.gen(function* (_) {
+    const runtime = yield* _(Effect.runtime<never>());
+    const runSync = Runtime.runSync(runtime);
 
-  return {
-    logger: {
-      info: (m) => Effect.logInfo(m).pipe(runSync),
-      warn: (m) => Effect.logWarning(m).pipe(runSync),
-      error: (m) => Effect.logError(m).pipe(runSync),
-      debug: (m) => Effect.logDebug(m).pipe(runSync),
-      trace: (m) => Effect.logTrace(m).pipe(runSync),
-    },
-  };
-});
+    return {
+      logger: {
+        info: (m) => Effect.logInfo(m).pipe(runSync),
+        warn: (m) => Effect.logWarning(m).pipe(runSync),
+        error: (m) => Effect.logError(m).pipe(runSync),
+        debug: (m) => Effect.logDebug(m).pipe(runSync),
+        trace: (m) => Effect.logTrace(m).pipe(runSync),
+      },
+    };
+  });
 
 /**
  * @since 1.0.0

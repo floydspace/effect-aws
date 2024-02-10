@@ -9,17 +9,9 @@ import * as Layer from "effect/Layer";
  * @since 1.0.0
  * @category tags
  */
-export interface LoggerOptions {
-  readonly _: unique symbol;
-}
-
-/**
- * @since 1.0.0
- * @category tags
- */
-export const LoggerOptions = Context.Tag<LoggerOptions, ConstructorOptions>(
+export class LoggerOptions extends Context.Tag(
   "@effect-aws/powertools-logger/LoggerOptions",
-);
+)<LoggerOptions, ConstructorOptions>() {}
 
 /**
  * @since 1.0.0

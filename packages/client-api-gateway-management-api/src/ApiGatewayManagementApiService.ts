@@ -50,9 +50,8 @@ export interface ApiGatewayManagementApiService {
     args: DeleteConnectionCommandInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    never,
-    SdkError | GoneError | ForbiddenError | LimitExceededError,
-    DeleteConnectionCommandOutput
+    DeleteConnectionCommandOutput,
+    SdkError | GoneError | ForbiddenError | LimitExceededError
   >;
 
   /**
@@ -62,9 +61,8 @@ export interface ApiGatewayManagementApiService {
     args: GetConnectionCommandInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    never,
-    SdkError | GoneError | ForbiddenError | LimitExceededError,
-    GetConnectionCommandOutput
+    GetConnectionCommandOutput,
+    SdkError | GoneError | ForbiddenError | LimitExceededError
   >;
 
   /**
@@ -74,13 +72,12 @@ export interface ApiGatewayManagementApiService {
     args: PostToConnectionCommandInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    never,
+    PostToConnectionCommandOutput,
     | SdkError
     | GoneError
     | ForbiddenError
     | LimitExceededError
-    | PayloadTooLargeError,
-    PostToConnectionCommandOutput
+    | PayloadTooLargeError
   >;
 }
 
@@ -89,10 +86,8 @@ export interface ApiGatewayManagementApiService {
  * @category tags
  */
 export const ApiGatewayManagementApiService =
-  Context.Tag<ApiGatewayManagementApiService>(
-    Symbol.for(
-      "@effect-aws/client-api-gateway-management-api/ApiGatewayManagementApiService",
-    ),
+  Context.GenericTag<ApiGatewayManagementApiService>(
+    "@effect-aws/client-api-gateway-management-api/ApiGatewayManagementApiService",
   );
 
 /**

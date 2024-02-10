@@ -34,8 +34,9 @@ import type {
 } from "@aws-sdk/client-sns";
 import * as Data from "effect/Data";
 
-export type TaggedException<T extends { name: string }> = Data.Case &
-  T & { readonly _tag: T["name"] };
+export type TaggedException<T extends { name: string }> = T & {
+  readonly _tag: T["name"];
+};
 
 export type AuthorizationError = TaggedException<AuthorizationErrorException>;
 export type BatchEntryIdsNotDistinctError =

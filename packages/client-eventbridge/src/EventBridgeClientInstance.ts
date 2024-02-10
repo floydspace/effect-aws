@@ -14,18 +14,9 @@ import {
  * @since 1.0.0
  * @category tags
  */
-export interface EventBridgeClientInstance {
-  readonly _: unique symbol;
-}
-
-/**
- * @since 1.0.0
- * @category tags
- */
-export const EventBridgeClientInstance = Context.Tag<
-  EventBridgeClientInstance,
-  EventBridgeClient
->(Symbol.for("@effect-aws/client-eventbridge/EventBridgeClientInstance"));
+export class EventBridgeClientInstance extends Context.Tag(
+  "@effect-aws/client-eventbridge/EventBridgeClientInstance",
+)<EventBridgeClientInstance, EventBridgeClient>() {}
 
 /**
  * @since 1.0.0

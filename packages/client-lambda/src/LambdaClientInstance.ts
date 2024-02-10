@@ -14,18 +14,9 @@ import {
  * @since 1.0.0
  * @category tags
  */
-export interface LambdaClientInstance {
-  readonly _: unique symbol;
-}
-
-/**
- * @since 1.0.0
- * @category tags
- */
-export const LambdaClientInstance = Context.Tag<
-  LambdaClientInstance,
-  LambdaClient
->(Symbol.for("@effect-aws/client-lambda/LambdaClientInstance"));
+export class LambdaClientInstance extends Context.Tag(
+  "@effect-aws/client-lambda/LambdaClientInstance",
+)<LambdaClientInstance, LambdaClient>() {}
 
 /**
  * @since 1.0.0

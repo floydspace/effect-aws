@@ -30,8 +30,9 @@ import type {
 } from "@aws-sdk/client-sfn";
 import * as Data from "effect/Data";
 
-export type TaggedException<T extends { name: string }> = Data.Case &
-  T & { readonly _tag: T["name"] };
+export type TaggedException<T extends { name: string }> = T & {
+  readonly _tag: T["name"];
+};
 
 export type ActivityDoesNotExistError = TaggedException<ActivityDoesNotExist>;
 export type ActivityLimitExceededError = TaggedException<ActivityLimitExceeded>;

@@ -23,9 +23,9 @@ describe("makeLambda", () => {
     const context = {} as LambdaContext;
 
     interface FooService {
-      bar: () => Effect.Effect<never, never, string>;
+      bar: () => Effect.Effect<string>;
     }
-    const FooService = Context.Tag<FooService>();
+    const FooService = Context.GenericTag<FooService>("@services/FooService");
     const FooServiceLive = Layer.succeed(
       FooService,
       FooService.of({ bar: () => Effect.succeed("Not implemented") }),

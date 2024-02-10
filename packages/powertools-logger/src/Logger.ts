@@ -24,9 +24,7 @@ import { DefaultLoggerOptionsLayer } from "./LoggerOptions";
 
 const logExtraInput = FiberRef.unsafeMake<LogItemExtraInput>([]);
 
-const processLog = (
-  effect: (message: string) => Effect.Effect<never, never, void>,
-) => {
+const processLog = (effect: (message: string) => Effect.Effect<void>) => {
   return (input: LogItemMessage, ...extraInput: LogAttributes[]) => {
     const message = typeof input === "string" ? input : input.message;
 

@@ -14,18 +14,9 @@ import {
  * @since 1.0.0
  * @category tags
  */
-export interface ApiGatewayManagementApiClientInstance {
-  readonly _: unique symbol;
-}
-
-/**
- * @since 1.0.0
- * @category tags
- */
-export const ApiGatewayManagementApiClientInstance = Context.Tag<
-  ApiGatewayManagementApiClientInstance,
-  ApiGatewayManagementApiClient
->(Symbol.for("@effect-aws/client-s3/ApiGatewayManagementApiClientInstance"));
+export class ApiGatewayManagementApiClientInstance extends Context.Tag(
+  "@effect-aws/client-api-gateway-management-api/ApiGatewayManagementApiClientInstance",
+)<ApiGatewayManagementApiClientInstance, ApiGatewayManagementApiClient>() {}
 
 /**
  * @since 1.0.0

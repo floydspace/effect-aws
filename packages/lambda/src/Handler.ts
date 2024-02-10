@@ -22,7 +22,7 @@ export type Handler<TEvent = unknown, TResult = any> = (
 export type EffectHandler<T, R, E = never, A = void> = (
   event: T,
   context: Context,
-) => Effect.Effect<R, E, A>;
+) => Effect.Effect<A, E, R>;
 
 /**
  * @since 1.0.0
@@ -33,11 +33,11 @@ export function makeLambda<T, E, A>(
 ): Handler<T, A>;
 export function makeLambda<T, R, E1, E2, A>(
   handler: EffectHandler<T, R, E1, A>,
-  globalLayer: Layer.Layer<never, E2, R>,
+  globalLayer: Layer.Layer<R, E2>,
 ): Handler<T, A>;
 export function makeLambda<T, R, E1, E2, A>(
   handler: EffectHandler<T, R, E1, A>,
-  globalLayer?: Layer.Layer<never, E2, R>,
+  globalLayer?: Layer.Layer<R, E2>,
 ): Handler<T, A> {
   const globalRuntime = globalLayer
     ? fromLayer(globalLayer)

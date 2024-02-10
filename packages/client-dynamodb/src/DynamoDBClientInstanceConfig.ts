@@ -11,41 +11,29 @@ import * as Runtime from "effect/Runtime";
  * @since 1.0.0
  * @category tags
  */
-export interface DynamoDBClientInstanceConfig {
-  readonly _: unique symbol;
-}
-
-/**
- * @since 1.0.0
- * @category tags
- */
-export const DynamoDBClientInstanceConfig = Context.Tag<
-  DynamoDBClientInstanceConfig,
-  DynamoDBClientConfig
->(Symbol.for("@effect-aws/client-dynamodb/DynamoDBClientInstanceConfig"));
+export class DynamoDBClientInstanceConfig extends Context.Tag(
+  "@effect-aws/client-dynamodb/DynamoDBClientInstanceConfig",
+)<DynamoDBClientInstanceConfig, DynamoDBClientConfig>() {}
 
 /**
  * @since 1.0.0
  * @category constructors
  */
-export const makeDefaultDynamoDBClientInstanceConfig: Effect.Effect<
-  never,
-  never,
-  DynamoDBClientConfig
-> = Effect.gen(function* (_) {
-  const runtime = yield* _(Effect.runtime<never>());
-  const runSync = Runtime.runSync(runtime);
+export const makeDefaultDynamoDBClientInstanceConfig: Effect.Effect<DynamoDBClientConfig> =
+  Effect.gen(function* (_) {
+    const runtime = yield* _(Effect.runtime<never>());
+    const runSync = Runtime.runSync(runtime);
 
-  return {
-    logger: {
-      info: (m) => Effect.logInfo(m).pipe(runSync),
-      warn: (m) => Effect.logWarning(m).pipe(runSync),
-      error: (m) => Effect.logError(m).pipe(runSync),
-      debug: (m) => Effect.logDebug(m).pipe(runSync),
-      trace: (m) => Effect.logTrace(m).pipe(runSync),
-    },
-  };
-});
+    return {
+      logger: {
+        info: (m) => Effect.logInfo(m).pipe(runSync),
+        warn: (m) => Effect.logWarning(m).pipe(runSync),
+        error: (m) => Effect.logError(m).pipe(runSync),
+        debug: (m) => Effect.logDebug(m).pipe(runSync),
+        trace: (m) => Effect.logTrace(m).pipe(runSync),
+      },
+    } as DynamoDBClientConfig;
+  });
 
 /**
  * @since 1.0.0

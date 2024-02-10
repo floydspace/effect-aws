@@ -694,14 +694,13 @@ export type IAMService = {
     args: AddClientIDToOpenIDConnectProviderCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    AddClientIDToOpenIDConnectProviderCommandOutput,
     | SdkError
     | IAMServiceError
     | InvalidInputError
     | LimitExceededError
     | NoSuchEntityError
-    | ServiceFailureError,
-    AddClientIDToOpenIDConnectProviderCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -711,15 +710,14 @@ export type IAMService = {
     args: AddRoleToInstanceProfileCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    AddRoleToInstanceProfileCommandOutput,
     | SdkError
     | IAMServiceError
     | EntityAlreadyExistsError
     | LimitExceededError
     | NoSuchEntityError
     | ServiceFailureError
-    | UnmodifiableEntityError,
-    AddRoleToInstanceProfileCommandOutput
+    | UnmodifiableEntityError
   >;
 
   /**
@@ -729,13 +727,12 @@ export type IAMService = {
     args: AddUserToGroupCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    AddUserToGroupCommandOutput,
     | SdkError
     | IAMServiceError
     | LimitExceededError
     | NoSuchEntityError
-    | ServiceFailureError,
-    AddUserToGroupCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -745,15 +742,14 @@ export type IAMService = {
     args: AttachGroupPolicyCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    AttachGroupPolicyCommandOutput,
     | SdkError
     | IAMServiceError
     | InvalidInputError
     | LimitExceededError
     | NoSuchEntityError
     | PolicyNotAttachableError
-    | ServiceFailureError,
-    AttachGroupPolicyCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -763,7 +759,7 @@ export type IAMService = {
     args: AttachRolePolicyCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    AttachRolePolicyCommandOutput,
     | SdkError
     | IAMServiceError
     | InvalidInputError
@@ -771,8 +767,7 @@ export type IAMService = {
     | NoSuchEntityError
     | PolicyNotAttachableError
     | ServiceFailureError
-    | UnmodifiableEntityError,
-    AttachRolePolicyCommandOutput
+    | UnmodifiableEntityError
   >;
 
   /**
@@ -782,15 +777,14 @@ export type IAMService = {
     args: AttachUserPolicyCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    AttachUserPolicyCommandOutput,
     | SdkError
     | IAMServiceError
     | InvalidInputError
     | LimitExceededError
     | NoSuchEntityError
     | PolicyNotAttachableError
-    | ServiceFailureError,
-    AttachUserPolicyCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -800,7 +794,7 @@ export type IAMService = {
     args: ChangePasswordCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    ChangePasswordCommandOutput,
     | SdkError
     | IAMServiceError
     | EntityTemporarilyUnmodifiableError
@@ -808,8 +802,7 @@ export type IAMService = {
     | LimitExceededError
     | NoSuchEntityError
     | PasswordPolicyViolationError
-    | ServiceFailureError,
-    ChangePasswordCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -819,13 +812,12 @@ export type IAMService = {
     args: CreateAccessKeyCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    CreateAccessKeyCommandOutput,
     | SdkError
     | IAMServiceError
     | LimitExceededError
     | NoSuchEntityError
-    | ServiceFailureError,
-    CreateAccessKeyCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -835,14 +827,13 @@ export type IAMService = {
     args: CreateAccountAliasCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    CreateAccountAliasCommandOutput,
     | SdkError
     | IAMServiceError
     | ConcurrentModificationError
     | EntityAlreadyExistsError
     | LimitExceededError
-    | ServiceFailureError,
-    CreateAccountAliasCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -852,14 +843,13 @@ export type IAMService = {
     args: CreateGroupCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    CreateGroupCommandOutput,
     | SdkError
     | IAMServiceError
     | EntityAlreadyExistsError
     | LimitExceededError
     | NoSuchEntityError
-    | ServiceFailureError,
-    CreateGroupCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -869,15 +859,14 @@ export type IAMService = {
     args: CreateInstanceProfileCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    CreateInstanceProfileCommandOutput,
     | SdkError
     | IAMServiceError
     | ConcurrentModificationError
     | EntityAlreadyExistsError
     | InvalidInputError
     | LimitExceededError
-    | ServiceFailureError,
-    CreateInstanceProfileCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -887,15 +876,14 @@ export type IAMService = {
     args: CreateLoginProfileCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    CreateLoginProfileCommandOutput,
     | SdkError
     | IAMServiceError
     | EntityAlreadyExistsError
     | LimitExceededError
     | NoSuchEntityError
     | PasswordPolicyViolationError
-    | ServiceFailureError,
-    CreateLoginProfileCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -905,15 +893,14 @@ export type IAMService = {
     args: CreateOpenIDConnectProviderCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    CreateOpenIDConnectProviderCommandOutput,
     | SdkError
     | IAMServiceError
     | ConcurrentModificationError
     | EntityAlreadyExistsError
     | InvalidInputError
     | LimitExceededError
-    | ServiceFailureError,
-    CreateOpenIDConnectProviderCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -923,7 +910,7 @@ export type IAMService = {
     args: CreatePolicyCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    CreatePolicyCommandOutput,
     | SdkError
     | IAMServiceError
     | ConcurrentModificationError
@@ -931,8 +918,7 @@ export type IAMService = {
     | InvalidInputError
     | LimitExceededError
     | MalformedPolicyDocumentError
-    | ServiceFailureError,
-    CreatePolicyCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -942,15 +928,14 @@ export type IAMService = {
     args: CreatePolicyVersionCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    CreatePolicyVersionCommandOutput,
     | SdkError
     | IAMServiceError
     | InvalidInputError
     | LimitExceededError
     | MalformedPolicyDocumentError
     | NoSuchEntityError
-    | ServiceFailureError,
-    CreatePolicyVersionCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -960,7 +945,7 @@ export type IAMService = {
     args: CreateRoleCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    CreateRoleCommandOutput,
     | SdkError
     | IAMServiceError
     | ConcurrentModificationError
@@ -968,8 +953,7 @@ export type IAMService = {
     | InvalidInputError
     | LimitExceededError
     | MalformedPolicyDocumentError
-    | ServiceFailureError,
-    CreateRoleCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -979,15 +963,14 @@ export type IAMService = {
     args: CreateSAMLProviderCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    CreateSAMLProviderCommandOutput,
     | SdkError
     | IAMServiceError
     | ConcurrentModificationError
     | EntityAlreadyExistsError
     | InvalidInputError
     | LimitExceededError
-    | ServiceFailureError,
-    CreateSAMLProviderCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -997,14 +980,13 @@ export type IAMService = {
     args: CreateServiceLinkedRoleCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    CreateServiceLinkedRoleCommandOutput,
     | SdkError
     | IAMServiceError
     | InvalidInputError
     | LimitExceededError
     | NoSuchEntityError
-    | ServiceFailureError,
-    CreateServiceLinkedRoleCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -1014,13 +996,12 @@ export type IAMService = {
     args: CreateServiceSpecificCredentialCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    CreateServiceSpecificCredentialCommandOutput,
     | SdkError
     | IAMServiceError
     | LimitExceededError
     | NoSuchEntityError
-    | ServiceNotSupportedError,
-    CreateServiceSpecificCredentialCommandOutput
+    | ServiceNotSupportedError
   >;
 
   /**
@@ -1030,7 +1011,7 @@ export type IAMService = {
     args: CreateUserCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    CreateUserCommandOutput,
     | SdkError
     | IAMServiceError
     | ConcurrentModificationError
@@ -1038,8 +1019,7 @@ export type IAMService = {
     | InvalidInputError
     | LimitExceededError
     | NoSuchEntityError
-    | ServiceFailureError,
-    CreateUserCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -1049,15 +1029,14 @@ export type IAMService = {
     args: CreateVirtualMFADeviceCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    CreateVirtualMFADeviceCommandOutput,
     | SdkError
     | IAMServiceError
     | ConcurrentModificationError
     | EntityAlreadyExistsError
     | InvalidInputError
     | LimitExceededError
-    | ServiceFailureError,
-    CreateVirtualMFADeviceCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -1067,15 +1046,14 @@ export type IAMService = {
     args: DeactivateMFADeviceCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    DeactivateMFADeviceCommandOutput,
     | SdkError
     | IAMServiceError
     | ConcurrentModificationError
     | EntityTemporarilyUnmodifiableError
     | LimitExceededError
     | NoSuchEntityError
-    | ServiceFailureError,
-    DeactivateMFADeviceCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -1085,13 +1063,12 @@ export type IAMService = {
     args: DeleteAccessKeyCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    DeleteAccessKeyCommandOutput,
     | SdkError
     | IAMServiceError
     | LimitExceededError
     | NoSuchEntityError
-    | ServiceFailureError,
-    DeleteAccessKeyCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -1101,14 +1078,13 @@ export type IAMService = {
     args: DeleteAccountAliasCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    DeleteAccountAliasCommandOutput,
     | SdkError
     | IAMServiceError
     | ConcurrentModificationError
     | LimitExceededError
     | NoSuchEntityError
-    | ServiceFailureError,
-    DeleteAccountAliasCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -1118,13 +1094,12 @@ export type IAMService = {
     args: DeleteAccountPasswordPolicyCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    DeleteAccountPasswordPolicyCommandOutput,
     | SdkError
     | IAMServiceError
     | LimitExceededError
     | NoSuchEntityError
-    | ServiceFailureError,
-    DeleteAccountPasswordPolicyCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -1134,14 +1109,13 @@ export type IAMService = {
     args: DeleteGroupCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    DeleteGroupCommandOutput,
     | SdkError
     | IAMServiceError
     | DeleteConflictError
     | LimitExceededError
     | NoSuchEntityError
-    | ServiceFailureError,
-    DeleteGroupCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -1151,13 +1125,12 @@ export type IAMService = {
     args: DeleteGroupPolicyCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    DeleteGroupPolicyCommandOutput,
     | SdkError
     | IAMServiceError
     | LimitExceededError
     | NoSuchEntityError
-    | ServiceFailureError,
-    DeleteGroupPolicyCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -1167,14 +1140,13 @@ export type IAMService = {
     args: DeleteInstanceProfileCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    DeleteInstanceProfileCommandOutput,
     | SdkError
     | IAMServiceError
     | DeleteConflictError
     | LimitExceededError
     | NoSuchEntityError
-    | ServiceFailureError,
-    DeleteInstanceProfileCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -1184,14 +1156,13 @@ export type IAMService = {
     args: DeleteLoginProfileCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    DeleteLoginProfileCommandOutput,
     | SdkError
     | IAMServiceError
     | EntityTemporarilyUnmodifiableError
     | LimitExceededError
     | NoSuchEntityError
-    | ServiceFailureError,
-    DeleteLoginProfileCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -1201,13 +1172,12 @@ export type IAMService = {
     args: DeleteOpenIDConnectProviderCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    DeleteOpenIDConnectProviderCommandOutput,
     | SdkError
     | IAMServiceError
     | InvalidInputError
     | NoSuchEntityError
-    | ServiceFailureError,
-    DeleteOpenIDConnectProviderCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -1217,15 +1187,14 @@ export type IAMService = {
     args: DeletePolicyCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    DeletePolicyCommandOutput,
     | SdkError
     | IAMServiceError
     | DeleteConflictError
     | InvalidInputError
     | LimitExceededError
     | NoSuchEntityError
-    | ServiceFailureError,
-    DeletePolicyCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -1235,15 +1204,14 @@ export type IAMService = {
     args: DeletePolicyVersionCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    DeletePolicyVersionCommandOutput,
     | SdkError
     | IAMServiceError
     | DeleteConflictError
     | InvalidInputError
     | LimitExceededError
     | NoSuchEntityError
-    | ServiceFailureError,
-    DeletePolicyVersionCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -1253,7 +1221,7 @@ export type IAMService = {
     args: DeleteRoleCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    DeleteRoleCommandOutput,
     | SdkError
     | IAMServiceError
     | ConcurrentModificationError
@@ -1261,8 +1229,7 @@ export type IAMService = {
     | LimitExceededError
     | NoSuchEntityError
     | ServiceFailureError
-    | UnmodifiableEntityError,
-    DeleteRoleCommandOutput
+    | UnmodifiableEntityError
   >;
 
   /**
@@ -1272,13 +1239,12 @@ export type IAMService = {
     args: DeleteRolePermissionsBoundaryCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    DeleteRolePermissionsBoundaryCommandOutput,
     | SdkError
     | IAMServiceError
     | NoSuchEntityError
     | ServiceFailureError
-    | UnmodifiableEntityError,
-    DeleteRolePermissionsBoundaryCommandOutput
+    | UnmodifiableEntityError
   >;
 
   /**
@@ -1288,14 +1254,13 @@ export type IAMService = {
     args: DeleteRolePolicyCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    DeleteRolePolicyCommandOutput,
     | SdkError
     | IAMServiceError
     | LimitExceededError
     | NoSuchEntityError
     | ServiceFailureError
-    | UnmodifiableEntityError,
-    DeleteRolePolicyCommandOutput
+    | UnmodifiableEntityError
   >;
 
   /**
@@ -1305,14 +1270,13 @@ export type IAMService = {
     args: DeleteSAMLProviderCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    DeleteSAMLProviderCommandOutput,
     | SdkError
     | IAMServiceError
     | InvalidInputError
     | LimitExceededError
     | NoSuchEntityError
-    | ServiceFailureError,
-    DeleteSAMLProviderCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -1322,14 +1286,13 @@ export type IAMService = {
     args: DeleteServerCertificateCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    DeleteServerCertificateCommandOutput,
     | SdkError
     | IAMServiceError
     | DeleteConflictError
     | LimitExceededError
     | NoSuchEntityError
-    | ServiceFailureError,
-    DeleteServerCertificateCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -1339,13 +1302,12 @@ export type IAMService = {
     args: DeleteServiceLinkedRoleCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    DeleteServiceLinkedRoleCommandOutput,
     | SdkError
     | IAMServiceError
     | LimitExceededError
     | NoSuchEntityError
-    | ServiceFailureError,
-    DeleteServiceLinkedRoleCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -1355,9 +1317,8 @@ export type IAMService = {
     args: DeleteServiceSpecificCredentialCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError | NoSuchEntityError,
-    DeleteServiceSpecificCredentialCommandOutput
+    DeleteServiceSpecificCredentialCommandOutput,
+    SdkError | IAMServiceError | NoSuchEntityError
   >;
 
   /**
@@ -1367,14 +1328,13 @@ export type IAMService = {
     args: DeleteSigningCertificateCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    DeleteSigningCertificateCommandOutput,
     | SdkError
     | IAMServiceError
     | ConcurrentModificationError
     | LimitExceededError
     | NoSuchEntityError
-    | ServiceFailureError,
-    DeleteSigningCertificateCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -1384,9 +1344,8 @@ export type IAMService = {
     args: DeleteSSHPublicKeyCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError | NoSuchEntityError,
-    DeleteSSHPublicKeyCommandOutput
+    DeleteSSHPublicKeyCommandOutput,
+    SdkError | IAMServiceError | NoSuchEntityError
   >;
 
   /**
@@ -1396,15 +1355,14 @@ export type IAMService = {
     args: DeleteUserCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    DeleteUserCommandOutput,
     | SdkError
     | IAMServiceError
     | ConcurrentModificationError
     | DeleteConflictError
     | LimitExceededError
     | NoSuchEntityError
-    | ServiceFailureError,
-    DeleteUserCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -1414,9 +1372,8 @@ export type IAMService = {
     args: DeleteUserPermissionsBoundaryCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError,
-    DeleteUserPermissionsBoundaryCommandOutput
+    DeleteUserPermissionsBoundaryCommandOutput,
+    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -1426,13 +1383,12 @@ export type IAMService = {
     args: DeleteUserPolicyCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    DeleteUserPolicyCommandOutput,
     | SdkError
     | IAMServiceError
     | LimitExceededError
     | NoSuchEntityError
-    | ServiceFailureError,
-    DeleteUserPolicyCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -1442,15 +1398,14 @@ export type IAMService = {
     args: DeleteVirtualMFADeviceCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    DeleteVirtualMFADeviceCommandOutput,
     | SdkError
     | IAMServiceError
     | ConcurrentModificationError
     | DeleteConflictError
     | LimitExceededError
     | NoSuchEntityError
-    | ServiceFailureError,
-    DeleteVirtualMFADeviceCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -1460,14 +1415,13 @@ export type IAMService = {
     args: DetachGroupPolicyCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    DetachGroupPolicyCommandOutput,
     | SdkError
     | IAMServiceError
     | InvalidInputError
     | LimitExceededError
     | NoSuchEntityError
-    | ServiceFailureError,
-    DetachGroupPolicyCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -1477,15 +1431,14 @@ export type IAMService = {
     args: DetachRolePolicyCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    DetachRolePolicyCommandOutput,
     | SdkError
     | IAMServiceError
     | InvalidInputError
     | LimitExceededError
     | NoSuchEntityError
     | ServiceFailureError
-    | UnmodifiableEntityError,
-    DetachRolePolicyCommandOutput
+    | UnmodifiableEntityError
   >;
 
   /**
@@ -1495,14 +1448,13 @@ export type IAMService = {
     args: DetachUserPolicyCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    DetachUserPolicyCommandOutput,
     | SdkError
     | IAMServiceError
     | InvalidInputError
     | LimitExceededError
     | NoSuchEntityError
-    | ServiceFailureError,
-    DetachUserPolicyCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -1512,7 +1464,7 @@ export type IAMService = {
     args: EnableMFADeviceCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    EnableMFADeviceCommandOutput,
     | SdkError
     | IAMServiceError
     | ConcurrentModificationError
@@ -1521,8 +1473,7 @@ export type IAMService = {
     | InvalidAuthenticationCodeError
     | LimitExceededError
     | NoSuchEntityError
-    | ServiceFailureError,
-    EnableMFADeviceCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -1532,9 +1483,8 @@ export type IAMService = {
     args: GenerateCredentialReportCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError | LimitExceededError | ServiceFailureError,
-    GenerateCredentialReportCommandOutput
+    GenerateCredentialReportCommandOutput,
+    SdkError | IAMServiceError | LimitExceededError | ServiceFailureError
   >;
 
   /**
@@ -1544,9 +1494,8 @@ export type IAMService = {
     args: GenerateOrganizationsAccessReportCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError | ReportGenerationLimitExceededError,
-    GenerateOrganizationsAccessReportCommandOutput
+    GenerateOrganizationsAccessReportCommandOutput,
+    SdkError | IAMServiceError | ReportGenerationLimitExceededError
   >;
 
   /**
@@ -1556,9 +1505,8 @@ export type IAMService = {
     args: GenerateServiceLastAccessedDetailsCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError | InvalidInputError | NoSuchEntityError,
-    GenerateServiceLastAccessedDetailsCommandOutput
+    GenerateServiceLastAccessedDetailsCommandOutput,
+    SdkError | IAMServiceError | InvalidInputError | NoSuchEntityError
   >;
 
   /**
@@ -1568,9 +1516,8 @@ export type IAMService = {
     args: GetAccessKeyLastUsedCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError,
-    GetAccessKeyLastUsedCommandOutput
+    GetAccessKeyLastUsedCommandOutput,
+    SdkError | IAMServiceError
   >;
 
   /**
@@ -1580,9 +1527,8 @@ export type IAMService = {
     args: GetAccountAuthorizationDetailsCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError | ServiceFailureError,
-    GetAccountAuthorizationDetailsCommandOutput
+    GetAccountAuthorizationDetailsCommandOutput,
+    SdkError | IAMServiceError | ServiceFailureError
   >;
 
   /**
@@ -1592,9 +1538,8 @@ export type IAMService = {
     args: GetAccountPasswordPolicyCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError,
-    GetAccountPasswordPolicyCommandOutput
+    GetAccountPasswordPolicyCommandOutput,
+    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -1604,9 +1549,8 @@ export type IAMService = {
     args: GetAccountSummaryCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError | ServiceFailureError,
-    GetAccountSummaryCommandOutput
+    GetAccountSummaryCommandOutput,
+    SdkError | IAMServiceError | ServiceFailureError
   >;
 
   /**
@@ -1616,9 +1560,8 @@ export type IAMService = {
     args: GetContextKeysForCustomPolicyCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError | InvalidInputError,
-    GetContextKeysForCustomPolicyCommandOutput
+    GetContextKeysForCustomPolicyCommandOutput,
+    SdkError | IAMServiceError | InvalidInputError
   >;
 
   /**
@@ -1628,9 +1571,8 @@ export type IAMService = {
     args: GetContextKeysForPrincipalPolicyCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError | InvalidInputError | NoSuchEntityError,
-    GetContextKeysForPrincipalPolicyCommandOutput
+    GetContextKeysForPrincipalPolicyCommandOutput,
+    SdkError | IAMServiceError | InvalidInputError | NoSuchEntityError
   >;
 
   /**
@@ -1640,14 +1582,13 @@ export type IAMService = {
     args: GetCredentialReportCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    GetCredentialReportCommandOutput,
     | SdkError
     | IAMServiceError
     | CredentialReportExpiredError
     | CredentialReportNotPresentError
     | CredentialReportNotReadyError
-    | ServiceFailureError,
-    GetCredentialReportCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -1657,9 +1598,8 @@ export type IAMService = {
     args: GetGroupCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError,
-    GetGroupCommandOutput
+    GetGroupCommandOutput,
+    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -1669,9 +1609,8 @@ export type IAMService = {
     args: GetGroupPolicyCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError,
-    GetGroupPolicyCommandOutput
+    GetGroupPolicyCommandOutput,
+    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -1681,9 +1620,8 @@ export type IAMService = {
     args: GetInstanceProfileCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError,
-    GetInstanceProfileCommandOutput
+    GetInstanceProfileCommandOutput,
+    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -1693,9 +1631,8 @@ export type IAMService = {
     args: GetLoginProfileCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError,
-    GetLoginProfileCommandOutput
+    GetLoginProfileCommandOutput,
+    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -1705,9 +1642,8 @@ export type IAMService = {
     args: GetMFADeviceCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError,
-    GetMFADeviceCommandOutput
+    GetMFADeviceCommandOutput,
+    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -1717,13 +1653,12 @@ export type IAMService = {
     args: GetOpenIDConnectProviderCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    GetOpenIDConnectProviderCommandOutput,
     | SdkError
     | IAMServiceError
     | InvalidInputError
     | NoSuchEntityError
-    | ServiceFailureError,
-    GetOpenIDConnectProviderCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -1733,9 +1668,8 @@ export type IAMService = {
     args: GetOrganizationsAccessReportCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError | NoSuchEntityError,
-    GetOrganizationsAccessReportCommandOutput
+    GetOrganizationsAccessReportCommandOutput,
+    SdkError | IAMServiceError | NoSuchEntityError
   >;
 
   /**
@@ -1745,13 +1679,12 @@ export type IAMService = {
     args: GetPolicyCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    GetPolicyCommandOutput,
     | SdkError
     | IAMServiceError
     | InvalidInputError
     | NoSuchEntityError
-    | ServiceFailureError,
-    GetPolicyCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -1761,13 +1694,12 @@ export type IAMService = {
     args: GetPolicyVersionCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    GetPolicyVersionCommandOutput,
     | SdkError
     | IAMServiceError
     | InvalidInputError
     | NoSuchEntityError
-    | ServiceFailureError,
-    GetPolicyVersionCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -1777,9 +1709,8 @@ export type IAMService = {
     args: GetRoleCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError,
-    GetRoleCommandOutput
+    GetRoleCommandOutput,
+    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -1789,9 +1720,8 @@ export type IAMService = {
     args: GetRolePolicyCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError,
-    GetRolePolicyCommandOutput
+    GetRolePolicyCommandOutput,
+    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -1801,13 +1731,12 @@ export type IAMService = {
     args: GetSAMLProviderCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    GetSAMLProviderCommandOutput,
     | SdkError
     | IAMServiceError
     | InvalidInputError
     | NoSuchEntityError
-    | ServiceFailureError,
-    GetSAMLProviderCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -1817,9 +1746,8 @@ export type IAMService = {
     args: GetServerCertificateCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError,
-    GetServerCertificateCommandOutput
+    GetServerCertificateCommandOutput,
+    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -1829,9 +1757,8 @@ export type IAMService = {
     args: GetServiceLastAccessedDetailsCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError | InvalidInputError | NoSuchEntityError,
-    GetServiceLastAccessedDetailsCommandOutput
+    GetServiceLastAccessedDetailsCommandOutput,
+    SdkError | IAMServiceError | InvalidInputError | NoSuchEntityError
   >;
 
   /**
@@ -1841,9 +1768,8 @@ export type IAMService = {
     args: GetServiceLastAccessedDetailsWithEntitiesCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError | InvalidInputError | NoSuchEntityError,
-    GetServiceLastAccessedDetailsWithEntitiesCommandOutput
+    GetServiceLastAccessedDetailsWithEntitiesCommandOutput,
+    SdkError | IAMServiceError | InvalidInputError | NoSuchEntityError
   >;
 
   /**
@@ -1853,13 +1779,12 @@ export type IAMService = {
     args: GetServiceLinkedRoleDeletionStatusCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    GetServiceLinkedRoleDeletionStatusCommandOutput,
     | SdkError
     | IAMServiceError
     | InvalidInputError
     | NoSuchEntityError
-    | ServiceFailureError,
-    GetServiceLinkedRoleDeletionStatusCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -1869,12 +1794,11 @@ export type IAMService = {
     args: GetSSHPublicKeyCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    GetSSHPublicKeyCommandOutput,
     | SdkError
     | IAMServiceError
     | NoSuchEntityError
-    | UnrecognizedPublicKeyEncodingError,
-    GetSSHPublicKeyCommandOutput
+    | UnrecognizedPublicKeyEncodingError
   >;
 
   /**
@@ -1884,9 +1808,8 @@ export type IAMService = {
     args: GetUserCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError,
-    GetUserCommandOutput
+    GetUserCommandOutput,
+    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -1896,9 +1819,8 @@ export type IAMService = {
     args: GetUserPolicyCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError,
-    GetUserPolicyCommandOutput
+    GetUserPolicyCommandOutput,
+    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -1908,9 +1830,8 @@ export type IAMService = {
     args: ListAccessKeysCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError,
-    ListAccessKeysCommandOutput
+    ListAccessKeysCommandOutput,
+    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -1920,9 +1841,8 @@ export type IAMService = {
     args: ListAccountAliasesCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError | ServiceFailureError,
-    ListAccountAliasesCommandOutput
+    ListAccountAliasesCommandOutput,
+    SdkError | IAMServiceError | ServiceFailureError
   >;
 
   /**
@@ -1932,13 +1852,12 @@ export type IAMService = {
     args: ListAttachedGroupPoliciesCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    ListAttachedGroupPoliciesCommandOutput,
     | SdkError
     | IAMServiceError
     | InvalidInputError
     | NoSuchEntityError
-    | ServiceFailureError,
-    ListAttachedGroupPoliciesCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -1948,13 +1867,12 @@ export type IAMService = {
     args: ListAttachedRolePoliciesCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    ListAttachedRolePoliciesCommandOutput,
     | SdkError
     | IAMServiceError
     | InvalidInputError
     | NoSuchEntityError
-    | ServiceFailureError,
-    ListAttachedRolePoliciesCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -1964,13 +1882,12 @@ export type IAMService = {
     args: ListAttachedUserPoliciesCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    ListAttachedUserPoliciesCommandOutput,
     | SdkError
     | IAMServiceError
     | InvalidInputError
     | NoSuchEntityError
-    | ServiceFailureError,
-    ListAttachedUserPoliciesCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -1980,13 +1897,12 @@ export type IAMService = {
     args: ListEntitiesForPolicyCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    ListEntitiesForPolicyCommandOutput,
     | SdkError
     | IAMServiceError
     | InvalidInputError
     | NoSuchEntityError
-    | ServiceFailureError,
-    ListEntitiesForPolicyCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -1996,9 +1912,8 @@ export type IAMService = {
     args: ListGroupPoliciesCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError,
-    ListGroupPoliciesCommandOutput
+    ListGroupPoliciesCommandOutput,
+    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -2008,9 +1923,8 @@ export type IAMService = {
     args: ListGroupsCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError | ServiceFailureError,
-    ListGroupsCommandOutput
+    ListGroupsCommandOutput,
+    SdkError | IAMServiceError | ServiceFailureError
   >;
 
   /**
@@ -2020,9 +1934,8 @@ export type IAMService = {
     args: ListGroupsForUserCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError,
-    ListGroupsForUserCommandOutput
+    ListGroupsForUserCommandOutput,
+    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -2032,9 +1945,8 @@ export type IAMService = {
     args: ListInstanceProfilesCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError | ServiceFailureError,
-    ListInstanceProfilesCommandOutput
+    ListInstanceProfilesCommandOutput,
+    SdkError | IAMServiceError | ServiceFailureError
   >;
 
   /**
@@ -2044,9 +1956,8 @@ export type IAMService = {
     args: ListInstanceProfilesForRoleCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError,
-    ListInstanceProfilesForRoleCommandOutput
+    ListInstanceProfilesForRoleCommandOutput,
+    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -2056,9 +1967,8 @@ export type IAMService = {
     args: ListInstanceProfileTagsCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError,
-    ListInstanceProfileTagsCommandOutput
+    ListInstanceProfileTagsCommandOutput,
+    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -2068,9 +1978,8 @@ export type IAMService = {
     args: ListMFADevicesCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError,
-    ListMFADevicesCommandOutput
+    ListMFADevicesCommandOutput,
+    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -2080,13 +1989,12 @@ export type IAMService = {
     args: ListMFADeviceTagsCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    ListMFADeviceTagsCommandOutput,
     | SdkError
     | IAMServiceError
     | InvalidInputError
     | NoSuchEntityError
-    | ServiceFailureError,
-    ListMFADeviceTagsCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -2096,9 +2004,8 @@ export type IAMService = {
     args: ListOpenIDConnectProvidersCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError | ServiceFailureError,
-    ListOpenIDConnectProvidersCommandOutput
+    ListOpenIDConnectProvidersCommandOutput,
+    SdkError | IAMServiceError | ServiceFailureError
   >;
 
   /**
@@ -2108,13 +2015,12 @@ export type IAMService = {
     args: ListOpenIDConnectProviderTagsCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    ListOpenIDConnectProviderTagsCommandOutput,
     | SdkError
     | IAMServiceError
     | InvalidInputError
     | NoSuchEntityError
-    | ServiceFailureError,
-    ListOpenIDConnectProviderTagsCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -2124,9 +2030,8 @@ export type IAMService = {
     args: ListPoliciesCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError | ServiceFailureError,
-    ListPoliciesCommandOutput
+    ListPoliciesCommandOutput,
+    SdkError | IAMServiceError | ServiceFailureError
   >;
 
   /**
@@ -2136,9 +2041,8 @@ export type IAMService = {
     args: ListPoliciesGrantingServiceAccessCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError | InvalidInputError | NoSuchEntityError,
-    ListPoliciesGrantingServiceAccessCommandOutput
+    ListPoliciesGrantingServiceAccessCommandOutput,
+    SdkError | IAMServiceError | InvalidInputError | NoSuchEntityError
   >;
 
   /**
@@ -2148,13 +2052,12 @@ export type IAMService = {
     args: ListPolicyTagsCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    ListPolicyTagsCommandOutput,
     | SdkError
     | IAMServiceError
     | InvalidInputError
     | NoSuchEntityError
-    | ServiceFailureError,
-    ListPolicyTagsCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -2164,13 +2067,12 @@ export type IAMService = {
     args: ListPolicyVersionsCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    ListPolicyVersionsCommandOutput,
     | SdkError
     | IAMServiceError
     | InvalidInputError
     | NoSuchEntityError
-    | ServiceFailureError,
-    ListPolicyVersionsCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -2180,9 +2082,8 @@ export type IAMService = {
     args: ListRolePoliciesCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError,
-    ListRolePoliciesCommandOutput
+    ListRolePoliciesCommandOutput,
+    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -2192,9 +2093,8 @@ export type IAMService = {
     args: ListRolesCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError | ServiceFailureError,
-    ListRolesCommandOutput
+    ListRolesCommandOutput,
+    SdkError | IAMServiceError | ServiceFailureError
   >;
 
   /**
@@ -2204,9 +2104,8 @@ export type IAMService = {
     args: ListRoleTagsCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError,
-    ListRoleTagsCommandOutput
+    ListRoleTagsCommandOutput,
+    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -2216,9 +2115,8 @@ export type IAMService = {
     args: ListSAMLProvidersCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError | ServiceFailureError,
-    ListSAMLProvidersCommandOutput
+    ListSAMLProvidersCommandOutput,
+    SdkError | IAMServiceError | ServiceFailureError
   >;
 
   /**
@@ -2228,13 +2126,12 @@ export type IAMService = {
     args: ListSAMLProviderTagsCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    ListSAMLProviderTagsCommandOutput,
     | SdkError
     | IAMServiceError
     | InvalidInputError
     | NoSuchEntityError
-    | ServiceFailureError,
-    ListSAMLProviderTagsCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -2244,9 +2141,8 @@ export type IAMService = {
     args: ListServerCertificatesCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError | ServiceFailureError,
-    ListServerCertificatesCommandOutput
+    ListServerCertificatesCommandOutput,
+    SdkError | IAMServiceError | ServiceFailureError
   >;
 
   /**
@@ -2256,9 +2152,8 @@ export type IAMService = {
     args: ListServerCertificateTagsCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError,
-    ListServerCertificateTagsCommandOutput
+    ListServerCertificateTagsCommandOutput,
+    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -2268,9 +2163,8 @@ export type IAMService = {
     args: ListServiceSpecificCredentialsCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError | NoSuchEntityError | ServiceNotSupportedError,
-    ListServiceSpecificCredentialsCommandOutput
+    ListServiceSpecificCredentialsCommandOutput,
+    SdkError | IAMServiceError | NoSuchEntityError | ServiceNotSupportedError
   >;
 
   /**
@@ -2280,9 +2174,8 @@ export type IAMService = {
     args: ListSigningCertificatesCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError,
-    ListSigningCertificatesCommandOutput
+    ListSigningCertificatesCommandOutput,
+    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -2292,9 +2185,8 @@ export type IAMService = {
     args: ListSSHPublicKeysCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError | NoSuchEntityError,
-    ListSSHPublicKeysCommandOutput
+    ListSSHPublicKeysCommandOutput,
+    SdkError | IAMServiceError | NoSuchEntityError
   >;
 
   /**
@@ -2304,9 +2196,8 @@ export type IAMService = {
     args: ListUserPoliciesCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError,
-    ListUserPoliciesCommandOutput
+    ListUserPoliciesCommandOutput,
+    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -2316,9 +2207,8 @@ export type IAMService = {
     args: ListUsersCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError | ServiceFailureError,
-    ListUsersCommandOutput
+    ListUsersCommandOutput,
+    SdkError | IAMServiceError | ServiceFailureError
   >;
 
   /**
@@ -2328,9 +2218,8 @@ export type IAMService = {
     args: ListUserTagsCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError,
-    ListUserTagsCommandOutput
+    ListUserTagsCommandOutput,
+    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -2340,9 +2229,8 @@ export type IAMService = {
     args: ListVirtualMFADevicesCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError,
-    ListVirtualMFADevicesCommandOutput
+    ListVirtualMFADevicesCommandOutput,
+    SdkError | IAMServiceError
   >;
 
   /**
@@ -2352,14 +2240,13 @@ export type IAMService = {
     args: PutGroupPolicyCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    PutGroupPolicyCommandOutput,
     | SdkError
     | IAMServiceError
     | LimitExceededError
     | MalformedPolicyDocumentError
     | NoSuchEntityError
-    | ServiceFailureError,
-    PutGroupPolicyCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -2369,15 +2256,14 @@ export type IAMService = {
     args: PutRolePermissionsBoundaryCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    PutRolePermissionsBoundaryCommandOutput,
     | SdkError
     | IAMServiceError
     | InvalidInputError
     | NoSuchEntityError
     | PolicyNotAttachableError
     | ServiceFailureError
-    | UnmodifiableEntityError,
-    PutRolePermissionsBoundaryCommandOutput
+    | UnmodifiableEntityError
   >;
 
   /**
@@ -2387,15 +2273,14 @@ export type IAMService = {
     args: PutRolePolicyCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    PutRolePolicyCommandOutput,
     | SdkError
     | IAMServiceError
     | LimitExceededError
     | MalformedPolicyDocumentError
     | NoSuchEntityError
     | ServiceFailureError
-    | UnmodifiableEntityError,
-    PutRolePolicyCommandOutput
+    | UnmodifiableEntityError
   >;
 
   /**
@@ -2405,14 +2290,13 @@ export type IAMService = {
     args: PutUserPermissionsBoundaryCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    PutUserPermissionsBoundaryCommandOutput,
     | SdkError
     | IAMServiceError
     | InvalidInputError
     | NoSuchEntityError
     | PolicyNotAttachableError
-    | ServiceFailureError,
-    PutUserPermissionsBoundaryCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -2422,14 +2306,13 @@ export type IAMService = {
     args: PutUserPolicyCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    PutUserPolicyCommandOutput,
     | SdkError
     | IAMServiceError
     | LimitExceededError
     | MalformedPolicyDocumentError
     | NoSuchEntityError
-    | ServiceFailureError,
-    PutUserPolicyCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -2439,13 +2322,12 @@ export type IAMService = {
     args: RemoveClientIDFromOpenIDConnectProviderCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    RemoveClientIDFromOpenIDConnectProviderCommandOutput,
     | SdkError
     | IAMServiceError
     | InvalidInputError
     | NoSuchEntityError
-    | ServiceFailureError,
-    RemoveClientIDFromOpenIDConnectProviderCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -2455,14 +2337,13 @@ export type IAMService = {
     args: RemoveRoleFromInstanceProfileCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    RemoveRoleFromInstanceProfileCommandOutput,
     | SdkError
     | IAMServiceError
     | LimitExceededError
     | NoSuchEntityError
     | ServiceFailureError
-    | UnmodifiableEntityError,
-    RemoveRoleFromInstanceProfileCommandOutput
+    | UnmodifiableEntityError
   >;
 
   /**
@@ -2472,13 +2353,12 @@ export type IAMService = {
     args: RemoveUserFromGroupCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    RemoveUserFromGroupCommandOutput,
     | SdkError
     | IAMServiceError
     | LimitExceededError
     | NoSuchEntityError
-    | ServiceFailureError,
-    RemoveUserFromGroupCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -2488,9 +2368,8 @@ export type IAMService = {
     args: ResetServiceSpecificCredentialCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError | NoSuchEntityError,
-    ResetServiceSpecificCredentialCommandOutput
+    ResetServiceSpecificCredentialCommandOutput,
+    SdkError | IAMServiceError | NoSuchEntityError
   >;
 
   /**
@@ -2500,15 +2379,14 @@ export type IAMService = {
     args: ResyncMFADeviceCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    ResyncMFADeviceCommandOutput,
     | SdkError
     | IAMServiceError
     | ConcurrentModificationError
     | InvalidAuthenticationCodeError
     | LimitExceededError
     | NoSuchEntityError
-    | ServiceFailureError,
-    ResyncMFADeviceCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -2518,14 +2396,13 @@ export type IAMService = {
     args: SetDefaultPolicyVersionCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    SetDefaultPolicyVersionCommandOutput,
     | SdkError
     | IAMServiceError
     | InvalidInputError
     | LimitExceededError
     | NoSuchEntityError
-    | ServiceFailureError,
-    SetDefaultPolicyVersionCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -2535,9 +2412,8 @@ export type IAMService = {
     args: SetSecurityTokenServicePreferencesCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError | ServiceFailureError,
-    SetSecurityTokenServicePreferencesCommandOutput
+    SetSecurityTokenServicePreferencesCommandOutput,
+    SdkError | IAMServiceError | ServiceFailureError
   >;
 
   /**
@@ -2547,9 +2423,8 @@ export type IAMService = {
     args: SimulateCustomPolicyCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError | InvalidInputError | PolicyEvaluationError,
-    SimulateCustomPolicyCommandOutput
+    SimulateCustomPolicyCommandOutput,
+    SdkError | IAMServiceError | InvalidInputError | PolicyEvaluationError
   >;
 
   /**
@@ -2559,13 +2434,12 @@ export type IAMService = {
     args: SimulatePrincipalPolicyCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    SimulatePrincipalPolicyCommandOutput,
     | SdkError
     | IAMServiceError
     | InvalidInputError
     | NoSuchEntityError
-    | PolicyEvaluationError,
-    SimulatePrincipalPolicyCommandOutput
+    | PolicyEvaluationError
   >;
 
   /**
@@ -2575,15 +2449,14 @@ export type IAMService = {
     args: TagInstanceProfileCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    TagInstanceProfileCommandOutput,
     | SdkError
     | IAMServiceError
     | ConcurrentModificationError
     | InvalidInputError
     | LimitExceededError
     | NoSuchEntityError
-    | ServiceFailureError,
-    TagInstanceProfileCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -2593,15 +2466,14 @@ export type IAMService = {
     args: TagMFADeviceCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    TagMFADeviceCommandOutput,
     | SdkError
     | IAMServiceError
     | ConcurrentModificationError
     | InvalidInputError
     | LimitExceededError
     | NoSuchEntityError
-    | ServiceFailureError,
-    TagMFADeviceCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -2611,15 +2483,14 @@ export type IAMService = {
     args: TagOpenIDConnectProviderCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    TagOpenIDConnectProviderCommandOutput,
     | SdkError
     | IAMServiceError
     | ConcurrentModificationError
     | InvalidInputError
     | LimitExceededError
     | NoSuchEntityError
-    | ServiceFailureError,
-    TagOpenIDConnectProviderCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -2629,15 +2500,14 @@ export type IAMService = {
     args: TagPolicyCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    TagPolicyCommandOutput,
     | SdkError
     | IAMServiceError
     | ConcurrentModificationError
     | InvalidInputError
     | LimitExceededError
     | NoSuchEntityError
-    | ServiceFailureError,
-    TagPolicyCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -2647,15 +2517,14 @@ export type IAMService = {
     args: TagRoleCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    TagRoleCommandOutput,
     | SdkError
     | IAMServiceError
     | ConcurrentModificationError
     | InvalidInputError
     | LimitExceededError
     | NoSuchEntityError
-    | ServiceFailureError,
-    TagRoleCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -2665,15 +2534,14 @@ export type IAMService = {
     args: TagSAMLProviderCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    TagSAMLProviderCommandOutput,
     | SdkError
     | IAMServiceError
     | ConcurrentModificationError
     | InvalidInputError
     | LimitExceededError
     | NoSuchEntityError
-    | ServiceFailureError,
-    TagSAMLProviderCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -2683,15 +2551,14 @@ export type IAMService = {
     args: TagServerCertificateCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    TagServerCertificateCommandOutput,
     | SdkError
     | IAMServiceError
     | ConcurrentModificationError
     | InvalidInputError
     | LimitExceededError
     | NoSuchEntityError
-    | ServiceFailureError,
-    TagServerCertificateCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -2701,15 +2568,14 @@ export type IAMService = {
     args: TagUserCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    TagUserCommandOutput,
     | SdkError
     | IAMServiceError
     | ConcurrentModificationError
     | InvalidInputError
     | LimitExceededError
     | NoSuchEntityError
-    | ServiceFailureError,
-    TagUserCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -2719,14 +2585,13 @@ export type IAMService = {
     args: UntagInstanceProfileCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    UntagInstanceProfileCommandOutput,
     | SdkError
     | IAMServiceError
     | ConcurrentModificationError
     | InvalidInputError
     | NoSuchEntityError
-    | ServiceFailureError,
-    UntagInstanceProfileCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -2736,14 +2601,13 @@ export type IAMService = {
     args: UntagMFADeviceCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    UntagMFADeviceCommandOutput,
     | SdkError
     | IAMServiceError
     | ConcurrentModificationError
     | InvalidInputError
     | NoSuchEntityError
-    | ServiceFailureError,
-    UntagMFADeviceCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -2753,14 +2617,13 @@ export type IAMService = {
     args: UntagOpenIDConnectProviderCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    UntagOpenIDConnectProviderCommandOutput,
     | SdkError
     | IAMServiceError
     | ConcurrentModificationError
     | InvalidInputError
     | NoSuchEntityError
-    | ServiceFailureError,
-    UntagOpenIDConnectProviderCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -2770,14 +2633,13 @@ export type IAMService = {
     args: UntagPolicyCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    UntagPolicyCommandOutput,
     | SdkError
     | IAMServiceError
     | ConcurrentModificationError
     | InvalidInputError
     | NoSuchEntityError
-    | ServiceFailureError,
-    UntagPolicyCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -2787,13 +2649,12 @@ export type IAMService = {
     args: UntagRoleCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    UntagRoleCommandOutput,
     | SdkError
     | IAMServiceError
     | ConcurrentModificationError
     | NoSuchEntityError
-    | ServiceFailureError,
-    UntagRoleCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -2803,14 +2664,13 @@ export type IAMService = {
     args: UntagSAMLProviderCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    UntagSAMLProviderCommandOutput,
     | SdkError
     | IAMServiceError
     | ConcurrentModificationError
     | InvalidInputError
     | NoSuchEntityError
-    | ServiceFailureError,
-    UntagSAMLProviderCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -2820,14 +2680,13 @@ export type IAMService = {
     args: UntagServerCertificateCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    UntagServerCertificateCommandOutput,
     | SdkError
     | IAMServiceError
     | ConcurrentModificationError
     | InvalidInputError
     | NoSuchEntityError
-    | ServiceFailureError,
-    UntagServerCertificateCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -2837,13 +2696,12 @@ export type IAMService = {
     args: UntagUserCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    UntagUserCommandOutput,
     | SdkError
     | IAMServiceError
     | ConcurrentModificationError
     | NoSuchEntityError
-    | ServiceFailureError,
-    UntagUserCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -2853,13 +2711,12 @@ export type IAMService = {
     args: UpdateAccessKeyCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    UpdateAccessKeyCommandOutput,
     | SdkError
     | IAMServiceError
     | LimitExceededError
     | NoSuchEntityError
-    | ServiceFailureError,
-    UpdateAccessKeyCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -2869,14 +2726,13 @@ export type IAMService = {
     args: UpdateAccountPasswordPolicyCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    UpdateAccountPasswordPolicyCommandOutput,
     | SdkError
     | IAMServiceError
     | LimitExceededError
     | MalformedPolicyDocumentError
     | NoSuchEntityError
-    | ServiceFailureError,
-    UpdateAccountPasswordPolicyCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -2886,15 +2742,14 @@ export type IAMService = {
     args: UpdateAssumeRolePolicyCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    UpdateAssumeRolePolicyCommandOutput,
     | SdkError
     | IAMServiceError
     | LimitExceededError
     | MalformedPolicyDocumentError
     | NoSuchEntityError
     | ServiceFailureError
-    | UnmodifiableEntityError,
-    UpdateAssumeRolePolicyCommandOutput
+    | UnmodifiableEntityError
   >;
 
   /**
@@ -2904,14 +2759,13 @@ export type IAMService = {
     args: UpdateGroupCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    UpdateGroupCommandOutput,
     | SdkError
     | IAMServiceError
     | EntityAlreadyExistsError
     | LimitExceededError
     | NoSuchEntityError
-    | ServiceFailureError,
-    UpdateGroupCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -2921,15 +2775,14 @@ export type IAMService = {
     args: UpdateLoginProfileCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    UpdateLoginProfileCommandOutput,
     | SdkError
     | IAMServiceError
     | EntityTemporarilyUnmodifiableError
     | LimitExceededError
     | NoSuchEntityError
     | PasswordPolicyViolationError
-    | ServiceFailureError,
-    UpdateLoginProfileCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -2939,13 +2792,12 @@ export type IAMService = {
     args: UpdateOpenIDConnectProviderThumbprintCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    UpdateOpenIDConnectProviderThumbprintCommandOutput,
     | SdkError
     | IAMServiceError
     | InvalidInputError
     | NoSuchEntityError
-    | ServiceFailureError,
-    UpdateOpenIDConnectProviderThumbprintCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -2955,13 +2807,12 @@ export type IAMService = {
     args: UpdateRoleCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    UpdateRoleCommandOutput,
     | SdkError
     | IAMServiceError
     | NoSuchEntityError
     | ServiceFailureError
-    | UnmodifiableEntityError,
-    UpdateRoleCommandOutput
+    | UnmodifiableEntityError
   >;
 
   /**
@@ -2971,13 +2822,12 @@ export type IAMService = {
     args: UpdateRoleDescriptionCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    UpdateRoleDescriptionCommandOutput,
     | SdkError
     | IAMServiceError
     | NoSuchEntityError
     | ServiceFailureError
-    | UnmodifiableEntityError,
-    UpdateRoleDescriptionCommandOutput
+    | UnmodifiableEntityError
   >;
 
   /**
@@ -2987,14 +2837,13 @@ export type IAMService = {
     args: UpdateSAMLProviderCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    UpdateSAMLProviderCommandOutput,
     | SdkError
     | IAMServiceError
     | InvalidInputError
     | LimitExceededError
     | NoSuchEntityError
-    | ServiceFailureError,
-    UpdateSAMLProviderCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -3004,14 +2853,13 @@ export type IAMService = {
     args: UpdateServerCertificateCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    UpdateServerCertificateCommandOutput,
     | SdkError
     | IAMServiceError
     | EntityAlreadyExistsError
     | LimitExceededError
     | NoSuchEntityError
-    | ServiceFailureError,
-    UpdateServerCertificateCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -3021,9 +2869,8 @@ export type IAMService = {
     args: UpdateServiceSpecificCredentialCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError | NoSuchEntityError,
-    UpdateServiceSpecificCredentialCommandOutput
+    UpdateServiceSpecificCredentialCommandOutput,
+    SdkError | IAMServiceError | NoSuchEntityError
   >;
 
   /**
@@ -3033,13 +2880,12 @@ export type IAMService = {
     args: UpdateSigningCertificateCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    UpdateSigningCertificateCommandOutput,
     | SdkError
     | IAMServiceError
     | LimitExceededError
     | NoSuchEntityError
-    | ServiceFailureError,
-    UpdateSigningCertificateCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -3049,9 +2895,8 @@ export type IAMService = {
     args: UpdateSSHPublicKeyCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
-    SdkError | IAMServiceError | NoSuchEntityError,
-    UpdateSSHPublicKeyCommandOutput
+    UpdateSSHPublicKeyCommandOutput,
+    SdkError | IAMServiceError | NoSuchEntityError
   >;
 
   /**
@@ -3061,7 +2906,7 @@ export type IAMService = {
     args: UpdateUserCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    UpdateUserCommandOutput,
     | SdkError
     | IAMServiceError
     | ConcurrentModificationError
@@ -3069,8 +2914,7 @@ export type IAMService = {
     | EntityTemporarilyUnmodifiableError
     | LimitExceededError
     | NoSuchEntityError
-    | ServiceFailureError,
-    UpdateUserCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -3080,7 +2924,7 @@ export type IAMService = {
     args: UploadServerCertificateCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    UploadServerCertificateCommandOutput,
     | SdkError
     | IAMServiceError
     | ConcurrentModificationError
@@ -3089,8 +2933,7 @@ export type IAMService = {
     | KeyPairMismatchError
     | LimitExceededError
     | MalformedCertificateError
-    | ServiceFailureError,
-    UploadServerCertificateCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -3100,7 +2943,7 @@ export type IAMService = {
     args: UploadSigningCertificateCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    UploadSigningCertificateCommandOutput,
     | SdkError
     | IAMServiceError
     | ConcurrentModificationError
@@ -3110,8 +2953,7 @@ export type IAMService = {
     | LimitExceededError
     | MalformedCertificateError
     | NoSuchEntityError
-    | ServiceFailureError,
-    UploadSigningCertificateCommandOutput
+    | ServiceFailureError
   >;
 
   /**
@@ -3121,15 +2963,14 @@ export type IAMService = {
     args: UploadSSHPublicKeyCommandInput,
     options?: __HttpHandlerOptions,
   ) => Effect.Effect<
-    never,
+    UploadSSHPublicKeyCommandOutput,
     | SdkError
     | IAMServiceError
     | DuplicateSSHPublicKeyError
     | InvalidPublicKeyError
     | LimitExceededError
     | NoSuchEntityError
-    | UnrecognizedPublicKeyEncodingError,
-    UploadSSHPublicKeyCommandOutput
+    | UnrecognizedPublicKeyEncodingError
   >;
 };
 
@@ -3137,8 +2978,8 @@ export type IAMService = {
  * @since 1.0.0
  * @category tags
  */
-export const IAMService = Context.Tag<IAMService>(
-  Symbol.for("@effect-aws/client-iam/IAMService"),
+export const IAMService = Context.GenericTag<IAMService>(
+  "@effect-aws/client-iam/IAMService",
 );
 
 /**

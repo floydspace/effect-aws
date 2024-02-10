@@ -7,7 +7,7 @@ import { Console, Effect, Exit, Layer, Scope } from "effect";
  * @since 1.0.0
  * @category constructors
  */
-export const fromLayer = <R, E>(layer: Layer.Layer<never, E, R>) => {
+export const fromLayer = <R, E>(layer: Layer.Layer<R, E>) => {
   const scope = Effect.runSync(Scope.make());
   const runtime = Layer.toRuntime(layer).pipe(
     Scope.extend(scope),

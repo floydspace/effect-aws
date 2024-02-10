@@ -16,18 +16,9 @@ import {
  * @since 1.0.0
  * @category tags
  */
-export interface DynamoDBDocumentClientInstance {
-  readonly _: unique symbol;
-}
-
-/**
- * @since 1.0.0
- * @category tags
- */
-export const DynamoDBDocumentClientInstance = Context.Tag<
-  DynamoDBDocumentClientInstance,
-  DynamoDBDocumentClient
->(Symbol.for("@effect-aws/lib-dynamodb/DynamoDBDocumentClientInstance"));
+export class DynamoDBDocumentClientInstance extends Context.Tag(
+  "@effect-aws/lib-dynamodb/DynamoDBDocumentClientInstance",
+)<DynamoDBDocumentClientInstance, DynamoDBDocumentClient>() {}
 
 /**
  * @since 1.0.0

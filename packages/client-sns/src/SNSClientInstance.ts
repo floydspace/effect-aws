@@ -14,17 +14,9 @@ import {
  * @since 1.0.0
  * @category tags
  */
-export interface SNSClientInstance {
-  readonly _: unique symbol;
-}
-
-/**
- * @since 1.0.0
- * @category tags
- */
-export const SNSClientInstance = Context.Tag<SNSClientInstance, SNSClient>(
-  Symbol.for("@effect-aws/client-sns/SNSClientInstance"),
-);
+export class SNSClientInstance extends Context.Tag(
+  "@effect-aws/client-sns/SNSClientInstance",
+)<SNSClientInstance, SNSClient>() {}
 
 /**
  * @since 1.0.0
