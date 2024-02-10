@@ -1,5 +1,11 @@
 # @effect-aws/client-eventbridge
 
+## 1.1.0
+
+### Minor Changes
+
+- [`82eaea7`](https://github.com/floydspace/effect-aws/commit/82eaea778048c9ebba98682196448b0aa1586d2e) Thanks [@floydspace](https://github.com/floydspace)! - upgrade effect to v2.3 and fix breaking changes
+
 ## 1.0.2
 
 ### Patch Changes
