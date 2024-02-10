@@ -19,7 +19,7 @@
     "organization": false
   },
   "devDependencies": {
-    "@effect-aws/client-dynamodb": "1.0.2",
+    "@effect-aws/client-dynamodb": "1.1.0",
     "@effect/docgen": "^0.3.8",
     "@types/jest": "^29.5.5",
     "@types/node": "^18",
@@ -55,7 +55,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "1.0.2",
+  "version": "1.1.0",
   "types": "lib/index.d.ts",
   "module": "lib/esm/index.js",
   "sideEffects": [],
