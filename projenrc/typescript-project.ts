@@ -1,7 +1,6 @@
 import path from "node:path";
 
 import { JsonFile, javascript, typescript } from "projen";
-import { Docgen } from "./docgen";
 
 type PredefinedProps = "defaultReleaseBranch" | "authorName" | "authorEmail";
 
@@ -69,7 +68,5 @@ export class TypeScriptLibProject extends typescript.TypeScriptProject {
       publishConfig: { access: "public" },
       sideEffects: [],
     });
-
-    new Docgen(this);
   }
 }

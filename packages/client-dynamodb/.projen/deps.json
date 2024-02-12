@@ -1,10 +1,6 @@
 {
   "dependencies": [
     {
-      "name": "@effect/docgen",
-      "type": "build"
-    },
-    {
       "name": "@types/node",
       "version": "^18",
       "type": "build"

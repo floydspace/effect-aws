@@ -6,12 +6,8 @@ export class Vitest extends Component {
     return project.components.find(isVitest);
   }
 
-  private readonly tsProject: typescript.TypeScriptProject;
-
   constructor(project: typescript.TypeScriptProject) {
     super(project);
-
-    this.tsProject = project;
 
     project.addDevDeps("vitest");
 
@@ -33,7 +29,7 @@ export class Vitest extends Component {
   }
 
   preSynthesize(): void {
-    this.tsProject.subprojects.forEach((subproject) => {
+    this.project.subprojects.forEach((subproject) => {
       if (subproject instanceof typescript.TypeScriptProject) {
         subproject.testTask.prependExec(
           "vitest run --globals --reporter verbose",

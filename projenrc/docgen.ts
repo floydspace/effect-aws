@@ -11,16 +11,26 @@ export class Docgen extends Component {
 
     project.addDevDeps("@effect/docgen");
 
-    project.addScripts({ docgen: "docgen" });
-
-    new JsonFile(project, "docgen.json", {
-      obj: {
-        $schema: "node_modules/@effect/docgen/schema.json",
-        exclude: ["src/index.ts", "src/Errors.ts"],
-      },
-      omitEmpty: true,
+    project.addTask("docgen", {
+      exec: "pnpm exec nx run-many --target=docgen --output-style=stream --nx-bail && node scripts/docs.mjs",
     });
+  }
 
-    project.addGitIgnore("docs/");
+  preSynthesize(): void {
+    this.project.subprojects.forEach((subproject) => {
+      if (subproject instanceof javascript.NodeProject) {
+        subproject.addScripts({ docgen: "docgen" });
+
+        new JsonFile(subproject, "docgen.json", {
+          obj: {
+            $schema: "../../node_modules/@effect/docgen/schema.json",
+            exclude: ["src/index.ts", "src/Errors.ts"],
+          },
+          omitEmpty: true,
+        });
+
+        subproject.addGitIgnore("docs/");
+      }
+    });
   }
 }

@@ -1,7 +1,6 @@
 import { monorepo } from "@aws/pdk";
 import { javascript, YamlFile } from "projen";
-import { Changesets, TypeScriptLibProject } from "./projenrc";
-import { Vitest } from "./projenrc/vitest";
+import { Changesets, Docgen, TypeScriptLibProject, Vitest } from "./projenrc";
 
 const org = "floydspace";
 const name = "effect-aws";
@@ -21,16 +20,14 @@ const project = new monorepo.MonorepoTsProject({
   monorepoUpgradeDeps: false,
 });
 
-project.addTask("docgen", {
-  exec: "pnpm exec nx run-many --target=docgen --output-style=stream --nx-bail && node scripts/docs.mjs",
-});
-
 new YamlFile(project, ".github/FUNDING.yml", { obj: { github: org } });
 
 new Changesets(project, {
   repo: repo,
   onlyUpdatePeerDependentsWhenOutOfRange: true,
 });
+
+new Docgen(project);
 
 new Vitest(project);
 
