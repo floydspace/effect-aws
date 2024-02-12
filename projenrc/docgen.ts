@@ -9,7 +9,7 @@ export class Docgen extends Component {
   constructor(project: javascript.NodeProject) {
     super(project);
 
-    project.addDevDeps("@effect/docgen");
+    project.addDevDeps("@effect/docgen", "tsx");
 
     project.addTask("docgen", {
       exec: "pnpm exec nx run-many --target=docgen --output-style=stream --nx-bail && node scripts/docs.mjs",
