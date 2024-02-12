@@ -4,6 +4,23 @@
 import { Console, Effect, Exit, Layer, Scope } from "effect";
 
 /**
+ * Makes a runtime from a layer asynchronously, designed for AWS Lambda.
+ * All finalizers will be executed on process termination or interruption.
+ *
+ * @example
+ * import { fromLayer } from "@effect-aws/lambda";
+ * import { Context } from "aws-lambda";
+ * import { Effect, Logger, Runtime } from "effect";
+ *
+ * const LambdaLayer = Logger.replace(Logger.defaultLogger, Logger.logfmtLogger);
+ *
+ * const lambdaRuntime = fromLayer(LambdaLayer);
+ *
+ * export const handler = async (event: unknown, context: Context) => {
+ *  const runPromise = Runtime.runPromise(await lambdaRuntime);
+ *  return Effect.logInfo("Hello, world!").pipe(runPromise);
+ * };
+ *
  * @since 1.0.0
  * @category constructors
  */
