@@ -29,7 +29,7 @@ export class TypeScriptLibProject extends typescript.TypeScriptProject {
       projenVersion: parent?.deps.getDependency("projen").version,
       package: false, // It will be created by @changesets/cli
       depsUpgrade: false, // Updates are handled by monorepo task
-      jest: true,
+      jest: false,
       jestOptions: {
         ...jestOptions,
         configFilePath: "jest.config.json",

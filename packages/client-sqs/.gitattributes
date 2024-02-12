@@ -13,7 +13,6 @@
 /.projen/files.json linguist-generated
 /.projen/tasks.json linguist-generated
 /docgen.json linguist-generated
-/jest.config.json linguist-generated
 /LICENSE linguist-generated
 /package.json linguist-generated
 /pnpm-lock.yaml linguist-generated

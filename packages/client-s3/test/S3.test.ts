@@ -10,12 +10,14 @@ import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
 import * as Layer from "effect/Layer";
 
-const getSignedUrl = jest
-  .fn()
-  .mockResolvedValue(
-    "https://test.s3.eu-central-1.amazonaws.com/test?whatever",
-  );
-jest.mock("@aws-sdk/s3-request-presigner", () => ({ getSignedUrl }));
+const getSignedUrl = vi.hoisted(() =>
+  vi
+    .fn()
+    .mockResolvedValue(
+      "https://test.s3.eu-central-1.amazonaws.com/test?whatever",
+    ),
+);
+vi.mock("@aws-sdk/s3-request-presigner", () => ({ getSignedUrl }));
 
 import {
   BaseS3ServiceLayer,

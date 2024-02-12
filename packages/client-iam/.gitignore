@@ -29,8 +29,6 @@ jspm_packages/
 *.tgz
 .yarn-integrity
 .cache
-!/jest.config.json
-/coverage/
 !/.prettierignore
 !/.prettierrc.json
 !/.npmrc

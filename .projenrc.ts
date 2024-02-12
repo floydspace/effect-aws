@@ -1,6 +1,7 @@
 import { monorepo } from "@aws/pdk";
 import { javascript, YamlFile } from "projen";
 import { Changesets, TypeScriptLibProject } from "./projenrc";
+import { Vitest } from "./projenrc/vitest";
 
 const org = "floydspace";
 const name = "effect-aws";
@@ -18,7 +19,6 @@ const project = new monorepo.MonorepoTsProject({
   clobber: false, // enable it and run `pnpm default && pnpm clobber`, if you need to reset the project
   depsUpgrade: false, // enable it and run `pnpm default && pnpm upgrade` to upgrade projen and monorepo deps
   monorepoUpgradeDeps: false,
-  devDeps: ["@types/jest"], // needed for vscode to not complain about jest types
 });
 
 project.addTask("docgen", {
@@ -31,6 +31,8 @@ new Changesets(project, {
   repo: repo,
   onlyUpdatePeerDependentsWhenOutOfRange: true,
 });
+
+new Vitest(project);
 
 const commonDeps = ["@aws-sdk/types@^3"];
 const commonDevDeps = ["aws-sdk-client-mock", "aws-sdk-client-mock-jest"];

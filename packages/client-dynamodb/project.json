@@ -51,13 +51,6 @@
         "cwd": "packages/client-dynamodb"
       }
     },
-    "test:watch": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "pnpm exec projen test:watch",
-        "cwd": "packages/client-dynamodb"
-      }
-    },
     "watch": {
       "executor": "nx:run-commands",
       "options": {
@@ -69,6 +62,13 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "pnpm exec projen eslint",
+        "cwd": "packages/client-dynamodb"
+      }
+    },
+    "test:watch": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm exec projen test:watch",
         "cwd": "packages/client-dynamodb"
       }
     }

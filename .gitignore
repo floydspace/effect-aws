@@ -45,6 +45,7 @@ jspm_packages/
 !/.nxignore
 !/.github/FUNDING.yml
 !/.changeset/config.json
+!/vitest.workspace.json
 .direnv/
 docs/
 !/pnpm-workspace.yaml

@@ -144,7 +144,7 @@
       "description": "Run tests for all affected projects",
       "steps": [
         {
-          "exec": "pnpm exec nx run-many --target=test --output-style=stream --nx-bail",
+          "exec": "vitest --globals",
           "receiveArgs": true
         }
       ]

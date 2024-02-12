@@ -4,10 +4,10 @@ import { pipe } from "effect/Function";
 import * as Logger from "../src";
 
 describe("Logger", () => {
-  let log: jest.SpyInstance;
+  let log: ReturnType<typeof vi.spyOn>;
 
   beforeEach(() => {
-    log = jest.spyOn(LoggerCtor.prototype as any, "processLogItem");
+    log = vi.spyOn(LoggerCtor.prototype as any, "processLogItem");
   });
 
   afterEach(() => {
