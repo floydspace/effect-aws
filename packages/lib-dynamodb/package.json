@@ -19,7 +19,7 @@
     "organization": false
   },
   "devDependencies": {
-    "@effect-aws/client-dynamodb": "1.1.0",
+    "@effect-aws/client-dynamodb": "1.1.1",
     "@types/node": "^18",
     "@typescript-eslint/eslint-plugin": "^6",
     "@typescript-eslint/parser": "^6",
@@ -51,7 +51,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "1.1.0",
+  "version": "1.1.1",
   "types": "lib/index.d.ts",
   "module": "lib/esm/index.js",
   "sideEffects": [],

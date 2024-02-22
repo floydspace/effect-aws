@@ -1,5 +1,11 @@
 # @effect-aws/client-dynamodb
 
+## 1.1.1
+
+### Patch Changes
+
+- [`b2f00db`](https://github.com/floydspace/effect-aws/commit/b2f00db5fdffaa74bcb124324db7313bd4f218df) Thanks [@floydspace](https://github.com/floydspace)! - update effect peer version
+
 ## 1.1.0
 
 ### Minor Changes
