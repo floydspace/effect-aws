@@ -36,7 +36,7 @@
     "typescript": "^5.2.2"
   },
   "peerDependencies": {
-    "effect": ">=2.3.1 <2.4.0"
+    "effect": ">=2.3.1 <2.5.0"
   },
   "dependencies": {
     "@aws-sdk/client-apigatewaymanagementapi": "^3",

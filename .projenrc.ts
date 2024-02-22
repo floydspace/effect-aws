@@ -33,7 +33,7 @@ new Vitest(project);
 
 const commonDeps = ["@aws-sdk/types@^3"];
 const commonDevDeps = ["aws-sdk-client-mock", "aws-sdk-client-mock-jest"];
-const commonPeerDeps = ["effect@>=2.3.1 <2.4.0"];
+const commonPeerDeps = ["effect@>=2.3.1 <2.5.0"];
 
 new TypeScriptLibProject({
   parent: project,
