@@ -1335,7 +1335,7 @@ export type ElastiCacheService = {
  * @category tags
  */
 export const ElastiCacheService = Context.GenericTag<ElastiCacheService>(
-  "@effect-aws/client-iam/ElastiCacheService",
+  "@effect-aws/client-elasticache/ElastiCacheService",
 );
 
 /**

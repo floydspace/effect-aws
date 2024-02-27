@@ -15,7 +15,7 @@ import {
  * @category tags
  */
 export class ElastiCacheClientInstance extends Context.Tag(
-  "@effect-aws/client-iam/ElastiCacheClientInstance",
+  "@effect-aws/client-elasticache/ElastiCacheClientInstance",
 )<ElastiCacheClientInstance, ElastiCacheClient>() {}
 
 /**

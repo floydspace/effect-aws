@@ -12,7 +12,7 @@ import * as Runtime from "effect/Runtime";
  * @category tags
  */
 export class ElastiCacheClientInstanceConfig extends Context.Tag(
-  "@effect-aws/client-iam/ElastiCacheClientInstanceConfig",
+  "@effect-aws/client-elasticache/ElastiCacheClientInstanceConfig",
 )<ElastiCacheClientInstanceConfig, ElastiCacheClientConfig>() {}
 
 /**
