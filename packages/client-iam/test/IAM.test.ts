@@ -1,7 +1,7 @@
 import {
-  CreateRoleCommand,
+  type AddClientIDToOpenIDConnectProviderCommandInput,
+  AddClientIDToOpenIDConnectProviderCommand,
   IAMClient,
-  CreateRoleCommandInput,
 } from "@aws-sdk/client-iam";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
@@ -21,29 +21,21 @@ import {
 
 import "aws-sdk-client-mock-jest";
 
-const iamMock = mockClient(IAMClient);
-const { createRole } = Effect.serviceFunctions(IAMService);
+const clientMock = mockClient(IAMClient);
 
 describe("IAMClientImpl", () => {
   it("default", async () => {
-    iamMock.reset().on(CreateRoleCommand).resolves({});
+    clientMock
+      .reset()
+      .on(AddClientIDToOpenIDConnectProviderCommand)
+      .resolves({});
 
-    const args: CreateRoleCommandInput = {
-      RoleName: "test",
-      AssumeRolePolicyDocument: JSON.stringify({
-        Version: "2012-10-17",
-        Statement: [
-          {
-            Sid: "Statement1",
-            Effect: "Allow",
-            Principal: {},
-            Action: "sts:AssumeRole",
-          },
-        ],
-      }),
-    };
+    const args =
+      {} as unknown as AddClientIDToOpenIDConnectProviderCommandInput;
 
-    const program = createRole(args);
+    const program = Effect.flatMap(IAMService, (service) =>
+      service.addClientIDToOpenIDConnectProvider(args),
+    );
 
     const result = await pipe(
       program,
@@ -52,29 +44,28 @@ describe("IAMClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(iamMock).toHaveReceivedCommandTimes(CreateRoleCommand, 1);
-    expect(iamMock).toHaveReceivedCommandWith(CreateRoleCommand, args);
+    expect(clientMock).toHaveReceivedCommandTimes(
+      AddClientIDToOpenIDConnectProviderCommand,
+      1,
+    );
+    expect(clientMock).toHaveReceivedCommandWith(
+      AddClientIDToOpenIDConnectProviderCommand,
+      args,
+    );
   });
 
   it("configurable", async () => {
-    iamMock.reset().on(CreateRoleCommand).resolves({});
+    clientMock
+      .reset()
+      .on(AddClientIDToOpenIDConnectProviderCommand)
+      .resolves({});
 
-    const args: CreateRoleCommandInput = {
-      RoleName: "test",
-      AssumeRolePolicyDocument: JSON.stringify({
-        Version: "2012-10-17",
-        Statement: [
-          {
-            Sid: "Statement1",
-            Effect: "Allow",
-            Principal: {},
-            Action: "sts:AssumeRole",
-          },
-        ],
-      }),
-    };
+    const args =
+      {} as unknown as AddClientIDToOpenIDConnectProviderCommandInput;
 
-    const program = createRole(args);
+    const program = Effect.flatMap(IAMService, (service) =>
+      service.addClientIDToOpenIDConnectProvider(args),
+    );
 
     const IAMClientConfigLayer = Layer.succeed(IAMClientInstanceConfig, {
       region: "eu-central-1",
@@ -90,29 +81,28 @@ describe("IAMClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(iamMock).toHaveReceivedCommandTimes(CreateRoleCommand, 1);
-    expect(iamMock).toHaveReceivedCommandWith(CreateRoleCommand, args);
+    expect(clientMock).toHaveReceivedCommandTimes(
+      AddClientIDToOpenIDConnectProviderCommand,
+      1,
+    );
+    expect(clientMock).toHaveReceivedCommandWith(
+      AddClientIDToOpenIDConnectProviderCommand,
+      args,
+    );
   });
 
   it("base", async () => {
-    iamMock.reset().on(CreateRoleCommand).resolves({});
+    clientMock
+      .reset()
+      .on(AddClientIDToOpenIDConnectProviderCommand)
+      .resolves({});
 
-    const args: CreateRoleCommandInput = {
-      RoleName: "test",
-      AssumeRolePolicyDocument: JSON.stringify({
-        Version: "2012-10-17",
-        Statement: [
-          {
-            Sid: "Statement1",
-            Effect: "Allow",
-            Principal: {},
-            Action: "sts:AssumeRole",
-          },
-        ],
-      }),
-    };
+    const args =
+      {} as unknown as AddClientIDToOpenIDConnectProviderCommandInput;
 
-    const program = createRole(args);
+    const program = Effect.flatMap(IAMService, (service) =>
+      service.addClientIDToOpenIDConnectProvider(args),
+    );
 
     const IAMClientInstanceLayer = Layer.succeed(
       IAMClientInstance,
@@ -129,29 +119,28 @@ describe("IAMClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(iamMock).toHaveReceivedCommandTimes(CreateRoleCommand, 1);
-    expect(iamMock).toHaveReceivedCommandWith(CreateRoleCommand, args);
+    expect(clientMock).toHaveReceivedCommandTimes(
+      AddClientIDToOpenIDConnectProviderCommand,
+      1,
+    );
+    expect(clientMock).toHaveReceivedCommandWith(
+      AddClientIDToOpenIDConnectProviderCommand,
+      args,
+    );
   });
 
   it("extended", async () => {
-    iamMock.reset().on(CreateRoleCommand).resolves({});
+    clientMock
+      .reset()
+      .on(AddClientIDToOpenIDConnectProviderCommand)
+      .resolves({});
 
-    const args: CreateRoleCommandInput = {
-      RoleName: "test",
-      AssumeRolePolicyDocument: JSON.stringify({
-        Version: "2012-10-17",
-        Statement: [
-          {
-            Sid: "Statement1",
-            Effect: "Allow",
-            Principal: {},
-            Action: "sts:AssumeRole",
-          },
-        ],
-      }),
-    };
+    const args =
+      {} as unknown as AddClientIDToOpenIDConnectProviderCommandInput;
 
-    const program = createRole(args);
+    const program = Effect.flatMap(IAMService, (service) =>
+      service.addClientIDToOpenIDConnectProvider(args),
+    );
 
     const IAMClientInstanceLayer = Layer.effect(
       IAMClientInstance,
@@ -172,29 +161,28 @@ describe("IAMClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(iamMock).toHaveReceivedCommandTimes(CreateRoleCommand, 1);
-    expect(iamMock).toHaveReceivedCommandWith(CreateRoleCommand, args);
+    expect(clientMock).toHaveReceivedCommandTimes(
+      AddClientIDToOpenIDConnectProviderCommand,
+      1,
+    );
+    expect(clientMock).toHaveReceivedCommandWith(
+      AddClientIDToOpenIDConnectProviderCommand,
+      args,
+    );
   });
 
   it("fail", async () => {
-    iamMock.reset().on(CreateRoleCommand).rejects(new Error("test"));
+    clientMock
+      .reset()
+      .on(AddClientIDToOpenIDConnectProviderCommand)
+      .rejects(new Error("test"));
 
-    const args: CreateRoleCommandInput = {
-      RoleName: "test",
-      AssumeRolePolicyDocument: JSON.stringify({
-        Version: "2012-10-17",
-        Statement: [
-          {
-            Sid: "Statement1",
-            Effect: "Allow",
-            Principal: {},
-            Action: "sts:AssumeRole",
-          },
-        ],
-      }),
-    };
+    const args =
+      {} as unknown as AddClientIDToOpenIDConnectProviderCommandInput;
 
-    const program = createRole(args, { requestTimeout: 1000 });
+    const program = Effect.flatMap(IAMService, (service) =>
+      service.addClientIDToOpenIDConnectProvider(args),
+    );
 
     const result = await pipe(
       program,
@@ -212,7 +200,13 @@ describe("IAMClientImpl", () => {
         }),
       ),
     );
-    expect(iamMock).toHaveReceivedCommandTimes(CreateRoleCommand, 1);
-    expect(iamMock).toHaveReceivedCommandWith(CreateRoleCommand, args);
+    expect(clientMock).toHaveReceivedCommandTimes(
+      AddClientIDToOpenIDConnectProviderCommand,
+      1,
+    );
+    expect(clientMock).toHaveReceivedCommandWith(
+      AddClientIDToOpenIDConnectProviderCommand,
+      args,
+    );
   });
 });
