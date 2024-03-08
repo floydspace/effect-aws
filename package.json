@@ -80,6 +80,7 @@
     "packages": [
       "packages/client-api-gateway-management-api",
       "packages/client-dynamodb",
+      "packages/client-ec2",
       "packages/client-elasticache",
       "packages/client-eventbridge",
       "packages/client-iam",
