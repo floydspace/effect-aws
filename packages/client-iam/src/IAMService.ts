@@ -484,6 +484,7 @@ import {
 import { type HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
 import { Context, Effect, Layer, ReadonlyRecord, Data } from "effect";
 import {
+  IAMServiceError,
   ConcurrentModificationError,
   CredentialReportExpiredError,
   CredentialReportNotPresentError,
@@ -493,7 +494,6 @@ import {
   DuplicateSSHPublicKeyError,
   EntityAlreadyExistsError,
   EntityTemporarilyUnmodifiableError,
-  IAMServiceError,
   InvalidAuthenticationCodeError,
   InvalidCertificateError,
   InvalidInputError,
@@ -508,12 +508,12 @@ import {
   PolicyEvaluationError,
   PolicyNotAttachableError,
   ReportGenerationLimitExceededError,
-  SdkError,
   ServiceFailureError,
   ServiceNotSupportedError,
-  TaggedException,
   UnmodifiableEntityError,
   UnrecognizedPublicKeyEncodingError,
+  SdkError,
+  TaggedException,
 } from "./Errors";
 import { IAMClientInstance, IAMClientInstanceLayer } from "./IAMClientInstance";
 import { DefaultIAMClientConfigLayer } from "./IAMClientInstanceConfig";
