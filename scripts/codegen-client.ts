@@ -1,12 +1,24 @@
+/**
+ * How to use:
+ *
+ * 1. Define a new package in `.projenrc.ts` (the package must have the same name as the AWS client) and run `pnpm run synth-workspace`.
+ * 2. Run `pnpm run codegen-client`, select the package to generate.
+ * 3. Run `Run pnpm run eslint --fix` to fix the formatting.
+ * 4. Commit the changes and enjoy.
+ */
 import { mkdir, readdir, writeFile } from "node:fs/promises";
+
+import {
+  Effect,
+  Option,
+  ReadonlyArray,
+  ReadonlyRecord,
+  String,
+  Struct,
+  Tuple,
+} from "effect";
 import { flow, pipe } from "effect/Function";
-import * as Option from "effect/Option";
 import { isNotUndefined } from "effect/Predicate";
-import * as ReadonlyArray from "effect/ReadonlyArray";
-import * as ReadonlyRecord from "effect/ReadonlyRecord";
-import * as String from "effect/String";
-import * as Struct from "effect/Struct";
-import * as Tuple from "effect/Tuple";
 import Enquirer from "enquirer";
 
 type Shape =
@@ -39,7 +51,12 @@ interface Manifest {
 main().catch(console.error);
 
 async function main() {
-  const { services } = await new Enquirer<{ services: string[] }>().prompt({
+  const enquirer = new Enquirer<{
+    services: string[];
+    commandToTest: string;
+  }>();
+
+  const { services } = await enquirer.prompt({
     type: "autocomplete",
     name: "services",
     message: "Which clients do you want to generate ?",
@@ -49,7 +66,51 @@ async function main() {
     ),
   });
 
-  return Promise.all(services.map(generateClient));
+  const each = services.map((packageName) =>
+    Effect.promise(async () => {
+      const serviceName = pipe(packageName, String.replace(/^client-/, ""));
+
+      const manifest = (await (
+        await fetch(
+          `https://raw.githubusercontent.com/aws/aws-sdk-js-v3/main/codegen/sdk-codegen/aws-models/${serviceName}.json`,
+        )
+      ).json()) as Manifest;
+
+      const serviceShape = pipe(
+        manifest.shapes,
+        ReadonlyRecord.values,
+        ReadonlyArray.findFirst(
+          (shape): shape is Extract<Shape, { type: "service" }> =>
+            shape.type === "service",
+        ),
+        Option.getOrThrowWith(() => new TypeError("ServiceShape is not found")),
+      );
+
+      const operationTargets = pipe(
+        serviceShape.operations,
+        ReadonlyArray.map(({ target }) => target),
+      );
+
+      const operationNames = pipe(
+        operationTargets,
+        ReadonlyArray.map(getNameFromTarget),
+      );
+
+      const { commandToTest } = await enquirer.prompt({
+        type: "autocomplete",
+        name: "commandToTest",
+        message: `Which command do you want to test in ${packageName} ?`,
+        multiple: false,
+        choices: operationNames,
+      });
+
+      return [packageName, commandToTest] as const;
+    }),
+  );
+
+  const results = await Effect.runPromise(Effect.all(each, { concurrency: 1 }));
+
+  return Promise.all(results.map(generateClient));
 }
 
 const getNameFromTarget = flow(
@@ -63,7 +124,10 @@ const lowerFirst = flow(
   ReadonlyArray.join(""),
 );
 
-async function generateClient(packageName: string) {
+async function generateClient([packageName, commandToTest]: readonly [
+  string,
+  string,
+]) {
   const serviceName = pipe(packageName, String.replace(/^client-/, ""));
 
   const manifest = (await (
@@ -100,7 +164,7 @@ async function generateClient(packageName: string) {
     ReadonlyArray.filter(String.endsWith("Exception")),
     ReadonlyArray.map(String.replace(/Exception$/, "")),
   );
-  const serviceException = `${await sdkId}Service`;
+  const serviceException = `${sdkId}Service`;
   const taggedErrors = pipe(
     exportedErrors,
     ReadonlyArray.filter((s) => s !== serviceException),
@@ -449,18 +513,12 @@ export const Default${sdkId}ServiceLayer = ${sdkId}ServiceLayer.pipe(
 `,
   );
 
-  const firstCommand = pipe(
-    operationNames,
-    ReadonlyArray.head,
-    Option.getOrThrow,
-  );
-
   await mkdir(`./packages/client-${serviceName}/test`, { recursive: true });
   await writeFile(
     `./packages/client-${serviceName}/test/${sdkId}.test.ts`,
     `import {
-  type ${firstCommand}CommandInput,
-  ${firstCommand}Command,
+  type ${commandToTest}CommandInput,
+  ${commandToTest}Command,
   ${sdkId}Client,
 } from "@aws-sdk/client-${serviceName}";
 import { mockClient } from "aws-sdk-client-mock";
@@ -485,11 +543,11 @@ const clientMock = mockClient(${sdkId}Client);
 
 describe("${sdkId}ClientImpl", () => {
   it("default", async () => {
-    clientMock.reset().on(${firstCommand}Command).resolves({});
+    clientMock.reset().on(${commandToTest}Command).resolves({});
 
-    const args = {} as unknown as ${firstCommand}CommandInput;
+    const args = {} as unknown as ${commandToTest}CommandInput;
 
-    const program = Effect.flatMap(${sdkId}Service, (service) => service.${pipe(firstCommand, lowerFirst)}(args));
+    const program = Effect.flatMap(${sdkId}Service, (service) => service.${pipe(commandToTest, lowerFirst)}(args));
 
     const result = await pipe(
       program,
@@ -498,16 +556,16 @@ describe("${sdkId}ClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(clientMock).toHaveReceivedCommandTimes(${firstCommand}Command, 1);
-    expect(clientMock).toHaveReceivedCommandWith(${firstCommand}Command, args);
+    expect(clientMock).toHaveReceivedCommandTimes(${commandToTest}Command, 1);
+    expect(clientMock).toHaveReceivedCommandWith(${commandToTest}Command, args);
   });
 
   it("configurable", async () => {
-    clientMock.reset().on(${firstCommand}Command).resolves({});
+    clientMock.reset().on(${commandToTest}Command).resolves({});
 
-    const args = {} as unknown as ${firstCommand}CommandInput;
+    const args = {} as unknown as ${commandToTest}CommandInput;
 
-    const program = Effect.flatMap(${sdkId}Service, (service) => service.${pipe(firstCommand, lowerFirst)}(args));
+    const program = Effect.flatMap(${sdkId}Service, (service) => service.${pipe(commandToTest, lowerFirst)}(args));
 
     const ${sdkId}ClientConfigLayer = Layer.succeed(${sdkId}ClientInstanceConfig, {
       region: "eu-central-1",
@@ -523,16 +581,16 @@ describe("${sdkId}ClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(clientMock).toHaveReceivedCommandTimes(${firstCommand}Command, 1);
-    expect(clientMock).toHaveReceivedCommandWith(${firstCommand}Command, args);
+    expect(clientMock).toHaveReceivedCommandTimes(${commandToTest}Command, 1);
+    expect(clientMock).toHaveReceivedCommandWith(${commandToTest}Command, args);
   });
 
   it("base", async () => {
-    clientMock.reset().on(${firstCommand}Command).resolves({});
+    clientMock.reset().on(${commandToTest}Command).resolves({});
 
-    const args = {} as unknown as ${firstCommand}CommandInput;
+    const args = {} as unknown as ${commandToTest}CommandInput;
 
-    const program = Effect.flatMap(${sdkId}Service, (service) => service.${pipe(firstCommand, lowerFirst)}(args));
+    const program = Effect.flatMap(${sdkId}Service, (service) => service.${pipe(commandToTest, lowerFirst)}(args));
 
     const ${sdkId}ClientInstanceLayer = Layer.succeed(
       ${sdkId}ClientInstance,
@@ -549,16 +607,16 @@ describe("${sdkId}ClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(clientMock).toHaveReceivedCommandTimes(${firstCommand}Command, 1);
-    expect(clientMock).toHaveReceivedCommandWith(${firstCommand}Command, args);
+    expect(clientMock).toHaveReceivedCommandTimes(${commandToTest}Command, 1);
+    expect(clientMock).toHaveReceivedCommandWith(${commandToTest}Command, args);
   });
 
   it("extended", async () => {
-    clientMock.reset().on(${firstCommand}Command).resolves({});
+    clientMock.reset().on(${commandToTest}Command).resolves({});
 
-    const args = {} as unknown as ${firstCommand}CommandInput;
+    const args = {} as unknown as ${commandToTest}CommandInput;
 
-    const program = Effect.flatMap(${sdkId}Service, (service) => service.${pipe(firstCommand, lowerFirst)}(args));
+    const program = Effect.flatMap(${sdkId}Service, (service) => service.${pipe(commandToTest, lowerFirst)}(args));
 
     const ${sdkId}ClientInstanceLayer = Layer.effect(
       ${sdkId}ClientInstance,
@@ -579,16 +637,16 @@ describe("${sdkId}ClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(clientMock).toHaveReceivedCommandTimes(${firstCommand}Command, 1);
-    expect(clientMock).toHaveReceivedCommandWith(${firstCommand}Command, args);
+    expect(clientMock).toHaveReceivedCommandTimes(${commandToTest}Command, 1);
+    expect(clientMock).toHaveReceivedCommandWith(${commandToTest}Command, args);
   });
 
   it("fail", async () => {
-    clientMock.reset().on(${firstCommand}Command).rejects(new Error("test"));
+    clientMock.reset().on(${commandToTest}Command).rejects(new Error("test"));
 
-    const args = {} as unknown as ${firstCommand}CommandInput;
+    const args = {} as unknown as ${commandToTest}CommandInput;
 
-    const program = Effect.flatMap(${sdkId}Service, (service) => service.${pipe(firstCommand, lowerFirst)}(args));
+    const program = Effect.flatMap(${sdkId}Service, (service) => service.${pipe(commandToTest, lowerFirst)}(args));
 
     const result = await pipe(
       program,
@@ -606,8 +664,8 @@ describe("${sdkId}ClientImpl", () => {
         }),
       ),
     );
-    expect(clientMock).toHaveReceivedCommandTimes(${firstCommand}Command, 1);
-    expect(clientMock).toHaveReceivedCommandWith(${firstCommand}Command, args);
+    expect(clientMock).toHaveReceivedCommandTimes(${commandToTest}Command, 1);
+    expect(clientMock).toHaveReceivedCommandWith(${commandToTest}Command, args);
   });
 });
 `,
