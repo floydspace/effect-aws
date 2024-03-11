@@ -13,6 +13,8 @@ Effect Docs: https://www.effect.website<br>
 - [x] DynamoDB Document Client (lib-dynamodb)
 - [x] SQS Client
 - [x] SNS Client
+- [x] EC2 Client
+- [x] RDS Client
 - [x] EventBridge Client
 - [x] Lambda Client
 - [x] Step Functions Client

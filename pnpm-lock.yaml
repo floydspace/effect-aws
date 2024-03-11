@@ -15,7 +15,7 @@ importers:
     dependencies:
       '@aws-cdk/aws-cognito-identitypool-alpha':
         specifier: latest
-        version: 2.131.0-alpha.0(aws-cdk-lib@2.126.0)(constructs@10.3.0)
+        version: 2.132.1-alpha.0(aws-cdk-lib@2.126.0)(constructs@10.3.0)
       aws-cdk-lib:
         specifier: ^2.126.0
         version: 2.126.0(constructs@10.3.0)
@@ -31,7 +31,7 @@ importers:
     devDependencies:
       '@aws/pdk':
         specifier: ^0
-        version: 0.23.2(@aws-cdk/aws-cognito-identitypool-alpha@2.131.0-alpha.0)(aws-cdk-lib@2.126.0)(cdk-nag@2.28.27)(constructs@10.3.0)(projen@0.79.7)
+        version: 0.23.2(@aws-cdk/aws-cognito-identitypool-alpha@2.132.1-alpha.0)(aws-cdk-lib@2.126.0)(cdk-nag@2.28.27)(constructs@10.3.0)(projen@0.79.7)
       '@changesets/changelog-github':
         specifier: ^0.4.8
         version: 0.4.8
@@ -204,7 +204,7 @@ importers:
     dependencies:
       '@aws-sdk/client-ec2':
         specifier: ^3
-        version: 3.529.1
+        version: 3.532.0
       '@aws-sdk/types':
         specifier: ^3
         version: 3.523.0
@@ -467,6 +467,61 @@ importers:
         version: 5.0.0(eslint-config-prettier@9.0.0)(eslint@8.49.0)(prettier@3.2.4)
       prettier:
         specifier: ^3.0.3
+        version: 3.2.4
+      projen:
+        specifier: ^0.79.6
+        version: 0.79.7(constructs@10.3.0)
+      typescript:
+        specifier: ^5.2.2
+        version: 5.2.2
+
+  packages/client-rds:
+    dependencies:
+      '@aws-sdk/client-rds':
+        specifier: ^3
+        version: 3.529.1
+      '@aws-sdk/types':
+        specifier: ^3
+        version: 3.523.0
+    devDependencies:
+      '@types/node':
+        specifier: ^18
+        version: 18.19.14
+      '@typescript-eslint/eslint-plugin':
+        specifier: ^6
+        version: 6.7.0(@typescript-eslint/parser@6.7.0)(eslint@8.49.0)(typescript@5.2.2)
+      '@typescript-eslint/parser':
+        specifier: ^6
+        version: 6.7.0(eslint@8.49.0)(typescript@5.2.2)
+      aws-sdk-client-mock:
+        specifier: ^3.0.0
+        version: 3.0.0
+      aws-sdk-client-mock-jest:
+        specifier: ^3.0.0
+        version: 3.0.0(aws-sdk-client-mock@3.0.0)
+      constructs:
+        specifier: ^10.0.0
+        version: 10.3.0
+      effect:
+        specifier: 2.3.1
+        version: 2.3.1
+      eslint:
+        specifier: ^8
+        version: 8.49.0
+      eslint-config-prettier:
+        specifier: ^9.0.0
+        version: 9.0.0(eslint@8.49.0)
+      eslint-import-resolver-typescript:
+        specifier: ^3.6.1
+        version: 3.6.1(@typescript-eslint/parser@6.7.0)(eslint-plugin-import@2.28.1)(eslint@8.49.0)
+      eslint-plugin-import:
+        specifier: ^2.28.1
+        version: 2.28.1(@typescript-eslint/parser@6.7.0)(eslint-import-resolver-typescript@3.6.1)(eslint@8.49.0)
+      eslint-plugin-prettier:
+        specifier: ^5.0.0
+        version: 5.0.0(eslint-config-prettier@9.0.0)(eslint@8.49.0)(prettier@3.2.4)
+      prettier:
+        specifier: ^3.2.4
         version: 3.2.4
       projen:
         specifier: ^0.79.6
@@ -869,11 +924,11 @@ packages:
   /@aws-cdk/asset-node-proxy-agent-v6@2.0.1:
     resolution: {integrity: sha512-DDt4SLdLOwWCjGtltH4VCST7hpOI5DzieuhGZsBpZ+AgJdSI2GCjklCXm0GCTwJG/SolkL5dtQXyUKgg9luBDg==}
 
-  /@aws-cdk/aws-cognito-identitypool-alpha@2.131.0-alpha.0(aws-cdk-lib@2.126.0)(constructs@10.3.0):
-    resolution: {integrity: sha512-8dXyElW94uuSDbP2ERp90BkQ9qDuXW38p+ArjSEg/zzQo8PGFq6UMeAigBfgygPoP2N72CRZhaM8nGdtI9bv/A==}
+  /@aws-cdk/aws-cognito-identitypool-alpha@2.132.1-alpha.0(aws-cdk-lib@2.126.0)(constructs@10.3.0):
+    resolution: {integrity: sha512-RG2tfGLituyCNoUKvwr3g1mdDRMVr03PssLfWbixgN95co7zuHp6Uknh2nJO6uwlWH8A0tMLBHQJdOZR+1dN+Q==}
     engines: {node: '>= 14.15.0'}
     peerDependencies:
-      aws-cdk-lib: ^2.131.0
+      aws-cdk-lib: ^2.132.1
       constructs: ^10.0.0
     dependencies:
       aws-cdk-lib: 2.126.0(constructs@10.3.0)
@@ -1061,8 +1116,8 @@ packages:
       - aws-crt
     dev: false
 
-  /@aws-sdk/client-ec2@3.529.1:
-    resolution: {integrity: sha512-H3D0c9PXAdrzU6XeabMwBgGu2Z2mvq3yFzRnBkUvGBwvbdv5SHFESt4wBwo9sPAINLGG81X5M5BLtlLAhKsu3A==}
+  /@aws-sdk/client-ec2@3.532.0:
+    resolution: {integrity: sha512-6oa0LFWoIUlrciNWuD4LKIlhdIWJL26iLqqcUKyO+MRoGaCdJrNNc/ua2bWXxsAtGipOvnKCchyI7dSed8D/Ig==}
     engines: {node: '>=14.0.0'}
     dependencies:
       '@aws-crypto/sha256-browser': 3.0.0
@@ -1303,6 +1358,56 @@ packages:
       '@smithy/util-endpoints': 1.1.5
       '@smithy/util-retry': 2.1.4
       '@smithy/util-stream': 2.1.4
+      '@smithy/util-utf8': 2.2.0
+      '@smithy/util-waiter': 2.1.4
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - aws-crt
+    dev: false
+
+  /@aws-sdk/client-rds@3.529.1:
+    resolution: {integrity: sha512-cIf9S/gMpP7NvxvSXB/WRJ4eRJ8LTv8wyS3JYtJVMjukuhthxcY8pVtSN3bOMLUhr+BW+AtzqJh9f/wCd2IFsQ==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@aws-crypto/sha256-browser': 3.0.0
+      '@aws-crypto/sha256-js': 3.0.0
+      '@aws-sdk/client-sts': 3.529.1(@aws-sdk/credential-provider-node@3.529.1)
+      '@aws-sdk/core': 3.529.1
+      '@aws-sdk/credential-provider-node': 3.529.1
+      '@aws-sdk/middleware-host-header': 3.523.0
+      '@aws-sdk/middleware-logger': 3.523.0
+      '@aws-sdk/middleware-recursion-detection': 3.523.0
+      '@aws-sdk/middleware-sdk-rds': 3.525.0
+      '@aws-sdk/middleware-user-agent': 3.525.0
+      '@aws-sdk/region-config-resolver': 3.525.0
+      '@aws-sdk/types': 3.523.0
+      '@aws-sdk/util-endpoints': 3.525.0
+      '@aws-sdk/util-user-agent-browser': 3.523.0
+      '@aws-sdk/util-user-agent-node': 3.525.0
+      '@smithy/config-resolver': 2.1.5
+      '@smithy/core': 1.3.7
+      '@smithy/fetch-http-handler': 2.4.4
+      '@smithy/hash-node': 2.1.4
+      '@smithy/invalid-dependency': 2.1.4
+      '@smithy/middleware-content-length': 2.1.4
+      '@smithy/middleware-endpoint': 2.4.6
+      '@smithy/middleware-retry': 2.1.6
+      '@smithy/middleware-serde': 2.2.1
+      '@smithy/middleware-stack': 2.1.4
+      '@smithy/node-config-provider': 2.2.5
+      '@smithy/node-http-handler': 2.4.2
+      '@smithy/protocol-http': 3.2.2
+      '@smithy/smithy-client': 2.4.4
+      '@smithy/types': 2.11.0
+      '@smithy/url-parser': 2.1.4
+      '@smithy/util-base64': 2.2.0
+      '@smithy/util-body-length-browser': 2.1.1
+      '@smithy/util-body-length-node': 2.2.1
+      '@smithy/util-defaults-mode-browser': 2.1.6
+      '@smithy/util-defaults-mode-node': 2.2.6
+      '@smithy/util-endpoints': 1.1.5
+      '@smithy/util-middleware': 2.1.4
+      '@smithy/util-retry': 2.1.4
       '@smithy/util-utf8': 2.2.0
       '@smithy/util-waiter': 2.1.4
       tslib: 2.6.2
@@ -2122,6 +2227,19 @@ packages:
       tslib: 2.6.2
     dev: false
 
+  /@aws-sdk/middleware-sdk-rds@3.525.0:
+    resolution: {integrity: sha512-3RbR01vta/1T0/BP+hnaJ5nspb3wRDR+2TDLOm1pmj0KZTR1yQHYYYLLBtZ0n1XkK7yxtDr0FT/EWQYVSf2ibw==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@aws-sdk/types': 3.523.0
+      '@aws-sdk/util-format-url': 3.523.0
+      '@smithy/middleware-endpoint': 2.4.6
+      '@smithy/protocol-http': 3.2.2
+      '@smithy/signature-v4': 2.1.4
+      '@smithy/types': 2.11.0
+      tslib: 2.6.2
+    dev: false
+
   /@aws-sdk/middleware-sdk-s3@3.474.0:
     resolution: {integrity: sha512-62aAo/8u5daIabeJ+gseYeHeShe9eYH6mH+kfWmLsHybXCCv1EaD/ZkdXWNhL0HZ3bUI1z1SF1p8jjTAWALnwA==}
     engines: {node: '>=14.0.0'}
@@ -2442,7 +2560,7 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@aws/pdk@0.23.2(@aws-cdk/aws-cognito-identitypool-alpha@2.131.0-alpha.0)(aws-cdk-lib@2.126.0)(cdk-nag@2.28.27)(constructs@10.3.0)(projen@0.79.7):
+  /@aws/pdk@0.23.2(@aws-cdk/aws-cognito-identitypool-alpha@2.132.1-alpha.0)(aws-cdk-lib@2.126.0)(cdk-nag@2.28.27)(constructs@10.3.0)(projen@0.79.7):
     resolution: {integrity: sha512-TFQKuuIVrjrR9yvWSJ2C8H5rU52m/HVNjD4E2BkUOTaD3rUl9PobPotBuhAAsAJsg0YQGuFprPElrfB+KyxJoA==}
     hasBin: true
     peerDependencies:
@@ -2452,7 +2570,7 @@ packages:
       constructs: ^10.3.0
       projen: ^0.79.6
     dependencies:
-      '@aws-cdk/aws-cognito-identitypool-alpha': 2.131.0-alpha.0(aws-cdk-lib@2.126.0)(constructs@10.3.0)
+      '@aws-cdk/aws-cognito-identitypool-alpha': 2.132.1-alpha.0(aws-cdk-lib@2.126.0)(constructs@10.3.0)
       aws-cdk-lib: 2.126.0(constructs@10.3.0)
       cdk-nag: 2.28.27(aws-cdk-lib@2.126.0)(constructs@10.3.0)
       constructs: 10.3.0

@@ -8,6 +8,7 @@ packages:
   - packages/client-eventbridge
   - packages/client-iam
   - packages/client-lambda
+  - packages/client-rds
   - packages/client-s3
   - packages/client-sfn
   - packages/client-sns
