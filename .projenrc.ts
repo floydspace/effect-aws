@@ -31,6 +31,11 @@ new Docgen(project);
 
 new Vitest(project);
 
+project.addScripts({
+  "codegen-client": "tsx ./scripts/codegen-client.ts",
+});
+project.addDeps("effect@^2.3.1", "enquirer@^2.4.1");
+
 const commonDeps = ["@aws-sdk/types@^3"];
 const commonDevDeps = ["aws-sdk-client-mock", "aws-sdk-client-mock-jest"];
 const commonPeerDeps = ["effect@>=2.3.1 <2.5.0"];

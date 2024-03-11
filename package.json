@@ -22,7 +22,8 @@
     "watch": "pnpm exec projen watch",
     "install:ci": "pnpm exec projen install:ci",
     "synth-workspace": "pnpm exec projen",
-    "changeset": "changeset"
+    "changeset": "changeset",
+    "codegen-client": "tsx ./scripts/codegen-client.ts"
   },
   "author": {
     "name": "Victor Korzunin",
@@ -57,7 +58,9 @@
   "dependencies": {
     "@aws-cdk/aws-cognito-identitypool-alpha": "latest",
     "aws-cdk-lib": "^2.126.0",
-    "cdk-nag": "^2.28.27"
+    "cdk-nag": "^2.28.27",
+    "effect": "^2.3.1",
+    "enquirer": "^2.4.1"
   },
   "pnpm": {
     "overrides": {

@@ -34,51 +34,51 @@ export type TaggedException<T extends { name: string }> = T & {
   readonly _tag: T["name"];
 };
 
-export type InvalidInputError = TaggedException<InvalidInputException>;
-export type LimitExceededError = TaggedException<LimitExceededException>;
-export type NoSuchEntityError = TaggedException<NoSuchEntityException>;
-export type ServiceFailureError = TaggedException<ServiceFailureException>;
-export type EntityAlreadyExistsError =
-  TaggedException<EntityAlreadyExistsException>;
-export type UnmodifiableEntityError =
-  TaggedException<UnmodifiableEntityException>;
-export type PolicyNotAttachableError =
-  TaggedException<PolicyNotAttachableException>;
-export type EntityTemporarilyUnmodifiableError =
-  TaggedException<EntityTemporarilyUnmodifiableException>;
-export type InvalidUserTypeError = TaggedException<InvalidUserTypeException>;
-export type PasswordPolicyViolationError =
-  TaggedException<PasswordPolicyViolationException>;
 export type ConcurrentModificationError =
   TaggedException<ConcurrentModificationException>;
-export type MalformedPolicyDocumentError =
-  TaggedException<MalformedPolicyDocumentException>;
-export type ServiceNotSupportedError =
-  TaggedException<ServiceNotSupportedException>;
-export type DeleteConflictError = TaggedException<DeleteConflictException>;
-export type InvalidAuthenticationCodeError =
-  TaggedException<InvalidAuthenticationCodeException>;
-export type ReportGenerationLimitExceededError =
-  TaggedException<ReportGenerationLimitExceededException>;
 export type CredentialReportExpiredError =
   TaggedException<CredentialReportExpiredException>;
 export type CredentialReportNotPresentError =
   TaggedException<CredentialReportNotPresentException>;
 export type CredentialReportNotReadyError =
   TaggedException<CredentialReportNotReadyException>;
-export type UnrecognizedPublicKeyEncodingError =
-  TaggedException<UnrecognizedPublicKeyEncodingException>;
-export type PolicyEvaluationError = TaggedException<PolicyEvaluationException>;
-export type KeyPairMismatchError = TaggedException<KeyPairMismatchException>;
-export type MalformedCertificateError =
-  TaggedException<MalformedCertificateException>;
+export type DeleteConflictError = TaggedException<DeleteConflictException>;
 export type DuplicateCertificateError =
   TaggedException<DuplicateCertificateException>;
-export type InvalidCertificateError =
-  TaggedException<InvalidCertificateException>;
 export type DuplicateSSHPublicKeyError =
   TaggedException<DuplicateSSHPublicKeyException>;
+export type EntityAlreadyExistsError =
+  TaggedException<EntityAlreadyExistsException>;
+export type EntityTemporarilyUnmodifiableError =
+  TaggedException<EntityTemporarilyUnmodifiableException>;
+export type InvalidAuthenticationCodeError =
+  TaggedException<InvalidAuthenticationCodeException>;
+export type InvalidCertificateError =
+  TaggedException<InvalidCertificateException>;
+export type InvalidInputError = TaggedException<InvalidInputException>;
 export type InvalidPublicKeyError = TaggedException<InvalidPublicKeyException>;
+export type InvalidUserTypeError = TaggedException<InvalidUserTypeException>;
+export type KeyPairMismatchError = TaggedException<KeyPairMismatchException>;
+export type LimitExceededError = TaggedException<LimitExceededException>;
+export type MalformedCertificateError =
+  TaggedException<MalformedCertificateException>;
+export type MalformedPolicyDocumentError =
+  TaggedException<MalformedPolicyDocumentException>;
+export type NoSuchEntityError = TaggedException<NoSuchEntityException>;
+export type PasswordPolicyViolationError =
+  TaggedException<PasswordPolicyViolationException>;
+export type PolicyEvaluationError = TaggedException<PolicyEvaluationException>;
+export type PolicyNotAttachableError =
+  TaggedException<PolicyNotAttachableException>;
+export type ReportGenerationLimitExceededError =
+  TaggedException<ReportGenerationLimitExceededException>;
+export type ServiceFailureError = TaggedException<ServiceFailureException>;
+export type ServiceNotSupportedError =
+  TaggedException<ServiceNotSupportedException>;
+export type UnmodifiableEntityError =
+  TaggedException<UnmodifiableEntityException>;
+export type UnrecognizedPublicKeyEncodingError =
+  TaggedException<UnrecognizedPublicKeyEncodingException>;
 
 export type IAMServiceError = TaggedException<
   IAMServiceException & { name: "IAMServiceError" }
