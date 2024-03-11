@@ -1,6 +1,6 @@
 import {
-  type AddClientIDToOpenIDConnectProviderCommandInput,
-  AddClientIDToOpenIDConnectProviderCommand,
+  type CreateRoleCommandInput,
+  CreateRoleCommand,
   IAMClient,
 } from "@aws-sdk/client-iam";
 import { mockClient } from "aws-sdk-client-mock";
@@ -25,16 +25,12 @@ const clientMock = mockClient(IAMClient);
 
 describe("IAMClientImpl", () => {
   it("default", async () => {
-    clientMock
-      .reset()
-      .on(AddClientIDToOpenIDConnectProviderCommand)
-      .resolves({});
+    clientMock.reset().on(CreateRoleCommand).resolves({});
 
-    const args =
-      {} as unknown as AddClientIDToOpenIDConnectProviderCommandInput;
+    const args = {} as unknown as CreateRoleCommandInput;
 
     const program = Effect.flatMap(IAMService, (service) =>
-      service.addClientIDToOpenIDConnectProvider(args),
+      service.createRole(args),
     );
 
     const result = await pipe(
@@ -44,27 +40,17 @@ describe("IAMClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(clientMock).toHaveReceivedCommandTimes(
-      AddClientIDToOpenIDConnectProviderCommand,
-      1,
-    );
-    expect(clientMock).toHaveReceivedCommandWith(
-      AddClientIDToOpenIDConnectProviderCommand,
-      args,
-    );
+    expect(clientMock).toHaveReceivedCommandTimes(CreateRoleCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(CreateRoleCommand, args);
   });
 
   it("configurable", async () => {
-    clientMock
-      .reset()
-      .on(AddClientIDToOpenIDConnectProviderCommand)
-      .resolves({});
+    clientMock.reset().on(CreateRoleCommand).resolves({});
 
-    const args =
-      {} as unknown as AddClientIDToOpenIDConnectProviderCommandInput;
+    const args = {} as unknown as CreateRoleCommandInput;
 
     const program = Effect.flatMap(IAMService, (service) =>
-      service.addClientIDToOpenIDConnectProvider(args),
+      service.createRole(args),
     );
 
     const IAMClientConfigLayer = Layer.succeed(IAMClientInstanceConfig, {
@@ -81,27 +67,17 @@ describe("IAMClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(clientMock).toHaveReceivedCommandTimes(
-      AddClientIDToOpenIDConnectProviderCommand,
-      1,
-    );
-    expect(clientMock).toHaveReceivedCommandWith(
-      AddClientIDToOpenIDConnectProviderCommand,
-      args,
-    );
+    expect(clientMock).toHaveReceivedCommandTimes(CreateRoleCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(CreateRoleCommand, args);
   });
 
   it("base", async () => {
-    clientMock
-      .reset()
-      .on(AddClientIDToOpenIDConnectProviderCommand)
-      .resolves({});
+    clientMock.reset().on(CreateRoleCommand).resolves({});
 
-    const args =
-      {} as unknown as AddClientIDToOpenIDConnectProviderCommandInput;
+    const args = {} as unknown as CreateRoleCommandInput;
 
     const program = Effect.flatMap(IAMService, (service) =>
-      service.addClientIDToOpenIDConnectProvider(args),
+      service.createRole(args),
     );
 
     const IAMClientInstanceLayer = Layer.succeed(
@@ -119,27 +95,17 @@ describe("IAMClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(clientMock).toHaveReceivedCommandTimes(
-      AddClientIDToOpenIDConnectProviderCommand,
-      1,
-    );
-    expect(clientMock).toHaveReceivedCommandWith(
-      AddClientIDToOpenIDConnectProviderCommand,
-      args,
-    );
+    expect(clientMock).toHaveReceivedCommandTimes(CreateRoleCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(CreateRoleCommand, args);
   });
 
   it("extended", async () => {
-    clientMock
-      .reset()
-      .on(AddClientIDToOpenIDConnectProviderCommand)
-      .resolves({});
+    clientMock.reset().on(CreateRoleCommand).resolves({});
 
-    const args =
-      {} as unknown as AddClientIDToOpenIDConnectProviderCommandInput;
+    const args = {} as unknown as CreateRoleCommandInput;
 
     const program = Effect.flatMap(IAMService, (service) =>
-      service.addClientIDToOpenIDConnectProvider(args),
+      service.createRole(args),
     );
 
     const IAMClientInstanceLayer = Layer.effect(
@@ -161,27 +127,17 @@ describe("IAMClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(clientMock).toHaveReceivedCommandTimes(
-      AddClientIDToOpenIDConnectProviderCommand,
-      1,
-    );
-    expect(clientMock).toHaveReceivedCommandWith(
-      AddClientIDToOpenIDConnectProviderCommand,
-      args,
-    );
+    expect(clientMock).toHaveReceivedCommandTimes(CreateRoleCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(CreateRoleCommand, args);
   });
 
   it("fail", async () => {
-    clientMock
-      .reset()
-      .on(AddClientIDToOpenIDConnectProviderCommand)
-      .rejects(new Error("test"));
+    clientMock.reset().on(CreateRoleCommand).rejects(new Error("test"));
 
-    const args =
-      {} as unknown as AddClientIDToOpenIDConnectProviderCommandInput;
+    const args = {} as unknown as CreateRoleCommandInput;
 
     const program = Effect.flatMap(IAMService, (service) =>
-      service.addClientIDToOpenIDConnectProvider(args),
+      service.createRole(args),
     );
 
     const result = await pipe(
@@ -200,13 +156,7 @@ describe("IAMClientImpl", () => {
         }),
       ),
     );
-    expect(clientMock).toHaveReceivedCommandTimes(
-      AddClientIDToOpenIDConnectProviderCommand,
-      1,
-    );
-    expect(clientMock).toHaveReceivedCommandWith(
-      AddClientIDToOpenIDConnectProviderCommand,
-      args,
-    );
+    expect(clientMock).toHaveReceivedCommandTimes(CreateRoleCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(CreateRoleCommand, args);
   });
 });
