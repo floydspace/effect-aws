@@ -1,6 +1,6 @@
 import {
-  type AddRoleToDBClusterCommandInput,
-  AddRoleToDBClusterCommand,
+  type DescribeDBClustersCommandInput,
+  DescribeDBClustersCommand,
   RDSClient,
 } from "@aws-sdk/client-rds";
 import { mockClient } from "aws-sdk-client-mock";
@@ -25,12 +25,12 @@ const clientMock = mockClient(RDSClient);
 
 describe("RDSClientImpl", () => {
   it("default", async () => {
-    clientMock.reset().on(AddRoleToDBClusterCommand).resolves({});
+    clientMock.reset().on(DescribeDBClustersCommand).resolves({});
 
-    const args = {} as unknown as AddRoleToDBClusterCommandInput;
+    const args: DescribeDBClustersCommandInput = { DBClusterIdentifier: "foo" };
 
     const program = Effect.flatMap(RDSService, (service) =>
-      service.addRoleToDBCluster(args),
+      service.describeDBClusters(args),
     );
 
     const result = await pipe(
@@ -40,20 +40,20 @@ describe("RDSClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(clientMock).toHaveReceivedCommandTimes(AddRoleToDBClusterCommand, 1);
+    expect(clientMock).toHaveReceivedCommandTimes(DescribeDBClustersCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(
-      AddRoleToDBClusterCommand,
+      DescribeDBClustersCommand,
       args,
     );
   });
 
   it("configurable", async () => {
-    clientMock.reset().on(AddRoleToDBClusterCommand).resolves({});
+    clientMock.reset().on(DescribeDBClustersCommand).resolves({});
 
-    const args = {} as unknown as AddRoleToDBClusterCommandInput;
+    const args: DescribeDBClustersCommandInput = { DBClusterIdentifier: "foo" };
 
     const program = Effect.flatMap(RDSService, (service) =>
-      service.addRoleToDBCluster(args),
+      service.describeDBClusters(args),
     );
 
     const RDSClientConfigLayer = Layer.succeed(RDSClientInstanceConfig, {
@@ -70,20 +70,20 @@ describe("RDSClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(clientMock).toHaveReceivedCommandTimes(AddRoleToDBClusterCommand, 1);
+    expect(clientMock).toHaveReceivedCommandTimes(DescribeDBClustersCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(
-      AddRoleToDBClusterCommand,
+      DescribeDBClustersCommand,
       args,
     );
   });
 
   it("base", async () => {
-    clientMock.reset().on(AddRoleToDBClusterCommand).resolves({});
+    clientMock.reset().on(DescribeDBClustersCommand).resolves({});
 
-    const args = {} as unknown as AddRoleToDBClusterCommandInput;
+    const args: DescribeDBClustersCommandInput = { DBClusterIdentifier: "foo" };
 
     const program = Effect.flatMap(RDSService, (service) =>
-      service.addRoleToDBCluster(args),
+      service.describeDBClusters(args),
     );
 
     const RDSClientInstanceLayer = Layer.succeed(
@@ -101,20 +101,20 @@ describe("RDSClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(clientMock).toHaveReceivedCommandTimes(AddRoleToDBClusterCommand, 1);
+    expect(clientMock).toHaveReceivedCommandTimes(DescribeDBClustersCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(
-      AddRoleToDBClusterCommand,
+      DescribeDBClustersCommand,
       args,
     );
   });
 
   it("extended", async () => {
-    clientMock.reset().on(AddRoleToDBClusterCommand).resolves({});
+    clientMock.reset().on(DescribeDBClustersCommand).resolves({});
 
-    const args = {} as unknown as AddRoleToDBClusterCommandInput;
+    const args: DescribeDBClustersCommandInput = { DBClusterIdentifier: "foo" };
 
     const program = Effect.flatMap(RDSService, (service) =>
-      service.addRoleToDBCluster(args),
+      service.describeDBClusters(args),
     );
 
     const RDSClientInstanceLayer = Layer.effect(
@@ -136,20 +136,20 @@ describe("RDSClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(clientMock).toHaveReceivedCommandTimes(AddRoleToDBClusterCommand, 1);
+    expect(clientMock).toHaveReceivedCommandTimes(DescribeDBClustersCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(
-      AddRoleToDBClusterCommand,
+      DescribeDBClustersCommand,
       args,
     );
   });
 
   it("fail", async () => {
-    clientMock.reset().on(AddRoleToDBClusterCommand).rejects(new Error("test"));
+    clientMock.reset().on(DescribeDBClustersCommand).rejects(new Error("test"));
 
-    const args = {} as unknown as AddRoleToDBClusterCommandInput;
+    const args: DescribeDBClustersCommandInput = { DBClusterIdentifier: "foo" };
 
     const program = Effect.flatMap(RDSService, (service) =>
-      service.addRoleToDBCluster(args),
+      service.describeDBClusters(args),
     );
 
     const result = await pipe(
@@ -168,9 +168,9 @@ describe("RDSClientImpl", () => {
         }),
       ),
     );
-    expect(clientMock).toHaveReceivedCommandTimes(AddRoleToDBClusterCommand, 1);
+    expect(clientMock).toHaveReceivedCommandTimes(DescribeDBClustersCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(
-      AddRoleToDBClusterCommand,
+      DescribeDBClustersCommand,
       args,
     );
   });
