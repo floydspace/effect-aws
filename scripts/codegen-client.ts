@@ -16,8 +16,9 @@ import {
   String,
   Struct,
   Tuple,
+  Exit,
 } from "effect";
-import { flow, pipe } from "effect/Function";
+import { constVoid, flow, pipe } from "effect/Function";
 import { isNotUndefined } from "effect/Predicate";
 import Enquirer from "enquirer";
 
@@ -54,6 +55,7 @@ async function main() {
   const enquirer = new Enquirer<{
     services: string[];
     commandToTest: string;
+    inputToTest: string;
   }>();
 
   const { services } = await enquirer.prompt({
@@ -104,7 +106,22 @@ async function main() {
         choices: operationNames,
       });
 
-      return [packageName, commandToTest] as const;
+      const { inputToTest } = await enquirer.prompt({
+        type: "input",
+        name: "inputToTest",
+        message: `Which input do you want to test of ${commandToTest} ?`,
+        validate: flow(
+          Effect.succeed,
+          Effect.tryMap({
+            try: JSON.parse,
+            catch: constVoid,
+          }),
+          Effect.runSyncExit,
+          Exit.isSuccess,
+        ),
+      });
+
+      return [packageName, commandToTest, inputToTest] as const;
     }),
   );
 
@@ -124,10 +141,11 @@ const lowerFirst = flow(
   ReadonlyArray.join(""),
 );
 
-async function generateClient([packageName, commandToTest]: readonly [
-  string,
-  string,
-]) {
+async function generateClient([
+  packageName,
+  commandToTest,
+  inputToTest,
+]: readonly [string, string, string]) {
   const serviceName = pipe(packageName, String.replace(/^client-/, ""));
 
   const manifest = (await (
@@ -545,7 +563,7 @@ describe("${sdkId}ClientImpl", () => {
   it("default", async () => {
     clientMock.reset().on(${commandToTest}Command).resolves({});
 
-    const args = {} as unknown as ${commandToTest}CommandInput;
+    const args : ${commandToTest}CommandInput = ${inputToTest};
 
     const program = Effect.flatMap(${sdkId}Service, (service) => service.${pipe(commandToTest, lowerFirst)}(args));
 
@@ -563,7 +581,7 @@ describe("${sdkId}ClientImpl", () => {
   it("configurable", async () => {
     clientMock.reset().on(${commandToTest}Command).resolves({});
 
-    const args = {} as unknown as ${commandToTest}CommandInput;
+    const args : ${commandToTest}CommandInput = ${inputToTest};
 
     const program = Effect.flatMap(${sdkId}Service, (service) => service.${pipe(commandToTest, lowerFirst)}(args));
 
@@ -588,7 +606,7 @@ describe("${sdkId}ClientImpl", () => {
   it("base", async () => {
     clientMock.reset().on(${commandToTest}Command).resolves({});
 
-    const args = {} as unknown as ${commandToTest}CommandInput;
+    const args : ${commandToTest}CommandInput = ${inputToTest};
 
     const program = Effect.flatMap(${sdkId}Service, (service) => service.${pipe(commandToTest, lowerFirst)}(args));
 
@@ -614,7 +632,7 @@ describe("${sdkId}ClientImpl", () => {
   it("extended", async () => {
     clientMock.reset().on(${commandToTest}Command).resolves({});
 
-    const args = {} as unknown as ${commandToTest}CommandInput;
+    const args : ${commandToTest}CommandInput = ${inputToTest};
 
     const program = Effect.flatMap(${sdkId}Service, (service) => service.${pipe(commandToTest, lowerFirst)}(args));
 
@@ -644,7 +662,7 @@ describe("${sdkId}ClientImpl", () => {
   it("fail", async () => {
     clientMock.reset().on(${commandToTest}Command).rejects(new Error("test"));
 
-    const args = {} as unknown as ${commandToTest}CommandInput;
+    const args : ${commandToTest}CommandInput = ${inputToTest};
 
     const program = Effect.flatMap(${sdkId}Service, (service) => service.${pipe(commandToTest, lowerFirst)}(args));
 
