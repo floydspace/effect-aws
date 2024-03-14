@@ -178,19 +178,20 @@ async function generateClient([
     `../packages/client-${serviceName}/node_modules/@aws-sdk/client-${serviceName}/dist-cjs/index.js`
   );
 
-  const exceptions = pipe(
-    awsClient,
-    ReadonlyRecord.keys,
-    ReadonlyArray.filter((s) => s.endsWith("Exception")),
-  );
+  const serviceException = `${sdkName}ServiceException`;
+  const serviceError = `${sdkName}Service`;
 
   const exportedErrors = pipe(
     awsClient,
+    ReadonlyRecord.filter(
+      (value) =>
+        typeof value === "function" &&
+        value.prototype instanceof awsClient[serviceException],
+    ),
     ReadonlyRecord.keys,
-    ReadonlyArray.filter(String.endsWith("Exception")),
-    ReadonlyArray.map(String.replace(/Exception$/, "")),
+    ReadonlyArray.prepend(serviceException),
   );
-  const serviceException = `${sdkId}Service`;
+
   const taggedErrors = pipe(
     exportedErrors,
     ReadonlyArray.filter((s) => s !== serviceException),
@@ -198,7 +199,7 @@ async function generateClient([
 
   await writeFile(
     `./packages/client-${serviceName}/src/Errors.ts`,
-    `import type { ${exceptions.join(", ")} } from "@aws-sdk/client-${serviceName}";
+    `import type { ${exportedErrors.join(", ")} } from "@aws-sdk/client-${serviceName}";
 import * as Data from "effect/Data";
 
 export type TaggedException<T extends { name: string }> = T & {
@@ -209,15 +210,15 @@ ${pipe(
   taggedErrors,
   ReadonlyArray.map(
     (taggedError) =>
-      `export type ${taggedError}Error = TaggedException<${taggedError}Exception>;`,
+      `export type ${pipe(taggedError, String.replace(/Exception$/, ""))}Error = TaggedException<${taggedError}>;`,
   ),
   ReadonlyArray.join("\n"),
 )}
 
-export type ${serviceException}Error = TaggedException<
-  ${serviceException}Exception & { name: "${serviceException}Error" }
+export type ${serviceError}Error = TaggedException<
+  ${serviceError}Exception & { name: "${serviceError}Error" }
 >;
-export const ${serviceException}Error = Data.tagged<${serviceException}Error>("${serviceException}Error");
+export const ${serviceError}Error = Data.tagged<${serviceError}Error>("${serviceError}Error");
 export type SdkError = TaggedException<Error & { name: "SdkError" }>;
 export const SdkError = Data.tagged<SdkError>("SdkError");
 `,
