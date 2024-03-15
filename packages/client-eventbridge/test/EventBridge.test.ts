@@ -1,6 +1,6 @@
 import {
+  type PutEventsCommandInput,
   PutEventsCommand,
-  PutEventsCommandInput,
   EventBridgeClient,
 } from "@aws-sdk/client-eventbridge";
 import { mockClient } from "aws-sdk-client-mock";
@@ -16,22 +16,22 @@ import {
   EventBridgeClientInstanceConfig,
   EventBridgeService,
   EventBridgeServiceLayer,
+  SdkError,
 } from "../src";
 
 import "aws-sdk-client-mock-jest";
 
-const ebMock = mockClient(EventBridgeClient);
-const { putEvents } = Effect.serviceFunctions(EventBridgeService);
+const clientMock = mockClient(EventBridgeClient);
 
 describe("EventBridgeClientImpl", () => {
   it("default", async () => {
-    ebMock.reset().on(PutEventsCommand).resolves({});
+    clientMock.reset().on(PutEventsCommand).resolves({});
 
-    const args: PutEventsCommandInput = {
-      Entries: [{ Detail: "test" }],
-    };
+    const args: PutEventsCommandInput = { Entries: [{ Detail: "test" }] };
 
-    const program = putEvents(args);
+    const program = Effect.flatMap(EventBridgeService, (service) =>
+      service.putEvents(args),
+    );
 
     const result = await pipe(
       program,
@@ -40,22 +40,24 @@ describe("EventBridgeClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(ebMock).toHaveReceivedCommandTimes(PutEventsCommand, 1);
-    expect(ebMock).toHaveReceivedCommandWith(PutEventsCommand, args);
+    expect(clientMock).toHaveReceivedCommandTimes(PutEventsCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(PutEventsCommand, args);
   });
 
   it("configurable", async () => {
-    ebMock.reset().on(PutEventsCommand).resolves({});
+    clientMock.reset().on(PutEventsCommand).resolves({});
 
-    const args: PutEventsCommandInput = {
-      Entries: [{ Detail: "test" }],
-    };
+    const args: PutEventsCommandInput = { Entries: [{ Detail: "test" }] };
 
-    const program = putEvents(args);
+    const program = Effect.flatMap(EventBridgeService, (service) =>
+      service.putEvents(args),
+    );
 
     const EventBridgeClientConfigLayer = Layer.succeed(
       EventBridgeClientInstanceConfig,
-      { region: "eu-central-1" },
+      {
+        region: "eu-central-1",
+      },
     );
     const CustomEventBridgeServiceLayer = EventBridgeServiceLayer.pipe(
       Layer.provide(EventBridgeClientConfigLayer),
@@ -68,18 +70,18 @@ describe("EventBridgeClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(ebMock).toHaveReceivedCommandTimes(PutEventsCommand, 1);
-    expect(ebMock).toHaveReceivedCommandWith(PutEventsCommand, args);
+    expect(clientMock).toHaveReceivedCommandTimes(PutEventsCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(PutEventsCommand, args);
   });
 
   it("base", async () => {
-    ebMock.reset().on(PutEventsCommand).resolves({});
+    clientMock.reset().on(PutEventsCommand).resolves({});
 
-    const args: PutEventsCommandInput = {
-      Entries: [{ Detail: "test" }],
-    };
+    const args: PutEventsCommandInput = { Entries: [{ Detail: "test" }] };
 
-    const program = putEvents(args);
+    const program = Effect.flatMap(EventBridgeService, (service) =>
+      service.putEvents(args),
+    );
 
     const EventBridgeClientInstanceLayer = Layer.succeed(
       EventBridgeClientInstance,
@@ -96,18 +98,18 @@ describe("EventBridgeClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(ebMock).toHaveReceivedCommandTimes(PutEventsCommand, 1);
-    expect(ebMock).toHaveReceivedCommandWith(PutEventsCommand, args);
+    expect(clientMock).toHaveReceivedCommandTimes(PutEventsCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(PutEventsCommand, args);
   });
 
   it("extended", async () => {
-    ebMock.reset().on(PutEventsCommand).resolves({});
+    clientMock.reset().on(PutEventsCommand).resolves({});
 
-    const args: PutEventsCommandInput = {
-      Entries: [{ Detail: "test" }],
-    };
+    const args: PutEventsCommandInput = { Entries: [{ Detail: "test" }] };
 
-    const program = putEvents(args);
+    const program = Effect.flatMap(EventBridgeService, (service) =>
+      service.putEvents(args),
+    );
 
     const EventBridgeClientInstanceLayer = Layer.effect(
       EventBridgeClientInstance,
@@ -129,18 +131,18 @@ describe("EventBridgeClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(ebMock).toHaveReceivedCommandTimes(PutEventsCommand, 1);
-    expect(ebMock).toHaveReceivedCommandWith(PutEventsCommand, args);
+    expect(clientMock).toHaveReceivedCommandTimes(PutEventsCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(PutEventsCommand, args);
   });
 
   it("fail", async () => {
-    ebMock.reset().on(PutEventsCommand).rejects(new Error("test"));
+    clientMock.reset().on(PutEventsCommand).rejects(new Error("test"));
 
-    const args: PutEventsCommandInput = {
-      Entries: [{ Detail: "test" }],
-    };
+    const args: PutEventsCommandInput = { Entries: [{ Detail: "test" }] };
 
-    const program = putEvents(args, { requestTimeout: 1000 });
+    const program = Effect.flatMap(EventBridgeService, (service) =>
+      service.putEvents(args),
+    );
 
     const result = await pipe(
       program,
@@ -148,8 +150,17 @@ describe("EventBridgeClientImpl", () => {
       Effect.runPromiseExit,
     );
 
-    expect(result).toEqual(Exit.fail(new Error("test")));
-    expect(ebMock).toHaveReceivedCommandTimes(PutEventsCommand, 1);
-    expect(ebMock).toHaveReceivedCommandWith(PutEventsCommand, args);
+    expect(result).toEqual(
+      Exit.fail(
+        SdkError({
+          ...new Error("test"),
+          name: "SdkError",
+          message: "test",
+          stack: expect.any(String),
+        }),
+      ),
+    );
+    expect(clientMock).toHaveReceivedCommandTimes(PutEventsCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(PutEventsCommand, args);
   });
 });

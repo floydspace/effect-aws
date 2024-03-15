@@ -2,177 +2,193 @@
  * @since 1.0.0
  */
 import {
+  EventBridgeServiceException,
   ActivateEventSourceCommand,
-  ActivateEventSourceCommandInput,
-  ActivateEventSourceCommandOutput,
+  type ActivateEventSourceCommandInput,
+  type ActivateEventSourceCommandOutput,
   CancelReplayCommand,
-  CancelReplayCommandInput,
-  CancelReplayCommandOutput,
+  type CancelReplayCommandInput,
+  type CancelReplayCommandOutput,
   CreateApiDestinationCommand,
-  CreateApiDestinationCommandInput,
-  CreateApiDestinationCommandOutput,
+  type CreateApiDestinationCommandInput,
+  type CreateApiDestinationCommandOutput,
   CreateArchiveCommand,
-  CreateArchiveCommandInput,
-  CreateArchiveCommandOutput,
+  type CreateArchiveCommandInput,
+  type CreateArchiveCommandOutput,
   CreateConnectionCommand,
-  CreateConnectionCommandInput,
-  CreateConnectionCommandOutput,
+  type CreateConnectionCommandInput,
+  type CreateConnectionCommandOutput,
   CreateEndpointCommand,
-  CreateEndpointCommandInput,
-  CreateEndpointCommandOutput,
+  type CreateEndpointCommandInput,
+  type CreateEndpointCommandOutput,
   CreateEventBusCommand,
-  CreateEventBusCommandInput,
-  CreateEventBusCommandOutput,
+  type CreateEventBusCommandInput,
+  type CreateEventBusCommandOutput,
   CreatePartnerEventSourceCommand,
-  CreatePartnerEventSourceCommandInput,
-  CreatePartnerEventSourceCommandOutput,
+  type CreatePartnerEventSourceCommandInput,
+  type CreatePartnerEventSourceCommandOutput,
   DeactivateEventSourceCommand,
-  DeactivateEventSourceCommandInput,
-  DeactivateEventSourceCommandOutput,
+  type DeactivateEventSourceCommandInput,
+  type DeactivateEventSourceCommandOutput,
   DeauthorizeConnectionCommand,
-  DeauthorizeConnectionCommandInput,
-  DeauthorizeConnectionCommandOutput,
+  type DeauthorizeConnectionCommandInput,
+  type DeauthorizeConnectionCommandOutput,
   DeleteApiDestinationCommand,
-  DeleteApiDestinationCommandInput,
-  DeleteApiDestinationCommandOutput,
+  type DeleteApiDestinationCommandInput,
+  type DeleteApiDestinationCommandOutput,
   DeleteArchiveCommand,
-  DeleteArchiveCommandInput,
-  DeleteArchiveCommandOutput,
+  type DeleteArchiveCommandInput,
+  type DeleteArchiveCommandOutput,
   DeleteConnectionCommand,
-  DeleteConnectionCommandInput,
-  DeleteConnectionCommandOutput,
+  type DeleteConnectionCommandInput,
+  type DeleteConnectionCommandOutput,
   DeleteEndpointCommand,
-  DeleteEndpointCommandInput,
-  DeleteEndpointCommandOutput,
+  type DeleteEndpointCommandInput,
+  type DeleteEndpointCommandOutput,
   DeleteEventBusCommand,
-  DeleteEventBusCommandInput,
-  DeleteEventBusCommandOutput,
+  type DeleteEventBusCommandInput,
+  type DeleteEventBusCommandOutput,
   DeletePartnerEventSourceCommand,
-  DeletePartnerEventSourceCommandInput,
-  DeletePartnerEventSourceCommandOutput,
+  type DeletePartnerEventSourceCommandInput,
+  type DeletePartnerEventSourceCommandOutput,
   DeleteRuleCommand,
-  DeleteRuleCommandInput,
-  DeleteRuleCommandOutput,
+  type DeleteRuleCommandInput,
+  type DeleteRuleCommandOutput,
   DescribeApiDestinationCommand,
-  DescribeApiDestinationCommandInput,
-  DescribeApiDestinationCommandOutput,
+  type DescribeApiDestinationCommandInput,
+  type DescribeApiDestinationCommandOutput,
   DescribeArchiveCommand,
-  DescribeArchiveCommandInput,
-  DescribeArchiveCommandOutput,
+  type DescribeArchiveCommandInput,
+  type DescribeArchiveCommandOutput,
   DescribeConnectionCommand,
-  DescribeConnectionCommandInput,
-  DescribeConnectionCommandOutput,
+  type DescribeConnectionCommandInput,
+  type DescribeConnectionCommandOutput,
   DescribeEndpointCommand,
-  DescribeEndpointCommandInput,
-  DescribeEndpointCommandOutput,
+  type DescribeEndpointCommandInput,
+  type DescribeEndpointCommandOutput,
   DescribeEventBusCommand,
-  DescribeEventBusCommandInput,
-  DescribeEventBusCommandOutput,
+  type DescribeEventBusCommandInput,
+  type DescribeEventBusCommandOutput,
   DescribeEventSourceCommand,
-  DescribeEventSourceCommandInput,
-  DescribeEventSourceCommandOutput,
+  type DescribeEventSourceCommandInput,
+  type DescribeEventSourceCommandOutput,
   DescribePartnerEventSourceCommand,
-  DescribePartnerEventSourceCommandInput,
-  DescribePartnerEventSourceCommandOutput,
+  type DescribePartnerEventSourceCommandInput,
+  type DescribePartnerEventSourceCommandOutput,
   DescribeReplayCommand,
-  DescribeReplayCommandInput,
-  DescribeReplayCommandOutput,
+  type DescribeReplayCommandInput,
+  type DescribeReplayCommandOutput,
   DescribeRuleCommand,
-  DescribeRuleCommandInput,
-  DescribeRuleCommandOutput,
+  type DescribeRuleCommandInput,
+  type DescribeRuleCommandOutput,
   DisableRuleCommand,
-  DisableRuleCommandInput,
-  DisableRuleCommandOutput,
+  type DisableRuleCommandInput,
+  type DisableRuleCommandOutput,
   EnableRuleCommand,
-  EnableRuleCommandInput,
-  EnableRuleCommandOutput,
+  type EnableRuleCommandInput,
+  type EnableRuleCommandOutput,
   ListApiDestinationsCommand,
-  ListApiDestinationsCommandInput,
-  ListApiDestinationsCommandOutput,
+  type ListApiDestinationsCommandInput,
+  type ListApiDestinationsCommandOutput,
   ListArchivesCommand,
-  ListArchivesCommandInput,
-  ListArchivesCommandOutput,
+  type ListArchivesCommandInput,
+  type ListArchivesCommandOutput,
   ListConnectionsCommand,
-  ListConnectionsCommandInput,
-  ListConnectionsCommandOutput,
+  type ListConnectionsCommandInput,
+  type ListConnectionsCommandOutput,
   ListEndpointsCommand,
-  ListEndpointsCommandInput,
-  ListEndpointsCommandOutput,
+  type ListEndpointsCommandInput,
+  type ListEndpointsCommandOutput,
   ListEventBusesCommand,
-  ListEventBusesCommandInput,
-  ListEventBusesCommandOutput,
+  type ListEventBusesCommandInput,
+  type ListEventBusesCommandOutput,
   ListEventSourcesCommand,
-  ListEventSourcesCommandInput,
-  ListEventSourcesCommandOutput,
+  type ListEventSourcesCommandInput,
+  type ListEventSourcesCommandOutput,
   ListPartnerEventSourceAccountsCommand,
-  ListPartnerEventSourceAccountsCommandInput,
-  ListPartnerEventSourceAccountsCommandOutput,
+  type ListPartnerEventSourceAccountsCommandInput,
+  type ListPartnerEventSourceAccountsCommandOutput,
   ListPartnerEventSourcesCommand,
-  ListPartnerEventSourcesCommandInput,
-  ListPartnerEventSourcesCommandOutput,
+  type ListPartnerEventSourcesCommandInput,
+  type ListPartnerEventSourcesCommandOutput,
   ListReplaysCommand,
-  ListReplaysCommandInput,
-  ListReplaysCommandOutput,
+  type ListReplaysCommandInput,
+  type ListReplaysCommandOutput,
   ListRuleNamesByTargetCommand,
-  ListRuleNamesByTargetCommandInput,
-  ListRuleNamesByTargetCommandOutput,
+  type ListRuleNamesByTargetCommandInput,
+  type ListRuleNamesByTargetCommandOutput,
   ListRulesCommand,
-  ListRulesCommandInput,
-  ListRulesCommandOutput,
+  type ListRulesCommandInput,
+  type ListRulesCommandOutput,
   ListTagsForResourceCommand,
-  ListTagsForResourceCommandInput,
-  ListTagsForResourceCommandOutput,
+  type ListTagsForResourceCommandInput,
+  type ListTagsForResourceCommandOutput,
   ListTargetsByRuleCommand,
-  ListTargetsByRuleCommandInput,
-  ListTargetsByRuleCommandOutput,
+  type ListTargetsByRuleCommandInput,
+  type ListTargetsByRuleCommandOutput,
   PutEventsCommand,
-  PutEventsCommandInput,
-  PutEventsCommandOutput,
+  type PutEventsCommandInput,
+  type PutEventsCommandOutput,
   PutPartnerEventsCommand,
-  PutPartnerEventsCommandInput,
-  PutPartnerEventsCommandOutput,
+  type PutPartnerEventsCommandInput,
+  type PutPartnerEventsCommandOutput,
   PutPermissionCommand,
-  PutPermissionCommandInput,
-  PutPermissionCommandOutput,
+  type PutPermissionCommandInput,
+  type PutPermissionCommandOutput,
   PutRuleCommand,
-  PutRuleCommandInput,
-  PutRuleCommandOutput,
+  type PutRuleCommandInput,
+  type PutRuleCommandOutput,
   PutTargetsCommand,
-  PutTargetsCommandInput,
-  PutTargetsCommandOutput,
+  type PutTargetsCommandInput,
+  type PutTargetsCommandOutput,
   RemovePermissionCommand,
-  RemovePermissionCommandInput,
-  RemovePermissionCommandOutput,
+  type RemovePermissionCommandInput,
+  type RemovePermissionCommandOutput,
   RemoveTargetsCommand,
-  RemoveTargetsCommandInput,
-  RemoveTargetsCommandOutput,
+  type RemoveTargetsCommandInput,
+  type RemoveTargetsCommandOutput,
   StartReplayCommand,
-  StartReplayCommandInput,
-  StartReplayCommandOutput,
+  type StartReplayCommandInput,
+  type StartReplayCommandOutput,
   TagResourceCommand,
-  TagResourceCommandInput,
-  TagResourceCommandOutput,
+  type TagResourceCommandInput,
+  type TagResourceCommandOutput,
   TestEventPatternCommand,
-  TestEventPatternCommandInput,
-  TestEventPatternCommandOutput,
+  type TestEventPatternCommandInput,
+  type TestEventPatternCommandOutput,
   UntagResourceCommand,
-  UntagResourceCommandInput,
-  UntagResourceCommandOutput,
+  type UntagResourceCommandInput,
+  type UntagResourceCommandOutput,
   UpdateApiDestinationCommand,
-  UpdateApiDestinationCommandInput,
-  UpdateApiDestinationCommandOutput,
+  type UpdateApiDestinationCommandInput,
+  type UpdateApiDestinationCommandOutput,
   UpdateArchiveCommand,
-  UpdateArchiveCommandInput,
-  UpdateArchiveCommandOutput,
+  type UpdateArchiveCommandInput,
+  type UpdateArchiveCommandOutput,
   UpdateConnectionCommand,
-  UpdateConnectionCommandInput,
-  UpdateConnectionCommandOutput,
+  type UpdateConnectionCommandInput,
+  type UpdateConnectionCommandOutput,
   UpdateEndpointCommand,
-  UpdateEndpointCommandInput,
-  UpdateEndpointCommandOutput,
+  type UpdateEndpointCommandInput,
+  type UpdateEndpointCommandOutput,
 } from "@aws-sdk/client-eventbridge";
-import { HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
-import { Cause, Context, Effect, Layer, ReadonlyRecord } from "effect";
+import { type HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
+import { Context, Data, Effect, Layer, ReadonlyRecord } from "effect";
+import {
+  ConcurrentModificationError,
+  IllegalStatusError,
+  InternalError,
+  InvalidEventPatternError,
+  InvalidStateError,
+  LimitExceededError,
+  ManagedRuleError,
+  OperationDisabledError,
+  PolicyLengthExceededError,
+  ResourceAlreadyExistsError,
+  ResourceNotFoundError,
+  SdkError,
+  TaggedException,
+} from "./Errors";
 import {
   DefaultEventBridgeClientInstanceLayer,
   EventBridgeClientInstance,
@@ -252,7 +268,15 @@ export interface EventBridgeService {
   activateEventSource(
     args: ActivateEventSourceCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<ActivateEventSourceCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    ActivateEventSourceCommandOutput,
+    | SdkError
+    | ConcurrentModificationError
+    | InternalError
+    | InvalidStateError
+    | OperationDisabledError
+    | ResourceNotFoundError
+  >;
 
   /**
    * @see {@link CancelReplayCommand}
@@ -260,7 +284,14 @@ export interface EventBridgeService {
   cancelReplay(
     args: CancelReplayCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<CancelReplayCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    CancelReplayCommandOutput,
+    | SdkError
+    | ConcurrentModificationError
+    | IllegalStatusError
+    | InternalError
+    | ResourceNotFoundError
+  >;
 
   /**
    * @see {@link CreateApiDestinationCommand}
@@ -268,7 +299,14 @@ export interface EventBridgeService {
   createApiDestination(
     args: CreateApiDestinationCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<CreateApiDestinationCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    CreateApiDestinationCommandOutput,
+    | SdkError
+    | InternalError
+    | LimitExceededError
+    | ResourceAlreadyExistsError
+    | ResourceNotFoundError
+  >;
 
   /**
    * @see {@link CreateArchiveCommand}
@@ -276,7 +314,16 @@ export interface EventBridgeService {
   createArchive(
     args: CreateArchiveCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<CreateArchiveCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    CreateArchiveCommandOutput,
+    | SdkError
+    | ConcurrentModificationError
+    | InternalError
+    | InvalidEventPatternError
+    | LimitExceededError
+    | ResourceAlreadyExistsError
+    | ResourceNotFoundError
+  >;
 
   /**
    * @see {@link CreateConnectionCommand}
@@ -284,7 +331,10 @@ export interface EventBridgeService {
   createConnection(
     args: CreateConnectionCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<CreateConnectionCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    CreateConnectionCommandOutput,
+    SdkError | InternalError | LimitExceededError | ResourceAlreadyExistsError
+  >;
 
   /**
    * @see {@link CreateEndpointCommand}
@@ -292,7 +342,10 @@ export interface EventBridgeService {
   createEndpoint(
     args: CreateEndpointCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<CreateEndpointCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    CreateEndpointCommandOutput,
+    SdkError | InternalError | LimitExceededError | ResourceAlreadyExistsError
+  >;
 
   /**
    * @see {@link CreateEventBusCommand}
@@ -300,7 +353,17 @@ export interface EventBridgeService {
   createEventBus(
     args: CreateEventBusCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<CreateEventBusCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    CreateEventBusCommandOutput,
+    | SdkError
+    | ConcurrentModificationError
+    | InternalError
+    | InvalidStateError
+    | LimitExceededError
+    | OperationDisabledError
+    | ResourceAlreadyExistsError
+    | ResourceNotFoundError
+  >;
 
   /**
    * @see {@link CreatePartnerEventSourceCommand}
@@ -310,7 +373,12 @@ export interface EventBridgeService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     CreatePartnerEventSourceCommandOutput,
-    Cause.UnknownException
+    | SdkError
+    | ConcurrentModificationError
+    | InternalError
+    | LimitExceededError
+    | OperationDisabledError
+    | ResourceAlreadyExistsError
   >;
 
   /**
@@ -319,7 +387,15 @@ export interface EventBridgeService {
   deactivateEventSource(
     args: DeactivateEventSourceCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<DeactivateEventSourceCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    DeactivateEventSourceCommandOutput,
+    | SdkError
+    | ConcurrentModificationError
+    | InternalError
+    | InvalidStateError
+    | OperationDisabledError
+    | ResourceNotFoundError
+  >;
 
   /**
    * @see {@link DeauthorizeConnectionCommand}
@@ -327,7 +403,13 @@ export interface EventBridgeService {
   deauthorizeConnection(
     args: DeauthorizeConnectionCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<DeauthorizeConnectionCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    DeauthorizeConnectionCommandOutput,
+    | SdkError
+    | ConcurrentModificationError
+    | InternalError
+    | ResourceNotFoundError
+  >;
 
   /**
    * @see {@link DeleteApiDestinationCommand}
@@ -335,7 +417,13 @@ export interface EventBridgeService {
   deleteApiDestination(
     args: DeleteApiDestinationCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<DeleteApiDestinationCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    DeleteApiDestinationCommandOutput,
+    | SdkError
+    | ConcurrentModificationError
+    | InternalError
+    | ResourceNotFoundError
+  >;
 
   /**
    * @see {@link DeleteArchiveCommand}
@@ -343,7 +431,13 @@ export interface EventBridgeService {
   deleteArchive(
     args: DeleteArchiveCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<DeleteArchiveCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    DeleteArchiveCommandOutput,
+    | SdkError
+    | ConcurrentModificationError
+    | InternalError
+    | ResourceNotFoundError
+  >;
 
   /**
    * @see {@link DeleteConnectionCommand}
@@ -351,7 +445,13 @@ export interface EventBridgeService {
   deleteConnection(
     args: DeleteConnectionCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<DeleteConnectionCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    DeleteConnectionCommandOutput,
+    | SdkError
+    | ConcurrentModificationError
+    | InternalError
+    | ResourceNotFoundError
+  >;
 
   /**
    * @see {@link DeleteEndpointCommand}
@@ -359,7 +459,13 @@ export interface EventBridgeService {
   deleteEndpoint(
     args: DeleteEndpointCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<DeleteEndpointCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    DeleteEndpointCommandOutput,
+    | SdkError
+    | ConcurrentModificationError
+    | InternalError
+    | ResourceNotFoundError
+  >;
 
   /**
    * @see {@link DeleteEventBusCommand}
@@ -367,7 +473,10 @@ export interface EventBridgeService {
   deleteEventBus(
     args: DeleteEventBusCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<DeleteEventBusCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    DeleteEventBusCommandOutput,
+    SdkError | ConcurrentModificationError | InternalError
+  >;
 
   /**
    * @see {@link DeletePartnerEventSourceCommand}
@@ -377,7 +486,10 @@ export interface EventBridgeService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     DeletePartnerEventSourceCommandOutput,
-    Cause.UnknownException
+    | SdkError
+    | ConcurrentModificationError
+    | InternalError
+    | OperationDisabledError
   >;
 
   /**
@@ -386,7 +498,14 @@ export interface EventBridgeService {
   deleteRule(
     args: DeleteRuleCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<DeleteRuleCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    DeleteRuleCommandOutput,
+    | SdkError
+    | ConcurrentModificationError
+    | InternalError
+    | ManagedRuleError
+    | ResourceNotFoundError
+  >;
 
   /**
    * @see {@link DescribeApiDestinationCommand}
@@ -394,7 +513,10 @@ export interface EventBridgeService {
   describeApiDestination(
     args: DescribeApiDestinationCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<DescribeApiDestinationCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    DescribeApiDestinationCommandOutput,
+    SdkError | InternalError | ResourceNotFoundError
+  >;
 
   /**
    * @see {@link DescribeArchiveCommand}
@@ -402,7 +524,13 @@ export interface EventBridgeService {
   describeArchive(
     args: DescribeArchiveCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<DescribeArchiveCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    DescribeArchiveCommandOutput,
+    | SdkError
+    | InternalError
+    | ResourceAlreadyExistsError
+    | ResourceNotFoundError
+  >;
 
   /**
    * @see {@link DescribeConnectionCommand}
@@ -410,7 +538,10 @@ export interface EventBridgeService {
   describeConnection(
     args: DescribeConnectionCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<DescribeConnectionCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    DescribeConnectionCommandOutput,
+    SdkError | InternalError | ResourceNotFoundError
+  >;
 
   /**
    * @see {@link DescribeEndpointCommand}
@@ -418,7 +549,10 @@ export interface EventBridgeService {
   describeEndpoint(
     args: DescribeEndpointCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<DescribeEndpointCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    DescribeEndpointCommandOutput,
+    SdkError | InternalError | ResourceNotFoundError
+  >;
 
   /**
    * @see {@link DescribeEventBusCommand}
@@ -426,7 +560,10 @@ export interface EventBridgeService {
   describeEventBus(
     args: DescribeEventBusCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<DescribeEventBusCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    DescribeEventBusCommandOutput,
+    SdkError | InternalError | ResourceNotFoundError
+  >;
 
   /**
    * @see {@link DescribeEventSourceCommand}
@@ -434,7 +571,10 @@ export interface EventBridgeService {
   describeEventSource(
     args: DescribeEventSourceCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<DescribeEventSourceCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    DescribeEventSourceCommandOutput,
+    SdkError | InternalError | OperationDisabledError | ResourceNotFoundError
+  >;
 
   /**
    * @see {@link DescribePartnerEventSourceCommand}
@@ -444,7 +584,7 @@ export interface EventBridgeService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     DescribePartnerEventSourceCommandOutput,
-    Cause.UnknownException
+    SdkError | InternalError | OperationDisabledError | ResourceNotFoundError
   >;
 
   /**
@@ -453,7 +593,10 @@ export interface EventBridgeService {
   describeReplay(
     args: DescribeReplayCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<DescribeReplayCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    DescribeReplayCommandOutput,
+    SdkError | InternalError | ResourceNotFoundError
+  >;
 
   /**
    * @see {@link DescribeRuleCommand}
@@ -461,7 +604,10 @@ export interface EventBridgeService {
   describeRule(
     args: DescribeRuleCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<DescribeRuleCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    DescribeRuleCommandOutput,
+    SdkError | InternalError | ResourceNotFoundError
+  >;
 
   /**
    * @see {@link DisableRuleCommand}
@@ -469,7 +615,14 @@ export interface EventBridgeService {
   disableRule(
     args: DisableRuleCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<DisableRuleCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    DisableRuleCommandOutput,
+    | SdkError
+    | ConcurrentModificationError
+    | InternalError
+    | ManagedRuleError
+    | ResourceNotFoundError
+  >;
 
   /**
    * @see {@link EnableRuleCommand}
@@ -477,7 +630,14 @@ export interface EventBridgeService {
   enableRule(
     args: EnableRuleCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<EnableRuleCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    EnableRuleCommandOutput,
+    | SdkError
+    | ConcurrentModificationError
+    | InternalError
+    | ManagedRuleError
+    | ResourceNotFoundError
+  >;
 
   /**
    * @see {@link ListApiDestinationsCommand}
@@ -485,7 +645,7 @@ export interface EventBridgeService {
   listApiDestinations(
     args: ListApiDestinationsCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<ListApiDestinationsCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<ListApiDestinationsCommandOutput, SdkError | InternalError>;
 
   /**
    * @see {@link ListArchivesCommand}
@@ -493,7 +653,10 @@ export interface EventBridgeService {
   listArchives(
     args: ListArchivesCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<ListArchivesCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    ListArchivesCommandOutput,
+    SdkError | InternalError | ResourceNotFoundError
+  >;
 
   /**
    * @see {@link ListConnectionsCommand}
@@ -501,7 +664,7 @@ export interface EventBridgeService {
   listConnections(
     args: ListConnectionsCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<ListConnectionsCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<ListConnectionsCommandOutput, SdkError | InternalError>;
 
   /**
    * @see {@link ListEndpointsCommand}
@@ -509,7 +672,7 @@ export interface EventBridgeService {
   listEndpoints(
     args: ListEndpointsCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<ListEndpointsCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<ListEndpointsCommandOutput, SdkError | InternalError>;
 
   /**
    * @see {@link ListEventBusesCommand}
@@ -517,7 +680,7 @@ export interface EventBridgeService {
   listEventBuses(
     args: ListEventBusesCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<ListEventBusesCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<ListEventBusesCommandOutput, SdkError | InternalError>;
 
   /**
    * @see {@link ListEventSourcesCommand}
@@ -525,7 +688,10 @@ export interface EventBridgeService {
   listEventSources(
     args: ListEventSourcesCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<ListEventSourcesCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    ListEventSourcesCommandOutput,
+    SdkError | InternalError | OperationDisabledError
+  >;
 
   /**
    * @see {@link ListPartnerEventSourceAccountsCommand}
@@ -535,7 +701,7 @@ export interface EventBridgeService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     ListPartnerEventSourceAccountsCommandOutput,
-    Cause.UnknownException
+    SdkError | InternalError | OperationDisabledError | ResourceNotFoundError
   >;
 
   /**
@@ -546,7 +712,7 @@ export interface EventBridgeService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     ListPartnerEventSourcesCommandOutput,
-    Cause.UnknownException
+    SdkError | InternalError | OperationDisabledError
   >;
 
   /**
@@ -555,7 +721,7 @@ export interface EventBridgeService {
   listReplays(
     args: ListReplaysCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<ListReplaysCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<ListReplaysCommandOutput, SdkError | InternalError>;
 
   /**
    * @see {@link ListRuleNamesByTargetCommand}
@@ -563,7 +729,10 @@ export interface EventBridgeService {
   listRuleNamesByTarget(
     args: ListRuleNamesByTargetCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<ListRuleNamesByTargetCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    ListRuleNamesByTargetCommandOutput,
+    SdkError | InternalError | ResourceNotFoundError
+  >;
 
   /**
    * @see {@link ListRulesCommand}
@@ -571,7 +740,10 @@ export interface EventBridgeService {
   listRules(
     args: ListRulesCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<ListRulesCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    ListRulesCommandOutput,
+    SdkError | InternalError | ResourceNotFoundError
+  >;
 
   /**
    * @see {@link ListTagsForResourceCommand}
@@ -579,7 +751,10 @@ export interface EventBridgeService {
   listTagsForResource(
     args: ListTagsForResourceCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<ListTagsForResourceCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    ListTagsForResourceCommandOutput,
+    SdkError | InternalError | ResourceNotFoundError
+  >;
 
   /**
    * @see {@link ListTargetsByRuleCommand}
@@ -587,7 +762,10 @@ export interface EventBridgeService {
   listTargetsByRule(
     args: ListTargetsByRuleCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<ListTargetsByRuleCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    ListTargetsByRuleCommandOutput,
+    SdkError | InternalError | ResourceNotFoundError
+  >;
 
   /**
    * @see {@link PutEventsCommand}
@@ -595,7 +773,7 @@ export interface EventBridgeService {
   putEvents(
     args: PutEventsCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<PutEventsCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<PutEventsCommandOutput, SdkError | InternalError>;
 
   /**
    * @see {@link PutPartnerEventsCommand}
@@ -603,7 +781,10 @@ export interface EventBridgeService {
   putPartnerEvents(
     args: PutPartnerEventsCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<PutPartnerEventsCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    PutPartnerEventsCommandOutput,
+    SdkError | InternalError | OperationDisabledError
+  >;
 
   /**
    * @see {@link PutPermissionCommand}
@@ -611,7 +792,15 @@ export interface EventBridgeService {
   putPermission(
     args: PutPermissionCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<PutPermissionCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    PutPermissionCommandOutput,
+    | SdkError
+    | ConcurrentModificationError
+    | InternalError
+    | OperationDisabledError
+    | PolicyLengthExceededError
+    | ResourceNotFoundError
+  >;
 
   /**
    * @see {@link PutRuleCommand}
@@ -619,7 +808,16 @@ export interface EventBridgeService {
   putRule(
     args: PutRuleCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<PutRuleCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    PutRuleCommandOutput,
+    | SdkError
+    | ConcurrentModificationError
+    | InternalError
+    | InvalidEventPatternError
+    | LimitExceededError
+    | ManagedRuleError
+    | ResourceNotFoundError
+  >;
 
   /**
    * @see {@link PutTargetsCommand}
@@ -627,7 +825,15 @@ export interface EventBridgeService {
   putTargets(
     args: PutTargetsCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<PutTargetsCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    PutTargetsCommandOutput,
+    | SdkError
+    | ConcurrentModificationError
+    | InternalError
+    | LimitExceededError
+    | ManagedRuleError
+    | ResourceNotFoundError
+  >;
 
   /**
    * @see {@link RemovePermissionCommand}
@@ -635,7 +841,14 @@ export interface EventBridgeService {
   removePermission(
     args: RemovePermissionCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<RemovePermissionCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    RemovePermissionCommandOutput,
+    | SdkError
+    | ConcurrentModificationError
+    | InternalError
+    | OperationDisabledError
+    | ResourceNotFoundError
+  >;
 
   /**
    * @see {@link RemoveTargetsCommand}
@@ -643,7 +856,14 @@ export interface EventBridgeService {
   removeTargets(
     args: RemoveTargetsCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<RemoveTargetsCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    RemoveTargetsCommandOutput,
+    | SdkError
+    | ConcurrentModificationError
+    | InternalError
+    | ManagedRuleError
+    | ResourceNotFoundError
+  >;
 
   /**
    * @see {@link StartReplayCommand}
@@ -651,7 +871,15 @@ export interface EventBridgeService {
   startReplay(
     args: StartReplayCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<StartReplayCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    StartReplayCommandOutput,
+    | SdkError
+    | InternalError
+    | InvalidEventPatternError
+    | LimitExceededError
+    | ResourceAlreadyExistsError
+    | ResourceNotFoundError
+  >;
 
   /**
    * @see {@link TagResourceCommand}
@@ -659,7 +887,14 @@ export interface EventBridgeService {
   tagResource(
     args: TagResourceCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<TagResourceCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    TagResourceCommandOutput,
+    | SdkError
+    | ConcurrentModificationError
+    | InternalError
+    | ManagedRuleError
+    | ResourceNotFoundError
+  >;
 
   /**
    * @see {@link TestEventPatternCommand}
@@ -667,7 +902,10 @@ export interface EventBridgeService {
   testEventPattern(
     args: TestEventPatternCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<TestEventPatternCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    TestEventPatternCommandOutput,
+    SdkError | InternalError | InvalidEventPatternError
+  >;
 
   /**
    * @see {@link UntagResourceCommand}
@@ -675,7 +913,14 @@ export interface EventBridgeService {
   untagResource(
     args: UntagResourceCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<UntagResourceCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    UntagResourceCommandOutput,
+    | SdkError
+    | ConcurrentModificationError
+    | InternalError
+    | ManagedRuleError
+    | ResourceNotFoundError
+  >;
 
   /**
    * @see {@link UpdateApiDestinationCommand}
@@ -683,7 +928,14 @@ export interface EventBridgeService {
   updateApiDestination(
     args: UpdateApiDestinationCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<UpdateApiDestinationCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    UpdateApiDestinationCommandOutput,
+    | SdkError
+    | ConcurrentModificationError
+    | InternalError
+    | LimitExceededError
+    | ResourceNotFoundError
+  >;
 
   /**
    * @see {@link UpdateArchiveCommand}
@@ -691,7 +943,15 @@ export interface EventBridgeService {
   updateArchive(
     args: UpdateArchiveCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<UpdateArchiveCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    UpdateArchiveCommandOutput,
+    | SdkError
+    | ConcurrentModificationError
+    | InternalError
+    | InvalidEventPatternError
+    | LimitExceededError
+    | ResourceNotFoundError
+  >;
 
   /**
    * @see {@link UpdateConnectionCommand}
@@ -699,7 +959,14 @@ export interface EventBridgeService {
   updateConnection(
     args: UpdateConnectionCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<UpdateConnectionCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    UpdateConnectionCommandOutput,
+    | SdkError
+    | ConcurrentModificationError
+    | InternalError
+    | LimitExceededError
+    | ResourceNotFoundError
+  >;
 
   /**
    * @see {@link UpdateEndpointCommand}
@@ -707,7 +974,13 @@ export interface EventBridgeService {
   updateEndpoint(
     args: UpdateEndpointCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<UpdateEndpointCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    UpdateEndpointCommandOutput,
+    | SdkError
+    | ConcurrentModificationError
+    | InternalError
+    | ResourceNotFoundError
+  >;
 }
 
 /**
@@ -728,9 +1001,31 @@ export const makeEventBridgeService = Effect.gen(function* (_) {
   return ReadonlyRecord.toEntries(commands).reduce((acc, [command]) => {
     const CommandCtor = commands[command] as any;
     const methodImpl = (args: any, options: any) =>
-      Effect.tryPromise(() =>
-        client.send(new CommandCtor(args), options ?? {}),
-      );
+      Effect.tryPromise({
+        try: () => client.send(new CommandCtor(args), options ?? {}),
+        catch: (e) => {
+          if (e instanceof EventBridgeServiceException) {
+            const ServiceException = Data.tagged<
+              TaggedException<EventBridgeServiceException>
+            >(e.name);
+
+            return ServiceException({
+              ...e,
+              message: e.message,
+              stack: e.stack,
+            });
+          }
+          if (e instanceof Error) {
+            return SdkError({
+              ...e,
+              name: "SdkError",
+              message: e.message,
+              stack: e.stack,
+            });
+          }
+          throw e;
+        },
+      });
     const methodName = (command[0].toLowerCase() + command.slice(1)).replace(
       /Command$/,
       "",

@@ -1,7 +1,7 @@
 import {
+  type InvokeCommandInput,
   InvokeCommand,
   LambdaClient,
-  InvokeCommandInput,
 } from "@aws-sdk/client-lambda";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
@@ -16,20 +16,22 @@ import {
   LambdaClientInstanceConfig,
   LambdaService,
   LambdaServiceLayer,
+  SdkError,
 } from "../src";
 
 import "aws-sdk-client-mock-jest";
 
-const lambdaMock = mockClient(LambdaClient);
-const { invoke } = Effect.serviceFunctions(LambdaService);
+const clientMock = mockClient(LambdaClient);
 
 describe("LambdaClientImpl", () => {
   it("default", async () => {
-    lambdaMock.reset().on(InvokeCommand).resolves({});
+    clientMock.reset().on(InvokeCommand).resolves({});
 
     const args: InvokeCommandInput = { FunctionName: "test", Payload: "test" };
 
-    const program = invoke(args);
+    const program = Effect.flatMap(LambdaService, (service) =>
+      service.invoke(args),
+    );
 
     const result = await pipe(
       program,
@@ -38,16 +40,18 @@ describe("LambdaClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(lambdaMock).toHaveReceivedCommandTimes(InvokeCommand, 1);
-    expect(lambdaMock).toHaveReceivedCommandWith(InvokeCommand, args);
+    expect(clientMock).toHaveReceivedCommandTimes(InvokeCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(InvokeCommand, args);
   });
 
   it("configurable", async () => {
-    lambdaMock.reset().on(InvokeCommand).resolves({});
+    clientMock.reset().on(InvokeCommand).resolves({});
 
     const args: InvokeCommandInput = { FunctionName: "test", Payload: "test" };
 
-    const program = invoke(args);
+    const program = Effect.flatMap(LambdaService, (service) =>
+      service.invoke(args),
+    );
 
     const LambdaClientConfigLayer = Layer.succeed(LambdaClientInstanceConfig, {
       region: "eu-central-1",
@@ -63,16 +67,18 @@ describe("LambdaClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(lambdaMock).toHaveReceivedCommandTimes(InvokeCommand, 1);
-    expect(lambdaMock).toHaveReceivedCommandWith(InvokeCommand, args);
+    expect(clientMock).toHaveReceivedCommandTimes(InvokeCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(InvokeCommand, args);
   });
 
   it("base", async () => {
-    lambdaMock.reset().on(InvokeCommand).resolves({});
+    clientMock.reset().on(InvokeCommand).resolves({});
 
     const args: InvokeCommandInput = { FunctionName: "test", Payload: "test" };
 
-    const program = invoke(args);
+    const program = Effect.flatMap(LambdaService, (service) =>
+      service.invoke(args),
+    );
 
     const LambdaClientInstanceLayer = Layer.succeed(
       LambdaClientInstance,
@@ -89,16 +95,18 @@ describe("LambdaClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(lambdaMock).toHaveReceivedCommandTimes(InvokeCommand, 1);
-    expect(lambdaMock).toHaveReceivedCommandWith(InvokeCommand, args);
+    expect(clientMock).toHaveReceivedCommandTimes(InvokeCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(InvokeCommand, args);
   });
 
   it("extended", async () => {
-    lambdaMock.reset().on(InvokeCommand).resolves({});
+    clientMock.reset().on(InvokeCommand).resolves({});
 
     const args: InvokeCommandInput = { FunctionName: "test", Payload: "test" };
 
-    const program = invoke(args);
+    const program = Effect.flatMap(LambdaService, (service) =>
+      service.invoke(args),
+    );
 
     const LambdaClientInstanceLayer = Layer.effect(
       LambdaClientInstance,
@@ -119,16 +127,18 @@ describe("LambdaClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(lambdaMock).toHaveReceivedCommandTimes(InvokeCommand, 1);
-    expect(lambdaMock).toHaveReceivedCommandWith(InvokeCommand, args);
+    expect(clientMock).toHaveReceivedCommandTimes(InvokeCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(InvokeCommand, args);
   });
 
   it("fail", async () => {
-    lambdaMock.reset().on(InvokeCommand).rejects(new Error("test"));
+    clientMock.reset().on(InvokeCommand).rejects(new Error("test"));
 
     const args: InvokeCommandInput = { FunctionName: "test", Payload: "test" };
 
-    const program = invoke(args, { requestTimeout: 1000 });
+    const program = Effect.flatMap(LambdaService, (service) =>
+      service.invoke(args),
+    );
 
     const result = await pipe(
       program,
@@ -136,8 +146,17 @@ describe("LambdaClientImpl", () => {
       Effect.runPromiseExit,
     );
 
-    expect(result).toEqual(Exit.fail(new Error("test")));
-    expect(lambdaMock).toHaveReceivedCommandTimes(InvokeCommand, 1);
-    expect(lambdaMock).toHaveReceivedCommandWith(InvokeCommand, args);
+    expect(result).toEqual(
+      Exit.fail(
+        SdkError({
+          ...new Error("test"),
+          name: "SdkError",
+          message: "test",
+          stack: expect.any(String),
+        }),
+      ),
+    );
+    expect(clientMock).toHaveReceivedCommandTimes(InvokeCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(InvokeCommand, args);
   });
 });

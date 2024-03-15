@@ -2,207 +2,250 @@
  * @since 1.0.0
  */
 import {
+  LambdaServiceException,
   AddLayerVersionPermissionCommand,
-  AddLayerVersionPermissionCommandInput,
-  AddLayerVersionPermissionCommandOutput,
+  type AddLayerVersionPermissionCommandInput,
+  type AddLayerVersionPermissionCommandOutput,
   AddPermissionCommand,
-  AddPermissionCommandInput,
-  AddPermissionCommandOutput,
+  type AddPermissionCommandInput,
+  type AddPermissionCommandOutput,
   CreateAliasCommand,
-  CreateAliasCommandInput,
-  CreateAliasCommandOutput,
+  type CreateAliasCommandInput,
+  type CreateAliasCommandOutput,
   CreateCodeSigningConfigCommand,
-  CreateCodeSigningConfigCommandInput,
-  CreateCodeSigningConfigCommandOutput,
+  type CreateCodeSigningConfigCommandInput,
+  type CreateCodeSigningConfigCommandOutput,
   CreateEventSourceMappingCommand,
-  CreateEventSourceMappingCommandInput,
-  CreateEventSourceMappingCommandOutput,
+  type CreateEventSourceMappingCommandInput,
+  type CreateEventSourceMappingCommandOutput,
   CreateFunctionCommand,
-  CreateFunctionCommandInput,
-  CreateFunctionCommandOutput,
+  type CreateFunctionCommandInput,
+  type CreateFunctionCommandOutput,
   CreateFunctionUrlConfigCommand,
-  CreateFunctionUrlConfigCommandInput,
-  CreateFunctionUrlConfigCommandOutput,
+  type CreateFunctionUrlConfigCommandInput,
+  type CreateFunctionUrlConfigCommandOutput,
   DeleteAliasCommand,
-  DeleteAliasCommandInput,
-  DeleteAliasCommandOutput,
+  type DeleteAliasCommandInput,
+  type DeleteAliasCommandOutput,
   DeleteCodeSigningConfigCommand,
-  DeleteCodeSigningConfigCommandInput,
-  DeleteCodeSigningConfigCommandOutput,
+  type DeleteCodeSigningConfigCommandInput,
+  type DeleteCodeSigningConfigCommandOutput,
   DeleteEventSourceMappingCommand,
-  DeleteEventSourceMappingCommandInput,
-  DeleteEventSourceMappingCommandOutput,
-  DeleteFunctionCodeSigningConfigCommand,
-  DeleteFunctionCodeSigningConfigCommandInput,
-  DeleteFunctionCodeSigningConfigCommandOutput,
+  type DeleteEventSourceMappingCommandInput,
+  type DeleteEventSourceMappingCommandOutput,
   DeleteFunctionCommand,
-  DeleteFunctionCommandInput,
-  DeleteFunctionCommandOutput,
+  type DeleteFunctionCommandInput,
+  type DeleteFunctionCommandOutput,
+  DeleteFunctionCodeSigningConfigCommand,
+  type DeleteFunctionCodeSigningConfigCommandInput,
+  type DeleteFunctionCodeSigningConfigCommandOutput,
   DeleteFunctionConcurrencyCommand,
-  DeleteFunctionConcurrencyCommandInput,
-  DeleteFunctionConcurrencyCommandOutput,
+  type DeleteFunctionConcurrencyCommandInput,
+  type DeleteFunctionConcurrencyCommandOutput,
   DeleteFunctionEventInvokeConfigCommand,
-  DeleteFunctionEventInvokeConfigCommandInput,
-  DeleteFunctionEventInvokeConfigCommandOutput,
+  type DeleteFunctionEventInvokeConfigCommandInput,
+  type DeleteFunctionEventInvokeConfigCommandOutput,
   DeleteFunctionUrlConfigCommand,
-  DeleteFunctionUrlConfigCommandInput,
-  DeleteFunctionUrlConfigCommandOutput,
+  type DeleteFunctionUrlConfigCommandInput,
+  type DeleteFunctionUrlConfigCommandOutput,
   DeleteLayerVersionCommand,
-  DeleteLayerVersionCommandInput,
-  DeleteLayerVersionCommandOutput,
+  type DeleteLayerVersionCommandInput,
+  type DeleteLayerVersionCommandOutput,
   DeleteProvisionedConcurrencyConfigCommand,
-  DeleteProvisionedConcurrencyConfigCommandInput,
-  DeleteProvisionedConcurrencyConfigCommandOutput,
+  type DeleteProvisionedConcurrencyConfigCommandInput,
+  type DeleteProvisionedConcurrencyConfigCommandOutput,
   GetAccountSettingsCommand,
-  GetAccountSettingsCommandInput,
-  GetAccountSettingsCommandOutput,
+  type GetAccountSettingsCommandInput,
+  type GetAccountSettingsCommandOutput,
   GetAliasCommand,
-  GetAliasCommandInput,
-  GetAliasCommandOutput,
+  type GetAliasCommandInput,
+  type GetAliasCommandOutput,
   GetCodeSigningConfigCommand,
-  GetCodeSigningConfigCommandInput,
-  GetCodeSigningConfigCommandOutput,
+  type GetCodeSigningConfigCommandInput,
+  type GetCodeSigningConfigCommandOutput,
   GetEventSourceMappingCommand,
-  GetEventSourceMappingCommandInput,
-  GetEventSourceMappingCommandOutput,
-  GetFunctionCodeSigningConfigCommand,
-  GetFunctionCodeSigningConfigCommandInput,
-  GetFunctionCodeSigningConfigCommandOutput,
+  type GetEventSourceMappingCommandInput,
+  type GetEventSourceMappingCommandOutput,
   GetFunctionCommand,
-  GetFunctionCommandInput,
-  GetFunctionCommandOutput,
+  type GetFunctionCommandInput,
+  type GetFunctionCommandOutput,
+  GetFunctionCodeSigningConfigCommand,
+  type GetFunctionCodeSigningConfigCommandInput,
+  type GetFunctionCodeSigningConfigCommandOutput,
   GetFunctionConcurrencyCommand,
-  GetFunctionConcurrencyCommandInput,
-  GetFunctionConcurrencyCommandOutput,
+  type GetFunctionConcurrencyCommandInput,
+  type GetFunctionConcurrencyCommandOutput,
   GetFunctionConfigurationCommand,
-  GetFunctionConfigurationCommandInput,
-  GetFunctionConfigurationCommandOutput,
+  type GetFunctionConfigurationCommandInput,
+  type GetFunctionConfigurationCommandOutput,
   GetFunctionEventInvokeConfigCommand,
-  GetFunctionEventInvokeConfigCommandInput,
-  GetFunctionEventInvokeConfigCommandOutput,
+  type GetFunctionEventInvokeConfigCommandInput,
+  type GetFunctionEventInvokeConfigCommandOutput,
   GetFunctionUrlConfigCommand,
-  GetFunctionUrlConfigCommandInput,
-  GetFunctionUrlConfigCommandOutput,
-  GetLayerVersionByArnCommand,
-  GetLayerVersionByArnCommandInput,
-  GetLayerVersionByArnCommandOutput,
+  type GetFunctionUrlConfigCommandInput,
+  type GetFunctionUrlConfigCommandOutput,
   GetLayerVersionCommand,
-  GetLayerVersionCommandInput,
-  GetLayerVersionCommandOutput,
+  type GetLayerVersionCommandInput,
+  type GetLayerVersionCommandOutput,
+  GetLayerVersionByArnCommand,
+  type GetLayerVersionByArnCommandInput,
+  type GetLayerVersionByArnCommandOutput,
   GetLayerVersionPolicyCommand,
-  GetLayerVersionPolicyCommandInput,
-  GetLayerVersionPolicyCommandOutput,
+  type GetLayerVersionPolicyCommandInput,
+  type GetLayerVersionPolicyCommandOutput,
   GetPolicyCommand,
-  GetPolicyCommandInput,
-  GetPolicyCommandOutput,
+  type GetPolicyCommandInput,
+  type GetPolicyCommandOutput,
   GetProvisionedConcurrencyConfigCommand,
-  GetProvisionedConcurrencyConfigCommandInput,
-  GetProvisionedConcurrencyConfigCommandOutput,
+  type GetProvisionedConcurrencyConfigCommandInput,
+  type GetProvisionedConcurrencyConfigCommandOutput,
   GetRuntimeManagementConfigCommand,
-  GetRuntimeManagementConfigCommandInput,
-  GetRuntimeManagementConfigCommandOutput,
-  InvokeAsyncCommand,
-  InvokeAsyncCommandInput,
-  InvokeAsyncCommandOutput,
+  type GetRuntimeManagementConfigCommandInput,
+  type GetRuntimeManagementConfigCommandOutput,
   InvokeCommand,
-  InvokeCommandInput,
-  InvokeCommandOutput,
+  type InvokeCommandInput,
+  type InvokeCommandOutput,
+  InvokeAsyncCommand,
+  type InvokeAsyncCommandInput,
+  type InvokeAsyncCommandOutput,
   InvokeWithResponseStreamCommand,
-  InvokeWithResponseStreamCommandInput,
-  InvokeWithResponseStreamCommandOutput,
+  type InvokeWithResponseStreamCommandInput,
+  type InvokeWithResponseStreamCommandOutput,
   ListAliasesCommand,
-  ListAliasesCommandInput,
-  ListAliasesCommandOutput,
+  type ListAliasesCommandInput,
+  type ListAliasesCommandOutput,
   ListCodeSigningConfigsCommand,
-  ListCodeSigningConfigsCommandInput,
-  ListCodeSigningConfigsCommandOutput,
+  type ListCodeSigningConfigsCommandInput,
+  type ListCodeSigningConfigsCommandOutput,
   ListEventSourceMappingsCommand,
-  ListEventSourceMappingsCommandInput,
-  ListEventSourceMappingsCommandOutput,
+  type ListEventSourceMappingsCommandInput,
+  type ListEventSourceMappingsCommandOutput,
   ListFunctionEventInvokeConfigsCommand,
-  ListFunctionEventInvokeConfigsCommandInput,
-  ListFunctionEventInvokeConfigsCommandOutput,
-  ListFunctionUrlConfigsCommand,
-  ListFunctionUrlConfigsCommandInput,
-  ListFunctionUrlConfigsCommandOutput,
-  ListFunctionsByCodeSigningConfigCommand,
-  ListFunctionsByCodeSigningConfigCommandInput,
-  ListFunctionsByCodeSigningConfigCommandOutput,
+  type ListFunctionEventInvokeConfigsCommandInput,
+  type ListFunctionEventInvokeConfigsCommandOutput,
   ListFunctionsCommand,
-  ListFunctionsCommandInput,
-  ListFunctionsCommandOutput,
-  ListLayerVersionsCommand,
-  ListLayerVersionsCommandInput,
-  ListLayerVersionsCommandOutput,
+  type ListFunctionsCommandInput,
+  type ListFunctionsCommandOutput,
+  ListFunctionsByCodeSigningConfigCommand,
+  type ListFunctionsByCodeSigningConfigCommandInput,
+  type ListFunctionsByCodeSigningConfigCommandOutput,
+  ListFunctionUrlConfigsCommand,
+  type ListFunctionUrlConfigsCommandInput,
+  type ListFunctionUrlConfigsCommandOutput,
   ListLayersCommand,
-  ListLayersCommandInput,
-  ListLayersCommandOutput,
+  type ListLayersCommandInput,
+  type ListLayersCommandOutput,
+  ListLayerVersionsCommand,
+  type ListLayerVersionsCommandInput,
+  type ListLayerVersionsCommandOutput,
   ListProvisionedConcurrencyConfigsCommand,
-  ListProvisionedConcurrencyConfigsCommandInput,
-  ListProvisionedConcurrencyConfigsCommandOutput,
+  type ListProvisionedConcurrencyConfigsCommandInput,
+  type ListProvisionedConcurrencyConfigsCommandOutput,
   ListTagsCommand,
-  ListTagsCommandInput,
-  ListTagsCommandOutput,
+  type ListTagsCommandInput,
+  type ListTagsCommandOutput,
   ListVersionsByFunctionCommand,
-  ListVersionsByFunctionCommandInput,
-  ListVersionsByFunctionCommandOutput,
+  type ListVersionsByFunctionCommandInput,
+  type ListVersionsByFunctionCommandOutput,
   PublishLayerVersionCommand,
-  PublishLayerVersionCommandInput,
-  PublishLayerVersionCommandOutput,
+  type PublishLayerVersionCommandInput,
+  type PublishLayerVersionCommandOutput,
   PublishVersionCommand,
-  PublishVersionCommandInput,
-  PublishVersionCommandOutput,
+  type PublishVersionCommandInput,
+  type PublishVersionCommandOutput,
   PutFunctionCodeSigningConfigCommand,
-  PutFunctionCodeSigningConfigCommandInput,
-  PutFunctionCodeSigningConfigCommandOutput,
+  type PutFunctionCodeSigningConfigCommandInput,
+  type PutFunctionCodeSigningConfigCommandOutput,
   PutFunctionConcurrencyCommand,
-  PutFunctionConcurrencyCommandInput,
-  PutFunctionConcurrencyCommandOutput,
+  type PutFunctionConcurrencyCommandInput,
+  type PutFunctionConcurrencyCommandOutput,
   PutFunctionEventInvokeConfigCommand,
-  PutFunctionEventInvokeConfigCommandInput,
-  PutFunctionEventInvokeConfigCommandOutput,
+  type PutFunctionEventInvokeConfigCommandInput,
+  type PutFunctionEventInvokeConfigCommandOutput,
   PutProvisionedConcurrencyConfigCommand,
-  PutProvisionedConcurrencyConfigCommandInput,
-  PutProvisionedConcurrencyConfigCommandOutput,
+  type PutProvisionedConcurrencyConfigCommandInput,
+  type PutProvisionedConcurrencyConfigCommandOutput,
   PutRuntimeManagementConfigCommand,
-  PutRuntimeManagementConfigCommandInput,
-  PutRuntimeManagementConfigCommandOutput,
+  type PutRuntimeManagementConfigCommandInput,
+  type PutRuntimeManagementConfigCommandOutput,
   RemoveLayerVersionPermissionCommand,
-  RemoveLayerVersionPermissionCommandInput,
-  RemoveLayerVersionPermissionCommandOutput,
+  type RemoveLayerVersionPermissionCommandInput,
+  type RemoveLayerVersionPermissionCommandOutput,
   RemovePermissionCommand,
-  RemovePermissionCommandInput,
-  RemovePermissionCommandOutput,
+  type RemovePermissionCommandInput,
+  type RemovePermissionCommandOutput,
   TagResourceCommand,
-  TagResourceCommandInput,
-  TagResourceCommandOutput,
+  type TagResourceCommandInput,
+  type TagResourceCommandOutput,
   UntagResourceCommand,
-  UntagResourceCommandInput,
-  UntagResourceCommandOutput,
+  type UntagResourceCommandInput,
+  type UntagResourceCommandOutput,
   UpdateAliasCommand,
-  UpdateAliasCommandInput,
-  UpdateAliasCommandOutput,
+  type UpdateAliasCommandInput,
+  type UpdateAliasCommandOutput,
   UpdateCodeSigningConfigCommand,
-  UpdateCodeSigningConfigCommandInput,
-  UpdateCodeSigningConfigCommandOutput,
+  type UpdateCodeSigningConfigCommandInput,
+  type UpdateCodeSigningConfigCommandOutput,
   UpdateEventSourceMappingCommand,
-  UpdateEventSourceMappingCommandInput,
-  UpdateEventSourceMappingCommandOutput,
+  type UpdateEventSourceMappingCommandInput,
+  type UpdateEventSourceMappingCommandOutput,
   UpdateFunctionCodeCommand,
-  UpdateFunctionCodeCommandInput,
-  UpdateFunctionCodeCommandOutput,
+  type UpdateFunctionCodeCommandInput,
+  type UpdateFunctionCodeCommandOutput,
   UpdateFunctionConfigurationCommand,
-  UpdateFunctionConfigurationCommandInput,
-  UpdateFunctionConfigurationCommandOutput,
+  type UpdateFunctionConfigurationCommandInput,
+  type UpdateFunctionConfigurationCommandOutput,
   UpdateFunctionEventInvokeConfigCommand,
-  UpdateFunctionEventInvokeConfigCommandInput,
-  UpdateFunctionEventInvokeConfigCommandOutput,
+  type UpdateFunctionEventInvokeConfigCommandInput,
+  type UpdateFunctionEventInvokeConfigCommandOutput,
   UpdateFunctionUrlConfigCommand,
-  UpdateFunctionUrlConfigCommandInput,
-  UpdateFunctionUrlConfigCommandOutput,
+  type UpdateFunctionUrlConfigCommandInput,
+  type UpdateFunctionUrlConfigCommandOutput,
 } from "@aws-sdk/client-lambda";
-import { HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
-import { Cause, Context, Effect, Layer, ReadonlyRecord } from "effect";
+import { type HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
+import { Context, Data, Effect, Layer, ReadonlyRecord } from "effect";
+import {
+  CodeSigningConfigNotFoundError,
+  CodeStorageExceededError,
+  CodeVerificationFailedError,
+  EC2AccessDeniedError,
+  EC2ThrottledError,
+  EC2UnexpectedError,
+  EFSIOError,
+  EFSMountConnectivityError,
+  EFSMountFailureError,
+  EFSMountTimeoutError,
+  ENILimitReachedError,
+  InvalidCodeSignatureError,
+  InvalidParameterValueError,
+  InvalidRequestContentError,
+  InvalidRuntimeError,
+  InvalidSecurityGroupIDError,
+  InvalidSubnetIDError,
+  InvalidZipFileError,
+  KMSAccessDeniedError,
+  KMSDisabledError,
+  KMSInvalidStateError,
+  KMSNotFoundError,
+  PolicyLengthExceededError,
+  PreconditionFailedError,
+  ProvisionedConcurrencyConfigNotFoundError,
+  RecursiveInvocationError,
+  RequestTooLargeError,
+  ResourceConflictError,
+  ResourceInUseError,
+  ResourceNotFoundError,
+  ResourceNotReadyError,
+  ServiceError,
+  SnapStartError,
+  SnapStartNotReadyError,
+  SnapStartTimeoutError,
+  SubnetIPAddressLimitReachedError,
+  TooManyRequestsError,
+  UnsupportedMediaTypeError,
+  SdkError,
+  TaggedException,
+} from "./Errors";
 import {
   DefaultLambdaClientInstanceLayer,
   LambdaClientInstance,
@@ -294,7 +337,14 @@ export interface LambdaService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     AddLayerVersionPermissionCommandOutput,
-    Cause.UnknownException
+    | SdkError
+    | InvalidParameterValueError
+    | PolicyLengthExceededError
+    | PreconditionFailedError
+    | ResourceConflictError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
   >;
 
   /**
@@ -303,7 +353,17 @@ export interface LambdaService {
   addPermission(
     args: AddPermissionCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<AddPermissionCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    AddPermissionCommandOutput,
+    | SdkError
+    | InvalidParameterValueError
+    | PolicyLengthExceededError
+    | PreconditionFailedError
+    | ResourceConflictError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
 
   /**
    * @see {@link CreateAliasCommand}
@@ -311,7 +371,15 @@ export interface LambdaService {
   createAlias(
     args: CreateAliasCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<CreateAliasCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    CreateAliasCommandOutput,
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceConflictError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
 
   /**
    * @see {@link CreateCodeSigningConfigCommand}
@@ -321,7 +389,7 @@ export interface LambdaService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     CreateCodeSigningConfigCommandOutput,
-    Cause.UnknownException
+    SdkError | InvalidParameterValueError | ServiceError
   >;
 
   /**
@@ -332,7 +400,12 @@ export interface LambdaService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     CreateEventSourceMappingCommandOutput,
-    Cause.UnknownException
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceConflictError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
   >;
 
   /**
@@ -341,7 +414,19 @@ export interface LambdaService {
   createFunction(
     args: CreateFunctionCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<CreateFunctionCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    CreateFunctionCommandOutput,
+    | SdkError
+    | CodeSigningConfigNotFoundError
+    | CodeStorageExceededError
+    | CodeVerificationFailedError
+    | InvalidCodeSignatureError
+    | InvalidParameterValueError
+    | ResourceConflictError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
 
   /**
    * @see {@link CreateFunctionUrlConfigCommand}
@@ -351,7 +436,12 @@ export interface LambdaService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     CreateFunctionUrlConfigCommandOutput,
-    Cause.UnknownException
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceConflictError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
   >;
 
   /**
@@ -360,7 +450,14 @@ export interface LambdaService {
   deleteAlias(
     args: DeleteAliasCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<DeleteAliasCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    DeleteAliasCommandOutput,
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceConflictError
+    | ServiceError
+    | TooManyRequestsError
+  >;
 
   /**
    * @see {@link DeleteCodeSigningConfigCommand}
@@ -370,7 +467,11 @@ export interface LambdaService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     DeleteCodeSigningConfigCommandOutput,
-    Cause.UnknownException
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceConflictError
+    | ResourceNotFoundError
+    | ServiceError
   >;
 
   /**
@@ -381,7 +482,13 @@ export interface LambdaService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     DeleteEventSourceMappingCommandOutput,
-    Cause.UnknownException
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceConflictError
+    | ResourceInUseError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
   >;
 
   /**
@@ -390,7 +497,15 @@ export interface LambdaService {
   deleteFunction(
     args: DeleteFunctionCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<DeleteFunctionCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    DeleteFunctionCommandOutput,
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceConflictError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
 
   /**
    * @see {@link DeleteFunctionCodeSigningConfigCommand}
@@ -400,7 +515,13 @@ export interface LambdaService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     DeleteFunctionCodeSigningConfigCommandOutput,
-    Cause.UnknownException
+    | SdkError
+    | CodeSigningConfigNotFoundError
+    | InvalidParameterValueError
+    | ResourceConflictError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
   >;
 
   /**
@@ -411,7 +532,12 @@ export interface LambdaService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     DeleteFunctionConcurrencyCommandOutput,
-    Cause.UnknownException
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceConflictError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
   >;
 
   /**
@@ -422,7 +548,12 @@ export interface LambdaService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     DeleteFunctionEventInvokeConfigCommandOutput,
-    Cause.UnknownException
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceConflictError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
   >;
 
   /**
@@ -433,7 +564,11 @@ export interface LambdaService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     DeleteFunctionUrlConfigCommandOutput,
-    Cause.UnknownException
+    | SdkError
+    | ResourceConflictError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
   >;
 
   /**
@@ -442,7 +577,10 @@ export interface LambdaService {
   deleteLayerVersion(
     args: DeleteLayerVersionCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<DeleteLayerVersionCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    DeleteLayerVersionCommandOutput,
+    SdkError | ServiceError | TooManyRequestsError
+  >;
 
   /**
    * @see {@link DeleteProvisionedConcurrencyConfigCommand}
@@ -452,7 +590,12 @@ export interface LambdaService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     DeleteProvisionedConcurrencyConfigCommandOutput,
-    Cause.UnknownException
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceConflictError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
   >;
 
   /**
@@ -461,7 +604,10 @@ export interface LambdaService {
   getAccountSettings(
     args: GetAccountSettingsCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<GetAccountSettingsCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    GetAccountSettingsCommandOutput,
+    SdkError | ServiceError | TooManyRequestsError
+  >;
 
   /**
    * @see {@link GetAliasCommand}
@@ -469,7 +615,14 @@ export interface LambdaService {
   getAlias(
     args: GetAliasCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<GetAliasCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    GetAliasCommandOutput,
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
 
   /**
    * @see {@link GetCodeSigningConfigCommand}
@@ -477,7 +630,10 @@ export interface LambdaService {
   getCodeSigningConfig(
     args: GetCodeSigningConfigCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<GetCodeSigningConfigCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    GetCodeSigningConfigCommandOutput,
+    SdkError | InvalidParameterValueError | ResourceNotFoundError | ServiceError
+  >;
 
   /**
    * @see {@link GetEventSourceMappingCommand}
@@ -485,7 +641,14 @@ export interface LambdaService {
   getEventSourceMapping(
     args: GetEventSourceMappingCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<GetEventSourceMappingCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    GetEventSourceMappingCommandOutput,
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
 
   /**
    * @see {@link GetFunctionCommand}
@@ -493,7 +656,14 @@ export interface LambdaService {
   getFunction(
     args: GetFunctionCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<GetFunctionCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    GetFunctionCommandOutput,
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
 
   /**
    * @see {@link GetFunctionCodeSigningConfigCommand}
@@ -503,7 +673,11 @@ export interface LambdaService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     GetFunctionCodeSigningConfigCommandOutput,
-    Cause.UnknownException
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
   >;
 
   /**
@@ -512,7 +686,14 @@ export interface LambdaService {
   getFunctionConcurrency(
     args: GetFunctionConcurrencyCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<GetFunctionConcurrencyCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    GetFunctionConcurrencyCommandOutput,
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
 
   /**
    * @see {@link GetFunctionConfigurationCommand}
@@ -522,7 +703,11 @@ export interface LambdaService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     GetFunctionConfigurationCommandOutput,
-    Cause.UnknownException
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
   >;
 
   /**
@@ -533,7 +718,11 @@ export interface LambdaService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     GetFunctionEventInvokeConfigCommandOutput,
-    Cause.UnknownException
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
   >;
 
   /**
@@ -542,7 +731,14 @@ export interface LambdaService {
   getFunctionUrlConfig(
     args: GetFunctionUrlConfigCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<GetFunctionUrlConfigCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    GetFunctionUrlConfigCommandOutput,
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
 
   /**
    * @see {@link GetLayerVersionCommand}
@@ -550,7 +746,14 @@ export interface LambdaService {
   getLayerVersion(
     args: GetLayerVersionCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<GetLayerVersionCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    GetLayerVersionCommandOutput,
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
 
   /**
    * @see {@link GetLayerVersionByArnCommand}
@@ -558,7 +761,14 @@ export interface LambdaService {
   getLayerVersionByArn(
     args: GetLayerVersionByArnCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<GetLayerVersionByArnCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    GetLayerVersionByArnCommandOutput,
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
 
   /**
    * @see {@link GetLayerVersionPolicyCommand}
@@ -566,7 +776,14 @@ export interface LambdaService {
   getLayerVersionPolicy(
     args: GetLayerVersionPolicyCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<GetLayerVersionPolicyCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    GetLayerVersionPolicyCommandOutput,
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
 
   /**
    * @see {@link GetPolicyCommand}
@@ -574,7 +791,14 @@ export interface LambdaService {
   getPolicy(
     args: GetPolicyCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<GetPolicyCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    GetPolicyCommandOutput,
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
 
   /**
    * @see {@link GetProvisionedConcurrencyConfigCommand}
@@ -584,7 +808,12 @@ export interface LambdaService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     GetProvisionedConcurrencyConfigCommandOutput,
-    Cause.UnknownException
+    | SdkError
+    | InvalidParameterValueError
+    | ProvisionedConcurrencyConfigNotFoundError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
   >;
 
   /**
@@ -595,7 +824,11 @@ export interface LambdaService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     GetRuntimeManagementConfigCommandOutput,
-    Cause.UnknownException
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
   >;
 
   /**
@@ -604,7 +837,40 @@ export interface LambdaService {
   invoke(
     args: InvokeCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<InvokeCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    InvokeCommandOutput,
+    | SdkError
+    | EC2AccessDeniedError
+    | EC2ThrottledError
+    | EC2UnexpectedError
+    | EFSIOError
+    | EFSMountConnectivityError
+    | EFSMountFailureError
+    | EFSMountTimeoutError
+    | ENILimitReachedError
+    | InvalidParameterValueError
+    | InvalidRequestContentError
+    | InvalidRuntimeError
+    | InvalidSecurityGroupIDError
+    | InvalidSubnetIDError
+    | InvalidZipFileError
+    | KMSAccessDeniedError
+    | KMSDisabledError
+    | KMSInvalidStateError
+    | KMSNotFoundError
+    | RecursiveInvocationError
+    | RequestTooLargeError
+    | ResourceConflictError
+    | ResourceNotFoundError
+    | ResourceNotReadyError
+    | ServiceError
+    | SnapStartError
+    | SnapStartNotReadyError
+    | SnapStartTimeoutError
+    | SubnetIPAddressLimitReachedError
+    | TooManyRequestsError
+    | UnsupportedMediaTypeError
+  >;
 
   /**
    * @see {@link InvokeAsyncCommand}
@@ -612,7 +878,15 @@ export interface LambdaService {
   invokeAsync(
     args: InvokeAsyncCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<InvokeAsyncCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    InvokeAsyncCommandOutput,
+    | SdkError
+    | InvalidRequestContentError
+    | InvalidRuntimeError
+    | ResourceConflictError
+    | ResourceNotFoundError
+    | ServiceError
+  >;
 
   /**
    * @see {@link InvokeWithResponseStreamCommand}
@@ -622,7 +896,37 @@ export interface LambdaService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     InvokeWithResponseStreamCommandOutput,
-    Cause.UnknownException
+    | SdkError
+    | EC2AccessDeniedError
+    | EC2ThrottledError
+    | EC2UnexpectedError
+    | EFSIOError
+    | EFSMountConnectivityError
+    | EFSMountFailureError
+    | EFSMountTimeoutError
+    | ENILimitReachedError
+    | InvalidParameterValueError
+    | InvalidRequestContentError
+    | InvalidRuntimeError
+    | InvalidSecurityGroupIDError
+    | InvalidSubnetIDError
+    | InvalidZipFileError
+    | KMSAccessDeniedError
+    | KMSDisabledError
+    | KMSInvalidStateError
+    | KMSNotFoundError
+    | RecursiveInvocationError
+    | RequestTooLargeError
+    | ResourceConflictError
+    | ResourceNotFoundError
+    | ResourceNotReadyError
+    | ServiceError
+    | SnapStartError
+    | SnapStartNotReadyError
+    | SnapStartTimeoutError
+    | SubnetIPAddressLimitReachedError
+    | TooManyRequestsError
+    | UnsupportedMediaTypeError
   >;
 
   /**
@@ -631,7 +935,14 @@ export interface LambdaService {
   listAliases(
     args: ListAliasesCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<ListAliasesCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    ListAliasesCommandOutput,
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
 
   /**
    * @see {@link ListCodeSigningConfigsCommand}
@@ -639,7 +950,10 @@ export interface LambdaService {
   listCodeSigningConfigs(
     args: ListCodeSigningConfigsCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<ListCodeSigningConfigsCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    ListCodeSigningConfigsCommandOutput,
+    SdkError | InvalidParameterValueError | ServiceError
+  >;
 
   /**
    * @see {@link ListEventSourceMappingsCommand}
@@ -649,7 +963,11 @@ export interface LambdaService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     ListEventSourceMappingsCommandOutput,
-    Cause.UnknownException
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
   >;
 
   /**
@@ -660,7 +978,11 @@ export interface LambdaService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     ListFunctionEventInvokeConfigsCommandOutput,
-    Cause.UnknownException
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
   >;
 
   /**
@@ -669,7 +991,10 @@ export interface LambdaService {
   listFunctions(
     args: ListFunctionsCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<ListFunctionsCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    ListFunctionsCommandOutput,
+    SdkError | InvalidParameterValueError | ServiceError | TooManyRequestsError
+  >;
 
   /**
    * @see {@link ListFunctionsByCodeSigningConfigCommand}
@@ -679,7 +1004,7 @@ export interface LambdaService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     ListFunctionsByCodeSigningConfigCommandOutput,
-    Cause.UnknownException
+    SdkError | InvalidParameterValueError | ResourceNotFoundError | ServiceError
   >;
 
   /**
@@ -688,7 +1013,14 @@ export interface LambdaService {
   listFunctionUrlConfigs(
     args: ListFunctionUrlConfigsCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<ListFunctionUrlConfigsCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    ListFunctionUrlConfigsCommandOutput,
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
 
   /**
    * @see {@link ListLayersCommand}
@@ -696,7 +1028,10 @@ export interface LambdaService {
   listLayers(
     args: ListLayersCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<ListLayersCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    ListLayersCommandOutput,
+    SdkError | InvalidParameterValueError | ServiceError | TooManyRequestsError
+  >;
 
   /**
    * @see {@link ListLayerVersionsCommand}
@@ -704,7 +1039,14 @@ export interface LambdaService {
   listLayerVersions(
     args: ListLayerVersionsCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<ListLayerVersionsCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    ListLayerVersionsCommandOutput,
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
 
   /**
    * @see {@link ListProvisionedConcurrencyConfigsCommand}
@@ -714,7 +1056,11 @@ export interface LambdaService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     ListProvisionedConcurrencyConfigsCommandOutput,
-    Cause.UnknownException
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
   >;
 
   /**
@@ -723,7 +1069,14 @@ export interface LambdaService {
   listTags(
     args: ListTagsCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<ListTagsCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    ListTagsCommandOutput,
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
 
   /**
    * @see {@link ListVersionsByFunctionCommand}
@@ -731,7 +1084,14 @@ export interface LambdaService {
   listVersionsByFunction(
     args: ListVersionsByFunctionCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<ListVersionsByFunctionCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    ListVersionsByFunctionCommandOutput,
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
 
   /**
    * @see {@link PublishLayerVersionCommand}
@@ -739,7 +1099,15 @@ export interface LambdaService {
   publishLayerVersion(
     args: PublishLayerVersionCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<PublishLayerVersionCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    PublishLayerVersionCommandOutput,
+    | SdkError
+    | CodeStorageExceededError
+    | InvalidParameterValueError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
 
   /**
    * @see {@link PublishVersionCommand}
@@ -747,7 +1115,17 @@ export interface LambdaService {
   publishVersion(
     args: PublishVersionCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<PublishVersionCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    PublishVersionCommandOutput,
+    | SdkError
+    | CodeStorageExceededError
+    | InvalidParameterValueError
+    | PreconditionFailedError
+    | ResourceConflictError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
 
   /**
    * @see {@link PutFunctionCodeSigningConfigCommand}
@@ -757,7 +1135,13 @@ export interface LambdaService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     PutFunctionCodeSigningConfigCommandOutput,
-    Cause.UnknownException
+    | SdkError
+    | CodeSigningConfigNotFoundError
+    | InvalidParameterValueError
+    | ResourceConflictError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
   >;
 
   /**
@@ -766,7 +1150,15 @@ export interface LambdaService {
   putFunctionConcurrency(
     args: PutFunctionConcurrencyCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<PutFunctionConcurrencyCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    PutFunctionConcurrencyCommandOutput,
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceConflictError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
 
   /**
    * @see {@link PutFunctionEventInvokeConfigCommand}
@@ -776,7 +1168,12 @@ export interface LambdaService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     PutFunctionEventInvokeConfigCommandOutput,
-    Cause.UnknownException
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceConflictError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
   >;
 
   /**
@@ -787,7 +1184,12 @@ export interface LambdaService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     PutProvisionedConcurrencyConfigCommandOutput,
-    Cause.UnknownException
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceConflictError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
   >;
 
   /**
@@ -798,7 +1200,12 @@ export interface LambdaService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     PutRuntimeManagementConfigCommandOutput,
-    Cause.UnknownException
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceConflictError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
   >;
 
   /**
@@ -809,7 +1216,12 @@ export interface LambdaService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     RemoveLayerVersionPermissionCommandOutput,
-    Cause.UnknownException
+    | SdkError
+    | InvalidParameterValueError
+    | PreconditionFailedError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
   >;
 
   /**
@@ -818,7 +1230,15 @@ export interface LambdaService {
   removePermission(
     args: RemovePermissionCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<RemovePermissionCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    RemovePermissionCommandOutput,
+    | SdkError
+    | InvalidParameterValueError
+    | PreconditionFailedError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
 
   /**
    * @see {@link TagResourceCommand}
@@ -826,7 +1246,15 @@ export interface LambdaService {
   tagResource(
     args: TagResourceCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<TagResourceCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    TagResourceCommandOutput,
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceConflictError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
 
   /**
    * @see {@link UntagResourceCommand}
@@ -834,7 +1262,15 @@ export interface LambdaService {
   untagResource(
     args: UntagResourceCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<UntagResourceCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    UntagResourceCommandOutput,
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceConflictError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
 
   /**
    * @see {@link UpdateAliasCommand}
@@ -842,7 +1278,16 @@ export interface LambdaService {
   updateAlias(
     args: UpdateAliasCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<UpdateAliasCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    UpdateAliasCommandOutput,
+    | SdkError
+    | InvalidParameterValueError
+    | PreconditionFailedError
+    | ResourceConflictError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
 
   /**
    * @see {@link UpdateCodeSigningConfigCommand}
@@ -852,7 +1297,7 @@ export interface LambdaService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     UpdateCodeSigningConfigCommandOutput,
-    Cause.UnknownException
+    SdkError | InvalidParameterValueError | ResourceNotFoundError | ServiceError
   >;
 
   /**
@@ -863,7 +1308,13 @@ export interface LambdaService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     UpdateEventSourceMappingCommandOutput,
-    Cause.UnknownException
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceConflictError
+    | ResourceInUseError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
   >;
 
   /**
@@ -872,7 +1323,20 @@ export interface LambdaService {
   updateFunctionCode(
     args: UpdateFunctionCodeCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<UpdateFunctionCodeCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    UpdateFunctionCodeCommandOutput,
+    | SdkError
+    | CodeSigningConfigNotFoundError
+    | CodeStorageExceededError
+    | CodeVerificationFailedError
+    | InvalidCodeSignatureError
+    | InvalidParameterValueError
+    | PreconditionFailedError
+    | ResourceConflictError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
 
   /**
    * @see {@link UpdateFunctionConfigurationCommand}
@@ -882,7 +1346,16 @@ export interface LambdaService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     UpdateFunctionConfigurationCommandOutput,
-    Cause.UnknownException
+    | SdkError
+    | CodeSigningConfigNotFoundError
+    | CodeVerificationFailedError
+    | InvalidCodeSignatureError
+    | InvalidParameterValueError
+    | PreconditionFailedError
+    | ResourceConflictError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
   >;
 
   /**
@@ -893,7 +1366,12 @@ export interface LambdaService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     UpdateFunctionEventInvokeConfigCommandOutput,
-    Cause.UnknownException
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceConflictError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
   >;
 
   /**
@@ -904,7 +1382,12 @@ export interface LambdaService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     UpdateFunctionUrlConfigCommandOutput,
-    Cause.UnknownException
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceConflictError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
   >;
 }
 
@@ -926,9 +1409,31 @@ export const makeLambdaService = Effect.gen(function* (_) {
   return ReadonlyRecord.toEntries(commands).reduce((acc, [command]) => {
     const CommandCtor = commands[command] as any;
     const methodImpl = (args: any, options: any) =>
-      Effect.tryPromise(() =>
-        client.send(new CommandCtor(args), options ?? {}),
-      );
+      Effect.tryPromise({
+        try: () => client.send(new CommandCtor(args), options ?? {}),
+        catch: (e) => {
+          if (e instanceof LambdaServiceException) {
+            const ServiceException = Data.tagged<
+              TaggedException<LambdaServiceException>
+            >(e.name);
+
+            return ServiceException({
+              ...e,
+              message: e.message,
+              stack: e.stack,
+            });
+          }
+          if (e instanceof Error) {
+            return SdkError({
+              ...e,
+              name: "SdkError",
+              message: e.message,
+              stack: e.stack,
+            });
+          }
+          throw e;
+        },
+      });
     const methodName = (command[0].toLowerCase() + command.slice(1)).replace(
       /Command$/,
       "",

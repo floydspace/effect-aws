@@ -26,13 +26,23 @@ export const makeDefaultEventBridgeClientInstanceConfig: Effect.Effect<EventBrid
 
     return {
       logger: {
-        info: (m) => Effect.logInfo(m).pipe(runSync),
-        warn: (m) => Effect.logWarning(m).pipe(runSync),
-        error: (m) => Effect.logError(m).pipe(runSync),
-        debug: (m) => Effect.logDebug(m).pipe(runSync),
-        trace: (m) => Effect.logTrace(m).pipe(runSync),
+        info(m) {
+          Effect.logInfo(m).pipe(runSync);
+        },
+        warn(m) {
+          Effect.logWarning(m).pipe(runSync);
+        },
+        error(m) {
+          Effect.logError(m).pipe(runSync);
+        },
+        debug(m) {
+          Effect.logDebug(m).pipe(runSync);
+        },
+        trace(m) {
+          Effect.logTrace(m).pipe(runSync);
+        },
       },
-    } as EventBridgeClientConfig;
+    };
   });
 
 /**
