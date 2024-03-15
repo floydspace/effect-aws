@@ -1,6 +1,6 @@
 import {
+  type SendMessageCommandInput,
   SendMessageCommand,
-  SendMessageCommandInput,
   SQSClient,
 } from "@aws-sdk/client-sqs";
 import { mockClient } from "aws-sdk-client-mock";
@@ -16,23 +16,25 @@ import {
   SQSClientInstanceConfig,
   SQSService,
   SQSServiceLayer,
+  SdkError,
 } from "../src";
 
 import "aws-sdk-client-mock-jest";
 
-const sqsMock = mockClient(SQSClient);
-const { sendMessage } = Effect.serviceFunctions(SQSService);
+const clientMock = mockClient(SQSClient);
 
 describe("SQSClientImpl", () => {
   it("default", async () => {
-    sqsMock.reset().on(SendMessageCommand).resolves({});
+    clientMock.reset().on(SendMessageCommand).resolves({});
 
     const args: SendMessageCommandInput = {
-      QueueUrl: "test",
-      MessageBody: "test",
+      QueueUrl: "https://sqs.eu-central-1.amazonaws.com/123456789012/MyQueue",
+      MessageBody: "Hello world!",
     };
 
-    const program = sendMessage(args);
+    const program = Effect.flatMap(SQSService, (service) =>
+      service.sendMessage(args),
+    );
 
     const result = await pipe(
       program,
@@ -41,19 +43,21 @@ describe("SQSClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(sqsMock).toHaveReceivedCommandTimes(SendMessageCommand, 1);
-    expect(sqsMock).toHaveReceivedCommandWith(SendMessageCommand, args);
+    expect(clientMock).toHaveReceivedCommandTimes(SendMessageCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(SendMessageCommand, args);
   });
 
   it("configurable", async () => {
-    sqsMock.reset().on(SendMessageCommand).resolves({});
+    clientMock.reset().on(SendMessageCommand).resolves({});
 
     const args: SendMessageCommandInput = {
-      QueueUrl: "test",
-      MessageBody: "test",
+      QueueUrl: "https://sqs.eu-central-1.amazonaws.com/123456789012/MyQueue",
+      MessageBody: "Hello world!",
     };
 
-    const program = sendMessage(args);
+    const program = Effect.flatMap(SQSService, (service) =>
+      service.sendMessage(args),
+    );
 
     const SQSClientConfigLayer = Layer.succeed(SQSClientInstanceConfig, {
       region: "eu-central-1",
@@ -69,19 +73,21 @@ describe("SQSClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(sqsMock).toHaveReceivedCommandTimes(SendMessageCommand, 1);
-    expect(sqsMock).toHaveReceivedCommandWith(SendMessageCommand, args);
+    expect(clientMock).toHaveReceivedCommandTimes(SendMessageCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(SendMessageCommand, args);
   });
 
   it("base", async () => {
-    sqsMock.reset().on(SendMessageCommand).resolves({});
+    clientMock.reset().on(SendMessageCommand).resolves({});
 
     const args: SendMessageCommandInput = {
-      QueueUrl: "test",
-      MessageBody: "test",
+      QueueUrl: "https://sqs.eu-central-1.amazonaws.com/123456789012/MyQueue",
+      MessageBody: "Hello world!",
     };
 
-    const program = sendMessage(args);
+    const program = Effect.flatMap(SQSService, (service) =>
+      service.sendMessage(args),
+    );
 
     const SQSClientInstanceLayer = Layer.succeed(
       SQSClientInstance,
@@ -98,19 +104,21 @@ describe("SQSClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(sqsMock).toHaveReceivedCommandTimes(SendMessageCommand, 1);
-    expect(sqsMock).toHaveReceivedCommandWith(SendMessageCommand, args);
+    expect(clientMock).toHaveReceivedCommandTimes(SendMessageCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(SendMessageCommand, args);
   });
 
   it("extended", async () => {
-    sqsMock.reset().on(SendMessageCommand).resolves({});
+    clientMock.reset().on(SendMessageCommand).resolves({});
 
     const args: SendMessageCommandInput = {
-      QueueUrl: "test",
-      MessageBody: "test",
+      QueueUrl: "https://sqs.eu-central-1.amazonaws.com/123456789012/MyQueue",
+      MessageBody: "Hello world!",
     };
 
-    const program = sendMessage(args);
+    const program = Effect.flatMap(SQSService, (service) =>
+      service.sendMessage(args),
+    );
 
     const SQSClientInstanceLayer = Layer.effect(
       SQSClientInstance,
@@ -131,19 +139,21 @@ describe("SQSClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(sqsMock).toHaveReceivedCommandTimes(SendMessageCommand, 1);
-    expect(sqsMock).toHaveReceivedCommandWith(SendMessageCommand, args);
+    expect(clientMock).toHaveReceivedCommandTimes(SendMessageCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(SendMessageCommand, args);
   });
 
   it("fail", async () => {
-    sqsMock.reset().on(SendMessageCommand).rejects(new Error("test"));
+    clientMock.reset().on(SendMessageCommand).rejects(new Error("test"));
 
     const args: SendMessageCommandInput = {
-      QueueUrl: "test",
-      MessageBody: "test",
+      QueueUrl: "https://sqs.eu-central-1.amazonaws.com/123456789012/MyQueue",
+      MessageBody: "Hello world!",
     };
 
-    const program = sendMessage(args, { requestTimeout: 1000 });
+    const program = Effect.flatMap(SQSService, (service) =>
+      service.sendMessage(args),
+    );
 
     const result = await pipe(
       program,
@@ -151,8 +161,17 @@ describe("SQSClientImpl", () => {
       Effect.runPromiseExit,
     );
 
-    expect(result).toEqual(Exit.fail(new Error("test")));
-    expect(sqsMock).toHaveReceivedCommandTimes(SendMessageCommand, 1);
-    expect(sqsMock).toHaveReceivedCommandWith(SendMessageCommand, args);
+    expect(result).toEqual(
+      Exit.fail(
+        SdkError({
+          ...new Error("test"),
+          name: "SdkError",
+          message: "test",
+          stack: expect.any(String),
+        }),
+      ),
+    );
+    expect(clientMock).toHaveReceivedCommandTimes(SendMessageCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(SendMessageCommand, args);
   });
 });

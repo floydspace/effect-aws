@@ -2,78 +2,111 @@
  * @since 1.0.0
  */
 import {
+  SQSServiceException,
   AddPermissionCommand,
-  AddPermissionCommandInput,
-  AddPermissionCommandOutput,
+  type AddPermissionCommandInput,
+  type AddPermissionCommandOutput,
   CancelMessageMoveTaskCommand,
-  CancelMessageMoveTaskCommandInput,
-  CancelMessageMoveTaskCommandOutput,
-  ChangeMessageVisibilityBatchCommand,
-  ChangeMessageVisibilityBatchCommandInput,
-  ChangeMessageVisibilityBatchCommandOutput,
+  type CancelMessageMoveTaskCommandInput,
+  type CancelMessageMoveTaskCommandOutput,
   ChangeMessageVisibilityCommand,
-  ChangeMessageVisibilityCommandInput,
-  ChangeMessageVisibilityCommandOutput,
+  type ChangeMessageVisibilityCommandInput,
+  type ChangeMessageVisibilityCommandOutput,
+  ChangeMessageVisibilityBatchCommand,
+  type ChangeMessageVisibilityBatchCommandInput,
+  type ChangeMessageVisibilityBatchCommandOutput,
   CreateQueueCommand,
-  CreateQueueCommandInput,
-  CreateQueueCommandOutput,
-  DeleteMessageBatchCommand,
-  DeleteMessageBatchCommandInput,
-  DeleteMessageBatchCommandOutput,
+  type CreateQueueCommandInput,
+  type CreateQueueCommandOutput,
   DeleteMessageCommand,
-  DeleteMessageCommandInput,
-  DeleteMessageCommandOutput,
+  type DeleteMessageCommandInput,
+  type DeleteMessageCommandOutput,
+  DeleteMessageBatchCommand,
+  type DeleteMessageBatchCommandInput,
+  type DeleteMessageBatchCommandOutput,
   DeleteQueueCommand,
-  DeleteQueueCommandInput,
-  DeleteQueueCommandOutput,
+  type DeleteQueueCommandInput,
+  type DeleteQueueCommandOutput,
   GetQueueAttributesCommand,
-  GetQueueAttributesCommandInput,
-  GetQueueAttributesCommandOutput,
+  type GetQueueAttributesCommandInput,
+  type GetQueueAttributesCommandOutput,
   GetQueueUrlCommand,
-  GetQueueUrlCommandInput,
-  GetQueueUrlCommandOutput,
+  type GetQueueUrlCommandInput,
+  type GetQueueUrlCommandOutput,
   ListDeadLetterSourceQueuesCommand,
-  ListDeadLetterSourceQueuesCommandInput,
-  ListDeadLetterSourceQueuesCommandOutput,
+  type ListDeadLetterSourceQueuesCommandInput,
+  type ListDeadLetterSourceQueuesCommandOutput,
   ListMessageMoveTasksCommand,
-  ListMessageMoveTasksCommandInput,
-  ListMessageMoveTasksCommandOutput,
-  ListQueueTagsCommand,
-  ListQueueTagsCommandInput,
-  ListQueueTagsCommandOutput,
+  type ListMessageMoveTasksCommandInput,
+  type ListMessageMoveTasksCommandOutput,
   ListQueuesCommand,
-  ListQueuesCommandInput,
-  ListQueuesCommandOutput,
+  type ListQueuesCommandInput,
+  type ListQueuesCommandOutput,
+  ListQueueTagsCommand,
+  type ListQueueTagsCommandInput,
+  type ListQueueTagsCommandOutput,
   PurgeQueueCommand,
-  PurgeQueueCommandInput,
-  PurgeQueueCommandOutput,
+  type PurgeQueueCommandInput,
+  type PurgeQueueCommandOutput,
   ReceiveMessageCommand,
-  ReceiveMessageCommandInput,
-  ReceiveMessageCommandOutput,
+  type ReceiveMessageCommandInput,
+  type ReceiveMessageCommandOutput,
   RemovePermissionCommand,
-  RemovePermissionCommandInput,
-  RemovePermissionCommandOutput,
-  SendMessageBatchCommand,
-  SendMessageBatchCommandInput,
-  SendMessageBatchCommandOutput,
+  type RemovePermissionCommandInput,
+  type RemovePermissionCommandOutput,
   SendMessageCommand,
-  SendMessageCommandInput,
-  SendMessageCommandOutput,
+  type SendMessageCommandInput,
+  type SendMessageCommandOutput,
+  SendMessageBatchCommand,
+  type SendMessageBatchCommandInput,
+  type SendMessageBatchCommandOutput,
   SetQueueAttributesCommand,
-  SetQueueAttributesCommandInput,
-  SetQueueAttributesCommandOutput,
+  type SetQueueAttributesCommandInput,
+  type SetQueueAttributesCommandOutput,
   StartMessageMoveTaskCommand,
-  StartMessageMoveTaskCommandInput,
-  StartMessageMoveTaskCommandOutput,
+  type StartMessageMoveTaskCommandInput,
+  type StartMessageMoveTaskCommandOutput,
   TagQueueCommand,
-  TagQueueCommandInput,
-  TagQueueCommandOutput,
+  type TagQueueCommandInput,
+  type TagQueueCommandOutput,
   UntagQueueCommand,
-  UntagQueueCommandInput,
-  UntagQueueCommandOutput,
+  type UntagQueueCommandInput,
+  type UntagQueueCommandOutput,
 } from "@aws-sdk/client-sqs";
-import { HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
-import { Cause, Context, Effect, Layer, ReadonlyRecord } from "effect";
+import { type HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
+import { Context, Data, Effect, Layer, ReadonlyRecord } from "effect";
+import {
+  BatchEntryIdsNotDistinctError,
+  BatchRequestTooLongError,
+  EmptyBatchRequestError,
+  InvalidAddressError,
+  InvalidAttributeNameError,
+  InvalidAttributeValueError,
+  InvalidBatchEntryIdError,
+  InvalidIdFormatError,
+  InvalidMessageContentsError,
+  InvalidSecurityError,
+  KmsAccessDeniedError,
+  KmsDisabledError,
+  KmsInvalidKeyUsageError,
+  KmsInvalidStateError,
+  KmsNotFoundError,
+  KmsOptInRequiredError,
+  KmsThrottledError,
+  MessageNotInflightError,
+  OverLimitError,
+  PurgeQueueInProgressError,
+  QueueDeletedRecentlyError,
+  QueueDoesNotExistError,
+  QueueNameExistsError,
+  ReceiptHandleIsInvalidError,
+  RequestThrottledError,
+  ResourceNotFoundError,
+  TooManyEntriesInBatchRequestError,
+  UnsupportedOperationError,
+  SdkError,
+  TaggedException,
+} from "./Errors";
 import {
   DefaultSQSClientInstanceLayer,
   SQSClientInstance,
@@ -120,7 +153,16 @@ export interface SQSService {
   addPermission(
     args: AddPermissionCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<AddPermissionCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    AddPermissionCommandOutput,
+    | SdkError
+    | InvalidAddressError
+    | InvalidSecurityError
+    | OverLimitError
+    | QueueDoesNotExistError
+    | RequestThrottledError
+    | UnsupportedOperationError
+  >;
 
   /**
    * @see {@link CancelMessageMoveTaskCommand}
@@ -128,7 +170,15 @@ export interface SQSService {
   cancelMessageMoveTask(
     args: CancelMessageMoveTaskCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<CancelMessageMoveTaskCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    CancelMessageMoveTaskCommandOutput,
+    | SdkError
+    | InvalidAddressError
+    | InvalidSecurityError
+    | RequestThrottledError
+    | ResourceNotFoundError
+    | UnsupportedOperationError
+  >;
 
   /**
    * @see {@link ChangeMessageVisibilityCommand}
@@ -138,7 +188,14 @@ export interface SQSService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     ChangeMessageVisibilityCommandOutput,
-    Cause.UnknownException
+    | SdkError
+    | InvalidAddressError
+    | InvalidSecurityError
+    | MessageNotInflightError
+    | QueueDoesNotExistError
+    | ReceiptHandleIsInvalidError
+    | RequestThrottledError
+    | UnsupportedOperationError
   >;
 
   /**
@@ -149,7 +206,16 @@ export interface SQSService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     ChangeMessageVisibilityBatchCommandOutput,
-    Cause.UnknownException
+    | SdkError
+    | BatchEntryIdsNotDistinctError
+    | EmptyBatchRequestError
+    | InvalidAddressError
+    | InvalidBatchEntryIdError
+    | InvalidSecurityError
+    | QueueDoesNotExistError
+    | RequestThrottledError
+    | TooManyEntriesInBatchRequestError
+    | UnsupportedOperationError
   >;
 
   /**
@@ -158,7 +224,18 @@ export interface SQSService {
   createQueue(
     args: CreateQueueCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<CreateQueueCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    CreateQueueCommandOutput,
+    | SdkError
+    | InvalidAddressError
+    | InvalidAttributeNameError
+    | InvalidAttributeValueError
+    | InvalidSecurityError
+    | QueueDeletedRecentlyError
+    | QueueNameExistsError
+    | RequestThrottledError
+    | UnsupportedOperationError
+  >;
 
   /**
    * @see {@link DeleteMessageCommand}
@@ -166,7 +243,17 @@ export interface SQSService {
   deleteMessage(
     args: DeleteMessageCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<DeleteMessageCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    DeleteMessageCommandOutput,
+    | SdkError
+    | InvalidAddressError
+    | InvalidIdFormatError
+    | InvalidSecurityError
+    | QueueDoesNotExistError
+    | ReceiptHandleIsInvalidError
+    | RequestThrottledError
+    | UnsupportedOperationError
+  >;
 
   /**
    * @see {@link DeleteMessageBatchCommand}
@@ -174,7 +261,19 @@ export interface SQSService {
   deleteMessageBatch(
     args: DeleteMessageBatchCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<DeleteMessageBatchCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    DeleteMessageBatchCommandOutput,
+    | SdkError
+    | BatchEntryIdsNotDistinctError
+    | EmptyBatchRequestError
+    | InvalidAddressError
+    | InvalidBatchEntryIdError
+    | InvalidSecurityError
+    | QueueDoesNotExistError
+    | RequestThrottledError
+    | TooManyEntriesInBatchRequestError
+    | UnsupportedOperationError
+  >;
 
   /**
    * @see {@link DeleteQueueCommand}
@@ -182,7 +281,15 @@ export interface SQSService {
   deleteQueue(
     args: DeleteQueueCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<DeleteQueueCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    DeleteQueueCommandOutput,
+    | SdkError
+    | InvalidAddressError
+    | InvalidSecurityError
+    | QueueDoesNotExistError
+    | RequestThrottledError
+    | UnsupportedOperationError
+  >;
 
   /**
    * @see {@link GetQueueAttributesCommand}
@@ -190,7 +297,16 @@ export interface SQSService {
   getQueueAttributes(
     args: GetQueueAttributesCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<GetQueueAttributesCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    GetQueueAttributesCommandOutput,
+    | SdkError
+    | InvalidAddressError
+    | InvalidAttributeNameError
+    | InvalidSecurityError
+    | QueueDoesNotExistError
+    | RequestThrottledError
+    | UnsupportedOperationError
+  >;
 
   /**
    * @see {@link GetQueueUrlCommand}
@@ -198,7 +314,15 @@ export interface SQSService {
   getQueueUrl(
     args: GetQueueUrlCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<GetQueueUrlCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    GetQueueUrlCommandOutput,
+    | SdkError
+    | InvalidAddressError
+    | InvalidSecurityError
+    | QueueDoesNotExistError
+    | RequestThrottledError
+    | UnsupportedOperationError
+  >;
 
   /**
    * @see {@link ListDeadLetterSourceQueuesCommand}
@@ -208,7 +332,12 @@ export interface SQSService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     ListDeadLetterSourceQueuesCommandOutput,
-    Cause.UnknownException
+    | SdkError
+    | InvalidAddressError
+    | InvalidSecurityError
+    | QueueDoesNotExistError
+    | RequestThrottledError
+    | UnsupportedOperationError
   >;
 
   /**
@@ -217,7 +346,15 @@ export interface SQSService {
   listMessageMoveTasks(
     args: ListMessageMoveTasksCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<ListMessageMoveTasksCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    ListMessageMoveTasksCommandOutput,
+    | SdkError
+    | InvalidAddressError
+    | InvalidSecurityError
+    | RequestThrottledError
+    | ResourceNotFoundError
+    | UnsupportedOperationError
+  >;
 
   /**
    * @see {@link ListQueuesCommand}
@@ -225,7 +362,14 @@ export interface SQSService {
   listQueues(
     args: ListQueuesCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<ListQueuesCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    ListQueuesCommandOutput,
+    | SdkError
+    | InvalidAddressError
+    | InvalidSecurityError
+    | RequestThrottledError
+    | UnsupportedOperationError
+  >;
 
   /**
    * @see {@link ListQueueTagsCommand}
@@ -233,7 +377,15 @@ export interface SQSService {
   listQueueTags(
     args: ListQueueTagsCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<ListQueueTagsCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    ListQueueTagsCommandOutput,
+    | SdkError
+    | InvalidAddressError
+    | InvalidSecurityError
+    | QueueDoesNotExistError
+    | RequestThrottledError
+    | UnsupportedOperationError
+  >;
 
   /**
    * @see {@link PurgeQueueCommand}
@@ -241,7 +393,16 @@ export interface SQSService {
   purgeQueue(
     args: PurgeQueueCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<PurgeQueueCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    PurgeQueueCommandOutput,
+    | SdkError
+    | InvalidAddressError
+    | InvalidSecurityError
+    | PurgeQueueInProgressError
+    | QueueDoesNotExistError
+    | RequestThrottledError
+    | UnsupportedOperationError
+  >;
 
   /**
    * @see {@link ReceiveMessageCommand}
@@ -249,7 +410,23 @@ export interface SQSService {
   receiveMessage(
     args: ReceiveMessageCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<ReceiveMessageCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    ReceiveMessageCommandOutput,
+    | SdkError
+    | InvalidAddressError
+    | InvalidSecurityError
+    | KmsAccessDeniedError
+    | KmsDisabledError
+    | KmsInvalidKeyUsageError
+    | KmsInvalidStateError
+    | KmsNotFoundError
+    | KmsOptInRequiredError
+    | KmsThrottledError
+    | OverLimitError
+    | QueueDoesNotExistError
+    | RequestThrottledError
+    | UnsupportedOperationError
+  >;
 
   /**
    * @see {@link RemovePermissionCommand}
@@ -257,7 +434,15 @@ export interface SQSService {
   removePermission(
     args: RemovePermissionCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<RemovePermissionCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    RemovePermissionCommandOutput,
+    | SdkError
+    | InvalidAddressError
+    | InvalidSecurityError
+    | QueueDoesNotExistError
+    | RequestThrottledError
+    | UnsupportedOperationError
+  >;
 
   /**
    * @see {@link SendMessageCommand}
@@ -265,7 +450,23 @@ export interface SQSService {
   sendMessage(
     args: SendMessageCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<SendMessageCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    SendMessageCommandOutput,
+    | SdkError
+    | InvalidAddressError
+    | InvalidMessageContentsError
+    | InvalidSecurityError
+    | KmsAccessDeniedError
+    | KmsDisabledError
+    | KmsInvalidKeyUsageError
+    | KmsInvalidStateError
+    | KmsNotFoundError
+    | KmsOptInRequiredError
+    | KmsThrottledError
+    | QueueDoesNotExistError
+    | RequestThrottledError
+    | UnsupportedOperationError
+  >;
 
   /**
    * @see {@link SendMessageBatchCommand}
@@ -273,7 +474,27 @@ export interface SQSService {
   sendMessageBatch(
     args: SendMessageBatchCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<SendMessageBatchCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    SendMessageBatchCommandOutput,
+    | SdkError
+    | BatchEntryIdsNotDistinctError
+    | BatchRequestTooLongError
+    | EmptyBatchRequestError
+    | InvalidAddressError
+    | InvalidBatchEntryIdError
+    | InvalidSecurityError
+    | KmsAccessDeniedError
+    | KmsDisabledError
+    | KmsInvalidKeyUsageError
+    | KmsInvalidStateError
+    | KmsNotFoundError
+    | KmsOptInRequiredError
+    | KmsThrottledError
+    | QueueDoesNotExistError
+    | RequestThrottledError
+    | TooManyEntriesInBatchRequestError
+    | UnsupportedOperationError
+  >;
 
   /**
    * @see {@link SetQueueAttributesCommand}
@@ -281,7 +502,18 @@ export interface SQSService {
   setQueueAttributes(
     args: SetQueueAttributesCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<SetQueueAttributesCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    SetQueueAttributesCommandOutput,
+    | SdkError
+    | InvalidAddressError
+    | InvalidAttributeNameError
+    | InvalidAttributeValueError
+    | InvalidSecurityError
+    | OverLimitError
+    | QueueDoesNotExistError
+    | RequestThrottledError
+    | UnsupportedOperationError
+  >;
 
   /**
    * @see {@link StartMessageMoveTaskCommand}
@@ -289,7 +521,15 @@ export interface SQSService {
   startMessageMoveTask(
     args: StartMessageMoveTaskCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<StartMessageMoveTaskCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    StartMessageMoveTaskCommandOutput,
+    | SdkError
+    | InvalidAddressError
+    | InvalidSecurityError
+    | RequestThrottledError
+    | ResourceNotFoundError
+    | UnsupportedOperationError
+  >;
 
   /**
    * @see {@link TagQueueCommand}
@@ -297,7 +537,15 @@ export interface SQSService {
   tagQueue(
     args: TagQueueCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<TagQueueCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    TagQueueCommandOutput,
+    | SdkError
+    | InvalidAddressError
+    | InvalidSecurityError
+    | QueueDoesNotExistError
+    | RequestThrottledError
+    | UnsupportedOperationError
+  >;
 
   /**
    * @see {@link UntagQueueCommand}
@@ -305,7 +553,15 @@ export interface SQSService {
   untagQueue(
     args: UntagQueueCommandInput,
     options?: __HttpHandlerOptions,
-  ): Effect.Effect<UntagQueueCommandOutput, Cause.UnknownException>;
+  ): Effect.Effect<
+    UntagQueueCommandOutput,
+    | SdkError
+    | InvalidAddressError
+    | InvalidSecurityError
+    | QueueDoesNotExistError
+    | RequestThrottledError
+    | UnsupportedOperationError
+  >;
 }
 
 /**
@@ -326,9 +582,31 @@ export const makeSQSService = Effect.gen(function* (_) {
   return ReadonlyRecord.toEntries(commands).reduce((acc, [command]) => {
     const CommandCtor = commands[command] as any;
     const methodImpl = (args: any, options: any) =>
-      Effect.tryPromise(() =>
-        client.send(new CommandCtor(args), options ?? {}),
-      );
+      Effect.tryPromise({
+        try: () => client.send(new CommandCtor(args), options ?? {}),
+        catch: (e) => {
+          if (e instanceof SQSServiceException) {
+            const ServiceException = Data.tagged<
+              TaggedException<SQSServiceException>
+            >(e.name);
+
+            return ServiceException({
+              ...e,
+              message: e.message,
+              stack: e.stack,
+            });
+          }
+          if (e instanceof Error) {
+            return SdkError({
+              ...e,
+              name: "SdkError",
+              message: e.message,
+              stack: e.stack,
+            });
+          }
+          throw e;
+        },
+      });
     const methodName = (command[0].toLowerCase() + command.slice(1)).replace(
       /Command$/,
       "",
