@@ -179,7 +179,6 @@ async function generateClient([
   );
 
   const serviceException = `${sdkName}ServiceException`;
-  const serviceError = `${sdkName}Service`;
 
   const exportedErrors = pipe(
     awsClient,
@@ -189,17 +188,11 @@ async function generateClient([
         value.prototype instanceof awsClient[serviceException],
     ),
     ReadonlyRecord.keys,
-    ReadonlyArray.prepend(serviceException),
-  );
-
-  const taggedErrors = pipe(
-    exportedErrors,
-    ReadonlyArray.filter((s) => s !== serviceException),
   );
 
   await writeFile(
     `./packages/client-${serviceName}/src/Errors.ts`,
-    `import type { ${exportedErrors.join(", ")} } from "@aws-sdk/client-${serviceName}";
+    `import type { ${exportedErrors.map((e) => (e.endsWith("Error") ? `${e} as ${String.replace(/Error$/, "")(e)}Exception` : e)).join(", ")} } from "@aws-sdk/client-${serviceName}";
 import * as Data from "effect/Data";
 
 export type TaggedException<T extends { name: string }> = T & {
@@ -207,18 +200,14 @@ export type TaggedException<T extends { name: string }> = T & {
 };
 
 ${pipe(
-  taggedErrors,
+  exportedErrors,
   ReadonlyArray.map(
     (taggedError) =>
-      `export type ${pipe(taggedError, String.replace(/Exception$/, ""))}Error = TaggedException<${taggedError}>;`,
+      `export type ${pipe(taggedError, String.replace(/(Exception|Error)$/, ""))}Error = TaggedException<${taggedError.endsWith("Error") ? `${String.replace(/Error$/, "")(taggedError)}Exception` : taggedError}>;`,
   ),
   ReadonlyArray.join("\n"),
 )}
 
-export type ${serviceError}Error = TaggedException<
-  ${serviceError}Exception & { name: "${serviceError}Error" }
->;
-export const ${serviceError}Error = Data.tagged<${serviceError}Error>("${serviceError}Error");
 export type SdkError = TaggedException<Error & { name: "SdkError" }>;
 export const SdkError = Data.tagged<SdkError>("SdkError");
 `,
@@ -371,13 +360,7 @@ export * from "./${sdkName}Service";
         shape.type === "operation",
     ),
     ReadonlyArray.flatMap(({ errors }) => errors ?? []),
-    ReadonlyArray.map(
-      flow(
-        ({ target }) => target,
-        getNameFromTarget,
-        String.replace(/Exception$/, ""),
-      ),
-    ),
+    ReadonlyArray.map(flow(({ target }) => target, getNameFromTarget)),
     ReadonlyArray.dedupe,
     ReadonlyArray.sort(String.Order),
     ReadonlyArray.intersection(exportedErrors),
@@ -401,7 +384,7 @@ import {
   )}
 } from "@aws-sdk/client-${serviceName}";
 import { type HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
-import { Context, Effect, Layer, ReadonlyRecord, Data } from "effect";
+import { Context, Data, Effect, Layer, ReadonlyRecord } from "effect";
 import {
   ${sdkName}ClientInstance,
   ${sdkName}ClientInstanceLayer,
@@ -409,9 +392,8 @@ import {
 import { Default${sdkName}ClientConfigLayer } from "./${sdkName}ClientInstanceConfig";
 import {
   ${pipe(
-    importedErrors,
+    importedErrors.map(String.replace(/(Exception|Error)$/, "")),
     ReadonlyArray.map((error) => `${error}Error`),
-    ReadonlyArray.prepend(`${sdkName}ServiceError`),
     ReadonlyArray.join(","),
   )},
   SdkError,
@@ -429,7 +411,7 @@ const commands = {
  * @since 1.0.0
  * @category models
  */
-export type ${sdkName}Service = {
+export interface ${sdkName}Service {
   readonly _: unique symbol;
 
 ${pipe(
@@ -437,30 +419,25 @@ ${pipe(
   ReadonlyArray.map(([operationName, operationShape]) => {
     const errors = pipe(
       operationShape.errors || [],
-      ReadonlyArray.map(
-        flow(
-          Struct.get("target"),
-          getNameFromTarget,
-          String.replace(/Exception$/, ""),
-        ),
-      ),
+      ReadonlyArray.map(flow(Struct.get("target"), getNameFromTarget)),
       ReadonlyArray.intersection(importedErrors),
+      ReadonlyArray.map(String.replace(/(Exception|Error)$/, "")),
       ReadonlyArray.map((error) => `${error}Error`),
     );
     return `  /**
    * @see {@link ${operationName}Command}
    */
-  readonly ${pipe(operationName, lowerFirst)}: (
+  ${pipe(operationName, lowerFirst)}(
     args: ${operationName}CommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     ${operationName}CommandOutput,
-    ${pipe(["SdkError", `${sdkName}ServiceError`, ...errors], ReadonlyArray.join(" | "))}
+    ${pipe(["SdkError", ...errors], ReadonlyArray.join(" | "))}
   >`;
   }),
   ReadonlyArray.join("\n\n"),
 )}
-};
+}
 
 /**
  * @since 1.0.0

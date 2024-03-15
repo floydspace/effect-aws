@@ -1,5 +1,4 @@
 import type {
-  SQSServiceException,
   BatchEntryIdsNotDistinct,
   BatchRequestTooLong,
   EmptyBatchRequest,
@@ -68,9 +67,5 @@ export type TooManyEntriesInBatchRequestError =
   TaggedException<TooManyEntriesInBatchRequest>;
 export type UnsupportedOperationError = TaggedException<UnsupportedOperation>;
 
-export type SQSServiceError = TaggedException<
-  SQSServiceException & { name: "SQSServiceError" }
->;
-export const SQSServiceError = Data.tagged<SQSServiceError>("SQSServiceError");
 export type SdkError = TaggedException<Error & { name: "SdkError" }>;
 export const SdkError = Data.tagged<SdkError>("SdkError");

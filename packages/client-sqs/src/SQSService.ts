@@ -74,9 +74,8 @@ import {
   type UntagQueueCommandOutput,
 } from "@aws-sdk/client-sqs";
 import { type HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
-import { Context, Effect, Layer, ReadonlyRecord, Data } from "effect";
+import { Context, Data, Effect, Layer, ReadonlyRecord } from "effect";
 import {
-  SQSServiceError,
   BatchEntryIdsNotDistinctError,
   BatchRequestTooLongError,
   EmptyBatchRequestError,
@@ -102,6 +101,7 @@ import {
   QueueNameExistsError,
   ReceiptHandleIsInvalidError,
   RequestThrottledError,
+  ResourceNotFoundError,
   TooManyEntriesInBatchRequestError,
   UnsupportedOperationError,
   SdkError,
@@ -144,19 +144,18 @@ const commands = {
  * @since 1.0.0
  * @category models
  */
-export type SQSService = {
+export interface SQSService {
   readonly _: unique symbol;
 
   /**
    * @see {@link AddPermissionCommand}
    */
-  readonly addPermission: (
+  addPermission(
     args: AddPermissionCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     AddPermissionCommandOutput,
     | SdkError
-    | SQSServiceError
     | InvalidAddressError
     | InvalidSecurityError
     | OverLimitError
@@ -168,29 +167,28 @@ export type SQSService = {
   /**
    * @see {@link CancelMessageMoveTaskCommand}
    */
-  readonly cancelMessageMoveTask: (
+  cancelMessageMoveTask(
     args: CancelMessageMoveTaskCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     CancelMessageMoveTaskCommandOutput,
     | SdkError
-    | SQSServiceError
     | InvalidAddressError
     | InvalidSecurityError
     | RequestThrottledError
+    | ResourceNotFoundError
     | UnsupportedOperationError
   >;
 
   /**
    * @see {@link ChangeMessageVisibilityCommand}
    */
-  readonly changeMessageVisibility: (
+  changeMessageVisibility(
     args: ChangeMessageVisibilityCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     ChangeMessageVisibilityCommandOutput,
     | SdkError
-    | SQSServiceError
     | InvalidAddressError
     | InvalidSecurityError
     | MessageNotInflightError
@@ -203,13 +201,12 @@ export type SQSService = {
   /**
    * @see {@link ChangeMessageVisibilityBatchCommand}
    */
-  readonly changeMessageVisibilityBatch: (
+  changeMessageVisibilityBatch(
     args: ChangeMessageVisibilityBatchCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     ChangeMessageVisibilityBatchCommandOutput,
     | SdkError
-    | SQSServiceError
     | BatchEntryIdsNotDistinctError
     | EmptyBatchRequestError
     | InvalidAddressError
@@ -224,13 +221,12 @@ export type SQSService = {
   /**
    * @see {@link CreateQueueCommand}
    */
-  readonly createQueue: (
+  createQueue(
     args: CreateQueueCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     CreateQueueCommandOutput,
     | SdkError
-    | SQSServiceError
     | InvalidAddressError
     | InvalidAttributeNameError
     | InvalidAttributeValueError
@@ -244,13 +240,12 @@ export type SQSService = {
   /**
    * @see {@link DeleteMessageCommand}
    */
-  readonly deleteMessage: (
+  deleteMessage(
     args: DeleteMessageCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     DeleteMessageCommandOutput,
     | SdkError
-    | SQSServiceError
     | InvalidAddressError
     | InvalidIdFormatError
     | InvalidSecurityError
@@ -263,13 +258,12 @@ export type SQSService = {
   /**
    * @see {@link DeleteMessageBatchCommand}
    */
-  readonly deleteMessageBatch: (
+  deleteMessageBatch(
     args: DeleteMessageBatchCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     DeleteMessageBatchCommandOutput,
     | SdkError
-    | SQSServiceError
     | BatchEntryIdsNotDistinctError
     | EmptyBatchRequestError
     | InvalidAddressError
@@ -284,13 +278,12 @@ export type SQSService = {
   /**
    * @see {@link DeleteQueueCommand}
    */
-  readonly deleteQueue: (
+  deleteQueue(
     args: DeleteQueueCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     DeleteQueueCommandOutput,
     | SdkError
-    | SQSServiceError
     | InvalidAddressError
     | InvalidSecurityError
     | QueueDoesNotExistError
@@ -301,13 +294,12 @@ export type SQSService = {
   /**
    * @see {@link GetQueueAttributesCommand}
    */
-  readonly getQueueAttributes: (
+  getQueueAttributes(
     args: GetQueueAttributesCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     GetQueueAttributesCommandOutput,
     | SdkError
-    | SQSServiceError
     | InvalidAddressError
     | InvalidAttributeNameError
     | InvalidSecurityError
@@ -319,13 +311,12 @@ export type SQSService = {
   /**
    * @see {@link GetQueueUrlCommand}
    */
-  readonly getQueueUrl: (
+  getQueueUrl(
     args: GetQueueUrlCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     GetQueueUrlCommandOutput,
     | SdkError
-    | SQSServiceError
     | InvalidAddressError
     | InvalidSecurityError
     | QueueDoesNotExistError
@@ -336,13 +327,12 @@ export type SQSService = {
   /**
    * @see {@link ListDeadLetterSourceQueuesCommand}
    */
-  readonly listDeadLetterSourceQueues: (
+  listDeadLetterSourceQueues(
     args: ListDeadLetterSourceQueuesCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     ListDeadLetterSourceQueuesCommandOutput,
     | SdkError
-    | SQSServiceError
     | InvalidAddressError
     | InvalidSecurityError
     | QueueDoesNotExistError
@@ -353,29 +343,28 @@ export type SQSService = {
   /**
    * @see {@link ListMessageMoveTasksCommand}
    */
-  readonly listMessageMoveTasks: (
+  listMessageMoveTasks(
     args: ListMessageMoveTasksCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     ListMessageMoveTasksCommandOutput,
     | SdkError
-    | SQSServiceError
     | InvalidAddressError
     | InvalidSecurityError
     | RequestThrottledError
+    | ResourceNotFoundError
     | UnsupportedOperationError
   >;
 
   /**
    * @see {@link ListQueuesCommand}
    */
-  readonly listQueues: (
+  listQueues(
     args: ListQueuesCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     ListQueuesCommandOutput,
     | SdkError
-    | SQSServiceError
     | InvalidAddressError
     | InvalidSecurityError
     | RequestThrottledError
@@ -385,13 +374,12 @@ export type SQSService = {
   /**
    * @see {@link ListQueueTagsCommand}
    */
-  readonly listQueueTags: (
+  listQueueTags(
     args: ListQueueTagsCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     ListQueueTagsCommandOutput,
     | SdkError
-    | SQSServiceError
     | InvalidAddressError
     | InvalidSecurityError
     | QueueDoesNotExistError
@@ -402,13 +390,12 @@ export type SQSService = {
   /**
    * @see {@link PurgeQueueCommand}
    */
-  readonly purgeQueue: (
+  purgeQueue(
     args: PurgeQueueCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     PurgeQueueCommandOutput,
     | SdkError
-    | SQSServiceError
     | InvalidAddressError
     | InvalidSecurityError
     | PurgeQueueInProgressError
@@ -420,13 +407,12 @@ export type SQSService = {
   /**
    * @see {@link ReceiveMessageCommand}
    */
-  readonly receiveMessage: (
+  receiveMessage(
     args: ReceiveMessageCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     ReceiveMessageCommandOutput,
     | SdkError
-    | SQSServiceError
     | InvalidAddressError
     | InvalidSecurityError
     | KmsAccessDeniedError
@@ -445,13 +431,12 @@ export type SQSService = {
   /**
    * @see {@link RemovePermissionCommand}
    */
-  readonly removePermission: (
+  removePermission(
     args: RemovePermissionCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     RemovePermissionCommandOutput,
     | SdkError
-    | SQSServiceError
     | InvalidAddressError
     | InvalidSecurityError
     | QueueDoesNotExistError
@@ -462,13 +447,12 @@ export type SQSService = {
   /**
    * @see {@link SendMessageCommand}
    */
-  readonly sendMessage: (
+  sendMessage(
     args: SendMessageCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     SendMessageCommandOutput,
     | SdkError
-    | SQSServiceError
     | InvalidAddressError
     | InvalidMessageContentsError
     | InvalidSecurityError
@@ -487,13 +471,12 @@ export type SQSService = {
   /**
    * @see {@link SendMessageBatchCommand}
    */
-  readonly sendMessageBatch: (
+  sendMessageBatch(
     args: SendMessageBatchCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     SendMessageBatchCommandOutput,
     | SdkError
-    | SQSServiceError
     | BatchEntryIdsNotDistinctError
     | BatchRequestTooLongError
     | EmptyBatchRequestError
@@ -516,13 +499,12 @@ export type SQSService = {
   /**
    * @see {@link SetQueueAttributesCommand}
    */
-  readonly setQueueAttributes: (
+  setQueueAttributes(
     args: SetQueueAttributesCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     SetQueueAttributesCommandOutput,
     | SdkError
-    | SQSServiceError
     | InvalidAddressError
     | InvalidAttributeNameError
     | InvalidAttributeValueError
@@ -536,29 +518,28 @@ export type SQSService = {
   /**
    * @see {@link StartMessageMoveTaskCommand}
    */
-  readonly startMessageMoveTask: (
+  startMessageMoveTask(
     args: StartMessageMoveTaskCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     StartMessageMoveTaskCommandOutput,
     | SdkError
-    | SQSServiceError
     | InvalidAddressError
     | InvalidSecurityError
     | RequestThrottledError
+    | ResourceNotFoundError
     | UnsupportedOperationError
   >;
 
   /**
    * @see {@link TagQueueCommand}
    */
-  readonly tagQueue: (
+  tagQueue(
     args: TagQueueCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     TagQueueCommandOutput,
     | SdkError
-    | SQSServiceError
     | InvalidAddressError
     | InvalidSecurityError
     | QueueDoesNotExistError
@@ -569,20 +550,19 @@ export type SQSService = {
   /**
    * @see {@link UntagQueueCommand}
    */
-  readonly untagQueue: (
+  untagQueue(
     args: UntagQueueCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     UntagQueueCommandOutput,
     | SdkError
-    | SQSServiceError
     | InvalidAddressError
     | InvalidSecurityError
     | QueueDoesNotExistError
     | RequestThrottledError
     | UnsupportedOperationError
   >;
-};
+}
 
 /**
  * @since 1.0.0

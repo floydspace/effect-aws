@@ -1,4 +1,4 @@
-import {
+import type {
   BackupInUseException,
   BackupNotFoundException,
   ConditionalCheckFailedException,
@@ -22,7 +22,7 @@ import {
   ProvisionedThroughputExceededException,
   ReplicaAlreadyExistsException,
   ReplicaNotFoundException,
-  RequestLimitExceeded as RequestLimitExceededException,
+  RequestLimitExceeded,
   ResourceInUseException,
   ResourceNotFoundException,
   TableAlreadyExistsException,
@@ -41,8 +41,7 @@ export type TaggedException<T extends { name: string }> = T & {
 export type BackupInUseError = TaggedException<BackupInUseException>;
 export type BackupNotFoundError = TaggedException<BackupNotFoundException>;
 export type InternalServerError = TaggedException<InternalServerException>;
-export type RequestLimitExceededError =
-  TaggedException<RequestLimitExceededException>;
+export type RequestLimitExceededError = TaggedException<RequestLimitExceeded>;
 export type InvalidEndpointError = TaggedException<InvalidEndpointException>;
 export type ProvisionedThroughputExceededError =
   TaggedException<ProvisionedThroughputExceededException>;
