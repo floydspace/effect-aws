@@ -1,7 +1,8 @@
 import {
   GetObjectCommand,
-  GetObjectCommandInput,
+  type GetObjectCommandInput,
   HeadObjectCommand,
+  type HeadObjectCommandInput,
   S3Client,
 } from "@aws-sdk/client-s3";
 import { mockClient } from "aws-sdk-client-mock";
@@ -32,15 +33,17 @@ import {
 
 import "aws-sdk-client-mock-jest";
 
-const s3Mock = mockClient(S3Client);
+const clientMock = mockClient(S3Client);
 
 describe("S3ClientImpl", () => {
   it("default", async () => {
-    s3Mock.reset().on(HeadObjectCommand).resolves({});
+    clientMock.reset().on(HeadObjectCommand).resolves({});
 
-    const args = { Key: "test", Bucket: "test" };
+    const args: HeadObjectCommandInput = { Key: "test", Bucket: "test" };
 
-    const program = Effect.flatMap(S3Service, (s3) => s3.headObject(args));
+    const program = Effect.flatMap(S3Service, (service) =>
+      service.headObject(args),
+    );
 
     const result = await pipe(
       program,
@@ -49,16 +52,18 @@ describe("S3ClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(s3Mock).toHaveReceivedCommandTimes(HeadObjectCommand, 1);
-    expect(s3Mock).toHaveReceivedCommandWith(HeadObjectCommand, args);
+    expect(clientMock).toHaveReceivedCommandTimes(HeadObjectCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(HeadObjectCommand, args);
   });
 
   it("configurable", async () => {
-    s3Mock.reset().on(HeadObjectCommand).resolves({});
+    clientMock.reset().on(HeadObjectCommand).resolves({});
 
-    const args = { Key: "test", Bucket: "test" };
+    const args: HeadObjectCommandInput = { Key: "test", Bucket: "test" };
 
-    const program = Effect.flatMap(S3Service, (s3) => s3.headObject(args));
+    const program = Effect.flatMap(S3Service, (service) =>
+      service.headObject(args),
+    );
 
     const S3ClientConfigLayer = Layer.succeed(S3ClientInstanceConfig, {
       region: "eu-central-1",
@@ -74,16 +79,18 @@ describe("S3ClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(s3Mock).toHaveReceivedCommandTimes(HeadObjectCommand, 1);
-    expect(s3Mock).toHaveReceivedCommandWith(HeadObjectCommand, args);
+    expect(clientMock).toHaveReceivedCommandTimes(HeadObjectCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(HeadObjectCommand, args);
   });
 
   it("base", async () => {
-    s3Mock.reset().on(HeadObjectCommand).resolves({});
+    clientMock.reset().on(HeadObjectCommand).resolves({});
 
-    const args = { Key: "test", Bucket: "test" };
+    const args: HeadObjectCommandInput = { Key: "test", Bucket: "test" };
 
-    const program = Effect.flatMap(S3Service, (s3) => s3.headObject(args));
+    const program = Effect.flatMap(S3Service, (service) =>
+      service.headObject(args),
+    );
 
     const S3ClientInstanceLayer = Layer.succeed(
       S3ClientInstance,
@@ -100,16 +107,18 @@ describe("S3ClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(s3Mock).toHaveReceivedCommandTimes(HeadObjectCommand, 1);
-    expect(s3Mock).toHaveReceivedCommandWith(HeadObjectCommand, args);
+    expect(clientMock).toHaveReceivedCommandTimes(HeadObjectCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(HeadObjectCommand, args);
   });
 
   it("extended", async () => {
-    s3Mock.reset().on(HeadObjectCommand).resolves({});
+    clientMock.reset().on(HeadObjectCommand).resolves({});
 
-    const args = { Key: "test", Bucket: "test" };
+    const args: HeadObjectCommandInput = { Key: "test", Bucket: "test" };
 
-    const program = Effect.flatMap(S3Service, (s3) => s3.headObject(args));
+    const program = Effect.flatMap(S3Service, (service) =>
+      service.headObject(args),
+    );
 
     const S3ClientInstanceLayer = Layer.effect(
       S3ClientInstance,
@@ -130,17 +139,17 @@ describe("S3ClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(s3Mock).toHaveReceivedCommandTimes(HeadObjectCommand, 1);
-    expect(s3Mock).toHaveReceivedCommandWith(HeadObjectCommand, args);
+    expect(clientMock).toHaveReceivedCommandTimes(HeadObjectCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(HeadObjectCommand, args);
   });
 
   it("fail", async () => {
-    s3Mock.reset().on(HeadObjectCommand).rejects(new Error("test"));
+    clientMock.reset().on(HeadObjectCommand).rejects(new Error("test"));
 
-    const args = { Key: "test", Bucket: "test" };
+    const args: HeadObjectCommandInput = { Key: "test", Bucket: "test" };
 
-    const program = Effect.flatMap(S3Service, (s3) =>
-      s3.headObject(args, { requestTimeout: 1000 }),
+    const program = Effect.flatMap(S3Service, (service) =>
+      service.headObject(args, { requestTimeout: 1000 }),
     );
 
     const result = await pipe(
@@ -159,15 +168,15 @@ describe("S3ClientImpl", () => {
         }),
       ),
     );
-    expect(s3Mock).toHaveReceivedCommandTimes(HeadObjectCommand, 1);
-    expect(s3Mock).toHaveReceivedCommandWith(HeadObjectCommand, args);
+    expect(clientMock).toHaveReceivedCommandTimes(HeadObjectCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(HeadObjectCommand, args);
   });
 
   it("presigned url", async () => {
     const args: GetObjectCommandInput = { Key: "test", Bucket: "test" };
 
-    const program = Effect.flatMap(S3Service, (s3) =>
-      s3.getObject(args, { presigned: true, expiresIn: 100 }),
+    const program = Effect.flatMap(S3Service, (service) =>
+      service.getObject(args, { presigned: true, expiresIn: 100 }),
     );
 
     const result = await pipe(

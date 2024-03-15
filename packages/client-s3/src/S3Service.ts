@@ -2,294 +2,313 @@
  * @since 1.0.0
  */
 import {
-  AbortMultipartUploadCommand,
-  AbortMultipartUploadCommandInput,
-  AbortMultipartUploadCommandOutput,
-  CompleteMultipartUploadCommand,
-  CompleteMultipartUploadCommandInput,
-  CompleteMultipartUploadCommandOutput,
-  CopyObjectCommand,
-  CopyObjectCommandInput,
-  CopyObjectCommandOutput,
-  CreateBucketCommand,
-  CreateBucketCommandInput,
-  CreateBucketCommandOutput,
-  CreateMultipartUploadCommand,
-  CreateMultipartUploadCommandInput,
-  CreateMultipartUploadCommandOutput,
-  DeleteBucketAnalyticsConfigurationCommand,
-  DeleteBucketAnalyticsConfigurationCommandInput,
-  DeleteBucketAnalyticsConfigurationCommandOutput,
-  DeleteBucketCommand,
-  DeleteBucketCommandInput,
-  DeleteBucketCommandOutput,
-  DeleteBucketCorsCommand,
-  DeleteBucketCorsCommandInput,
-  DeleteBucketCorsCommandOutput,
-  DeleteBucketEncryptionCommand,
-  DeleteBucketEncryptionCommandInput,
-  DeleteBucketEncryptionCommandOutput,
-  DeleteBucketIntelligentTieringConfigurationCommand,
-  DeleteBucketIntelligentTieringConfigurationCommandInput,
-  DeleteBucketIntelligentTieringConfigurationCommandOutput,
-  DeleteBucketInventoryConfigurationCommand,
-  DeleteBucketInventoryConfigurationCommandInput,
-  DeleteBucketInventoryConfigurationCommandOutput,
-  DeleteBucketLifecycleCommand,
-  DeleteBucketLifecycleCommandInput,
-  DeleteBucketLifecycleCommandOutput,
-  DeleteBucketMetricsConfigurationCommand,
-  DeleteBucketMetricsConfigurationCommandInput,
-  DeleteBucketMetricsConfigurationCommandOutput,
-  DeleteBucketOwnershipControlsCommand,
-  DeleteBucketOwnershipControlsCommandInput,
-  DeleteBucketOwnershipControlsCommandOutput,
-  DeleteBucketPolicyCommand,
-  DeleteBucketPolicyCommandInput,
-  DeleteBucketPolicyCommandOutput,
-  DeleteBucketReplicationCommand,
-  DeleteBucketReplicationCommandInput,
-  DeleteBucketReplicationCommandOutput,
-  DeleteBucketTaggingCommand,
-  DeleteBucketTaggingCommandInput,
-  DeleteBucketTaggingCommandOutput,
-  DeleteBucketWebsiteCommand,
-  DeleteBucketWebsiteCommandInput,
-  DeleteBucketWebsiteCommandOutput,
-  DeleteObjectCommand,
-  DeleteObjectCommandInput,
-  DeleteObjectCommandOutput,
-  DeleteObjectsCommand,
-  DeleteObjectsCommandInput,
-  DeleteObjectsCommandOutput,
-  DeleteObjectTaggingCommand,
-  DeleteObjectTaggingCommandInput,
-  DeleteObjectTaggingCommandOutput,
-  DeletePublicAccessBlockCommand,
-  DeletePublicAccessBlockCommandInput,
-  DeletePublicAccessBlockCommandOutput,
-  GetBucketAccelerateConfigurationCommand,
-  GetBucketAccelerateConfigurationCommandInput,
-  GetBucketAccelerateConfigurationCommandOutput,
-  GetBucketAclCommand,
-  GetBucketAclCommandInput,
-  GetBucketAclCommandOutput,
-  GetBucketAnalyticsConfigurationCommand,
-  GetBucketAnalyticsConfigurationCommandInput,
-  GetBucketAnalyticsConfigurationCommandOutput,
-  GetBucketCorsCommand,
-  GetBucketCorsCommandInput,
-  GetBucketCorsCommandOutput,
-  GetBucketEncryptionCommand,
-  GetBucketEncryptionCommandInput,
-  GetBucketEncryptionCommandOutput,
-  GetBucketIntelligentTieringConfigurationCommand,
-  GetBucketIntelligentTieringConfigurationCommandInput,
-  GetBucketIntelligentTieringConfigurationCommandOutput,
-  GetBucketInventoryConfigurationCommand,
-  GetBucketInventoryConfigurationCommandInput,
-  GetBucketInventoryConfigurationCommandOutput,
-  GetBucketLifecycleConfigurationCommand,
-  GetBucketLifecycleConfigurationCommandInput,
-  GetBucketLifecycleConfigurationCommandOutput,
-  GetBucketLocationCommand,
-  GetBucketLocationCommandInput,
-  GetBucketLocationCommandOutput,
-  GetBucketLoggingCommand,
-  GetBucketLoggingCommandInput,
-  GetBucketLoggingCommandOutput,
-  GetBucketMetricsConfigurationCommand,
-  GetBucketMetricsConfigurationCommandInput,
-  GetBucketMetricsConfigurationCommandOutput,
-  GetBucketNotificationConfigurationCommand,
-  GetBucketNotificationConfigurationCommandInput,
-  GetBucketNotificationConfigurationCommandOutput,
-  GetBucketOwnershipControlsCommand,
-  GetBucketOwnershipControlsCommandInput,
-  GetBucketOwnershipControlsCommandOutput,
-  GetBucketPolicyCommand,
-  GetBucketPolicyCommandInput,
-  GetBucketPolicyCommandOutput,
-  GetBucketPolicyStatusCommand,
-  GetBucketPolicyStatusCommandInput,
-  GetBucketPolicyStatusCommandOutput,
-  GetBucketReplicationCommand,
-  GetBucketReplicationCommandInput,
-  GetBucketReplicationCommandOutput,
-  GetBucketRequestPaymentCommand,
-  GetBucketRequestPaymentCommandInput,
-  GetBucketRequestPaymentCommandOutput,
-  GetBucketTaggingCommand,
-  GetBucketTaggingCommandInput,
-  GetBucketTaggingCommandOutput,
-  GetBucketVersioningCommand,
-  GetBucketVersioningCommandInput,
-  GetBucketVersioningCommandOutput,
-  GetBucketWebsiteCommand,
-  GetBucketWebsiteCommandInput,
-  GetBucketWebsiteCommandOutput,
-  GetObjectAclCommand,
-  GetObjectAclCommandInput,
-  GetObjectAclCommandOutput,
-  GetObjectAttributesCommand,
-  GetObjectAttributesCommandInput,
-  GetObjectAttributesCommandOutput,
-  GetObjectCommand,
-  GetObjectCommandInput,
-  GetObjectCommandOutput,
-  GetObjectLegalHoldCommand,
-  GetObjectLegalHoldCommandInput,
-  GetObjectLegalHoldCommandOutput,
-  GetObjectLockConfigurationCommand,
-  GetObjectLockConfigurationCommandInput,
-  GetObjectLockConfigurationCommandOutput,
-  GetObjectRetentionCommand,
-  GetObjectRetentionCommandInput,
-  GetObjectRetentionCommandOutput,
-  GetObjectTaggingCommand,
-  GetObjectTaggingCommandInput,
-  GetObjectTaggingCommandOutput,
-  GetObjectTorrentCommand,
-  GetObjectTorrentCommandInput,
-  GetObjectTorrentCommandOutput,
-  GetPublicAccessBlockCommand,
-  GetPublicAccessBlockCommandInput,
-  GetPublicAccessBlockCommandOutput,
-  HeadBucketCommand,
-  HeadBucketCommandInput,
-  HeadBucketCommandOutput,
-  HeadObjectCommand,
-  HeadObjectCommandInput,
-  HeadObjectCommandOutput,
-  ListBucketAnalyticsConfigurationsCommand,
-  ListBucketAnalyticsConfigurationsCommandInput,
-  ListBucketAnalyticsConfigurationsCommandOutput,
-  ListBucketIntelligentTieringConfigurationsCommand,
-  ListBucketIntelligentTieringConfigurationsCommandInput,
-  ListBucketIntelligentTieringConfigurationsCommandOutput,
-  ListBucketInventoryConfigurationsCommand,
-  ListBucketInventoryConfigurationsCommandInput,
-  ListBucketInventoryConfigurationsCommandOutput,
-  ListBucketMetricsConfigurationsCommand,
-  ListBucketMetricsConfigurationsCommandInput,
-  ListBucketMetricsConfigurationsCommandOutput,
-  ListBucketsCommand,
-  ListBucketsCommandInput,
-  ListBucketsCommandOutput,
-  ListMultipartUploadsCommand,
-  ListMultipartUploadsCommandInput,
-  ListMultipartUploadsCommandOutput,
-  ListObjectsCommand,
-  ListObjectsCommandInput,
-  ListObjectsCommandOutput,
-  ListObjectsV2Command,
-  ListObjectsV2CommandInput,
-  ListObjectsV2CommandOutput,
-  ListObjectVersionsCommand,
-  ListObjectVersionsCommandInput,
-  ListObjectVersionsCommandOutput,
-  ListPartsCommand,
-  ListPartsCommandInput,
-  ListPartsCommandOutput,
-  PutBucketAccelerateConfigurationCommand,
-  PutBucketAccelerateConfigurationCommandInput,
-  PutBucketAccelerateConfigurationCommandOutput,
-  PutBucketAclCommand,
-  PutBucketAclCommandInput,
-  PutBucketAclCommandOutput,
-  PutBucketAnalyticsConfigurationCommand,
-  PutBucketAnalyticsConfigurationCommandInput,
-  PutBucketAnalyticsConfigurationCommandOutput,
-  PutBucketCorsCommand,
-  PutBucketCorsCommandInput,
-  PutBucketCorsCommandOutput,
-  PutBucketEncryptionCommand,
-  PutBucketEncryptionCommandInput,
-  PutBucketEncryptionCommandOutput,
-  PutBucketIntelligentTieringConfigurationCommand,
-  PutBucketIntelligentTieringConfigurationCommandInput,
-  PutBucketIntelligentTieringConfigurationCommandOutput,
-  PutBucketInventoryConfigurationCommand,
-  PutBucketInventoryConfigurationCommandInput,
-  PutBucketInventoryConfigurationCommandOutput,
-  PutBucketLifecycleConfigurationCommand,
-  PutBucketLifecycleConfigurationCommandInput,
-  PutBucketLifecycleConfigurationCommandOutput,
-  PutBucketLoggingCommand,
-  PutBucketLoggingCommandInput,
-  PutBucketLoggingCommandOutput,
-  PutBucketMetricsConfigurationCommand,
-  PutBucketMetricsConfigurationCommandInput,
-  PutBucketMetricsConfigurationCommandOutput,
-  PutBucketNotificationConfigurationCommand,
-  PutBucketNotificationConfigurationCommandInput,
-  PutBucketNotificationConfigurationCommandOutput,
-  PutBucketOwnershipControlsCommand,
-  PutBucketOwnershipControlsCommandInput,
-  PutBucketOwnershipControlsCommandOutput,
-  PutBucketPolicyCommand,
-  PutBucketPolicyCommandInput,
-  PutBucketPolicyCommandOutput,
-  PutBucketReplicationCommand,
-  PutBucketReplicationCommandInput,
-  PutBucketReplicationCommandOutput,
-  PutBucketRequestPaymentCommand,
-  PutBucketRequestPaymentCommandInput,
-  PutBucketRequestPaymentCommandOutput,
-  PutBucketTaggingCommand,
-  PutBucketTaggingCommandInput,
-  PutBucketTaggingCommandOutput,
-  PutBucketVersioningCommand,
-  PutBucketVersioningCommandInput,
-  PutBucketVersioningCommandOutput,
-  PutBucketWebsiteCommand,
-  PutBucketWebsiteCommandInput,
-  PutBucketWebsiteCommandOutput,
-  PutObjectAclCommand,
-  PutObjectAclCommandInput,
-  PutObjectAclCommandOutput,
-  PutObjectCommand,
-  PutObjectCommandInput,
-  PutObjectCommandOutput,
-  PutObjectLegalHoldCommand,
-  PutObjectLegalHoldCommandInput,
-  PutObjectLegalHoldCommandOutput,
-  PutObjectLockConfigurationCommand,
-  PutObjectLockConfigurationCommandInput,
-  PutObjectLockConfigurationCommandOutput,
-  PutObjectRetentionCommand,
-  PutObjectRetentionCommandInput,
-  PutObjectRetentionCommandOutput,
-  PutObjectTaggingCommand,
-  PutObjectTaggingCommandInput,
-  PutObjectTaggingCommandOutput,
-  PutPublicAccessBlockCommand,
-  PutPublicAccessBlockCommandInput,
-  PutPublicAccessBlockCommandOutput,
-  RestoreObjectCommand,
-  RestoreObjectCommandInput,
-  RestoreObjectCommandOutput,
   S3ServiceException,
+  AbortMultipartUploadCommand,
+  type AbortMultipartUploadCommandInput,
+  type AbortMultipartUploadCommandOutput,
+  CompleteMultipartUploadCommand,
+  type CompleteMultipartUploadCommandInput,
+  type CompleteMultipartUploadCommandOutput,
+  CopyObjectCommand,
+  type CopyObjectCommandInput,
+  type CopyObjectCommandOutput,
+  CreateBucketCommand,
+  type CreateBucketCommandInput,
+  type CreateBucketCommandOutput,
+  CreateMultipartUploadCommand,
+  type CreateMultipartUploadCommandInput,
+  type CreateMultipartUploadCommandOutput,
+  CreateSessionCommand,
+  type CreateSessionCommandInput,
+  type CreateSessionCommandOutput,
+  DeleteBucketCommand,
+  type DeleteBucketCommandInput,
+  type DeleteBucketCommandOutput,
+  DeleteBucketAnalyticsConfigurationCommand,
+  type DeleteBucketAnalyticsConfigurationCommandInput,
+  type DeleteBucketAnalyticsConfigurationCommandOutput,
+  DeleteBucketCorsCommand,
+  type DeleteBucketCorsCommandInput,
+  type DeleteBucketCorsCommandOutput,
+  DeleteBucketEncryptionCommand,
+  type DeleteBucketEncryptionCommandInput,
+  type DeleteBucketEncryptionCommandOutput,
+  DeleteBucketIntelligentTieringConfigurationCommand,
+  type DeleteBucketIntelligentTieringConfigurationCommandInput,
+  type DeleteBucketIntelligentTieringConfigurationCommandOutput,
+  DeleteBucketInventoryConfigurationCommand,
+  type DeleteBucketInventoryConfigurationCommandInput,
+  type DeleteBucketInventoryConfigurationCommandOutput,
+  DeleteBucketLifecycleCommand,
+  type DeleteBucketLifecycleCommandInput,
+  type DeleteBucketLifecycleCommandOutput,
+  DeleteBucketMetricsConfigurationCommand,
+  type DeleteBucketMetricsConfigurationCommandInput,
+  type DeleteBucketMetricsConfigurationCommandOutput,
+  DeleteBucketOwnershipControlsCommand,
+  type DeleteBucketOwnershipControlsCommandInput,
+  type DeleteBucketOwnershipControlsCommandOutput,
+  DeleteBucketPolicyCommand,
+  type DeleteBucketPolicyCommandInput,
+  type DeleteBucketPolicyCommandOutput,
+  DeleteBucketReplicationCommand,
+  type DeleteBucketReplicationCommandInput,
+  type DeleteBucketReplicationCommandOutput,
+  DeleteBucketTaggingCommand,
+  type DeleteBucketTaggingCommandInput,
+  type DeleteBucketTaggingCommandOutput,
+  DeleteBucketWebsiteCommand,
+  type DeleteBucketWebsiteCommandInput,
+  type DeleteBucketWebsiteCommandOutput,
+  DeleteObjectCommand,
+  type DeleteObjectCommandInput,
+  type DeleteObjectCommandOutput,
+  DeleteObjectsCommand,
+  type DeleteObjectsCommandInput,
+  type DeleteObjectsCommandOutput,
+  DeleteObjectTaggingCommand,
+  type DeleteObjectTaggingCommandInput,
+  type DeleteObjectTaggingCommandOutput,
+  DeletePublicAccessBlockCommand,
+  type DeletePublicAccessBlockCommandInput,
+  type DeletePublicAccessBlockCommandOutput,
+  GetBucketAccelerateConfigurationCommand,
+  type GetBucketAccelerateConfigurationCommandInput,
+  type GetBucketAccelerateConfigurationCommandOutput,
+  GetBucketAclCommand,
+  type GetBucketAclCommandInput,
+  type GetBucketAclCommandOutput,
+  GetBucketAnalyticsConfigurationCommand,
+  type GetBucketAnalyticsConfigurationCommandInput,
+  type GetBucketAnalyticsConfigurationCommandOutput,
+  GetBucketCorsCommand,
+  type GetBucketCorsCommandInput,
+  type GetBucketCorsCommandOutput,
+  GetBucketEncryptionCommand,
+  type GetBucketEncryptionCommandInput,
+  type GetBucketEncryptionCommandOutput,
+  GetBucketIntelligentTieringConfigurationCommand,
+  type GetBucketIntelligentTieringConfigurationCommandInput,
+  type GetBucketIntelligentTieringConfigurationCommandOutput,
+  GetBucketInventoryConfigurationCommand,
+  type GetBucketInventoryConfigurationCommandInput,
+  type GetBucketInventoryConfigurationCommandOutput,
+  GetBucketLifecycleConfigurationCommand,
+  type GetBucketLifecycleConfigurationCommandInput,
+  type GetBucketLifecycleConfigurationCommandOutput,
+  GetBucketLocationCommand,
+  type GetBucketLocationCommandInput,
+  type GetBucketLocationCommandOutput,
+  GetBucketLoggingCommand,
+  type GetBucketLoggingCommandInput,
+  type GetBucketLoggingCommandOutput,
+  GetBucketMetricsConfigurationCommand,
+  type GetBucketMetricsConfigurationCommandInput,
+  type GetBucketMetricsConfigurationCommandOutput,
+  GetBucketNotificationConfigurationCommand,
+  type GetBucketNotificationConfigurationCommandInput,
+  type GetBucketNotificationConfigurationCommandOutput,
+  GetBucketOwnershipControlsCommand,
+  type GetBucketOwnershipControlsCommandInput,
+  type GetBucketOwnershipControlsCommandOutput,
+  GetBucketPolicyCommand,
+  type GetBucketPolicyCommandInput,
+  type GetBucketPolicyCommandOutput,
+  GetBucketPolicyStatusCommand,
+  type GetBucketPolicyStatusCommandInput,
+  type GetBucketPolicyStatusCommandOutput,
+  GetBucketReplicationCommand,
+  type GetBucketReplicationCommandInput,
+  type GetBucketReplicationCommandOutput,
+  GetBucketRequestPaymentCommand,
+  type GetBucketRequestPaymentCommandInput,
+  type GetBucketRequestPaymentCommandOutput,
+  GetBucketTaggingCommand,
+  type GetBucketTaggingCommandInput,
+  type GetBucketTaggingCommandOutput,
+  GetBucketVersioningCommand,
+  type GetBucketVersioningCommandInput,
+  type GetBucketVersioningCommandOutput,
+  GetBucketWebsiteCommand,
+  type GetBucketWebsiteCommandInput,
+  type GetBucketWebsiteCommandOutput,
+  GetObjectCommand,
+  type GetObjectCommandInput,
+  type GetObjectCommandOutput,
+  GetObjectAclCommand,
+  type GetObjectAclCommandInput,
+  type GetObjectAclCommandOutput,
+  GetObjectAttributesCommand,
+  type GetObjectAttributesCommandInput,
+  type GetObjectAttributesCommandOutput,
+  GetObjectLegalHoldCommand,
+  type GetObjectLegalHoldCommandInput,
+  type GetObjectLegalHoldCommandOutput,
+  GetObjectLockConfigurationCommand,
+  type GetObjectLockConfigurationCommandInput,
+  type GetObjectLockConfigurationCommandOutput,
+  GetObjectRetentionCommand,
+  type GetObjectRetentionCommandInput,
+  type GetObjectRetentionCommandOutput,
+  GetObjectTaggingCommand,
+  type GetObjectTaggingCommandInput,
+  type GetObjectTaggingCommandOutput,
+  GetObjectTorrentCommand,
+  type GetObjectTorrentCommandInput,
+  type GetObjectTorrentCommandOutput,
+  GetPublicAccessBlockCommand,
+  type GetPublicAccessBlockCommandInput,
+  type GetPublicAccessBlockCommandOutput,
+  HeadBucketCommand,
+  type HeadBucketCommandInput,
+  type HeadBucketCommandOutput,
+  HeadObjectCommand,
+  type HeadObjectCommandInput,
+  type HeadObjectCommandOutput,
+  ListBucketAnalyticsConfigurationsCommand,
+  type ListBucketAnalyticsConfigurationsCommandInput,
+  type ListBucketAnalyticsConfigurationsCommandOutput,
+  ListBucketIntelligentTieringConfigurationsCommand,
+  type ListBucketIntelligentTieringConfigurationsCommandInput,
+  type ListBucketIntelligentTieringConfigurationsCommandOutput,
+  ListBucketInventoryConfigurationsCommand,
+  type ListBucketInventoryConfigurationsCommandInput,
+  type ListBucketInventoryConfigurationsCommandOutput,
+  ListBucketMetricsConfigurationsCommand,
+  type ListBucketMetricsConfigurationsCommandInput,
+  type ListBucketMetricsConfigurationsCommandOutput,
+  ListBucketsCommand,
+  type ListBucketsCommandInput,
+  type ListBucketsCommandOutput,
+  ListDirectoryBucketsCommand,
+  type ListDirectoryBucketsCommandInput,
+  type ListDirectoryBucketsCommandOutput,
+  ListMultipartUploadsCommand,
+  type ListMultipartUploadsCommandInput,
+  type ListMultipartUploadsCommandOutput,
+  ListObjectsCommand,
+  type ListObjectsCommandInput,
+  type ListObjectsCommandOutput,
+  ListObjectsV2Command,
+  type ListObjectsV2CommandInput,
+  type ListObjectsV2CommandOutput,
+  ListObjectVersionsCommand,
+  type ListObjectVersionsCommandInput,
+  type ListObjectVersionsCommandOutput,
+  ListPartsCommand,
+  type ListPartsCommandInput,
+  type ListPartsCommandOutput,
+  PutBucketAccelerateConfigurationCommand,
+  type PutBucketAccelerateConfigurationCommandInput,
+  type PutBucketAccelerateConfigurationCommandOutput,
+  PutBucketAclCommand,
+  type PutBucketAclCommandInput,
+  type PutBucketAclCommandOutput,
+  PutBucketAnalyticsConfigurationCommand,
+  type PutBucketAnalyticsConfigurationCommandInput,
+  type PutBucketAnalyticsConfigurationCommandOutput,
+  PutBucketCorsCommand,
+  type PutBucketCorsCommandInput,
+  type PutBucketCorsCommandOutput,
+  PutBucketEncryptionCommand,
+  type PutBucketEncryptionCommandInput,
+  type PutBucketEncryptionCommandOutput,
+  PutBucketIntelligentTieringConfigurationCommand,
+  type PutBucketIntelligentTieringConfigurationCommandInput,
+  type PutBucketIntelligentTieringConfigurationCommandOutput,
+  PutBucketInventoryConfigurationCommand,
+  type PutBucketInventoryConfigurationCommandInput,
+  type PutBucketInventoryConfigurationCommandOutput,
+  PutBucketLifecycleConfigurationCommand,
+  type PutBucketLifecycleConfigurationCommandInput,
+  type PutBucketLifecycleConfigurationCommandOutput,
+  PutBucketLoggingCommand,
+  type PutBucketLoggingCommandInput,
+  type PutBucketLoggingCommandOutput,
+  PutBucketMetricsConfigurationCommand,
+  type PutBucketMetricsConfigurationCommandInput,
+  type PutBucketMetricsConfigurationCommandOutput,
+  PutBucketNotificationConfigurationCommand,
+  type PutBucketNotificationConfigurationCommandInput,
+  type PutBucketNotificationConfigurationCommandOutput,
+  PutBucketOwnershipControlsCommand,
+  type PutBucketOwnershipControlsCommandInput,
+  type PutBucketOwnershipControlsCommandOutput,
+  PutBucketPolicyCommand,
+  type PutBucketPolicyCommandInput,
+  type PutBucketPolicyCommandOutput,
+  PutBucketReplicationCommand,
+  type PutBucketReplicationCommandInput,
+  type PutBucketReplicationCommandOutput,
+  PutBucketRequestPaymentCommand,
+  type PutBucketRequestPaymentCommandInput,
+  type PutBucketRequestPaymentCommandOutput,
+  PutBucketTaggingCommand,
+  type PutBucketTaggingCommandInput,
+  type PutBucketTaggingCommandOutput,
+  PutBucketVersioningCommand,
+  type PutBucketVersioningCommandInput,
+  type PutBucketVersioningCommandOutput,
+  PutBucketWebsiteCommand,
+  type PutBucketWebsiteCommandInput,
+  type PutBucketWebsiteCommandOutput,
+  PutObjectCommand,
+  type PutObjectCommandInput,
+  type PutObjectCommandOutput,
+  PutObjectAclCommand,
+  type PutObjectAclCommandInput,
+  type PutObjectAclCommandOutput,
+  PutObjectLegalHoldCommand,
+  type PutObjectLegalHoldCommandInput,
+  type PutObjectLegalHoldCommandOutput,
+  PutObjectLockConfigurationCommand,
+  type PutObjectLockConfigurationCommandInput,
+  type PutObjectLockConfigurationCommandOutput,
+  PutObjectRetentionCommand,
+  type PutObjectRetentionCommandInput,
+  type PutObjectRetentionCommandOutput,
+  PutObjectTaggingCommand,
+  type PutObjectTaggingCommandInput,
+  type PutObjectTaggingCommandOutput,
+  PutPublicAccessBlockCommand,
+  type PutPublicAccessBlockCommandInput,
+  type PutPublicAccessBlockCommandOutput,
+  RestoreObjectCommand,
+  type RestoreObjectCommandInput,
+  type RestoreObjectCommandOutput,
   SelectObjectContentCommand,
-  SelectObjectContentCommandInput,
-  SelectObjectContentCommandOutput,
+  type SelectObjectContentCommandInput,
+  type SelectObjectContentCommandOutput,
   UploadPartCommand,
-  UploadPartCommandInput,
-  UploadPartCommandOutput,
+  type UploadPartCommandInput,
+  type UploadPartCommandOutput,
   UploadPartCopyCommand,
-  UploadPartCopyCommandInput,
-  UploadPartCopyCommandOutput,
+  type UploadPartCopyCommandInput,
+  type UploadPartCopyCommandOutput,
   WriteGetObjectResponseCommand,
-  WriteGetObjectResponseCommandInput,
-  WriteGetObjectResponseCommandOutput,
+  type WriteGetObjectResponseCommandInput,
+  type WriteGetObjectResponseCommandOutput,
 } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import {
-  HttpHandlerOptions as __HttpHandlerOptions,
+  type HttpHandlerOptions as __HttpHandlerOptions,
   RequestPresigningArguments,
 } from "@aws-sdk/types";
-import { Context, Effect, Layer, ReadonlyRecord } from "effect";
-import { S3ServiceError, SdkError } from "./Errors";
+import { Context, Data, Effect, Layer, ReadonlyRecord } from "effect";
+import {
+  BucketAlreadyExistsError,
+  BucketAlreadyOwnedByYouError,
+  InvalidObjectStateError,
+  NoSuchBucketError,
+  NoSuchKeyError,
+  NoSuchUploadError,
+  NotFoundError,
+  ObjectAlreadyInActiveTierError,
+  ObjectNotInActiveTierError,
+  S3ServiceError,
+  SdkError,
+  TaggedException,
+} from "./Errors";
 import {
   DefaultS3ClientInstanceLayer,
   S3ClientInstance,
@@ -303,6 +322,7 @@ const commands = {
   CopyObjectCommand,
   CreateBucketCommand,
   CreateMultipartUploadCommand,
+  CreateSessionCommand,
   DeleteBucketCommand,
   DeleteBucketAnalyticsConfigurationCommand,
   DeleteBucketCorsCommand,
@@ -356,6 +376,7 @@ const commands = {
   ListBucketInventoryConfigurationsCommand,
   ListBucketMetricsConfigurationsCommand,
   ListBucketsCommand,
+  ListDirectoryBucketsCommand,
   ListMultipartUploadsCommand,
   ListObjectsCommand,
   ListObjectsV2Command,
@@ -403,21 +424,21 @@ export interface S3Service {
   /**
    * @see {@link AbortMultipartUploadCommand}
    */
-  readonly abortMultipartUpload: (
+  abortMultipartUpload(
     args: AbortMultipartUploadCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     AbortMultipartUploadCommandOutput,
-    SdkError | S3ServiceError
+    SdkError | NoSuchUploadError
   >;
 
   /**
    * @see {@link CompleteMultipartUploadCommand}
    */
-  readonly completeMultipartUpload: (
+  completeMultipartUpload(
     args: CompleteMultipartUploadCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     CompleteMultipartUploadCommandOutput,
     SdkError | S3ServiceError
   >;
@@ -425,45 +446,59 @@ export interface S3Service {
   /**
    * @see {@link CopyObjectCommand}
    */
-  readonly copyObject: (
+  copyObject(
     args: CopyObjectCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<CopyObjectCommandOutput, SdkError | S3ServiceError>;
+  ): Effect.Effect<
+    CopyObjectCommandOutput,
+    SdkError | ObjectNotInActiveTierError
+  >;
 
   /**
    * @see {@link CreateBucketCommand}
    */
-  readonly createBucket: (
+  createBucket(
     args: CreateBucketCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<CreateBucketCommandOutput, SdkError | S3ServiceError>;
+  ): Effect.Effect<
+    CreateBucketCommandOutput,
+    SdkError | BucketAlreadyExistsError | BucketAlreadyOwnedByYouError
+  >;
 
   /**
    * @see {@link CreateMultipartUploadCommand}
    */
-  readonly createMultipartUpload: (
+  createMultipartUpload(
     args: CreateMultipartUploadCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     CreateMultipartUploadCommandOutput,
     SdkError | S3ServiceError
   >;
 
   /**
+   * @see {@link CreateSessionCommand}
+   */
+  createSession(
+    args: CreateSessionCommandInput,
+    options?: __HttpHandlerOptions,
+  ): Effect.Effect<CreateSessionCommandOutput, SdkError | NoSuchBucketError>;
+
+  /**
    * @see {@link DeleteBucketCommand}
    */
-  readonly deleteBucket: (
+  deleteBucket(
     args: DeleteBucketCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<DeleteBucketCommandOutput, SdkError | S3ServiceError>;
+  ): Effect.Effect<DeleteBucketCommandOutput, SdkError | S3ServiceError>;
 
   /**
    * @see {@link DeleteBucketAnalyticsConfigurationCommand}
    */
-  readonly deleteBucketAnalyticsConfiguration: (
+  deleteBucketAnalyticsConfiguration(
     args: DeleteBucketAnalyticsConfigurationCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     DeleteBucketAnalyticsConfigurationCommandOutput,
     SdkError | S3ServiceError
   >;
@@ -471,18 +506,18 @@ export interface S3Service {
   /**
    * @see {@link DeleteBucketCorsCommand}
    */
-  readonly deleteBucketCors: (
+  deleteBucketCors(
     args: DeleteBucketCorsCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<DeleteBucketCorsCommandOutput, SdkError | S3ServiceError>;
+  ): Effect.Effect<DeleteBucketCorsCommandOutput, SdkError | S3ServiceError>;
 
   /**
    * @see {@link DeleteBucketEncryptionCommand}
    */
-  readonly deleteBucketEncryption: (
+  deleteBucketEncryption(
     args: DeleteBucketEncryptionCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     DeleteBucketEncryptionCommandOutput,
     SdkError | S3ServiceError
   >;
@@ -490,10 +525,10 @@ export interface S3Service {
   /**
    * @see {@link DeleteBucketIntelligentTieringConfigurationCommand}
    */
-  readonly deleteBucketIntelligentTieringConfiguration: (
+  deleteBucketIntelligentTieringConfiguration(
     args: DeleteBucketIntelligentTieringConfigurationCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     DeleteBucketIntelligentTieringConfigurationCommandOutput,
     SdkError | S3ServiceError
   >;
@@ -501,10 +536,10 @@ export interface S3Service {
   /**
    * @see {@link DeleteBucketInventoryConfigurationCommand}
    */
-  readonly deleteBucketInventoryConfiguration: (
+  deleteBucketInventoryConfiguration(
     args: DeleteBucketInventoryConfigurationCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     DeleteBucketInventoryConfigurationCommandOutput,
     SdkError | S3ServiceError
   >;
@@ -512,10 +547,10 @@ export interface S3Service {
   /**
    * @see {@link DeleteBucketLifecycleCommand}
    */
-  readonly deleteBucketLifecycle: (
+  deleteBucketLifecycle(
     args: DeleteBucketLifecycleCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     DeleteBucketLifecycleCommandOutput,
     SdkError | S3ServiceError
   >;
@@ -523,10 +558,10 @@ export interface S3Service {
   /**
    * @see {@link DeleteBucketMetricsConfigurationCommand}
    */
-  readonly deleteBucketMetricsConfiguration: (
+  deleteBucketMetricsConfiguration(
     args: DeleteBucketMetricsConfigurationCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     DeleteBucketMetricsConfigurationCommandOutput,
     SdkError | S3ServiceError
   >;
@@ -534,10 +569,10 @@ export interface S3Service {
   /**
    * @see {@link DeleteBucketOwnershipControlsCommand}
    */
-  readonly deleteBucketOwnershipControls: (
+  deleteBucketOwnershipControls(
     args: DeleteBucketOwnershipControlsCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     DeleteBucketOwnershipControlsCommandOutput,
     SdkError | S3ServiceError
   >;
@@ -545,21 +580,18 @@ export interface S3Service {
   /**
    * @see {@link DeleteBucketPolicyCommand}
    */
-  readonly deleteBucketPolicy: (
+  deleteBucketPolicy(
     args: DeleteBucketPolicyCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteBucketPolicyCommandOutput,
-    SdkError | S3ServiceError
-  >;
+  ): Effect.Effect<DeleteBucketPolicyCommandOutput, SdkError | S3ServiceError>;
 
   /**
    * @see {@link DeleteBucketReplicationCommand}
    */
-  readonly deleteBucketReplication: (
+  deleteBucketReplication(
     args: DeleteBucketReplicationCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     DeleteBucketReplicationCommandOutput,
     SdkError | S3ServiceError
   >;
@@ -567,59 +599,50 @@ export interface S3Service {
   /**
    * @see {@link DeleteBucketTaggingCommand}
    */
-  readonly deleteBucketTagging: (
+  deleteBucketTagging(
     args: DeleteBucketTaggingCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteBucketTaggingCommandOutput,
-    SdkError | S3ServiceError
-  >;
+  ): Effect.Effect<DeleteBucketTaggingCommandOutput, SdkError | S3ServiceError>;
 
   /**
    * @see {@link DeleteBucketWebsiteCommand}
    */
-  readonly deleteBucketWebsite: (
+  deleteBucketWebsite(
     args: DeleteBucketWebsiteCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteBucketWebsiteCommandOutput,
-    SdkError | S3ServiceError
-  >;
+  ): Effect.Effect<DeleteBucketWebsiteCommandOutput, SdkError | S3ServiceError>;
 
   /**
    * @see {@link DeleteObjectCommand}
    */
-  readonly deleteObject: (
+  deleteObject(
     args: DeleteObjectCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<DeleteObjectCommandOutput, SdkError | S3ServiceError>;
+  ): Effect.Effect<DeleteObjectCommandOutput, SdkError | S3ServiceError>;
 
   /**
    * @see {@link DeleteObjectsCommand}
    */
-  readonly deleteObjects: (
+  deleteObjects(
     args: DeleteObjectsCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<DeleteObjectsCommandOutput, SdkError | S3ServiceError>;
+  ): Effect.Effect<DeleteObjectsCommandOutput, SdkError | S3ServiceError>;
 
   /**
    * @see {@link DeleteObjectTaggingCommand}
    */
-  readonly deleteObjectTagging: (
+  deleteObjectTagging(
     args: DeleteObjectTaggingCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteObjectTaggingCommandOutput,
-    SdkError | S3ServiceError
-  >;
+  ): Effect.Effect<DeleteObjectTaggingCommandOutput, SdkError | S3ServiceError>;
 
   /**
    * @see {@link DeletePublicAccessBlockCommand}
    */
-  readonly deletePublicAccessBlock: (
+  deletePublicAccessBlock(
     args: DeletePublicAccessBlockCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     DeletePublicAccessBlockCommandOutput,
     SdkError | S3ServiceError
   >;
@@ -627,10 +650,10 @@ export interface S3Service {
   /**
    * @see {@link GetBucketAccelerateConfigurationCommand}
    */
-  readonly getBucketAccelerateConfiguration: (
+  getBucketAccelerateConfiguration(
     args: GetBucketAccelerateConfigurationCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     GetBucketAccelerateConfigurationCommandOutput,
     SdkError | S3ServiceError
   >;
@@ -638,18 +661,18 @@ export interface S3Service {
   /**
    * @see {@link GetBucketAclCommand}
    */
-  readonly getBucketAcl: (
+  getBucketAcl(
     args: GetBucketAclCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<GetBucketAclCommandOutput, SdkError | S3ServiceError>;
+  ): Effect.Effect<GetBucketAclCommandOutput, SdkError | S3ServiceError>;
 
   /**
    * @see {@link GetBucketAnalyticsConfigurationCommand}
    */
-  readonly getBucketAnalyticsConfiguration: (
+  getBucketAnalyticsConfiguration(
     args: GetBucketAnalyticsConfigurationCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     GetBucketAnalyticsConfigurationCommandOutput,
     SdkError | S3ServiceError
   >;
@@ -657,29 +680,26 @@ export interface S3Service {
   /**
    * @see {@link GetBucketCorsCommand}
    */
-  readonly getBucketCors: (
+  getBucketCors(
     args: GetBucketCorsCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<GetBucketCorsCommandOutput, SdkError | S3ServiceError>;
+  ): Effect.Effect<GetBucketCorsCommandOutput, SdkError | S3ServiceError>;
 
   /**
    * @see {@link GetBucketEncryptionCommand}
    */
-  readonly getBucketEncryption: (
+  getBucketEncryption(
     args: GetBucketEncryptionCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetBucketEncryptionCommandOutput,
-    SdkError | S3ServiceError
-  >;
+  ): Effect.Effect<GetBucketEncryptionCommandOutput, SdkError | S3ServiceError>;
 
   /**
    * @see {@link GetBucketIntelligentTieringConfigurationCommand}
    */
-  readonly getBucketIntelligentTieringConfiguration: (
+  getBucketIntelligentTieringConfiguration(
     args: GetBucketIntelligentTieringConfigurationCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     GetBucketIntelligentTieringConfigurationCommandOutput,
     SdkError | S3ServiceError
   >;
@@ -687,10 +707,10 @@ export interface S3Service {
   /**
    * @see {@link GetBucketInventoryConfigurationCommand}
    */
-  readonly getBucketInventoryConfiguration: (
+  getBucketInventoryConfiguration(
     args: GetBucketInventoryConfigurationCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     GetBucketInventoryConfigurationCommandOutput,
     SdkError | S3ServiceError
   >;
@@ -698,10 +718,10 @@ export interface S3Service {
   /**
    * @see {@link GetBucketLifecycleConfigurationCommand}
    */
-  readonly getBucketLifecycleConfiguration: (
+  getBucketLifecycleConfiguration(
     args: GetBucketLifecycleConfigurationCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     GetBucketLifecycleConfigurationCommandOutput,
     SdkError | S3ServiceError
   >;
@@ -709,26 +729,26 @@ export interface S3Service {
   /**
    * @see {@link GetBucketLocationCommand}
    */
-  readonly getBucketLocation: (
+  getBucketLocation(
     args: GetBucketLocationCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<GetBucketLocationCommandOutput, SdkError | S3ServiceError>;
+  ): Effect.Effect<GetBucketLocationCommandOutput, SdkError | S3ServiceError>;
 
   /**
    * @see {@link GetBucketLoggingCommand}
    */
-  readonly getBucketLogging: (
+  getBucketLogging(
     args: GetBucketLoggingCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<GetBucketLoggingCommandOutput, SdkError | S3ServiceError>;
+  ): Effect.Effect<GetBucketLoggingCommandOutput, SdkError | S3ServiceError>;
 
   /**
    * @see {@link GetBucketMetricsConfigurationCommand}
    */
-  readonly getBucketMetricsConfiguration: (
+  getBucketMetricsConfiguration(
     args: GetBucketMetricsConfigurationCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     GetBucketMetricsConfigurationCommandOutput,
     SdkError | S3ServiceError
   >;
@@ -736,10 +756,10 @@ export interface S3Service {
   /**
    * @see {@link GetBucketNotificationConfigurationCommand}
    */
-  readonly getBucketNotificationConfiguration: (
+  getBucketNotificationConfiguration(
     args: GetBucketNotificationConfigurationCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     GetBucketNotificationConfigurationCommandOutput,
     SdkError | S3ServiceError
   >;
@@ -747,10 +767,10 @@ export interface S3Service {
   /**
    * @see {@link GetBucketOwnershipControlsCommand}
    */
-  readonly getBucketOwnershipControls: (
+  getBucketOwnershipControls(
     args: GetBucketOwnershipControlsCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     GetBucketOwnershipControlsCommandOutput,
     SdkError | S3ServiceError
   >;
@@ -758,18 +778,18 @@ export interface S3Service {
   /**
    * @see {@link GetBucketPolicyCommand}
    */
-  readonly getBucketPolicy: (
+  getBucketPolicy(
     args: GetBucketPolicyCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<GetBucketPolicyCommandOutput, SdkError | S3ServiceError>;
+  ): Effect.Effect<GetBucketPolicyCommandOutput, SdkError | S3ServiceError>;
 
   /**
    * @see {@link GetBucketPolicyStatusCommand}
    */
-  readonly getBucketPolicyStatus: (
+  getBucketPolicyStatus(
     args: GetBucketPolicyStatusCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     GetBucketPolicyStatusCommandOutput,
     SdkError | S3ServiceError
   >;
@@ -777,10 +797,10 @@ export interface S3Service {
   /**
    * @see {@link GetBucketReplicationCommand}
    */
-  readonly getBucketReplication: (
+  getBucketReplication(
     args: GetBucketReplicationCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     GetBucketReplicationCommandOutput,
     SdkError | S3ServiceError
   >;
@@ -788,10 +808,10 @@ export interface S3Service {
   /**
    * @see {@link GetBucketRequestPaymentCommand}
    */
-  readonly getBucketRequestPayment: (
+  getBucketRequestPayment(
     args: GetBucketRequestPaymentCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     GetBucketRequestPaymentCommandOutput,
     SdkError | S3ServiceError
   >;
@@ -799,81 +819,73 @@ export interface S3Service {
   /**
    * @see {@link GetBucketTaggingCommand}
    */
-  readonly getBucketTagging: (
+  getBucketTagging(
     args: GetBucketTaggingCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<GetBucketTaggingCommandOutput, SdkError | S3ServiceError>;
+  ): Effect.Effect<GetBucketTaggingCommandOutput, SdkError | S3ServiceError>;
 
   /**
    * @see {@link GetBucketVersioningCommand}
    */
-  readonly getBucketVersioning: (
+  getBucketVersioning(
     args: GetBucketVersioningCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetBucketVersioningCommandOutput,
-    SdkError | S3ServiceError
-  >;
+  ): Effect.Effect<GetBucketVersioningCommandOutput, SdkError | S3ServiceError>;
 
   /**
    * @see {@link GetBucketWebsiteCommand}
    */
-  readonly getBucketWebsite: (
+  getBucketWebsite(
     args: GetBucketWebsiteCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<GetBucketWebsiteCommandOutput, SdkError | S3ServiceError>;
+  ): Effect.Effect<GetBucketWebsiteCommandOutput, SdkError | S3ServiceError>;
 
   /**
    * @see {@link GetObjectCommand}
    */
-  readonly getObject: {
-    (
-      args: GetObjectCommandInput,
-      options?: { readonly presigned?: false } & __HttpHandlerOptions,
-    ): Effect.Effect<GetObjectCommandOutput, SdkError | S3ServiceError>;
-    (
-      args: GetObjectCommandInput,
-      options?: { readonly presigned: true } & RequestPresigningArguments,
-    ): Effect.Effect<string, SdkError | S3ServiceError>;
-  };
+  getObject(
+    args: GetObjectCommandInput,
+    options?: { readonly presigned?: false } & __HttpHandlerOptions,
+  ): Effect.Effect<
+    GetObjectCommandOutput,
+    SdkError | InvalidObjectStateError | NoSuchKeyError
+  >;
+  getObject(
+    args: GetObjectCommandInput,
+    options?: { readonly presigned: true } & RequestPresigningArguments,
+  ): Effect.Effect<string, SdkError | S3ServiceError>;
 
   /**
    * @see {@link GetObjectAclCommand}
    */
-  readonly getObjectAcl: (
+  getObjectAcl(
     args: GetObjectAclCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<GetObjectAclCommandOutput, SdkError | S3ServiceError>;
+  ): Effect.Effect<GetObjectAclCommandOutput, SdkError | NoSuchKeyError>;
 
   /**
    * @see {@link GetObjectAttributesCommand}
    */
-  readonly getObjectAttributes: (
+  getObjectAttributes(
     args: GetObjectAttributesCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetObjectAttributesCommandOutput,
-    SdkError | S3ServiceError
-  >;
+  ): Effect.Effect<GetObjectAttributesCommandOutput, SdkError | NoSuchKeyError>;
 
   /**
    * @see {@link GetObjectLegalHoldCommand}
    */
-  readonly getObjectLegalHold: (
+  getObjectLegalHold(
     args: GetObjectLegalHoldCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetObjectLegalHoldCommandOutput,
-    SdkError | S3ServiceError
-  >;
+  ): Effect.Effect<GetObjectLegalHoldCommandOutput, SdkError | S3ServiceError>;
 
   /**
    * @see {@link GetObjectLockConfigurationCommand}
    */
-  readonly getObjectLockConfiguration: (
+  getObjectLockConfiguration(
     args: GetObjectLockConfigurationCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     GetObjectLockConfigurationCommandOutput,
     SdkError | S3ServiceError
   >;
@@ -881,37 +893,34 @@ export interface S3Service {
   /**
    * @see {@link GetObjectRetentionCommand}
    */
-  readonly getObjectRetention: (
+  getObjectRetention(
     args: GetObjectRetentionCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetObjectRetentionCommandOutput,
-    SdkError | S3ServiceError
-  >;
+  ): Effect.Effect<GetObjectRetentionCommandOutput, SdkError | S3ServiceError>;
 
   /**
    * @see {@link GetObjectTaggingCommand}
    */
-  readonly getObjectTagging: (
+  getObjectTagging(
     args: GetObjectTaggingCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<GetObjectTaggingCommandOutput, SdkError | S3ServiceError>;
+  ): Effect.Effect<GetObjectTaggingCommandOutput, SdkError | S3ServiceError>;
 
   /**
    * @see {@link GetObjectTorrentCommand}
    */
-  readonly getObjectTorrent: (
+  getObjectTorrent(
     args: GetObjectTorrentCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<GetObjectTorrentCommandOutput, SdkError | S3ServiceError>;
+  ): Effect.Effect<GetObjectTorrentCommandOutput, SdkError | S3ServiceError>;
 
   /**
    * @see {@link GetPublicAccessBlockCommand}
    */
-  readonly getPublicAccessBlock: (
+  getPublicAccessBlock(
     args: GetPublicAccessBlockCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     GetPublicAccessBlockCommandOutput,
     SdkError | S3ServiceError
   >;
@@ -919,26 +928,26 @@ export interface S3Service {
   /**
    * @see {@link HeadBucketCommand}
    */
-  readonly headBucket: (
+  headBucket(
     args: HeadBucketCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<HeadBucketCommandOutput, SdkError | S3ServiceError>;
+  ): Effect.Effect<HeadBucketCommandOutput, SdkError | NotFoundError>;
 
   /**
    * @see {@link HeadObjectCommand}
    */
-  readonly headObject: (
+  headObject(
     args: HeadObjectCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<HeadObjectCommandOutput, SdkError | S3ServiceError>;
+  ): Effect.Effect<HeadObjectCommandOutput, SdkError | NotFoundError>;
 
   /**
    * @see {@link ListBucketAnalyticsConfigurationsCommand}
    */
-  readonly listBucketAnalyticsConfigurations: (
+  listBucketAnalyticsConfigurations(
     args: ListBucketAnalyticsConfigurationsCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     ListBucketAnalyticsConfigurationsCommandOutput,
     SdkError | S3ServiceError
   >;
@@ -946,10 +955,10 @@ export interface S3Service {
   /**
    * @see {@link ListBucketIntelligentTieringConfigurationsCommand}
    */
-  readonly listBucketIntelligentTieringConfigurations: (
+  listBucketIntelligentTieringConfigurations(
     args: ListBucketIntelligentTieringConfigurationsCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     ListBucketIntelligentTieringConfigurationsCommandOutput,
     SdkError | S3ServiceError
   >;
@@ -957,10 +966,10 @@ export interface S3Service {
   /**
    * @see {@link ListBucketInventoryConfigurationsCommand}
    */
-  readonly listBucketInventoryConfigurations: (
+  listBucketInventoryConfigurations(
     args: ListBucketInventoryConfigurationsCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     ListBucketInventoryConfigurationsCommandOutput,
     SdkError | S3ServiceError
   >;
@@ -968,10 +977,10 @@ export interface S3Service {
   /**
    * @see {@link ListBucketMetricsConfigurationsCommand}
    */
-  readonly listBucketMetricsConfigurations: (
+  listBucketMetricsConfigurations(
     args: ListBucketMetricsConfigurationsCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     ListBucketMetricsConfigurationsCommandOutput,
     SdkError | S3ServiceError
   >;
@@ -979,18 +988,29 @@ export interface S3Service {
   /**
    * @see {@link ListBucketsCommand}
    */
-  readonly listBuckets: (
+  listBuckets(
     args: ListBucketsCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<ListBucketsCommandOutput, SdkError | S3ServiceError>;
+  ): Effect.Effect<ListBucketsCommandOutput, SdkError | S3ServiceError>;
+
+  /**
+   * @see {@link ListDirectoryBucketsCommand}
+   */
+  listDirectoryBuckets(
+    args: ListDirectoryBucketsCommandInput,
+    options?: __HttpHandlerOptions,
+  ): Effect.Effect<
+    ListDirectoryBucketsCommandOutput,
+    SdkError | S3ServiceError
+  >;
 
   /**
    * @see {@link ListMultipartUploadsCommand}
    */
-  readonly listMultipartUploads: (
+  listMultipartUploads(
     args: ListMultipartUploadsCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     ListMultipartUploadsCommandOutput,
     SdkError | S3ServiceError
   >;
@@ -998,45 +1018,42 @@ export interface S3Service {
   /**
    * @see {@link ListObjectsCommand}
    */
-  readonly listObjects: (
+  listObjects(
     args: ListObjectsCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<ListObjectsCommandOutput, SdkError | S3ServiceError>;
+  ): Effect.Effect<ListObjectsCommandOutput, SdkError | NoSuchBucketError>;
 
   /**
    * @see {@link ListObjectsV2Command}
    */
-  readonly listObjectsV2: (
+  listObjectsV2(
     args: ListObjectsV2CommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<ListObjectsV2CommandOutput, SdkError | S3ServiceError>;
+  ): Effect.Effect<ListObjectsV2CommandOutput, SdkError | NoSuchBucketError>;
 
   /**
    * @see {@link ListObjectVersionsCommand}
    */
-  readonly listObjectVersions: (
+  listObjectVersions(
     args: ListObjectVersionsCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ListObjectVersionsCommandOutput,
-    SdkError | S3ServiceError
-  >;
+  ): Effect.Effect<ListObjectVersionsCommandOutput, SdkError | S3ServiceError>;
 
   /**
    * @see {@link ListPartsCommand}
    */
-  readonly listParts: (
+  listParts(
     args: ListPartsCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<ListPartsCommandOutput, SdkError | S3ServiceError>;
+  ): Effect.Effect<ListPartsCommandOutput, SdkError | S3ServiceError>;
 
   /**
    * @see {@link PutBucketAccelerateConfigurationCommand}
    */
-  readonly putBucketAccelerateConfiguration: (
+  putBucketAccelerateConfiguration(
     args: PutBucketAccelerateConfigurationCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     PutBucketAccelerateConfigurationCommandOutput,
     SdkError | S3ServiceError
   >;
@@ -1044,18 +1061,18 @@ export interface S3Service {
   /**
    * @see {@link PutBucketAclCommand}
    */
-  readonly putBucketAcl: (
+  putBucketAcl(
     args: PutBucketAclCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<PutBucketAclCommandOutput, SdkError | S3ServiceError>;
+  ): Effect.Effect<PutBucketAclCommandOutput, SdkError | S3ServiceError>;
 
   /**
    * @see {@link PutBucketAnalyticsConfigurationCommand}
    */
-  readonly putBucketAnalyticsConfiguration: (
+  putBucketAnalyticsConfiguration(
     args: PutBucketAnalyticsConfigurationCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     PutBucketAnalyticsConfigurationCommandOutput,
     SdkError | S3ServiceError
   >;
@@ -1063,29 +1080,26 @@ export interface S3Service {
   /**
    * @see {@link PutBucketCorsCommand}
    */
-  readonly putBucketCors: (
+  putBucketCors(
     args: PutBucketCorsCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<PutBucketCorsCommandOutput, SdkError | S3ServiceError>;
+  ): Effect.Effect<PutBucketCorsCommandOutput, SdkError | S3ServiceError>;
 
   /**
    * @see {@link PutBucketEncryptionCommand}
    */
-  readonly putBucketEncryption: (
+  putBucketEncryption(
     args: PutBucketEncryptionCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    PutBucketEncryptionCommandOutput,
-    SdkError | S3ServiceError
-  >;
+  ): Effect.Effect<PutBucketEncryptionCommandOutput, SdkError | S3ServiceError>;
 
   /**
    * @see {@link PutBucketIntelligentTieringConfigurationCommand}
    */
-  readonly putBucketIntelligentTieringConfiguration: (
+  putBucketIntelligentTieringConfiguration(
     args: PutBucketIntelligentTieringConfigurationCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     PutBucketIntelligentTieringConfigurationCommandOutput,
     SdkError | S3ServiceError
   >;
@@ -1093,10 +1107,10 @@ export interface S3Service {
   /**
    * @see {@link PutBucketInventoryConfigurationCommand}
    */
-  readonly putBucketInventoryConfiguration: (
+  putBucketInventoryConfiguration(
     args: PutBucketInventoryConfigurationCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     PutBucketInventoryConfigurationCommandOutput,
     SdkError | S3ServiceError
   >;
@@ -1104,10 +1118,10 @@ export interface S3Service {
   /**
    * @see {@link PutBucketLifecycleConfigurationCommand}
    */
-  readonly putBucketLifecycleConfiguration: (
+  putBucketLifecycleConfiguration(
     args: PutBucketLifecycleConfigurationCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     PutBucketLifecycleConfigurationCommandOutput,
     SdkError | S3ServiceError
   >;
@@ -1115,18 +1129,18 @@ export interface S3Service {
   /**
    * @see {@link PutBucketLoggingCommand}
    */
-  readonly putBucketLogging: (
+  putBucketLogging(
     args: PutBucketLoggingCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<PutBucketLoggingCommandOutput, SdkError | S3ServiceError>;
+  ): Effect.Effect<PutBucketLoggingCommandOutput, SdkError | S3ServiceError>;
 
   /**
    * @see {@link PutBucketMetricsConfigurationCommand}
    */
-  readonly putBucketMetricsConfiguration: (
+  putBucketMetricsConfiguration(
     args: PutBucketMetricsConfigurationCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     PutBucketMetricsConfigurationCommandOutput,
     SdkError | S3ServiceError
   >;
@@ -1134,10 +1148,10 @@ export interface S3Service {
   /**
    * @see {@link PutBucketNotificationConfigurationCommand}
    */
-  readonly putBucketNotificationConfiguration: (
+  putBucketNotificationConfiguration(
     args: PutBucketNotificationConfigurationCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     PutBucketNotificationConfigurationCommandOutput,
     SdkError | S3ServiceError
   >;
@@ -1145,10 +1159,10 @@ export interface S3Service {
   /**
    * @see {@link PutBucketOwnershipControlsCommand}
    */
-  readonly putBucketOwnershipControls: (
+  putBucketOwnershipControls(
     args: PutBucketOwnershipControlsCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     PutBucketOwnershipControlsCommandOutput,
     SdkError | S3ServiceError
   >;
@@ -1156,18 +1170,18 @@ export interface S3Service {
   /**
    * @see {@link PutBucketPolicyCommand}
    */
-  readonly putBucketPolicy: (
+  putBucketPolicy(
     args: PutBucketPolicyCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<PutBucketPolicyCommandOutput, SdkError | S3ServiceError>;
+  ): Effect.Effect<PutBucketPolicyCommandOutput, SdkError | S3ServiceError>;
 
   /**
    * @see {@link PutBucketReplicationCommand}
    */
-  readonly putBucketReplication: (
+  putBucketReplication(
     args: PutBucketReplicationCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     PutBucketReplicationCommandOutput,
     SdkError | S3ServiceError
   >;
@@ -1175,10 +1189,10 @@ export interface S3Service {
   /**
    * @see {@link PutBucketRequestPaymentCommand}
    */
-  readonly putBucketRequestPayment: (
+  putBucketRequestPayment(
     args: PutBucketRequestPaymentCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     PutBucketRequestPaymentCommandOutput,
     SdkError | S3ServiceError
   >;
@@ -1186,70 +1200,62 @@ export interface S3Service {
   /**
    * @see {@link PutBucketTaggingCommand}
    */
-  readonly putBucketTagging: (
+  putBucketTagging(
     args: PutBucketTaggingCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<PutBucketTaggingCommandOutput, SdkError | S3ServiceError>;
+  ): Effect.Effect<PutBucketTaggingCommandOutput, SdkError | S3ServiceError>;
 
   /**
    * @see {@link PutBucketVersioningCommand}
    */
-  readonly putBucketVersioning: (
+  putBucketVersioning(
     args: PutBucketVersioningCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    PutBucketVersioningCommandOutput,
-    SdkError | S3ServiceError
-  >;
+  ): Effect.Effect<PutBucketVersioningCommandOutput, SdkError | S3ServiceError>;
 
   /**
    * @see {@link PutBucketWebsiteCommand}
    */
-  readonly putBucketWebsite: (
+  putBucketWebsite(
     args: PutBucketWebsiteCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<PutBucketWebsiteCommandOutput, SdkError | S3ServiceError>;
+  ): Effect.Effect<PutBucketWebsiteCommandOutput, SdkError | S3ServiceError>;
 
   /**
    * @see {@link PutObjectCommand}
    */
-  readonly putObject: {
-    (
-      args: PutObjectCommandInput,
-      options?: { readonly presigned?: false } & __HttpHandlerOptions,
-    ): Effect.Effect<PutObjectCommandOutput, SdkError | S3ServiceError>;
-    (
-      args: PutObjectCommandInput,
-      options?: { readonly presigned: true } & RequestPresigningArguments,
-    ): Effect.Effect<string, SdkError | S3ServiceError>;
-  };
+  putObject(
+    args: PutObjectCommandInput,
+    options?: { readonly presigned?: false } & __HttpHandlerOptions,
+  ): Effect.Effect<PutObjectCommandOutput, SdkError | S3ServiceError>;
+  putObject(
+    args: PutObjectCommandInput,
+    options?: { readonly presigned: true } & RequestPresigningArguments,
+  ): Effect.Effect<string, SdkError | S3ServiceError>;
 
   /**
    * @see {@link PutObjectAclCommand}
    */
-  readonly putObjectAcl: (
+  putObjectAcl(
     args: PutObjectAclCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<PutObjectAclCommandOutput, SdkError | S3ServiceError>;
+  ): Effect.Effect<PutObjectAclCommandOutput, SdkError | NoSuchKeyError>;
 
   /**
    * @see {@link PutObjectLegalHoldCommand}
    */
-  readonly putObjectLegalHold: (
+  putObjectLegalHold(
     args: PutObjectLegalHoldCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    PutObjectLegalHoldCommandOutput,
-    SdkError | S3ServiceError
-  >;
+  ): Effect.Effect<PutObjectLegalHoldCommandOutput, SdkError | S3ServiceError>;
 
   /**
    * @see {@link PutObjectLockConfigurationCommand}
    */
-  readonly putObjectLockConfiguration: (
+  putObjectLockConfiguration(
     args: PutObjectLockConfigurationCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     PutObjectLockConfigurationCommandOutput,
     SdkError | S3ServiceError
   >;
@@ -1257,29 +1263,26 @@ export interface S3Service {
   /**
    * @see {@link PutObjectRetentionCommand}
    */
-  readonly putObjectRetention: (
+  putObjectRetention(
     args: PutObjectRetentionCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    PutObjectRetentionCommandOutput,
-    SdkError | S3ServiceError
-  >;
+  ): Effect.Effect<PutObjectRetentionCommandOutput, SdkError | S3ServiceError>;
 
   /**
    * @see {@link PutObjectTaggingCommand}
    */
-  readonly putObjectTagging: (
+  putObjectTagging(
     args: PutObjectTaggingCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<PutObjectTaggingCommandOutput, SdkError | S3ServiceError>;
+  ): Effect.Effect<PutObjectTaggingCommandOutput, SdkError | S3ServiceError>;
 
   /**
    * @see {@link PutPublicAccessBlockCommand}
    */
-  readonly putPublicAccessBlock: (
+  putPublicAccessBlock(
     args: PutPublicAccessBlockCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     PutPublicAccessBlockCommandOutput,
     SdkError | S3ServiceError
   >;
@@ -1287,45 +1290,45 @@ export interface S3Service {
   /**
    * @see {@link RestoreObjectCommand}
    */
-  readonly restoreObject: (
+  restoreObject(
     args: RestoreObjectCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<RestoreObjectCommandOutput, SdkError | S3ServiceError>;
+  ): Effect.Effect<
+    RestoreObjectCommandOutput,
+    SdkError | ObjectAlreadyInActiveTierError
+  >;
 
   /**
    * @see {@link SelectObjectContentCommand}
    */
-  readonly selectObjectContent: (
+  selectObjectContent(
     args: SelectObjectContentCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    SelectObjectContentCommandOutput,
-    SdkError | S3ServiceError
-  >;
+  ): Effect.Effect<SelectObjectContentCommandOutput, SdkError | S3ServiceError>;
 
   /**
    * @see {@link UploadPartCommand}
    */
-  readonly uploadPart: (
+  uploadPart(
     args: UploadPartCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<UploadPartCommandOutput, SdkError | S3ServiceError>;
+  ): Effect.Effect<UploadPartCommandOutput, SdkError | S3ServiceError>;
 
   /**
    * @see {@link UploadPartCopyCommand}
    */
-  readonly uploadPartCopy: (
+  uploadPartCopy(
     args: UploadPartCopyCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<UploadPartCopyCommandOutput, SdkError | S3ServiceError>;
+  ): Effect.Effect<UploadPartCopyCommandOutput, SdkError | S3ServiceError>;
 
   /**
    * @see {@link WriteGetObjectResponseCommand}
    */
-  readonly writeGetObjectResponse: (
+  writeGetObjectResponse(
     args: WriteGetObjectResponseCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
+  ): Effect.Effect<
     WriteGetObjectResponseCommandOutput,
     SdkError | S3ServiceError
   >;
@@ -1348,9 +1351,12 @@ export const makeS3Service = Effect.gen(function* (_) {
 
   const catchErrors = (e: unknown) => {
     if (e instanceof S3ServiceException) {
-      return S3ServiceError({
+      const ServiceException = Data.tagged<TaggedException<S3ServiceException>>(
+        e.name,
+      );
+
+      return ServiceException({
         ...e,
-        name: "S3ServiceError",
         message: e.message,
         stack: e.stack,
       });
