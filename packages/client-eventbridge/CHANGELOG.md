@@ -1,5 +1,11 @@
 # @effect-aws/client-eventbridge
 
+## 1.2.0
+
+### Minor Changes
+
+- [`4b5ee14`](https://github.com/floydspace/effect-aws/commit/4b5ee144d4d2f30e7a841a3cf5ccd7ff87d32132) Thanks [@floydspace](https://github.com/floydspace)! - return proper errors in failure channel in eventbridge and lambda services
+
 ## 1.1.1
 
 ### Patch Changes

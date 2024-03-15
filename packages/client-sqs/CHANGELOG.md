@@ -1,5 +1,11 @@
 # @effect-aws/client-sqs
 
+## 1.2.0
+
+### Minor Changes
+
+- [#43](https://github.com/floydspace/effect-aws/pull/43) [`6e6c0a0`](https://github.com/floydspace/effect-aws/commit/6e6c0a00078c38b4575c1bac1015949b478428c0) Thanks [@godu](https://github.com/godu)! - new dynamodb client method, typed errors in sqs service
+
 ## 1.1.1
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @effect-aws/client-s3
 
+## 1.2.0
+
+### Minor Changes
+
+- [#42](https://github.com/floydspace/effect-aws/pull/42) [`2fd893a`](https://github.com/floydspace/effect-aws/commit/2fd893abe4bcc2b4d7c3bc346cc618ca704171f3) Thanks [@godu](https://github.com/godu)! - extended errors in s3 service
+
 ## 1.1.1
 
 ### Patch Changes
