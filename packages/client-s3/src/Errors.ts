@@ -1,13 +1,14 @@
 import type {
   S3ServiceException,
-  NoSuchUpload,
-  ObjectNotInActiveTierError,
   BucketAlreadyExists,
   BucketAlreadyOwnedByYou,
-  NoSuchBucket,
   InvalidObjectState,
+  NoSuchBucket,
   NoSuchKey,
+  NoSuchUpload,
   NotFound,
+  ObjectAlreadyInActiveTierError as ObjectAlreadyInActiveTierException,
+  ObjectNotInActiveTierError as ObjectNotInActiveTierException,
 } from "@aws-sdk/client-s3";
 import * as Data from "effect/Data";
 
@@ -15,16 +16,18 @@ export type TaggedException<T extends { name: string }> = T & {
   readonly _tag: T["name"];
 };
 
-export type NoSuchUploadError = TaggedException<NoSuchUpload>;
-export type ObjectNotInActiveTierErrorError =
-  TaggedException<ObjectNotInActiveTierError>;
 export type BucketAlreadyExistsError = TaggedException<BucketAlreadyExists>;
 export type BucketAlreadyOwnedByYouError =
   TaggedException<BucketAlreadyOwnedByYou>;
-export type NoSuchBucketError = TaggedException<NoSuchBucket>;
 export type InvalidObjectStateError = TaggedException<InvalidObjectState>;
+export type NoSuchBucketError = TaggedException<NoSuchBucket>;
 export type NoSuchKeyError = TaggedException<NoSuchKey>;
+export type NoSuchUploadError = TaggedException<NoSuchUpload>;
 export type NotFoundError = TaggedException<NotFound>;
+export type ObjectAlreadyInActiveTierError =
+  TaggedException<ObjectAlreadyInActiveTierException>;
+export type ObjectNotInActiveTierError =
+  TaggedException<ObjectNotInActiveTierException>;
 
 export type S3ServiceError = TaggedException<
   S3ServiceException & { name: "S3ServiceError" }
