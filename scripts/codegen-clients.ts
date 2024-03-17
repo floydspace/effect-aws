@@ -383,7 +383,7 @@ import { Default${sdkName}ClientConfigLayer } from "./${sdkName}ClientInstanceCo
 import {
   ${pipe(
     importedErrors,
-    ReadonlyArray.join(","),
+    ReadonlyArray.join(",\n  "),
   )},
   SdkError,
   TaggedException,
@@ -393,6 +393,7 @@ const commands = {
   ${pipe(
     getOperationNames(smithyModel),
     ReadonlyArray.map((name) => `${name}Command`),
+    ReadonlyArray.join(",\n  "),
   )}
 };
 
@@ -417,11 +418,11 @@ ${pipe(
    * @see {@link ${getLocalNameFromNamespace(operationName)}Command}
    */
   ${pipe(getLocalNameFromNamespace(operationName), lowerFirst)}(
-    args: ${getLocalNameFromNamespace(operationName)}CommandInput,
+    args: ${getLocalNameFromNamespace(operationShape.input.target)},
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    ${getLocalNameFromNamespace(operationName)}CommandOutput,
-    ${pipe(["SdkError", ...errors], ReadonlyArray.join(" | "))}
+    ${getLocalNameFromNamespace(operationShape.output.target)},
+    ${pipe(["| SdkError", ...errors], ReadonlyArray.join("\n    | "))}
   >`;
   }),
   ReadonlyArray.join("\n\n"),
@@ -692,9 +693,10 @@ describe("${sdkName}ClientImpl", () => {
   "name": "@effect-aws/client-${serviceName}",
   "version": "${version}",
   "devDependencies": {
-    "aws-sdk-client-mock": "^3.0.0",
+    "aws-sdk-client-mock": "^3.0.0"
   },
   "peerDependencies": {
+    "@aws-sdk/types": "^3.0.0",
     "@aws-sdk/client-${serviceName}": "${version}",
     "effect": ">=2.3.1 <2.5.0"
   }
