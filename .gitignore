@@ -50,3 +50,5 @@ jspm_packages/
 docs/
 !/pnpm-workspace.yaml
 !/.projenrc.ts
+
+generated/
