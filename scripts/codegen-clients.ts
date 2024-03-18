@@ -1,10 +1,8 @@
 /**
  * How to use:
- *
- * 1. Define a new package in `.projenrc.ts` (the package must have the same name as the AWS client) and run `pnpm run synth-workspace`.
- * 2. Run `pnpm run codegen-client`, select the package to generate.
- * 3. Run `Run pnpm run eslint --fix` to fix the formatting.
- * 4. Commit the changes and enjoy.
+ * 1. Run `pnpm -- codegen-clients`
+ * 2. Run `pnpm install`
+ * 3. Run `pnpm -- nx run-many --target check --all --parallel`
  */
 import { mkdir, writeFile } from "node:fs/promises";
 
@@ -19,13 +17,6 @@ import {
 import { flow, pipe } from "effect/Function";
 
 type Shape =
-  | { type: "boolean" }
-  | { type: "integer" }
-  | { type: "double" }
-  | { type: "string" }
-  | { type: "timestamp" }
-  | { type: "enum" }
-  | { type: "list" }
   | {
       type: "operation";
       input: { target: string };
@@ -80,6 +71,7 @@ function getOperations(smithyModel: SmithyModel): [string, OperationType][] {
     ReadonlyArray.filter(([_, shape]) => shape.type === "operation"),
   ) as unknown as [string, OperationType][];
 }
+
 function getOperationNames(smithyModel: SmithyModel) {
   return pipe(
     getOperations(smithyModel),
@@ -120,8 +112,6 @@ async function main() {
     ReadonlyArray.filter((t) => servicesRegexp.test(t.path)),
     ReadonlyArray.map((t) => t.path.match(servicesRegexp)![1]),
   );
-
-  console.log(JSON.stringify(services, null, 2));
 
   const each = services.map((packageName) =>
     Effect.promise(async () => {
@@ -374,6 +364,7 @@ import {
   ${pipe(
     operations,
     ReadonlyArray.map(([_, { input }]) => input),
+    ReadonlyArray.filter(output => output.target !== 'smithy.api#Unit'),
     ReadonlyArray.map(input => `type ${getLocalNameFromNamespace(input.target)},`),
     ReadonlyArray.dedupe,
     ReadonlyArray.join("\n  "),
@@ -396,11 +387,9 @@ import {
 import { Default${sdkName}ClientConfigLayer } from "./${sdkName}ClientInstanceConfig";
 import {
   ${pipe(
-    importedErrors,
+    [...importedErrors, 'SdkError', 'TaggedException'],
     ReadonlyArray.join(",\n  "),
-  )},
-  SdkError,
-  TaggedException,
+  )}
 } from "./Errors";
 
 const commands = {
@@ -432,7 +421,7 @@ ${pipe(
    * @see {@link ${getLocalNameFromNamespace(operationName)}Command}
    */
   ${pipe(getLocalNameFromNamespace(operationName), lowerFirst)}(
-    args: ${getLocalNameFromNamespace(operationShape.input.target)},
+    args: ${operationShape.input.target === 'smithy.api#Unit' ? '{}' : getLocalNameFromNamespace(operationShape.input.target)},
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     ${operationShape.output.target === 'smithy.api#Unit' ? 'void' : getLocalNameFromNamespace(operationShape.output.target)},
@@ -706,14 +695,32 @@ describe("${sdkName}ClientImpl", () => {
     `{
   "name": "@effect-aws/client-${serviceName}",
   "version": "${version}",
+  "type": "module",
+  "sideEffects": false,
+  "scripts": {
+    "check": "tsc -noEmit"
+  },
   "devDependencies": {
-    "aws-sdk-client-mock": "^3.0.0"
+    "aws-sdk-client-mock": "^3.0.0",
+    "typescript": "^5.0.0"
   },
   "peerDependencies": {
     "@aws-sdk/types": "^3.0.0",
     "@aws-sdk/client-${serviceName}": "${version}",
     "effect": ">=2.3.1 <2.5.0"
   }
+}`,
+  );
+
+  await writeFile(
+    `./generated/packages/client-${serviceName}/tsconfig.json`,
+    `{
+    "compilerOptions": {
+        "moduleResolution": "Node",
+        "target": "ES2020",
+        "module": "ES2020",
+    },
+    "include": ["./src/**/*.ts"],
 }`,
   );
 }

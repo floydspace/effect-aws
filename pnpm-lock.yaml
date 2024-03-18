@@ -105,6 +105,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-account:
     dependencies:
@@ -121,6 +124,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-acm:
     dependencies:
@@ -137,6 +143,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-acm-pca:
     dependencies:
@@ -153,6 +162,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-alexa-for-business:
     dependencies:
@@ -169,6 +181,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-amp:
     dependencies:
@@ -185,6 +200,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-amplify:
     dependencies:
@@ -201,6 +219,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-amplifybackend:
     dependencies:
@@ -217,6 +238,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-amplifyuibuilder:
     dependencies:
@@ -233,6 +257,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-api-gateway:
     dependencies:
@@ -249,6 +276,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-apigatewaymanagementapi:
     dependencies:
@@ -265,6 +295,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-apigatewayv2:
     dependencies:
@@ -281,6 +314,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-app-mesh:
     dependencies:
@@ -297,6 +333,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-appconfig:
     dependencies:
@@ -313,6 +352,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-appconfigdata:
     dependencies:
@@ -329,6 +371,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-appfabric:
     dependencies:
@@ -345,6 +390,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-appflow:
     dependencies:
@@ -361,6 +409,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-appintegrations:
     dependencies:
@@ -377,6 +428,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-application-auto-scaling:
     dependencies:
@@ -393,6 +447,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-application-discovery-service:
     dependencies:
@@ -409,6 +466,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-application-insights:
     dependencies:
@@ -425,6 +485,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-applicationcostprofiler:
     dependencies:
@@ -441,6 +504,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-apprunner:
     dependencies:
@@ -457,6 +523,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-appstream:
     dependencies:
@@ -473,6 +542,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-appsync:
     dependencies:
@@ -489,6 +561,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-arc-zonal-shift:
     dependencies:
@@ -505,6 +580,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-artifact:
     dependencies:
@@ -521,6 +599,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-athena:
     dependencies:
@@ -537,6 +618,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-auditmanager:
     dependencies:
@@ -553,6 +637,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-auto-scaling:
     dependencies:
@@ -569,6 +656,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-auto-scaling-plans:
     dependencies:
@@ -585,6 +675,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-b2bi:
     dependencies:
@@ -601,6 +694,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-backup:
     dependencies:
@@ -617,6 +713,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-backup-gateway:
     dependencies:
@@ -633,6 +732,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-backupstorage:
     dependencies:
@@ -649,6 +751,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-batch:
     dependencies:
@@ -665,6 +770,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-bcm-data-exports:
     dependencies:
@@ -681,6 +789,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-bedrock:
     dependencies:
@@ -697,6 +808,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-bedrock-agent:
     dependencies:
@@ -713,6 +827,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-bedrock-agent-runtime:
     dependencies:
@@ -729,6 +846,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-bedrock-runtime:
     dependencies:
@@ -745,6 +865,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-billingconductor:
     dependencies:
@@ -761,6 +884,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-braket:
     dependencies:
@@ -777,6 +903,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-budgets:
     dependencies:
@@ -793,6 +922,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-chatbot:
     dependencies:
@@ -809,6 +941,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-chime:
     dependencies:
@@ -825,6 +960,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-chime-sdk-identity:
     dependencies:
@@ -841,6 +979,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-chime-sdk-media-pipelines:
     dependencies:
@@ -857,6 +998,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-chime-sdk-meetings:
     dependencies:
@@ -873,6 +1017,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-chime-sdk-messaging:
     dependencies:
@@ -889,6 +1036,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-chime-sdk-voice:
     dependencies:
@@ -905,6 +1055,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-cleanrooms:
     dependencies:
@@ -921,6 +1074,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-cleanroomsml:
     dependencies:
@@ -937,6 +1093,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-cloud9:
     dependencies:
@@ -953,6 +1112,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-cloudcontrol:
     dependencies:
@@ -969,6 +1131,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-clouddirectory:
     dependencies:
@@ -985,6 +1150,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-cloudformation:
     dependencies:
@@ -1001,6 +1169,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-cloudfront:
     dependencies:
@@ -1017,6 +1188,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-cloudfront-keyvaluestore:
     dependencies:
@@ -1033,6 +1207,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-cloudhsm:
     dependencies:
@@ -1049,6 +1226,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-cloudhsm-v2:
     dependencies:
@@ -1065,6 +1245,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-cloudsearch:
     dependencies:
@@ -1081,6 +1264,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-cloudsearch-domain:
     dependencies:
@@ -1097,6 +1283,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-cloudtrail:
     dependencies:
@@ -1113,6 +1302,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-cloudtrail-data:
     dependencies:
@@ -1129,6 +1321,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-cloudwatch:
     dependencies:
@@ -1145,6 +1340,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-cloudwatch-events:
     dependencies:
@@ -1161,6 +1359,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-cloudwatch-logs:
     dependencies:
@@ -1177,6 +1378,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-codeartifact:
     dependencies:
@@ -1193,6 +1397,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-codebuild:
     dependencies:
@@ -1209,6 +1416,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-codecatalyst:
     dependencies:
@@ -1225,6 +1435,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-codecommit:
     dependencies:
@@ -1241,6 +1454,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-codedeploy:
     dependencies:
@@ -1257,6 +1473,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-codeguru-reviewer:
     dependencies:
@@ -1273,6 +1492,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-codeguru-security:
     dependencies:
@@ -1289,6 +1511,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-codeguruprofiler:
     dependencies:
@@ -1305,6 +1530,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-codepipeline:
     dependencies:
@@ -1321,6 +1549,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-codestar:
     dependencies:
@@ -1337,6 +1568,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-codestar-connections:
     dependencies:
@@ -1353,6 +1587,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-codestar-notifications:
     dependencies:
@@ -1369,6 +1606,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-cognito-identity:
     dependencies:
@@ -1385,6 +1625,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-cognito-identity-provider:
     dependencies:
@@ -1401,6 +1644,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-cognito-sync:
     dependencies:
@@ -1417,6 +1663,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-comprehend:
     dependencies:
@@ -1433,6 +1682,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-comprehendmedical:
     dependencies:
@@ -1449,6 +1701,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-compute-optimizer:
     dependencies:
@@ -1465,6 +1720,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-config-service:
     dependencies:
@@ -1481,6 +1739,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-connect:
     dependencies:
@@ -1497,6 +1758,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-connect-contact-lens:
     dependencies:
@@ -1513,6 +1777,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-connectcampaigns:
     dependencies:
@@ -1529,6 +1796,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-connectcases:
     dependencies:
@@ -1545,6 +1815,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-connectparticipant:
     dependencies:
@@ -1561,6 +1834,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-controltower:
     dependencies:
@@ -1577,6 +1853,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-cost-and-usage-report-service:
     dependencies:
@@ -1593,6 +1872,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-cost-explorer:
     dependencies:
@@ -1609,6 +1891,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-cost-optimization-hub:
     dependencies:
@@ -1625,6 +1910,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-customer-profiles:
     dependencies:
@@ -1641,6 +1929,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-data-pipeline:
     dependencies:
@@ -1657,6 +1948,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-database-migration-service:
     dependencies:
@@ -1673,6 +1967,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-databrew:
     dependencies:
@@ -1689,6 +1986,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-dataexchange:
     dependencies:
@@ -1705,6 +2005,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-datasync:
     dependencies:
@@ -1721,6 +2024,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-datazone:
     dependencies:
@@ -1737,6 +2043,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-dax:
     dependencies:
@@ -1753,6 +2062,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-detective:
     dependencies:
@@ -1769,6 +2081,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-device-farm:
     dependencies:
@@ -1785,6 +2100,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-devops-guru:
     dependencies:
@@ -1801,6 +2119,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-direct-connect:
     dependencies:
@@ -1817,6 +2138,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-directory-service:
     dependencies:
@@ -1833,6 +2157,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-dlm:
     dependencies:
@@ -1849,6 +2176,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-docdb:
     dependencies:
@@ -1865,6 +2195,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-docdb-elastic:
     dependencies:
@@ -1881,6 +2214,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-drs:
     dependencies:
@@ -1897,6 +2233,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-dynamodb:
     dependencies:
@@ -1913,6 +2252,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-dynamodb-streams:
     dependencies:
@@ -1929,6 +2271,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-ebs:
     dependencies:
@@ -1945,6 +2290,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-ec2:
     dependencies:
@@ -1961,6 +2309,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-ec2-instance-connect:
     dependencies:
@@ -1977,6 +2328,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-ecr:
     dependencies:
@@ -1993,6 +2347,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-ecr-public:
     dependencies:
@@ -2009,6 +2366,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-ecs:
     dependencies:
@@ -2025,6 +2385,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-efs:
     dependencies:
@@ -2041,6 +2404,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-eks:
     dependencies:
@@ -2057,6 +2423,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-eks-auth:
     dependencies:
@@ -2073,6 +2442,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-elastic-beanstalk:
     dependencies:
@@ -2089,6 +2461,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-elastic-inference:
     dependencies:
@@ -2105,6 +2480,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-elastic-load-balancing:
     dependencies:
@@ -2121,6 +2499,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-elastic-load-balancing-v2:
     dependencies:
@@ -2137,6 +2518,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-elastic-transcoder:
     dependencies:
@@ -2153,6 +2537,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-elasticache:
     dependencies:
@@ -2169,6 +2556,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-elasticsearch-service:
     dependencies:
@@ -2185,6 +2575,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-emr:
     dependencies:
@@ -2201,6 +2594,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-emr-containers:
     dependencies:
@@ -2217,6 +2613,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-emr-serverless:
     dependencies:
@@ -2233,6 +2632,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-entityresolution:
     dependencies:
@@ -2249,6 +2651,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-eventbridge:
     dependencies:
@@ -2265,6 +2670,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-evidently:
     dependencies:
@@ -2281,6 +2689,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-finspace:
     dependencies:
@@ -2297,6 +2708,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-finspace-data:
     dependencies:
@@ -2313,6 +2727,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-firehose:
     dependencies:
@@ -2329,6 +2746,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-fis:
     dependencies:
@@ -2345,6 +2765,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-fms:
     dependencies:
@@ -2361,6 +2784,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-forecast:
     dependencies:
@@ -2377,6 +2803,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-forecastquery:
     dependencies:
@@ -2393,6 +2822,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-frauddetector:
     dependencies:
@@ -2409,6 +2841,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-freetier:
     dependencies:
@@ -2425,6 +2860,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-fsx:
     dependencies:
@@ -2441,6 +2879,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-gamelift:
     dependencies:
@@ -2457,6 +2898,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-glacier:
     dependencies:
@@ -2473,6 +2917,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-global-accelerator:
     dependencies:
@@ -2489,6 +2936,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-glue:
     dependencies:
@@ -2505,6 +2955,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-grafana:
     dependencies:
@@ -2521,6 +2974,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-greengrass:
     dependencies:
@@ -2537,6 +2993,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-greengrassv2:
     dependencies:
@@ -2553,6 +3012,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-groundstation:
     dependencies:
@@ -2569,6 +3031,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-guardduty:
     dependencies:
@@ -2585,6 +3050,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-health:
     dependencies:
@@ -2601,6 +3069,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-healthlake:
     dependencies:
@@ -2617,6 +3088,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-honeycode:
     dependencies:
@@ -2633,6 +3107,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-iam:
     dependencies:
@@ -2649,6 +3126,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-identitystore:
     dependencies:
@@ -2665,6 +3145,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-imagebuilder:
     dependencies:
@@ -2681,6 +3164,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-inspector:
     dependencies:
@@ -2697,6 +3183,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-inspector-scan:
     dependencies:
@@ -2713,6 +3202,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-inspector2:
     dependencies:
@@ -2729,6 +3221,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-internetmonitor:
     dependencies:
@@ -2745,6 +3240,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-iot:
     dependencies:
@@ -2761,6 +3259,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-iot-1click-devices-service:
     dependencies:
@@ -2777,6 +3278,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-iot-1click-projects:
     dependencies:
@@ -2793,6 +3297,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-iot-data-plane:
     dependencies:
@@ -2809,6 +3316,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-iot-events:
     dependencies:
@@ -2825,6 +3335,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-iot-events-data:
     dependencies:
@@ -2841,6 +3354,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-iot-jobs-data-plane:
     dependencies:
@@ -2857,6 +3373,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-iot-wireless:
     dependencies:
@@ -2873,6 +3392,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-iotanalytics:
     dependencies:
@@ -2889,6 +3411,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-iotdeviceadvisor:
     dependencies:
@@ -2905,6 +3430,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-iotfleethub:
     dependencies:
@@ -2921,6 +3449,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-iotfleetwise:
     dependencies:
@@ -2937,6 +3468,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-iotsecuretunneling:
     dependencies:
@@ -2953,6 +3487,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-iotsitewise:
     dependencies:
@@ -2969,6 +3506,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-iotthingsgraph:
     dependencies:
@@ -2985,6 +3525,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-iottwinmaker:
     dependencies:
@@ -3001,6 +3544,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-ivs:
     dependencies:
@@ -3017,6 +3563,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-ivs-realtime:
     dependencies:
@@ -3033,6 +3582,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-ivschat:
     dependencies:
@@ -3049,6 +3601,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-kafka:
     dependencies:
@@ -3065,6 +3620,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-kafkaconnect:
     dependencies:
@@ -3081,6 +3639,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-kendra:
     dependencies:
@@ -3097,6 +3658,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-kendra-ranking:
     dependencies:
@@ -3113,6 +3677,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-keyspaces:
     dependencies:
@@ -3129,6 +3696,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-kinesis:
     dependencies:
@@ -3145,6 +3715,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-kinesis-analytics:
     dependencies:
@@ -3161,6 +3734,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-kinesis-analytics-v2:
     dependencies:
@@ -3177,6 +3753,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-kinesis-video:
     dependencies:
@@ -3193,6 +3772,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-kinesis-video-archived-media:
     dependencies:
@@ -3209,6 +3791,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-kinesis-video-media:
     dependencies:
@@ -3225,6 +3810,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-kinesis-video-signaling:
     dependencies:
@@ -3241,6 +3829,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-kinesis-video-webrtc-storage:
     dependencies:
@@ -3257,6 +3848,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-kms:
     dependencies:
@@ -3273,6 +3867,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-lakeformation:
     dependencies:
@@ -3289,6 +3886,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-lambda:
     dependencies:
@@ -3305,6 +3905,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-launch-wizard:
     dependencies:
@@ -3321,6 +3924,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-lex-model-building-service:
     dependencies:
@@ -3337,6 +3943,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-lex-models-v2:
     dependencies:
@@ -3353,6 +3962,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-lex-runtime-service:
     dependencies:
@@ -3369,6 +3981,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-lex-runtime-v2:
     dependencies:
@@ -3385,6 +4000,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-license-manager:
     dependencies:
@@ -3401,6 +4019,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-license-manager-linux-subscriptions:
     dependencies:
@@ -3417,6 +4038,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-license-manager-user-subscriptions:
     dependencies:
@@ -3433,6 +4057,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-lightsail:
     dependencies:
@@ -3449,6 +4076,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-location:
     dependencies:
@@ -3465,6 +4095,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-lookoutequipment:
     dependencies:
@@ -3481,6 +4114,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-lookoutmetrics:
     dependencies:
@@ -3497,6 +4133,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-lookoutvision:
     dependencies:
@@ -3513,6 +4152,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-m2:
     dependencies:
@@ -3529,6 +4171,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-machine-learning:
     dependencies:
@@ -3545,6 +4190,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-macie2:
     dependencies:
@@ -3561,6 +4209,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-managedblockchain:
     dependencies:
@@ -3577,6 +4228,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-managedblockchain-query:
     dependencies:
@@ -3593,6 +4247,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-marketplace-agreement:
     dependencies:
@@ -3609,6 +4266,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-marketplace-catalog:
     dependencies:
@@ -3625,6 +4285,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-marketplace-commerce-analytics:
     dependencies:
@@ -3641,6 +4304,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-marketplace-deployment:
     dependencies:
@@ -3657,6 +4323,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-marketplace-entitlement-service:
     dependencies:
@@ -3673,6 +4342,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-marketplace-metering:
     dependencies:
@@ -3689,6 +4361,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-mediaconnect:
     dependencies:
@@ -3705,6 +4380,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-mediaconvert:
     dependencies:
@@ -3721,6 +4399,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-medialive:
     dependencies:
@@ -3737,6 +4418,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-mediapackage:
     dependencies:
@@ -3753,6 +4437,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-mediapackage-vod:
     dependencies:
@@ -3769,6 +4456,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-mediapackagev2:
     dependencies:
@@ -3785,6 +4475,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-mediastore:
     dependencies:
@@ -3801,6 +4494,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-mediastore-data:
     dependencies:
@@ -3817,6 +4513,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-mediatailor:
     dependencies:
@@ -3833,6 +4532,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-medical-imaging:
     dependencies:
@@ -3849,6 +4551,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-memorydb:
     dependencies:
@@ -3865,6 +4570,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-mgn:
     dependencies:
@@ -3881,6 +4589,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-migration-hub:
     dependencies:
@@ -3897,6 +4608,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-migration-hub-refactor-spaces:
     dependencies:
@@ -3913,6 +4627,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-migrationhub-config:
     dependencies:
@@ -3929,6 +4646,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-migrationhuborchestrator:
     dependencies:
@@ -3945,6 +4665,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-migrationhubstrategy:
     dependencies:
@@ -3961,6 +4684,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-mobile:
     dependencies:
@@ -3977,6 +4703,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-mq:
     dependencies:
@@ -3993,6 +4722,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-mturk:
     dependencies:
@@ -4009,6 +4741,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-mwaa:
     dependencies:
@@ -4025,6 +4760,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-neptune:
     dependencies:
@@ -4041,6 +4779,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-neptune-graph:
     dependencies:
@@ -4057,6 +4798,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-neptunedata:
     dependencies:
@@ -4073,6 +4817,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-network-firewall:
     dependencies:
@@ -4089,6 +4836,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-networkmanager:
     dependencies:
@@ -4105,6 +4855,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-networkmonitor:
     dependencies:
@@ -4121,6 +4874,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-nimble:
     dependencies:
@@ -4137,6 +4893,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-oam:
     dependencies:
@@ -4153,6 +4912,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-omics:
     dependencies:
@@ -4169,6 +4931,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-opensearch:
     dependencies:
@@ -4185,6 +4950,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-opensearchserverless:
     dependencies:
@@ -4201,6 +4969,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-opsworks:
     dependencies:
@@ -4217,6 +4988,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-opsworkscm:
     dependencies:
@@ -4233,6 +5007,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-organizations:
     dependencies:
@@ -4249,6 +5026,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-osis:
     dependencies:
@@ -4265,6 +5045,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-outposts:
     dependencies:
@@ -4281,6 +5064,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-panorama:
     dependencies:
@@ -4297,6 +5083,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-payment-cryptography:
     dependencies:
@@ -4313,6 +5102,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-payment-cryptography-data:
     dependencies:
@@ -4329,6 +5121,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-pca-connector-ad:
     dependencies:
@@ -4345,6 +5140,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-personalize:
     dependencies:
@@ -4361,6 +5159,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-personalize-events:
     dependencies:
@@ -4377,6 +5178,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-personalize-runtime:
     dependencies:
@@ -4393,6 +5197,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-pi:
     dependencies:
@@ -4409,6 +5216,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-pinpoint:
     dependencies:
@@ -4425,6 +5235,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-pinpoint-email:
     dependencies:
@@ -4441,6 +5254,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-pinpoint-sms-voice:
     dependencies:
@@ -4457,6 +5273,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-pinpoint-sms-voice-v2:
     dependencies:
@@ -4473,6 +5292,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-pipes:
     dependencies:
@@ -4489,6 +5311,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-polly:
     dependencies:
@@ -4505,6 +5330,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-pricing:
     dependencies:
@@ -4521,6 +5349,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-privatenetworks:
     dependencies:
@@ -4537,6 +5368,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-proton:
     dependencies:
@@ -4553,6 +5387,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-qbusiness:
     dependencies:
@@ -4569,6 +5406,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-qconnect:
     dependencies:
@@ -4585,6 +5425,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-qldb:
     dependencies:
@@ -4601,6 +5444,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-qldb-session:
     dependencies:
@@ -4617,6 +5463,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-quicksight:
     dependencies:
@@ -4633,6 +5482,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-ram:
     dependencies:
@@ -4649,6 +5501,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-rbin:
     dependencies:
@@ -4665,6 +5520,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-rds:
     dependencies:
@@ -4681,6 +5539,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-rds-data:
     dependencies:
@@ -4697,6 +5558,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-redshift:
     dependencies:
@@ -4713,6 +5577,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-redshift-data:
     dependencies:
@@ -4729,6 +5596,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-redshift-serverless:
     dependencies:
@@ -4745,6 +5615,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-rekognition:
     dependencies:
@@ -4761,6 +5634,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-rekognitionstreaming:
     dependencies:
@@ -4777,6 +5653,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-repostspace:
     dependencies:
@@ -4793,6 +5672,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-resiliencehub:
     dependencies:
@@ -4809,6 +5691,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-resource-explorer-2:
     dependencies:
@@ -4825,6 +5710,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-resource-groups:
     dependencies:
@@ -4841,6 +5729,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-resource-groups-tagging-api:
     dependencies:
@@ -4857,6 +5748,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-robomaker:
     dependencies:
@@ -4873,6 +5767,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-rolesanywhere:
     dependencies:
@@ -4889,6 +5786,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-route-53:
     dependencies:
@@ -4905,6 +5805,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-route-53-domains:
     dependencies:
@@ -4921,6 +5824,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-route53-recovery-cluster:
     dependencies:
@@ -4937,6 +5843,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-route53-recovery-control-config:
     dependencies:
@@ -4953,6 +5862,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-route53-recovery-readiness:
     dependencies:
@@ -4969,6 +5881,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-route53resolver:
     dependencies:
@@ -4985,6 +5900,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-rum:
     dependencies:
@@ -5001,6 +5919,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-s3:
     dependencies:
@@ -5017,6 +5938,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-s3-control:
     dependencies:
@@ -5033,6 +5957,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-s3outposts:
     dependencies:
@@ -5049,6 +5976,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-sagemaker:
     dependencies:
@@ -5065,6 +5995,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-sagemaker-a2i-runtime:
     dependencies:
@@ -5081,6 +6014,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-sagemaker-edge:
     dependencies:
@@ -5097,6 +6033,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-sagemaker-featurestore-runtime:
     dependencies:
@@ -5113,6 +6052,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-sagemaker-geospatial:
     dependencies:
@@ -5129,6 +6071,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-sagemaker-metrics:
     dependencies:
@@ -5145,6 +6090,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-sagemaker-runtime:
     dependencies:
@@ -5161,6 +6109,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-savingsplans:
     dependencies:
@@ -5177,6 +6128,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-scheduler:
     dependencies:
@@ -5193,6 +6147,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-schemas:
     dependencies:
@@ -5209,6 +6166,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-secrets-manager:
     dependencies:
@@ -5225,6 +6185,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-securityhub:
     dependencies:
@@ -5241,6 +6204,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-securitylake:
     dependencies:
@@ -5257,6 +6223,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-serverlessapplicationrepository:
     dependencies:
@@ -5273,6 +6242,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-service-catalog:
     dependencies:
@@ -5289,6 +6261,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-service-catalog-appregistry:
     dependencies:
@@ -5305,6 +6280,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-service-quotas:
     dependencies:
@@ -5321,6 +6299,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-servicediscovery:
     dependencies:
@@ -5337,6 +6318,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-ses:
     dependencies:
@@ -5353,6 +6337,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-sesv2:
     dependencies:
@@ -5369,6 +6356,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-sfn:
     dependencies:
@@ -5385,6 +6375,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-shield:
     dependencies:
@@ -5401,6 +6394,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-signer:
     dependencies:
@@ -5417,6 +6413,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-simspaceweaver:
     dependencies:
@@ -5433,6 +6432,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-sms:
     dependencies:
@@ -5449,6 +6451,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-snow-device-management:
     dependencies:
@@ -5465,6 +6470,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-snowball:
     dependencies:
@@ -5481,6 +6489,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-sns:
     dependencies:
@@ -5497,6 +6508,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-sqs:
     dependencies:
@@ -5513,6 +6527,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-ssm:
     dependencies:
@@ -5529,6 +6546,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-ssm-contacts:
     dependencies:
@@ -5545,6 +6565,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-ssm-incidents:
     dependencies:
@@ -5561,6 +6584,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-ssm-sap:
     dependencies:
@@ -5577,6 +6603,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-sso:
     dependencies:
@@ -5593,6 +6622,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-sso-admin:
     dependencies:
@@ -5609,6 +6641,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-sso-oidc:
     dependencies:
@@ -5625,6 +6660,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-storage-gateway:
     dependencies:
@@ -5641,6 +6679,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-sts:
     dependencies:
@@ -5657,6 +6698,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-supplychain:
     dependencies:
@@ -5673,6 +6717,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-support:
     dependencies:
@@ -5689,6 +6736,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-support-app:
     dependencies:
@@ -5705,6 +6755,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-swf:
     dependencies:
@@ -5721,6 +6774,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-synthetics:
     dependencies:
@@ -5737,6 +6793,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-textract:
     dependencies:
@@ -5753,6 +6812,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-timestream-influxdb:
     dependencies:
@@ -5769,6 +6831,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-timestream-query:
     dependencies:
@@ -5785,6 +6850,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-timestream-write:
     dependencies:
@@ -5801,6 +6869,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-tnb:
     dependencies:
@@ -5817,6 +6888,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-transcribe:
     dependencies:
@@ -5833,6 +6907,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-transcribe-streaming:
     dependencies:
@@ -5849,6 +6926,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-transfer:
     dependencies:
@@ -5865,6 +6945,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-translate:
     dependencies:
@@ -5881,6 +6964,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-trustedadvisor:
     dependencies:
@@ -5897,6 +6983,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-verifiedpermissions:
     dependencies:
@@ -5913,6 +7002,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-voice-id:
     dependencies:
@@ -5929,6 +7021,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-vpc-lattice:
     dependencies:
@@ -5945,6 +7040,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-waf:
     dependencies:
@@ -5961,6 +7059,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-waf-regional:
     dependencies:
@@ -5977,6 +7078,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-wafv2:
     dependencies:
@@ -5993,6 +7097,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-wellarchitected:
     dependencies:
@@ -6009,6 +7116,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-wisdom:
     dependencies:
@@ -6025,6 +7135,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-workdocs:
     dependencies:
@@ -6041,6 +7154,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-worklink:
     dependencies:
@@ -6057,6 +7173,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-workmail:
     dependencies:
@@ -6073,6 +7192,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-workmailmessageflow:
     dependencies:
@@ -6089,6 +7211,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-workspaces:
     dependencies:
@@ -6105,6 +7230,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-workspaces-thin-client:
     dependencies:
@@ -6121,6 +7249,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-workspaces-web:
     dependencies:
@@ -6137,6 +7268,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   generated/packages/client-xray:
     dependencies:
@@ -6153,6 +7287,9 @@ importers:
       aws-sdk-client-mock:
         specifier: ^3.0.0
         version: 3.0.0
+      typescript:
+        specifier: ^5.0.0
+        version: 5.2.2
 
   packages/client-api-gateway-management-api:
     dependencies:
