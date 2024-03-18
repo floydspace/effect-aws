@@ -6,6 +6,7 @@
     "url": "github:floydspace/effect-aws"
   },
   "scripts": {
+    "postinstall": "tsx ./scripts/codegen-clients.ts",
     "build": "pnpm exec projen build",
     "bump": "pnpm exec projen bump",
     "compile": "pnpm exec projen compile",
@@ -23,7 +24,6 @@
     "install:ci": "pnpm exec projen install:ci",
     "synth-workspace": "pnpm exec projen",
     "changeset": "changeset",
-    "codegen-client": "tsx ./scripts/codegen-client.ts",
     "codegen-clients": "tsx ./scripts/codegen-clients.ts"
   },
   "author": {

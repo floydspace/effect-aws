@@ -2,6 +2,7 @@
 
 packages:
   - generated/packages/**
+  - packages/s3-request-presigner
   - packages/client-api-gateway-management-api
   - packages/client-dynamodb
   - packages/client-ec2
