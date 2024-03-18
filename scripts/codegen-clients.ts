@@ -2,7 +2,7 @@
  * How to use:
  * 1. Run `pnpm -- codegen-clients`
  * 2. Run `pnpm install`
- * 3. Run `pnpm -- nx run-many --target check --all --parallel`
+ * 3. Run `pnpm -- nx run-many --target compile --all --parallel`
  */
 import { mkdir, writeFile } from "node:fs/promises";
 
@@ -113,6 +113,7 @@ async function main() {
     ReadonlyArray.map((t) => t.path.match(servicesRegexp)![1]),
   );
 
+  
   const each = services.map((packageName) =>
     Effect.promise(async () => {
       const serviceName = pipe(packageName, String.replace(/^client-/, ""));
@@ -131,7 +132,7 @@ async function main() {
     }),
   );
 
-  const results = await Effect.runPromise(Effect.all(each, { concurrency: 1 }));
+  const results = await Effect.runPromise(Effect.all(each, { concurrency: "unbounded" }));
   return Promise.all(results.map((item) => generateClient(version, item)));
 }
 
@@ -196,8 +197,6 @@ async function generateClient(
     operations,
     ReadonlyArray.flatMap(([_, { errors }]) => errors ?? []),
     ReadonlyArray.map(error => getLocalNameFromNamespace(error.target)),
-    ReadonlyArray.map(String.replace(/(Exception|Error)$/, "")),
-    ReadonlyArray.map((error) => `${error}Error`),
     ReadonlyArray.dedupe
   );
 
@@ -208,7 +207,7 @@ async function generateClient(
   await writeFile(
     `./generated/packages/client-${serviceName}/src/Errors.ts`,
     `import type { 
-  ${exportedErrors.map((e) => (e.endsWith("Error") ? `${e} as ${String.replace(/Error$/, "")(e)}Exception` : e)).join(",\n  ")}
+  ${exportedErrors.map((e) => `${e} as Sdk${e}`).join(",\n  ")}
 } from "@aws-sdk/client-${serviceName}";
 import * as Data from "effect/Data";
 
@@ -219,8 +218,8 @@ export type TaggedException<T extends { name: string }> = T & {
 ${pipe(
   exportedErrors,
   ReadonlyArray.map(
-    (taggedError) =>
-      `export type ${pipe(taggedError, String.replace(/(Exception|Error)$/, ""))}Error = TaggedException<${taggedError.endsWith("Error") ? `${String.replace(/Error$/, "")(taggedError)}Exception` : taggedError}>;`,
+    (e) =>
+      `export type ${e} = TaggedException<Sdk${e}>;`,
   ),
   ReadonlyArray.join("\n"),
 )}
@@ -407,8 +406,6 @@ ${pipe(
     const errors = pipe(
       operationShape.errors || [],
       ReadonlyArray.map(flow(Struct.get("target"), getLocalNameFromNamespace)),
-      ReadonlyArray.map(String.replace(/(Exception|Error)$/, "")),
-      ReadonlyArray.map((error) => `${error}Error`),
       ReadonlyArray.intersection(importedErrors),
     );
     return `  /**
@@ -689,10 +686,17 @@ describe("${sdkName}ClientImpl", () => {
     `{
   "name": "@effect-aws/client-${serviceName}",
   "version": "${version}",
-  "type": "module",
-  "sideEffects": false,
+  "main": "lib/index.js",
+  "license": "MIT",
+  "homepage": "https://floydspace.github.io/effect-aws",
+  "publishConfig": {
+    "access": "public"
+  },
+  "types": "lib/index.d.ts",
+  "module": "lib/esm/index.js",
+  "sideEffects": [],
   "scripts": {
-    "check": "tsc -noEmit"
+    "compile": "tsc"
   },
   "devDependencies": {
     "aws-sdk-client-mock": "^3.0.0",
@@ -710,9 +714,30 @@ describe("${sdkName}ClientImpl", () => {
     `./generated/packages/client-${serviceName}/tsconfig.json`,
     `{
     "compilerOptions": {
-        "moduleResolution": "Node",
-        "target": "ES2020",
-        "module": "ES2020",
+      "rootDir": "src",
+      "outDir": "lib/esm",
+      "alwaysStrict": true,
+      "declaration": true,
+      "esModuleInterop": true,
+      "experimentalDecorators": true,
+      "inlineSourceMap": true,
+      "inlineSources": true,
+      "noEmitOnError": false,
+      "noFallthroughCasesInSwitch": true,
+      "noImplicitAny": true,
+      "noImplicitReturns": true,
+      "noImplicitThis": true,
+      "noUnusedLocals": true,
+      "noUnusedParameters": true,
+      "resolveJsonModule": true,
+      "strict": true,
+      "skipLibCheck": true,
+      "strictNullChecks": true,
+      "strictPropertyInitialization": true,
+      "stripInternal": true,
+      "moduleResolution": "node",
+      "target": "ES2020",
+      "module": "ES2020"
     },
     "include": ["./src/**/*.ts"],
 }`,
