@@ -40,8 +40,8 @@ import {
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { Context, Data, Effect, Layer, ReadonlyRecord } from "effect";
 import { type S3Service } from "../../../generated/packages/client-s3/src/S3Service";
-import { S3ClientInstance, S3ClientInstanceLayer } from "./S3ClientInstance";
-import { DefaultS3ClientConfigLayer } from "./S3ClientInstanceConfig";
+import { S3ClientInstance, S3ClientInstanceLayer} from "../../../generated/packages/client-s3/src/S3ClientInstance";
+import { DefaultS3ClientConfigLayer } from "../../../generated/packages/client-s3/src/S3ClientInstanceConfig";
 
 export type TaggedException<T extends { name: string }> = T & {
     readonly _tag: T["name"];
