@@ -158,8 +158,9 @@ const lowerFirst = flow(
   ReadonlyArray.join(""),
 );
 
-const upperFirst = flow(
+const upperFirstNoSpaces = flow(
   ReadonlyArray.modify(0, String.toUpperCase),
+  ReadonlyArray.filter(c => c !== " "),
   ReadonlyArray.join(""),
 );
 
@@ -186,7 +187,7 @@ async function generateClient(
   if (cloudFormationName === undefined && sdkId === undefined) {
     throw new TypeError("cloudFormationName is not found");
   }
-  const sdkName = upperFirst(cloudFormationName || sdkId);
+  const sdkName = upperFirstNoSpaces(cloudFormationName || sdkId);
 
   const exportedErrors = pipe(
     smithyModel.shapes,
@@ -366,10 +367,23 @@ import {
   ${pipe(
     operations,
     ReadonlyArray.map(
-      ([name, { input, output }]) => `${getLocalNameFromNamespace(name)}Command,
-  type ${getLocalNameFromNamespace(input.target)},
-  type ${getLocalNameFromNamespace(output.target)},`,
+      ([name]) => `${getLocalNameFromNamespace(name)}Command,`
     ),
+    ReadonlyArray.join("\n  "),
+  )}
+  ${pipe(
+    operations,
+    ReadonlyArray.map(([_, { input }]) => input),
+    ReadonlyArray.map(input => `type ${getLocalNameFromNamespace(input.target)},`),
+    ReadonlyArray.dedupe,
+    ReadonlyArray.join("\n  "),
+  )}
+  ${pipe(
+    operations,
+    ReadonlyArray.map(([_, { output }]) => output),
+    ReadonlyArray.filter(output => output.target !== 'smithy.api#Unit'),
+    ReadonlyArray.map(output => `type ${getLocalNameFromNamespace(output.target)},`),
+    ReadonlyArray.dedupe,
     ReadonlyArray.join("\n  "),
   )}
 } from "@aws-sdk/client-${serviceName}";
@@ -421,7 +435,7 @@ ${pipe(
     args: ${getLocalNameFromNamespace(operationShape.input.target)},
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    ${getLocalNameFromNamespace(operationShape.output.target)},
+    ${operationShape.output.target === 'smithy.api#Unit' ? 'void' : getLocalNameFromNamespace(operationShape.output.target)},
     ${pipe(["| SdkError", ...errors], ReadonlyArray.join("\n    | "))}
   >`;
   }),
