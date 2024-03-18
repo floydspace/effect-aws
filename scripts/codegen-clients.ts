@@ -152,6 +152,8 @@ const pascalCase = (s: string) => pipe(
   ReadonlyArray.join(""),
 );
 
+const SMITHY_API_UNIT = 'smithy.api#Unit';
+
 async function generateClient(
   version: string,
   [packageName, smithyModel]: readonly [string, SmithyModel],
@@ -363,17 +365,9 @@ import {
   )}
   ${pipe(
     operations,
-    ReadonlyArray.map(([_, { input }]) => input),
-    ReadonlyArray.filter(output => output.target !== 'smithy.api#Unit'),
-    ReadonlyArray.map(input => `type ${getLocalNameFromNamespace(input.target)},`),
-    ReadonlyArray.dedupe,
-    ReadonlyArray.join("\n  "),
-  )}
-  ${pipe(
-    operations,
-    ReadonlyArray.map(([_, { output }]) => output),
-    ReadonlyArray.filter(output => output.target !== 'smithy.api#Unit'),
-    ReadonlyArray.map(output => `type ${getLocalNameFromNamespace(output.target)},`),
+    ReadonlyArray.flatMap(([_, { input, output }]) => [input.target, output.target]),
+    ReadonlyArray.filter(target => target !== SMITHY_API_UNIT),
+    ReadonlyArray.map(target => `type ${getLocalNameFromNamespace(target)},`),
     ReadonlyArray.dedupe,
     ReadonlyArray.join("\n  "),
   )}
@@ -421,10 +415,10 @@ ${pipe(
    * @see {@link ${getLocalNameFromNamespace(operationName)}Command}
    */
   ${pipe(getLocalNameFromNamespace(operationName), lowerFirst)}(
-    args: ${operationShape.input.target === 'smithy.api#Unit' ? '{}' : getLocalNameFromNamespace(operationShape.input.target)},
+    args: ${operationShape.input.target === SMITHY_API_UNIT ? '{}' : getLocalNameFromNamespace(operationShape.input.target)},
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    ${operationShape.output.target === 'smithy.api#Unit' ? 'void' : getLocalNameFromNamespace(operationShape.output.target)},
+    ${operationShape.output.target === SMITHY_API_UNIT ? 'void' : getLocalNameFromNamespace(operationShape.output.target)},
     ${pipe(["| SdkError", ...errors], ReadonlyArray.join("\n    | "))}
   >`;
   }),
