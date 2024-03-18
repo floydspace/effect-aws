@@ -354,7 +354,7 @@ export * from "./${sdkName}Service";
  * @since 1.0.0
  */
 import {
-  ${sdkName}ServiceException,
+  ${sdkName}ServiceException as Sdk${sdkName}ServiceException,
   ${pipe(
     operations,
     ReadonlyArray.map(
@@ -444,9 +444,9 @@ export const make${sdkName}Service = Effect.gen(function* (_) {
       Effect.tryPromise({
         try: () => client.send(new CommandCtor(args), options ?? {}),
         catch: (e) => {
-          if (e instanceof ${sdkName}ServiceException) {
+          if (e instanceof Sdk${sdkName}ServiceException) {
             const ServiceException = Data.tagged<
-              TaggedException<${sdkName}ServiceException>
+              TaggedException<Sdk${sdkName}ServiceException>
             >(e.name);
 
             return ServiceException({
