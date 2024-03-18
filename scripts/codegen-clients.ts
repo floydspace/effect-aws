@@ -15,8 +15,6 @@ import {
   ReadonlyRecord,
   String,
   Struct,
-  Tuple,
-  Predicate,
 } from "effect";
 import { flow, pipe } from "effect/Function";
 
@@ -158,9 +156,9 @@ const lowerFirst = flow(
   ReadonlyArray.join(""),
 );
 
-const upperFirstNoSpaces = flow(
-  ReadonlyArray.modify(0, String.toUpperCase),
-  ReadonlyArray.filter(c => c !== " "),
+const pascalCase = (s: string) => pipe(
+  s.split(" "),
+  ReadonlyArray.flatMap(flow(ReadonlyArray.modify(0, String.toUpperCase))),
   ReadonlyArray.join(""),
 );
 
@@ -187,7 +185,7 @@ async function generateClient(
   if (cloudFormationName === undefined && sdkId === undefined) {
     throw new TypeError("cloudFormationName is not found");
   }
-  const sdkName = upperFirstNoSpaces(cloudFormationName || sdkId);
+  const sdkName = pascalCase(sdkId);
 
   const exportedErrors = pipe(
     smithyModel.shapes,
@@ -217,7 +215,9 @@ async function generateClient(
   await mkdir(`./generated/packages/client-${serviceName}/src/`, { recursive: true });
   await writeFile(
     `./generated/packages/client-${serviceName}/src/Errors.ts`,
-    `import type { ${exportedErrors.map((e) => (e.endsWith("Error") ? `${e} as ${String.replace(/Error$/, "")(e)}Exception` : e)).join(", ")} } from "@aws-sdk/client-${serviceName}";
+    `import type { 
+  ${exportedErrors.map((e) => (e.endsWith("Error") ? `${e} as ${String.replace(/Error$/, "")(e)}Exception` : e)).join(",\n  ")}
+} from "@aws-sdk/client-${serviceName}";
 import * as Data from "effect/Data";
 
 export type TaggedException<T extends { name: string }> = T & {
