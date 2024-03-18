@@ -51,7 +51,6 @@ export const S3RequestPresignerError = Data.tagged<S3RequestPresignerError>("S3R
 
 type PresignedCommandOutput<T> = T extends Effect.Effect<infer _, infer _> ? Effect.Effect<string, S3RequestPresignerError> : never;
 
-// Now we'll map over the keys of Foo and apply the transformation
 type PresignedS3Service = {
   [K in keyof typeof presignableCommands]: S3Service[K] extends (...args: infer Args) => infer R ? (...args: Args) => PresignedCommandOutput<R> : never;
 };
