@@ -713,33 +713,52 @@ describe("${sdkName}ClientImpl", () => {
   await writeFile(
     `./generated/packages/client-${serviceName}/tsconfig.json`,
     `{
-    "compilerOptions": {
-      "rootDir": "src",
-      "outDir": "lib/esm",
-      "alwaysStrict": true,
-      "declaration": true,
-      "esModuleInterop": true,
-      "experimentalDecorators": true,
-      "inlineSourceMap": true,
-      "inlineSources": true,
-      "noEmitOnError": false,
-      "noFallthroughCasesInSwitch": true,
-      "noImplicitAny": true,
-      "noImplicitReturns": true,
-      "noImplicitThis": true,
-      "noUnusedLocals": true,
-      "noUnusedParameters": true,
-      "resolveJsonModule": true,
-      "strict": true,
-      "skipLibCheck": true,
-      "strictNullChecks": true,
-      "strictPropertyInitialization": true,
-      "stripInternal": true,
-      "moduleResolution": "node",
-      "target": "ES2020",
-      "module": "ES2020"
-    },
-    "include": ["./src/**/*.ts"],
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "lib",
+    "alwaysStrict": true,
+    "declaration": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "inlineSourceMap": true,
+    "inlineSources": true,
+    "lib": [
+      "es2019",
+      "dom"
+    ],
+    "module": "CommonJS",
+    "noEmitOnError": false,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "resolveJsonModule": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": true,
+    "stripInternal": true,
+    "target": "ES2019",
+    "moduleResolution": "node"
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": []
+}`,
+  );
+
+  await writeFile(
+    `./generated/packages/client-${serviceName}/tsconfig.esm.json`,
+    `{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./lib/esm",
+    "module": "es6",
+    "resolveJsonModule": false,
+    "declaration": false
+  }
 }`,
   );
 }
