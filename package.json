@@ -57,7 +57,6 @@
     "nx": "^16"
   },
   "dependencies": {
-    "@aws-cdk/aws-cognito-identitypool-alpha": "latest",
     "aws-cdk-lib": "^2.126.0",
     "cdk-nag": "^2.28.27",
     "effect": "^2.3.1",
