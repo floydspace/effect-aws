@@ -699,11 +699,12 @@ describe("${sdkName}ClientImpl", () => {
     "compile": "tsc --project tsconfig.json && tsc --project tsconfig.esm.json"
   },
   "devDependencies": {
-    "aws-sdk-client-mock": "^3.0.0",
+    "aws-sdk-client-mock": "^4.0.0",
+    "aws-sdk-client-mock-jest": "^4.0.0",
     "typescript": "^5.0.0"
   },
   "peerDependencies": {
-    "@aws-sdk/types": "^3.0.0",
+    "@aws-sdk/types": "^${version}",
     "@aws-sdk/client-${serviceName}": "${version}",
     "effect": ">=2.3.1 <2.5.0"
   }
