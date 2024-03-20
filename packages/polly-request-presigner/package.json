@@ -1,0 +1,7 @@
+{
+    "name": "polly-request-presigner",
+    "dependencies": {
+        "@aws-sdk/client-polly": "3.535.0",
+        "@aws-sdk/polly-request-presigner": "3.535.0"
+    }
+}

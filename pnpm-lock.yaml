@@ -8470,6 +8470,15 @@ importers:
         specifier: ^5.2.2
         version: 5.2.2
 
+  packages/polly-request-presigner:
+    dependencies:
+      '@aws-sdk/client-polly':
+        specifier: 3.535.0
+        version: 3.535.0
+      '@aws-sdk/polly-request-presigner':
+        specifier: 3.535.0
+        version: 3.535.0
+
   packages/powertools-logger:
     dependencies:
       '@aws-lambda-powertools/logger':
@@ -8527,6 +8536,9 @@ importers:
       '@aws-sdk/s3-request-presigner':
         specifier: 3.535.0
         version: 3.535.0
+      '@smithy/smithy-client':
+        specifier: ^2.5.0
+        version: 2.5.0
 
 packages:
 
@@ -27567,6 +27579,21 @@ packages:
       '@smithy/types': 2.12.0
       '@smithy/util-hex-encoding': 2.2.0
       tslib: 2.6.2
+    dev: false
+
+  /@aws-sdk/polly-request-presigner@3.535.0:
+    resolution: {integrity: sha512-BOPEkiyIYMpuM9b+Y0VSMqTsZHgOv4pmxkUTSfPLZLvluVAJm9aFg4Vvj6UjSdqj9wlqMYU2hecjpQA28vcWBg==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@aws-sdk/client-polly': 3.535.0
+      '@aws-sdk/types': 3.535.0
+      '@aws-sdk/util-format-url': 3.535.0
+      '@smithy/protocol-http': 3.3.0
+      '@smithy/signature-v4': 2.2.0
+      '@smithy/types': 2.12.0
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - aws-crt
     dev: false
 
   /@aws-sdk/region-config-resolver@3.535.0:

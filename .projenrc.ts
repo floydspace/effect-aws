@@ -32,7 +32,6 @@ new Docgen(project);
 new Vitest(project);
 
 project.addScripts({
-  "codegen-client": "tsx ./scripts/codegen-client.ts",
   "codegen-clients": "tsx ./scripts/codegen-clients.ts",
 });
 project.addDeps("effect@^2.3.1", "enquirer@^2.4.1");
@@ -52,6 +51,20 @@ new TypeScriptLibProject({
 new TypeScriptLibProject({
   parent: project,
   name: "lambda",
+  devDeps: ["@types/aws-lambda"],
+  peerDeps: commonPeerDeps,
+});
+
+new TypeScriptLibProject({
+  parent: project,
+  name: "s3-request-presigner",
+  devDeps: ["@types/aws-lambda"],
+  peerDeps: commonPeerDeps,
+});
+
+new TypeScriptLibProject({
+  parent: project,
+  name: "polly-request-presigner",
   devDeps: ["@types/aws-lambda"],
   peerDeps: commonPeerDeps,
 });
