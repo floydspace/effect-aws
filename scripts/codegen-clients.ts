@@ -696,7 +696,7 @@ describe("${sdkName}ClientImpl", () => {
   "module": "lib/esm/index.js",
   "sideEffects": [],
   "scripts": {
-    "compile": "tsc"
+    "compile": "tsc --project tsconfig.json && tsc --project tsconfig.esm.json"
   },
   "devDependencies": {
     "aws-sdk-client-mock": "^3.0.0",
