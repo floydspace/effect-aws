@@ -6,17 +6,11 @@ Effect Docs: https://www.effect.website<br>
 
 # Roadmap
 
-- [x] PowerTools Logger
-- [x] S3 Client
-- [x] IAM Client
-- [x] DynamoDB Client
-- [x] DynamoDB Document Client (lib-dynamodb)
-- [x] SQS Client
-- [x] SNS Client
-- [x] EventBridge Client
-- [x] Lambda Client
-- [x] Step Functions Client
-- [ ] Other AWS Clients (By Request)
+- [x] All AWS clients are generated and wrapped with Effect, with correctly typed Exceptions and Errors
+- [x] Effect runtime for writing lambda handlers
+- [x] PowerTools based effect logger
+- [x] Effect Presigned S3 Client, for generating presigning s3 commands
+- [x] Effect Presigned Polly Client, for generating presigning polly commands
 
 # Contributing Guidelines
 
