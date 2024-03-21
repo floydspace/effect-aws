@@ -71,5 +71,6 @@ new TypeScriptLibProject({
 
 project.addGitIgnore(".direnv/"); // flake environment creates .direnv folder
 project.addGitIgnore("docs/"); // docs are generated
+project.addGitIgnore("generated/"); // clients are generated
 
 project.synth();
