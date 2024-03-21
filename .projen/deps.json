@@ -114,6 +114,26 @@
       "type": "runtime"
     },
     {
+      "name": "@aws-sdk/client-polly",
+      "version": "^3.535.0",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-sdk/client-s3",
+      "version": "^3.535.0",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-sdk/polly-request-presigner",
+      "version": "^3.535.0",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-sdk/s3-request-presigner",
+      "version": "^3.535.0",
+      "type": "runtime"
+    },
+    {
       "name": "aws-cdk-lib",
       "type": "runtime"
     },

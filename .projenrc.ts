@@ -32,12 +32,17 @@ new Docgen(project);
 new Vitest(project);
 
 project.addScripts({
-  "codegen-client": "tsx ./scripts/codegen-client.ts",
+  "codegen-clients": "tsx ./scripts/codegen-clients.ts",
 });
-project.addDeps("effect@^2.3.1", "enquirer@^2.4.1");
+project.addDeps(
+  "effect@^2.3.1",
+  "enquirer@^2.4.1",
+  "@aws-sdk/client-s3@^3.535.0",
+  "@aws-sdk/s3-request-presigner@^3.535.0",
+  "@aws-sdk/client-polly@^3.535.0",
+  "@aws-sdk/polly-request-presigner@^3.535.0",
+);
 
-const commonDeps = ["@aws-sdk/types@^3"];
-const commonDevDeps = ["aws-sdk-client-mock", "aws-sdk-client-mock-jest"];
 const commonPeerDeps = ["effect@>=2.3.1 <2.5.0"];
 
 new TypeScriptLibProject({
@@ -52,118 +57,27 @@ new TypeScriptLibProject({
 
 new TypeScriptLibProject({
   parent: project,
-  name: "client-api-gateway-management-api",
-  deps: [...commonDeps, "@aws-sdk/client-apigatewaymanagementapi@^3"],
-  devDeps: commonDevDeps,
-  peerDeps: commonPeerDeps,
-});
-
-const dynamodbClient = new TypeScriptLibProject({
-  parent: project,
-  name: "client-dynamodb",
-  deps: [...commonDeps, "@aws-sdk/client-dynamodb@^3"],
-  devDeps: commonDevDeps,
-  peerDeps: commonPeerDeps,
-});
-
-const dynamodbLib = new TypeScriptLibProject({
-  parent: project,
-  name: "lib-dynamodb",
-  deps: [
-    ...commonDeps,
-    "@aws-sdk/client-dynamodb@^3",
-    "@aws-sdk/lib-dynamodb@^3",
-  ],
-  devDeps: commonDevDeps,
-  peerDeps: [...commonPeerDeps, dynamodbClient.package.packageName],
-});
-
-new TypeScriptLibProject({
-  parent: project,
-  name: "client-eventbridge",
-  deps: [...commonDeps, "@aws-sdk/client-eventbridge@^3"],
-  devDeps: commonDevDeps,
-  peerDeps: commonPeerDeps,
-});
-
-new TypeScriptLibProject({
-  parent: project,
-  name: "client-lambda",
-  deps: [...commonDeps, "@aws-sdk/client-lambda@^3"],
-  devDeps: commonDevDeps,
-  peerDeps: commonPeerDeps,
-});
-
-new TypeScriptLibProject({
-  parent: project,
-  name: "client-s3",
-  deps: [
-    ...commonDeps,
-    "@aws-sdk/client-s3@^3",
-    "@aws-sdk/s3-request-presigner@^3",
-  ],
-  devDeps: commonDevDeps,
-  peerDeps: commonPeerDeps,
-});
-
-new TypeScriptLibProject({
-  parent: project,
-  name: "client-sns",
-  deps: [...commonDeps, "@aws-sdk/client-sns@^3"],
-  devDeps: commonDevDeps,
-  peerDeps: commonPeerDeps,
-});
-
-new TypeScriptLibProject({
-  parent: project,
-  name: "client-sqs",
-  deps: [...commonDeps, "@aws-sdk/client-sqs@^3"],
-  devDeps: commonDevDeps,
-  peerDeps: commonPeerDeps,
-});
-
-new TypeScriptLibProject({
-  parent: project,
-  name: "client-sfn",
-  deps: [...commonDeps, "@aws-sdk/client-sfn@^3"],
-  devDeps: commonDevDeps,
-  peerDeps: commonPeerDeps,
-});
-
-new TypeScriptLibProject({
-  parent: project,
-  name: "client-iam",
-  deps: [...commonDeps, "@aws-sdk/client-iam@^3"],
-  devDeps: commonDevDeps,
-  peerDeps: commonPeerDeps,
-});
-
-new TypeScriptLibProject({
-  parent: project,
-  name: "client-elasticache",
-  deps: [...commonDeps, "@aws-sdk/client-elasticache@^3"],
-  devDeps: commonDevDeps,
-  peerDeps: commonPeerDeps,
-});
-
-new TypeScriptLibProject({
-  parent: project,
-  name: "client-ec2",
-  deps: [...commonDeps, "@aws-sdk/client-ec2@^3"],
-  devDeps: commonDevDeps,
-  peerDeps: commonPeerDeps,
-});
-
-new TypeScriptLibProject({
-  parent: project,
   name: "lambda",
   devDeps: ["@types/aws-lambda"],
   peerDeps: commonPeerDeps,
 });
 
-project.addImplicitDependency(dynamodbLib, dynamodbClient);
+new TypeScriptLibProject({
+  parent: project,
+  name: "s3-request-presigner",
+  devDeps: ["@types/aws-lambda"],
+  peerDeps: [...commonPeerDeps, "@aws-sdk/client-s3", "@aws-sdk/s3-request-presigner"],
+});
+
+new TypeScriptLibProject({
+  parent: project,
+  name: "polly-request-presigner",
+  devDeps: ["@types/aws-lambda"],
+  peerDeps: [...commonPeerDeps, "@aws-sdk/client-polly", "@aws-sdk/polly-request-presigner"],
+});
 
 project.addGitIgnore(".direnv/"); // flake environment creates .direnv folder
 project.addGitIgnore("docs/"); // docs are generated
+project.addGitIgnore("generated/"); // clients are generated
 
 project.synth();
