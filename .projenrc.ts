@@ -34,7 +34,14 @@ new Vitest(project);
 project.addScripts({
   "codegen-clients": "tsx ./scripts/codegen-clients.ts",
 });
-project.addDeps("effect@^2.3.1", "enquirer@^2.4.1");
+project.addDeps(
+  "effect@^2.3.1",
+  "enquirer@^2.4.1",
+  "@aws-sdk/client-s3@^3.535.0",
+  "@aws-sdk/s3-request-presigner@^3.535.0",
+  "@aws-sdk/client-polly@^3.535.0",
+  "@aws-sdk/polly-request-presigner@^3.535.0",
+);
 
 const commonPeerDeps = ["effect@>=2.3.1 <2.5.0"];
 
@@ -59,14 +66,14 @@ new TypeScriptLibProject({
   parent: project,
   name: "s3-request-presigner",
   devDeps: ["@types/aws-lambda"],
-  peerDeps: commonPeerDeps,
+  peerDeps: [...commonPeerDeps, "@aws-sdk/client-s3", "@aws-sdk/s3-request-presigner"],
 });
 
 new TypeScriptLibProject({
   parent: project,
   name: "polly-request-presigner",
   devDeps: ["@types/aws-lambda"],
-  peerDeps: commonPeerDeps,
+  peerDeps: [...commonPeerDeps, "@aws-sdk/client-polly", "@aws-sdk/polly-request-presigner"],
 });
 
 project.addGitIgnore(".direnv/"); // flake environment creates .direnv folder

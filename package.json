@@ -57,6 +57,10 @@
   },
   "dependencies": {
     "@aws-cdk/aws-cognito-identitypool-alpha": "latest",
+    "@aws-sdk/client-polly": "^3.535.0",
+    "@aws-sdk/client-s3": "^3.535.0",
+    "@aws-sdk/polly-request-presigner": "^3.535.0",
+    "@aws-sdk/s3-request-presigner": "^3.535.0",
     "aws-cdk-lib": "^2.126.0",
     "cdk-nag": "^2.28.27",
     "effect": "^2.3.1",

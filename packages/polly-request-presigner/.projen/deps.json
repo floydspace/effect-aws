@@ -59,6 +59,14 @@
       "type": "build"
     },
     {
+      "name": "@aws-sdk/client-polly",
+      "type": "peer"
+    },
+    {
+      "name": "@aws-sdk/polly-request-presigner",
+      "type": "peer"
+    },
+    {
       "name": "effect",
       "version": ">=2.3.1 <2.5.0",
       "type": "peer"

@@ -59,6 +59,14 @@
       "type": "build"
     },
     {
+      "name": "@aws-sdk/client-s3",
+      "type": "peer"
+    },
+    {
+      "name": "@aws-sdk/s3-request-presigner",
+      "type": "peer"
+    },
+    {
       "name": "effect",
       "version": ">=2.3.1 <2.5.0",
       "type": "peer"
