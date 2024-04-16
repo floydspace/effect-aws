@@ -294,7 +294,7 @@ import {
   type HttpHandlerOptions as __HttpHandlerOptions,
   RequestPresigningArguments,
 } from "@aws-sdk/types";
-import { Context, Data, Effect, Layer, ReadonlyRecord } from "effect";
+import { Context, Data, Effect, Layer, Record } from "effect";
 import {
   BucketAlreadyExistsError,
   BucketAlreadyOwnedByYouError,
@@ -309,11 +309,7 @@ import {
   SdkError,
   TaggedException,
 } from "./Errors";
-import {
-  DefaultS3ClientInstanceLayer,
-  S3ClientInstance,
-  S3ClientInstanceLayer,
-} from "./S3ClientInstance";
+import { S3ClientInstance, S3ClientInstanceLayer } from "./S3ClientInstance";
 import { DefaultS3ClientConfigLayer } from "./S3ClientInstanceConfig";
 
 const commands = {
@@ -1372,7 +1368,7 @@ export const makeS3Service = Effect.gen(function* (_) {
     throw e;
   };
 
-  return ReadonlyRecord.toEntries(commands).reduce((acc, [command]) => {
+  return Record.toEntries(commands).reduce((acc, [command]) => {
     const CommandCtor = commands[command] as any;
     const methodImpl = (
       args: any,
@@ -1418,28 +1414,4 @@ export const S3ServiceLayer = BaseS3ServiceLayer.pipe(
  */
 export const DefaultS3ServiceLayer = S3ServiceLayer.pipe(
   Layer.provide(DefaultS3ClientConfigLayer),
-);
-
-// -------------------- Danger Zone --------------------
-
-/**
- * @since 0.1.0
- * @deprecated
- */
-export const BaseS3ServiceEffect = makeS3Service;
-
-/**
- * @since 0.1.0
- * @deprecated
- */
-export const S3ServiceEffect = BaseS3ServiceEffect.pipe(
-  Effect.provide(S3ClientInstanceLayer),
-);
-
-/**
- * @since 0.1.0
- * @deprecated
- */
-export const DefaultS3ServiceEffect = BaseS3ServiceEffect.pipe(
-  Effect.provide(DefaultS3ClientInstanceLayer),
 );

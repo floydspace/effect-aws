@@ -11,8 +11,8 @@ import { mkdir, readdir, writeFile } from "node:fs/promises";
 import {
   Effect,
   Option,
-  ReadonlyArray,
-  ReadonlyRecord,
+  Array,
+  Record,
   String,
   Struct,
   Tuple,
@@ -80,8 +80,8 @@ async function main() {
 
       const serviceShape = pipe(
         manifest.shapes,
-        ReadonlyRecord.values,
-        ReadonlyArray.findFirst(
+        Record.values,
+        Array.findFirst(
           (shape): shape is Extract<Shape, { type: "service" }> =>
             shape.type === "service",
         ),
@@ -90,12 +90,12 @@ async function main() {
 
       const operationTargets = pipe(
         serviceShape.operations,
-        ReadonlyArray.map(({ target }) => target),
+        Array.map(({ target }) => target),
       );
 
       const operationNames = pipe(
         operationTargets,
-        ReadonlyArray.map(getNameFromTarget),
+        Array.map(getNameFromTarget),
       );
 
       const { commandToTest } = await enquirer.prompt({
@@ -134,19 +134,13 @@ async function main() {
 
 const getNameFromTarget = flow(
   String.split("#"),
-  ReadonlyArray.get(1),
+  Array.get(1),
   Option.getOrThrow,
 );
 
-const lowerFirst = flow(
-  ReadonlyArray.modify(0, String.toLowerCase),
-  ReadonlyArray.join(""),
-);
+const lowerFirst = flow(Array.modify(0, String.toLowerCase), Array.join(""));
 
-const upperFirst = flow(
-  ReadonlyArray.modify(0, String.toUpperCase),
-  ReadonlyArray.join(""),
-);
+const upperFirst = flow(Array.modify(0, String.toUpperCase), Array.join(""));
 
 async function generateClient([
   packageName,
@@ -163,8 +157,8 @@ async function generateClient([
 
   const serviceShape = pipe(
     manifest.shapes,
-    ReadonlyRecord.values,
-    ReadonlyArray.findFirst(
+    Record.values,
+    Array.findFirst(
       (shape): shape is Extract<Shape, { type: "service" }> =>
         shape.type === "service",
     ),
@@ -182,12 +176,12 @@ async function generateClient([
 
   const exportedErrors = pipe(
     awsClient,
-    ReadonlyRecord.filter(
+    Record.filter(
       (value) =>
         typeof value === "function" &&
         value.prototype instanceof awsClient[serviceException],
     ),
-    ReadonlyRecord.keys,
+    Record.keys,
   );
 
   await writeFile(
@@ -201,11 +195,11 @@ export type TaggedException<T extends { name: string }> = T & {
 
 ${pipe(
   exportedErrors,
-  ReadonlyArray.map(
+  Array.map(
     (taggedError) =>
       `export type ${pipe(taggedError, String.replace(/(Exception|Error)$/, ""))}Error = TaggedException<${taggedError.endsWith("Error") ? `${String.replace(/Error$/, "")(taggedError)}Exception` : taggedError}>;`,
   ),
-  ReadonlyArray.join("\n"),
+  Array.join("\n"),
 )}
 
 export type SdkError = TaggedException<Error & { name: "SdkError" }>;
@@ -333,37 +327,40 @@ export * from "./${sdkName}Service";
   );
   const operationTargets = pipe(
     serviceShape.operations,
-    ReadonlyArray.map(({ target }) => target),
+    Array.map(({ target }) => target),
   );
   const operationShapes = pipe(
     manifest.shapes,
-    ReadonlyRecord.filter(
+    Record.filter(
       (shape): shape is Extract<Shape, { type: "operation" }> =>
         shape.type === "operation",
     ),
     Struct.pick(...operationTargets),
-    ReadonlyRecord.filter(Predicate.isNotUndefined),
-    ReadonlyRecord.mapKeys(getNameFromTarget),
-    ReadonlyRecord.toEntries,
-  );
+    Record.filter(Predicate.isNotUndefined),
+    Record.mapKeys(getNameFromTarget),
+    Record.toEntries,
+  ) as [
+    string,
+    {
+      type: "operation";
+      errors: { target: string }[];
+    },
+  ][];
 
-  const operationNames = pipe(
-    operationTargets,
-    ReadonlyArray.map(getNameFromTarget),
-  );
+  const operationNames = pipe(operationTargets, Array.map(getNameFromTarget));
 
   const importedErrors = pipe(
     operationShapes,
-    ReadonlyArray.map(Tuple.getSecond),
-    ReadonlyArray.filter(
+    Array.map(Tuple.getSecond),
+    Array.filter(
       (shape): shape is Extract<Shape, { type: "operation" }> =>
         shape.type === "operation",
     ),
-    ReadonlyArray.flatMap(({ errors }) => errors ?? []),
-    ReadonlyArray.map(flow(({ target }) => target, getNameFromTarget)),
-    ReadonlyArray.dedupe,
-    ReadonlyArray.sort(String.Order),
-    ReadonlyArray.intersection(exportedErrors),
+    Array.flatMap(({ errors }) => errors ?? []),
+    Array.map(flow(({ target }) => target, getNameFromTarget)),
+    Array.dedupe,
+    Array.sort(String.Order),
+    Array.intersection(exportedErrors),
   );
 
   await writeFile(
@@ -375,16 +372,16 @@ import {
   ${sdkName}ServiceException,
   ${pipe(
     operationNames,
-    ReadonlyArray.map(
+    Array.map(
       (name) => `${name}Command,
   type ${name}CommandInput,
   type ${name}CommandOutput,`,
     ),
-    ReadonlyArray.join("\n  "),
+    Array.join("\n  "),
   )}
 } from "@aws-sdk/client-${serviceName}";
 import { type HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
-import { Context, Data, Effect, Layer, ReadonlyRecord } from "effect";
+import { Context, Data, Effect, Layer, Record } from "effect";
 import {
   ${sdkName}ClientInstance,
   ${sdkName}ClientInstanceLayer,
@@ -393,8 +390,8 @@ import { Default${sdkName}ClientConfigLayer } from "./${sdkName}ClientInstanceCo
 import {
   ${pipe(
     importedErrors.map(String.replace(/(Exception|Error)$/, "")),
-    ReadonlyArray.map((error) => `${error}Error`),
-    ReadonlyArray.join(","),
+    Array.map((error) => `${error}Error`),
+    Array.join(","),
   )},
   SdkError,
   TaggedException,
@@ -403,7 +400,7 @@ import {
 const commands = {
   ${pipe(
     operationNames,
-    ReadonlyArray.map((name) => `${name}Command`),
+    Array.map((name) => `${name}Command`),
   )}
 };
 
@@ -416,13 +413,13 @@ export interface ${sdkName}Service {
 
 ${pipe(
   operationShapes,
-  ReadonlyArray.map(([operationName, operationShape]) => {
+  Array.map(([operationName, operationShape]) => {
     const errors = pipe(
       operationShape.errors || [],
-      ReadonlyArray.map(flow(Struct.get("target"), getNameFromTarget)),
-      ReadonlyArray.intersection(importedErrors),
-      ReadonlyArray.map(String.replace(/(Exception|Error)$/, "")),
-      ReadonlyArray.map((error) => `${error}Error`),
+      Array.map(flow(Struct.get("target"), getNameFromTarget)),
+      Array.intersection(importedErrors),
+      Array.map(String.replace(/(Exception|Error)$/, "")),
+      Array.map((error) => `${error}Error`),
     );
     return `  /**
    * @see {@link ${operationName}Command}
@@ -432,10 +429,10 @@ ${pipe(
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     ${operationName}CommandOutput,
-    ${pipe(["SdkError", ...errors], ReadonlyArray.join(" | "))}
+    ${pipe(["SdkError", ...errors], Array.join(" | "))}
   >`;
   }),
-  ReadonlyArray.join("\n\n"),
+  Array.join("\n\n"),
 )}
 }
 
@@ -454,7 +451,7 @@ export const ${sdkName}Service = Context.GenericTag<${sdkName}Service>(
 export const make${sdkName}Service = Effect.gen(function* (_) {
   const client = yield* _(${sdkName}ClientInstance);
 
-  return ReadonlyRecord.toEntries(commands).reduce((acc, [command]) => {
+  return Record.toEntries(commands).reduce((acc, [command]) => {
     const CommandCtor = commands[command] as any;
     const methodImpl = (args: any, options: any) =>
       Effect.tryPromise({

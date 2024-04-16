@@ -113,7 +113,7 @@ import {
   UpdateStateMachineCommandOutput,
 } from "@aws-sdk/client-sfn";
 import { HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
-import { Context, Data, Effect, Layer, ReadonlyRecord } from "effect";
+import { Context, Data, Effect, Layer, Record } from "effect";
 import {
   ActivityDoesNotExistError,
   ActivityLimitExceededError,
@@ -146,11 +146,7 @@ import {
   TooManyTagsError,
   ValidationError,
 } from "./Errors";
-import {
-  DefaultSFNClientInstanceLayer,
-  SFNClientInstance,
-  SFNClientInstanceLayer,
-} from "./SFNClientInstance";
+import { SFNClientInstance, SFNClientInstanceLayer } from "./SFNClientInstance";
 import { DefaultSFNClientConfigLayer } from "./SFNClientInstanceConfig";
 
 const commands = {
@@ -654,7 +650,7 @@ export const SFNService = Context.GenericTag<SFNService>(
 export const makeSFNService = Effect.gen(function* (_) {
   const client = yield* _(SFNClientInstance);
 
-  return ReadonlyRecord.toEntries(commands).reduce((acc, [command]) => {
+  return Record.toEntries(commands).reduce((acc, [command]) => {
     const CommandCtor = commands[command] as any;
     const methodImpl = (args: any, options: any) =>
       Effect.tryPromise({
@@ -710,28 +706,4 @@ export const SFNServiceLayer = BaseSFNServiceLayer.pipe(
  */
 export const DefaultSFNServiceLayer = SFNServiceLayer.pipe(
   Layer.provide(DefaultSFNClientConfigLayer),
-);
-
-// -------------------- Danger Zone --------------------
-
-/**
- * @since 0.1.0
- * @deprecated
- */
-export const BaseSFNServiceEffect = makeSFNService;
-
-/**
- * @since 0.1.0
- * @deprecated
- */
-export const SFNServiceEffect = BaseSFNServiceEffect.pipe(
-  Effect.provide(SFNClientInstanceLayer),
-);
-
-/**
- * @since 0.1.0
- * @deprecated
- */
-export const DefaultSFNServiceEffect = BaseSFNServiceEffect.pipe(
-  Effect.provide(DefaultSFNClientInstanceLayer),
 );

@@ -74,7 +74,7 @@ import {
   type UntagQueueCommandOutput,
 } from "@aws-sdk/client-sqs";
 import { type HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
-import { Context, Data, Effect, Layer, ReadonlyRecord } from "effect";
+import { Context, Data, Effect, Layer, Record } from "effect";
 import {
   BatchEntryIdsNotDistinctError,
   BatchRequestTooLongError,
@@ -107,11 +107,7 @@ import {
   SdkError,
   TaggedException,
 } from "./Errors";
-import {
-  DefaultSQSClientInstanceLayer,
-  SQSClientInstance,
-  SQSClientInstanceLayer,
-} from "./SQSClientInstance";
+import { SQSClientInstance, SQSClientInstanceLayer } from "./SQSClientInstance";
 import { DefaultSQSClientConfigLayer } from "./SQSClientInstanceConfig";
 
 const commands = {
@@ -579,7 +575,7 @@ export const SQSService = Context.GenericTag<SQSService>(
 export const makeSQSService = Effect.gen(function* (_) {
   const client = yield* _(SQSClientInstance);
 
-  return ReadonlyRecord.toEntries(commands).reduce((acc, [command]) => {
+  return Record.toEntries(commands).reduce((acc, [command]) => {
     const CommandCtor = commands[command] as any;
     const methodImpl = (args: any, options: any) =>
       Effect.tryPromise({
@@ -635,28 +631,4 @@ export const SQSServiceLayer = BaseSQSServiceLayer.pipe(
  */
 export const DefaultSQSServiceLayer = SQSServiceLayer.pipe(
   Layer.provide(DefaultSQSClientConfigLayer),
-);
-
-// -------------------- Danger Zone --------------------
-
-/**
- * @since 0.1.0
- * @deprecated
- */
-export const BaseSQSServiceEffect = makeSQSService;
-
-/**
- * @since 0.1.0
- * @deprecated
- */
-export const SQSServiceEffect = BaseSQSServiceEffect.pipe(
-  Effect.provide(SQSClientInstanceLayer),
-);
-
-/**
- * @since 0.1.0
- * @deprecated
- */
-export const DefaultSQSServiceEffect = BaseSQSServiceEffect.pipe(
-  Effect.provide(DefaultSQSClientInstanceLayer),
 );

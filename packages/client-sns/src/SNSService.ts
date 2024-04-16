@@ -131,7 +131,7 @@ import {
   VerifySMSSandboxPhoneNumberCommandOutput,
 } from "@aws-sdk/client-sns";
 import { HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
-import { Context, Data, Effect, Layer, ReadonlyRecord } from "effect";
+import { Context, Data, Effect, Layer, Record } from "effect";
 import {
   AuthorizationError,
   BatchEntryIdsNotDistinctError,
@@ -168,11 +168,7 @@ import {
   ValidationError,
   VerificationError,
 } from "./Errors";
-import {
-  DefaultSNSClientInstanceLayer,
-  SNSClientInstance,
-  SNSClientInstanceLayer,
-} from "./SNSClientInstance";
+import { SNSClientInstance, SNSClientInstanceLayer } from "./SNSClientInstance";
 import { DefaultSNSClientConfigLayer } from "./SNSClientInstanceConfig";
 
 const commands = {
@@ -906,7 +902,7 @@ export const SNSService = Context.GenericTag<SNSService>(
 export const makeSNSService = Effect.gen(function* (_) {
   const client = yield* _(SNSClientInstance);
 
-  return ReadonlyRecord.toEntries(commands).reduce((acc, [command]) => {
+  return Record.toEntries(commands).reduce((acc, [command]) => {
     const CommandCtor = commands[command] as any;
     const methodImpl = (args: any, options: any) =>
       Effect.tryPromise({
@@ -962,28 +958,4 @@ export const SNSServiceLayer = BaseSNSServiceLayer.pipe(
  */
 export const DefaultSNSServiceLayer = SNSServiceLayer.pipe(
   Layer.provide(DefaultSNSClientConfigLayer),
-);
-
-// -------------------- Danger Zone --------------------
-
-/**
- * @since 0.1.0
- * @deprecated
- */
-export const BaseSNSServiceEffect = makeSNSService;
-
-/**
- * @since 0.1.0
- * @deprecated
- */
-export const SNSServiceEffect = BaseSNSServiceEffect.pipe(
-  Effect.provide(SNSClientInstanceLayer),
-);
-
-/**
- * @since 0.1.0
- * @deprecated
- */
-export const DefaultSNSServiceEffect = BaseSNSServiceEffect.pipe(
-  Effect.provide(DefaultSNSClientInstanceLayer),
 );

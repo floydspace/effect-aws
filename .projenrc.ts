@@ -18,6 +18,7 @@ const project = new monorepo.MonorepoTsProject({
   clobber: false, // enable it and run `pnpm default && pnpm clobber`, if you need to reset the project
   depsUpgrade: false, // enable it and run `pnpm default && pnpm upgrade` to upgrade projen and monorepo deps
   monorepoUpgradeDeps: false,
+  typescriptVersion: "^5.4.2",
 });
 
 new YamlFile(project, ".github/FUNDING.yml", { obj: { github: org } });
@@ -34,11 +35,11 @@ new Vitest(project);
 project.addScripts({
   "codegen-client": "tsx ./scripts/codegen-client.ts",
 });
-project.addDeps("effect@^2.3.1", "enquirer@^2.4.1");
+project.addDeps("effect@^3.0.0", "enquirer@^2.4.1");
 
 const commonDeps = ["@aws-sdk/types@^3"];
 const commonDevDeps = ["aws-sdk-client-mock", "aws-sdk-client-mock-jest"];
-const commonPeerDeps = ["effect@>=2.3.1 <2.5.0"];
+const commonPeerDeps = ["effect@>=3.0.0 <4.0.0"];
 
 new TypeScriptLibProject({
   parent: project,

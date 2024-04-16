@@ -482,7 +482,7 @@ import {
   type UploadSSHPublicKeyCommandOutput,
 } from "@aws-sdk/client-iam";
 import { type HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
-import { Context, Effect, Layer, ReadonlyRecord, Data } from "effect";
+import { Context, Effect, Layer, Record, Data } from "effect";
 import {
   IAMServiceError,
   ConcurrentModificationError,
@@ -2989,7 +2989,7 @@ export const IAMService = Context.GenericTag<IAMService>(
 export const makeIAMService = Effect.gen(function* (_) {
   const client = yield* _(IAMClientInstance);
 
-  return ReadonlyRecord.toEntries(commands).reduce((acc, [command]) => {
+  return Record.toEntries(commands).reduce((acc, [command]) => {
     const CommandCtor = commands[command] as any;
     const methodImpl = (args: any, options: any) =>
       Effect.tryPromise({

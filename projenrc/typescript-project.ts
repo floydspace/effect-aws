@@ -26,6 +26,7 @@ export class TypeScriptLibProject extends typescript.TypeScriptProject {
       outdir: `packages/${options.name}`,
       prettier: true, // Monorepo prettier doesn't work for some reason
       projenVersion: parent?.deps.getDependency("projen").version,
+      typescriptVersion: parent?.deps.getDependency("typescript").version,
       package: false, // It will be created by @changesets/cli
       depsUpgrade: false, // Updates are handled by monorepo task
       jest: false,

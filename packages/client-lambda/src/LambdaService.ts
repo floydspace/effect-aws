@@ -203,7 +203,7 @@ import {
   type UpdateFunctionUrlConfigCommandOutput,
 } from "@aws-sdk/client-lambda";
 import { type HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
-import { Context, Data, Effect, Layer, ReadonlyRecord } from "effect";
+import { Context, Data, Effect, Layer, Record } from "effect";
 import {
   CodeSigningConfigNotFoundError,
   CodeStorageExceededError,
@@ -247,7 +247,6 @@ import {
   TaggedException,
 } from "./Errors";
 import {
-  DefaultLambdaClientInstanceLayer,
   LambdaClientInstance,
   LambdaClientInstanceLayer,
 } from "./LambdaClientInstance";
@@ -1406,7 +1405,7 @@ export const LambdaService = Context.GenericTag<LambdaService>(
 export const makeLambdaService = Effect.gen(function* (_) {
   const client = yield* _(LambdaClientInstance);
 
-  return ReadonlyRecord.toEntries(commands).reduce((acc, [command]) => {
+  return Record.toEntries(commands).reduce((acc, [command]) => {
     const CommandCtor = commands[command] as any;
     const methodImpl = (args: any, options: any) =>
       Effect.tryPromise({
@@ -1465,28 +1464,4 @@ export const LambdaServiceLayer = BaseLambdaServiceLayer.pipe(
  */
 export const DefaultLambdaServiceLayer = LambdaServiceLayer.pipe(
   Layer.provide(DefaultLambdaClientConfigLayer),
-);
-
-// -------------------- Danger Zone --------------------
-
-/**
- * @since 0.1.0
- * @deprecated
- */
-export const BaseLambdaServiceEffect = makeLambdaService;
-
-/**
- * @since 0.1.0
- * @deprecated
- */
-export const LambdaServiceEffect = BaseLambdaServiceEffect.pipe(
-  Effect.provide(LambdaClientInstanceLayer),
-);
-
-/**
- * @since 0.1.0
- * @deprecated
- */
-export const DefaultLambdaServiceEffect = BaseLambdaServiceEffect.pipe(
-  Effect.provide(DefaultLambdaClientInstanceLayer),
 );

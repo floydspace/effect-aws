@@ -173,7 +173,7 @@ import {
   type UpdateEndpointCommandOutput,
 } from "@aws-sdk/client-eventbridge";
 import { type HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
-import { Context, Data, Effect, Layer, ReadonlyRecord } from "effect";
+import { Context, Data, Effect, Layer, Record } from "effect";
 import {
   ConcurrentModificationError,
   IllegalStatusError,
@@ -190,7 +190,6 @@ import {
   TaggedException,
 } from "./Errors";
 import {
-  DefaultEventBridgeClientInstanceLayer,
   EventBridgeClientInstance,
   EventBridgeClientInstanceLayer,
 } from "./EventBridgeClientInstance";
@@ -998,7 +997,7 @@ export const EventBridgeService = Context.GenericTag<EventBridgeService>(
 export const makeEventBridgeService = Effect.gen(function* (_) {
   const client = yield* _(EventBridgeClientInstance);
 
-  return ReadonlyRecord.toEntries(commands).reduce((acc, [command]) => {
+  return Record.toEntries(commands).reduce((acc, [command]) => {
     const CommandCtor = commands[command] as any;
     const methodImpl = (args: any, options: any) =>
       Effect.tryPromise({
@@ -1058,28 +1057,3 @@ export const EventBridgeServiceLayer = BaseEventBridgeServiceLayer.pipe(
 export const DefaultEventBridgeServiceLayer = EventBridgeServiceLayer.pipe(
   Layer.provide(DefaultEventBridgeClientConfigLayer),
 );
-
-// -------------------- Danger Zone --------------------
-
-/**
- * @since 0.1.0
- * @deprecated
- */
-export const BaseEventBridgeServiceEffect = makeEventBridgeService;
-
-/**
- * @since 0.1.0
- * @deprecated
- */
-export const EventBridgeServiceEffect = BaseEventBridgeServiceEffect.pipe(
-  Effect.provide(EventBridgeClientInstanceLayer),
-);
-
-/**
- * @since 0.1.0
- * @deprecated
- */
-export const DefaultEventBridgeServiceEffect =
-  BaseEventBridgeServiceEffect.pipe(
-    Effect.provide(DefaultEventBridgeClientInstanceLayer),
-  );

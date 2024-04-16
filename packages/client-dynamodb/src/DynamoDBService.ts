@@ -167,9 +167,8 @@ import {
   type UpdateTimeToLiveCommandOutput,
 } from "@aws-sdk/client-dynamodb";
 import { type HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
-import { Context, Effect, Layer, ReadonlyRecord, Data } from "effect";
+import { Context, Effect, Layer, Record, Data } from "effect";
 import {
-  DefaultDynamoDBClientInstanceLayer,
   DynamoDBClientInstance,
   DynamoDBClientInstanceLayer,
 } from "./DynamoDBClientInstance";
@@ -1076,7 +1075,7 @@ export const DynamoDBService = Context.GenericTag<DynamoDBService>(
 export const makeDynamoDBService = Effect.gen(function* (_) {
   const client = yield* _(DynamoDBClientInstance);
 
-  return ReadonlyRecord.toEntries(commands).reduce((acc, [command]) => {
+  return Record.toEntries(commands).reduce((acc, [command]) => {
     const CommandCtor = commands[command] as any;
     const methodImpl = (args: any, options: any) =>
       Effect.tryPromise({
@@ -1135,28 +1134,4 @@ export const DynamoDBServiceLayer = BaseDynamoDBServiceLayer.pipe(
  */
 export const DefaultDynamoDBServiceLayer = DynamoDBServiceLayer.pipe(
   Layer.provide(DefaultDynamoDBClientConfigLayer),
-);
-
-// -------------------- Danger Zone --------------------
-
-/**
- * @since 0.1.0
- * @deprecated
- */
-export const BaseDynamoDBServiceEffect = makeDynamoDBService;
-
-/**
- * @since 0.1.0
- * @deprecated
- */
-export const DynamoDBServiceEffect = BaseDynamoDBServiceEffect.pipe(
-  Effect.provide(DynamoDBClientInstanceLayer),
-);
-
-/**
- * @since 0.1.0
- * @deprecated
- */
-export const DefaultDynamoDBServiceEffect = BaseDynamoDBServiceEffect.pipe(
-  Effect.provide(DefaultDynamoDBClientInstanceLayer),
 );

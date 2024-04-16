@@ -30,7 +30,7 @@ export const fromLayer = <R, E>(layer: Layer.Layer<R, E>) => {
     Scope.extend(scope),
     Effect.runPromise,
   );
-  const destroy = Scope.close(scope, Exit.unit);
+  const destroy = Scope.close(scope, Exit.void);
 
   const signalHandler: NodeJS.SignalsListener = (signal) => {
     Effect.runFork(

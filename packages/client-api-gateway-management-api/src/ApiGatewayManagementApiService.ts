@@ -14,11 +14,10 @@ import {
   PostToConnectionCommandOutput,
 } from "@aws-sdk/client-apigatewaymanagementapi";
 import { HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
-import { Context, Data, Effect, Layer, ReadonlyRecord } from "effect";
+import { Context, Data, Effect, Layer, Record } from "effect";
 import {
   ApiGatewayManagementApiClientInstance,
   ApiGatewayManagementApiClientInstanceLayer,
-  DefaultApiGatewayManagementApiClientInstanceLayer,
 } from "./ApiGatewayManagementApiClientInstance";
 import { DefaultApiGatewayManagementApiClientConfigLayer } from "./ApiGatewayManagementApiClientInstanceConfig";
 import {
@@ -97,7 +96,7 @@ export const ApiGatewayManagementApiService =
 export const makeApiGatewayManagementApiService = Effect.gen(function* (_) {
   const client = yield* _(ApiGatewayManagementApiClientInstance);
 
-  return ReadonlyRecord.toEntries(commands).reduce((acc, [command]) => {
+  return Record.toEntries(commands).reduce((acc, [command]) => {
     const CommandCtor = commands[command] as any;
     const methodImpl = (args: any, options: any) =>
       Effect.tryPromise({
@@ -158,31 +157,4 @@ export const ApiGatewayManagementApiServiceLayer =
 export const DefaultApiGatewayManagementApiServiceLayer =
   ApiGatewayManagementApiServiceLayer.pipe(
     Layer.provide(DefaultApiGatewayManagementApiClientConfigLayer),
-  );
-
-// -------------------- Danger Zone --------------------
-
-/**
- * @since 0.1.0
- * @deprecated
- */
-export const BaseApiGatewayManagementApiServiceEffect =
-  makeApiGatewayManagementApiService;
-
-/**
- * @since 0.1.0
- * @deprecated
- */
-export const ApiGatewayManagementApiServiceEffect =
-  BaseApiGatewayManagementApiServiceEffect.pipe(
-    Effect.provide(ApiGatewayManagementApiClientInstanceLayer),
-  );
-
-/**
- * @since 0.1.0
- * @deprecated
- */
-export const DefaultApiGatewayManagementApiServiceEffect =
-  BaseApiGatewayManagementApiServiceEffect.pipe(
-    Effect.provide(DefaultApiGatewayManagementApiClientInstanceLayer),
   );

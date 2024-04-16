@@ -60,11 +60,12 @@
     },
     {
       "name": "typescript",
+      "version": "^5.4.2",
       "type": "build"
     },
     {
       "name": "effect",
-      "version": ">=2.3.1 <2.5.0",
+      "version": ">=3.0.0 <4.0.0",
       "type": "peer"
     },
     {

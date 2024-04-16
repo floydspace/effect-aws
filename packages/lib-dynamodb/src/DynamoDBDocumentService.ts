@@ -60,7 +60,7 @@ import {
   TransactionConflictError,
   TransactionInProgressError,
 } from "@effect-aws/client-dynamodb";
-import { Context, Data, Effect, Layer, ReadonlyRecord } from "effect";
+import { Context, Data, Effect, Layer, Record } from "effect";
 import {
   DynamoDBDocumentClientInstance,
   DynamoDBDocumentClientInstanceLayer,
@@ -329,7 +329,7 @@ export const DynamoDBDocumentService =
 export const makeDynamoDBDocumentService = Effect.gen(function* (_) {
   const client = yield* _(DynamoDBDocumentClientInstance);
 
-  return ReadonlyRecord.toEntries(commands).reduce((acc, [command]) => {
+  return Record.toEntries(commands).reduce((acc, [command]) => {
     const CommandCtor = commands[command] as any;
     const methodImpl = (args: any, options: any) =>
       Effect.tryPromise({
