@@ -1,5 +1,11 @@
 # @effect-aws/client-iam
 
+## 1.2.0
+
+### Minor Changes
+
+- [`0cfcda0`](https://github.com/floydspace/effect-aws/commit/0cfcda0d5617916d966807f5d5120df9ba461c12) Thanks [@floydspace](https://github.com/floydspace)! - upgrade effect to v3
+
 ## 1.1.1
 
 ### Patch Changes
