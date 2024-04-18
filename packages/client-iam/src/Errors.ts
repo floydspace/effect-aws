@@ -1,32 +1,32 @@
 import type {
-  ConcurrentModificationException,
-  CredentialReportExpiredException,
-  CredentialReportNotPresentException,
-  CredentialReportNotReadyException,
-  DeleteConflictException,
-  DuplicateCertificateException,
-  DuplicateSSHPublicKeyException,
-  EntityAlreadyExistsException,
-  EntityTemporarilyUnmodifiableException,
-  IAMServiceException,
-  InvalidAuthenticationCodeException,
-  InvalidCertificateException,
-  InvalidInputException,
-  InvalidPublicKeyException,
-  InvalidUserTypeException,
-  KeyPairMismatchException,
-  LimitExceededException,
-  MalformedCertificateException,
-  MalformedPolicyDocumentException,
-  NoSuchEntityException,
-  PasswordPolicyViolationException,
-  PolicyEvaluationException,
-  PolicyNotAttachableException,
-  ReportGenerationLimitExceededException,
-  ServiceFailureException,
-  ServiceNotSupportedException,
-  UnmodifiableEntityException,
-  UnrecognizedPublicKeyEncodingException,
+  ConcurrentModificationException as SdkConcurrentModificationException,
+  CredentialReportExpiredException as SdkCredentialReportExpiredException,
+  CredentialReportNotPresentException as SdkCredentialReportNotPresentException,
+  CredentialReportNotReadyException as SdkCredentialReportNotReadyException,
+  DeleteConflictException as SdkDeleteConflictException,
+  DuplicateCertificateException as SdkDuplicateCertificateException,
+  DuplicateSSHPublicKeyException as SdkDuplicateSSHPublicKeyException,
+  EntityAlreadyExistsException as SdkEntityAlreadyExistsException,
+  EntityTemporarilyUnmodifiableException as SdkEntityTemporarilyUnmodifiableException,
+  InvalidAuthenticationCodeException as SdkInvalidAuthenticationCodeException,
+  InvalidCertificateException as SdkInvalidCertificateException,
+  InvalidInputException as SdkInvalidInputException,
+  InvalidPublicKeyException as SdkInvalidPublicKeyException,
+  InvalidUserTypeException as SdkInvalidUserTypeException,
+  KeyPairMismatchException as SdkKeyPairMismatchException,
+  LimitExceededException as SdkLimitExceededException,
+  MalformedCertificateException as SdkMalformedCertificateException,
+  MalformedPolicyDocumentException as SdkMalformedPolicyDocumentException,
+  NoSuchEntityException as SdkNoSuchEntityException,
+  OpenIdIdpCommunicationErrorException as SdkOpenIdIdpCommunicationErrorException,
+  PasswordPolicyViolationException as SdkPasswordPolicyViolationException,
+  PolicyEvaluationException as SdkPolicyEvaluationException,
+  PolicyNotAttachableException as SdkPolicyNotAttachableException,
+  ReportGenerationLimitExceededException as SdkReportGenerationLimitExceededException,
+  ServiceFailureException as SdkServiceFailureException,
+  ServiceNotSupportedException as SdkServiceNotSupportedException,
+  UnmodifiableEntityException as SdkUnmodifiableEntityException,
+  UnrecognizedPublicKeyEncodingException as SdkUnrecognizedPublicKeyEncodingException,
 } from "@aws-sdk/client-iam";
 import * as Data from "effect/Data";
 
@@ -34,55 +34,59 @@ export type TaggedException<T extends { name: string }> = T & {
   readonly _tag: T["name"];
 };
 
-export type ConcurrentModificationError =
-  TaggedException<ConcurrentModificationException>;
-export type CredentialReportExpiredError =
-  TaggedException<CredentialReportExpiredException>;
-export type CredentialReportNotPresentError =
-  TaggedException<CredentialReportNotPresentException>;
-export type CredentialReportNotReadyError =
-  TaggedException<CredentialReportNotReadyException>;
-export type DeleteConflictError = TaggedException<DeleteConflictException>;
-export type DuplicateCertificateError =
-  TaggedException<DuplicateCertificateException>;
-export type DuplicateSSHPublicKeyError =
-  TaggedException<DuplicateSSHPublicKeyException>;
-export type EntityAlreadyExistsError =
-  TaggedException<EntityAlreadyExistsException>;
-export type EntityTemporarilyUnmodifiableError =
-  TaggedException<EntityTemporarilyUnmodifiableException>;
-export type InvalidAuthenticationCodeError =
-  TaggedException<InvalidAuthenticationCodeException>;
-export type InvalidCertificateError =
-  TaggedException<InvalidCertificateException>;
-export type InvalidInputError = TaggedException<InvalidInputException>;
-export type InvalidPublicKeyError = TaggedException<InvalidPublicKeyException>;
-export type InvalidUserTypeError = TaggedException<InvalidUserTypeException>;
-export type KeyPairMismatchError = TaggedException<KeyPairMismatchException>;
-export type LimitExceededError = TaggedException<LimitExceededException>;
-export type MalformedCertificateError =
-  TaggedException<MalformedCertificateException>;
-export type MalformedPolicyDocumentError =
-  TaggedException<MalformedPolicyDocumentException>;
-export type NoSuchEntityError = TaggedException<NoSuchEntityException>;
-export type PasswordPolicyViolationError =
-  TaggedException<PasswordPolicyViolationException>;
-export type PolicyEvaluationError = TaggedException<PolicyEvaluationException>;
-export type PolicyNotAttachableError =
-  TaggedException<PolicyNotAttachableException>;
-export type ReportGenerationLimitExceededError =
-  TaggedException<ReportGenerationLimitExceededException>;
-export type ServiceFailureError = TaggedException<ServiceFailureException>;
-export type ServiceNotSupportedError =
-  TaggedException<ServiceNotSupportedException>;
-export type UnmodifiableEntityError =
-  TaggedException<UnmodifiableEntityException>;
-export type UnrecognizedPublicKeyEncodingError =
-  TaggedException<UnrecognizedPublicKeyEncodingException>;
+export type ConcurrentModificationException =
+  TaggedException<SdkConcurrentModificationException>;
+export type CredentialReportExpiredException =
+  TaggedException<SdkCredentialReportExpiredException>;
+export type CredentialReportNotPresentException =
+  TaggedException<SdkCredentialReportNotPresentException>;
+export type CredentialReportNotReadyException =
+  TaggedException<SdkCredentialReportNotReadyException>;
+export type DeleteConflictException =
+  TaggedException<SdkDeleteConflictException>;
+export type DuplicateCertificateException =
+  TaggedException<SdkDuplicateCertificateException>;
+export type DuplicateSSHPublicKeyException =
+  TaggedException<SdkDuplicateSSHPublicKeyException>;
+export type EntityAlreadyExistsException =
+  TaggedException<SdkEntityAlreadyExistsException>;
+export type EntityTemporarilyUnmodifiableException =
+  TaggedException<SdkEntityTemporarilyUnmodifiableException>;
+export type InvalidAuthenticationCodeException =
+  TaggedException<SdkInvalidAuthenticationCodeException>;
+export type InvalidCertificateException =
+  TaggedException<SdkInvalidCertificateException>;
+export type InvalidInputException = TaggedException<SdkInvalidInputException>;
+export type InvalidPublicKeyException =
+  TaggedException<SdkInvalidPublicKeyException>;
+export type InvalidUserTypeException =
+  TaggedException<SdkInvalidUserTypeException>;
+export type KeyPairMismatchException =
+  TaggedException<SdkKeyPairMismatchException>;
+export type LimitExceededException = TaggedException<SdkLimitExceededException>;
+export type MalformedCertificateException =
+  TaggedException<SdkMalformedCertificateException>;
+export type MalformedPolicyDocumentException =
+  TaggedException<SdkMalformedPolicyDocumentException>;
+export type NoSuchEntityException = TaggedException<SdkNoSuchEntityException>;
+export type OpenIdIdpCommunicationErrorException =
+  TaggedException<SdkOpenIdIdpCommunicationErrorException>;
+export type PasswordPolicyViolationException =
+  TaggedException<SdkPasswordPolicyViolationException>;
+export type PolicyEvaluationException =
+  TaggedException<SdkPolicyEvaluationException>;
+export type PolicyNotAttachableException =
+  TaggedException<SdkPolicyNotAttachableException>;
+export type ReportGenerationLimitExceededException =
+  TaggedException<SdkReportGenerationLimitExceededException>;
+export type ServiceFailureException =
+  TaggedException<SdkServiceFailureException>;
+export type ServiceNotSupportedException =
+  TaggedException<SdkServiceNotSupportedException>;
+export type UnmodifiableEntityException =
+  TaggedException<SdkUnmodifiableEntityException>;
+export type UnrecognizedPublicKeyEncodingException =
+  TaggedException<SdkUnrecognizedPublicKeyEncodingException>;
 
-export type IAMServiceError = TaggedException<
-  IAMServiceException & { name: "IAMServiceError" }
->;
-export const IAMServiceError = Data.tagged<IAMServiceError>("IAMServiceError");
 export type SdkError = TaggedException<Error & { name: "SdkError" }>;
 export const SdkError = Data.tagged<SdkError>("SdkError");

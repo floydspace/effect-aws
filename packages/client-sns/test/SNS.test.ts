@@ -1,6 +1,6 @@
 import {
+  type PublishCommandInput,
   PublishCommand,
-  PublishCommandInput,
   SNSClient,
 } from "@aws-sdk/client-sns";
 import { mockClient } from "aws-sdk-client-mock";
@@ -21,16 +21,17 @@ import {
 
 import "aws-sdk-client-mock-jest";
 
-const snsMock = mockClient(SNSClient);
-const { publish } = Effect.serviceFunctions(SNSService);
+const clientMock = mockClient(SNSClient);
 
 describe("SNSClientImpl", () => {
   it("default", async () => {
-    snsMock.reset().on(PublishCommand).resolves({});
+    clientMock.reset().on(PublishCommand).resolves({});
 
     const args: PublishCommandInput = { TopicArn: "test", Message: "test" };
 
-    const program = publish(args);
+    const program = Effect.flatMap(SNSService, (service) =>
+      service.publish(args),
+    );
 
     const result = await pipe(
       program,
@@ -39,16 +40,18 @@ describe("SNSClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(snsMock).toHaveReceivedCommandTimes(PublishCommand, 1);
-    expect(snsMock).toHaveReceivedCommandWith(PublishCommand, args);
+    expect(clientMock).toHaveReceivedCommandTimes(PublishCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(PublishCommand, args);
   });
 
   it("configurable", async () => {
-    snsMock.reset().on(PublishCommand).resolves({});
+    clientMock.reset().on(PublishCommand).resolves({});
 
     const args: PublishCommandInput = { TopicArn: "test", Message: "test" };
 
-    const program = publish(args);
+    const program = Effect.flatMap(SNSService, (service) =>
+      service.publish(args),
+    );
 
     const SNSClientConfigLayer = Layer.succeed(SNSClientInstanceConfig, {
       region: "eu-central-1",
@@ -64,16 +67,18 @@ describe("SNSClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(snsMock).toHaveReceivedCommandTimes(PublishCommand, 1);
-    expect(snsMock).toHaveReceivedCommandWith(PublishCommand, args);
+    expect(clientMock).toHaveReceivedCommandTimes(PublishCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(PublishCommand, args);
   });
 
   it("base", async () => {
-    snsMock.reset().on(PublishCommand).resolves({});
+    clientMock.reset().on(PublishCommand).resolves({});
 
     const args: PublishCommandInput = { TopicArn: "test", Message: "test" };
 
-    const program = publish(args);
+    const program = Effect.flatMap(SNSService, (service) =>
+      service.publish(args),
+    );
 
     const SNSClientInstanceLayer = Layer.succeed(
       SNSClientInstance,
@@ -90,16 +95,18 @@ describe("SNSClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(snsMock).toHaveReceivedCommandTimes(PublishCommand, 1);
-    expect(snsMock).toHaveReceivedCommandWith(PublishCommand, args);
+    expect(clientMock).toHaveReceivedCommandTimes(PublishCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(PublishCommand, args);
   });
 
   it("extended", async () => {
-    snsMock.reset().on(PublishCommand).resolves({});
+    clientMock.reset().on(PublishCommand).resolves({});
 
     const args: PublishCommandInput = { TopicArn: "test", Message: "test" };
 
-    const program = publish(args);
+    const program = Effect.flatMap(SNSService, (service) =>
+      service.publish(args),
+    );
 
     const SNSClientInstanceLayer = Layer.effect(
       SNSClientInstance,
@@ -120,16 +127,18 @@ describe("SNSClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(snsMock).toHaveReceivedCommandTimes(PublishCommand, 1);
-    expect(snsMock).toHaveReceivedCommandWith(PublishCommand, args);
+    expect(clientMock).toHaveReceivedCommandTimes(PublishCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(PublishCommand, args);
   });
 
   it("fail", async () => {
-    snsMock.reset().on(PublishCommand).rejects(new Error("test"));
+    clientMock.reset().on(PublishCommand).rejects(new Error("test"));
 
     const args: PublishCommandInput = { TopicArn: "test", Message: "test" };
 
-    const program = publish(args, { requestTimeout: 1000 });
+    const program = Effect.flatMap(SNSService, (service) =>
+      service.publish(args),
+    );
 
     const result = await pipe(
       program,
@@ -147,7 +156,7 @@ describe("SNSClientImpl", () => {
         }),
       ),
     );
-    expect(snsMock).toHaveReceivedCommandTimes(PublishCommand, 1);
-    expect(snsMock).toHaveReceivedCommandWith(PublishCommand, args);
+    expect(clientMock).toHaveReceivedCommandTimes(PublishCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(PublishCommand, args);
   });
 });

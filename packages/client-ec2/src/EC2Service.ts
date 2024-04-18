@@ -2,8937 +2,9244 @@
  * @since 1.0.0
  */
 import {
-  EC2ServiceException,
+  EC2ServiceException as SdkEC2ServiceException,
   AcceptAddressTransferCommand,
-  type AcceptAddressTransferCommandInput,
-  type AcceptAddressTransferCommandOutput,
   AcceptReservedInstancesExchangeQuoteCommand,
-  type AcceptReservedInstancesExchangeQuoteCommandInput,
-  type AcceptReservedInstancesExchangeQuoteCommandOutput,
   AcceptTransitGatewayMulticastDomainAssociationsCommand,
-  type AcceptTransitGatewayMulticastDomainAssociationsCommandInput,
-  type AcceptTransitGatewayMulticastDomainAssociationsCommandOutput,
   AcceptTransitGatewayPeeringAttachmentCommand,
-  type AcceptTransitGatewayPeeringAttachmentCommandInput,
-  type AcceptTransitGatewayPeeringAttachmentCommandOutput,
   AcceptTransitGatewayVpcAttachmentCommand,
-  type AcceptTransitGatewayVpcAttachmentCommandInput,
-  type AcceptTransitGatewayVpcAttachmentCommandOutput,
   AcceptVpcEndpointConnectionsCommand,
-  type AcceptVpcEndpointConnectionsCommandInput,
-  type AcceptVpcEndpointConnectionsCommandOutput,
   AcceptVpcPeeringConnectionCommand,
-  type AcceptVpcPeeringConnectionCommandInput,
-  type AcceptVpcPeeringConnectionCommandOutput,
   AdvertiseByoipCidrCommand,
-  type AdvertiseByoipCidrCommandInput,
-  type AdvertiseByoipCidrCommandOutput,
   AllocateAddressCommand,
-  type AllocateAddressCommandInput,
-  type AllocateAddressCommandOutput,
   AllocateHostsCommand,
-  type AllocateHostsCommandInput,
-  type AllocateHostsCommandOutput,
   AllocateIpamPoolCidrCommand,
-  type AllocateIpamPoolCidrCommandInput,
-  type AllocateIpamPoolCidrCommandOutput,
   ApplySecurityGroupsToClientVpnTargetNetworkCommand,
-  type ApplySecurityGroupsToClientVpnTargetNetworkCommandInput,
-  type ApplySecurityGroupsToClientVpnTargetNetworkCommandOutput,
   AssignIpv6AddressesCommand,
-  type AssignIpv6AddressesCommandInput,
-  type AssignIpv6AddressesCommandOutput,
   AssignPrivateIpAddressesCommand,
-  type AssignPrivateIpAddressesCommandInput,
-  type AssignPrivateIpAddressesCommandOutput,
   AssignPrivateNatGatewayAddressCommand,
-  type AssignPrivateNatGatewayAddressCommandInput,
-  type AssignPrivateNatGatewayAddressCommandOutput,
   AssociateAddressCommand,
-  type AssociateAddressCommandInput,
-  type AssociateAddressCommandOutput,
   AssociateClientVpnTargetNetworkCommand,
-  type AssociateClientVpnTargetNetworkCommandInput,
-  type AssociateClientVpnTargetNetworkCommandOutput,
   AssociateDhcpOptionsCommand,
-  type AssociateDhcpOptionsCommandInput,
-  type AssociateDhcpOptionsCommandOutput,
   AssociateEnclaveCertificateIamRoleCommand,
-  type AssociateEnclaveCertificateIamRoleCommandInput,
-  type AssociateEnclaveCertificateIamRoleCommandOutput,
   AssociateIamInstanceProfileCommand,
-  type AssociateIamInstanceProfileCommandInput,
-  type AssociateIamInstanceProfileCommandOutput,
   AssociateInstanceEventWindowCommand,
-  type AssociateInstanceEventWindowCommandInput,
-  type AssociateInstanceEventWindowCommandOutput,
   AssociateIpamByoasnCommand,
-  type AssociateIpamByoasnCommandInput,
-  type AssociateIpamByoasnCommandOutput,
   AssociateIpamResourceDiscoveryCommand,
-  type AssociateIpamResourceDiscoveryCommandInput,
-  type AssociateIpamResourceDiscoveryCommandOutput,
   AssociateNatGatewayAddressCommand,
-  type AssociateNatGatewayAddressCommandInput,
-  type AssociateNatGatewayAddressCommandOutput,
   AssociateRouteTableCommand,
-  type AssociateRouteTableCommandInput,
-  type AssociateRouteTableCommandOutput,
   AssociateSubnetCidrBlockCommand,
-  type AssociateSubnetCidrBlockCommandInput,
-  type AssociateSubnetCidrBlockCommandOutput,
   AssociateTransitGatewayMulticastDomainCommand,
-  type AssociateTransitGatewayMulticastDomainCommandInput,
-  type AssociateTransitGatewayMulticastDomainCommandOutput,
   AssociateTransitGatewayPolicyTableCommand,
-  type AssociateTransitGatewayPolicyTableCommandInput,
-  type AssociateTransitGatewayPolicyTableCommandOutput,
   AssociateTransitGatewayRouteTableCommand,
-  type AssociateTransitGatewayRouteTableCommandInput,
-  type AssociateTransitGatewayRouteTableCommandOutput,
   AssociateTrunkInterfaceCommand,
-  type AssociateTrunkInterfaceCommandInput,
-  type AssociateTrunkInterfaceCommandOutput,
   AssociateVpcCidrBlockCommand,
-  type AssociateVpcCidrBlockCommandInput,
-  type AssociateVpcCidrBlockCommandOutput,
   AttachClassicLinkVpcCommand,
-  type AttachClassicLinkVpcCommandInput,
-  type AttachClassicLinkVpcCommandOutput,
   AttachInternetGatewayCommand,
-  type AttachInternetGatewayCommandInput,
-  type AttachInternetGatewayCommandOutput,
   AttachNetworkInterfaceCommand,
-  type AttachNetworkInterfaceCommandInput,
-  type AttachNetworkInterfaceCommandOutput,
   AttachVerifiedAccessTrustProviderCommand,
-  type AttachVerifiedAccessTrustProviderCommandInput,
-  type AttachVerifiedAccessTrustProviderCommandOutput,
   AttachVolumeCommand,
-  type AttachVolumeCommandInput,
-  type AttachVolumeCommandOutput,
   AttachVpnGatewayCommand,
-  type AttachVpnGatewayCommandInput,
-  type AttachVpnGatewayCommandOutput,
   AuthorizeClientVpnIngressCommand,
-  type AuthorizeClientVpnIngressCommandInput,
-  type AuthorizeClientVpnIngressCommandOutput,
   AuthorizeSecurityGroupEgressCommand,
-  type AuthorizeSecurityGroupEgressCommandInput,
-  type AuthorizeSecurityGroupEgressCommandOutput,
   AuthorizeSecurityGroupIngressCommand,
-  type AuthorizeSecurityGroupIngressCommandInput,
-  type AuthorizeSecurityGroupIngressCommandOutput,
   BundleInstanceCommand,
-  type BundleInstanceCommandInput,
-  type BundleInstanceCommandOutput,
   CancelBundleTaskCommand,
-  type CancelBundleTaskCommandInput,
-  type CancelBundleTaskCommandOutput,
   CancelCapacityReservationCommand,
-  type CancelCapacityReservationCommandInput,
-  type CancelCapacityReservationCommandOutput,
   CancelCapacityReservationFleetsCommand,
-  type CancelCapacityReservationFleetsCommandInput,
-  type CancelCapacityReservationFleetsCommandOutput,
   CancelConversionTaskCommand,
-  type CancelConversionTaskCommandInput,
-  type CancelConversionTaskCommandOutput,
   CancelExportTaskCommand,
-  type CancelExportTaskCommandInput,
-  type CancelExportTaskCommandOutput,
   CancelImageLaunchPermissionCommand,
-  type CancelImageLaunchPermissionCommandInput,
-  type CancelImageLaunchPermissionCommandOutput,
   CancelImportTaskCommand,
-  type CancelImportTaskCommandInput,
-  type CancelImportTaskCommandOutput,
   CancelReservedInstancesListingCommand,
-  type CancelReservedInstancesListingCommandInput,
-  type CancelReservedInstancesListingCommandOutput,
   CancelSpotFleetRequestsCommand,
-  type CancelSpotFleetRequestsCommandInput,
-  type CancelSpotFleetRequestsCommandOutput,
   CancelSpotInstanceRequestsCommand,
-  type CancelSpotInstanceRequestsCommandInput,
-  type CancelSpotInstanceRequestsCommandOutput,
   ConfirmProductInstanceCommand,
-  type ConfirmProductInstanceCommandInput,
-  type ConfirmProductInstanceCommandOutput,
   CopyFpgaImageCommand,
-  type CopyFpgaImageCommandInput,
-  type CopyFpgaImageCommandOutput,
   CopyImageCommand,
-  type CopyImageCommandInput,
-  type CopyImageCommandOutput,
   CopySnapshotCommand,
-  type CopySnapshotCommandInput,
-  type CopySnapshotCommandOutput,
   CreateCapacityReservationCommand,
-  type CreateCapacityReservationCommandInput,
-  type CreateCapacityReservationCommandOutput,
   CreateCapacityReservationFleetCommand,
-  type CreateCapacityReservationFleetCommandInput,
-  type CreateCapacityReservationFleetCommandOutput,
   CreateCarrierGatewayCommand,
-  type CreateCarrierGatewayCommandInput,
-  type CreateCarrierGatewayCommandOutput,
   CreateClientVpnEndpointCommand,
-  type CreateClientVpnEndpointCommandInput,
-  type CreateClientVpnEndpointCommandOutput,
   CreateClientVpnRouteCommand,
-  type CreateClientVpnRouteCommandInput,
-  type CreateClientVpnRouteCommandOutput,
   CreateCoipCidrCommand,
-  type CreateCoipCidrCommandInput,
-  type CreateCoipCidrCommandOutput,
   CreateCoipPoolCommand,
-  type CreateCoipPoolCommandInput,
-  type CreateCoipPoolCommandOutput,
   CreateCustomerGatewayCommand,
-  type CreateCustomerGatewayCommandInput,
-  type CreateCustomerGatewayCommandOutput,
   CreateDefaultSubnetCommand,
-  type CreateDefaultSubnetCommandInput,
-  type CreateDefaultSubnetCommandOutput,
   CreateDefaultVpcCommand,
-  type CreateDefaultVpcCommandInput,
-  type CreateDefaultVpcCommandOutput,
   CreateDhcpOptionsCommand,
-  type CreateDhcpOptionsCommandInput,
-  type CreateDhcpOptionsCommandOutput,
   CreateEgressOnlyInternetGatewayCommand,
-  type CreateEgressOnlyInternetGatewayCommandInput,
-  type CreateEgressOnlyInternetGatewayCommandOutput,
   CreateFleetCommand,
-  type CreateFleetCommandInput,
-  type CreateFleetCommandOutput,
   CreateFlowLogsCommand,
-  type CreateFlowLogsCommandInput,
-  type CreateFlowLogsCommandOutput,
   CreateFpgaImageCommand,
-  type CreateFpgaImageCommandInput,
-  type CreateFpgaImageCommandOutput,
   CreateImageCommand,
-  type CreateImageCommandInput,
-  type CreateImageCommandOutput,
   CreateInstanceConnectEndpointCommand,
-  type CreateInstanceConnectEndpointCommandInput,
-  type CreateInstanceConnectEndpointCommandOutput,
   CreateInstanceEventWindowCommand,
-  type CreateInstanceEventWindowCommandInput,
-  type CreateInstanceEventWindowCommandOutput,
   CreateInstanceExportTaskCommand,
-  type CreateInstanceExportTaskCommandInput,
-  type CreateInstanceExportTaskCommandOutput,
   CreateInternetGatewayCommand,
-  type CreateInternetGatewayCommandInput,
-  type CreateInternetGatewayCommandOutput,
   CreateIpamCommand,
-  type CreateIpamCommandInput,
-  type CreateIpamCommandOutput,
   CreateIpamPoolCommand,
-  type CreateIpamPoolCommandInput,
-  type CreateIpamPoolCommandOutput,
   CreateIpamResourceDiscoveryCommand,
-  type CreateIpamResourceDiscoveryCommandInput,
-  type CreateIpamResourceDiscoveryCommandOutput,
   CreateIpamScopeCommand,
-  type CreateIpamScopeCommandInput,
-  type CreateIpamScopeCommandOutput,
   CreateKeyPairCommand,
-  type CreateKeyPairCommandInput,
-  type CreateKeyPairCommandOutput,
   CreateLaunchTemplateCommand,
-  type CreateLaunchTemplateCommandInput,
-  type CreateLaunchTemplateCommandOutput,
   CreateLaunchTemplateVersionCommand,
-  type CreateLaunchTemplateVersionCommandInput,
-  type CreateLaunchTemplateVersionCommandOutput,
   CreateLocalGatewayRouteCommand,
-  type CreateLocalGatewayRouteCommandInput,
-  type CreateLocalGatewayRouteCommandOutput,
   CreateLocalGatewayRouteTableCommand,
-  type CreateLocalGatewayRouteTableCommandInput,
-  type CreateLocalGatewayRouteTableCommandOutput,
   CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationCommand,
-  type CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationCommandInput,
-  type CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationCommandOutput,
   CreateLocalGatewayRouteTableVpcAssociationCommand,
-  type CreateLocalGatewayRouteTableVpcAssociationCommandInput,
-  type CreateLocalGatewayRouteTableVpcAssociationCommandOutput,
   CreateManagedPrefixListCommand,
-  type CreateManagedPrefixListCommandInput,
-  type CreateManagedPrefixListCommandOutput,
   CreateNatGatewayCommand,
-  type CreateNatGatewayCommandInput,
-  type CreateNatGatewayCommandOutput,
   CreateNetworkAclCommand,
-  type CreateNetworkAclCommandInput,
-  type CreateNetworkAclCommandOutput,
   CreateNetworkAclEntryCommand,
-  type CreateNetworkAclEntryCommandInput,
-  type CreateNetworkAclEntryCommandOutput,
   CreateNetworkInsightsAccessScopeCommand,
-  type CreateNetworkInsightsAccessScopeCommandInput,
-  type CreateNetworkInsightsAccessScopeCommandOutput,
   CreateNetworkInsightsPathCommand,
-  type CreateNetworkInsightsPathCommandInput,
-  type CreateNetworkInsightsPathCommandOutput,
   CreateNetworkInterfaceCommand,
-  type CreateNetworkInterfaceCommandInput,
-  type CreateNetworkInterfaceCommandOutput,
   CreateNetworkInterfacePermissionCommand,
-  type CreateNetworkInterfacePermissionCommandInput,
-  type CreateNetworkInterfacePermissionCommandOutput,
   CreatePlacementGroupCommand,
-  type CreatePlacementGroupCommandInput,
-  type CreatePlacementGroupCommandOutput,
   CreatePublicIpv4PoolCommand,
-  type CreatePublicIpv4PoolCommandInput,
-  type CreatePublicIpv4PoolCommandOutput,
   CreateReplaceRootVolumeTaskCommand,
-  type CreateReplaceRootVolumeTaskCommandInput,
-  type CreateReplaceRootVolumeTaskCommandOutput,
   CreateReservedInstancesListingCommand,
-  type CreateReservedInstancesListingCommandInput,
-  type CreateReservedInstancesListingCommandOutput,
   CreateRestoreImageTaskCommand,
-  type CreateRestoreImageTaskCommandInput,
-  type CreateRestoreImageTaskCommandOutput,
   CreateRouteCommand,
-  type CreateRouteCommandInput,
-  type CreateRouteCommandOutput,
   CreateRouteTableCommand,
-  type CreateRouteTableCommandInput,
-  type CreateRouteTableCommandOutput,
   CreateSecurityGroupCommand,
-  type CreateSecurityGroupCommandInput,
-  type CreateSecurityGroupCommandOutput,
   CreateSnapshotCommand,
-  type CreateSnapshotCommandInput,
-  type CreateSnapshotCommandOutput,
   CreateSnapshotsCommand,
-  type CreateSnapshotsCommandInput,
-  type CreateSnapshotsCommandOutput,
   CreateSpotDatafeedSubscriptionCommand,
-  type CreateSpotDatafeedSubscriptionCommandInput,
-  type CreateSpotDatafeedSubscriptionCommandOutput,
   CreateStoreImageTaskCommand,
-  type CreateStoreImageTaskCommandInput,
-  type CreateStoreImageTaskCommandOutput,
   CreateSubnetCommand,
-  type CreateSubnetCommandInput,
-  type CreateSubnetCommandOutput,
   CreateSubnetCidrReservationCommand,
-  type CreateSubnetCidrReservationCommandInput,
-  type CreateSubnetCidrReservationCommandOutput,
   CreateTagsCommand,
-  type CreateTagsCommandInput,
-  type CreateTagsCommandOutput,
   CreateTrafficMirrorFilterCommand,
-  type CreateTrafficMirrorFilterCommandInput,
-  type CreateTrafficMirrorFilterCommandOutput,
   CreateTrafficMirrorFilterRuleCommand,
-  type CreateTrafficMirrorFilterRuleCommandInput,
-  type CreateTrafficMirrorFilterRuleCommandOutput,
   CreateTrafficMirrorSessionCommand,
-  type CreateTrafficMirrorSessionCommandInput,
-  type CreateTrafficMirrorSessionCommandOutput,
   CreateTrafficMirrorTargetCommand,
-  type CreateTrafficMirrorTargetCommandInput,
-  type CreateTrafficMirrorTargetCommandOutput,
   CreateTransitGatewayCommand,
-  type CreateTransitGatewayCommandInput,
-  type CreateTransitGatewayCommandOutput,
   CreateTransitGatewayConnectCommand,
-  type CreateTransitGatewayConnectCommandInput,
-  type CreateTransitGatewayConnectCommandOutput,
   CreateTransitGatewayConnectPeerCommand,
-  type CreateTransitGatewayConnectPeerCommandInput,
-  type CreateTransitGatewayConnectPeerCommandOutput,
   CreateTransitGatewayMulticastDomainCommand,
-  type CreateTransitGatewayMulticastDomainCommandInput,
-  type CreateTransitGatewayMulticastDomainCommandOutput,
   CreateTransitGatewayPeeringAttachmentCommand,
-  type CreateTransitGatewayPeeringAttachmentCommandInput,
-  type CreateTransitGatewayPeeringAttachmentCommandOutput,
   CreateTransitGatewayPolicyTableCommand,
-  type CreateTransitGatewayPolicyTableCommandInput,
-  type CreateTransitGatewayPolicyTableCommandOutput,
   CreateTransitGatewayPrefixListReferenceCommand,
-  type CreateTransitGatewayPrefixListReferenceCommandInput,
-  type CreateTransitGatewayPrefixListReferenceCommandOutput,
   CreateTransitGatewayRouteCommand,
-  type CreateTransitGatewayRouteCommandInput,
-  type CreateTransitGatewayRouteCommandOutput,
   CreateTransitGatewayRouteTableCommand,
-  type CreateTransitGatewayRouteTableCommandInput,
-  type CreateTransitGatewayRouteTableCommandOutput,
   CreateTransitGatewayRouteTableAnnouncementCommand,
-  type CreateTransitGatewayRouteTableAnnouncementCommandInput,
-  type CreateTransitGatewayRouteTableAnnouncementCommandOutput,
   CreateTransitGatewayVpcAttachmentCommand,
-  type CreateTransitGatewayVpcAttachmentCommandInput,
-  type CreateTransitGatewayVpcAttachmentCommandOutput,
   CreateVerifiedAccessEndpointCommand,
-  type CreateVerifiedAccessEndpointCommandInput,
-  type CreateVerifiedAccessEndpointCommandOutput,
   CreateVerifiedAccessGroupCommand,
-  type CreateVerifiedAccessGroupCommandInput,
-  type CreateVerifiedAccessGroupCommandOutput,
   CreateVerifiedAccessInstanceCommand,
-  type CreateVerifiedAccessInstanceCommandInput,
-  type CreateVerifiedAccessInstanceCommandOutput,
   CreateVerifiedAccessTrustProviderCommand,
-  type CreateVerifiedAccessTrustProviderCommandInput,
-  type CreateVerifiedAccessTrustProviderCommandOutput,
   CreateVolumeCommand,
-  type CreateVolumeCommandInput,
-  type CreateVolumeCommandOutput,
   CreateVpcCommand,
-  type CreateVpcCommandInput,
-  type CreateVpcCommandOutput,
   CreateVpcEndpointCommand,
-  type CreateVpcEndpointCommandInput,
-  type CreateVpcEndpointCommandOutput,
   CreateVpcEndpointConnectionNotificationCommand,
-  type CreateVpcEndpointConnectionNotificationCommandInput,
-  type CreateVpcEndpointConnectionNotificationCommandOutput,
   CreateVpcEndpointServiceConfigurationCommand,
-  type CreateVpcEndpointServiceConfigurationCommandInput,
-  type CreateVpcEndpointServiceConfigurationCommandOutput,
   CreateVpcPeeringConnectionCommand,
-  type CreateVpcPeeringConnectionCommandInput,
-  type CreateVpcPeeringConnectionCommandOutput,
   CreateVpnConnectionCommand,
-  type CreateVpnConnectionCommandInput,
-  type CreateVpnConnectionCommandOutput,
   CreateVpnConnectionRouteCommand,
-  type CreateVpnConnectionRouteCommandInput,
-  type CreateVpnConnectionRouteCommandOutput,
   CreateVpnGatewayCommand,
-  type CreateVpnGatewayCommandInput,
-  type CreateVpnGatewayCommandOutput,
   DeleteCarrierGatewayCommand,
-  type DeleteCarrierGatewayCommandInput,
-  type DeleteCarrierGatewayCommandOutput,
   DeleteClientVpnEndpointCommand,
-  type DeleteClientVpnEndpointCommandInput,
-  type DeleteClientVpnEndpointCommandOutput,
   DeleteClientVpnRouteCommand,
-  type DeleteClientVpnRouteCommandInput,
-  type DeleteClientVpnRouteCommandOutput,
   DeleteCoipCidrCommand,
-  type DeleteCoipCidrCommandInput,
-  type DeleteCoipCidrCommandOutput,
   DeleteCoipPoolCommand,
-  type DeleteCoipPoolCommandInput,
-  type DeleteCoipPoolCommandOutput,
   DeleteCustomerGatewayCommand,
-  type DeleteCustomerGatewayCommandInput,
-  type DeleteCustomerGatewayCommandOutput,
   DeleteDhcpOptionsCommand,
-  type DeleteDhcpOptionsCommandInput,
-  type DeleteDhcpOptionsCommandOutput,
   DeleteEgressOnlyInternetGatewayCommand,
-  type DeleteEgressOnlyInternetGatewayCommandInput,
-  type DeleteEgressOnlyInternetGatewayCommandOutput,
   DeleteFleetsCommand,
-  type DeleteFleetsCommandInput,
-  type DeleteFleetsCommandOutput,
   DeleteFlowLogsCommand,
-  type DeleteFlowLogsCommandInput,
-  type DeleteFlowLogsCommandOutput,
   DeleteFpgaImageCommand,
-  type DeleteFpgaImageCommandInput,
-  type DeleteFpgaImageCommandOutput,
   DeleteInstanceConnectEndpointCommand,
-  type DeleteInstanceConnectEndpointCommandInput,
-  type DeleteInstanceConnectEndpointCommandOutput,
   DeleteInstanceEventWindowCommand,
-  type DeleteInstanceEventWindowCommandInput,
-  type DeleteInstanceEventWindowCommandOutput,
   DeleteInternetGatewayCommand,
-  type DeleteInternetGatewayCommandInput,
-  type DeleteInternetGatewayCommandOutput,
   DeleteIpamCommand,
-  type DeleteIpamCommandInput,
-  type DeleteIpamCommandOutput,
   DeleteIpamPoolCommand,
-  type DeleteIpamPoolCommandInput,
-  type DeleteIpamPoolCommandOutput,
   DeleteIpamResourceDiscoveryCommand,
-  type DeleteIpamResourceDiscoveryCommandInput,
-  type DeleteIpamResourceDiscoveryCommandOutput,
   DeleteIpamScopeCommand,
-  type DeleteIpamScopeCommandInput,
-  type DeleteIpamScopeCommandOutput,
   DeleteKeyPairCommand,
-  type DeleteKeyPairCommandInput,
-  type DeleteKeyPairCommandOutput,
   DeleteLaunchTemplateCommand,
-  type DeleteLaunchTemplateCommandInput,
-  type DeleteLaunchTemplateCommandOutput,
   DeleteLaunchTemplateVersionsCommand,
-  type DeleteLaunchTemplateVersionsCommandInput,
-  type DeleteLaunchTemplateVersionsCommandOutput,
   DeleteLocalGatewayRouteCommand,
-  type DeleteLocalGatewayRouteCommandInput,
-  type DeleteLocalGatewayRouteCommandOutput,
   DeleteLocalGatewayRouteTableCommand,
-  type DeleteLocalGatewayRouteTableCommandInput,
-  type DeleteLocalGatewayRouteTableCommandOutput,
   DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationCommand,
-  type DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationCommandInput,
-  type DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationCommandOutput,
   DeleteLocalGatewayRouteTableVpcAssociationCommand,
-  type DeleteLocalGatewayRouteTableVpcAssociationCommandInput,
-  type DeleteLocalGatewayRouteTableVpcAssociationCommandOutput,
   DeleteManagedPrefixListCommand,
-  type DeleteManagedPrefixListCommandInput,
-  type DeleteManagedPrefixListCommandOutput,
   DeleteNatGatewayCommand,
-  type DeleteNatGatewayCommandInput,
-  type DeleteNatGatewayCommandOutput,
   DeleteNetworkAclCommand,
-  type DeleteNetworkAclCommandInput,
-  type DeleteNetworkAclCommandOutput,
   DeleteNetworkAclEntryCommand,
-  type DeleteNetworkAclEntryCommandInput,
-  type DeleteNetworkAclEntryCommandOutput,
   DeleteNetworkInsightsAccessScopeCommand,
-  type DeleteNetworkInsightsAccessScopeCommandInput,
-  type DeleteNetworkInsightsAccessScopeCommandOutput,
   DeleteNetworkInsightsAccessScopeAnalysisCommand,
-  type DeleteNetworkInsightsAccessScopeAnalysisCommandInput,
-  type DeleteNetworkInsightsAccessScopeAnalysisCommandOutput,
   DeleteNetworkInsightsAnalysisCommand,
-  type DeleteNetworkInsightsAnalysisCommandInput,
-  type DeleteNetworkInsightsAnalysisCommandOutput,
   DeleteNetworkInsightsPathCommand,
-  type DeleteNetworkInsightsPathCommandInput,
-  type DeleteNetworkInsightsPathCommandOutput,
   DeleteNetworkInterfaceCommand,
-  type DeleteNetworkInterfaceCommandInput,
-  type DeleteNetworkInterfaceCommandOutput,
   DeleteNetworkInterfacePermissionCommand,
-  type DeleteNetworkInterfacePermissionCommandInput,
-  type DeleteNetworkInterfacePermissionCommandOutput,
   DeletePlacementGroupCommand,
-  type DeletePlacementGroupCommandInput,
-  type DeletePlacementGroupCommandOutput,
   DeletePublicIpv4PoolCommand,
-  type DeletePublicIpv4PoolCommandInput,
-  type DeletePublicIpv4PoolCommandOutput,
   DeleteQueuedReservedInstancesCommand,
-  type DeleteQueuedReservedInstancesCommandInput,
-  type DeleteQueuedReservedInstancesCommandOutput,
   DeleteRouteCommand,
-  type DeleteRouteCommandInput,
-  type DeleteRouteCommandOutput,
   DeleteRouteTableCommand,
-  type DeleteRouteTableCommandInput,
-  type DeleteRouteTableCommandOutput,
   DeleteSecurityGroupCommand,
-  type DeleteSecurityGroupCommandInput,
-  type DeleteSecurityGroupCommandOutput,
   DeleteSnapshotCommand,
-  type DeleteSnapshotCommandInput,
-  type DeleteSnapshotCommandOutput,
   DeleteSpotDatafeedSubscriptionCommand,
-  type DeleteSpotDatafeedSubscriptionCommandInput,
-  type DeleteSpotDatafeedSubscriptionCommandOutput,
   DeleteSubnetCommand,
-  type DeleteSubnetCommandInput,
-  type DeleteSubnetCommandOutput,
   DeleteSubnetCidrReservationCommand,
-  type DeleteSubnetCidrReservationCommandInput,
-  type DeleteSubnetCidrReservationCommandOutput,
   DeleteTagsCommand,
-  type DeleteTagsCommandInput,
-  type DeleteTagsCommandOutput,
   DeleteTrafficMirrorFilterCommand,
-  type DeleteTrafficMirrorFilterCommandInput,
-  type DeleteTrafficMirrorFilterCommandOutput,
   DeleteTrafficMirrorFilterRuleCommand,
-  type DeleteTrafficMirrorFilterRuleCommandInput,
-  type DeleteTrafficMirrorFilterRuleCommandOutput,
   DeleteTrafficMirrorSessionCommand,
-  type DeleteTrafficMirrorSessionCommandInput,
-  type DeleteTrafficMirrorSessionCommandOutput,
   DeleteTrafficMirrorTargetCommand,
-  type DeleteTrafficMirrorTargetCommandInput,
-  type DeleteTrafficMirrorTargetCommandOutput,
   DeleteTransitGatewayCommand,
-  type DeleteTransitGatewayCommandInput,
-  type DeleteTransitGatewayCommandOutput,
   DeleteTransitGatewayConnectCommand,
-  type DeleteTransitGatewayConnectCommandInput,
-  type DeleteTransitGatewayConnectCommandOutput,
   DeleteTransitGatewayConnectPeerCommand,
-  type DeleteTransitGatewayConnectPeerCommandInput,
-  type DeleteTransitGatewayConnectPeerCommandOutput,
   DeleteTransitGatewayMulticastDomainCommand,
-  type DeleteTransitGatewayMulticastDomainCommandInput,
-  type DeleteTransitGatewayMulticastDomainCommandOutput,
   DeleteTransitGatewayPeeringAttachmentCommand,
-  type DeleteTransitGatewayPeeringAttachmentCommandInput,
-  type DeleteTransitGatewayPeeringAttachmentCommandOutput,
   DeleteTransitGatewayPolicyTableCommand,
-  type DeleteTransitGatewayPolicyTableCommandInput,
-  type DeleteTransitGatewayPolicyTableCommandOutput,
   DeleteTransitGatewayPrefixListReferenceCommand,
-  type DeleteTransitGatewayPrefixListReferenceCommandInput,
-  type DeleteTransitGatewayPrefixListReferenceCommandOutput,
   DeleteTransitGatewayRouteCommand,
-  type DeleteTransitGatewayRouteCommandInput,
-  type DeleteTransitGatewayRouteCommandOutput,
   DeleteTransitGatewayRouteTableCommand,
-  type DeleteTransitGatewayRouteTableCommandInput,
-  type DeleteTransitGatewayRouteTableCommandOutput,
   DeleteTransitGatewayRouteTableAnnouncementCommand,
-  type DeleteTransitGatewayRouteTableAnnouncementCommandInput,
-  type DeleteTransitGatewayRouteTableAnnouncementCommandOutput,
   DeleteTransitGatewayVpcAttachmentCommand,
-  type DeleteTransitGatewayVpcAttachmentCommandInput,
-  type DeleteTransitGatewayVpcAttachmentCommandOutput,
   DeleteVerifiedAccessEndpointCommand,
-  type DeleteVerifiedAccessEndpointCommandInput,
-  type DeleteVerifiedAccessEndpointCommandOutput,
   DeleteVerifiedAccessGroupCommand,
-  type DeleteVerifiedAccessGroupCommandInput,
-  type DeleteVerifiedAccessGroupCommandOutput,
   DeleteVerifiedAccessInstanceCommand,
-  type DeleteVerifiedAccessInstanceCommandInput,
-  type DeleteVerifiedAccessInstanceCommandOutput,
   DeleteVerifiedAccessTrustProviderCommand,
-  type DeleteVerifiedAccessTrustProviderCommandInput,
-  type DeleteVerifiedAccessTrustProviderCommandOutput,
   DeleteVolumeCommand,
-  type DeleteVolumeCommandInput,
-  type DeleteVolumeCommandOutput,
   DeleteVpcCommand,
-  type DeleteVpcCommandInput,
-  type DeleteVpcCommandOutput,
   DeleteVpcEndpointConnectionNotificationsCommand,
-  type DeleteVpcEndpointConnectionNotificationsCommandInput,
-  type DeleteVpcEndpointConnectionNotificationsCommandOutput,
-  DeleteVpcEndpointsCommand,
-  type DeleteVpcEndpointsCommandInput,
-  type DeleteVpcEndpointsCommandOutput,
   DeleteVpcEndpointServiceConfigurationsCommand,
-  type DeleteVpcEndpointServiceConfigurationsCommandInput,
-  type DeleteVpcEndpointServiceConfigurationsCommandOutput,
+  DeleteVpcEndpointsCommand,
   DeleteVpcPeeringConnectionCommand,
-  type DeleteVpcPeeringConnectionCommandInput,
-  type DeleteVpcPeeringConnectionCommandOutput,
   DeleteVpnConnectionCommand,
-  type DeleteVpnConnectionCommandInput,
-  type DeleteVpnConnectionCommandOutput,
   DeleteVpnConnectionRouteCommand,
-  type DeleteVpnConnectionRouteCommandInput,
-  type DeleteVpnConnectionRouteCommandOutput,
   DeleteVpnGatewayCommand,
-  type DeleteVpnGatewayCommandInput,
-  type DeleteVpnGatewayCommandOutput,
   DeprovisionByoipCidrCommand,
-  type DeprovisionByoipCidrCommandInput,
-  type DeprovisionByoipCidrCommandOutput,
   DeprovisionIpamByoasnCommand,
-  type DeprovisionIpamByoasnCommandInput,
-  type DeprovisionIpamByoasnCommandOutput,
   DeprovisionIpamPoolCidrCommand,
-  type DeprovisionIpamPoolCidrCommandInput,
-  type DeprovisionIpamPoolCidrCommandOutput,
   DeprovisionPublicIpv4PoolCidrCommand,
-  type DeprovisionPublicIpv4PoolCidrCommandInput,
-  type DeprovisionPublicIpv4PoolCidrCommandOutput,
   DeregisterImageCommand,
-  type DeregisterImageCommandInput,
-  type DeregisterImageCommandOutput,
   DeregisterInstanceEventNotificationAttributesCommand,
-  type DeregisterInstanceEventNotificationAttributesCommandInput,
-  type DeregisterInstanceEventNotificationAttributesCommandOutput,
   DeregisterTransitGatewayMulticastGroupMembersCommand,
-  type DeregisterTransitGatewayMulticastGroupMembersCommandInput,
-  type DeregisterTransitGatewayMulticastGroupMembersCommandOutput,
   DeregisterTransitGatewayMulticastGroupSourcesCommand,
-  type DeregisterTransitGatewayMulticastGroupSourcesCommandInput,
-  type DeregisterTransitGatewayMulticastGroupSourcesCommandOutput,
   DescribeAccountAttributesCommand,
-  type DescribeAccountAttributesCommandInput,
-  type DescribeAccountAttributesCommandOutput,
-  DescribeAddressesCommand,
-  type DescribeAddressesCommandInput,
-  type DescribeAddressesCommandOutput,
-  DescribeAddressesAttributeCommand,
-  type DescribeAddressesAttributeCommandInput,
-  type DescribeAddressesAttributeCommandOutput,
   DescribeAddressTransfersCommand,
-  type DescribeAddressTransfersCommandInput,
-  type DescribeAddressTransfersCommandOutput,
+  DescribeAddressesCommand,
+  DescribeAddressesAttributeCommand,
   DescribeAggregateIdFormatCommand,
-  type DescribeAggregateIdFormatCommandInput,
-  type DescribeAggregateIdFormatCommandOutput,
   DescribeAvailabilityZonesCommand,
-  type DescribeAvailabilityZonesCommandInput,
-  type DescribeAvailabilityZonesCommandOutput,
   DescribeAwsNetworkPerformanceMetricSubscriptionsCommand,
-  type DescribeAwsNetworkPerformanceMetricSubscriptionsCommandInput,
-  type DescribeAwsNetworkPerformanceMetricSubscriptionsCommandOutput,
   DescribeBundleTasksCommand,
-  type DescribeBundleTasksCommandInput,
-  type DescribeBundleTasksCommandOutput,
   DescribeByoipCidrsCommand,
-  type DescribeByoipCidrsCommandInput,
-  type DescribeByoipCidrsCommandOutput,
   DescribeCapacityBlockOfferingsCommand,
-  type DescribeCapacityBlockOfferingsCommandInput,
-  type DescribeCapacityBlockOfferingsCommandOutput,
   DescribeCapacityReservationFleetsCommand,
-  type DescribeCapacityReservationFleetsCommandInput,
-  type DescribeCapacityReservationFleetsCommandOutput,
   DescribeCapacityReservationsCommand,
-  type DescribeCapacityReservationsCommandInput,
-  type DescribeCapacityReservationsCommandOutput,
   DescribeCarrierGatewaysCommand,
-  type DescribeCarrierGatewaysCommandInput,
-  type DescribeCarrierGatewaysCommandOutput,
   DescribeClassicLinkInstancesCommand,
-  type DescribeClassicLinkInstancesCommandInput,
-  type DescribeClassicLinkInstancesCommandOutput,
   DescribeClientVpnAuthorizationRulesCommand,
-  type DescribeClientVpnAuthorizationRulesCommandInput,
-  type DescribeClientVpnAuthorizationRulesCommandOutput,
   DescribeClientVpnConnectionsCommand,
-  type DescribeClientVpnConnectionsCommandInput,
-  type DescribeClientVpnConnectionsCommandOutput,
   DescribeClientVpnEndpointsCommand,
-  type DescribeClientVpnEndpointsCommandInput,
-  type DescribeClientVpnEndpointsCommandOutput,
   DescribeClientVpnRoutesCommand,
-  type DescribeClientVpnRoutesCommandInput,
-  type DescribeClientVpnRoutesCommandOutput,
   DescribeClientVpnTargetNetworksCommand,
-  type DescribeClientVpnTargetNetworksCommandInput,
-  type DescribeClientVpnTargetNetworksCommandOutput,
   DescribeCoipPoolsCommand,
-  type DescribeCoipPoolsCommandInput,
-  type DescribeCoipPoolsCommandOutput,
   DescribeConversionTasksCommand,
-  type DescribeConversionTasksCommandInput,
-  type DescribeConversionTasksCommandOutput,
   DescribeCustomerGatewaysCommand,
-  type DescribeCustomerGatewaysCommandInput,
-  type DescribeCustomerGatewaysCommandOutput,
   DescribeDhcpOptionsCommand,
-  type DescribeDhcpOptionsCommandInput,
-  type DescribeDhcpOptionsCommandOutput,
   DescribeEgressOnlyInternetGatewaysCommand,
-  type DescribeEgressOnlyInternetGatewaysCommandInput,
-  type DescribeEgressOnlyInternetGatewaysCommandOutput,
   DescribeElasticGpusCommand,
-  type DescribeElasticGpusCommandInput,
-  type DescribeElasticGpusCommandOutput,
   DescribeExportImageTasksCommand,
-  type DescribeExportImageTasksCommandInput,
-  type DescribeExportImageTasksCommandOutput,
   DescribeExportTasksCommand,
-  type DescribeExportTasksCommandInput,
-  type DescribeExportTasksCommandOutput,
   DescribeFastLaunchImagesCommand,
-  type DescribeFastLaunchImagesCommandInput,
-  type DescribeFastLaunchImagesCommandOutput,
   DescribeFastSnapshotRestoresCommand,
-  type DescribeFastSnapshotRestoresCommandInput,
-  type DescribeFastSnapshotRestoresCommandOutput,
   DescribeFleetHistoryCommand,
-  type DescribeFleetHistoryCommandInput,
-  type DescribeFleetHistoryCommandOutput,
   DescribeFleetInstancesCommand,
-  type DescribeFleetInstancesCommandInput,
-  type DescribeFleetInstancesCommandOutput,
   DescribeFleetsCommand,
-  type DescribeFleetsCommandInput,
-  type DescribeFleetsCommandOutput,
   DescribeFlowLogsCommand,
-  type DescribeFlowLogsCommandInput,
-  type DescribeFlowLogsCommandOutput,
   DescribeFpgaImageAttributeCommand,
-  type DescribeFpgaImageAttributeCommandInput,
-  type DescribeFpgaImageAttributeCommandOutput,
   DescribeFpgaImagesCommand,
-  type DescribeFpgaImagesCommandInput,
-  type DescribeFpgaImagesCommandOutput,
   DescribeHostReservationOfferingsCommand,
-  type DescribeHostReservationOfferingsCommandInput,
-  type DescribeHostReservationOfferingsCommandOutput,
   DescribeHostReservationsCommand,
-  type DescribeHostReservationsCommandInput,
-  type DescribeHostReservationsCommandOutput,
   DescribeHostsCommand,
-  type DescribeHostsCommandInput,
-  type DescribeHostsCommandOutput,
   DescribeIamInstanceProfileAssociationsCommand,
-  type DescribeIamInstanceProfileAssociationsCommandInput,
-  type DescribeIamInstanceProfileAssociationsCommandOutput,
-  DescribeIdentityIdFormatCommand,
-  type DescribeIdentityIdFormatCommandInput,
-  type DescribeIdentityIdFormatCommandOutput,
   DescribeIdFormatCommand,
-  type DescribeIdFormatCommandInput,
-  type DescribeIdFormatCommandOutput,
+  DescribeIdentityIdFormatCommand,
   DescribeImageAttributeCommand,
-  type DescribeImageAttributeCommandInput,
-  type DescribeImageAttributeCommandOutput,
   DescribeImagesCommand,
-  type DescribeImagesCommandInput,
-  type DescribeImagesCommandOutput,
   DescribeImportImageTasksCommand,
-  type DescribeImportImageTasksCommandInput,
-  type DescribeImportImageTasksCommandOutput,
   DescribeImportSnapshotTasksCommand,
-  type DescribeImportSnapshotTasksCommandInput,
-  type DescribeImportSnapshotTasksCommandOutput,
   DescribeInstanceAttributeCommand,
-  type DescribeInstanceAttributeCommandInput,
-  type DescribeInstanceAttributeCommandOutput,
   DescribeInstanceConnectEndpointsCommand,
-  type DescribeInstanceConnectEndpointsCommandInput,
-  type DescribeInstanceConnectEndpointsCommandOutput,
   DescribeInstanceCreditSpecificationsCommand,
-  type DescribeInstanceCreditSpecificationsCommandInput,
-  type DescribeInstanceCreditSpecificationsCommandOutput,
   DescribeInstanceEventNotificationAttributesCommand,
-  type DescribeInstanceEventNotificationAttributesCommandInput,
-  type DescribeInstanceEventNotificationAttributesCommandOutput,
   DescribeInstanceEventWindowsCommand,
-  type DescribeInstanceEventWindowsCommandInput,
-  type DescribeInstanceEventWindowsCommandOutput,
-  DescribeInstancesCommand,
-  type DescribeInstancesCommandInput,
-  type DescribeInstancesCommandOutput,
   DescribeInstanceStatusCommand,
-  type DescribeInstanceStatusCommandInput,
-  type DescribeInstanceStatusCommandOutput,
   DescribeInstanceTopologyCommand,
-  type DescribeInstanceTopologyCommandInput,
-  type DescribeInstanceTopologyCommandOutput,
   DescribeInstanceTypeOfferingsCommand,
-  type DescribeInstanceTypeOfferingsCommandInput,
-  type DescribeInstanceTypeOfferingsCommandOutput,
   DescribeInstanceTypesCommand,
-  type DescribeInstanceTypesCommandInput,
-  type DescribeInstanceTypesCommandOutput,
+  DescribeInstancesCommand,
   DescribeInternetGatewaysCommand,
-  type DescribeInternetGatewaysCommandInput,
-  type DescribeInternetGatewaysCommandOutput,
   DescribeIpamByoasnCommand,
-  type DescribeIpamByoasnCommandInput,
-  type DescribeIpamByoasnCommandOutput,
   DescribeIpamPoolsCommand,
-  type DescribeIpamPoolsCommandInput,
-  type DescribeIpamPoolsCommandOutput,
   DescribeIpamResourceDiscoveriesCommand,
-  type DescribeIpamResourceDiscoveriesCommandInput,
-  type DescribeIpamResourceDiscoveriesCommandOutput,
   DescribeIpamResourceDiscoveryAssociationsCommand,
-  type DescribeIpamResourceDiscoveryAssociationsCommandInput,
-  type DescribeIpamResourceDiscoveryAssociationsCommandOutput,
-  DescribeIpamsCommand,
-  type DescribeIpamsCommandInput,
-  type DescribeIpamsCommandOutput,
   DescribeIpamScopesCommand,
-  type DescribeIpamScopesCommandInput,
-  type DescribeIpamScopesCommandOutput,
+  DescribeIpamsCommand,
   DescribeIpv6PoolsCommand,
-  type DescribeIpv6PoolsCommandInput,
-  type DescribeIpv6PoolsCommandOutput,
   DescribeKeyPairsCommand,
-  type DescribeKeyPairsCommandInput,
-  type DescribeKeyPairsCommandOutput,
-  DescribeLaunchTemplatesCommand,
-  type DescribeLaunchTemplatesCommandInput,
-  type DescribeLaunchTemplatesCommandOutput,
   DescribeLaunchTemplateVersionsCommand,
-  type DescribeLaunchTemplateVersionsCommandInput,
-  type DescribeLaunchTemplateVersionsCommandOutput,
-  DescribeLocalGatewayRouteTablesCommand,
-  type DescribeLocalGatewayRouteTablesCommandInput,
-  type DescribeLocalGatewayRouteTablesCommandOutput,
+  DescribeLaunchTemplatesCommand,
   DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsCommand,
-  type DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsCommandInput,
-  type DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsCommandOutput,
   DescribeLocalGatewayRouteTableVpcAssociationsCommand,
-  type DescribeLocalGatewayRouteTableVpcAssociationsCommandInput,
-  type DescribeLocalGatewayRouteTableVpcAssociationsCommandOutput,
-  DescribeLocalGatewaysCommand,
-  type DescribeLocalGatewaysCommandInput,
-  type DescribeLocalGatewaysCommandOutput,
+  DescribeLocalGatewayRouteTablesCommand,
   DescribeLocalGatewayVirtualInterfaceGroupsCommand,
-  type DescribeLocalGatewayVirtualInterfaceGroupsCommandInput,
-  type DescribeLocalGatewayVirtualInterfaceGroupsCommandOutput,
   DescribeLocalGatewayVirtualInterfacesCommand,
-  type DescribeLocalGatewayVirtualInterfacesCommandInput,
-  type DescribeLocalGatewayVirtualInterfacesCommandOutput,
+  DescribeLocalGatewaysCommand,
   DescribeLockedSnapshotsCommand,
-  type DescribeLockedSnapshotsCommandInput,
-  type DescribeLockedSnapshotsCommandOutput,
+  DescribeMacHostsCommand,
   DescribeManagedPrefixListsCommand,
-  type DescribeManagedPrefixListsCommandInput,
-  type DescribeManagedPrefixListsCommandOutput,
   DescribeMovingAddressesCommand,
-  type DescribeMovingAddressesCommandInput,
-  type DescribeMovingAddressesCommandOutput,
   DescribeNatGatewaysCommand,
-  type DescribeNatGatewaysCommandInput,
-  type DescribeNatGatewaysCommandOutput,
   DescribeNetworkAclsCommand,
-  type DescribeNetworkAclsCommandInput,
-  type DescribeNetworkAclsCommandOutput,
   DescribeNetworkInsightsAccessScopeAnalysesCommand,
-  type DescribeNetworkInsightsAccessScopeAnalysesCommandInput,
-  type DescribeNetworkInsightsAccessScopeAnalysesCommandOutput,
   DescribeNetworkInsightsAccessScopesCommand,
-  type DescribeNetworkInsightsAccessScopesCommandInput,
-  type DescribeNetworkInsightsAccessScopesCommandOutput,
   DescribeNetworkInsightsAnalysesCommand,
-  type DescribeNetworkInsightsAnalysesCommandInput,
-  type DescribeNetworkInsightsAnalysesCommandOutput,
   DescribeNetworkInsightsPathsCommand,
-  type DescribeNetworkInsightsPathsCommandInput,
-  type DescribeNetworkInsightsPathsCommandOutput,
   DescribeNetworkInterfaceAttributeCommand,
-  type DescribeNetworkInterfaceAttributeCommandInput,
-  type DescribeNetworkInterfaceAttributeCommandOutput,
   DescribeNetworkInterfacePermissionsCommand,
-  type DescribeNetworkInterfacePermissionsCommandInput,
-  type DescribeNetworkInterfacePermissionsCommandOutput,
   DescribeNetworkInterfacesCommand,
-  type DescribeNetworkInterfacesCommandInput,
-  type DescribeNetworkInterfacesCommandOutput,
   DescribePlacementGroupsCommand,
-  type DescribePlacementGroupsCommandInput,
-  type DescribePlacementGroupsCommandOutput,
   DescribePrefixListsCommand,
-  type DescribePrefixListsCommandInput,
-  type DescribePrefixListsCommandOutput,
   DescribePrincipalIdFormatCommand,
-  type DescribePrincipalIdFormatCommandInput,
-  type DescribePrincipalIdFormatCommandOutput,
   DescribePublicIpv4PoolsCommand,
-  type DescribePublicIpv4PoolsCommandInput,
-  type DescribePublicIpv4PoolsCommandOutput,
   DescribeRegionsCommand,
-  type DescribeRegionsCommandInput,
-  type DescribeRegionsCommandOutput,
   DescribeReplaceRootVolumeTasksCommand,
-  type DescribeReplaceRootVolumeTasksCommandInput,
-  type DescribeReplaceRootVolumeTasksCommandOutput,
   DescribeReservedInstancesCommand,
-  type DescribeReservedInstancesCommandInput,
-  type DescribeReservedInstancesCommandOutput,
   DescribeReservedInstancesListingsCommand,
-  type DescribeReservedInstancesListingsCommandInput,
-  type DescribeReservedInstancesListingsCommandOutput,
   DescribeReservedInstancesModificationsCommand,
-  type DescribeReservedInstancesModificationsCommandInput,
-  type DescribeReservedInstancesModificationsCommandOutput,
   DescribeReservedInstancesOfferingsCommand,
-  type DescribeReservedInstancesOfferingsCommandInput,
-  type DescribeReservedInstancesOfferingsCommandOutput,
   DescribeRouteTablesCommand,
-  type DescribeRouteTablesCommandInput,
-  type DescribeRouteTablesCommandOutput,
   DescribeScheduledInstanceAvailabilityCommand,
-  type DescribeScheduledInstanceAvailabilityCommandInput,
-  type DescribeScheduledInstanceAvailabilityCommandOutput,
   DescribeScheduledInstancesCommand,
-  type DescribeScheduledInstancesCommandInput,
-  type DescribeScheduledInstancesCommandOutput,
   DescribeSecurityGroupReferencesCommand,
-  type DescribeSecurityGroupReferencesCommandInput,
-  type DescribeSecurityGroupReferencesCommandOutput,
   DescribeSecurityGroupRulesCommand,
-  type DescribeSecurityGroupRulesCommandInput,
-  type DescribeSecurityGroupRulesCommandOutput,
   DescribeSecurityGroupsCommand,
-  type DescribeSecurityGroupsCommandInput,
-  type DescribeSecurityGroupsCommandOutput,
   DescribeSnapshotAttributeCommand,
-  type DescribeSnapshotAttributeCommandInput,
-  type DescribeSnapshotAttributeCommandOutput,
-  DescribeSnapshotsCommand,
-  type DescribeSnapshotsCommandInput,
-  type DescribeSnapshotsCommandOutput,
   DescribeSnapshotTierStatusCommand,
-  type DescribeSnapshotTierStatusCommandInput,
-  type DescribeSnapshotTierStatusCommandOutput,
+  DescribeSnapshotsCommand,
   DescribeSpotDatafeedSubscriptionCommand,
-  type DescribeSpotDatafeedSubscriptionCommandInput,
-  type DescribeSpotDatafeedSubscriptionCommandOutput,
   DescribeSpotFleetInstancesCommand,
-  type DescribeSpotFleetInstancesCommandInput,
-  type DescribeSpotFleetInstancesCommandOutput,
   DescribeSpotFleetRequestHistoryCommand,
-  type DescribeSpotFleetRequestHistoryCommandInput,
-  type DescribeSpotFleetRequestHistoryCommandOutput,
   DescribeSpotFleetRequestsCommand,
-  type DescribeSpotFleetRequestsCommandInput,
-  type DescribeSpotFleetRequestsCommandOutput,
   DescribeSpotInstanceRequestsCommand,
-  type DescribeSpotInstanceRequestsCommandInput,
-  type DescribeSpotInstanceRequestsCommandOutput,
   DescribeSpotPriceHistoryCommand,
-  type DescribeSpotPriceHistoryCommandInput,
-  type DescribeSpotPriceHistoryCommandOutput,
   DescribeStaleSecurityGroupsCommand,
-  type DescribeStaleSecurityGroupsCommandInput,
-  type DescribeStaleSecurityGroupsCommandOutput,
   DescribeStoreImageTasksCommand,
-  type DescribeStoreImageTasksCommandInput,
-  type DescribeStoreImageTasksCommandOutput,
   DescribeSubnetsCommand,
-  type DescribeSubnetsCommandInput,
-  type DescribeSubnetsCommandOutput,
   DescribeTagsCommand,
-  type DescribeTagsCommandInput,
-  type DescribeTagsCommandOutput,
   DescribeTrafficMirrorFiltersCommand,
-  type DescribeTrafficMirrorFiltersCommandInput,
-  type DescribeTrafficMirrorFiltersCommandOutput,
   DescribeTrafficMirrorSessionsCommand,
-  type DescribeTrafficMirrorSessionsCommandInput,
-  type DescribeTrafficMirrorSessionsCommandOutput,
   DescribeTrafficMirrorTargetsCommand,
-  type DescribeTrafficMirrorTargetsCommandInput,
-  type DescribeTrafficMirrorTargetsCommandOutput,
   DescribeTransitGatewayAttachmentsCommand,
-  type DescribeTransitGatewayAttachmentsCommandInput,
-  type DescribeTransitGatewayAttachmentsCommandOutput,
   DescribeTransitGatewayConnectPeersCommand,
-  type DescribeTransitGatewayConnectPeersCommandInput,
-  type DescribeTransitGatewayConnectPeersCommandOutput,
   DescribeTransitGatewayConnectsCommand,
-  type DescribeTransitGatewayConnectsCommandInput,
-  type DescribeTransitGatewayConnectsCommandOutput,
   DescribeTransitGatewayMulticastDomainsCommand,
-  type DescribeTransitGatewayMulticastDomainsCommandInput,
-  type DescribeTransitGatewayMulticastDomainsCommandOutput,
   DescribeTransitGatewayPeeringAttachmentsCommand,
-  type DescribeTransitGatewayPeeringAttachmentsCommandInput,
-  type DescribeTransitGatewayPeeringAttachmentsCommandOutput,
   DescribeTransitGatewayPolicyTablesCommand,
-  type DescribeTransitGatewayPolicyTablesCommandInput,
-  type DescribeTransitGatewayPolicyTablesCommandOutput,
   DescribeTransitGatewayRouteTableAnnouncementsCommand,
-  type DescribeTransitGatewayRouteTableAnnouncementsCommandInput,
-  type DescribeTransitGatewayRouteTableAnnouncementsCommandOutput,
   DescribeTransitGatewayRouteTablesCommand,
-  type DescribeTransitGatewayRouteTablesCommandInput,
-  type DescribeTransitGatewayRouteTablesCommandOutput,
-  DescribeTransitGatewaysCommand,
-  type DescribeTransitGatewaysCommandInput,
-  type DescribeTransitGatewaysCommandOutput,
   DescribeTransitGatewayVpcAttachmentsCommand,
-  type DescribeTransitGatewayVpcAttachmentsCommandInput,
-  type DescribeTransitGatewayVpcAttachmentsCommandOutput,
+  DescribeTransitGatewaysCommand,
   DescribeTrunkInterfaceAssociationsCommand,
-  type DescribeTrunkInterfaceAssociationsCommandInput,
-  type DescribeTrunkInterfaceAssociationsCommandOutput,
   DescribeVerifiedAccessEndpointsCommand,
-  type DescribeVerifiedAccessEndpointsCommandInput,
-  type DescribeVerifiedAccessEndpointsCommandOutput,
   DescribeVerifiedAccessGroupsCommand,
-  type DescribeVerifiedAccessGroupsCommandInput,
-  type DescribeVerifiedAccessGroupsCommandOutput,
   DescribeVerifiedAccessInstanceLoggingConfigurationsCommand,
-  type DescribeVerifiedAccessInstanceLoggingConfigurationsCommandInput,
-  type DescribeVerifiedAccessInstanceLoggingConfigurationsCommandOutput,
   DescribeVerifiedAccessInstancesCommand,
-  type DescribeVerifiedAccessInstancesCommandInput,
-  type DescribeVerifiedAccessInstancesCommandOutput,
   DescribeVerifiedAccessTrustProvidersCommand,
-  type DescribeVerifiedAccessTrustProvidersCommandInput,
-  type DescribeVerifiedAccessTrustProvidersCommandOutput,
   DescribeVolumeAttributeCommand,
-  type DescribeVolumeAttributeCommandInput,
-  type DescribeVolumeAttributeCommandOutput,
-  DescribeVolumesCommand,
-  type DescribeVolumesCommandInput,
-  type DescribeVolumesCommandOutput,
-  DescribeVolumesModificationsCommand,
-  type DescribeVolumesModificationsCommandInput,
-  type DescribeVolumesModificationsCommandOutput,
   DescribeVolumeStatusCommand,
-  type DescribeVolumeStatusCommandInput,
-  type DescribeVolumeStatusCommandOutput,
+  DescribeVolumesCommand,
+  DescribeVolumesModificationsCommand,
   DescribeVpcAttributeCommand,
-  type DescribeVpcAttributeCommandInput,
-  type DescribeVpcAttributeCommandOutput,
   DescribeVpcClassicLinkCommand,
-  type DescribeVpcClassicLinkCommandInput,
-  type DescribeVpcClassicLinkCommandOutput,
   DescribeVpcClassicLinkDnsSupportCommand,
-  type DescribeVpcClassicLinkDnsSupportCommandInput,
-  type DescribeVpcClassicLinkDnsSupportCommandOutput,
   DescribeVpcEndpointConnectionNotificationsCommand,
-  type DescribeVpcEndpointConnectionNotificationsCommandInput,
-  type DescribeVpcEndpointConnectionNotificationsCommandOutput,
   DescribeVpcEndpointConnectionsCommand,
-  type DescribeVpcEndpointConnectionsCommandInput,
-  type DescribeVpcEndpointConnectionsCommandOutput,
-  DescribeVpcEndpointsCommand,
-  type DescribeVpcEndpointsCommandInput,
-  type DescribeVpcEndpointsCommandOutput,
   DescribeVpcEndpointServiceConfigurationsCommand,
-  type DescribeVpcEndpointServiceConfigurationsCommandInput,
-  type DescribeVpcEndpointServiceConfigurationsCommandOutput,
   DescribeVpcEndpointServicePermissionsCommand,
-  type DescribeVpcEndpointServicePermissionsCommandInput,
-  type DescribeVpcEndpointServicePermissionsCommandOutput,
   DescribeVpcEndpointServicesCommand,
-  type DescribeVpcEndpointServicesCommandInput,
-  type DescribeVpcEndpointServicesCommandOutput,
+  DescribeVpcEndpointsCommand,
   DescribeVpcPeeringConnectionsCommand,
-  type DescribeVpcPeeringConnectionsCommandInput,
-  type DescribeVpcPeeringConnectionsCommandOutput,
   DescribeVpcsCommand,
-  type DescribeVpcsCommandInput,
-  type DescribeVpcsCommandOutput,
   DescribeVpnConnectionsCommand,
-  type DescribeVpnConnectionsCommandInput,
-  type DescribeVpnConnectionsCommandOutput,
   DescribeVpnGatewaysCommand,
-  type DescribeVpnGatewaysCommandInput,
-  type DescribeVpnGatewaysCommandOutput,
   DetachClassicLinkVpcCommand,
-  type DetachClassicLinkVpcCommandInput,
-  type DetachClassicLinkVpcCommandOutput,
   DetachInternetGatewayCommand,
-  type DetachInternetGatewayCommandInput,
-  type DetachInternetGatewayCommandOutput,
   DetachNetworkInterfaceCommand,
-  type DetachNetworkInterfaceCommandInput,
-  type DetachNetworkInterfaceCommandOutput,
   DetachVerifiedAccessTrustProviderCommand,
-  type DetachVerifiedAccessTrustProviderCommandInput,
-  type DetachVerifiedAccessTrustProviderCommandOutput,
   DetachVolumeCommand,
-  type DetachVolumeCommandInput,
-  type DetachVolumeCommandOutput,
   DetachVpnGatewayCommand,
-  type DetachVpnGatewayCommandInput,
-  type DetachVpnGatewayCommandOutput,
   DisableAddressTransferCommand,
-  type DisableAddressTransferCommandInput,
-  type DisableAddressTransferCommandOutput,
   DisableAwsNetworkPerformanceMetricSubscriptionCommand,
-  type DisableAwsNetworkPerformanceMetricSubscriptionCommandInput,
-  type DisableAwsNetworkPerformanceMetricSubscriptionCommandOutput,
   DisableEbsEncryptionByDefaultCommand,
-  type DisableEbsEncryptionByDefaultCommandInput,
-  type DisableEbsEncryptionByDefaultCommandOutput,
   DisableFastLaunchCommand,
-  type DisableFastLaunchCommandInput,
-  type DisableFastLaunchCommandOutput,
   DisableFastSnapshotRestoresCommand,
-  type DisableFastSnapshotRestoresCommandInput,
-  type DisableFastSnapshotRestoresCommandOutput,
   DisableImageCommand,
-  type DisableImageCommandInput,
-  type DisableImageCommandOutput,
   DisableImageBlockPublicAccessCommand,
-  type DisableImageBlockPublicAccessCommandInput,
-  type DisableImageBlockPublicAccessCommandOutput,
   DisableImageDeprecationCommand,
-  type DisableImageDeprecationCommandInput,
-  type DisableImageDeprecationCommandOutput,
   DisableIpamOrganizationAdminAccountCommand,
-  type DisableIpamOrganizationAdminAccountCommandInput,
-  type DisableIpamOrganizationAdminAccountCommandOutput,
   DisableSerialConsoleAccessCommand,
-  type DisableSerialConsoleAccessCommandInput,
-  type DisableSerialConsoleAccessCommandOutput,
   DisableSnapshotBlockPublicAccessCommand,
-  type DisableSnapshotBlockPublicAccessCommandInput,
-  type DisableSnapshotBlockPublicAccessCommandOutput,
   DisableTransitGatewayRouteTablePropagationCommand,
-  type DisableTransitGatewayRouteTablePropagationCommandInput,
-  type DisableTransitGatewayRouteTablePropagationCommandOutput,
   DisableVgwRoutePropagationCommand,
-  type DisableVgwRoutePropagationCommandInput,
-  type DisableVgwRoutePropagationCommandOutput,
   DisableVpcClassicLinkCommand,
-  type DisableVpcClassicLinkCommandInput,
-  type DisableVpcClassicLinkCommandOutput,
   DisableVpcClassicLinkDnsSupportCommand,
-  type DisableVpcClassicLinkDnsSupportCommandInput,
-  type DisableVpcClassicLinkDnsSupportCommandOutput,
   DisassociateAddressCommand,
-  type DisassociateAddressCommandInput,
-  type DisassociateAddressCommandOutput,
   DisassociateClientVpnTargetNetworkCommand,
-  type DisassociateClientVpnTargetNetworkCommandInput,
-  type DisassociateClientVpnTargetNetworkCommandOutput,
   DisassociateEnclaveCertificateIamRoleCommand,
-  type DisassociateEnclaveCertificateIamRoleCommandInput,
-  type DisassociateEnclaveCertificateIamRoleCommandOutput,
   DisassociateIamInstanceProfileCommand,
-  type DisassociateIamInstanceProfileCommandInput,
-  type DisassociateIamInstanceProfileCommandOutput,
   DisassociateInstanceEventWindowCommand,
-  type DisassociateInstanceEventWindowCommandInput,
-  type DisassociateInstanceEventWindowCommandOutput,
   DisassociateIpamByoasnCommand,
-  type DisassociateIpamByoasnCommandInput,
-  type DisassociateIpamByoasnCommandOutput,
   DisassociateIpamResourceDiscoveryCommand,
-  type DisassociateIpamResourceDiscoveryCommandInput,
-  type DisassociateIpamResourceDiscoveryCommandOutput,
   DisassociateNatGatewayAddressCommand,
-  type DisassociateNatGatewayAddressCommandInput,
-  type DisassociateNatGatewayAddressCommandOutput,
   DisassociateRouteTableCommand,
-  type DisassociateRouteTableCommandInput,
-  type DisassociateRouteTableCommandOutput,
   DisassociateSubnetCidrBlockCommand,
-  type DisassociateSubnetCidrBlockCommandInput,
-  type DisassociateSubnetCidrBlockCommandOutput,
   DisassociateTransitGatewayMulticastDomainCommand,
-  type DisassociateTransitGatewayMulticastDomainCommandInput,
-  type DisassociateTransitGatewayMulticastDomainCommandOutput,
   DisassociateTransitGatewayPolicyTableCommand,
-  type DisassociateTransitGatewayPolicyTableCommandInput,
-  type DisassociateTransitGatewayPolicyTableCommandOutput,
   DisassociateTransitGatewayRouteTableCommand,
-  type DisassociateTransitGatewayRouteTableCommandInput,
-  type DisassociateTransitGatewayRouteTableCommandOutput,
   DisassociateTrunkInterfaceCommand,
-  type DisassociateTrunkInterfaceCommandInput,
-  type DisassociateTrunkInterfaceCommandOutput,
   DisassociateVpcCidrBlockCommand,
-  type DisassociateVpcCidrBlockCommandInput,
-  type DisassociateVpcCidrBlockCommandOutput,
   EnableAddressTransferCommand,
-  type EnableAddressTransferCommandInput,
-  type EnableAddressTransferCommandOutput,
   EnableAwsNetworkPerformanceMetricSubscriptionCommand,
-  type EnableAwsNetworkPerformanceMetricSubscriptionCommandInput,
-  type EnableAwsNetworkPerformanceMetricSubscriptionCommandOutput,
   EnableEbsEncryptionByDefaultCommand,
-  type EnableEbsEncryptionByDefaultCommandInput,
-  type EnableEbsEncryptionByDefaultCommandOutput,
   EnableFastLaunchCommand,
-  type EnableFastLaunchCommandInput,
-  type EnableFastLaunchCommandOutput,
   EnableFastSnapshotRestoresCommand,
-  type EnableFastSnapshotRestoresCommandInput,
-  type EnableFastSnapshotRestoresCommandOutput,
   EnableImageCommand,
-  type EnableImageCommandInput,
-  type EnableImageCommandOutput,
   EnableImageBlockPublicAccessCommand,
-  type EnableImageBlockPublicAccessCommandInput,
-  type EnableImageBlockPublicAccessCommandOutput,
   EnableImageDeprecationCommand,
-  type EnableImageDeprecationCommandInput,
-  type EnableImageDeprecationCommandOutput,
   EnableIpamOrganizationAdminAccountCommand,
-  type EnableIpamOrganizationAdminAccountCommandInput,
-  type EnableIpamOrganizationAdminAccountCommandOutput,
   EnableReachabilityAnalyzerOrganizationSharingCommand,
-  type EnableReachabilityAnalyzerOrganizationSharingCommandInput,
-  type EnableReachabilityAnalyzerOrganizationSharingCommandOutput,
   EnableSerialConsoleAccessCommand,
-  type EnableSerialConsoleAccessCommandInput,
-  type EnableSerialConsoleAccessCommandOutput,
   EnableSnapshotBlockPublicAccessCommand,
-  type EnableSnapshotBlockPublicAccessCommandInput,
-  type EnableSnapshotBlockPublicAccessCommandOutput,
   EnableTransitGatewayRouteTablePropagationCommand,
-  type EnableTransitGatewayRouteTablePropagationCommandInput,
-  type EnableTransitGatewayRouteTablePropagationCommandOutput,
   EnableVgwRoutePropagationCommand,
-  type EnableVgwRoutePropagationCommandInput,
-  type EnableVgwRoutePropagationCommandOutput,
   EnableVolumeIOCommand,
-  type EnableVolumeIOCommandInput,
-  type EnableVolumeIOCommandOutput,
   EnableVpcClassicLinkCommand,
-  type EnableVpcClassicLinkCommandInput,
-  type EnableVpcClassicLinkCommandOutput,
   EnableVpcClassicLinkDnsSupportCommand,
-  type EnableVpcClassicLinkDnsSupportCommandInput,
-  type EnableVpcClassicLinkDnsSupportCommandOutput,
   ExportClientVpnClientCertificateRevocationListCommand,
-  type ExportClientVpnClientCertificateRevocationListCommandInput,
-  type ExportClientVpnClientCertificateRevocationListCommandOutput,
   ExportClientVpnClientConfigurationCommand,
-  type ExportClientVpnClientConfigurationCommandInput,
-  type ExportClientVpnClientConfigurationCommandOutput,
   ExportImageCommand,
-  type ExportImageCommandInput,
-  type ExportImageCommandOutput,
   ExportTransitGatewayRoutesCommand,
-  type ExportTransitGatewayRoutesCommandInput,
-  type ExportTransitGatewayRoutesCommandOutput,
   GetAssociatedEnclaveCertificateIamRolesCommand,
-  type GetAssociatedEnclaveCertificateIamRolesCommandInput,
-  type GetAssociatedEnclaveCertificateIamRolesCommandOutput,
   GetAssociatedIpv6PoolCidrsCommand,
-  type GetAssociatedIpv6PoolCidrsCommandInput,
-  type GetAssociatedIpv6PoolCidrsCommandOutput,
   GetAwsNetworkPerformanceDataCommand,
-  type GetAwsNetworkPerformanceDataCommandInput,
-  type GetAwsNetworkPerformanceDataCommandOutput,
   GetCapacityReservationUsageCommand,
-  type GetCapacityReservationUsageCommandInput,
-  type GetCapacityReservationUsageCommandOutput,
   GetCoipPoolUsageCommand,
-  type GetCoipPoolUsageCommandInput,
-  type GetCoipPoolUsageCommandOutput,
   GetConsoleOutputCommand,
-  type GetConsoleOutputCommandInput,
-  type GetConsoleOutputCommandOutput,
   GetConsoleScreenshotCommand,
-  type GetConsoleScreenshotCommandInput,
-  type GetConsoleScreenshotCommandOutput,
   GetDefaultCreditSpecificationCommand,
-  type GetDefaultCreditSpecificationCommandInput,
-  type GetDefaultCreditSpecificationCommandOutput,
   GetEbsDefaultKmsKeyIdCommand,
-  type GetEbsDefaultKmsKeyIdCommandInput,
-  type GetEbsDefaultKmsKeyIdCommandOutput,
   GetEbsEncryptionByDefaultCommand,
-  type GetEbsEncryptionByDefaultCommandInput,
-  type GetEbsEncryptionByDefaultCommandOutput,
   GetFlowLogsIntegrationTemplateCommand,
-  type GetFlowLogsIntegrationTemplateCommandInput,
-  type GetFlowLogsIntegrationTemplateCommandOutput,
   GetGroupsForCapacityReservationCommand,
-  type GetGroupsForCapacityReservationCommandInput,
-  type GetGroupsForCapacityReservationCommandOutput,
   GetHostReservationPurchasePreviewCommand,
-  type GetHostReservationPurchasePreviewCommandInput,
-  type GetHostReservationPurchasePreviewCommandOutput,
   GetImageBlockPublicAccessStateCommand,
-  type GetImageBlockPublicAccessStateCommandInput,
-  type GetImageBlockPublicAccessStateCommandOutput,
+  GetInstanceMetadataDefaultsCommand,
   GetInstanceTypesFromInstanceRequirementsCommand,
-  type GetInstanceTypesFromInstanceRequirementsCommandInput,
-  type GetInstanceTypesFromInstanceRequirementsCommandOutput,
   GetInstanceUefiDataCommand,
-  type GetInstanceUefiDataCommandInput,
-  type GetInstanceUefiDataCommandOutput,
   GetIpamAddressHistoryCommand,
-  type GetIpamAddressHistoryCommandInput,
-  type GetIpamAddressHistoryCommandOutput,
   GetIpamDiscoveredAccountsCommand,
-  type GetIpamDiscoveredAccountsCommandInput,
-  type GetIpamDiscoveredAccountsCommandOutput,
   GetIpamDiscoveredPublicAddressesCommand,
-  type GetIpamDiscoveredPublicAddressesCommandInput,
-  type GetIpamDiscoveredPublicAddressesCommandOutput,
   GetIpamDiscoveredResourceCidrsCommand,
-  type GetIpamDiscoveredResourceCidrsCommandInput,
-  type GetIpamDiscoveredResourceCidrsCommandOutput,
   GetIpamPoolAllocationsCommand,
-  type GetIpamPoolAllocationsCommandInput,
-  type GetIpamPoolAllocationsCommandOutput,
   GetIpamPoolCidrsCommand,
-  type GetIpamPoolCidrsCommandInput,
-  type GetIpamPoolCidrsCommandOutput,
   GetIpamResourceCidrsCommand,
-  type GetIpamResourceCidrsCommandInput,
-  type GetIpamResourceCidrsCommandOutput,
   GetLaunchTemplateDataCommand,
-  type GetLaunchTemplateDataCommandInput,
-  type GetLaunchTemplateDataCommandOutput,
   GetManagedPrefixListAssociationsCommand,
-  type GetManagedPrefixListAssociationsCommandInput,
-  type GetManagedPrefixListAssociationsCommandOutput,
   GetManagedPrefixListEntriesCommand,
-  type GetManagedPrefixListEntriesCommandInput,
-  type GetManagedPrefixListEntriesCommandOutput,
   GetNetworkInsightsAccessScopeAnalysisFindingsCommand,
-  type GetNetworkInsightsAccessScopeAnalysisFindingsCommandInput,
-  type GetNetworkInsightsAccessScopeAnalysisFindingsCommandOutput,
   GetNetworkInsightsAccessScopeContentCommand,
-  type GetNetworkInsightsAccessScopeContentCommandInput,
-  type GetNetworkInsightsAccessScopeContentCommandOutput,
   GetPasswordDataCommand,
-  type GetPasswordDataCommandInput,
-  type GetPasswordDataCommandOutput,
   GetReservedInstancesExchangeQuoteCommand,
-  type GetReservedInstancesExchangeQuoteCommandInput,
-  type GetReservedInstancesExchangeQuoteCommandOutput,
   GetSecurityGroupsForVpcCommand,
-  type GetSecurityGroupsForVpcCommandInput,
-  type GetSecurityGroupsForVpcCommandOutput,
   GetSerialConsoleAccessStatusCommand,
-  type GetSerialConsoleAccessStatusCommandInput,
-  type GetSerialConsoleAccessStatusCommandOutput,
   GetSnapshotBlockPublicAccessStateCommand,
-  type GetSnapshotBlockPublicAccessStateCommandInput,
-  type GetSnapshotBlockPublicAccessStateCommandOutput,
   GetSpotPlacementScoresCommand,
-  type GetSpotPlacementScoresCommandInput,
-  type GetSpotPlacementScoresCommandOutput,
   GetSubnetCidrReservationsCommand,
-  type GetSubnetCidrReservationsCommandInput,
-  type GetSubnetCidrReservationsCommandOutput,
   GetTransitGatewayAttachmentPropagationsCommand,
-  type GetTransitGatewayAttachmentPropagationsCommandInput,
-  type GetTransitGatewayAttachmentPropagationsCommandOutput,
   GetTransitGatewayMulticastDomainAssociationsCommand,
-  type GetTransitGatewayMulticastDomainAssociationsCommandInput,
-  type GetTransitGatewayMulticastDomainAssociationsCommandOutput,
   GetTransitGatewayPolicyTableAssociationsCommand,
-  type GetTransitGatewayPolicyTableAssociationsCommandInput,
-  type GetTransitGatewayPolicyTableAssociationsCommandOutput,
   GetTransitGatewayPolicyTableEntriesCommand,
-  type GetTransitGatewayPolicyTableEntriesCommandInput,
-  type GetTransitGatewayPolicyTableEntriesCommandOutput,
   GetTransitGatewayPrefixListReferencesCommand,
-  type GetTransitGatewayPrefixListReferencesCommandInput,
-  type GetTransitGatewayPrefixListReferencesCommandOutput,
   GetTransitGatewayRouteTableAssociationsCommand,
-  type GetTransitGatewayRouteTableAssociationsCommandInput,
-  type GetTransitGatewayRouteTableAssociationsCommandOutput,
   GetTransitGatewayRouteTablePropagationsCommand,
-  type GetTransitGatewayRouteTablePropagationsCommandInput,
-  type GetTransitGatewayRouteTablePropagationsCommandOutput,
   GetVerifiedAccessEndpointPolicyCommand,
-  type GetVerifiedAccessEndpointPolicyCommandInput,
-  type GetVerifiedAccessEndpointPolicyCommandOutput,
   GetVerifiedAccessGroupPolicyCommand,
-  type GetVerifiedAccessGroupPolicyCommandInput,
-  type GetVerifiedAccessGroupPolicyCommandOutput,
   GetVpnConnectionDeviceSampleConfigurationCommand,
-  type GetVpnConnectionDeviceSampleConfigurationCommandInput,
-  type GetVpnConnectionDeviceSampleConfigurationCommandOutput,
   GetVpnConnectionDeviceTypesCommand,
-  type GetVpnConnectionDeviceTypesCommandInput,
-  type GetVpnConnectionDeviceTypesCommandOutput,
   GetVpnTunnelReplacementStatusCommand,
-  type GetVpnTunnelReplacementStatusCommandInput,
-  type GetVpnTunnelReplacementStatusCommandOutput,
   ImportClientVpnClientCertificateRevocationListCommand,
-  type ImportClientVpnClientCertificateRevocationListCommandInput,
-  type ImportClientVpnClientCertificateRevocationListCommandOutput,
   ImportImageCommand,
-  type ImportImageCommandInput,
-  type ImportImageCommandOutput,
   ImportInstanceCommand,
-  type ImportInstanceCommandInput,
-  type ImportInstanceCommandOutput,
   ImportKeyPairCommand,
-  type ImportKeyPairCommandInput,
-  type ImportKeyPairCommandOutput,
   ImportSnapshotCommand,
-  type ImportSnapshotCommandInput,
-  type ImportSnapshotCommandOutput,
   ImportVolumeCommand,
-  type ImportVolumeCommandInput,
-  type ImportVolumeCommandOutput,
   ListImagesInRecycleBinCommand,
-  type ListImagesInRecycleBinCommandInput,
-  type ListImagesInRecycleBinCommandOutput,
   ListSnapshotsInRecycleBinCommand,
-  type ListSnapshotsInRecycleBinCommandInput,
-  type ListSnapshotsInRecycleBinCommandOutput,
   LockSnapshotCommand,
-  type LockSnapshotCommandInput,
-  type LockSnapshotCommandOutput,
   ModifyAddressAttributeCommand,
-  type ModifyAddressAttributeCommandInput,
-  type ModifyAddressAttributeCommandOutput,
   ModifyAvailabilityZoneGroupCommand,
-  type ModifyAvailabilityZoneGroupCommandInput,
-  type ModifyAvailabilityZoneGroupCommandOutput,
   ModifyCapacityReservationCommand,
-  type ModifyCapacityReservationCommandInput,
-  type ModifyCapacityReservationCommandOutput,
   ModifyCapacityReservationFleetCommand,
-  type ModifyCapacityReservationFleetCommandInput,
-  type ModifyCapacityReservationFleetCommandOutput,
   ModifyClientVpnEndpointCommand,
-  type ModifyClientVpnEndpointCommandInput,
-  type ModifyClientVpnEndpointCommandOutput,
   ModifyDefaultCreditSpecificationCommand,
-  type ModifyDefaultCreditSpecificationCommandInput,
-  type ModifyDefaultCreditSpecificationCommandOutput,
   ModifyEbsDefaultKmsKeyIdCommand,
-  type ModifyEbsDefaultKmsKeyIdCommandInput,
-  type ModifyEbsDefaultKmsKeyIdCommandOutput,
   ModifyFleetCommand,
-  type ModifyFleetCommandInput,
-  type ModifyFleetCommandOutput,
   ModifyFpgaImageAttributeCommand,
-  type ModifyFpgaImageAttributeCommandInput,
-  type ModifyFpgaImageAttributeCommandOutput,
   ModifyHostsCommand,
-  type ModifyHostsCommandInput,
-  type ModifyHostsCommandOutput,
-  ModifyIdentityIdFormatCommand,
-  type ModifyIdentityIdFormatCommandInput,
-  type ModifyIdentityIdFormatCommandOutput,
   ModifyIdFormatCommand,
-  type ModifyIdFormatCommandInput,
-  type ModifyIdFormatCommandOutput,
+  ModifyIdentityIdFormatCommand,
   ModifyImageAttributeCommand,
-  type ModifyImageAttributeCommandInput,
-  type ModifyImageAttributeCommandOutput,
   ModifyInstanceAttributeCommand,
-  type ModifyInstanceAttributeCommandInput,
-  type ModifyInstanceAttributeCommandOutput,
   ModifyInstanceCapacityReservationAttributesCommand,
-  type ModifyInstanceCapacityReservationAttributesCommandInput,
-  type ModifyInstanceCapacityReservationAttributesCommandOutput,
   ModifyInstanceCreditSpecificationCommand,
-  type ModifyInstanceCreditSpecificationCommandInput,
-  type ModifyInstanceCreditSpecificationCommandOutput,
   ModifyInstanceEventStartTimeCommand,
-  type ModifyInstanceEventStartTimeCommandInput,
-  type ModifyInstanceEventStartTimeCommandOutput,
   ModifyInstanceEventWindowCommand,
-  type ModifyInstanceEventWindowCommandInput,
-  type ModifyInstanceEventWindowCommandOutput,
   ModifyInstanceMaintenanceOptionsCommand,
-  type ModifyInstanceMaintenanceOptionsCommandInput,
-  type ModifyInstanceMaintenanceOptionsCommandOutput,
+  ModifyInstanceMetadataDefaultsCommand,
   ModifyInstanceMetadataOptionsCommand,
-  type ModifyInstanceMetadataOptionsCommandInput,
-  type ModifyInstanceMetadataOptionsCommandOutput,
   ModifyInstancePlacementCommand,
-  type ModifyInstancePlacementCommandInput,
-  type ModifyInstancePlacementCommandOutput,
   ModifyIpamCommand,
-  type ModifyIpamCommandInput,
-  type ModifyIpamCommandOutput,
   ModifyIpamPoolCommand,
-  type ModifyIpamPoolCommandInput,
-  type ModifyIpamPoolCommandOutput,
   ModifyIpamResourceCidrCommand,
-  type ModifyIpamResourceCidrCommandInput,
-  type ModifyIpamResourceCidrCommandOutput,
   ModifyIpamResourceDiscoveryCommand,
-  type ModifyIpamResourceDiscoveryCommandInput,
-  type ModifyIpamResourceDiscoveryCommandOutput,
   ModifyIpamScopeCommand,
-  type ModifyIpamScopeCommandInput,
-  type ModifyIpamScopeCommandOutput,
   ModifyLaunchTemplateCommand,
-  type ModifyLaunchTemplateCommandInput,
-  type ModifyLaunchTemplateCommandOutput,
   ModifyLocalGatewayRouteCommand,
-  type ModifyLocalGatewayRouteCommandInput,
-  type ModifyLocalGatewayRouteCommandOutput,
   ModifyManagedPrefixListCommand,
-  type ModifyManagedPrefixListCommandInput,
-  type ModifyManagedPrefixListCommandOutput,
   ModifyNetworkInterfaceAttributeCommand,
-  type ModifyNetworkInterfaceAttributeCommandInput,
-  type ModifyNetworkInterfaceAttributeCommandOutput,
   ModifyPrivateDnsNameOptionsCommand,
-  type ModifyPrivateDnsNameOptionsCommandInput,
-  type ModifyPrivateDnsNameOptionsCommandOutput,
   ModifyReservedInstancesCommand,
-  type ModifyReservedInstancesCommandInput,
-  type ModifyReservedInstancesCommandOutput,
   ModifySecurityGroupRulesCommand,
-  type ModifySecurityGroupRulesCommandInput,
-  type ModifySecurityGroupRulesCommandOutput,
   ModifySnapshotAttributeCommand,
-  type ModifySnapshotAttributeCommandInput,
-  type ModifySnapshotAttributeCommandOutput,
   ModifySnapshotTierCommand,
-  type ModifySnapshotTierCommandInput,
-  type ModifySnapshotTierCommandOutput,
   ModifySpotFleetRequestCommand,
-  type ModifySpotFleetRequestCommandInput,
-  type ModifySpotFleetRequestCommandOutput,
   ModifySubnetAttributeCommand,
-  type ModifySubnetAttributeCommandInput,
-  type ModifySubnetAttributeCommandOutput,
   ModifyTrafficMirrorFilterNetworkServicesCommand,
-  type ModifyTrafficMirrorFilterNetworkServicesCommandInput,
-  type ModifyTrafficMirrorFilterNetworkServicesCommandOutput,
   ModifyTrafficMirrorFilterRuleCommand,
-  type ModifyTrafficMirrorFilterRuleCommandInput,
-  type ModifyTrafficMirrorFilterRuleCommandOutput,
   ModifyTrafficMirrorSessionCommand,
-  type ModifyTrafficMirrorSessionCommandInput,
-  type ModifyTrafficMirrorSessionCommandOutput,
   ModifyTransitGatewayCommand,
-  type ModifyTransitGatewayCommandInput,
-  type ModifyTransitGatewayCommandOutput,
   ModifyTransitGatewayPrefixListReferenceCommand,
-  type ModifyTransitGatewayPrefixListReferenceCommandInput,
-  type ModifyTransitGatewayPrefixListReferenceCommandOutput,
   ModifyTransitGatewayVpcAttachmentCommand,
-  type ModifyTransitGatewayVpcAttachmentCommandInput,
-  type ModifyTransitGatewayVpcAttachmentCommandOutput,
   ModifyVerifiedAccessEndpointCommand,
-  type ModifyVerifiedAccessEndpointCommandInput,
-  type ModifyVerifiedAccessEndpointCommandOutput,
   ModifyVerifiedAccessEndpointPolicyCommand,
-  type ModifyVerifiedAccessEndpointPolicyCommandInput,
-  type ModifyVerifiedAccessEndpointPolicyCommandOutput,
   ModifyVerifiedAccessGroupCommand,
-  type ModifyVerifiedAccessGroupCommandInput,
-  type ModifyVerifiedAccessGroupCommandOutput,
   ModifyVerifiedAccessGroupPolicyCommand,
-  type ModifyVerifiedAccessGroupPolicyCommandInput,
-  type ModifyVerifiedAccessGroupPolicyCommandOutput,
   ModifyVerifiedAccessInstanceCommand,
-  type ModifyVerifiedAccessInstanceCommandInput,
-  type ModifyVerifiedAccessInstanceCommandOutput,
   ModifyVerifiedAccessInstanceLoggingConfigurationCommand,
-  type ModifyVerifiedAccessInstanceLoggingConfigurationCommandInput,
-  type ModifyVerifiedAccessInstanceLoggingConfigurationCommandOutput,
   ModifyVerifiedAccessTrustProviderCommand,
-  type ModifyVerifiedAccessTrustProviderCommandInput,
-  type ModifyVerifiedAccessTrustProviderCommandOutput,
   ModifyVolumeCommand,
-  type ModifyVolumeCommandInput,
-  type ModifyVolumeCommandOutput,
   ModifyVolumeAttributeCommand,
-  type ModifyVolumeAttributeCommandInput,
-  type ModifyVolumeAttributeCommandOutput,
   ModifyVpcAttributeCommand,
-  type ModifyVpcAttributeCommandInput,
-  type ModifyVpcAttributeCommandOutput,
   ModifyVpcEndpointCommand,
-  type ModifyVpcEndpointCommandInput,
-  type ModifyVpcEndpointCommandOutput,
   ModifyVpcEndpointConnectionNotificationCommand,
-  type ModifyVpcEndpointConnectionNotificationCommandInput,
-  type ModifyVpcEndpointConnectionNotificationCommandOutput,
   ModifyVpcEndpointServiceConfigurationCommand,
-  type ModifyVpcEndpointServiceConfigurationCommandInput,
-  type ModifyVpcEndpointServiceConfigurationCommandOutput,
   ModifyVpcEndpointServicePayerResponsibilityCommand,
-  type ModifyVpcEndpointServicePayerResponsibilityCommandInput,
-  type ModifyVpcEndpointServicePayerResponsibilityCommandOutput,
   ModifyVpcEndpointServicePermissionsCommand,
-  type ModifyVpcEndpointServicePermissionsCommandInput,
-  type ModifyVpcEndpointServicePermissionsCommandOutput,
   ModifyVpcPeeringConnectionOptionsCommand,
-  type ModifyVpcPeeringConnectionOptionsCommandInput,
-  type ModifyVpcPeeringConnectionOptionsCommandOutput,
   ModifyVpcTenancyCommand,
-  type ModifyVpcTenancyCommandInput,
-  type ModifyVpcTenancyCommandOutput,
   ModifyVpnConnectionCommand,
-  type ModifyVpnConnectionCommandInput,
-  type ModifyVpnConnectionCommandOutput,
   ModifyVpnConnectionOptionsCommand,
-  type ModifyVpnConnectionOptionsCommandInput,
-  type ModifyVpnConnectionOptionsCommandOutput,
   ModifyVpnTunnelCertificateCommand,
-  type ModifyVpnTunnelCertificateCommandInput,
-  type ModifyVpnTunnelCertificateCommandOutput,
   ModifyVpnTunnelOptionsCommand,
-  type ModifyVpnTunnelOptionsCommandInput,
-  type ModifyVpnTunnelOptionsCommandOutput,
   MonitorInstancesCommand,
-  type MonitorInstancesCommandInput,
-  type MonitorInstancesCommandOutput,
   MoveAddressToVpcCommand,
-  type MoveAddressToVpcCommandInput,
-  type MoveAddressToVpcCommandOutput,
   MoveByoipCidrToIpamCommand,
-  type MoveByoipCidrToIpamCommandInput,
-  type MoveByoipCidrToIpamCommandOutput,
   ProvisionByoipCidrCommand,
-  type ProvisionByoipCidrCommandInput,
-  type ProvisionByoipCidrCommandOutput,
   ProvisionIpamByoasnCommand,
-  type ProvisionIpamByoasnCommandInput,
-  type ProvisionIpamByoasnCommandOutput,
   ProvisionIpamPoolCidrCommand,
-  type ProvisionIpamPoolCidrCommandInput,
-  type ProvisionIpamPoolCidrCommandOutput,
   ProvisionPublicIpv4PoolCidrCommand,
-  type ProvisionPublicIpv4PoolCidrCommandInput,
-  type ProvisionPublicIpv4PoolCidrCommandOutput,
   PurchaseCapacityBlockCommand,
-  type PurchaseCapacityBlockCommandInput,
-  type PurchaseCapacityBlockCommandOutput,
   PurchaseHostReservationCommand,
-  type PurchaseHostReservationCommandInput,
-  type PurchaseHostReservationCommandOutput,
   PurchaseReservedInstancesOfferingCommand,
-  type PurchaseReservedInstancesOfferingCommandInput,
-  type PurchaseReservedInstancesOfferingCommandOutput,
   PurchaseScheduledInstancesCommand,
-  type PurchaseScheduledInstancesCommandInput,
-  type PurchaseScheduledInstancesCommandOutput,
   RebootInstancesCommand,
-  type RebootInstancesCommandInput,
-  type RebootInstancesCommandOutput,
   RegisterImageCommand,
-  type RegisterImageCommandInput,
-  type RegisterImageCommandOutput,
   RegisterInstanceEventNotificationAttributesCommand,
-  type RegisterInstanceEventNotificationAttributesCommandInput,
-  type RegisterInstanceEventNotificationAttributesCommandOutput,
   RegisterTransitGatewayMulticastGroupMembersCommand,
-  type RegisterTransitGatewayMulticastGroupMembersCommandInput,
-  type RegisterTransitGatewayMulticastGroupMembersCommandOutput,
   RegisterTransitGatewayMulticastGroupSourcesCommand,
-  type RegisterTransitGatewayMulticastGroupSourcesCommandInput,
-  type RegisterTransitGatewayMulticastGroupSourcesCommandOutput,
   RejectTransitGatewayMulticastDomainAssociationsCommand,
-  type RejectTransitGatewayMulticastDomainAssociationsCommandInput,
-  type RejectTransitGatewayMulticastDomainAssociationsCommandOutput,
   RejectTransitGatewayPeeringAttachmentCommand,
-  type RejectTransitGatewayPeeringAttachmentCommandInput,
-  type RejectTransitGatewayPeeringAttachmentCommandOutput,
   RejectTransitGatewayVpcAttachmentCommand,
-  type RejectTransitGatewayVpcAttachmentCommandInput,
-  type RejectTransitGatewayVpcAttachmentCommandOutput,
   RejectVpcEndpointConnectionsCommand,
-  type RejectVpcEndpointConnectionsCommandInput,
-  type RejectVpcEndpointConnectionsCommandOutput,
   RejectVpcPeeringConnectionCommand,
-  type RejectVpcPeeringConnectionCommandInput,
-  type RejectVpcPeeringConnectionCommandOutput,
   ReleaseAddressCommand,
-  type ReleaseAddressCommandInput,
-  type ReleaseAddressCommandOutput,
   ReleaseHostsCommand,
-  type ReleaseHostsCommandInput,
-  type ReleaseHostsCommandOutput,
   ReleaseIpamPoolAllocationCommand,
-  type ReleaseIpamPoolAllocationCommandInput,
-  type ReleaseIpamPoolAllocationCommandOutput,
   ReplaceIamInstanceProfileAssociationCommand,
-  type ReplaceIamInstanceProfileAssociationCommandInput,
-  type ReplaceIamInstanceProfileAssociationCommandOutput,
   ReplaceNetworkAclAssociationCommand,
-  type ReplaceNetworkAclAssociationCommandInput,
-  type ReplaceNetworkAclAssociationCommandOutput,
   ReplaceNetworkAclEntryCommand,
-  type ReplaceNetworkAclEntryCommandInput,
-  type ReplaceNetworkAclEntryCommandOutput,
   ReplaceRouteCommand,
-  type ReplaceRouteCommandInput,
-  type ReplaceRouteCommandOutput,
   ReplaceRouteTableAssociationCommand,
-  type ReplaceRouteTableAssociationCommandInput,
-  type ReplaceRouteTableAssociationCommandOutput,
   ReplaceTransitGatewayRouteCommand,
-  type ReplaceTransitGatewayRouteCommandInput,
-  type ReplaceTransitGatewayRouteCommandOutput,
   ReplaceVpnTunnelCommand,
-  type ReplaceVpnTunnelCommandInput,
-  type ReplaceVpnTunnelCommandOutput,
   ReportInstanceStatusCommand,
-  type ReportInstanceStatusCommandInput,
-  type ReportInstanceStatusCommandOutput,
   RequestSpotFleetCommand,
-  type RequestSpotFleetCommandInput,
-  type RequestSpotFleetCommandOutput,
   RequestSpotInstancesCommand,
-  type RequestSpotInstancesCommandInput,
-  type RequestSpotInstancesCommandOutput,
   ResetAddressAttributeCommand,
-  type ResetAddressAttributeCommandInput,
-  type ResetAddressAttributeCommandOutput,
   ResetEbsDefaultKmsKeyIdCommand,
-  type ResetEbsDefaultKmsKeyIdCommandInput,
-  type ResetEbsDefaultKmsKeyIdCommandOutput,
   ResetFpgaImageAttributeCommand,
-  type ResetFpgaImageAttributeCommandInput,
-  type ResetFpgaImageAttributeCommandOutput,
   ResetImageAttributeCommand,
-  type ResetImageAttributeCommandInput,
-  type ResetImageAttributeCommandOutput,
   ResetInstanceAttributeCommand,
-  type ResetInstanceAttributeCommandInput,
-  type ResetInstanceAttributeCommandOutput,
   ResetNetworkInterfaceAttributeCommand,
-  type ResetNetworkInterfaceAttributeCommandInput,
-  type ResetNetworkInterfaceAttributeCommandOutput,
   ResetSnapshotAttributeCommand,
-  type ResetSnapshotAttributeCommandInput,
-  type ResetSnapshotAttributeCommandOutput,
   RestoreAddressToClassicCommand,
-  type RestoreAddressToClassicCommandInput,
-  type RestoreAddressToClassicCommandOutput,
   RestoreImageFromRecycleBinCommand,
-  type RestoreImageFromRecycleBinCommandInput,
-  type RestoreImageFromRecycleBinCommandOutput,
   RestoreManagedPrefixListVersionCommand,
-  type RestoreManagedPrefixListVersionCommandInput,
-  type RestoreManagedPrefixListVersionCommandOutput,
   RestoreSnapshotFromRecycleBinCommand,
-  type RestoreSnapshotFromRecycleBinCommandInput,
-  type RestoreSnapshotFromRecycleBinCommandOutput,
   RestoreSnapshotTierCommand,
-  type RestoreSnapshotTierCommandInput,
-  type RestoreSnapshotTierCommandOutput,
   RevokeClientVpnIngressCommand,
-  type RevokeClientVpnIngressCommandInput,
-  type RevokeClientVpnIngressCommandOutput,
   RevokeSecurityGroupEgressCommand,
-  type RevokeSecurityGroupEgressCommandInput,
-  type RevokeSecurityGroupEgressCommandOutput,
   RevokeSecurityGroupIngressCommand,
-  type RevokeSecurityGroupIngressCommandInput,
-  type RevokeSecurityGroupIngressCommandOutput,
   RunInstancesCommand,
-  type RunInstancesCommandInput,
-  type RunInstancesCommandOutput,
   RunScheduledInstancesCommand,
-  type RunScheduledInstancesCommandInput,
-  type RunScheduledInstancesCommandOutput,
   SearchLocalGatewayRoutesCommand,
-  type SearchLocalGatewayRoutesCommandInput,
-  type SearchLocalGatewayRoutesCommandOutput,
   SearchTransitGatewayMulticastGroupsCommand,
-  type SearchTransitGatewayMulticastGroupsCommandInput,
-  type SearchTransitGatewayMulticastGroupsCommandOutput,
   SearchTransitGatewayRoutesCommand,
-  type SearchTransitGatewayRoutesCommandInput,
-  type SearchTransitGatewayRoutesCommandOutput,
   SendDiagnosticInterruptCommand,
-  type SendDiagnosticInterruptCommandInput,
-  type SendDiagnosticInterruptCommandOutput,
   StartInstancesCommand,
-  type StartInstancesCommandInput,
-  type StartInstancesCommandOutput,
   StartNetworkInsightsAccessScopeAnalysisCommand,
-  type StartNetworkInsightsAccessScopeAnalysisCommandInput,
-  type StartNetworkInsightsAccessScopeAnalysisCommandOutput,
   StartNetworkInsightsAnalysisCommand,
-  type StartNetworkInsightsAnalysisCommandInput,
-  type StartNetworkInsightsAnalysisCommandOutput,
   StartVpcEndpointServicePrivateDnsVerificationCommand,
-  type StartVpcEndpointServicePrivateDnsVerificationCommandInput,
-  type StartVpcEndpointServicePrivateDnsVerificationCommandOutput,
   StopInstancesCommand,
-  type StopInstancesCommandInput,
-  type StopInstancesCommandOutput,
   TerminateClientVpnConnectionsCommand,
-  type TerminateClientVpnConnectionsCommandInput,
-  type TerminateClientVpnConnectionsCommandOutput,
   TerminateInstancesCommand,
-  type TerminateInstancesCommandInput,
-  type TerminateInstancesCommandOutput,
   UnassignIpv6AddressesCommand,
-  type UnassignIpv6AddressesCommandInput,
-  type UnassignIpv6AddressesCommandOutput,
   UnassignPrivateIpAddressesCommand,
-  type UnassignPrivateIpAddressesCommandInput,
-  type UnassignPrivateIpAddressesCommandOutput,
   UnassignPrivateNatGatewayAddressCommand,
-  type UnassignPrivateNatGatewayAddressCommandInput,
-  type UnassignPrivateNatGatewayAddressCommandOutput,
   UnlockSnapshotCommand,
-  type UnlockSnapshotCommandInput,
-  type UnlockSnapshotCommandOutput,
   UnmonitorInstancesCommand,
-  type UnmonitorInstancesCommandInput,
-  type UnmonitorInstancesCommandOutput,
   UpdateSecurityGroupRuleDescriptionsEgressCommand,
-  type UpdateSecurityGroupRuleDescriptionsEgressCommandInput,
-  type UpdateSecurityGroupRuleDescriptionsEgressCommandOutput,
   UpdateSecurityGroupRuleDescriptionsIngressCommand,
-  type UpdateSecurityGroupRuleDescriptionsIngressCommandInput,
-  type UpdateSecurityGroupRuleDescriptionsIngressCommandOutput,
   WithdrawByoipCidrCommand,
-  type WithdrawByoipCidrCommandInput,
-  type WithdrawByoipCidrCommandOutput,
+  type AcceptAddressTransferRequest,
+  type AcceptAddressTransferResult,
+  type AcceptReservedInstancesExchangeQuoteRequest,
+  type AcceptReservedInstancesExchangeQuoteResult,
+  type AcceptTransitGatewayMulticastDomainAssociationsRequest,
+  type AcceptTransitGatewayMulticastDomainAssociationsResult,
+  type AcceptTransitGatewayPeeringAttachmentRequest,
+  type AcceptTransitGatewayPeeringAttachmentResult,
+  type AcceptTransitGatewayVpcAttachmentRequest,
+  type AcceptTransitGatewayVpcAttachmentResult,
+  type AcceptVpcEndpointConnectionsRequest,
+  type AcceptVpcEndpointConnectionsResult,
+  type AcceptVpcPeeringConnectionRequest,
+  type AcceptVpcPeeringConnectionResult,
+  type AdvertiseByoipCidrRequest,
+  type AdvertiseByoipCidrResult,
+  type AllocateAddressRequest,
+  type AllocateAddressResult,
+  type AllocateHostsRequest,
+  type AllocateHostsResult,
+  type AllocateIpamPoolCidrRequest,
+  type AllocateIpamPoolCidrResult,
+  type ApplySecurityGroupsToClientVpnTargetNetworkRequest,
+  type ApplySecurityGroupsToClientVpnTargetNetworkResult,
+  type AssignIpv6AddressesRequest,
+  type AssignIpv6AddressesResult,
+  type AssignPrivateIpAddressesRequest,
+  type AssignPrivateIpAddressesResult,
+  type AssignPrivateNatGatewayAddressRequest,
+  type AssignPrivateNatGatewayAddressResult,
+  type AssociateAddressRequest,
+  type AssociateAddressResult,
+  type AssociateClientVpnTargetNetworkRequest,
+  type AssociateClientVpnTargetNetworkResult,
+  type AssociateDhcpOptionsRequest,
+  type AssociateEnclaveCertificateIamRoleRequest,
+  type AssociateEnclaveCertificateIamRoleResult,
+  type AssociateIamInstanceProfileRequest,
+  type AssociateIamInstanceProfileResult,
+  type AssociateInstanceEventWindowRequest,
+  type AssociateInstanceEventWindowResult,
+  type AssociateIpamByoasnRequest,
+  type AssociateIpamByoasnResult,
+  type AssociateIpamResourceDiscoveryRequest,
+  type AssociateIpamResourceDiscoveryResult,
+  type AssociateNatGatewayAddressRequest,
+  type AssociateNatGatewayAddressResult,
+  type AssociateRouteTableRequest,
+  type AssociateRouteTableResult,
+  type AssociateSubnetCidrBlockRequest,
+  type AssociateSubnetCidrBlockResult,
+  type AssociateTransitGatewayMulticastDomainRequest,
+  type AssociateTransitGatewayMulticastDomainResult,
+  type AssociateTransitGatewayPolicyTableRequest,
+  type AssociateTransitGatewayPolicyTableResult,
+  type AssociateTransitGatewayRouteTableRequest,
+  type AssociateTransitGatewayRouteTableResult,
+  type AssociateTrunkInterfaceRequest,
+  type AssociateTrunkInterfaceResult,
+  type AssociateVpcCidrBlockRequest,
+  type AssociateVpcCidrBlockResult,
+  type AttachClassicLinkVpcRequest,
+  type AttachClassicLinkVpcResult,
+  type AttachInternetGatewayRequest,
+  type AttachNetworkInterfaceRequest,
+  type AttachNetworkInterfaceResult,
+  type AttachVerifiedAccessTrustProviderRequest,
+  type AttachVerifiedAccessTrustProviderResult,
+  type AttachVolumeRequest,
+  type VolumeAttachment,
+  type AttachVpnGatewayRequest,
+  type AttachVpnGatewayResult,
+  type AuthorizeClientVpnIngressRequest,
+  type AuthorizeClientVpnIngressResult,
+  type AuthorizeSecurityGroupEgressRequest,
+  type AuthorizeSecurityGroupEgressResult,
+  type AuthorizeSecurityGroupIngressRequest,
+  type AuthorizeSecurityGroupIngressResult,
+  type BundleInstanceRequest,
+  type BundleInstanceResult,
+  type CancelBundleTaskRequest,
+  type CancelBundleTaskResult,
+  type CancelCapacityReservationRequest,
+  type CancelCapacityReservationResult,
+  type CancelCapacityReservationFleetsRequest,
+  type CancelCapacityReservationFleetsResult,
+  type CancelConversionRequest,
+  type CancelExportTaskRequest,
+  type CancelImageLaunchPermissionRequest,
+  type CancelImageLaunchPermissionResult,
+  type CancelImportTaskRequest,
+  type CancelImportTaskResult,
+  type CancelReservedInstancesListingRequest,
+  type CancelReservedInstancesListingResult,
+  type CancelSpotFleetRequestsRequest,
+  type CancelSpotFleetRequestsResponse,
+  type CancelSpotInstanceRequestsRequest,
+  type CancelSpotInstanceRequestsResult,
+  type ConfirmProductInstanceRequest,
+  type ConfirmProductInstanceResult,
+  type CopyFpgaImageRequest,
+  type CopyFpgaImageResult,
+  type CopyImageRequest,
+  type CopyImageResult,
+  type CopySnapshotRequest,
+  type CopySnapshotResult,
+  type CreateCapacityReservationRequest,
+  type CreateCapacityReservationResult,
+  type CreateCapacityReservationFleetRequest,
+  type CreateCapacityReservationFleetResult,
+  type CreateCarrierGatewayRequest,
+  type CreateCarrierGatewayResult,
+  type CreateClientVpnEndpointRequest,
+  type CreateClientVpnEndpointResult,
+  type CreateClientVpnRouteRequest,
+  type CreateClientVpnRouteResult,
+  type CreateCoipCidrRequest,
+  type CreateCoipCidrResult,
+  type CreateCoipPoolRequest,
+  type CreateCoipPoolResult,
+  type CreateCustomerGatewayRequest,
+  type CreateCustomerGatewayResult,
+  type CreateDefaultSubnetRequest,
+  type CreateDefaultSubnetResult,
+  type CreateDefaultVpcRequest,
+  type CreateDefaultVpcResult,
+  type CreateDhcpOptionsRequest,
+  type CreateDhcpOptionsResult,
+  type CreateEgressOnlyInternetGatewayRequest,
+  type CreateEgressOnlyInternetGatewayResult,
+  type CreateFleetRequest,
+  type CreateFleetResult,
+  type CreateFlowLogsRequest,
+  type CreateFlowLogsResult,
+  type CreateFpgaImageRequest,
+  type CreateFpgaImageResult,
+  type CreateImageRequest,
+  type CreateImageResult,
+  type CreateInstanceConnectEndpointRequest,
+  type CreateInstanceConnectEndpointResult,
+  type CreateInstanceEventWindowRequest,
+  type CreateInstanceEventWindowResult,
+  type CreateInstanceExportTaskRequest,
+  type CreateInstanceExportTaskResult,
+  type CreateInternetGatewayRequest,
+  type CreateInternetGatewayResult,
+  type CreateIpamRequest,
+  type CreateIpamResult,
+  type CreateIpamPoolRequest,
+  type CreateIpamPoolResult,
+  type CreateIpamResourceDiscoveryRequest,
+  type CreateIpamResourceDiscoveryResult,
+  type CreateIpamScopeRequest,
+  type CreateIpamScopeResult,
+  type CreateKeyPairRequest,
+  type KeyPair,
+  type CreateLaunchTemplateRequest,
+  type CreateLaunchTemplateResult,
+  type CreateLaunchTemplateVersionRequest,
+  type CreateLaunchTemplateVersionResult,
+  type CreateLocalGatewayRouteRequest,
+  type CreateLocalGatewayRouteResult,
+  type CreateLocalGatewayRouteTableRequest,
+  type CreateLocalGatewayRouteTableResult,
+  type CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationRequest,
+  type CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationResult,
+  type CreateLocalGatewayRouteTableVpcAssociationRequest,
+  type CreateLocalGatewayRouteTableVpcAssociationResult,
+  type CreateManagedPrefixListRequest,
+  type CreateManagedPrefixListResult,
+  type CreateNatGatewayRequest,
+  type CreateNatGatewayResult,
+  type CreateNetworkAclRequest,
+  type CreateNetworkAclResult,
+  type CreateNetworkAclEntryRequest,
+  type CreateNetworkInsightsAccessScopeRequest,
+  type CreateNetworkInsightsAccessScopeResult,
+  type CreateNetworkInsightsPathRequest,
+  type CreateNetworkInsightsPathResult,
+  type CreateNetworkInterfaceRequest,
+  type CreateNetworkInterfaceResult,
+  type CreateNetworkInterfacePermissionRequest,
+  type CreateNetworkInterfacePermissionResult,
+  type CreatePlacementGroupRequest,
+  type CreatePlacementGroupResult,
+  type CreatePublicIpv4PoolRequest,
+  type CreatePublicIpv4PoolResult,
+  type CreateReplaceRootVolumeTaskRequest,
+  type CreateReplaceRootVolumeTaskResult,
+  type CreateReservedInstancesListingRequest,
+  type CreateReservedInstancesListingResult,
+  type CreateRestoreImageTaskRequest,
+  type CreateRestoreImageTaskResult,
+  type CreateRouteRequest,
+  type CreateRouteResult,
+  type CreateRouteTableRequest,
+  type CreateRouteTableResult,
+  type CreateSecurityGroupRequest,
+  type CreateSecurityGroupResult,
+  type CreateSnapshotRequest,
+  type Snapshot,
+  type CreateSnapshotsRequest,
+  type CreateSnapshotsResult,
+  type CreateSpotDatafeedSubscriptionRequest,
+  type CreateSpotDatafeedSubscriptionResult,
+  type CreateStoreImageTaskRequest,
+  type CreateStoreImageTaskResult,
+  type CreateSubnetRequest,
+  type CreateSubnetResult,
+  type CreateSubnetCidrReservationRequest,
+  type CreateSubnetCidrReservationResult,
+  type CreateTagsRequest,
+  type CreateTrafficMirrorFilterRequest,
+  type CreateTrafficMirrorFilterResult,
+  type CreateTrafficMirrorFilterRuleRequest,
+  type CreateTrafficMirrorFilterRuleResult,
+  type CreateTrafficMirrorSessionRequest,
+  type CreateTrafficMirrorSessionResult,
+  type CreateTrafficMirrorTargetRequest,
+  type CreateTrafficMirrorTargetResult,
+  type CreateTransitGatewayRequest,
+  type CreateTransitGatewayResult,
+  type CreateTransitGatewayConnectRequest,
+  type CreateTransitGatewayConnectResult,
+  type CreateTransitGatewayConnectPeerRequest,
+  type CreateTransitGatewayConnectPeerResult,
+  type CreateTransitGatewayMulticastDomainRequest,
+  type CreateTransitGatewayMulticastDomainResult,
+  type CreateTransitGatewayPeeringAttachmentRequest,
+  type CreateTransitGatewayPeeringAttachmentResult,
+  type CreateTransitGatewayPolicyTableRequest,
+  type CreateTransitGatewayPolicyTableResult,
+  type CreateTransitGatewayPrefixListReferenceRequest,
+  type CreateTransitGatewayPrefixListReferenceResult,
+  type CreateTransitGatewayRouteRequest,
+  type CreateTransitGatewayRouteResult,
+  type CreateTransitGatewayRouteTableRequest,
+  type CreateTransitGatewayRouteTableResult,
+  type CreateTransitGatewayRouteTableAnnouncementRequest,
+  type CreateTransitGatewayRouteTableAnnouncementResult,
+  type CreateTransitGatewayVpcAttachmentRequest,
+  type CreateTransitGatewayVpcAttachmentResult,
+  type CreateVerifiedAccessEndpointRequest,
+  type CreateVerifiedAccessEndpointResult,
+  type CreateVerifiedAccessGroupRequest,
+  type CreateVerifiedAccessGroupResult,
+  type CreateVerifiedAccessInstanceRequest,
+  type CreateVerifiedAccessInstanceResult,
+  type CreateVerifiedAccessTrustProviderRequest,
+  type CreateVerifiedAccessTrustProviderResult,
+  type CreateVolumeRequest,
+  type Volume,
+  type CreateVpcRequest,
+  type CreateVpcResult,
+  type CreateVpcEndpointRequest,
+  type CreateVpcEndpointResult,
+  type CreateVpcEndpointConnectionNotificationRequest,
+  type CreateVpcEndpointConnectionNotificationResult,
+  type CreateVpcEndpointServiceConfigurationRequest,
+  type CreateVpcEndpointServiceConfigurationResult,
+  type CreateVpcPeeringConnectionRequest,
+  type CreateVpcPeeringConnectionResult,
+  type CreateVpnConnectionRequest,
+  type CreateVpnConnectionResult,
+  type CreateVpnConnectionRouteRequest,
+  type CreateVpnGatewayRequest,
+  type CreateVpnGatewayResult,
+  type DeleteCarrierGatewayRequest,
+  type DeleteCarrierGatewayResult,
+  type DeleteClientVpnEndpointRequest,
+  type DeleteClientVpnEndpointResult,
+  type DeleteClientVpnRouteRequest,
+  type DeleteClientVpnRouteResult,
+  type DeleteCoipCidrRequest,
+  type DeleteCoipCidrResult,
+  type DeleteCoipPoolRequest,
+  type DeleteCoipPoolResult,
+  type DeleteCustomerGatewayRequest,
+  type DeleteDhcpOptionsRequest,
+  type DeleteEgressOnlyInternetGatewayRequest,
+  type DeleteEgressOnlyInternetGatewayResult,
+  type DeleteFleetsRequest,
+  type DeleteFleetsResult,
+  type DeleteFlowLogsRequest,
+  type DeleteFlowLogsResult,
+  type DeleteFpgaImageRequest,
+  type DeleteFpgaImageResult,
+  type DeleteInstanceConnectEndpointRequest,
+  type DeleteInstanceConnectEndpointResult,
+  type DeleteInstanceEventWindowRequest,
+  type DeleteInstanceEventWindowResult,
+  type DeleteInternetGatewayRequest,
+  type DeleteIpamRequest,
+  type DeleteIpamResult,
+  type DeleteIpamPoolRequest,
+  type DeleteIpamPoolResult,
+  type DeleteIpamResourceDiscoveryRequest,
+  type DeleteIpamResourceDiscoveryResult,
+  type DeleteIpamScopeRequest,
+  type DeleteIpamScopeResult,
+  type DeleteKeyPairRequest,
+  type DeleteKeyPairResult,
+  type DeleteLaunchTemplateRequest,
+  type DeleteLaunchTemplateResult,
+  type DeleteLaunchTemplateVersionsRequest,
+  type DeleteLaunchTemplateVersionsResult,
+  type DeleteLocalGatewayRouteRequest,
+  type DeleteLocalGatewayRouteResult,
+  type DeleteLocalGatewayRouteTableRequest,
+  type DeleteLocalGatewayRouteTableResult,
+  type DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationRequest,
+  type DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationResult,
+  type DeleteLocalGatewayRouteTableVpcAssociationRequest,
+  type DeleteLocalGatewayRouteTableVpcAssociationResult,
+  type DeleteManagedPrefixListRequest,
+  type DeleteManagedPrefixListResult,
+  type DeleteNatGatewayRequest,
+  type DeleteNatGatewayResult,
+  type DeleteNetworkAclRequest,
+  type DeleteNetworkAclEntryRequest,
+  type DeleteNetworkInsightsAccessScopeRequest,
+  type DeleteNetworkInsightsAccessScopeResult,
+  type DeleteNetworkInsightsAccessScopeAnalysisRequest,
+  type DeleteNetworkInsightsAccessScopeAnalysisResult,
+  type DeleteNetworkInsightsAnalysisRequest,
+  type DeleteNetworkInsightsAnalysisResult,
+  type DeleteNetworkInsightsPathRequest,
+  type DeleteNetworkInsightsPathResult,
+  type DeleteNetworkInterfaceRequest,
+  type DeleteNetworkInterfacePermissionRequest,
+  type DeleteNetworkInterfacePermissionResult,
+  type DeletePlacementGroupRequest,
+  type DeletePublicIpv4PoolRequest,
+  type DeletePublicIpv4PoolResult,
+  type DeleteQueuedReservedInstancesRequest,
+  type DeleteQueuedReservedInstancesResult,
+  type DeleteRouteRequest,
+  type DeleteRouteTableRequest,
+  type DeleteSecurityGroupRequest,
+  type DeleteSnapshotRequest,
+  type DeleteSpotDatafeedSubscriptionRequest,
+  type DeleteSubnetRequest,
+  type DeleteSubnetCidrReservationRequest,
+  type DeleteSubnetCidrReservationResult,
+  type DeleteTagsRequest,
+  type DeleteTrafficMirrorFilterRequest,
+  type DeleteTrafficMirrorFilterResult,
+  type DeleteTrafficMirrorFilterRuleRequest,
+  type DeleteTrafficMirrorFilterRuleResult,
+  type DeleteTrafficMirrorSessionRequest,
+  type DeleteTrafficMirrorSessionResult,
+  type DeleteTrafficMirrorTargetRequest,
+  type DeleteTrafficMirrorTargetResult,
+  type DeleteTransitGatewayRequest,
+  type DeleteTransitGatewayResult,
+  type DeleteTransitGatewayConnectRequest,
+  type DeleteTransitGatewayConnectResult,
+  type DeleteTransitGatewayConnectPeerRequest,
+  type DeleteTransitGatewayConnectPeerResult,
+  type DeleteTransitGatewayMulticastDomainRequest,
+  type DeleteTransitGatewayMulticastDomainResult,
+  type DeleteTransitGatewayPeeringAttachmentRequest,
+  type DeleteTransitGatewayPeeringAttachmentResult,
+  type DeleteTransitGatewayPolicyTableRequest,
+  type DeleteTransitGatewayPolicyTableResult,
+  type DeleteTransitGatewayPrefixListReferenceRequest,
+  type DeleteTransitGatewayPrefixListReferenceResult,
+  type DeleteTransitGatewayRouteRequest,
+  type DeleteTransitGatewayRouteResult,
+  type DeleteTransitGatewayRouteTableRequest,
+  type DeleteTransitGatewayRouteTableResult,
+  type DeleteTransitGatewayRouteTableAnnouncementRequest,
+  type DeleteTransitGatewayRouteTableAnnouncementResult,
+  type DeleteTransitGatewayVpcAttachmentRequest,
+  type DeleteTransitGatewayVpcAttachmentResult,
+  type DeleteVerifiedAccessEndpointRequest,
+  type DeleteVerifiedAccessEndpointResult,
+  type DeleteVerifiedAccessGroupRequest,
+  type DeleteVerifiedAccessGroupResult,
+  type DeleteVerifiedAccessInstanceRequest,
+  type DeleteVerifiedAccessInstanceResult,
+  type DeleteVerifiedAccessTrustProviderRequest,
+  type DeleteVerifiedAccessTrustProviderResult,
+  type DeleteVolumeRequest,
+  type DeleteVpcRequest,
+  type DeleteVpcEndpointConnectionNotificationsRequest,
+  type DeleteVpcEndpointConnectionNotificationsResult,
+  type DeleteVpcEndpointServiceConfigurationsRequest,
+  type DeleteVpcEndpointServiceConfigurationsResult,
+  type DeleteVpcEndpointsRequest,
+  type DeleteVpcEndpointsResult,
+  type DeleteVpcPeeringConnectionRequest,
+  type DeleteVpcPeeringConnectionResult,
+  type DeleteVpnConnectionRequest,
+  type DeleteVpnConnectionRouteRequest,
+  type DeleteVpnGatewayRequest,
+  type DeprovisionByoipCidrRequest,
+  type DeprovisionByoipCidrResult,
+  type DeprovisionIpamByoasnRequest,
+  type DeprovisionIpamByoasnResult,
+  type DeprovisionIpamPoolCidrRequest,
+  type DeprovisionIpamPoolCidrResult,
+  type DeprovisionPublicIpv4PoolCidrRequest,
+  type DeprovisionPublicIpv4PoolCidrResult,
+  type DeregisterImageRequest,
+  type DeregisterInstanceEventNotificationAttributesRequest,
+  type DeregisterInstanceEventNotificationAttributesResult,
+  type DeregisterTransitGatewayMulticastGroupMembersRequest,
+  type DeregisterTransitGatewayMulticastGroupMembersResult,
+  type DeregisterTransitGatewayMulticastGroupSourcesRequest,
+  type DeregisterTransitGatewayMulticastGroupSourcesResult,
+  type DescribeAccountAttributesRequest,
+  type DescribeAccountAttributesResult,
+  type DescribeAddressTransfersRequest,
+  type DescribeAddressTransfersResult,
+  type DescribeAddressesRequest,
+  type DescribeAddressesResult,
+  type DescribeAddressesAttributeRequest,
+  type DescribeAddressesAttributeResult,
+  type DescribeAggregateIdFormatRequest,
+  type DescribeAggregateIdFormatResult,
+  type DescribeAvailabilityZonesRequest,
+  type DescribeAvailabilityZonesResult,
+  type DescribeAwsNetworkPerformanceMetricSubscriptionsRequest,
+  type DescribeAwsNetworkPerformanceMetricSubscriptionsResult,
+  type DescribeBundleTasksRequest,
+  type DescribeBundleTasksResult,
+  type DescribeByoipCidrsRequest,
+  type DescribeByoipCidrsResult,
+  type DescribeCapacityBlockOfferingsRequest,
+  type DescribeCapacityBlockOfferingsResult,
+  type DescribeCapacityReservationFleetsRequest,
+  type DescribeCapacityReservationFleetsResult,
+  type DescribeCapacityReservationsRequest,
+  type DescribeCapacityReservationsResult,
+  type DescribeCarrierGatewaysRequest,
+  type DescribeCarrierGatewaysResult,
+  type DescribeClassicLinkInstancesRequest,
+  type DescribeClassicLinkInstancesResult,
+  type DescribeClientVpnAuthorizationRulesRequest,
+  type DescribeClientVpnAuthorizationRulesResult,
+  type DescribeClientVpnConnectionsRequest,
+  type DescribeClientVpnConnectionsResult,
+  type DescribeClientVpnEndpointsRequest,
+  type DescribeClientVpnEndpointsResult,
+  type DescribeClientVpnRoutesRequest,
+  type DescribeClientVpnRoutesResult,
+  type DescribeClientVpnTargetNetworksRequest,
+  type DescribeClientVpnTargetNetworksResult,
+  type DescribeCoipPoolsRequest,
+  type DescribeCoipPoolsResult,
+  type DescribeConversionTasksRequest,
+  type DescribeConversionTasksResult,
+  type DescribeCustomerGatewaysRequest,
+  type DescribeCustomerGatewaysResult,
+  type DescribeDhcpOptionsRequest,
+  type DescribeDhcpOptionsResult,
+  type DescribeEgressOnlyInternetGatewaysRequest,
+  type DescribeEgressOnlyInternetGatewaysResult,
+  type DescribeElasticGpusRequest,
+  type DescribeElasticGpusResult,
+  type DescribeExportImageTasksRequest,
+  type DescribeExportImageTasksResult,
+  type DescribeExportTasksRequest,
+  type DescribeExportTasksResult,
+  type DescribeFastLaunchImagesRequest,
+  type DescribeFastLaunchImagesResult,
+  type DescribeFastSnapshotRestoresRequest,
+  type DescribeFastSnapshotRestoresResult,
+  type DescribeFleetHistoryRequest,
+  type DescribeFleetHistoryResult,
+  type DescribeFleetInstancesRequest,
+  type DescribeFleetInstancesResult,
+  type DescribeFleetsRequest,
+  type DescribeFleetsResult,
+  type DescribeFlowLogsRequest,
+  type DescribeFlowLogsResult,
+  type DescribeFpgaImageAttributeRequest,
+  type DescribeFpgaImageAttributeResult,
+  type DescribeFpgaImagesRequest,
+  type DescribeFpgaImagesResult,
+  type DescribeHostReservationOfferingsRequest,
+  type DescribeHostReservationOfferingsResult,
+  type DescribeHostReservationsRequest,
+  type DescribeHostReservationsResult,
+  type DescribeHostsRequest,
+  type DescribeHostsResult,
+  type DescribeIamInstanceProfileAssociationsRequest,
+  type DescribeIamInstanceProfileAssociationsResult,
+  type DescribeIdFormatRequest,
+  type DescribeIdFormatResult,
+  type DescribeIdentityIdFormatRequest,
+  type DescribeIdentityIdFormatResult,
+  type DescribeImageAttributeRequest,
+  type ImageAttribute,
+  type DescribeImagesRequest,
+  type DescribeImagesResult,
+  type DescribeImportImageTasksRequest,
+  type DescribeImportImageTasksResult,
+  type DescribeImportSnapshotTasksRequest,
+  type DescribeImportSnapshotTasksResult,
+  type DescribeInstanceAttributeRequest,
+  type InstanceAttribute,
+  type DescribeInstanceConnectEndpointsRequest,
+  type DescribeInstanceConnectEndpointsResult,
+  type DescribeInstanceCreditSpecificationsRequest,
+  type DescribeInstanceCreditSpecificationsResult,
+  type DescribeInstanceEventNotificationAttributesRequest,
+  type DescribeInstanceEventNotificationAttributesResult,
+  type DescribeInstanceEventWindowsRequest,
+  type DescribeInstanceEventWindowsResult,
+  type DescribeInstanceStatusRequest,
+  type DescribeInstanceStatusResult,
+  type DescribeInstanceTopologyRequest,
+  type DescribeInstanceTopologyResult,
+  type DescribeInstanceTypeOfferingsRequest,
+  type DescribeInstanceTypeOfferingsResult,
+  type DescribeInstanceTypesRequest,
+  type DescribeInstanceTypesResult,
+  type DescribeInstancesRequest,
+  type DescribeInstancesResult,
+  type DescribeInternetGatewaysRequest,
+  type DescribeInternetGatewaysResult,
+  type DescribeIpamByoasnRequest,
+  type DescribeIpamByoasnResult,
+  type DescribeIpamPoolsRequest,
+  type DescribeIpamPoolsResult,
+  type DescribeIpamResourceDiscoveriesRequest,
+  type DescribeIpamResourceDiscoveriesResult,
+  type DescribeIpamResourceDiscoveryAssociationsRequest,
+  type DescribeIpamResourceDiscoveryAssociationsResult,
+  type DescribeIpamScopesRequest,
+  type DescribeIpamScopesResult,
+  type DescribeIpamsRequest,
+  type DescribeIpamsResult,
+  type DescribeIpv6PoolsRequest,
+  type DescribeIpv6PoolsResult,
+  type DescribeKeyPairsRequest,
+  type DescribeKeyPairsResult,
+  type DescribeLaunchTemplateVersionsRequest,
+  type DescribeLaunchTemplateVersionsResult,
+  type DescribeLaunchTemplatesRequest,
+  type DescribeLaunchTemplatesResult,
+  type DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsRequest,
+  type DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsResult,
+  type DescribeLocalGatewayRouteTableVpcAssociationsRequest,
+  type DescribeLocalGatewayRouteTableVpcAssociationsResult,
+  type DescribeLocalGatewayRouteTablesRequest,
+  type DescribeLocalGatewayRouteTablesResult,
+  type DescribeLocalGatewayVirtualInterfaceGroupsRequest,
+  type DescribeLocalGatewayVirtualInterfaceGroupsResult,
+  type DescribeLocalGatewayVirtualInterfacesRequest,
+  type DescribeLocalGatewayVirtualInterfacesResult,
+  type DescribeLocalGatewaysRequest,
+  type DescribeLocalGatewaysResult,
+  type DescribeLockedSnapshotsRequest,
+  type DescribeLockedSnapshotsResult,
+  type DescribeMacHostsRequest,
+  type DescribeMacHostsResult,
+  type DescribeManagedPrefixListsRequest,
+  type DescribeManagedPrefixListsResult,
+  type DescribeMovingAddressesRequest,
+  type DescribeMovingAddressesResult,
+  type DescribeNatGatewaysRequest,
+  type DescribeNatGatewaysResult,
+  type DescribeNetworkAclsRequest,
+  type DescribeNetworkAclsResult,
+  type DescribeNetworkInsightsAccessScopeAnalysesRequest,
+  type DescribeNetworkInsightsAccessScopeAnalysesResult,
+  type DescribeNetworkInsightsAccessScopesRequest,
+  type DescribeNetworkInsightsAccessScopesResult,
+  type DescribeNetworkInsightsAnalysesRequest,
+  type DescribeNetworkInsightsAnalysesResult,
+  type DescribeNetworkInsightsPathsRequest,
+  type DescribeNetworkInsightsPathsResult,
+  type DescribeNetworkInterfaceAttributeRequest,
+  type DescribeNetworkInterfaceAttributeResult,
+  type DescribeNetworkInterfacePermissionsRequest,
+  type DescribeNetworkInterfacePermissionsResult,
+  type DescribeNetworkInterfacesRequest,
+  type DescribeNetworkInterfacesResult,
+  type DescribePlacementGroupsRequest,
+  type DescribePlacementGroupsResult,
+  type DescribePrefixListsRequest,
+  type DescribePrefixListsResult,
+  type DescribePrincipalIdFormatRequest,
+  type DescribePrincipalIdFormatResult,
+  type DescribePublicIpv4PoolsRequest,
+  type DescribePublicIpv4PoolsResult,
+  type DescribeRegionsRequest,
+  type DescribeRegionsResult,
+  type DescribeReplaceRootVolumeTasksRequest,
+  type DescribeReplaceRootVolumeTasksResult,
+  type DescribeReservedInstancesRequest,
+  type DescribeReservedInstancesResult,
+  type DescribeReservedInstancesListingsRequest,
+  type DescribeReservedInstancesListingsResult,
+  type DescribeReservedInstancesModificationsRequest,
+  type DescribeReservedInstancesModificationsResult,
+  type DescribeReservedInstancesOfferingsRequest,
+  type DescribeReservedInstancesOfferingsResult,
+  type DescribeRouteTablesRequest,
+  type DescribeRouteTablesResult,
+  type DescribeScheduledInstanceAvailabilityRequest,
+  type DescribeScheduledInstanceAvailabilityResult,
+  type DescribeScheduledInstancesRequest,
+  type DescribeScheduledInstancesResult,
+  type DescribeSecurityGroupReferencesRequest,
+  type DescribeSecurityGroupReferencesResult,
+  type DescribeSecurityGroupRulesRequest,
+  type DescribeSecurityGroupRulesResult,
+  type DescribeSecurityGroupsRequest,
+  type DescribeSecurityGroupsResult,
+  type DescribeSnapshotAttributeRequest,
+  type DescribeSnapshotAttributeResult,
+  type DescribeSnapshotTierStatusRequest,
+  type DescribeSnapshotTierStatusResult,
+  type DescribeSnapshotsRequest,
+  type DescribeSnapshotsResult,
+  type DescribeSpotDatafeedSubscriptionRequest,
+  type DescribeSpotDatafeedSubscriptionResult,
+  type DescribeSpotFleetInstancesRequest,
+  type DescribeSpotFleetInstancesResponse,
+  type DescribeSpotFleetRequestHistoryRequest,
+  type DescribeSpotFleetRequestHistoryResponse,
+  type DescribeSpotFleetRequestsRequest,
+  type DescribeSpotFleetRequestsResponse,
+  type DescribeSpotInstanceRequestsRequest,
+  type DescribeSpotInstanceRequestsResult,
+  type DescribeSpotPriceHistoryRequest,
+  type DescribeSpotPriceHistoryResult,
+  type DescribeStaleSecurityGroupsRequest,
+  type DescribeStaleSecurityGroupsResult,
+  type DescribeStoreImageTasksRequest,
+  type DescribeStoreImageTasksResult,
+  type DescribeSubnetsRequest,
+  type DescribeSubnetsResult,
+  type DescribeTagsRequest,
+  type DescribeTagsResult,
+  type DescribeTrafficMirrorFiltersRequest,
+  type DescribeTrafficMirrorFiltersResult,
+  type DescribeTrafficMirrorSessionsRequest,
+  type DescribeTrafficMirrorSessionsResult,
+  type DescribeTrafficMirrorTargetsRequest,
+  type DescribeTrafficMirrorTargetsResult,
+  type DescribeTransitGatewayAttachmentsRequest,
+  type DescribeTransitGatewayAttachmentsResult,
+  type DescribeTransitGatewayConnectPeersRequest,
+  type DescribeTransitGatewayConnectPeersResult,
+  type DescribeTransitGatewayConnectsRequest,
+  type DescribeTransitGatewayConnectsResult,
+  type DescribeTransitGatewayMulticastDomainsRequest,
+  type DescribeTransitGatewayMulticastDomainsResult,
+  type DescribeTransitGatewayPeeringAttachmentsRequest,
+  type DescribeTransitGatewayPeeringAttachmentsResult,
+  type DescribeTransitGatewayPolicyTablesRequest,
+  type DescribeTransitGatewayPolicyTablesResult,
+  type DescribeTransitGatewayRouteTableAnnouncementsRequest,
+  type DescribeTransitGatewayRouteTableAnnouncementsResult,
+  type DescribeTransitGatewayRouteTablesRequest,
+  type DescribeTransitGatewayRouteTablesResult,
+  type DescribeTransitGatewayVpcAttachmentsRequest,
+  type DescribeTransitGatewayVpcAttachmentsResult,
+  type DescribeTransitGatewaysRequest,
+  type DescribeTransitGatewaysResult,
+  type DescribeTrunkInterfaceAssociationsRequest,
+  type DescribeTrunkInterfaceAssociationsResult,
+  type DescribeVerifiedAccessEndpointsRequest,
+  type DescribeVerifiedAccessEndpointsResult,
+  type DescribeVerifiedAccessGroupsRequest,
+  type DescribeVerifiedAccessGroupsResult,
+  type DescribeVerifiedAccessInstanceLoggingConfigurationsRequest,
+  type DescribeVerifiedAccessInstanceLoggingConfigurationsResult,
+  type DescribeVerifiedAccessInstancesRequest,
+  type DescribeVerifiedAccessInstancesResult,
+  type DescribeVerifiedAccessTrustProvidersRequest,
+  type DescribeVerifiedAccessTrustProvidersResult,
+  type DescribeVolumeAttributeRequest,
+  type DescribeVolumeAttributeResult,
+  type DescribeVolumeStatusRequest,
+  type DescribeVolumeStatusResult,
+  type DescribeVolumesRequest,
+  type DescribeVolumesResult,
+  type DescribeVolumesModificationsRequest,
+  type DescribeVolumesModificationsResult,
+  type DescribeVpcAttributeRequest,
+  type DescribeVpcAttributeResult,
+  type DescribeVpcClassicLinkRequest,
+  type DescribeVpcClassicLinkResult,
+  type DescribeVpcClassicLinkDnsSupportRequest,
+  type DescribeVpcClassicLinkDnsSupportResult,
+  type DescribeVpcEndpointConnectionNotificationsRequest,
+  type DescribeVpcEndpointConnectionNotificationsResult,
+  type DescribeVpcEndpointConnectionsRequest,
+  type DescribeVpcEndpointConnectionsResult,
+  type DescribeVpcEndpointServiceConfigurationsRequest,
+  type DescribeVpcEndpointServiceConfigurationsResult,
+  type DescribeVpcEndpointServicePermissionsRequest,
+  type DescribeVpcEndpointServicePermissionsResult,
+  type DescribeVpcEndpointServicesRequest,
+  type DescribeVpcEndpointServicesResult,
+  type DescribeVpcEndpointsRequest,
+  type DescribeVpcEndpointsResult,
+  type DescribeVpcPeeringConnectionsRequest,
+  type DescribeVpcPeeringConnectionsResult,
+  type DescribeVpcsRequest,
+  type DescribeVpcsResult,
+  type DescribeVpnConnectionsRequest,
+  type DescribeVpnConnectionsResult,
+  type DescribeVpnGatewaysRequest,
+  type DescribeVpnGatewaysResult,
+  type DetachClassicLinkVpcRequest,
+  type DetachClassicLinkVpcResult,
+  type DetachInternetGatewayRequest,
+  type DetachNetworkInterfaceRequest,
+  type DetachVerifiedAccessTrustProviderRequest,
+  type DetachVerifiedAccessTrustProviderResult,
+  type DetachVolumeRequest,
+  type DetachVpnGatewayRequest,
+  type DisableAddressTransferRequest,
+  type DisableAddressTransferResult,
+  type DisableAwsNetworkPerformanceMetricSubscriptionRequest,
+  type DisableAwsNetworkPerformanceMetricSubscriptionResult,
+  type DisableEbsEncryptionByDefaultRequest,
+  type DisableEbsEncryptionByDefaultResult,
+  type DisableFastLaunchRequest,
+  type DisableFastLaunchResult,
+  type DisableFastSnapshotRestoresRequest,
+  type DisableFastSnapshotRestoresResult,
+  type DisableImageRequest,
+  type DisableImageResult,
+  type DisableImageBlockPublicAccessRequest,
+  type DisableImageBlockPublicAccessResult,
+  type DisableImageDeprecationRequest,
+  type DisableImageDeprecationResult,
+  type DisableIpamOrganizationAdminAccountRequest,
+  type DisableIpamOrganizationAdminAccountResult,
+  type DisableSerialConsoleAccessRequest,
+  type DisableSerialConsoleAccessResult,
+  type DisableSnapshotBlockPublicAccessRequest,
+  type DisableSnapshotBlockPublicAccessResult,
+  type DisableTransitGatewayRouteTablePropagationRequest,
+  type DisableTransitGatewayRouteTablePropagationResult,
+  type DisableVgwRoutePropagationRequest,
+  type DisableVpcClassicLinkRequest,
+  type DisableVpcClassicLinkResult,
+  type DisableVpcClassicLinkDnsSupportRequest,
+  type DisableVpcClassicLinkDnsSupportResult,
+  type DisassociateAddressRequest,
+  type DisassociateClientVpnTargetNetworkRequest,
+  type DisassociateClientVpnTargetNetworkResult,
+  type DisassociateEnclaveCertificateIamRoleRequest,
+  type DisassociateEnclaveCertificateIamRoleResult,
+  type DisassociateIamInstanceProfileRequest,
+  type DisassociateIamInstanceProfileResult,
+  type DisassociateInstanceEventWindowRequest,
+  type DisassociateInstanceEventWindowResult,
+  type DisassociateIpamByoasnRequest,
+  type DisassociateIpamByoasnResult,
+  type DisassociateIpamResourceDiscoveryRequest,
+  type DisassociateIpamResourceDiscoveryResult,
+  type DisassociateNatGatewayAddressRequest,
+  type DisassociateNatGatewayAddressResult,
+  type DisassociateRouteTableRequest,
+  type DisassociateSubnetCidrBlockRequest,
+  type DisassociateSubnetCidrBlockResult,
+  type DisassociateTransitGatewayMulticastDomainRequest,
+  type DisassociateTransitGatewayMulticastDomainResult,
+  type DisassociateTransitGatewayPolicyTableRequest,
+  type DisassociateTransitGatewayPolicyTableResult,
+  type DisassociateTransitGatewayRouteTableRequest,
+  type DisassociateTransitGatewayRouteTableResult,
+  type DisassociateTrunkInterfaceRequest,
+  type DisassociateTrunkInterfaceResult,
+  type DisassociateVpcCidrBlockRequest,
+  type DisassociateVpcCidrBlockResult,
+  type EnableAddressTransferRequest,
+  type EnableAddressTransferResult,
+  type EnableAwsNetworkPerformanceMetricSubscriptionRequest,
+  type EnableAwsNetworkPerformanceMetricSubscriptionResult,
+  type EnableEbsEncryptionByDefaultRequest,
+  type EnableEbsEncryptionByDefaultResult,
+  type EnableFastLaunchRequest,
+  type EnableFastLaunchResult,
+  type EnableFastSnapshotRestoresRequest,
+  type EnableFastSnapshotRestoresResult,
+  type EnableImageRequest,
+  type EnableImageResult,
+  type EnableImageBlockPublicAccessRequest,
+  type EnableImageBlockPublicAccessResult,
+  type EnableImageDeprecationRequest,
+  type EnableImageDeprecationResult,
+  type EnableIpamOrganizationAdminAccountRequest,
+  type EnableIpamOrganizationAdminAccountResult,
+  type EnableReachabilityAnalyzerOrganizationSharingRequest,
+  type EnableReachabilityAnalyzerOrganizationSharingResult,
+  type EnableSerialConsoleAccessRequest,
+  type EnableSerialConsoleAccessResult,
+  type EnableSnapshotBlockPublicAccessRequest,
+  type EnableSnapshotBlockPublicAccessResult,
+  type EnableTransitGatewayRouteTablePropagationRequest,
+  type EnableTransitGatewayRouteTablePropagationResult,
+  type EnableVgwRoutePropagationRequest,
+  type EnableVolumeIORequest,
+  type EnableVpcClassicLinkRequest,
+  type EnableVpcClassicLinkResult,
+  type EnableVpcClassicLinkDnsSupportRequest,
+  type EnableVpcClassicLinkDnsSupportResult,
+  type ExportClientVpnClientCertificateRevocationListRequest,
+  type ExportClientVpnClientCertificateRevocationListResult,
+  type ExportClientVpnClientConfigurationRequest,
+  type ExportClientVpnClientConfigurationResult,
+  type ExportImageRequest,
+  type ExportImageResult,
+  type ExportTransitGatewayRoutesRequest,
+  type ExportTransitGatewayRoutesResult,
+  type GetAssociatedEnclaveCertificateIamRolesRequest,
+  type GetAssociatedEnclaveCertificateIamRolesResult,
+  type GetAssociatedIpv6PoolCidrsRequest,
+  type GetAssociatedIpv6PoolCidrsResult,
+  type GetAwsNetworkPerformanceDataRequest,
+  type GetAwsNetworkPerformanceDataResult,
+  type GetCapacityReservationUsageRequest,
+  type GetCapacityReservationUsageResult,
+  type GetCoipPoolUsageRequest,
+  type GetCoipPoolUsageResult,
+  type GetConsoleOutputRequest,
+  type GetConsoleOutputResult,
+  type GetConsoleScreenshotRequest,
+  type GetConsoleScreenshotResult,
+  type GetDefaultCreditSpecificationRequest,
+  type GetDefaultCreditSpecificationResult,
+  type GetEbsDefaultKmsKeyIdRequest,
+  type GetEbsDefaultKmsKeyIdResult,
+  type GetEbsEncryptionByDefaultRequest,
+  type GetEbsEncryptionByDefaultResult,
+  type GetFlowLogsIntegrationTemplateRequest,
+  type GetFlowLogsIntegrationTemplateResult,
+  type GetGroupsForCapacityReservationRequest,
+  type GetGroupsForCapacityReservationResult,
+  type GetHostReservationPurchasePreviewRequest,
+  type GetHostReservationPurchasePreviewResult,
+  type GetImageBlockPublicAccessStateRequest,
+  type GetImageBlockPublicAccessStateResult,
+  type GetInstanceMetadataDefaultsRequest,
+  type GetInstanceMetadataDefaultsResult,
+  type GetInstanceTypesFromInstanceRequirementsRequest,
+  type GetInstanceTypesFromInstanceRequirementsResult,
+  type GetInstanceUefiDataRequest,
+  type GetInstanceUefiDataResult,
+  type GetIpamAddressHistoryRequest,
+  type GetIpamAddressHistoryResult,
+  type GetIpamDiscoveredAccountsRequest,
+  type GetIpamDiscoveredAccountsResult,
+  type GetIpamDiscoveredPublicAddressesRequest,
+  type GetIpamDiscoveredPublicAddressesResult,
+  type GetIpamDiscoveredResourceCidrsRequest,
+  type GetIpamDiscoveredResourceCidrsResult,
+  type GetIpamPoolAllocationsRequest,
+  type GetIpamPoolAllocationsResult,
+  type GetIpamPoolCidrsRequest,
+  type GetIpamPoolCidrsResult,
+  type GetIpamResourceCidrsRequest,
+  type GetIpamResourceCidrsResult,
+  type GetLaunchTemplateDataRequest,
+  type GetLaunchTemplateDataResult,
+  type GetManagedPrefixListAssociationsRequest,
+  type GetManagedPrefixListAssociationsResult,
+  type GetManagedPrefixListEntriesRequest,
+  type GetManagedPrefixListEntriesResult,
+  type GetNetworkInsightsAccessScopeAnalysisFindingsRequest,
+  type GetNetworkInsightsAccessScopeAnalysisFindingsResult,
+  type GetNetworkInsightsAccessScopeContentRequest,
+  type GetNetworkInsightsAccessScopeContentResult,
+  type GetPasswordDataRequest,
+  type GetPasswordDataResult,
+  type GetReservedInstancesExchangeQuoteRequest,
+  type GetReservedInstancesExchangeQuoteResult,
+  type GetSecurityGroupsForVpcRequest,
+  type GetSecurityGroupsForVpcResult,
+  type GetSerialConsoleAccessStatusRequest,
+  type GetSerialConsoleAccessStatusResult,
+  type GetSnapshotBlockPublicAccessStateRequest,
+  type GetSnapshotBlockPublicAccessStateResult,
+  type GetSpotPlacementScoresRequest,
+  type GetSpotPlacementScoresResult,
+  type GetSubnetCidrReservationsRequest,
+  type GetSubnetCidrReservationsResult,
+  type GetTransitGatewayAttachmentPropagationsRequest,
+  type GetTransitGatewayAttachmentPropagationsResult,
+  type GetTransitGatewayMulticastDomainAssociationsRequest,
+  type GetTransitGatewayMulticastDomainAssociationsResult,
+  type GetTransitGatewayPolicyTableAssociationsRequest,
+  type GetTransitGatewayPolicyTableAssociationsResult,
+  type GetTransitGatewayPolicyTableEntriesRequest,
+  type GetTransitGatewayPolicyTableEntriesResult,
+  type GetTransitGatewayPrefixListReferencesRequest,
+  type GetTransitGatewayPrefixListReferencesResult,
+  type GetTransitGatewayRouteTableAssociationsRequest,
+  type GetTransitGatewayRouteTableAssociationsResult,
+  type GetTransitGatewayRouteTablePropagationsRequest,
+  type GetTransitGatewayRouteTablePropagationsResult,
+  type GetVerifiedAccessEndpointPolicyRequest,
+  type GetVerifiedAccessEndpointPolicyResult,
+  type GetVerifiedAccessGroupPolicyRequest,
+  type GetVerifiedAccessGroupPolicyResult,
+  type GetVpnConnectionDeviceSampleConfigurationRequest,
+  type GetVpnConnectionDeviceSampleConfigurationResult,
+  type GetVpnConnectionDeviceTypesRequest,
+  type GetVpnConnectionDeviceTypesResult,
+  type GetVpnTunnelReplacementStatusRequest,
+  type GetVpnTunnelReplacementStatusResult,
+  type ImportClientVpnClientCertificateRevocationListRequest,
+  type ImportClientVpnClientCertificateRevocationListResult,
+  type ImportImageRequest,
+  type ImportImageResult,
+  type ImportInstanceRequest,
+  type ImportInstanceResult,
+  type ImportKeyPairRequest,
+  type ImportKeyPairResult,
+  type ImportSnapshotRequest,
+  type ImportSnapshotResult,
+  type ImportVolumeRequest,
+  type ImportVolumeResult,
+  type ListImagesInRecycleBinRequest,
+  type ListImagesInRecycleBinResult,
+  type ListSnapshotsInRecycleBinRequest,
+  type ListSnapshotsInRecycleBinResult,
+  type LockSnapshotRequest,
+  type LockSnapshotResult,
+  type ModifyAddressAttributeRequest,
+  type ModifyAddressAttributeResult,
+  type ModifyAvailabilityZoneGroupRequest,
+  type ModifyAvailabilityZoneGroupResult,
+  type ModifyCapacityReservationRequest,
+  type ModifyCapacityReservationResult,
+  type ModifyCapacityReservationFleetRequest,
+  type ModifyCapacityReservationFleetResult,
+  type ModifyClientVpnEndpointRequest,
+  type ModifyClientVpnEndpointResult,
+  type ModifyDefaultCreditSpecificationRequest,
+  type ModifyDefaultCreditSpecificationResult,
+  type ModifyEbsDefaultKmsKeyIdRequest,
+  type ModifyEbsDefaultKmsKeyIdResult,
+  type ModifyFleetRequest,
+  type ModifyFleetResult,
+  type ModifyFpgaImageAttributeRequest,
+  type ModifyFpgaImageAttributeResult,
+  type ModifyHostsRequest,
+  type ModifyHostsResult,
+  type ModifyIdFormatRequest,
+  type ModifyIdentityIdFormatRequest,
+  type ModifyImageAttributeRequest,
+  type ModifyInstanceAttributeRequest,
+  type ModifyInstanceCapacityReservationAttributesRequest,
+  type ModifyInstanceCapacityReservationAttributesResult,
+  type ModifyInstanceCreditSpecificationRequest,
+  type ModifyInstanceCreditSpecificationResult,
+  type ModifyInstanceEventStartTimeRequest,
+  type ModifyInstanceEventStartTimeResult,
+  type ModifyInstanceEventWindowRequest,
+  type ModifyInstanceEventWindowResult,
+  type ModifyInstanceMaintenanceOptionsRequest,
+  type ModifyInstanceMaintenanceOptionsResult,
+  type ModifyInstanceMetadataDefaultsRequest,
+  type ModifyInstanceMetadataDefaultsResult,
+  type ModifyInstanceMetadataOptionsRequest,
+  type ModifyInstanceMetadataOptionsResult,
+  type ModifyInstancePlacementRequest,
+  type ModifyInstancePlacementResult,
+  type ModifyIpamRequest,
+  type ModifyIpamResult,
+  type ModifyIpamPoolRequest,
+  type ModifyIpamPoolResult,
+  type ModifyIpamResourceCidrRequest,
+  type ModifyIpamResourceCidrResult,
+  type ModifyIpamResourceDiscoveryRequest,
+  type ModifyIpamResourceDiscoveryResult,
+  type ModifyIpamScopeRequest,
+  type ModifyIpamScopeResult,
+  type ModifyLaunchTemplateRequest,
+  type ModifyLaunchTemplateResult,
+  type ModifyLocalGatewayRouteRequest,
+  type ModifyLocalGatewayRouteResult,
+  type ModifyManagedPrefixListRequest,
+  type ModifyManagedPrefixListResult,
+  type ModifyNetworkInterfaceAttributeRequest,
+  type ModifyPrivateDnsNameOptionsRequest,
+  type ModifyPrivateDnsNameOptionsResult,
+  type ModifyReservedInstancesRequest,
+  type ModifyReservedInstancesResult,
+  type ModifySecurityGroupRulesRequest,
+  type ModifySecurityGroupRulesResult,
+  type ModifySnapshotAttributeRequest,
+  type ModifySnapshotTierRequest,
+  type ModifySnapshotTierResult,
+  type ModifySpotFleetRequestRequest,
+  type ModifySpotFleetRequestResponse,
+  type ModifySubnetAttributeRequest,
+  type ModifyTrafficMirrorFilterNetworkServicesRequest,
+  type ModifyTrafficMirrorFilterNetworkServicesResult,
+  type ModifyTrafficMirrorFilterRuleRequest,
+  type ModifyTrafficMirrorFilterRuleResult,
+  type ModifyTrafficMirrorSessionRequest,
+  type ModifyTrafficMirrorSessionResult,
+  type ModifyTransitGatewayRequest,
+  type ModifyTransitGatewayResult,
+  type ModifyTransitGatewayPrefixListReferenceRequest,
+  type ModifyTransitGatewayPrefixListReferenceResult,
+  type ModifyTransitGatewayVpcAttachmentRequest,
+  type ModifyTransitGatewayVpcAttachmentResult,
+  type ModifyVerifiedAccessEndpointRequest,
+  type ModifyVerifiedAccessEndpointResult,
+  type ModifyVerifiedAccessEndpointPolicyRequest,
+  type ModifyVerifiedAccessEndpointPolicyResult,
+  type ModifyVerifiedAccessGroupRequest,
+  type ModifyVerifiedAccessGroupResult,
+  type ModifyVerifiedAccessGroupPolicyRequest,
+  type ModifyVerifiedAccessGroupPolicyResult,
+  type ModifyVerifiedAccessInstanceRequest,
+  type ModifyVerifiedAccessInstanceResult,
+  type ModifyVerifiedAccessInstanceLoggingConfigurationRequest,
+  type ModifyVerifiedAccessInstanceLoggingConfigurationResult,
+  type ModifyVerifiedAccessTrustProviderRequest,
+  type ModifyVerifiedAccessTrustProviderResult,
+  type ModifyVolumeRequest,
+  type ModifyVolumeResult,
+  type ModifyVolumeAttributeRequest,
+  type ModifyVpcAttributeRequest,
+  type ModifyVpcEndpointRequest,
+  type ModifyVpcEndpointResult,
+  type ModifyVpcEndpointConnectionNotificationRequest,
+  type ModifyVpcEndpointConnectionNotificationResult,
+  type ModifyVpcEndpointServiceConfigurationRequest,
+  type ModifyVpcEndpointServiceConfigurationResult,
+  type ModifyVpcEndpointServicePayerResponsibilityRequest,
+  type ModifyVpcEndpointServicePayerResponsibilityResult,
+  type ModifyVpcEndpointServicePermissionsRequest,
+  type ModifyVpcEndpointServicePermissionsResult,
+  type ModifyVpcPeeringConnectionOptionsRequest,
+  type ModifyVpcPeeringConnectionOptionsResult,
+  type ModifyVpcTenancyRequest,
+  type ModifyVpcTenancyResult,
+  type ModifyVpnConnectionRequest,
+  type ModifyVpnConnectionResult,
+  type ModifyVpnConnectionOptionsRequest,
+  type ModifyVpnConnectionOptionsResult,
+  type ModifyVpnTunnelCertificateRequest,
+  type ModifyVpnTunnelCertificateResult,
+  type ModifyVpnTunnelOptionsRequest,
+  type ModifyVpnTunnelOptionsResult,
+  type MonitorInstancesRequest,
+  type MonitorInstancesResult,
+  type MoveAddressToVpcRequest,
+  type MoveAddressToVpcResult,
+  type MoveByoipCidrToIpamRequest,
+  type MoveByoipCidrToIpamResult,
+  type ProvisionByoipCidrRequest,
+  type ProvisionByoipCidrResult,
+  type ProvisionIpamByoasnRequest,
+  type ProvisionIpamByoasnResult,
+  type ProvisionIpamPoolCidrRequest,
+  type ProvisionIpamPoolCidrResult,
+  type ProvisionPublicIpv4PoolCidrRequest,
+  type ProvisionPublicIpv4PoolCidrResult,
+  type PurchaseCapacityBlockRequest,
+  type PurchaseCapacityBlockResult,
+  type PurchaseHostReservationRequest,
+  type PurchaseHostReservationResult,
+  type PurchaseReservedInstancesOfferingRequest,
+  type PurchaseReservedInstancesOfferingResult,
+  type PurchaseScheduledInstancesRequest,
+  type PurchaseScheduledInstancesResult,
+  type RebootInstancesRequest,
+  type RegisterImageRequest,
+  type RegisterImageResult,
+  type RegisterInstanceEventNotificationAttributesRequest,
+  type RegisterInstanceEventNotificationAttributesResult,
+  type RegisterTransitGatewayMulticastGroupMembersRequest,
+  type RegisterTransitGatewayMulticastGroupMembersResult,
+  type RegisterTransitGatewayMulticastGroupSourcesRequest,
+  type RegisterTransitGatewayMulticastGroupSourcesResult,
+  type RejectTransitGatewayMulticastDomainAssociationsRequest,
+  type RejectTransitGatewayMulticastDomainAssociationsResult,
+  type RejectTransitGatewayPeeringAttachmentRequest,
+  type RejectTransitGatewayPeeringAttachmentResult,
+  type RejectTransitGatewayVpcAttachmentRequest,
+  type RejectTransitGatewayVpcAttachmentResult,
+  type RejectVpcEndpointConnectionsRequest,
+  type RejectVpcEndpointConnectionsResult,
+  type RejectVpcPeeringConnectionRequest,
+  type RejectVpcPeeringConnectionResult,
+  type ReleaseAddressRequest,
+  type ReleaseHostsRequest,
+  type ReleaseHostsResult,
+  type ReleaseIpamPoolAllocationRequest,
+  type ReleaseIpamPoolAllocationResult,
+  type ReplaceIamInstanceProfileAssociationRequest,
+  type ReplaceIamInstanceProfileAssociationResult,
+  type ReplaceNetworkAclAssociationRequest,
+  type ReplaceNetworkAclAssociationResult,
+  type ReplaceNetworkAclEntryRequest,
+  type ReplaceRouteRequest,
+  type ReplaceRouteTableAssociationRequest,
+  type ReplaceRouteTableAssociationResult,
+  type ReplaceTransitGatewayRouteRequest,
+  type ReplaceTransitGatewayRouteResult,
+  type ReplaceVpnTunnelRequest,
+  type ReplaceVpnTunnelResult,
+  type ReportInstanceStatusRequest,
+  type RequestSpotFleetRequest,
+  type RequestSpotFleetResponse,
+  type RequestSpotInstancesRequest,
+  type RequestSpotInstancesResult,
+  type ResetAddressAttributeRequest,
+  type ResetAddressAttributeResult,
+  type ResetEbsDefaultKmsKeyIdRequest,
+  type ResetEbsDefaultKmsKeyIdResult,
+  type ResetFpgaImageAttributeRequest,
+  type ResetFpgaImageAttributeResult,
+  type ResetImageAttributeRequest,
+  type ResetInstanceAttributeRequest,
+  type ResetNetworkInterfaceAttributeRequest,
+  type ResetSnapshotAttributeRequest,
+  type RestoreAddressToClassicRequest,
+  type RestoreAddressToClassicResult,
+  type RestoreImageFromRecycleBinRequest,
+  type RestoreImageFromRecycleBinResult,
+  type RestoreManagedPrefixListVersionRequest,
+  type RestoreManagedPrefixListVersionResult,
+  type RestoreSnapshotFromRecycleBinRequest,
+  type RestoreSnapshotFromRecycleBinResult,
+  type RestoreSnapshotTierRequest,
+  type RestoreSnapshotTierResult,
+  type RevokeClientVpnIngressRequest,
+  type RevokeClientVpnIngressResult,
+  type RevokeSecurityGroupEgressRequest,
+  type RevokeSecurityGroupEgressResult,
+  type RevokeSecurityGroupIngressRequest,
+  type RevokeSecurityGroupIngressResult,
+  type RunInstancesRequest,
+  type Reservation,
+  type RunScheduledInstancesRequest,
+  type RunScheduledInstancesResult,
+  type SearchLocalGatewayRoutesRequest,
+  type SearchLocalGatewayRoutesResult,
+  type SearchTransitGatewayMulticastGroupsRequest,
+  type SearchTransitGatewayMulticastGroupsResult,
+  type SearchTransitGatewayRoutesRequest,
+  type SearchTransitGatewayRoutesResult,
+  type SendDiagnosticInterruptRequest,
+  type StartInstancesRequest,
+  type StartInstancesResult,
+  type StartNetworkInsightsAccessScopeAnalysisRequest,
+  type StartNetworkInsightsAccessScopeAnalysisResult,
+  type StartNetworkInsightsAnalysisRequest,
+  type StartNetworkInsightsAnalysisResult,
+  type StartVpcEndpointServicePrivateDnsVerificationRequest,
+  type StartVpcEndpointServicePrivateDnsVerificationResult,
+  type StopInstancesRequest,
+  type StopInstancesResult,
+  type TerminateClientVpnConnectionsRequest,
+  type TerminateClientVpnConnectionsResult,
+  type TerminateInstancesRequest,
+  type TerminateInstancesResult,
+  type UnassignIpv6AddressesRequest,
+  type UnassignIpv6AddressesResult,
+  type UnassignPrivateIpAddressesRequest,
+  type UnassignPrivateNatGatewayAddressRequest,
+  type UnassignPrivateNatGatewayAddressResult,
+  type UnlockSnapshotRequest,
+  type UnlockSnapshotResult,
+  type UnmonitorInstancesRequest,
+  type UnmonitorInstancesResult,
+  type UpdateSecurityGroupRuleDescriptionsEgressRequest,
+  type UpdateSecurityGroupRuleDescriptionsEgressResult,
+  type UpdateSecurityGroupRuleDescriptionsIngressRequest,
+  type UpdateSecurityGroupRuleDescriptionsIngressResult,
+  type WithdrawByoipCidrRequest,
+  type WithdrawByoipCidrResult,
 } from "@aws-sdk/client-ec2";
-import { type HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
-import { Context, Effect, Layer, Record, Data } from "effect";
-import { EC2ClientInstance, EC2ClientInstanceLayer } from "./EC2ClientInstance";
+import type { HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
+import { Context, Data, Effect, Layer, Record } from "effect";
+import {
+  EC2ClientInstance,
+  EC2ClientInstanceLayer,
+} from "./EC2ClientInstance";
 import { DefaultEC2ClientConfigLayer } from "./EC2ClientInstanceConfig";
-import { EC2ServiceError, SdkError, TaggedException } from "./Errors";
+import {
+  type TaggedException,
+  SdkError,
+} from "./Errors";
 
 const commands = {
   AcceptAddressTransferCommand,
-  AcceptReservedInstancesExchangeQuoteCommand,
-  AcceptTransitGatewayMulticastDomainAssociationsCommand,
-  AcceptTransitGatewayPeeringAttachmentCommand,
-  AcceptTransitGatewayVpcAttachmentCommand,
-  AcceptVpcEndpointConnectionsCommand,
-  AcceptVpcPeeringConnectionCommand,
-  AdvertiseByoipCidrCommand,
-  AllocateAddressCommand,
-  AllocateHostsCommand,
-  AllocateIpamPoolCidrCommand,
-  ApplySecurityGroupsToClientVpnTargetNetworkCommand,
-  AssignIpv6AddressesCommand,
-  AssignPrivateIpAddressesCommand,
-  AssignPrivateNatGatewayAddressCommand,
-  AssociateAddressCommand,
-  AssociateClientVpnTargetNetworkCommand,
-  AssociateDhcpOptionsCommand,
-  AssociateEnclaveCertificateIamRoleCommand,
-  AssociateIamInstanceProfileCommand,
-  AssociateInstanceEventWindowCommand,
-  AssociateIpamByoasnCommand,
-  AssociateIpamResourceDiscoveryCommand,
-  AssociateNatGatewayAddressCommand,
-  AssociateRouteTableCommand,
-  AssociateSubnetCidrBlockCommand,
-  AssociateTransitGatewayMulticastDomainCommand,
-  AssociateTransitGatewayPolicyTableCommand,
-  AssociateTransitGatewayRouteTableCommand,
-  AssociateTrunkInterfaceCommand,
-  AssociateVpcCidrBlockCommand,
-  AttachClassicLinkVpcCommand,
-  AttachInternetGatewayCommand,
-  AttachNetworkInterfaceCommand,
-  AttachVerifiedAccessTrustProviderCommand,
-  AttachVolumeCommand,
-  AttachVpnGatewayCommand,
-  AuthorizeClientVpnIngressCommand,
-  AuthorizeSecurityGroupEgressCommand,
-  AuthorizeSecurityGroupIngressCommand,
-  BundleInstanceCommand,
-  CancelBundleTaskCommand,
-  CancelCapacityReservationCommand,
-  CancelCapacityReservationFleetsCommand,
-  CancelConversionTaskCommand,
-  CancelExportTaskCommand,
-  CancelImageLaunchPermissionCommand,
-  CancelImportTaskCommand,
-  CancelReservedInstancesListingCommand,
-  CancelSpotFleetRequestsCommand,
-  CancelSpotInstanceRequestsCommand,
-  ConfirmProductInstanceCommand,
-  CopyFpgaImageCommand,
-  CopyImageCommand,
-  CopySnapshotCommand,
-  CreateCapacityReservationCommand,
-  CreateCapacityReservationFleetCommand,
-  CreateCarrierGatewayCommand,
-  CreateClientVpnEndpointCommand,
-  CreateClientVpnRouteCommand,
-  CreateCoipCidrCommand,
-  CreateCoipPoolCommand,
-  CreateCustomerGatewayCommand,
-  CreateDefaultSubnetCommand,
-  CreateDefaultVpcCommand,
-  CreateDhcpOptionsCommand,
-  CreateEgressOnlyInternetGatewayCommand,
-  CreateFleetCommand,
-  CreateFlowLogsCommand,
-  CreateFpgaImageCommand,
-  CreateImageCommand,
-  CreateInstanceConnectEndpointCommand,
-  CreateInstanceEventWindowCommand,
-  CreateInstanceExportTaskCommand,
-  CreateInternetGatewayCommand,
-  CreateIpamCommand,
-  CreateIpamPoolCommand,
-  CreateIpamResourceDiscoveryCommand,
-  CreateIpamScopeCommand,
-  CreateKeyPairCommand,
-  CreateLaunchTemplateCommand,
-  CreateLaunchTemplateVersionCommand,
-  CreateLocalGatewayRouteCommand,
-  CreateLocalGatewayRouteTableCommand,
-  CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationCommand,
-  CreateLocalGatewayRouteTableVpcAssociationCommand,
-  CreateManagedPrefixListCommand,
-  CreateNatGatewayCommand,
-  CreateNetworkAclCommand,
-  CreateNetworkAclEntryCommand,
-  CreateNetworkInsightsAccessScopeCommand,
-  CreateNetworkInsightsPathCommand,
-  CreateNetworkInterfaceCommand,
-  CreateNetworkInterfacePermissionCommand,
-  CreatePlacementGroupCommand,
-  CreatePublicIpv4PoolCommand,
-  CreateReplaceRootVolumeTaskCommand,
-  CreateReservedInstancesListingCommand,
-  CreateRestoreImageTaskCommand,
-  CreateRouteCommand,
-  CreateRouteTableCommand,
-  CreateSecurityGroupCommand,
-  CreateSnapshotCommand,
-  CreateSnapshotsCommand,
-  CreateSpotDatafeedSubscriptionCommand,
-  CreateStoreImageTaskCommand,
-  CreateSubnetCommand,
-  CreateSubnetCidrReservationCommand,
-  CreateTagsCommand,
-  CreateTrafficMirrorFilterCommand,
-  CreateTrafficMirrorFilterRuleCommand,
-  CreateTrafficMirrorSessionCommand,
-  CreateTrafficMirrorTargetCommand,
-  CreateTransitGatewayCommand,
-  CreateTransitGatewayConnectCommand,
-  CreateTransitGatewayConnectPeerCommand,
-  CreateTransitGatewayMulticastDomainCommand,
-  CreateTransitGatewayPeeringAttachmentCommand,
-  CreateTransitGatewayPolicyTableCommand,
-  CreateTransitGatewayPrefixListReferenceCommand,
-  CreateTransitGatewayRouteCommand,
-  CreateTransitGatewayRouteTableCommand,
-  CreateTransitGatewayRouteTableAnnouncementCommand,
-  CreateTransitGatewayVpcAttachmentCommand,
-  CreateVerifiedAccessEndpointCommand,
-  CreateVerifiedAccessGroupCommand,
-  CreateVerifiedAccessInstanceCommand,
-  CreateVerifiedAccessTrustProviderCommand,
-  CreateVolumeCommand,
-  CreateVpcCommand,
-  CreateVpcEndpointCommand,
-  CreateVpcEndpointConnectionNotificationCommand,
-  CreateVpcEndpointServiceConfigurationCommand,
-  CreateVpcPeeringConnectionCommand,
-  CreateVpnConnectionCommand,
-  CreateVpnConnectionRouteCommand,
-  CreateVpnGatewayCommand,
-  DeleteCarrierGatewayCommand,
-  DeleteClientVpnEndpointCommand,
-  DeleteClientVpnRouteCommand,
-  DeleteCoipCidrCommand,
-  DeleteCoipPoolCommand,
-  DeleteCustomerGatewayCommand,
-  DeleteDhcpOptionsCommand,
-  DeleteEgressOnlyInternetGatewayCommand,
-  DeleteFleetsCommand,
-  DeleteFlowLogsCommand,
-  DeleteFpgaImageCommand,
-  DeleteInstanceConnectEndpointCommand,
-  DeleteInstanceEventWindowCommand,
-  DeleteInternetGatewayCommand,
-  DeleteIpamCommand,
-  DeleteIpamPoolCommand,
-  DeleteIpamResourceDiscoveryCommand,
-  DeleteIpamScopeCommand,
-  DeleteKeyPairCommand,
-  DeleteLaunchTemplateCommand,
-  DeleteLaunchTemplateVersionsCommand,
-  DeleteLocalGatewayRouteCommand,
-  DeleteLocalGatewayRouteTableCommand,
-  DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationCommand,
-  DeleteLocalGatewayRouteTableVpcAssociationCommand,
-  DeleteManagedPrefixListCommand,
-  DeleteNatGatewayCommand,
-  DeleteNetworkAclCommand,
-  DeleteNetworkAclEntryCommand,
-  DeleteNetworkInsightsAccessScopeCommand,
-  DeleteNetworkInsightsAccessScopeAnalysisCommand,
-  DeleteNetworkInsightsAnalysisCommand,
-  DeleteNetworkInsightsPathCommand,
-  DeleteNetworkInterfaceCommand,
-  DeleteNetworkInterfacePermissionCommand,
-  DeletePlacementGroupCommand,
-  DeletePublicIpv4PoolCommand,
-  DeleteQueuedReservedInstancesCommand,
-  DeleteRouteCommand,
-  DeleteRouteTableCommand,
-  DeleteSecurityGroupCommand,
-  DeleteSnapshotCommand,
-  DeleteSpotDatafeedSubscriptionCommand,
-  DeleteSubnetCommand,
-  DeleteSubnetCidrReservationCommand,
-  DeleteTagsCommand,
-  DeleteTrafficMirrorFilterCommand,
-  DeleteTrafficMirrorFilterRuleCommand,
-  DeleteTrafficMirrorSessionCommand,
-  DeleteTrafficMirrorTargetCommand,
-  DeleteTransitGatewayCommand,
-  DeleteTransitGatewayConnectCommand,
-  DeleteTransitGatewayConnectPeerCommand,
-  DeleteTransitGatewayMulticastDomainCommand,
-  DeleteTransitGatewayPeeringAttachmentCommand,
-  DeleteTransitGatewayPolicyTableCommand,
-  DeleteTransitGatewayPrefixListReferenceCommand,
-  DeleteTransitGatewayRouteCommand,
-  DeleteTransitGatewayRouteTableCommand,
-  DeleteTransitGatewayRouteTableAnnouncementCommand,
-  DeleteTransitGatewayVpcAttachmentCommand,
-  DeleteVerifiedAccessEndpointCommand,
-  DeleteVerifiedAccessGroupCommand,
-  DeleteVerifiedAccessInstanceCommand,
-  DeleteVerifiedAccessTrustProviderCommand,
-  DeleteVolumeCommand,
-  DeleteVpcCommand,
-  DeleteVpcEndpointConnectionNotificationsCommand,
-  DeleteVpcEndpointsCommand,
-  DeleteVpcEndpointServiceConfigurationsCommand,
-  DeleteVpcPeeringConnectionCommand,
-  DeleteVpnConnectionCommand,
-  DeleteVpnConnectionRouteCommand,
-  DeleteVpnGatewayCommand,
-  DeprovisionByoipCidrCommand,
-  DeprovisionIpamByoasnCommand,
-  DeprovisionIpamPoolCidrCommand,
-  DeprovisionPublicIpv4PoolCidrCommand,
-  DeregisterImageCommand,
-  DeregisterInstanceEventNotificationAttributesCommand,
-  DeregisterTransitGatewayMulticastGroupMembersCommand,
-  DeregisterTransitGatewayMulticastGroupSourcesCommand,
-  DescribeAccountAttributesCommand,
-  DescribeAddressesCommand,
-  DescribeAddressesAttributeCommand,
-  DescribeAddressTransfersCommand,
-  DescribeAggregateIdFormatCommand,
-  DescribeAvailabilityZonesCommand,
-  DescribeAwsNetworkPerformanceMetricSubscriptionsCommand,
-  DescribeBundleTasksCommand,
-  DescribeByoipCidrsCommand,
-  DescribeCapacityBlockOfferingsCommand,
-  DescribeCapacityReservationFleetsCommand,
-  DescribeCapacityReservationsCommand,
-  DescribeCarrierGatewaysCommand,
-  DescribeClassicLinkInstancesCommand,
-  DescribeClientVpnAuthorizationRulesCommand,
-  DescribeClientVpnConnectionsCommand,
-  DescribeClientVpnEndpointsCommand,
-  DescribeClientVpnRoutesCommand,
-  DescribeClientVpnTargetNetworksCommand,
-  DescribeCoipPoolsCommand,
-  DescribeConversionTasksCommand,
-  DescribeCustomerGatewaysCommand,
-  DescribeDhcpOptionsCommand,
-  DescribeEgressOnlyInternetGatewaysCommand,
-  DescribeElasticGpusCommand,
-  DescribeExportImageTasksCommand,
-  DescribeExportTasksCommand,
-  DescribeFastLaunchImagesCommand,
-  DescribeFastSnapshotRestoresCommand,
-  DescribeFleetHistoryCommand,
-  DescribeFleetInstancesCommand,
-  DescribeFleetsCommand,
-  DescribeFlowLogsCommand,
-  DescribeFpgaImageAttributeCommand,
-  DescribeFpgaImagesCommand,
-  DescribeHostReservationOfferingsCommand,
-  DescribeHostReservationsCommand,
-  DescribeHostsCommand,
-  DescribeIamInstanceProfileAssociationsCommand,
-  DescribeIdentityIdFormatCommand,
-  DescribeIdFormatCommand,
-  DescribeImageAttributeCommand,
-  DescribeImagesCommand,
-  DescribeImportImageTasksCommand,
-  DescribeImportSnapshotTasksCommand,
-  DescribeInstanceAttributeCommand,
-  DescribeInstanceConnectEndpointsCommand,
-  DescribeInstanceCreditSpecificationsCommand,
-  DescribeInstanceEventNotificationAttributesCommand,
-  DescribeInstanceEventWindowsCommand,
-  DescribeInstancesCommand,
-  DescribeInstanceStatusCommand,
-  DescribeInstanceTopologyCommand,
-  DescribeInstanceTypeOfferingsCommand,
-  DescribeInstanceTypesCommand,
-  DescribeInternetGatewaysCommand,
-  DescribeIpamByoasnCommand,
-  DescribeIpamPoolsCommand,
-  DescribeIpamResourceDiscoveriesCommand,
-  DescribeIpamResourceDiscoveryAssociationsCommand,
-  DescribeIpamsCommand,
-  DescribeIpamScopesCommand,
-  DescribeIpv6PoolsCommand,
-  DescribeKeyPairsCommand,
-  DescribeLaunchTemplatesCommand,
-  DescribeLaunchTemplateVersionsCommand,
-  DescribeLocalGatewayRouteTablesCommand,
-  DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsCommand,
-  DescribeLocalGatewayRouteTableVpcAssociationsCommand,
-  DescribeLocalGatewaysCommand,
-  DescribeLocalGatewayVirtualInterfaceGroupsCommand,
-  DescribeLocalGatewayVirtualInterfacesCommand,
-  DescribeLockedSnapshotsCommand,
-  DescribeManagedPrefixListsCommand,
-  DescribeMovingAddressesCommand,
-  DescribeNatGatewaysCommand,
-  DescribeNetworkAclsCommand,
-  DescribeNetworkInsightsAccessScopeAnalysesCommand,
-  DescribeNetworkInsightsAccessScopesCommand,
-  DescribeNetworkInsightsAnalysesCommand,
-  DescribeNetworkInsightsPathsCommand,
-  DescribeNetworkInterfaceAttributeCommand,
-  DescribeNetworkInterfacePermissionsCommand,
-  DescribeNetworkInterfacesCommand,
-  DescribePlacementGroupsCommand,
-  DescribePrefixListsCommand,
-  DescribePrincipalIdFormatCommand,
-  DescribePublicIpv4PoolsCommand,
-  DescribeRegionsCommand,
-  DescribeReplaceRootVolumeTasksCommand,
-  DescribeReservedInstancesCommand,
-  DescribeReservedInstancesListingsCommand,
-  DescribeReservedInstancesModificationsCommand,
-  DescribeReservedInstancesOfferingsCommand,
-  DescribeRouteTablesCommand,
-  DescribeScheduledInstanceAvailabilityCommand,
-  DescribeScheduledInstancesCommand,
-  DescribeSecurityGroupReferencesCommand,
-  DescribeSecurityGroupRulesCommand,
-  DescribeSecurityGroupsCommand,
-  DescribeSnapshotAttributeCommand,
-  DescribeSnapshotsCommand,
-  DescribeSnapshotTierStatusCommand,
-  DescribeSpotDatafeedSubscriptionCommand,
-  DescribeSpotFleetInstancesCommand,
-  DescribeSpotFleetRequestHistoryCommand,
-  DescribeSpotFleetRequestsCommand,
-  DescribeSpotInstanceRequestsCommand,
-  DescribeSpotPriceHistoryCommand,
-  DescribeStaleSecurityGroupsCommand,
-  DescribeStoreImageTasksCommand,
-  DescribeSubnetsCommand,
-  DescribeTagsCommand,
-  DescribeTrafficMirrorFiltersCommand,
-  DescribeTrafficMirrorSessionsCommand,
-  DescribeTrafficMirrorTargetsCommand,
-  DescribeTransitGatewayAttachmentsCommand,
-  DescribeTransitGatewayConnectPeersCommand,
-  DescribeTransitGatewayConnectsCommand,
-  DescribeTransitGatewayMulticastDomainsCommand,
-  DescribeTransitGatewayPeeringAttachmentsCommand,
-  DescribeTransitGatewayPolicyTablesCommand,
-  DescribeTransitGatewayRouteTableAnnouncementsCommand,
-  DescribeTransitGatewayRouteTablesCommand,
-  DescribeTransitGatewaysCommand,
-  DescribeTransitGatewayVpcAttachmentsCommand,
-  DescribeTrunkInterfaceAssociationsCommand,
-  DescribeVerifiedAccessEndpointsCommand,
-  DescribeVerifiedAccessGroupsCommand,
-  DescribeVerifiedAccessInstanceLoggingConfigurationsCommand,
-  DescribeVerifiedAccessInstancesCommand,
-  DescribeVerifiedAccessTrustProvidersCommand,
-  DescribeVolumeAttributeCommand,
-  DescribeVolumesCommand,
-  DescribeVolumesModificationsCommand,
-  DescribeVolumeStatusCommand,
-  DescribeVpcAttributeCommand,
-  DescribeVpcClassicLinkCommand,
-  DescribeVpcClassicLinkDnsSupportCommand,
-  DescribeVpcEndpointConnectionNotificationsCommand,
-  DescribeVpcEndpointConnectionsCommand,
-  DescribeVpcEndpointsCommand,
-  DescribeVpcEndpointServiceConfigurationsCommand,
-  DescribeVpcEndpointServicePermissionsCommand,
-  DescribeVpcEndpointServicesCommand,
-  DescribeVpcPeeringConnectionsCommand,
-  DescribeVpcsCommand,
-  DescribeVpnConnectionsCommand,
-  DescribeVpnGatewaysCommand,
-  DetachClassicLinkVpcCommand,
-  DetachInternetGatewayCommand,
-  DetachNetworkInterfaceCommand,
-  DetachVerifiedAccessTrustProviderCommand,
-  DetachVolumeCommand,
-  DetachVpnGatewayCommand,
-  DisableAddressTransferCommand,
-  DisableAwsNetworkPerformanceMetricSubscriptionCommand,
-  DisableEbsEncryptionByDefaultCommand,
-  DisableFastLaunchCommand,
-  DisableFastSnapshotRestoresCommand,
-  DisableImageCommand,
-  DisableImageBlockPublicAccessCommand,
-  DisableImageDeprecationCommand,
-  DisableIpamOrganizationAdminAccountCommand,
-  DisableSerialConsoleAccessCommand,
-  DisableSnapshotBlockPublicAccessCommand,
-  DisableTransitGatewayRouteTablePropagationCommand,
-  DisableVgwRoutePropagationCommand,
-  DisableVpcClassicLinkCommand,
-  DisableVpcClassicLinkDnsSupportCommand,
-  DisassociateAddressCommand,
-  DisassociateClientVpnTargetNetworkCommand,
-  DisassociateEnclaveCertificateIamRoleCommand,
-  DisassociateIamInstanceProfileCommand,
-  DisassociateInstanceEventWindowCommand,
-  DisassociateIpamByoasnCommand,
-  DisassociateIpamResourceDiscoveryCommand,
-  DisassociateNatGatewayAddressCommand,
-  DisassociateRouteTableCommand,
-  DisassociateSubnetCidrBlockCommand,
-  DisassociateTransitGatewayMulticastDomainCommand,
-  DisassociateTransitGatewayPolicyTableCommand,
-  DisassociateTransitGatewayRouteTableCommand,
-  DisassociateTrunkInterfaceCommand,
-  DisassociateVpcCidrBlockCommand,
-  EnableAddressTransferCommand,
-  EnableAwsNetworkPerformanceMetricSubscriptionCommand,
-  EnableEbsEncryptionByDefaultCommand,
-  EnableFastLaunchCommand,
-  EnableFastSnapshotRestoresCommand,
-  EnableImageCommand,
-  EnableImageBlockPublicAccessCommand,
-  EnableImageDeprecationCommand,
-  EnableIpamOrganizationAdminAccountCommand,
-  EnableReachabilityAnalyzerOrganizationSharingCommand,
-  EnableSerialConsoleAccessCommand,
-  EnableSnapshotBlockPublicAccessCommand,
-  EnableTransitGatewayRouteTablePropagationCommand,
-  EnableVgwRoutePropagationCommand,
-  EnableVolumeIOCommand,
-  EnableVpcClassicLinkCommand,
-  EnableVpcClassicLinkDnsSupportCommand,
-  ExportClientVpnClientCertificateRevocationListCommand,
-  ExportClientVpnClientConfigurationCommand,
-  ExportImageCommand,
-  ExportTransitGatewayRoutesCommand,
-  GetAssociatedEnclaveCertificateIamRolesCommand,
-  GetAssociatedIpv6PoolCidrsCommand,
-  GetAwsNetworkPerformanceDataCommand,
-  GetCapacityReservationUsageCommand,
-  GetCoipPoolUsageCommand,
-  GetConsoleOutputCommand,
-  GetConsoleScreenshotCommand,
-  GetDefaultCreditSpecificationCommand,
-  GetEbsDefaultKmsKeyIdCommand,
-  GetEbsEncryptionByDefaultCommand,
-  GetFlowLogsIntegrationTemplateCommand,
-  GetGroupsForCapacityReservationCommand,
-  GetHostReservationPurchasePreviewCommand,
-  GetImageBlockPublicAccessStateCommand,
-  GetInstanceTypesFromInstanceRequirementsCommand,
-  GetInstanceUefiDataCommand,
-  GetIpamAddressHistoryCommand,
-  GetIpamDiscoveredAccountsCommand,
-  GetIpamDiscoveredPublicAddressesCommand,
-  GetIpamDiscoveredResourceCidrsCommand,
-  GetIpamPoolAllocationsCommand,
-  GetIpamPoolCidrsCommand,
-  GetIpamResourceCidrsCommand,
-  GetLaunchTemplateDataCommand,
-  GetManagedPrefixListAssociationsCommand,
-  GetManagedPrefixListEntriesCommand,
-  GetNetworkInsightsAccessScopeAnalysisFindingsCommand,
-  GetNetworkInsightsAccessScopeContentCommand,
-  GetPasswordDataCommand,
-  GetReservedInstancesExchangeQuoteCommand,
-  GetSecurityGroupsForVpcCommand,
-  GetSerialConsoleAccessStatusCommand,
-  GetSnapshotBlockPublicAccessStateCommand,
-  GetSpotPlacementScoresCommand,
-  GetSubnetCidrReservationsCommand,
-  GetTransitGatewayAttachmentPropagationsCommand,
-  GetTransitGatewayMulticastDomainAssociationsCommand,
-  GetTransitGatewayPolicyTableAssociationsCommand,
-  GetTransitGatewayPolicyTableEntriesCommand,
-  GetTransitGatewayPrefixListReferencesCommand,
-  GetTransitGatewayRouteTableAssociationsCommand,
-  GetTransitGatewayRouteTablePropagationsCommand,
-  GetVerifiedAccessEndpointPolicyCommand,
-  GetVerifiedAccessGroupPolicyCommand,
-  GetVpnConnectionDeviceSampleConfigurationCommand,
-  GetVpnConnectionDeviceTypesCommand,
-  GetVpnTunnelReplacementStatusCommand,
-  ImportClientVpnClientCertificateRevocationListCommand,
-  ImportImageCommand,
-  ImportInstanceCommand,
-  ImportKeyPairCommand,
-  ImportSnapshotCommand,
-  ImportVolumeCommand,
-  ListImagesInRecycleBinCommand,
-  ListSnapshotsInRecycleBinCommand,
-  LockSnapshotCommand,
-  ModifyAddressAttributeCommand,
-  ModifyAvailabilityZoneGroupCommand,
-  ModifyCapacityReservationCommand,
-  ModifyCapacityReservationFleetCommand,
-  ModifyClientVpnEndpointCommand,
-  ModifyDefaultCreditSpecificationCommand,
-  ModifyEbsDefaultKmsKeyIdCommand,
-  ModifyFleetCommand,
-  ModifyFpgaImageAttributeCommand,
-  ModifyHostsCommand,
-  ModifyIdentityIdFormatCommand,
-  ModifyIdFormatCommand,
-  ModifyImageAttributeCommand,
-  ModifyInstanceAttributeCommand,
-  ModifyInstanceCapacityReservationAttributesCommand,
-  ModifyInstanceCreditSpecificationCommand,
-  ModifyInstanceEventStartTimeCommand,
-  ModifyInstanceEventWindowCommand,
-  ModifyInstanceMaintenanceOptionsCommand,
-  ModifyInstanceMetadataOptionsCommand,
-  ModifyInstancePlacementCommand,
-  ModifyIpamCommand,
-  ModifyIpamPoolCommand,
-  ModifyIpamResourceCidrCommand,
-  ModifyIpamResourceDiscoveryCommand,
-  ModifyIpamScopeCommand,
-  ModifyLaunchTemplateCommand,
-  ModifyLocalGatewayRouteCommand,
-  ModifyManagedPrefixListCommand,
-  ModifyNetworkInterfaceAttributeCommand,
-  ModifyPrivateDnsNameOptionsCommand,
-  ModifyReservedInstancesCommand,
-  ModifySecurityGroupRulesCommand,
-  ModifySnapshotAttributeCommand,
-  ModifySnapshotTierCommand,
-  ModifySpotFleetRequestCommand,
-  ModifySubnetAttributeCommand,
-  ModifyTrafficMirrorFilterNetworkServicesCommand,
-  ModifyTrafficMirrorFilterRuleCommand,
-  ModifyTrafficMirrorSessionCommand,
-  ModifyTransitGatewayCommand,
-  ModifyTransitGatewayPrefixListReferenceCommand,
-  ModifyTransitGatewayVpcAttachmentCommand,
-  ModifyVerifiedAccessEndpointCommand,
-  ModifyVerifiedAccessEndpointPolicyCommand,
-  ModifyVerifiedAccessGroupCommand,
-  ModifyVerifiedAccessGroupPolicyCommand,
-  ModifyVerifiedAccessInstanceCommand,
-  ModifyVerifiedAccessInstanceLoggingConfigurationCommand,
-  ModifyVerifiedAccessTrustProviderCommand,
-  ModifyVolumeCommand,
-  ModifyVolumeAttributeCommand,
-  ModifyVpcAttributeCommand,
-  ModifyVpcEndpointCommand,
-  ModifyVpcEndpointConnectionNotificationCommand,
-  ModifyVpcEndpointServiceConfigurationCommand,
-  ModifyVpcEndpointServicePayerResponsibilityCommand,
-  ModifyVpcEndpointServicePermissionsCommand,
-  ModifyVpcPeeringConnectionOptionsCommand,
-  ModifyVpcTenancyCommand,
-  ModifyVpnConnectionCommand,
-  ModifyVpnConnectionOptionsCommand,
-  ModifyVpnTunnelCertificateCommand,
-  ModifyVpnTunnelOptionsCommand,
-  MonitorInstancesCommand,
-  MoveAddressToVpcCommand,
-  MoveByoipCidrToIpamCommand,
-  ProvisionByoipCidrCommand,
-  ProvisionIpamByoasnCommand,
-  ProvisionIpamPoolCidrCommand,
-  ProvisionPublicIpv4PoolCidrCommand,
-  PurchaseCapacityBlockCommand,
-  PurchaseHostReservationCommand,
-  PurchaseReservedInstancesOfferingCommand,
-  PurchaseScheduledInstancesCommand,
-  RebootInstancesCommand,
-  RegisterImageCommand,
-  RegisterInstanceEventNotificationAttributesCommand,
-  RegisterTransitGatewayMulticastGroupMembersCommand,
-  RegisterTransitGatewayMulticastGroupSourcesCommand,
-  RejectTransitGatewayMulticastDomainAssociationsCommand,
-  RejectTransitGatewayPeeringAttachmentCommand,
-  RejectTransitGatewayVpcAttachmentCommand,
-  RejectVpcEndpointConnectionsCommand,
-  RejectVpcPeeringConnectionCommand,
-  ReleaseAddressCommand,
-  ReleaseHostsCommand,
-  ReleaseIpamPoolAllocationCommand,
-  ReplaceIamInstanceProfileAssociationCommand,
-  ReplaceNetworkAclAssociationCommand,
-  ReplaceNetworkAclEntryCommand,
-  ReplaceRouteCommand,
-  ReplaceRouteTableAssociationCommand,
-  ReplaceTransitGatewayRouteCommand,
-  ReplaceVpnTunnelCommand,
-  ReportInstanceStatusCommand,
-  RequestSpotFleetCommand,
-  RequestSpotInstancesCommand,
-  ResetAddressAttributeCommand,
-  ResetEbsDefaultKmsKeyIdCommand,
-  ResetFpgaImageAttributeCommand,
-  ResetImageAttributeCommand,
-  ResetInstanceAttributeCommand,
-  ResetNetworkInterfaceAttributeCommand,
-  ResetSnapshotAttributeCommand,
-  RestoreAddressToClassicCommand,
-  RestoreImageFromRecycleBinCommand,
-  RestoreManagedPrefixListVersionCommand,
-  RestoreSnapshotFromRecycleBinCommand,
-  RestoreSnapshotTierCommand,
-  RevokeClientVpnIngressCommand,
-  RevokeSecurityGroupEgressCommand,
-  RevokeSecurityGroupIngressCommand,
-  RunInstancesCommand,
-  RunScheduledInstancesCommand,
-  SearchLocalGatewayRoutesCommand,
-  SearchTransitGatewayMulticastGroupsCommand,
-  SearchTransitGatewayRoutesCommand,
-  SendDiagnosticInterruptCommand,
-  StartInstancesCommand,
-  StartNetworkInsightsAccessScopeAnalysisCommand,
-  StartNetworkInsightsAnalysisCommand,
-  StartVpcEndpointServicePrivateDnsVerificationCommand,
-  StopInstancesCommand,
-  TerminateClientVpnConnectionsCommand,
-  TerminateInstancesCommand,
-  UnassignIpv6AddressesCommand,
-  UnassignPrivateIpAddressesCommand,
-  UnassignPrivateNatGatewayAddressCommand,
-  UnlockSnapshotCommand,
-  UnmonitorInstancesCommand,
-  UpdateSecurityGroupRuleDescriptionsEgressCommand,
-  UpdateSecurityGroupRuleDescriptionsIngressCommand,
-  WithdrawByoipCidrCommand,
+ AcceptReservedInstancesExchangeQuoteCommand,
+ AcceptTransitGatewayMulticastDomainAssociationsCommand,
+ AcceptTransitGatewayPeeringAttachmentCommand,
+ AcceptTransitGatewayVpcAttachmentCommand,
+ AcceptVpcEndpointConnectionsCommand,
+ AcceptVpcPeeringConnectionCommand,
+ AdvertiseByoipCidrCommand,
+ AllocateAddressCommand,
+ AllocateHostsCommand,
+ AllocateIpamPoolCidrCommand,
+ ApplySecurityGroupsToClientVpnTargetNetworkCommand,
+ AssignIpv6AddressesCommand,
+ AssignPrivateIpAddressesCommand,
+ AssignPrivateNatGatewayAddressCommand,
+ AssociateAddressCommand,
+ AssociateClientVpnTargetNetworkCommand,
+ AssociateDhcpOptionsCommand,
+ AssociateEnclaveCertificateIamRoleCommand,
+ AssociateIamInstanceProfileCommand,
+ AssociateInstanceEventWindowCommand,
+ AssociateIpamByoasnCommand,
+ AssociateIpamResourceDiscoveryCommand,
+ AssociateNatGatewayAddressCommand,
+ AssociateRouteTableCommand,
+ AssociateSubnetCidrBlockCommand,
+ AssociateTransitGatewayMulticastDomainCommand,
+ AssociateTransitGatewayPolicyTableCommand,
+ AssociateTransitGatewayRouteTableCommand,
+ AssociateTrunkInterfaceCommand,
+ AssociateVpcCidrBlockCommand,
+ AttachClassicLinkVpcCommand,
+ AttachInternetGatewayCommand,
+ AttachNetworkInterfaceCommand,
+ AttachVerifiedAccessTrustProviderCommand,
+ AttachVolumeCommand,
+ AttachVpnGatewayCommand,
+ AuthorizeClientVpnIngressCommand,
+ AuthorizeSecurityGroupEgressCommand,
+ AuthorizeSecurityGroupIngressCommand,
+ BundleInstanceCommand,
+ CancelBundleTaskCommand,
+ CancelCapacityReservationCommand,
+ CancelCapacityReservationFleetsCommand,
+ CancelConversionTaskCommand,
+ CancelExportTaskCommand,
+ CancelImageLaunchPermissionCommand,
+ CancelImportTaskCommand,
+ CancelReservedInstancesListingCommand,
+ CancelSpotFleetRequestsCommand,
+ CancelSpotInstanceRequestsCommand,
+ ConfirmProductInstanceCommand,
+ CopyFpgaImageCommand,
+ CopyImageCommand,
+ CopySnapshotCommand,
+ CreateCapacityReservationCommand,
+ CreateCapacityReservationFleetCommand,
+ CreateCarrierGatewayCommand,
+ CreateClientVpnEndpointCommand,
+ CreateClientVpnRouteCommand,
+ CreateCoipCidrCommand,
+ CreateCoipPoolCommand,
+ CreateCustomerGatewayCommand,
+ CreateDefaultSubnetCommand,
+ CreateDefaultVpcCommand,
+ CreateDhcpOptionsCommand,
+ CreateEgressOnlyInternetGatewayCommand,
+ CreateFleetCommand,
+ CreateFlowLogsCommand,
+ CreateFpgaImageCommand,
+ CreateImageCommand,
+ CreateInstanceConnectEndpointCommand,
+ CreateInstanceEventWindowCommand,
+ CreateInstanceExportTaskCommand,
+ CreateInternetGatewayCommand,
+ CreateIpamCommand,
+ CreateIpamPoolCommand,
+ CreateIpamResourceDiscoveryCommand,
+ CreateIpamScopeCommand,
+ CreateKeyPairCommand,
+ CreateLaunchTemplateCommand,
+ CreateLaunchTemplateVersionCommand,
+ CreateLocalGatewayRouteCommand,
+ CreateLocalGatewayRouteTableCommand,
+ CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationCommand,
+ CreateLocalGatewayRouteTableVpcAssociationCommand,
+ CreateManagedPrefixListCommand,
+ CreateNatGatewayCommand,
+ CreateNetworkAclCommand,
+ CreateNetworkAclEntryCommand,
+ CreateNetworkInsightsAccessScopeCommand,
+ CreateNetworkInsightsPathCommand,
+ CreateNetworkInterfaceCommand,
+ CreateNetworkInterfacePermissionCommand,
+ CreatePlacementGroupCommand,
+ CreatePublicIpv4PoolCommand,
+ CreateReplaceRootVolumeTaskCommand,
+ CreateReservedInstancesListingCommand,
+ CreateRestoreImageTaskCommand,
+ CreateRouteCommand,
+ CreateRouteTableCommand,
+ CreateSecurityGroupCommand,
+ CreateSnapshotCommand,
+ CreateSnapshotsCommand,
+ CreateSpotDatafeedSubscriptionCommand,
+ CreateStoreImageTaskCommand,
+ CreateSubnetCommand,
+ CreateSubnetCidrReservationCommand,
+ CreateTagsCommand,
+ CreateTrafficMirrorFilterCommand,
+ CreateTrafficMirrorFilterRuleCommand,
+ CreateTrafficMirrorSessionCommand,
+ CreateTrafficMirrorTargetCommand,
+ CreateTransitGatewayCommand,
+ CreateTransitGatewayConnectCommand,
+ CreateTransitGatewayConnectPeerCommand,
+ CreateTransitGatewayMulticastDomainCommand,
+ CreateTransitGatewayPeeringAttachmentCommand,
+ CreateTransitGatewayPolicyTableCommand,
+ CreateTransitGatewayPrefixListReferenceCommand,
+ CreateTransitGatewayRouteCommand,
+ CreateTransitGatewayRouteTableCommand,
+ CreateTransitGatewayRouteTableAnnouncementCommand,
+ CreateTransitGatewayVpcAttachmentCommand,
+ CreateVerifiedAccessEndpointCommand,
+ CreateVerifiedAccessGroupCommand,
+ CreateVerifiedAccessInstanceCommand,
+ CreateVerifiedAccessTrustProviderCommand,
+ CreateVolumeCommand,
+ CreateVpcCommand,
+ CreateVpcEndpointCommand,
+ CreateVpcEndpointConnectionNotificationCommand,
+ CreateVpcEndpointServiceConfigurationCommand,
+ CreateVpcPeeringConnectionCommand,
+ CreateVpnConnectionCommand,
+ CreateVpnConnectionRouteCommand,
+ CreateVpnGatewayCommand,
+ DeleteCarrierGatewayCommand,
+ DeleteClientVpnEndpointCommand,
+ DeleteClientVpnRouteCommand,
+ DeleteCoipCidrCommand,
+ DeleteCoipPoolCommand,
+ DeleteCustomerGatewayCommand,
+ DeleteDhcpOptionsCommand,
+ DeleteEgressOnlyInternetGatewayCommand,
+ DeleteFleetsCommand,
+ DeleteFlowLogsCommand,
+ DeleteFpgaImageCommand,
+ DeleteInstanceConnectEndpointCommand,
+ DeleteInstanceEventWindowCommand,
+ DeleteInternetGatewayCommand,
+ DeleteIpamCommand,
+ DeleteIpamPoolCommand,
+ DeleteIpamResourceDiscoveryCommand,
+ DeleteIpamScopeCommand,
+ DeleteKeyPairCommand,
+ DeleteLaunchTemplateCommand,
+ DeleteLaunchTemplateVersionsCommand,
+ DeleteLocalGatewayRouteCommand,
+ DeleteLocalGatewayRouteTableCommand,
+ DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationCommand,
+ DeleteLocalGatewayRouteTableVpcAssociationCommand,
+ DeleteManagedPrefixListCommand,
+ DeleteNatGatewayCommand,
+ DeleteNetworkAclCommand,
+ DeleteNetworkAclEntryCommand,
+ DeleteNetworkInsightsAccessScopeCommand,
+ DeleteNetworkInsightsAccessScopeAnalysisCommand,
+ DeleteNetworkInsightsAnalysisCommand,
+ DeleteNetworkInsightsPathCommand,
+ DeleteNetworkInterfaceCommand,
+ DeleteNetworkInterfacePermissionCommand,
+ DeletePlacementGroupCommand,
+ DeletePublicIpv4PoolCommand,
+ DeleteQueuedReservedInstancesCommand,
+ DeleteRouteCommand,
+ DeleteRouteTableCommand,
+ DeleteSecurityGroupCommand,
+ DeleteSnapshotCommand,
+ DeleteSpotDatafeedSubscriptionCommand,
+ DeleteSubnetCommand,
+ DeleteSubnetCidrReservationCommand,
+ DeleteTagsCommand,
+ DeleteTrafficMirrorFilterCommand,
+ DeleteTrafficMirrorFilterRuleCommand,
+ DeleteTrafficMirrorSessionCommand,
+ DeleteTrafficMirrorTargetCommand,
+ DeleteTransitGatewayCommand,
+ DeleteTransitGatewayConnectCommand,
+ DeleteTransitGatewayConnectPeerCommand,
+ DeleteTransitGatewayMulticastDomainCommand,
+ DeleteTransitGatewayPeeringAttachmentCommand,
+ DeleteTransitGatewayPolicyTableCommand,
+ DeleteTransitGatewayPrefixListReferenceCommand,
+ DeleteTransitGatewayRouteCommand,
+ DeleteTransitGatewayRouteTableCommand,
+ DeleteTransitGatewayRouteTableAnnouncementCommand,
+ DeleteTransitGatewayVpcAttachmentCommand,
+ DeleteVerifiedAccessEndpointCommand,
+ DeleteVerifiedAccessGroupCommand,
+ DeleteVerifiedAccessInstanceCommand,
+ DeleteVerifiedAccessTrustProviderCommand,
+ DeleteVolumeCommand,
+ DeleteVpcCommand,
+ DeleteVpcEndpointConnectionNotificationsCommand,
+ DeleteVpcEndpointServiceConfigurationsCommand,
+ DeleteVpcEndpointsCommand,
+ DeleteVpcPeeringConnectionCommand,
+ DeleteVpnConnectionCommand,
+ DeleteVpnConnectionRouteCommand,
+ DeleteVpnGatewayCommand,
+ DeprovisionByoipCidrCommand,
+ DeprovisionIpamByoasnCommand,
+ DeprovisionIpamPoolCidrCommand,
+ DeprovisionPublicIpv4PoolCidrCommand,
+ DeregisterImageCommand,
+ DeregisterInstanceEventNotificationAttributesCommand,
+ DeregisterTransitGatewayMulticastGroupMembersCommand,
+ DeregisterTransitGatewayMulticastGroupSourcesCommand,
+ DescribeAccountAttributesCommand,
+ DescribeAddressTransfersCommand,
+ DescribeAddressesCommand,
+ DescribeAddressesAttributeCommand,
+ DescribeAggregateIdFormatCommand,
+ DescribeAvailabilityZonesCommand,
+ DescribeAwsNetworkPerformanceMetricSubscriptionsCommand,
+ DescribeBundleTasksCommand,
+ DescribeByoipCidrsCommand,
+ DescribeCapacityBlockOfferingsCommand,
+ DescribeCapacityReservationFleetsCommand,
+ DescribeCapacityReservationsCommand,
+ DescribeCarrierGatewaysCommand,
+ DescribeClassicLinkInstancesCommand,
+ DescribeClientVpnAuthorizationRulesCommand,
+ DescribeClientVpnConnectionsCommand,
+ DescribeClientVpnEndpointsCommand,
+ DescribeClientVpnRoutesCommand,
+ DescribeClientVpnTargetNetworksCommand,
+ DescribeCoipPoolsCommand,
+ DescribeConversionTasksCommand,
+ DescribeCustomerGatewaysCommand,
+ DescribeDhcpOptionsCommand,
+ DescribeEgressOnlyInternetGatewaysCommand,
+ DescribeElasticGpusCommand,
+ DescribeExportImageTasksCommand,
+ DescribeExportTasksCommand,
+ DescribeFastLaunchImagesCommand,
+ DescribeFastSnapshotRestoresCommand,
+ DescribeFleetHistoryCommand,
+ DescribeFleetInstancesCommand,
+ DescribeFleetsCommand,
+ DescribeFlowLogsCommand,
+ DescribeFpgaImageAttributeCommand,
+ DescribeFpgaImagesCommand,
+ DescribeHostReservationOfferingsCommand,
+ DescribeHostReservationsCommand,
+ DescribeHostsCommand,
+ DescribeIamInstanceProfileAssociationsCommand,
+ DescribeIdFormatCommand,
+ DescribeIdentityIdFormatCommand,
+ DescribeImageAttributeCommand,
+ DescribeImagesCommand,
+ DescribeImportImageTasksCommand,
+ DescribeImportSnapshotTasksCommand,
+ DescribeInstanceAttributeCommand,
+ DescribeInstanceConnectEndpointsCommand,
+ DescribeInstanceCreditSpecificationsCommand,
+ DescribeInstanceEventNotificationAttributesCommand,
+ DescribeInstanceEventWindowsCommand,
+ DescribeInstanceStatusCommand,
+ DescribeInstanceTopologyCommand,
+ DescribeInstanceTypeOfferingsCommand,
+ DescribeInstanceTypesCommand,
+ DescribeInstancesCommand,
+ DescribeInternetGatewaysCommand,
+ DescribeIpamByoasnCommand,
+ DescribeIpamPoolsCommand,
+ DescribeIpamResourceDiscoveriesCommand,
+ DescribeIpamResourceDiscoveryAssociationsCommand,
+ DescribeIpamScopesCommand,
+ DescribeIpamsCommand,
+ DescribeIpv6PoolsCommand,
+ DescribeKeyPairsCommand,
+ DescribeLaunchTemplateVersionsCommand,
+ DescribeLaunchTemplatesCommand,
+ DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsCommand,
+ DescribeLocalGatewayRouteTableVpcAssociationsCommand,
+ DescribeLocalGatewayRouteTablesCommand,
+ DescribeLocalGatewayVirtualInterfaceGroupsCommand,
+ DescribeLocalGatewayVirtualInterfacesCommand,
+ DescribeLocalGatewaysCommand,
+ DescribeLockedSnapshotsCommand,
+ DescribeMacHostsCommand,
+ DescribeManagedPrefixListsCommand,
+ DescribeMovingAddressesCommand,
+ DescribeNatGatewaysCommand,
+ DescribeNetworkAclsCommand,
+ DescribeNetworkInsightsAccessScopeAnalysesCommand,
+ DescribeNetworkInsightsAccessScopesCommand,
+ DescribeNetworkInsightsAnalysesCommand,
+ DescribeNetworkInsightsPathsCommand,
+ DescribeNetworkInterfaceAttributeCommand,
+ DescribeNetworkInterfacePermissionsCommand,
+ DescribeNetworkInterfacesCommand,
+ DescribePlacementGroupsCommand,
+ DescribePrefixListsCommand,
+ DescribePrincipalIdFormatCommand,
+ DescribePublicIpv4PoolsCommand,
+ DescribeRegionsCommand,
+ DescribeReplaceRootVolumeTasksCommand,
+ DescribeReservedInstancesCommand,
+ DescribeReservedInstancesListingsCommand,
+ DescribeReservedInstancesModificationsCommand,
+ DescribeReservedInstancesOfferingsCommand,
+ DescribeRouteTablesCommand,
+ DescribeScheduledInstanceAvailabilityCommand,
+ DescribeScheduledInstancesCommand,
+ DescribeSecurityGroupReferencesCommand,
+ DescribeSecurityGroupRulesCommand,
+ DescribeSecurityGroupsCommand,
+ DescribeSnapshotAttributeCommand,
+ DescribeSnapshotTierStatusCommand,
+ DescribeSnapshotsCommand,
+ DescribeSpotDatafeedSubscriptionCommand,
+ DescribeSpotFleetInstancesCommand,
+ DescribeSpotFleetRequestHistoryCommand,
+ DescribeSpotFleetRequestsCommand,
+ DescribeSpotInstanceRequestsCommand,
+ DescribeSpotPriceHistoryCommand,
+ DescribeStaleSecurityGroupsCommand,
+ DescribeStoreImageTasksCommand,
+ DescribeSubnetsCommand,
+ DescribeTagsCommand,
+ DescribeTrafficMirrorFiltersCommand,
+ DescribeTrafficMirrorSessionsCommand,
+ DescribeTrafficMirrorTargetsCommand,
+ DescribeTransitGatewayAttachmentsCommand,
+ DescribeTransitGatewayConnectPeersCommand,
+ DescribeTransitGatewayConnectsCommand,
+ DescribeTransitGatewayMulticastDomainsCommand,
+ DescribeTransitGatewayPeeringAttachmentsCommand,
+ DescribeTransitGatewayPolicyTablesCommand,
+ DescribeTransitGatewayRouteTableAnnouncementsCommand,
+ DescribeTransitGatewayRouteTablesCommand,
+ DescribeTransitGatewayVpcAttachmentsCommand,
+ DescribeTransitGatewaysCommand,
+ DescribeTrunkInterfaceAssociationsCommand,
+ DescribeVerifiedAccessEndpointsCommand,
+ DescribeVerifiedAccessGroupsCommand,
+ DescribeVerifiedAccessInstanceLoggingConfigurationsCommand,
+ DescribeVerifiedAccessInstancesCommand,
+ DescribeVerifiedAccessTrustProvidersCommand,
+ DescribeVolumeAttributeCommand,
+ DescribeVolumeStatusCommand,
+ DescribeVolumesCommand,
+ DescribeVolumesModificationsCommand,
+ DescribeVpcAttributeCommand,
+ DescribeVpcClassicLinkCommand,
+ DescribeVpcClassicLinkDnsSupportCommand,
+ DescribeVpcEndpointConnectionNotificationsCommand,
+ DescribeVpcEndpointConnectionsCommand,
+ DescribeVpcEndpointServiceConfigurationsCommand,
+ DescribeVpcEndpointServicePermissionsCommand,
+ DescribeVpcEndpointServicesCommand,
+ DescribeVpcEndpointsCommand,
+ DescribeVpcPeeringConnectionsCommand,
+ DescribeVpcsCommand,
+ DescribeVpnConnectionsCommand,
+ DescribeVpnGatewaysCommand,
+ DetachClassicLinkVpcCommand,
+ DetachInternetGatewayCommand,
+ DetachNetworkInterfaceCommand,
+ DetachVerifiedAccessTrustProviderCommand,
+ DetachVolumeCommand,
+ DetachVpnGatewayCommand,
+ DisableAddressTransferCommand,
+ DisableAwsNetworkPerformanceMetricSubscriptionCommand,
+ DisableEbsEncryptionByDefaultCommand,
+ DisableFastLaunchCommand,
+ DisableFastSnapshotRestoresCommand,
+ DisableImageCommand,
+ DisableImageBlockPublicAccessCommand,
+ DisableImageDeprecationCommand,
+ DisableIpamOrganizationAdminAccountCommand,
+ DisableSerialConsoleAccessCommand,
+ DisableSnapshotBlockPublicAccessCommand,
+ DisableTransitGatewayRouteTablePropagationCommand,
+ DisableVgwRoutePropagationCommand,
+ DisableVpcClassicLinkCommand,
+ DisableVpcClassicLinkDnsSupportCommand,
+ DisassociateAddressCommand,
+ DisassociateClientVpnTargetNetworkCommand,
+ DisassociateEnclaveCertificateIamRoleCommand,
+ DisassociateIamInstanceProfileCommand,
+ DisassociateInstanceEventWindowCommand,
+ DisassociateIpamByoasnCommand,
+ DisassociateIpamResourceDiscoveryCommand,
+ DisassociateNatGatewayAddressCommand,
+ DisassociateRouteTableCommand,
+ DisassociateSubnetCidrBlockCommand,
+ DisassociateTransitGatewayMulticastDomainCommand,
+ DisassociateTransitGatewayPolicyTableCommand,
+ DisassociateTransitGatewayRouteTableCommand,
+ DisassociateTrunkInterfaceCommand,
+ DisassociateVpcCidrBlockCommand,
+ EnableAddressTransferCommand,
+ EnableAwsNetworkPerformanceMetricSubscriptionCommand,
+ EnableEbsEncryptionByDefaultCommand,
+ EnableFastLaunchCommand,
+ EnableFastSnapshotRestoresCommand,
+ EnableImageCommand,
+ EnableImageBlockPublicAccessCommand,
+ EnableImageDeprecationCommand,
+ EnableIpamOrganizationAdminAccountCommand,
+ EnableReachabilityAnalyzerOrganizationSharingCommand,
+ EnableSerialConsoleAccessCommand,
+ EnableSnapshotBlockPublicAccessCommand,
+ EnableTransitGatewayRouteTablePropagationCommand,
+ EnableVgwRoutePropagationCommand,
+ EnableVolumeIOCommand,
+ EnableVpcClassicLinkCommand,
+ EnableVpcClassicLinkDnsSupportCommand,
+ ExportClientVpnClientCertificateRevocationListCommand,
+ ExportClientVpnClientConfigurationCommand,
+ ExportImageCommand,
+ ExportTransitGatewayRoutesCommand,
+ GetAssociatedEnclaveCertificateIamRolesCommand,
+ GetAssociatedIpv6PoolCidrsCommand,
+ GetAwsNetworkPerformanceDataCommand,
+ GetCapacityReservationUsageCommand,
+ GetCoipPoolUsageCommand,
+ GetConsoleOutputCommand,
+ GetConsoleScreenshotCommand,
+ GetDefaultCreditSpecificationCommand,
+ GetEbsDefaultKmsKeyIdCommand,
+ GetEbsEncryptionByDefaultCommand,
+ GetFlowLogsIntegrationTemplateCommand,
+ GetGroupsForCapacityReservationCommand,
+ GetHostReservationPurchasePreviewCommand,
+ GetImageBlockPublicAccessStateCommand,
+ GetInstanceMetadataDefaultsCommand,
+ GetInstanceTypesFromInstanceRequirementsCommand,
+ GetInstanceUefiDataCommand,
+ GetIpamAddressHistoryCommand,
+ GetIpamDiscoveredAccountsCommand,
+ GetIpamDiscoveredPublicAddressesCommand,
+ GetIpamDiscoveredResourceCidrsCommand,
+ GetIpamPoolAllocationsCommand,
+ GetIpamPoolCidrsCommand,
+ GetIpamResourceCidrsCommand,
+ GetLaunchTemplateDataCommand,
+ GetManagedPrefixListAssociationsCommand,
+ GetManagedPrefixListEntriesCommand,
+ GetNetworkInsightsAccessScopeAnalysisFindingsCommand,
+ GetNetworkInsightsAccessScopeContentCommand,
+ GetPasswordDataCommand,
+ GetReservedInstancesExchangeQuoteCommand,
+ GetSecurityGroupsForVpcCommand,
+ GetSerialConsoleAccessStatusCommand,
+ GetSnapshotBlockPublicAccessStateCommand,
+ GetSpotPlacementScoresCommand,
+ GetSubnetCidrReservationsCommand,
+ GetTransitGatewayAttachmentPropagationsCommand,
+ GetTransitGatewayMulticastDomainAssociationsCommand,
+ GetTransitGatewayPolicyTableAssociationsCommand,
+ GetTransitGatewayPolicyTableEntriesCommand,
+ GetTransitGatewayPrefixListReferencesCommand,
+ GetTransitGatewayRouteTableAssociationsCommand,
+ GetTransitGatewayRouteTablePropagationsCommand,
+ GetVerifiedAccessEndpointPolicyCommand,
+ GetVerifiedAccessGroupPolicyCommand,
+ GetVpnConnectionDeviceSampleConfigurationCommand,
+ GetVpnConnectionDeviceTypesCommand,
+ GetVpnTunnelReplacementStatusCommand,
+ ImportClientVpnClientCertificateRevocationListCommand,
+ ImportImageCommand,
+ ImportInstanceCommand,
+ ImportKeyPairCommand,
+ ImportSnapshotCommand,
+ ImportVolumeCommand,
+ ListImagesInRecycleBinCommand,
+ ListSnapshotsInRecycleBinCommand,
+ LockSnapshotCommand,
+ ModifyAddressAttributeCommand,
+ ModifyAvailabilityZoneGroupCommand,
+ ModifyCapacityReservationCommand,
+ ModifyCapacityReservationFleetCommand,
+ ModifyClientVpnEndpointCommand,
+ ModifyDefaultCreditSpecificationCommand,
+ ModifyEbsDefaultKmsKeyIdCommand,
+ ModifyFleetCommand,
+ ModifyFpgaImageAttributeCommand,
+ ModifyHostsCommand,
+ ModifyIdFormatCommand,
+ ModifyIdentityIdFormatCommand,
+ ModifyImageAttributeCommand,
+ ModifyInstanceAttributeCommand,
+ ModifyInstanceCapacityReservationAttributesCommand,
+ ModifyInstanceCreditSpecificationCommand,
+ ModifyInstanceEventStartTimeCommand,
+ ModifyInstanceEventWindowCommand,
+ ModifyInstanceMaintenanceOptionsCommand,
+ ModifyInstanceMetadataDefaultsCommand,
+ ModifyInstanceMetadataOptionsCommand,
+ ModifyInstancePlacementCommand,
+ ModifyIpamCommand,
+ ModifyIpamPoolCommand,
+ ModifyIpamResourceCidrCommand,
+ ModifyIpamResourceDiscoveryCommand,
+ ModifyIpamScopeCommand,
+ ModifyLaunchTemplateCommand,
+ ModifyLocalGatewayRouteCommand,
+ ModifyManagedPrefixListCommand,
+ ModifyNetworkInterfaceAttributeCommand,
+ ModifyPrivateDnsNameOptionsCommand,
+ ModifyReservedInstancesCommand,
+ ModifySecurityGroupRulesCommand,
+ ModifySnapshotAttributeCommand,
+ ModifySnapshotTierCommand,
+ ModifySpotFleetRequestCommand,
+ ModifySubnetAttributeCommand,
+ ModifyTrafficMirrorFilterNetworkServicesCommand,
+ ModifyTrafficMirrorFilterRuleCommand,
+ ModifyTrafficMirrorSessionCommand,
+ ModifyTransitGatewayCommand,
+ ModifyTransitGatewayPrefixListReferenceCommand,
+ ModifyTransitGatewayVpcAttachmentCommand,
+ ModifyVerifiedAccessEndpointCommand,
+ ModifyVerifiedAccessEndpointPolicyCommand,
+ ModifyVerifiedAccessGroupCommand,
+ ModifyVerifiedAccessGroupPolicyCommand,
+ ModifyVerifiedAccessInstanceCommand,
+ ModifyVerifiedAccessInstanceLoggingConfigurationCommand,
+ ModifyVerifiedAccessTrustProviderCommand,
+ ModifyVolumeCommand,
+ ModifyVolumeAttributeCommand,
+ ModifyVpcAttributeCommand,
+ ModifyVpcEndpointCommand,
+ ModifyVpcEndpointConnectionNotificationCommand,
+ ModifyVpcEndpointServiceConfigurationCommand,
+ ModifyVpcEndpointServicePayerResponsibilityCommand,
+ ModifyVpcEndpointServicePermissionsCommand,
+ ModifyVpcPeeringConnectionOptionsCommand,
+ ModifyVpcTenancyCommand,
+ ModifyVpnConnectionCommand,
+ ModifyVpnConnectionOptionsCommand,
+ ModifyVpnTunnelCertificateCommand,
+ ModifyVpnTunnelOptionsCommand,
+ MonitorInstancesCommand,
+ MoveAddressToVpcCommand,
+ MoveByoipCidrToIpamCommand,
+ ProvisionByoipCidrCommand,
+ ProvisionIpamByoasnCommand,
+ ProvisionIpamPoolCidrCommand,
+ ProvisionPublicIpv4PoolCidrCommand,
+ PurchaseCapacityBlockCommand,
+ PurchaseHostReservationCommand,
+ PurchaseReservedInstancesOfferingCommand,
+ PurchaseScheduledInstancesCommand,
+ RebootInstancesCommand,
+ RegisterImageCommand,
+ RegisterInstanceEventNotificationAttributesCommand,
+ RegisterTransitGatewayMulticastGroupMembersCommand,
+ RegisterTransitGatewayMulticastGroupSourcesCommand,
+ RejectTransitGatewayMulticastDomainAssociationsCommand,
+ RejectTransitGatewayPeeringAttachmentCommand,
+ RejectTransitGatewayVpcAttachmentCommand,
+ RejectVpcEndpointConnectionsCommand,
+ RejectVpcPeeringConnectionCommand,
+ ReleaseAddressCommand,
+ ReleaseHostsCommand,
+ ReleaseIpamPoolAllocationCommand,
+ ReplaceIamInstanceProfileAssociationCommand,
+ ReplaceNetworkAclAssociationCommand,
+ ReplaceNetworkAclEntryCommand,
+ ReplaceRouteCommand,
+ ReplaceRouteTableAssociationCommand,
+ ReplaceTransitGatewayRouteCommand,
+ ReplaceVpnTunnelCommand,
+ ReportInstanceStatusCommand,
+ RequestSpotFleetCommand,
+ RequestSpotInstancesCommand,
+ ResetAddressAttributeCommand,
+ ResetEbsDefaultKmsKeyIdCommand,
+ ResetFpgaImageAttributeCommand,
+ ResetImageAttributeCommand,
+ ResetInstanceAttributeCommand,
+ ResetNetworkInterfaceAttributeCommand,
+ ResetSnapshotAttributeCommand,
+ RestoreAddressToClassicCommand,
+ RestoreImageFromRecycleBinCommand,
+ RestoreManagedPrefixListVersionCommand,
+ RestoreSnapshotFromRecycleBinCommand,
+ RestoreSnapshotTierCommand,
+ RevokeClientVpnIngressCommand,
+ RevokeSecurityGroupEgressCommand,
+ RevokeSecurityGroupIngressCommand,
+ RunInstancesCommand,
+ RunScheduledInstancesCommand,
+ SearchLocalGatewayRoutesCommand,
+ SearchTransitGatewayMulticastGroupsCommand,
+ SearchTransitGatewayRoutesCommand,
+ SendDiagnosticInterruptCommand,
+ StartInstancesCommand,
+ StartNetworkInsightsAccessScopeAnalysisCommand,
+ StartNetworkInsightsAnalysisCommand,
+ StartVpcEndpointServicePrivateDnsVerificationCommand,
+ StopInstancesCommand,
+ TerminateClientVpnConnectionsCommand,
+ TerminateInstancesCommand,
+ UnassignIpv6AddressesCommand,
+ UnassignPrivateIpAddressesCommand,
+ UnassignPrivateNatGatewayAddressCommand,
+ UnlockSnapshotCommand,
+ UnmonitorInstancesCommand,
+ UpdateSecurityGroupRuleDescriptionsEgressCommand,
+ UpdateSecurityGroupRuleDescriptionsIngressCommand,
+ WithdrawByoipCidrCommand
 };
 
 /**
  * @since 1.0.0
  * @category models
  */
-export type EC2Service = {
+export interface EC2Service {
   readonly _: unique symbol;
 
   /**
    * @see {@link AcceptAddressTransferCommand}
    */
-  readonly acceptAddressTransfer: (
-    args: AcceptAddressTransferCommandInput,
+  acceptAddressTransfer(
+    args: AcceptAddressTransferRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    AcceptAddressTransferCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  AcceptAddressTransferResult,
+    | SdkError
+  >
 
   /**
    * @see {@link AcceptReservedInstancesExchangeQuoteCommand}
    */
-  readonly acceptReservedInstancesExchangeQuote: (
-    args: AcceptReservedInstancesExchangeQuoteCommandInput,
+  acceptReservedInstancesExchangeQuote(
+    args: AcceptReservedInstancesExchangeQuoteRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    AcceptReservedInstancesExchangeQuoteCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  AcceptReservedInstancesExchangeQuoteResult,
+    | SdkError
+  >
 
   /**
    * @see {@link AcceptTransitGatewayMulticastDomainAssociationsCommand}
    */
-  readonly acceptTransitGatewayMulticastDomainAssociations: (
-    args: AcceptTransitGatewayMulticastDomainAssociationsCommandInput,
+  acceptTransitGatewayMulticastDomainAssociations(
+    args: AcceptTransitGatewayMulticastDomainAssociationsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    AcceptTransitGatewayMulticastDomainAssociationsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  AcceptTransitGatewayMulticastDomainAssociationsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link AcceptTransitGatewayPeeringAttachmentCommand}
    */
-  readonly acceptTransitGatewayPeeringAttachment: (
-    args: AcceptTransitGatewayPeeringAttachmentCommandInput,
+  acceptTransitGatewayPeeringAttachment(
+    args: AcceptTransitGatewayPeeringAttachmentRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    AcceptTransitGatewayPeeringAttachmentCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  AcceptTransitGatewayPeeringAttachmentResult,
+    | SdkError
+  >
 
   /**
    * @see {@link AcceptTransitGatewayVpcAttachmentCommand}
    */
-  readonly acceptTransitGatewayVpcAttachment: (
-    args: AcceptTransitGatewayVpcAttachmentCommandInput,
+  acceptTransitGatewayVpcAttachment(
+    args: AcceptTransitGatewayVpcAttachmentRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    AcceptTransitGatewayVpcAttachmentCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  AcceptTransitGatewayVpcAttachmentResult,
+    | SdkError
+  >
 
   /**
    * @see {@link AcceptVpcEndpointConnectionsCommand}
    */
-  readonly acceptVpcEndpointConnections: (
-    args: AcceptVpcEndpointConnectionsCommandInput,
+  acceptVpcEndpointConnections(
+    args: AcceptVpcEndpointConnectionsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    AcceptVpcEndpointConnectionsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  AcceptVpcEndpointConnectionsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link AcceptVpcPeeringConnectionCommand}
    */
-  readonly acceptVpcPeeringConnection: (
-    args: AcceptVpcPeeringConnectionCommandInput,
+  acceptVpcPeeringConnection(
+    args: AcceptVpcPeeringConnectionRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    AcceptVpcPeeringConnectionCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  AcceptVpcPeeringConnectionResult,
+    | SdkError
+  >
 
   /**
    * @see {@link AdvertiseByoipCidrCommand}
    */
-  readonly advertiseByoipCidr: (
-    args: AdvertiseByoipCidrCommandInput,
+  advertiseByoipCidr(
+    args: AdvertiseByoipCidrRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    AdvertiseByoipCidrCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  AdvertiseByoipCidrResult,
+    | SdkError
+  >
 
   /**
    * @see {@link AllocateAddressCommand}
    */
-  readonly allocateAddress: (
-    args: AllocateAddressCommandInput,
+  allocateAddress(
+    args: AllocateAddressRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<AllocateAddressCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  AllocateAddressResult,
+    | SdkError
+  >
 
   /**
    * @see {@link AllocateHostsCommand}
    */
-  readonly allocateHosts: (
-    args: AllocateHostsCommandInput,
+  allocateHosts(
+    args: AllocateHostsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<AllocateHostsCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  AllocateHostsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link AllocateIpamPoolCidrCommand}
    */
-  readonly allocateIpamPoolCidr: (
-    args: AllocateIpamPoolCidrCommandInput,
+  allocateIpamPoolCidr(
+    args: AllocateIpamPoolCidrRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    AllocateIpamPoolCidrCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  AllocateIpamPoolCidrResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ApplySecurityGroupsToClientVpnTargetNetworkCommand}
    */
-  readonly applySecurityGroupsToClientVpnTargetNetwork: (
-    args: ApplySecurityGroupsToClientVpnTargetNetworkCommandInput,
+  applySecurityGroupsToClientVpnTargetNetwork(
+    args: ApplySecurityGroupsToClientVpnTargetNetworkRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ApplySecurityGroupsToClientVpnTargetNetworkCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ApplySecurityGroupsToClientVpnTargetNetworkResult,
+    | SdkError
+  >
 
   /**
    * @see {@link AssignIpv6AddressesCommand}
    */
-  readonly assignIpv6Addresses: (
-    args: AssignIpv6AddressesCommandInput,
+  assignIpv6Addresses(
+    args: AssignIpv6AddressesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    AssignIpv6AddressesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  AssignIpv6AddressesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link AssignPrivateIpAddressesCommand}
    */
-  readonly assignPrivateIpAddresses: (
-    args: AssignPrivateIpAddressesCommandInput,
+  assignPrivateIpAddresses(
+    args: AssignPrivateIpAddressesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    AssignPrivateIpAddressesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  AssignPrivateIpAddressesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link AssignPrivateNatGatewayAddressCommand}
    */
-  readonly assignPrivateNatGatewayAddress: (
-    args: AssignPrivateNatGatewayAddressCommandInput,
+  assignPrivateNatGatewayAddress(
+    args: AssignPrivateNatGatewayAddressRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    AssignPrivateNatGatewayAddressCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  AssignPrivateNatGatewayAddressResult,
+    | SdkError
+  >
 
   /**
    * @see {@link AssociateAddressCommand}
    */
-  readonly associateAddress: (
-    args: AssociateAddressCommandInput,
+  associateAddress(
+    args: AssociateAddressRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<AssociateAddressCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  AssociateAddressResult,
+    | SdkError
+  >
 
   /**
    * @see {@link AssociateClientVpnTargetNetworkCommand}
    */
-  readonly associateClientVpnTargetNetwork: (
-    args: AssociateClientVpnTargetNetworkCommandInput,
+  associateClientVpnTargetNetwork(
+    args: AssociateClientVpnTargetNetworkRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    AssociateClientVpnTargetNetworkCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  AssociateClientVpnTargetNetworkResult,
+    | SdkError
+  >
 
   /**
    * @see {@link AssociateDhcpOptionsCommand}
    */
-  readonly associateDhcpOptions: (
-    args: AssociateDhcpOptionsCommandInput,
+  associateDhcpOptions(
+    args: AssociateDhcpOptionsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    AssociateDhcpOptionsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link AssociateEnclaveCertificateIamRoleCommand}
    */
-  readonly associateEnclaveCertificateIamRole: (
-    args: AssociateEnclaveCertificateIamRoleCommandInput,
+  associateEnclaveCertificateIamRole(
+    args: AssociateEnclaveCertificateIamRoleRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    AssociateEnclaveCertificateIamRoleCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  AssociateEnclaveCertificateIamRoleResult,
+    | SdkError
+  >
 
   /**
    * @see {@link AssociateIamInstanceProfileCommand}
    */
-  readonly associateIamInstanceProfile: (
-    args: AssociateIamInstanceProfileCommandInput,
+  associateIamInstanceProfile(
+    args: AssociateIamInstanceProfileRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    AssociateIamInstanceProfileCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  AssociateIamInstanceProfileResult,
+    | SdkError
+  >
 
   /**
    * @see {@link AssociateInstanceEventWindowCommand}
    */
-  readonly associateInstanceEventWindow: (
-    args: AssociateInstanceEventWindowCommandInput,
+  associateInstanceEventWindow(
+    args: AssociateInstanceEventWindowRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    AssociateInstanceEventWindowCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  AssociateInstanceEventWindowResult,
+    | SdkError
+  >
 
   /**
    * @see {@link AssociateIpamByoasnCommand}
    */
-  readonly associateIpamByoasn: (
-    args: AssociateIpamByoasnCommandInput,
+  associateIpamByoasn(
+    args: AssociateIpamByoasnRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    AssociateIpamByoasnCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  AssociateIpamByoasnResult,
+    | SdkError
+  >
 
   /**
    * @see {@link AssociateIpamResourceDiscoveryCommand}
    */
-  readonly associateIpamResourceDiscovery: (
-    args: AssociateIpamResourceDiscoveryCommandInput,
+  associateIpamResourceDiscovery(
+    args: AssociateIpamResourceDiscoveryRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    AssociateIpamResourceDiscoveryCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  AssociateIpamResourceDiscoveryResult,
+    | SdkError
+  >
 
   /**
    * @see {@link AssociateNatGatewayAddressCommand}
    */
-  readonly associateNatGatewayAddress: (
-    args: AssociateNatGatewayAddressCommandInput,
+  associateNatGatewayAddress(
+    args: AssociateNatGatewayAddressRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    AssociateNatGatewayAddressCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  AssociateNatGatewayAddressResult,
+    | SdkError
+  >
 
   /**
    * @see {@link AssociateRouteTableCommand}
    */
-  readonly associateRouteTable: (
-    args: AssociateRouteTableCommandInput,
+  associateRouteTable(
+    args: AssociateRouteTableRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    AssociateRouteTableCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  AssociateRouteTableResult,
+    | SdkError
+  >
 
   /**
    * @see {@link AssociateSubnetCidrBlockCommand}
    */
-  readonly associateSubnetCidrBlock: (
-    args: AssociateSubnetCidrBlockCommandInput,
+  associateSubnetCidrBlock(
+    args: AssociateSubnetCidrBlockRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    AssociateSubnetCidrBlockCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  AssociateSubnetCidrBlockResult,
+    | SdkError
+  >
 
   /**
    * @see {@link AssociateTransitGatewayMulticastDomainCommand}
    */
-  readonly associateTransitGatewayMulticastDomain: (
-    args: AssociateTransitGatewayMulticastDomainCommandInput,
+  associateTransitGatewayMulticastDomain(
+    args: AssociateTransitGatewayMulticastDomainRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    AssociateTransitGatewayMulticastDomainCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  AssociateTransitGatewayMulticastDomainResult,
+    | SdkError
+  >
 
   /**
    * @see {@link AssociateTransitGatewayPolicyTableCommand}
    */
-  readonly associateTransitGatewayPolicyTable: (
-    args: AssociateTransitGatewayPolicyTableCommandInput,
+  associateTransitGatewayPolicyTable(
+    args: AssociateTransitGatewayPolicyTableRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    AssociateTransitGatewayPolicyTableCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  AssociateTransitGatewayPolicyTableResult,
+    | SdkError
+  >
 
   /**
    * @see {@link AssociateTransitGatewayRouteTableCommand}
    */
-  readonly associateTransitGatewayRouteTable: (
-    args: AssociateTransitGatewayRouteTableCommandInput,
+  associateTransitGatewayRouteTable(
+    args: AssociateTransitGatewayRouteTableRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    AssociateTransitGatewayRouteTableCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  AssociateTransitGatewayRouteTableResult,
+    | SdkError
+  >
 
   /**
    * @see {@link AssociateTrunkInterfaceCommand}
    */
-  readonly associateTrunkInterface: (
-    args: AssociateTrunkInterfaceCommandInput,
+  associateTrunkInterface(
+    args: AssociateTrunkInterfaceRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    AssociateTrunkInterfaceCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  AssociateTrunkInterfaceResult,
+    | SdkError
+  >
 
   /**
    * @see {@link AssociateVpcCidrBlockCommand}
    */
-  readonly associateVpcCidrBlock: (
-    args: AssociateVpcCidrBlockCommandInput,
+  associateVpcCidrBlock(
+    args: AssociateVpcCidrBlockRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    AssociateVpcCidrBlockCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  AssociateVpcCidrBlockResult,
+    | SdkError
+  >
 
   /**
    * @see {@link AttachClassicLinkVpcCommand}
    */
-  readonly attachClassicLinkVpc: (
-    args: AttachClassicLinkVpcCommandInput,
+  attachClassicLinkVpc(
+    args: AttachClassicLinkVpcRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    AttachClassicLinkVpcCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  AttachClassicLinkVpcResult,
+    | SdkError
+  >
 
   /**
    * @see {@link AttachInternetGatewayCommand}
    */
-  readonly attachInternetGateway: (
-    args: AttachInternetGatewayCommandInput,
+  attachInternetGateway(
+    args: AttachInternetGatewayRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    AttachInternetGatewayCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link AttachNetworkInterfaceCommand}
    */
-  readonly attachNetworkInterface: (
-    args: AttachNetworkInterfaceCommandInput,
+  attachNetworkInterface(
+    args: AttachNetworkInterfaceRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    AttachNetworkInterfaceCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  AttachNetworkInterfaceResult,
+    | SdkError
+  >
 
   /**
    * @see {@link AttachVerifiedAccessTrustProviderCommand}
    */
-  readonly attachVerifiedAccessTrustProvider: (
-    args: AttachVerifiedAccessTrustProviderCommandInput,
+  attachVerifiedAccessTrustProvider(
+    args: AttachVerifiedAccessTrustProviderRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    AttachVerifiedAccessTrustProviderCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  AttachVerifiedAccessTrustProviderResult,
+    | SdkError
+  >
 
   /**
    * @see {@link AttachVolumeCommand}
    */
-  readonly attachVolume: (
-    args: AttachVolumeCommandInput,
+  attachVolume(
+    args: AttachVolumeRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<AttachVolumeCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  VolumeAttachment,
+    | SdkError
+  >
 
   /**
    * @see {@link AttachVpnGatewayCommand}
    */
-  readonly attachVpnGateway: (
-    args: AttachVpnGatewayCommandInput,
+  attachVpnGateway(
+    args: AttachVpnGatewayRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<AttachVpnGatewayCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  AttachVpnGatewayResult,
+    | SdkError
+  >
 
   /**
    * @see {@link AuthorizeClientVpnIngressCommand}
    */
-  readonly authorizeClientVpnIngress: (
-    args: AuthorizeClientVpnIngressCommandInput,
+  authorizeClientVpnIngress(
+    args: AuthorizeClientVpnIngressRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    AuthorizeClientVpnIngressCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  AuthorizeClientVpnIngressResult,
+    | SdkError
+  >
 
   /**
    * @see {@link AuthorizeSecurityGroupEgressCommand}
    */
-  readonly authorizeSecurityGroupEgress: (
-    args: AuthorizeSecurityGroupEgressCommandInput,
+  authorizeSecurityGroupEgress(
+    args: AuthorizeSecurityGroupEgressRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    AuthorizeSecurityGroupEgressCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  AuthorizeSecurityGroupEgressResult,
+    | SdkError
+  >
 
   /**
    * @see {@link AuthorizeSecurityGroupIngressCommand}
    */
-  readonly authorizeSecurityGroupIngress: (
-    args: AuthorizeSecurityGroupIngressCommandInput,
+  authorizeSecurityGroupIngress(
+    args: AuthorizeSecurityGroupIngressRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    AuthorizeSecurityGroupIngressCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  AuthorizeSecurityGroupIngressResult,
+    | SdkError
+  >
 
   /**
    * @see {@link BundleInstanceCommand}
    */
-  readonly bundleInstance: (
-    args: BundleInstanceCommandInput,
+  bundleInstance(
+    args: BundleInstanceRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<BundleInstanceCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  BundleInstanceResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CancelBundleTaskCommand}
    */
-  readonly cancelBundleTask: (
-    args: CancelBundleTaskCommandInput,
+  cancelBundleTask(
+    args: CancelBundleTaskRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<CancelBundleTaskCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  CancelBundleTaskResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CancelCapacityReservationCommand}
    */
-  readonly cancelCapacityReservation: (
-    args: CancelCapacityReservationCommandInput,
+  cancelCapacityReservation(
+    args: CancelCapacityReservationRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CancelCapacityReservationCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CancelCapacityReservationResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CancelCapacityReservationFleetsCommand}
    */
-  readonly cancelCapacityReservationFleets: (
-    args: CancelCapacityReservationFleetsCommandInput,
+  cancelCapacityReservationFleets(
+    args: CancelCapacityReservationFleetsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CancelCapacityReservationFleetsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CancelCapacityReservationFleetsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CancelConversionTaskCommand}
    */
-  readonly cancelConversionTask: (
-    args: CancelConversionTaskCommandInput,
+  cancelConversionTask(
+    args: CancelConversionRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CancelConversionTaskCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link CancelExportTaskCommand}
    */
-  readonly cancelExportTask: (
-    args: CancelExportTaskCommandInput,
+  cancelExportTask(
+    args: CancelExportTaskRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<CancelExportTaskCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link CancelImageLaunchPermissionCommand}
    */
-  readonly cancelImageLaunchPermission: (
-    args: CancelImageLaunchPermissionCommandInput,
+  cancelImageLaunchPermission(
+    args: CancelImageLaunchPermissionRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CancelImageLaunchPermissionCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CancelImageLaunchPermissionResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CancelImportTaskCommand}
    */
-  readonly cancelImportTask: (
-    args: CancelImportTaskCommandInput,
+  cancelImportTask(
+    args: CancelImportTaskRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<CancelImportTaskCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  CancelImportTaskResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CancelReservedInstancesListingCommand}
    */
-  readonly cancelReservedInstancesListing: (
-    args: CancelReservedInstancesListingCommandInput,
+  cancelReservedInstancesListing(
+    args: CancelReservedInstancesListingRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CancelReservedInstancesListingCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CancelReservedInstancesListingResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CancelSpotFleetRequestsCommand}
    */
-  readonly cancelSpotFleetRequests: (
-    args: CancelSpotFleetRequestsCommandInput,
+  cancelSpotFleetRequests(
+    args: CancelSpotFleetRequestsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CancelSpotFleetRequestsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CancelSpotFleetRequestsResponse,
+    | SdkError
+  >
 
   /**
    * @see {@link CancelSpotInstanceRequestsCommand}
    */
-  readonly cancelSpotInstanceRequests: (
-    args: CancelSpotInstanceRequestsCommandInput,
+  cancelSpotInstanceRequests(
+    args: CancelSpotInstanceRequestsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CancelSpotInstanceRequestsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CancelSpotInstanceRequestsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ConfirmProductInstanceCommand}
    */
-  readonly confirmProductInstance: (
-    args: ConfirmProductInstanceCommandInput,
+  confirmProductInstance(
+    args: ConfirmProductInstanceRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ConfirmProductInstanceCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ConfirmProductInstanceResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CopyFpgaImageCommand}
    */
-  readonly copyFpgaImage: (
-    args: CopyFpgaImageCommandInput,
+  copyFpgaImage(
+    args: CopyFpgaImageRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<CopyFpgaImageCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  CopyFpgaImageResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CopyImageCommand}
    */
-  readonly copyImage: (
-    args: CopyImageCommandInput,
+  copyImage(
+    args: CopyImageRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<CopyImageCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  CopyImageResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CopySnapshotCommand}
    */
-  readonly copySnapshot: (
-    args: CopySnapshotCommandInput,
+  copySnapshot(
+    args: CopySnapshotRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<CopySnapshotCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  CopySnapshotResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateCapacityReservationCommand}
    */
-  readonly createCapacityReservation: (
-    args: CreateCapacityReservationCommandInput,
+  createCapacityReservation(
+    args: CreateCapacityReservationRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateCapacityReservationCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateCapacityReservationResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateCapacityReservationFleetCommand}
    */
-  readonly createCapacityReservationFleet: (
-    args: CreateCapacityReservationFleetCommandInput,
+  createCapacityReservationFleet(
+    args: CreateCapacityReservationFleetRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateCapacityReservationFleetCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateCapacityReservationFleetResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateCarrierGatewayCommand}
    */
-  readonly createCarrierGateway: (
-    args: CreateCarrierGatewayCommandInput,
+  createCarrierGateway(
+    args: CreateCarrierGatewayRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateCarrierGatewayCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateCarrierGatewayResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateClientVpnEndpointCommand}
    */
-  readonly createClientVpnEndpoint: (
-    args: CreateClientVpnEndpointCommandInput,
+  createClientVpnEndpoint(
+    args: CreateClientVpnEndpointRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateClientVpnEndpointCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateClientVpnEndpointResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateClientVpnRouteCommand}
    */
-  readonly createClientVpnRoute: (
-    args: CreateClientVpnRouteCommandInput,
+  createClientVpnRoute(
+    args: CreateClientVpnRouteRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateClientVpnRouteCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateClientVpnRouteResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateCoipCidrCommand}
    */
-  readonly createCoipCidr: (
-    args: CreateCoipCidrCommandInput,
+  createCoipCidr(
+    args: CreateCoipCidrRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<CreateCoipCidrCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  CreateCoipCidrResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateCoipPoolCommand}
    */
-  readonly createCoipPool: (
-    args: CreateCoipPoolCommandInput,
+  createCoipPool(
+    args: CreateCoipPoolRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<CreateCoipPoolCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  CreateCoipPoolResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateCustomerGatewayCommand}
    */
-  readonly createCustomerGateway: (
-    args: CreateCustomerGatewayCommandInput,
+  createCustomerGateway(
+    args: CreateCustomerGatewayRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateCustomerGatewayCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateCustomerGatewayResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateDefaultSubnetCommand}
    */
-  readonly createDefaultSubnet: (
-    args: CreateDefaultSubnetCommandInput,
+  createDefaultSubnet(
+    args: CreateDefaultSubnetRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateDefaultSubnetCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateDefaultSubnetResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateDefaultVpcCommand}
    */
-  readonly createDefaultVpc: (
-    args: CreateDefaultVpcCommandInput,
+  createDefaultVpc(
+    args: CreateDefaultVpcRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<CreateDefaultVpcCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  CreateDefaultVpcResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateDhcpOptionsCommand}
    */
-  readonly createDhcpOptions: (
-    args: CreateDhcpOptionsCommandInput,
+  createDhcpOptions(
+    args: CreateDhcpOptionsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateDhcpOptionsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateDhcpOptionsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateEgressOnlyInternetGatewayCommand}
    */
-  readonly createEgressOnlyInternetGateway: (
-    args: CreateEgressOnlyInternetGatewayCommandInput,
+  createEgressOnlyInternetGateway(
+    args: CreateEgressOnlyInternetGatewayRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateEgressOnlyInternetGatewayCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateEgressOnlyInternetGatewayResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateFleetCommand}
    */
-  readonly createFleet: (
-    args: CreateFleetCommandInput,
+  createFleet(
+    args: CreateFleetRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<CreateFleetCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  CreateFleetResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateFlowLogsCommand}
    */
-  readonly createFlowLogs: (
-    args: CreateFlowLogsCommandInput,
+  createFlowLogs(
+    args: CreateFlowLogsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<CreateFlowLogsCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  CreateFlowLogsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateFpgaImageCommand}
    */
-  readonly createFpgaImage: (
-    args: CreateFpgaImageCommandInput,
+  createFpgaImage(
+    args: CreateFpgaImageRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<CreateFpgaImageCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  CreateFpgaImageResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateImageCommand}
    */
-  readonly createImage: (
-    args: CreateImageCommandInput,
+  createImage(
+    args: CreateImageRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<CreateImageCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  CreateImageResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateInstanceConnectEndpointCommand}
    */
-  readonly createInstanceConnectEndpoint: (
-    args: CreateInstanceConnectEndpointCommandInput,
+  createInstanceConnectEndpoint(
+    args: CreateInstanceConnectEndpointRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateInstanceConnectEndpointCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateInstanceConnectEndpointResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateInstanceEventWindowCommand}
    */
-  readonly createInstanceEventWindow: (
-    args: CreateInstanceEventWindowCommandInput,
+  createInstanceEventWindow(
+    args: CreateInstanceEventWindowRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateInstanceEventWindowCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateInstanceEventWindowResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateInstanceExportTaskCommand}
    */
-  readonly createInstanceExportTask: (
-    args: CreateInstanceExportTaskCommandInput,
+  createInstanceExportTask(
+    args: CreateInstanceExportTaskRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateInstanceExportTaskCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateInstanceExportTaskResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateInternetGatewayCommand}
    */
-  readonly createInternetGateway: (
-    args: CreateInternetGatewayCommandInput,
+  createInternetGateway(
+    args: CreateInternetGatewayRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateInternetGatewayCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateInternetGatewayResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateIpamCommand}
    */
-  readonly createIpam: (
-    args: CreateIpamCommandInput,
+  createIpam(
+    args: CreateIpamRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<CreateIpamCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  CreateIpamResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateIpamPoolCommand}
    */
-  readonly createIpamPool: (
-    args: CreateIpamPoolCommandInput,
+  createIpamPool(
+    args: CreateIpamPoolRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<CreateIpamPoolCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  CreateIpamPoolResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateIpamResourceDiscoveryCommand}
    */
-  readonly createIpamResourceDiscovery: (
-    args: CreateIpamResourceDiscoveryCommandInput,
+  createIpamResourceDiscovery(
+    args: CreateIpamResourceDiscoveryRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateIpamResourceDiscoveryCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateIpamResourceDiscoveryResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateIpamScopeCommand}
    */
-  readonly createIpamScope: (
-    args: CreateIpamScopeCommandInput,
+  createIpamScope(
+    args: CreateIpamScopeRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<CreateIpamScopeCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  CreateIpamScopeResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateKeyPairCommand}
    */
-  readonly createKeyPair: (
-    args: CreateKeyPairCommandInput,
+  createKeyPair(
+    args: CreateKeyPairRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<CreateKeyPairCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  KeyPair,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateLaunchTemplateCommand}
    */
-  readonly createLaunchTemplate: (
-    args: CreateLaunchTemplateCommandInput,
+  createLaunchTemplate(
+    args: CreateLaunchTemplateRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateLaunchTemplateCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateLaunchTemplateResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateLaunchTemplateVersionCommand}
    */
-  readonly createLaunchTemplateVersion: (
-    args: CreateLaunchTemplateVersionCommandInput,
+  createLaunchTemplateVersion(
+    args: CreateLaunchTemplateVersionRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateLaunchTemplateVersionCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateLaunchTemplateVersionResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateLocalGatewayRouteCommand}
    */
-  readonly createLocalGatewayRoute: (
-    args: CreateLocalGatewayRouteCommandInput,
+  createLocalGatewayRoute(
+    args: CreateLocalGatewayRouteRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateLocalGatewayRouteCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateLocalGatewayRouteResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateLocalGatewayRouteTableCommand}
    */
-  readonly createLocalGatewayRouteTable: (
-    args: CreateLocalGatewayRouteTableCommandInput,
+  createLocalGatewayRouteTable(
+    args: CreateLocalGatewayRouteTableRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateLocalGatewayRouteTableCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateLocalGatewayRouteTableResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationCommand}
    */
-  readonly createLocalGatewayRouteTableVirtualInterfaceGroupAssociation: (
-    args: CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationCommandInput,
+  createLocalGatewayRouteTableVirtualInterfaceGroupAssociation(
+    args: CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateLocalGatewayRouteTableVpcAssociationCommand}
    */
-  readonly createLocalGatewayRouteTableVpcAssociation: (
-    args: CreateLocalGatewayRouteTableVpcAssociationCommandInput,
+  createLocalGatewayRouteTableVpcAssociation(
+    args: CreateLocalGatewayRouteTableVpcAssociationRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateLocalGatewayRouteTableVpcAssociationCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateLocalGatewayRouteTableVpcAssociationResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateManagedPrefixListCommand}
    */
-  readonly createManagedPrefixList: (
-    args: CreateManagedPrefixListCommandInput,
+  createManagedPrefixList(
+    args: CreateManagedPrefixListRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateManagedPrefixListCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateManagedPrefixListResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateNatGatewayCommand}
    */
-  readonly createNatGateway: (
-    args: CreateNatGatewayCommandInput,
+  createNatGateway(
+    args: CreateNatGatewayRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<CreateNatGatewayCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  CreateNatGatewayResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateNetworkAclCommand}
    */
-  readonly createNetworkAcl: (
-    args: CreateNetworkAclCommandInput,
+  createNetworkAcl(
+    args: CreateNetworkAclRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<CreateNetworkAclCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  CreateNetworkAclResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateNetworkAclEntryCommand}
    */
-  readonly createNetworkAclEntry: (
-    args: CreateNetworkAclEntryCommandInput,
+  createNetworkAclEntry(
+    args: CreateNetworkAclEntryRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateNetworkAclEntryCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateNetworkInsightsAccessScopeCommand}
    */
-  readonly createNetworkInsightsAccessScope: (
-    args: CreateNetworkInsightsAccessScopeCommandInput,
+  createNetworkInsightsAccessScope(
+    args: CreateNetworkInsightsAccessScopeRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateNetworkInsightsAccessScopeCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateNetworkInsightsAccessScopeResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateNetworkInsightsPathCommand}
    */
-  readonly createNetworkInsightsPath: (
-    args: CreateNetworkInsightsPathCommandInput,
+  createNetworkInsightsPath(
+    args: CreateNetworkInsightsPathRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateNetworkInsightsPathCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateNetworkInsightsPathResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateNetworkInterfaceCommand}
    */
-  readonly createNetworkInterface: (
-    args: CreateNetworkInterfaceCommandInput,
+  createNetworkInterface(
+    args: CreateNetworkInterfaceRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateNetworkInterfaceCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateNetworkInterfaceResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateNetworkInterfacePermissionCommand}
    */
-  readonly createNetworkInterfacePermission: (
-    args: CreateNetworkInterfacePermissionCommandInput,
+  createNetworkInterfacePermission(
+    args: CreateNetworkInterfacePermissionRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateNetworkInterfacePermissionCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateNetworkInterfacePermissionResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreatePlacementGroupCommand}
    */
-  readonly createPlacementGroup: (
-    args: CreatePlacementGroupCommandInput,
+  createPlacementGroup(
+    args: CreatePlacementGroupRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreatePlacementGroupCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreatePlacementGroupResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreatePublicIpv4PoolCommand}
    */
-  readonly createPublicIpv4Pool: (
-    args: CreatePublicIpv4PoolCommandInput,
+  createPublicIpv4Pool(
+    args: CreatePublicIpv4PoolRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreatePublicIpv4PoolCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreatePublicIpv4PoolResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateReplaceRootVolumeTaskCommand}
    */
-  readonly createReplaceRootVolumeTask: (
-    args: CreateReplaceRootVolumeTaskCommandInput,
+  createReplaceRootVolumeTask(
+    args: CreateReplaceRootVolumeTaskRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateReplaceRootVolumeTaskCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateReplaceRootVolumeTaskResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateReservedInstancesListingCommand}
    */
-  readonly createReservedInstancesListing: (
-    args: CreateReservedInstancesListingCommandInput,
+  createReservedInstancesListing(
+    args: CreateReservedInstancesListingRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateReservedInstancesListingCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateReservedInstancesListingResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateRestoreImageTaskCommand}
    */
-  readonly createRestoreImageTask: (
-    args: CreateRestoreImageTaskCommandInput,
+  createRestoreImageTask(
+    args: CreateRestoreImageTaskRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateRestoreImageTaskCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateRestoreImageTaskResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateRouteCommand}
    */
-  readonly createRoute: (
-    args: CreateRouteCommandInput,
+  createRoute(
+    args: CreateRouteRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<CreateRouteCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  CreateRouteResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateRouteTableCommand}
    */
-  readonly createRouteTable: (
-    args: CreateRouteTableCommandInput,
+  createRouteTable(
+    args: CreateRouteTableRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<CreateRouteTableCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  CreateRouteTableResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateSecurityGroupCommand}
    */
-  readonly createSecurityGroup: (
-    args: CreateSecurityGroupCommandInput,
+  createSecurityGroup(
+    args: CreateSecurityGroupRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateSecurityGroupCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateSecurityGroupResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateSnapshotCommand}
    */
-  readonly createSnapshot: (
-    args: CreateSnapshotCommandInput,
+  createSnapshot(
+    args: CreateSnapshotRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<CreateSnapshotCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  Snapshot,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateSnapshotsCommand}
    */
-  readonly createSnapshots: (
-    args: CreateSnapshotsCommandInput,
+  createSnapshots(
+    args: CreateSnapshotsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<CreateSnapshotsCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  CreateSnapshotsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateSpotDatafeedSubscriptionCommand}
    */
-  readonly createSpotDatafeedSubscription: (
-    args: CreateSpotDatafeedSubscriptionCommandInput,
+  createSpotDatafeedSubscription(
+    args: CreateSpotDatafeedSubscriptionRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateSpotDatafeedSubscriptionCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateSpotDatafeedSubscriptionResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateStoreImageTaskCommand}
    */
-  readonly createStoreImageTask: (
-    args: CreateStoreImageTaskCommandInput,
+  createStoreImageTask(
+    args: CreateStoreImageTaskRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateStoreImageTaskCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateStoreImageTaskResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateSubnetCommand}
    */
-  readonly createSubnet: (
-    args: CreateSubnetCommandInput,
+  createSubnet(
+    args: CreateSubnetRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<CreateSubnetCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  CreateSubnetResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateSubnetCidrReservationCommand}
    */
-  readonly createSubnetCidrReservation: (
-    args: CreateSubnetCidrReservationCommandInput,
+  createSubnetCidrReservation(
+    args: CreateSubnetCidrReservationRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateSubnetCidrReservationCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateSubnetCidrReservationResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateTagsCommand}
    */
-  readonly createTags: (
-    args: CreateTagsCommandInput,
+  createTags(
+    args: CreateTagsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<CreateTagsCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateTrafficMirrorFilterCommand}
    */
-  readonly createTrafficMirrorFilter: (
-    args: CreateTrafficMirrorFilterCommandInput,
+  createTrafficMirrorFilter(
+    args: CreateTrafficMirrorFilterRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateTrafficMirrorFilterCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateTrafficMirrorFilterResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateTrafficMirrorFilterRuleCommand}
    */
-  readonly createTrafficMirrorFilterRule: (
-    args: CreateTrafficMirrorFilterRuleCommandInput,
+  createTrafficMirrorFilterRule(
+    args: CreateTrafficMirrorFilterRuleRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateTrafficMirrorFilterRuleCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateTrafficMirrorFilterRuleResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateTrafficMirrorSessionCommand}
    */
-  readonly createTrafficMirrorSession: (
-    args: CreateTrafficMirrorSessionCommandInput,
+  createTrafficMirrorSession(
+    args: CreateTrafficMirrorSessionRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateTrafficMirrorSessionCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateTrafficMirrorSessionResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateTrafficMirrorTargetCommand}
    */
-  readonly createTrafficMirrorTarget: (
-    args: CreateTrafficMirrorTargetCommandInput,
+  createTrafficMirrorTarget(
+    args: CreateTrafficMirrorTargetRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateTrafficMirrorTargetCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateTrafficMirrorTargetResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateTransitGatewayCommand}
    */
-  readonly createTransitGateway: (
-    args: CreateTransitGatewayCommandInput,
+  createTransitGateway(
+    args: CreateTransitGatewayRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateTransitGatewayCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateTransitGatewayResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateTransitGatewayConnectCommand}
    */
-  readonly createTransitGatewayConnect: (
-    args: CreateTransitGatewayConnectCommandInput,
+  createTransitGatewayConnect(
+    args: CreateTransitGatewayConnectRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateTransitGatewayConnectCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateTransitGatewayConnectResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateTransitGatewayConnectPeerCommand}
    */
-  readonly createTransitGatewayConnectPeer: (
-    args: CreateTransitGatewayConnectPeerCommandInput,
+  createTransitGatewayConnectPeer(
+    args: CreateTransitGatewayConnectPeerRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateTransitGatewayConnectPeerCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateTransitGatewayConnectPeerResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateTransitGatewayMulticastDomainCommand}
    */
-  readonly createTransitGatewayMulticastDomain: (
-    args: CreateTransitGatewayMulticastDomainCommandInput,
+  createTransitGatewayMulticastDomain(
+    args: CreateTransitGatewayMulticastDomainRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateTransitGatewayMulticastDomainCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateTransitGatewayMulticastDomainResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateTransitGatewayPeeringAttachmentCommand}
    */
-  readonly createTransitGatewayPeeringAttachment: (
-    args: CreateTransitGatewayPeeringAttachmentCommandInput,
+  createTransitGatewayPeeringAttachment(
+    args: CreateTransitGatewayPeeringAttachmentRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateTransitGatewayPeeringAttachmentCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateTransitGatewayPeeringAttachmentResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateTransitGatewayPolicyTableCommand}
    */
-  readonly createTransitGatewayPolicyTable: (
-    args: CreateTransitGatewayPolicyTableCommandInput,
+  createTransitGatewayPolicyTable(
+    args: CreateTransitGatewayPolicyTableRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateTransitGatewayPolicyTableCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateTransitGatewayPolicyTableResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateTransitGatewayPrefixListReferenceCommand}
    */
-  readonly createTransitGatewayPrefixListReference: (
-    args: CreateTransitGatewayPrefixListReferenceCommandInput,
+  createTransitGatewayPrefixListReference(
+    args: CreateTransitGatewayPrefixListReferenceRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateTransitGatewayPrefixListReferenceCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateTransitGatewayPrefixListReferenceResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateTransitGatewayRouteCommand}
    */
-  readonly createTransitGatewayRoute: (
-    args: CreateTransitGatewayRouteCommandInput,
+  createTransitGatewayRoute(
+    args: CreateTransitGatewayRouteRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateTransitGatewayRouteCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateTransitGatewayRouteResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateTransitGatewayRouteTableCommand}
    */
-  readonly createTransitGatewayRouteTable: (
-    args: CreateTransitGatewayRouteTableCommandInput,
+  createTransitGatewayRouteTable(
+    args: CreateTransitGatewayRouteTableRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateTransitGatewayRouteTableCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateTransitGatewayRouteTableResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateTransitGatewayRouteTableAnnouncementCommand}
    */
-  readonly createTransitGatewayRouteTableAnnouncement: (
-    args: CreateTransitGatewayRouteTableAnnouncementCommandInput,
+  createTransitGatewayRouteTableAnnouncement(
+    args: CreateTransitGatewayRouteTableAnnouncementRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateTransitGatewayRouteTableAnnouncementCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateTransitGatewayRouteTableAnnouncementResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateTransitGatewayVpcAttachmentCommand}
    */
-  readonly createTransitGatewayVpcAttachment: (
-    args: CreateTransitGatewayVpcAttachmentCommandInput,
+  createTransitGatewayVpcAttachment(
+    args: CreateTransitGatewayVpcAttachmentRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateTransitGatewayVpcAttachmentCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateTransitGatewayVpcAttachmentResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateVerifiedAccessEndpointCommand}
    */
-  readonly createVerifiedAccessEndpoint: (
-    args: CreateVerifiedAccessEndpointCommandInput,
+  createVerifiedAccessEndpoint(
+    args: CreateVerifiedAccessEndpointRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateVerifiedAccessEndpointCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateVerifiedAccessEndpointResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateVerifiedAccessGroupCommand}
    */
-  readonly createVerifiedAccessGroup: (
-    args: CreateVerifiedAccessGroupCommandInput,
+  createVerifiedAccessGroup(
+    args: CreateVerifiedAccessGroupRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateVerifiedAccessGroupCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateVerifiedAccessGroupResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateVerifiedAccessInstanceCommand}
    */
-  readonly createVerifiedAccessInstance: (
-    args: CreateVerifiedAccessInstanceCommandInput,
+  createVerifiedAccessInstance(
+    args: CreateVerifiedAccessInstanceRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateVerifiedAccessInstanceCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateVerifiedAccessInstanceResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateVerifiedAccessTrustProviderCommand}
    */
-  readonly createVerifiedAccessTrustProvider: (
-    args: CreateVerifiedAccessTrustProviderCommandInput,
+  createVerifiedAccessTrustProvider(
+    args: CreateVerifiedAccessTrustProviderRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateVerifiedAccessTrustProviderCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateVerifiedAccessTrustProviderResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateVolumeCommand}
    */
-  readonly createVolume: (
-    args: CreateVolumeCommandInput,
+  createVolume(
+    args: CreateVolumeRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<CreateVolumeCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  Volume,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateVpcCommand}
    */
-  readonly createVpc: (
-    args: CreateVpcCommandInput,
+  createVpc(
+    args: CreateVpcRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<CreateVpcCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  CreateVpcResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateVpcEndpointCommand}
    */
-  readonly createVpcEndpoint: (
-    args: CreateVpcEndpointCommandInput,
+  createVpcEndpoint(
+    args: CreateVpcEndpointRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateVpcEndpointCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateVpcEndpointResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateVpcEndpointConnectionNotificationCommand}
    */
-  readonly createVpcEndpointConnectionNotification: (
-    args: CreateVpcEndpointConnectionNotificationCommandInput,
+  createVpcEndpointConnectionNotification(
+    args: CreateVpcEndpointConnectionNotificationRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateVpcEndpointConnectionNotificationCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateVpcEndpointConnectionNotificationResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateVpcEndpointServiceConfigurationCommand}
    */
-  readonly createVpcEndpointServiceConfiguration: (
-    args: CreateVpcEndpointServiceConfigurationCommandInput,
+  createVpcEndpointServiceConfiguration(
+    args: CreateVpcEndpointServiceConfigurationRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateVpcEndpointServiceConfigurationCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateVpcEndpointServiceConfigurationResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateVpcPeeringConnectionCommand}
    */
-  readonly createVpcPeeringConnection: (
-    args: CreateVpcPeeringConnectionCommandInput,
+  createVpcPeeringConnection(
+    args: CreateVpcPeeringConnectionRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateVpcPeeringConnectionCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateVpcPeeringConnectionResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateVpnConnectionCommand}
    */
-  readonly createVpnConnection: (
-    args: CreateVpnConnectionCommandInput,
+  createVpnConnection(
+    args: CreateVpnConnectionRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateVpnConnectionCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  CreateVpnConnectionResult,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateVpnConnectionRouteCommand}
    */
-  readonly createVpnConnectionRoute: (
-    args: CreateVpnConnectionRouteCommandInput,
+  createVpnConnectionRoute(
+    args: CreateVpnConnectionRouteRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateVpnConnectionRouteCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link CreateVpnGatewayCommand}
    */
-  readonly createVpnGateway: (
-    args: CreateVpnGatewayCommandInput,
+  createVpnGateway(
+    args: CreateVpnGatewayRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<CreateVpnGatewayCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  CreateVpnGatewayResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteCarrierGatewayCommand}
    */
-  readonly deleteCarrierGateway: (
-    args: DeleteCarrierGatewayCommandInput,
+  deleteCarrierGateway(
+    args: DeleteCarrierGatewayRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteCarrierGatewayCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DeleteCarrierGatewayResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteClientVpnEndpointCommand}
    */
-  readonly deleteClientVpnEndpoint: (
-    args: DeleteClientVpnEndpointCommandInput,
+  deleteClientVpnEndpoint(
+    args: DeleteClientVpnEndpointRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteClientVpnEndpointCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DeleteClientVpnEndpointResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteClientVpnRouteCommand}
    */
-  readonly deleteClientVpnRoute: (
-    args: DeleteClientVpnRouteCommandInput,
+  deleteClientVpnRoute(
+    args: DeleteClientVpnRouteRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteClientVpnRouteCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DeleteClientVpnRouteResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteCoipCidrCommand}
    */
-  readonly deleteCoipCidr: (
-    args: DeleteCoipCidrCommandInput,
+  deleteCoipCidr(
+    args: DeleteCoipCidrRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<DeleteCoipCidrCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  DeleteCoipCidrResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteCoipPoolCommand}
    */
-  readonly deleteCoipPool: (
-    args: DeleteCoipPoolCommandInput,
+  deleteCoipPool(
+    args: DeleteCoipPoolRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<DeleteCoipPoolCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  DeleteCoipPoolResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteCustomerGatewayCommand}
    */
-  readonly deleteCustomerGateway: (
-    args: DeleteCustomerGatewayCommandInput,
+  deleteCustomerGateway(
+    args: DeleteCustomerGatewayRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteCustomerGatewayCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteDhcpOptionsCommand}
    */
-  readonly deleteDhcpOptions: (
-    args: DeleteDhcpOptionsCommandInput,
+  deleteDhcpOptions(
+    args: DeleteDhcpOptionsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteDhcpOptionsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteEgressOnlyInternetGatewayCommand}
    */
-  readonly deleteEgressOnlyInternetGateway: (
-    args: DeleteEgressOnlyInternetGatewayCommandInput,
+  deleteEgressOnlyInternetGateway(
+    args: DeleteEgressOnlyInternetGatewayRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteEgressOnlyInternetGatewayCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DeleteEgressOnlyInternetGatewayResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteFleetsCommand}
    */
-  readonly deleteFleets: (
-    args: DeleteFleetsCommandInput,
+  deleteFleets(
+    args: DeleteFleetsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<DeleteFleetsCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  DeleteFleetsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteFlowLogsCommand}
    */
-  readonly deleteFlowLogs: (
-    args: DeleteFlowLogsCommandInput,
+  deleteFlowLogs(
+    args: DeleteFlowLogsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<DeleteFlowLogsCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  DeleteFlowLogsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteFpgaImageCommand}
    */
-  readonly deleteFpgaImage: (
-    args: DeleteFpgaImageCommandInput,
+  deleteFpgaImage(
+    args: DeleteFpgaImageRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<DeleteFpgaImageCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  DeleteFpgaImageResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteInstanceConnectEndpointCommand}
    */
-  readonly deleteInstanceConnectEndpoint: (
-    args: DeleteInstanceConnectEndpointCommandInput,
+  deleteInstanceConnectEndpoint(
+    args: DeleteInstanceConnectEndpointRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteInstanceConnectEndpointCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DeleteInstanceConnectEndpointResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteInstanceEventWindowCommand}
    */
-  readonly deleteInstanceEventWindow: (
-    args: DeleteInstanceEventWindowCommandInput,
+  deleteInstanceEventWindow(
+    args: DeleteInstanceEventWindowRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteInstanceEventWindowCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DeleteInstanceEventWindowResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteInternetGatewayCommand}
    */
-  readonly deleteInternetGateway: (
-    args: DeleteInternetGatewayCommandInput,
+  deleteInternetGateway(
+    args: DeleteInternetGatewayRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteInternetGatewayCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteIpamCommand}
    */
-  readonly deleteIpam: (
-    args: DeleteIpamCommandInput,
+  deleteIpam(
+    args: DeleteIpamRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<DeleteIpamCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  DeleteIpamResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteIpamPoolCommand}
    */
-  readonly deleteIpamPool: (
-    args: DeleteIpamPoolCommandInput,
+  deleteIpamPool(
+    args: DeleteIpamPoolRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<DeleteIpamPoolCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  DeleteIpamPoolResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteIpamResourceDiscoveryCommand}
    */
-  readonly deleteIpamResourceDiscovery: (
-    args: DeleteIpamResourceDiscoveryCommandInput,
+  deleteIpamResourceDiscovery(
+    args: DeleteIpamResourceDiscoveryRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteIpamResourceDiscoveryCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DeleteIpamResourceDiscoveryResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteIpamScopeCommand}
    */
-  readonly deleteIpamScope: (
-    args: DeleteIpamScopeCommandInput,
+  deleteIpamScope(
+    args: DeleteIpamScopeRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<DeleteIpamScopeCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  DeleteIpamScopeResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteKeyPairCommand}
    */
-  readonly deleteKeyPair: (
-    args: DeleteKeyPairCommandInput,
+  deleteKeyPair(
+    args: DeleteKeyPairRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<DeleteKeyPairCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  DeleteKeyPairResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteLaunchTemplateCommand}
    */
-  readonly deleteLaunchTemplate: (
-    args: DeleteLaunchTemplateCommandInput,
+  deleteLaunchTemplate(
+    args: DeleteLaunchTemplateRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteLaunchTemplateCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DeleteLaunchTemplateResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteLaunchTemplateVersionsCommand}
    */
-  readonly deleteLaunchTemplateVersions: (
-    args: DeleteLaunchTemplateVersionsCommandInput,
+  deleteLaunchTemplateVersions(
+    args: DeleteLaunchTemplateVersionsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteLaunchTemplateVersionsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DeleteLaunchTemplateVersionsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteLocalGatewayRouteCommand}
    */
-  readonly deleteLocalGatewayRoute: (
-    args: DeleteLocalGatewayRouteCommandInput,
+  deleteLocalGatewayRoute(
+    args: DeleteLocalGatewayRouteRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteLocalGatewayRouteCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DeleteLocalGatewayRouteResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteLocalGatewayRouteTableCommand}
    */
-  readonly deleteLocalGatewayRouteTable: (
-    args: DeleteLocalGatewayRouteTableCommandInput,
+  deleteLocalGatewayRouteTable(
+    args: DeleteLocalGatewayRouteTableRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteLocalGatewayRouteTableCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DeleteLocalGatewayRouteTableResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationCommand}
    */
-  readonly deleteLocalGatewayRouteTableVirtualInterfaceGroupAssociation: (
-    args: DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationCommandInput,
+  deleteLocalGatewayRouteTableVirtualInterfaceGroupAssociation(
+    args: DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteLocalGatewayRouteTableVpcAssociationCommand}
    */
-  readonly deleteLocalGatewayRouteTableVpcAssociation: (
-    args: DeleteLocalGatewayRouteTableVpcAssociationCommandInput,
+  deleteLocalGatewayRouteTableVpcAssociation(
+    args: DeleteLocalGatewayRouteTableVpcAssociationRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteLocalGatewayRouteTableVpcAssociationCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DeleteLocalGatewayRouteTableVpcAssociationResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteManagedPrefixListCommand}
    */
-  readonly deleteManagedPrefixList: (
-    args: DeleteManagedPrefixListCommandInput,
+  deleteManagedPrefixList(
+    args: DeleteManagedPrefixListRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteManagedPrefixListCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DeleteManagedPrefixListResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteNatGatewayCommand}
    */
-  readonly deleteNatGateway: (
-    args: DeleteNatGatewayCommandInput,
+  deleteNatGateway(
+    args: DeleteNatGatewayRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<DeleteNatGatewayCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  DeleteNatGatewayResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteNetworkAclCommand}
    */
-  readonly deleteNetworkAcl: (
-    args: DeleteNetworkAclCommandInput,
+  deleteNetworkAcl(
+    args: DeleteNetworkAclRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<DeleteNetworkAclCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteNetworkAclEntryCommand}
    */
-  readonly deleteNetworkAclEntry: (
-    args: DeleteNetworkAclEntryCommandInput,
+  deleteNetworkAclEntry(
+    args: DeleteNetworkAclEntryRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteNetworkAclEntryCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteNetworkInsightsAccessScopeCommand}
    */
-  readonly deleteNetworkInsightsAccessScope: (
-    args: DeleteNetworkInsightsAccessScopeCommandInput,
+  deleteNetworkInsightsAccessScope(
+    args: DeleteNetworkInsightsAccessScopeRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteNetworkInsightsAccessScopeCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DeleteNetworkInsightsAccessScopeResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteNetworkInsightsAccessScopeAnalysisCommand}
    */
-  readonly deleteNetworkInsightsAccessScopeAnalysis: (
-    args: DeleteNetworkInsightsAccessScopeAnalysisCommandInput,
+  deleteNetworkInsightsAccessScopeAnalysis(
+    args: DeleteNetworkInsightsAccessScopeAnalysisRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteNetworkInsightsAccessScopeAnalysisCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DeleteNetworkInsightsAccessScopeAnalysisResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteNetworkInsightsAnalysisCommand}
    */
-  readonly deleteNetworkInsightsAnalysis: (
-    args: DeleteNetworkInsightsAnalysisCommandInput,
+  deleteNetworkInsightsAnalysis(
+    args: DeleteNetworkInsightsAnalysisRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteNetworkInsightsAnalysisCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DeleteNetworkInsightsAnalysisResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteNetworkInsightsPathCommand}
    */
-  readonly deleteNetworkInsightsPath: (
-    args: DeleteNetworkInsightsPathCommandInput,
+  deleteNetworkInsightsPath(
+    args: DeleteNetworkInsightsPathRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteNetworkInsightsPathCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DeleteNetworkInsightsPathResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteNetworkInterfaceCommand}
    */
-  readonly deleteNetworkInterface: (
-    args: DeleteNetworkInterfaceCommandInput,
+  deleteNetworkInterface(
+    args: DeleteNetworkInterfaceRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteNetworkInterfaceCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteNetworkInterfacePermissionCommand}
    */
-  readonly deleteNetworkInterfacePermission: (
-    args: DeleteNetworkInterfacePermissionCommandInput,
+  deleteNetworkInterfacePermission(
+    args: DeleteNetworkInterfacePermissionRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteNetworkInterfacePermissionCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DeleteNetworkInterfacePermissionResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeletePlacementGroupCommand}
    */
-  readonly deletePlacementGroup: (
-    args: DeletePlacementGroupCommandInput,
+  deletePlacementGroup(
+    args: DeletePlacementGroupRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeletePlacementGroupCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link DeletePublicIpv4PoolCommand}
    */
-  readonly deletePublicIpv4Pool: (
-    args: DeletePublicIpv4PoolCommandInput,
+  deletePublicIpv4Pool(
+    args: DeletePublicIpv4PoolRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeletePublicIpv4PoolCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DeletePublicIpv4PoolResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteQueuedReservedInstancesCommand}
    */
-  readonly deleteQueuedReservedInstances: (
-    args: DeleteQueuedReservedInstancesCommandInput,
+  deleteQueuedReservedInstances(
+    args: DeleteQueuedReservedInstancesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteQueuedReservedInstancesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DeleteQueuedReservedInstancesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteRouteCommand}
    */
-  readonly deleteRoute: (
-    args: DeleteRouteCommandInput,
+  deleteRoute(
+    args: DeleteRouteRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<DeleteRouteCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteRouteTableCommand}
    */
-  readonly deleteRouteTable: (
-    args: DeleteRouteTableCommandInput,
+  deleteRouteTable(
+    args: DeleteRouteTableRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<DeleteRouteTableCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteSecurityGroupCommand}
    */
-  readonly deleteSecurityGroup: (
-    args: DeleteSecurityGroupCommandInput,
+  deleteSecurityGroup(
+    args: DeleteSecurityGroupRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteSecurityGroupCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteSnapshotCommand}
    */
-  readonly deleteSnapshot: (
-    args: DeleteSnapshotCommandInput,
+  deleteSnapshot(
+    args: DeleteSnapshotRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<DeleteSnapshotCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteSpotDatafeedSubscriptionCommand}
    */
-  readonly deleteSpotDatafeedSubscription: (
-    args: DeleteSpotDatafeedSubscriptionCommandInput,
+  deleteSpotDatafeedSubscription(
+    args: DeleteSpotDatafeedSubscriptionRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteSpotDatafeedSubscriptionCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteSubnetCommand}
    */
-  readonly deleteSubnet: (
-    args: DeleteSubnetCommandInput,
+  deleteSubnet(
+    args: DeleteSubnetRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<DeleteSubnetCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteSubnetCidrReservationCommand}
    */
-  readonly deleteSubnetCidrReservation: (
-    args: DeleteSubnetCidrReservationCommandInput,
+  deleteSubnetCidrReservation(
+    args: DeleteSubnetCidrReservationRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteSubnetCidrReservationCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DeleteSubnetCidrReservationResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteTagsCommand}
    */
-  readonly deleteTags: (
-    args: DeleteTagsCommandInput,
+  deleteTags(
+    args: DeleteTagsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<DeleteTagsCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteTrafficMirrorFilterCommand}
    */
-  readonly deleteTrafficMirrorFilter: (
-    args: DeleteTrafficMirrorFilterCommandInput,
+  deleteTrafficMirrorFilter(
+    args: DeleteTrafficMirrorFilterRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteTrafficMirrorFilterCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DeleteTrafficMirrorFilterResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteTrafficMirrorFilterRuleCommand}
    */
-  readonly deleteTrafficMirrorFilterRule: (
-    args: DeleteTrafficMirrorFilterRuleCommandInput,
+  deleteTrafficMirrorFilterRule(
+    args: DeleteTrafficMirrorFilterRuleRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteTrafficMirrorFilterRuleCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DeleteTrafficMirrorFilterRuleResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteTrafficMirrorSessionCommand}
    */
-  readonly deleteTrafficMirrorSession: (
-    args: DeleteTrafficMirrorSessionCommandInput,
+  deleteTrafficMirrorSession(
+    args: DeleteTrafficMirrorSessionRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteTrafficMirrorSessionCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DeleteTrafficMirrorSessionResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteTrafficMirrorTargetCommand}
    */
-  readonly deleteTrafficMirrorTarget: (
-    args: DeleteTrafficMirrorTargetCommandInput,
+  deleteTrafficMirrorTarget(
+    args: DeleteTrafficMirrorTargetRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteTrafficMirrorTargetCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DeleteTrafficMirrorTargetResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteTransitGatewayCommand}
    */
-  readonly deleteTransitGateway: (
-    args: DeleteTransitGatewayCommandInput,
+  deleteTransitGateway(
+    args: DeleteTransitGatewayRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteTransitGatewayCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DeleteTransitGatewayResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteTransitGatewayConnectCommand}
    */
-  readonly deleteTransitGatewayConnect: (
-    args: DeleteTransitGatewayConnectCommandInput,
+  deleteTransitGatewayConnect(
+    args: DeleteTransitGatewayConnectRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteTransitGatewayConnectCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DeleteTransitGatewayConnectResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteTransitGatewayConnectPeerCommand}
    */
-  readonly deleteTransitGatewayConnectPeer: (
-    args: DeleteTransitGatewayConnectPeerCommandInput,
+  deleteTransitGatewayConnectPeer(
+    args: DeleteTransitGatewayConnectPeerRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteTransitGatewayConnectPeerCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DeleteTransitGatewayConnectPeerResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteTransitGatewayMulticastDomainCommand}
    */
-  readonly deleteTransitGatewayMulticastDomain: (
-    args: DeleteTransitGatewayMulticastDomainCommandInput,
+  deleteTransitGatewayMulticastDomain(
+    args: DeleteTransitGatewayMulticastDomainRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteTransitGatewayMulticastDomainCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DeleteTransitGatewayMulticastDomainResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteTransitGatewayPeeringAttachmentCommand}
    */
-  readonly deleteTransitGatewayPeeringAttachment: (
-    args: DeleteTransitGatewayPeeringAttachmentCommandInput,
+  deleteTransitGatewayPeeringAttachment(
+    args: DeleteTransitGatewayPeeringAttachmentRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteTransitGatewayPeeringAttachmentCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DeleteTransitGatewayPeeringAttachmentResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteTransitGatewayPolicyTableCommand}
    */
-  readonly deleteTransitGatewayPolicyTable: (
-    args: DeleteTransitGatewayPolicyTableCommandInput,
+  deleteTransitGatewayPolicyTable(
+    args: DeleteTransitGatewayPolicyTableRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteTransitGatewayPolicyTableCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DeleteTransitGatewayPolicyTableResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteTransitGatewayPrefixListReferenceCommand}
    */
-  readonly deleteTransitGatewayPrefixListReference: (
-    args: DeleteTransitGatewayPrefixListReferenceCommandInput,
+  deleteTransitGatewayPrefixListReference(
+    args: DeleteTransitGatewayPrefixListReferenceRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteTransitGatewayPrefixListReferenceCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DeleteTransitGatewayPrefixListReferenceResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteTransitGatewayRouteCommand}
    */
-  readonly deleteTransitGatewayRoute: (
-    args: DeleteTransitGatewayRouteCommandInput,
+  deleteTransitGatewayRoute(
+    args: DeleteTransitGatewayRouteRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteTransitGatewayRouteCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DeleteTransitGatewayRouteResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteTransitGatewayRouteTableCommand}
    */
-  readonly deleteTransitGatewayRouteTable: (
-    args: DeleteTransitGatewayRouteTableCommandInput,
+  deleteTransitGatewayRouteTable(
+    args: DeleteTransitGatewayRouteTableRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteTransitGatewayRouteTableCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DeleteTransitGatewayRouteTableResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteTransitGatewayRouteTableAnnouncementCommand}
    */
-  readonly deleteTransitGatewayRouteTableAnnouncement: (
-    args: DeleteTransitGatewayRouteTableAnnouncementCommandInput,
+  deleteTransitGatewayRouteTableAnnouncement(
+    args: DeleteTransitGatewayRouteTableAnnouncementRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteTransitGatewayRouteTableAnnouncementCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DeleteTransitGatewayRouteTableAnnouncementResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteTransitGatewayVpcAttachmentCommand}
    */
-  readonly deleteTransitGatewayVpcAttachment: (
-    args: DeleteTransitGatewayVpcAttachmentCommandInput,
+  deleteTransitGatewayVpcAttachment(
+    args: DeleteTransitGatewayVpcAttachmentRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteTransitGatewayVpcAttachmentCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DeleteTransitGatewayVpcAttachmentResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteVerifiedAccessEndpointCommand}
    */
-  readonly deleteVerifiedAccessEndpoint: (
-    args: DeleteVerifiedAccessEndpointCommandInput,
+  deleteVerifiedAccessEndpoint(
+    args: DeleteVerifiedAccessEndpointRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteVerifiedAccessEndpointCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DeleteVerifiedAccessEndpointResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteVerifiedAccessGroupCommand}
    */
-  readonly deleteVerifiedAccessGroup: (
-    args: DeleteVerifiedAccessGroupCommandInput,
+  deleteVerifiedAccessGroup(
+    args: DeleteVerifiedAccessGroupRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteVerifiedAccessGroupCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DeleteVerifiedAccessGroupResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteVerifiedAccessInstanceCommand}
    */
-  readonly deleteVerifiedAccessInstance: (
-    args: DeleteVerifiedAccessInstanceCommandInput,
+  deleteVerifiedAccessInstance(
+    args: DeleteVerifiedAccessInstanceRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteVerifiedAccessInstanceCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DeleteVerifiedAccessInstanceResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteVerifiedAccessTrustProviderCommand}
    */
-  readonly deleteVerifiedAccessTrustProvider: (
-    args: DeleteVerifiedAccessTrustProviderCommandInput,
+  deleteVerifiedAccessTrustProvider(
+    args: DeleteVerifiedAccessTrustProviderRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteVerifiedAccessTrustProviderCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DeleteVerifiedAccessTrustProviderResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteVolumeCommand}
    */
-  readonly deleteVolume: (
-    args: DeleteVolumeCommandInput,
+  deleteVolume(
+    args: DeleteVolumeRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<DeleteVolumeCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteVpcCommand}
    */
-  readonly deleteVpc: (
-    args: DeleteVpcCommandInput,
+  deleteVpc(
+    args: DeleteVpcRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<DeleteVpcCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteVpcEndpointConnectionNotificationsCommand}
    */
-  readonly deleteVpcEndpointConnectionNotifications: (
-    args: DeleteVpcEndpointConnectionNotificationsCommandInput,
+  deleteVpcEndpointConnectionNotifications(
+    args: DeleteVpcEndpointConnectionNotificationsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteVpcEndpointConnectionNotificationsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
-
-  /**
-   * @see {@link DeleteVpcEndpointsCommand}
-   */
-  readonly deleteVpcEndpoints: (
-    args: DeleteVpcEndpointsCommandInput,
-    options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteVpcEndpointsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DeleteVpcEndpointConnectionNotificationsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteVpcEndpointServiceConfigurationsCommand}
    */
-  readonly deleteVpcEndpointServiceConfigurations: (
-    args: DeleteVpcEndpointServiceConfigurationsCommandInput,
+  deleteVpcEndpointServiceConfigurations(
+    args: DeleteVpcEndpointServiceConfigurationsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteVpcEndpointServiceConfigurationsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DeleteVpcEndpointServiceConfigurationsResult,
+    | SdkError
+  >
+
+  /**
+   * @see {@link DeleteVpcEndpointsCommand}
+   */
+  deleteVpcEndpoints(
+    args: DeleteVpcEndpointsRequest,
+    options?: __HttpHandlerOptions,
+  ): Effect.Effect<
+  DeleteVpcEndpointsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteVpcPeeringConnectionCommand}
    */
-  readonly deleteVpcPeeringConnection: (
-    args: DeleteVpcPeeringConnectionCommandInput,
+  deleteVpcPeeringConnection(
+    args: DeleteVpcPeeringConnectionRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteVpcPeeringConnectionCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DeleteVpcPeeringConnectionResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteVpnConnectionCommand}
    */
-  readonly deleteVpnConnection: (
-    args: DeleteVpnConnectionCommandInput,
+  deleteVpnConnection(
+    args: DeleteVpnConnectionRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteVpnConnectionCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteVpnConnectionRouteCommand}
    */
-  readonly deleteVpnConnectionRoute: (
-    args: DeleteVpnConnectionRouteCommandInput,
+  deleteVpnConnectionRoute(
+    args: DeleteVpnConnectionRouteRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteVpnConnectionRouteCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link DeleteVpnGatewayCommand}
    */
-  readonly deleteVpnGateway: (
-    args: DeleteVpnGatewayCommandInput,
+  deleteVpnGateway(
+    args: DeleteVpnGatewayRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<DeleteVpnGatewayCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link DeprovisionByoipCidrCommand}
    */
-  readonly deprovisionByoipCidr: (
-    args: DeprovisionByoipCidrCommandInput,
+  deprovisionByoipCidr(
+    args: DeprovisionByoipCidrRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeprovisionByoipCidrCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DeprovisionByoipCidrResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeprovisionIpamByoasnCommand}
    */
-  readonly deprovisionIpamByoasn: (
-    args: DeprovisionIpamByoasnCommandInput,
+  deprovisionIpamByoasn(
+    args: DeprovisionIpamByoasnRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeprovisionIpamByoasnCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DeprovisionIpamByoasnResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeprovisionIpamPoolCidrCommand}
    */
-  readonly deprovisionIpamPoolCidr: (
-    args: DeprovisionIpamPoolCidrCommandInput,
+  deprovisionIpamPoolCidr(
+    args: DeprovisionIpamPoolCidrRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeprovisionIpamPoolCidrCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DeprovisionIpamPoolCidrResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeprovisionPublicIpv4PoolCidrCommand}
    */
-  readonly deprovisionPublicIpv4PoolCidr: (
-    args: DeprovisionPublicIpv4PoolCidrCommandInput,
+  deprovisionPublicIpv4PoolCidr(
+    args: DeprovisionPublicIpv4PoolCidrRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeprovisionPublicIpv4PoolCidrCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DeprovisionPublicIpv4PoolCidrResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeregisterImageCommand}
    */
-  readonly deregisterImage: (
-    args: DeregisterImageCommandInput,
+  deregisterImage(
+    args: DeregisterImageRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<DeregisterImageCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link DeregisterInstanceEventNotificationAttributesCommand}
    */
-  readonly deregisterInstanceEventNotificationAttributes: (
-    args: DeregisterInstanceEventNotificationAttributesCommandInput,
+  deregisterInstanceEventNotificationAttributes(
+    args: DeregisterInstanceEventNotificationAttributesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeregisterInstanceEventNotificationAttributesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DeregisterInstanceEventNotificationAttributesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeregisterTransitGatewayMulticastGroupMembersCommand}
    */
-  readonly deregisterTransitGatewayMulticastGroupMembers: (
-    args: DeregisterTransitGatewayMulticastGroupMembersCommandInput,
+  deregisterTransitGatewayMulticastGroupMembers(
+    args: DeregisterTransitGatewayMulticastGroupMembersRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeregisterTransitGatewayMulticastGroupMembersCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DeregisterTransitGatewayMulticastGroupMembersResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DeregisterTransitGatewayMulticastGroupSourcesCommand}
    */
-  readonly deregisterTransitGatewayMulticastGroupSources: (
-    args: DeregisterTransitGatewayMulticastGroupSourcesCommandInput,
+  deregisterTransitGatewayMulticastGroupSources(
+    args: DeregisterTransitGatewayMulticastGroupSourcesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeregisterTransitGatewayMulticastGroupSourcesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DeregisterTransitGatewayMulticastGroupSourcesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeAccountAttributesCommand}
    */
-  readonly describeAccountAttributes: (
-    args: DescribeAccountAttributesCommandInput,
+  describeAccountAttributes(
+    args: DescribeAccountAttributesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeAccountAttributesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
-
-  /**
-   * @see {@link DescribeAddressesCommand}
-   */
-  readonly describeAddresses: (
-    args: DescribeAddressesCommandInput,
-    options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeAddressesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
-
-  /**
-   * @see {@link DescribeAddressesAttributeCommand}
-   */
-  readonly describeAddressesAttribute: (
-    args: DescribeAddressesAttributeCommandInput,
-    options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeAddressesAttributeCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeAccountAttributesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeAddressTransfersCommand}
    */
-  readonly describeAddressTransfers: (
-    args: DescribeAddressTransfersCommandInput,
+  describeAddressTransfers(
+    args: DescribeAddressTransfersRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeAddressTransfersCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeAddressTransfersResult,
+    | SdkError
+  >
+
+  /**
+   * @see {@link DescribeAddressesCommand}
+   */
+  describeAddresses(
+    args: DescribeAddressesRequest,
+    options?: __HttpHandlerOptions,
+  ): Effect.Effect<
+  DescribeAddressesResult,
+    | SdkError
+  >
+
+  /**
+   * @see {@link DescribeAddressesAttributeCommand}
+   */
+  describeAddressesAttribute(
+    args: DescribeAddressesAttributeRequest,
+    options?: __HttpHandlerOptions,
+  ): Effect.Effect<
+  DescribeAddressesAttributeResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeAggregateIdFormatCommand}
    */
-  readonly describeAggregateIdFormat: (
-    args: DescribeAggregateIdFormatCommandInput,
+  describeAggregateIdFormat(
+    args: DescribeAggregateIdFormatRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeAggregateIdFormatCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeAggregateIdFormatResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeAvailabilityZonesCommand}
    */
-  readonly describeAvailabilityZones: (
-    args: DescribeAvailabilityZonesCommandInput,
+  describeAvailabilityZones(
+    args: DescribeAvailabilityZonesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeAvailabilityZonesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeAvailabilityZonesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeAwsNetworkPerformanceMetricSubscriptionsCommand}
    */
-  readonly describeAwsNetworkPerformanceMetricSubscriptions: (
-    args: DescribeAwsNetworkPerformanceMetricSubscriptionsCommandInput,
+  describeAwsNetworkPerformanceMetricSubscriptions(
+    args: DescribeAwsNetworkPerformanceMetricSubscriptionsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeAwsNetworkPerformanceMetricSubscriptionsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeAwsNetworkPerformanceMetricSubscriptionsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeBundleTasksCommand}
    */
-  readonly describeBundleTasks: (
-    args: DescribeBundleTasksCommandInput,
+  describeBundleTasks(
+    args: DescribeBundleTasksRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeBundleTasksCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeBundleTasksResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeByoipCidrsCommand}
    */
-  readonly describeByoipCidrs: (
-    args: DescribeByoipCidrsCommandInput,
+  describeByoipCidrs(
+    args: DescribeByoipCidrsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeByoipCidrsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeByoipCidrsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeCapacityBlockOfferingsCommand}
    */
-  readonly describeCapacityBlockOfferings: (
-    args: DescribeCapacityBlockOfferingsCommandInput,
+  describeCapacityBlockOfferings(
+    args: DescribeCapacityBlockOfferingsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeCapacityBlockOfferingsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeCapacityBlockOfferingsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeCapacityReservationFleetsCommand}
    */
-  readonly describeCapacityReservationFleets: (
-    args: DescribeCapacityReservationFleetsCommandInput,
+  describeCapacityReservationFleets(
+    args: DescribeCapacityReservationFleetsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeCapacityReservationFleetsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeCapacityReservationFleetsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeCapacityReservationsCommand}
    */
-  readonly describeCapacityReservations: (
-    args: DescribeCapacityReservationsCommandInput,
+  describeCapacityReservations(
+    args: DescribeCapacityReservationsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeCapacityReservationsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeCapacityReservationsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeCarrierGatewaysCommand}
    */
-  readonly describeCarrierGateways: (
-    args: DescribeCarrierGatewaysCommandInput,
+  describeCarrierGateways(
+    args: DescribeCarrierGatewaysRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeCarrierGatewaysCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeCarrierGatewaysResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeClassicLinkInstancesCommand}
    */
-  readonly describeClassicLinkInstances: (
-    args: DescribeClassicLinkInstancesCommandInput,
+  describeClassicLinkInstances(
+    args: DescribeClassicLinkInstancesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeClassicLinkInstancesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeClassicLinkInstancesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeClientVpnAuthorizationRulesCommand}
    */
-  readonly describeClientVpnAuthorizationRules: (
-    args: DescribeClientVpnAuthorizationRulesCommandInput,
+  describeClientVpnAuthorizationRules(
+    args: DescribeClientVpnAuthorizationRulesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeClientVpnAuthorizationRulesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeClientVpnAuthorizationRulesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeClientVpnConnectionsCommand}
    */
-  readonly describeClientVpnConnections: (
-    args: DescribeClientVpnConnectionsCommandInput,
+  describeClientVpnConnections(
+    args: DescribeClientVpnConnectionsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeClientVpnConnectionsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeClientVpnConnectionsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeClientVpnEndpointsCommand}
    */
-  readonly describeClientVpnEndpoints: (
-    args: DescribeClientVpnEndpointsCommandInput,
+  describeClientVpnEndpoints(
+    args: DescribeClientVpnEndpointsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeClientVpnEndpointsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeClientVpnEndpointsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeClientVpnRoutesCommand}
    */
-  readonly describeClientVpnRoutes: (
-    args: DescribeClientVpnRoutesCommandInput,
+  describeClientVpnRoutes(
+    args: DescribeClientVpnRoutesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeClientVpnRoutesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeClientVpnRoutesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeClientVpnTargetNetworksCommand}
    */
-  readonly describeClientVpnTargetNetworks: (
-    args: DescribeClientVpnTargetNetworksCommandInput,
+  describeClientVpnTargetNetworks(
+    args: DescribeClientVpnTargetNetworksRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeClientVpnTargetNetworksCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeClientVpnTargetNetworksResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeCoipPoolsCommand}
    */
-  readonly describeCoipPools: (
-    args: DescribeCoipPoolsCommandInput,
+  describeCoipPools(
+    args: DescribeCoipPoolsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeCoipPoolsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeCoipPoolsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeConversionTasksCommand}
    */
-  readonly describeConversionTasks: (
-    args: DescribeConversionTasksCommandInput,
+  describeConversionTasks(
+    args: DescribeConversionTasksRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeConversionTasksCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeConversionTasksResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeCustomerGatewaysCommand}
    */
-  readonly describeCustomerGateways: (
-    args: DescribeCustomerGatewaysCommandInput,
+  describeCustomerGateways(
+    args: DescribeCustomerGatewaysRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeCustomerGatewaysCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeCustomerGatewaysResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeDhcpOptionsCommand}
    */
-  readonly describeDhcpOptions: (
-    args: DescribeDhcpOptionsCommandInput,
+  describeDhcpOptions(
+    args: DescribeDhcpOptionsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeDhcpOptionsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeDhcpOptionsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeEgressOnlyInternetGatewaysCommand}
    */
-  readonly describeEgressOnlyInternetGateways: (
-    args: DescribeEgressOnlyInternetGatewaysCommandInput,
+  describeEgressOnlyInternetGateways(
+    args: DescribeEgressOnlyInternetGatewaysRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeEgressOnlyInternetGatewaysCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeEgressOnlyInternetGatewaysResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeElasticGpusCommand}
    */
-  readonly describeElasticGpus: (
-    args: DescribeElasticGpusCommandInput,
+  describeElasticGpus(
+    args: DescribeElasticGpusRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeElasticGpusCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeElasticGpusResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeExportImageTasksCommand}
    */
-  readonly describeExportImageTasks: (
-    args: DescribeExportImageTasksCommandInput,
+  describeExportImageTasks(
+    args: DescribeExportImageTasksRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeExportImageTasksCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeExportImageTasksResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeExportTasksCommand}
    */
-  readonly describeExportTasks: (
-    args: DescribeExportTasksCommandInput,
+  describeExportTasks(
+    args: DescribeExportTasksRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeExportTasksCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeExportTasksResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeFastLaunchImagesCommand}
    */
-  readonly describeFastLaunchImages: (
-    args: DescribeFastLaunchImagesCommandInput,
+  describeFastLaunchImages(
+    args: DescribeFastLaunchImagesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeFastLaunchImagesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeFastLaunchImagesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeFastSnapshotRestoresCommand}
    */
-  readonly describeFastSnapshotRestores: (
-    args: DescribeFastSnapshotRestoresCommandInput,
+  describeFastSnapshotRestores(
+    args: DescribeFastSnapshotRestoresRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeFastSnapshotRestoresCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeFastSnapshotRestoresResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeFleetHistoryCommand}
    */
-  readonly describeFleetHistory: (
-    args: DescribeFleetHistoryCommandInput,
+  describeFleetHistory(
+    args: DescribeFleetHistoryRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeFleetHistoryCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeFleetHistoryResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeFleetInstancesCommand}
    */
-  readonly describeFleetInstances: (
-    args: DescribeFleetInstancesCommandInput,
+  describeFleetInstances(
+    args: DescribeFleetInstancesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeFleetInstancesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeFleetInstancesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeFleetsCommand}
    */
-  readonly describeFleets: (
-    args: DescribeFleetsCommandInput,
+  describeFleets(
+    args: DescribeFleetsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<DescribeFleetsCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  DescribeFleetsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeFlowLogsCommand}
    */
-  readonly describeFlowLogs: (
-    args: DescribeFlowLogsCommandInput,
+  describeFlowLogs(
+    args: DescribeFlowLogsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<DescribeFlowLogsCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  DescribeFlowLogsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeFpgaImageAttributeCommand}
    */
-  readonly describeFpgaImageAttribute: (
-    args: DescribeFpgaImageAttributeCommandInput,
+  describeFpgaImageAttribute(
+    args: DescribeFpgaImageAttributeRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeFpgaImageAttributeCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeFpgaImageAttributeResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeFpgaImagesCommand}
    */
-  readonly describeFpgaImages: (
-    args: DescribeFpgaImagesCommandInput,
+  describeFpgaImages(
+    args: DescribeFpgaImagesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeFpgaImagesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeFpgaImagesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeHostReservationOfferingsCommand}
    */
-  readonly describeHostReservationOfferings: (
-    args: DescribeHostReservationOfferingsCommandInput,
+  describeHostReservationOfferings(
+    args: DescribeHostReservationOfferingsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeHostReservationOfferingsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeHostReservationOfferingsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeHostReservationsCommand}
    */
-  readonly describeHostReservations: (
-    args: DescribeHostReservationsCommandInput,
+  describeHostReservations(
+    args: DescribeHostReservationsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeHostReservationsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeHostReservationsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeHostsCommand}
    */
-  readonly describeHosts: (
-    args: DescribeHostsCommandInput,
+  describeHosts(
+    args: DescribeHostsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<DescribeHostsCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  DescribeHostsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeIamInstanceProfileAssociationsCommand}
    */
-  readonly describeIamInstanceProfileAssociations: (
-    args: DescribeIamInstanceProfileAssociationsCommandInput,
+  describeIamInstanceProfileAssociations(
+    args: DescribeIamInstanceProfileAssociationsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeIamInstanceProfileAssociationsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
-
-  /**
-   * @see {@link DescribeIdentityIdFormatCommand}
-   */
-  readonly describeIdentityIdFormat: (
-    args: DescribeIdentityIdFormatCommandInput,
-    options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeIdentityIdFormatCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeIamInstanceProfileAssociationsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeIdFormatCommand}
    */
-  readonly describeIdFormat: (
-    args: DescribeIdFormatCommandInput,
+  describeIdFormat(
+    args: DescribeIdFormatRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<DescribeIdFormatCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  DescribeIdFormatResult,
+    | SdkError
+  >
+
+  /**
+   * @see {@link DescribeIdentityIdFormatCommand}
+   */
+  describeIdentityIdFormat(
+    args: DescribeIdentityIdFormatRequest,
+    options?: __HttpHandlerOptions,
+  ): Effect.Effect<
+  DescribeIdentityIdFormatResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeImageAttributeCommand}
    */
-  readonly describeImageAttribute: (
-    args: DescribeImageAttributeCommandInput,
+  describeImageAttribute(
+    args: DescribeImageAttributeRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeImageAttributeCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ImageAttribute,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeImagesCommand}
    */
-  readonly describeImages: (
-    args: DescribeImagesCommandInput,
+  describeImages(
+    args: DescribeImagesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<DescribeImagesCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  DescribeImagesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeImportImageTasksCommand}
    */
-  readonly describeImportImageTasks: (
-    args: DescribeImportImageTasksCommandInput,
+  describeImportImageTasks(
+    args: DescribeImportImageTasksRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeImportImageTasksCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeImportImageTasksResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeImportSnapshotTasksCommand}
    */
-  readonly describeImportSnapshotTasks: (
-    args: DescribeImportSnapshotTasksCommandInput,
+  describeImportSnapshotTasks(
+    args: DescribeImportSnapshotTasksRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeImportSnapshotTasksCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeImportSnapshotTasksResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeInstanceAttributeCommand}
    */
-  readonly describeInstanceAttribute: (
-    args: DescribeInstanceAttributeCommandInput,
+  describeInstanceAttribute(
+    args: DescribeInstanceAttributeRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeInstanceAttributeCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  InstanceAttribute,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeInstanceConnectEndpointsCommand}
    */
-  readonly describeInstanceConnectEndpoints: (
-    args: DescribeInstanceConnectEndpointsCommandInput,
+  describeInstanceConnectEndpoints(
+    args: DescribeInstanceConnectEndpointsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeInstanceConnectEndpointsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeInstanceConnectEndpointsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeInstanceCreditSpecificationsCommand}
    */
-  readonly describeInstanceCreditSpecifications: (
-    args: DescribeInstanceCreditSpecificationsCommandInput,
+  describeInstanceCreditSpecifications(
+    args: DescribeInstanceCreditSpecificationsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeInstanceCreditSpecificationsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeInstanceCreditSpecificationsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeInstanceEventNotificationAttributesCommand}
    */
-  readonly describeInstanceEventNotificationAttributes: (
-    args: DescribeInstanceEventNotificationAttributesCommandInput,
+  describeInstanceEventNotificationAttributes(
+    args: DescribeInstanceEventNotificationAttributesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeInstanceEventNotificationAttributesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeInstanceEventNotificationAttributesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeInstanceEventWindowsCommand}
    */
-  readonly describeInstanceEventWindows: (
-    args: DescribeInstanceEventWindowsCommandInput,
+  describeInstanceEventWindows(
+    args: DescribeInstanceEventWindowsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeInstanceEventWindowsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
-
-  /**
-   * @see {@link DescribeInstancesCommand}
-   */
-  readonly describeInstances: (
-    args: DescribeInstancesCommandInput,
-    options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeInstancesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeInstanceEventWindowsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeInstanceStatusCommand}
    */
-  readonly describeInstanceStatus: (
-    args: DescribeInstanceStatusCommandInput,
+  describeInstanceStatus(
+    args: DescribeInstanceStatusRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeInstanceStatusCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeInstanceStatusResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeInstanceTopologyCommand}
    */
-  readonly describeInstanceTopology: (
-    args: DescribeInstanceTopologyCommandInput,
+  describeInstanceTopology(
+    args: DescribeInstanceTopologyRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeInstanceTopologyCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeInstanceTopologyResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeInstanceTypeOfferingsCommand}
    */
-  readonly describeInstanceTypeOfferings: (
-    args: DescribeInstanceTypeOfferingsCommandInput,
+  describeInstanceTypeOfferings(
+    args: DescribeInstanceTypeOfferingsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeInstanceTypeOfferingsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeInstanceTypeOfferingsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeInstanceTypesCommand}
    */
-  readonly describeInstanceTypes: (
-    args: DescribeInstanceTypesCommandInput,
+  describeInstanceTypes(
+    args: DescribeInstanceTypesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeInstanceTypesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeInstanceTypesResult,
+    | SdkError
+  >
+
+  /**
+   * @see {@link DescribeInstancesCommand}
+   */
+  describeInstances(
+    args: DescribeInstancesRequest,
+    options?: __HttpHandlerOptions,
+  ): Effect.Effect<
+  DescribeInstancesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeInternetGatewaysCommand}
    */
-  readonly describeInternetGateways: (
-    args: DescribeInternetGatewaysCommandInput,
+  describeInternetGateways(
+    args: DescribeInternetGatewaysRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeInternetGatewaysCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeInternetGatewaysResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeIpamByoasnCommand}
    */
-  readonly describeIpamByoasn: (
-    args: DescribeIpamByoasnCommandInput,
+  describeIpamByoasn(
+    args: DescribeIpamByoasnRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeIpamByoasnCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeIpamByoasnResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeIpamPoolsCommand}
    */
-  readonly describeIpamPools: (
-    args: DescribeIpamPoolsCommandInput,
+  describeIpamPools(
+    args: DescribeIpamPoolsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeIpamPoolsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeIpamPoolsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeIpamResourceDiscoveriesCommand}
    */
-  readonly describeIpamResourceDiscoveries: (
-    args: DescribeIpamResourceDiscoveriesCommandInput,
+  describeIpamResourceDiscoveries(
+    args: DescribeIpamResourceDiscoveriesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeIpamResourceDiscoveriesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeIpamResourceDiscoveriesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeIpamResourceDiscoveryAssociationsCommand}
    */
-  readonly describeIpamResourceDiscoveryAssociations: (
-    args: DescribeIpamResourceDiscoveryAssociationsCommandInput,
+  describeIpamResourceDiscoveryAssociations(
+    args: DescribeIpamResourceDiscoveryAssociationsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeIpamResourceDiscoveryAssociationsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
-
-  /**
-   * @see {@link DescribeIpamsCommand}
-   */
-  readonly describeIpams: (
-    args: DescribeIpamsCommandInput,
-    options?: __HttpHandlerOptions,
-  ) => Effect.Effect<DescribeIpamsCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  DescribeIpamResourceDiscoveryAssociationsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeIpamScopesCommand}
    */
-  readonly describeIpamScopes: (
-    args: DescribeIpamScopesCommandInput,
+  describeIpamScopes(
+    args: DescribeIpamScopesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeIpamScopesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeIpamScopesResult,
+    | SdkError
+  >
+
+  /**
+   * @see {@link DescribeIpamsCommand}
+   */
+  describeIpams(
+    args: DescribeIpamsRequest,
+    options?: __HttpHandlerOptions,
+  ): Effect.Effect<
+  DescribeIpamsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeIpv6PoolsCommand}
    */
-  readonly describeIpv6Pools: (
-    args: DescribeIpv6PoolsCommandInput,
+  describeIpv6Pools(
+    args: DescribeIpv6PoolsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeIpv6PoolsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeIpv6PoolsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeKeyPairsCommand}
    */
-  readonly describeKeyPairs: (
-    args: DescribeKeyPairsCommandInput,
+  describeKeyPairs(
+    args: DescribeKeyPairsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<DescribeKeyPairsCommandOutput, SdkError | EC2ServiceError>;
-
-  /**
-   * @see {@link DescribeLaunchTemplatesCommand}
-   */
-  readonly describeLaunchTemplates: (
-    args: DescribeLaunchTemplatesCommandInput,
-    options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeLaunchTemplatesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeKeyPairsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeLaunchTemplateVersionsCommand}
    */
-  readonly describeLaunchTemplateVersions: (
-    args: DescribeLaunchTemplateVersionsCommandInput,
+  describeLaunchTemplateVersions(
+    args: DescribeLaunchTemplateVersionsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeLaunchTemplateVersionsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeLaunchTemplateVersionsResult,
+    | SdkError
+  >
 
   /**
-   * @see {@link DescribeLocalGatewayRouteTablesCommand}
+   * @see {@link DescribeLaunchTemplatesCommand}
    */
-  readonly describeLocalGatewayRouteTables: (
-    args: DescribeLocalGatewayRouteTablesCommandInput,
+  describeLaunchTemplates(
+    args: DescribeLaunchTemplatesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeLocalGatewayRouteTablesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeLaunchTemplatesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsCommand}
    */
-  readonly describeLocalGatewayRouteTableVirtualInterfaceGroupAssociations: (
-    args: DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsCommandInput,
+  describeLocalGatewayRouteTableVirtualInterfaceGroupAssociations(
+    args: DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeLocalGatewayRouteTableVpcAssociationsCommand}
    */
-  readonly describeLocalGatewayRouteTableVpcAssociations: (
-    args: DescribeLocalGatewayRouteTableVpcAssociationsCommandInput,
+  describeLocalGatewayRouteTableVpcAssociations(
+    args: DescribeLocalGatewayRouteTableVpcAssociationsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeLocalGatewayRouteTableVpcAssociationsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeLocalGatewayRouteTableVpcAssociationsResult,
+    | SdkError
+  >
 
   /**
-   * @see {@link DescribeLocalGatewaysCommand}
+   * @see {@link DescribeLocalGatewayRouteTablesCommand}
    */
-  readonly describeLocalGateways: (
-    args: DescribeLocalGatewaysCommandInput,
+  describeLocalGatewayRouteTables(
+    args: DescribeLocalGatewayRouteTablesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeLocalGatewaysCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeLocalGatewayRouteTablesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeLocalGatewayVirtualInterfaceGroupsCommand}
    */
-  readonly describeLocalGatewayVirtualInterfaceGroups: (
-    args: DescribeLocalGatewayVirtualInterfaceGroupsCommandInput,
+  describeLocalGatewayVirtualInterfaceGroups(
+    args: DescribeLocalGatewayVirtualInterfaceGroupsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeLocalGatewayVirtualInterfaceGroupsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeLocalGatewayVirtualInterfaceGroupsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeLocalGatewayVirtualInterfacesCommand}
    */
-  readonly describeLocalGatewayVirtualInterfaces: (
-    args: DescribeLocalGatewayVirtualInterfacesCommandInput,
+  describeLocalGatewayVirtualInterfaces(
+    args: DescribeLocalGatewayVirtualInterfacesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeLocalGatewayVirtualInterfacesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeLocalGatewayVirtualInterfacesResult,
+    | SdkError
+  >
+
+  /**
+   * @see {@link DescribeLocalGatewaysCommand}
+   */
+  describeLocalGateways(
+    args: DescribeLocalGatewaysRequest,
+    options?: __HttpHandlerOptions,
+  ): Effect.Effect<
+  DescribeLocalGatewaysResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeLockedSnapshotsCommand}
    */
-  readonly describeLockedSnapshots: (
-    args: DescribeLockedSnapshotsCommandInput,
+  describeLockedSnapshots(
+    args: DescribeLockedSnapshotsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeLockedSnapshotsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeLockedSnapshotsResult,
+    | SdkError
+  >
+
+  /**
+   * @see {@link DescribeMacHostsCommand}
+   */
+  describeMacHosts(
+    args: DescribeMacHostsRequest,
+    options?: __HttpHandlerOptions,
+  ): Effect.Effect<
+  DescribeMacHostsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeManagedPrefixListsCommand}
    */
-  readonly describeManagedPrefixLists: (
-    args: DescribeManagedPrefixListsCommandInput,
+  describeManagedPrefixLists(
+    args: DescribeManagedPrefixListsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeManagedPrefixListsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeManagedPrefixListsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeMovingAddressesCommand}
    */
-  readonly describeMovingAddresses: (
-    args: DescribeMovingAddressesCommandInput,
+  describeMovingAddresses(
+    args: DescribeMovingAddressesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeMovingAddressesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeMovingAddressesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeNatGatewaysCommand}
    */
-  readonly describeNatGateways: (
-    args: DescribeNatGatewaysCommandInput,
+  describeNatGateways(
+    args: DescribeNatGatewaysRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeNatGatewaysCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeNatGatewaysResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeNetworkAclsCommand}
    */
-  readonly describeNetworkAcls: (
-    args: DescribeNetworkAclsCommandInput,
+  describeNetworkAcls(
+    args: DescribeNetworkAclsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeNetworkAclsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeNetworkAclsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeNetworkInsightsAccessScopeAnalysesCommand}
    */
-  readonly describeNetworkInsightsAccessScopeAnalyses: (
-    args: DescribeNetworkInsightsAccessScopeAnalysesCommandInput,
+  describeNetworkInsightsAccessScopeAnalyses(
+    args: DescribeNetworkInsightsAccessScopeAnalysesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeNetworkInsightsAccessScopeAnalysesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeNetworkInsightsAccessScopeAnalysesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeNetworkInsightsAccessScopesCommand}
    */
-  readonly describeNetworkInsightsAccessScopes: (
-    args: DescribeNetworkInsightsAccessScopesCommandInput,
+  describeNetworkInsightsAccessScopes(
+    args: DescribeNetworkInsightsAccessScopesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeNetworkInsightsAccessScopesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeNetworkInsightsAccessScopesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeNetworkInsightsAnalysesCommand}
    */
-  readonly describeNetworkInsightsAnalyses: (
-    args: DescribeNetworkInsightsAnalysesCommandInput,
+  describeNetworkInsightsAnalyses(
+    args: DescribeNetworkInsightsAnalysesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeNetworkInsightsAnalysesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeNetworkInsightsAnalysesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeNetworkInsightsPathsCommand}
    */
-  readonly describeNetworkInsightsPaths: (
-    args: DescribeNetworkInsightsPathsCommandInput,
+  describeNetworkInsightsPaths(
+    args: DescribeNetworkInsightsPathsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeNetworkInsightsPathsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeNetworkInsightsPathsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeNetworkInterfaceAttributeCommand}
    */
-  readonly describeNetworkInterfaceAttribute: (
-    args: DescribeNetworkInterfaceAttributeCommandInput,
+  describeNetworkInterfaceAttribute(
+    args: DescribeNetworkInterfaceAttributeRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeNetworkInterfaceAttributeCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeNetworkInterfaceAttributeResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeNetworkInterfacePermissionsCommand}
    */
-  readonly describeNetworkInterfacePermissions: (
-    args: DescribeNetworkInterfacePermissionsCommandInput,
+  describeNetworkInterfacePermissions(
+    args: DescribeNetworkInterfacePermissionsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeNetworkInterfacePermissionsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeNetworkInterfacePermissionsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeNetworkInterfacesCommand}
    */
-  readonly describeNetworkInterfaces: (
-    args: DescribeNetworkInterfacesCommandInput,
+  describeNetworkInterfaces(
+    args: DescribeNetworkInterfacesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeNetworkInterfacesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeNetworkInterfacesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribePlacementGroupsCommand}
    */
-  readonly describePlacementGroups: (
-    args: DescribePlacementGroupsCommandInput,
+  describePlacementGroups(
+    args: DescribePlacementGroupsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribePlacementGroupsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribePlacementGroupsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribePrefixListsCommand}
    */
-  readonly describePrefixLists: (
-    args: DescribePrefixListsCommandInput,
+  describePrefixLists(
+    args: DescribePrefixListsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribePrefixListsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribePrefixListsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribePrincipalIdFormatCommand}
    */
-  readonly describePrincipalIdFormat: (
-    args: DescribePrincipalIdFormatCommandInput,
+  describePrincipalIdFormat(
+    args: DescribePrincipalIdFormatRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribePrincipalIdFormatCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribePrincipalIdFormatResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribePublicIpv4PoolsCommand}
    */
-  readonly describePublicIpv4Pools: (
-    args: DescribePublicIpv4PoolsCommandInput,
+  describePublicIpv4Pools(
+    args: DescribePublicIpv4PoolsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribePublicIpv4PoolsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribePublicIpv4PoolsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeRegionsCommand}
    */
-  readonly describeRegions: (
-    args: DescribeRegionsCommandInput,
+  describeRegions(
+    args: DescribeRegionsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<DescribeRegionsCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  DescribeRegionsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeReplaceRootVolumeTasksCommand}
    */
-  readonly describeReplaceRootVolumeTasks: (
-    args: DescribeReplaceRootVolumeTasksCommandInput,
+  describeReplaceRootVolumeTasks(
+    args: DescribeReplaceRootVolumeTasksRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeReplaceRootVolumeTasksCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeReplaceRootVolumeTasksResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeReservedInstancesCommand}
    */
-  readonly describeReservedInstances: (
-    args: DescribeReservedInstancesCommandInput,
+  describeReservedInstances(
+    args: DescribeReservedInstancesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeReservedInstancesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeReservedInstancesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeReservedInstancesListingsCommand}
    */
-  readonly describeReservedInstancesListings: (
-    args: DescribeReservedInstancesListingsCommandInput,
+  describeReservedInstancesListings(
+    args: DescribeReservedInstancesListingsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeReservedInstancesListingsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeReservedInstancesListingsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeReservedInstancesModificationsCommand}
    */
-  readonly describeReservedInstancesModifications: (
-    args: DescribeReservedInstancesModificationsCommandInput,
+  describeReservedInstancesModifications(
+    args: DescribeReservedInstancesModificationsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeReservedInstancesModificationsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeReservedInstancesModificationsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeReservedInstancesOfferingsCommand}
    */
-  readonly describeReservedInstancesOfferings: (
-    args: DescribeReservedInstancesOfferingsCommandInput,
+  describeReservedInstancesOfferings(
+    args: DescribeReservedInstancesOfferingsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeReservedInstancesOfferingsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeReservedInstancesOfferingsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeRouteTablesCommand}
    */
-  readonly describeRouteTables: (
-    args: DescribeRouteTablesCommandInput,
+  describeRouteTables(
+    args: DescribeRouteTablesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeRouteTablesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeRouteTablesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeScheduledInstanceAvailabilityCommand}
    */
-  readonly describeScheduledInstanceAvailability: (
-    args: DescribeScheduledInstanceAvailabilityCommandInput,
+  describeScheduledInstanceAvailability(
+    args: DescribeScheduledInstanceAvailabilityRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeScheduledInstanceAvailabilityCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeScheduledInstanceAvailabilityResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeScheduledInstancesCommand}
    */
-  readonly describeScheduledInstances: (
-    args: DescribeScheduledInstancesCommandInput,
+  describeScheduledInstances(
+    args: DescribeScheduledInstancesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeScheduledInstancesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeScheduledInstancesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeSecurityGroupReferencesCommand}
    */
-  readonly describeSecurityGroupReferences: (
-    args: DescribeSecurityGroupReferencesCommandInput,
+  describeSecurityGroupReferences(
+    args: DescribeSecurityGroupReferencesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeSecurityGroupReferencesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeSecurityGroupReferencesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeSecurityGroupRulesCommand}
    */
-  readonly describeSecurityGroupRules: (
-    args: DescribeSecurityGroupRulesCommandInput,
+  describeSecurityGroupRules(
+    args: DescribeSecurityGroupRulesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeSecurityGroupRulesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeSecurityGroupRulesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeSecurityGroupsCommand}
    */
-  readonly describeSecurityGroups: (
-    args: DescribeSecurityGroupsCommandInput,
+  describeSecurityGroups(
+    args: DescribeSecurityGroupsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeSecurityGroupsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeSecurityGroupsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeSnapshotAttributeCommand}
    */
-  readonly describeSnapshotAttribute: (
-    args: DescribeSnapshotAttributeCommandInput,
+  describeSnapshotAttribute(
+    args: DescribeSnapshotAttributeRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeSnapshotAttributeCommandOutput,
-    SdkError | EC2ServiceError
-  >;
-
-  /**
-   * @see {@link DescribeSnapshotsCommand}
-   */
-  readonly describeSnapshots: (
-    args: DescribeSnapshotsCommandInput,
-    options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeSnapshotsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeSnapshotAttributeResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeSnapshotTierStatusCommand}
    */
-  readonly describeSnapshotTierStatus: (
-    args: DescribeSnapshotTierStatusCommandInput,
+  describeSnapshotTierStatus(
+    args: DescribeSnapshotTierStatusRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeSnapshotTierStatusCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeSnapshotTierStatusResult,
+    | SdkError
+  >
+
+  /**
+   * @see {@link DescribeSnapshotsCommand}
+   */
+  describeSnapshots(
+    args: DescribeSnapshotsRequest,
+    options?: __HttpHandlerOptions,
+  ): Effect.Effect<
+  DescribeSnapshotsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeSpotDatafeedSubscriptionCommand}
    */
-  readonly describeSpotDatafeedSubscription: (
-    args: DescribeSpotDatafeedSubscriptionCommandInput,
+  describeSpotDatafeedSubscription(
+    args: DescribeSpotDatafeedSubscriptionRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeSpotDatafeedSubscriptionCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeSpotDatafeedSubscriptionResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeSpotFleetInstancesCommand}
    */
-  readonly describeSpotFleetInstances: (
-    args: DescribeSpotFleetInstancesCommandInput,
+  describeSpotFleetInstances(
+    args: DescribeSpotFleetInstancesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeSpotFleetInstancesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeSpotFleetInstancesResponse,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeSpotFleetRequestHistoryCommand}
    */
-  readonly describeSpotFleetRequestHistory: (
-    args: DescribeSpotFleetRequestHistoryCommandInput,
+  describeSpotFleetRequestHistory(
+    args: DescribeSpotFleetRequestHistoryRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeSpotFleetRequestHistoryCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeSpotFleetRequestHistoryResponse,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeSpotFleetRequestsCommand}
    */
-  readonly describeSpotFleetRequests: (
-    args: DescribeSpotFleetRequestsCommandInput,
+  describeSpotFleetRequests(
+    args: DescribeSpotFleetRequestsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeSpotFleetRequestsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeSpotFleetRequestsResponse,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeSpotInstanceRequestsCommand}
    */
-  readonly describeSpotInstanceRequests: (
-    args: DescribeSpotInstanceRequestsCommandInput,
+  describeSpotInstanceRequests(
+    args: DescribeSpotInstanceRequestsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeSpotInstanceRequestsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeSpotInstanceRequestsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeSpotPriceHistoryCommand}
    */
-  readonly describeSpotPriceHistory: (
-    args: DescribeSpotPriceHistoryCommandInput,
+  describeSpotPriceHistory(
+    args: DescribeSpotPriceHistoryRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeSpotPriceHistoryCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeSpotPriceHistoryResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeStaleSecurityGroupsCommand}
    */
-  readonly describeStaleSecurityGroups: (
-    args: DescribeStaleSecurityGroupsCommandInput,
+  describeStaleSecurityGroups(
+    args: DescribeStaleSecurityGroupsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeStaleSecurityGroupsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeStaleSecurityGroupsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeStoreImageTasksCommand}
    */
-  readonly describeStoreImageTasks: (
-    args: DescribeStoreImageTasksCommandInput,
+  describeStoreImageTasks(
+    args: DescribeStoreImageTasksRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeStoreImageTasksCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeStoreImageTasksResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeSubnetsCommand}
    */
-  readonly describeSubnets: (
-    args: DescribeSubnetsCommandInput,
+  describeSubnets(
+    args: DescribeSubnetsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<DescribeSubnetsCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  DescribeSubnetsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeTagsCommand}
    */
-  readonly describeTags: (
-    args: DescribeTagsCommandInput,
+  describeTags(
+    args: DescribeTagsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<DescribeTagsCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  DescribeTagsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeTrafficMirrorFiltersCommand}
    */
-  readonly describeTrafficMirrorFilters: (
-    args: DescribeTrafficMirrorFiltersCommandInput,
+  describeTrafficMirrorFilters(
+    args: DescribeTrafficMirrorFiltersRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeTrafficMirrorFiltersCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeTrafficMirrorFiltersResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeTrafficMirrorSessionsCommand}
    */
-  readonly describeTrafficMirrorSessions: (
-    args: DescribeTrafficMirrorSessionsCommandInput,
+  describeTrafficMirrorSessions(
+    args: DescribeTrafficMirrorSessionsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeTrafficMirrorSessionsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeTrafficMirrorSessionsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeTrafficMirrorTargetsCommand}
    */
-  readonly describeTrafficMirrorTargets: (
-    args: DescribeTrafficMirrorTargetsCommandInput,
+  describeTrafficMirrorTargets(
+    args: DescribeTrafficMirrorTargetsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeTrafficMirrorTargetsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeTrafficMirrorTargetsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeTransitGatewayAttachmentsCommand}
    */
-  readonly describeTransitGatewayAttachments: (
-    args: DescribeTransitGatewayAttachmentsCommandInput,
+  describeTransitGatewayAttachments(
+    args: DescribeTransitGatewayAttachmentsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeTransitGatewayAttachmentsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeTransitGatewayAttachmentsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeTransitGatewayConnectPeersCommand}
    */
-  readonly describeTransitGatewayConnectPeers: (
-    args: DescribeTransitGatewayConnectPeersCommandInput,
+  describeTransitGatewayConnectPeers(
+    args: DescribeTransitGatewayConnectPeersRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeTransitGatewayConnectPeersCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeTransitGatewayConnectPeersResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeTransitGatewayConnectsCommand}
    */
-  readonly describeTransitGatewayConnects: (
-    args: DescribeTransitGatewayConnectsCommandInput,
+  describeTransitGatewayConnects(
+    args: DescribeTransitGatewayConnectsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeTransitGatewayConnectsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeTransitGatewayConnectsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeTransitGatewayMulticastDomainsCommand}
    */
-  readonly describeTransitGatewayMulticastDomains: (
-    args: DescribeTransitGatewayMulticastDomainsCommandInput,
+  describeTransitGatewayMulticastDomains(
+    args: DescribeTransitGatewayMulticastDomainsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeTransitGatewayMulticastDomainsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeTransitGatewayMulticastDomainsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeTransitGatewayPeeringAttachmentsCommand}
    */
-  readonly describeTransitGatewayPeeringAttachments: (
-    args: DescribeTransitGatewayPeeringAttachmentsCommandInput,
+  describeTransitGatewayPeeringAttachments(
+    args: DescribeTransitGatewayPeeringAttachmentsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeTransitGatewayPeeringAttachmentsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeTransitGatewayPeeringAttachmentsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeTransitGatewayPolicyTablesCommand}
    */
-  readonly describeTransitGatewayPolicyTables: (
-    args: DescribeTransitGatewayPolicyTablesCommandInput,
+  describeTransitGatewayPolicyTables(
+    args: DescribeTransitGatewayPolicyTablesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeTransitGatewayPolicyTablesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeTransitGatewayPolicyTablesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeTransitGatewayRouteTableAnnouncementsCommand}
    */
-  readonly describeTransitGatewayRouteTableAnnouncements: (
-    args: DescribeTransitGatewayRouteTableAnnouncementsCommandInput,
+  describeTransitGatewayRouteTableAnnouncements(
+    args: DescribeTransitGatewayRouteTableAnnouncementsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeTransitGatewayRouteTableAnnouncementsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeTransitGatewayRouteTableAnnouncementsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeTransitGatewayRouteTablesCommand}
    */
-  readonly describeTransitGatewayRouteTables: (
-    args: DescribeTransitGatewayRouteTablesCommandInput,
+  describeTransitGatewayRouteTables(
+    args: DescribeTransitGatewayRouteTablesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeTransitGatewayRouteTablesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
-
-  /**
-   * @see {@link DescribeTransitGatewaysCommand}
-   */
-  readonly describeTransitGateways: (
-    args: DescribeTransitGatewaysCommandInput,
-    options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeTransitGatewaysCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeTransitGatewayRouteTablesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeTransitGatewayVpcAttachmentsCommand}
    */
-  readonly describeTransitGatewayVpcAttachments: (
-    args: DescribeTransitGatewayVpcAttachmentsCommandInput,
+  describeTransitGatewayVpcAttachments(
+    args: DescribeTransitGatewayVpcAttachmentsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeTransitGatewayVpcAttachmentsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeTransitGatewayVpcAttachmentsResult,
+    | SdkError
+  >
+
+  /**
+   * @see {@link DescribeTransitGatewaysCommand}
+   */
+  describeTransitGateways(
+    args: DescribeTransitGatewaysRequest,
+    options?: __HttpHandlerOptions,
+  ): Effect.Effect<
+  DescribeTransitGatewaysResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeTrunkInterfaceAssociationsCommand}
    */
-  readonly describeTrunkInterfaceAssociations: (
-    args: DescribeTrunkInterfaceAssociationsCommandInput,
+  describeTrunkInterfaceAssociations(
+    args: DescribeTrunkInterfaceAssociationsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeTrunkInterfaceAssociationsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeTrunkInterfaceAssociationsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeVerifiedAccessEndpointsCommand}
    */
-  readonly describeVerifiedAccessEndpoints: (
-    args: DescribeVerifiedAccessEndpointsCommandInput,
+  describeVerifiedAccessEndpoints(
+    args: DescribeVerifiedAccessEndpointsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeVerifiedAccessEndpointsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeVerifiedAccessEndpointsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeVerifiedAccessGroupsCommand}
    */
-  readonly describeVerifiedAccessGroups: (
-    args: DescribeVerifiedAccessGroupsCommandInput,
+  describeVerifiedAccessGroups(
+    args: DescribeVerifiedAccessGroupsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeVerifiedAccessGroupsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeVerifiedAccessGroupsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeVerifiedAccessInstanceLoggingConfigurationsCommand}
    */
-  readonly describeVerifiedAccessInstanceLoggingConfigurations: (
-    args: DescribeVerifiedAccessInstanceLoggingConfigurationsCommandInput,
+  describeVerifiedAccessInstanceLoggingConfigurations(
+    args: DescribeVerifiedAccessInstanceLoggingConfigurationsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeVerifiedAccessInstanceLoggingConfigurationsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeVerifiedAccessInstanceLoggingConfigurationsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeVerifiedAccessInstancesCommand}
    */
-  readonly describeVerifiedAccessInstances: (
-    args: DescribeVerifiedAccessInstancesCommandInput,
+  describeVerifiedAccessInstances(
+    args: DescribeVerifiedAccessInstancesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeVerifiedAccessInstancesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeVerifiedAccessInstancesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeVerifiedAccessTrustProvidersCommand}
    */
-  readonly describeVerifiedAccessTrustProviders: (
-    args: DescribeVerifiedAccessTrustProvidersCommandInput,
+  describeVerifiedAccessTrustProviders(
+    args: DescribeVerifiedAccessTrustProvidersRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeVerifiedAccessTrustProvidersCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeVerifiedAccessTrustProvidersResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeVolumeAttributeCommand}
    */
-  readonly describeVolumeAttribute: (
-    args: DescribeVolumeAttributeCommandInput,
+  describeVolumeAttribute(
+    args: DescribeVolumeAttributeRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeVolumeAttributeCommandOutput,
-    SdkError | EC2ServiceError
-  >;
-
-  /**
-   * @see {@link DescribeVolumesCommand}
-   */
-  readonly describeVolumes: (
-    args: DescribeVolumesCommandInput,
-    options?: __HttpHandlerOptions,
-  ) => Effect.Effect<DescribeVolumesCommandOutput, SdkError | EC2ServiceError>;
-
-  /**
-   * @see {@link DescribeVolumesModificationsCommand}
-   */
-  readonly describeVolumesModifications: (
-    args: DescribeVolumesModificationsCommandInput,
-    options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeVolumesModificationsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeVolumeAttributeResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeVolumeStatusCommand}
    */
-  readonly describeVolumeStatus: (
-    args: DescribeVolumeStatusCommandInput,
+  describeVolumeStatus(
+    args: DescribeVolumeStatusRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeVolumeStatusCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeVolumeStatusResult,
+    | SdkError
+  >
+
+  /**
+   * @see {@link DescribeVolumesCommand}
+   */
+  describeVolumes(
+    args: DescribeVolumesRequest,
+    options?: __HttpHandlerOptions,
+  ): Effect.Effect<
+  DescribeVolumesResult,
+    | SdkError
+  >
+
+  /**
+   * @see {@link DescribeVolumesModificationsCommand}
+   */
+  describeVolumesModifications(
+    args: DescribeVolumesModificationsRequest,
+    options?: __HttpHandlerOptions,
+  ): Effect.Effect<
+  DescribeVolumesModificationsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeVpcAttributeCommand}
    */
-  readonly describeVpcAttribute: (
-    args: DescribeVpcAttributeCommandInput,
+  describeVpcAttribute(
+    args: DescribeVpcAttributeRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeVpcAttributeCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeVpcAttributeResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeVpcClassicLinkCommand}
    */
-  readonly describeVpcClassicLink: (
-    args: DescribeVpcClassicLinkCommandInput,
+  describeVpcClassicLink(
+    args: DescribeVpcClassicLinkRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeVpcClassicLinkCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeVpcClassicLinkResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeVpcClassicLinkDnsSupportCommand}
    */
-  readonly describeVpcClassicLinkDnsSupport: (
-    args: DescribeVpcClassicLinkDnsSupportCommandInput,
+  describeVpcClassicLinkDnsSupport(
+    args: DescribeVpcClassicLinkDnsSupportRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeVpcClassicLinkDnsSupportCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeVpcClassicLinkDnsSupportResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeVpcEndpointConnectionNotificationsCommand}
    */
-  readonly describeVpcEndpointConnectionNotifications: (
-    args: DescribeVpcEndpointConnectionNotificationsCommandInput,
+  describeVpcEndpointConnectionNotifications(
+    args: DescribeVpcEndpointConnectionNotificationsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeVpcEndpointConnectionNotificationsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeVpcEndpointConnectionNotificationsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeVpcEndpointConnectionsCommand}
    */
-  readonly describeVpcEndpointConnections: (
-    args: DescribeVpcEndpointConnectionsCommandInput,
+  describeVpcEndpointConnections(
+    args: DescribeVpcEndpointConnectionsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeVpcEndpointConnectionsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
-
-  /**
-   * @see {@link DescribeVpcEndpointsCommand}
-   */
-  readonly describeVpcEndpoints: (
-    args: DescribeVpcEndpointsCommandInput,
-    options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeVpcEndpointsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeVpcEndpointConnectionsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeVpcEndpointServiceConfigurationsCommand}
    */
-  readonly describeVpcEndpointServiceConfigurations: (
-    args: DescribeVpcEndpointServiceConfigurationsCommandInput,
+  describeVpcEndpointServiceConfigurations(
+    args: DescribeVpcEndpointServiceConfigurationsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeVpcEndpointServiceConfigurationsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeVpcEndpointServiceConfigurationsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeVpcEndpointServicePermissionsCommand}
    */
-  readonly describeVpcEndpointServicePermissions: (
-    args: DescribeVpcEndpointServicePermissionsCommandInput,
+  describeVpcEndpointServicePermissions(
+    args: DescribeVpcEndpointServicePermissionsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeVpcEndpointServicePermissionsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeVpcEndpointServicePermissionsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeVpcEndpointServicesCommand}
    */
-  readonly describeVpcEndpointServices: (
-    args: DescribeVpcEndpointServicesCommandInput,
+  describeVpcEndpointServices(
+    args: DescribeVpcEndpointServicesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeVpcEndpointServicesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeVpcEndpointServicesResult,
+    | SdkError
+  >
+
+  /**
+   * @see {@link DescribeVpcEndpointsCommand}
+   */
+  describeVpcEndpoints(
+    args: DescribeVpcEndpointsRequest,
+    options?: __HttpHandlerOptions,
+  ): Effect.Effect<
+  DescribeVpcEndpointsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeVpcPeeringConnectionsCommand}
    */
-  readonly describeVpcPeeringConnections: (
-    args: DescribeVpcPeeringConnectionsCommandInput,
+  describeVpcPeeringConnections(
+    args: DescribeVpcPeeringConnectionsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeVpcPeeringConnectionsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeVpcPeeringConnectionsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeVpcsCommand}
    */
-  readonly describeVpcs: (
-    args: DescribeVpcsCommandInput,
+  describeVpcs(
+    args: DescribeVpcsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<DescribeVpcsCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  DescribeVpcsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeVpnConnectionsCommand}
    */
-  readonly describeVpnConnections: (
-    args: DescribeVpnConnectionsCommandInput,
+  describeVpnConnections(
+    args: DescribeVpnConnectionsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeVpnConnectionsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeVpnConnectionsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DescribeVpnGatewaysCommand}
    */
-  readonly describeVpnGateways: (
-    args: DescribeVpnGatewaysCommandInput,
+  describeVpnGateways(
+    args: DescribeVpnGatewaysRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeVpnGatewaysCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DescribeVpnGatewaysResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DetachClassicLinkVpcCommand}
    */
-  readonly detachClassicLinkVpc: (
-    args: DetachClassicLinkVpcCommandInput,
+  detachClassicLinkVpc(
+    args: DetachClassicLinkVpcRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DetachClassicLinkVpcCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DetachClassicLinkVpcResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DetachInternetGatewayCommand}
    */
-  readonly detachInternetGateway: (
-    args: DetachInternetGatewayCommandInput,
+  detachInternetGateway(
+    args: DetachInternetGatewayRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DetachInternetGatewayCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link DetachNetworkInterfaceCommand}
    */
-  readonly detachNetworkInterface: (
-    args: DetachNetworkInterfaceCommandInput,
+  detachNetworkInterface(
+    args: DetachNetworkInterfaceRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DetachNetworkInterfaceCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link DetachVerifiedAccessTrustProviderCommand}
    */
-  readonly detachVerifiedAccessTrustProvider: (
-    args: DetachVerifiedAccessTrustProviderCommandInput,
+  detachVerifiedAccessTrustProvider(
+    args: DetachVerifiedAccessTrustProviderRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DetachVerifiedAccessTrustProviderCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DetachVerifiedAccessTrustProviderResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DetachVolumeCommand}
    */
-  readonly detachVolume: (
-    args: DetachVolumeCommandInput,
+  detachVolume(
+    args: DetachVolumeRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<DetachVolumeCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  VolumeAttachment,
+    | SdkError
+  >
 
   /**
    * @see {@link DetachVpnGatewayCommand}
    */
-  readonly detachVpnGateway: (
-    args: DetachVpnGatewayCommandInput,
+  detachVpnGateway(
+    args: DetachVpnGatewayRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<DetachVpnGatewayCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link DisableAddressTransferCommand}
    */
-  readonly disableAddressTransfer: (
-    args: DisableAddressTransferCommandInput,
+  disableAddressTransfer(
+    args: DisableAddressTransferRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DisableAddressTransferCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DisableAddressTransferResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DisableAwsNetworkPerformanceMetricSubscriptionCommand}
    */
-  readonly disableAwsNetworkPerformanceMetricSubscription: (
-    args: DisableAwsNetworkPerformanceMetricSubscriptionCommandInput,
+  disableAwsNetworkPerformanceMetricSubscription(
+    args: DisableAwsNetworkPerformanceMetricSubscriptionRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DisableAwsNetworkPerformanceMetricSubscriptionCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DisableAwsNetworkPerformanceMetricSubscriptionResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DisableEbsEncryptionByDefaultCommand}
    */
-  readonly disableEbsEncryptionByDefault: (
-    args: DisableEbsEncryptionByDefaultCommandInput,
+  disableEbsEncryptionByDefault(
+    args: DisableEbsEncryptionByDefaultRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DisableEbsEncryptionByDefaultCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DisableEbsEncryptionByDefaultResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DisableFastLaunchCommand}
    */
-  readonly disableFastLaunch: (
-    args: DisableFastLaunchCommandInput,
+  disableFastLaunch(
+    args: DisableFastLaunchRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DisableFastLaunchCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DisableFastLaunchResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DisableFastSnapshotRestoresCommand}
    */
-  readonly disableFastSnapshotRestores: (
-    args: DisableFastSnapshotRestoresCommandInput,
+  disableFastSnapshotRestores(
+    args: DisableFastSnapshotRestoresRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DisableFastSnapshotRestoresCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DisableFastSnapshotRestoresResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DisableImageCommand}
    */
-  readonly disableImage: (
-    args: DisableImageCommandInput,
+  disableImage(
+    args: DisableImageRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<DisableImageCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  DisableImageResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DisableImageBlockPublicAccessCommand}
    */
-  readonly disableImageBlockPublicAccess: (
-    args: DisableImageBlockPublicAccessCommandInput,
+  disableImageBlockPublicAccess(
+    args: DisableImageBlockPublicAccessRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DisableImageBlockPublicAccessCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DisableImageBlockPublicAccessResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DisableImageDeprecationCommand}
    */
-  readonly disableImageDeprecation: (
-    args: DisableImageDeprecationCommandInput,
+  disableImageDeprecation(
+    args: DisableImageDeprecationRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DisableImageDeprecationCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DisableImageDeprecationResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DisableIpamOrganizationAdminAccountCommand}
    */
-  readonly disableIpamOrganizationAdminAccount: (
-    args: DisableIpamOrganizationAdminAccountCommandInput,
+  disableIpamOrganizationAdminAccount(
+    args: DisableIpamOrganizationAdminAccountRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DisableIpamOrganizationAdminAccountCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DisableIpamOrganizationAdminAccountResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DisableSerialConsoleAccessCommand}
    */
-  readonly disableSerialConsoleAccess: (
-    args: DisableSerialConsoleAccessCommandInput,
+  disableSerialConsoleAccess(
+    args: DisableSerialConsoleAccessRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DisableSerialConsoleAccessCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DisableSerialConsoleAccessResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DisableSnapshotBlockPublicAccessCommand}
    */
-  readonly disableSnapshotBlockPublicAccess: (
-    args: DisableSnapshotBlockPublicAccessCommandInput,
+  disableSnapshotBlockPublicAccess(
+    args: DisableSnapshotBlockPublicAccessRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DisableSnapshotBlockPublicAccessCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DisableSnapshotBlockPublicAccessResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DisableTransitGatewayRouteTablePropagationCommand}
    */
-  readonly disableTransitGatewayRouteTablePropagation: (
-    args: DisableTransitGatewayRouteTablePropagationCommandInput,
+  disableTransitGatewayRouteTablePropagation(
+    args: DisableTransitGatewayRouteTablePropagationRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DisableTransitGatewayRouteTablePropagationCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DisableTransitGatewayRouteTablePropagationResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DisableVgwRoutePropagationCommand}
    */
-  readonly disableVgwRoutePropagation: (
-    args: DisableVgwRoutePropagationCommandInput,
+  disableVgwRoutePropagation(
+    args: DisableVgwRoutePropagationRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DisableVgwRoutePropagationCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link DisableVpcClassicLinkCommand}
    */
-  readonly disableVpcClassicLink: (
-    args: DisableVpcClassicLinkCommandInput,
+  disableVpcClassicLink(
+    args: DisableVpcClassicLinkRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DisableVpcClassicLinkCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DisableVpcClassicLinkResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DisableVpcClassicLinkDnsSupportCommand}
    */
-  readonly disableVpcClassicLinkDnsSupport: (
-    args: DisableVpcClassicLinkDnsSupportCommandInput,
+  disableVpcClassicLinkDnsSupport(
+    args: DisableVpcClassicLinkDnsSupportRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DisableVpcClassicLinkDnsSupportCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DisableVpcClassicLinkDnsSupportResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DisassociateAddressCommand}
    */
-  readonly disassociateAddress: (
-    args: DisassociateAddressCommandInput,
+  disassociateAddress(
+    args: DisassociateAddressRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DisassociateAddressCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link DisassociateClientVpnTargetNetworkCommand}
    */
-  readonly disassociateClientVpnTargetNetwork: (
-    args: DisassociateClientVpnTargetNetworkCommandInput,
+  disassociateClientVpnTargetNetwork(
+    args: DisassociateClientVpnTargetNetworkRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DisassociateClientVpnTargetNetworkCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DisassociateClientVpnTargetNetworkResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DisassociateEnclaveCertificateIamRoleCommand}
    */
-  readonly disassociateEnclaveCertificateIamRole: (
-    args: DisassociateEnclaveCertificateIamRoleCommandInput,
+  disassociateEnclaveCertificateIamRole(
+    args: DisassociateEnclaveCertificateIamRoleRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DisassociateEnclaveCertificateIamRoleCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DisassociateEnclaveCertificateIamRoleResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DisassociateIamInstanceProfileCommand}
    */
-  readonly disassociateIamInstanceProfile: (
-    args: DisassociateIamInstanceProfileCommandInput,
+  disassociateIamInstanceProfile(
+    args: DisassociateIamInstanceProfileRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DisassociateIamInstanceProfileCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DisassociateIamInstanceProfileResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DisassociateInstanceEventWindowCommand}
    */
-  readonly disassociateInstanceEventWindow: (
-    args: DisassociateInstanceEventWindowCommandInput,
+  disassociateInstanceEventWindow(
+    args: DisassociateInstanceEventWindowRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DisassociateInstanceEventWindowCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DisassociateInstanceEventWindowResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DisassociateIpamByoasnCommand}
    */
-  readonly disassociateIpamByoasn: (
-    args: DisassociateIpamByoasnCommandInput,
+  disassociateIpamByoasn(
+    args: DisassociateIpamByoasnRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DisassociateIpamByoasnCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DisassociateIpamByoasnResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DisassociateIpamResourceDiscoveryCommand}
    */
-  readonly disassociateIpamResourceDiscovery: (
-    args: DisassociateIpamResourceDiscoveryCommandInput,
+  disassociateIpamResourceDiscovery(
+    args: DisassociateIpamResourceDiscoveryRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DisassociateIpamResourceDiscoveryCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DisassociateIpamResourceDiscoveryResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DisassociateNatGatewayAddressCommand}
    */
-  readonly disassociateNatGatewayAddress: (
-    args: DisassociateNatGatewayAddressCommandInput,
+  disassociateNatGatewayAddress(
+    args: DisassociateNatGatewayAddressRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DisassociateNatGatewayAddressCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DisassociateNatGatewayAddressResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DisassociateRouteTableCommand}
    */
-  readonly disassociateRouteTable: (
-    args: DisassociateRouteTableCommandInput,
+  disassociateRouteTable(
+    args: DisassociateRouteTableRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DisassociateRouteTableCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link DisassociateSubnetCidrBlockCommand}
    */
-  readonly disassociateSubnetCidrBlock: (
-    args: DisassociateSubnetCidrBlockCommandInput,
+  disassociateSubnetCidrBlock(
+    args: DisassociateSubnetCidrBlockRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DisassociateSubnetCidrBlockCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DisassociateSubnetCidrBlockResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DisassociateTransitGatewayMulticastDomainCommand}
    */
-  readonly disassociateTransitGatewayMulticastDomain: (
-    args: DisassociateTransitGatewayMulticastDomainCommandInput,
+  disassociateTransitGatewayMulticastDomain(
+    args: DisassociateTransitGatewayMulticastDomainRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DisassociateTransitGatewayMulticastDomainCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DisassociateTransitGatewayMulticastDomainResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DisassociateTransitGatewayPolicyTableCommand}
    */
-  readonly disassociateTransitGatewayPolicyTable: (
-    args: DisassociateTransitGatewayPolicyTableCommandInput,
+  disassociateTransitGatewayPolicyTable(
+    args: DisassociateTransitGatewayPolicyTableRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DisassociateTransitGatewayPolicyTableCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DisassociateTransitGatewayPolicyTableResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DisassociateTransitGatewayRouteTableCommand}
    */
-  readonly disassociateTransitGatewayRouteTable: (
-    args: DisassociateTransitGatewayRouteTableCommandInput,
+  disassociateTransitGatewayRouteTable(
+    args: DisassociateTransitGatewayRouteTableRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DisassociateTransitGatewayRouteTableCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DisassociateTransitGatewayRouteTableResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DisassociateTrunkInterfaceCommand}
    */
-  readonly disassociateTrunkInterface: (
-    args: DisassociateTrunkInterfaceCommandInput,
+  disassociateTrunkInterface(
+    args: DisassociateTrunkInterfaceRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DisassociateTrunkInterfaceCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DisassociateTrunkInterfaceResult,
+    | SdkError
+  >
 
   /**
    * @see {@link DisassociateVpcCidrBlockCommand}
    */
-  readonly disassociateVpcCidrBlock: (
-    args: DisassociateVpcCidrBlockCommandInput,
+  disassociateVpcCidrBlock(
+    args: DisassociateVpcCidrBlockRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DisassociateVpcCidrBlockCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  DisassociateVpcCidrBlockResult,
+    | SdkError
+  >
 
   /**
    * @see {@link EnableAddressTransferCommand}
    */
-  readonly enableAddressTransfer: (
-    args: EnableAddressTransferCommandInput,
+  enableAddressTransfer(
+    args: EnableAddressTransferRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    EnableAddressTransferCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  EnableAddressTransferResult,
+    | SdkError
+  >
 
   /**
    * @see {@link EnableAwsNetworkPerformanceMetricSubscriptionCommand}
    */
-  readonly enableAwsNetworkPerformanceMetricSubscription: (
-    args: EnableAwsNetworkPerformanceMetricSubscriptionCommandInput,
+  enableAwsNetworkPerformanceMetricSubscription(
+    args: EnableAwsNetworkPerformanceMetricSubscriptionRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    EnableAwsNetworkPerformanceMetricSubscriptionCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  EnableAwsNetworkPerformanceMetricSubscriptionResult,
+    | SdkError
+  >
 
   /**
    * @see {@link EnableEbsEncryptionByDefaultCommand}
    */
-  readonly enableEbsEncryptionByDefault: (
-    args: EnableEbsEncryptionByDefaultCommandInput,
+  enableEbsEncryptionByDefault(
+    args: EnableEbsEncryptionByDefaultRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    EnableEbsEncryptionByDefaultCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  EnableEbsEncryptionByDefaultResult,
+    | SdkError
+  >
 
   /**
    * @see {@link EnableFastLaunchCommand}
    */
-  readonly enableFastLaunch: (
-    args: EnableFastLaunchCommandInput,
+  enableFastLaunch(
+    args: EnableFastLaunchRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<EnableFastLaunchCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  EnableFastLaunchResult,
+    | SdkError
+  >
 
   /**
    * @see {@link EnableFastSnapshotRestoresCommand}
    */
-  readonly enableFastSnapshotRestores: (
-    args: EnableFastSnapshotRestoresCommandInput,
+  enableFastSnapshotRestores(
+    args: EnableFastSnapshotRestoresRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    EnableFastSnapshotRestoresCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  EnableFastSnapshotRestoresResult,
+    | SdkError
+  >
 
   /**
    * @see {@link EnableImageCommand}
    */
-  readonly enableImage: (
-    args: EnableImageCommandInput,
+  enableImage(
+    args: EnableImageRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<EnableImageCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  EnableImageResult,
+    | SdkError
+  >
 
   /**
    * @see {@link EnableImageBlockPublicAccessCommand}
    */
-  readonly enableImageBlockPublicAccess: (
-    args: EnableImageBlockPublicAccessCommandInput,
+  enableImageBlockPublicAccess(
+    args: EnableImageBlockPublicAccessRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    EnableImageBlockPublicAccessCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  EnableImageBlockPublicAccessResult,
+    | SdkError
+  >
 
   /**
    * @see {@link EnableImageDeprecationCommand}
    */
-  readonly enableImageDeprecation: (
-    args: EnableImageDeprecationCommandInput,
+  enableImageDeprecation(
+    args: EnableImageDeprecationRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    EnableImageDeprecationCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  EnableImageDeprecationResult,
+    | SdkError
+  >
 
   /**
    * @see {@link EnableIpamOrganizationAdminAccountCommand}
    */
-  readonly enableIpamOrganizationAdminAccount: (
-    args: EnableIpamOrganizationAdminAccountCommandInput,
+  enableIpamOrganizationAdminAccount(
+    args: EnableIpamOrganizationAdminAccountRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    EnableIpamOrganizationAdminAccountCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  EnableIpamOrganizationAdminAccountResult,
+    | SdkError
+  >
 
   /**
    * @see {@link EnableReachabilityAnalyzerOrganizationSharingCommand}
    */
-  readonly enableReachabilityAnalyzerOrganizationSharing: (
-    args: EnableReachabilityAnalyzerOrganizationSharingCommandInput,
+  enableReachabilityAnalyzerOrganizationSharing(
+    args: EnableReachabilityAnalyzerOrganizationSharingRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    EnableReachabilityAnalyzerOrganizationSharingCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  EnableReachabilityAnalyzerOrganizationSharingResult,
+    | SdkError
+  >
 
   /**
    * @see {@link EnableSerialConsoleAccessCommand}
    */
-  readonly enableSerialConsoleAccess: (
-    args: EnableSerialConsoleAccessCommandInput,
+  enableSerialConsoleAccess(
+    args: EnableSerialConsoleAccessRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    EnableSerialConsoleAccessCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  EnableSerialConsoleAccessResult,
+    | SdkError
+  >
 
   /**
    * @see {@link EnableSnapshotBlockPublicAccessCommand}
    */
-  readonly enableSnapshotBlockPublicAccess: (
-    args: EnableSnapshotBlockPublicAccessCommandInput,
+  enableSnapshotBlockPublicAccess(
+    args: EnableSnapshotBlockPublicAccessRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    EnableSnapshotBlockPublicAccessCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  EnableSnapshotBlockPublicAccessResult,
+    | SdkError
+  >
 
   /**
    * @see {@link EnableTransitGatewayRouteTablePropagationCommand}
    */
-  readonly enableTransitGatewayRouteTablePropagation: (
-    args: EnableTransitGatewayRouteTablePropagationCommandInput,
+  enableTransitGatewayRouteTablePropagation(
+    args: EnableTransitGatewayRouteTablePropagationRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    EnableTransitGatewayRouteTablePropagationCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  EnableTransitGatewayRouteTablePropagationResult,
+    | SdkError
+  >
 
   /**
    * @see {@link EnableVgwRoutePropagationCommand}
    */
-  readonly enableVgwRoutePropagation: (
-    args: EnableVgwRoutePropagationCommandInput,
+  enableVgwRoutePropagation(
+    args: EnableVgwRoutePropagationRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    EnableVgwRoutePropagationCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link EnableVolumeIOCommand}
    */
-  readonly enableVolumeIO: (
-    args: EnableVolumeIOCommandInput,
+  enableVolumeIO(
+    args: EnableVolumeIORequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<EnableVolumeIOCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link EnableVpcClassicLinkCommand}
    */
-  readonly enableVpcClassicLink: (
-    args: EnableVpcClassicLinkCommandInput,
+  enableVpcClassicLink(
+    args: EnableVpcClassicLinkRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    EnableVpcClassicLinkCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  EnableVpcClassicLinkResult,
+    | SdkError
+  >
 
   /**
    * @see {@link EnableVpcClassicLinkDnsSupportCommand}
    */
-  readonly enableVpcClassicLinkDnsSupport: (
-    args: EnableVpcClassicLinkDnsSupportCommandInput,
+  enableVpcClassicLinkDnsSupport(
+    args: EnableVpcClassicLinkDnsSupportRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    EnableVpcClassicLinkDnsSupportCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  EnableVpcClassicLinkDnsSupportResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ExportClientVpnClientCertificateRevocationListCommand}
    */
-  readonly exportClientVpnClientCertificateRevocationList: (
-    args: ExportClientVpnClientCertificateRevocationListCommandInput,
+  exportClientVpnClientCertificateRevocationList(
+    args: ExportClientVpnClientCertificateRevocationListRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ExportClientVpnClientCertificateRevocationListCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ExportClientVpnClientCertificateRevocationListResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ExportClientVpnClientConfigurationCommand}
    */
-  readonly exportClientVpnClientConfiguration: (
-    args: ExportClientVpnClientConfigurationCommandInput,
+  exportClientVpnClientConfiguration(
+    args: ExportClientVpnClientConfigurationRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ExportClientVpnClientConfigurationCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ExportClientVpnClientConfigurationResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ExportImageCommand}
    */
-  readonly exportImage: (
-    args: ExportImageCommandInput,
+  exportImage(
+    args: ExportImageRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<ExportImageCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  ExportImageResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ExportTransitGatewayRoutesCommand}
    */
-  readonly exportTransitGatewayRoutes: (
-    args: ExportTransitGatewayRoutesCommandInput,
+  exportTransitGatewayRoutes(
+    args: ExportTransitGatewayRoutesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ExportTransitGatewayRoutesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ExportTransitGatewayRoutesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link GetAssociatedEnclaveCertificateIamRolesCommand}
    */
-  readonly getAssociatedEnclaveCertificateIamRoles: (
-    args: GetAssociatedEnclaveCertificateIamRolesCommandInput,
+  getAssociatedEnclaveCertificateIamRoles(
+    args: GetAssociatedEnclaveCertificateIamRolesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetAssociatedEnclaveCertificateIamRolesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  GetAssociatedEnclaveCertificateIamRolesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link GetAssociatedIpv6PoolCidrsCommand}
    */
-  readonly getAssociatedIpv6PoolCidrs: (
-    args: GetAssociatedIpv6PoolCidrsCommandInput,
+  getAssociatedIpv6PoolCidrs(
+    args: GetAssociatedIpv6PoolCidrsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetAssociatedIpv6PoolCidrsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  GetAssociatedIpv6PoolCidrsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link GetAwsNetworkPerformanceDataCommand}
    */
-  readonly getAwsNetworkPerformanceData: (
-    args: GetAwsNetworkPerformanceDataCommandInput,
+  getAwsNetworkPerformanceData(
+    args: GetAwsNetworkPerformanceDataRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetAwsNetworkPerformanceDataCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  GetAwsNetworkPerformanceDataResult,
+    | SdkError
+  >
 
   /**
    * @see {@link GetCapacityReservationUsageCommand}
    */
-  readonly getCapacityReservationUsage: (
-    args: GetCapacityReservationUsageCommandInput,
+  getCapacityReservationUsage(
+    args: GetCapacityReservationUsageRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetCapacityReservationUsageCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  GetCapacityReservationUsageResult,
+    | SdkError
+  >
 
   /**
    * @see {@link GetCoipPoolUsageCommand}
    */
-  readonly getCoipPoolUsage: (
-    args: GetCoipPoolUsageCommandInput,
+  getCoipPoolUsage(
+    args: GetCoipPoolUsageRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<GetCoipPoolUsageCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  GetCoipPoolUsageResult,
+    | SdkError
+  >
 
   /**
    * @see {@link GetConsoleOutputCommand}
    */
-  readonly getConsoleOutput: (
-    args: GetConsoleOutputCommandInput,
+  getConsoleOutput(
+    args: GetConsoleOutputRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<GetConsoleOutputCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  GetConsoleOutputResult,
+    | SdkError
+  >
 
   /**
    * @see {@link GetConsoleScreenshotCommand}
    */
-  readonly getConsoleScreenshot: (
-    args: GetConsoleScreenshotCommandInput,
+  getConsoleScreenshot(
+    args: GetConsoleScreenshotRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetConsoleScreenshotCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  GetConsoleScreenshotResult,
+    | SdkError
+  >
 
   /**
    * @see {@link GetDefaultCreditSpecificationCommand}
    */
-  readonly getDefaultCreditSpecification: (
-    args: GetDefaultCreditSpecificationCommandInput,
+  getDefaultCreditSpecification(
+    args: GetDefaultCreditSpecificationRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetDefaultCreditSpecificationCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  GetDefaultCreditSpecificationResult,
+    | SdkError
+  >
 
   /**
    * @see {@link GetEbsDefaultKmsKeyIdCommand}
    */
-  readonly getEbsDefaultKmsKeyId: (
-    args: GetEbsDefaultKmsKeyIdCommandInput,
+  getEbsDefaultKmsKeyId(
+    args: GetEbsDefaultKmsKeyIdRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetEbsDefaultKmsKeyIdCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  GetEbsDefaultKmsKeyIdResult,
+    | SdkError
+  >
 
   /**
    * @see {@link GetEbsEncryptionByDefaultCommand}
    */
-  readonly getEbsEncryptionByDefault: (
-    args: GetEbsEncryptionByDefaultCommandInput,
+  getEbsEncryptionByDefault(
+    args: GetEbsEncryptionByDefaultRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetEbsEncryptionByDefaultCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  GetEbsEncryptionByDefaultResult,
+    | SdkError
+  >
 
   /**
    * @see {@link GetFlowLogsIntegrationTemplateCommand}
    */
-  readonly getFlowLogsIntegrationTemplate: (
-    args: GetFlowLogsIntegrationTemplateCommandInput,
+  getFlowLogsIntegrationTemplate(
+    args: GetFlowLogsIntegrationTemplateRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetFlowLogsIntegrationTemplateCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  GetFlowLogsIntegrationTemplateResult,
+    | SdkError
+  >
 
   /**
    * @see {@link GetGroupsForCapacityReservationCommand}
    */
-  readonly getGroupsForCapacityReservation: (
-    args: GetGroupsForCapacityReservationCommandInput,
+  getGroupsForCapacityReservation(
+    args: GetGroupsForCapacityReservationRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetGroupsForCapacityReservationCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  GetGroupsForCapacityReservationResult,
+    | SdkError
+  >
 
   /**
    * @see {@link GetHostReservationPurchasePreviewCommand}
    */
-  readonly getHostReservationPurchasePreview: (
-    args: GetHostReservationPurchasePreviewCommandInput,
+  getHostReservationPurchasePreview(
+    args: GetHostReservationPurchasePreviewRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetHostReservationPurchasePreviewCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  GetHostReservationPurchasePreviewResult,
+    | SdkError
+  >
 
   /**
    * @see {@link GetImageBlockPublicAccessStateCommand}
    */
-  readonly getImageBlockPublicAccessState: (
-    args: GetImageBlockPublicAccessStateCommandInput,
+  getImageBlockPublicAccessState(
+    args: GetImageBlockPublicAccessStateRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetImageBlockPublicAccessStateCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  GetImageBlockPublicAccessStateResult,
+    | SdkError
+  >
+
+  /**
+   * @see {@link GetInstanceMetadataDefaultsCommand}
+   */
+  getInstanceMetadataDefaults(
+    args: GetInstanceMetadataDefaultsRequest,
+    options?: __HttpHandlerOptions,
+  ): Effect.Effect<
+  GetInstanceMetadataDefaultsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link GetInstanceTypesFromInstanceRequirementsCommand}
    */
-  readonly getInstanceTypesFromInstanceRequirements: (
-    args: GetInstanceTypesFromInstanceRequirementsCommandInput,
+  getInstanceTypesFromInstanceRequirements(
+    args: GetInstanceTypesFromInstanceRequirementsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetInstanceTypesFromInstanceRequirementsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  GetInstanceTypesFromInstanceRequirementsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link GetInstanceUefiDataCommand}
    */
-  readonly getInstanceUefiData: (
-    args: GetInstanceUefiDataCommandInput,
+  getInstanceUefiData(
+    args: GetInstanceUefiDataRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetInstanceUefiDataCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  GetInstanceUefiDataResult,
+    | SdkError
+  >
 
   /**
    * @see {@link GetIpamAddressHistoryCommand}
    */
-  readonly getIpamAddressHistory: (
-    args: GetIpamAddressHistoryCommandInput,
+  getIpamAddressHistory(
+    args: GetIpamAddressHistoryRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetIpamAddressHistoryCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  GetIpamAddressHistoryResult,
+    | SdkError
+  >
 
   /**
    * @see {@link GetIpamDiscoveredAccountsCommand}
    */
-  readonly getIpamDiscoveredAccounts: (
-    args: GetIpamDiscoveredAccountsCommandInput,
+  getIpamDiscoveredAccounts(
+    args: GetIpamDiscoveredAccountsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetIpamDiscoveredAccountsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  GetIpamDiscoveredAccountsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link GetIpamDiscoveredPublicAddressesCommand}
    */
-  readonly getIpamDiscoveredPublicAddresses: (
-    args: GetIpamDiscoveredPublicAddressesCommandInput,
+  getIpamDiscoveredPublicAddresses(
+    args: GetIpamDiscoveredPublicAddressesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetIpamDiscoveredPublicAddressesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  GetIpamDiscoveredPublicAddressesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link GetIpamDiscoveredResourceCidrsCommand}
    */
-  readonly getIpamDiscoveredResourceCidrs: (
-    args: GetIpamDiscoveredResourceCidrsCommandInput,
+  getIpamDiscoveredResourceCidrs(
+    args: GetIpamDiscoveredResourceCidrsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetIpamDiscoveredResourceCidrsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  GetIpamDiscoveredResourceCidrsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link GetIpamPoolAllocationsCommand}
    */
-  readonly getIpamPoolAllocations: (
-    args: GetIpamPoolAllocationsCommandInput,
+  getIpamPoolAllocations(
+    args: GetIpamPoolAllocationsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetIpamPoolAllocationsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  GetIpamPoolAllocationsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link GetIpamPoolCidrsCommand}
    */
-  readonly getIpamPoolCidrs: (
-    args: GetIpamPoolCidrsCommandInput,
+  getIpamPoolCidrs(
+    args: GetIpamPoolCidrsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<GetIpamPoolCidrsCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  GetIpamPoolCidrsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link GetIpamResourceCidrsCommand}
    */
-  readonly getIpamResourceCidrs: (
-    args: GetIpamResourceCidrsCommandInput,
+  getIpamResourceCidrs(
+    args: GetIpamResourceCidrsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetIpamResourceCidrsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  GetIpamResourceCidrsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link GetLaunchTemplateDataCommand}
    */
-  readonly getLaunchTemplateData: (
-    args: GetLaunchTemplateDataCommandInput,
+  getLaunchTemplateData(
+    args: GetLaunchTemplateDataRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetLaunchTemplateDataCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  GetLaunchTemplateDataResult,
+    | SdkError
+  >
 
   /**
    * @see {@link GetManagedPrefixListAssociationsCommand}
    */
-  readonly getManagedPrefixListAssociations: (
-    args: GetManagedPrefixListAssociationsCommandInput,
+  getManagedPrefixListAssociations(
+    args: GetManagedPrefixListAssociationsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetManagedPrefixListAssociationsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  GetManagedPrefixListAssociationsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link GetManagedPrefixListEntriesCommand}
    */
-  readonly getManagedPrefixListEntries: (
-    args: GetManagedPrefixListEntriesCommandInput,
+  getManagedPrefixListEntries(
+    args: GetManagedPrefixListEntriesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetManagedPrefixListEntriesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  GetManagedPrefixListEntriesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link GetNetworkInsightsAccessScopeAnalysisFindingsCommand}
    */
-  readonly getNetworkInsightsAccessScopeAnalysisFindings: (
-    args: GetNetworkInsightsAccessScopeAnalysisFindingsCommandInput,
+  getNetworkInsightsAccessScopeAnalysisFindings(
+    args: GetNetworkInsightsAccessScopeAnalysisFindingsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetNetworkInsightsAccessScopeAnalysisFindingsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  GetNetworkInsightsAccessScopeAnalysisFindingsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link GetNetworkInsightsAccessScopeContentCommand}
    */
-  readonly getNetworkInsightsAccessScopeContent: (
-    args: GetNetworkInsightsAccessScopeContentCommandInput,
+  getNetworkInsightsAccessScopeContent(
+    args: GetNetworkInsightsAccessScopeContentRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetNetworkInsightsAccessScopeContentCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  GetNetworkInsightsAccessScopeContentResult,
+    | SdkError
+  >
 
   /**
    * @see {@link GetPasswordDataCommand}
    */
-  readonly getPasswordData: (
-    args: GetPasswordDataCommandInput,
+  getPasswordData(
+    args: GetPasswordDataRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<GetPasswordDataCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  GetPasswordDataResult,
+    | SdkError
+  >
 
   /**
    * @see {@link GetReservedInstancesExchangeQuoteCommand}
    */
-  readonly getReservedInstancesExchangeQuote: (
-    args: GetReservedInstancesExchangeQuoteCommandInput,
+  getReservedInstancesExchangeQuote(
+    args: GetReservedInstancesExchangeQuoteRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetReservedInstancesExchangeQuoteCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  GetReservedInstancesExchangeQuoteResult,
+    | SdkError
+  >
 
   /**
    * @see {@link GetSecurityGroupsForVpcCommand}
    */
-  readonly getSecurityGroupsForVpc: (
-    args: GetSecurityGroupsForVpcCommandInput,
+  getSecurityGroupsForVpc(
+    args: GetSecurityGroupsForVpcRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetSecurityGroupsForVpcCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  GetSecurityGroupsForVpcResult,
+    | SdkError
+  >
 
   /**
    * @see {@link GetSerialConsoleAccessStatusCommand}
    */
-  readonly getSerialConsoleAccessStatus: (
-    args: GetSerialConsoleAccessStatusCommandInput,
+  getSerialConsoleAccessStatus(
+    args: GetSerialConsoleAccessStatusRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetSerialConsoleAccessStatusCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  GetSerialConsoleAccessStatusResult,
+    | SdkError
+  >
 
   /**
    * @see {@link GetSnapshotBlockPublicAccessStateCommand}
    */
-  readonly getSnapshotBlockPublicAccessState: (
-    args: GetSnapshotBlockPublicAccessStateCommandInput,
+  getSnapshotBlockPublicAccessState(
+    args: GetSnapshotBlockPublicAccessStateRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetSnapshotBlockPublicAccessStateCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  GetSnapshotBlockPublicAccessStateResult,
+    | SdkError
+  >
 
   /**
    * @see {@link GetSpotPlacementScoresCommand}
    */
-  readonly getSpotPlacementScores: (
-    args: GetSpotPlacementScoresCommandInput,
+  getSpotPlacementScores(
+    args: GetSpotPlacementScoresRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetSpotPlacementScoresCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  GetSpotPlacementScoresResult,
+    | SdkError
+  >
 
   /**
    * @see {@link GetSubnetCidrReservationsCommand}
    */
-  readonly getSubnetCidrReservations: (
-    args: GetSubnetCidrReservationsCommandInput,
+  getSubnetCidrReservations(
+    args: GetSubnetCidrReservationsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetSubnetCidrReservationsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  GetSubnetCidrReservationsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link GetTransitGatewayAttachmentPropagationsCommand}
    */
-  readonly getTransitGatewayAttachmentPropagations: (
-    args: GetTransitGatewayAttachmentPropagationsCommandInput,
+  getTransitGatewayAttachmentPropagations(
+    args: GetTransitGatewayAttachmentPropagationsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetTransitGatewayAttachmentPropagationsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  GetTransitGatewayAttachmentPropagationsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link GetTransitGatewayMulticastDomainAssociationsCommand}
    */
-  readonly getTransitGatewayMulticastDomainAssociations: (
-    args: GetTransitGatewayMulticastDomainAssociationsCommandInput,
+  getTransitGatewayMulticastDomainAssociations(
+    args: GetTransitGatewayMulticastDomainAssociationsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetTransitGatewayMulticastDomainAssociationsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  GetTransitGatewayMulticastDomainAssociationsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link GetTransitGatewayPolicyTableAssociationsCommand}
    */
-  readonly getTransitGatewayPolicyTableAssociations: (
-    args: GetTransitGatewayPolicyTableAssociationsCommandInput,
+  getTransitGatewayPolicyTableAssociations(
+    args: GetTransitGatewayPolicyTableAssociationsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetTransitGatewayPolicyTableAssociationsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  GetTransitGatewayPolicyTableAssociationsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link GetTransitGatewayPolicyTableEntriesCommand}
    */
-  readonly getTransitGatewayPolicyTableEntries: (
-    args: GetTransitGatewayPolicyTableEntriesCommandInput,
+  getTransitGatewayPolicyTableEntries(
+    args: GetTransitGatewayPolicyTableEntriesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetTransitGatewayPolicyTableEntriesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  GetTransitGatewayPolicyTableEntriesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link GetTransitGatewayPrefixListReferencesCommand}
    */
-  readonly getTransitGatewayPrefixListReferences: (
-    args: GetTransitGatewayPrefixListReferencesCommandInput,
+  getTransitGatewayPrefixListReferences(
+    args: GetTransitGatewayPrefixListReferencesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetTransitGatewayPrefixListReferencesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  GetTransitGatewayPrefixListReferencesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link GetTransitGatewayRouteTableAssociationsCommand}
    */
-  readonly getTransitGatewayRouteTableAssociations: (
-    args: GetTransitGatewayRouteTableAssociationsCommandInput,
+  getTransitGatewayRouteTableAssociations(
+    args: GetTransitGatewayRouteTableAssociationsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetTransitGatewayRouteTableAssociationsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  GetTransitGatewayRouteTableAssociationsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link GetTransitGatewayRouteTablePropagationsCommand}
    */
-  readonly getTransitGatewayRouteTablePropagations: (
-    args: GetTransitGatewayRouteTablePropagationsCommandInput,
+  getTransitGatewayRouteTablePropagations(
+    args: GetTransitGatewayRouteTablePropagationsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetTransitGatewayRouteTablePropagationsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  GetTransitGatewayRouteTablePropagationsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link GetVerifiedAccessEndpointPolicyCommand}
    */
-  readonly getVerifiedAccessEndpointPolicy: (
-    args: GetVerifiedAccessEndpointPolicyCommandInput,
+  getVerifiedAccessEndpointPolicy(
+    args: GetVerifiedAccessEndpointPolicyRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetVerifiedAccessEndpointPolicyCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  GetVerifiedAccessEndpointPolicyResult,
+    | SdkError
+  >
 
   /**
    * @see {@link GetVerifiedAccessGroupPolicyCommand}
    */
-  readonly getVerifiedAccessGroupPolicy: (
-    args: GetVerifiedAccessGroupPolicyCommandInput,
+  getVerifiedAccessGroupPolicy(
+    args: GetVerifiedAccessGroupPolicyRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetVerifiedAccessGroupPolicyCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  GetVerifiedAccessGroupPolicyResult,
+    | SdkError
+  >
 
   /**
    * @see {@link GetVpnConnectionDeviceSampleConfigurationCommand}
    */
-  readonly getVpnConnectionDeviceSampleConfiguration: (
-    args: GetVpnConnectionDeviceSampleConfigurationCommandInput,
+  getVpnConnectionDeviceSampleConfiguration(
+    args: GetVpnConnectionDeviceSampleConfigurationRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetVpnConnectionDeviceSampleConfigurationCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  GetVpnConnectionDeviceSampleConfigurationResult,
+    | SdkError
+  >
 
   /**
    * @see {@link GetVpnConnectionDeviceTypesCommand}
    */
-  readonly getVpnConnectionDeviceTypes: (
-    args: GetVpnConnectionDeviceTypesCommandInput,
+  getVpnConnectionDeviceTypes(
+    args: GetVpnConnectionDeviceTypesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetVpnConnectionDeviceTypesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  GetVpnConnectionDeviceTypesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link GetVpnTunnelReplacementStatusCommand}
    */
-  readonly getVpnTunnelReplacementStatus: (
-    args: GetVpnTunnelReplacementStatusCommandInput,
+  getVpnTunnelReplacementStatus(
+    args: GetVpnTunnelReplacementStatusRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetVpnTunnelReplacementStatusCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  GetVpnTunnelReplacementStatusResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ImportClientVpnClientCertificateRevocationListCommand}
    */
-  readonly importClientVpnClientCertificateRevocationList: (
-    args: ImportClientVpnClientCertificateRevocationListCommandInput,
+  importClientVpnClientCertificateRevocationList(
+    args: ImportClientVpnClientCertificateRevocationListRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ImportClientVpnClientCertificateRevocationListCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ImportClientVpnClientCertificateRevocationListResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ImportImageCommand}
    */
-  readonly importImage: (
-    args: ImportImageCommandInput,
+  importImage(
+    args: ImportImageRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<ImportImageCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  ImportImageResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ImportInstanceCommand}
    */
-  readonly importInstance: (
-    args: ImportInstanceCommandInput,
+  importInstance(
+    args: ImportInstanceRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<ImportInstanceCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  ImportInstanceResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ImportKeyPairCommand}
    */
-  readonly importKeyPair: (
-    args: ImportKeyPairCommandInput,
+  importKeyPair(
+    args: ImportKeyPairRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<ImportKeyPairCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  ImportKeyPairResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ImportSnapshotCommand}
    */
-  readonly importSnapshot: (
-    args: ImportSnapshotCommandInput,
+  importSnapshot(
+    args: ImportSnapshotRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<ImportSnapshotCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  ImportSnapshotResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ImportVolumeCommand}
    */
-  readonly importVolume: (
-    args: ImportVolumeCommandInput,
+  importVolume(
+    args: ImportVolumeRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<ImportVolumeCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  ImportVolumeResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ListImagesInRecycleBinCommand}
    */
-  readonly listImagesInRecycleBin: (
-    args: ListImagesInRecycleBinCommandInput,
+  listImagesInRecycleBin(
+    args: ListImagesInRecycleBinRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ListImagesInRecycleBinCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ListImagesInRecycleBinResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ListSnapshotsInRecycleBinCommand}
    */
-  readonly listSnapshotsInRecycleBin: (
-    args: ListSnapshotsInRecycleBinCommandInput,
+  listSnapshotsInRecycleBin(
+    args: ListSnapshotsInRecycleBinRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ListSnapshotsInRecycleBinCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ListSnapshotsInRecycleBinResult,
+    | SdkError
+  >
 
   /**
    * @see {@link LockSnapshotCommand}
    */
-  readonly lockSnapshot: (
-    args: LockSnapshotCommandInput,
+  lockSnapshot(
+    args: LockSnapshotRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<LockSnapshotCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  LockSnapshotResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyAddressAttributeCommand}
    */
-  readonly modifyAddressAttribute: (
-    args: ModifyAddressAttributeCommandInput,
+  modifyAddressAttribute(
+    args: ModifyAddressAttributeRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifyAddressAttributeCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ModifyAddressAttributeResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyAvailabilityZoneGroupCommand}
    */
-  readonly modifyAvailabilityZoneGroup: (
-    args: ModifyAvailabilityZoneGroupCommandInput,
+  modifyAvailabilityZoneGroup(
+    args: ModifyAvailabilityZoneGroupRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifyAvailabilityZoneGroupCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ModifyAvailabilityZoneGroupResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyCapacityReservationCommand}
    */
-  readonly modifyCapacityReservation: (
-    args: ModifyCapacityReservationCommandInput,
+  modifyCapacityReservation(
+    args: ModifyCapacityReservationRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifyCapacityReservationCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ModifyCapacityReservationResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyCapacityReservationFleetCommand}
    */
-  readonly modifyCapacityReservationFleet: (
-    args: ModifyCapacityReservationFleetCommandInput,
+  modifyCapacityReservationFleet(
+    args: ModifyCapacityReservationFleetRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifyCapacityReservationFleetCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ModifyCapacityReservationFleetResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyClientVpnEndpointCommand}
    */
-  readonly modifyClientVpnEndpoint: (
-    args: ModifyClientVpnEndpointCommandInput,
+  modifyClientVpnEndpoint(
+    args: ModifyClientVpnEndpointRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifyClientVpnEndpointCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ModifyClientVpnEndpointResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyDefaultCreditSpecificationCommand}
    */
-  readonly modifyDefaultCreditSpecification: (
-    args: ModifyDefaultCreditSpecificationCommandInput,
+  modifyDefaultCreditSpecification(
+    args: ModifyDefaultCreditSpecificationRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifyDefaultCreditSpecificationCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ModifyDefaultCreditSpecificationResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyEbsDefaultKmsKeyIdCommand}
    */
-  readonly modifyEbsDefaultKmsKeyId: (
-    args: ModifyEbsDefaultKmsKeyIdCommandInput,
+  modifyEbsDefaultKmsKeyId(
+    args: ModifyEbsDefaultKmsKeyIdRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifyEbsDefaultKmsKeyIdCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ModifyEbsDefaultKmsKeyIdResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyFleetCommand}
    */
-  readonly modifyFleet: (
-    args: ModifyFleetCommandInput,
+  modifyFleet(
+    args: ModifyFleetRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<ModifyFleetCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  ModifyFleetResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyFpgaImageAttributeCommand}
    */
-  readonly modifyFpgaImageAttribute: (
-    args: ModifyFpgaImageAttributeCommandInput,
+  modifyFpgaImageAttribute(
+    args: ModifyFpgaImageAttributeRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifyFpgaImageAttributeCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ModifyFpgaImageAttributeResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyHostsCommand}
    */
-  readonly modifyHosts: (
-    args: ModifyHostsCommandInput,
+  modifyHosts(
+    args: ModifyHostsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<ModifyHostsCommandOutput, SdkError | EC2ServiceError>;
-
-  /**
-   * @see {@link ModifyIdentityIdFormatCommand}
-   */
-  readonly modifyIdentityIdFormat: (
-    args: ModifyIdentityIdFormatCommandInput,
-    options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifyIdentityIdFormatCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ModifyHostsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyIdFormatCommand}
    */
-  readonly modifyIdFormat: (
-    args: ModifyIdFormatCommandInput,
+  modifyIdFormat(
+    args: ModifyIdFormatRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<ModifyIdFormatCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
+
+  /**
+   * @see {@link ModifyIdentityIdFormatCommand}
+   */
+  modifyIdentityIdFormat(
+    args: ModifyIdentityIdFormatRequest,
+    options?: __HttpHandlerOptions,
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyImageAttributeCommand}
    */
-  readonly modifyImageAttribute: (
-    args: ModifyImageAttributeCommandInput,
+  modifyImageAttribute(
+    args: ModifyImageAttributeRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifyImageAttributeCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyInstanceAttributeCommand}
    */
-  readonly modifyInstanceAttribute: (
-    args: ModifyInstanceAttributeCommandInput,
+  modifyInstanceAttribute(
+    args: ModifyInstanceAttributeRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifyInstanceAttributeCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyInstanceCapacityReservationAttributesCommand}
    */
-  readonly modifyInstanceCapacityReservationAttributes: (
-    args: ModifyInstanceCapacityReservationAttributesCommandInput,
+  modifyInstanceCapacityReservationAttributes(
+    args: ModifyInstanceCapacityReservationAttributesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifyInstanceCapacityReservationAttributesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ModifyInstanceCapacityReservationAttributesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyInstanceCreditSpecificationCommand}
    */
-  readonly modifyInstanceCreditSpecification: (
-    args: ModifyInstanceCreditSpecificationCommandInput,
+  modifyInstanceCreditSpecification(
+    args: ModifyInstanceCreditSpecificationRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifyInstanceCreditSpecificationCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ModifyInstanceCreditSpecificationResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyInstanceEventStartTimeCommand}
    */
-  readonly modifyInstanceEventStartTime: (
-    args: ModifyInstanceEventStartTimeCommandInput,
+  modifyInstanceEventStartTime(
+    args: ModifyInstanceEventStartTimeRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifyInstanceEventStartTimeCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ModifyInstanceEventStartTimeResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyInstanceEventWindowCommand}
    */
-  readonly modifyInstanceEventWindow: (
-    args: ModifyInstanceEventWindowCommandInput,
+  modifyInstanceEventWindow(
+    args: ModifyInstanceEventWindowRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifyInstanceEventWindowCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ModifyInstanceEventWindowResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyInstanceMaintenanceOptionsCommand}
    */
-  readonly modifyInstanceMaintenanceOptions: (
-    args: ModifyInstanceMaintenanceOptionsCommandInput,
+  modifyInstanceMaintenanceOptions(
+    args: ModifyInstanceMaintenanceOptionsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifyInstanceMaintenanceOptionsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ModifyInstanceMaintenanceOptionsResult,
+    | SdkError
+  >
+
+  /**
+   * @see {@link ModifyInstanceMetadataDefaultsCommand}
+   */
+  modifyInstanceMetadataDefaults(
+    args: ModifyInstanceMetadataDefaultsRequest,
+    options?: __HttpHandlerOptions,
+  ): Effect.Effect<
+  ModifyInstanceMetadataDefaultsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyInstanceMetadataOptionsCommand}
    */
-  readonly modifyInstanceMetadataOptions: (
-    args: ModifyInstanceMetadataOptionsCommandInput,
+  modifyInstanceMetadataOptions(
+    args: ModifyInstanceMetadataOptionsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifyInstanceMetadataOptionsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ModifyInstanceMetadataOptionsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyInstancePlacementCommand}
    */
-  readonly modifyInstancePlacement: (
-    args: ModifyInstancePlacementCommandInput,
+  modifyInstancePlacement(
+    args: ModifyInstancePlacementRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifyInstancePlacementCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ModifyInstancePlacementResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyIpamCommand}
    */
-  readonly modifyIpam: (
-    args: ModifyIpamCommandInput,
+  modifyIpam(
+    args: ModifyIpamRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<ModifyIpamCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  ModifyIpamResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyIpamPoolCommand}
    */
-  readonly modifyIpamPool: (
-    args: ModifyIpamPoolCommandInput,
+  modifyIpamPool(
+    args: ModifyIpamPoolRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<ModifyIpamPoolCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  ModifyIpamPoolResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyIpamResourceCidrCommand}
    */
-  readonly modifyIpamResourceCidr: (
-    args: ModifyIpamResourceCidrCommandInput,
+  modifyIpamResourceCidr(
+    args: ModifyIpamResourceCidrRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifyIpamResourceCidrCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ModifyIpamResourceCidrResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyIpamResourceDiscoveryCommand}
    */
-  readonly modifyIpamResourceDiscovery: (
-    args: ModifyIpamResourceDiscoveryCommandInput,
+  modifyIpamResourceDiscovery(
+    args: ModifyIpamResourceDiscoveryRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifyIpamResourceDiscoveryCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ModifyIpamResourceDiscoveryResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyIpamScopeCommand}
    */
-  readonly modifyIpamScope: (
-    args: ModifyIpamScopeCommandInput,
+  modifyIpamScope(
+    args: ModifyIpamScopeRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<ModifyIpamScopeCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  ModifyIpamScopeResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyLaunchTemplateCommand}
    */
-  readonly modifyLaunchTemplate: (
-    args: ModifyLaunchTemplateCommandInput,
+  modifyLaunchTemplate(
+    args: ModifyLaunchTemplateRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifyLaunchTemplateCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ModifyLaunchTemplateResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyLocalGatewayRouteCommand}
    */
-  readonly modifyLocalGatewayRoute: (
-    args: ModifyLocalGatewayRouteCommandInput,
+  modifyLocalGatewayRoute(
+    args: ModifyLocalGatewayRouteRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifyLocalGatewayRouteCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ModifyLocalGatewayRouteResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyManagedPrefixListCommand}
    */
-  readonly modifyManagedPrefixList: (
-    args: ModifyManagedPrefixListCommandInput,
+  modifyManagedPrefixList(
+    args: ModifyManagedPrefixListRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifyManagedPrefixListCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ModifyManagedPrefixListResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyNetworkInterfaceAttributeCommand}
    */
-  readonly modifyNetworkInterfaceAttribute: (
-    args: ModifyNetworkInterfaceAttributeCommandInput,
+  modifyNetworkInterfaceAttribute(
+    args: ModifyNetworkInterfaceAttributeRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifyNetworkInterfaceAttributeCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyPrivateDnsNameOptionsCommand}
    */
-  readonly modifyPrivateDnsNameOptions: (
-    args: ModifyPrivateDnsNameOptionsCommandInput,
+  modifyPrivateDnsNameOptions(
+    args: ModifyPrivateDnsNameOptionsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifyPrivateDnsNameOptionsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ModifyPrivateDnsNameOptionsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyReservedInstancesCommand}
    */
-  readonly modifyReservedInstances: (
-    args: ModifyReservedInstancesCommandInput,
+  modifyReservedInstances(
+    args: ModifyReservedInstancesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifyReservedInstancesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ModifyReservedInstancesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifySecurityGroupRulesCommand}
    */
-  readonly modifySecurityGroupRules: (
-    args: ModifySecurityGroupRulesCommandInput,
+  modifySecurityGroupRules(
+    args: ModifySecurityGroupRulesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifySecurityGroupRulesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ModifySecurityGroupRulesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifySnapshotAttributeCommand}
    */
-  readonly modifySnapshotAttribute: (
-    args: ModifySnapshotAttributeCommandInput,
+  modifySnapshotAttribute(
+    args: ModifySnapshotAttributeRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifySnapshotAttributeCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifySnapshotTierCommand}
    */
-  readonly modifySnapshotTier: (
-    args: ModifySnapshotTierCommandInput,
+  modifySnapshotTier(
+    args: ModifySnapshotTierRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifySnapshotTierCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ModifySnapshotTierResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifySpotFleetRequestCommand}
    */
-  readonly modifySpotFleetRequest: (
-    args: ModifySpotFleetRequestCommandInput,
+  modifySpotFleetRequest(
+    args: ModifySpotFleetRequestRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifySpotFleetRequestCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ModifySpotFleetRequestResponse,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifySubnetAttributeCommand}
    */
-  readonly modifySubnetAttribute: (
-    args: ModifySubnetAttributeCommandInput,
+  modifySubnetAttribute(
+    args: ModifySubnetAttributeRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifySubnetAttributeCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyTrafficMirrorFilterNetworkServicesCommand}
    */
-  readonly modifyTrafficMirrorFilterNetworkServices: (
-    args: ModifyTrafficMirrorFilterNetworkServicesCommandInput,
+  modifyTrafficMirrorFilterNetworkServices(
+    args: ModifyTrafficMirrorFilterNetworkServicesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifyTrafficMirrorFilterNetworkServicesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ModifyTrafficMirrorFilterNetworkServicesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyTrafficMirrorFilterRuleCommand}
    */
-  readonly modifyTrafficMirrorFilterRule: (
-    args: ModifyTrafficMirrorFilterRuleCommandInput,
+  modifyTrafficMirrorFilterRule(
+    args: ModifyTrafficMirrorFilterRuleRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifyTrafficMirrorFilterRuleCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ModifyTrafficMirrorFilterRuleResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyTrafficMirrorSessionCommand}
    */
-  readonly modifyTrafficMirrorSession: (
-    args: ModifyTrafficMirrorSessionCommandInput,
+  modifyTrafficMirrorSession(
+    args: ModifyTrafficMirrorSessionRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifyTrafficMirrorSessionCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ModifyTrafficMirrorSessionResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyTransitGatewayCommand}
    */
-  readonly modifyTransitGateway: (
-    args: ModifyTransitGatewayCommandInput,
+  modifyTransitGateway(
+    args: ModifyTransitGatewayRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifyTransitGatewayCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ModifyTransitGatewayResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyTransitGatewayPrefixListReferenceCommand}
    */
-  readonly modifyTransitGatewayPrefixListReference: (
-    args: ModifyTransitGatewayPrefixListReferenceCommandInput,
+  modifyTransitGatewayPrefixListReference(
+    args: ModifyTransitGatewayPrefixListReferenceRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifyTransitGatewayPrefixListReferenceCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ModifyTransitGatewayPrefixListReferenceResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyTransitGatewayVpcAttachmentCommand}
    */
-  readonly modifyTransitGatewayVpcAttachment: (
-    args: ModifyTransitGatewayVpcAttachmentCommandInput,
+  modifyTransitGatewayVpcAttachment(
+    args: ModifyTransitGatewayVpcAttachmentRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifyTransitGatewayVpcAttachmentCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ModifyTransitGatewayVpcAttachmentResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyVerifiedAccessEndpointCommand}
    */
-  readonly modifyVerifiedAccessEndpoint: (
-    args: ModifyVerifiedAccessEndpointCommandInput,
+  modifyVerifiedAccessEndpoint(
+    args: ModifyVerifiedAccessEndpointRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifyVerifiedAccessEndpointCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ModifyVerifiedAccessEndpointResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyVerifiedAccessEndpointPolicyCommand}
    */
-  readonly modifyVerifiedAccessEndpointPolicy: (
-    args: ModifyVerifiedAccessEndpointPolicyCommandInput,
+  modifyVerifiedAccessEndpointPolicy(
+    args: ModifyVerifiedAccessEndpointPolicyRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifyVerifiedAccessEndpointPolicyCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ModifyVerifiedAccessEndpointPolicyResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyVerifiedAccessGroupCommand}
    */
-  readonly modifyVerifiedAccessGroup: (
-    args: ModifyVerifiedAccessGroupCommandInput,
+  modifyVerifiedAccessGroup(
+    args: ModifyVerifiedAccessGroupRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifyVerifiedAccessGroupCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ModifyVerifiedAccessGroupResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyVerifiedAccessGroupPolicyCommand}
    */
-  readonly modifyVerifiedAccessGroupPolicy: (
-    args: ModifyVerifiedAccessGroupPolicyCommandInput,
+  modifyVerifiedAccessGroupPolicy(
+    args: ModifyVerifiedAccessGroupPolicyRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifyVerifiedAccessGroupPolicyCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ModifyVerifiedAccessGroupPolicyResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyVerifiedAccessInstanceCommand}
    */
-  readonly modifyVerifiedAccessInstance: (
-    args: ModifyVerifiedAccessInstanceCommandInput,
+  modifyVerifiedAccessInstance(
+    args: ModifyVerifiedAccessInstanceRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifyVerifiedAccessInstanceCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ModifyVerifiedAccessInstanceResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyVerifiedAccessInstanceLoggingConfigurationCommand}
    */
-  readonly modifyVerifiedAccessInstanceLoggingConfiguration: (
-    args: ModifyVerifiedAccessInstanceLoggingConfigurationCommandInput,
+  modifyVerifiedAccessInstanceLoggingConfiguration(
+    args: ModifyVerifiedAccessInstanceLoggingConfigurationRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifyVerifiedAccessInstanceLoggingConfigurationCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ModifyVerifiedAccessInstanceLoggingConfigurationResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyVerifiedAccessTrustProviderCommand}
    */
-  readonly modifyVerifiedAccessTrustProvider: (
-    args: ModifyVerifiedAccessTrustProviderCommandInput,
+  modifyVerifiedAccessTrustProvider(
+    args: ModifyVerifiedAccessTrustProviderRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifyVerifiedAccessTrustProviderCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ModifyVerifiedAccessTrustProviderResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyVolumeCommand}
    */
-  readonly modifyVolume: (
-    args: ModifyVolumeCommandInput,
+  modifyVolume(
+    args: ModifyVolumeRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<ModifyVolumeCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  ModifyVolumeResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyVolumeAttributeCommand}
    */
-  readonly modifyVolumeAttribute: (
-    args: ModifyVolumeAttributeCommandInput,
+  modifyVolumeAttribute(
+    args: ModifyVolumeAttributeRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifyVolumeAttributeCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyVpcAttributeCommand}
    */
-  readonly modifyVpcAttribute: (
-    args: ModifyVpcAttributeCommandInput,
+  modifyVpcAttribute(
+    args: ModifyVpcAttributeRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifyVpcAttributeCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyVpcEndpointCommand}
    */
-  readonly modifyVpcEndpoint: (
-    args: ModifyVpcEndpointCommandInput,
+  modifyVpcEndpoint(
+    args: ModifyVpcEndpointRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifyVpcEndpointCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ModifyVpcEndpointResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyVpcEndpointConnectionNotificationCommand}
    */
-  readonly modifyVpcEndpointConnectionNotification: (
-    args: ModifyVpcEndpointConnectionNotificationCommandInput,
+  modifyVpcEndpointConnectionNotification(
+    args: ModifyVpcEndpointConnectionNotificationRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifyVpcEndpointConnectionNotificationCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ModifyVpcEndpointConnectionNotificationResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyVpcEndpointServiceConfigurationCommand}
    */
-  readonly modifyVpcEndpointServiceConfiguration: (
-    args: ModifyVpcEndpointServiceConfigurationCommandInput,
+  modifyVpcEndpointServiceConfiguration(
+    args: ModifyVpcEndpointServiceConfigurationRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifyVpcEndpointServiceConfigurationCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ModifyVpcEndpointServiceConfigurationResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyVpcEndpointServicePayerResponsibilityCommand}
    */
-  readonly modifyVpcEndpointServicePayerResponsibility: (
-    args: ModifyVpcEndpointServicePayerResponsibilityCommandInput,
+  modifyVpcEndpointServicePayerResponsibility(
+    args: ModifyVpcEndpointServicePayerResponsibilityRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifyVpcEndpointServicePayerResponsibilityCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ModifyVpcEndpointServicePayerResponsibilityResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyVpcEndpointServicePermissionsCommand}
    */
-  readonly modifyVpcEndpointServicePermissions: (
-    args: ModifyVpcEndpointServicePermissionsCommandInput,
+  modifyVpcEndpointServicePermissions(
+    args: ModifyVpcEndpointServicePermissionsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifyVpcEndpointServicePermissionsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ModifyVpcEndpointServicePermissionsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyVpcPeeringConnectionOptionsCommand}
    */
-  readonly modifyVpcPeeringConnectionOptions: (
-    args: ModifyVpcPeeringConnectionOptionsCommandInput,
+  modifyVpcPeeringConnectionOptions(
+    args: ModifyVpcPeeringConnectionOptionsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifyVpcPeeringConnectionOptionsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ModifyVpcPeeringConnectionOptionsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyVpcTenancyCommand}
    */
-  readonly modifyVpcTenancy: (
-    args: ModifyVpcTenancyCommandInput,
+  modifyVpcTenancy(
+    args: ModifyVpcTenancyRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<ModifyVpcTenancyCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  ModifyVpcTenancyResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyVpnConnectionCommand}
    */
-  readonly modifyVpnConnection: (
-    args: ModifyVpnConnectionCommandInput,
+  modifyVpnConnection(
+    args: ModifyVpnConnectionRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifyVpnConnectionCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ModifyVpnConnectionResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyVpnConnectionOptionsCommand}
    */
-  readonly modifyVpnConnectionOptions: (
-    args: ModifyVpnConnectionOptionsCommandInput,
+  modifyVpnConnectionOptions(
+    args: ModifyVpnConnectionOptionsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifyVpnConnectionOptionsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ModifyVpnConnectionOptionsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyVpnTunnelCertificateCommand}
    */
-  readonly modifyVpnTunnelCertificate: (
-    args: ModifyVpnTunnelCertificateCommandInput,
+  modifyVpnTunnelCertificate(
+    args: ModifyVpnTunnelCertificateRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifyVpnTunnelCertificateCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ModifyVpnTunnelCertificateResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ModifyVpnTunnelOptionsCommand}
    */
-  readonly modifyVpnTunnelOptions: (
-    args: ModifyVpnTunnelOptionsCommandInput,
+  modifyVpnTunnelOptions(
+    args: ModifyVpnTunnelOptionsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifyVpnTunnelOptionsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ModifyVpnTunnelOptionsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link MonitorInstancesCommand}
    */
-  readonly monitorInstances: (
-    args: MonitorInstancesCommandInput,
+  monitorInstances(
+    args: MonitorInstancesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<MonitorInstancesCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  MonitorInstancesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link MoveAddressToVpcCommand}
    */
-  readonly moveAddressToVpc: (
-    args: MoveAddressToVpcCommandInput,
+  moveAddressToVpc(
+    args: MoveAddressToVpcRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<MoveAddressToVpcCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  MoveAddressToVpcResult,
+    | SdkError
+  >
 
   /**
    * @see {@link MoveByoipCidrToIpamCommand}
    */
-  readonly moveByoipCidrToIpam: (
-    args: MoveByoipCidrToIpamCommandInput,
+  moveByoipCidrToIpam(
+    args: MoveByoipCidrToIpamRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    MoveByoipCidrToIpamCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  MoveByoipCidrToIpamResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ProvisionByoipCidrCommand}
    */
-  readonly provisionByoipCidr: (
-    args: ProvisionByoipCidrCommandInput,
+  provisionByoipCidr(
+    args: ProvisionByoipCidrRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ProvisionByoipCidrCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ProvisionByoipCidrResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ProvisionIpamByoasnCommand}
    */
-  readonly provisionIpamByoasn: (
-    args: ProvisionIpamByoasnCommandInput,
+  provisionIpamByoasn(
+    args: ProvisionIpamByoasnRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ProvisionIpamByoasnCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ProvisionIpamByoasnResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ProvisionIpamPoolCidrCommand}
    */
-  readonly provisionIpamPoolCidr: (
-    args: ProvisionIpamPoolCidrCommandInput,
+  provisionIpamPoolCidr(
+    args: ProvisionIpamPoolCidrRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ProvisionIpamPoolCidrCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ProvisionIpamPoolCidrResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ProvisionPublicIpv4PoolCidrCommand}
    */
-  readonly provisionPublicIpv4PoolCidr: (
-    args: ProvisionPublicIpv4PoolCidrCommandInput,
+  provisionPublicIpv4PoolCidr(
+    args: ProvisionPublicIpv4PoolCidrRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ProvisionPublicIpv4PoolCidrCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ProvisionPublicIpv4PoolCidrResult,
+    | SdkError
+  >
 
   /**
    * @see {@link PurchaseCapacityBlockCommand}
    */
-  readonly purchaseCapacityBlock: (
-    args: PurchaseCapacityBlockCommandInput,
+  purchaseCapacityBlock(
+    args: PurchaseCapacityBlockRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    PurchaseCapacityBlockCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  PurchaseCapacityBlockResult,
+    | SdkError
+  >
 
   /**
    * @see {@link PurchaseHostReservationCommand}
    */
-  readonly purchaseHostReservation: (
-    args: PurchaseHostReservationCommandInput,
+  purchaseHostReservation(
+    args: PurchaseHostReservationRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    PurchaseHostReservationCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  PurchaseHostReservationResult,
+    | SdkError
+  >
 
   /**
    * @see {@link PurchaseReservedInstancesOfferingCommand}
    */
-  readonly purchaseReservedInstancesOffering: (
-    args: PurchaseReservedInstancesOfferingCommandInput,
+  purchaseReservedInstancesOffering(
+    args: PurchaseReservedInstancesOfferingRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    PurchaseReservedInstancesOfferingCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  PurchaseReservedInstancesOfferingResult,
+    | SdkError
+  >
 
   /**
    * @see {@link PurchaseScheduledInstancesCommand}
    */
-  readonly purchaseScheduledInstances: (
-    args: PurchaseScheduledInstancesCommandInput,
+  purchaseScheduledInstances(
+    args: PurchaseScheduledInstancesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    PurchaseScheduledInstancesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  PurchaseScheduledInstancesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link RebootInstancesCommand}
    */
-  readonly rebootInstances: (
-    args: RebootInstancesCommandInput,
+  rebootInstances(
+    args: RebootInstancesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<RebootInstancesCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link RegisterImageCommand}
    */
-  readonly registerImage: (
-    args: RegisterImageCommandInput,
+  registerImage(
+    args: RegisterImageRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<RegisterImageCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  RegisterImageResult,
+    | SdkError
+  >
 
   /**
    * @see {@link RegisterInstanceEventNotificationAttributesCommand}
    */
-  readonly registerInstanceEventNotificationAttributes: (
-    args: RegisterInstanceEventNotificationAttributesCommandInput,
+  registerInstanceEventNotificationAttributes(
+    args: RegisterInstanceEventNotificationAttributesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    RegisterInstanceEventNotificationAttributesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  RegisterInstanceEventNotificationAttributesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link RegisterTransitGatewayMulticastGroupMembersCommand}
    */
-  readonly registerTransitGatewayMulticastGroupMembers: (
-    args: RegisterTransitGatewayMulticastGroupMembersCommandInput,
+  registerTransitGatewayMulticastGroupMembers(
+    args: RegisterTransitGatewayMulticastGroupMembersRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    RegisterTransitGatewayMulticastGroupMembersCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  RegisterTransitGatewayMulticastGroupMembersResult,
+    | SdkError
+  >
 
   /**
    * @see {@link RegisterTransitGatewayMulticastGroupSourcesCommand}
    */
-  readonly registerTransitGatewayMulticastGroupSources: (
-    args: RegisterTransitGatewayMulticastGroupSourcesCommandInput,
+  registerTransitGatewayMulticastGroupSources(
+    args: RegisterTransitGatewayMulticastGroupSourcesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    RegisterTransitGatewayMulticastGroupSourcesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  RegisterTransitGatewayMulticastGroupSourcesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link RejectTransitGatewayMulticastDomainAssociationsCommand}
    */
-  readonly rejectTransitGatewayMulticastDomainAssociations: (
-    args: RejectTransitGatewayMulticastDomainAssociationsCommandInput,
+  rejectTransitGatewayMulticastDomainAssociations(
+    args: RejectTransitGatewayMulticastDomainAssociationsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    RejectTransitGatewayMulticastDomainAssociationsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  RejectTransitGatewayMulticastDomainAssociationsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link RejectTransitGatewayPeeringAttachmentCommand}
    */
-  readonly rejectTransitGatewayPeeringAttachment: (
-    args: RejectTransitGatewayPeeringAttachmentCommandInput,
+  rejectTransitGatewayPeeringAttachment(
+    args: RejectTransitGatewayPeeringAttachmentRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    RejectTransitGatewayPeeringAttachmentCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  RejectTransitGatewayPeeringAttachmentResult,
+    | SdkError
+  >
 
   /**
    * @see {@link RejectTransitGatewayVpcAttachmentCommand}
    */
-  readonly rejectTransitGatewayVpcAttachment: (
-    args: RejectTransitGatewayVpcAttachmentCommandInput,
+  rejectTransitGatewayVpcAttachment(
+    args: RejectTransitGatewayVpcAttachmentRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    RejectTransitGatewayVpcAttachmentCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  RejectTransitGatewayVpcAttachmentResult,
+    | SdkError
+  >
 
   /**
    * @see {@link RejectVpcEndpointConnectionsCommand}
    */
-  readonly rejectVpcEndpointConnections: (
-    args: RejectVpcEndpointConnectionsCommandInput,
+  rejectVpcEndpointConnections(
+    args: RejectVpcEndpointConnectionsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    RejectVpcEndpointConnectionsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  RejectVpcEndpointConnectionsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link RejectVpcPeeringConnectionCommand}
    */
-  readonly rejectVpcPeeringConnection: (
-    args: RejectVpcPeeringConnectionCommandInput,
+  rejectVpcPeeringConnection(
+    args: RejectVpcPeeringConnectionRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    RejectVpcPeeringConnectionCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  RejectVpcPeeringConnectionResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ReleaseAddressCommand}
    */
-  readonly releaseAddress: (
-    args: ReleaseAddressCommandInput,
+  releaseAddress(
+    args: ReleaseAddressRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<ReleaseAddressCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link ReleaseHostsCommand}
    */
-  readonly releaseHosts: (
-    args: ReleaseHostsCommandInput,
+  releaseHosts(
+    args: ReleaseHostsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<ReleaseHostsCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  ReleaseHostsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ReleaseIpamPoolAllocationCommand}
    */
-  readonly releaseIpamPoolAllocation: (
-    args: ReleaseIpamPoolAllocationCommandInput,
+  releaseIpamPoolAllocation(
+    args: ReleaseIpamPoolAllocationRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ReleaseIpamPoolAllocationCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ReleaseIpamPoolAllocationResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ReplaceIamInstanceProfileAssociationCommand}
    */
-  readonly replaceIamInstanceProfileAssociation: (
-    args: ReplaceIamInstanceProfileAssociationCommandInput,
+  replaceIamInstanceProfileAssociation(
+    args: ReplaceIamInstanceProfileAssociationRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ReplaceIamInstanceProfileAssociationCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ReplaceIamInstanceProfileAssociationResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ReplaceNetworkAclAssociationCommand}
    */
-  readonly replaceNetworkAclAssociation: (
-    args: ReplaceNetworkAclAssociationCommandInput,
+  replaceNetworkAclAssociation(
+    args: ReplaceNetworkAclAssociationRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ReplaceNetworkAclAssociationCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ReplaceNetworkAclAssociationResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ReplaceNetworkAclEntryCommand}
    */
-  readonly replaceNetworkAclEntry: (
-    args: ReplaceNetworkAclEntryCommandInput,
+  replaceNetworkAclEntry(
+    args: ReplaceNetworkAclEntryRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ReplaceNetworkAclEntryCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link ReplaceRouteCommand}
    */
-  readonly replaceRoute: (
-    args: ReplaceRouteCommandInput,
+  replaceRoute(
+    args: ReplaceRouteRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<ReplaceRouteCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link ReplaceRouteTableAssociationCommand}
    */
-  readonly replaceRouteTableAssociation: (
-    args: ReplaceRouteTableAssociationCommandInput,
+  replaceRouteTableAssociation(
+    args: ReplaceRouteTableAssociationRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ReplaceRouteTableAssociationCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ReplaceRouteTableAssociationResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ReplaceTransitGatewayRouteCommand}
    */
-  readonly replaceTransitGatewayRoute: (
-    args: ReplaceTransitGatewayRouteCommandInput,
+  replaceTransitGatewayRoute(
+    args: ReplaceTransitGatewayRouteRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ReplaceTransitGatewayRouteCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ReplaceTransitGatewayRouteResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ReplaceVpnTunnelCommand}
    */
-  readonly replaceVpnTunnel: (
-    args: ReplaceVpnTunnelCommandInput,
+  replaceVpnTunnel(
+    args: ReplaceVpnTunnelRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<ReplaceVpnTunnelCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  ReplaceVpnTunnelResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ReportInstanceStatusCommand}
    */
-  readonly reportInstanceStatus: (
-    args: ReportInstanceStatusCommandInput,
+  reportInstanceStatus(
+    args: ReportInstanceStatusRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ReportInstanceStatusCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link RequestSpotFleetCommand}
    */
-  readonly requestSpotFleet: (
-    args: RequestSpotFleetCommandInput,
+  requestSpotFleet(
+    args: RequestSpotFleetRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<RequestSpotFleetCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  RequestSpotFleetResponse,
+    | SdkError
+  >
 
   /**
    * @see {@link RequestSpotInstancesCommand}
    */
-  readonly requestSpotInstances: (
-    args: RequestSpotInstancesCommandInput,
+  requestSpotInstances(
+    args: RequestSpotInstancesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    RequestSpotInstancesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  RequestSpotInstancesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ResetAddressAttributeCommand}
    */
-  readonly resetAddressAttribute: (
-    args: ResetAddressAttributeCommandInput,
+  resetAddressAttribute(
+    args: ResetAddressAttributeRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ResetAddressAttributeCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ResetAddressAttributeResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ResetEbsDefaultKmsKeyIdCommand}
    */
-  readonly resetEbsDefaultKmsKeyId: (
-    args: ResetEbsDefaultKmsKeyIdCommandInput,
+  resetEbsDefaultKmsKeyId(
+    args: ResetEbsDefaultKmsKeyIdRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ResetEbsDefaultKmsKeyIdCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ResetEbsDefaultKmsKeyIdResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ResetFpgaImageAttributeCommand}
    */
-  readonly resetFpgaImageAttribute: (
-    args: ResetFpgaImageAttributeCommandInput,
+  resetFpgaImageAttribute(
+    args: ResetFpgaImageAttributeRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ResetFpgaImageAttributeCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  ResetFpgaImageAttributeResult,
+    | SdkError
+  >
 
   /**
    * @see {@link ResetImageAttributeCommand}
    */
-  readonly resetImageAttribute: (
-    args: ResetImageAttributeCommandInput,
+  resetImageAttribute(
+    args: ResetImageAttributeRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ResetImageAttributeCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link ResetInstanceAttributeCommand}
    */
-  readonly resetInstanceAttribute: (
-    args: ResetInstanceAttributeCommandInput,
+  resetInstanceAttribute(
+    args: ResetInstanceAttributeRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ResetInstanceAttributeCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link ResetNetworkInterfaceAttributeCommand}
    */
-  readonly resetNetworkInterfaceAttribute: (
-    args: ResetNetworkInterfaceAttributeCommandInput,
+  resetNetworkInterfaceAttribute(
+    args: ResetNetworkInterfaceAttributeRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ResetNetworkInterfaceAttributeCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link ResetSnapshotAttributeCommand}
    */
-  readonly resetSnapshotAttribute: (
-    args: ResetSnapshotAttributeCommandInput,
+  resetSnapshotAttribute(
+    args: ResetSnapshotAttributeRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ResetSnapshotAttributeCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link RestoreAddressToClassicCommand}
    */
-  readonly restoreAddressToClassic: (
-    args: RestoreAddressToClassicCommandInput,
+  restoreAddressToClassic(
+    args: RestoreAddressToClassicRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    RestoreAddressToClassicCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  RestoreAddressToClassicResult,
+    | SdkError
+  >
 
   /**
    * @see {@link RestoreImageFromRecycleBinCommand}
    */
-  readonly restoreImageFromRecycleBin: (
-    args: RestoreImageFromRecycleBinCommandInput,
+  restoreImageFromRecycleBin(
+    args: RestoreImageFromRecycleBinRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    RestoreImageFromRecycleBinCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  RestoreImageFromRecycleBinResult,
+    | SdkError
+  >
 
   /**
    * @see {@link RestoreManagedPrefixListVersionCommand}
    */
-  readonly restoreManagedPrefixListVersion: (
-    args: RestoreManagedPrefixListVersionCommandInput,
+  restoreManagedPrefixListVersion(
+    args: RestoreManagedPrefixListVersionRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    RestoreManagedPrefixListVersionCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  RestoreManagedPrefixListVersionResult,
+    | SdkError
+  >
 
   /**
    * @see {@link RestoreSnapshotFromRecycleBinCommand}
    */
-  readonly restoreSnapshotFromRecycleBin: (
-    args: RestoreSnapshotFromRecycleBinCommandInput,
+  restoreSnapshotFromRecycleBin(
+    args: RestoreSnapshotFromRecycleBinRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    RestoreSnapshotFromRecycleBinCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  RestoreSnapshotFromRecycleBinResult,
+    | SdkError
+  >
 
   /**
    * @see {@link RestoreSnapshotTierCommand}
    */
-  readonly restoreSnapshotTier: (
-    args: RestoreSnapshotTierCommandInput,
+  restoreSnapshotTier(
+    args: RestoreSnapshotTierRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    RestoreSnapshotTierCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  RestoreSnapshotTierResult,
+    | SdkError
+  >
 
   /**
    * @see {@link RevokeClientVpnIngressCommand}
    */
-  readonly revokeClientVpnIngress: (
-    args: RevokeClientVpnIngressCommandInput,
+  revokeClientVpnIngress(
+    args: RevokeClientVpnIngressRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    RevokeClientVpnIngressCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  RevokeClientVpnIngressResult,
+    | SdkError
+  >
 
   /**
    * @see {@link RevokeSecurityGroupEgressCommand}
    */
-  readonly revokeSecurityGroupEgress: (
-    args: RevokeSecurityGroupEgressCommandInput,
+  revokeSecurityGroupEgress(
+    args: RevokeSecurityGroupEgressRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    RevokeSecurityGroupEgressCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  RevokeSecurityGroupEgressResult,
+    | SdkError
+  >
 
   /**
    * @see {@link RevokeSecurityGroupIngressCommand}
    */
-  readonly revokeSecurityGroupIngress: (
-    args: RevokeSecurityGroupIngressCommandInput,
+  revokeSecurityGroupIngress(
+    args: RevokeSecurityGroupIngressRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    RevokeSecurityGroupIngressCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  RevokeSecurityGroupIngressResult,
+    | SdkError
+  >
 
   /**
    * @see {@link RunInstancesCommand}
    */
-  readonly runInstances: (
-    args: RunInstancesCommandInput,
+  runInstances(
+    args: RunInstancesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<RunInstancesCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  Reservation,
+    | SdkError
+  >
 
   /**
    * @see {@link RunScheduledInstancesCommand}
    */
-  readonly runScheduledInstances: (
-    args: RunScheduledInstancesCommandInput,
+  runScheduledInstances(
+    args: RunScheduledInstancesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    RunScheduledInstancesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  RunScheduledInstancesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link SearchLocalGatewayRoutesCommand}
    */
-  readonly searchLocalGatewayRoutes: (
-    args: SearchLocalGatewayRoutesCommandInput,
+  searchLocalGatewayRoutes(
+    args: SearchLocalGatewayRoutesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    SearchLocalGatewayRoutesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  SearchLocalGatewayRoutesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link SearchTransitGatewayMulticastGroupsCommand}
    */
-  readonly searchTransitGatewayMulticastGroups: (
-    args: SearchTransitGatewayMulticastGroupsCommandInput,
+  searchTransitGatewayMulticastGroups(
+    args: SearchTransitGatewayMulticastGroupsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    SearchTransitGatewayMulticastGroupsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  SearchTransitGatewayMulticastGroupsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link SearchTransitGatewayRoutesCommand}
    */
-  readonly searchTransitGatewayRoutes: (
-    args: SearchTransitGatewayRoutesCommandInput,
+  searchTransitGatewayRoutes(
+    args: SearchTransitGatewayRoutesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    SearchTransitGatewayRoutesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  SearchTransitGatewayRoutesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link SendDiagnosticInterruptCommand}
    */
-  readonly sendDiagnosticInterrupt: (
-    args: SendDiagnosticInterruptCommandInput,
+  sendDiagnosticInterrupt(
+    args: SendDiagnosticInterruptRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    SendDiagnosticInterruptCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link StartInstancesCommand}
    */
-  readonly startInstances: (
-    args: StartInstancesCommandInput,
+  startInstances(
+    args: StartInstancesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<StartInstancesCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  StartInstancesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link StartNetworkInsightsAccessScopeAnalysisCommand}
    */
-  readonly startNetworkInsightsAccessScopeAnalysis: (
-    args: StartNetworkInsightsAccessScopeAnalysisCommandInput,
+  startNetworkInsightsAccessScopeAnalysis(
+    args: StartNetworkInsightsAccessScopeAnalysisRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    StartNetworkInsightsAccessScopeAnalysisCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  StartNetworkInsightsAccessScopeAnalysisResult,
+    | SdkError
+  >
 
   /**
    * @see {@link StartNetworkInsightsAnalysisCommand}
    */
-  readonly startNetworkInsightsAnalysis: (
-    args: StartNetworkInsightsAnalysisCommandInput,
+  startNetworkInsightsAnalysis(
+    args: StartNetworkInsightsAnalysisRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    StartNetworkInsightsAnalysisCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  StartNetworkInsightsAnalysisResult,
+    | SdkError
+  >
 
   /**
    * @see {@link StartVpcEndpointServicePrivateDnsVerificationCommand}
    */
-  readonly startVpcEndpointServicePrivateDnsVerification: (
-    args: StartVpcEndpointServicePrivateDnsVerificationCommandInput,
+  startVpcEndpointServicePrivateDnsVerification(
+    args: StartVpcEndpointServicePrivateDnsVerificationRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    StartVpcEndpointServicePrivateDnsVerificationCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  StartVpcEndpointServicePrivateDnsVerificationResult,
+    | SdkError
+  >
 
   /**
    * @see {@link StopInstancesCommand}
    */
-  readonly stopInstances: (
-    args: StopInstancesCommandInput,
+  stopInstances(
+    args: StopInstancesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<StopInstancesCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  StopInstancesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link TerminateClientVpnConnectionsCommand}
    */
-  readonly terminateClientVpnConnections: (
-    args: TerminateClientVpnConnectionsCommandInput,
+  terminateClientVpnConnections(
+    args: TerminateClientVpnConnectionsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    TerminateClientVpnConnectionsCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  TerminateClientVpnConnectionsResult,
+    | SdkError
+  >
 
   /**
    * @see {@link TerminateInstancesCommand}
    */
-  readonly terminateInstances: (
-    args: TerminateInstancesCommandInput,
+  terminateInstances(
+    args: TerminateInstancesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    TerminateInstancesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  TerminateInstancesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link UnassignIpv6AddressesCommand}
    */
-  readonly unassignIpv6Addresses: (
-    args: UnassignIpv6AddressesCommandInput,
+  unassignIpv6Addresses(
+    args: UnassignIpv6AddressesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    UnassignIpv6AddressesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  UnassignIpv6AddressesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link UnassignPrivateIpAddressesCommand}
    */
-  readonly unassignPrivateIpAddresses: (
-    args: UnassignPrivateIpAddressesCommandInput,
+  unassignPrivateIpAddresses(
+    args: UnassignPrivateIpAddressesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    UnassignPrivateIpAddressesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  void,
+    | SdkError
+  >
 
   /**
    * @see {@link UnassignPrivateNatGatewayAddressCommand}
    */
-  readonly unassignPrivateNatGatewayAddress: (
-    args: UnassignPrivateNatGatewayAddressCommandInput,
+  unassignPrivateNatGatewayAddress(
+    args: UnassignPrivateNatGatewayAddressRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    UnassignPrivateNatGatewayAddressCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  UnassignPrivateNatGatewayAddressResult,
+    | SdkError
+  >
 
   /**
    * @see {@link UnlockSnapshotCommand}
    */
-  readonly unlockSnapshot: (
-    args: UnlockSnapshotCommandInput,
+  unlockSnapshot(
+    args: UnlockSnapshotRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<UnlockSnapshotCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+  UnlockSnapshotResult,
+    | SdkError
+  >
 
   /**
    * @see {@link UnmonitorInstancesCommand}
    */
-  readonly unmonitorInstances: (
-    args: UnmonitorInstancesCommandInput,
+  unmonitorInstances(
+    args: UnmonitorInstancesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    UnmonitorInstancesCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  UnmonitorInstancesResult,
+    | SdkError
+  >
 
   /**
    * @see {@link UpdateSecurityGroupRuleDescriptionsEgressCommand}
    */
-  readonly updateSecurityGroupRuleDescriptionsEgress: (
-    args: UpdateSecurityGroupRuleDescriptionsEgressCommandInput,
+  updateSecurityGroupRuleDescriptionsEgress(
+    args: UpdateSecurityGroupRuleDescriptionsEgressRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    UpdateSecurityGroupRuleDescriptionsEgressCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  UpdateSecurityGroupRuleDescriptionsEgressResult,
+    | SdkError
+  >
 
   /**
    * @see {@link UpdateSecurityGroupRuleDescriptionsIngressCommand}
    */
-  readonly updateSecurityGroupRuleDescriptionsIngress: (
-    args: UpdateSecurityGroupRuleDescriptionsIngressCommandInput,
+  updateSecurityGroupRuleDescriptionsIngress(
+    args: UpdateSecurityGroupRuleDescriptionsIngressRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    UpdateSecurityGroupRuleDescriptionsIngressCommandOutput,
-    SdkError | EC2ServiceError
-  >;
+  ): Effect.Effect<
+  UpdateSecurityGroupRuleDescriptionsIngressResult,
+    | SdkError
+  >
 
   /**
    * @see {@link WithdrawByoipCidrCommand}
    */
-  readonly withdrawByoipCidr: (
-    args: WithdrawByoipCidrCommandInput,
+  withdrawByoipCidr(
+    args: WithdrawByoipCidrRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    WithdrawByoipCidrCommandOutput,
-    SdkError | EC2ServiceError
-  >;
-};
+  ): Effect.Effect<
+  WithdrawByoipCidrResult,
+    | SdkError
+  >
+}
 
 /**
  * @since 1.0.0
@@ -8955,9 +9262,9 @@ export const makeEC2Service = Effect.gen(function* (_) {
       Effect.tryPromise({
         try: () => client.send(new CommandCtor(args), options ?? {}),
         catch: (e) => {
-          if (e instanceof EC2ServiceException) {
+          if (e instanceof SdkEC2ServiceException) {
             const ServiceException = Data.tagged<
-              TaggedException<EC2ServiceException>
+              TaggedException<SdkEC2ServiceException>
             >(e.name);
 
             return ServiceException({
@@ -8989,7 +9296,10 @@ export const makeEC2Service = Effect.gen(function* (_) {
  * @since 1.0.0
  * @category layers
  */
-export const BaseEC2ServiceLayer = Layer.effect(EC2Service, makeEC2Service);
+export const BaseEC2ServiceLayer = Layer.effect(
+  EC2Service,
+  makeEC2Service,
+);
 
 /**
  * @since 1.0.0

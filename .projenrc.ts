@@ -79,81 +79,27 @@ const dynamodbLib = new TypeScriptLibProject({
   peerDeps: [...commonPeerDeps, dynamodbClient.package.packageName],
 });
 
-new TypeScriptLibProject({
-  parent: project,
-  name: "client-eventbridge",
-  deps: [...commonDeps, "@aws-sdk/client-eventbridge@^3"],
-  devDeps: commonDevDeps,
-  peerDeps: commonPeerDeps,
-});
+const clients = [
+  {name: 'ec2'},
+  {name: 'elasticache'},
+  {name: 'eventbridge'},
+  {name: 'iam'},
+  {name: 'lambda'},
+  {name: 's3', extraDeps: ['@aws-sdk/s3-request-presigner@^3']},
+  {name: 'sfn'},
+  {name: 'sns'},
+  {name: 'sqs'},
+];
 
-new TypeScriptLibProject({
-  parent: project,
-  name: "client-lambda",
-  deps: [...commonDeps, "@aws-sdk/client-lambda@^3"],
-  devDeps: commonDevDeps,
-  peerDeps: commonPeerDeps,
-});
-
-new TypeScriptLibProject({
-  parent: project,
-  name: "client-s3",
-  deps: [
-    ...commonDeps,
-    "@aws-sdk/client-s3@^3",
-    "@aws-sdk/s3-request-presigner@^3",
-  ],
-  devDeps: commonDevDeps,
-  peerDeps: commonPeerDeps,
-});
-
-new TypeScriptLibProject({
-  parent: project,
-  name: "client-sns",
-  deps: [...commonDeps, "@aws-sdk/client-sns@^3"],
-  devDeps: commonDevDeps,
-  peerDeps: commonPeerDeps,
-});
-
-new TypeScriptLibProject({
-  parent: project,
-  name: "client-sqs",
-  deps: [...commonDeps, "@aws-sdk/client-sqs@^3"],
-  devDeps: commonDevDeps,
-  peerDeps: commonPeerDeps,
-});
-
-new TypeScriptLibProject({
-  parent: project,
-  name: "client-sfn",
-  deps: [...commonDeps, "@aws-sdk/client-sfn@^3"],
-  devDeps: commonDevDeps,
-  peerDeps: commonPeerDeps,
-});
-
-new TypeScriptLibProject({
-  parent: project,
-  name: "client-iam",
-  deps: [...commonDeps, "@aws-sdk/client-iam@^3"],
-  devDeps: commonDevDeps,
-  peerDeps: commonPeerDeps,
-});
-
-new TypeScriptLibProject({
-  parent: project,
-  name: "client-elasticache",
-  deps: [...commonDeps, "@aws-sdk/client-elasticache@^3"],
-  devDeps: commonDevDeps,
-  peerDeps: commonPeerDeps,
-});
-
-new TypeScriptLibProject({
-  parent: project,
-  name: "client-ec2",
-  deps: [...commonDeps, "@aws-sdk/client-ec2@^3"],
-  devDeps: commonDevDeps,
-  peerDeps: commonPeerDeps,
-});
+for (const {name, extraDeps = []} of clients) {
+  new TypeScriptLibProject({
+    parent: project,
+    name: `client-${name}`,
+    deps: [...commonDeps, `@aws-sdk/client-${name}@^3`, ...extraDeps],
+    devDeps: commonDevDeps,
+    peerDeps: commonPeerDeps,
+  });
+}
 
 new TypeScriptLibProject({
   parent: project,

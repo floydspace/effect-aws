@@ -1,6 +1,6 @@
 import {
-  type CreateRoleCommandInput,
-  CreateRoleCommand,
+  type ListGroupsCommandInput,
+  ListGroupsCommand,
   IAMClient,
 } from "@aws-sdk/client-iam";
 import { mockClient } from "aws-sdk-client-mock";
@@ -25,12 +25,12 @@ const clientMock = mockClient(IAMClient);
 
 describe("IAMClientImpl", () => {
   it("default", async () => {
-    clientMock.reset().on(CreateRoleCommand).resolves({});
+    clientMock.reset().on(ListGroupsCommand).resolves({});
 
-    const args = {} as unknown as CreateRoleCommandInput;
+    const args: ListGroupsCommandInput = { PathPrefix: "admin/" };
 
     const program = Effect.flatMap(IAMService, (service) =>
-      service.createRole(args),
+      service.listGroups(args),
     );
 
     const result = await pipe(
@@ -40,17 +40,17 @@ describe("IAMClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(clientMock).toHaveReceivedCommandTimes(CreateRoleCommand, 1);
-    expect(clientMock).toHaveReceivedCommandWith(CreateRoleCommand, args);
+    expect(clientMock).toHaveReceivedCommandTimes(ListGroupsCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(ListGroupsCommand, args);
   });
 
   it("configurable", async () => {
-    clientMock.reset().on(CreateRoleCommand).resolves({});
+    clientMock.reset().on(ListGroupsCommand).resolves({});
 
-    const args = {} as unknown as CreateRoleCommandInput;
+    const args: ListGroupsCommandInput = { PathPrefix: "admin/" };
 
     const program = Effect.flatMap(IAMService, (service) =>
-      service.createRole(args),
+      service.listGroups(args),
     );
 
     const IAMClientConfigLayer = Layer.succeed(IAMClientInstanceConfig, {
@@ -67,17 +67,17 @@ describe("IAMClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(clientMock).toHaveReceivedCommandTimes(CreateRoleCommand, 1);
-    expect(clientMock).toHaveReceivedCommandWith(CreateRoleCommand, args);
+    expect(clientMock).toHaveReceivedCommandTimes(ListGroupsCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(ListGroupsCommand, args);
   });
 
   it("base", async () => {
-    clientMock.reset().on(CreateRoleCommand).resolves({});
+    clientMock.reset().on(ListGroupsCommand).resolves({});
 
-    const args = {} as unknown as CreateRoleCommandInput;
+    const args: ListGroupsCommandInput = { PathPrefix: "admin/" };
 
     const program = Effect.flatMap(IAMService, (service) =>
-      service.createRole(args),
+      service.listGroups(args),
     );
 
     const IAMClientInstanceLayer = Layer.succeed(
@@ -95,17 +95,17 @@ describe("IAMClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(clientMock).toHaveReceivedCommandTimes(CreateRoleCommand, 1);
-    expect(clientMock).toHaveReceivedCommandWith(CreateRoleCommand, args);
+    expect(clientMock).toHaveReceivedCommandTimes(ListGroupsCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(ListGroupsCommand, args);
   });
 
   it("extended", async () => {
-    clientMock.reset().on(CreateRoleCommand).resolves({});
+    clientMock.reset().on(ListGroupsCommand).resolves({});
 
-    const args = {} as unknown as CreateRoleCommandInput;
+    const args: ListGroupsCommandInput = { PathPrefix: "admin/" };
 
     const program = Effect.flatMap(IAMService, (service) =>
-      service.createRole(args),
+      service.listGroups(args),
     );
 
     const IAMClientInstanceLayer = Layer.effect(
@@ -127,17 +127,17 @@ describe("IAMClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(clientMock).toHaveReceivedCommandTimes(CreateRoleCommand, 1);
-    expect(clientMock).toHaveReceivedCommandWith(CreateRoleCommand, args);
+    expect(clientMock).toHaveReceivedCommandTimes(ListGroupsCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(ListGroupsCommand, args);
   });
 
   it("fail", async () => {
-    clientMock.reset().on(CreateRoleCommand).rejects(new Error("test"));
+    clientMock.reset().on(ListGroupsCommand).rejects(new Error("test"));
 
-    const args = {} as unknown as CreateRoleCommandInput;
+    const args: ListGroupsCommandInput = { PathPrefix: "admin/" };
 
     const program = Effect.flatMap(IAMService, (service) =>
-      service.createRole(args),
+      service.listGroups(args),
     );
 
     const result = await pipe(
@@ -156,7 +156,7 @@ describe("IAMClientImpl", () => {
         }),
       ),
     );
-    expect(clientMock).toHaveReceivedCommandTimes(CreateRoleCommand, 1);
-    expect(clientMock).toHaveReceivedCommandWith(CreateRoleCommand, args);
+    expect(clientMock).toHaveReceivedCommandTimes(ListGroupsCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(ListGroupsCommand, args);
   });
 });
