@@ -93,7 +93,7 @@ importers:
   packages/client-api-gateway-management-api:
     dependencies:
       '@aws-sdk/client-apigatewaymanagementapi':
-        specifier: ^3
+        specifier: ^3.556.0
         version: 3.556.0
       '@aws-sdk/types':
         specifier: ^3
@@ -148,7 +148,7 @@ importers:
   packages/client-dynamodb:
     dependencies:
       '@aws-sdk/client-dynamodb':
-        specifier: ^3
+        specifier: ^3.556.0
         version: 3.556.0
       '@aws-sdk/types':
         specifier: ^3
@@ -203,7 +203,7 @@ importers:
   packages/client-ec2:
     dependencies:
       '@aws-sdk/client-ec2':
-        specifier: ^3
+        specifier: ^3.556.0
         version: 3.557.0
       '@aws-sdk/types':
         specifier: ^3
@@ -258,7 +258,7 @@ importers:
   packages/client-elasticache:
     dependencies:
       '@aws-sdk/client-elasticache':
-        specifier: ^3
+        specifier: ^3.556.0
         version: 3.556.0
       '@aws-sdk/types':
         specifier: ^3
@@ -313,7 +313,7 @@ importers:
   packages/client-eventbridge:
     dependencies:
       '@aws-sdk/client-eventbridge':
-        specifier: ^3
+        specifier: ^3.556.0
         version: 3.556.0
       '@aws-sdk/types':
         specifier: ^3
@@ -368,7 +368,7 @@ importers:
   packages/client-iam:
     dependencies:
       '@aws-sdk/client-iam':
-        specifier: ^3
+        specifier: ^3.556.0
         version: 3.556.0
       '@aws-sdk/types':
         specifier: ^3
@@ -423,7 +423,7 @@ importers:
   packages/client-lambda:
     dependencies:
       '@aws-sdk/client-lambda':
-        specifier: ^3
+        specifier: ^3.556.0
         version: 3.556.0
       '@aws-sdk/types':
         specifier: ^3
@@ -478,10 +478,10 @@ importers:
   packages/client-s3:
     dependencies:
       '@aws-sdk/client-s3':
-        specifier: ^3
+        specifier: ^3.556.0
         version: 3.556.0
       '@aws-sdk/s3-request-presigner':
-        specifier: ^3
+        specifier: ^3.556.0
         version: 3.556.0
       '@aws-sdk/types':
         specifier: ^3
@@ -536,7 +536,7 @@ importers:
   packages/client-sfn:
     dependencies:
       '@aws-sdk/client-sfn':
-        specifier: ^3
+        specifier: ^3.556.0
         version: 3.556.0
       '@aws-sdk/types':
         specifier: ^3
@@ -591,7 +591,7 @@ importers:
   packages/client-sns:
     dependencies:
       '@aws-sdk/client-sns':
-        specifier: ^3
+        specifier: ^3.556.0
         version: 3.556.0
       '@aws-sdk/types':
         specifier: ^3
@@ -646,7 +646,7 @@ importers:
   packages/client-sqs:
     dependencies:
       '@aws-sdk/client-sqs':
-        specifier: ^3
+        specifier: ^3.556.0
         version: 3.556.0
       '@aws-sdk/types':
         specifier: ^3
@@ -746,10 +746,10 @@ importers:
   packages/lib-dynamodb:
     dependencies:
       '@aws-sdk/client-dynamodb':
-        specifier: ^3
+        specifier: ^3.556.0
         version: 3.556.0
       '@aws-sdk/lib-dynamodb':
-        specifier: ^3
+        specifier: ^3.556.0
         version: 3.556.0(@aws-sdk/client-dynamodb@3.556.0)
       '@aws-sdk/types':
         specifier: ^3

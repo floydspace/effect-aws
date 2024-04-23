@@ -27,9 +27,13 @@ describe("EC2ClientImpl", () => {
   it("default", async () => {
     clientMock.reset().on(DescribeInstancesCommand).resolves({});
 
-    const args : DescribeInstancesCommandInput = {"InstanceIds": ["i-1234567890abcdef0"]};
+    const args: DescribeInstancesCommandInput = {
+      InstanceIds: ["i-1234567890abcdef0"],
+    };
 
-    const program = Effect.flatMap(EC2Service, (service) => service.describeInstances(args));
+    const program = Effect.flatMap(EC2Service, (service) =>
+      service.describeInstances(args),
+    );
 
     const result = await pipe(
       program,
@@ -39,15 +43,22 @@ describe("EC2ClientImpl", () => {
 
     expect(result).toEqual(Exit.succeed({}));
     expect(clientMock).toHaveReceivedCommandTimes(DescribeInstancesCommand, 1);
-    expect(clientMock).toHaveReceivedCommandWith(DescribeInstancesCommand, args);
+    expect(clientMock).toHaveReceivedCommandWith(
+      DescribeInstancesCommand,
+      args,
+    );
   });
 
   it("configurable", async () => {
     clientMock.reset().on(DescribeInstancesCommand).resolves({});
 
-    const args : DescribeInstancesCommandInput = {"InstanceIds": ["i-1234567890abcdef0"]};
+    const args: DescribeInstancesCommandInput = {
+      InstanceIds: ["i-1234567890abcdef0"],
+    };
 
-    const program = Effect.flatMap(EC2Service, (service) => service.describeInstances(args));
+    const program = Effect.flatMap(EC2Service, (service) =>
+      service.describeInstances(args),
+    );
 
     const EC2ClientConfigLayer = Layer.succeed(EC2ClientInstanceConfig, {
       region: "eu-central-1",
@@ -64,15 +75,22 @@ describe("EC2ClientImpl", () => {
 
     expect(result).toEqual(Exit.succeed({}));
     expect(clientMock).toHaveReceivedCommandTimes(DescribeInstancesCommand, 1);
-    expect(clientMock).toHaveReceivedCommandWith(DescribeInstancesCommand, args);
+    expect(clientMock).toHaveReceivedCommandWith(
+      DescribeInstancesCommand,
+      args,
+    );
   });
 
   it("base", async () => {
     clientMock.reset().on(DescribeInstancesCommand).resolves({});
 
-    const args : DescribeInstancesCommandInput = {"InstanceIds": ["i-1234567890abcdef0"]};
+    const args: DescribeInstancesCommandInput = {
+      InstanceIds: ["i-1234567890abcdef0"],
+    };
 
-    const program = Effect.flatMap(EC2Service, (service) => service.describeInstances(args));
+    const program = Effect.flatMap(EC2Service, (service) =>
+      service.describeInstances(args),
+    );
 
     const EC2ClientInstanceLayer = Layer.succeed(
       EC2ClientInstance,
@@ -90,15 +108,22 @@ describe("EC2ClientImpl", () => {
 
     expect(result).toEqual(Exit.succeed({}));
     expect(clientMock).toHaveReceivedCommandTimes(DescribeInstancesCommand, 1);
-    expect(clientMock).toHaveReceivedCommandWith(DescribeInstancesCommand, args);
+    expect(clientMock).toHaveReceivedCommandWith(
+      DescribeInstancesCommand,
+      args,
+    );
   });
 
   it("extended", async () => {
     clientMock.reset().on(DescribeInstancesCommand).resolves({});
 
-    const args : DescribeInstancesCommandInput = {"InstanceIds": ["i-1234567890abcdef0"]};
+    const args: DescribeInstancesCommandInput = {
+      InstanceIds: ["i-1234567890abcdef0"],
+    };
 
-    const program = Effect.flatMap(EC2Service, (service) => service.describeInstances(args));
+    const program = Effect.flatMap(EC2Service, (service) =>
+      service.describeInstances(args),
+    );
 
     const EC2ClientInstanceLayer = Layer.effect(
       EC2ClientInstance,
@@ -120,15 +145,22 @@ describe("EC2ClientImpl", () => {
 
     expect(result).toEqual(Exit.succeed({}));
     expect(clientMock).toHaveReceivedCommandTimes(DescribeInstancesCommand, 1);
-    expect(clientMock).toHaveReceivedCommandWith(DescribeInstancesCommand, args);
+    expect(clientMock).toHaveReceivedCommandWith(
+      DescribeInstancesCommand,
+      args,
+    );
   });
 
   it("fail", async () => {
     clientMock.reset().on(DescribeInstancesCommand).rejects(new Error("test"));
 
-    const args : DescribeInstancesCommandInput = {"InstanceIds": ["i-1234567890abcdef0"]};
+    const args: DescribeInstancesCommandInput = {
+      InstanceIds: ["i-1234567890abcdef0"],
+    };
 
-    const program = Effect.flatMap(EC2Service, (service) => service.describeInstances(args));
+    const program = Effect.flatMap(EC2Service, (service) =>
+      service.describeInstances(args),
+    );
 
     const result = await pipe(
       program,
@@ -147,6 +179,9 @@ describe("EC2ClientImpl", () => {
       ),
     );
     expect(clientMock).toHaveReceivedCommandTimes(DescribeInstancesCommand, 1);
-    expect(clientMock).toHaveReceivedCommandWith(DescribeInstancesCommand, args);
+    expect(clientMock).toHaveReceivedCommandWith(
+      DescribeInstancesCommand,
+      args,
+    );
   });
 });

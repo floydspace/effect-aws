@@ -5,6 +5,7 @@ import { Changesets, Docgen, TypeScriptLibProject, Vitest } from "./projenrc";
 const org = "floydspace";
 const name = "effect-aws";
 const repo = `${org}/${name}`;
+const awsSdkVersion = "3.556.0";
 
 const project = new monorepo.MonorepoTsProject({
   name: name,
@@ -54,7 +55,7 @@ new TypeScriptLibProject({
 new TypeScriptLibProject({
   parent: project,
   name: "client-api-gateway-management-api",
-  deps: [...commonDeps, "@aws-sdk/client-apigatewaymanagementapi@^3"],
+  deps: [...commonDeps, `@aws-sdk/client-apigatewaymanagementapi@^${awsSdkVersion}`],
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
 });
@@ -62,7 +63,7 @@ new TypeScriptLibProject({
 const dynamodbClient = new TypeScriptLibProject({
   parent: project,
   name: "client-dynamodb",
-  deps: [...commonDeps, "@aws-sdk/client-dynamodb@^3"],
+  deps: [...commonDeps, `@aws-sdk/client-dynamodb@^${awsSdkVersion}`],
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
 });
@@ -72,8 +73,8 @@ const dynamodbLib = new TypeScriptLibProject({
   name: "lib-dynamodb",
   deps: [
     ...commonDeps,
-    "@aws-sdk/client-dynamodb@^3",
-    "@aws-sdk/lib-dynamodb@^3",
+    `@aws-sdk/client-dynamodb@^${awsSdkVersion}`,
+    `@aws-sdk/lib-dynamodb@^${awsSdkVersion}`,
   ],
   devDeps: commonDevDeps,
   peerDeps: [...commonPeerDeps, dynamodbClient.package.packageName],
@@ -85,7 +86,7 @@ const clients = [
   {name: 'eventbridge'},
   {name: 'iam'},
   {name: 'lambda'},
-  {name: 's3', extraDeps: ['@aws-sdk/s3-request-presigner@^3']},
+  {name: 's3', extraDeps: [`@aws-sdk/s3-request-presigner@^${awsSdkVersion}`]},
   {name: 'sfn'},
   {name: 'sns'},
   {name: 'sqs'},
@@ -95,7 +96,7 @@ for (const {name, extraDeps = []} of clients) {
   new TypeScriptLibProject({
     parent: project,
     name: `client-${name}`,
-    deps: [...commonDeps, `@aws-sdk/client-${name}@^3`, ...extraDeps],
+    deps: [...commonDeps, `@aws-sdk/client-${name}@^${awsSdkVersion}`, ...extraDeps],
     devDeps: commonDevDeps,
     peerDeps: commonPeerDeps,
   });
