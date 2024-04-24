@@ -2,171 +2,162 @@
  * @since 1.0.0
  */
 import {
+  SNSServiceException as SdkSNSServiceException,
   AddPermissionCommand,
-  AddPermissionCommandInput,
-  AddPermissionCommandOutput,
   CheckIfPhoneNumberIsOptedOutCommand,
-  CheckIfPhoneNumberIsOptedOutCommandInput,
-  CheckIfPhoneNumberIsOptedOutCommandOutput,
   ConfirmSubscriptionCommand,
-  ConfirmSubscriptionCommandInput,
-  ConfirmSubscriptionCommandOutput,
   CreatePlatformApplicationCommand,
-  CreatePlatformApplicationCommandInput,
-  CreatePlatformApplicationCommandOutput,
   CreatePlatformEndpointCommand,
-  CreatePlatformEndpointCommandInput,
-  CreatePlatformEndpointCommandOutput,
   CreateSMSSandboxPhoneNumberCommand,
-  CreateSMSSandboxPhoneNumberCommandInput,
-  CreateSMSSandboxPhoneNumberCommandOutput,
   CreateTopicCommand,
-  CreateTopicCommandInput,
-  CreateTopicCommandOutput,
   DeleteEndpointCommand,
-  DeleteEndpointCommandInput,
-  DeleteEndpointCommandOutput,
   DeletePlatformApplicationCommand,
-  DeletePlatformApplicationCommandInput,
-  DeletePlatformApplicationCommandOutput,
   DeleteSMSSandboxPhoneNumberCommand,
-  DeleteSMSSandboxPhoneNumberCommandInput,
-  DeleteSMSSandboxPhoneNumberCommandOutput,
   DeleteTopicCommand,
-  DeleteTopicCommandInput,
-  DeleteTopicCommandOutput,
   GetDataProtectionPolicyCommand,
-  GetDataProtectionPolicyCommandInput,
-  GetDataProtectionPolicyCommandOutput,
   GetEndpointAttributesCommand,
-  GetEndpointAttributesCommandInput,
-  GetEndpointAttributesCommandOutput,
   GetPlatformApplicationAttributesCommand,
-  GetPlatformApplicationAttributesCommandInput,
-  GetPlatformApplicationAttributesCommandOutput,
   GetSMSAttributesCommand,
-  GetSMSAttributesCommandInput,
-  GetSMSAttributesCommandOutput,
   GetSMSSandboxAccountStatusCommand,
-  GetSMSSandboxAccountStatusCommandInput,
-  GetSMSSandboxAccountStatusCommandOutput,
   GetSubscriptionAttributesCommand,
-  GetSubscriptionAttributesCommandInput,
-  GetSubscriptionAttributesCommandOutput,
   GetTopicAttributesCommand,
-  GetTopicAttributesCommandInput,
-  GetTopicAttributesCommandOutput,
   ListEndpointsByPlatformApplicationCommand,
-  ListEndpointsByPlatformApplicationCommandInput,
-  ListEndpointsByPlatformApplicationCommandOutput,
   ListOriginationNumbersCommand,
-  ListOriginationNumbersCommandInput,
-  ListOriginationNumbersCommandOutput,
   ListPhoneNumbersOptedOutCommand,
-  ListPhoneNumbersOptedOutCommandInput,
-  ListPhoneNumbersOptedOutCommandOutput,
   ListPlatformApplicationsCommand,
-  ListPlatformApplicationsCommandInput,
-  ListPlatformApplicationsCommandOutput,
   ListSMSSandboxPhoneNumbersCommand,
-  ListSMSSandboxPhoneNumbersCommandInput,
-  ListSMSSandboxPhoneNumbersCommandOutput,
-  ListSubscriptionsByTopicCommand,
-  ListSubscriptionsByTopicCommandInput,
-  ListSubscriptionsByTopicCommandOutput,
   ListSubscriptionsCommand,
-  ListSubscriptionsCommandInput,
-  ListSubscriptionsCommandOutput,
+  ListSubscriptionsByTopicCommand,
   ListTagsForResourceCommand,
-  ListTagsForResourceCommandInput,
-  ListTagsForResourceCommandOutput,
   ListTopicsCommand,
-  ListTopicsCommandInput,
-  ListTopicsCommandOutput,
   OptInPhoneNumberCommand,
-  OptInPhoneNumberCommandInput,
-  OptInPhoneNumberCommandOutput,
-  PublishBatchCommand,
-  PublishBatchCommandInput,
-  PublishBatchCommandOutput,
   PublishCommand,
-  PublishCommandInput,
-  PublishCommandOutput,
+  PublishBatchCommand,
   PutDataProtectionPolicyCommand,
-  PutDataProtectionPolicyCommandInput,
-  PutDataProtectionPolicyCommandOutput,
   RemovePermissionCommand,
-  RemovePermissionCommandInput,
-  RemovePermissionCommandOutput,
-  SNSServiceException,
   SetEndpointAttributesCommand,
-  SetEndpointAttributesCommandInput,
-  SetEndpointAttributesCommandOutput,
   SetPlatformApplicationAttributesCommand,
-  SetPlatformApplicationAttributesCommandInput,
-  SetPlatformApplicationAttributesCommandOutput,
   SetSMSAttributesCommand,
-  SetSMSAttributesCommandInput,
-  SetSMSAttributesCommandOutput,
   SetSubscriptionAttributesCommand,
-  SetSubscriptionAttributesCommandInput,
-  SetSubscriptionAttributesCommandOutput,
   SetTopicAttributesCommand,
-  SetTopicAttributesCommandInput,
-  SetTopicAttributesCommandOutput,
   SubscribeCommand,
-  SubscribeCommandInput,
-  SubscribeCommandOutput,
   TagResourceCommand,
-  TagResourceCommandInput,
-  TagResourceCommandOutput,
   UnsubscribeCommand,
-  UnsubscribeCommandInput,
-  UnsubscribeCommandOutput,
   UntagResourceCommand,
-  UntagResourceCommandInput,
-  UntagResourceCommandOutput,
   VerifySMSSandboxPhoneNumberCommand,
-  VerifySMSSandboxPhoneNumberCommandInput,
-  VerifySMSSandboxPhoneNumberCommandOutput,
+  type AddPermissionInput,
+  type CheckIfPhoneNumberIsOptedOutInput,
+  type CheckIfPhoneNumberIsOptedOutResponse,
+  type ConfirmSubscriptionInput,
+  type ConfirmSubscriptionResponse,
+  type CreatePlatformApplicationInput,
+  type CreatePlatformApplicationResponse,
+  type CreatePlatformEndpointInput,
+  type CreateEndpointResponse,
+  type CreateSMSSandboxPhoneNumberInput,
+  type CreateSMSSandboxPhoneNumberResult,
+  type CreateTopicInput,
+  type CreateTopicResponse,
+  type DeleteEndpointInput,
+  type DeletePlatformApplicationInput,
+  type DeleteSMSSandboxPhoneNumberInput,
+  type DeleteSMSSandboxPhoneNumberResult,
+  type DeleteTopicInput,
+  type GetDataProtectionPolicyInput,
+  type GetDataProtectionPolicyResponse,
+  type GetEndpointAttributesInput,
+  type GetEndpointAttributesResponse,
+  type GetPlatformApplicationAttributesInput,
+  type GetPlatformApplicationAttributesResponse,
+  type GetSMSAttributesInput,
+  type GetSMSAttributesResponse,
+  type GetSMSSandboxAccountStatusInput,
+  type GetSMSSandboxAccountStatusResult,
+  type GetSubscriptionAttributesInput,
+  type GetSubscriptionAttributesResponse,
+  type GetTopicAttributesInput,
+  type GetTopicAttributesResponse,
+  type ListEndpointsByPlatformApplicationInput,
+  type ListEndpointsByPlatformApplicationResponse,
+  type ListOriginationNumbersRequest,
+  type ListOriginationNumbersResult,
+  type ListPhoneNumbersOptedOutInput,
+  type ListPhoneNumbersOptedOutResponse,
+  type ListPlatformApplicationsInput,
+  type ListPlatformApplicationsResponse,
+  type ListSMSSandboxPhoneNumbersInput,
+  type ListSMSSandboxPhoneNumbersResult,
+  type ListSubscriptionsInput,
+  type ListSubscriptionsResponse,
+  type ListSubscriptionsByTopicInput,
+  type ListSubscriptionsByTopicResponse,
+  type ListTagsForResourceRequest,
+  type ListTagsForResourceResponse,
+  type ListTopicsInput,
+  type ListTopicsResponse,
+  type OptInPhoneNumberInput,
+  type OptInPhoneNumberResponse,
+  type PublishInput,
+  type PublishResponse,
+  type PublishBatchInput,
+  type PublishBatchResponse,
+  type PutDataProtectionPolicyInput,
+  type RemovePermissionInput,
+  type SetEndpointAttributesInput,
+  type SetPlatformApplicationAttributesInput,
+  type SetSMSAttributesInput,
+  type SetSMSAttributesResponse,
+  type SetSubscriptionAttributesInput,
+  type SetTopicAttributesInput,
+  type SubscribeInput,
+  type SubscribeResponse,
+  type TagResourceRequest,
+  type TagResourceResponse,
+  type UnsubscribeInput,
+  type UntagResourceRequest,
+  type UntagResourceResponse,
+  type VerifySMSSandboxPhoneNumberInput,
+  type VerifySMSSandboxPhoneNumberResult,
 } from "@aws-sdk/client-sns";
-import { HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
+import type { HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
 import { Context, Data, Effect, Layer, Record } from "effect";
 import {
-  AuthorizationError,
-  BatchEntryIdsNotDistinctError,
-  BatchRequestTooLongError,
-  ConcurrentAccessError,
-  EmptyBatchRequestError,
-  EndpointDisabledError,
-  FilterPolicyLimitExceededError,
-  InternalError,
-  InvalidBatchEntryIdError,
-  InvalidParameterError,
-  InvalidParameterValueError,
-  InvalidSecurityError,
-  KMSAccessDeniedError,
-  KMSDisabledError,
-  KMSInvalidStateError,
-  KMSNotFoundError,
-  KMSOptInRequiredError,
-  KMSThrottlingError,
-  NotFoundError,
-  OptedOutError,
-  PlatformApplicationDisabledError,
-  ResourceNotFoundError,
+  type AuthorizationErrorException,
+  type InternalErrorException,
+  type InvalidParameterException,
+  type NotFoundException,
+  type ThrottledException,
+  type FilterPolicyLimitExceededException,
+  type ReplayLimitExceededException,
+  type SubscriptionLimitExceededException,
+  type OptedOutException,
+  type UserErrorException,
+  type ConcurrentAccessException,
+  type InvalidSecurityException,
+  type StaleTagException,
+  type TagLimitExceededException,
+  type TagPolicyException,
+  type TopicLimitExceededException,
+  type ResourceNotFoundException,
+  type InvalidStateException,
+  type ValidationException,
+  type EndpointDisabledException,
+  type InvalidParameterValueException,
+  type KMSAccessDeniedException,
+  type KMSDisabledException,
+  type KMSInvalidStateException,
+  type KMSNotFoundException,
+  type KMSOptInRequired,
+  type KMSThrottlingException,
+  type PlatformApplicationDisabledException,
+  type BatchEntryIdsNotDistinctException,
+  type BatchRequestTooLongException,
+  type EmptyBatchRequestException,
+  type InvalidBatchEntryIdException,
+  type TooManyEntriesInBatchRequestException,
+  type VerificationException,
+  type TaggedException,
   SdkError,
-  StaleTagError,
-  SubscriptionLimitExceededError,
-  TagLimitExceededError,
-  TagPolicyError,
-  TaggedException,
-  ThrottledError,
-  TooManyEntriesInBatchRequestError,
-  TopicLimitExceededError,
-  UserError,
-  ValidationError,
-  VerificationError,
 } from "./Errors";
 import { SNSClientInstance, SNSClientInstanceLayer } from "./SNSClientInstance";
 import { DefaultSNSClientConfigLayer } from "./SNSClientInstanceConfig";
@@ -227,663 +218,688 @@ export interface SNSService {
    * @see {@link AddPermissionCommand}
    */
   addPermission(
-    args: AddPermissionCommandInput,
+    args: AddPermissionInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    AddPermissionCommandOutput,
+    void,
     | SdkError
-    | AuthorizationError
-    | InternalError
-    | InvalidParameterError
-    | NotFoundError
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | NotFoundException
   >;
 
   /**
    * @see {@link CheckIfPhoneNumberIsOptedOutCommand}
    */
   checkIfPhoneNumberIsOptedOut(
-    args: CheckIfPhoneNumberIsOptedOutCommandInput,
+    args: CheckIfPhoneNumberIsOptedOutInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    CheckIfPhoneNumberIsOptedOutCommandOutput,
+    CheckIfPhoneNumberIsOptedOutResponse,
     | SdkError
-    | AuthorizationError
-    | InternalError
-    | InvalidParameterError
-    | ThrottledError
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | ThrottledException
   >;
 
   /**
    * @see {@link ConfirmSubscriptionCommand}
    */
   confirmSubscription(
-    args: ConfirmSubscriptionCommandInput,
+    args: ConfirmSubscriptionInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    ConfirmSubscriptionCommandOutput,
+    ConfirmSubscriptionResponse,
     | SdkError
-    | AuthorizationError
-    | FilterPolicyLimitExceededError
-    | InternalError
-    | InvalidParameterError
-    | NotFoundError
-    | SubscriptionLimitExceededError
+    | AuthorizationErrorException
+    | FilterPolicyLimitExceededException
+    | InternalErrorException
+    | InvalidParameterException
+    | NotFoundException
+    | ReplayLimitExceededException
+    | SubscriptionLimitExceededException
   >;
 
   /**
    * @see {@link CreatePlatformApplicationCommand}
    */
   createPlatformApplication(
-    args: CreatePlatformApplicationCommandInput,
+    args: CreatePlatformApplicationInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    CreatePlatformApplicationCommandOutput,
-    SdkError | AuthorizationError | InternalError | InvalidParameterError
+    CreatePlatformApplicationResponse,
+    | SdkError
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
   >;
 
   /**
    * @see {@link CreatePlatformEndpointCommand}
    */
   createPlatformEndpoint(
-    args: CreatePlatformEndpointCommandInput,
+    args: CreatePlatformEndpointInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    CreatePlatformEndpointCommandOutput,
+    CreateEndpointResponse,
     | SdkError
-    | AuthorizationError
-    | InternalError
-    | InvalidParameterError
-    | NotFoundError
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | NotFoundException
   >;
 
   /**
    * @see {@link CreateSMSSandboxPhoneNumberCommand}
    */
   createSMSSandboxPhoneNumber(
-    args: CreateSMSSandboxPhoneNumberCommandInput,
+    args: CreateSMSSandboxPhoneNumberInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    CreateSMSSandboxPhoneNumberCommandOutput,
+    CreateSMSSandboxPhoneNumberResult,
     | SdkError
-    | AuthorizationError
-    | InternalError
-    | InvalidParameterError
-    | OptedOutError
-    | ThrottledError
-    | UserError
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | OptedOutException
+    | ThrottledException
+    | UserErrorException
   >;
 
   /**
    * @see {@link CreateTopicCommand}
    */
   createTopic(
-    args: CreateTopicCommandInput,
+    args: CreateTopicInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    CreateTopicCommandOutput,
+    CreateTopicResponse,
     | SdkError
-    | AuthorizationError
-    | ConcurrentAccessError
-    | InternalError
-    | InvalidParameterError
-    | InvalidSecurityError
-    | StaleTagError
-    | TagLimitExceededError
-    | TagPolicyError
-    | TopicLimitExceededError
+    | AuthorizationErrorException
+    | ConcurrentAccessException
+    | InternalErrorException
+    | InvalidParameterException
+    | InvalidSecurityException
+    | StaleTagException
+    | TagLimitExceededException
+    | TagPolicyException
+    | TopicLimitExceededException
   >;
 
   /**
    * @see {@link DeleteEndpointCommand}
    */
   deleteEndpoint(
-    args: DeleteEndpointCommandInput,
+    args: DeleteEndpointInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    DeleteEndpointCommandOutput,
-    SdkError | AuthorizationError | InternalError | InvalidParameterError
+    void,
+    | SdkError
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
   >;
 
   /**
    * @see {@link DeletePlatformApplicationCommand}
    */
   deletePlatformApplication(
-    args: DeletePlatformApplicationCommandInput,
+    args: DeletePlatformApplicationInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    DeletePlatformApplicationCommandOutput,
-    SdkError | AuthorizationError | InternalError | InvalidParameterError
+    void,
+    | SdkError
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
   >;
 
   /**
    * @see {@link DeleteSMSSandboxPhoneNumberCommand}
    */
   deleteSMSSandboxPhoneNumber(
-    args: DeleteSMSSandboxPhoneNumberCommandInput,
+    args: DeleteSMSSandboxPhoneNumberInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    DeleteSMSSandboxPhoneNumberCommandOutput,
+    DeleteSMSSandboxPhoneNumberResult,
     | SdkError
-    | AuthorizationError
-    | InternalError
-    | InvalidParameterError
-    | ResourceNotFoundError
-    | ThrottledError
-    | UserError
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | ThrottledException
+    | UserErrorException
   >;
 
   /**
    * @see {@link DeleteTopicCommand}
    */
   deleteTopic(
-    args: DeleteTopicCommandInput,
+    args: DeleteTopicInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    DeleteTopicCommandOutput,
+    void,
     | SdkError
-    | AuthorizationError
-    | ConcurrentAccessError
-    | InternalError
-    | InvalidParameterError
-    | NotFoundError
-    | StaleTagError
-    | TagPolicyError
+    | AuthorizationErrorException
+    | ConcurrentAccessException
+    | InternalErrorException
+    | InvalidParameterException
+    | InvalidStateException
+    | NotFoundException
+    | StaleTagException
+    | TagPolicyException
   >;
 
   /**
    * @see {@link GetDataProtectionPolicyCommand}
    */
   getDataProtectionPolicy(
-    args: GetDataProtectionPolicyCommandInput,
+    args: GetDataProtectionPolicyInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    GetDataProtectionPolicyCommandOutput,
+    GetDataProtectionPolicyResponse,
     | SdkError
-    | AuthorizationError
-    | InternalError
-    | InvalidParameterError
-    | InvalidSecurityError
-    | NotFoundError
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | InvalidSecurityException
+    | NotFoundException
   >;
 
   /**
    * @see {@link GetEndpointAttributesCommand}
    */
   getEndpointAttributes(
-    args: GetEndpointAttributesCommandInput,
+    args: GetEndpointAttributesInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    GetEndpointAttributesCommandOutput,
+    GetEndpointAttributesResponse,
     | SdkError
-    | AuthorizationError
-    | InternalError
-    | InvalidParameterError
-    | NotFoundError
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | NotFoundException
   >;
 
   /**
    * @see {@link GetPlatformApplicationAttributesCommand}
    */
   getPlatformApplicationAttributes(
-    args: GetPlatformApplicationAttributesCommandInput,
+    args: GetPlatformApplicationAttributesInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    GetPlatformApplicationAttributesCommandOutput,
+    GetPlatformApplicationAttributesResponse,
     | SdkError
-    | AuthorizationError
-    | InternalError
-    | InvalidParameterError
-    | NotFoundError
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | NotFoundException
   >;
 
   /**
    * @see {@link GetSMSAttributesCommand}
    */
   getSMSAttributes(
-    args: GetSMSAttributesCommandInput,
+    args: GetSMSAttributesInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    GetSMSAttributesCommandOutput,
+    GetSMSAttributesResponse,
     | SdkError
-    | AuthorizationError
-    | InternalError
-    | InvalidParameterError
-    | ThrottledError
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | ThrottledException
   >;
 
   /**
    * @see {@link GetSMSSandboxAccountStatusCommand}
    */
   getSMSSandboxAccountStatus(
-    args: GetSMSSandboxAccountStatusCommandInput,
+    args: GetSMSSandboxAccountStatusInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    GetSMSSandboxAccountStatusCommandOutput,
-    SdkError | AuthorizationError | InternalError | ThrottledError
+    GetSMSSandboxAccountStatusResult,
+    | SdkError
+    | AuthorizationErrorException
+    | InternalErrorException
+    | ThrottledException
   >;
 
   /**
    * @see {@link GetSubscriptionAttributesCommand}
    */
   getSubscriptionAttributes(
-    args: GetSubscriptionAttributesCommandInput,
+    args: GetSubscriptionAttributesInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    GetSubscriptionAttributesCommandOutput,
+    GetSubscriptionAttributesResponse,
     | SdkError
-    | AuthorizationError
-    | InternalError
-    | InvalidParameterError
-    | NotFoundError
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | NotFoundException
   >;
 
   /**
    * @see {@link GetTopicAttributesCommand}
    */
   getTopicAttributes(
-    args: GetTopicAttributesCommandInput,
+    args: GetTopicAttributesInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    GetTopicAttributesCommandOutput,
+    GetTopicAttributesResponse,
     | SdkError
-    | AuthorizationError
-    | InternalError
-    | InvalidParameterError
-    | InvalidSecurityError
-    | NotFoundError
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | InvalidSecurityException
+    | NotFoundException
   >;
 
   /**
    * @see {@link ListEndpointsByPlatformApplicationCommand}
    */
   listEndpointsByPlatformApplication(
-    args: ListEndpointsByPlatformApplicationCommandInput,
+    args: ListEndpointsByPlatformApplicationInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    ListEndpointsByPlatformApplicationCommandOutput,
+    ListEndpointsByPlatformApplicationResponse,
     | SdkError
-    | AuthorizationError
-    | InternalError
-    | InvalidParameterError
-    | NotFoundError
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | NotFoundException
   >;
 
   /**
    * @see {@link ListOriginationNumbersCommand}
    */
   listOriginationNumbers(
-    args: ListOriginationNumbersCommandInput,
+    args: ListOriginationNumbersRequest,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    ListOriginationNumbersCommandOutput,
+    ListOriginationNumbersResult,
     | SdkError
-    | AuthorizationError
-    | InternalError
-    | InvalidParameterError
-    | ThrottledError
-    | ValidationError
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | ThrottledException
+    | ValidationException
   >;
 
   /**
    * @see {@link ListPhoneNumbersOptedOutCommand}
    */
   listPhoneNumbersOptedOut(
-    args: ListPhoneNumbersOptedOutCommandInput,
+    args: ListPhoneNumbersOptedOutInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    ListPhoneNumbersOptedOutCommandOutput,
+    ListPhoneNumbersOptedOutResponse,
     | SdkError
-    | AuthorizationError
-    | InternalError
-    | InvalidParameterError
-    | ThrottledError
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | ThrottledException
   >;
 
   /**
    * @see {@link ListPlatformApplicationsCommand}
    */
   listPlatformApplications(
-    args: ListPlatformApplicationsCommandInput,
+    args: ListPlatformApplicationsInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    ListPlatformApplicationsCommandOutput,
-    SdkError | AuthorizationError | InternalError | InvalidParameterError
+    ListPlatformApplicationsResponse,
+    | SdkError
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
   >;
 
   /**
    * @see {@link ListSMSSandboxPhoneNumbersCommand}
    */
   listSMSSandboxPhoneNumbers(
-    args: ListSMSSandboxPhoneNumbersCommandInput,
+    args: ListSMSSandboxPhoneNumbersInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    ListSMSSandboxPhoneNumbersCommandOutput,
+    ListSMSSandboxPhoneNumbersResult,
     | SdkError
-    | AuthorizationError
-    | InternalError
-    | InvalidParameterError
-    | ResourceNotFoundError
-    | ThrottledError
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | ThrottledException
   >;
 
   /**
    * @see {@link ListSubscriptionsCommand}
    */
   listSubscriptions(
-    args: ListSubscriptionsCommandInput,
+    args: ListSubscriptionsInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    ListSubscriptionsCommandOutput,
-    SdkError | AuthorizationError | InternalError | InvalidParameterError
+    ListSubscriptionsResponse,
+    | SdkError
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
   >;
 
   /**
    * @see {@link ListSubscriptionsByTopicCommand}
    */
   listSubscriptionsByTopic(
-    args: ListSubscriptionsByTopicCommandInput,
+    args: ListSubscriptionsByTopicInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    ListSubscriptionsByTopicCommandOutput,
+    ListSubscriptionsByTopicResponse,
     | SdkError
-    | AuthorizationError
-    | InternalError
-    | InvalidParameterError
-    | NotFoundError
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | NotFoundException
   >;
 
   /**
    * @see {@link ListTagsForResourceCommand}
    */
   listTagsForResource(
-    args: ListTagsForResourceCommandInput,
+    args: ListTagsForResourceRequest,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    ListTagsForResourceCommandOutput,
+    ListTagsForResourceResponse,
     | SdkError
-    | AuthorizationError
-    | ConcurrentAccessError
-    | InvalidParameterError
-    | ResourceNotFoundError
-    | TagPolicyError
+    | AuthorizationErrorException
+    | ConcurrentAccessException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | TagPolicyException
   >;
 
   /**
    * @see {@link ListTopicsCommand}
    */
   listTopics(
-    args: ListTopicsCommandInput,
+    args: ListTopicsInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    ListTopicsCommandOutput,
-    SdkError | AuthorizationError | InternalError | InvalidParameterError
+    ListTopicsResponse,
+    | SdkError
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
   >;
 
   /**
    * @see {@link OptInPhoneNumberCommand}
    */
   optInPhoneNumber(
-    args: OptInPhoneNumberCommandInput,
+    args: OptInPhoneNumberInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    OptInPhoneNumberCommandOutput,
+    OptInPhoneNumberResponse,
     | SdkError
-    | AuthorizationError
-    | InternalError
-    | InvalidParameterError
-    | ThrottledError
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | ThrottledException
   >;
 
   /**
    * @see {@link PublishCommand}
    */
   publish(
-    args: PublishCommandInput,
+    args: PublishInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    PublishCommandOutput,
+    PublishResponse,
     | SdkError
-    | AuthorizationError
-    | EndpointDisabledError
-    | InternalError
-    | InvalidParameterError
-    | InvalidSecurityError
-    | KMSAccessDeniedError
-    | KMSDisabledError
-    | KMSInvalidStateError
-    | KMSNotFoundError
-    | KMSOptInRequiredError
-    | KMSThrottlingError
-    | NotFoundError
-    | InvalidParameterValueError
-    | PlatformApplicationDisabledError
-    | ValidationError
+    | AuthorizationErrorException
+    | EndpointDisabledException
+    | InternalErrorException
+    | InvalidParameterException
+    | InvalidParameterValueException
+    | InvalidSecurityException
+    | KMSAccessDeniedException
+    | KMSDisabledException
+    | KMSInvalidStateException
+    | KMSNotFoundException
+    | KMSOptInRequired
+    | KMSThrottlingException
+    | NotFoundException
+    | PlatformApplicationDisabledException
+    | ValidationException
   >;
 
   /**
    * @see {@link PublishBatchCommand}
    */
   publishBatch(
-    args: PublishBatchCommandInput,
+    args: PublishBatchInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    PublishBatchCommandOutput,
+    PublishBatchResponse,
     | SdkError
-    | AuthorizationError
-    | BatchEntryIdsNotDistinctError
-    | BatchRequestTooLongError
-    | EmptyBatchRequestError
-    | EndpointDisabledError
-    | InternalError
-    | InvalidBatchEntryIdError
-    | InvalidParameterError
-    | InvalidSecurityError
-    | KMSAccessDeniedError
-    | KMSDisabledError
-    | KMSInvalidStateError
-    | KMSNotFoundError
-    | KMSOptInRequiredError
-    | KMSThrottlingError
-    | NotFoundError
-    | InvalidParameterValueError
-    | PlatformApplicationDisabledError
-    | TooManyEntriesInBatchRequestError
-    | ValidationError
+    | AuthorizationErrorException
+    | BatchEntryIdsNotDistinctException
+    | BatchRequestTooLongException
+    | EmptyBatchRequestException
+    | EndpointDisabledException
+    | InternalErrorException
+    | InvalidBatchEntryIdException
+    | InvalidParameterException
+    | InvalidParameterValueException
+    | InvalidSecurityException
+    | KMSAccessDeniedException
+    | KMSDisabledException
+    | KMSInvalidStateException
+    | KMSNotFoundException
+    | KMSOptInRequired
+    | KMSThrottlingException
+    | NotFoundException
+    | PlatformApplicationDisabledException
+    | TooManyEntriesInBatchRequestException
+    | ValidationException
   >;
 
   /**
    * @see {@link PutDataProtectionPolicyCommand}
    */
   putDataProtectionPolicy(
-    args: PutDataProtectionPolicyCommandInput,
+    args: PutDataProtectionPolicyInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    PutDataProtectionPolicyCommandOutput,
+    void,
     | SdkError
-    | AuthorizationError
-    | InternalError
-    | InvalidParameterError
-    | InvalidSecurityError
-    | NotFoundError
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | InvalidSecurityException
+    | NotFoundException
   >;
 
   /**
    * @see {@link RemovePermissionCommand}
    */
   removePermission(
-    args: RemovePermissionCommandInput,
+    args: RemovePermissionInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    RemovePermissionCommandOutput,
+    void,
     | SdkError
-    | AuthorizationError
-    | InternalError
-    | InvalidParameterError
-    | NotFoundError
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | NotFoundException
   >;
 
   /**
    * @see {@link SetEndpointAttributesCommand}
    */
   setEndpointAttributes(
-    args: SetEndpointAttributesCommandInput,
+    args: SetEndpointAttributesInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    SetEndpointAttributesCommandOutput,
+    void,
     | SdkError
-    | AuthorizationError
-    | InternalError
-    | InvalidParameterError
-    | NotFoundError
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | NotFoundException
   >;
 
   /**
    * @see {@link SetPlatformApplicationAttributesCommand}
    */
   setPlatformApplicationAttributes(
-    args: SetPlatformApplicationAttributesCommandInput,
+    args: SetPlatformApplicationAttributesInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    SetPlatformApplicationAttributesCommandOutput,
+    void,
     | SdkError
-    | AuthorizationError
-    | InternalError
-    | InvalidParameterError
-    | NotFoundError
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | NotFoundException
   >;
 
   /**
    * @see {@link SetSMSAttributesCommand}
    */
   setSMSAttributes(
-    args: SetSMSAttributesCommandInput,
+    args: SetSMSAttributesInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    SetSMSAttributesCommandOutput,
+    SetSMSAttributesResponse,
     | SdkError
-    | AuthorizationError
-    | InternalError
-    | InvalidParameterError
-    | ThrottledError
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | ThrottledException
   >;
 
   /**
    * @see {@link SetSubscriptionAttributesCommand}
    */
   setSubscriptionAttributes(
-    args: SetSubscriptionAttributesCommandInput,
+    args: SetSubscriptionAttributesInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    SetSubscriptionAttributesCommandOutput,
+    void,
     | SdkError
-    | AuthorizationError
-    | FilterPolicyLimitExceededError
-    | InternalError
-    | InvalidParameterError
-    | NotFoundError
+    | AuthorizationErrorException
+    | FilterPolicyLimitExceededException
+    | InternalErrorException
+    | InvalidParameterException
+    | NotFoundException
+    | ReplayLimitExceededException
   >;
 
   /**
    * @see {@link SetTopicAttributesCommand}
    */
   setTopicAttributes(
-    args: SetTopicAttributesCommandInput,
+    args: SetTopicAttributesInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    SetTopicAttributesCommandOutput,
+    void,
     | SdkError
-    | AuthorizationError
-    | InternalError
-    | InvalidParameterError
-    | InvalidSecurityError
-    | NotFoundError
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | InvalidSecurityException
+    | NotFoundException
   >;
 
   /**
    * @see {@link SubscribeCommand}
    */
   subscribe(
-    args: SubscribeCommandInput,
+    args: SubscribeInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    SubscribeCommandOutput,
+    SubscribeResponse,
     | SdkError
-    | AuthorizationError
-    | FilterPolicyLimitExceededError
-    | InternalError
-    | InvalidParameterError
-    | InvalidSecurityError
-    | NotFoundError
-    | SubscriptionLimitExceededError
+    | AuthorizationErrorException
+    | FilterPolicyLimitExceededException
+    | InternalErrorException
+    | InvalidParameterException
+    | InvalidSecurityException
+    | NotFoundException
+    | ReplayLimitExceededException
+    | SubscriptionLimitExceededException
   >;
 
   /**
    * @see {@link TagResourceCommand}
    */
   tagResource(
-    args: TagResourceCommandInput,
+    args: TagResourceRequest,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    TagResourceCommandOutput,
+    TagResourceResponse,
     | SdkError
-    | AuthorizationError
-    | ConcurrentAccessError
-    | InvalidParameterError
-    | ResourceNotFoundError
-    | StaleTagError
-    | TagLimitExceededError
-    | TagPolicyError
+    | AuthorizationErrorException
+    | ConcurrentAccessException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | StaleTagException
+    | TagLimitExceededException
+    | TagPolicyException
   >;
 
   /**
    * @see {@link UnsubscribeCommand}
    */
   unsubscribe(
-    args: UnsubscribeCommandInput,
+    args: UnsubscribeInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    UnsubscribeCommandOutput,
+    void,
     | SdkError
-    | AuthorizationError
-    | InternalError
-    | InvalidParameterError
-    | InvalidSecurityError
-    | NotFoundError
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | InvalidSecurityException
+    | NotFoundException
   >;
 
   /**
    * @see {@link UntagResourceCommand}
    */
   untagResource(
-    args: UntagResourceCommandInput,
+    args: UntagResourceRequest,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    UntagResourceCommandOutput,
+    UntagResourceResponse,
     | SdkError
-    | AuthorizationError
-    | ConcurrentAccessError
-    | InvalidParameterError
-    | ResourceNotFoundError
-    | StaleTagError
-    | TagLimitExceededError
-    | TagPolicyError
+    | AuthorizationErrorException
+    | ConcurrentAccessException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | StaleTagException
+    | TagLimitExceededException
+    | TagPolicyException
   >;
 
   /**
    * @see {@link VerifySMSSandboxPhoneNumberCommand}
    */
   verifySMSSandboxPhoneNumber(
-    args: VerifySMSSandboxPhoneNumberCommandInput,
+    args: VerifySMSSandboxPhoneNumberInput,
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    VerifySMSSandboxPhoneNumberCommandOutput,
+    VerifySMSSandboxPhoneNumberResult,
     | SdkError
-    | AuthorizationError
-    | InternalError
-    | InvalidParameterError
-    | ResourceNotFoundError
-    | ThrottledError
-    | VerificationError
+    | AuthorizationErrorException
+    | InternalErrorException
+    | InvalidParameterException
+    | ResourceNotFoundException
+    | ThrottledException
+    | VerificationException
   >;
 }
 
@@ -908,9 +924,9 @@ export const makeSNSService = Effect.gen(function* (_) {
       Effect.tryPromise({
         try: () => client.send(new CommandCtor(args), options ?? {}),
         catch: (e) => {
-          if (e instanceof SNSServiceException) {
+          if (e instanceof SdkSNSServiceException) {
             const ServiceException = Data.tagged<
-              TaggedException<SNSServiceException>
+              TaggedException<SdkSNSServiceException>
             >(e.name);
 
             return ServiceException({

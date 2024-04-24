@@ -2,518 +2,438 @@
  * @since 1.0.0
  */
 import {
-  IAMServiceException,
+  IAMServiceException as SdkIAMServiceException,
   AddClientIDToOpenIDConnectProviderCommand,
-  type AddClientIDToOpenIDConnectProviderCommandInput,
-  type AddClientIDToOpenIDConnectProviderCommandOutput,
   AddRoleToInstanceProfileCommand,
-  type AddRoleToInstanceProfileCommandInput,
-  type AddRoleToInstanceProfileCommandOutput,
   AddUserToGroupCommand,
-  type AddUserToGroupCommandInput,
-  type AddUserToGroupCommandOutput,
   AttachGroupPolicyCommand,
-  type AttachGroupPolicyCommandInput,
-  type AttachGroupPolicyCommandOutput,
   AttachRolePolicyCommand,
-  type AttachRolePolicyCommandInput,
-  type AttachRolePolicyCommandOutput,
   AttachUserPolicyCommand,
-  type AttachUserPolicyCommandInput,
-  type AttachUserPolicyCommandOutput,
   ChangePasswordCommand,
-  type ChangePasswordCommandInput,
-  type ChangePasswordCommandOutput,
   CreateAccessKeyCommand,
-  type CreateAccessKeyCommandInput,
-  type CreateAccessKeyCommandOutput,
   CreateAccountAliasCommand,
-  type CreateAccountAliasCommandInput,
-  type CreateAccountAliasCommandOutput,
   CreateGroupCommand,
-  type CreateGroupCommandInput,
-  type CreateGroupCommandOutput,
   CreateInstanceProfileCommand,
-  type CreateInstanceProfileCommandInput,
-  type CreateInstanceProfileCommandOutput,
   CreateLoginProfileCommand,
-  type CreateLoginProfileCommandInput,
-  type CreateLoginProfileCommandOutput,
   CreateOpenIDConnectProviderCommand,
-  type CreateOpenIDConnectProviderCommandInput,
-  type CreateOpenIDConnectProviderCommandOutput,
   CreatePolicyCommand,
-  type CreatePolicyCommandInput,
-  type CreatePolicyCommandOutput,
   CreatePolicyVersionCommand,
-  type CreatePolicyVersionCommandInput,
-  type CreatePolicyVersionCommandOutput,
   CreateRoleCommand,
-  type CreateRoleCommandInput,
-  type CreateRoleCommandOutput,
   CreateSAMLProviderCommand,
-  type CreateSAMLProviderCommandInput,
-  type CreateSAMLProviderCommandOutput,
   CreateServiceLinkedRoleCommand,
-  type CreateServiceLinkedRoleCommandInput,
-  type CreateServiceLinkedRoleCommandOutput,
   CreateServiceSpecificCredentialCommand,
-  type CreateServiceSpecificCredentialCommandInput,
-  type CreateServiceSpecificCredentialCommandOutput,
   CreateUserCommand,
-  type CreateUserCommandInput,
-  type CreateUserCommandOutput,
   CreateVirtualMFADeviceCommand,
-  type CreateVirtualMFADeviceCommandInput,
-  type CreateVirtualMFADeviceCommandOutput,
   DeactivateMFADeviceCommand,
-  type DeactivateMFADeviceCommandInput,
-  type DeactivateMFADeviceCommandOutput,
   DeleteAccessKeyCommand,
-  type DeleteAccessKeyCommandInput,
-  type DeleteAccessKeyCommandOutput,
   DeleteAccountAliasCommand,
-  type DeleteAccountAliasCommandInput,
-  type DeleteAccountAliasCommandOutput,
   DeleteAccountPasswordPolicyCommand,
-  type DeleteAccountPasswordPolicyCommandInput,
-  type DeleteAccountPasswordPolicyCommandOutput,
   DeleteGroupCommand,
-  type DeleteGroupCommandInput,
-  type DeleteGroupCommandOutput,
   DeleteGroupPolicyCommand,
-  type DeleteGroupPolicyCommandInput,
-  type DeleteGroupPolicyCommandOutput,
   DeleteInstanceProfileCommand,
-  type DeleteInstanceProfileCommandInput,
-  type DeleteInstanceProfileCommandOutput,
   DeleteLoginProfileCommand,
-  type DeleteLoginProfileCommandInput,
-  type DeleteLoginProfileCommandOutput,
   DeleteOpenIDConnectProviderCommand,
-  type DeleteOpenIDConnectProviderCommandInput,
-  type DeleteOpenIDConnectProviderCommandOutput,
   DeletePolicyCommand,
-  type DeletePolicyCommandInput,
-  type DeletePolicyCommandOutput,
   DeletePolicyVersionCommand,
-  type DeletePolicyVersionCommandInput,
-  type DeletePolicyVersionCommandOutput,
   DeleteRoleCommand,
-  type DeleteRoleCommandInput,
-  type DeleteRoleCommandOutput,
   DeleteRolePermissionsBoundaryCommand,
-  type DeleteRolePermissionsBoundaryCommandInput,
-  type DeleteRolePermissionsBoundaryCommandOutput,
   DeleteRolePolicyCommand,
-  type DeleteRolePolicyCommandInput,
-  type DeleteRolePolicyCommandOutput,
   DeleteSAMLProviderCommand,
-  type DeleteSAMLProviderCommandInput,
-  type DeleteSAMLProviderCommandOutput,
-  DeleteServerCertificateCommand,
-  type DeleteServerCertificateCommandInput,
-  type DeleteServerCertificateCommandOutput,
-  DeleteServiceLinkedRoleCommand,
-  type DeleteServiceLinkedRoleCommandInput,
-  type DeleteServiceLinkedRoleCommandOutput,
-  DeleteServiceSpecificCredentialCommand,
-  type DeleteServiceSpecificCredentialCommandInput,
-  type DeleteServiceSpecificCredentialCommandOutput,
-  DeleteSigningCertificateCommand,
-  type DeleteSigningCertificateCommandInput,
-  type DeleteSigningCertificateCommandOutput,
   DeleteSSHPublicKeyCommand,
-  type DeleteSSHPublicKeyCommandInput,
-  type DeleteSSHPublicKeyCommandOutput,
+  DeleteServerCertificateCommand,
+  DeleteServiceLinkedRoleCommand,
+  DeleteServiceSpecificCredentialCommand,
+  DeleteSigningCertificateCommand,
   DeleteUserCommand,
-  type DeleteUserCommandInput,
-  type DeleteUserCommandOutput,
   DeleteUserPermissionsBoundaryCommand,
-  type DeleteUserPermissionsBoundaryCommandInput,
-  type DeleteUserPermissionsBoundaryCommandOutput,
   DeleteUserPolicyCommand,
-  type DeleteUserPolicyCommandInput,
-  type DeleteUserPolicyCommandOutput,
   DeleteVirtualMFADeviceCommand,
-  type DeleteVirtualMFADeviceCommandInput,
-  type DeleteVirtualMFADeviceCommandOutput,
   DetachGroupPolicyCommand,
-  type DetachGroupPolicyCommandInput,
-  type DetachGroupPolicyCommandOutput,
   DetachRolePolicyCommand,
-  type DetachRolePolicyCommandInput,
-  type DetachRolePolicyCommandOutput,
   DetachUserPolicyCommand,
-  type DetachUserPolicyCommandInput,
-  type DetachUserPolicyCommandOutput,
   EnableMFADeviceCommand,
-  type EnableMFADeviceCommandInput,
-  type EnableMFADeviceCommandOutput,
   GenerateCredentialReportCommand,
-  type GenerateCredentialReportCommandInput,
-  type GenerateCredentialReportCommandOutput,
   GenerateOrganizationsAccessReportCommand,
-  type GenerateOrganizationsAccessReportCommandInput,
-  type GenerateOrganizationsAccessReportCommandOutput,
   GenerateServiceLastAccessedDetailsCommand,
-  type GenerateServiceLastAccessedDetailsCommandInput,
-  type GenerateServiceLastAccessedDetailsCommandOutput,
   GetAccessKeyLastUsedCommand,
-  type GetAccessKeyLastUsedCommandInput,
-  type GetAccessKeyLastUsedCommandOutput,
   GetAccountAuthorizationDetailsCommand,
-  type GetAccountAuthorizationDetailsCommandInput,
-  type GetAccountAuthorizationDetailsCommandOutput,
   GetAccountPasswordPolicyCommand,
-  type GetAccountPasswordPolicyCommandInput,
-  type GetAccountPasswordPolicyCommandOutput,
   GetAccountSummaryCommand,
-  type GetAccountSummaryCommandInput,
-  type GetAccountSummaryCommandOutput,
   GetContextKeysForCustomPolicyCommand,
-  type GetContextKeysForCustomPolicyCommandInput,
-  type GetContextKeysForCustomPolicyCommandOutput,
   GetContextKeysForPrincipalPolicyCommand,
-  type GetContextKeysForPrincipalPolicyCommandInput,
-  type GetContextKeysForPrincipalPolicyCommandOutput,
   GetCredentialReportCommand,
-  type GetCredentialReportCommandInput,
-  type GetCredentialReportCommandOutput,
   GetGroupCommand,
-  type GetGroupCommandInput,
-  type GetGroupCommandOutput,
   GetGroupPolicyCommand,
-  type GetGroupPolicyCommandInput,
-  type GetGroupPolicyCommandOutput,
   GetInstanceProfileCommand,
-  type GetInstanceProfileCommandInput,
-  type GetInstanceProfileCommandOutput,
   GetLoginProfileCommand,
-  type GetLoginProfileCommandInput,
-  type GetLoginProfileCommandOutput,
   GetMFADeviceCommand,
-  type GetMFADeviceCommandInput,
-  type GetMFADeviceCommandOutput,
   GetOpenIDConnectProviderCommand,
-  type GetOpenIDConnectProviderCommandInput,
-  type GetOpenIDConnectProviderCommandOutput,
   GetOrganizationsAccessReportCommand,
-  type GetOrganizationsAccessReportCommandInput,
-  type GetOrganizationsAccessReportCommandOutput,
   GetPolicyCommand,
-  type GetPolicyCommandInput,
-  type GetPolicyCommandOutput,
   GetPolicyVersionCommand,
-  type GetPolicyVersionCommandInput,
-  type GetPolicyVersionCommandOutput,
   GetRoleCommand,
-  type GetRoleCommandInput,
-  type GetRoleCommandOutput,
   GetRolePolicyCommand,
-  type GetRolePolicyCommandInput,
-  type GetRolePolicyCommandOutput,
   GetSAMLProviderCommand,
-  type GetSAMLProviderCommandInput,
-  type GetSAMLProviderCommandOutput,
-  GetServerCertificateCommand,
-  type GetServerCertificateCommandInput,
-  type GetServerCertificateCommandOutput,
-  GetServiceLastAccessedDetailsCommand,
-  type GetServiceLastAccessedDetailsCommandInput,
-  type GetServiceLastAccessedDetailsCommandOutput,
-  GetServiceLastAccessedDetailsWithEntitiesCommand,
-  type GetServiceLastAccessedDetailsWithEntitiesCommandInput,
-  type GetServiceLastAccessedDetailsWithEntitiesCommandOutput,
-  GetServiceLinkedRoleDeletionStatusCommand,
-  type GetServiceLinkedRoleDeletionStatusCommandInput,
-  type GetServiceLinkedRoleDeletionStatusCommandOutput,
   GetSSHPublicKeyCommand,
-  type GetSSHPublicKeyCommandInput,
-  type GetSSHPublicKeyCommandOutput,
+  GetServerCertificateCommand,
+  GetServiceLastAccessedDetailsCommand,
+  GetServiceLastAccessedDetailsWithEntitiesCommand,
+  GetServiceLinkedRoleDeletionStatusCommand,
   GetUserCommand,
-  type GetUserCommandInput,
-  type GetUserCommandOutput,
   GetUserPolicyCommand,
-  type GetUserPolicyCommandInput,
-  type GetUserPolicyCommandOutput,
   ListAccessKeysCommand,
-  type ListAccessKeysCommandInput,
-  type ListAccessKeysCommandOutput,
   ListAccountAliasesCommand,
-  type ListAccountAliasesCommandInput,
-  type ListAccountAliasesCommandOutput,
   ListAttachedGroupPoliciesCommand,
-  type ListAttachedGroupPoliciesCommandInput,
-  type ListAttachedGroupPoliciesCommandOutput,
   ListAttachedRolePoliciesCommand,
-  type ListAttachedRolePoliciesCommandInput,
-  type ListAttachedRolePoliciesCommandOutput,
   ListAttachedUserPoliciesCommand,
-  type ListAttachedUserPoliciesCommandInput,
-  type ListAttachedUserPoliciesCommandOutput,
   ListEntitiesForPolicyCommand,
-  type ListEntitiesForPolicyCommandInput,
-  type ListEntitiesForPolicyCommandOutput,
   ListGroupPoliciesCommand,
-  type ListGroupPoliciesCommandInput,
-  type ListGroupPoliciesCommandOutput,
   ListGroupsCommand,
-  type ListGroupsCommandInput,
-  type ListGroupsCommandOutput,
   ListGroupsForUserCommand,
-  type ListGroupsForUserCommandInput,
-  type ListGroupsForUserCommandOutput,
-  ListInstanceProfilesCommand,
-  type ListInstanceProfilesCommandInput,
-  type ListInstanceProfilesCommandOutput,
-  ListInstanceProfilesForRoleCommand,
-  type ListInstanceProfilesForRoleCommandInput,
-  type ListInstanceProfilesForRoleCommandOutput,
   ListInstanceProfileTagsCommand,
-  type ListInstanceProfileTagsCommandInput,
-  type ListInstanceProfileTagsCommandOutput,
-  ListMFADevicesCommand,
-  type ListMFADevicesCommandInput,
-  type ListMFADevicesCommandOutput,
+  ListInstanceProfilesCommand,
+  ListInstanceProfilesForRoleCommand,
   ListMFADeviceTagsCommand,
-  type ListMFADeviceTagsCommandInput,
-  type ListMFADeviceTagsCommandOutput,
-  ListOpenIDConnectProvidersCommand,
-  type ListOpenIDConnectProvidersCommandInput,
-  type ListOpenIDConnectProvidersCommandOutput,
+  ListMFADevicesCommand,
   ListOpenIDConnectProviderTagsCommand,
-  type ListOpenIDConnectProviderTagsCommandInput,
-  type ListOpenIDConnectProviderTagsCommandOutput,
+  ListOpenIDConnectProvidersCommand,
   ListPoliciesCommand,
-  type ListPoliciesCommandInput,
-  type ListPoliciesCommandOutput,
   ListPoliciesGrantingServiceAccessCommand,
-  type ListPoliciesGrantingServiceAccessCommandInput,
-  type ListPoliciesGrantingServiceAccessCommandOutput,
   ListPolicyTagsCommand,
-  type ListPolicyTagsCommandInput,
-  type ListPolicyTagsCommandOutput,
   ListPolicyVersionsCommand,
-  type ListPolicyVersionsCommandInput,
-  type ListPolicyVersionsCommandOutput,
   ListRolePoliciesCommand,
-  type ListRolePoliciesCommandInput,
-  type ListRolePoliciesCommandOutput,
-  ListRolesCommand,
-  type ListRolesCommandInput,
-  type ListRolesCommandOutput,
   ListRoleTagsCommand,
-  type ListRoleTagsCommandInput,
-  type ListRoleTagsCommandOutput,
-  ListSAMLProvidersCommand,
-  type ListSAMLProvidersCommandInput,
-  type ListSAMLProvidersCommandOutput,
+  ListRolesCommand,
   ListSAMLProviderTagsCommand,
-  type ListSAMLProviderTagsCommandInput,
-  type ListSAMLProviderTagsCommandOutput,
-  ListServerCertificatesCommand,
-  type ListServerCertificatesCommandInput,
-  type ListServerCertificatesCommandOutput,
-  ListServerCertificateTagsCommand,
-  type ListServerCertificateTagsCommandInput,
-  type ListServerCertificateTagsCommandOutput,
-  ListServiceSpecificCredentialsCommand,
-  type ListServiceSpecificCredentialsCommandInput,
-  type ListServiceSpecificCredentialsCommandOutput,
-  ListSigningCertificatesCommand,
-  type ListSigningCertificatesCommandInput,
-  type ListSigningCertificatesCommandOutput,
+  ListSAMLProvidersCommand,
   ListSSHPublicKeysCommand,
-  type ListSSHPublicKeysCommandInput,
-  type ListSSHPublicKeysCommandOutput,
+  ListServerCertificateTagsCommand,
+  ListServerCertificatesCommand,
+  ListServiceSpecificCredentialsCommand,
+  ListSigningCertificatesCommand,
   ListUserPoliciesCommand,
-  type ListUserPoliciesCommandInput,
-  type ListUserPoliciesCommandOutput,
-  ListUsersCommand,
-  type ListUsersCommandInput,
-  type ListUsersCommandOutput,
   ListUserTagsCommand,
-  type ListUserTagsCommandInput,
-  type ListUserTagsCommandOutput,
+  ListUsersCommand,
   ListVirtualMFADevicesCommand,
-  type ListVirtualMFADevicesCommandInput,
-  type ListVirtualMFADevicesCommandOutput,
   PutGroupPolicyCommand,
-  type PutGroupPolicyCommandInput,
-  type PutGroupPolicyCommandOutput,
   PutRolePermissionsBoundaryCommand,
-  type PutRolePermissionsBoundaryCommandInput,
-  type PutRolePermissionsBoundaryCommandOutput,
   PutRolePolicyCommand,
-  type PutRolePolicyCommandInput,
-  type PutRolePolicyCommandOutput,
   PutUserPermissionsBoundaryCommand,
-  type PutUserPermissionsBoundaryCommandInput,
-  type PutUserPermissionsBoundaryCommandOutput,
   PutUserPolicyCommand,
-  type PutUserPolicyCommandInput,
-  type PutUserPolicyCommandOutput,
   RemoveClientIDFromOpenIDConnectProviderCommand,
-  type RemoveClientIDFromOpenIDConnectProviderCommandInput,
-  type RemoveClientIDFromOpenIDConnectProviderCommandOutput,
   RemoveRoleFromInstanceProfileCommand,
-  type RemoveRoleFromInstanceProfileCommandInput,
-  type RemoveRoleFromInstanceProfileCommandOutput,
   RemoveUserFromGroupCommand,
-  type RemoveUserFromGroupCommandInput,
-  type RemoveUserFromGroupCommandOutput,
   ResetServiceSpecificCredentialCommand,
-  type ResetServiceSpecificCredentialCommandInput,
-  type ResetServiceSpecificCredentialCommandOutput,
   ResyncMFADeviceCommand,
-  type ResyncMFADeviceCommandInput,
-  type ResyncMFADeviceCommandOutput,
   SetDefaultPolicyVersionCommand,
-  type SetDefaultPolicyVersionCommandInput,
-  type SetDefaultPolicyVersionCommandOutput,
   SetSecurityTokenServicePreferencesCommand,
-  type SetSecurityTokenServicePreferencesCommandInput,
-  type SetSecurityTokenServicePreferencesCommandOutput,
   SimulateCustomPolicyCommand,
-  type SimulateCustomPolicyCommandInput,
-  type SimulateCustomPolicyCommandOutput,
   SimulatePrincipalPolicyCommand,
-  type SimulatePrincipalPolicyCommandInput,
-  type SimulatePrincipalPolicyCommandOutput,
   TagInstanceProfileCommand,
-  type TagInstanceProfileCommandInput,
-  type TagInstanceProfileCommandOutput,
   TagMFADeviceCommand,
-  type TagMFADeviceCommandInput,
-  type TagMFADeviceCommandOutput,
   TagOpenIDConnectProviderCommand,
-  type TagOpenIDConnectProviderCommandInput,
-  type TagOpenIDConnectProviderCommandOutput,
   TagPolicyCommand,
-  type TagPolicyCommandInput,
-  type TagPolicyCommandOutput,
   TagRoleCommand,
-  type TagRoleCommandInput,
-  type TagRoleCommandOutput,
   TagSAMLProviderCommand,
-  type TagSAMLProviderCommandInput,
-  type TagSAMLProviderCommandOutput,
   TagServerCertificateCommand,
-  type TagServerCertificateCommandInput,
-  type TagServerCertificateCommandOutput,
   TagUserCommand,
-  type TagUserCommandInput,
-  type TagUserCommandOutput,
   UntagInstanceProfileCommand,
-  type UntagInstanceProfileCommandInput,
-  type UntagInstanceProfileCommandOutput,
   UntagMFADeviceCommand,
-  type UntagMFADeviceCommandInput,
-  type UntagMFADeviceCommandOutput,
   UntagOpenIDConnectProviderCommand,
-  type UntagOpenIDConnectProviderCommandInput,
-  type UntagOpenIDConnectProviderCommandOutput,
   UntagPolicyCommand,
-  type UntagPolicyCommandInput,
-  type UntagPolicyCommandOutput,
   UntagRoleCommand,
-  type UntagRoleCommandInput,
-  type UntagRoleCommandOutput,
   UntagSAMLProviderCommand,
-  type UntagSAMLProviderCommandInput,
-  type UntagSAMLProviderCommandOutput,
   UntagServerCertificateCommand,
-  type UntagServerCertificateCommandInput,
-  type UntagServerCertificateCommandOutput,
   UntagUserCommand,
-  type UntagUserCommandInput,
-  type UntagUserCommandOutput,
   UpdateAccessKeyCommand,
-  type UpdateAccessKeyCommandInput,
-  type UpdateAccessKeyCommandOutput,
   UpdateAccountPasswordPolicyCommand,
-  type UpdateAccountPasswordPolicyCommandInput,
-  type UpdateAccountPasswordPolicyCommandOutput,
   UpdateAssumeRolePolicyCommand,
-  type UpdateAssumeRolePolicyCommandInput,
-  type UpdateAssumeRolePolicyCommandOutput,
   UpdateGroupCommand,
-  type UpdateGroupCommandInput,
-  type UpdateGroupCommandOutput,
   UpdateLoginProfileCommand,
-  type UpdateLoginProfileCommandInput,
-  type UpdateLoginProfileCommandOutput,
   UpdateOpenIDConnectProviderThumbprintCommand,
-  type UpdateOpenIDConnectProviderThumbprintCommandInput,
-  type UpdateOpenIDConnectProviderThumbprintCommandOutput,
   UpdateRoleCommand,
-  type UpdateRoleCommandInput,
-  type UpdateRoleCommandOutput,
   UpdateRoleDescriptionCommand,
-  type UpdateRoleDescriptionCommandInput,
-  type UpdateRoleDescriptionCommandOutput,
   UpdateSAMLProviderCommand,
-  type UpdateSAMLProviderCommandInput,
-  type UpdateSAMLProviderCommandOutput,
-  UpdateServerCertificateCommand,
-  type UpdateServerCertificateCommandInput,
-  type UpdateServerCertificateCommandOutput,
-  UpdateServiceSpecificCredentialCommand,
-  type UpdateServiceSpecificCredentialCommandInput,
-  type UpdateServiceSpecificCredentialCommandOutput,
-  UpdateSigningCertificateCommand,
-  type UpdateSigningCertificateCommandInput,
-  type UpdateSigningCertificateCommandOutput,
   UpdateSSHPublicKeyCommand,
-  type UpdateSSHPublicKeyCommandInput,
-  type UpdateSSHPublicKeyCommandOutput,
+  UpdateServerCertificateCommand,
+  UpdateServiceSpecificCredentialCommand,
+  UpdateSigningCertificateCommand,
   UpdateUserCommand,
-  type UpdateUserCommandInput,
-  type UpdateUserCommandOutput,
-  UploadServerCertificateCommand,
-  type UploadServerCertificateCommandInput,
-  type UploadServerCertificateCommandOutput,
-  UploadSigningCertificateCommand,
-  type UploadSigningCertificateCommandInput,
-  type UploadSigningCertificateCommandOutput,
   UploadSSHPublicKeyCommand,
-  type UploadSSHPublicKeyCommandInput,
-  type UploadSSHPublicKeyCommandOutput,
+  UploadServerCertificateCommand,
+  UploadSigningCertificateCommand,
+  type AddClientIDToOpenIDConnectProviderRequest,
+  type AddRoleToInstanceProfileRequest,
+  type AddUserToGroupRequest,
+  type AttachGroupPolicyRequest,
+  type AttachRolePolicyRequest,
+  type AttachUserPolicyRequest,
+  type ChangePasswordRequest,
+  type CreateAccessKeyRequest,
+  type CreateAccessKeyResponse,
+  type CreateAccountAliasRequest,
+  type CreateGroupRequest,
+  type CreateGroupResponse,
+  type CreateInstanceProfileRequest,
+  type CreateInstanceProfileResponse,
+  type CreateLoginProfileRequest,
+  type CreateLoginProfileResponse,
+  type CreateOpenIDConnectProviderRequest,
+  type CreateOpenIDConnectProviderResponse,
+  type CreatePolicyRequest,
+  type CreatePolicyResponse,
+  type CreatePolicyVersionRequest,
+  type CreatePolicyVersionResponse,
+  type CreateRoleRequest,
+  type CreateRoleResponse,
+  type CreateSAMLProviderRequest,
+  type CreateSAMLProviderResponse,
+  type CreateServiceLinkedRoleRequest,
+  type CreateServiceLinkedRoleResponse,
+  type CreateServiceSpecificCredentialRequest,
+  type CreateServiceSpecificCredentialResponse,
+  type CreateUserRequest,
+  type CreateUserResponse,
+  type CreateVirtualMFADeviceRequest,
+  type CreateVirtualMFADeviceResponse,
+  type DeactivateMFADeviceRequest,
+  type DeleteAccessKeyRequest,
+  type DeleteAccountAliasRequest,
+  type DeleteGroupRequest,
+  type DeleteGroupPolicyRequest,
+  type DeleteInstanceProfileRequest,
+  type DeleteLoginProfileRequest,
+  type DeleteOpenIDConnectProviderRequest,
+  type DeletePolicyRequest,
+  type DeletePolicyVersionRequest,
+  type DeleteRoleRequest,
+  type DeleteRolePermissionsBoundaryRequest,
+  type DeleteRolePolicyRequest,
+  type DeleteSAMLProviderRequest,
+  type DeleteSSHPublicKeyRequest,
+  type DeleteServerCertificateRequest,
+  type DeleteServiceLinkedRoleRequest,
+  type DeleteServiceLinkedRoleResponse,
+  type DeleteServiceSpecificCredentialRequest,
+  type DeleteSigningCertificateRequest,
+  type DeleteUserRequest,
+  type DeleteUserPermissionsBoundaryRequest,
+  type DeleteUserPolicyRequest,
+  type DeleteVirtualMFADeviceRequest,
+  type DetachGroupPolicyRequest,
+  type DetachRolePolicyRequest,
+  type DetachUserPolicyRequest,
+  type EnableMFADeviceRequest,
+  type GenerateCredentialReportResponse,
+  type GenerateOrganizationsAccessReportRequest,
+  type GenerateOrganizationsAccessReportResponse,
+  type GenerateServiceLastAccessedDetailsRequest,
+  type GenerateServiceLastAccessedDetailsResponse,
+  type GetAccessKeyLastUsedRequest,
+  type GetAccessKeyLastUsedResponse,
+  type GetAccountAuthorizationDetailsRequest,
+  type GetAccountAuthorizationDetailsResponse,
+  type GetAccountPasswordPolicyResponse,
+  type GetAccountSummaryResponse,
+  type GetContextKeysForCustomPolicyRequest,
+  type GetContextKeysForPolicyResponse,
+  type GetContextKeysForPrincipalPolicyRequest,
+  type GetCredentialReportResponse,
+  type GetGroupRequest,
+  type GetGroupResponse,
+  type GetGroupPolicyRequest,
+  type GetGroupPolicyResponse,
+  type GetInstanceProfileRequest,
+  type GetInstanceProfileResponse,
+  type GetLoginProfileRequest,
+  type GetLoginProfileResponse,
+  type GetMFADeviceRequest,
+  type GetMFADeviceResponse,
+  type GetOpenIDConnectProviderRequest,
+  type GetOpenIDConnectProviderResponse,
+  type GetOrganizationsAccessReportRequest,
+  type GetOrganizationsAccessReportResponse,
+  type GetPolicyRequest,
+  type GetPolicyResponse,
+  type GetPolicyVersionRequest,
+  type GetPolicyVersionResponse,
+  type GetRoleRequest,
+  type GetRoleResponse,
+  type GetRolePolicyRequest,
+  type GetRolePolicyResponse,
+  type GetSAMLProviderRequest,
+  type GetSAMLProviderResponse,
+  type GetSSHPublicKeyRequest,
+  type GetSSHPublicKeyResponse,
+  type GetServerCertificateRequest,
+  type GetServerCertificateResponse,
+  type GetServiceLastAccessedDetailsRequest,
+  type GetServiceLastAccessedDetailsResponse,
+  type GetServiceLastAccessedDetailsWithEntitiesRequest,
+  type GetServiceLastAccessedDetailsWithEntitiesResponse,
+  type GetServiceLinkedRoleDeletionStatusRequest,
+  type GetServiceLinkedRoleDeletionStatusResponse,
+  type GetUserRequest,
+  type GetUserResponse,
+  type GetUserPolicyRequest,
+  type GetUserPolicyResponse,
+  type ListAccessKeysRequest,
+  type ListAccessKeysResponse,
+  type ListAccountAliasesRequest,
+  type ListAccountAliasesResponse,
+  type ListAttachedGroupPoliciesRequest,
+  type ListAttachedGroupPoliciesResponse,
+  type ListAttachedRolePoliciesRequest,
+  type ListAttachedRolePoliciesResponse,
+  type ListAttachedUserPoliciesRequest,
+  type ListAttachedUserPoliciesResponse,
+  type ListEntitiesForPolicyRequest,
+  type ListEntitiesForPolicyResponse,
+  type ListGroupPoliciesRequest,
+  type ListGroupPoliciesResponse,
+  type ListGroupsRequest,
+  type ListGroupsResponse,
+  type ListGroupsForUserRequest,
+  type ListGroupsForUserResponse,
+  type ListInstanceProfileTagsRequest,
+  type ListInstanceProfileTagsResponse,
+  type ListInstanceProfilesRequest,
+  type ListInstanceProfilesResponse,
+  type ListInstanceProfilesForRoleRequest,
+  type ListInstanceProfilesForRoleResponse,
+  type ListMFADeviceTagsRequest,
+  type ListMFADeviceTagsResponse,
+  type ListMFADevicesRequest,
+  type ListMFADevicesResponse,
+  type ListOpenIDConnectProviderTagsRequest,
+  type ListOpenIDConnectProviderTagsResponse,
+  type ListOpenIDConnectProvidersRequest,
+  type ListOpenIDConnectProvidersResponse,
+  type ListPoliciesRequest,
+  type ListPoliciesResponse,
+  type ListPoliciesGrantingServiceAccessRequest,
+  type ListPoliciesGrantingServiceAccessResponse,
+  type ListPolicyTagsRequest,
+  type ListPolicyTagsResponse,
+  type ListPolicyVersionsRequest,
+  type ListPolicyVersionsResponse,
+  type ListRolePoliciesRequest,
+  type ListRolePoliciesResponse,
+  type ListRoleTagsRequest,
+  type ListRoleTagsResponse,
+  type ListRolesRequest,
+  type ListRolesResponse,
+  type ListSAMLProviderTagsRequest,
+  type ListSAMLProviderTagsResponse,
+  type ListSAMLProvidersRequest,
+  type ListSAMLProvidersResponse,
+  type ListSSHPublicKeysRequest,
+  type ListSSHPublicKeysResponse,
+  type ListServerCertificateTagsRequest,
+  type ListServerCertificateTagsResponse,
+  type ListServerCertificatesRequest,
+  type ListServerCertificatesResponse,
+  type ListServiceSpecificCredentialsRequest,
+  type ListServiceSpecificCredentialsResponse,
+  type ListSigningCertificatesRequest,
+  type ListSigningCertificatesResponse,
+  type ListUserPoliciesRequest,
+  type ListUserPoliciesResponse,
+  type ListUserTagsRequest,
+  type ListUserTagsResponse,
+  type ListUsersRequest,
+  type ListUsersResponse,
+  type ListVirtualMFADevicesRequest,
+  type ListVirtualMFADevicesResponse,
+  type PutGroupPolicyRequest,
+  type PutRolePermissionsBoundaryRequest,
+  type PutRolePolicyRequest,
+  type PutUserPermissionsBoundaryRequest,
+  type PutUserPolicyRequest,
+  type RemoveClientIDFromOpenIDConnectProviderRequest,
+  type RemoveRoleFromInstanceProfileRequest,
+  type RemoveUserFromGroupRequest,
+  type ResetServiceSpecificCredentialRequest,
+  type ResetServiceSpecificCredentialResponse,
+  type ResyncMFADeviceRequest,
+  type SetDefaultPolicyVersionRequest,
+  type SetSecurityTokenServicePreferencesRequest,
+  type SimulateCustomPolicyRequest,
+  type SimulatePolicyResponse,
+  type SimulatePrincipalPolicyRequest,
+  type TagInstanceProfileRequest,
+  type TagMFADeviceRequest,
+  type TagOpenIDConnectProviderRequest,
+  type TagPolicyRequest,
+  type TagRoleRequest,
+  type TagSAMLProviderRequest,
+  type TagServerCertificateRequest,
+  type TagUserRequest,
+  type UntagInstanceProfileRequest,
+  type UntagMFADeviceRequest,
+  type UntagOpenIDConnectProviderRequest,
+  type UntagPolicyRequest,
+  type UntagRoleRequest,
+  type UntagSAMLProviderRequest,
+  type UntagServerCertificateRequest,
+  type UntagUserRequest,
+  type UpdateAccessKeyRequest,
+  type UpdateAccountPasswordPolicyRequest,
+  type UpdateAssumeRolePolicyRequest,
+  type UpdateGroupRequest,
+  type UpdateLoginProfileRequest,
+  type UpdateOpenIDConnectProviderThumbprintRequest,
+  type UpdateRoleRequest,
+  type UpdateRoleResponse,
+  type UpdateRoleDescriptionRequest,
+  type UpdateRoleDescriptionResponse,
+  type UpdateSAMLProviderRequest,
+  type UpdateSAMLProviderResponse,
+  type UpdateSSHPublicKeyRequest,
+  type UpdateServerCertificateRequest,
+  type UpdateServiceSpecificCredentialRequest,
+  type UpdateSigningCertificateRequest,
+  type UpdateUserRequest,
+  type UploadSSHPublicKeyRequest,
+  type UploadSSHPublicKeyResponse,
+  type UploadServerCertificateRequest,
+  type UploadServerCertificateResponse,
+  type UploadSigningCertificateRequest,
+  type UploadSigningCertificateResponse,
 } from "@aws-sdk/client-iam";
-import { type HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
-import { Context, Effect, Layer, Record, Data } from "effect";
+import type { HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
+import { Context, Data, Effect, Layer, Record } from "effect";
 import {
-  IAMServiceError,
-  ConcurrentModificationError,
-  CredentialReportExpiredError,
-  CredentialReportNotPresentError,
-  CredentialReportNotReadyError,
-  DeleteConflictError,
-  DuplicateCertificateError,
-  DuplicateSSHPublicKeyError,
-  EntityAlreadyExistsError,
-  EntityTemporarilyUnmodifiableError,
-  InvalidAuthenticationCodeError,
-  InvalidCertificateError,
-  InvalidInputError,
-  InvalidPublicKeyError,
-  InvalidUserTypeError,
-  KeyPairMismatchError,
-  LimitExceededError,
-  MalformedCertificateError,
-  MalformedPolicyDocumentError,
-  NoSuchEntityError,
-  PasswordPolicyViolationError,
-  PolicyEvaluationError,
-  PolicyNotAttachableError,
-  ReportGenerationLimitExceededError,
-  ServiceFailureError,
-  ServiceNotSupportedError,
-  UnmodifiableEntityError,
-  UnrecognizedPublicKeyEncodingError,
+  type InvalidInputException,
+  type LimitExceededException,
+  type NoSuchEntityException,
+  type ServiceFailureException,
+  type EntityAlreadyExistsException,
+  type UnmodifiableEntityException,
+  type PolicyNotAttachableException,
+  type EntityTemporarilyUnmodifiableException,
+  type InvalidUserTypeException,
+  type PasswordPolicyViolationException,
+  type ConcurrentModificationException,
+  type OpenIdIdpCommunicationErrorException,
+  type MalformedPolicyDocumentException,
+  type ServiceNotSupportedException,
+  type DeleteConflictException,
+  type InvalidAuthenticationCodeException,
+  type ReportGenerationLimitExceededException,
+  type CredentialReportExpiredException,
+  type CredentialReportNotPresentException,
+  type CredentialReportNotReadyException,
+  type UnrecognizedPublicKeyEncodingException,
+  type PolicyEvaluationException,
+  type DuplicateSSHPublicKeyException,
+  type InvalidPublicKeyException,
+  type KeyPairMismatchException,
+  type MalformedCertificateException,
+  type DuplicateCertificateException,
+  type InvalidCertificateException,
+  type TaggedException,
   SdkError,
-  TaggedException,
 } from "./Errors";
 import { IAMClientInstance, IAMClientInstanceLayer } from "./IAMClientInstance";
 import { DefaultIAMClientConfigLayer } from "./IAMClientInstanceConfig";
@@ -555,11 +475,11 @@ const commands = {
   DeleteRolePermissionsBoundaryCommand,
   DeleteRolePolicyCommand,
   DeleteSAMLProviderCommand,
+  DeleteSSHPublicKeyCommand,
   DeleteServerCertificateCommand,
   DeleteServiceLinkedRoleCommand,
   DeleteServiceSpecificCredentialCommand,
   DeleteSigningCertificateCommand,
-  DeleteSSHPublicKeyCommand,
   DeleteUserCommand,
   DeleteUserPermissionsBoundaryCommand,
   DeleteUserPolicyCommand,
@@ -590,11 +510,11 @@ const commands = {
   GetRoleCommand,
   GetRolePolicyCommand,
   GetSAMLProviderCommand,
+  GetSSHPublicKeyCommand,
   GetServerCertificateCommand,
   GetServiceLastAccessedDetailsCommand,
   GetServiceLastAccessedDetailsWithEntitiesCommand,
   GetServiceLinkedRoleDeletionStatusCommand,
-  GetSSHPublicKeyCommand,
   GetUserCommand,
   GetUserPolicyCommand,
   ListAccessKeysCommand,
@@ -606,30 +526,30 @@ const commands = {
   ListGroupPoliciesCommand,
   ListGroupsCommand,
   ListGroupsForUserCommand,
+  ListInstanceProfileTagsCommand,
   ListInstanceProfilesCommand,
   ListInstanceProfilesForRoleCommand,
-  ListInstanceProfileTagsCommand,
-  ListMFADevicesCommand,
   ListMFADeviceTagsCommand,
-  ListOpenIDConnectProvidersCommand,
+  ListMFADevicesCommand,
   ListOpenIDConnectProviderTagsCommand,
+  ListOpenIDConnectProvidersCommand,
   ListPoliciesCommand,
   ListPoliciesGrantingServiceAccessCommand,
   ListPolicyTagsCommand,
   ListPolicyVersionsCommand,
   ListRolePoliciesCommand,
-  ListRolesCommand,
   ListRoleTagsCommand,
-  ListSAMLProvidersCommand,
+  ListRolesCommand,
   ListSAMLProviderTagsCommand,
-  ListServerCertificatesCommand,
+  ListSAMLProvidersCommand,
+  ListSSHPublicKeysCommand,
   ListServerCertificateTagsCommand,
+  ListServerCertificatesCommand,
   ListServiceSpecificCredentialsCommand,
   ListSigningCertificatesCommand,
-  ListSSHPublicKeysCommand,
   ListUserPoliciesCommand,
-  ListUsersCommand,
   ListUserTagsCommand,
+  ListUsersCommand,
   ListVirtualMFADevicesCommand,
   PutGroupPolicyCommand,
   PutRolePermissionsBoundaryCommand,
@@ -670,2309 +590,2168 @@ const commands = {
   UpdateRoleCommand,
   UpdateRoleDescriptionCommand,
   UpdateSAMLProviderCommand,
+  UpdateSSHPublicKeyCommand,
   UpdateServerCertificateCommand,
   UpdateServiceSpecificCredentialCommand,
   UpdateSigningCertificateCommand,
-  UpdateSSHPublicKeyCommand,
   UpdateUserCommand,
+  UploadSSHPublicKeyCommand,
   UploadServerCertificateCommand,
   UploadSigningCertificateCommand,
-  UploadSSHPublicKeyCommand,
 };
 
 /**
  * @since 1.0.0
  * @category models
  */
-export type IAMService = {
+export interface IAMService {
   readonly _: unique symbol;
 
   /**
    * @see {@link AddClientIDToOpenIDConnectProviderCommand}
    */
-  readonly addClientIDToOpenIDConnectProvider: (
-    args: AddClientIDToOpenIDConnectProviderCommandInput,
+  addClientIDToOpenIDConnectProvider(
+    args: AddClientIDToOpenIDConnectProviderRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    AddClientIDToOpenIDConnectProviderCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | InvalidInputError
-    | LimitExceededError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | InvalidInputException
+    | LimitExceededException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link AddRoleToInstanceProfileCommand}
    */
-  readonly addRoleToInstanceProfile: (
-    args: AddRoleToInstanceProfileCommandInput,
+  addRoleToInstanceProfile(
+    args: AddRoleToInstanceProfileRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    AddRoleToInstanceProfileCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | EntityAlreadyExistsError
-    | LimitExceededError
-    | NoSuchEntityError
-    | ServiceFailureError
-    | UnmodifiableEntityError
+    | EntityAlreadyExistsException
+    | LimitExceededException
+    | NoSuchEntityException
+    | ServiceFailureException
+    | UnmodifiableEntityException
   >;
 
   /**
    * @see {@link AddUserToGroupCommand}
    */
-  readonly addUserToGroup: (
-    args: AddUserToGroupCommandInput,
+  addUserToGroup(
+    args: AddUserToGroupRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    AddUserToGroupCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | LimitExceededError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | LimitExceededException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link AttachGroupPolicyCommand}
    */
-  readonly attachGroupPolicy: (
-    args: AttachGroupPolicyCommandInput,
+  attachGroupPolicy(
+    args: AttachGroupPolicyRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    AttachGroupPolicyCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | InvalidInputError
-    | LimitExceededError
-    | NoSuchEntityError
-    | PolicyNotAttachableError
-    | ServiceFailureError
+    | InvalidInputException
+    | LimitExceededException
+    | NoSuchEntityException
+    | PolicyNotAttachableException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link AttachRolePolicyCommand}
    */
-  readonly attachRolePolicy: (
-    args: AttachRolePolicyCommandInput,
+  attachRolePolicy(
+    args: AttachRolePolicyRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    AttachRolePolicyCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | InvalidInputError
-    | LimitExceededError
-    | NoSuchEntityError
-    | PolicyNotAttachableError
-    | ServiceFailureError
-    | UnmodifiableEntityError
+    | InvalidInputException
+    | LimitExceededException
+    | NoSuchEntityException
+    | PolicyNotAttachableException
+    | ServiceFailureException
+    | UnmodifiableEntityException
   >;
 
   /**
    * @see {@link AttachUserPolicyCommand}
    */
-  readonly attachUserPolicy: (
-    args: AttachUserPolicyCommandInput,
+  attachUserPolicy(
+    args: AttachUserPolicyRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    AttachUserPolicyCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | InvalidInputError
-    | LimitExceededError
-    | NoSuchEntityError
-    | PolicyNotAttachableError
-    | ServiceFailureError
+    | InvalidInputException
+    | LimitExceededException
+    | NoSuchEntityException
+    | PolicyNotAttachableException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link ChangePasswordCommand}
    */
-  readonly changePassword: (
-    args: ChangePasswordCommandInput,
+  changePassword(
+    args: ChangePasswordRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ChangePasswordCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | EntityTemporarilyUnmodifiableError
-    | InvalidUserTypeError
-    | LimitExceededError
-    | NoSuchEntityError
-    | PasswordPolicyViolationError
-    | ServiceFailureError
+    | EntityTemporarilyUnmodifiableException
+    | InvalidUserTypeException
+    | LimitExceededException
+    | NoSuchEntityException
+    | PasswordPolicyViolationException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link CreateAccessKeyCommand}
    */
-  readonly createAccessKey: (
-    args: CreateAccessKeyCommandInput,
+  createAccessKey(
+    args: CreateAccessKeyRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateAccessKeyCommandOutput,
+  ): Effect.Effect<
+    CreateAccessKeyResponse,
     | SdkError
-    | IAMServiceError
-    | LimitExceededError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | LimitExceededException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link CreateAccountAliasCommand}
    */
-  readonly createAccountAlias: (
-    args: CreateAccountAliasCommandInput,
+  createAccountAlias(
+    args: CreateAccountAliasRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateAccountAliasCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | ConcurrentModificationError
-    | EntityAlreadyExistsError
-    | LimitExceededError
-    | ServiceFailureError
+    | ConcurrentModificationException
+    | EntityAlreadyExistsException
+    | LimitExceededException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link CreateGroupCommand}
    */
-  readonly createGroup: (
-    args: CreateGroupCommandInput,
+  createGroup(
+    args: CreateGroupRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateGroupCommandOutput,
+  ): Effect.Effect<
+    CreateGroupResponse,
     | SdkError
-    | IAMServiceError
-    | EntityAlreadyExistsError
-    | LimitExceededError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | EntityAlreadyExistsException
+    | LimitExceededException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link CreateInstanceProfileCommand}
    */
-  readonly createInstanceProfile: (
-    args: CreateInstanceProfileCommandInput,
+  createInstanceProfile(
+    args: CreateInstanceProfileRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateInstanceProfileCommandOutput,
+  ): Effect.Effect<
+    CreateInstanceProfileResponse,
     | SdkError
-    | IAMServiceError
-    | ConcurrentModificationError
-    | EntityAlreadyExistsError
-    | InvalidInputError
-    | LimitExceededError
-    | ServiceFailureError
+    | ConcurrentModificationException
+    | EntityAlreadyExistsException
+    | InvalidInputException
+    | LimitExceededException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link CreateLoginProfileCommand}
    */
-  readonly createLoginProfile: (
-    args: CreateLoginProfileCommandInput,
+  createLoginProfile(
+    args: CreateLoginProfileRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateLoginProfileCommandOutput,
+  ): Effect.Effect<
+    CreateLoginProfileResponse,
     | SdkError
-    | IAMServiceError
-    | EntityAlreadyExistsError
-    | LimitExceededError
-    | NoSuchEntityError
-    | PasswordPolicyViolationError
-    | ServiceFailureError
+    | EntityAlreadyExistsException
+    | LimitExceededException
+    | NoSuchEntityException
+    | PasswordPolicyViolationException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link CreateOpenIDConnectProviderCommand}
    */
-  readonly createOpenIDConnectProvider: (
-    args: CreateOpenIDConnectProviderCommandInput,
+  createOpenIDConnectProvider(
+    args: CreateOpenIDConnectProviderRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateOpenIDConnectProviderCommandOutput,
+  ): Effect.Effect<
+    CreateOpenIDConnectProviderResponse,
     | SdkError
-    | IAMServiceError
-    | ConcurrentModificationError
-    | EntityAlreadyExistsError
-    | InvalidInputError
-    | LimitExceededError
-    | ServiceFailureError
+    | ConcurrentModificationException
+    | EntityAlreadyExistsException
+    | InvalidInputException
+    | LimitExceededException
+    | OpenIdIdpCommunicationErrorException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link CreatePolicyCommand}
    */
-  readonly createPolicy: (
-    args: CreatePolicyCommandInput,
+  createPolicy(
+    args: CreatePolicyRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreatePolicyCommandOutput,
+  ): Effect.Effect<
+    CreatePolicyResponse,
     | SdkError
-    | IAMServiceError
-    | ConcurrentModificationError
-    | EntityAlreadyExistsError
-    | InvalidInputError
-    | LimitExceededError
-    | MalformedPolicyDocumentError
-    | ServiceFailureError
+    | ConcurrentModificationException
+    | EntityAlreadyExistsException
+    | InvalidInputException
+    | LimitExceededException
+    | MalformedPolicyDocumentException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link CreatePolicyVersionCommand}
    */
-  readonly createPolicyVersion: (
-    args: CreatePolicyVersionCommandInput,
+  createPolicyVersion(
+    args: CreatePolicyVersionRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreatePolicyVersionCommandOutput,
+  ): Effect.Effect<
+    CreatePolicyVersionResponse,
     | SdkError
-    | IAMServiceError
-    | InvalidInputError
-    | LimitExceededError
-    | MalformedPolicyDocumentError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | InvalidInputException
+    | LimitExceededException
+    | MalformedPolicyDocumentException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link CreateRoleCommand}
    */
-  readonly createRole: (
-    args: CreateRoleCommandInput,
+  createRole(
+    args: CreateRoleRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateRoleCommandOutput,
+  ): Effect.Effect<
+    CreateRoleResponse,
     | SdkError
-    | IAMServiceError
-    | ConcurrentModificationError
-    | EntityAlreadyExistsError
-    | InvalidInputError
-    | LimitExceededError
-    | MalformedPolicyDocumentError
-    | ServiceFailureError
+    | ConcurrentModificationException
+    | EntityAlreadyExistsException
+    | InvalidInputException
+    | LimitExceededException
+    | MalformedPolicyDocumentException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link CreateSAMLProviderCommand}
    */
-  readonly createSAMLProvider: (
-    args: CreateSAMLProviderCommandInput,
+  createSAMLProvider(
+    args: CreateSAMLProviderRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateSAMLProviderCommandOutput,
+  ): Effect.Effect<
+    CreateSAMLProviderResponse,
     | SdkError
-    | IAMServiceError
-    | ConcurrentModificationError
-    | EntityAlreadyExistsError
-    | InvalidInputError
-    | LimitExceededError
-    | ServiceFailureError
+    | ConcurrentModificationException
+    | EntityAlreadyExistsException
+    | InvalidInputException
+    | LimitExceededException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link CreateServiceLinkedRoleCommand}
    */
-  readonly createServiceLinkedRole: (
-    args: CreateServiceLinkedRoleCommandInput,
+  createServiceLinkedRole(
+    args: CreateServiceLinkedRoleRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateServiceLinkedRoleCommandOutput,
+  ): Effect.Effect<
+    CreateServiceLinkedRoleResponse,
     | SdkError
-    | IAMServiceError
-    | InvalidInputError
-    | LimitExceededError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | InvalidInputException
+    | LimitExceededException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link CreateServiceSpecificCredentialCommand}
    */
-  readonly createServiceSpecificCredential: (
-    args: CreateServiceSpecificCredentialCommandInput,
+  createServiceSpecificCredential(
+    args: CreateServiceSpecificCredentialRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateServiceSpecificCredentialCommandOutput,
+  ): Effect.Effect<
+    CreateServiceSpecificCredentialResponse,
     | SdkError
-    | IAMServiceError
-    | LimitExceededError
-    | NoSuchEntityError
-    | ServiceNotSupportedError
+    | LimitExceededException
+    | NoSuchEntityException
+    | ServiceNotSupportedException
   >;
 
   /**
    * @see {@link CreateUserCommand}
    */
-  readonly createUser: (
-    args: CreateUserCommandInput,
+  createUser(
+    args: CreateUserRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateUserCommandOutput,
+  ): Effect.Effect<
+    CreateUserResponse,
     | SdkError
-    | IAMServiceError
-    | ConcurrentModificationError
-    | EntityAlreadyExistsError
-    | InvalidInputError
-    | LimitExceededError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | ConcurrentModificationException
+    | EntityAlreadyExistsException
+    | InvalidInputException
+    | LimitExceededException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link CreateVirtualMFADeviceCommand}
    */
-  readonly createVirtualMFADevice: (
-    args: CreateVirtualMFADeviceCommandInput,
+  createVirtualMFADevice(
+    args: CreateVirtualMFADeviceRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateVirtualMFADeviceCommandOutput,
+  ): Effect.Effect<
+    CreateVirtualMFADeviceResponse,
     | SdkError
-    | IAMServiceError
-    | ConcurrentModificationError
-    | EntityAlreadyExistsError
-    | InvalidInputError
-    | LimitExceededError
-    | ServiceFailureError
+    | ConcurrentModificationException
+    | EntityAlreadyExistsException
+    | InvalidInputException
+    | LimitExceededException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link DeactivateMFADeviceCommand}
    */
-  readonly deactivateMFADevice: (
-    args: DeactivateMFADeviceCommandInput,
+  deactivateMFADevice(
+    args: DeactivateMFADeviceRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeactivateMFADeviceCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | ConcurrentModificationError
-    | EntityTemporarilyUnmodifiableError
-    | LimitExceededError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | ConcurrentModificationException
+    | EntityTemporarilyUnmodifiableException
+    | LimitExceededException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link DeleteAccessKeyCommand}
    */
-  readonly deleteAccessKey: (
-    args: DeleteAccessKeyCommandInput,
+  deleteAccessKey(
+    args: DeleteAccessKeyRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteAccessKeyCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | LimitExceededError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | LimitExceededException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link DeleteAccountAliasCommand}
    */
-  readonly deleteAccountAlias: (
-    args: DeleteAccountAliasCommandInput,
+  deleteAccountAlias(
+    args: DeleteAccountAliasRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteAccountAliasCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | ConcurrentModificationError
-    | LimitExceededError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | ConcurrentModificationException
+    | LimitExceededException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link DeleteAccountPasswordPolicyCommand}
    */
-  readonly deleteAccountPasswordPolicy: (
-    args: DeleteAccountPasswordPolicyCommandInput,
+  deleteAccountPasswordPolicy(
+    args: {},
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteAccountPasswordPolicyCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | LimitExceededError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | LimitExceededException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link DeleteGroupCommand}
    */
-  readonly deleteGroup: (
-    args: DeleteGroupCommandInput,
+  deleteGroup(
+    args: DeleteGroupRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteGroupCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | DeleteConflictError
-    | LimitExceededError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | DeleteConflictException
+    | LimitExceededException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link DeleteGroupPolicyCommand}
    */
-  readonly deleteGroupPolicy: (
-    args: DeleteGroupPolicyCommandInput,
+  deleteGroupPolicy(
+    args: DeleteGroupPolicyRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteGroupPolicyCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | LimitExceededError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | LimitExceededException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link DeleteInstanceProfileCommand}
    */
-  readonly deleteInstanceProfile: (
-    args: DeleteInstanceProfileCommandInput,
+  deleteInstanceProfile(
+    args: DeleteInstanceProfileRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteInstanceProfileCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | DeleteConflictError
-    | LimitExceededError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | DeleteConflictException
+    | LimitExceededException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link DeleteLoginProfileCommand}
    */
-  readonly deleteLoginProfile: (
-    args: DeleteLoginProfileCommandInput,
+  deleteLoginProfile(
+    args: DeleteLoginProfileRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteLoginProfileCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | EntityTemporarilyUnmodifiableError
-    | LimitExceededError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | EntityTemporarilyUnmodifiableException
+    | LimitExceededException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link DeleteOpenIDConnectProviderCommand}
    */
-  readonly deleteOpenIDConnectProvider: (
-    args: DeleteOpenIDConnectProviderCommandInput,
+  deleteOpenIDConnectProvider(
+    args: DeleteOpenIDConnectProviderRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteOpenIDConnectProviderCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | InvalidInputError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | InvalidInputException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link DeletePolicyCommand}
    */
-  readonly deletePolicy: (
-    args: DeletePolicyCommandInput,
+  deletePolicy(
+    args: DeletePolicyRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeletePolicyCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | DeleteConflictError
-    | InvalidInputError
-    | LimitExceededError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | DeleteConflictException
+    | InvalidInputException
+    | LimitExceededException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link DeletePolicyVersionCommand}
    */
-  readonly deletePolicyVersion: (
-    args: DeletePolicyVersionCommandInput,
+  deletePolicyVersion(
+    args: DeletePolicyVersionRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeletePolicyVersionCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | DeleteConflictError
-    | InvalidInputError
-    | LimitExceededError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | DeleteConflictException
+    | InvalidInputException
+    | LimitExceededException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link DeleteRoleCommand}
    */
-  readonly deleteRole: (
-    args: DeleteRoleCommandInput,
+  deleteRole(
+    args: DeleteRoleRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteRoleCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | ConcurrentModificationError
-    | DeleteConflictError
-    | LimitExceededError
-    | NoSuchEntityError
-    | ServiceFailureError
-    | UnmodifiableEntityError
+    | ConcurrentModificationException
+    | DeleteConflictException
+    | LimitExceededException
+    | NoSuchEntityException
+    | ServiceFailureException
+    | UnmodifiableEntityException
   >;
 
   /**
    * @see {@link DeleteRolePermissionsBoundaryCommand}
    */
-  readonly deleteRolePermissionsBoundary: (
-    args: DeleteRolePermissionsBoundaryCommandInput,
+  deleteRolePermissionsBoundary(
+    args: DeleteRolePermissionsBoundaryRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteRolePermissionsBoundaryCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | NoSuchEntityError
-    | ServiceFailureError
-    | UnmodifiableEntityError
+    | NoSuchEntityException
+    | ServiceFailureException
+    | UnmodifiableEntityException
   >;
 
   /**
    * @see {@link DeleteRolePolicyCommand}
    */
-  readonly deleteRolePolicy: (
-    args: DeleteRolePolicyCommandInput,
+  deleteRolePolicy(
+    args: DeleteRolePolicyRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteRolePolicyCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | LimitExceededError
-    | NoSuchEntityError
-    | ServiceFailureError
-    | UnmodifiableEntityError
+    | LimitExceededException
+    | NoSuchEntityException
+    | ServiceFailureException
+    | UnmodifiableEntityException
   >;
 
   /**
    * @see {@link DeleteSAMLProviderCommand}
    */
-  readonly deleteSAMLProvider: (
-    args: DeleteSAMLProviderCommandInput,
+  deleteSAMLProvider(
+    args: DeleteSAMLProviderRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteSAMLProviderCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | InvalidInputError
-    | LimitExceededError
-    | NoSuchEntityError
-    | ServiceFailureError
-  >;
-
-  /**
-   * @see {@link DeleteServerCertificateCommand}
-   */
-  readonly deleteServerCertificate: (
-    args: DeleteServerCertificateCommandInput,
-    options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteServerCertificateCommandOutput,
-    | SdkError
-    | IAMServiceError
-    | DeleteConflictError
-    | LimitExceededError
-    | NoSuchEntityError
-    | ServiceFailureError
-  >;
-
-  /**
-   * @see {@link DeleteServiceLinkedRoleCommand}
-   */
-  readonly deleteServiceLinkedRole: (
-    args: DeleteServiceLinkedRoleCommandInput,
-    options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteServiceLinkedRoleCommandOutput,
-    | SdkError
-    | IAMServiceError
-    | LimitExceededError
-    | NoSuchEntityError
-    | ServiceFailureError
-  >;
-
-  /**
-   * @see {@link DeleteServiceSpecificCredentialCommand}
-   */
-  readonly deleteServiceSpecificCredential: (
-    args: DeleteServiceSpecificCredentialCommandInput,
-    options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteServiceSpecificCredentialCommandOutput,
-    SdkError | IAMServiceError | NoSuchEntityError
-  >;
-
-  /**
-   * @see {@link DeleteSigningCertificateCommand}
-   */
-  readonly deleteSigningCertificate: (
-    args: DeleteSigningCertificateCommandInput,
-    options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteSigningCertificateCommandOutput,
-    | SdkError
-    | IAMServiceError
-    | ConcurrentModificationError
-    | LimitExceededError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | InvalidInputException
+    | LimitExceededException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link DeleteSSHPublicKeyCommand}
    */
-  readonly deleteSSHPublicKey: (
-    args: DeleteSSHPublicKeyCommandInput,
+  deleteSSHPublicKey(
+    args: DeleteSSHPublicKeyRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteSSHPublicKeyCommandOutput,
-    SdkError | IAMServiceError | NoSuchEntityError
+  ): Effect.Effect<void, SdkError | NoSuchEntityException>;
+
+  /**
+   * @see {@link DeleteServerCertificateCommand}
+   */
+  deleteServerCertificate(
+    args: DeleteServerCertificateRequest,
+    options?: __HttpHandlerOptions,
+  ): Effect.Effect<
+    void,
+    | SdkError
+    | DeleteConflictException
+    | LimitExceededException
+    | NoSuchEntityException
+    | ServiceFailureException
+  >;
+
+  /**
+   * @see {@link DeleteServiceLinkedRoleCommand}
+   */
+  deleteServiceLinkedRole(
+    args: DeleteServiceLinkedRoleRequest,
+    options?: __HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteServiceLinkedRoleResponse,
+    | SdkError
+    | LimitExceededException
+    | NoSuchEntityException
+    | ServiceFailureException
+  >;
+
+  /**
+   * @see {@link DeleteServiceSpecificCredentialCommand}
+   */
+  deleteServiceSpecificCredential(
+    args: DeleteServiceSpecificCredentialRequest,
+    options?: __HttpHandlerOptions,
+  ): Effect.Effect<void, SdkError | NoSuchEntityException>;
+
+  /**
+   * @see {@link DeleteSigningCertificateCommand}
+   */
+  deleteSigningCertificate(
+    args: DeleteSigningCertificateRequest,
+    options?: __HttpHandlerOptions,
+  ): Effect.Effect<
+    void,
+    | SdkError
+    | ConcurrentModificationException
+    | LimitExceededException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link DeleteUserCommand}
    */
-  readonly deleteUser: (
-    args: DeleteUserCommandInput,
+  deleteUser(
+    args: DeleteUserRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteUserCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | ConcurrentModificationError
-    | DeleteConflictError
-    | LimitExceededError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | ConcurrentModificationException
+    | DeleteConflictException
+    | LimitExceededException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link DeleteUserPermissionsBoundaryCommand}
    */
-  readonly deleteUserPermissionsBoundary: (
-    args: DeleteUserPermissionsBoundaryCommandInput,
+  deleteUserPermissionsBoundary(
+    args: DeleteUserPermissionsBoundaryRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteUserPermissionsBoundaryCommandOutput,
-    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError
+  ): Effect.Effect<
+    void,
+    SdkError | NoSuchEntityException | ServiceFailureException
   >;
 
   /**
    * @see {@link DeleteUserPolicyCommand}
    */
-  readonly deleteUserPolicy: (
-    args: DeleteUserPolicyCommandInput,
+  deleteUserPolicy(
+    args: DeleteUserPolicyRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteUserPolicyCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | LimitExceededError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | LimitExceededException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link DeleteVirtualMFADeviceCommand}
    */
-  readonly deleteVirtualMFADevice: (
-    args: DeleteVirtualMFADeviceCommandInput,
+  deleteVirtualMFADevice(
+    args: DeleteVirtualMFADeviceRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteVirtualMFADeviceCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | ConcurrentModificationError
-    | DeleteConflictError
-    | LimitExceededError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | ConcurrentModificationException
+    | DeleteConflictException
+    | LimitExceededException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link DetachGroupPolicyCommand}
    */
-  readonly detachGroupPolicy: (
-    args: DetachGroupPolicyCommandInput,
+  detachGroupPolicy(
+    args: DetachGroupPolicyRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DetachGroupPolicyCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | InvalidInputError
-    | LimitExceededError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | InvalidInputException
+    | LimitExceededException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link DetachRolePolicyCommand}
    */
-  readonly detachRolePolicy: (
-    args: DetachRolePolicyCommandInput,
+  detachRolePolicy(
+    args: DetachRolePolicyRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DetachRolePolicyCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | InvalidInputError
-    | LimitExceededError
-    | NoSuchEntityError
-    | ServiceFailureError
-    | UnmodifiableEntityError
+    | InvalidInputException
+    | LimitExceededException
+    | NoSuchEntityException
+    | ServiceFailureException
+    | UnmodifiableEntityException
   >;
 
   /**
    * @see {@link DetachUserPolicyCommand}
    */
-  readonly detachUserPolicy: (
-    args: DetachUserPolicyCommandInput,
+  detachUserPolicy(
+    args: DetachUserPolicyRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DetachUserPolicyCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | InvalidInputError
-    | LimitExceededError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | InvalidInputException
+    | LimitExceededException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link EnableMFADeviceCommand}
    */
-  readonly enableMFADevice: (
-    args: EnableMFADeviceCommandInput,
+  enableMFADevice(
+    args: EnableMFADeviceRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    EnableMFADeviceCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | ConcurrentModificationError
-    | EntityAlreadyExistsError
-    | EntityTemporarilyUnmodifiableError
-    | InvalidAuthenticationCodeError
-    | LimitExceededError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | ConcurrentModificationException
+    | EntityAlreadyExistsException
+    | EntityTemporarilyUnmodifiableException
+    | InvalidAuthenticationCodeException
+    | LimitExceededException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link GenerateCredentialReportCommand}
    */
-  readonly generateCredentialReport: (
-    args: GenerateCredentialReportCommandInput,
+  generateCredentialReport(
+    args: {},
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GenerateCredentialReportCommandOutput,
-    SdkError | IAMServiceError | LimitExceededError | ServiceFailureError
+  ): Effect.Effect<
+    GenerateCredentialReportResponse,
+    SdkError | LimitExceededException | ServiceFailureException
   >;
 
   /**
    * @see {@link GenerateOrganizationsAccessReportCommand}
    */
-  readonly generateOrganizationsAccessReport: (
-    args: GenerateOrganizationsAccessReportCommandInput,
+  generateOrganizationsAccessReport(
+    args: GenerateOrganizationsAccessReportRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GenerateOrganizationsAccessReportCommandOutput,
-    SdkError | IAMServiceError | ReportGenerationLimitExceededError
+  ): Effect.Effect<
+    GenerateOrganizationsAccessReportResponse,
+    SdkError | ReportGenerationLimitExceededException
   >;
 
   /**
    * @see {@link GenerateServiceLastAccessedDetailsCommand}
    */
-  readonly generateServiceLastAccessedDetails: (
-    args: GenerateServiceLastAccessedDetailsCommandInput,
+  generateServiceLastAccessedDetails(
+    args: GenerateServiceLastAccessedDetailsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GenerateServiceLastAccessedDetailsCommandOutput,
-    SdkError | IAMServiceError | InvalidInputError | NoSuchEntityError
+  ): Effect.Effect<
+    GenerateServiceLastAccessedDetailsResponse,
+    SdkError | InvalidInputException | NoSuchEntityException
   >;
 
   /**
    * @see {@link GetAccessKeyLastUsedCommand}
    */
-  readonly getAccessKeyLastUsed: (
-    args: GetAccessKeyLastUsedCommandInput,
+  getAccessKeyLastUsed(
+    args: GetAccessKeyLastUsedRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetAccessKeyLastUsedCommandOutput,
-    SdkError | IAMServiceError
-  >;
+  ): Effect.Effect<GetAccessKeyLastUsedResponse, SdkError>;
 
   /**
    * @see {@link GetAccountAuthorizationDetailsCommand}
    */
-  readonly getAccountAuthorizationDetails: (
-    args: GetAccountAuthorizationDetailsCommandInput,
+  getAccountAuthorizationDetails(
+    args: GetAccountAuthorizationDetailsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetAccountAuthorizationDetailsCommandOutput,
-    SdkError | IAMServiceError | ServiceFailureError
+  ): Effect.Effect<
+    GetAccountAuthorizationDetailsResponse,
+    SdkError | ServiceFailureException
   >;
 
   /**
    * @see {@link GetAccountPasswordPolicyCommand}
    */
-  readonly getAccountPasswordPolicy: (
-    args: GetAccountPasswordPolicyCommandInput,
+  getAccountPasswordPolicy(
+    args: {},
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetAccountPasswordPolicyCommandOutput,
-    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError
+  ): Effect.Effect<
+    GetAccountPasswordPolicyResponse,
+    SdkError | NoSuchEntityException | ServiceFailureException
   >;
 
   /**
    * @see {@link GetAccountSummaryCommand}
    */
-  readonly getAccountSummary: (
-    args: GetAccountSummaryCommandInput,
+  getAccountSummary(
+    args: {},
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetAccountSummaryCommandOutput,
-    SdkError | IAMServiceError | ServiceFailureError
+  ): Effect.Effect<
+    GetAccountSummaryResponse,
+    SdkError | ServiceFailureException
   >;
 
   /**
    * @see {@link GetContextKeysForCustomPolicyCommand}
    */
-  readonly getContextKeysForCustomPolicy: (
-    args: GetContextKeysForCustomPolicyCommandInput,
+  getContextKeysForCustomPolicy(
+    args: GetContextKeysForCustomPolicyRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetContextKeysForCustomPolicyCommandOutput,
-    SdkError | IAMServiceError | InvalidInputError
+  ): Effect.Effect<
+    GetContextKeysForPolicyResponse,
+    SdkError | InvalidInputException
   >;
 
   /**
    * @see {@link GetContextKeysForPrincipalPolicyCommand}
    */
-  readonly getContextKeysForPrincipalPolicy: (
-    args: GetContextKeysForPrincipalPolicyCommandInput,
+  getContextKeysForPrincipalPolicy(
+    args: GetContextKeysForPrincipalPolicyRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetContextKeysForPrincipalPolicyCommandOutput,
-    SdkError | IAMServiceError | InvalidInputError | NoSuchEntityError
+  ): Effect.Effect<
+    GetContextKeysForPolicyResponse,
+    SdkError | InvalidInputException | NoSuchEntityException
   >;
 
   /**
    * @see {@link GetCredentialReportCommand}
    */
-  readonly getCredentialReport: (
-    args: GetCredentialReportCommandInput,
+  getCredentialReport(
+    args: {},
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetCredentialReportCommandOutput,
+  ): Effect.Effect<
+    GetCredentialReportResponse,
     | SdkError
-    | IAMServiceError
-    | CredentialReportExpiredError
-    | CredentialReportNotPresentError
-    | CredentialReportNotReadyError
-    | ServiceFailureError
+    | CredentialReportExpiredException
+    | CredentialReportNotPresentException
+    | CredentialReportNotReadyException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link GetGroupCommand}
    */
-  readonly getGroup: (
-    args: GetGroupCommandInput,
+  getGroup(
+    args: GetGroupRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetGroupCommandOutput,
-    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError
+  ): Effect.Effect<
+    GetGroupResponse,
+    SdkError | NoSuchEntityException | ServiceFailureException
   >;
 
   /**
    * @see {@link GetGroupPolicyCommand}
    */
-  readonly getGroupPolicy: (
-    args: GetGroupPolicyCommandInput,
+  getGroupPolicy(
+    args: GetGroupPolicyRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetGroupPolicyCommandOutput,
-    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError
+  ): Effect.Effect<
+    GetGroupPolicyResponse,
+    SdkError | NoSuchEntityException | ServiceFailureException
   >;
 
   /**
    * @see {@link GetInstanceProfileCommand}
    */
-  readonly getInstanceProfile: (
-    args: GetInstanceProfileCommandInput,
+  getInstanceProfile(
+    args: GetInstanceProfileRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetInstanceProfileCommandOutput,
-    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError
+  ): Effect.Effect<
+    GetInstanceProfileResponse,
+    SdkError | NoSuchEntityException | ServiceFailureException
   >;
 
   /**
    * @see {@link GetLoginProfileCommand}
    */
-  readonly getLoginProfile: (
-    args: GetLoginProfileCommandInput,
+  getLoginProfile(
+    args: GetLoginProfileRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetLoginProfileCommandOutput,
-    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError
+  ): Effect.Effect<
+    GetLoginProfileResponse,
+    SdkError | NoSuchEntityException | ServiceFailureException
   >;
 
   /**
    * @see {@link GetMFADeviceCommand}
    */
-  readonly getMFADevice: (
-    args: GetMFADeviceCommandInput,
+  getMFADevice(
+    args: GetMFADeviceRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetMFADeviceCommandOutput,
-    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError
+  ): Effect.Effect<
+    GetMFADeviceResponse,
+    SdkError | NoSuchEntityException | ServiceFailureException
   >;
 
   /**
    * @see {@link GetOpenIDConnectProviderCommand}
    */
-  readonly getOpenIDConnectProvider: (
-    args: GetOpenIDConnectProviderCommandInput,
+  getOpenIDConnectProvider(
+    args: GetOpenIDConnectProviderRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetOpenIDConnectProviderCommandOutput,
+  ): Effect.Effect<
+    GetOpenIDConnectProviderResponse,
     | SdkError
-    | IAMServiceError
-    | InvalidInputError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | InvalidInputException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link GetOrganizationsAccessReportCommand}
    */
-  readonly getOrganizationsAccessReport: (
-    args: GetOrganizationsAccessReportCommandInput,
+  getOrganizationsAccessReport(
+    args: GetOrganizationsAccessReportRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetOrganizationsAccessReportCommandOutput,
-    SdkError | IAMServiceError | NoSuchEntityError
+  ): Effect.Effect<
+    GetOrganizationsAccessReportResponse,
+    SdkError | NoSuchEntityException
   >;
 
   /**
    * @see {@link GetPolicyCommand}
    */
-  readonly getPolicy: (
-    args: GetPolicyCommandInput,
+  getPolicy(
+    args: GetPolicyRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetPolicyCommandOutput,
+  ): Effect.Effect<
+    GetPolicyResponse,
     | SdkError
-    | IAMServiceError
-    | InvalidInputError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | InvalidInputException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link GetPolicyVersionCommand}
    */
-  readonly getPolicyVersion: (
-    args: GetPolicyVersionCommandInput,
+  getPolicyVersion(
+    args: GetPolicyVersionRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetPolicyVersionCommandOutput,
+  ): Effect.Effect<
+    GetPolicyVersionResponse,
     | SdkError
-    | IAMServiceError
-    | InvalidInputError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | InvalidInputException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link GetRoleCommand}
    */
-  readonly getRole: (
-    args: GetRoleCommandInput,
+  getRole(
+    args: GetRoleRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetRoleCommandOutput,
-    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError
+  ): Effect.Effect<
+    GetRoleResponse,
+    SdkError | NoSuchEntityException | ServiceFailureException
   >;
 
   /**
    * @see {@link GetRolePolicyCommand}
    */
-  readonly getRolePolicy: (
-    args: GetRolePolicyCommandInput,
+  getRolePolicy(
+    args: GetRolePolicyRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetRolePolicyCommandOutput,
-    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError
+  ): Effect.Effect<
+    GetRolePolicyResponse,
+    SdkError | NoSuchEntityException | ServiceFailureException
   >;
 
   /**
    * @see {@link GetSAMLProviderCommand}
    */
-  readonly getSAMLProvider: (
-    args: GetSAMLProviderCommandInput,
+  getSAMLProvider(
+    args: GetSAMLProviderRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetSAMLProviderCommandOutput,
+  ): Effect.Effect<
+    GetSAMLProviderResponse,
     | SdkError
-    | IAMServiceError
-    | InvalidInputError
-    | NoSuchEntityError
-    | ServiceFailureError
-  >;
-
-  /**
-   * @see {@link GetServerCertificateCommand}
-   */
-  readonly getServerCertificate: (
-    args: GetServerCertificateCommandInput,
-    options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetServerCertificateCommandOutput,
-    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError
-  >;
-
-  /**
-   * @see {@link GetServiceLastAccessedDetailsCommand}
-   */
-  readonly getServiceLastAccessedDetails: (
-    args: GetServiceLastAccessedDetailsCommandInput,
-    options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetServiceLastAccessedDetailsCommandOutput,
-    SdkError | IAMServiceError | InvalidInputError | NoSuchEntityError
-  >;
-
-  /**
-   * @see {@link GetServiceLastAccessedDetailsWithEntitiesCommand}
-   */
-  readonly getServiceLastAccessedDetailsWithEntities: (
-    args: GetServiceLastAccessedDetailsWithEntitiesCommandInput,
-    options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetServiceLastAccessedDetailsWithEntitiesCommandOutput,
-    SdkError | IAMServiceError | InvalidInputError | NoSuchEntityError
-  >;
-
-  /**
-   * @see {@link GetServiceLinkedRoleDeletionStatusCommand}
-   */
-  readonly getServiceLinkedRoleDeletionStatus: (
-    args: GetServiceLinkedRoleDeletionStatusCommandInput,
-    options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetServiceLinkedRoleDeletionStatusCommandOutput,
-    | SdkError
-    | IAMServiceError
-    | InvalidInputError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | InvalidInputException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link GetSSHPublicKeyCommand}
    */
-  readonly getSSHPublicKey: (
-    args: GetSSHPublicKeyCommandInput,
+  getSSHPublicKey(
+    args: GetSSHPublicKeyRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetSSHPublicKeyCommandOutput,
+  ): Effect.Effect<
+    GetSSHPublicKeyResponse,
+    SdkError | NoSuchEntityException | UnrecognizedPublicKeyEncodingException
+  >;
+
+  /**
+   * @see {@link GetServerCertificateCommand}
+   */
+  getServerCertificate(
+    args: GetServerCertificateRequest,
+    options?: __HttpHandlerOptions,
+  ): Effect.Effect<
+    GetServerCertificateResponse,
+    SdkError | NoSuchEntityException | ServiceFailureException
+  >;
+
+  /**
+   * @see {@link GetServiceLastAccessedDetailsCommand}
+   */
+  getServiceLastAccessedDetails(
+    args: GetServiceLastAccessedDetailsRequest,
+    options?: __HttpHandlerOptions,
+  ): Effect.Effect<
+    GetServiceLastAccessedDetailsResponse,
+    SdkError | InvalidInputException | NoSuchEntityException
+  >;
+
+  /**
+   * @see {@link GetServiceLastAccessedDetailsWithEntitiesCommand}
+   */
+  getServiceLastAccessedDetailsWithEntities(
+    args: GetServiceLastAccessedDetailsWithEntitiesRequest,
+    options?: __HttpHandlerOptions,
+  ): Effect.Effect<
+    GetServiceLastAccessedDetailsWithEntitiesResponse,
+    SdkError | InvalidInputException | NoSuchEntityException
+  >;
+
+  /**
+   * @see {@link GetServiceLinkedRoleDeletionStatusCommand}
+   */
+  getServiceLinkedRoleDeletionStatus(
+    args: GetServiceLinkedRoleDeletionStatusRequest,
+    options?: __HttpHandlerOptions,
+  ): Effect.Effect<
+    GetServiceLinkedRoleDeletionStatusResponse,
     | SdkError
-    | IAMServiceError
-    | NoSuchEntityError
-    | UnrecognizedPublicKeyEncodingError
+    | InvalidInputException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link GetUserCommand}
    */
-  readonly getUser: (
-    args: GetUserCommandInput,
+  getUser(
+    args: GetUserRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetUserCommandOutput,
-    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError
+  ): Effect.Effect<
+    GetUserResponse,
+    SdkError | NoSuchEntityException | ServiceFailureException
   >;
 
   /**
    * @see {@link GetUserPolicyCommand}
    */
-  readonly getUserPolicy: (
-    args: GetUserPolicyCommandInput,
+  getUserPolicy(
+    args: GetUserPolicyRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    GetUserPolicyCommandOutput,
-    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError
+  ): Effect.Effect<
+    GetUserPolicyResponse,
+    SdkError | NoSuchEntityException | ServiceFailureException
   >;
 
   /**
    * @see {@link ListAccessKeysCommand}
    */
-  readonly listAccessKeys: (
-    args: ListAccessKeysCommandInput,
+  listAccessKeys(
+    args: ListAccessKeysRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ListAccessKeysCommandOutput,
-    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError
+  ): Effect.Effect<
+    ListAccessKeysResponse,
+    SdkError | NoSuchEntityException | ServiceFailureException
   >;
 
   /**
    * @see {@link ListAccountAliasesCommand}
    */
-  readonly listAccountAliases: (
-    args: ListAccountAliasesCommandInput,
+  listAccountAliases(
+    args: ListAccountAliasesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ListAccountAliasesCommandOutput,
-    SdkError | IAMServiceError | ServiceFailureError
+  ): Effect.Effect<
+    ListAccountAliasesResponse,
+    SdkError | ServiceFailureException
   >;
 
   /**
    * @see {@link ListAttachedGroupPoliciesCommand}
    */
-  readonly listAttachedGroupPolicies: (
-    args: ListAttachedGroupPoliciesCommandInput,
+  listAttachedGroupPolicies(
+    args: ListAttachedGroupPoliciesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ListAttachedGroupPoliciesCommandOutput,
+  ): Effect.Effect<
+    ListAttachedGroupPoliciesResponse,
     | SdkError
-    | IAMServiceError
-    | InvalidInputError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | InvalidInputException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link ListAttachedRolePoliciesCommand}
    */
-  readonly listAttachedRolePolicies: (
-    args: ListAttachedRolePoliciesCommandInput,
+  listAttachedRolePolicies(
+    args: ListAttachedRolePoliciesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ListAttachedRolePoliciesCommandOutput,
+  ): Effect.Effect<
+    ListAttachedRolePoliciesResponse,
     | SdkError
-    | IAMServiceError
-    | InvalidInputError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | InvalidInputException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link ListAttachedUserPoliciesCommand}
    */
-  readonly listAttachedUserPolicies: (
-    args: ListAttachedUserPoliciesCommandInput,
+  listAttachedUserPolicies(
+    args: ListAttachedUserPoliciesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ListAttachedUserPoliciesCommandOutput,
+  ): Effect.Effect<
+    ListAttachedUserPoliciesResponse,
     | SdkError
-    | IAMServiceError
-    | InvalidInputError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | InvalidInputException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link ListEntitiesForPolicyCommand}
    */
-  readonly listEntitiesForPolicy: (
-    args: ListEntitiesForPolicyCommandInput,
+  listEntitiesForPolicy(
+    args: ListEntitiesForPolicyRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ListEntitiesForPolicyCommandOutput,
+  ): Effect.Effect<
+    ListEntitiesForPolicyResponse,
     | SdkError
-    | IAMServiceError
-    | InvalidInputError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | InvalidInputException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link ListGroupPoliciesCommand}
    */
-  readonly listGroupPolicies: (
-    args: ListGroupPoliciesCommandInput,
+  listGroupPolicies(
+    args: ListGroupPoliciesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ListGroupPoliciesCommandOutput,
-    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError
+  ): Effect.Effect<
+    ListGroupPoliciesResponse,
+    SdkError | NoSuchEntityException | ServiceFailureException
   >;
 
   /**
    * @see {@link ListGroupsCommand}
    */
-  readonly listGroups: (
-    args: ListGroupsCommandInput,
+  listGroups(
+    args: ListGroupsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ListGroupsCommandOutput,
-    SdkError | IAMServiceError | ServiceFailureError
-  >;
+  ): Effect.Effect<ListGroupsResponse, SdkError | ServiceFailureException>;
 
   /**
    * @see {@link ListGroupsForUserCommand}
    */
-  readonly listGroupsForUser: (
-    args: ListGroupsForUserCommandInput,
+  listGroupsForUser(
+    args: ListGroupsForUserRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ListGroupsForUserCommandOutput,
-    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError
-  >;
-
-  /**
-   * @see {@link ListInstanceProfilesCommand}
-   */
-  readonly listInstanceProfiles: (
-    args: ListInstanceProfilesCommandInput,
-    options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ListInstanceProfilesCommandOutput,
-    SdkError | IAMServiceError | ServiceFailureError
-  >;
-
-  /**
-   * @see {@link ListInstanceProfilesForRoleCommand}
-   */
-  readonly listInstanceProfilesForRole: (
-    args: ListInstanceProfilesForRoleCommandInput,
-    options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ListInstanceProfilesForRoleCommandOutput,
-    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError
+  ): Effect.Effect<
+    ListGroupsForUserResponse,
+    SdkError | NoSuchEntityException | ServiceFailureException
   >;
 
   /**
    * @see {@link ListInstanceProfileTagsCommand}
    */
-  readonly listInstanceProfileTags: (
-    args: ListInstanceProfileTagsCommandInput,
+  listInstanceProfileTags(
+    args: ListInstanceProfileTagsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ListInstanceProfileTagsCommandOutput,
-    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError
+  ): Effect.Effect<
+    ListInstanceProfileTagsResponse,
+    SdkError | NoSuchEntityException | ServiceFailureException
   >;
 
   /**
-   * @see {@link ListMFADevicesCommand}
+   * @see {@link ListInstanceProfilesCommand}
    */
-  readonly listMFADevices: (
-    args: ListMFADevicesCommandInput,
+  listInstanceProfiles(
+    args: ListInstanceProfilesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ListMFADevicesCommandOutput,
-    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError
+  ): Effect.Effect<
+    ListInstanceProfilesResponse,
+    SdkError | ServiceFailureException
+  >;
+
+  /**
+   * @see {@link ListInstanceProfilesForRoleCommand}
+   */
+  listInstanceProfilesForRole(
+    args: ListInstanceProfilesForRoleRequest,
+    options?: __HttpHandlerOptions,
+  ): Effect.Effect<
+    ListInstanceProfilesForRoleResponse,
+    SdkError | NoSuchEntityException | ServiceFailureException
   >;
 
   /**
    * @see {@link ListMFADeviceTagsCommand}
    */
-  readonly listMFADeviceTags: (
-    args: ListMFADeviceTagsCommandInput,
+  listMFADeviceTags(
+    args: ListMFADeviceTagsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ListMFADeviceTagsCommandOutput,
+  ): Effect.Effect<
+    ListMFADeviceTagsResponse,
     | SdkError
-    | IAMServiceError
-    | InvalidInputError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | InvalidInputException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
-   * @see {@link ListOpenIDConnectProvidersCommand}
+   * @see {@link ListMFADevicesCommand}
    */
-  readonly listOpenIDConnectProviders: (
-    args: ListOpenIDConnectProvidersCommandInput,
+  listMFADevices(
+    args: ListMFADevicesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ListOpenIDConnectProvidersCommandOutput,
-    SdkError | IAMServiceError | ServiceFailureError
+  ): Effect.Effect<
+    ListMFADevicesResponse,
+    SdkError | NoSuchEntityException | ServiceFailureException
   >;
 
   /**
    * @see {@link ListOpenIDConnectProviderTagsCommand}
    */
-  readonly listOpenIDConnectProviderTags: (
-    args: ListOpenIDConnectProviderTagsCommandInput,
+  listOpenIDConnectProviderTags(
+    args: ListOpenIDConnectProviderTagsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ListOpenIDConnectProviderTagsCommandOutput,
+  ): Effect.Effect<
+    ListOpenIDConnectProviderTagsResponse,
     | SdkError
-    | IAMServiceError
-    | InvalidInputError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | InvalidInputException
+    | NoSuchEntityException
+    | ServiceFailureException
+  >;
+
+  /**
+   * @see {@link ListOpenIDConnectProvidersCommand}
+   */
+  listOpenIDConnectProviders(
+    args: ListOpenIDConnectProvidersRequest,
+    options?: __HttpHandlerOptions,
+  ): Effect.Effect<
+    ListOpenIDConnectProvidersResponse,
+    SdkError | ServiceFailureException
   >;
 
   /**
    * @see {@link ListPoliciesCommand}
    */
-  readonly listPolicies: (
-    args: ListPoliciesCommandInput,
+  listPolicies(
+    args: ListPoliciesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ListPoliciesCommandOutput,
-    SdkError | IAMServiceError | ServiceFailureError
-  >;
+  ): Effect.Effect<ListPoliciesResponse, SdkError | ServiceFailureException>;
 
   /**
    * @see {@link ListPoliciesGrantingServiceAccessCommand}
    */
-  readonly listPoliciesGrantingServiceAccess: (
-    args: ListPoliciesGrantingServiceAccessCommandInput,
+  listPoliciesGrantingServiceAccess(
+    args: ListPoliciesGrantingServiceAccessRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ListPoliciesGrantingServiceAccessCommandOutput,
-    SdkError | IAMServiceError | InvalidInputError | NoSuchEntityError
+  ): Effect.Effect<
+    ListPoliciesGrantingServiceAccessResponse,
+    SdkError | InvalidInputException | NoSuchEntityException
   >;
 
   /**
    * @see {@link ListPolicyTagsCommand}
    */
-  readonly listPolicyTags: (
-    args: ListPolicyTagsCommandInput,
+  listPolicyTags(
+    args: ListPolicyTagsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ListPolicyTagsCommandOutput,
+  ): Effect.Effect<
+    ListPolicyTagsResponse,
     | SdkError
-    | IAMServiceError
-    | InvalidInputError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | InvalidInputException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link ListPolicyVersionsCommand}
    */
-  readonly listPolicyVersions: (
-    args: ListPolicyVersionsCommandInput,
+  listPolicyVersions(
+    args: ListPolicyVersionsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ListPolicyVersionsCommandOutput,
+  ): Effect.Effect<
+    ListPolicyVersionsResponse,
     | SdkError
-    | IAMServiceError
-    | InvalidInputError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | InvalidInputException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link ListRolePoliciesCommand}
    */
-  readonly listRolePolicies: (
-    args: ListRolePoliciesCommandInput,
+  listRolePolicies(
+    args: ListRolePoliciesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ListRolePoliciesCommandOutput,
-    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError
-  >;
-
-  /**
-   * @see {@link ListRolesCommand}
-   */
-  readonly listRoles: (
-    args: ListRolesCommandInput,
-    options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ListRolesCommandOutput,
-    SdkError | IAMServiceError | ServiceFailureError
+  ): Effect.Effect<
+    ListRolePoliciesResponse,
+    SdkError | NoSuchEntityException | ServiceFailureException
   >;
 
   /**
    * @see {@link ListRoleTagsCommand}
    */
-  readonly listRoleTags: (
-    args: ListRoleTagsCommandInput,
+  listRoleTags(
+    args: ListRoleTagsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ListRoleTagsCommandOutput,
-    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError
+  ): Effect.Effect<
+    ListRoleTagsResponse,
+    SdkError | NoSuchEntityException | ServiceFailureException
+  >;
+
+  /**
+   * @see {@link ListRolesCommand}
+   */
+  listRoles(
+    args: ListRolesRequest,
+    options?: __HttpHandlerOptions,
+  ): Effect.Effect<ListRolesResponse, SdkError | ServiceFailureException>;
+
+  /**
+   * @see {@link ListSAMLProviderTagsCommand}
+   */
+  listSAMLProviderTags(
+    args: ListSAMLProviderTagsRequest,
+    options?: __HttpHandlerOptions,
+  ): Effect.Effect<
+    ListSAMLProviderTagsResponse,
+    | SdkError
+    | InvalidInputException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link ListSAMLProvidersCommand}
    */
-  readonly listSAMLProviders: (
-    args: ListSAMLProvidersCommandInput,
+  listSAMLProviders(
+    args: ListSAMLProvidersRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ListSAMLProvidersCommandOutput,
-    SdkError | IAMServiceError | ServiceFailureError
-  >;
-
-  /**
-   * @see {@link ListSAMLProviderTagsCommand}
-   */
-  readonly listSAMLProviderTags: (
-    args: ListSAMLProviderTagsCommandInput,
-    options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ListSAMLProviderTagsCommandOutput,
-    | SdkError
-    | IAMServiceError
-    | InvalidInputError
-    | NoSuchEntityError
-    | ServiceFailureError
-  >;
-
-  /**
-   * @see {@link ListServerCertificatesCommand}
-   */
-  readonly listServerCertificates: (
-    args: ListServerCertificatesCommandInput,
-    options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ListServerCertificatesCommandOutput,
-    SdkError | IAMServiceError | ServiceFailureError
-  >;
-
-  /**
-   * @see {@link ListServerCertificateTagsCommand}
-   */
-  readonly listServerCertificateTags: (
-    args: ListServerCertificateTagsCommandInput,
-    options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ListServerCertificateTagsCommandOutput,
-    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError
-  >;
-
-  /**
-   * @see {@link ListServiceSpecificCredentialsCommand}
-   */
-  readonly listServiceSpecificCredentials: (
-    args: ListServiceSpecificCredentialsCommandInput,
-    options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ListServiceSpecificCredentialsCommandOutput,
-    SdkError | IAMServiceError | NoSuchEntityError | ServiceNotSupportedError
-  >;
-
-  /**
-   * @see {@link ListSigningCertificatesCommand}
-   */
-  readonly listSigningCertificates: (
-    args: ListSigningCertificatesCommandInput,
-    options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ListSigningCertificatesCommandOutput,
-    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError
+  ): Effect.Effect<
+    ListSAMLProvidersResponse,
+    SdkError | ServiceFailureException
   >;
 
   /**
    * @see {@link ListSSHPublicKeysCommand}
    */
-  readonly listSSHPublicKeys: (
-    args: ListSSHPublicKeysCommandInput,
+  listSSHPublicKeys(
+    args: ListSSHPublicKeysRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ListSSHPublicKeysCommandOutput,
-    SdkError | IAMServiceError | NoSuchEntityError
+  ): Effect.Effect<ListSSHPublicKeysResponse, SdkError | NoSuchEntityException>;
+
+  /**
+   * @see {@link ListServerCertificateTagsCommand}
+   */
+  listServerCertificateTags(
+    args: ListServerCertificateTagsRequest,
+    options?: __HttpHandlerOptions,
+  ): Effect.Effect<
+    ListServerCertificateTagsResponse,
+    SdkError | NoSuchEntityException | ServiceFailureException
+  >;
+
+  /**
+   * @see {@link ListServerCertificatesCommand}
+   */
+  listServerCertificates(
+    args: ListServerCertificatesRequest,
+    options?: __HttpHandlerOptions,
+  ): Effect.Effect<
+    ListServerCertificatesResponse,
+    SdkError | ServiceFailureException
+  >;
+
+  /**
+   * @see {@link ListServiceSpecificCredentialsCommand}
+   */
+  listServiceSpecificCredentials(
+    args: ListServiceSpecificCredentialsRequest,
+    options?: __HttpHandlerOptions,
+  ): Effect.Effect<
+    ListServiceSpecificCredentialsResponse,
+    SdkError | NoSuchEntityException | ServiceNotSupportedException
+  >;
+
+  /**
+   * @see {@link ListSigningCertificatesCommand}
+   */
+  listSigningCertificates(
+    args: ListSigningCertificatesRequest,
+    options?: __HttpHandlerOptions,
+  ): Effect.Effect<
+    ListSigningCertificatesResponse,
+    SdkError | NoSuchEntityException | ServiceFailureException
   >;
 
   /**
    * @see {@link ListUserPoliciesCommand}
    */
-  readonly listUserPolicies: (
-    args: ListUserPoliciesCommandInput,
+  listUserPolicies(
+    args: ListUserPoliciesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ListUserPoliciesCommandOutput,
-    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError
-  >;
-
-  /**
-   * @see {@link ListUsersCommand}
-   */
-  readonly listUsers: (
-    args: ListUsersCommandInput,
-    options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ListUsersCommandOutput,
-    SdkError | IAMServiceError | ServiceFailureError
+  ): Effect.Effect<
+    ListUserPoliciesResponse,
+    SdkError | NoSuchEntityException | ServiceFailureException
   >;
 
   /**
    * @see {@link ListUserTagsCommand}
    */
-  readonly listUserTags: (
-    args: ListUserTagsCommandInput,
+  listUserTags(
+    args: ListUserTagsRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ListUserTagsCommandOutput,
-    SdkError | IAMServiceError | NoSuchEntityError | ServiceFailureError
+  ): Effect.Effect<
+    ListUserTagsResponse,
+    SdkError | NoSuchEntityException | ServiceFailureException
   >;
+
+  /**
+   * @see {@link ListUsersCommand}
+   */
+  listUsers(
+    args: ListUsersRequest,
+    options?: __HttpHandlerOptions,
+  ): Effect.Effect<ListUsersResponse, SdkError | ServiceFailureException>;
 
   /**
    * @see {@link ListVirtualMFADevicesCommand}
    */
-  readonly listVirtualMFADevices: (
-    args: ListVirtualMFADevicesCommandInput,
+  listVirtualMFADevices(
+    args: ListVirtualMFADevicesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ListVirtualMFADevicesCommandOutput,
-    SdkError | IAMServiceError
-  >;
+  ): Effect.Effect<ListVirtualMFADevicesResponse, SdkError>;
 
   /**
    * @see {@link PutGroupPolicyCommand}
    */
-  readonly putGroupPolicy: (
-    args: PutGroupPolicyCommandInput,
+  putGroupPolicy(
+    args: PutGroupPolicyRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    PutGroupPolicyCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | LimitExceededError
-    | MalformedPolicyDocumentError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | LimitExceededException
+    | MalformedPolicyDocumentException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link PutRolePermissionsBoundaryCommand}
    */
-  readonly putRolePermissionsBoundary: (
-    args: PutRolePermissionsBoundaryCommandInput,
+  putRolePermissionsBoundary(
+    args: PutRolePermissionsBoundaryRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    PutRolePermissionsBoundaryCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | InvalidInputError
-    | NoSuchEntityError
-    | PolicyNotAttachableError
-    | ServiceFailureError
-    | UnmodifiableEntityError
+    | InvalidInputException
+    | NoSuchEntityException
+    | PolicyNotAttachableException
+    | ServiceFailureException
+    | UnmodifiableEntityException
   >;
 
   /**
    * @see {@link PutRolePolicyCommand}
    */
-  readonly putRolePolicy: (
-    args: PutRolePolicyCommandInput,
+  putRolePolicy(
+    args: PutRolePolicyRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    PutRolePolicyCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | LimitExceededError
-    | MalformedPolicyDocumentError
-    | NoSuchEntityError
-    | ServiceFailureError
-    | UnmodifiableEntityError
+    | LimitExceededException
+    | MalformedPolicyDocumentException
+    | NoSuchEntityException
+    | ServiceFailureException
+    | UnmodifiableEntityException
   >;
 
   /**
    * @see {@link PutUserPermissionsBoundaryCommand}
    */
-  readonly putUserPermissionsBoundary: (
-    args: PutUserPermissionsBoundaryCommandInput,
+  putUserPermissionsBoundary(
+    args: PutUserPermissionsBoundaryRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    PutUserPermissionsBoundaryCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | InvalidInputError
-    | NoSuchEntityError
-    | PolicyNotAttachableError
-    | ServiceFailureError
+    | InvalidInputException
+    | NoSuchEntityException
+    | PolicyNotAttachableException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link PutUserPolicyCommand}
    */
-  readonly putUserPolicy: (
-    args: PutUserPolicyCommandInput,
+  putUserPolicy(
+    args: PutUserPolicyRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    PutUserPolicyCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | LimitExceededError
-    | MalformedPolicyDocumentError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | LimitExceededException
+    | MalformedPolicyDocumentException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link RemoveClientIDFromOpenIDConnectProviderCommand}
    */
-  readonly removeClientIDFromOpenIDConnectProvider: (
-    args: RemoveClientIDFromOpenIDConnectProviderCommandInput,
+  removeClientIDFromOpenIDConnectProvider(
+    args: RemoveClientIDFromOpenIDConnectProviderRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    RemoveClientIDFromOpenIDConnectProviderCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | InvalidInputError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | InvalidInputException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link RemoveRoleFromInstanceProfileCommand}
    */
-  readonly removeRoleFromInstanceProfile: (
-    args: RemoveRoleFromInstanceProfileCommandInput,
+  removeRoleFromInstanceProfile(
+    args: RemoveRoleFromInstanceProfileRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    RemoveRoleFromInstanceProfileCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | LimitExceededError
-    | NoSuchEntityError
-    | ServiceFailureError
-    | UnmodifiableEntityError
+    | LimitExceededException
+    | NoSuchEntityException
+    | ServiceFailureException
+    | UnmodifiableEntityException
   >;
 
   /**
    * @see {@link RemoveUserFromGroupCommand}
    */
-  readonly removeUserFromGroup: (
-    args: RemoveUserFromGroupCommandInput,
+  removeUserFromGroup(
+    args: RemoveUserFromGroupRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    RemoveUserFromGroupCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | LimitExceededError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | LimitExceededException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link ResetServiceSpecificCredentialCommand}
    */
-  readonly resetServiceSpecificCredential: (
-    args: ResetServiceSpecificCredentialCommandInput,
+  resetServiceSpecificCredential(
+    args: ResetServiceSpecificCredentialRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ResetServiceSpecificCredentialCommandOutput,
-    SdkError | IAMServiceError | NoSuchEntityError
+  ): Effect.Effect<
+    ResetServiceSpecificCredentialResponse,
+    SdkError | NoSuchEntityException
   >;
 
   /**
    * @see {@link ResyncMFADeviceCommand}
    */
-  readonly resyncMFADevice: (
-    args: ResyncMFADeviceCommandInput,
+  resyncMFADevice(
+    args: ResyncMFADeviceRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ResyncMFADeviceCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | ConcurrentModificationError
-    | InvalidAuthenticationCodeError
-    | LimitExceededError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | ConcurrentModificationException
+    | InvalidAuthenticationCodeException
+    | LimitExceededException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link SetDefaultPolicyVersionCommand}
    */
-  readonly setDefaultPolicyVersion: (
-    args: SetDefaultPolicyVersionCommandInput,
+  setDefaultPolicyVersion(
+    args: SetDefaultPolicyVersionRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    SetDefaultPolicyVersionCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | InvalidInputError
-    | LimitExceededError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | InvalidInputException
+    | LimitExceededException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link SetSecurityTokenServicePreferencesCommand}
    */
-  readonly setSecurityTokenServicePreferences: (
-    args: SetSecurityTokenServicePreferencesCommandInput,
+  setSecurityTokenServicePreferences(
+    args: SetSecurityTokenServicePreferencesRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    SetSecurityTokenServicePreferencesCommandOutput,
-    SdkError | IAMServiceError | ServiceFailureError
-  >;
+  ): Effect.Effect<void, SdkError | ServiceFailureException>;
 
   /**
    * @see {@link SimulateCustomPolicyCommand}
    */
-  readonly simulateCustomPolicy: (
-    args: SimulateCustomPolicyCommandInput,
+  simulateCustomPolicy(
+    args: SimulateCustomPolicyRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    SimulateCustomPolicyCommandOutput,
-    SdkError | IAMServiceError | InvalidInputError | PolicyEvaluationError
+  ): Effect.Effect<
+    SimulatePolicyResponse,
+    SdkError | InvalidInputException | PolicyEvaluationException
   >;
 
   /**
    * @see {@link SimulatePrincipalPolicyCommand}
    */
-  readonly simulatePrincipalPolicy: (
-    args: SimulatePrincipalPolicyCommandInput,
+  simulatePrincipalPolicy(
+    args: SimulatePrincipalPolicyRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    SimulatePrincipalPolicyCommandOutput,
+  ): Effect.Effect<
+    SimulatePolicyResponse,
     | SdkError
-    | IAMServiceError
-    | InvalidInputError
-    | NoSuchEntityError
-    | PolicyEvaluationError
+    | InvalidInputException
+    | NoSuchEntityException
+    | PolicyEvaluationException
   >;
 
   /**
    * @see {@link TagInstanceProfileCommand}
    */
-  readonly tagInstanceProfile: (
-    args: TagInstanceProfileCommandInput,
+  tagInstanceProfile(
+    args: TagInstanceProfileRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    TagInstanceProfileCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | ConcurrentModificationError
-    | InvalidInputError
-    | LimitExceededError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | ConcurrentModificationException
+    | InvalidInputException
+    | LimitExceededException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link TagMFADeviceCommand}
    */
-  readonly tagMFADevice: (
-    args: TagMFADeviceCommandInput,
+  tagMFADevice(
+    args: TagMFADeviceRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    TagMFADeviceCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | ConcurrentModificationError
-    | InvalidInputError
-    | LimitExceededError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | ConcurrentModificationException
+    | InvalidInputException
+    | LimitExceededException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link TagOpenIDConnectProviderCommand}
    */
-  readonly tagOpenIDConnectProvider: (
-    args: TagOpenIDConnectProviderCommandInput,
+  tagOpenIDConnectProvider(
+    args: TagOpenIDConnectProviderRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    TagOpenIDConnectProviderCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | ConcurrentModificationError
-    | InvalidInputError
-    | LimitExceededError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | ConcurrentModificationException
+    | InvalidInputException
+    | LimitExceededException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link TagPolicyCommand}
    */
-  readonly tagPolicy: (
-    args: TagPolicyCommandInput,
+  tagPolicy(
+    args: TagPolicyRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    TagPolicyCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | ConcurrentModificationError
-    | InvalidInputError
-    | LimitExceededError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | ConcurrentModificationException
+    | InvalidInputException
+    | LimitExceededException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link TagRoleCommand}
    */
-  readonly tagRole: (
-    args: TagRoleCommandInput,
+  tagRole(
+    args: TagRoleRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    TagRoleCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | ConcurrentModificationError
-    | InvalidInputError
-    | LimitExceededError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | ConcurrentModificationException
+    | InvalidInputException
+    | LimitExceededException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link TagSAMLProviderCommand}
    */
-  readonly tagSAMLProvider: (
-    args: TagSAMLProviderCommandInput,
+  tagSAMLProvider(
+    args: TagSAMLProviderRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    TagSAMLProviderCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | ConcurrentModificationError
-    | InvalidInputError
-    | LimitExceededError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | ConcurrentModificationException
+    | InvalidInputException
+    | LimitExceededException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link TagServerCertificateCommand}
    */
-  readonly tagServerCertificate: (
-    args: TagServerCertificateCommandInput,
+  tagServerCertificate(
+    args: TagServerCertificateRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    TagServerCertificateCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | ConcurrentModificationError
-    | InvalidInputError
-    | LimitExceededError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | ConcurrentModificationException
+    | InvalidInputException
+    | LimitExceededException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link TagUserCommand}
    */
-  readonly tagUser: (
-    args: TagUserCommandInput,
+  tagUser(
+    args: TagUserRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    TagUserCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | ConcurrentModificationError
-    | InvalidInputError
-    | LimitExceededError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | ConcurrentModificationException
+    | InvalidInputException
+    | LimitExceededException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link UntagInstanceProfileCommand}
    */
-  readonly untagInstanceProfile: (
-    args: UntagInstanceProfileCommandInput,
+  untagInstanceProfile(
+    args: UntagInstanceProfileRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    UntagInstanceProfileCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | ConcurrentModificationError
-    | InvalidInputError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | ConcurrentModificationException
+    | InvalidInputException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link UntagMFADeviceCommand}
    */
-  readonly untagMFADevice: (
-    args: UntagMFADeviceCommandInput,
+  untagMFADevice(
+    args: UntagMFADeviceRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    UntagMFADeviceCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | ConcurrentModificationError
-    | InvalidInputError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | ConcurrentModificationException
+    | InvalidInputException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link UntagOpenIDConnectProviderCommand}
    */
-  readonly untagOpenIDConnectProvider: (
-    args: UntagOpenIDConnectProviderCommandInput,
+  untagOpenIDConnectProvider(
+    args: UntagOpenIDConnectProviderRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    UntagOpenIDConnectProviderCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | ConcurrentModificationError
-    | InvalidInputError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | ConcurrentModificationException
+    | InvalidInputException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link UntagPolicyCommand}
    */
-  readonly untagPolicy: (
-    args: UntagPolicyCommandInput,
+  untagPolicy(
+    args: UntagPolicyRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    UntagPolicyCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | ConcurrentModificationError
-    | InvalidInputError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | ConcurrentModificationException
+    | InvalidInputException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link UntagRoleCommand}
    */
-  readonly untagRole: (
-    args: UntagRoleCommandInput,
+  untagRole(
+    args: UntagRoleRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    UntagRoleCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | ConcurrentModificationError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | ConcurrentModificationException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link UntagSAMLProviderCommand}
    */
-  readonly untagSAMLProvider: (
-    args: UntagSAMLProviderCommandInput,
+  untagSAMLProvider(
+    args: UntagSAMLProviderRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    UntagSAMLProviderCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | ConcurrentModificationError
-    | InvalidInputError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | ConcurrentModificationException
+    | InvalidInputException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link UntagServerCertificateCommand}
    */
-  readonly untagServerCertificate: (
-    args: UntagServerCertificateCommandInput,
+  untagServerCertificate(
+    args: UntagServerCertificateRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    UntagServerCertificateCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | ConcurrentModificationError
-    | InvalidInputError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | ConcurrentModificationException
+    | InvalidInputException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link UntagUserCommand}
    */
-  readonly untagUser: (
-    args: UntagUserCommandInput,
+  untagUser(
+    args: UntagUserRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    UntagUserCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | ConcurrentModificationError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | ConcurrentModificationException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link UpdateAccessKeyCommand}
    */
-  readonly updateAccessKey: (
-    args: UpdateAccessKeyCommandInput,
+  updateAccessKey(
+    args: UpdateAccessKeyRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    UpdateAccessKeyCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | LimitExceededError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | LimitExceededException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link UpdateAccountPasswordPolicyCommand}
    */
-  readonly updateAccountPasswordPolicy: (
-    args: UpdateAccountPasswordPolicyCommandInput,
+  updateAccountPasswordPolicy(
+    args: UpdateAccountPasswordPolicyRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    UpdateAccountPasswordPolicyCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | LimitExceededError
-    | MalformedPolicyDocumentError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | LimitExceededException
+    | MalformedPolicyDocumentException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link UpdateAssumeRolePolicyCommand}
    */
-  readonly updateAssumeRolePolicy: (
-    args: UpdateAssumeRolePolicyCommandInput,
+  updateAssumeRolePolicy(
+    args: UpdateAssumeRolePolicyRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    UpdateAssumeRolePolicyCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | LimitExceededError
-    | MalformedPolicyDocumentError
-    | NoSuchEntityError
-    | ServiceFailureError
-    | UnmodifiableEntityError
+    | LimitExceededException
+    | MalformedPolicyDocumentException
+    | NoSuchEntityException
+    | ServiceFailureException
+    | UnmodifiableEntityException
   >;
 
   /**
    * @see {@link UpdateGroupCommand}
    */
-  readonly updateGroup: (
-    args: UpdateGroupCommandInput,
+  updateGroup(
+    args: UpdateGroupRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    UpdateGroupCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | EntityAlreadyExistsError
-    | LimitExceededError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | EntityAlreadyExistsException
+    | LimitExceededException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link UpdateLoginProfileCommand}
    */
-  readonly updateLoginProfile: (
-    args: UpdateLoginProfileCommandInput,
+  updateLoginProfile(
+    args: UpdateLoginProfileRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    UpdateLoginProfileCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | EntityTemporarilyUnmodifiableError
-    | LimitExceededError
-    | NoSuchEntityError
-    | PasswordPolicyViolationError
-    | ServiceFailureError
+    | EntityTemporarilyUnmodifiableException
+    | LimitExceededException
+    | NoSuchEntityException
+    | PasswordPolicyViolationException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link UpdateOpenIDConnectProviderThumbprintCommand}
    */
-  readonly updateOpenIDConnectProviderThumbprint: (
-    args: UpdateOpenIDConnectProviderThumbprintCommandInput,
+  updateOpenIDConnectProviderThumbprint(
+    args: UpdateOpenIDConnectProviderThumbprintRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    UpdateOpenIDConnectProviderThumbprintCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | InvalidInputError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | InvalidInputException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link UpdateRoleCommand}
    */
-  readonly updateRole: (
-    args: UpdateRoleCommandInput,
+  updateRole(
+    args: UpdateRoleRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    UpdateRoleCommandOutput,
+  ): Effect.Effect<
+    UpdateRoleResponse,
     | SdkError
-    | IAMServiceError
-    | NoSuchEntityError
-    | ServiceFailureError
-    | UnmodifiableEntityError
+    | NoSuchEntityException
+    | ServiceFailureException
+    | UnmodifiableEntityException
   >;
 
   /**
    * @see {@link UpdateRoleDescriptionCommand}
    */
-  readonly updateRoleDescription: (
-    args: UpdateRoleDescriptionCommandInput,
+  updateRoleDescription(
+    args: UpdateRoleDescriptionRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    UpdateRoleDescriptionCommandOutput,
+  ): Effect.Effect<
+    UpdateRoleDescriptionResponse,
     | SdkError
-    | IAMServiceError
-    | NoSuchEntityError
-    | ServiceFailureError
-    | UnmodifiableEntityError
+    | NoSuchEntityException
+    | ServiceFailureException
+    | UnmodifiableEntityException
   >;
 
   /**
    * @see {@link UpdateSAMLProviderCommand}
    */
-  readonly updateSAMLProvider: (
-    args: UpdateSAMLProviderCommandInput,
+  updateSAMLProvider(
+    args: UpdateSAMLProviderRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    UpdateSAMLProviderCommandOutput,
+  ): Effect.Effect<
+    UpdateSAMLProviderResponse,
     | SdkError
-    | IAMServiceError
-    | InvalidInputError
-    | LimitExceededError
-    | NoSuchEntityError
-    | ServiceFailureError
-  >;
-
-  /**
-   * @see {@link UpdateServerCertificateCommand}
-   */
-  readonly updateServerCertificate: (
-    args: UpdateServerCertificateCommandInput,
-    options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    UpdateServerCertificateCommandOutput,
-    | SdkError
-    | IAMServiceError
-    | EntityAlreadyExistsError
-    | LimitExceededError
-    | NoSuchEntityError
-    | ServiceFailureError
-  >;
-
-  /**
-   * @see {@link UpdateServiceSpecificCredentialCommand}
-   */
-  readonly updateServiceSpecificCredential: (
-    args: UpdateServiceSpecificCredentialCommandInput,
-    options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    UpdateServiceSpecificCredentialCommandOutput,
-    SdkError | IAMServiceError | NoSuchEntityError
-  >;
-
-  /**
-   * @see {@link UpdateSigningCertificateCommand}
-   */
-  readonly updateSigningCertificate: (
-    args: UpdateSigningCertificateCommandInput,
-    options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    UpdateSigningCertificateCommandOutput,
-    | SdkError
-    | IAMServiceError
-    | LimitExceededError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | InvalidInputException
+    | LimitExceededException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link UpdateSSHPublicKeyCommand}
    */
-  readonly updateSSHPublicKey: (
-    args: UpdateSSHPublicKeyCommandInput,
+  updateSSHPublicKey(
+    args: UpdateSSHPublicKeyRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    UpdateSSHPublicKeyCommandOutput,
-    SdkError | IAMServiceError | NoSuchEntityError
+  ): Effect.Effect<void, SdkError | NoSuchEntityException>;
+
+  /**
+   * @see {@link UpdateServerCertificateCommand}
+   */
+  updateServerCertificate(
+    args: UpdateServerCertificateRequest,
+    options?: __HttpHandlerOptions,
+  ): Effect.Effect<
+    void,
+    | SdkError
+    | EntityAlreadyExistsException
+    | LimitExceededException
+    | NoSuchEntityException
+    | ServiceFailureException
+  >;
+
+  /**
+   * @see {@link UpdateServiceSpecificCredentialCommand}
+   */
+  updateServiceSpecificCredential(
+    args: UpdateServiceSpecificCredentialRequest,
+    options?: __HttpHandlerOptions,
+  ): Effect.Effect<void, SdkError | NoSuchEntityException>;
+
+  /**
+   * @see {@link UpdateSigningCertificateCommand}
+   */
+  updateSigningCertificate(
+    args: UpdateSigningCertificateRequest,
+    options?: __HttpHandlerOptions,
+  ): Effect.Effect<
+    void,
+    | SdkError
+    | LimitExceededException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link UpdateUserCommand}
    */
-  readonly updateUser: (
-    args: UpdateUserCommandInput,
+  updateUser(
+    args: UpdateUserRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    UpdateUserCommandOutput,
+  ): Effect.Effect<
+    void,
     | SdkError
-    | IAMServiceError
-    | ConcurrentModificationError
-    | EntityAlreadyExistsError
-    | EntityTemporarilyUnmodifiableError
-    | LimitExceededError
-    | NoSuchEntityError
-    | ServiceFailureError
-  >;
-
-  /**
-   * @see {@link UploadServerCertificateCommand}
-   */
-  readonly uploadServerCertificate: (
-    args: UploadServerCertificateCommandInput,
-    options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    UploadServerCertificateCommandOutput,
-    | SdkError
-    | IAMServiceError
-    | ConcurrentModificationError
-    | EntityAlreadyExistsError
-    | InvalidInputError
-    | KeyPairMismatchError
-    | LimitExceededError
-    | MalformedCertificateError
-    | ServiceFailureError
-  >;
-
-  /**
-   * @see {@link UploadSigningCertificateCommand}
-   */
-  readonly uploadSigningCertificate: (
-    args: UploadSigningCertificateCommandInput,
-    options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    UploadSigningCertificateCommandOutput,
-    | SdkError
-    | IAMServiceError
-    | ConcurrentModificationError
-    | DuplicateCertificateError
-    | EntityAlreadyExistsError
-    | InvalidCertificateError
-    | LimitExceededError
-    | MalformedCertificateError
-    | NoSuchEntityError
-    | ServiceFailureError
+    | ConcurrentModificationException
+    | EntityAlreadyExistsException
+    | EntityTemporarilyUnmodifiableException
+    | LimitExceededException
+    | NoSuchEntityException
+    | ServiceFailureException
   >;
 
   /**
    * @see {@link UploadSSHPublicKeyCommand}
    */
-  readonly uploadSSHPublicKey: (
-    args: UploadSSHPublicKeyCommandInput,
+  uploadSSHPublicKey(
+    args: UploadSSHPublicKeyRequest,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    UploadSSHPublicKeyCommandOutput,
+  ): Effect.Effect<
+    UploadSSHPublicKeyResponse,
     | SdkError
-    | IAMServiceError
-    | DuplicateSSHPublicKeyError
-    | InvalidPublicKeyError
-    | LimitExceededError
-    | NoSuchEntityError
-    | UnrecognizedPublicKeyEncodingError
+    | DuplicateSSHPublicKeyException
+    | InvalidPublicKeyException
+    | LimitExceededException
+    | NoSuchEntityException
+    | UnrecognizedPublicKeyEncodingException
   >;
-};
+
+  /**
+   * @see {@link UploadServerCertificateCommand}
+   */
+  uploadServerCertificate(
+    args: UploadServerCertificateRequest,
+    options?: __HttpHandlerOptions,
+  ): Effect.Effect<
+    UploadServerCertificateResponse,
+    | SdkError
+    | ConcurrentModificationException
+    | EntityAlreadyExistsException
+    | InvalidInputException
+    | KeyPairMismatchException
+    | LimitExceededException
+    | MalformedCertificateException
+    | ServiceFailureException
+  >;
+
+  /**
+   * @see {@link UploadSigningCertificateCommand}
+   */
+  uploadSigningCertificate(
+    args: UploadSigningCertificateRequest,
+    options?: __HttpHandlerOptions,
+  ): Effect.Effect<
+    UploadSigningCertificateResponse,
+    | SdkError
+    | ConcurrentModificationException
+    | DuplicateCertificateException
+    | EntityAlreadyExistsException
+    | InvalidCertificateException
+    | LimitExceededException
+    | MalformedCertificateException
+    | NoSuchEntityException
+    | ServiceFailureException
+  >;
+}
 
 /**
  * @since 1.0.0
@@ -2995,9 +2774,9 @@ export const makeIAMService = Effect.gen(function* (_) {
       Effect.tryPromise({
         try: () => client.send(new CommandCtor(args), options ?? {}),
         catch: (e) => {
-          if (e instanceof IAMServiceException) {
+          if (e instanceof SdkIAMServiceException) {
             const ServiceException = Data.tagged<
-              TaggedException<IAMServiceException>
+              TaggedException<SdkIAMServiceException>
             >(e.name);
 
             return ServiceException({

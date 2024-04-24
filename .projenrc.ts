@@ -5,6 +5,7 @@ import { Changesets, Docgen, TypeScriptLibProject, Vitest } from "./projenrc";
 const org = "floydspace";
 const name = "effect-aws";
 const repo = `${org}/${name}`;
+const awsSdkVersion = "3.556.0";
 
 const project = new monorepo.MonorepoTsProject({
   name: name,
@@ -54,7 +55,7 @@ new TypeScriptLibProject({
 new TypeScriptLibProject({
   parent: project,
   name: "client-api-gateway-management-api",
-  deps: [...commonDeps, "@aws-sdk/client-apigatewaymanagementapi@^3"],
+  deps: [...commonDeps, `@aws-sdk/client-apigatewaymanagementapi@^${awsSdkVersion}`],
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
 });
@@ -62,7 +63,7 @@ new TypeScriptLibProject({
 const dynamodbClient = new TypeScriptLibProject({
   parent: project,
   name: "client-dynamodb",
-  deps: [...commonDeps, "@aws-sdk/client-dynamodb@^3"],
+  deps: [...commonDeps, `@aws-sdk/client-dynamodb@^${awsSdkVersion}`],
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
 });
@@ -72,88 +73,34 @@ const dynamodbLib = new TypeScriptLibProject({
   name: "lib-dynamodb",
   deps: [
     ...commonDeps,
-    "@aws-sdk/client-dynamodb@^3",
-    "@aws-sdk/lib-dynamodb@^3",
+    `@aws-sdk/client-dynamodb@^${awsSdkVersion}`,
+    `@aws-sdk/lib-dynamodb@^${awsSdkVersion}`,
   ],
   devDeps: commonDevDeps,
   peerDeps: [...commonPeerDeps, dynamodbClient.package.packageName],
 });
 
-new TypeScriptLibProject({
-  parent: project,
-  name: "client-eventbridge",
-  deps: [...commonDeps, "@aws-sdk/client-eventbridge@^3"],
-  devDeps: commonDevDeps,
-  peerDeps: commonPeerDeps,
-});
+const clients = [
+  {name: 'ec2'},
+  {name: 'elasticache'},
+  {name: 'eventbridge'},
+  {name: 'iam'},
+  {name: 'lambda'},
+  {name: 's3', extraDeps: [`@aws-sdk/s3-request-presigner@^${awsSdkVersion}`]},
+  {name: 'sfn'},
+  {name: 'sns'},
+  {name: 'sqs'},
+];
 
-new TypeScriptLibProject({
-  parent: project,
-  name: "client-lambda",
-  deps: [...commonDeps, "@aws-sdk/client-lambda@^3"],
-  devDeps: commonDevDeps,
-  peerDeps: commonPeerDeps,
-});
-
-new TypeScriptLibProject({
-  parent: project,
-  name: "client-s3",
-  deps: [
-    ...commonDeps,
-    "@aws-sdk/client-s3@^3",
-    "@aws-sdk/s3-request-presigner@^3",
-  ],
-  devDeps: commonDevDeps,
-  peerDeps: commonPeerDeps,
-});
-
-new TypeScriptLibProject({
-  parent: project,
-  name: "client-sns",
-  deps: [...commonDeps, "@aws-sdk/client-sns@^3"],
-  devDeps: commonDevDeps,
-  peerDeps: commonPeerDeps,
-});
-
-new TypeScriptLibProject({
-  parent: project,
-  name: "client-sqs",
-  deps: [...commonDeps, "@aws-sdk/client-sqs@^3"],
-  devDeps: commonDevDeps,
-  peerDeps: commonPeerDeps,
-});
-
-new TypeScriptLibProject({
-  parent: project,
-  name: "client-sfn",
-  deps: [...commonDeps, "@aws-sdk/client-sfn@^3"],
-  devDeps: commonDevDeps,
-  peerDeps: commonPeerDeps,
-});
-
-new TypeScriptLibProject({
-  parent: project,
-  name: "client-iam",
-  deps: [...commonDeps, "@aws-sdk/client-iam@^3"],
-  devDeps: commonDevDeps,
-  peerDeps: commonPeerDeps,
-});
-
-new TypeScriptLibProject({
-  parent: project,
-  name: "client-elasticache",
-  deps: [...commonDeps, "@aws-sdk/client-elasticache@^3"],
-  devDeps: commonDevDeps,
-  peerDeps: commonPeerDeps,
-});
-
-new TypeScriptLibProject({
-  parent: project,
-  name: "client-ec2",
-  deps: [...commonDeps, "@aws-sdk/client-ec2@^3"],
-  devDeps: commonDevDeps,
-  peerDeps: commonPeerDeps,
-});
+for (const {name, extraDeps = []} of clients) {
+  new TypeScriptLibProject({
+    parent: project,
+    name: `client-${name}`,
+    deps: [...commonDeps, `@aws-sdk/client-${name}@^${awsSdkVersion}`, ...extraDeps],
+    devDeps: commonDevDeps,
+    peerDeps: commonPeerDeps,
+  });
+}
 
 new TypeScriptLibProject({
   parent: project,

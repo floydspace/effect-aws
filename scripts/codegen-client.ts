@@ -21,6 +21,7 @@ import {
 } from "effect";
 import { constVoid, flow, pipe } from "effect/Function";
 import Enquirer from "enquirer";
+import { config } from "./codegen.config";
 
 type Shape =
   | { type: "boolean" }
@@ -32,24 +33,49 @@ type Shape =
   | { type: "list" }
   | {
       type: "operation";
-      errors: { target: string }[];
+      input: { target: string };
+      output: { target: string };
+      errors?: { target: string }[];
     }
   | {
       type: "service";
-      operations: { target: string }[];
       traits: {
         "aws.api#service": {
           sdkId: string;
+          cloudFormationName: string;
         };
       };
     }
-  | { type: "structure" };
+  | {
+      type: "structure";
+      traits?: {
+        "smithy.api#error"?: string;
+      };
+    };
 
-interface Manifest {
+type OperationType = Extract<Shape, { type: "operation" }>;
+
+interface SmithyModel {
   shapes: Record<string, Shape>;
 }
 
 main().catch(console.error);
+
+function getOperations(smithyModel: SmithyModel): [string, OperationType][] {
+  return pipe(
+    smithyModel.shapes,
+    Record.toEntries,
+    Array.filter(([_, shape]) => shape.type === "operation"),
+  ) as unknown as [string, OperationType][];
+}
+
+function getOperationNames(smithyModel: SmithyModel) {
+  return pipe(
+    getOperations(smithyModel),
+    Array.map(([name, _]) => name),
+    Array.map(getLocalNameFromNamespace),
+  );
+}
 
 async function main() {
   const enquirer = new Enquirer<{
@@ -72,36 +98,30 @@ async function main() {
     Effect.promise(async () => {
       const serviceName = pipe(packageName, String.replace(/^client-/, ""));
 
-      const manifest = (await (
+      const smithyModel = (await (
         await fetch(
           `https://raw.githubusercontent.com/aws/aws-sdk-js-v3/main/codegen/sdk-codegen/aws-models/${serviceName}.json`,
         )
-      ).json()) as Manifest;
+      ).json()) as SmithyModel;
 
-      const serviceShape = pipe(
-        manifest.shapes,
-        Record.values,
-        Array.findFirst(
-          (shape): shape is Extract<Shape, { type: "service" }> =>
-            shape.type === "service",
-        ),
-        Option.getOrThrowWith(() => new TypeError("ServiceShape is not found")),
-      );
-
-      const operationTargets = pipe(
-        serviceShape.operations,
-        Array.map(({ target }) => target),
+      const operations = pipe(
+        smithyModel.shapes,
+        Record.filter(({ type }) => type === "operation"),
       );
 
       const operationNames = pipe(
-        operationTargets,
-        Array.map(getNameFromTarget),
+        operations,
+        Record.keys,
+        Array.map(getLocalNameFromNamespace),
       );
+
+      console.log(packageName, config[packageName]?.command);
 
       const { commandToTest } = await enquirer.prompt({
         type: "autocomplete",
         name: "commandToTest",
         message: `Which command do you want to test in ${packageName} ?`,
+        initial: operationNames.indexOf(config[packageName]?.command),
         multiple: false,
         choices: operationNames,
       });
@@ -110,6 +130,7 @@ async function main() {
         type: "input",
         name: "inputToTest",
         message: `Which input do you want to test of ${commandToTest} ? (optional)`,
+        initial: config[packageName]?.input,
         validate: Predicate.or(String.isEmpty)(
           flow(
             Effect.succeed,
@@ -132,7 +153,7 @@ async function main() {
   return Promise.all(results.map(generateClient));
 }
 
-const getNameFromTarget = flow(
+const getLocalNameFromNamespace = flow(
   String.split("#"),
   Array.get(1),
   Option.getOrThrow,
@@ -140,7 +161,14 @@ const getNameFromTarget = flow(
 
 const lowerFirst = flow(Array.modify(0, String.toLowerCase), Array.join(""));
 
-const upperFirst = flow(Array.modify(0, String.toUpperCase), Array.join(""));
+const pascalCase = (s: string) =>
+  pipe(
+    s.split(" "),
+    Array.flatMap(flow(Array.modify(0, String.toUpperCase))),
+    Array.join(""),
+  );
+
+const SMITHY_API_UNIT = "smithy.api#Unit";
 
 async function generateClient([
   packageName,
@@ -149,14 +177,14 @@ async function generateClient([
 ]: readonly [string, string, string]) {
   const serviceName = pipe(packageName, String.replace(/^client-/, ""));
 
-  const manifest = (await (
+  const smithyModel = (await (
     await fetch(
       `https://raw.githubusercontent.com/aws/aws-sdk-js-v3/main/codegen/sdk-codegen/aws-models/${serviceName}.json`,
     )
-  ).json()) as Manifest;
+  ).json()) as SmithyModel;
 
   const serviceShape = pipe(
-    manifest.shapes,
+    smithyModel.shapes,
     Record.values,
     Array.findFirst(
       (shape): shape is Extract<Shape, { type: "service" }> =>
@@ -166,27 +194,36 @@ async function generateClient([
   );
 
   const { sdkId } = serviceShape.traits["aws.api#service"];
-  const sdkName = upperFirst(sdkId);
-
-  const awsClient = await import(
-    `../packages/client-${serviceName}/node_modules/@aws-sdk/client-${serviceName}/dist-cjs/index.js`
-  );
-
-  const serviceException = `${sdkName}ServiceException`;
+  const sdkName = pascalCase(sdkId);
 
   const exportedErrors = pipe(
-    awsClient,
-    Record.filter(
-      (value) =>
-        typeof value === "function" &&
-        value.prototype instanceof awsClient[serviceException],
+    smithyModel.shapes,
+    Record.toEntries,
+    Array.filter(
+      ([_, shape]) =>
+        shape.type === "structure" &&
+        shape.traits?.["smithy.api#error"] !== undefined,
     ),
-    Record.keys,
+    Array.map(([name, _]) => name),
+    Array.map(getLocalNameFromNamespace),
   );
 
+  const operations = getOperations(smithyModel);
+  const importedErrors = pipe(
+    operations,
+    Array.flatMap(([_, { errors }]) => errors ?? []),
+    Array.map((error) => getLocalNameFromNamespace(error.target)),
+    Array.dedupe,
+  );
+
+  await mkdir(`./packages/client-${serviceName}/src/`, {
+    recursive: true,
+  });
   await writeFile(
     `./packages/client-${serviceName}/src/Errors.ts`,
-    `import type { ${exportedErrors.map((e) => (e.endsWith("Error") ? `${e} as ${String.replace(/Error$/, "")(e)}Exception` : e)).join(", ")} } from "@aws-sdk/client-${serviceName}";
+    `import type { 
+  ${exportedErrors.map((e) => `${e} as Sdk${e}`).join(",\n  ")}
+} from "@aws-sdk/client-${serviceName}";
 import * as Data from "effect/Data";
 
 export type TaggedException<T extends { name: string }> = T & {
@@ -196,8 +233,8 @@ export type TaggedException<T extends { name: string }> = T & {
 ${pipe(
   exportedErrors,
   Array.map(
-    (taggedError) =>
-      `export type ${pipe(taggedError, String.replace(/(Exception|Error)$/, ""))}Error = TaggedException<${taggedError.endsWith("Error") ? `${String.replace(/Error$/, "")(taggedError)}Exception` : taggedError}>;`,
+    (e) =>
+      `export type ${e} = TaggedException<Sdk${e}>;`,
   ),
   Array.join("\n"),
 )}
@@ -325,43 +362,6 @@ export * from "./${sdkName}ClientInstanceConfig";
 export * from "./${sdkName}Service";
 `,
   );
-  const operationTargets = pipe(
-    serviceShape.operations,
-    Array.map(({ target }) => target),
-  );
-  const operationShapes = pipe(
-    manifest.shapes,
-    Record.filter(
-      (shape): shape is Extract<Shape, { type: "operation" }> =>
-        shape.type === "operation",
-    ),
-    Struct.pick(...operationTargets),
-    Record.filter(Predicate.isNotUndefined),
-    Record.mapKeys(getNameFromTarget),
-    Record.toEntries,
-  ) as [
-    string,
-    {
-      type: "operation";
-      errors: { target: string }[];
-    },
-  ][];
-
-  const operationNames = pipe(operationTargets, Array.map(getNameFromTarget));
-
-  const importedErrors = pipe(
-    operationShapes,
-    Array.map(Tuple.getSecond),
-    Array.filter(
-      (shape): shape is Extract<Shape, { type: "operation" }> =>
-        shape.type === "operation",
-    ),
-    Array.flatMap(({ errors }) => errors ?? []),
-    Array.map(flow(({ target }) => target, getNameFromTarget)),
-    Array.dedupe,
-    Array.sort(String.Order),
-    Array.intersection(exportedErrors),
-  );
 
   await writeFile(
     `./packages/client-${serviceName}/src/${sdkName}Service.ts`,
@@ -369,18 +369,22 @@ export * from "./${sdkName}Service";
  * @since 1.0.0
  */
 import {
-  ${sdkName}ServiceException,
+  ${sdkName}ServiceException as Sdk${sdkName}ServiceException,
   ${pipe(
-    operationNames,
-    Array.map(
-      (name) => `${name}Command,
-  type ${name}CommandInput,
-  type ${name}CommandOutput,`,
-    ),
+    operations,
+    Array.map(([name]) => `${getLocalNameFromNamespace(name)}Command,`),
+    Array.join("\n  "),
+  )}
+  ${pipe(
+    operations,
+    Array.flatMap(([_, { input, output }]) => [input.target, output.target]),
+    Array.filter((target) => target !== SMITHY_API_UNIT),
+    Array.map((target) => `type ${getLocalNameFromNamespace(target)},`),
+    Array.dedupe,
     Array.join("\n  "),
   )}
 } from "@aws-sdk/client-${serviceName}";
-import { type HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
+import type { HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
 import { Context, Data, Effect, Layer, Record } from "effect";
 import {
   ${sdkName}ClientInstance,
@@ -389,18 +393,18 @@ import {
 import { Default${sdkName}ClientConfigLayer } from "./${sdkName}ClientInstanceConfig";
 import {
   ${pipe(
-    importedErrors.map(String.replace(/(Exception|Error)$/, "")),
-    Array.map((error) => `${error}Error`),
-    Array.join(","),
+    [...importedErrors, 'TaggedException'],
+    Array.map(error => `type ${error}`),
+    Array.join(",\n "),
   )},
   SdkError,
-  TaggedException,
 } from "./Errors";
 
 const commands = {
   ${pipe(
-    operationNames,
+    getOperationNames(smithyModel),
     Array.map((name) => `${name}Command`),
+    Array.join(",\n "),
   )}
 };
 
@@ -412,24 +416,22 @@ export interface ${sdkName}Service {
   readonly _: unique symbol;
 
 ${pipe(
-  operationShapes,
+  operations,
   Array.map(([operationName, operationShape]) => {
     const errors = pipe(
       operationShape.errors || [],
-      Array.map(flow(Struct.get("target"), getNameFromTarget)),
+      Array.map(flow(Struct.get("target"), getLocalNameFromNamespace)),
       Array.intersection(importedErrors),
-      Array.map(String.replace(/(Exception|Error)$/, "")),
-      Array.map((error) => `${error}Error`),
     );
     return `  /**
-   * @see {@link ${operationName}Command}
+   * @see {@link ${getLocalNameFromNamespace(operationName)}Command}
    */
-  ${pipe(operationName, lowerFirst)}(
-    args: ${operationName}CommandInput,
+  ${pipe(getLocalNameFromNamespace(operationName), lowerFirst)}(
+    args: ${operationShape.input.target === SMITHY_API_UNIT ? "{}" : getLocalNameFromNamespace(operationShape.input.target)},
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
-    ${operationName}CommandOutput,
-    ${pipe(["SdkError", ...errors], Array.join(" | "))}
+  ${operationShape.output.target === SMITHY_API_UNIT ? 'void' : getLocalNameFromNamespace(operationShape.output.target)},
+    ${pipe(["| SdkError", ...errors], Array.join("\n| "))}
   >`;
   }),
   Array.join("\n\n"),
@@ -457,9 +459,9 @@ export const make${sdkName}Service = Effect.gen(function* (_) {
       Effect.tryPromise({
         try: () => client.send(new CommandCtor(args), options ?? {}),
         catch: (e) => {
-          if (e instanceof ${sdkName}ServiceException) {
+          if (e instanceof Sdk${sdkName}ServiceException) {
             const ServiceException = Data.tagged<
-              TaggedException<${sdkName}ServiceException>
+              TaggedException<Sdk${sdkName}ServiceException>
             >(e.name);
 
             return ServiceException({

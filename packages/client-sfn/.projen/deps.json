@@ -70,7 +70,7 @@
     },
     {
       "name": "@aws-sdk/client-sfn",
-      "version": "^3",
+      "version": "^3.556.0",
       "type": "runtime"
     },
     {

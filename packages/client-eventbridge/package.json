@@ -39,7 +39,7 @@
     "effect": ">=3.0.0 <4.0.0"
   },
   "dependencies": {
-    "@aws-sdk/client-eventbridge": "^3",
+    "@aws-sdk/client-eventbridge": "^3.556.0",
     "@aws-sdk/types": "^3"
   },
   "main": "lib/index.js",
