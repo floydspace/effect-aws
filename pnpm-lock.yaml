@@ -67,13 +67,13 @@ importers:
         version: 2.28.1(@typescript-eslint/parser@6.7.0)(eslint-import-resolver-typescript@3.6.1)(eslint@8.49.0)
       eslint-plugin-prettier:
         specifier: ^5.0.0
-        version: 5.0.0(eslint-config-prettier@9.0.0)(eslint@8.49.0)(prettier@3.2.4)
+        version: 5.0.0(eslint-config-prettier@9.0.0)(eslint@8.49.0)(prettier@3.2.5)
       nx:
         specifier: 16.0.0
         version: 16.0.0
       prettier:
-        specifier: ^3.0.3
-        version: 3.2.4
+        specifier: ^3.2.5
+        version: 3.2.5
       projen:
         specifier: ^0.79.24
         version: 0.79.27(constructs@10.3.0)
@@ -134,10 +134,10 @@ importers:
         version: 2.28.1(@typescript-eslint/parser@6.7.0)(eslint-import-resolver-typescript@3.6.1)(eslint@8.49.0)
       eslint-plugin-prettier:
         specifier: ^5.0.0
-        version: 5.0.0(eslint-config-prettier@9.0.0)(eslint@8.49.0)(prettier@3.2.4)
+        version: 5.0.0(eslint-config-prettier@9.0.0)(eslint@8.49.0)(prettier@3.2.5)
       prettier:
-        specifier: ^3.0.3
-        version: 3.2.4
+        specifier: ^3.2.5
+        version: 3.2.5
       projen:
         specifier: ^0.79.24
         version: 0.79.27(constructs@10.3.0)
@@ -189,10 +189,10 @@ importers:
         version: 2.28.1(@typescript-eslint/parser@6.7.0)(eslint-import-resolver-typescript@3.6.1)(eslint@8.49.0)
       eslint-plugin-prettier:
         specifier: ^5.0.0
-        version: 5.0.0(eslint-config-prettier@9.0.0)(eslint@8.49.0)(prettier@3.2.4)
+        version: 5.0.0(eslint-config-prettier@9.0.0)(eslint@8.49.0)(prettier@3.2.5)
       prettier:
-        specifier: ^3.0.3
-        version: 3.2.4
+        specifier: ^3.2.5
+        version: 3.2.5
       projen:
         specifier: ^0.79.24
         version: 0.79.27(constructs@10.3.0)
@@ -244,10 +244,10 @@ importers:
         version: 2.28.1(@typescript-eslint/parser@6.7.0)(eslint-import-resolver-typescript@3.6.1)(eslint@8.49.0)
       eslint-plugin-prettier:
         specifier: ^5.0.0
-        version: 5.0.0(eslint-config-prettier@9.0.0)(eslint@8.49.0)(prettier@3.2.4)
+        version: 5.0.0(eslint-config-prettier@9.0.0)(eslint@8.49.0)(prettier@3.2.5)
       prettier:
-        specifier: ^3.2.4
-        version: 3.2.4
+        specifier: ^3.2.5
+        version: 3.2.5
       projen:
         specifier: ^0.79.24
         version: 0.79.27(constructs@10.3.0)
@@ -299,10 +299,10 @@ importers:
         version: 2.28.1(@typescript-eslint/parser@6.7.0)(eslint-import-resolver-typescript@3.6.1)(eslint@8.49.0)
       eslint-plugin-prettier:
         specifier: ^5.0.0
-        version: 5.0.0(eslint-config-prettier@9.0.0)(eslint@8.49.0)(prettier@3.2.4)
+        version: 5.0.0(eslint-config-prettier@9.0.0)(eslint@8.49.0)(prettier@3.2.5)
       prettier:
-        specifier: ^3.2.4
-        version: 3.2.4
+        specifier: ^3.2.5
+        version: 3.2.5
       projen:
         specifier: ^0.79.24
         version: 0.79.27(constructs@10.3.0)
@@ -354,10 +354,10 @@ importers:
         version: 2.28.1(@typescript-eslint/parser@6.7.0)(eslint-import-resolver-typescript@3.6.1)(eslint@8.49.0)
       eslint-plugin-prettier:
         specifier: ^5.0.0
-        version: 5.0.0(eslint-config-prettier@9.0.0)(eslint@8.49.0)(prettier@3.2.4)
+        version: 5.0.0(eslint-config-prettier@9.0.0)(eslint@8.49.0)(prettier@3.2.5)
       prettier:
-        specifier: ^3.0.3
-        version: 3.2.4
+        specifier: ^3.2.5
+        version: 3.2.5
       projen:
         specifier: ^0.79.24
         version: 0.79.27(constructs@10.3.0)
@@ -409,10 +409,10 @@ importers:
         version: 2.28.1(@typescript-eslint/parser@6.7.0)(eslint-import-resolver-typescript@3.6.1)(eslint@8.49.0)
       eslint-plugin-prettier:
         specifier: ^5.0.0
-        version: 5.0.0(eslint-config-prettier@9.0.0)(eslint@8.49.0)(prettier@3.2.4)
+        version: 5.0.0(eslint-config-prettier@9.0.0)(eslint@8.49.0)(prettier@3.2.5)
       prettier:
-        specifier: ^3.0.3
-        version: 3.2.4
+        specifier: ^3.2.5
+        version: 3.2.5
       projen:
         specifier: ^0.79.24
         version: 0.79.27(constructs@10.3.0)
@@ -464,10 +464,10 @@ importers:
         version: 2.28.1(@typescript-eslint/parser@6.7.0)(eslint-import-resolver-typescript@3.6.1)(eslint@8.49.0)
       eslint-plugin-prettier:
         specifier: ^5.0.0
-        version: 5.0.0(eslint-config-prettier@9.0.0)(eslint@8.49.0)(prettier@3.2.4)
+        version: 5.0.0(eslint-config-prettier@9.0.0)(eslint@8.49.0)(prettier@3.2.5)
       prettier:
-        specifier: ^3.0.3
-        version: 3.2.4
+        specifier: ^3.2.5
+        version: 3.2.5
       projen:
         specifier: ^0.79.24
         version: 0.79.27(constructs@10.3.0)
@@ -522,10 +522,65 @@ importers:
         version: 2.28.1(@typescript-eslint/parser@6.7.0)(eslint-import-resolver-typescript@3.6.1)(eslint@8.49.0)
       eslint-plugin-prettier:
         specifier: ^5.0.0
-        version: 5.0.0(eslint-config-prettier@9.0.0)(eslint@8.49.0)(prettier@3.2.4)
+        version: 5.0.0(eslint-config-prettier@9.0.0)(eslint@8.49.0)(prettier@3.2.5)
       prettier:
-        specifier: ^3.0.3
-        version: 3.2.4
+        specifier: ^3.2.5
+        version: 3.2.5
+      projen:
+        specifier: ^0.79.24
+        version: 0.79.27(constructs@10.3.0)
+      typescript:
+        specifier: ^5.4.2
+        version: 5.4.5
+
+  packages/client-secrets-manager:
+    dependencies:
+      '@aws-sdk/client-secrets-manager':
+        specifier: ^3
+        version: 3.533.0
+      '@aws-sdk/types':
+        specifier: ^3
+        version: 3.533.0
+    devDependencies:
+      '@types/node':
+        specifier: ^18
+        version: 18.19.14
+      '@typescript-eslint/eslint-plugin':
+        specifier: ^6
+        version: 6.7.0(@typescript-eslint/parser@6.7.0)(eslint@8.49.0)(typescript@5.4.5)
+      '@typescript-eslint/parser':
+        specifier: ^6
+        version: 6.7.0(eslint@8.49.0)(typescript@5.4.5)
+      aws-sdk-client-mock:
+        specifier: ^3.0.0
+        version: 3.0.0
+      aws-sdk-client-mock-jest:
+        specifier: ^3.0.0
+        version: 3.0.0(aws-sdk-client-mock@3.0.0)
+      constructs:
+        specifier: ^10.0.0
+        version: 10.3.0
+      effect:
+        specifier: 3.0.0
+        version: 3.0.0
+      eslint:
+        specifier: ^8
+        version: 8.49.0
+      eslint-config-prettier:
+        specifier: ^9.0.0
+        version: 9.0.0(eslint@8.49.0)
+      eslint-import-resolver-typescript:
+        specifier: ^3.6.1
+        version: 3.6.1(@typescript-eslint/parser@6.7.0)(eslint-plugin-import@2.28.1)(eslint@8.49.0)
+      eslint-plugin-import:
+        specifier: ^2.28.1
+        version: 2.28.1(@typescript-eslint/parser@6.7.0)(eslint-import-resolver-typescript@3.6.1)(eslint@8.49.0)
+      eslint-plugin-prettier:
+        specifier: ^5.0.0
+        version: 5.0.0(eslint-config-prettier@9.0.0)(eslint@8.49.0)(prettier@3.2.5)
+      prettier:
+        specifier: ^3.2.5
+        version: 3.2.5
       projen:
         specifier: ^0.79.24
         version: 0.79.27(constructs@10.3.0)
@@ -577,10 +632,10 @@ importers:
         version: 2.28.1(@typescript-eslint/parser@6.7.0)(eslint-import-resolver-typescript@3.6.1)(eslint@8.49.0)
       eslint-plugin-prettier:
         specifier: ^5.0.0
-        version: 5.0.0(eslint-config-prettier@9.0.0)(eslint@8.49.0)(prettier@3.2.4)
+        version: 5.0.0(eslint-config-prettier@9.0.0)(eslint@8.49.0)(prettier@3.2.5)
       prettier:
-        specifier: ^3.0.3
-        version: 3.2.4
+        specifier: ^3.2.5
+        version: 3.2.5
       projen:
         specifier: ^0.79.24
         version: 0.79.27(constructs@10.3.0)
@@ -632,10 +687,10 @@ importers:
         version: 2.28.1(@typescript-eslint/parser@6.7.0)(eslint-import-resolver-typescript@3.6.1)(eslint@8.49.0)
       eslint-plugin-prettier:
         specifier: ^5.0.0
-        version: 5.0.0(eslint-config-prettier@9.0.0)(eslint@8.49.0)(prettier@3.2.4)
+        version: 5.0.0(eslint-config-prettier@9.0.0)(eslint@8.49.0)(prettier@3.2.5)
       prettier:
-        specifier: ^3.0.3
-        version: 3.2.4
+        specifier: ^3.2.5
+        version: 3.2.5
       projen:
         specifier: ^0.79.24
         version: 0.79.27(constructs@10.3.0)
@@ -687,10 +742,10 @@ importers:
         version: 2.28.1(@typescript-eslint/parser@6.7.0)(eslint-import-resolver-typescript@3.6.1)(eslint@8.49.0)
       eslint-plugin-prettier:
         specifier: ^5.0.0
-        version: 5.0.0(eslint-config-prettier@9.0.0)(eslint@8.49.0)(prettier@3.2.4)
+        version: 5.0.0(eslint-config-prettier@9.0.0)(eslint@8.49.0)(prettier@3.2.5)
       prettier:
-        specifier: ^3.0.3
-        version: 3.2.4
+        specifier: ^3.2.5
+        version: 3.2.5
       projen:
         specifier: ^0.79.24
         version: 0.79.27(constructs@10.3.0)
@@ -732,10 +787,10 @@ importers:
         version: 2.28.1(@typescript-eslint/parser@6.7.0)(eslint-import-resolver-typescript@3.6.1)(eslint@8.49.0)
       eslint-plugin-prettier:
         specifier: ^5.0.0
-        version: 5.0.0(eslint-config-prettier@9.0.0)(eslint@8.49.0)(prettier@3.2.4)
+        version: 5.0.0(eslint-config-prettier@9.0.0)(eslint@8.49.0)(prettier@3.2.5)
       prettier:
-        specifier: ^3.0.3
-        version: 3.2.4
+        specifier: ^3.2.5
+        version: 3.2.5
       projen:
         specifier: ^0.79.24
         version: 0.79.27(constructs@10.3.0)
@@ -793,10 +848,10 @@ importers:
         version: 2.28.1(@typescript-eslint/parser@6.7.0)(eslint-import-resolver-typescript@3.6.1)(eslint@8.49.0)
       eslint-plugin-prettier:
         specifier: ^5.0.0
-        version: 5.0.0(eslint-config-prettier@9.0.0)(eslint@8.49.0)(prettier@3.2.4)
+        version: 5.0.0(eslint-config-prettier@9.0.0)(eslint@8.49.0)(prettier@3.2.5)
       prettier:
-        specifier: ^3.0.3
-        version: 3.2.4
+        specifier: ^3.2.5
+        version: 3.2.5
       projen:
         specifier: ^0.79.24
         version: 0.79.27(constructs@10.3.0)
@@ -842,10 +897,10 @@ importers:
         version: 2.28.1(@typescript-eslint/parser@6.7.0)(eslint-import-resolver-typescript@3.6.1)(eslint@8.49.0)
       eslint-plugin-prettier:
         specifier: ^5.0.0
-        version: 5.0.0(eslint-config-prettier@9.0.0)(eslint@8.49.0)(prettier@3.2.4)
+        version: 5.0.0(eslint-config-prettier@9.0.0)(eslint@8.49.0)(prettier@3.2.5)
       prettier:
-        specifier: ^3.0.3
-        version: 3.2.4
+        specifier: ^3.2.5
+        version: 3.2.5
       projen:
         specifier: ^0.79.24
         version: 0.79.27(constructs@10.3.0)
@@ -1374,6 +1429,55 @@ packages:
       '@smithy/util-utf8': 2.2.0
       '@smithy/util-waiter': 2.1.4
       tslib: 2.6.2
+    transitivePeerDependencies:
+      - aws-crt
+    dev: false
+
+  /@aws-sdk/client-secrets-manager@3.533.0:
+    resolution: {integrity: sha512-xwkVgN2getN7Hcd/ZVt2WusRuJwdMzg1H9TSEmBAjVxyr+o9E8vtNqLKn64cZ5tmxljkB0jaMH8vfnEWydxJTg==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@aws-crypto/sha256-browser': 3.0.0
+      '@aws-crypto/sha256-js': 3.0.0
+      '@aws-sdk/client-sts': 3.533.0(@aws-sdk/credential-provider-node@3.533.0)
+      '@aws-sdk/core': 3.533.0
+      '@aws-sdk/credential-provider-node': 3.533.0
+      '@aws-sdk/middleware-host-header': 3.533.0
+      '@aws-sdk/middleware-logger': 3.533.0
+      '@aws-sdk/middleware-recursion-detection': 3.533.0
+      '@aws-sdk/middleware-user-agent': 3.533.0
+      '@aws-sdk/region-config-resolver': 3.533.0
+      '@aws-sdk/types': 3.533.0
+      '@aws-sdk/util-endpoints': 3.533.0
+      '@aws-sdk/util-user-agent-browser': 3.533.0
+      '@aws-sdk/util-user-agent-node': 3.533.0
+      '@smithy/config-resolver': 2.1.5
+      '@smithy/core': 1.3.8
+      '@smithy/fetch-http-handler': 2.4.5
+      '@smithy/hash-node': 2.1.4
+      '@smithy/invalid-dependency': 2.1.4
+      '@smithy/middleware-content-length': 2.1.4
+      '@smithy/middleware-endpoint': 2.4.6
+      '@smithy/middleware-retry': 2.1.7
+      '@smithy/middleware-serde': 2.2.1
+      '@smithy/middleware-stack': 2.1.4
+      '@smithy/node-config-provider': 2.2.5
+      '@smithy/node-http-handler': 2.4.3
+      '@smithy/protocol-http': 3.2.2
+      '@smithy/smithy-client': 2.4.5
+      '@smithy/types': 2.11.0
+      '@smithy/url-parser': 2.1.4
+      '@smithy/util-base64': 2.2.1
+      '@smithy/util-body-length-browser': 2.1.1
+      '@smithy/util-body-length-node': 2.2.2
+      '@smithy/util-defaults-mode-browser': 2.1.7
+      '@smithy/util-defaults-mode-node': 2.2.7
+      '@smithy/util-endpoints': 1.1.5
+      '@smithy/util-middleware': 2.1.4
+      '@smithy/util-retry': 2.1.4
+      '@smithy/util-utf8': 2.2.0
+      tslib: 2.6.2
+      uuid: 9.0.1
     transitivePeerDependencies:
       - aws-crt
     dev: false
@@ -4793,7 +4897,7 @@ packages:
       - supports-color
     dev: true
 
-  /eslint-plugin-prettier@5.0.0(eslint-config-prettier@9.0.0)(eslint@8.49.0)(prettier@3.2.4):
+  /eslint-plugin-prettier@5.0.0(eslint-config-prettier@9.0.0)(eslint@8.49.0)(prettier@3.2.5):
     resolution: {integrity: sha512-AgaZCVuYDXHUGxj/ZGu1u8H8CYgDY3iG6w5kUFw4AzMVXzB7VvbKgYR4nATIN+OvUrghMbiDLeimVjVY5ilq3w==}
     engines: {node: ^14.18.0 || >=16.0.0}
     peerDependencies:
@@ -4809,7 +4913,7 @@ packages:
     dependencies:
       eslint: 8.49.0
       eslint-config-prettier: 9.0.0(eslint@8.49.0)
-      prettier: 3.2.4
+      prettier: 3.2.5
       prettier-linter-helpers: 1.0.0
       synckit: 0.8.5
     dev: true
@@ -6622,12 +6726,6 @@ packages:
   /prettier@2.8.8:
     resolution: {integrity: sha512-tdN8qQGvNjw4CHbY+XXk0JgCXn9QiF21a55rBe5LJAU+kDyC4WQn4+awm2Xfk2lQMk5fKup9XgzTZtGkjBdP9Q==}
     engines: {node: '>=10.13.0'}
-    hasBin: true
-    dev: true
-
-  /prettier@3.2.4:
-    resolution: {integrity: sha512-FWu1oLHKCrtpO1ypU6J0SbK2d9Ckwysq6bHj/uaCP26DxrPpppCLQRGVuqAxSTvhF00AcvDRyYrLNW7ocBhFFQ==}
-    engines: {node: '>=14'}
     hasBin: true
     dev: true
 

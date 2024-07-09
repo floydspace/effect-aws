@@ -40,6 +40,7 @@ type Shape =
       traits: {
         "aws.api#service": {
           sdkId: string;
+          cloudFormationName: string;
         };
       };
     }
@@ -165,7 +166,7 @@ async function generateClient([
     Option.getOrThrowWith(() => new TypeError("ServiceShape is not found")),
   );
 
-  const { sdkId } = serviceShape.traits["aws.api#service"];
+  const { cloudFormationName: sdkId } = serviceShape.traits["aws.api#service"];
   const sdkName = upperFirst(sdkId);
 
   const awsClient = await import(
@@ -197,7 +198,7 @@ ${pipe(
   exportedErrors,
   Array.map(
     (taggedError) =>
-      `export type ${pipe(taggedError, String.replace(/(Exception|Error)$/, ""))}Error = TaggedException<${taggedError.endsWith("Error") ? `${String.replace(/Error$/, "")(taggedError)}Exception` : taggedError}>;`,
+      `export type ${pipe(taggedError, String.replace(/(Failure|Exception|Error)$/, ""))}Error = TaggedException<${taggedError.endsWith("Error") ? `${String.replace(/Error$/, "")(taggedError)}Exception` : taggedError}>;`,
   ),
   Array.join("\n"),
 )}
@@ -389,7 +390,7 @@ import {
 import { Default${sdkName}ClientConfigLayer } from "./${sdkName}ClientInstanceConfig";
 import {
   ${pipe(
-    importedErrors.map(String.replace(/(Exception|Error)$/, "")),
+    importedErrors.map(String.replace(/(Failure|Exception|Error)$/, "")),
     Array.map((error) => `${error}Error`),
     Array.join(","),
   )},
@@ -418,7 +419,7 @@ ${pipe(
       operationShape.errors || [],
       Array.map(flow(Struct.get("target"), getNameFromTarget)),
       Array.intersection(importedErrors),
-      Array.map(String.replace(/(Exception|Error)$/, "")),
+      Array.map(String.replace(/(Failure|Exception|Error)$/, "")),
       Array.map((error) => `${error}Error`),
     );
     return `  /**

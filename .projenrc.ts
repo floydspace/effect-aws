@@ -157,6 +157,14 @@ new TypeScriptLibProject({
 
 new TypeScriptLibProject({
   parent: project,
+  name: "client-secrets-manager",
+  deps: [...commonDeps, "@aws-sdk/client-secrets-manager@^3"],
+  devDeps: commonDevDeps,
+  peerDeps: commonPeerDeps,
+});
+
+new TypeScriptLibProject({
+  parent: project,
   name: "lambda",
   devDeps: ["@types/aws-lambda"],
   peerDeps: commonPeerDeps,

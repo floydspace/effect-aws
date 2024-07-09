@@ -1,5 +1,5 @@
 {
-  "name": "@effect-aws/client-dynamodb",
+  "name": "@effect-aws/client-secrets-manager",
   "scripts": {
     "build": "npx projen build",
     "compile": "npx projen compile",
@@ -39,7 +39,7 @@
     "effect": ">=3.0.0 <4.0.0"
   },
   "dependencies": {
-    "@aws-sdk/client-dynamodb": "^3",
+    "@aws-sdk/client-secrets-manager": "^3",
     "@aws-sdk/types": "^3"
   },
   "main": "lib/index.js",
@@ -48,7 +48,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "1.2.0",
+  "version": "0.0.0",
   "types": "lib/index.d.ts",
   "module": "lib/esm/index.js",
   "sideEffects": [],

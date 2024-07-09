@@ -9,6 +9,7 @@ packages:
   - packages/client-iam
   - packages/client-lambda
   - packages/client-s3
+  - packages/client-secrets-manager
   - packages/client-sfn
   - packages/client-sns
   - packages/client-sqs
