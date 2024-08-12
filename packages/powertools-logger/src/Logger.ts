@@ -114,7 +114,11 @@ const makeLoggerInstance = (logger: Logger) => {
       unsafeLogger.logLevelThresholds[
         options.logLevel.label === "FATAL" ? "CRITICAL" : options.logLevel.label
       ],
-      options.message,
+      !Array.isArray(options.message)
+        ? options.message
+        : options.message.length === 1 // since v3.5 the message is always an array
+          ? options.message[0]
+          : options.message,
       extraInputs,
     );
   });
