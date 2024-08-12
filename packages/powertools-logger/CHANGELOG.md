@@ -1,5 +1,11 @@
 # @effect-aws/powertools-logger
 
+## 1.2.1
+
+### Patch Changes
+
+- [`840fc92`](https://github.com/floydspace/effect-aws/commit/840fc9213410ac407ea311f88b2076ef5146d6d6) Thanks [@floydspace](https://github.com/floydspace)! - fix logger message string since effect v3.5
+
 ## 1.2.0
 
 ### Minor Changes
