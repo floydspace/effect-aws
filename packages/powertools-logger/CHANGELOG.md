@@ -1,5 +1,11 @@
 # @effect-aws/powertools-logger
 
+## 1.3.0
+
+### Minor Changes
+
+- [`55ab70f`](https://github.com/floydspace/effect-aws/commit/55ab70f83ac2cf07daea09ee5dfa28e3f6452d42) Thanks [@floydspace](https://github.com/floydspace)! - @aws-lambda-powertools/logger is peer dependency now and support v2
+
 ## 1.2.1
 
 ### Patch Changes
