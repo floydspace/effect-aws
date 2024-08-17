@@ -58,6 +58,14 @@ new TypeScriptLibProject({
   peerDeps: commonPeerDeps,
 });
 
+new TypeScriptLibProject({
+  parent: project,
+  name: "client-codedeploy",
+  deps: [...commonDeps, "@aws-sdk/client-codedeploy@^3"],
+  devDeps: commonDevDeps,
+  peerDeps: commonPeerDeps,
+});
+
 const dynamodbClient = new TypeScriptLibProject({
   parent: project,
   name: "client-dynamodb",

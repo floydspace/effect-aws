@@ -2,6 +2,7 @@
 
 packages:
   - packages/client-api-gateway-management-api
+  - packages/client-codedeploy
   - packages/client-dynamodb
   - packages/client-ec2
   - packages/client-elasticache
