@@ -16,6 +16,7 @@ Effect Docs: https://www.effect.website<br>
 - [x] EventBridge Client
 - [x] Lambda Client
 - [x] Step Functions Client
+- [x] CodeDeploy Client
 - [ ] Other AWS Clients (By Request)
 
 # Contributing Guidelines

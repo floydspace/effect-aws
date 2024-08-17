@@ -829,6 +829,9 @@ importers:
 
   packages/powertools-logger:
     devDependencies:
+      '@aws-lambda-powertools/commons':
+        specifier: 1.9.0
+        version: 1.9.0
       '@aws-lambda-powertools/logger':
         specifier: 1.9.0
         version: 1.9.0
@@ -964,14 +967,14 @@ packages:
       tslib: 1.14.1
     dev: false
 
-  /@aws-lambda-powertools/commons@1.18.1:
-    resolution: {integrity: sha512-gFRgQ2GJDghKvf+fXvT0kQVftgOT05W+hCa7RkfZj6HSjVAO+9DZZeJL3JK1HcsLAjWRj7W9ra0/MqB3Abf+PQ==}
+  /@aws-lambda-powertools/commons@1.9.0:
+    resolution: {integrity: sha512-hxCYIgzApRyExDuheWfrsURXvsDOG1le6x3Qhp6rPsTFeg66Gq94ZsSLi+LtLxdbvBpaU8h5G4LdgwmVja1HdQ==}
     dev: true
 
   /@aws-lambda-powertools/logger@1.9.0:
     resolution: {integrity: sha512-DI4+HbRdWRiG53a4ySV8Hr25wZ7UEQrcZvTx1e66TOC5OR8aYOXcZP2C1YhMzFqvQX+xUjEX3lZWzEzPy9fBvA==}
     dependencies:
-      '@aws-lambda-powertools/commons': 1.18.1
+      '@aws-lambda-powertools/commons': 1.9.0
       lodash.merge: 4.6.2
     dev: true
 

@@ -44,6 +44,7 @@ const commonPeerDeps = ["effect@>=3.0.0 <4.0.0"];
 new TypeScriptLibProject({
   parent: project,
   name: "powertools-logger",
+  devDeps: ["@aws-lambda-powertools/commons@1.9.0"],
   peerDeps: [
     ...commonPeerDeps,
     "@aws-lambda-powertools/logger@>=1.9.0", // lower versions are not supported, raise an issue if you need it

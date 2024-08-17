@@ -19,6 +19,7 @@
     "organization": false
   },
   "devDependencies": {
+    "@aws-lambda-powertools/commons": "1.9.0",
     "@aws-lambda-powertools/logger": "1.9.0",
     "@types/node": "^18",
     "@typescript-eslint/eslint-plugin": "^7",
