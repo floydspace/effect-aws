@@ -1,23 +1,23 @@
-import { monorepo } from "@aws/pdk";
-import { javascript, YamlFile } from "projen";
-import { Changesets, Docgen, TypeScriptLibProject, Vitest } from "./projenrc";
+import { YamlFile } from "projen";
+import {
+  Changesets,
+  Docgen,
+  MonorepoProject,
+  TypeScriptLibProject,
+  Vitest,
+} from "./projenrc";
 
 const org = "floydspace";
 const name = "effect-aws";
 const repo = `${org}/${name}`;
 
-const project = new monorepo.MonorepoTsProject({
+const project = new MonorepoProject({
   name: name,
   description: "Effectful AWS",
   repository: `github:${repo}`,
   homepage: `https://${org}.github.io/${name}`,
   authorEmail: "ifloydrose@gmail.com",
   authorName: "Victor Korzunin",
-  license: "MIT",
-  packageManager: javascript.NodePackageManager.PNPM,
-  clobber: false, // enable it and run `pnpm default && pnpm clobber`, if you need to reset the project
-  depsUpgrade: false, // enable it and run `pnpm default && pnpm upgrade` to upgrade projen and monorepo deps
-  monorepoUpgradeDeps: false,
   typescriptVersion: "^5.4.2",
 });
 
