@@ -6,6 +6,7 @@ import type {
   LogAttributes,
   LogItemExtraInput,
   LogItemMessage,
+  LogLevelThresholds,
 } from "@aws-lambda-powertools/logger/lib/types";
 import {
   Cause,
@@ -85,10 +86,9 @@ export const logCritical = processLog(Effect.logFatal);
  */
 const makeLoggerInstance = (logger: Logger) => {
   return Log.make<unknown, void>((options) => {
-    const [...extraInputs] = FiberRefs.getOrDefault(
-      options.context,
-      logExtraInput,
-    );
+    const extraInputs = [
+      ...FiberRefs.getOrDefault(options.context, logExtraInput),
+    ];
 
     const nowMillis = options.date.getTime();
 
@@ -108,18 +108,34 @@ const makeLoggerInstance = (logger: Logger) => {
       })),
     });
 
-    const unsafeLogger = logger as any;
+    const unsafeLogger = logger as unknown as {
+      logLevelThresholds: LogLevelThresholds;
+      processLogItem: (
+        logLevel: number,
+        input: LogItemMessage,
+        extraInput: LogItemExtraInput,
+      ) => void;
+    };
+
+    const mappedLogLevel = {
+      [LogLevel.All.label]: "DEBUG" as const,
+      [LogLevel.Debug.label]: "DEBUG" as const,
+      [LogLevel.Trace.label]: "DEBUG" as const,
+      [LogLevel.Info.label]: "INFO" as const,
+      [LogLevel.Warning.label]: "WARN" as const,
+      [LogLevel.Error.label]: "ERROR" as const,
+      [LogLevel.Fatal.label]: "CRITICAL" as const,
+      [LogLevel.None.label]: "SILENT" as const,
+    };
 
     unsafeLogger.processLogItem(
-      unsafeLogger.logLevelThresholds[
-        options.logLevel.label === "FATAL" ? "CRITICAL" : options.logLevel.label
-      ],
+      unsafeLogger.logLevelThresholds[mappedLogLevel[options.logLevel.label]],
       !Array.isArray(options.message)
         ? options.message
         : options.message.length === 1 // since v3.5 the message is always an array
           ? options.message[0]
           : options.message,
-      extraInputs,
+      extraInputs as LogItemExtraInput,
     );
   });
 };
