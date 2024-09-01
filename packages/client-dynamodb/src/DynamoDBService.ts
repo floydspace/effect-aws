@@ -27,6 +27,9 @@ import {
   DeleteItemCommand,
   type DeleteItemCommandInput,
   type DeleteItemCommandOutput,
+  DeleteResourcePolicyCommand,
+  type DeleteResourcePolicyCommandInput,
+  type DeleteResourcePolicyCommandOutput,
   DeleteTableCommand,
   type DeleteTableCommandInput,
   type DeleteTableCommandOutput,
@@ -87,6 +90,9 @@ import {
   GetItemCommand,
   type GetItemCommandInput,
   type GetItemCommandOutput,
+  GetResourcePolicyCommand,
+  type GetResourcePolicyCommandInput,
+  type GetResourcePolicyCommandOutput,
   ImportTableCommand,
   type ImportTableCommandInput,
   type ImportTableCommandOutput,
@@ -114,6 +120,9 @@ import {
   PutItemCommand,
   type PutItemCommandInput,
   type PutItemCommandOutput,
+  PutResourcePolicyCommand,
+  type PutResourcePolicyCommandInput,
+  type PutResourcePolicyCommandOutput,
   QueryCommand,
   type QueryCommandInput,
   type QueryCommandOutput,
@@ -167,13 +176,14 @@ import {
   type UpdateTimeToLiveCommandOutput,
 } from "@aws-sdk/client-dynamodb";
 import { type HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
-import { Context, Effect, Layer, Record, Data } from "effect";
+import { Context, Data, Effect, Layer, Record } from "effect";
 import {
   DynamoDBClientInstance,
   DynamoDBClientInstanceLayer,
 } from "./DynamoDBClientInstance";
 import { DefaultDynamoDBClientConfigLayer } from "./DynamoDBClientInstanceConfig";
 import {
+  AllServiceErrors,
   BackupInUseError,
   BackupNotFoundError,
   ConditionalCheckFailedError,
@@ -194,6 +204,7 @@ import {
   ItemCollectionSizeLimitExceededError,
   LimitExceededError,
   PointInTimeRecoveryUnavailableError,
+  PolicyNotFoundError,
   ProvisionedThroughputExceededError,
   ReplicaAlreadyExistsError,
   ReplicaNotFoundError,
@@ -219,6 +230,7 @@ const commands = {
   CreateTableCommand,
   DeleteBackupCommand,
   DeleteItemCommand,
+  DeleteResourcePolicyCommand,
   DeleteTableCommand,
   DescribeBackupCommand,
   DescribeContinuousBackupsCommand,
@@ -239,6 +251,7 @@ const commands = {
   ExecuteTransactionCommand,
   ExportTableToPointInTimeCommand,
   GetItemCommand,
+  GetResourcePolicyCommand,
   ImportTableCommand,
   ListBackupsCommand,
   ListContributorInsightsCommand,
@@ -248,6 +261,7 @@ const commands = {
   ListTablesCommand,
   ListTagsOfResourceCommand,
   PutItemCommand,
+  PutResourcePolicyCommand,
   QueryCommand,
   RestoreTableFromBackupCommand,
   RestoreTableToPointInTimeCommand,
@@ -267,11 +281,7 @@ const commands = {
   UpdateTimeToLiveCommand,
 };
 
-/**
- * @since 1.0.0
- * @category models
- */
-export interface DynamoDBService {
+interface DynamoDBService$ {
   readonly _: unique symbol;
 
   /**
@@ -400,6 +410,23 @@ export interface DynamoDBService {
     | RequestLimitExceededError
     | ResourceNotFoundError
     | TransactionConflictError
+  >;
+
+  /**
+   * @see {@link DeleteResourcePolicyCommand}
+   */
+  deleteResourcePolicy(
+    args: DeleteResourcePolicyCommandInput,
+    options?: __HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteResourcePolicyCommandOutput,
+    | SdkError
+    | InternalServerError
+    | InvalidEndpointError
+    | LimitExceededError
+    | PolicyNotFoundError
+    | ResourceInUseError
+    | ResourceNotFoundError
   >;
 
   /**
@@ -673,6 +700,21 @@ export interface DynamoDBService {
   >;
 
   /**
+   * @see {@link GetResourcePolicyCommand}
+   */
+  getResourcePolicy(
+    args: GetResourcePolicyCommandInput,
+    options?: __HttpHandlerOptions,
+  ): Effect.Effect<
+    GetResourcePolicyCommandOutput,
+    | SdkError
+    | InternalServerError
+    | InvalidEndpointError
+    | PolicyNotFoundError
+    | ResourceNotFoundError
+  >;
+
+  /**
    * @see {@link ImportTableCommand}
    */
   importTable(
@@ -777,6 +819,23 @@ export interface DynamoDBService {
     | RequestLimitExceededError
     | ResourceNotFoundError
     | TransactionConflictError
+  >;
+
+  /**
+   * @see {@link PutResourcePolicyCommand}
+   */
+  putResourcePolicy(
+    args: PutResourcePolicyCommandInput,
+    options?: __HttpHandlerOptions,
+  ): Effect.Effect<
+    PutResourcePolicyCommandOutput,
+    | SdkError
+    | InternalServerError
+    | InvalidEndpointError
+    | LimitExceededError
+    | PolicyNotFoundError
+    | ResourceInUseError
+    | ResourceNotFoundError
   >;
 
   /**
@@ -1062,11 +1121,11 @@ export interface DynamoDBService {
 
 /**
  * @since 1.0.0
- * @category tags
+ * @category models
  */
-export const DynamoDBService = Context.GenericTag<DynamoDBService>(
+export class DynamoDBService extends Effect.Tag(
   "@effect-aws/client-dynamodb/DynamoDBService",
-);
+)<DynamoDBService, DynamoDBService$>() {}
 
 /**
  * @since 1.0.0
@@ -1081,7 +1140,10 @@ export const makeDynamoDBService = Effect.gen(function* (_) {
       Effect.tryPromise({
         try: () => client.send(new CommandCtor(args), options ?? {}),
         catch: (e) => {
-          if (e instanceof DynamoDBServiceException) {
+          if (
+            e instanceof DynamoDBServiceException &&
+            AllServiceErrors.includes(e.name)
+          ) {
             const ServiceException = Data.tagged<
               TaggedException<DynamoDBServiceException>
             >(e.name);
@@ -1108,7 +1170,7 @@ export const makeDynamoDBService = Effect.gen(function* (_) {
       "",
     );
     return { ...acc, [methodName]: methodImpl };
-  }, {}) as DynamoDBService;
+  }, {}) as DynamoDBService$;
 });
 
 /**

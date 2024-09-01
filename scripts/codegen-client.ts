@@ -408,11 +408,7 @@ const commands = {
   )}
 };
 
-/**
- * @since 1.0.0
- * @category models
- */
-export interface ${sdkName}Service {
+interface ${sdkName}Service$ {
   readonly _: unique symbol;
 
 ${pipe(
@@ -442,11 +438,12 @@ ${pipe(
 
 /**
  * @since 1.0.0
- * @category tags
+ * @category models
  */
-export const ${sdkName}Service = Context.GenericTag<${sdkName}Service>(
-  "@effect-aws/client-${serviceName}/${sdkName}Service",
-);
+export class ${sdkName}Service extends Effect.Tag("@effect-aws/client-${serviceName}/${sdkName}Service")<
+  ${sdkName}Service,
+  ${sdkName}Service$
+>() {}
 
 /**
  * @since 1.0.0
@@ -488,7 +485,7 @@ export const make${sdkName}Service = Effect.gen(function* (_) {
       "",
     );
     return { ...acc, [methodName]: methodImpl };
-  }, {}) as ${sdkName}Service;
+  }, {}) as ${sdkName}Service$;
 });
 
 /**
@@ -557,7 +554,7 @@ describe("${sdkName}ClientImpl", () => {
         : `const args = {} as unknown as ${commandToTest}CommandInput`
     }
 
-    const program = Effect.flatMap(${sdkName}Service, (service) => service.${pipe(commandToTest, lowerFirst)}(args));
+    const program = ${sdkName}Service.${pipe(commandToTest, lowerFirst)}(args);
 
     const result = await pipe(
       program,
@@ -579,7 +576,7 @@ describe("${sdkName}ClientImpl", () => {
         : `const args = {} as unknown as ${commandToTest}CommandInput`
     }
 
-    const program = Effect.flatMap(${sdkName}Service, (service) => service.${pipe(commandToTest, lowerFirst)}(args));
+    const program = ${sdkName}Service.${pipe(commandToTest, lowerFirst)}(args);
 
     const ${sdkName}ClientConfigLayer = Layer.succeed(${sdkName}ClientInstanceConfig, {
       region: "eu-central-1",
@@ -608,7 +605,7 @@ describe("${sdkName}ClientImpl", () => {
         : `const args = {} as unknown as ${commandToTest}CommandInput`
     }
 
-    const program = Effect.flatMap(${sdkName}Service, (service) => service.${pipe(commandToTest, lowerFirst)}(args));
+    const program = ${sdkName}Service.${pipe(commandToTest, lowerFirst)}(args);
 
     const ${sdkName}ClientInstanceLayer = Layer.succeed(
       ${sdkName}ClientInstance,
@@ -638,7 +635,7 @@ describe("${sdkName}ClientImpl", () => {
         : `const args = {} as unknown as ${commandToTest}CommandInput`
     }
 
-    const program = Effect.flatMap(${sdkName}Service, (service) => service.${pipe(commandToTest, lowerFirst)}(args));
+    const program = ${sdkName}Service.${pipe(commandToTest, lowerFirst)}(args);
 
     const ${sdkName}ClientInstanceLayer = Layer.effect(
       ${sdkName}ClientInstance,
@@ -672,7 +669,7 @@ describe("${sdkName}ClientImpl", () => {
         : `const args = {} as unknown as ${commandToTest}CommandInput`
     }
 
-    const program = Effect.flatMap(${sdkName}Service, (service) => service.${pipe(commandToTest, lowerFirst)}(args));
+    const program = ${sdkName}Service.${pipe(commandToTest, lowerFirst)}(args);
 
     const result = await pipe(
       program,
@@ -711,8 +708,7 @@ describe("${sdkName}ClientImpl", () => {
         : `const args = {} as unknown as ${commandToTest}CommandInput`
     }
 
-    const program = ${sdkName}Service.pipe(
-      Effect.flatMap((service) => service.${pipe(commandToTest, lowerFirst)}(args)),
+    const program = ${sdkName}Service.${pipe(commandToTest, lowerFirst)}(args).pipe(
       Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 
