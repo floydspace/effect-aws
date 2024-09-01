@@ -318,11 +318,7 @@ const commands = {
   UpdateDeploymentGroupCommand,
 };
 
-/**
- * @since 1.0.0
- * @category models
- */
-export interface CodeDeployService {
+interface CodeDeployService$ {
   readonly _: unique symbol;
 
   /**
@@ -1170,11 +1166,11 @@ export interface CodeDeployService {
 
 /**
  * @since 1.0.0
- * @category tags
+ * @category models
  */
-export const CodeDeployService = Context.GenericTag<CodeDeployService>(
+export class CodeDeployService extends Effect.Tag(
   "@effect-aws/client-codedeploy/CodeDeployService",
-);
+)<CodeDeployService, CodeDeployService$>() {}
 
 /**
  * @since 1.0.0
@@ -1219,7 +1215,7 @@ export const makeCodeDeployService = Effect.gen(function* (_) {
       "",
     );
     return { ...acc, [methodName]: methodImpl };
-  }, {}) as CodeDeployService;
+  }, {}) as CodeDeployService$;
 });
 
 /**

@@ -30,9 +30,7 @@ describe("CodeDeployClientImpl", () => {
 
     const args = {} as unknown as ListApplicationsCommandInput;
 
-    const program = Effect.flatMap(CodeDeployService, (service) =>
-      service.listApplications(args),
-    );
+    const program = CodeDeployService.listApplications(args);
 
     const result = await pipe(
       program,
@@ -50,9 +48,7 @@ describe("CodeDeployClientImpl", () => {
 
     const args = {} as unknown as ListApplicationsCommandInput;
 
-    const program = Effect.flatMap(CodeDeployService, (service) =>
-      service.listApplications(args),
-    );
+    const program = CodeDeployService.listApplications(args);
 
     const CodeDeployClientConfigLayer = Layer.succeed(
       CodeDeployClientInstanceConfig,
@@ -80,9 +76,7 @@ describe("CodeDeployClientImpl", () => {
 
     const args = {} as unknown as ListApplicationsCommandInput;
 
-    const program = Effect.flatMap(CodeDeployService, (service) =>
-      service.listApplications(args),
-    );
+    const program = CodeDeployService.listApplications(args);
 
     const CodeDeployClientInstanceLayer = Layer.succeed(
       CodeDeployClientInstance,
@@ -108,9 +102,7 @@ describe("CodeDeployClientImpl", () => {
 
     const args = {} as unknown as ListApplicationsCommandInput;
 
-    const program = Effect.flatMap(CodeDeployService, (service) =>
-      service.listApplications(args),
-    );
+    const program = CodeDeployService.listApplications(args);
 
     const CodeDeployClientInstanceLayer = Layer.effect(
       CodeDeployClientInstance,
@@ -140,9 +132,7 @@ describe("CodeDeployClientImpl", () => {
 
     const args = {} as unknown as ListApplicationsCommandInput;
 
-    const program = Effect.flatMap(CodeDeployService, (service) =>
-      service.listApplications(args),
-    );
+    const program = CodeDeployService.listApplications(args);
 
     const result = await pipe(
       program,
@@ -177,8 +167,7 @@ describe("CodeDeployClientImpl", () => {
 
     const args = {} as unknown as ListApplicationsCommandInput;
 
-    const program = CodeDeployService.pipe(
-      Effect.flatMap((service) => service.listApplications(args)),
+    const program = CodeDeployService.listApplications(args).pipe(
       Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 

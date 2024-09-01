@@ -2,6 +2,7 @@
  * @since 1.0.0
  */
 import {
+  SecretsManagerServiceException,
   BatchGetSecretValueCommand,
   type BatchGetSecretValueCommandInput,
   type BatchGetSecretValueCommandOutput,
@@ -53,7 +54,6 @@ import {
   RotateSecretCommand,
   type RotateSecretCommandInput,
   type RotateSecretCommandOutput,
-  SecretsManagerServiceException,
   StopReplicationToReplicaCommand,
   type StopReplicationToReplicaCommandInput,
   type StopReplicationToReplicaCommandOutput,
@@ -124,11 +124,7 @@ const commands = {
   ValidateResourcePolicyCommand,
 };
 
-/**
- * @since 1.0.0
- * @category models
- */
-export interface SecretsManagerService {
+interface SecretsManagerService$ {
   readonly _: unique symbol;
 
   /**
@@ -500,11 +496,11 @@ export interface SecretsManagerService {
 
 /**
  * @since 1.0.0
- * @category tags
+ * @category models
  */
-export const SecretsManagerService = Context.GenericTag<SecretsManagerService>(
+export class SecretsManagerService extends Effect.Tag(
   "@effect-aws/client-secrets-manager/SecretsManagerService",
-);
+)<SecretsManagerService, SecretsManagerService$>() {}
 
 /**
  * @since 1.0.0
@@ -549,7 +545,7 @@ export const makeSecretsManagerService = Effect.gen(function* (_) {
       "",
     );
     return { ...acc, [methodName]: methodImpl };
-  }, {}) as SecretsManagerService;
+  }, {}) as SecretsManagerService$;
 });
 
 /**

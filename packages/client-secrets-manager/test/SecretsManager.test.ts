@@ -30,9 +30,7 @@ describe("SecretsManagerClientImpl", () => {
 
     const args: GetSecretValueCommandInput = { SecretId: "test" };
 
-    const program = Effect.flatMap(SecretsManagerService, (service) =>
-      service.getSecretValue(args),
-    );
+    const program = SecretsManagerService.getSecretValue(args);
 
     const result = await pipe(
       program,
@@ -50,9 +48,7 @@ describe("SecretsManagerClientImpl", () => {
 
     const args: GetSecretValueCommandInput = { SecretId: "test" };
 
-    const program = Effect.flatMap(SecretsManagerService, (service) =>
-      service.getSecretValue(args),
-    );
+    const program = SecretsManagerService.getSecretValue(args);
 
     const SecretsManagerClientConfigLayer = Layer.succeed(
       SecretsManagerClientInstanceConfig,
@@ -80,9 +76,7 @@ describe("SecretsManagerClientImpl", () => {
 
     const args: GetSecretValueCommandInput = { SecretId: "test" };
 
-    const program = Effect.flatMap(SecretsManagerService, (service) =>
-      service.getSecretValue(args),
-    );
+    const program = SecretsManagerService.getSecretValue(args);
 
     const SecretsManagerClientInstanceLayer = Layer.succeed(
       SecretsManagerClientInstance,
@@ -109,9 +103,7 @@ describe("SecretsManagerClientImpl", () => {
 
     const args: GetSecretValueCommandInput = { SecretId: "test" };
 
-    const program = Effect.flatMap(SecretsManagerService, (service) =>
-      service.getSecretValue(args),
-    );
+    const program = SecretsManagerService.getSecretValue(args);
 
     const SecretsManagerClientInstanceLayer = Layer.effect(
       SecretsManagerClientInstance,
@@ -143,9 +135,7 @@ describe("SecretsManagerClientImpl", () => {
 
     const args: GetSecretValueCommandInput = { SecretId: "test" };
 
-    const program = Effect.flatMap(SecretsManagerService, (service) =>
-      service.getSecretValue(args),
-    );
+    const program = SecretsManagerService.getSecretValue(args);
 
     const result = await pipe(
       program,
@@ -180,8 +170,7 @@ describe("SecretsManagerClientImpl", () => {
 
     const args: GetSecretValueCommandInput = { SecretId: "test" };
 
-    const program = SecretsManagerService.pipe(
-      Effect.flatMap((service) => service.getSecretValue(args)),
+    const program = SecretsManagerService.getSecretValue(args).pipe(
       Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 
