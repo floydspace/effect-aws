@@ -2,6 +2,7 @@
  * @since 1.0.0
  */
 import {
+  ElastiCacheServiceException,
   AddTagsToResourceCommand,
   type AddTagsToResourceCommandInput,
   type AddTagsToResourceCommandOutput,
@@ -155,7 +156,6 @@ import {
   DisassociateGlobalReplicationGroupCommand,
   type DisassociateGlobalReplicationGroupCommandInput,
   type DisassociateGlobalReplicationGroupCommandOutput,
-  ElastiCacheServiceException,
   ExportServerlessCacheSnapshotCommand,
   type ExportServerlessCacheSnapshotCommandInput,
   type ExportServerlessCacheSnapshotCommandOutput,
@@ -230,17 +230,90 @@ import {
   type TestMigrationCommandOutput,
 } from "@aws-sdk/client-elasticache";
 import { type HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
-import { Context, Effect, Layer, Record, Data } from "effect";
+import { Data, Effect, Layer, Record } from "effect";
 import {
   ElastiCacheClientInstance,
   ElastiCacheClientInstanceLayer,
 } from "./ElastiCacheClientInstance";
 import { DefaultElastiCacheClientConfigLayer } from "./ElastiCacheClientInstanceConfig";
 import {
-  ElastiCacheServiceError,
+  AllServiceErrors,
+  APICallRateForCustomerExceededFaultError,
+  AuthorizationAlreadyExistsFaultError,
+  AuthorizationNotFoundFaultError,
+  CacheClusterAlreadyExistsFaultError,
+  CacheClusterNotFoundFaultError,
+  CacheParameterGroupAlreadyExistsFaultError,
+  CacheParameterGroupNotFoundFaultError,
+  CacheParameterGroupQuotaExceededFaultError,
+  CacheSecurityGroupAlreadyExistsFaultError,
+  CacheSecurityGroupNotFoundFaultError,
+  CacheSecurityGroupQuotaExceededFaultError,
+  CacheSubnetGroupAlreadyExistsFaultError,
+  CacheSubnetGroupInUseError,
+  CacheSubnetGroupNotFoundFaultError,
+  CacheSubnetGroupQuotaExceededFaultError,
+  CacheSubnetQuotaExceededFaultError,
+  ClusterQuotaForCustomerExceededFaultError,
+  DefaultUserAssociatedToUserGroupFaultError,
+  DefaultUserRequiredError,
+  DuplicateUserNameFaultError,
+  GlobalReplicationGroupAlreadyExistsFaultError,
+  GlobalReplicationGroupNotFoundFaultError,
+  InsufficientCacheClusterCapacityFaultError,
+  InvalidARNFaultError,
+  InvalidCacheClusterStateFaultError,
+  InvalidCacheParameterGroupStateFaultError,
+  InvalidCacheSecurityGroupStateFaultError,
   InvalidCredentialsError,
+  InvalidGlobalReplicationGroupStateFaultError,
+  InvalidKMSKeyFaultError,
   InvalidParameterCombinationError,
   InvalidParameterValueError,
+  InvalidReplicationGroupStateFaultError,
+  InvalidServerlessCacheSnapshotStateFaultError,
+  InvalidServerlessCacheStateFaultError,
+  InvalidSnapshotStateFaultError,
+  InvalidSubnetError,
+  InvalidUserGroupStateFaultError,
+  InvalidUserStateFaultError,
+  InvalidVPCNetworkStateFaultError,
+  NoOperationFaultError,
+  NodeGroupNotFoundFaultError,
+  NodeGroupsPerReplicationGroupQuotaExceededFaultError,
+  NodeQuotaForClusterExceededFaultError,
+  NodeQuotaForCustomerExceededFaultError,
+  ReplicationGroupAlreadyExistsFaultError,
+  ReplicationGroupAlreadyUnderMigrationFaultError,
+  ReplicationGroupNotFoundFaultError,
+  ReplicationGroupNotUnderMigrationFaultError,
+  ReservedCacheNodeAlreadyExistsFaultError,
+  ReservedCacheNodeNotFoundFaultError,
+  ReservedCacheNodeQuotaExceededFaultError,
+  ReservedCacheNodesOfferingNotFoundFaultError,
+  ServerlessCacheAlreadyExistsFaultError,
+  ServerlessCacheNotFoundFaultError,
+  ServerlessCacheQuotaForCustomerExceededFaultError,
+  ServerlessCacheSnapshotAlreadyExistsFaultError,
+  ServerlessCacheSnapshotNotFoundFaultError,
+  ServerlessCacheSnapshotQuotaExceededFaultError,
+  ServiceLinkedRoleNotFoundFaultError,
+  ServiceUpdateNotFoundFaultError,
+  SnapshotAlreadyExistsFaultError,
+  SnapshotFeatureNotSupportedFaultError,
+  SnapshotNotFoundFaultError,
+  SnapshotQuotaExceededFaultError,
+  SubnetInUseError,
+  SubnetNotAllowedFaultError,
+  TagNotFoundFaultError,
+  TagQuotaPerResourceExceededError,
+  TestFailoverNotAvailableFaultError,
+  UserAlreadyExistsFaultError,
+  UserGroupAlreadyExistsFaultError,
+  UserGroupNotFoundFaultError,
+  UserGroupQuotaExceededFaultError,
+  UserNotFoundFaultError,
+  UserQuotaExceededFaultError,
   SdkError,
   TaggedException,
 } from "./Errors";
@@ -323,33 +396,48 @@ const commands = {
   TestMigrationCommand,
 };
 
-/**
- * @since 1.0.0
- * @category models
- */
-export type ElastiCacheService = {
+interface ElastiCacheService$ {
   readonly _: unique symbol;
 
   /**
    * @see {@link AddTagsToResourceCommand}
    */
-  readonly addTagsToResource: (
+  addTagsToResource(
     args: AddTagsToResourceCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    AddTagsToResourceCommandOutput | SdkError | ElastiCacheServiceError
+  ): Effect.Effect<
+    AddTagsToResourceCommandOutput,
+    | SdkError
+    | CacheClusterNotFoundFaultError
+    | CacheParameterGroupNotFoundFaultError
+    | CacheSecurityGroupNotFoundFaultError
+    | CacheSubnetGroupNotFoundFaultError
+    | InvalidARNFaultError
+    | InvalidReplicationGroupStateFaultError
+    | InvalidServerlessCacheSnapshotStateFaultError
+    | InvalidServerlessCacheStateFaultError
+    | ReplicationGroupNotFoundFaultError
+    | ReservedCacheNodeNotFoundFaultError
+    | ServerlessCacheNotFoundFaultError
+    | ServerlessCacheSnapshotNotFoundFaultError
+    | SnapshotNotFoundFaultError
+    | TagQuotaPerResourceExceededError
+    | UserGroupNotFoundFaultError
+    | UserNotFoundFaultError
   >;
 
   /**
    * @see {@link AuthorizeCacheSecurityGroupIngressCommand}
    */
-  readonly authorizeCacheSecurityGroupIngress: (
+  authorizeCacheSecurityGroupIngress(
     args: AuthorizeCacheSecurityGroupIngressCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | AuthorizeCacheSecurityGroupIngressCommandOutput
+  ): Effect.Effect<
+    AuthorizeCacheSecurityGroupIngressCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
+    | AuthorizationAlreadyExistsFaultError
+    | CacheSecurityGroupNotFoundFaultError
+    | InvalidCacheSecurityGroupStateFaultError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
   >;
@@ -357,226 +445,307 @@ export type ElastiCacheService = {
   /**
    * @see {@link BatchApplyUpdateActionCommand}
    */
-  readonly batchApplyUpdateAction: (
+  batchApplyUpdateAction(
     args: BatchApplyUpdateActionCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | BatchApplyUpdateActionCommandOutput
-    | SdkError
-    | ElastiCacheServiceError
-    | InvalidParameterValueError
+  ): Effect.Effect<
+    BatchApplyUpdateActionCommandOutput,
+    SdkError | InvalidParameterValueError | ServiceUpdateNotFoundFaultError
   >;
 
   /**
    * @see {@link BatchStopUpdateActionCommand}
    */
-  readonly batchStopUpdateAction: (
+  batchStopUpdateAction(
     args: BatchStopUpdateActionCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | BatchStopUpdateActionCommandOutput
-    | SdkError
-    | ElastiCacheServiceError
-    | InvalidParameterValueError
+  ): Effect.Effect<
+    BatchStopUpdateActionCommandOutput,
+    SdkError | InvalidParameterValueError | ServiceUpdateNotFoundFaultError
   >;
 
   /**
    * @see {@link CompleteMigrationCommand}
    */
-  readonly completeMigration: (
+  completeMigration(
     args: CompleteMigrationCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CompleteMigrationCommandOutput | SdkError | ElastiCacheServiceError
+  ): Effect.Effect<
+    CompleteMigrationCommandOutput,
+    | SdkError
+    | InvalidReplicationGroupStateFaultError
+    | ReplicationGroupNotFoundFaultError
+    | ReplicationGroupNotUnderMigrationFaultError
   >;
 
   /**
    * @see {@link CopyServerlessCacheSnapshotCommand}
    */
-  readonly copyServerlessCacheSnapshot: (
+  copyServerlessCacheSnapshot(
     args: CopyServerlessCacheSnapshotCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | CopyServerlessCacheSnapshotCommandOutput
+  ): Effect.Effect<
+    CopyServerlessCacheSnapshotCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
+    | InvalidServerlessCacheSnapshotStateFaultError
+    | ServerlessCacheSnapshotAlreadyExistsFaultError
+    | ServerlessCacheSnapshotNotFoundFaultError
+    | ServerlessCacheSnapshotQuotaExceededFaultError
+    | ServiceLinkedRoleNotFoundFaultError
+    | TagQuotaPerResourceExceededError
   >;
 
   /**
    * @see {@link CopySnapshotCommand}
    */
-  readonly copySnapshot: (
+  copySnapshot(
     args: CopySnapshotCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | CopySnapshotCommandOutput
+  ): Effect.Effect<
+    CopySnapshotCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
+    | InvalidSnapshotStateFaultError
+    | SnapshotAlreadyExistsFaultError
+    | SnapshotNotFoundFaultError
+    | SnapshotQuotaExceededFaultError
+    | TagQuotaPerResourceExceededError
   >;
 
   /**
    * @see {@link CreateCacheClusterCommand}
    */
-  readonly createCacheCluster: (
+  createCacheCluster(
     args: CreateCacheClusterCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | CreateCacheClusterCommandOutput
+  ): Effect.Effect<
+    CreateCacheClusterCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
+    | CacheClusterAlreadyExistsFaultError
+    | CacheParameterGroupNotFoundFaultError
+    | CacheSecurityGroupNotFoundFaultError
+    | CacheSubnetGroupNotFoundFaultError
+    | ClusterQuotaForCustomerExceededFaultError
+    | InsufficientCacheClusterCapacityFaultError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
+    | InvalidReplicationGroupStateFaultError
+    | InvalidVPCNetworkStateFaultError
+    | NodeQuotaForClusterExceededFaultError
+    | NodeQuotaForCustomerExceededFaultError
+    | ReplicationGroupNotFoundFaultError
+    | TagQuotaPerResourceExceededError
   >;
 
   /**
    * @see {@link CreateCacheParameterGroupCommand}
    */
-  readonly createCacheParameterGroup: (
+  createCacheParameterGroup(
     args: CreateCacheParameterGroupCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | CreateCacheParameterGroupCommandOutput
+  ): Effect.Effect<
+    CreateCacheParameterGroupCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
+    | CacheParameterGroupAlreadyExistsFaultError
+    | CacheParameterGroupQuotaExceededFaultError
+    | InvalidCacheParameterGroupStateFaultError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
+    | TagQuotaPerResourceExceededError
   >;
 
   /**
    * @see {@link CreateCacheSecurityGroupCommand}
    */
-  readonly createCacheSecurityGroup: (
+  createCacheSecurityGroup(
     args: CreateCacheSecurityGroupCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | CreateCacheSecurityGroupCommandOutput
+  ): Effect.Effect<
+    CreateCacheSecurityGroupCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
+    | CacheSecurityGroupAlreadyExistsFaultError
+    | CacheSecurityGroupQuotaExceededFaultError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
+    | TagQuotaPerResourceExceededError
   >;
 
   /**
    * @see {@link CreateCacheSubnetGroupCommand}
    */
-  readonly createCacheSubnetGroup: (
+  createCacheSubnetGroup(
     args: CreateCacheSubnetGroupCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    CreateCacheSubnetGroupCommandOutput | SdkError | ElastiCacheServiceError
+  ): Effect.Effect<
+    CreateCacheSubnetGroupCommandOutput,
+    | SdkError
+    | CacheSubnetGroupAlreadyExistsFaultError
+    | CacheSubnetGroupQuotaExceededFaultError
+    | CacheSubnetQuotaExceededFaultError
+    | InvalidSubnetError
+    | SubnetNotAllowedFaultError
+    | TagQuotaPerResourceExceededError
   >;
 
   /**
    * @see {@link CreateGlobalReplicationGroupCommand}
    */
-  readonly createGlobalReplicationGroup: (
+  createGlobalReplicationGroup(
     args: CreateGlobalReplicationGroupCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | CreateGlobalReplicationGroupCommandOutput
+  ): Effect.Effect<
+    CreateGlobalReplicationGroupCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
+    | GlobalReplicationGroupAlreadyExistsFaultError
     | InvalidParameterValueError
+    | InvalidReplicationGroupStateFaultError
+    | ReplicationGroupNotFoundFaultError
+    | ServiceLinkedRoleNotFoundFaultError
   >;
 
   /**
    * @see {@link CreateReplicationGroupCommand}
    */
-  readonly createReplicationGroup: (
+  createReplicationGroup(
     args: CreateReplicationGroupCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | CreateReplicationGroupCommandOutput
+  ): Effect.Effect<
+    CreateReplicationGroupCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
+    | CacheClusterNotFoundFaultError
+    | CacheParameterGroupNotFoundFaultError
+    | CacheSecurityGroupNotFoundFaultError
+    | CacheSubnetGroupNotFoundFaultError
+    | ClusterQuotaForCustomerExceededFaultError
+    | GlobalReplicationGroupNotFoundFaultError
+    | InsufficientCacheClusterCapacityFaultError
+    | InvalidCacheClusterStateFaultError
+    | InvalidGlobalReplicationGroupStateFaultError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
+    | InvalidUserGroupStateFaultError
+    | InvalidVPCNetworkStateFaultError
+    | NodeGroupsPerReplicationGroupQuotaExceededFaultError
+    | NodeQuotaForClusterExceededFaultError
+    | NodeQuotaForCustomerExceededFaultError
+    | ReplicationGroupAlreadyExistsFaultError
+    | TagQuotaPerResourceExceededError
+    | UserGroupNotFoundFaultError
   >;
 
   /**
    * @see {@link CreateServerlessCacheCommand}
    */
-  readonly createServerlessCache: (
+  createServerlessCache(
     args: CreateServerlessCacheCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | CreateServerlessCacheCommandOutput
+  ): Effect.Effect<
+    CreateServerlessCacheCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
     | InvalidCredentialsError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
+    | InvalidServerlessCacheStateFaultError
+    | InvalidUserGroupStateFaultError
+    | ServerlessCacheAlreadyExistsFaultError
+    | ServerlessCacheNotFoundFaultError
+    | ServerlessCacheQuotaForCustomerExceededFaultError
+    | ServiceLinkedRoleNotFoundFaultError
+    | TagQuotaPerResourceExceededError
+    | UserGroupNotFoundFaultError
   >;
 
   /**
    * @see {@link CreateServerlessCacheSnapshotCommand}
    */
-  readonly createServerlessCacheSnapshot: (
+  createServerlessCacheSnapshot(
     args: CreateServerlessCacheSnapshotCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | CreateServerlessCacheSnapshotCommandOutput
+  ): Effect.Effect<
+    CreateServerlessCacheSnapshotCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
+    | InvalidServerlessCacheStateFaultError
+    | ServerlessCacheNotFoundFaultError
+    | ServerlessCacheSnapshotAlreadyExistsFaultError
+    | ServerlessCacheSnapshotQuotaExceededFaultError
+    | ServiceLinkedRoleNotFoundFaultError
+    | TagQuotaPerResourceExceededError
   >;
 
   /**
    * @see {@link CreateSnapshotCommand}
    */
-  readonly createSnapshot: (
+  createSnapshot(
     args: CreateSnapshotCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | CreateSnapshotCommandOutput
+  ): Effect.Effect<
+    CreateSnapshotCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
+    | CacheClusterNotFoundFaultError
+    | InvalidCacheClusterStateFaultError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
+    | InvalidReplicationGroupStateFaultError
+    | ReplicationGroupNotFoundFaultError
+    | SnapshotAlreadyExistsFaultError
+    | SnapshotFeatureNotSupportedFaultError
+    | SnapshotQuotaExceededFaultError
+    | TagQuotaPerResourceExceededError
   >;
 
   /**
    * @see {@link CreateUserCommand}
    */
-  readonly createUser: (
+  createUser(
     args: CreateUserCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | CreateUserCommandOutput
+  ): Effect.Effect<
+    CreateUserCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
+    | DuplicateUserNameFaultError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
+    | ServiceLinkedRoleNotFoundFaultError
+    | TagQuotaPerResourceExceededError
+    | UserAlreadyExistsFaultError
+    | UserQuotaExceededFaultError
   >;
 
   /**
    * @see {@link CreateUserGroupCommand}
    */
-  readonly createUserGroup: (
+  createUserGroup(
     args: CreateUserGroupCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | CreateUserGroupCommandOutput
+  ): Effect.Effect<
+    CreateUserGroupCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
+    | DefaultUserRequiredError
+    | DuplicateUserNameFaultError
     | InvalidParameterValueError
+    | ServiceLinkedRoleNotFoundFaultError
+    | TagQuotaPerResourceExceededError
+    | UserGroupAlreadyExistsFaultError
+    | UserGroupQuotaExceededFaultError
+    | UserNotFoundFaultError
   >;
 
   /**
    * @see {@link DecreaseNodeGroupsInGlobalReplicationGroupCommand}
    */
-  readonly decreaseNodeGroupsInGlobalReplicationGroup: (
+  decreaseNodeGroupsInGlobalReplicationGroup(
     args: DecreaseNodeGroupsInGlobalReplicationGroupCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | DecreaseNodeGroupsInGlobalReplicationGroupCommandOutput
+  ): Effect.Effect<
+    DecreaseNodeGroupsInGlobalReplicationGroupCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
+    | GlobalReplicationGroupNotFoundFaultError
+    | InvalidGlobalReplicationGroupStateFaultError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
   >;
@@ -584,41 +753,55 @@ export type ElastiCacheService = {
   /**
    * @see {@link DecreaseReplicaCountCommand}
    */
-  readonly decreaseReplicaCount: (
+  decreaseReplicaCount(
     args: DecreaseReplicaCountCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | DecreaseReplicaCountCommandOutput
+  ): Effect.Effect<
+    DecreaseReplicaCountCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
+    | ClusterQuotaForCustomerExceededFaultError
+    | InsufficientCacheClusterCapacityFaultError
+    | InvalidCacheClusterStateFaultError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
+    | InvalidReplicationGroupStateFaultError
+    | InvalidVPCNetworkStateFaultError
+    | NodeGroupsPerReplicationGroupQuotaExceededFaultError
+    | NodeQuotaForCustomerExceededFaultError
+    | NoOperationFaultError
+    | ReplicationGroupNotFoundFaultError
+    | ServiceLinkedRoleNotFoundFaultError
   >;
 
   /**
    * @see {@link DeleteCacheClusterCommand}
    */
-  readonly deleteCacheCluster: (
+  deleteCacheCluster(
     args: DeleteCacheClusterCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | DeleteCacheClusterCommandOutput
+  ): Effect.Effect<
+    DeleteCacheClusterCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
+    | CacheClusterNotFoundFaultError
+    | InvalidCacheClusterStateFaultError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
+    | SnapshotAlreadyExistsFaultError
+    | SnapshotFeatureNotSupportedFaultError
+    | SnapshotQuotaExceededFaultError
   >;
 
   /**
    * @see {@link DeleteCacheParameterGroupCommand}
    */
-  readonly deleteCacheParameterGroup: (
+  deleteCacheParameterGroup(
     args: DeleteCacheParameterGroupCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | DeleteCacheParameterGroupCommandOutput
+  ): Effect.Effect<
+    DeleteCacheParameterGroupCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
+    | CacheParameterGroupNotFoundFaultError
+    | InvalidCacheParameterGroupStateFaultError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
   >;
@@ -626,13 +809,14 @@ export type ElastiCacheService = {
   /**
    * @see {@link DeleteCacheSecurityGroupCommand}
    */
-  readonly deleteCacheSecurityGroup: (
+  deleteCacheSecurityGroup(
     args: DeleteCacheSecurityGroupCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | DeleteCacheSecurityGroupCommandOutput
+  ): Effect.Effect<
+    DeleteCacheSecurityGroupCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
+    | CacheSecurityGroupNotFoundFaultError
+    | InvalidCacheSecurityGroupStateFaultError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
   >;
@@ -640,118 +824,135 @@ export type ElastiCacheService = {
   /**
    * @see {@link DeleteCacheSubnetGroupCommand}
    */
-  readonly deleteCacheSubnetGroup: (
+  deleteCacheSubnetGroup(
     args: DeleteCacheSubnetGroupCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DeleteCacheSubnetGroupCommandOutput | SdkError | ElastiCacheServiceError
+  ): Effect.Effect<
+    DeleteCacheSubnetGroupCommandOutput,
+    SdkError | CacheSubnetGroupInUseError | CacheSubnetGroupNotFoundFaultError
   >;
 
   /**
    * @see {@link DeleteGlobalReplicationGroupCommand}
    */
-  readonly deleteGlobalReplicationGroup: (
+  deleteGlobalReplicationGroup(
     args: DeleteGlobalReplicationGroupCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | DeleteGlobalReplicationGroupCommandOutput
+  ): Effect.Effect<
+    DeleteGlobalReplicationGroupCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
+    | GlobalReplicationGroupNotFoundFaultError
+    | InvalidGlobalReplicationGroupStateFaultError
     | InvalidParameterValueError
   >;
 
   /**
    * @see {@link DeleteReplicationGroupCommand}
    */
-  readonly deleteReplicationGroup: (
+  deleteReplicationGroup(
     args: DeleteReplicationGroupCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | DeleteReplicationGroupCommandOutput
+  ): Effect.Effect<
+    DeleteReplicationGroupCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
+    | InvalidReplicationGroupStateFaultError
+    | ReplicationGroupNotFoundFaultError
+    | SnapshotAlreadyExistsFaultError
+    | SnapshotFeatureNotSupportedFaultError
+    | SnapshotQuotaExceededFaultError
   >;
 
   /**
    * @see {@link DeleteServerlessCacheCommand}
    */
-  readonly deleteServerlessCache: (
+  deleteServerlessCache(
     args: DeleteServerlessCacheCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | DeleteServerlessCacheCommandOutput
+  ): Effect.Effect<
+    DeleteServerlessCacheCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
     | InvalidCredentialsError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
+    | InvalidServerlessCacheStateFaultError
+    | ServerlessCacheNotFoundFaultError
+    | ServerlessCacheSnapshotAlreadyExistsFaultError
+    | ServiceLinkedRoleNotFoundFaultError
   >;
 
   /**
    * @see {@link DeleteServerlessCacheSnapshotCommand}
    */
-  readonly deleteServerlessCacheSnapshot: (
+  deleteServerlessCacheSnapshot(
     args: DeleteServerlessCacheSnapshotCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | DeleteServerlessCacheSnapshotCommandOutput
+  ): Effect.Effect<
+    DeleteServerlessCacheSnapshotCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
     | InvalidParameterValueError
+    | InvalidServerlessCacheSnapshotStateFaultError
+    | ServerlessCacheSnapshotNotFoundFaultError
+    | ServiceLinkedRoleNotFoundFaultError
   >;
 
   /**
    * @see {@link DeleteSnapshotCommand}
    */
-  readonly deleteSnapshot: (
+  deleteSnapshot(
     args: DeleteSnapshotCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | DeleteSnapshotCommandOutput
+  ): Effect.Effect<
+    DeleteSnapshotCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
+    | InvalidSnapshotStateFaultError
+    | SnapshotNotFoundFaultError
   >;
 
   /**
    * @see {@link DeleteUserCommand}
    */
-  readonly deleteUser: (
+  deleteUser(
     args: DeleteUserCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | DeleteUserCommandOutput
+  ): Effect.Effect<
+    DeleteUserCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
+    | DefaultUserAssociatedToUserGroupFaultError
     | InvalidParameterValueError
+    | InvalidUserStateFaultError
+    | ServiceLinkedRoleNotFoundFaultError
+    | UserNotFoundFaultError
   >;
 
   /**
    * @see {@link DeleteUserGroupCommand}
    */
-  readonly deleteUserGroup: (
+  deleteUserGroup(
     args: DeleteUserGroupCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | DeleteUserGroupCommandOutput
+  ): Effect.Effect<
+    DeleteUserGroupCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
     | InvalidParameterValueError
+    | InvalidUserGroupStateFaultError
+    | ServiceLinkedRoleNotFoundFaultError
+    | UserGroupNotFoundFaultError
   >;
 
   /**
    * @see {@link DescribeCacheClustersCommand}
    */
-  readonly describeCacheClusters: (
+  describeCacheClusters(
     args: DescribeCacheClustersCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | DescribeCacheClustersCommandOutput
+  ): Effect.Effect<
+    DescribeCacheClustersCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
+    | CacheClusterNotFoundFaultError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
   >;
@@ -759,25 +960,21 @@ export type ElastiCacheService = {
   /**
    * @see {@link DescribeCacheEngineVersionsCommand}
    */
-  readonly describeCacheEngineVersions: (
+  describeCacheEngineVersions(
     args: DescribeCacheEngineVersionsCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | DescribeCacheEngineVersionsCommandOutput
-    | SdkError
-    | ElastiCacheServiceError
-  >;
+  ): Effect.Effect<DescribeCacheEngineVersionsCommandOutput, SdkError>;
 
   /**
    * @see {@link DescribeCacheParameterGroupsCommand}
    */
-  readonly describeCacheParameterGroups: (
+  describeCacheParameterGroups(
     args: DescribeCacheParameterGroupsCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | DescribeCacheParameterGroupsCommandOutput
+  ): Effect.Effect<
+    DescribeCacheParameterGroupsCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
+    | CacheParameterGroupNotFoundFaultError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
   >;
@@ -785,13 +982,13 @@ export type ElastiCacheService = {
   /**
    * @see {@link DescribeCacheParametersCommand}
    */
-  readonly describeCacheParameters: (
+  describeCacheParameters(
     args: DescribeCacheParametersCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | DescribeCacheParametersCommandOutput
+  ): Effect.Effect<
+    DescribeCacheParametersCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
+    | CacheParameterGroupNotFoundFaultError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
   >;
@@ -799,13 +996,13 @@ export type ElastiCacheService = {
   /**
    * @see {@link DescribeCacheSecurityGroupsCommand}
    */
-  readonly describeCacheSecurityGroups: (
+  describeCacheSecurityGroups(
     args: DescribeCacheSecurityGroupsCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | DescribeCacheSecurityGroupsCommandOutput
+  ): Effect.Effect<
+    DescribeCacheSecurityGroupsCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
+    | CacheSecurityGroupNotFoundFaultError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
   >;
@@ -813,51 +1010,46 @@ export type ElastiCacheService = {
   /**
    * @see {@link DescribeCacheSubnetGroupsCommand}
    */
-  readonly describeCacheSubnetGroups: (
+  describeCacheSubnetGroups(
     args: DescribeCacheSubnetGroupsCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    DescribeCacheSubnetGroupsCommandOutput | SdkError | ElastiCacheServiceError
+  ): Effect.Effect<
+    DescribeCacheSubnetGroupsCommandOutput,
+    SdkError | CacheSubnetGroupNotFoundFaultError
   >;
 
   /**
    * @see {@link DescribeEngineDefaultParametersCommand}
    */
-  readonly describeEngineDefaultParameters: (
+  describeEngineDefaultParameters(
     args: DescribeEngineDefaultParametersCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | DescribeEngineDefaultParametersCommandOutput
-    | SdkError
-    | ElastiCacheServiceError
-    | InvalidParameterCombinationError
-    | InvalidParameterValueError
+  ): Effect.Effect<
+    DescribeEngineDefaultParametersCommandOutput,
+    SdkError | InvalidParameterCombinationError | InvalidParameterValueError
   >;
 
   /**
    * @see {@link DescribeEventsCommand}
    */
-  readonly describeEvents: (
+  describeEvents(
     args: DescribeEventsCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | DescribeEventsCommandOutput
-    | SdkError
-    | ElastiCacheServiceError
-    | InvalidParameterCombinationError
-    | InvalidParameterValueError
+  ): Effect.Effect<
+    DescribeEventsCommandOutput,
+    SdkError | InvalidParameterCombinationError | InvalidParameterValueError
   >;
 
   /**
    * @see {@link DescribeGlobalReplicationGroupsCommand}
    */
-  readonly describeGlobalReplicationGroups: (
+  describeGlobalReplicationGroups(
     args: DescribeGlobalReplicationGroupsCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | DescribeGlobalReplicationGroupsCommandOutput
+  ): Effect.Effect<
+    DescribeGlobalReplicationGroupsCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
+    | GlobalReplicationGroupNotFoundFaultError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
   >;
@@ -865,151 +1057,153 @@ export type ElastiCacheService = {
   /**
    * @see {@link DescribeReplicationGroupsCommand}
    */
-  readonly describeReplicationGroups: (
+  describeReplicationGroups(
     args: DescribeReplicationGroupsCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | DescribeReplicationGroupsCommandOutput
+  ): Effect.Effect<
+    DescribeReplicationGroupsCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
+    | ReplicationGroupNotFoundFaultError
   >;
 
   /**
    * @see {@link DescribeReservedCacheNodesCommand}
    */
-  readonly describeReservedCacheNodes: (
+  describeReservedCacheNodes(
     args: DescribeReservedCacheNodesCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | DescribeReservedCacheNodesCommandOutput
+  ): Effect.Effect<
+    DescribeReservedCacheNodesCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
+    | ReservedCacheNodeNotFoundFaultError
   >;
 
   /**
    * @see {@link DescribeReservedCacheNodesOfferingsCommand}
    */
-  readonly describeReservedCacheNodesOfferings: (
+  describeReservedCacheNodesOfferings(
     args: DescribeReservedCacheNodesOfferingsCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | DescribeReservedCacheNodesOfferingsCommandOutput
+  ): Effect.Effect<
+    DescribeReservedCacheNodesOfferingsCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
+    | ReservedCacheNodesOfferingNotFoundFaultError
   >;
 
   /**
    * @see {@link DescribeServerlessCachesCommand}
    */
-  readonly describeServerlessCaches: (
+  describeServerlessCaches(
     args: DescribeServerlessCachesCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | DescribeServerlessCachesCommandOutput
+  ): Effect.Effect<
+    DescribeServerlessCachesCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
+    | ServerlessCacheNotFoundFaultError
   >;
 
   /**
    * @see {@link DescribeServerlessCacheSnapshotsCommand}
    */
-  readonly describeServerlessCacheSnapshots: (
+  describeServerlessCacheSnapshots(
     args: DescribeServerlessCacheSnapshotsCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | DescribeServerlessCacheSnapshotsCommandOutput
+  ): Effect.Effect<
+    DescribeServerlessCacheSnapshotsCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
+    | ServerlessCacheNotFoundFaultError
+    | ServerlessCacheSnapshotNotFoundFaultError
   >;
 
   /**
    * @see {@link DescribeServiceUpdatesCommand}
    */
-  readonly describeServiceUpdates: (
+  describeServiceUpdates(
     args: DescribeServiceUpdatesCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | DescribeServiceUpdatesCommandOutput
+  ): Effect.Effect<
+    DescribeServiceUpdatesCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
+    | ServiceUpdateNotFoundFaultError
   >;
 
   /**
    * @see {@link DescribeSnapshotsCommand}
    */
-  readonly describeSnapshots: (
+  describeSnapshots(
     args: DescribeSnapshotsCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | DescribeSnapshotsCommandOutput
+  ): Effect.Effect<
+    DescribeSnapshotsCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
+    | CacheClusterNotFoundFaultError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
+    | SnapshotNotFoundFaultError
   >;
 
   /**
    * @see {@link DescribeUpdateActionsCommand}
    */
-  readonly describeUpdateActions: (
+  describeUpdateActions(
     args: DescribeUpdateActionsCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | DescribeUpdateActionsCommandOutput
-    | SdkError
-    | ElastiCacheServiceError
-    | InvalidParameterCombinationError
-    | InvalidParameterValueError
+  ): Effect.Effect<
+    DescribeUpdateActionsCommandOutput,
+    SdkError | InvalidParameterCombinationError | InvalidParameterValueError
   >;
 
   /**
    * @see {@link DescribeUserGroupsCommand}
    */
-  readonly describeUserGroups: (
+  describeUserGroups(
     args: DescribeUserGroupsCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | DescribeUserGroupsCommandOutput
+  ): Effect.Effect<
+    DescribeUserGroupsCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
     | InvalidParameterCombinationError
+    | ServiceLinkedRoleNotFoundFaultError
+    | UserGroupNotFoundFaultError
   >;
 
   /**
    * @see {@link DescribeUsersCommand}
    */
-  readonly describeUsers: (
+  describeUsers(
     args: DescribeUsersCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | DescribeUsersCommandOutput
+  ): Effect.Effect<
+    DescribeUsersCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
     | InvalidParameterCombinationError
+    | ServiceLinkedRoleNotFoundFaultError
+    | UserNotFoundFaultError
   >;
 
   /**
    * @see {@link DisassociateGlobalReplicationGroupCommand}
    */
-  readonly disassociateGlobalReplicationGroup: (
+  disassociateGlobalReplicationGroup(
     args: DisassociateGlobalReplicationGroupCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | DisassociateGlobalReplicationGroupCommandOutput
+  ): Effect.Effect<
+    DisassociateGlobalReplicationGroupCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
+    | GlobalReplicationGroupNotFoundFaultError
+    | InvalidGlobalReplicationGroupStateFaultError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
   >;
@@ -1017,26 +1211,29 @@ export type ElastiCacheService = {
   /**
    * @see {@link ExportServerlessCacheSnapshotCommand}
    */
-  readonly exportServerlessCacheSnapshot: (
+  exportServerlessCacheSnapshot(
     args: ExportServerlessCacheSnapshotCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | ExportServerlessCacheSnapshotCommandOutput
+  ): Effect.Effect<
+    ExportServerlessCacheSnapshotCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
     | InvalidParameterValueError
+    | InvalidServerlessCacheSnapshotStateFaultError
+    | ServerlessCacheSnapshotNotFoundFaultError
+    | ServiceLinkedRoleNotFoundFaultError
   >;
 
   /**
    * @see {@link FailoverGlobalReplicationGroupCommand}
    */
-  readonly failoverGlobalReplicationGroup: (
+  failoverGlobalReplicationGroup(
     args: FailoverGlobalReplicationGroupCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | FailoverGlobalReplicationGroupCommandOutput
+  ): Effect.Effect<
+    FailoverGlobalReplicationGroupCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
+    | GlobalReplicationGroupNotFoundFaultError
+    | InvalidGlobalReplicationGroupStateFaultError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
   >;
@@ -1044,78 +1241,115 @@ export type ElastiCacheService = {
   /**
    * @see {@link IncreaseNodeGroupsInGlobalReplicationGroupCommand}
    */
-  readonly increaseNodeGroupsInGlobalReplicationGroup: (
+  increaseNodeGroupsInGlobalReplicationGroup(
     args: IncreaseNodeGroupsInGlobalReplicationGroupCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | IncreaseNodeGroupsInGlobalReplicationGroupCommandOutput
+  ): Effect.Effect<
+    IncreaseNodeGroupsInGlobalReplicationGroupCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
+    | GlobalReplicationGroupNotFoundFaultError
+    | InvalidGlobalReplicationGroupStateFaultError
     | InvalidParameterValueError
   >;
 
   /**
    * @see {@link IncreaseReplicaCountCommand}
    */
-  readonly increaseReplicaCount: (
+  increaseReplicaCount(
     args: IncreaseReplicaCountCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | IncreaseReplicaCountCommandOutput
+  ): Effect.Effect<
+    IncreaseReplicaCountCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
+    | ClusterQuotaForCustomerExceededFaultError
+    | InsufficientCacheClusterCapacityFaultError
+    | InvalidCacheClusterStateFaultError
+    | InvalidKMSKeyFaultError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
+    | InvalidReplicationGroupStateFaultError
+    | InvalidVPCNetworkStateFaultError
+    | NodeGroupsPerReplicationGroupQuotaExceededFaultError
+    | NodeQuotaForCustomerExceededFaultError
+    | NoOperationFaultError
+    | ReplicationGroupNotFoundFaultError
   >;
 
   /**
    * @see {@link ListAllowedNodeTypeModificationsCommand}
    */
-  readonly listAllowedNodeTypeModifications: (
+  listAllowedNodeTypeModifications(
     args: ListAllowedNodeTypeModificationsCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | ListAllowedNodeTypeModificationsCommandOutput
+  ): Effect.Effect<
+    ListAllowedNodeTypeModificationsCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
+    | CacheClusterNotFoundFaultError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
+    | ReplicationGroupNotFoundFaultError
   >;
 
   /**
    * @see {@link ListTagsForResourceCommand}
    */
-  readonly listTagsForResource: (
+  listTagsForResource(
     args: ListTagsForResourceCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ListTagsForResourceCommandOutput | SdkError | ElastiCacheServiceError
+  ): Effect.Effect<
+    ListTagsForResourceCommandOutput,
+    | SdkError
+    | CacheClusterNotFoundFaultError
+    | CacheParameterGroupNotFoundFaultError
+    | CacheSecurityGroupNotFoundFaultError
+    | CacheSubnetGroupNotFoundFaultError
+    | InvalidARNFaultError
+    | InvalidReplicationGroupStateFaultError
+    | InvalidServerlessCacheSnapshotStateFaultError
+    | InvalidServerlessCacheStateFaultError
+    | ReplicationGroupNotFoundFaultError
+    | ReservedCacheNodeNotFoundFaultError
+    | ServerlessCacheNotFoundFaultError
+    | ServerlessCacheSnapshotNotFoundFaultError
+    | SnapshotNotFoundFaultError
+    | UserGroupNotFoundFaultError
+    | UserNotFoundFaultError
   >;
 
   /**
    * @see {@link ModifyCacheClusterCommand}
    */
-  readonly modifyCacheCluster: (
+  modifyCacheCluster(
     args: ModifyCacheClusterCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | ModifyCacheClusterCommandOutput
+  ): Effect.Effect<
+    ModifyCacheClusterCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
+    | CacheClusterNotFoundFaultError
+    | CacheParameterGroupNotFoundFaultError
+    | CacheSecurityGroupNotFoundFaultError
+    | InsufficientCacheClusterCapacityFaultError
+    | InvalidCacheClusterStateFaultError
+    | InvalidCacheSecurityGroupStateFaultError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
+    | InvalidVPCNetworkStateFaultError
+    | NodeQuotaForClusterExceededFaultError
+    | NodeQuotaForCustomerExceededFaultError
   >;
 
   /**
    * @see {@link ModifyCacheParameterGroupCommand}
    */
-  readonly modifyCacheParameterGroup: (
+  modifyCacheParameterGroup(
     args: ModifyCacheParameterGroupCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | ModifyCacheParameterGroupCommandOutput
+  ): Effect.Effect<
+    ModifyCacheParameterGroupCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
+    | CacheParameterGroupNotFoundFaultError
+    | InvalidCacheParameterGroupStateFaultError
+    | InvalidGlobalReplicationGroupStateFaultError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
   >;
@@ -1123,154 +1357,218 @@ export type ElastiCacheService = {
   /**
    * @see {@link ModifyCacheSubnetGroupCommand}
    */
-  readonly modifyCacheSubnetGroup: (
+  modifyCacheSubnetGroup(
     args: ModifyCacheSubnetGroupCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    ModifyCacheSubnetGroupCommandOutput | SdkError | ElastiCacheServiceError
+  ): Effect.Effect<
+    ModifyCacheSubnetGroupCommandOutput,
+    | SdkError
+    | CacheSubnetGroupNotFoundFaultError
+    | CacheSubnetQuotaExceededFaultError
+    | InvalidSubnetError
+    | SubnetInUseError
+    | SubnetNotAllowedFaultError
   >;
 
   /**
    * @see {@link ModifyGlobalReplicationGroupCommand}
    */
-  readonly modifyGlobalReplicationGroup: (
+  modifyGlobalReplicationGroup(
     args: ModifyGlobalReplicationGroupCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | ModifyGlobalReplicationGroupCommandOutput
+  ): Effect.Effect<
+    ModifyGlobalReplicationGroupCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
+    | GlobalReplicationGroupNotFoundFaultError
+    | InvalidGlobalReplicationGroupStateFaultError
     | InvalidParameterValueError
   >;
 
   /**
    * @see {@link ModifyReplicationGroupCommand}
    */
-  readonly modifyReplicationGroup: (
+  modifyReplicationGroup(
     args: ModifyReplicationGroupCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | ModifyReplicationGroupCommandOutput
+  ): Effect.Effect<
+    ModifyReplicationGroupCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
+    | CacheClusterNotFoundFaultError
+    | CacheParameterGroupNotFoundFaultError
+    | CacheSecurityGroupNotFoundFaultError
+    | InsufficientCacheClusterCapacityFaultError
+    | InvalidCacheClusterStateFaultError
+    | InvalidCacheSecurityGroupStateFaultError
+    | InvalidKMSKeyFaultError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
+    | InvalidReplicationGroupStateFaultError
+    | InvalidUserGroupStateFaultError
+    | InvalidVPCNetworkStateFaultError
+    | NodeQuotaForClusterExceededFaultError
+    | NodeQuotaForCustomerExceededFaultError
+    | ReplicationGroupNotFoundFaultError
+    | UserGroupNotFoundFaultError
   >;
 
   /**
    * @see {@link ModifyReplicationGroupShardConfigurationCommand}
    */
-  readonly modifyReplicationGroupShardConfiguration: (
+  modifyReplicationGroupShardConfiguration(
     args: ModifyReplicationGroupShardConfigurationCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | ModifyReplicationGroupShardConfigurationCommandOutput
+  ): Effect.Effect<
+    ModifyReplicationGroupShardConfigurationCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
+    | InsufficientCacheClusterCapacityFaultError
+    | InvalidCacheClusterStateFaultError
+    | InvalidKMSKeyFaultError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
+    | InvalidReplicationGroupStateFaultError
+    | InvalidVPCNetworkStateFaultError
+    | NodeGroupsPerReplicationGroupQuotaExceededFaultError
+    | NodeQuotaForCustomerExceededFaultError
+    | ReplicationGroupNotFoundFaultError
   >;
 
   /**
    * @see {@link ModifyServerlessCacheCommand}
    */
-  readonly modifyServerlessCache: (
+  modifyServerlessCache(
     args: ModifyServerlessCacheCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | ModifyServerlessCacheCommandOutput
+  ): Effect.Effect<
+    ModifyServerlessCacheCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
     | InvalidCredentialsError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
+    | InvalidServerlessCacheStateFaultError
+    | InvalidUserGroupStateFaultError
+    | ServerlessCacheNotFoundFaultError
+    | ServiceLinkedRoleNotFoundFaultError
+    | UserGroupNotFoundFaultError
   >;
 
   /**
    * @see {@link ModifyUserCommand}
    */
-  readonly modifyUser: (
+  modifyUser(
     args: ModifyUserCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | ModifyUserCommandOutput
+  ): Effect.Effect<
+    ModifyUserCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
+    | InvalidUserStateFaultError
+    | ServiceLinkedRoleNotFoundFaultError
+    | UserNotFoundFaultError
   >;
 
   /**
    * @see {@link ModifyUserGroupCommand}
    */
-  readonly modifyUserGroup: (
+  modifyUserGroup(
     args: ModifyUserGroupCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | ModifyUserGroupCommandOutput
+  ): Effect.Effect<
+    ModifyUserGroupCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
+    | DefaultUserRequiredError
+    | DuplicateUserNameFaultError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
+    | InvalidUserGroupStateFaultError
+    | ServiceLinkedRoleNotFoundFaultError
+    | UserGroupNotFoundFaultError
+    | UserNotFoundFaultError
   >;
 
   /**
    * @see {@link PurchaseReservedCacheNodesOfferingCommand}
    */
-  readonly purchaseReservedCacheNodesOffering: (
+  purchaseReservedCacheNodesOffering(
     args: PurchaseReservedCacheNodesOfferingCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | PurchaseReservedCacheNodesOfferingCommandOutput
+  ): Effect.Effect<
+    PurchaseReservedCacheNodesOfferingCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
+    | ReservedCacheNodeAlreadyExistsFaultError
+    | ReservedCacheNodeQuotaExceededFaultError
+    | ReservedCacheNodesOfferingNotFoundFaultError
+    | TagQuotaPerResourceExceededError
   >;
 
   /**
    * @see {@link RebalanceSlotsInGlobalReplicationGroupCommand}
    */
-  readonly rebalanceSlotsInGlobalReplicationGroup: (
+  rebalanceSlotsInGlobalReplicationGroup(
     args: RebalanceSlotsInGlobalReplicationGroupCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | RebalanceSlotsInGlobalReplicationGroupCommandOutput
+  ): Effect.Effect<
+    RebalanceSlotsInGlobalReplicationGroupCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
+    | GlobalReplicationGroupNotFoundFaultError
+    | InvalidGlobalReplicationGroupStateFaultError
     | InvalidParameterValueError
   >;
 
   /**
    * @see {@link RebootCacheClusterCommand}
    */
-  readonly rebootCacheCluster: (
+  rebootCacheCluster(
     args: RebootCacheClusterCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    RebootCacheClusterCommandOutput | SdkError | ElastiCacheServiceError
+  ): Effect.Effect<
+    RebootCacheClusterCommandOutput,
+    | SdkError
+    | CacheClusterNotFoundFaultError
+    | InvalidCacheClusterStateFaultError
   >;
 
   /**
    * @see {@link RemoveTagsFromResourceCommand}
    */
-  readonly removeTagsFromResource: (
+  removeTagsFromResource(
     args: RemoveTagsFromResourceCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    RemoveTagsFromResourceCommandOutput | SdkError | ElastiCacheServiceError
+  ): Effect.Effect<
+    RemoveTagsFromResourceCommandOutput,
+    | SdkError
+    | CacheClusterNotFoundFaultError
+    | CacheParameterGroupNotFoundFaultError
+    | CacheSecurityGroupNotFoundFaultError
+    | CacheSubnetGroupNotFoundFaultError
+    | InvalidARNFaultError
+    | InvalidReplicationGroupStateFaultError
+    | InvalidServerlessCacheSnapshotStateFaultError
+    | InvalidServerlessCacheStateFaultError
+    | ReplicationGroupNotFoundFaultError
+    | ReservedCacheNodeNotFoundFaultError
+    | ServerlessCacheNotFoundFaultError
+    | ServerlessCacheSnapshotNotFoundFaultError
+    | SnapshotNotFoundFaultError
+    | TagNotFoundFaultError
+    | UserGroupNotFoundFaultError
+    | UserNotFoundFaultError
   >;
 
   /**
    * @see {@link ResetCacheParameterGroupCommand}
    */
-  readonly resetCacheParameterGroup: (
+  resetCacheParameterGroup(
     args: ResetCacheParameterGroupCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | ResetCacheParameterGroupCommandOutput
+  ): Effect.Effect<
+    ResetCacheParameterGroupCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
+    | CacheParameterGroupNotFoundFaultError
+    | InvalidCacheParameterGroupStateFaultError
+    | InvalidGlobalReplicationGroupStateFaultError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
   >;
@@ -1278,13 +1576,15 @@ export type ElastiCacheService = {
   /**
    * @see {@link RevokeCacheSecurityGroupIngressCommand}
    */
-  readonly revokeCacheSecurityGroupIngress: (
+  revokeCacheSecurityGroupIngress(
     args: RevokeCacheSecurityGroupIngressCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | RevokeCacheSecurityGroupIngressCommandOutput
+  ): Effect.Effect<
+    RevokeCacheSecurityGroupIngressCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
+    | AuthorizationNotFoundFaultError
+    | CacheSecurityGroupNotFoundFaultError
+    | InvalidCacheSecurityGroupStateFaultError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
   >;
@@ -1292,51 +1592,61 @@ export type ElastiCacheService = {
   /**
    * @see {@link StartMigrationCommand}
    */
-  readonly startMigration: (
+  startMigration(
     args: StartMigrationCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | StartMigrationCommandOutput
+  ): Effect.Effect<
+    StartMigrationCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
     | InvalidParameterValueError
+    | InvalidReplicationGroupStateFaultError
+    | ReplicationGroupAlreadyUnderMigrationFaultError
+    | ReplicationGroupNotFoundFaultError
   >;
 
   /**
    * @see {@link TestFailoverCommand}
    */
-  readonly testFailover: (
+  testFailover(
     args: TestFailoverCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | TestFailoverCommandOutput
+  ): Effect.Effect<
+    TestFailoverCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
+    | APICallRateForCustomerExceededFaultError
+    | InvalidCacheClusterStateFaultError
+    | InvalidKMSKeyFaultError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
+    | InvalidReplicationGroupStateFaultError
+    | NodeGroupNotFoundFaultError
+    | ReplicationGroupNotFoundFaultError
+    | TestFailoverNotAvailableFaultError
   >;
 
   /**
    * @see {@link TestMigrationCommand}
    */
-  readonly testMigration: (
+  testMigration(
     args: TestMigrationCommandInput,
     options?: __HttpHandlerOptions,
-  ) => Effect.Effect<
-    | TestMigrationCommandOutput
+  ): Effect.Effect<
+    TestMigrationCommandOutput,
     | SdkError
-    | ElastiCacheServiceError
     | InvalidParameterValueError
+    | InvalidReplicationGroupStateFaultError
+    | ReplicationGroupAlreadyUnderMigrationFaultError
+    | ReplicationGroupNotFoundFaultError
   >;
-};
+}
 
 /**
  * @since 1.0.0
- * @category tags
+ * @category models
  */
-export const ElastiCacheService = Context.GenericTag<ElastiCacheService>(
+export class ElastiCacheService extends Effect.Tag(
   "@effect-aws/client-elasticache/ElastiCacheService",
-);
+)<ElastiCacheService, ElastiCacheService$>() {}
 
 /**
  * @since 1.0.0
@@ -1351,7 +1661,10 @@ export const makeElastiCacheService = Effect.gen(function* (_) {
       Effect.tryPromise({
         try: () => client.send(new CommandCtor(args), options ?? {}),
         catch: (e) => {
-          if (e instanceof ElastiCacheServiceException) {
+          if (
+            e instanceof ElastiCacheServiceException &&
+            AllServiceErrors.includes(e.name)
+          ) {
             const ServiceException = Data.tagged<
               TaggedException<ElastiCacheServiceException>
             >(e.name);
@@ -1378,7 +1691,7 @@ export const makeElastiCacheService = Effect.gen(function* (_) {
       "",
     );
     return { ...acc, [methodName]: methodImpl };
-  }, {}) as ElastiCacheService;
+  }, {}) as ElastiCacheService$;
 });
 
 /**

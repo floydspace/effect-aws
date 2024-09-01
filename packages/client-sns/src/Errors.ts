@@ -11,6 +11,7 @@ import type {
   InvalidParameterException,
   InvalidParameterValueException,
   InvalidSecurityException,
+  InvalidStateException,
   KMSAccessDeniedException,
   KMSDisabledException,
   KMSInvalidStateException,
@@ -20,6 +21,7 @@ import type {
   NotFoundException,
   OptedOutException,
   PlatformApplicationDisabledException,
+  ReplayLimitExceededException,
   ResourceNotFoundException,
   StaleTagException,
   SubscriptionLimitExceededException,
@@ -32,7 +34,44 @@ import type {
   ValidationException,
   VerificationException,
 } from "@aws-sdk/client-sns";
-import * as Data from "effect/Data";
+import { Data } from "effect";
+
+export const AllServiceErrors = [
+  "AuthorizationErrorException",
+  "BatchEntryIdsNotDistinctException",
+  "BatchRequestTooLongException",
+  "ConcurrentAccessException",
+  "EmptyBatchRequestException",
+  "EndpointDisabledException",
+  "FilterPolicyLimitExceededException",
+  "InternalErrorException",
+  "InvalidBatchEntryIdException",
+  "InvalidParameterException",
+  "InvalidParameterValueException",
+  "InvalidSecurityException",
+  "InvalidStateException",
+  "KMSAccessDeniedException",
+  "KMSDisabledException",
+  "KMSInvalidStateException",
+  "KMSNotFoundException",
+  "KMSOptInRequired",
+  "KMSThrottlingException",
+  "NotFoundException",
+  "OptedOutException",
+  "PlatformApplicationDisabledException",
+  "ReplayLimitExceededException",
+  "ResourceNotFoundException",
+  "StaleTagException",
+  "SubscriptionLimitExceededException",
+  "TagLimitExceededException",
+  "TagPolicyException",
+  "ThrottledException",
+  "TooManyEntriesInBatchRequestException",
+  "TopicLimitExceededException",
+  "UserErrorException",
+  "ValidationException",
+  "VerificationException",
+];
 
 export type TaggedException<T extends { name: string }> = T & {
   readonly _tag: T["name"];
@@ -56,6 +95,7 @@ export type InvalidParameterError = TaggedException<InvalidParameterException>;
 export type InvalidParameterValueError =
   TaggedException<InvalidParameterValueException>;
 export type InvalidSecurityError = TaggedException<InvalidSecurityException>;
+export type InvalidStateError = TaggedException<InvalidStateException>;
 export type KMSAccessDeniedError = TaggedException<KMSAccessDeniedException>;
 export type KMSDisabledError = TaggedException<KMSDisabledException>;
 export type KMSInvalidStateError = TaggedException<KMSInvalidStateException>;
@@ -66,6 +106,8 @@ export type NotFoundError = TaggedException<NotFoundException>;
 export type OptedOutError = TaggedException<OptedOutException>;
 export type PlatformApplicationDisabledError =
   TaggedException<PlatformApplicationDisabledException>;
+export type ReplayLimitExceededError =
+  TaggedException<ReplayLimitExceededException>;
 export type ResourceNotFoundError = TaggedException<ResourceNotFoundException>;
 export type StaleTagError = TaggedException<StaleTagException>;
 export type SubscriptionLimitExceededError =
@@ -80,5 +122,6 @@ export type TopicLimitExceededError =
 export type UserError = TaggedException<UserErrorException>;
 export type ValidationError = TaggedException<ValidationException>;
 export type VerificationError = TaggedException<VerificationException>;
+
 export type SdkError = TaggedException<Error & { name: "SdkError" }>;
 export const SdkError = Data.tagged<SdkError>("SdkError");

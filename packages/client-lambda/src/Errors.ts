@@ -38,7 +38,48 @@ import type {
   TooManyRequestsException,
   UnsupportedMediaTypeException,
 } from "@aws-sdk/client-lambda";
-import * as Data from "effect/Data";
+import { Data } from "effect";
+
+export const AllServiceErrors = [
+  "CodeSigningConfigNotFoundException",
+  "CodeStorageExceededException",
+  "CodeVerificationFailedException",
+  "EC2AccessDeniedException",
+  "EC2ThrottledException",
+  "EC2UnexpectedException",
+  "EFSIOException",
+  "EFSMountConnectivityException",
+  "EFSMountFailureException",
+  "EFSMountTimeoutException",
+  "ENILimitReachedException",
+  "InvalidCodeSignatureException",
+  "InvalidParameterValueException",
+  "InvalidRequestContentException",
+  "InvalidRuntimeException",
+  "InvalidSecurityGroupIDException",
+  "InvalidSubnetIDException",
+  "InvalidZipFileException",
+  "KMSAccessDeniedException",
+  "KMSDisabledException",
+  "KMSInvalidStateException",
+  "KMSNotFoundException",
+  "PolicyLengthExceededException",
+  "PreconditionFailedException",
+  "ProvisionedConcurrencyConfigNotFoundException",
+  "RecursiveInvocationException",
+  "RequestTooLargeException",
+  "ResourceConflictException",
+  "ResourceInUseException",
+  "ResourceNotFoundException",
+  "ResourceNotReadyException",
+  "ServiceException",
+  "SnapStartException",
+  "SnapStartNotReadyException",
+  "SnapStartTimeoutException",
+  "SubnetIPAddressLimitReachedException",
+  "TooManyRequestsException",
+  "UnsupportedMediaTypeException",
+];
 
 export type TaggedException<T extends { name: string }> = T & {
   readonly _tag: T["name"];

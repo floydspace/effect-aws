@@ -74,7 +74,7 @@ import {
   type ValidateResourcePolicyCommandOutput,
 } from "@aws-sdk/client-secrets-manager";
 import { type HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
-import { Context, Data, Effect, Layer, Record } from "effect";
+import { Data, Effect, Layer, Record } from "effect";
 import {
   AllServiceErrors,
   DecryptionError,

@@ -146,7 +146,7 @@ import {
   type UpdateDeploymentGroupCommandOutput,
 } from "@aws-sdk/client-codedeploy";
 import { type HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
-import { Context, Data, Effect, Layer, Record } from "effect";
+import { Data, Effect, Layer, Record } from "effect";
 import {
   CodeDeployClientInstance,
   CodeDeployClientInstanceLayer,

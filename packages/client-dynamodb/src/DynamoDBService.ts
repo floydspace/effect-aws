@@ -176,7 +176,7 @@ import {
   type UpdateTimeToLiveCommandOutput,
 } from "@aws-sdk/client-dynamodb";
 import { type HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
-import { Context, Data, Effect, Layer, Record } from "effect";
+import { Data, Effect, Layer, Record } from "effect";
 import {
   DynamoDBClientInstance,
   DynamoDBClientInstanceLayer,

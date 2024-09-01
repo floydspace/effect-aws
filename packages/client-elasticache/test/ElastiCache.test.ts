@@ -1,7 +1,8 @@
 import {
+  type ListTagsForResourceCommandInput,
   ListTagsForResourceCommand,
   ElastiCacheClient,
-  ListTagsForResourceCommandInput,
+  ElastiCacheServiceException,
 } from "@aws-sdk/client-elasticache";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
@@ -21,18 +22,15 @@ import {
 
 import "aws-sdk-client-mock-jest";
 
-const elasticacheMock = mockClient(ElastiCacheClient);
-const { listTagsForResource } = Effect.serviceFunctions(ElastiCacheService);
+const clientMock = mockClient(ElastiCacheClient);
 
 describe("ElastiCacheClientImpl", () => {
   it("default", async () => {
-    elasticacheMock.reset().on(ListTagsForResourceCommand).resolves({});
+    clientMock.reset().on(ListTagsForResourceCommand).resolves({});
 
-    const args: ListTagsForResourceCommandInput = {
-      ResourceName: "test",
-    };
+    const args: ListTagsForResourceCommandInput = { ResourceName: "test" };
 
-    const program = listTagsForResource(args);
+    const program = ElastiCacheService.listTagsForResource(args);
 
     const result = await pipe(
       program,
@@ -41,24 +39,22 @@ describe("ElastiCacheClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(elasticacheMock).toHaveReceivedCommandTimes(
+    expect(clientMock).toHaveReceivedCommandTimes(
       ListTagsForResourceCommand,
       1,
     );
-    expect(elasticacheMock).toHaveReceivedCommandWith(
+    expect(clientMock).toHaveReceivedCommandWith(
       ListTagsForResourceCommand,
       args,
     );
   });
 
   it("configurable", async () => {
-    elasticacheMock.reset().on(ListTagsForResourceCommand).resolves({});
+    clientMock.reset().on(ListTagsForResourceCommand).resolves({});
 
-    const args: ListTagsForResourceCommandInput = {
-      ResourceName: "test",
-    };
+    const args: ListTagsForResourceCommandInput = { ResourceName: "test" };
 
-    const program = listTagsForResource(args);
+    const program = ElastiCacheService.listTagsForResource(args);
 
     const ElastiCacheClientConfigLayer = Layer.succeed(
       ElastiCacheClientInstanceConfig,
@@ -77,24 +73,22 @@ describe("ElastiCacheClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(elasticacheMock).toHaveReceivedCommandTimes(
+    expect(clientMock).toHaveReceivedCommandTimes(
       ListTagsForResourceCommand,
       1,
     );
-    expect(elasticacheMock).toHaveReceivedCommandWith(
+    expect(clientMock).toHaveReceivedCommandWith(
       ListTagsForResourceCommand,
       args,
     );
   });
 
   it("base", async () => {
-    elasticacheMock.reset().on(ListTagsForResourceCommand).resolves({});
+    clientMock.reset().on(ListTagsForResourceCommand).resolves({});
 
-    const args: ListTagsForResourceCommandInput = {
-      ResourceName: "test",
-    };
+    const args: ListTagsForResourceCommandInput = { ResourceName: "test" };
 
-    const program = listTagsForResource(args);
+    const program = ElastiCacheService.listTagsForResource(args);
 
     const ElastiCacheClientInstanceLayer = Layer.succeed(
       ElastiCacheClientInstance,
@@ -111,24 +105,22 @@ describe("ElastiCacheClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(elasticacheMock).toHaveReceivedCommandTimes(
+    expect(clientMock).toHaveReceivedCommandTimes(
       ListTagsForResourceCommand,
       1,
     );
-    expect(elasticacheMock).toHaveReceivedCommandWith(
+    expect(clientMock).toHaveReceivedCommandWith(
       ListTagsForResourceCommand,
       args,
     );
   });
 
   it("extended", async () => {
-    elasticacheMock.reset().on(ListTagsForResourceCommand).resolves({});
+    clientMock.reset().on(ListTagsForResourceCommand).resolves({});
 
-    const args: ListTagsForResourceCommandInput = {
-      ResourceName: "test",
-    };
+    const args: ListTagsForResourceCommandInput = { ResourceName: "test" };
 
-    const program = listTagsForResource(args);
+    const program = ElastiCacheService.listTagsForResource(args);
 
     const ElastiCacheClientInstanceLayer = Layer.effect(
       ElastiCacheClientInstance,
@@ -150,27 +142,25 @@ describe("ElastiCacheClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(elasticacheMock).toHaveReceivedCommandTimes(
+    expect(clientMock).toHaveReceivedCommandTimes(
       ListTagsForResourceCommand,
       1,
     );
-    expect(elasticacheMock).toHaveReceivedCommandWith(
+    expect(clientMock).toHaveReceivedCommandWith(
       ListTagsForResourceCommand,
       args,
     );
   });
 
   it("fail", async () => {
-    elasticacheMock
+    clientMock
       .reset()
       .on(ListTagsForResourceCommand)
       .rejects(new Error("test"));
 
-    const args: ListTagsForResourceCommandInput = {
-      ResourceName: "test",
-    };
+    const args: ListTagsForResourceCommandInput = { ResourceName: "test" };
 
-    const program = listTagsForResource(args, { requestTimeout: 1000 });
+    const program = ElastiCacheService.listTagsForResource(args);
 
     const result = await pipe(
       program,
@@ -188,11 +178,54 @@ describe("ElastiCacheClientImpl", () => {
         }),
       ),
     );
-    expect(elasticacheMock).toHaveReceivedCommandTimes(
+    expect(clientMock).toHaveReceivedCommandTimes(
       ListTagsForResourceCommand,
       1,
     );
-    expect(elasticacheMock).toHaveReceivedCommandWith(
+    expect(clientMock).toHaveReceivedCommandWith(
+      ListTagsForResourceCommand,
+      args,
+    );
+  });
+
+  it("should not catch unexpected error as expected", async () => {
+    clientMock
+      .reset()
+      .on(ListTagsForResourceCommand)
+      .rejects(
+        new ElastiCacheServiceException({
+          name: "NotHandledException",
+          message: "test",
+        } as any),
+      );
+
+    const args: ListTagsForResourceCommandInput = { ResourceName: "test" };
+
+    const program = ElastiCacheService.listTagsForResource(args).pipe(
+      Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
+    );
+
+    const result = await pipe(
+      program,
+      Effect.provide(DefaultElastiCacheServiceLayer),
+      Effect.runPromiseExit,
+    );
+
+    expect(result).toEqual(
+      Exit.fail(
+        SdkError({
+          ...new Error("test"),
+          name: "SdkError",
+          message: "test",
+          stack: expect.any(String),
+        }),
+      ),
+    );
+    expect(clientMock).toHaveReceivedCommandTimes(
+      ListTagsForResourceCommand,
+      1,
+    );
+    expect(clientMock).toHaveReceivedCommandWith(
       ListTagsForResourceCommand,
       args,
     );

@@ -28,7 +28,38 @@ import type {
   TooManyEntriesInBatchRequest,
   UnsupportedOperation,
 } from "@aws-sdk/client-sqs";
-import * as Data from "effect/Data";
+import { Data } from "effect";
+
+export const AllServiceErrors = [
+  "BatchEntryIdsNotDistinct",
+  "BatchRequestTooLong",
+  "EmptyBatchRequest",
+  "InvalidAddress",
+  "InvalidAttributeName",
+  "InvalidAttributeValue",
+  "InvalidBatchEntryId",
+  "InvalidIdFormat",
+  "InvalidMessageContents",
+  "InvalidSecurity",
+  "KmsAccessDenied",
+  "KmsDisabled",
+  "KmsInvalidKeyUsage",
+  "KmsInvalidState",
+  "KmsNotFound",
+  "KmsOptInRequired",
+  "KmsThrottled",
+  "MessageNotInflight",
+  "OverLimit",
+  "PurgeQueueInProgress",
+  "QueueDeletedRecently",
+  "QueueDoesNotExist",
+  "QueueNameExists",
+  "ReceiptHandleIsInvalid",
+  "RequestThrottled",
+  "ResourceNotFoundException",
+  "TooManyEntriesInBatchRequest",
+  "UnsupportedOperation",
+];
 
 export type TaggedException<T extends { name: string }> = T & {
   readonly _tag: T["name"];

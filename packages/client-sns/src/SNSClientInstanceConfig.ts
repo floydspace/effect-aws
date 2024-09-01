@@ -2,10 +2,7 @@
  * @since 1.0.0
  */
 import type { SNSClientConfig } from "@aws-sdk/client-sns";
-import * as Context from "effect/Context";
-import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
-import * as Runtime from "effect/Runtime";
+import { Context, Effect, Layer, Runtime } from "effect";
 
 /**
  * @since 1.0.0
@@ -26,11 +23,21 @@ export const makeDefaultSNSClientInstanceConfig: Effect.Effect<SNSClientConfig> 
 
     return {
       logger: {
-        info: (m) => Effect.logInfo(m).pipe(runSync),
-        warn: (m) => Effect.logWarning(m).pipe(runSync),
-        error: (m) => Effect.logError(m).pipe(runSync),
-        debug: (m) => Effect.logDebug(m).pipe(runSync),
-        trace: (m) => Effect.logTrace(m).pipe(runSync),
+        info(m) {
+          Effect.logInfo(m).pipe(runSync);
+        },
+        warn(m) {
+          Effect.logWarning(m).pipe(runSync);
+        },
+        error(m) {
+          Effect.logError(m).pipe(runSync);
+        },
+        debug(m) {
+          Effect.logDebug(m).pipe(runSync);
+        },
+        trace(m) {
+          Effect.logTrace(m).pipe(runSync);
+        },
       },
     };
   });

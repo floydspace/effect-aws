@@ -11,7 +11,21 @@ import type {
   ResourceAlreadyExistsException,
   ResourceNotFoundException,
 } from "@aws-sdk/client-eventbridge";
-import * as Data from "effect/Data";
+import { Data } from "effect";
+
+export const AllServiceErrors = [
+  "ConcurrentModificationException",
+  "IllegalStatusException",
+  "InternalException",
+  "InvalidEventPatternException",
+  "InvalidStateException",
+  "LimitExceededException",
+  "ManagedRuleException",
+  "OperationDisabledException",
+  "PolicyLengthExceededException",
+  "ResourceAlreadyExistsException",
+  "ResourceNotFoundException",
+];
 
 export type TaggedException<T extends { name: string }> = T & {
   readonly _tag: T["name"];

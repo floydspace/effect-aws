@@ -171,10 +171,14 @@ import {
   UpdateEndpointCommand,
   type UpdateEndpointCommandInput,
   type UpdateEndpointCommandOutput,
+  UpdateEventBusCommand,
+  type UpdateEventBusCommandInput,
+  type UpdateEventBusCommandOutput,
 } from "@aws-sdk/client-eventbridge";
 import { type HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
-import { Context, Data, Effect, Layer, Record } from "effect";
+import { Data, Effect, Layer, Record } from "effect";
 import {
+  AllServiceErrors,
   ConcurrentModificationError,
   IllegalStatusError,
   InternalError,
@@ -252,13 +256,10 @@ const commands = {
   UpdateArchiveCommand,
   UpdateConnectionCommand,
   UpdateEndpointCommand,
+  UpdateEventBusCommand,
 };
 
-/**
- * @since 1.0.0
- * @category models
- */
-export interface EventBridgeService {
+interface EventBridgeService$ {
   readonly _: unique symbol;
 
   /**
@@ -980,15 +981,30 @@ export interface EventBridgeService {
     | InternalError
     | ResourceNotFoundError
   >;
+
+  /**
+   * @see {@link UpdateEventBusCommand}
+   */
+  updateEventBus(
+    args: UpdateEventBusCommandInput,
+    options?: __HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateEventBusCommandOutput,
+    | SdkError
+    | ConcurrentModificationError
+    | InternalError
+    | OperationDisabledError
+    | ResourceNotFoundError
+  >;
 }
 
 /**
  * @since 1.0.0
- * @category tags
+ * @category models
  */
-export const EventBridgeService = Context.GenericTag<EventBridgeService>(
+export class EventBridgeService extends Effect.Tag(
   "@effect-aws/client-eventbridge/EventBridgeService",
-);
+)<EventBridgeService, EventBridgeService$>() {}
 
 /**
  * @since 1.0.0
@@ -1003,7 +1019,10 @@ export const makeEventBridgeService = Effect.gen(function* (_) {
       Effect.tryPromise({
         try: () => client.send(new CommandCtor(args), options ?? {}),
         catch: (e) => {
-          if (e instanceof EventBridgeServiceException) {
+          if (
+            e instanceof EventBridgeServiceException &&
+            AllServiceErrors.includes(e.name)
+          ) {
             const ServiceException = Data.tagged<
               TaggedException<EventBridgeServiceException>
             >(e.name);
@@ -1030,7 +1049,7 @@ export const makeEventBridgeService = Effect.gen(function* (_) {
       "",
     );
     return { ...acc, [methodName]: methodImpl };
-  }, {}) as EventBridgeService;
+  }, {}) as EventBridgeService$;
 });
 
 /**

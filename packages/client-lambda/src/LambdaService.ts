@@ -81,6 +81,9 @@ import {
   GetFunctionEventInvokeConfigCommand,
   type GetFunctionEventInvokeConfigCommandInput,
   type GetFunctionEventInvokeConfigCommandOutput,
+  GetFunctionRecursionConfigCommand,
+  type GetFunctionRecursionConfigCommandInput,
+  type GetFunctionRecursionConfigCommandOutput,
   GetFunctionUrlConfigCommand,
   type GetFunctionUrlConfigCommandInput,
   type GetFunctionUrlConfigCommandOutput,
@@ -162,6 +165,9 @@ import {
   PutFunctionEventInvokeConfigCommand,
   type PutFunctionEventInvokeConfigCommandInput,
   type PutFunctionEventInvokeConfigCommandOutput,
+  PutFunctionRecursionConfigCommand,
+  type PutFunctionRecursionConfigCommandInput,
+  type PutFunctionRecursionConfigCommandOutput,
   PutProvisionedConcurrencyConfigCommand,
   type PutProvisionedConcurrencyConfigCommandInput,
   type PutProvisionedConcurrencyConfigCommandOutput,
@@ -203,8 +209,9 @@ import {
   type UpdateFunctionUrlConfigCommandOutput,
 } from "@aws-sdk/client-lambda";
 import { type HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
-import { Context, Data, Effect, Layer, Record } from "effect";
+import { Data, Effect, Layer, Record } from "effect";
 import {
+  AllServiceErrors,
   CodeSigningConfigNotFoundError,
   CodeStorageExceededError,
   CodeVerificationFailedError,
@@ -279,6 +286,7 @@ const commands = {
   GetFunctionConcurrencyCommand,
   GetFunctionConfigurationCommand,
   GetFunctionEventInvokeConfigCommand,
+  GetFunctionRecursionConfigCommand,
   GetFunctionUrlConfigCommand,
   GetLayerVersionCommand,
   GetLayerVersionByArnCommand,
@@ -306,6 +314,7 @@ const commands = {
   PutFunctionCodeSigningConfigCommand,
   PutFunctionConcurrencyCommand,
   PutFunctionEventInvokeConfigCommand,
+  PutFunctionRecursionConfigCommand,
   PutProvisionedConcurrencyConfigCommand,
   PutRuntimeManagementConfigCommand,
   RemoveLayerVersionPermissionCommand,
@@ -321,11 +330,7 @@ const commands = {
   UpdateFunctionUrlConfigCommand,
 };
 
-/**
- * @since 1.0.0
- * @category models
- */
-export interface LambdaService {
+interface LambdaService$ {
   readonly _: unique symbol;
 
   /**
@@ -717,6 +722,21 @@ export interface LambdaService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     GetFunctionEventInvokeConfigCommandOutput,
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link GetFunctionRecursionConfigCommand}
+   */
+  getFunctionRecursionConfig(
+    args: GetFunctionRecursionConfigCommandInput,
+    options?: __HttpHandlerOptions,
+  ): Effect.Effect<
+    GetFunctionRecursionConfigCommandOutput,
     | SdkError
     | InvalidParameterValueError
     | ResourceNotFoundError
@@ -1176,6 +1196,22 @@ export interface LambdaService {
   >;
 
   /**
+   * @see {@link PutFunctionRecursionConfigCommand}
+   */
+  putFunctionRecursionConfig(
+    args: PutFunctionRecursionConfigCommandInput,
+    options?: __HttpHandlerOptions,
+  ): Effect.Effect<
+    PutFunctionRecursionConfigCommandOutput,
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceConflictError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
+
+  /**
    * @see {@link PutProvisionedConcurrencyConfigCommand}
    */
   putProvisionedConcurrencyConfig(
@@ -1392,11 +1428,11 @@ export interface LambdaService {
 
 /**
  * @since 1.0.0
- * @category tags
+ * @category models
  */
-export const LambdaService = Context.GenericTag<LambdaService>(
+export class LambdaService extends Effect.Tag(
   "@effect-aws/client-lambda/LambdaService",
-);
+)<LambdaService, LambdaService$>() {}
 
 /**
  * @since 1.0.0
@@ -1411,7 +1447,10 @@ export const makeLambdaService = Effect.gen(function* (_) {
       Effect.tryPromise({
         try: () => client.send(new CommandCtor(args), options ?? {}),
         catch: (e) => {
-          if (e instanceof LambdaServiceException) {
+          if (
+            e instanceof LambdaServiceException &&
+            AllServiceErrors.includes(e.name)
+          ) {
             const ServiceException = Data.tagged<
               TaggedException<LambdaServiceException>
             >(e.name);
@@ -1438,7 +1477,7 @@ export const makeLambdaService = Effect.gen(function* (_) {
       "",
     );
     return { ...acc, [methodName]: methodImpl };
-  }, {}) as LambdaService;
+  }, {}) as LambdaService$;
 });
 
 /**

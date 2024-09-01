@@ -2,10 +2,7 @@
  * @since 1.0.0
  */
 import type { DynamoDBClientConfig } from "@aws-sdk/client-dynamodb";
-import * as Context from "effect/Context";
-import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
-import * as Runtime from "effect/Runtime";
+import { Context, Effect, Layer, Runtime } from "effect";
 
 /**
  * @since 1.0.0

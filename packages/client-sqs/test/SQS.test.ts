@@ -2,6 +2,7 @@ import {
   type SendMessageCommandInput,
   SendMessageCommand,
   SQSClient,
+  SQSServiceException,
 } from "@aws-sdk/client-sqs";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
@@ -32,9 +33,7 @@ describe("SQSClientImpl", () => {
       MessageBody: "Hello world!",
     };
 
-    const program = Effect.flatMap(SQSService, (service) =>
-      service.sendMessage(args),
-    );
+    const program = SQSService.sendMessage(args);
 
     const result = await pipe(
       program,
@@ -55,9 +54,7 @@ describe("SQSClientImpl", () => {
       MessageBody: "Hello world!",
     };
 
-    const program = Effect.flatMap(SQSService, (service) =>
-      service.sendMessage(args),
-    );
+    const program = SQSService.sendMessage(args);
 
     const SQSClientConfigLayer = Layer.succeed(SQSClientInstanceConfig, {
       region: "eu-central-1",
@@ -85,9 +82,7 @@ describe("SQSClientImpl", () => {
       MessageBody: "Hello world!",
     };
 
-    const program = Effect.flatMap(SQSService, (service) =>
-      service.sendMessage(args),
-    );
+    const program = SQSService.sendMessage(args);
 
     const SQSClientInstanceLayer = Layer.succeed(
       SQSClientInstance,
@@ -116,9 +111,7 @@ describe("SQSClientImpl", () => {
       MessageBody: "Hello world!",
     };
 
-    const program = Effect.flatMap(SQSService, (service) =>
-      service.sendMessage(args),
-    );
+    const program = SQSService.sendMessage(args);
 
     const SQSClientInstanceLayer = Layer.effect(
       SQSClientInstance,
@@ -151,8 +144,46 @@ describe("SQSClientImpl", () => {
       MessageBody: "Hello world!",
     };
 
-    const program = Effect.flatMap(SQSService, (service) =>
-      service.sendMessage(args),
+    const program = SQSService.sendMessage(args);
+
+    const result = await pipe(
+      program,
+      Effect.provide(DefaultSQSServiceLayer),
+      Effect.runPromiseExit,
+    );
+
+    expect(result).toEqual(
+      Exit.fail(
+        SdkError({
+          ...new Error("test"),
+          name: "SdkError",
+          message: "test",
+          stack: expect.any(String),
+        }),
+      ),
+    );
+    expect(clientMock).toHaveReceivedCommandTimes(SendMessageCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(SendMessageCommand, args);
+  });
+
+  it("should not catch unexpected error as expected", async () => {
+    clientMock
+      .reset()
+      .on(SendMessageCommand)
+      .rejects(
+        new SQSServiceException({
+          name: "NotHandledException",
+          message: "test",
+        } as any),
+      );
+
+    const args: SendMessageCommandInput = {
+      QueueUrl: "https://sqs.eu-central-1.amazonaws.com/123456789012/MyQueue",
+      MessageBody: "Hello world!",
+    };
+
+    const program = SQSService.sendMessage(args).pipe(
+      Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 
     const result = await pipe(

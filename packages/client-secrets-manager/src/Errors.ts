@@ -12,7 +12,7 @@ import type {
   ResourceExistsException,
   ResourceNotFoundException,
 } from "@aws-sdk/client-secrets-manager";
-import * as Data from "effect/Data";
+import { Data } from "effect";
 
 export const AllServiceErrors = [
   "DecryptionFailure",

@@ -4,23 +4,24 @@
 import {
   ApiGatewayManagementApiServiceException,
   DeleteConnectionCommand,
-  DeleteConnectionCommandInput,
-  DeleteConnectionCommandOutput,
+  type DeleteConnectionCommandInput,
+  type DeleteConnectionCommandOutput,
   GetConnectionCommand,
-  GetConnectionCommandInput,
-  GetConnectionCommandOutput,
+  type GetConnectionCommandInput,
+  type GetConnectionCommandOutput,
   PostToConnectionCommand,
-  PostToConnectionCommandInput,
-  PostToConnectionCommandOutput,
+  type PostToConnectionCommandInput,
+  type PostToConnectionCommandOutput,
 } from "@aws-sdk/client-apigatewaymanagementapi";
-import { HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
-import { Context, Data, Effect, Layer, Record } from "effect";
+import { type HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
+import { Data, Effect, Layer, Record } from "effect";
 import {
   ApiGatewayManagementApiClientInstance,
   ApiGatewayManagementApiClientInstanceLayer,
 } from "./ApiGatewayManagementApiClientInstance";
 import { DefaultApiGatewayManagementApiClientConfigLayer } from "./ApiGatewayManagementApiClientInstanceConfig";
 import {
+  AllServiceErrors,
   ForbiddenError,
   GoneError,
   LimitExceededError,
@@ -35,11 +36,7 @@ const commands = {
   PostToConnectionCommand,
 };
 
-/**
- * @since 1.0.0
- * @category models
- */
-export interface ApiGatewayManagementApiService {
+interface ApiGatewayManagementApiService$ {
   readonly _: unique symbol;
 
   /**
@@ -50,7 +47,7 @@ export interface ApiGatewayManagementApiService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     DeleteConnectionCommandOutput,
-    SdkError | GoneError | ForbiddenError | LimitExceededError
+    SdkError | ForbiddenError | GoneError | LimitExceededError
   >;
 
   /**
@@ -61,7 +58,7 @@ export interface ApiGatewayManagementApiService {
     options?: __HttpHandlerOptions,
   ): Effect.Effect<
     GetConnectionCommandOutput,
-    SdkError | GoneError | ForbiddenError | LimitExceededError
+    SdkError | ForbiddenError | GoneError | LimitExceededError
   >;
 
   /**
@@ -73,8 +70,8 @@ export interface ApiGatewayManagementApiService {
   ): Effect.Effect<
     PostToConnectionCommandOutput,
     | SdkError
-    | GoneError
     | ForbiddenError
+    | GoneError
     | LimitExceededError
     | PayloadTooLargeError
   >;
@@ -82,12 +79,11 @@ export interface ApiGatewayManagementApiService {
 
 /**
  * @since 1.0.0
- * @category tags
+ * @category models
  */
-export const ApiGatewayManagementApiService =
-  Context.GenericTag<ApiGatewayManagementApiService>(
-    "@effect-aws/client-api-gateway-management-api/ApiGatewayManagementApiService",
-  );
+export class ApiGatewayManagementApiService extends Effect.Tag(
+  "@effect-aws/client-api-gateway-management-api/ApiGatewayManagementApiService",
+)<ApiGatewayManagementApiService, ApiGatewayManagementApiService$>() {}
 
 /**
  * @since 1.0.0
@@ -102,7 +98,10 @@ export const makeApiGatewayManagementApiService = Effect.gen(function* (_) {
       Effect.tryPromise({
         try: () => client.send(new CommandCtor(args), options ?? {}),
         catch: (e) => {
-          if (e instanceof ApiGatewayManagementApiServiceException) {
+          if (
+            e instanceof ApiGatewayManagementApiServiceException &&
+            AllServiceErrors.includes(e.name)
+          ) {
             const ServiceException = Data.tagged<
               TaggedException<ApiGatewayManagementApiServiceException>
             >(e.name);
@@ -129,7 +128,7 @@ export const makeApiGatewayManagementApiService = Effect.gen(function* (_) {
       "",
     );
     return { ...acc, [methodName]: methodImpl };
-  }, {}) as ApiGatewayManagementApiService;
+  }, {}) as ApiGatewayManagementApiService$;
 });
 
 /**

@@ -2,6 +2,7 @@ import {
   type CreateRoleCommandInput,
   CreateRoleCommand,
   IAMClient,
+  IAMServiceException,
 } from "@aws-sdk/client-iam";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
@@ -29,9 +30,7 @@ describe("IAMClientImpl", () => {
 
     const args = {} as unknown as CreateRoleCommandInput;
 
-    const program = Effect.flatMap(IAMService, (service) =>
-      service.createRole(args),
-    );
+    const program = IAMService.createRole(args);
 
     const result = await pipe(
       program,
@@ -49,9 +48,7 @@ describe("IAMClientImpl", () => {
 
     const args = {} as unknown as CreateRoleCommandInput;
 
-    const program = Effect.flatMap(IAMService, (service) =>
-      service.createRole(args),
-    );
+    const program = IAMService.createRole(args);
 
     const IAMClientConfigLayer = Layer.succeed(IAMClientInstanceConfig, {
       region: "eu-central-1",
@@ -76,9 +73,7 @@ describe("IAMClientImpl", () => {
 
     const args = {} as unknown as CreateRoleCommandInput;
 
-    const program = Effect.flatMap(IAMService, (service) =>
-      service.createRole(args),
-    );
+    const program = IAMService.createRole(args);
 
     const IAMClientInstanceLayer = Layer.succeed(
       IAMClientInstance,
@@ -104,9 +99,7 @@ describe("IAMClientImpl", () => {
 
     const args = {} as unknown as CreateRoleCommandInput;
 
-    const program = Effect.flatMap(IAMService, (service) =>
-      service.createRole(args),
-    );
+    const program = IAMService.createRole(args);
 
     const IAMClientInstanceLayer = Layer.effect(
       IAMClientInstance,
@@ -136,8 +129,43 @@ describe("IAMClientImpl", () => {
 
     const args = {} as unknown as CreateRoleCommandInput;
 
-    const program = Effect.flatMap(IAMService, (service) =>
-      service.createRole(args),
+    const program = IAMService.createRole(args);
+
+    const result = await pipe(
+      program,
+      Effect.provide(DefaultIAMServiceLayer),
+      Effect.runPromiseExit,
+    );
+
+    expect(result).toEqual(
+      Exit.fail(
+        SdkError({
+          ...new Error("test"),
+          name: "SdkError",
+          message: "test",
+          stack: expect.any(String),
+        }),
+      ),
+    );
+    expect(clientMock).toHaveReceivedCommandTimes(CreateRoleCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(CreateRoleCommand, args);
+  });
+
+  it("should not catch unexpected error as expected", async () => {
+    clientMock
+      .reset()
+      .on(CreateRoleCommand)
+      .rejects(
+        new IAMServiceException({
+          name: "NotHandledException",
+          message: "test",
+        } as any),
+      );
+
+    const args = {} as unknown as CreateRoleCommandInput;
+
+    const program = IAMService.createRole(args).pipe(
+      Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 
     const result = await pipe(

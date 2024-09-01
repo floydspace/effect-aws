@@ -2,6 +2,7 @@ import {
   type InvokeCommandInput,
   InvokeCommand,
   LambdaClient,
+  LambdaServiceException,
 } from "@aws-sdk/client-lambda";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
@@ -29,9 +30,7 @@ describe("LambdaClientImpl", () => {
 
     const args: InvokeCommandInput = { FunctionName: "test", Payload: "test" };
 
-    const program = Effect.flatMap(LambdaService, (service) =>
-      service.invoke(args),
-    );
+    const program = LambdaService.invoke(args);
 
     const result = await pipe(
       program,
@@ -49,9 +48,7 @@ describe("LambdaClientImpl", () => {
 
     const args: InvokeCommandInput = { FunctionName: "test", Payload: "test" };
 
-    const program = Effect.flatMap(LambdaService, (service) =>
-      service.invoke(args),
-    );
+    const program = LambdaService.invoke(args);
 
     const LambdaClientConfigLayer = Layer.succeed(LambdaClientInstanceConfig, {
       region: "eu-central-1",
@@ -76,9 +73,7 @@ describe("LambdaClientImpl", () => {
 
     const args: InvokeCommandInput = { FunctionName: "test", Payload: "test" };
 
-    const program = Effect.flatMap(LambdaService, (service) =>
-      service.invoke(args),
-    );
+    const program = LambdaService.invoke(args);
 
     const LambdaClientInstanceLayer = Layer.succeed(
       LambdaClientInstance,
@@ -104,9 +99,7 @@ describe("LambdaClientImpl", () => {
 
     const args: InvokeCommandInput = { FunctionName: "test", Payload: "test" };
 
-    const program = Effect.flatMap(LambdaService, (service) =>
-      service.invoke(args),
-    );
+    const program = LambdaService.invoke(args);
 
     const LambdaClientInstanceLayer = Layer.effect(
       LambdaClientInstance,
@@ -136,8 +129,43 @@ describe("LambdaClientImpl", () => {
 
     const args: InvokeCommandInput = { FunctionName: "test", Payload: "test" };
 
-    const program = Effect.flatMap(LambdaService, (service) =>
-      service.invoke(args),
+    const program = LambdaService.invoke(args);
+
+    const result = await pipe(
+      program,
+      Effect.provide(DefaultLambdaServiceLayer),
+      Effect.runPromiseExit,
+    );
+
+    expect(result).toEqual(
+      Exit.fail(
+        SdkError({
+          ...new Error("test"),
+          name: "SdkError",
+          message: "test",
+          stack: expect.any(String),
+        }),
+      ),
+    );
+    expect(clientMock).toHaveReceivedCommandTimes(InvokeCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(InvokeCommand, args);
+  });
+
+  it("should not catch unexpected error as expected", async () => {
+    clientMock
+      .reset()
+      .on(InvokeCommand)
+      .rejects(
+        new LambdaServiceException({
+          name: "NotHandledException",
+          message: "test",
+        } as any),
+      );
+
+    const args: InvokeCommandInput = { FunctionName: "test", Payload: "test" };
+
+    const program = LambdaService.invoke(args).pipe(
+      Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 
     const result = await pipe(

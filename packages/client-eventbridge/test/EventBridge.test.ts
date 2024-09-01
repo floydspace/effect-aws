@@ -2,6 +2,7 @@ import {
   type PutEventsCommandInput,
   PutEventsCommand,
   EventBridgeClient,
+  EventBridgeServiceException,
 } from "@aws-sdk/client-eventbridge";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
@@ -29,9 +30,7 @@ describe("EventBridgeClientImpl", () => {
 
     const args: PutEventsCommandInput = { Entries: [{ Detail: "test" }] };
 
-    const program = Effect.flatMap(EventBridgeService, (service) =>
-      service.putEvents(args),
-    );
+    const program = EventBridgeService.putEvents(args);
 
     const result = await pipe(
       program,
@@ -49,9 +48,7 @@ describe("EventBridgeClientImpl", () => {
 
     const args: PutEventsCommandInput = { Entries: [{ Detail: "test" }] };
 
-    const program = Effect.flatMap(EventBridgeService, (service) =>
-      service.putEvents(args),
-    );
+    const program = EventBridgeService.putEvents(args);
 
     const EventBridgeClientConfigLayer = Layer.succeed(
       EventBridgeClientInstanceConfig,
@@ -79,9 +76,7 @@ describe("EventBridgeClientImpl", () => {
 
     const args: PutEventsCommandInput = { Entries: [{ Detail: "test" }] };
 
-    const program = Effect.flatMap(EventBridgeService, (service) =>
-      service.putEvents(args),
-    );
+    const program = EventBridgeService.putEvents(args);
 
     const EventBridgeClientInstanceLayer = Layer.succeed(
       EventBridgeClientInstance,
@@ -107,9 +102,7 @@ describe("EventBridgeClientImpl", () => {
 
     const args: PutEventsCommandInput = { Entries: [{ Detail: "test" }] };
 
-    const program = Effect.flatMap(EventBridgeService, (service) =>
-      service.putEvents(args),
-    );
+    const program = EventBridgeService.putEvents(args);
 
     const EventBridgeClientInstanceLayer = Layer.effect(
       EventBridgeClientInstance,
@@ -140,8 +133,43 @@ describe("EventBridgeClientImpl", () => {
 
     const args: PutEventsCommandInput = { Entries: [{ Detail: "test" }] };
 
-    const program = Effect.flatMap(EventBridgeService, (service) =>
-      service.putEvents(args),
+    const program = EventBridgeService.putEvents(args);
+
+    const result = await pipe(
+      program,
+      Effect.provide(DefaultEventBridgeServiceLayer),
+      Effect.runPromiseExit,
+    );
+
+    expect(result).toEqual(
+      Exit.fail(
+        SdkError({
+          ...new Error("test"),
+          name: "SdkError",
+          message: "test",
+          stack: expect.any(String),
+        }),
+      ),
+    );
+    expect(clientMock).toHaveReceivedCommandTimes(PutEventsCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(PutEventsCommand, args);
+  });
+
+  it("should not catch unexpected error as expected", async () => {
+    clientMock
+      .reset()
+      .on(PutEventsCommand)
+      .rejects(
+        new EventBridgeServiceException({
+          name: "NotHandledException",
+          message: "test",
+        } as any),
+      );
+
+    const args: PutEventsCommandInput = { Entries: [{ Detail: "test" }] };
+
+    const program = EventBridgeService.putEvents(args).pipe(
+      Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 
     const result = await pipe(
