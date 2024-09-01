@@ -1,7 +1,8 @@
 import {
-  ApiGatewayManagementApiClient,
+  type PostToConnectionCommandInput,
   PostToConnectionCommand,
-  PostToConnectionCommandInput,
+  ApiGatewayManagementApiClient,
+  ApiGatewayManagementApiServiceException,
 } from "@aws-sdk/client-apigatewaymanagementapi";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
@@ -9,33 +10,30 @@ import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
 import * as Layer from "effect/Layer";
 import {
+  BaseApiGatewayManagementApiServiceLayer,
+  DefaultApiGatewayManagementApiClientConfigLayer,
+  DefaultApiGatewayManagementApiServiceLayer,
   ApiGatewayManagementApiClientInstance,
   ApiGatewayManagementApiClientInstanceConfig,
   ApiGatewayManagementApiService,
   ApiGatewayManagementApiServiceLayer,
-  BaseApiGatewayManagementApiServiceLayer,
-  DefaultApiGatewayManagementApiClientConfigLayer,
-  DefaultApiGatewayManagementApiServiceLayer,
   SdkError,
 } from "../src";
 
 import "aws-sdk-client-mock-jest";
 
-const apiMock = mockClient(ApiGatewayManagementApiClient);
-const { postToConnection } = Effect.serviceFunctions(
-  ApiGatewayManagementApiService,
-);
+const clientMock = mockClient(ApiGatewayManagementApiClient);
 
 describe("ApiGatewayManagementApiClientImpl", () => {
   it("default", async () => {
-    apiMock.reset().on(PostToConnectionCommand).resolves({});
+    clientMock.reset().on(PostToConnectionCommand).resolves({});
 
     const args: PostToConnectionCommandInput = {
       ConnectionId: "test",
       Data: "test",
     };
 
-    const program = postToConnection(args);
+    const program = ApiGatewayManagementApiService.postToConnection(args);
 
     const result = await pipe(
       program,
@@ -44,23 +42,25 @@ describe("ApiGatewayManagementApiClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(apiMock).toHaveReceivedCommandTimes(PostToConnectionCommand, 1);
-    expect(apiMock).toHaveReceivedCommandWith(PostToConnectionCommand, args);
+    expect(clientMock).toHaveReceivedCommandTimes(PostToConnectionCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(PostToConnectionCommand, args);
   });
 
   it("configurable", async () => {
-    apiMock.reset().on(PostToConnectionCommand).resolves({});
+    clientMock.reset().on(PostToConnectionCommand).resolves({});
 
     const args: PostToConnectionCommandInput = {
       ConnectionId: "test",
       Data: "test",
     };
 
-    const program = postToConnection(args);
+    const program = ApiGatewayManagementApiService.postToConnection(args);
 
     const ApiGatewayManagementApiClientConfigLayer = Layer.succeed(
       ApiGatewayManagementApiClientInstanceConfig,
-      { region: "eu-central-1" },
+      {
+        region: "eu-central-1",
+      },
     );
     const CustomApiGatewayManagementApiServiceLayer =
       ApiGatewayManagementApiServiceLayer.pipe(
@@ -74,19 +74,19 @@ describe("ApiGatewayManagementApiClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(apiMock).toHaveReceivedCommandTimes(PostToConnectionCommand, 1);
-    expect(apiMock).toHaveReceivedCommandWith(PostToConnectionCommand, args);
+    expect(clientMock).toHaveReceivedCommandTimes(PostToConnectionCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(PostToConnectionCommand, args);
   });
 
   it("base", async () => {
-    apiMock.reset().on(PostToConnectionCommand).resolves({});
+    clientMock.reset().on(PostToConnectionCommand).resolves({});
 
     const args: PostToConnectionCommandInput = {
       ConnectionId: "test",
       Data: "test",
     };
 
-    const program = postToConnection(args);
+    const program = ApiGatewayManagementApiService.postToConnection(args);
 
     const ApiGatewayManagementApiClientInstanceLayer = Layer.succeed(
       ApiGatewayManagementApiClientInstance,
@@ -104,19 +104,19 @@ describe("ApiGatewayManagementApiClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(apiMock).toHaveReceivedCommandTimes(PostToConnectionCommand, 1);
-    expect(apiMock).toHaveReceivedCommandWith(PostToConnectionCommand, args);
+    expect(clientMock).toHaveReceivedCommandTimes(PostToConnectionCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(PostToConnectionCommand, args);
   });
 
   it("extended", async () => {
-    apiMock.reset().on(PostToConnectionCommand).resolves({});
+    clientMock.reset().on(PostToConnectionCommand).resolves({});
 
     const args: PostToConnectionCommandInput = {
       ConnectionId: "test",
       Data: "test",
     };
 
-    const program = postToConnection(args);
+    const program = ApiGatewayManagementApiService.postToConnection(args);
 
     const ApiGatewayManagementApiClientInstanceLayer = Layer.effect(
       ApiGatewayManagementApiClientInstance,
@@ -142,22 +142,58 @@ describe("ApiGatewayManagementApiClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(apiMock).toHaveReceivedCommandTimes(PostToConnectionCommand, 1);
-    expect(apiMock).toHaveReceivedCommandWith(PostToConnectionCommand, args);
+    expect(clientMock).toHaveReceivedCommandTimes(PostToConnectionCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(PostToConnectionCommand, args);
   });
 
   it("fail", async () => {
-    apiMock.reset().on(PostToConnectionCommand).rejects(new Error("test"));
+    clientMock.reset().on(PostToConnectionCommand).rejects(new Error("test"));
 
     const args: PostToConnectionCommandInput = {
       ConnectionId: "test",
       Data: "test",
     };
 
-    const program = Effect.flatMap(ApiGatewayManagementApiService, (api) =>
-      api.postToConnection(args, {
-        requestTimeout: 1000,
-      }),
+    const program = ApiGatewayManagementApiService.postToConnection(args);
+
+    const result = await pipe(
+      program,
+      Effect.provide(DefaultApiGatewayManagementApiServiceLayer),
+      Effect.runPromiseExit,
+    );
+
+    expect(result).toEqual(
+      Exit.fail(
+        SdkError({
+          ...new Error("test"),
+          name: "SdkError",
+          message: "test",
+          stack: expect.any(String),
+        }),
+      ),
+    );
+    expect(clientMock).toHaveReceivedCommandTimes(PostToConnectionCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(PostToConnectionCommand, args);
+  });
+
+  it("should not catch unexpected error as expected", async () => {
+    clientMock
+      .reset()
+      .on(PostToConnectionCommand)
+      .rejects(
+        new ApiGatewayManagementApiServiceException({
+          name: "NotHandledException",
+          message: "test",
+        } as any),
+      );
+
+    const args: PostToConnectionCommandInput = {
+      ConnectionId: "test",
+      Data: "test",
+    };
+
+    const program = ApiGatewayManagementApiService.postToConnection(args).pipe(
+      Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 
     const result = await pipe(
@@ -176,7 +212,7 @@ describe("ApiGatewayManagementApiClientImpl", () => {
         }),
       ),
     );
-    expect(apiMock).toHaveReceivedCommandTimes(PostToConnectionCommand, 1);
-    expect(apiMock).toHaveReceivedCommandWith(PostToConnectionCommand, args);
+    expect(clientMock).toHaveReceivedCommandTimes(PostToConnectionCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(PostToConnectionCommand, args);
   });
 });

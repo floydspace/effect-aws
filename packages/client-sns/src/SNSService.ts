@@ -2,137 +2,138 @@
  * @since 1.0.0
  */
 import {
-  AddPermissionCommand,
-  AddPermissionCommandInput,
-  AddPermissionCommandOutput,
-  CheckIfPhoneNumberIsOptedOutCommand,
-  CheckIfPhoneNumberIsOptedOutCommandInput,
-  CheckIfPhoneNumberIsOptedOutCommandOutput,
-  ConfirmSubscriptionCommand,
-  ConfirmSubscriptionCommandInput,
-  ConfirmSubscriptionCommandOutput,
-  CreatePlatformApplicationCommand,
-  CreatePlatformApplicationCommandInput,
-  CreatePlatformApplicationCommandOutput,
-  CreatePlatformEndpointCommand,
-  CreatePlatformEndpointCommandInput,
-  CreatePlatformEndpointCommandOutput,
-  CreateSMSSandboxPhoneNumberCommand,
-  CreateSMSSandboxPhoneNumberCommandInput,
-  CreateSMSSandboxPhoneNumberCommandOutput,
-  CreateTopicCommand,
-  CreateTopicCommandInput,
-  CreateTopicCommandOutput,
-  DeleteEndpointCommand,
-  DeleteEndpointCommandInput,
-  DeleteEndpointCommandOutput,
-  DeletePlatformApplicationCommand,
-  DeletePlatformApplicationCommandInput,
-  DeletePlatformApplicationCommandOutput,
-  DeleteSMSSandboxPhoneNumberCommand,
-  DeleteSMSSandboxPhoneNumberCommandInput,
-  DeleteSMSSandboxPhoneNumberCommandOutput,
-  DeleteTopicCommand,
-  DeleteTopicCommandInput,
-  DeleteTopicCommandOutput,
-  GetDataProtectionPolicyCommand,
-  GetDataProtectionPolicyCommandInput,
-  GetDataProtectionPolicyCommandOutput,
-  GetEndpointAttributesCommand,
-  GetEndpointAttributesCommandInput,
-  GetEndpointAttributesCommandOutput,
-  GetPlatformApplicationAttributesCommand,
-  GetPlatformApplicationAttributesCommandInput,
-  GetPlatformApplicationAttributesCommandOutput,
-  GetSMSAttributesCommand,
-  GetSMSAttributesCommandInput,
-  GetSMSAttributesCommandOutput,
-  GetSMSSandboxAccountStatusCommand,
-  GetSMSSandboxAccountStatusCommandInput,
-  GetSMSSandboxAccountStatusCommandOutput,
-  GetSubscriptionAttributesCommand,
-  GetSubscriptionAttributesCommandInput,
-  GetSubscriptionAttributesCommandOutput,
-  GetTopicAttributesCommand,
-  GetTopicAttributesCommandInput,
-  GetTopicAttributesCommandOutput,
-  ListEndpointsByPlatformApplicationCommand,
-  ListEndpointsByPlatformApplicationCommandInput,
-  ListEndpointsByPlatformApplicationCommandOutput,
-  ListOriginationNumbersCommand,
-  ListOriginationNumbersCommandInput,
-  ListOriginationNumbersCommandOutput,
-  ListPhoneNumbersOptedOutCommand,
-  ListPhoneNumbersOptedOutCommandInput,
-  ListPhoneNumbersOptedOutCommandOutput,
-  ListPlatformApplicationsCommand,
-  ListPlatformApplicationsCommandInput,
-  ListPlatformApplicationsCommandOutput,
-  ListSMSSandboxPhoneNumbersCommand,
-  ListSMSSandboxPhoneNumbersCommandInput,
-  ListSMSSandboxPhoneNumbersCommandOutput,
-  ListSubscriptionsByTopicCommand,
-  ListSubscriptionsByTopicCommandInput,
-  ListSubscriptionsByTopicCommandOutput,
-  ListSubscriptionsCommand,
-  ListSubscriptionsCommandInput,
-  ListSubscriptionsCommandOutput,
-  ListTagsForResourceCommand,
-  ListTagsForResourceCommandInput,
-  ListTagsForResourceCommandOutput,
-  ListTopicsCommand,
-  ListTopicsCommandInput,
-  ListTopicsCommandOutput,
-  OptInPhoneNumberCommand,
-  OptInPhoneNumberCommandInput,
-  OptInPhoneNumberCommandOutput,
-  PublishBatchCommand,
-  PublishBatchCommandInput,
-  PublishBatchCommandOutput,
-  PublishCommand,
-  PublishCommandInput,
-  PublishCommandOutput,
-  PutDataProtectionPolicyCommand,
-  PutDataProtectionPolicyCommandInput,
-  PutDataProtectionPolicyCommandOutput,
-  RemovePermissionCommand,
-  RemovePermissionCommandInput,
-  RemovePermissionCommandOutput,
   SNSServiceException,
+  AddPermissionCommand,
+  type AddPermissionCommandInput,
+  type AddPermissionCommandOutput,
+  CheckIfPhoneNumberIsOptedOutCommand,
+  type CheckIfPhoneNumberIsOptedOutCommandInput,
+  type CheckIfPhoneNumberIsOptedOutCommandOutput,
+  ConfirmSubscriptionCommand,
+  type ConfirmSubscriptionCommandInput,
+  type ConfirmSubscriptionCommandOutput,
+  CreatePlatformApplicationCommand,
+  type CreatePlatformApplicationCommandInput,
+  type CreatePlatformApplicationCommandOutput,
+  CreatePlatformEndpointCommand,
+  type CreatePlatformEndpointCommandInput,
+  type CreatePlatformEndpointCommandOutput,
+  CreateSMSSandboxPhoneNumberCommand,
+  type CreateSMSSandboxPhoneNumberCommandInput,
+  type CreateSMSSandboxPhoneNumberCommandOutput,
+  CreateTopicCommand,
+  type CreateTopicCommandInput,
+  type CreateTopicCommandOutput,
+  DeleteEndpointCommand,
+  type DeleteEndpointCommandInput,
+  type DeleteEndpointCommandOutput,
+  DeletePlatformApplicationCommand,
+  type DeletePlatformApplicationCommandInput,
+  type DeletePlatformApplicationCommandOutput,
+  DeleteSMSSandboxPhoneNumberCommand,
+  type DeleteSMSSandboxPhoneNumberCommandInput,
+  type DeleteSMSSandboxPhoneNumberCommandOutput,
+  DeleteTopicCommand,
+  type DeleteTopicCommandInput,
+  type DeleteTopicCommandOutput,
+  GetDataProtectionPolicyCommand,
+  type GetDataProtectionPolicyCommandInput,
+  type GetDataProtectionPolicyCommandOutput,
+  GetEndpointAttributesCommand,
+  type GetEndpointAttributesCommandInput,
+  type GetEndpointAttributesCommandOutput,
+  GetPlatformApplicationAttributesCommand,
+  type GetPlatformApplicationAttributesCommandInput,
+  type GetPlatformApplicationAttributesCommandOutput,
+  GetSMSAttributesCommand,
+  type GetSMSAttributesCommandInput,
+  type GetSMSAttributesCommandOutput,
+  GetSMSSandboxAccountStatusCommand,
+  type GetSMSSandboxAccountStatusCommandInput,
+  type GetSMSSandboxAccountStatusCommandOutput,
+  GetSubscriptionAttributesCommand,
+  type GetSubscriptionAttributesCommandInput,
+  type GetSubscriptionAttributesCommandOutput,
+  GetTopicAttributesCommand,
+  type GetTopicAttributesCommandInput,
+  type GetTopicAttributesCommandOutput,
+  ListEndpointsByPlatformApplicationCommand,
+  type ListEndpointsByPlatformApplicationCommandInput,
+  type ListEndpointsByPlatformApplicationCommandOutput,
+  ListOriginationNumbersCommand,
+  type ListOriginationNumbersCommandInput,
+  type ListOriginationNumbersCommandOutput,
+  ListPhoneNumbersOptedOutCommand,
+  type ListPhoneNumbersOptedOutCommandInput,
+  type ListPhoneNumbersOptedOutCommandOutput,
+  ListPlatformApplicationsCommand,
+  type ListPlatformApplicationsCommandInput,
+  type ListPlatformApplicationsCommandOutput,
+  ListSMSSandboxPhoneNumbersCommand,
+  type ListSMSSandboxPhoneNumbersCommandInput,
+  type ListSMSSandboxPhoneNumbersCommandOutput,
+  ListSubscriptionsCommand,
+  type ListSubscriptionsCommandInput,
+  type ListSubscriptionsCommandOutput,
+  ListSubscriptionsByTopicCommand,
+  type ListSubscriptionsByTopicCommandInput,
+  type ListSubscriptionsByTopicCommandOutput,
+  ListTagsForResourceCommand,
+  type ListTagsForResourceCommandInput,
+  type ListTagsForResourceCommandOutput,
+  ListTopicsCommand,
+  type ListTopicsCommandInput,
+  type ListTopicsCommandOutput,
+  OptInPhoneNumberCommand,
+  type OptInPhoneNumberCommandInput,
+  type OptInPhoneNumberCommandOutput,
+  PublishCommand,
+  type PublishCommandInput,
+  type PublishCommandOutput,
+  PublishBatchCommand,
+  type PublishBatchCommandInput,
+  type PublishBatchCommandOutput,
+  PutDataProtectionPolicyCommand,
+  type PutDataProtectionPolicyCommandInput,
+  type PutDataProtectionPolicyCommandOutput,
+  RemovePermissionCommand,
+  type RemovePermissionCommandInput,
+  type RemovePermissionCommandOutput,
   SetEndpointAttributesCommand,
-  SetEndpointAttributesCommandInput,
-  SetEndpointAttributesCommandOutput,
+  type SetEndpointAttributesCommandInput,
+  type SetEndpointAttributesCommandOutput,
   SetPlatformApplicationAttributesCommand,
-  SetPlatformApplicationAttributesCommandInput,
-  SetPlatformApplicationAttributesCommandOutput,
+  type SetPlatformApplicationAttributesCommandInput,
+  type SetPlatformApplicationAttributesCommandOutput,
   SetSMSAttributesCommand,
-  SetSMSAttributesCommandInput,
-  SetSMSAttributesCommandOutput,
+  type SetSMSAttributesCommandInput,
+  type SetSMSAttributesCommandOutput,
   SetSubscriptionAttributesCommand,
-  SetSubscriptionAttributesCommandInput,
-  SetSubscriptionAttributesCommandOutput,
+  type SetSubscriptionAttributesCommandInput,
+  type SetSubscriptionAttributesCommandOutput,
   SetTopicAttributesCommand,
-  SetTopicAttributesCommandInput,
-  SetTopicAttributesCommandOutput,
+  type SetTopicAttributesCommandInput,
+  type SetTopicAttributesCommandOutput,
   SubscribeCommand,
-  SubscribeCommandInput,
-  SubscribeCommandOutput,
+  type SubscribeCommandInput,
+  type SubscribeCommandOutput,
   TagResourceCommand,
-  TagResourceCommandInput,
-  TagResourceCommandOutput,
+  type TagResourceCommandInput,
+  type TagResourceCommandOutput,
   UnsubscribeCommand,
-  UnsubscribeCommandInput,
-  UnsubscribeCommandOutput,
+  type UnsubscribeCommandInput,
+  type UnsubscribeCommandOutput,
   UntagResourceCommand,
-  UntagResourceCommandInput,
-  UntagResourceCommandOutput,
+  type UntagResourceCommandInput,
+  type UntagResourceCommandOutput,
   VerifySMSSandboxPhoneNumberCommand,
-  VerifySMSSandboxPhoneNumberCommandInput,
-  VerifySMSSandboxPhoneNumberCommandOutput,
+  type VerifySMSSandboxPhoneNumberCommandInput,
+  type VerifySMSSandboxPhoneNumberCommandOutput,
 } from "@aws-sdk/client-sns";
-import { HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
-import { Context, Data, Effect, Layer, Record } from "effect";
+import { type HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
+import { Data, Effect, Layer, Record } from "effect";
 import {
+  AllServiceErrors,
   AuthorizationError,
   BatchEntryIdsNotDistinctError,
   BatchRequestTooLongError,
@@ -145,6 +146,7 @@ import {
   InvalidParameterError,
   InvalidParameterValueError,
   InvalidSecurityError,
+  InvalidStateError,
   KMSAccessDeniedError,
   KMSDisabledError,
   KMSInvalidStateError,
@@ -154,19 +156,20 @@ import {
   NotFoundError,
   OptedOutError,
   PlatformApplicationDisabledError,
+  ReplayLimitExceededError,
   ResourceNotFoundError,
-  SdkError,
   StaleTagError,
   SubscriptionLimitExceededError,
   TagLimitExceededError,
   TagPolicyError,
-  TaggedException,
   ThrottledError,
   TooManyEntriesInBatchRequestError,
   TopicLimitExceededError,
   UserError,
   ValidationError,
   VerificationError,
+  SdkError,
+  TaggedException,
 } from "./Errors";
 import { SNSClientInstance, SNSClientInstanceLayer } from "./SNSClientInstance";
 import { DefaultSNSClientConfigLayer } from "./SNSClientInstanceConfig";
@@ -216,11 +219,7 @@ const commands = {
   VerifySMSSandboxPhoneNumberCommand,
 };
 
-/**
- * @since 1.0.0
- * @category models
- */
-export interface SNSService {
+interface SNSService$ {
   readonly _: unique symbol;
 
   /**
@@ -267,6 +266,7 @@ export interface SNSService {
     | InternalError
     | InvalidParameterError
     | NotFoundError
+    | ReplayLimitExceededError
     | SubscriptionLimitExceededError
   >;
 
@@ -385,6 +385,7 @@ export interface SNSService {
     | ConcurrentAccessError
     | InternalError
     | InvalidParameterError
+    | InvalidStateError
     | NotFoundError
     | StaleTagError
     | TagPolicyError
@@ -647,6 +648,7 @@ export interface SNSService {
     | EndpointDisabledError
     | InternalError
     | InvalidParameterError
+    | InvalidParameterValueError
     | InvalidSecurityError
     | KMSAccessDeniedError
     | KMSDisabledError
@@ -655,7 +657,6 @@ export interface SNSService {
     | KMSOptInRequiredError
     | KMSThrottlingError
     | NotFoundError
-    | InvalidParameterValueError
     | PlatformApplicationDisabledError
     | ValidationError
   >;
@@ -677,6 +678,7 @@ export interface SNSService {
     | InternalError
     | InvalidBatchEntryIdError
     | InvalidParameterError
+    | InvalidParameterValueError
     | InvalidSecurityError
     | KMSAccessDeniedError
     | KMSDisabledError
@@ -685,7 +687,6 @@ export interface SNSService {
     | KMSOptInRequiredError
     | KMSThrottlingError
     | NotFoundError
-    | InvalidParameterValueError
     | PlatformApplicationDisabledError
     | TooManyEntriesInBatchRequestError
     | ValidationError
@@ -781,6 +782,7 @@ export interface SNSService {
     | InternalError
     | InvalidParameterError
     | NotFoundError
+    | ReplayLimitExceededError
   >;
 
   /**
@@ -814,6 +816,7 @@ export interface SNSService {
     | InvalidParameterError
     | InvalidSecurityError
     | NotFoundError
+    | ReplayLimitExceededError
     | SubscriptionLimitExceededError
   >;
 
@@ -889,11 +892,12 @@ export interface SNSService {
 
 /**
  * @since 1.0.0
- * @category tags
+ * @category models
  */
-export const SNSService = Context.GenericTag<SNSService>(
-  "@effect-aws/client-sns/SNSService",
-);
+export class SNSService extends Effect.Tag("@effect-aws/client-sns/SNSService")<
+  SNSService,
+  SNSService$
+>() {}
 
 /**
  * @since 1.0.0
@@ -908,7 +912,10 @@ export const makeSNSService = Effect.gen(function* (_) {
       Effect.tryPromise({
         try: () => client.send(new CommandCtor(args), options ?? {}),
         catch: (e) => {
-          if (e instanceof SNSServiceException) {
+          if (
+            e instanceof SNSServiceException &&
+            AllServiceErrors.includes(e.name)
+          ) {
             const ServiceException = Data.tagged<
               TaggedException<SNSServiceException>
             >(e.name);
@@ -935,7 +942,7 @@ export const makeSNSService = Effect.gen(function* (_) {
       "",
     );
     return { ...acc, [methodName]: methodImpl };
-  }, {}) as SNSService;
+  }, {}) as SNSService$;
 });
 
 /**

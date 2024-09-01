@@ -74,8 +74,9 @@ import {
   type UntagQueueCommandOutput,
 } from "@aws-sdk/client-sqs";
 import { type HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
-import { Context, Data, Effect, Layer, Record } from "effect";
+import { Data, Effect, Layer, Record } from "effect";
 import {
+  AllServiceErrors,
   BatchEntryIdsNotDistinctError,
   BatchRequestTooLongError,
   EmptyBatchRequestError,
@@ -136,11 +137,7 @@ const commands = {
   UntagQueueCommand,
 };
 
-/**
- * @since 1.0.0
- * @category models
- */
-export interface SQSService {
+interface SQSService$ {
   readonly _: unique symbol;
 
   /**
@@ -562,11 +559,12 @@ export interface SQSService {
 
 /**
  * @since 1.0.0
- * @category tags
+ * @category models
  */
-export const SQSService = Context.GenericTag<SQSService>(
-  "@effect-aws/client-sqs/SQSService",
-);
+export class SQSService extends Effect.Tag("@effect-aws/client-sqs/SQSService")<
+  SQSService,
+  SQSService$
+>() {}
 
 /**
  * @since 1.0.0
@@ -581,7 +579,10 @@ export const makeSQSService = Effect.gen(function* (_) {
       Effect.tryPromise({
         try: () => client.send(new CommandCtor(args), options ?? {}),
         catch: (e) => {
-          if (e instanceof SQSServiceException) {
+          if (
+            e instanceof SQSServiceException &&
+            AllServiceErrors.includes(e.name)
+          ) {
             const ServiceException = Data.tagged<
               TaggedException<SQSServiceException>
             >(e.name);
@@ -608,7 +609,7 @@ export const makeSQSService = Effect.gen(function* (_) {
       "",
     );
     return { ...acc, [methodName]: methodImpl };
-  }, {}) as SQSService;
+  }, {}) as SQSService$;
 });
 
 /**

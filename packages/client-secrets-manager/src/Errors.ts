@@ -12,7 +12,22 @@ import type {
   ResourceExistsException,
   ResourceNotFoundException,
 } from "@aws-sdk/client-secrets-manager";
-import * as Data from "effect/Data";
+import { Data } from "effect";
+
+export const AllServiceErrors = [
+  "DecryptionFailure",
+  "EncryptionFailure",
+  "InternalServiceError",
+  "InvalidNextTokenException",
+  "InvalidParameterException",
+  "InvalidRequestException",
+  "LimitExceededException",
+  "MalformedPolicyDocumentException",
+  "PreconditionNotMetException",
+  "PublicPolicyException",
+  "ResourceExistsException",
+  "ResourceNotFoundException",
+];
 
 export type TaggedException<T extends { name: string }> = T & {
   readonly _tag: T["name"];

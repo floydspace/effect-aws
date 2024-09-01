@@ -8,7 +8,6 @@ import type {
   DuplicateSSHPublicKeyException,
   EntityAlreadyExistsException,
   EntityTemporarilyUnmodifiableException,
-  IAMServiceException,
   InvalidAuthenticationCodeException,
   InvalidCertificateException,
   InvalidInputException,
@@ -19,6 +18,7 @@ import type {
   MalformedCertificateException,
   MalformedPolicyDocumentException,
   NoSuchEntityException,
+  OpenIdIdpCommunicationErrorException,
   PasswordPolicyViolationException,
   PolicyEvaluationException,
   PolicyNotAttachableException,
@@ -28,7 +28,38 @@ import type {
   UnmodifiableEntityException,
   UnrecognizedPublicKeyEncodingException,
 } from "@aws-sdk/client-iam";
-import * as Data from "effect/Data";
+import { Data } from "effect";
+
+export const AllServiceErrors = [
+  "ConcurrentModificationException",
+  "CredentialReportExpiredException",
+  "CredentialReportNotPresentException",
+  "CredentialReportNotReadyException",
+  "DeleteConflictException",
+  "DuplicateCertificateException",
+  "DuplicateSSHPublicKeyException",
+  "EntityAlreadyExistsException",
+  "EntityTemporarilyUnmodifiableException",
+  "InvalidAuthenticationCodeException",
+  "InvalidCertificateException",
+  "InvalidInputException",
+  "InvalidPublicKeyException",
+  "InvalidUserTypeException",
+  "KeyPairMismatchException",
+  "LimitExceededException",
+  "MalformedCertificateException",
+  "MalformedPolicyDocumentException",
+  "NoSuchEntityException",
+  "OpenIdIdpCommunicationErrorException",
+  "PasswordPolicyViolationException",
+  "PolicyEvaluationException",
+  "PolicyNotAttachableException",
+  "ReportGenerationLimitExceededException",
+  "ServiceFailureException",
+  "ServiceNotSupportedException",
+  "UnmodifiableEntityException",
+  "UnrecognizedPublicKeyEncodingException",
+];
 
 export type TaggedException<T extends { name: string }> = T & {
   readonly _tag: T["name"];
@@ -65,6 +96,8 @@ export type MalformedCertificateError =
 export type MalformedPolicyDocumentError =
   TaggedException<MalformedPolicyDocumentException>;
 export type NoSuchEntityError = TaggedException<NoSuchEntityException>;
+export type OpenIdIdpCommunicationError =
+  TaggedException<OpenIdIdpCommunicationErrorException>;
 export type PasswordPolicyViolationError =
   TaggedException<PasswordPolicyViolationException>;
 export type PolicyEvaluationError = TaggedException<PolicyEvaluationException>;
@@ -80,9 +113,5 @@ export type UnmodifiableEntityError =
 export type UnrecognizedPublicKeyEncodingError =
   TaggedException<UnrecognizedPublicKeyEncodingException>;
 
-export type IAMServiceError = TaggedException<
-  IAMServiceException & { name: "IAMServiceError" }
->;
-export const IAMServiceError = Data.tagged<IAMServiceError>("IAMServiceError");
 export type SdkError = TaggedException<Error & { name: "SdkError" }>;
 export const SdkError = Data.tagged<SdkError>("SdkError");

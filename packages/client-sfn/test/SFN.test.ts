@@ -1,7 +1,8 @@
 import {
-  SFNClient,
+  type StartExecutionCommandInput,
   StartExecutionCommand,
-  StartExecutionCommandInput,
+  SFNClient,
+  SFNServiceException,
 } from "@aws-sdk/client-sfn";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
@@ -21,19 +22,18 @@ import {
 
 import "aws-sdk-client-mock-jest";
 
-const sfnMock = mockClient(SFNClient);
-const { startExecution } = Effect.serviceFunctions(SFNService);
+const clientMock = mockClient(SFNClient);
 
 describe("SFNClientImpl", () => {
   it("default", async () => {
-    sfnMock.reset().on(StartExecutionCommand).resolves({});
+    clientMock.reset().on(StartExecutionCommand).resolves({});
 
     const args: StartExecutionCommandInput = {
       stateMachineArn: "test",
       input: "test",
     };
 
-    const program = startExecution(args);
+    const program = SFNService.startExecution(args);
 
     const result = await pipe(
       program,
@@ -42,19 +42,19 @@ describe("SFNClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(sfnMock).toHaveReceivedCommandTimes(StartExecutionCommand, 1);
-    expect(sfnMock).toHaveReceivedCommandWith(StartExecutionCommand, args);
+    expect(clientMock).toHaveReceivedCommandTimes(StartExecutionCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(StartExecutionCommand, args);
   });
 
   it("configurable", async () => {
-    sfnMock.reset().on(StartExecutionCommand).resolves({});
+    clientMock.reset().on(StartExecutionCommand).resolves({});
 
     const args: StartExecutionCommandInput = {
       stateMachineArn: "test",
       input: "test",
     };
 
-    const program = startExecution(args);
+    const program = SFNService.startExecution(args);
 
     const SFNClientConfigLayer = Layer.succeed(SFNClientInstanceConfig, {
       region: "eu-central-1",
@@ -70,19 +70,19 @@ describe("SFNClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(sfnMock).toHaveReceivedCommandTimes(StartExecutionCommand, 1);
-    expect(sfnMock).toHaveReceivedCommandWith(StartExecutionCommand, args);
+    expect(clientMock).toHaveReceivedCommandTimes(StartExecutionCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(StartExecutionCommand, args);
   });
 
   it("base", async () => {
-    sfnMock.reset().on(StartExecutionCommand).resolves({});
+    clientMock.reset().on(StartExecutionCommand).resolves({});
 
     const args: StartExecutionCommandInput = {
       stateMachineArn: "test",
       input: "test",
     };
 
-    const program = startExecution(args);
+    const program = SFNService.startExecution(args);
 
     const SFNClientInstanceLayer = Layer.succeed(
       SFNClientInstance,
@@ -99,19 +99,19 @@ describe("SFNClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(sfnMock).toHaveReceivedCommandTimes(StartExecutionCommand, 1);
-    expect(sfnMock).toHaveReceivedCommandWith(StartExecutionCommand, args);
+    expect(clientMock).toHaveReceivedCommandTimes(StartExecutionCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(StartExecutionCommand, args);
   });
 
   it("extended", async () => {
-    sfnMock.reset().on(StartExecutionCommand).resolves({});
+    clientMock.reset().on(StartExecutionCommand).resolves({});
 
     const args: StartExecutionCommandInput = {
       stateMachineArn: "test",
       input: "test",
     };
 
-    const program = startExecution(args);
+    const program = SFNService.startExecution(args);
 
     const SFNClientInstanceLayer = Layer.effect(
       SFNClientInstance,
@@ -132,19 +132,19 @@ describe("SFNClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(sfnMock).toHaveReceivedCommandTimes(StartExecutionCommand, 1);
-    expect(sfnMock).toHaveReceivedCommandWith(StartExecutionCommand, args);
+    expect(clientMock).toHaveReceivedCommandTimes(StartExecutionCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(StartExecutionCommand, args);
   });
 
   it("fail", async () => {
-    sfnMock.reset().on(StartExecutionCommand).rejects(new Error("test"));
+    clientMock.reset().on(StartExecutionCommand).rejects(new Error("test"));
 
     const args: StartExecutionCommandInput = {
       stateMachineArn: "test",
       input: "test",
     };
 
-    const program = startExecution(args, { requestTimeout: 1000 });
+    const program = SFNService.startExecution(args);
 
     const result = await pipe(
       program,
@@ -162,7 +162,47 @@ describe("SFNClientImpl", () => {
         }),
       ),
     );
-    expect(sfnMock).toHaveReceivedCommandTimes(StartExecutionCommand, 1);
-    expect(sfnMock).toHaveReceivedCommandWith(StartExecutionCommand, args);
+    expect(clientMock).toHaveReceivedCommandTimes(StartExecutionCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(StartExecutionCommand, args);
+  });
+
+  it("should not catch unexpected error as expected", async () => {
+    clientMock
+      .reset()
+      .on(StartExecutionCommand)
+      .rejects(
+        new SFNServiceException({
+          name: "NotHandledException",
+          message: "test",
+        } as any),
+      );
+
+    const args: StartExecutionCommandInput = {
+      stateMachineArn: "test",
+      input: "test",
+    };
+
+    const program = SFNService.startExecution(args).pipe(
+      Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
+    );
+
+    const result = await pipe(
+      program,
+      Effect.provide(DefaultSFNServiceLayer),
+      Effect.runPromiseExit,
+    );
+
+    expect(result).toEqual(
+      Exit.fail(
+        SdkError({
+          ...new Error("test"),
+          name: "SdkError",
+          message: "test",
+          stack: expect.any(String),
+        }),
+      ),
+    );
+    expect(clientMock).toHaveReceivedCommandTimes(StartExecutionCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(StartExecutionCommand, args);
   });
 });

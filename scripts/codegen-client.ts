@@ -52,6 +52,14 @@ interface Manifest {
 
 main().catch(console.error);
 
+function normalizeServiceName(serviceName: string) {
+  let originalServiceName = serviceName;
+  if (serviceName === "api-gateway-management-api") {
+    originalServiceName = "apigatewaymanagementapi";
+  }
+  return originalServiceName;
+}
+
 async function main() {
   const enquirer = new Enquirer<{
     services: string[];
@@ -73,9 +81,11 @@ async function main() {
     Effect.promise(async () => {
       const serviceName = pipe(packageName, String.replace(/^client-/, ""));
 
+      const originalServiceName = normalizeServiceName(serviceName);
+
       const manifest = (await (
         await fetch(
-          `https://raw.githubusercontent.com/aws/aws-sdk-js-v3/main/codegen/sdk-codegen/aws-models/${serviceName}.json`,
+          `https://raw.githubusercontent.com/aws/aws-sdk-js-v3/main/codegen/sdk-codegen/aws-models/${originalServiceName}.json`,
         )
       ).json()) as Manifest;
 
@@ -150,9 +160,11 @@ async function generateClient([
 ]: readonly [string, string, string]) {
   const serviceName = pipe(packageName, String.replace(/^client-/, ""));
 
+  const originalServiceName = normalizeServiceName(serviceName);
+
   const manifest = (await (
     await fetch(
-      `https://raw.githubusercontent.com/aws/aws-sdk-js-v3/main/codegen/sdk-codegen/aws-models/${serviceName}.json`,
+      `https://raw.githubusercontent.com/aws/aws-sdk-js-v3/main/codegen/sdk-codegen/aws-models/${originalServiceName}.json`,
     )
   ).json()) as Manifest;
 
@@ -166,11 +178,11 @@ async function generateClient([
     Option.getOrThrowWith(() => new TypeError("ServiceShape is not found")),
   );
 
-  const { cloudFormationName: sdkId } = serviceShape.traits["aws.api#service"];
-  const sdkName = upperFirst(sdkId);
+  const { sdkId } = serviceShape.traits["aws.api#service"];
+  const sdkName = upperFirst(sdkId.replace(" ", ""));
 
   const awsClient = await import(
-    `../packages/client-${serviceName}/node_modules/@aws-sdk/client-${serviceName}/dist-cjs/index.js`
+    `../packages/client-${serviceName}/node_modules/@aws-sdk/client-${originalServiceName}/dist-cjs/index.js`
   );
 
   const serviceException = `${sdkName}ServiceException`;
@@ -187,8 +199,10 @@ async function generateClient([
 
   await writeFile(
     `./packages/client-${serviceName}/src/Errors.ts`,
-    `import type { ${exportedErrors.map((e) => (e.endsWith("Error") ? `${e} as ${String.replace(/Error$/, "")(e)}Exception` : e)).join(", ")} } from "@aws-sdk/client-${serviceName}";
-import * as Data from "effect/Data";
+    `import type { ${exportedErrors.map((e) => (e.endsWith("Error") ? `${e} as ${String.replace(/Error$/, "")(e)}Exception` : e)).join(", ")} } from "@aws-sdk/client-${originalServiceName}";
+import { Data } from "effect";
+
+export const AllServiceErrors = [${exportedErrors.map((e) => `"${e}"`).join(", ")}];
 
 export type TaggedException<T extends { name: string }> = T & {
   readonly _tag: T["name"];
@@ -198,7 +212,7 @@ ${pipe(
   exportedErrors,
   Array.map(
     (taggedError) =>
-      `export type ${pipe(taggedError, String.replace(/(Failure|Exception|Error)$/, ""))}Error = TaggedException<${taggedError.endsWith("Error") ? `${String.replace(/Error$/, "")(taggedError)}Exception` : taggedError}>;`,
+      `export type ${pipe(taggedError, String.replace(/(Failure|Exception|Error|ErrorException)$/, ""))}Error = TaggedException<${taggedError.endsWith("Error") ? `${String.replace(/Error$/, "")(taggedError)}Exception` : taggedError}>;`,
   ),
   Array.join("\n"),
 )}
@@ -213,7 +227,7 @@ export const SdkError = Data.tagged<SdkError>("SdkError");
     `/**
  * @since 1.0.0
  */
-import { ${sdkName}Client } from "@aws-sdk/client-${serviceName}";
+import { ${sdkName}Client } from "@aws-sdk/client-${originalServiceName}";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
@@ -263,11 +277,8 @@ export const Default${sdkName}ClientInstanceLayer = ${sdkName}ClientInstanceLaye
     `/**
  * @since 1.0.0
  */
-import type { ${sdkName}ClientConfig } from "@aws-sdk/client-${serviceName}";
-import * as Context from "effect/Context";
-import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
-import * as Runtime from "effect/Runtime";
+import type { ${sdkName}ClientConfig } from "@aws-sdk/client-${originalServiceName}";
+import { Context, Effect, Layer, Runtime } from "effect";
 
 /**
  * @since 1.0.0
@@ -380,17 +391,20 @@ import {
     ),
     Array.join("\n  "),
   )}
-} from "@aws-sdk/client-${serviceName}";
+} from "@aws-sdk/client-${originalServiceName}";
 import { type HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
-import { Context, Data, Effect, Layer, Record } from "effect";
+import { Data, Effect, Layer, Record } from "effect";
 import {
   ${sdkName}ClientInstance,
   ${sdkName}ClientInstanceLayer,
 } from "./${sdkName}ClientInstance";
 import { Default${sdkName}ClientConfigLayer } from "./${sdkName}ClientInstanceConfig";
 import {
+  AllServiceErrors,
   ${pipe(
-    importedErrors.map(String.replace(/(Failure|Exception|Error)$/, "")),
+    importedErrors.map(
+      String.replace(/(Failure|Exception|Error|ErrorException)$/, ""),
+    ),
     Array.map((error) => `${error}Error`),
     Array.join(","),
   )},
@@ -405,11 +419,7 @@ const commands = {
   )}
 };
 
-/**
- * @since 1.0.0
- * @category models
- */
-export interface ${sdkName}Service {
+interface ${sdkName}Service$ {
   readonly _: unique symbol;
 
 ${pipe(
@@ -419,7 +429,9 @@ ${pipe(
       operationShape.errors || [],
       Array.map(flow(Struct.get("target"), getNameFromTarget)),
       Array.intersection(importedErrors),
-      Array.map(String.replace(/(Failure|Exception|Error)$/, "")),
+      Array.map(
+        String.replace(/(Failure|Exception|Error|ErrorException)$/, ""),
+      ),
       Array.map((error) => `${error}Error`),
     );
     return `  /**
@@ -439,11 +451,12 @@ ${pipe(
 
 /**
  * @since 1.0.0
- * @category tags
+ * @category models
  */
-export const ${sdkName}Service = Context.GenericTag<${sdkName}Service>(
-  "@effect-aws/client-${serviceName}/${sdkName}Service",
-);
+export class ${sdkName}Service extends Effect.Tag("@effect-aws/client-${serviceName}/${sdkName}Service")<
+  ${sdkName}Service,
+  ${sdkName}Service$
+>() {}
 
 /**
  * @since 1.0.0
@@ -458,7 +471,7 @@ export const make${sdkName}Service = Effect.gen(function* (_) {
       Effect.tryPromise({
         try: () => client.send(new CommandCtor(args), options ?? {}),
         catch: (e) => {
-          if (e instanceof ${sdkName}ServiceException) {
+          if (e instanceof ${sdkName}ServiceException && AllServiceErrors.includes(e.name)) {
             const ServiceException = Data.tagged<
               TaggedException<${sdkName}ServiceException>
             >(e.name);
@@ -485,7 +498,7 @@ export const make${sdkName}Service = Effect.gen(function* (_) {
       "",
     );
     return { ...acc, [methodName]: methodImpl };
-  }, {}) as ${sdkName}Service;
+  }, {}) as ${sdkName}Service$;
 });
 
 /**
@@ -522,7 +535,8 @@ export const Default${sdkName}ServiceLayer = ${sdkName}ServiceLayer.pipe(
   type ${commandToTest}CommandInput,
   ${commandToTest}Command,
   ${sdkName}Client,
-} from "@aws-sdk/client-${serviceName}";
+  ${sdkName}ServiceException,
+} from "@aws-sdk/client-${originalServiceName}";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
@@ -553,7 +567,7 @@ describe("${sdkName}ClientImpl", () => {
         : `const args = {} as unknown as ${commandToTest}CommandInput`
     }
 
-    const program = Effect.flatMap(${sdkName}Service, (service) => service.${pipe(commandToTest, lowerFirst)}(args));
+    const program = ${sdkName}Service.${pipe(commandToTest, lowerFirst)}(args);
 
     const result = await pipe(
       program,
@@ -575,7 +589,7 @@ describe("${sdkName}ClientImpl", () => {
         : `const args = {} as unknown as ${commandToTest}CommandInput`
     }
 
-    const program = Effect.flatMap(${sdkName}Service, (service) => service.${pipe(commandToTest, lowerFirst)}(args));
+    const program = ${sdkName}Service.${pipe(commandToTest, lowerFirst)}(args);
 
     const ${sdkName}ClientConfigLayer = Layer.succeed(${sdkName}ClientInstanceConfig, {
       region: "eu-central-1",
@@ -604,7 +618,7 @@ describe("${sdkName}ClientImpl", () => {
         : `const args = {} as unknown as ${commandToTest}CommandInput`
     }
 
-    const program = Effect.flatMap(${sdkName}Service, (service) => service.${pipe(commandToTest, lowerFirst)}(args));
+    const program = ${sdkName}Service.${pipe(commandToTest, lowerFirst)}(args);
 
     const ${sdkName}ClientInstanceLayer = Layer.succeed(
       ${sdkName}ClientInstance,
@@ -634,7 +648,7 @@ describe("${sdkName}ClientImpl", () => {
         : `const args = {} as unknown as ${commandToTest}CommandInput`
     }
 
-    const program = Effect.flatMap(${sdkName}Service, (service) => service.${pipe(commandToTest, lowerFirst)}(args));
+    const program = ${sdkName}Service.${pipe(commandToTest, lowerFirst)}(args);
 
     const ${sdkName}ClientInstanceLayer = Layer.effect(
       ${sdkName}ClientInstance,
@@ -668,7 +682,48 @@ describe("${sdkName}ClientImpl", () => {
         : `const args = {} as unknown as ${commandToTest}CommandInput`
     }
 
-    const program = Effect.flatMap(${sdkName}Service, (service) => service.${pipe(commandToTest, lowerFirst)}(args));
+    const program = ${sdkName}Service.${pipe(commandToTest, lowerFirst)}(args);
+
+    const result = await pipe(
+      program,
+      Effect.provide(Default${sdkName}ServiceLayer),
+      Effect.runPromiseExit,
+    );
+
+    expect(result).toEqual(
+      Exit.fail(
+        SdkError({
+          ...new Error("test"),
+          name: "SdkError",
+          message: "test",
+          stack: expect.any(String),
+        }),
+      ),
+    );
+    expect(clientMock).toHaveReceivedCommandTimes(${commandToTest}Command, 1);
+    expect(clientMock).toHaveReceivedCommandWith(${commandToTest}Command, args);
+  });
+
+  it("should not catch unexpected error as expected", async () => {
+    clientMock
+      .reset()
+      .on(${commandToTest}Command)
+      .rejects(
+        new ${sdkName}ServiceException({
+          name: "NotHandledException",
+          message: "test",
+        } as any),
+      );
+
+    ${
+      inputToTest
+        ? `const args : ${commandToTest}CommandInput = ${inputToTest};`
+        : `const args = {} as unknown as ${commandToTest}CommandInput`
+    }
+
+    const program = ${sdkName}Service.${pipe(commandToTest, lowerFirst)}(args).pipe(
+      Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
+    );
 
     const result = await pipe(
       program,

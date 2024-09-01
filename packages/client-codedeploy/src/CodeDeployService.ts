@@ -146,13 +146,14 @@ import {
   type UpdateDeploymentGroupCommandOutput,
 } from "@aws-sdk/client-codedeploy";
 import { type HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
-import { Context, Data, Effect, Layer, Record } from "effect";
+import { Data, Effect, Layer, Record } from "effect";
 import {
   CodeDeployClientInstance,
   CodeDeployClientInstanceLayer,
 } from "./CodeDeployClientInstance";
 import { DefaultCodeDeployClientConfigLayer } from "./CodeDeployClientInstanceConfig";
 import {
+  AllServiceErrors,
   AlarmsLimitExceededError,
   ApplicationAlreadyExistsError,
   ApplicationDoesNotExistError,
@@ -317,11 +318,7 @@ const commands = {
   UpdateDeploymentGroupCommand,
 };
 
-/**
- * @since 1.0.0
- * @category models
- */
-export interface CodeDeployService {
+interface CodeDeployService$ {
   readonly _: unique symbol;
 
   /**
@@ -1169,11 +1166,11 @@ export interface CodeDeployService {
 
 /**
  * @since 1.0.0
- * @category tags
+ * @category models
  */
-export const CodeDeployService = Context.GenericTag<CodeDeployService>(
+export class CodeDeployService extends Effect.Tag(
   "@effect-aws/client-codedeploy/CodeDeployService",
-);
+)<CodeDeployService, CodeDeployService$>() {}
 
 /**
  * @since 1.0.0
@@ -1188,7 +1185,10 @@ export const makeCodeDeployService = Effect.gen(function* (_) {
       Effect.tryPromise({
         try: () => client.send(new CommandCtor(args), options ?? {}),
         catch: (e) => {
-          if (e instanceof CodeDeployServiceException) {
+          if (
+            e instanceof CodeDeployServiceException &&
+            AllServiceErrors.includes(e.name)
+          ) {
             const ServiceException = Data.tagged<
               TaggedException<CodeDeployServiceException>
             >(e.name);
@@ -1215,7 +1215,7 @@ export const makeCodeDeployService = Effect.gen(function* (_) {
       "",
     );
     return { ...acc, [methodName]: methodImpl };
-  }, {}) as CodeDeployService;
+  }, {}) as CodeDeployService$;
 });
 
 /**

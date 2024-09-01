@@ -1,7 +1,8 @@
 import {
+  type PutItemCommandInput,
   PutItemCommand,
   DynamoDBClient,
-  PutItemCommandInput,
+  DynamoDBServiceException,
 } from "@aws-sdk/client-dynamodb";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
@@ -21,19 +22,18 @@ import {
 
 import "aws-sdk-client-mock-jest";
 
-const dynamodbMock = mockClient(DynamoDBClient);
-const { putItem } = Effect.serviceFunctions(DynamoDBService);
+const clientMock = mockClient(DynamoDBClient);
 
 describe("DynamoDBClientImpl", () => {
   it("default", async () => {
-    dynamodbMock.reset().on(PutItemCommand).resolves({});
+    clientMock.reset().on(PutItemCommand).resolves({});
 
     const args: PutItemCommandInput = {
       TableName: "test",
       Item: { testAttr: { S: "test" } },
     };
 
-    const program = putItem(args);
+    const program = DynamoDBService.putItem(args);
 
     const result = await pipe(
       program,
@@ -42,19 +42,19 @@ describe("DynamoDBClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(dynamodbMock).toHaveReceivedCommandTimes(PutItemCommand, 1);
-    expect(dynamodbMock).toHaveReceivedCommandWith(PutItemCommand, args);
+    expect(clientMock).toHaveReceivedCommandTimes(PutItemCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(PutItemCommand, args);
   });
 
   it("configurable", async () => {
-    dynamodbMock.reset().on(PutItemCommand).resolves({});
+    clientMock.reset().on(PutItemCommand).resolves({});
 
     const args: PutItemCommandInput = {
       TableName: "test",
       Item: { testAttr: { S: "test" } },
     };
 
-    const program = putItem(args);
+    const program = DynamoDBService.putItem(args);
 
     const DynamoDBClientConfigLayer = Layer.succeed(
       DynamoDBClientInstanceConfig,
@@ -71,19 +71,19 @@ describe("DynamoDBClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(dynamodbMock).toHaveReceivedCommandTimes(PutItemCommand, 1);
-    expect(dynamodbMock).toHaveReceivedCommandWith(PutItemCommand, args);
+    expect(clientMock).toHaveReceivedCommandTimes(PutItemCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(PutItemCommand, args);
   });
 
   it("base", async () => {
-    dynamodbMock.reset().on(PutItemCommand).resolves({});
+    clientMock.reset().on(PutItemCommand).resolves({});
 
     const args: PutItemCommandInput = {
       TableName: "test",
       Item: { testAttr: { S: "test" } },
     };
 
-    const program = putItem(args);
+    const program = DynamoDBService.putItem(args);
 
     const DynamoDBClientInstanceLayer = Layer.succeed(
       DynamoDBClientInstance,
@@ -100,19 +100,19 @@ describe("DynamoDBClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(dynamodbMock).toHaveReceivedCommandTimes(PutItemCommand, 1);
-    expect(dynamodbMock).toHaveReceivedCommandWith(PutItemCommand, args);
+    expect(clientMock).toHaveReceivedCommandTimes(PutItemCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(PutItemCommand, args);
   });
 
   it("extended", async () => {
-    dynamodbMock.reset().on(PutItemCommand).resolves({});
+    clientMock.reset().on(PutItemCommand).resolves({});
 
     const args: PutItemCommandInput = {
       TableName: "test",
       Item: { testAttr: { S: "test" } },
     };
 
-    const program = putItem(args);
+    const program = DynamoDBService.putItem(args);
 
     const DynamoDBClientInstanceLayer = Layer.effect(
       DynamoDBClientInstance,
@@ -133,19 +133,19 @@ describe("DynamoDBClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(dynamodbMock).toHaveReceivedCommandTimes(PutItemCommand, 1);
-    expect(dynamodbMock).toHaveReceivedCommandWith(PutItemCommand, args);
+    expect(clientMock).toHaveReceivedCommandTimes(PutItemCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(PutItemCommand, args);
   });
 
   it("fail", async () => {
-    dynamodbMock.reset().on(PutItemCommand).rejects(new Error("test"));
+    clientMock.reset().on(PutItemCommand).rejects(new Error("test"));
 
     const args: PutItemCommandInput = {
       TableName: "test",
       Item: { testAttr: { S: "test" } },
     };
 
-    const program = putItem(args, { requestTimeout: 1000 });
+    const program = DynamoDBService.putItem(args, { requestTimeout: 1000 });
 
     const result = await pipe(
       program,
@@ -163,7 +163,47 @@ describe("DynamoDBClientImpl", () => {
         }),
       ),
     );
-    expect(dynamodbMock).toHaveReceivedCommandTimes(PutItemCommand, 1);
-    expect(dynamodbMock).toHaveReceivedCommandWith(PutItemCommand, args);
+    expect(clientMock).toHaveReceivedCommandTimes(PutItemCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(PutItemCommand, args);
+  });
+
+  it("should not catch unexpected error as expected", async () => {
+    clientMock
+      .reset()
+      .on(PutItemCommand)
+      .rejects(
+        new DynamoDBServiceException({
+          name: "NotHandledException",
+          message: "test",
+        } as any),
+      );
+
+    const args: PutItemCommandInput = {
+      TableName: "test",
+      Item: { testAttr: { S: "test" } },
+    };
+
+    const program = DynamoDBService.putItem(args).pipe(
+      Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
+    );
+
+    const result = await pipe(
+      program,
+      Effect.provide(DefaultDynamoDBServiceLayer),
+      Effect.runPromiseExit,
+    );
+
+    expect(result).toEqual(
+      Exit.fail(
+        SdkError({
+          ...new Error("test"),
+          name: "SdkError",
+          message: "test",
+          stack: expect.any(String),
+        }),
+      ),
+    );
+    expect(clientMock).toHaveReceivedCommandTimes(PutItemCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(PutItemCommand, args);
   });
 });
