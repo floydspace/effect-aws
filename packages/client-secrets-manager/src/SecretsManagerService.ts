@@ -76,6 +76,7 @@ import {
 import { type HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
 import { Context, Data, Effect, Layer, Record } from "effect";
 import {
+  AllServiceErrors,
   DecryptionError,
   EncryptionError,
   InternalServiceError,
@@ -518,7 +519,10 @@ export const makeSecretsManagerService = Effect.gen(function* (_) {
       Effect.tryPromise({
         try: () => client.send(new CommandCtor(args), options ?? {}),
         catch: (e) => {
-          if (e instanceof SecretsManagerServiceException) {
+          if (
+            e instanceof SecretsManagerServiceException &&
+            AllServiceErrors.includes(e.name)
+          ) {
             const ServiceException = Data.tagged<
               TaggedException<SecretsManagerServiceException>
             >(e.name);

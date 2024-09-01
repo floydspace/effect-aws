@@ -2,6 +2,7 @@ import {
   type GetSecretValueCommandInput,
   GetSecretValueCommand,
   SecretsManagerClient,
+  SecretsManagerServiceException,
 } from "@aws-sdk/client-secrets-manager";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
@@ -144,6 +145,44 @@ describe("SecretsManagerClientImpl", () => {
 
     const program = Effect.flatMap(SecretsManagerService, (service) =>
       service.getSecretValue(args),
+    );
+
+    const result = await pipe(
+      program,
+      Effect.provide(DefaultSecretsManagerServiceLayer),
+      Effect.runPromiseExit,
+    );
+
+    expect(result).toEqual(
+      Exit.fail(
+        SdkError({
+          ...new Error("test"),
+          name: "SdkError",
+          message: "test",
+          stack: expect.any(String),
+        }),
+      ),
+    );
+    expect(clientMock).toHaveReceivedCommandTimes(GetSecretValueCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(GetSecretValueCommand, args);
+  });
+
+  it("should not catch unexpected error as expected", async () => {
+    clientMock
+      .reset()
+      .on(GetSecretValueCommand)
+      .rejects(
+        new SecretsManagerServiceException({
+          name: "NotHandledException",
+          message: "test",
+        } as any),
+      );
+
+    const args: GetSecretValueCommandInput = { SecretId: "test" };
+
+    const program = SecretsManagerService.pipe(
+      Effect.flatMap((service) => service.getSecretValue(args)),
+      Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 
     const result = await pipe(

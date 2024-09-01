@@ -190,6 +190,8 @@ async function generateClient([
     `import type { ${exportedErrors.map((e) => (e.endsWith("Error") ? `${e} as ${String.replace(/Error$/, "")(e)}Exception` : e)).join(", ")} } from "@aws-sdk/client-${serviceName}";
 import * as Data from "effect/Data";
 
+export const AllServiceErrors = [${exportedErrors.map((e) => `"${e}"`).join(", ")}];
+
 export type TaggedException<T extends { name: string }> = T & {
   readonly _tag: T["name"];
 };
@@ -389,6 +391,7 @@ import {
 } from "./${sdkName}ClientInstance";
 import { Default${sdkName}ClientConfigLayer } from "./${sdkName}ClientInstanceConfig";
 import {
+  AllServiceErrors,
   ${pipe(
     importedErrors.map(String.replace(/(Failure|Exception|Error)$/, "")),
     Array.map((error) => `${error}Error`),
@@ -458,7 +461,7 @@ export const make${sdkName}Service = Effect.gen(function* (_) {
       Effect.tryPromise({
         try: () => client.send(new CommandCtor(args), options ?? {}),
         catch: (e) => {
-          if (e instanceof ${sdkName}ServiceException) {
+          if (e instanceof ${sdkName}ServiceException && AllServiceErrors.includes(e.name)) {
             const ServiceException = Data.tagged<
               TaggedException<${sdkName}ServiceException>
             >(e.name);
@@ -522,6 +525,7 @@ export const Default${sdkName}ServiceLayer = ${sdkName}ServiceLayer.pipe(
   type ${commandToTest}CommandInput,
   ${commandToTest}Command,
   ${sdkName}Client,
+  ${sdkName}ServiceException,
 } from "@aws-sdk/client-${serviceName}";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
@@ -669,6 +673,48 @@ describe("${sdkName}ClientImpl", () => {
     }
 
     const program = Effect.flatMap(${sdkName}Service, (service) => service.${pipe(commandToTest, lowerFirst)}(args));
+
+    const result = await pipe(
+      program,
+      Effect.provide(Default${sdkName}ServiceLayer),
+      Effect.runPromiseExit,
+    );
+
+    expect(result).toEqual(
+      Exit.fail(
+        SdkError({
+          ...new Error("test"),
+          name: "SdkError",
+          message: "test",
+          stack: expect.any(String),
+        }),
+      ),
+    );
+    expect(clientMock).toHaveReceivedCommandTimes(${commandToTest}Command, 1);
+    expect(clientMock).toHaveReceivedCommandWith(${commandToTest}Command, args);
+  });
+
+  it("should not catch unexpected error as expected", async () => {
+    clientMock
+      .reset()
+      .on(${commandToTest}Command)
+      .rejects(
+        new ${sdkName}ServiceException({
+          name: "NotHandledException",
+          message: "test",
+        } as any),
+      );
+
+    ${
+      inputToTest
+        ? `const args : ${commandToTest}CommandInput = ${inputToTest};`
+        : `const args = {} as unknown as ${commandToTest}CommandInput`
+    }
+
+    const program = ${sdkName}Service.pipe(
+      Effect.flatMap((service) => service.${pipe(commandToTest, lowerFirst)}(args)),
+      Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
+    );
 
     const result = await pipe(
       program,

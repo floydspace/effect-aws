@@ -14,6 +14,21 @@ import type {
 } from "@aws-sdk/client-secrets-manager";
 import * as Data from "effect/Data";
 
+export const AllServiceErrors = [
+  "DecryptionFailure",
+  "EncryptionFailure",
+  "InternalServiceError",
+  "InvalidNextTokenException",
+  "InvalidParameterException",
+  "InvalidRequestException",
+  "LimitExceededException",
+  "MalformedPolicyDocumentException",
+  "PreconditionNotMetException",
+  "PublicPolicyException",
+  "ResourceExistsException",
+  "ResourceNotFoundException",
+];
+
 export type TaggedException<T extends { name: string }> = T & {
   readonly _tag: T["name"];
 };
