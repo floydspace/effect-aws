@@ -2,6 +2,7 @@ import {
   type ListApplicationsCommandInput,
   ListApplicationsCommand,
   CodeDeployClient,
+  CodeDeployServiceException,
 } from "@aws-sdk/client-codedeploy";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
@@ -141,6 +142,44 @@ describe("CodeDeployClientImpl", () => {
 
     const program = Effect.flatMap(CodeDeployService, (service) =>
       service.listApplications(args),
+    );
+
+    const result = await pipe(
+      program,
+      Effect.provide(DefaultCodeDeployServiceLayer),
+      Effect.runPromiseExit,
+    );
+
+    expect(result).toEqual(
+      Exit.fail(
+        SdkError({
+          ...new Error("test"),
+          name: "SdkError",
+          message: "test",
+          stack: expect.any(String),
+        }),
+      ),
+    );
+    expect(clientMock).toHaveReceivedCommandTimes(ListApplicationsCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(ListApplicationsCommand, args);
+  });
+
+  it("should not catch unexpected error as expected", async () => {
+    clientMock
+      .reset()
+      .on(ListApplicationsCommand)
+      .rejects(
+        new CodeDeployServiceException({
+          name: "NotHandledException",
+          message: "test",
+        } as any),
+      );
+
+    const args = {} as unknown as ListApplicationsCommandInput;
+
+    const program = CodeDeployService.pipe(
+      Effect.flatMap((service) => service.listApplications(args)),
+      Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 
     const result = await pipe(

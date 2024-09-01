@@ -153,6 +153,7 @@ import {
 } from "./CodeDeployClientInstance";
 import { DefaultCodeDeployClientConfigLayer } from "./CodeDeployClientInstanceConfig";
 import {
+  AllServiceErrors,
   AlarmsLimitExceededError,
   ApplicationAlreadyExistsError,
   ApplicationDoesNotExistError,
@@ -1188,7 +1189,10 @@ export const makeCodeDeployService = Effect.gen(function* (_) {
       Effect.tryPromise({
         try: () => client.send(new CommandCtor(args), options ?? {}),
         catch: (e) => {
-          if (e instanceof CodeDeployServiceException) {
+          if (
+            e instanceof CodeDeployServiceException &&
+            AllServiceErrors.includes(e.name)
+          ) {
             const ServiceException = Data.tagged<
               TaggedException<CodeDeployServiceException>
             >(e.name);
