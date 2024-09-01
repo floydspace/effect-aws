@@ -1,5 +1,11 @@
 # @effect-aws/client-sqs
 
+## 1.4.0
+
+### Minor Changes
+
+- [#58](https://github.com/floydspace/effect-aws/pull/58) [`888dc8c`](https://github.com/floydspace/effect-aws/commit/888dc8ca0d7104e33a24426a1aacedb48e8fc3ac) Thanks [@floydspace](https://github.com/floydspace)! - use Effect.Tag instead of Context.GenericTag for service, upgrade sdk, handle only known errors
+
 ## 1.3.0
 
 ### Minor Changes
