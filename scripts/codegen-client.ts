@@ -747,4 +747,91 @@ describe("${sdkName}ClientImpl", () => {
 });
 `,
   );
+
+  await writeFile(
+    `./packages/client-${serviceName}/README.md`,
+    `# @effect-aws/client-${serviceName}
+
+## Installation
+
+\`\`\`bash
+npm install --save @effect-aws/client-${serviceName}
+\`\`\`
+
+## Usage
+
+With default ${sdkName}Client instance:
+
+\`\`\`typescript
+import { ${sdkName}Service, Default${sdkName}ServiceLayer } from "@effect-aws/client-${serviceName}";
+
+const program = ${sdkName}Service.${pipe(commandToTest, lowerFirst)}(args);
+
+const result = pipe(
+  program,
+  Effect.provide(Default${sdkName}ServiceLayer),
+  Effect.runPromise,
+);
+\`\`\`
+
+With custom ${sdkName}Client instance:
+
+\`\`\`typescript
+import {
+  ${sdkName}Service,
+  Base${sdkName}ServiceLayer,
+  ${sdkName}ClientInstance,
+} from "@effect-aws/client-${serviceName}";
+
+const program = ${sdkName}Service.${pipe(commandToTest, lowerFirst)}(args);
+
+const ${sdkName}ClientInstanceLayer = Layer.succeed(
+  ${sdkName}ClientInstance,
+  new ${sdkName}Client({ region: "eu-central-1" }),
+);
+
+const result = await pipe(
+  program,
+  Effect.provide(Base${sdkName}ServiceLayer),
+  Effect.provide(${sdkName}ClientInstanceLayer),
+  Effect.runPromise,
+);
+\`\`\`
+
+With custom ${sdkName}Client configuration:
+
+\`\`\`typescript
+import {
+  ${sdkName}Service,
+  Base${sdkName}ServiceLayer,
+  Default${sdkName}ClientConfigLayer,
+  ${sdkName}ClientInstance,
+  ${sdkName}ClientInstanceConfig,
+} from "@effect-aws/client-${serviceName}";
+
+const program = ${sdkName}Service.${pipe(commandToTest, lowerFirst)}(args);
+
+const ${sdkName}ClientInstanceLayer = Layer.provide(
+  Layer.effect(
+    ${sdkName}ClientInstance,
+    ${sdkName}ClientInstanceConfig.pipe(
+      Effect.map(
+        (config) => new ${sdkName}Client({ ...config, region: "eu-central-1" }),
+      ),
+    ),
+  ),
+  Default${sdkName}ClientConfigLayer,
+);
+
+const result = await pipe(
+  program,
+  Effect.provide(Base${sdkName}ServiceLayer),
+  Effect.provide(${sdkName}ClientInstanceLayer),
+  Effect.runPromiseExit,
+);
+\`\`\`
+
+or map over \`Default${sdkName}ClientConfigLayer\` layer context and update the configuration...
+`,
+  );
 }
