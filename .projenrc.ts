@@ -141,6 +141,14 @@ new TypeScriptLibProject({
 
 new TypeScriptLibProject({
   parent: project,
+  name: "client-ssm",
+  deps: [...commonDeps, "@aws-sdk/client-ssm@^3"],
+  devDeps: commonDevDeps,
+  peerDeps: commonPeerDeps,
+});
+
+new TypeScriptLibProject({
+  parent: project,
   name: "client-iam",
   deps: [...commonDeps, "@aws-sdk/client-iam@^3"],
   devDeps: commonDevDeps,

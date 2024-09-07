@@ -14,6 +14,7 @@ packages:
   - packages/client-sfn
   - packages/client-sns
   - packages/client-sqs
+  - packages/client-ssm
   - packages/lambda
   - packages/lib-dynamodb
   - packages/powertools-logger
