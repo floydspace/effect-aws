@@ -1026,7 +1026,7 @@ importers:
         specifier: ^3
         version: 3.645.0
       '@effect-aws/client-ssm':
-        specifier: 0.0.0
+        specifier: 1.0.0
         version: link:../client-ssm
       '@fluffy-spoon/substitute':
         specifier: ^1.208.0
