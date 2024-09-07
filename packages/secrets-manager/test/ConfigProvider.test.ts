@@ -8,7 +8,8 @@ import {
   SecretsManagerClientInstance,
 } from "@effect-aws/client-secrets-manager";
 import { Arg, Substitute } from "@fluffy-spoon/substitute";
-import { Config, ConfigError, Effect, Exit, Layer } from "effect";
+import { Config, ConfigError, Effect, Exit, Layer, Secret } from "effect";
+import { describe, expect, it } from "vitest";
 import { fromSecretsManager } from "../src/ConfigProvider";
 
 describe("fromSecretsManager", () => {
@@ -29,13 +30,40 @@ describe("fromSecretsManager", () => {
     );
 
     const result = await Config.string("test").pipe(
-      Effect.provide(
-        Layer.setConfigProvider(fromSecretsManager({ serviceLayer })),
-      ),
+      Effect.withConfigProvider(fromSecretsManager({ serviceLayer })),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed("mocked-secret"));
+    clientSubstitute.received(1).send(Arg.any(), {});
+  });
+
+  it("should load default value if the secret does not exist", async () => {
+    const clientSubstitute = Substitute.for<SecretsManagerClient>();
+    clientSubstitute.send(Arg.all()).rejects(
+      new ResourceNotFoundException({
+        $metadata: {},
+        message: "mocked-error",
+      }),
+    );
+
+    const clientInstanceLayer = Layer.succeed(
+      SecretsManagerClientInstance,
+      clientSubstitute,
+    );
+    const serviceLayer = Layer.provide(
+      BaseSecretsManagerServiceLayer,
+      clientInstanceLayer,
+    );
+
+    const result = await Config.secret("my-secret-that-doesnt-exist").pipe(
+      Config.withDefault(Secret.fromString("mocked-default-value")),
+      Effect.withConfigProvider(fromSecretsManager({ serviceLayer })),
+      Effect.map(Secret.value),
+      Effect.runPromiseExit,
+    );
+
+    expect(result).toEqual(Exit.succeed("mocked-default-value"));
     clientSubstitute.received(1).send(Arg.any(), {});
   });
 
@@ -58,9 +86,7 @@ describe("fromSecretsManager", () => {
     );
 
     const result = await Config.string("test").pipe(
-      Effect.provide(
-        Layer.setConfigProvider(fromSecretsManager({ serviceLayer })),
-      ),
+      Effect.withConfigProvider(fromSecretsManager({ serviceLayer })),
       Effect.runPromiseExit,
     );
 
@@ -92,9 +118,7 @@ describe("fromSecretsManager", () => {
     );
 
     const result = await Config.string("test").pipe(
-      Effect.provide(
-        Layer.setConfigProvider(fromSecretsManager({ serviceLayer })),
-      ),
+      Effect.withConfigProvider(fromSecretsManager({ serviceLayer })),
       Effect.runPromiseExit,
     );
 
