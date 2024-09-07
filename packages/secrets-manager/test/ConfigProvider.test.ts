@@ -1,24 +1,23 @@
 import {
-  GetSecretValueCommandOutput,
+  InvalidRequestException,
   ResourceNotFoundException,
-  SecretsManagerClient,
 } from "@aws-sdk/client-secrets-manager";
 import {
   BaseSecretsManagerServiceLayer,
   SecretsManagerClientInstance,
 } from "@effect-aws/client-secrets-manager";
-import { Arg, Substitute } from "@fluffy-spoon/substitute";
+import { Arg } from "@fluffy-spoon/substitute";
 import { Config, ConfigError, Effect, Exit, Layer, Secret } from "effect";
 import { describe, expect, it } from "vitest";
+import { SubstituteBuilder } from "./utils";
 import { fromSecretsManager } from "../src/ConfigProvider";
 
 describe("fromSecretsManager", () => {
   it("should load configuration from AWS Secrets Manager", async () => {
-    const clientSubstitute = Substitute.for<SecretsManagerClient>();
-    const commandOutputSubstitute =
-      Substitute.for<GetSecretValueCommandOutput>();
-    commandOutputSubstitute.SecretString?.returns?.("mocked-secret");
-    clientSubstitute.send(Arg.all()).resolves(commandOutputSubstitute);
+    const clientSubstitute = SubstituteBuilder.forSecretsManager()
+      .mockGetSecretValue()
+      .withSecretString("mocked-secret")
+      .succeeds();
 
     const clientInstanceLayer = Layer.succeed(
       SecretsManagerClientInstance,
@@ -39,13 +38,14 @@ describe("fromSecretsManager", () => {
   });
 
   it("should load default value if the secret does not exist", async () => {
-    const clientSubstitute = Substitute.for<SecretsManagerClient>();
-    clientSubstitute.send(Arg.all()).rejects(
-      new ResourceNotFoundException({
-        $metadata: {},
-        message: "mocked-error",
-      }),
-    );
+    const clientSubstitute = SubstituteBuilder.forSecretsManager()
+      .mockGetSecretValue()
+      .failsWith(
+        new ResourceNotFoundException({
+          $metadata: {},
+          message: "mocked-error",
+        }),
+      );
 
     const clientInstanceLayer = Layer.succeed(
       SecretsManagerClientInstance,
@@ -67,14 +67,52 @@ describe("fromSecretsManager", () => {
     clientSubstitute.received(1).send(Arg.any(), {});
   });
 
-  it("should fail if the secret does not exist", async () => {
-    const clientSubstitute = Substitute.for<SecretsManagerClient>();
-    clientSubstitute.send(Arg.all()).rejects(
-      new ResourceNotFoundException({
-        $metadata: {},
-        message: "mocked-error",
-      }),
+  it("should fail if request is invalid", async () => {
+    const clientSubstitute = SubstituteBuilder.forSecretsManager()
+      .mockGetSecretValue()
+      .failsWith(
+        new InvalidRequestException({
+          $metadata: {},
+          message: "mocked-error",
+        }),
+      );
+
+    const clientInstanceLayer = Layer.succeed(
+      SecretsManagerClientInstance,
+      clientSubstitute,
     );
+    const serviceLayer = Layer.provide(
+      BaseSecretsManagerServiceLayer,
+      clientInstanceLayer,
+    );
+
+    const result = await Config.secret("test").pipe(
+      Config.withDefault(Secret.fromString("mocked-default-value")),
+      Effect.withConfigProvider(fromSecretsManager({ serviceLayer })),
+      Effect.map(Secret.value),
+      Effect.runPromiseExit,
+    );
+
+    expect(result).toEqual(
+      Exit.fail(
+        ConfigError.InvalidData(
+          ["test"],
+          "Invalid request to AWS Secrets Manager",
+        ),
+      ),
+    );
+    clientSubstitute.received(1).send(Arg.any(), {});
+  });
+
+  it("should fail if the secret does not exist", async () => {
+    const clientSubstitute = SubstituteBuilder.forSecretsManager()
+      .mockGetSecretValue()
+      .failsWith(
+        new ResourceNotFoundException({
+          $metadata: {},
+          message: "mocked-error",
+        }),
+      );
 
     const clientInstanceLayer = Layer.succeed(
       SecretsManagerClientInstance,
@@ -102,11 +140,9 @@ describe("fromSecretsManager", () => {
   });
 
   it("should fail if the secret is empty", async () => {
-    const clientSubstitute = Substitute.for<SecretsManagerClient>();
-    const commandOutputSubstitute =
-      Substitute.for<GetSecretValueCommandOutput>();
-    commandOutputSubstitute.SecretString?.returns?.(undefined);
-    clientSubstitute.send(Arg.all()).resolves(commandOutputSubstitute);
+    const clientSubstitute = SubstituteBuilder.forSecretsManager()
+      .mockGetSecretValue()
+      .succeeds();
 
     const clientInstanceLayer = Layer.succeed(
       SecretsManagerClientInstance,
