@@ -31,6 +31,8 @@ export class Vitest extends Component {
   preSynthesize(): void {
     this.project.subprojects.forEach((subproject) => {
       if (subproject instanceof typescript.TypeScriptProject) {
+        subproject.addDevDeps("vitest");
+
         subproject.testTask.prependExec(
           "vitest run --globals --reporter verbose",
           { receiveArgs: true },

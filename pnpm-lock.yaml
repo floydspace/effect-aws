@@ -144,6 +144,9 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
+      vitest:
+        specifier: ^2.0.5
+        version: 2.0.5(@types/node@18.19.14)
 
   packages/client-codedeploy:
     dependencies:
@@ -193,6 +196,9 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
+      vitest:
+        specifier: ^2.0.5
+        version: 2.0.5(@types/node@18.19.14)
 
   packages/client-dynamodb:
     dependencies:
@@ -242,6 +248,9 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
+      vitest:
+        specifier: ^2.0.5
+        version: 2.0.5(@types/node@18.19.14)
 
   packages/client-ec2:
     dependencies:
@@ -291,6 +300,9 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
+      vitest:
+        specifier: ^2.0.5
+        version: 2.0.5(@types/node@18.19.14)
 
   packages/client-elasticache:
     dependencies:
@@ -340,6 +352,9 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
+      vitest:
+        specifier: ^2.0.5
+        version: 2.0.5(@types/node@18.19.14)
 
   packages/client-eventbridge:
     dependencies:
@@ -389,6 +404,9 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
+      vitest:
+        specifier: ^2.0.5
+        version: 2.0.5(@types/node@18.19.14)
 
   packages/client-iam:
     dependencies:
@@ -438,6 +456,9 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
+      vitest:
+        specifier: ^2.0.5
+        version: 2.0.5(@types/node@18.19.14)
 
   packages/client-lambda:
     dependencies:
@@ -487,6 +508,9 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
+      vitest:
+        specifier: ^2.0.5
+        version: 2.0.5(@types/node@18.19.14)
 
   packages/client-s3:
     dependencies:
@@ -539,6 +563,9 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
+      vitest:
+        specifier: ^2.0.5
+        version: 2.0.5(@types/node@18.19.14)
 
   packages/client-secrets-manager:
     dependencies:
@@ -588,6 +615,9 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
+      vitest:
+        specifier: ^2.0.5
+        version: 2.0.5(@types/node@18.19.14)
 
   packages/client-sfn:
     dependencies:
@@ -637,6 +667,9 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
+      vitest:
+        specifier: ^2.0.5
+        version: 2.0.5(@types/node@18.19.14)
 
   packages/client-sns:
     dependencies:
@@ -686,6 +719,9 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
+      vitest:
+        specifier: ^2.0.5
+        version: 2.0.5(@types/node@18.19.14)
 
   packages/client-sqs:
     dependencies:
@@ -735,6 +771,9 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
+      vitest:
+        specifier: ^2.0.5
+        version: 2.0.5(@types/node@18.19.14)
 
   packages/lambda:
     devDependencies:
@@ -774,6 +813,9 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
+      vitest:
+        specifier: ^2.0.5
+        version: 2.0.5(@types/node@18.19.14)
 
   packages/lib-dynamodb:
     dependencies:
@@ -829,6 +871,9 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
+      vitest:
+        specifier: ^2.0.5
+        version: 2.0.5(@types/node@18.19.14)
 
   packages/powertools-logger:
     devDependencies:
@@ -871,6 +916,9 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
+      vitest:
+        specifier: ^2.0.5
+        version: 2.0.5(@types/node@18.19.14)
 
   packages/secrets-manager:
     devDependencies:
@@ -916,6 +964,9 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
+      vitest:
+        specifier: ^2.0.5
+        version: 2.0.5(@types/node@18.19.14)
 
 packages:
 

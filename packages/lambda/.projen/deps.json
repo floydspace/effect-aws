@@ -50,6 +50,10 @@
       "type": "build"
     },
     {
+      "name": "vitest",
+      "type": "build"
+    },
+    {
       "name": "effect",
       "version": ">=3.0.0 <4.0.0",
       "type": "peer"

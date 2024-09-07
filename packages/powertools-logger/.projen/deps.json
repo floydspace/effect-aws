@@ -51,6 +51,10 @@
       "type": "build"
     },
     {
+      "name": "vitest",
+      "type": "build"
+    },
+    {
       "name": "@aws-lambda-powertools/logger",
       "version": ">=1.9.0",
       "type": "peer"

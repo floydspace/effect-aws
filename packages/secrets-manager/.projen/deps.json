@@ -55,6 +55,10 @@
       "type": "build"
     },
     {
+      "name": "vitest",
+      "type": "build"
+    },
+    {
       "name": "@effect-aws/client-secrets-manager",
       "type": "peer"
     },
