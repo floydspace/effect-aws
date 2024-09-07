@@ -17,3 +17,4 @@ packages:
   - packages/lambda
   - packages/lib-dynamodb
   - packages/powertools-logger
+  - packages/secrets-manager

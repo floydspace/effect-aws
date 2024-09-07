@@ -33,6 +33,10 @@
       "type": "build"
     },
     {
+      "name": "@vitest/coverage-v8",
+      "type": "build"
+    },
+    {
       "name": "constructs",
       "version": "^10.0.0",
       "type": "build"

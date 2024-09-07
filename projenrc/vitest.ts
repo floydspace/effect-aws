@@ -9,7 +9,7 @@ export class Vitest extends Component {
   constructor(project: typescript.TypeScriptProject) {
     super(project);
 
-    project.addDevDeps("vitest");
+    project.addDevDeps("vitest", "@vitest/coverage-v8");
 
     project.testTask.reset("vitest --globals", { receiveArgs: true });
 

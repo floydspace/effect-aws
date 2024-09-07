@@ -163,7 +163,7 @@ new TypeScriptLibProject({
   peerDeps: commonPeerDeps,
 });
 
-new TypeScriptLibProject({
+const secretsManagerClient = new TypeScriptLibProject({
   parent: project,
   name: "client-secrets-manager",
   deps: [...commonDeps, "@aws-sdk/client-secrets-manager@^3"],
@@ -178,7 +178,15 @@ new TypeScriptLibProject({
   peerDeps: commonPeerDeps,
 });
 
+const secretsManager = new TypeScriptLibProject({
+  parent: project,
+  name: "secrets-manager",
+  devDeps: ["@aws-sdk/client-secrets-manager@^3", "@fluffy-spoon/substitute"],
+  peerDeps: [...commonPeerDeps, secretsManagerClient.package.packageName],
+});
+
 project.addImplicitDependency(dynamodbLib, dynamodbClient);
+project.addImplicitDependency(secretsManager, secretsManagerClient);
 
 project.addGitIgnore(".direnv/"); // flake environment creates .direnv folder
 project.addGitIgnore("docs/"); // docs are generated
