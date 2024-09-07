@@ -1,5 +1,4 @@
 import {
-  GetSecretValueCommand,
   GetSecretValueCommandOutput,
   ResourceNotFoundException,
   SecretsManagerClient,
