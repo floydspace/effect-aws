@@ -41,7 +41,10 @@ export const fromParameterStore = (config?: {
     primitive: Config.Config.Primitive<A>,
   ): Effect.Effect<Array<A>, ConfigError.ConfigError> => {
     const pathString = makePathString(path);
-    return SSMService.getParameter({ Name: pathString }).pipe(
+    return SSMService.getParameter({
+      Name: pathString,
+      WithDecryption: true,
+    }).pipe(
       Effect.flatMap((value) => Option.fromNullable(value.Parameter?.Value)),
       Effect.catchTag("ParameterNotFound", () =>
         Effect.fail(
