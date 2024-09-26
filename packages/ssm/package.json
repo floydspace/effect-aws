@@ -45,7 +45,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "1.0.0",
+  "version": "1.0.1",
   "types": "lib/index.d.ts",
   "module": "lib/esm/index.js",
   "sideEffects": [],

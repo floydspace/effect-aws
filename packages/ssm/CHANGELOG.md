@@ -1,5 +1,11 @@
 # @effect-aws/ssm
 
+## 1.0.1
+
+### Patch Changes
+
+- [`f45941d`](https://github.com/floydspace/effect-aws/commit/f45941d6f31b505ce22d6ca196b0c89bc2aa68e2) Thanks [@floydspace](https://github.com/floydspace)! - **ConfigProvider** get parameter with decryption by default
+
 ## 1.0.0
 
 ### Major Changes
