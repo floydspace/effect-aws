@@ -73,7 +73,6 @@ import {
   type UntagQueueCommandInput,
   type UntagQueueCommandOutput,
 } from "@aws-sdk/client-sqs";
-import { type HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
 import { Data, Effect, Layer, Record } from "effect";
 import {
   AllServiceErrors,
@@ -111,6 +110,14 @@ import {
 import { SQSClientInstance, SQSClientInstanceLayer } from "./SQSClientInstance";
 import { DefaultSQSClientConfigLayer } from "./SQSClientInstanceConfig";
 
+interface HttpHandlerOptions {
+  /**
+   * The maximum time in milliseconds that the connection phase of a request
+   * may take before the connection attempt is abandoned.
+   */
+  requestTimeout?: number;
+}
+
 const commands = {
   AddPermissionCommand,
   CancelMessageMoveTaskCommand,
@@ -145,7 +152,7 @@ interface SQSService$ {
    */
   addPermission(
     args: AddPermissionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     AddPermissionCommandOutput,
     | SdkError
@@ -162,7 +169,7 @@ interface SQSService$ {
    */
   cancelMessageMoveTask(
     args: CancelMessageMoveTaskCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelMessageMoveTaskCommandOutput,
     | SdkError
@@ -178,7 +185,7 @@ interface SQSService$ {
    */
   changeMessageVisibility(
     args: ChangeMessageVisibilityCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ChangeMessageVisibilityCommandOutput,
     | SdkError
@@ -196,7 +203,7 @@ interface SQSService$ {
    */
   changeMessageVisibilityBatch(
     args: ChangeMessageVisibilityBatchCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ChangeMessageVisibilityBatchCommandOutput,
     | SdkError
@@ -216,7 +223,7 @@ interface SQSService$ {
    */
   createQueue(
     args: CreateQueueCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateQueueCommandOutput,
     | SdkError
@@ -235,7 +242,7 @@ interface SQSService$ {
    */
   deleteMessage(
     args: DeleteMessageCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteMessageCommandOutput,
     | SdkError
@@ -253,7 +260,7 @@ interface SQSService$ {
    */
   deleteMessageBatch(
     args: DeleteMessageBatchCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteMessageBatchCommandOutput,
     | SdkError
@@ -273,7 +280,7 @@ interface SQSService$ {
    */
   deleteQueue(
     args: DeleteQueueCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteQueueCommandOutput,
     | SdkError
@@ -289,7 +296,7 @@ interface SQSService$ {
    */
   getQueueAttributes(
     args: GetQueueAttributesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetQueueAttributesCommandOutput,
     | SdkError
@@ -306,7 +313,7 @@ interface SQSService$ {
    */
   getQueueUrl(
     args: GetQueueUrlCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetQueueUrlCommandOutput,
     | SdkError
@@ -322,7 +329,7 @@ interface SQSService$ {
    */
   listDeadLetterSourceQueues(
     args: ListDeadLetterSourceQueuesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDeadLetterSourceQueuesCommandOutput,
     | SdkError
@@ -338,7 +345,7 @@ interface SQSService$ {
    */
   listMessageMoveTasks(
     args: ListMessageMoveTasksCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListMessageMoveTasksCommandOutput,
     | SdkError
@@ -354,7 +361,7 @@ interface SQSService$ {
    */
   listQueues(
     args: ListQueuesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListQueuesCommandOutput,
     | SdkError
@@ -369,7 +376,7 @@ interface SQSService$ {
    */
   listQueueTags(
     args: ListQueueTagsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListQueueTagsCommandOutput,
     | SdkError
@@ -385,7 +392,7 @@ interface SQSService$ {
    */
   purgeQueue(
     args: PurgeQueueCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     PurgeQueueCommandOutput,
     | SdkError
@@ -402,7 +409,7 @@ interface SQSService$ {
    */
   receiveMessage(
     args: ReceiveMessageCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ReceiveMessageCommandOutput,
     | SdkError
@@ -426,7 +433,7 @@ interface SQSService$ {
    */
   removePermission(
     args: RemovePermissionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     RemovePermissionCommandOutput,
     | SdkError
@@ -442,7 +449,7 @@ interface SQSService$ {
    */
   sendMessage(
     args: SendMessageCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     SendMessageCommandOutput,
     | SdkError
@@ -466,7 +473,7 @@ interface SQSService$ {
    */
   sendMessageBatch(
     args: SendMessageBatchCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     SendMessageBatchCommandOutput,
     | SdkError
@@ -494,7 +501,7 @@ interface SQSService$ {
    */
   setQueueAttributes(
     args: SetQueueAttributesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     SetQueueAttributesCommandOutput,
     | SdkError
@@ -513,7 +520,7 @@ interface SQSService$ {
    */
   startMessageMoveTask(
     args: StartMessageMoveTaskCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartMessageMoveTaskCommandOutput,
     | SdkError
@@ -529,7 +536,7 @@ interface SQSService$ {
    */
   tagQueue(
     args: TagQueueCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagQueueCommandOutput,
     | SdkError
@@ -545,7 +552,7 @@ interface SQSService$ {
    */
   untagQueue(
     args: UntagQueueCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagQueueCommandOutput,
     | SdkError
@@ -575,9 +582,13 @@ export const makeSQSService = Effect.gen(function* (_) {
 
   return Record.toEntries(commands).reduce((acc, [command]) => {
     const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options: any) =>
+    const methodImpl = (args: any, options?: HttpHandlerOptions) =>
       Effect.tryPromise({
-        try: () => client.send(new CommandCtor(args), options ?? {}),
+        try: (abortSignal) =>
+          client.send(new CommandCtor(args), {
+            ...(options ?? {}),
+            abortSignal,
+          }),
         catch: (e) => {
           if (
             e instanceof SQSServiceException &&

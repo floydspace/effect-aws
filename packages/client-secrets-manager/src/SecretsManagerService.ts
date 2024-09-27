@@ -73,7 +73,6 @@ import {
   type ValidateResourcePolicyCommandInput,
   type ValidateResourcePolicyCommandOutput,
 } from "@aws-sdk/client-secrets-manager";
-import { type HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
 import { Data, Effect, Layer, Record } from "effect";
 import {
   AllServiceErrors,
@@ -97,6 +96,14 @@ import {
   SecretsManagerClientInstanceLayer,
 } from "./SecretsManagerClientInstance";
 import { DefaultSecretsManagerClientConfigLayer } from "./SecretsManagerClientInstanceConfig";
+
+interface HttpHandlerOptions {
+  /**
+   * The maximum time in milliseconds that the connection phase of a request
+   * may take before the connection attempt is abandoned.
+   */
+  requestTimeout?: number;
+}
 
 const commands = {
   BatchGetSecretValueCommand,
@@ -132,7 +139,7 @@ interface SecretsManagerService$ {
    */
   batchGetSecretValue(
     args: BatchGetSecretValueCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchGetSecretValueCommandOutput,
     | SdkError
@@ -149,7 +156,7 @@ interface SecretsManagerService$ {
    */
   cancelRotateSecret(
     args: CancelRotateSecretCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelRotateSecretCommandOutput,
     | SdkError
@@ -164,7 +171,7 @@ interface SecretsManagerService$ {
    */
   createSecret(
     args: CreateSecretCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateSecretCommandOutput,
     | SdkError
@@ -185,7 +192,7 @@ interface SecretsManagerService$ {
    */
   deleteResourcePolicy(
     args: DeleteResourcePolicyCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteResourcePolicyCommandOutput,
     | SdkError
@@ -200,7 +207,7 @@ interface SecretsManagerService$ {
    */
   deleteSecret(
     args: DeleteSecretCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteSecretCommandOutput,
     | SdkError
@@ -215,7 +222,7 @@ interface SecretsManagerService$ {
    */
   describeSecret(
     args: DescribeSecretCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeSecretCommandOutput,
     | SdkError
@@ -229,7 +236,7 @@ interface SecretsManagerService$ {
    */
   getRandomPassword(
     args: GetRandomPasswordCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetRandomPasswordCommandOutput,
     | SdkError
@@ -243,7 +250,7 @@ interface SecretsManagerService$ {
    */
   getResourcePolicy(
     args: GetResourcePolicyCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetResourcePolicyCommandOutput,
     | SdkError
@@ -258,7 +265,7 @@ interface SecretsManagerService$ {
    */
   getSecretValue(
     args: GetSecretValueCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetSecretValueCommandOutput,
     | SdkError
@@ -274,7 +281,7 @@ interface SecretsManagerService$ {
    */
   listSecrets(
     args: ListSecretsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListSecretsCommandOutput,
     | SdkError
@@ -289,7 +296,7 @@ interface SecretsManagerService$ {
    */
   listSecretVersionIds(
     args: ListSecretVersionIdsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListSecretVersionIdsCommandOutput,
     | SdkError
@@ -304,7 +311,7 @@ interface SecretsManagerService$ {
    */
   putResourcePolicy(
     args: PutResourcePolicyCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutResourcePolicyCommandOutput,
     | SdkError
@@ -321,7 +328,7 @@ interface SecretsManagerService$ {
    */
   putSecretValue(
     args: PutSecretValueCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutSecretValueCommandOutput,
     | SdkError
@@ -340,7 +347,7 @@ interface SecretsManagerService$ {
    */
   removeRegionsFromReplication(
     args: RemoveRegionsFromReplicationCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     RemoveRegionsFromReplicationCommandOutput,
     | SdkError
@@ -355,7 +362,7 @@ interface SecretsManagerService$ {
    */
   replicateSecretToRegions(
     args: ReplicateSecretToRegionsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ReplicateSecretToRegionsCommandOutput,
     | SdkError
@@ -370,7 +377,7 @@ interface SecretsManagerService$ {
    */
   restoreSecret(
     args: RestoreSecretCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     RestoreSecretCommandOutput,
     | SdkError
@@ -385,7 +392,7 @@ interface SecretsManagerService$ {
    */
   rotateSecret(
     args: RotateSecretCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     RotateSecretCommandOutput,
     | SdkError
@@ -400,7 +407,7 @@ interface SecretsManagerService$ {
    */
   stopReplicationToReplica(
     args: StopReplicationToReplicaCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     StopReplicationToReplicaCommandOutput,
     | SdkError
@@ -415,7 +422,7 @@ interface SecretsManagerService$ {
    */
   tagResource(
     args: TagResourceCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagResourceCommandOutput,
     | SdkError
@@ -430,7 +437,7 @@ interface SecretsManagerService$ {
    */
   untagResource(
     args: UntagResourceCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
     | SdkError
@@ -445,7 +452,7 @@ interface SecretsManagerService$ {
    */
   updateSecret(
     args: UpdateSecretCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateSecretCommandOutput,
     | SdkError
@@ -466,7 +473,7 @@ interface SecretsManagerService$ {
    */
   updateSecretVersionStage(
     args: UpdateSecretVersionStageCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateSecretVersionStageCommandOutput,
     | SdkError
@@ -482,7 +489,7 @@ interface SecretsManagerService$ {
    */
   validateResourcePolicy(
     args: ValidateResourcePolicyCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ValidateResourcePolicyCommandOutput,
     | SdkError
@@ -511,9 +518,13 @@ export const makeSecretsManagerService = Effect.gen(function* (_) {
 
   return Record.toEntries(commands).reduce((acc, [command]) => {
     const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options: any) =>
+    const methodImpl = (args: any, options?: HttpHandlerOptions) =>
       Effect.tryPromise({
-        try: () => client.send(new CommandCtor(args), options ?? {}),
+        try: (abortSignal) =>
+          client.send(new CommandCtor(args), {
+            ...(options ?? {}),
+            abortSignal,
+          }),
         catch: (e) => {
           if (
             e instanceof SecretsManagerServiceException &&

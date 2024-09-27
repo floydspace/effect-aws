@@ -208,7 +208,6 @@ import {
   type UpdateFunctionUrlConfigCommandInput,
   type UpdateFunctionUrlConfigCommandOutput,
 } from "@aws-sdk/client-lambda";
-import { type HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
 import { Data, Effect, Layer, Record } from "effect";
 import {
   AllServiceErrors,
@@ -258,6 +257,14 @@ import {
   LambdaClientInstanceLayer,
 } from "./LambdaClientInstance";
 import { DefaultLambdaClientConfigLayer } from "./LambdaClientInstanceConfig";
+
+interface HttpHandlerOptions {
+  /**
+   * The maximum time in milliseconds that the connection phase of a request
+   * may take before the connection attempt is abandoned.
+   */
+  requestTimeout?: number;
+}
 
 const commands = {
   AddLayerVersionPermissionCommand,
@@ -338,7 +345,7 @@ interface LambdaService$ {
    */
   addLayerVersionPermission(
     args: AddLayerVersionPermissionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     AddLayerVersionPermissionCommandOutput,
     | SdkError
@@ -356,7 +363,7 @@ interface LambdaService$ {
    */
   addPermission(
     args: AddPermissionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     AddPermissionCommandOutput,
     | SdkError
@@ -374,7 +381,7 @@ interface LambdaService$ {
    */
   createAlias(
     args: CreateAliasCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateAliasCommandOutput,
     | SdkError
@@ -390,7 +397,7 @@ interface LambdaService$ {
    */
   createCodeSigningConfig(
     args: CreateCodeSigningConfigCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateCodeSigningConfigCommandOutput,
     SdkError | InvalidParameterValueError | ServiceError
@@ -401,7 +408,7 @@ interface LambdaService$ {
    */
   createEventSourceMapping(
     args: CreateEventSourceMappingCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateEventSourceMappingCommandOutput,
     | SdkError
@@ -417,7 +424,7 @@ interface LambdaService$ {
    */
   createFunction(
     args: CreateFunctionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateFunctionCommandOutput,
     | SdkError
@@ -437,7 +444,7 @@ interface LambdaService$ {
    */
   createFunctionUrlConfig(
     args: CreateFunctionUrlConfigCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateFunctionUrlConfigCommandOutput,
     | SdkError
@@ -453,7 +460,7 @@ interface LambdaService$ {
    */
   deleteAlias(
     args: DeleteAliasCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteAliasCommandOutput,
     | SdkError
@@ -468,7 +475,7 @@ interface LambdaService$ {
    */
   deleteCodeSigningConfig(
     args: DeleteCodeSigningConfigCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteCodeSigningConfigCommandOutput,
     | SdkError
@@ -483,7 +490,7 @@ interface LambdaService$ {
    */
   deleteEventSourceMapping(
     args: DeleteEventSourceMappingCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteEventSourceMappingCommandOutput,
     | SdkError
@@ -500,7 +507,7 @@ interface LambdaService$ {
    */
   deleteFunction(
     args: DeleteFunctionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteFunctionCommandOutput,
     | SdkError
@@ -516,7 +523,7 @@ interface LambdaService$ {
    */
   deleteFunctionCodeSigningConfig(
     args: DeleteFunctionCodeSigningConfigCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteFunctionCodeSigningConfigCommandOutput,
     | SdkError
@@ -533,7 +540,7 @@ interface LambdaService$ {
    */
   deleteFunctionConcurrency(
     args: DeleteFunctionConcurrencyCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteFunctionConcurrencyCommandOutput,
     | SdkError
@@ -549,7 +556,7 @@ interface LambdaService$ {
    */
   deleteFunctionEventInvokeConfig(
     args: DeleteFunctionEventInvokeConfigCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteFunctionEventInvokeConfigCommandOutput,
     | SdkError
@@ -565,7 +572,7 @@ interface LambdaService$ {
    */
   deleteFunctionUrlConfig(
     args: DeleteFunctionUrlConfigCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteFunctionUrlConfigCommandOutput,
     | SdkError
@@ -580,7 +587,7 @@ interface LambdaService$ {
    */
   deleteLayerVersion(
     args: DeleteLayerVersionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteLayerVersionCommandOutput,
     SdkError | ServiceError | TooManyRequestsError
@@ -591,7 +598,7 @@ interface LambdaService$ {
    */
   deleteProvisionedConcurrencyConfig(
     args: DeleteProvisionedConcurrencyConfigCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteProvisionedConcurrencyConfigCommandOutput,
     | SdkError
@@ -607,7 +614,7 @@ interface LambdaService$ {
    */
   getAccountSettings(
     args: GetAccountSettingsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAccountSettingsCommandOutput,
     SdkError | ServiceError | TooManyRequestsError
@@ -618,7 +625,7 @@ interface LambdaService$ {
    */
   getAlias(
     args: GetAliasCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAliasCommandOutput,
     | SdkError
@@ -633,7 +640,7 @@ interface LambdaService$ {
    */
   getCodeSigningConfig(
     args: GetCodeSigningConfigCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetCodeSigningConfigCommandOutput,
     SdkError | InvalidParameterValueError | ResourceNotFoundError | ServiceError
@@ -644,7 +651,7 @@ interface LambdaService$ {
    */
   getEventSourceMapping(
     args: GetEventSourceMappingCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetEventSourceMappingCommandOutput,
     | SdkError
@@ -659,7 +666,7 @@ interface LambdaService$ {
    */
   getFunction(
     args: GetFunctionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetFunctionCommandOutput,
     | SdkError
@@ -674,7 +681,7 @@ interface LambdaService$ {
    */
   getFunctionCodeSigningConfig(
     args: GetFunctionCodeSigningConfigCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetFunctionCodeSigningConfigCommandOutput,
     | SdkError
@@ -689,7 +696,7 @@ interface LambdaService$ {
    */
   getFunctionConcurrency(
     args: GetFunctionConcurrencyCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetFunctionConcurrencyCommandOutput,
     | SdkError
@@ -704,7 +711,7 @@ interface LambdaService$ {
    */
   getFunctionConfiguration(
     args: GetFunctionConfigurationCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetFunctionConfigurationCommandOutput,
     | SdkError
@@ -719,7 +726,7 @@ interface LambdaService$ {
    */
   getFunctionEventInvokeConfig(
     args: GetFunctionEventInvokeConfigCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetFunctionEventInvokeConfigCommandOutput,
     | SdkError
@@ -734,7 +741,7 @@ interface LambdaService$ {
    */
   getFunctionRecursionConfig(
     args: GetFunctionRecursionConfigCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetFunctionRecursionConfigCommandOutput,
     | SdkError
@@ -749,7 +756,7 @@ interface LambdaService$ {
    */
   getFunctionUrlConfig(
     args: GetFunctionUrlConfigCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetFunctionUrlConfigCommandOutput,
     | SdkError
@@ -764,7 +771,7 @@ interface LambdaService$ {
    */
   getLayerVersion(
     args: GetLayerVersionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetLayerVersionCommandOutput,
     | SdkError
@@ -779,7 +786,7 @@ interface LambdaService$ {
    */
   getLayerVersionByArn(
     args: GetLayerVersionByArnCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetLayerVersionByArnCommandOutput,
     | SdkError
@@ -794,7 +801,7 @@ interface LambdaService$ {
    */
   getLayerVersionPolicy(
     args: GetLayerVersionPolicyCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetLayerVersionPolicyCommandOutput,
     | SdkError
@@ -809,7 +816,7 @@ interface LambdaService$ {
    */
   getPolicy(
     args: GetPolicyCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPolicyCommandOutput,
     | SdkError
@@ -824,7 +831,7 @@ interface LambdaService$ {
    */
   getProvisionedConcurrencyConfig(
     args: GetProvisionedConcurrencyConfigCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetProvisionedConcurrencyConfigCommandOutput,
     | SdkError
@@ -840,7 +847,7 @@ interface LambdaService$ {
    */
   getRuntimeManagementConfig(
     args: GetRuntimeManagementConfigCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetRuntimeManagementConfigCommandOutput,
     | SdkError
@@ -855,7 +862,7 @@ interface LambdaService$ {
    */
   invoke(
     args: InvokeCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     InvokeCommandOutput,
     | SdkError
@@ -896,7 +903,7 @@ interface LambdaService$ {
    */
   invokeAsync(
     args: InvokeAsyncCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     InvokeAsyncCommandOutput,
     | SdkError
@@ -912,7 +919,7 @@ interface LambdaService$ {
    */
   invokeWithResponseStream(
     args: InvokeWithResponseStreamCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     InvokeWithResponseStreamCommandOutput,
     | SdkError
@@ -953,7 +960,7 @@ interface LambdaService$ {
    */
   listAliases(
     args: ListAliasesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAliasesCommandOutput,
     | SdkError
@@ -968,7 +975,7 @@ interface LambdaService$ {
    */
   listCodeSigningConfigs(
     args: ListCodeSigningConfigsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListCodeSigningConfigsCommandOutput,
     SdkError | InvalidParameterValueError | ServiceError
@@ -979,7 +986,7 @@ interface LambdaService$ {
    */
   listEventSourceMappings(
     args: ListEventSourceMappingsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListEventSourceMappingsCommandOutput,
     | SdkError
@@ -994,7 +1001,7 @@ interface LambdaService$ {
    */
   listFunctionEventInvokeConfigs(
     args: ListFunctionEventInvokeConfigsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListFunctionEventInvokeConfigsCommandOutput,
     | SdkError
@@ -1009,7 +1016,7 @@ interface LambdaService$ {
    */
   listFunctions(
     args: ListFunctionsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListFunctionsCommandOutput,
     SdkError | InvalidParameterValueError | ServiceError | TooManyRequestsError
@@ -1020,7 +1027,7 @@ interface LambdaService$ {
    */
   listFunctionsByCodeSigningConfig(
     args: ListFunctionsByCodeSigningConfigCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListFunctionsByCodeSigningConfigCommandOutput,
     SdkError | InvalidParameterValueError | ResourceNotFoundError | ServiceError
@@ -1031,7 +1038,7 @@ interface LambdaService$ {
    */
   listFunctionUrlConfigs(
     args: ListFunctionUrlConfigsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListFunctionUrlConfigsCommandOutput,
     | SdkError
@@ -1046,7 +1053,7 @@ interface LambdaService$ {
    */
   listLayers(
     args: ListLayersCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListLayersCommandOutput,
     SdkError | InvalidParameterValueError | ServiceError | TooManyRequestsError
@@ -1057,7 +1064,7 @@ interface LambdaService$ {
    */
   listLayerVersions(
     args: ListLayerVersionsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListLayerVersionsCommandOutput,
     | SdkError
@@ -1072,7 +1079,7 @@ interface LambdaService$ {
    */
   listProvisionedConcurrencyConfigs(
     args: ListProvisionedConcurrencyConfigsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListProvisionedConcurrencyConfigsCommandOutput,
     | SdkError
@@ -1087,7 +1094,7 @@ interface LambdaService$ {
    */
   listTags(
     args: ListTagsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsCommandOutput,
     | SdkError
@@ -1102,7 +1109,7 @@ interface LambdaService$ {
    */
   listVersionsByFunction(
     args: ListVersionsByFunctionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListVersionsByFunctionCommandOutput,
     | SdkError
@@ -1117,7 +1124,7 @@ interface LambdaService$ {
    */
   publishLayerVersion(
     args: PublishLayerVersionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     PublishLayerVersionCommandOutput,
     | SdkError
@@ -1133,7 +1140,7 @@ interface LambdaService$ {
    */
   publishVersion(
     args: PublishVersionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     PublishVersionCommandOutput,
     | SdkError
@@ -1151,7 +1158,7 @@ interface LambdaService$ {
    */
   putFunctionCodeSigningConfig(
     args: PutFunctionCodeSigningConfigCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutFunctionCodeSigningConfigCommandOutput,
     | SdkError
@@ -1168,7 +1175,7 @@ interface LambdaService$ {
    */
   putFunctionConcurrency(
     args: PutFunctionConcurrencyCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutFunctionConcurrencyCommandOutput,
     | SdkError
@@ -1184,7 +1191,7 @@ interface LambdaService$ {
    */
   putFunctionEventInvokeConfig(
     args: PutFunctionEventInvokeConfigCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutFunctionEventInvokeConfigCommandOutput,
     | SdkError
@@ -1200,7 +1207,7 @@ interface LambdaService$ {
    */
   putFunctionRecursionConfig(
     args: PutFunctionRecursionConfigCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutFunctionRecursionConfigCommandOutput,
     | SdkError
@@ -1216,7 +1223,7 @@ interface LambdaService$ {
    */
   putProvisionedConcurrencyConfig(
     args: PutProvisionedConcurrencyConfigCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutProvisionedConcurrencyConfigCommandOutput,
     | SdkError
@@ -1232,7 +1239,7 @@ interface LambdaService$ {
    */
   putRuntimeManagementConfig(
     args: PutRuntimeManagementConfigCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutRuntimeManagementConfigCommandOutput,
     | SdkError
@@ -1248,7 +1255,7 @@ interface LambdaService$ {
    */
   removeLayerVersionPermission(
     args: RemoveLayerVersionPermissionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     RemoveLayerVersionPermissionCommandOutput,
     | SdkError
@@ -1264,7 +1271,7 @@ interface LambdaService$ {
    */
   removePermission(
     args: RemovePermissionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     RemovePermissionCommandOutput,
     | SdkError
@@ -1280,7 +1287,7 @@ interface LambdaService$ {
    */
   tagResource(
     args: TagResourceCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagResourceCommandOutput,
     | SdkError
@@ -1296,7 +1303,7 @@ interface LambdaService$ {
    */
   untagResource(
     args: UntagResourceCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
     | SdkError
@@ -1312,7 +1319,7 @@ interface LambdaService$ {
    */
   updateAlias(
     args: UpdateAliasCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateAliasCommandOutput,
     | SdkError
@@ -1329,7 +1336,7 @@ interface LambdaService$ {
    */
   updateCodeSigningConfig(
     args: UpdateCodeSigningConfigCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateCodeSigningConfigCommandOutput,
     SdkError | InvalidParameterValueError | ResourceNotFoundError | ServiceError
@@ -1340,7 +1347,7 @@ interface LambdaService$ {
    */
   updateEventSourceMapping(
     args: UpdateEventSourceMappingCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateEventSourceMappingCommandOutput,
     | SdkError
@@ -1357,7 +1364,7 @@ interface LambdaService$ {
    */
   updateFunctionCode(
     args: UpdateFunctionCodeCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateFunctionCodeCommandOutput,
     | SdkError
@@ -1378,7 +1385,7 @@ interface LambdaService$ {
    */
   updateFunctionConfiguration(
     args: UpdateFunctionConfigurationCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateFunctionConfigurationCommandOutput,
     | SdkError
@@ -1398,7 +1405,7 @@ interface LambdaService$ {
    */
   updateFunctionEventInvokeConfig(
     args: UpdateFunctionEventInvokeConfigCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateFunctionEventInvokeConfigCommandOutput,
     | SdkError
@@ -1414,7 +1421,7 @@ interface LambdaService$ {
    */
   updateFunctionUrlConfig(
     args: UpdateFunctionUrlConfigCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateFunctionUrlConfigCommandOutput,
     | SdkError
@@ -1443,9 +1450,13 @@ export const makeLambdaService = Effect.gen(function* (_) {
 
   return Record.toEntries(commands).reduce((acc, [command]) => {
     const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options: any) =>
+    const methodImpl = (args: any, options?: HttpHandlerOptions) =>
       Effect.tryPromise({
-        try: () => client.send(new CommandCtor(args), options ?? {}),
+        try: (abortSignal) =>
+          client.send(new CommandCtor(args), {
+            ...(options ?? {}),
+            abortSignal,
+          }),
         catch: (e) => {
           if (
             e instanceof LambdaServiceException &&

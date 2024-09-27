@@ -229,7 +229,6 @@ import {
   type TestMigrationCommandInput,
   type TestMigrationCommandOutput,
 } from "@aws-sdk/client-elasticache";
-import { type HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
 import { Data, Effect, Layer, Record } from "effect";
 import {
   ElastiCacheClientInstance,
@@ -318,6 +317,14 @@ import {
   TaggedException,
 } from "./Errors";
 
+interface HttpHandlerOptions {
+  /**
+   * The maximum time in milliseconds that the connection phase of a request
+   * may take before the connection attempt is abandoned.
+   */
+  requestTimeout?: number;
+}
+
 const commands = {
   AddTagsToResourceCommand,
   AuthorizeCacheSecurityGroupIngressCommand,
@@ -404,7 +411,7 @@ interface ElastiCacheService$ {
    */
   addTagsToResource(
     args: AddTagsToResourceCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     AddTagsToResourceCommandOutput,
     | SdkError
@@ -431,7 +438,7 @@ interface ElastiCacheService$ {
    */
   authorizeCacheSecurityGroupIngress(
     args: AuthorizeCacheSecurityGroupIngressCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     AuthorizeCacheSecurityGroupIngressCommandOutput,
     | SdkError
@@ -447,7 +454,7 @@ interface ElastiCacheService$ {
    */
   batchApplyUpdateAction(
     args: BatchApplyUpdateActionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchApplyUpdateActionCommandOutput,
     SdkError | InvalidParameterValueError | ServiceUpdateNotFoundFaultError
@@ -458,7 +465,7 @@ interface ElastiCacheService$ {
    */
   batchStopUpdateAction(
     args: BatchStopUpdateActionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchStopUpdateActionCommandOutput,
     SdkError | InvalidParameterValueError | ServiceUpdateNotFoundFaultError
@@ -469,7 +476,7 @@ interface ElastiCacheService$ {
    */
   completeMigration(
     args: CompleteMigrationCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     CompleteMigrationCommandOutput,
     | SdkError
@@ -483,7 +490,7 @@ interface ElastiCacheService$ {
    */
   copyServerlessCacheSnapshot(
     args: CopyServerlessCacheSnapshotCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     CopyServerlessCacheSnapshotCommandOutput,
     | SdkError
@@ -502,7 +509,7 @@ interface ElastiCacheService$ {
    */
   copySnapshot(
     args: CopySnapshotCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     CopySnapshotCommandOutput,
     | SdkError
@@ -520,7 +527,7 @@ interface ElastiCacheService$ {
    */
   createCacheCluster(
     args: CreateCacheClusterCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateCacheClusterCommandOutput,
     | SdkError
@@ -545,7 +552,7 @@ interface ElastiCacheService$ {
    */
   createCacheParameterGroup(
     args: CreateCacheParameterGroupCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateCacheParameterGroupCommandOutput,
     | SdkError
@@ -562,7 +569,7 @@ interface ElastiCacheService$ {
    */
   createCacheSecurityGroup(
     args: CreateCacheSecurityGroupCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateCacheSecurityGroupCommandOutput,
     | SdkError
@@ -578,7 +585,7 @@ interface ElastiCacheService$ {
    */
   createCacheSubnetGroup(
     args: CreateCacheSubnetGroupCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateCacheSubnetGroupCommandOutput,
     | SdkError
@@ -595,7 +602,7 @@ interface ElastiCacheService$ {
    */
   createGlobalReplicationGroup(
     args: CreateGlobalReplicationGroupCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateGlobalReplicationGroupCommandOutput,
     | SdkError
@@ -611,7 +618,7 @@ interface ElastiCacheService$ {
    */
   createReplicationGroup(
     args: CreateReplicationGroupCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateReplicationGroupCommandOutput,
     | SdkError
@@ -641,7 +648,7 @@ interface ElastiCacheService$ {
    */
   createServerlessCache(
     args: CreateServerlessCacheCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateServerlessCacheCommandOutput,
     | SdkError
@@ -663,7 +670,7 @@ interface ElastiCacheService$ {
    */
   createServerlessCacheSnapshot(
     args: CreateServerlessCacheSnapshotCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateServerlessCacheSnapshotCommandOutput,
     | SdkError
@@ -682,7 +689,7 @@ interface ElastiCacheService$ {
    */
   createSnapshot(
     args: CreateSnapshotCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateSnapshotCommandOutput,
     | SdkError
@@ -703,7 +710,7 @@ interface ElastiCacheService$ {
    */
   createUser(
     args: CreateUserCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateUserCommandOutput,
     | SdkError
@@ -721,7 +728,7 @@ interface ElastiCacheService$ {
    */
   createUserGroup(
     args: CreateUserGroupCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateUserGroupCommandOutput,
     | SdkError
@@ -740,7 +747,7 @@ interface ElastiCacheService$ {
    */
   decreaseNodeGroupsInGlobalReplicationGroup(
     args: DecreaseNodeGroupsInGlobalReplicationGroupCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DecreaseNodeGroupsInGlobalReplicationGroupCommandOutput,
     | SdkError
@@ -755,7 +762,7 @@ interface ElastiCacheService$ {
    */
   decreaseReplicaCount(
     args: DecreaseReplicaCountCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DecreaseReplicaCountCommandOutput,
     | SdkError
@@ -778,7 +785,7 @@ interface ElastiCacheService$ {
    */
   deleteCacheCluster(
     args: DeleteCacheClusterCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteCacheClusterCommandOutput,
     | SdkError
@@ -796,7 +803,7 @@ interface ElastiCacheService$ {
    */
   deleteCacheParameterGroup(
     args: DeleteCacheParameterGroupCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteCacheParameterGroupCommandOutput,
     | SdkError
@@ -811,7 +818,7 @@ interface ElastiCacheService$ {
    */
   deleteCacheSecurityGroup(
     args: DeleteCacheSecurityGroupCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteCacheSecurityGroupCommandOutput,
     | SdkError
@@ -826,7 +833,7 @@ interface ElastiCacheService$ {
    */
   deleteCacheSubnetGroup(
     args: DeleteCacheSubnetGroupCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteCacheSubnetGroupCommandOutput,
     SdkError | CacheSubnetGroupInUseError | CacheSubnetGroupNotFoundFaultError
@@ -837,7 +844,7 @@ interface ElastiCacheService$ {
    */
   deleteGlobalReplicationGroup(
     args: DeleteGlobalReplicationGroupCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteGlobalReplicationGroupCommandOutput,
     | SdkError
@@ -851,7 +858,7 @@ interface ElastiCacheService$ {
    */
   deleteReplicationGroup(
     args: DeleteReplicationGroupCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteReplicationGroupCommandOutput,
     | SdkError
@@ -869,7 +876,7 @@ interface ElastiCacheService$ {
    */
   deleteServerlessCache(
     args: DeleteServerlessCacheCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteServerlessCacheCommandOutput,
     | SdkError
@@ -887,7 +894,7 @@ interface ElastiCacheService$ {
    */
   deleteServerlessCacheSnapshot(
     args: DeleteServerlessCacheSnapshotCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteServerlessCacheSnapshotCommandOutput,
     | SdkError
@@ -902,7 +909,7 @@ interface ElastiCacheService$ {
    */
   deleteSnapshot(
     args: DeleteSnapshotCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteSnapshotCommandOutput,
     | SdkError
@@ -917,7 +924,7 @@ interface ElastiCacheService$ {
    */
   deleteUser(
     args: DeleteUserCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteUserCommandOutput,
     | SdkError
@@ -933,7 +940,7 @@ interface ElastiCacheService$ {
    */
   deleteUserGroup(
     args: DeleteUserGroupCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteUserGroupCommandOutput,
     | SdkError
@@ -948,7 +955,7 @@ interface ElastiCacheService$ {
    */
   describeCacheClusters(
     args: DescribeCacheClustersCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeCacheClustersCommandOutput,
     | SdkError
@@ -962,7 +969,7 @@ interface ElastiCacheService$ {
    */
   describeCacheEngineVersions(
     args: DescribeCacheEngineVersionsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<DescribeCacheEngineVersionsCommandOutput, SdkError>;
 
   /**
@@ -970,7 +977,7 @@ interface ElastiCacheService$ {
    */
   describeCacheParameterGroups(
     args: DescribeCacheParameterGroupsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeCacheParameterGroupsCommandOutput,
     | SdkError
@@ -984,7 +991,7 @@ interface ElastiCacheService$ {
    */
   describeCacheParameters(
     args: DescribeCacheParametersCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeCacheParametersCommandOutput,
     | SdkError
@@ -998,7 +1005,7 @@ interface ElastiCacheService$ {
    */
   describeCacheSecurityGroups(
     args: DescribeCacheSecurityGroupsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeCacheSecurityGroupsCommandOutput,
     | SdkError
@@ -1012,7 +1019,7 @@ interface ElastiCacheService$ {
    */
   describeCacheSubnetGroups(
     args: DescribeCacheSubnetGroupsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeCacheSubnetGroupsCommandOutput,
     SdkError | CacheSubnetGroupNotFoundFaultError
@@ -1023,7 +1030,7 @@ interface ElastiCacheService$ {
    */
   describeEngineDefaultParameters(
     args: DescribeEngineDefaultParametersCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeEngineDefaultParametersCommandOutput,
     SdkError | InvalidParameterCombinationError | InvalidParameterValueError
@@ -1034,7 +1041,7 @@ interface ElastiCacheService$ {
    */
   describeEvents(
     args: DescribeEventsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeEventsCommandOutput,
     SdkError | InvalidParameterCombinationError | InvalidParameterValueError
@@ -1045,7 +1052,7 @@ interface ElastiCacheService$ {
    */
   describeGlobalReplicationGroups(
     args: DescribeGlobalReplicationGroupsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeGlobalReplicationGroupsCommandOutput,
     | SdkError
@@ -1059,7 +1066,7 @@ interface ElastiCacheService$ {
    */
   describeReplicationGroups(
     args: DescribeReplicationGroupsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeReplicationGroupsCommandOutput,
     | SdkError
@@ -1073,7 +1080,7 @@ interface ElastiCacheService$ {
    */
   describeReservedCacheNodes(
     args: DescribeReservedCacheNodesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeReservedCacheNodesCommandOutput,
     | SdkError
@@ -1087,7 +1094,7 @@ interface ElastiCacheService$ {
    */
   describeReservedCacheNodesOfferings(
     args: DescribeReservedCacheNodesOfferingsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeReservedCacheNodesOfferingsCommandOutput,
     | SdkError
@@ -1101,7 +1108,7 @@ interface ElastiCacheService$ {
    */
   describeServerlessCaches(
     args: DescribeServerlessCachesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeServerlessCachesCommandOutput,
     | SdkError
@@ -1115,7 +1122,7 @@ interface ElastiCacheService$ {
    */
   describeServerlessCacheSnapshots(
     args: DescribeServerlessCacheSnapshotsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeServerlessCacheSnapshotsCommandOutput,
     | SdkError
@@ -1130,7 +1137,7 @@ interface ElastiCacheService$ {
    */
   describeServiceUpdates(
     args: DescribeServiceUpdatesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeServiceUpdatesCommandOutput,
     | SdkError
@@ -1144,7 +1151,7 @@ interface ElastiCacheService$ {
    */
   describeSnapshots(
     args: DescribeSnapshotsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeSnapshotsCommandOutput,
     | SdkError
@@ -1159,7 +1166,7 @@ interface ElastiCacheService$ {
    */
   describeUpdateActions(
     args: DescribeUpdateActionsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeUpdateActionsCommandOutput,
     SdkError | InvalidParameterCombinationError | InvalidParameterValueError
@@ -1170,7 +1177,7 @@ interface ElastiCacheService$ {
    */
   describeUserGroups(
     args: DescribeUserGroupsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeUserGroupsCommandOutput,
     | SdkError
@@ -1184,7 +1191,7 @@ interface ElastiCacheService$ {
    */
   describeUsers(
     args: DescribeUsersCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeUsersCommandOutput,
     | SdkError
@@ -1198,7 +1205,7 @@ interface ElastiCacheService$ {
    */
   disassociateGlobalReplicationGroup(
     args: DisassociateGlobalReplicationGroupCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisassociateGlobalReplicationGroupCommandOutput,
     | SdkError
@@ -1213,7 +1220,7 @@ interface ElastiCacheService$ {
    */
   exportServerlessCacheSnapshot(
     args: ExportServerlessCacheSnapshotCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ExportServerlessCacheSnapshotCommandOutput,
     | SdkError
@@ -1228,7 +1235,7 @@ interface ElastiCacheService$ {
    */
   failoverGlobalReplicationGroup(
     args: FailoverGlobalReplicationGroupCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     FailoverGlobalReplicationGroupCommandOutput,
     | SdkError
@@ -1243,7 +1250,7 @@ interface ElastiCacheService$ {
    */
   increaseNodeGroupsInGlobalReplicationGroup(
     args: IncreaseNodeGroupsInGlobalReplicationGroupCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     IncreaseNodeGroupsInGlobalReplicationGroupCommandOutput,
     | SdkError
@@ -1257,7 +1264,7 @@ interface ElastiCacheService$ {
    */
   increaseReplicaCount(
     args: IncreaseReplicaCountCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     IncreaseReplicaCountCommandOutput,
     | SdkError
@@ -1280,7 +1287,7 @@ interface ElastiCacheService$ {
    */
   listAllowedNodeTypeModifications(
     args: ListAllowedNodeTypeModificationsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAllowedNodeTypeModificationsCommandOutput,
     | SdkError
@@ -1295,7 +1302,7 @@ interface ElastiCacheService$ {
    */
   listTagsForResource(
     args: ListTagsForResourceCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsForResourceCommandOutput,
     | SdkError
@@ -1321,7 +1328,7 @@ interface ElastiCacheService$ {
    */
   modifyCacheCluster(
     args: ModifyCacheClusterCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyCacheClusterCommandOutput,
     | SdkError
@@ -1343,7 +1350,7 @@ interface ElastiCacheService$ {
    */
   modifyCacheParameterGroup(
     args: ModifyCacheParameterGroupCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyCacheParameterGroupCommandOutput,
     | SdkError
@@ -1359,7 +1366,7 @@ interface ElastiCacheService$ {
    */
   modifyCacheSubnetGroup(
     args: ModifyCacheSubnetGroupCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyCacheSubnetGroupCommandOutput,
     | SdkError
@@ -1375,7 +1382,7 @@ interface ElastiCacheService$ {
    */
   modifyGlobalReplicationGroup(
     args: ModifyGlobalReplicationGroupCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyGlobalReplicationGroupCommandOutput,
     | SdkError
@@ -1389,7 +1396,7 @@ interface ElastiCacheService$ {
    */
   modifyReplicationGroup(
     args: ModifyReplicationGroupCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyReplicationGroupCommandOutput,
     | SdkError
@@ -1416,7 +1423,7 @@ interface ElastiCacheService$ {
    */
   modifyReplicationGroupShardConfiguration(
     args: ModifyReplicationGroupShardConfigurationCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyReplicationGroupShardConfigurationCommandOutput,
     | SdkError
@@ -1437,7 +1444,7 @@ interface ElastiCacheService$ {
    */
   modifyServerlessCache(
     args: ModifyServerlessCacheCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyServerlessCacheCommandOutput,
     | SdkError
@@ -1456,7 +1463,7 @@ interface ElastiCacheService$ {
    */
   modifyUser(
     args: ModifyUserCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyUserCommandOutput,
     | SdkError
@@ -1472,7 +1479,7 @@ interface ElastiCacheService$ {
    */
   modifyUserGroup(
     args: ModifyUserGroupCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyUserGroupCommandOutput,
     | SdkError
@@ -1491,7 +1498,7 @@ interface ElastiCacheService$ {
    */
   purchaseReservedCacheNodesOffering(
     args: PurchaseReservedCacheNodesOfferingCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     PurchaseReservedCacheNodesOfferingCommandOutput,
     | SdkError
@@ -1508,7 +1515,7 @@ interface ElastiCacheService$ {
    */
   rebalanceSlotsInGlobalReplicationGroup(
     args: RebalanceSlotsInGlobalReplicationGroupCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     RebalanceSlotsInGlobalReplicationGroupCommandOutput,
     | SdkError
@@ -1522,7 +1529,7 @@ interface ElastiCacheService$ {
    */
   rebootCacheCluster(
     args: RebootCacheClusterCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     RebootCacheClusterCommandOutput,
     | SdkError
@@ -1535,7 +1542,7 @@ interface ElastiCacheService$ {
    */
   removeTagsFromResource(
     args: RemoveTagsFromResourceCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     RemoveTagsFromResourceCommandOutput,
     | SdkError
@@ -1562,7 +1569,7 @@ interface ElastiCacheService$ {
    */
   resetCacheParameterGroup(
     args: ResetCacheParameterGroupCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ResetCacheParameterGroupCommandOutput,
     | SdkError
@@ -1578,7 +1585,7 @@ interface ElastiCacheService$ {
    */
   revokeCacheSecurityGroupIngress(
     args: RevokeCacheSecurityGroupIngressCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     RevokeCacheSecurityGroupIngressCommandOutput,
     | SdkError
@@ -1594,7 +1601,7 @@ interface ElastiCacheService$ {
    */
   startMigration(
     args: StartMigrationCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartMigrationCommandOutput,
     | SdkError
@@ -1609,7 +1616,7 @@ interface ElastiCacheService$ {
    */
   testFailover(
     args: TestFailoverCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     TestFailoverCommandOutput,
     | SdkError
@@ -1629,7 +1636,7 @@ interface ElastiCacheService$ {
    */
   testMigration(
     args: TestMigrationCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     TestMigrationCommandOutput,
     | SdkError
@@ -1657,9 +1664,13 @@ export const makeElastiCacheService = Effect.gen(function* (_) {
 
   return Record.toEntries(commands).reduce((acc, [command]) => {
     const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options: any) =>
+    const methodImpl = (args: any, options?: HttpHandlerOptions) =>
       Effect.tryPromise({
-        try: () => client.send(new CommandCtor(args), options ?? {}),
+        try: (abortSignal) =>
+          client.send(new CommandCtor(args), {
+            ...(options ?? {}),
+            abortSignal,
+          }),
         catch: (e) => {
           if (
             e instanceof ElastiCacheServiceException &&

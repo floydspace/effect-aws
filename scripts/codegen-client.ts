@@ -392,7 +392,6 @@ import {
     Array.join("\n  "),
   )}
 } from "@aws-sdk/client-${originalServiceName}";
-import { type HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
 import { Data, Effect, Layer, Record } from "effect";
 import {
   ${sdkName}ClientInstance,
@@ -411,6 +410,14 @@ import {
   SdkError,
   TaggedException,
 } from "./Errors";
+
+interface HttpHandlerOptions {
+  /**
+   * The maximum time in milliseconds that the connection phase of a request
+   * may take before the connection attempt is abandoned.
+   */
+  requestTimeout?: number;
+}
 
 const commands = {
   ${pipe(
@@ -439,7 +446,7 @@ ${pipe(
    */
   ${pipe(operationName, lowerFirst)}(
     args: ${operationName}CommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ${operationName}CommandOutput,
     ${pipe(["SdkError", ...errors], Array.join(" | "))}
@@ -467,9 +474,13 @@ export const make${sdkName}Service = Effect.gen(function* (_) {
 
   return Record.toEntries(commands).reduce((acc, [command]) => {
     const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options: any) =>
+    const methodImpl = (args: any, options?: HttpHandlerOptions) =>
       Effect.tryPromise({
-        try: () => client.send(new CommandCtor(args), options ?? {}),
+        try: (abortSignal) =>
+          client.send(new CommandCtor(args), {
+            ...(options ?? {}),
+            abortSignal,
+          }),
         catch: (e) => {
           if (e instanceof ${sdkName}ServiceException && AllServiceErrors.includes(e.name)) {
             const ServiceException = Data.tagged<

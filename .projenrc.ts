@@ -37,7 +37,7 @@ project.addScripts({
 });
 project.addDeps("effect@^3.0.0", "enquirer@^2.4.1");
 
-const commonDeps = ["@aws-sdk/types@^3"];
+const commonDeps: string[] = [];
 const commonDevDeps = ["aws-sdk-client-mock", "aws-sdk-client-mock-jest"];
 const commonPeerDeps = ["effect@>=3.0.0 <4.0.0"];
 
@@ -110,6 +110,7 @@ new TypeScriptLibProject({
     ...commonDeps,
     "@aws-sdk/client-s3@^3",
     "@aws-sdk/s3-request-presigner@^3",
+    "@aws-sdk/types@^3",
   ],
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,

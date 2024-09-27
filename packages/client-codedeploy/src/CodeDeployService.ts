@@ -145,7 +145,6 @@ import {
   type UpdateDeploymentGroupCommandInput,
   type UpdateDeploymentGroupCommandOutput,
 } from "@aws-sdk/client-codedeploy";
-import { type HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
 import { Data, Effect, Layer, Record } from "effect";
 import {
   CodeDeployClientInstance,
@@ -268,6 +267,14 @@ import {
   TaggedException,
 } from "./Errors";
 
+interface HttpHandlerOptions {
+  /**
+   * The maximum time in milliseconds that the connection phase of a request
+   * may take before the connection attempt is abandoned.
+   */
+  requestTimeout?: number;
+}
+
 const commands = {
   AddTagsToOnPremisesInstancesCommand,
   BatchGetApplicationRevisionsCommand,
@@ -326,7 +333,7 @@ interface CodeDeployService$ {
    */
   addTagsToOnPremisesInstances(
     args: AddTagsToOnPremisesInstancesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     AddTagsToOnPremisesInstancesCommandOutput,
     | SdkError
@@ -344,7 +351,7 @@ interface CodeDeployService$ {
    */
   batchGetApplicationRevisions(
     args: BatchGetApplicationRevisionsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchGetApplicationRevisionsCommandOutput,
     | SdkError
@@ -361,7 +368,7 @@ interface CodeDeployService$ {
    */
   batchGetApplications(
     args: BatchGetApplicationsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchGetApplicationsCommandOutput,
     | SdkError
@@ -376,7 +383,7 @@ interface CodeDeployService$ {
    */
   batchGetDeploymentGroups(
     args: BatchGetDeploymentGroupsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchGetDeploymentGroupsCommandOutput,
     | SdkError
@@ -394,7 +401,7 @@ interface CodeDeployService$ {
    */
   batchGetDeploymentInstances(
     args: BatchGetDeploymentInstancesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchGetDeploymentInstancesCommandOutput,
     | SdkError
@@ -412,7 +419,7 @@ interface CodeDeployService$ {
    */
   batchGetDeployments(
     args: BatchGetDeploymentsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchGetDeploymentsCommandOutput,
     | SdkError
@@ -426,7 +433,7 @@ interface CodeDeployService$ {
    */
   batchGetDeploymentTargets(
     args: BatchGetDeploymentTargetsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchGetDeploymentTargetsCommandOutput,
     | SdkError
@@ -446,7 +453,7 @@ interface CodeDeployService$ {
    */
   batchGetOnPremisesInstances(
     args: BatchGetOnPremisesInstancesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchGetOnPremisesInstancesCommandOutput,
     | SdkError
@@ -460,7 +467,7 @@ interface CodeDeployService$ {
    */
   continueDeployment(
     args: ContinueDeploymentCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ContinueDeploymentCommandOutput,
     | SdkError
@@ -479,7 +486,7 @@ interface CodeDeployService$ {
    */
   createApplication(
     args: CreateApplicationCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateApplicationCommandOutput,
     | SdkError
@@ -496,7 +503,7 @@ interface CodeDeployService$ {
    */
   createDeployment(
     args: CreateDeploymentCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateDeploymentCommandOutput,
     | SdkError
@@ -533,7 +540,7 @@ interface CodeDeployService$ {
    */
   createDeploymentConfig(
     args: CreateDeploymentConfigCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateDeploymentConfigCommandOutput,
     | SdkError
@@ -552,7 +559,7 @@ interface CodeDeployService$ {
    */
   createDeploymentGroup(
     args: CreateDeploymentGroupCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateDeploymentGroupCommandOutput,
     | SdkError
@@ -596,7 +603,7 @@ interface CodeDeployService$ {
    */
   deleteApplication(
     args: DeleteApplicationCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteApplicationCommandOutput,
     | SdkError
@@ -610,7 +617,7 @@ interface CodeDeployService$ {
    */
   deleteDeploymentConfig(
     args: DeleteDeploymentConfigCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDeploymentConfigCommandOutput,
     | SdkError
@@ -625,7 +632,7 @@ interface CodeDeployService$ {
    */
   deleteDeploymentGroup(
     args: DeleteDeploymentGroupCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDeploymentGroupCommandOutput,
     | SdkError
@@ -641,7 +648,7 @@ interface CodeDeployService$ {
    */
   deleteGitHubAccountToken(
     args: DeleteGitHubAccountTokenCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteGitHubAccountTokenCommandOutput,
     | SdkError
@@ -657,7 +664,7 @@ interface CodeDeployService$ {
    */
   deleteResourcesByExternalId(
     args: DeleteResourcesByExternalIdCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<DeleteResourcesByExternalIdCommandOutput, SdkError>;
 
   /**
@@ -665,7 +672,7 @@ interface CodeDeployService$ {
    */
   deregisterOnPremisesInstance(
     args: DeregisterOnPremisesInstanceCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeregisterOnPremisesInstanceCommandOutput,
     SdkError | InstanceNameRequiredError | InvalidInstanceNameError
@@ -676,7 +683,7 @@ interface CodeDeployService$ {
    */
   getApplication(
     args: GetApplicationCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetApplicationCommandOutput,
     | SdkError
@@ -690,7 +697,7 @@ interface CodeDeployService$ {
    */
   getApplicationRevision(
     args: GetApplicationRevisionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetApplicationRevisionCommandOutput,
     | SdkError
@@ -707,7 +714,7 @@ interface CodeDeployService$ {
    */
   getDeployment(
     args: GetDeploymentCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDeploymentCommandOutput,
     | SdkError
@@ -721,7 +728,7 @@ interface CodeDeployService$ {
    */
   getDeploymentConfig(
     args: GetDeploymentConfigCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDeploymentConfigCommandOutput,
     | SdkError
@@ -736,7 +743,7 @@ interface CodeDeployService$ {
    */
   getDeploymentGroup(
     args: GetDeploymentGroupCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDeploymentGroupCommandOutput,
     | SdkError
@@ -754,7 +761,7 @@ interface CodeDeployService$ {
    */
   getDeploymentInstance(
     args: GetDeploymentInstanceCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDeploymentInstanceCommandOutput,
     | SdkError
@@ -772,7 +779,7 @@ interface CodeDeployService$ {
    */
   getDeploymentTarget(
     args: GetDeploymentTargetCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDeploymentTargetCommandOutput,
     | SdkError
@@ -791,7 +798,7 @@ interface CodeDeployService$ {
    */
   getOnPremisesInstance(
     args: GetOnPremisesInstanceCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetOnPremisesInstanceCommandOutput,
     | SdkError
@@ -805,7 +812,7 @@ interface CodeDeployService$ {
    */
   listApplicationRevisions(
     args: ListApplicationRevisionsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListApplicationRevisionsCommandOutput,
     | SdkError
@@ -826,7 +833,7 @@ interface CodeDeployService$ {
    */
   listApplications(
     args: ListApplicationsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListApplicationsCommandOutput,
     SdkError | InvalidNextTokenError
@@ -837,7 +844,7 @@ interface CodeDeployService$ {
    */
   listDeploymentConfigs(
     args: ListDeploymentConfigsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDeploymentConfigsCommandOutput,
     SdkError | InvalidNextTokenError
@@ -848,7 +855,7 @@ interface CodeDeployService$ {
    */
   listDeploymentGroups(
     args: ListDeploymentGroupsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDeploymentGroupsCommandOutput,
     | SdkError
@@ -863,7 +870,7 @@ interface CodeDeployService$ {
    */
   listDeploymentInstances(
     args: ListDeploymentInstancesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDeploymentInstancesCommandOutput,
     | SdkError
@@ -884,7 +891,7 @@ interface CodeDeployService$ {
    */
   listDeployments(
     args: ListDeploymentsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDeploymentsCommandOutput,
     | SdkError
@@ -906,7 +913,7 @@ interface CodeDeployService$ {
    */
   listDeploymentTargets(
     args: ListDeploymentTargetsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDeploymentTargetsCommandOutput,
     | SdkError
@@ -926,7 +933,7 @@ interface CodeDeployService$ {
    */
   listGitHubAccountTokenNames(
     args: ListGitHubAccountTokenNamesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListGitHubAccountTokenNamesCommandOutput,
     | SdkError
@@ -940,7 +947,7 @@ interface CodeDeployService$ {
    */
   listOnPremisesInstances(
     args: ListOnPremisesInstancesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListOnPremisesInstancesCommandOutput,
     | SdkError
@@ -954,7 +961,7 @@ interface CodeDeployService$ {
    */
   listTagsForResource(
     args: ListTagsForResourceCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsForResourceCommandOutput,
     SdkError | ArnNotSupportedError | InvalidArnError | ResourceArnRequiredError
@@ -965,7 +972,7 @@ interface CodeDeployService$ {
    */
   putLifecycleEventHookExecutionStatus(
     args: PutLifecycleEventHookExecutionStatusCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutLifecycleEventHookExecutionStatusCommandOutput,
     | SdkError
@@ -983,7 +990,7 @@ interface CodeDeployService$ {
    */
   registerApplicationRevision(
     args: RegisterApplicationRevisionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     RegisterApplicationRevisionCommandOutput,
     | SdkError
@@ -1000,7 +1007,7 @@ interface CodeDeployService$ {
    */
   registerOnPremisesInstance(
     args: RegisterOnPremisesInstanceCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     RegisterOnPremisesInstanceCommandOutput,
     | SdkError
@@ -1021,7 +1028,7 @@ interface CodeDeployService$ {
    */
   removeTagsFromOnPremisesInstances(
     args: RemoveTagsFromOnPremisesInstancesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     RemoveTagsFromOnPremisesInstancesCommandOutput,
     | SdkError
@@ -1039,7 +1046,7 @@ interface CodeDeployService$ {
    */
   skipWaitTimeForInstanceTermination(
     args: SkipWaitTimeForInstanceTerminationCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     SkipWaitTimeForInstanceTerminationCommandOutput,
     | SdkError
@@ -1056,7 +1063,7 @@ interface CodeDeployService$ {
    */
   stopDeployment(
     args: StopDeploymentCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     StopDeploymentCommandOutput,
     | SdkError
@@ -1073,7 +1080,7 @@ interface CodeDeployService$ {
    */
   tagResource(
     args: TagResourceCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagResourceCommandOutput,
     | SdkError
@@ -1092,7 +1099,7 @@ interface CodeDeployService$ {
    */
   untagResource(
     args: UntagResourceCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
     | SdkError
@@ -1111,7 +1118,7 @@ interface CodeDeployService$ {
    */
   updateApplication(
     args: UpdateApplicationCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateApplicationCommandOutput,
     | SdkError
@@ -1126,7 +1133,7 @@ interface CodeDeployService$ {
    */
   updateDeploymentGroup(
     args: UpdateDeploymentGroupCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateDeploymentGroupCommandOutput,
     | SdkError
@@ -1181,9 +1188,13 @@ export const makeCodeDeployService = Effect.gen(function* (_) {
 
   return Record.toEntries(commands).reduce((acc, [command]) => {
     const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options: any) =>
+    const methodImpl = (args: any, options?: HttpHandlerOptions) =>
       Effect.tryPromise({
-        try: () => client.send(new CommandCtor(args), options ?? {}),
+        try: (abortSignal) =>
+          client.send(new CommandCtor(args), {
+            ...(options ?? {}),
+            abortSignal,
+          }),
         catch: (e) => {
           if (
             e instanceof CodeDeployServiceException &&

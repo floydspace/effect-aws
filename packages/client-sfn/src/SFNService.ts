@@ -115,7 +115,6 @@ import {
   type ValidateStateMachineDefinitionCommandInput,
   type ValidateStateMachineDefinitionCommandOutput,
 } from "@aws-sdk/client-sfn";
-import { type HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
 import { Data, Effect, Layer, Record } from "effect";
 import {
   AllServiceErrors,
@@ -157,6 +156,14 @@ import {
 } from "./Errors";
 import { SFNClientInstance, SFNClientInstanceLayer } from "./SFNClientInstance";
 import { DefaultSFNClientConfigLayer } from "./SFNClientInstanceConfig";
+
+interface HttpHandlerOptions {
+  /**
+   * The maximum time in milliseconds that the connection phase of a request
+   * may take before the connection attempt is abandoned.
+   */
+  requestTimeout?: number;
+}
 
 const commands = {
   CreateActivityCommand,
@@ -206,7 +213,7 @@ interface SFNService$ {
    */
   createActivity(
     args: CreateActivityCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateActivityCommandOutput,
     | SdkError
@@ -224,7 +231,7 @@ interface SFNService$ {
    */
   createStateMachine(
     args: CreateStateMachineCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateStateMachineCommandOutput,
     | SdkError
@@ -250,7 +257,7 @@ interface SFNService$ {
    */
   createStateMachineAlias(
     args: CreateStateMachineAliasCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateStateMachineAliasCommandOutput,
     | SdkError
@@ -268,7 +275,7 @@ interface SFNService$ {
    */
   deleteActivity(
     args: DeleteActivityCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<DeleteActivityCommandOutput, SdkError | InvalidArnError>;
 
   /**
@@ -276,7 +283,7 @@ interface SFNService$ {
    */
   deleteStateMachine(
     args: DeleteStateMachineCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteStateMachineCommandOutput,
     SdkError | InvalidArnError | ValidationError
@@ -287,7 +294,7 @@ interface SFNService$ {
    */
   deleteStateMachineAlias(
     args: DeleteStateMachineAliasCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteStateMachineAliasCommandOutput,
     | SdkError
@@ -302,7 +309,7 @@ interface SFNService$ {
    */
   deleteStateMachineVersion(
     args: DeleteStateMachineVersionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteStateMachineVersionCommandOutput,
     SdkError | ConflictError | InvalidArnError | ValidationError
@@ -313,7 +320,7 @@ interface SFNService$ {
    */
   describeActivity(
     args: DescribeActivityCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeActivityCommandOutput,
     SdkError | ActivityDoesNotExistError | InvalidArnError
@@ -324,7 +331,7 @@ interface SFNService$ {
    */
   describeExecution(
     args: DescribeExecutionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeExecutionCommandOutput,
     | SdkError
@@ -340,7 +347,7 @@ interface SFNService$ {
    */
   describeMapRun(
     args: DescribeMapRunCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeMapRunCommandOutput,
     SdkError | InvalidArnError | ResourceNotFoundError
@@ -351,7 +358,7 @@ interface SFNService$ {
    */
   describeStateMachine(
     args: DescribeStateMachineCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeStateMachineCommandOutput,
     | SdkError
@@ -367,7 +374,7 @@ interface SFNService$ {
    */
   describeStateMachineAlias(
     args: DescribeStateMachineAliasCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeStateMachineAliasCommandOutput,
     SdkError | InvalidArnError | ResourceNotFoundError | ValidationError
@@ -378,7 +385,7 @@ interface SFNService$ {
    */
   describeStateMachineForExecution(
     args: DescribeStateMachineForExecutionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeStateMachineForExecutionCommandOutput,
     | SdkError
@@ -394,7 +401,7 @@ interface SFNService$ {
    */
   getActivityTask(
     args: GetActivityTaskCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetActivityTaskCommandOutput,
     | SdkError
@@ -411,7 +418,7 @@ interface SFNService$ {
    */
   getExecutionHistory(
     args: GetExecutionHistoryCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetExecutionHistoryCommandOutput,
     | SdkError
@@ -428,7 +435,7 @@ interface SFNService$ {
    */
   listActivities(
     args: ListActivitiesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<ListActivitiesCommandOutput, SdkError | InvalidTokenError>;
 
   /**
@@ -436,7 +443,7 @@ interface SFNService$ {
    */
   listExecutions(
     args: ListExecutionsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListExecutionsCommandOutput,
     | SdkError
@@ -453,7 +460,7 @@ interface SFNService$ {
    */
   listMapRuns(
     args: ListMapRunsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListMapRunsCommandOutput,
     SdkError | ExecutionDoesNotExistError | InvalidArnError | InvalidTokenError
@@ -464,7 +471,7 @@ interface SFNService$ {
    */
   listStateMachineAliases(
     args: ListStateMachineAliasesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListStateMachineAliasesCommandOutput,
     | SdkError
@@ -480,7 +487,7 @@ interface SFNService$ {
    */
   listStateMachines(
     args: ListStateMachinesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListStateMachinesCommandOutput,
     SdkError | InvalidTokenError
@@ -491,7 +498,7 @@ interface SFNService$ {
    */
   listStateMachineVersions(
     args: ListStateMachineVersionsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListStateMachineVersionsCommandOutput,
     SdkError | InvalidArnError | InvalidTokenError | ValidationError
@@ -502,7 +509,7 @@ interface SFNService$ {
    */
   listTagsForResource(
     args: ListTagsForResourceCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsForResourceCommandOutput,
     SdkError | InvalidArnError | ResourceNotFoundError
@@ -513,7 +520,7 @@ interface SFNService$ {
    */
   publishStateMachineVersion(
     args: PublishStateMachineVersionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     PublishStateMachineVersionCommandOutput,
     | SdkError
@@ -530,7 +537,7 @@ interface SFNService$ {
    */
   redriveExecution(
     args: RedriveExecutionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     RedriveExecutionCommandOutput,
     | SdkError
@@ -546,7 +553,7 @@ interface SFNService$ {
    */
   sendTaskFailure(
     args: SendTaskFailureCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     SendTaskFailureCommandOutput,
     | SdkError
@@ -563,7 +570,7 @@ interface SFNService$ {
    */
   sendTaskHeartbeat(
     args: SendTaskHeartbeatCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     SendTaskHeartbeatCommandOutput,
     SdkError | InvalidTokenError | TaskDoesNotExistError | TaskTimedOutError
@@ -574,7 +581,7 @@ interface SFNService$ {
    */
   sendTaskSuccess(
     args: SendTaskSuccessCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     SendTaskSuccessCommandOutput,
     | SdkError
@@ -592,7 +599,7 @@ interface SFNService$ {
    */
   startExecution(
     args: StartExecutionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartExecutionCommandOutput,
     | SdkError
@@ -614,7 +621,7 @@ interface SFNService$ {
    */
   startSyncExecution(
     args: StartSyncExecutionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartSyncExecutionCommandOutput,
     | SdkError
@@ -634,7 +641,7 @@ interface SFNService$ {
    */
   stopExecution(
     args: StopExecutionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     StopExecutionCommandOutput,
     | SdkError
@@ -651,7 +658,7 @@ interface SFNService$ {
    */
   tagResource(
     args: TagResourceCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagResourceCommandOutput,
     SdkError | InvalidArnError | ResourceNotFoundError | TooManyTagsError
@@ -662,7 +669,7 @@ interface SFNService$ {
    */
   testState(
     args: TestStateCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     TestStateCommandOutput,
     | SdkError
@@ -677,7 +684,7 @@ interface SFNService$ {
    */
   untagResource(
     args: UntagResourceCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
     SdkError | InvalidArnError | ResourceNotFoundError
@@ -688,7 +695,7 @@ interface SFNService$ {
    */
   updateMapRun(
     args: UpdateMapRunCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateMapRunCommandOutput,
     SdkError | InvalidArnError | ResourceNotFoundError | ValidationError
@@ -699,7 +706,7 @@ interface SFNService$ {
    */
   updateStateMachine(
     args: UpdateStateMachineCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateStateMachineCommandOutput,
     | SdkError
@@ -723,7 +730,7 @@ interface SFNService$ {
    */
   updateStateMachineAlias(
     args: UpdateStateMachineAliasCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateStateMachineAliasCommandOutput,
     | SdkError
@@ -739,7 +746,7 @@ interface SFNService$ {
    */
   validateStateMachineDefinition(
     args: ValidateStateMachineDefinitionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ValidateStateMachineDefinitionCommandOutput,
     SdkError | ValidationError
@@ -764,9 +771,13 @@ export const makeSFNService = Effect.gen(function* (_) {
 
   return Record.toEntries(commands).reduce((acc, [command]) => {
     const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options: any) =>
+    const methodImpl = (args: any, options?: HttpHandlerOptions) =>
       Effect.tryPromise({
-        try: () => client.send(new CommandCtor(args), options ?? {}),
+        try: (abortSignal) =>
+          client.send(new CommandCtor(args), {
+            ...(options ?? {}),
+            abortSignal,
+          }),
         catch: (e) => {
           if (
             e instanceof SFNServiceException &&

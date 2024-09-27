@@ -1849,11 +1849,18 @@ import {
   type WithdrawByoipCidrCommandInput,
   type WithdrawByoipCidrCommandOutput,
 } from "@aws-sdk/client-ec2";
-import { type HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
 import { Context, Effect, Layer, Record, Data } from "effect";
 import { EC2ClientInstance, EC2ClientInstanceLayer } from "./EC2ClientInstance";
 import { DefaultEC2ClientConfigLayer } from "./EC2ClientInstanceConfig";
 import { EC2ServiceError, SdkError, TaggedException } from "./Errors";
+
+interface HttpHandlerOptions {
+  /**
+   * The maximum time in milliseconds that the connection phase of a request
+   * may take before the connection attempt is abandoned.
+   */
+  requestTimeout?: number;
+}
 
 const commands = {
   AcceptAddressTransferCommand,
@@ -2485,7 +2492,7 @@ export type EC2Service = {
    */
   readonly acceptAddressTransfer: (
     args: AcceptAddressTransferCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     AcceptAddressTransferCommandOutput,
     SdkError | EC2ServiceError
@@ -2496,7 +2503,7 @@ export type EC2Service = {
    */
   readonly acceptReservedInstancesExchangeQuote: (
     args: AcceptReservedInstancesExchangeQuoteCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     AcceptReservedInstancesExchangeQuoteCommandOutput,
     SdkError | EC2ServiceError
@@ -2507,7 +2514,7 @@ export type EC2Service = {
    */
   readonly acceptTransitGatewayMulticastDomainAssociations: (
     args: AcceptTransitGatewayMulticastDomainAssociationsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     AcceptTransitGatewayMulticastDomainAssociationsCommandOutput,
     SdkError | EC2ServiceError
@@ -2518,7 +2525,7 @@ export type EC2Service = {
    */
   readonly acceptTransitGatewayPeeringAttachment: (
     args: AcceptTransitGatewayPeeringAttachmentCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     AcceptTransitGatewayPeeringAttachmentCommandOutput,
     SdkError | EC2ServiceError
@@ -2529,7 +2536,7 @@ export type EC2Service = {
    */
   readonly acceptTransitGatewayVpcAttachment: (
     args: AcceptTransitGatewayVpcAttachmentCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     AcceptTransitGatewayVpcAttachmentCommandOutput,
     SdkError | EC2ServiceError
@@ -2540,7 +2547,7 @@ export type EC2Service = {
    */
   readonly acceptVpcEndpointConnections: (
     args: AcceptVpcEndpointConnectionsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     AcceptVpcEndpointConnectionsCommandOutput,
     SdkError | EC2ServiceError
@@ -2551,7 +2558,7 @@ export type EC2Service = {
    */
   readonly acceptVpcPeeringConnection: (
     args: AcceptVpcPeeringConnectionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     AcceptVpcPeeringConnectionCommandOutput,
     SdkError | EC2ServiceError
@@ -2562,7 +2569,7 @@ export type EC2Service = {
    */
   readonly advertiseByoipCidr: (
     args: AdvertiseByoipCidrCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     AdvertiseByoipCidrCommandOutput,
     SdkError | EC2ServiceError
@@ -2573,7 +2580,7 @@ export type EC2Service = {
    */
   readonly allocateAddress: (
     args: AllocateAddressCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<AllocateAddressCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -2581,7 +2588,7 @@ export type EC2Service = {
    */
   readonly allocateHosts: (
     args: AllocateHostsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<AllocateHostsCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -2589,7 +2596,7 @@ export type EC2Service = {
    */
   readonly allocateIpamPoolCidr: (
     args: AllocateIpamPoolCidrCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     AllocateIpamPoolCidrCommandOutput,
     SdkError | EC2ServiceError
@@ -2600,7 +2607,7 @@ export type EC2Service = {
    */
   readonly applySecurityGroupsToClientVpnTargetNetwork: (
     args: ApplySecurityGroupsToClientVpnTargetNetworkCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ApplySecurityGroupsToClientVpnTargetNetworkCommandOutput,
     SdkError | EC2ServiceError
@@ -2611,7 +2618,7 @@ export type EC2Service = {
    */
   readonly assignIpv6Addresses: (
     args: AssignIpv6AddressesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     AssignIpv6AddressesCommandOutput,
     SdkError | EC2ServiceError
@@ -2622,7 +2629,7 @@ export type EC2Service = {
    */
   readonly assignPrivateIpAddresses: (
     args: AssignPrivateIpAddressesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     AssignPrivateIpAddressesCommandOutput,
     SdkError | EC2ServiceError
@@ -2633,7 +2640,7 @@ export type EC2Service = {
    */
   readonly assignPrivateNatGatewayAddress: (
     args: AssignPrivateNatGatewayAddressCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     AssignPrivateNatGatewayAddressCommandOutput,
     SdkError | EC2ServiceError
@@ -2644,7 +2651,7 @@ export type EC2Service = {
    */
   readonly associateAddress: (
     args: AssociateAddressCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<AssociateAddressCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -2652,7 +2659,7 @@ export type EC2Service = {
    */
   readonly associateClientVpnTargetNetwork: (
     args: AssociateClientVpnTargetNetworkCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     AssociateClientVpnTargetNetworkCommandOutput,
     SdkError | EC2ServiceError
@@ -2663,7 +2670,7 @@ export type EC2Service = {
    */
   readonly associateDhcpOptions: (
     args: AssociateDhcpOptionsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     AssociateDhcpOptionsCommandOutput,
     SdkError | EC2ServiceError
@@ -2674,7 +2681,7 @@ export type EC2Service = {
    */
   readonly associateEnclaveCertificateIamRole: (
     args: AssociateEnclaveCertificateIamRoleCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     AssociateEnclaveCertificateIamRoleCommandOutput,
     SdkError | EC2ServiceError
@@ -2685,7 +2692,7 @@ export type EC2Service = {
    */
   readonly associateIamInstanceProfile: (
     args: AssociateIamInstanceProfileCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     AssociateIamInstanceProfileCommandOutput,
     SdkError | EC2ServiceError
@@ -2696,7 +2703,7 @@ export type EC2Service = {
    */
   readonly associateInstanceEventWindow: (
     args: AssociateInstanceEventWindowCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     AssociateInstanceEventWindowCommandOutput,
     SdkError | EC2ServiceError
@@ -2707,7 +2714,7 @@ export type EC2Service = {
    */
   readonly associateIpamByoasn: (
     args: AssociateIpamByoasnCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     AssociateIpamByoasnCommandOutput,
     SdkError | EC2ServiceError
@@ -2718,7 +2725,7 @@ export type EC2Service = {
    */
   readonly associateIpamResourceDiscovery: (
     args: AssociateIpamResourceDiscoveryCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     AssociateIpamResourceDiscoveryCommandOutput,
     SdkError | EC2ServiceError
@@ -2729,7 +2736,7 @@ export type EC2Service = {
    */
   readonly associateNatGatewayAddress: (
     args: AssociateNatGatewayAddressCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     AssociateNatGatewayAddressCommandOutput,
     SdkError | EC2ServiceError
@@ -2740,7 +2747,7 @@ export type EC2Service = {
    */
   readonly associateRouteTable: (
     args: AssociateRouteTableCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     AssociateRouteTableCommandOutput,
     SdkError | EC2ServiceError
@@ -2751,7 +2758,7 @@ export type EC2Service = {
    */
   readonly associateSubnetCidrBlock: (
     args: AssociateSubnetCidrBlockCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     AssociateSubnetCidrBlockCommandOutput,
     SdkError | EC2ServiceError
@@ -2762,7 +2769,7 @@ export type EC2Service = {
    */
   readonly associateTransitGatewayMulticastDomain: (
     args: AssociateTransitGatewayMulticastDomainCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     AssociateTransitGatewayMulticastDomainCommandOutput,
     SdkError | EC2ServiceError
@@ -2773,7 +2780,7 @@ export type EC2Service = {
    */
   readonly associateTransitGatewayPolicyTable: (
     args: AssociateTransitGatewayPolicyTableCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     AssociateTransitGatewayPolicyTableCommandOutput,
     SdkError | EC2ServiceError
@@ -2784,7 +2791,7 @@ export type EC2Service = {
    */
   readonly associateTransitGatewayRouteTable: (
     args: AssociateTransitGatewayRouteTableCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     AssociateTransitGatewayRouteTableCommandOutput,
     SdkError | EC2ServiceError
@@ -2795,7 +2802,7 @@ export type EC2Service = {
    */
   readonly associateTrunkInterface: (
     args: AssociateTrunkInterfaceCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     AssociateTrunkInterfaceCommandOutput,
     SdkError | EC2ServiceError
@@ -2806,7 +2813,7 @@ export type EC2Service = {
    */
   readonly associateVpcCidrBlock: (
     args: AssociateVpcCidrBlockCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     AssociateVpcCidrBlockCommandOutput,
     SdkError | EC2ServiceError
@@ -2817,7 +2824,7 @@ export type EC2Service = {
    */
   readonly attachClassicLinkVpc: (
     args: AttachClassicLinkVpcCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     AttachClassicLinkVpcCommandOutput,
     SdkError | EC2ServiceError
@@ -2828,7 +2835,7 @@ export type EC2Service = {
    */
   readonly attachInternetGateway: (
     args: AttachInternetGatewayCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     AttachInternetGatewayCommandOutput,
     SdkError | EC2ServiceError
@@ -2839,7 +2846,7 @@ export type EC2Service = {
    */
   readonly attachNetworkInterface: (
     args: AttachNetworkInterfaceCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     AttachNetworkInterfaceCommandOutput,
     SdkError | EC2ServiceError
@@ -2850,7 +2857,7 @@ export type EC2Service = {
    */
   readonly attachVerifiedAccessTrustProvider: (
     args: AttachVerifiedAccessTrustProviderCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     AttachVerifiedAccessTrustProviderCommandOutput,
     SdkError | EC2ServiceError
@@ -2861,7 +2868,7 @@ export type EC2Service = {
    */
   readonly attachVolume: (
     args: AttachVolumeCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<AttachVolumeCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -2869,7 +2876,7 @@ export type EC2Service = {
    */
   readonly attachVpnGateway: (
     args: AttachVpnGatewayCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<AttachVpnGatewayCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -2877,7 +2884,7 @@ export type EC2Service = {
    */
   readonly authorizeClientVpnIngress: (
     args: AuthorizeClientVpnIngressCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     AuthorizeClientVpnIngressCommandOutput,
     SdkError | EC2ServiceError
@@ -2888,7 +2895,7 @@ export type EC2Service = {
    */
   readonly authorizeSecurityGroupEgress: (
     args: AuthorizeSecurityGroupEgressCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     AuthorizeSecurityGroupEgressCommandOutput,
     SdkError | EC2ServiceError
@@ -2899,7 +2906,7 @@ export type EC2Service = {
    */
   readonly authorizeSecurityGroupIngress: (
     args: AuthorizeSecurityGroupIngressCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     AuthorizeSecurityGroupIngressCommandOutput,
     SdkError | EC2ServiceError
@@ -2910,7 +2917,7 @@ export type EC2Service = {
    */
   readonly bundleInstance: (
     args: BundleInstanceCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<BundleInstanceCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -2918,7 +2925,7 @@ export type EC2Service = {
    */
   readonly cancelBundleTask: (
     args: CancelBundleTaskCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<CancelBundleTaskCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -2926,7 +2933,7 @@ export type EC2Service = {
    */
   readonly cancelCapacityReservation: (
     args: CancelCapacityReservationCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CancelCapacityReservationCommandOutput,
     SdkError | EC2ServiceError
@@ -2937,7 +2944,7 @@ export type EC2Service = {
    */
   readonly cancelCapacityReservationFleets: (
     args: CancelCapacityReservationFleetsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CancelCapacityReservationFleetsCommandOutput,
     SdkError | EC2ServiceError
@@ -2948,7 +2955,7 @@ export type EC2Service = {
    */
   readonly cancelConversionTask: (
     args: CancelConversionTaskCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CancelConversionTaskCommandOutput,
     SdkError | EC2ServiceError
@@ -2959,7 +2966,7 @@ export type EC2Service = {
    */
   readonly cancelExportTask: (
     args: CancelExportTaskCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<CancelExportTaskCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -2967,7 +2974,7 @@ export type EC2Service = {
    */
   readonly cancelImageLaunchPermission: (
     args: CancelImageLaunchPermissionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CancelImageLaunchPermissionCommandOutput,
     SdkError | EC2ServiceError
@@ -2978,7 +2985,7 @@ export type EC2Service = {
    */
   readonly cancelImportTask: (
     args: CancelImportTaskCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<CancelImportTaskCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -2986,7 +2993,7 @@ export type EC2Service = {
    */
   readonly cancelReservedInstancesListing: (
     args: CancelReservedInstancesListingCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CancelReservedInstancesListingCommandOutput,
     SdkError | EC2ServiceError
@@ -2997,7 +3004,7 @@ export type EC2Service = {
    */
   readonly cancelSpotFleetRequests: (
     args: CancelSpotFleetRequestsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CancelSpotFleetRequestsCommandOutput,
     SdkError | EC2ServiceError
@@ -3008,7 +3015,7 @@ export type EC2Service = {
    */
   readonly cancelSpotInstanceRequests: (
     args: CancelSpotInstanceRequestsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CancelSpotInstanceRequestsCommandOutput,
     SdkError | EC2ServiceError
@@ -3019,7 +3026,7 @@ export type EC2Service = {
    */
   readonly confirmProductInstance: (
     args: ConfirmProductInstanceCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ConfirmProductInstanceCommandOutput,
     SdkError | EC2ServiceError
@@ -3030,7 +3037,7 @@ export type EC2Service = {
    */
   readonly copyFpgaImage: (
     args: CopyFpgaImageCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<CopyFpgaImageCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -3038,7 +3045,7 @@ export type EC2Service = {
    */
   readonly copyImage: (
     args: CopyImageCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<CopyImageCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -3046,7 +3053,7 @@ export type EC2Service = {
    */
   readonly copySnapshot: (
     args: CopySnapshotCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<CopySnapshotCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -3054,7 +3061,7 @@ export type EC2Service = {
    */
   readonly createCapacityReservation: (
     args: CreateCapacityReservationCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateCapacityReservationCommandOutput,
     SdkError | EC2ServiceError
@@ -3065,7 +3072,7 @@ export type EC2Service = {
    */
   readonly createCapacityReservationFleet: (
     args: CreateCapacityReservationFleetCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateCapacityReservationFleetCommandOutput,
     SdkError | EC2ServiceError
@@ -3076,7 +3083,7 @@ export type EC2Service = {
    */
   readonly createCarrierGateway: (
     args: CreateCarrierGatewayCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateCarrierGatewayCommandOutput,
     SdkError | EC2ServiceError
@@ -3087,7 +3094,7 @@ export type EC2Service = {
    */
   readonly createClientVpnEndpoint: (
     args: CreateClientVpnEndpointCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateClientVpnEndpointCommandOutput,
     SdkError | EC2ServiceError
@@ -3098,7 +3105,7 @@ export type EC2Service = {
    */
   readonly createClientVpnRoute: (
     args: CreateClientVpnRouteCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateClientVpnRouteCommandOutput,
     SdkError | EC2ServiceError
@@ -3109,7 +3116,7 @@ export type EC2Service = {
    */
   readonly createCoipCidr: (
     args: CreateCoipCidrCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<CreateCoipCidrCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -3117,7 +3124,7 @@ export type EC2Service = {
    */
   readonly createCoipPool: (
     args: CreateCoipPoolCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<CreateCoipPoolCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -3125,7 +3132,7 @@ export type EC2Service = {
    */
   readonly createCustomerGateway: (
     args: CreateCustomerGatewayCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateCustomerGatewayCommandOutput,
     SdkError | EC2ServiceError
@@ -3136,7 +3143,7 @@ export type EC2Service = {
    */
   readonly createDefaultSubnet: (
     args: CreateDefaultSubnetCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateDefaultSubnetCommandOutput,
     SdkError | EC2ServiceError
@@ -3147,7 +3154,7 @@ export type EC2Service = {
    */
   readonly createDefaultVpc: (
     args: CreateDefaultVpcCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<CreateDefaultVpcCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -3155,7 +3162,7 @@ export type EC2Service = {
    */
   readonly createDhcpOptions: (
     args: CreateDhcpOptionsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateDhcpOptionsCommandOutput,
     SdkError | EC2ServiceError
@@ -3166,7 +3173,7 @@ export type EC2Service = {
    */
   readonly createEgressOnlyInternetGateway: (
     args: CreateEgressOnlyInternetGatewayCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateEgressOnlyInternetGatewayCommandOutput,
     SdkError | EC2ServiceError
@@ -3177,7 +3184,7 @@ export type EC2Service = {
    */
   readonly createFleet: (
     args: CreateFleetCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<CreateFleetCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -3185,7 +3192,7 @@ export type EC2Service = {
    */
   readonly createFlowLogs: (
     args: CreateFlowLogsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<CreateFlowLogsCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -3193,7 +3200,7 @@ export type EC2Service = {
    */
   readonly createFpgaImage: (
     args: CreateFpgaImageCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<CreateFpgaImageCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -3201,7 +3208,7 @@ export type EC2Service = {
    */
   readonly createImage: (
     args: CreateImageCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<CreateImageCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -3209,7 +3216,7 @@ export type EC2Service = {
    */
   readonly createInstanceConnectEndpoint: (
     args: CreateInstanceConnectEndpointCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateInstanceConnectEndpointCommandOutput,
     SdkError | EC2ServiceError
@@ -3220,7 +3227,7 @@ export type EC2Service = {
    */
   readonly createInstanceEventWindow: (
     args: CreateInstanceEventWindowCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateInstanceEventWindowCommandOutput,
     SdkError | EC2ServiceError
@@ -3231,7 +3238,7 @@ export type EC2Service = {
    */
   readonly createInstanceExportTask: (
     args: CreateInstanceExportTaskCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateInstanceExportTaskCommandOutput,
     SdkError | EC2ServiceError
@@ -3242,7 +3249,7 @@ export type EC2Service = {
    */
   readonly createInternetGateway: (
     args: CreateInternetGatewayCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateInternetGatewayCommandOutput,
     SdkError | EC2ServiceError
@@ -3253,7 +3260,7 @@ export type EC2Service = {
    */
   readonly createIpam: (
     args: CreateIpamCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<CreateIpamCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -3261,7 +3268,7 @@ export type EC2Service = {
    */
   readonly createIpamPool: (
     args: CreateIpamPoolCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<CreateIpamPoolCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -3269,7 +3276,7 @@ export type EC2Service = {
    */
   readonly createIpamResourceDiscovery: (
     args: CreateIpamResourceDiscoveryCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateIpamResourceDiscoveryCommandOutput,
     SdkError | EC2ServiceError
@@ -3280,7 +3287,7 @@ export type EC2Service = {
    */
   readonly createIpamScope: (
     args: CreateIpamScopeCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<CreateIpamScopeCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -3288,7 +3295,7 @@ export type EC2Service = {
    */
   readonly createKeyPair: (
     args: CreateKeyPairCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<CreateKeyPairCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -3296,7 +3303,7 @@ export type EC2Service = {
    */
   readonly createLaunchTemplate: (
     args: CreateLaunchTemplateCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateLaunchTemplateCommandOutput,
     SdkError | EC2ServiceError
@@ -3307,7 +3314,7 @@ export type EC2Service = {
    */
   readonly createLaunchTemplateVersion: (
     args: CreateLaunchTemplateVersionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateLaunchTemplateVersionCommandOutput,
     SdkError | EC2ServiceError
@@ -3318,7 +3325,7 @@ export type EC2Service = {
    */
   readonly createLocalGatewayRoute: (
     args: CreateLocalGatewayRouteCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateLocalGatewayRouteCommandOutput,
     SdkError | EC2ServiceError
@@ -3329,7 +3336,7 @@ export type EC2Service = {
    */
   readonly createLocalGatewayRouteTable: (
     args: CreateLocalGatewayRouteTableCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateLocalGatewayRouteTableCommandOutput,
     SdkError | EC2ServiceError
@@ -3340,7 +3347,7 @@ export type EC2Service = {
    */
   readonly createLocalGatewayRouteTableVirtualInterfaceGroupAssociation: (
     args: CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationCommandOutput,
     SdkError | EC2ServiceError
@@ -3351,7 +3358,7 @@ export type EC2Service = {
    */
   readonly createLocalGatewayRouteTableVpcAssociation: (
     args: CreateLocalGatewayRouteTableVpcAssociationCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateLocalGatewayRouteTableVpcAssociationCommandOutput,
     SdkError | EC2ServiceError
@@ -3362,7 +3369,7 @@ export type EC2Service = {
    */
   readonly createManagedPrefixList: (
     args: CreateManagedPrefixListCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateManagedPrefixListCommandOutput,
     SdkError | EC2ServiceError
@@ -3373,7 +3380,7 @@ export type EC2Service = {
    */
   readonly createNatGateway: (
     args: CreateNatGatewayCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<CreateNatGatewayCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -3381,7 +3388,7 @@ export type EC2Service = {
    */
   readonly createNetworkAcl: (
     args: CreateNetworkAclCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<CreateNetworkAclCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -3389,7 +3396,7 @@ export type EC2Service = {
    */
   readonly createNetworkAclEntry: (
     args: CreateNetworkAclEntryCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateNetworkAclEntryCommandOutput,
     SdkError | EC2ServiceError
@@ -3400,7 +3407,7 @@ export type EC2Service = {
    */
   readonly createNetworkInsightsAccessScope: (
     args: CreateNetworkInsightsAccessScopeCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateNetworkInsightsAccessScopeCommandOutput,
     SdkError | EC2ServiceError
@@ -3411,7 +3418,7 @@ export type EC2Service = {
    */
   readonly createNetworkInsightsPath: (
     args: CreateNetworkInsightsPathCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateNetworkInsightsPathCommandOutput,
     SdkError | EC2ServiceError
@@ -3422,7 +3429,7 @@ export type EC2Service = {
    */
   readonly createNetworkInterface: (
     args: CreateNetworkInterfaceCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateNetworkInterfaceCommandOutput,
     SdkError | EC2ServiceError
@@ -3433,7 +3440,7 @@ export type EC2Service = {
    */
   readonly createNetworkInterfacePermission: (
     args: CreateNetworkInterfacePermissionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateNetworkInterfacePermissionCommandOutput,
     SdkError | EC2ServiceError
@@ -3444,7 +3451,7 @@ export type EC2Service = {
    */
   readonly createPlacementGroup: (
     args: CreatePlacementGroupCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreatePlacementGroupCommandOutput,
     SdkError | EC2ServiceError
@@ -3455,7 +3462,7 @@ export type EC2Service = {
    */
   readonly createPublicIpv4Pool: (
     args: CreatePublicIpv4PoolCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreatePublicIpv4PoolCommandOutput,
     SdkError | EC2ServiceError
@@ -3466,7 +3473,7 @@ export type EC2Service = {
    */
   readonly createReplaceRootVolumeTask: (
     args: CreateReplaceRootVolumeTaskCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateReplaceRootVolumeTaskCommandOutput,
     SdkError | EC2ServiceError
@@ -3477,7 +3484,7 @@ export type EC2Service = {
    */
   readonly createReservedInstancesListing: (
     args: CreateReservedInstancesListingCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateReservedInstancesListingCommandOutput,
     SdkError | EC2ServiceError
@@ -3488,7 +3495,7 @@ export type EC2Service = {
    */
   readonly createRestoreImageTask: (
     args: CreateRestoreImageTaskCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateRestoreImageTaskCommandOutput,
     SdkError | EC2ServiceError
@@ -3499,7 +3506,7 @@ export type EC2Service = {
    */
   readonly createRoute: (
     args: CreateRouteCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<CreateRouteCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -3507,7 +3514,7 @@ export type EC2Service = {
    */
   readonly createRouteTable: (
     args: CreateRouteTableCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<CreateRouteTableCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -3515,7 +3522,7 @@ export type EC2Service = {
    */
   readonly createSecurityGroup: (
     args: CreateSecurityGroupCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateSecurityGroupCommandOutput,
     SdkError | EC2ServiceError
@@ -3526,7 +3533,7 @@ export type EC2Service = {
    */
   readonly createSnapshot: (
     args: CreateSnapshotCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<CreateSnapshotCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -3534,7 +3541,7 @@ export type EC2Service = {
    */
   readonly createSnapshots: (
     args: CreateSnapshotsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<CreateSnapshotsCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -3542,7 +3549,7 @@ export type EC2Service = {
    */
   readonly createSpotDatafeedSubscription: (
     args: CreateSpotDatafeedSubscriptionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateSpotDatafeedSubscriptionCommandOutput,
     SdkError | EC2ServiceError
@@ -3553,7 +3560,7 @@ export type EC2Service = {
    */
   readonly createStoreImageTask: (
     args: CreateStoreImageTaskCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateStoreImageTaskCommandOutput,
     SdkError | EC2ServiceError
@@ -3564,7 +3571,7 @@ export type EC2Service = {
    */
   readonly createSubnet: (
     args: CreateSubnetCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<CreateSubnetCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -3572,7 +3579,7 @@ export type EC2Service = {
    */
   readonly createSubnetCidrReservation: (
     args: CreateSubnetCidrReservationCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateSubnetCidrReservationCommandOutput,
     SdkError | EC2ServiceError
@@ -3583,7 +3590,7 @@ export type EC2Service = {
    */
   readonly createTags: (
     args: CreateTagsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<CreateTagsCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -3591,7 +3598,7 @@ export type EC2Service = {
    */
   readonly createTrafficMirrorFilter: (
     args: CreateTrafficMirrorFilterCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateTrafficMirrorFilterCommandOutput,
     SdkError | EC2ServiceError
@@ -3602,7 +3609,7 @@ export type EC2Service = {
    */
   readonly createTrafficMirrorFilterRule: (
     args: CreateTrafficMirrorFilterRuleCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateTrafficMirrorFilterRuleCommandOutput,
     SdkError | EC2ServiceError
@@ -3613,7 +3620,7 @@ export type EC2Service = {
    */
   readonly createTrafficMirrorSession: (
     args: CreateTrafficMirrorSessionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateTrafficMirrorSessionCommandOutput,
     SdkError | EC2ServiceError
@@ -3624,7 +3631,7 @@ export type EC2Service = {
    */
   readonly createTrafficMirrorTarget: (
     args: CreateTrafficMirrorTargetCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateTrafficMirrorTargetCommandOutput,
     SdkError | EC2ServiceError
@@ -3635,7 +3642,7 @@ export type EC2Service = {
    */
   readonly createTransitGateway: (
     args: CreateTransitGatewayCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateTransitGatewayCommandOutput,
     SdkError | EC2ServiceError
@@ -3646,7 +3653,7 @@ export type EC2Service = {
    */
   readonly createTransitGatewayConnect: (
     args: CreateTransitGatewayConnectCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateTransitGatewayConnectCommandOutput,
     SdkError | EC2ServiceError
@@ -3657,7 +3664,7 @@ export type EC2Service = {
    */
   readonly createTransitGatewayConnectPeer: (
     args: CreateTransitGatewayConnectPeerCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateTransitGatewayConnectPeerCommandOutput,
     SdkError | EC2ServiceError
@@ -3668,7 +3675,7 @@ export type EC2Service = {
    */
   readonly createTransitGatewayMulticastDomain: (
     args: CreateTransitGatewayMulticastDomainCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateTransitGatewayMulticastDomainCommandOutput,
     SdkError | EC2ServiceError
@@ -3679,7 +3686,7 @@ export type EC2Service = {
    */
   readonly createTransitGatewayPeeringAttachment: (
     args: CreateTransitGatewayPeeringAttachmentCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateTransitGatewayPeeringAttachmentCommandOutput,
     SdkError | EC2ServiceError
@@ -3690,7 +3697,7 @@ export type EC2Service = {
    */
   readonly createTransitGatewayPolicyTable: (
     args: CreateTransitGatewayPolicyTableCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateTransitGatewayPolicyTableCommandOutput,
     SdkError | EC2ServiceError
@@ -3701,7 +3708,7 @@ export type EC2Service = {
    */
   readonly createTransitGatewayPrefixListReference: (
     args: CreateTransitGatewayPrefixListReferenceCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateTransitGatewayPrefixListReferenceCommandOutput,
     SdkError | EC2ServiceError
@@ -3712,7 +3719,7 @@ export type EC2Service = {
    */
   readonly createTransitGatewayRoute: (
     args: CreateTransitGatewayRouteCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateTransitGatewayRouteCommandOutput,
     SdkError | EC2ServiceError
@@ -3723,7 +3730,7 @@ export type EC2Service = {
    */
   readonly createTransitGatewayRouteTable: (
     args: CreateTransitGatewayRouteTableCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateTransitGatewayRouteTableCommandOutput,
     SdkError | EC2ServiceError
@@ -3734,7 +3741,7 @@ export type EC2Service = {
    */
   readonly createTransitGatewayRouteTableAnnouncement: (
     args: CreateTransitGatewayRouteTableAnnouncementCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateTransitGatewayRouteTableAnnouncementCommandOutput,
     SdkError | EC2ServiceError
@@ -3745,7 +3752,7 @@ export type EC2Service = {
    */
   readonly createTransitGatewayVpcAttachment: (
     args: CreateTransitGatewayVpcAttachmentCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateTransitGatewayVpcAttachmentCommandOutput,
     SdkError | EC2ServiceError
@@ -3756,7 +3763,7 @@ export type EC2Service = {
    */
   readonly createVerifiedAccessEndpoint: (
     args: CreateVerifiedAccessEndpointCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateVerifiedAccessEndpointCommandOutput,
     SdkError | EC2ServiceError
@@ -3767,7 +3774,7 @@ export type EC2Service = {
    */
   readonly createVerifiedAccessGroup: (
     args: CreateVerifiedAccessGroupCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateVerifiedAccessGroupCommandOutput,
     SdkError | EC2ServiceError
@@ -3778,7 +3785,7 @@ export type EC2Service = {
    */
   readonly createVerifiedAccessInstance: (
     args: CreateVerifiedAccessInstanceCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateVerifiedAccessInstanceCommandOutput,
     SdkError | EC2ServiceError
@@ -3789,7 +3796,7 @@ export type EC2Service = {
    */
   readonly createVerifiedAccessTrustProvider: (
     args: CreateVerifiedAccessTrustProviderCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateVerifiedAccessTrustProviderCommandOutput,
     SdkError | EC2ServiceError
@@ -3800,7 +3807,7 @@ export type EC2Service = {
    */
   readonly createVolume: (
     args: CreateVolumeCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<CreateVolumeCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -3808,7 +3815,7 @@ export type EC2Service = {
    */
   readonly createVpc: (
     args: CreateVpcCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<CreateVpcCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -3816,7 +3823,7 @@ export type EC2Service = {
    */
   readonly createVpcEndpoint: (
     args: CreateVpcEndpointCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateVpcEndpointCommandOutput,
     SdkError | EC2ServiceError
@@ -3827,7 +3834,7 @@ export type EC2Service = {
    */
   readonly createVpcEndpointConnectionNotification: (
     args: CreateVpcEndpointConnectionNotificationCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateVpcEndpointConnectionNotificationCommandOutput,
     SdkError | EC2ServiceError
@@ -3838,7 +3845,7 @@ export type EC2Service = {
    */
   readonly createVpcEndpointServiceConfiguration: (
     args: CreateVpcEndpointServiceConfigurationCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateVpcEndpointServiceConfigurationCommandOutput,
     SdkError | EC2ServiceError
@@ -3849,7 +3856,7 @@ export type EC2Service = {
    */
   readonly createVpcPeeringConnection: (
     args: CreateVpcPeeringConnectionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateVpcPeeringConnectionCommandOutput,
     SdkError | EC2ServiceError
@@ -3860,7 +3867,7 @@ export type EC2Service = {
    */
   readonly createVpnConnection: (
     args: CreateVpnConnectionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateVpnConnectionCommandOutput,
     SdkError | EC2ServiceError
@@ -3871,7 +3878,7 @@ export type EC2Service = {
    */
   readonly createVpnConnectionRoute: (
     args: CreateVpnConnectionRouteCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     CreateVpnConnectionRouteCommandOutput,
     SdkError | EC2ServiceError
@@ -3882,7 +3889,7 @@ export type EC2Service = {
    */
   readonly createVpnGateway: (
     args: CreateVpnGatewayCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<CreateVpnGatewayCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -3890,7 +3897,7 @@ export type EC2Service = {
    */
   readonly deleteCarrierGateway: (
     args: DeleteCarrierGatewayCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeleteCarrierGatewayCommandOutput,
     SdkError | EC2ServiceError
@@ -3901,7 +3908,7 @@ export type EC2Service = {
    */
   readonly deleteClientVpnEndpoint: (
     args: DeleteClientVpnEndpointCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeleteClientVpnEndpointCommandOutput,
     SdkError | EC2ServiceError
@@ -3912,7 +3919,7 @@ export type EC2Service = {
    */
   readonly deleteClientVpnRoute: (
     args: DeleteClientVpnRouteCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeleteClientVpnRouteCommandOutput,
     SdkError | EC2ServiceError
@@ -3923,7 +3930,7 @@ export type EC2Service = {
    */
   readonly deleteCoipCidr: (
     args: DeleteCoipCidrCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<DeleteCoipCidrCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -3931,7 +3938,7 @@ export type EC2Service = {
    */
   readonly deleteCoipPool: (
     args: DeleteCoipPoolCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<DeleteCoipPoolCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -3939,7 +3946,7 @@ export type EC2Service = {
    */
   readonly deleteCustomerGateway: (
     args: DeleteCustomerGatewayCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeleteCustomerGatewayCommandOutput,
     SdkError | EC2ServiceError
@@ -3950,7 +3957,7 @@ export type EC2Service = {
    */
   readonly deleteDhcpOptions: (
     args: DeleteDhcpOptionsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeleteDhcpOptionsCommandOutput,
     SdkError | EC2ServiceError
@@ -3961,7 +3968,7 @@ export type EC2Service = {
    */
   readonly deleteEgressOnlyInternetGateway: (
     args: DeleteEgressOnlyInternetGatewayCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeleteEgressOnlyInternetGatewayCommandOutput,
     SdkError | EC2ServiceError
@@ -3972,7 +3979,7 @@ export type EC2Service = {
    */
   readonly deleteFleets: (
     args: DeleteFleetsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<DeleteFleetsCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -3980,7 +3987,7 @@ export type EC2Service = {
    */
   readonly deleteFlowLogs: (
     args: DeleteFlowLogsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<DeleteFlowLogsCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -3988,7 +3995,7 @@ export type EC2Service = {
    */
   readonly deleteFpgaImage: (
     args: DeleteFpgaImageCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<DeleteFpgaImageCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -3996,7 +4003,7 @@ export type EC2Service = {
    */
   readonly deleteInstanceConnectEndpoint: (
     args: DeleteInstanceConnectEndpointCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeleteInstanceConnectEndpointCommandOutput,
     SdkError | EC2ServiceError
@@ -4007,7 +4014,7 @@ export type EC2Service = {
    */
   readonly deleteInstanceEventWindow: (
     args: DeleteInstanceEventWindowCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeleteInstanceEventWindowCommandOutput,
     SdkError | EC2ServiceError
@@ -4018,7 +4025,7 @@ export type EC2Service = {
    */
   readonly deleteInternetGateway: (
     args: DeleteInternetGatewayCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeleteInternetGatewayCommandOutput,
     SdkError | EC2ServiceError
@@ -4029,7 +4036,7 @@ export type EC2Service = {
    */
   readonly deleteIpam: (
     args: DeleteIpamCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<DeleteIpamCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -4037,7 +4044,7 @@ export type EC2Service = {
    */
   readonly deleteIpamPool: (
     args: DeleteIpamPoolCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<DeleteIpamPoolCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -4045,7 +4052,7 @@ export type EC2Service = {
    */
   readonly deleteIpamResourceDiscovery: (
     args: DeleteIpamResourceDiscoveryCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeleteIpamResourceDiscoveryCommandOutput,
     SdkError | EC2ServiceError
@@ -4056,7 +4063,7 @@ export type EC2Service = {
    */
   readonly deleteIpamScope: (
     args: DeleteIpamScopeCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<DeleteIpamScopeCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -4064,7 +4071,7 @@ export type EC2Service = {
    */
   readonly deleteKeyPair: (
     args: DeleteKeyPairCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<DeleteKeyPairCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -4072,7 +4079,7 @@ export type EC2Service = {
    */
   readonly deleteLaunchTemplate: (
     args: DeleteLaunchTemplateCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeleteLaunchTemplateCommandOutput,
     SdkError | EC2ServiceError
@@ -4083,7 +4090,7 @@ export type EC2Service = {
    */
   readonly deleteLaunchTemplateVersions: (
     args: DeleteLaunchTemplateVersionsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeleteLaunchTemplateVersionsCommandOutput,
     SdkError | EC2ServiceError
@@ -4094,7 +4101,7 @@ export type EC2Service = {
    */
   readonly deleteLocalGatewayRoute: (
     args: DeleteLocalGatewayRouteCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeleteLocalGatewayRouteCommandOutput,
     SdkError | EC2ServiceError
@@ -4105,7 +4112,7 @@ export type EC2Service = {
    */
   readonly deleteLocalGatewayRouteTable: (
     args: DeleteLocalGatewayRouteTableCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeleteLocalGatewayRouteTableCommandOutput,
     SdkError | EC2ServiceError
@@ -4116,7 +4123,7 @@ export type EC2Service = {
    */
   readonly deleteLocalGatewayRouteTableVirtualInterfaceGroupAssociation: (
     args: DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationCommandOutput,
     SdkError | EC2ServiceError
@@ -4127,7 +4134,7 @@ export type EC2Service = {
    */
   readonly deleteLocalGatewayRouteTableVpcAssociation: (
     args: DeleteLocalGatewayRouteTableVpcAssociationCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeleteLocalGatewayRouteTableVpcAssociationCommandOutput,
     SdkError | EC2ServiceError
@@ -4138,7 +4145,7 @@ export type EC2Service = {
    */
   readonly deleteManagedPrefixList: (
     args: DeleteManagedPrefixListCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeleteManagedPrefixListCommandOutput,
     SdkError | EC2ServiceError
@@ -4149,7 +4156,7 @@ export type EC2Service = {
    */
   readonly deleteNatGateway: (
     args: DeleteNatGatewayCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<DeleteNatGatewayCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -4157,7 +4164,7 @@ export type EC2Service = {
    */
   readonly deleteNetworkAcl: (
     args: DeleteNetworkAclCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<DeleteNetworkAclCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -4165,7 +4172,7 @@ export type EC2Service = {
    */
   readonly deleteNetworkAclEntry: (
     args: DeleteNetworkAclEntryCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeleteNetworkAclEntryCommandOutput,
     SdkError | EC2ServiceError
@@ -4176,7 +4183,7 @@ export type EC2Service = {
    */
   readonly deleteNetworkInsightsAccessScope: (
     args: DeleteNetworkInsightsAccessScopeCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeleteNetworkInsightsAccessScopeCommandOutput,
     SdkError | EC2ServiceError
@@ -4187,7 +4194,7 @@ export type EC2Service = {
    */
   readonly deleteNetworkInsightsAccessScopeAnalysis: (
     args: DeleteNetworkInsightsAccessScopeAnalysisCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeleteNetworkInsightsAccessScopeAnalysisCommandOutput,
     SdkError | EC2ServiceError
@@ -4198,7 +4205,7 @@ export type EC2Service = {
    */
   readonly deleteNetworkInsightsAnalysis: (
     args: DeleteNetworkInsightsAnalysisCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeleteNetworkInsightsAnalysisCommandOutput,
     SdkError | EC2ServiceError
@@ -4209,7 +4216,7 @@ export type EC2Service = {
    */
   readonly deleteNetworkInsightsPath: (
     args: DeleteNetworkInsightsPathCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeleteNetworkInsightsPathCommandOutput,
     SdkError | EC2ServiceError
@@ -4220,7 +4227,7 @@ export type EC2Service = {
    */
   readonly deleteNetworkInterface: (
     args: DeleteNetworkInterfaceCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeleteNetworkInterfaceCommandOutput,
     SdkError | EC2ServiceError
@@ -4231,7 +4238,7 @@ export type EC2Service = {
    */
   readonly deleteNetworkInterfacePermission: (
     args: DeleteNetworkInterfacePermissionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeleteNetworkInterfacePermissionCommandOutput,
     SdkError | EC2ServiceError
@@ -4242,7 +4249,7 @@ export type EC2Service = {
    */
   readonly deletePlacementGroup: (
     args: DeletePlacementGroupCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeletePlacementGroupCommandOutput,
     SdkError | EC2ServiceError
@@ -4253,7 +4260,7 @@ export type EC2Service = {
    */
   readonly deletePublicIpv4Pool: (
     args: DeletePublicIpv4PoolCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeletePublicIpv4PoolCommandOutput,
     SdkError | EC2ServiceError
@@ -4264,7 +4271,7 @@ export type EC2Service = {
    */
   readonly deleteQueuedReservedInstances: (
     args: DeleteQueuedReservedInstancesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeleteQueuedReservedInstancesCommandOutput,
     SdkError | EC2ServiceError
@@ -4275,7 +4282,7 @@ export type EC2Service = {
    */
   readonly deleteRoute: (
     args: DeleteRouteCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<DeleteRouteCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -4283,7 +4290,7 @@ export type EC2Service = {
    */
   readonly deleteRouteTable: (
     args: DeleteRouteTableCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<DeleteRouteTableCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -4291,7 +4298,7 @@ export type EC2Service = {
    */
   readonly deleteSecurityGroup: (
     args: DeleteSecurityGroupCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeleteSecurityGroupCommandOutput,
     SdkError | EC2ServiceError
@@ -4302,7 +4309,7 @@ export type EC2Service = {
    */
   readonly deleteSnapshot: (
     args: DeleteSnapshotCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<DeleteSnapshotCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -4310,7 +4317,7 @@ export type EC2Service = {
    */
   readonly deleteSpotDatafeedSubscription: (
     args: DeleteSpotDatafeedSubscriptionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeleteSpotDatafeedSubscriptionCommandOutput,
     SdkError | EC2ServiceError
@@ -4321,7 +4328,7 @@ export type EC2Service = {
    */
   readonly deleteSubnet: (
     args: DeleteSubnetCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<DeleteSubnetCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -4329,7 +4336,7 @@ export type EC2Service = {
    */
   readonly deleteSubnetCidrReservation: (
     args: DeleteSubnetCidrReservationCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeleteSubnetCidrReservationCommandOutput,
     SdkError | EC2ServiceError
@@ -4340,7 +4347,7 @@ export type EC2Service = {
    */
   readonly deleteTags: (
     args: DeleteTagsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<DeleteTagsCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -4348,7 +4355,7 @@ export type EC2Service = {
    */
   readonly deleteTrafficMirrorFilter: (
     args: DeleteTrafficMirrorFilterCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeleteTrafficMirrorFilterCommandOutput,
     SdkError | EC2ServiceError
@@ -4359,7 +4366,7 @@ export type EC2Service = {
    */
   readonly deleteTrafficMirrorFilterRule: (
     args: DeleteTrafficMirrorFilterRuleCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeleteTrafficMirrorFilterRuleCommandOutput,
     SdkError | EC2ServiceError
@@ -4370,7 +4377,7 @@ export type EC2Service = {
    */
   readonly deleteTrafficMirrorSession: (
     args: DeleteTrafficMirrorSessionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeleteTrafficMirrorSessionCommandOutput,
     SdkError | EC2ServiceError
@@ -4381,7 +4388,7 @@ export type EC2Service = {
    */
   readonly deleteTrafficMirrorTarget: (
     args: DeleteTrafficMirrorTargetCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeleteTrafficMirrorTargetCommandOutput,
     SdkError | EC2ServiceError
@@ -4392,7 +4399,7 @@ export type EC2Service = {
    */
   readonly deleteTransitGateway: (
     args: DeleteTransitGatewayCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeleteTransitGatewayCommandOutput,
     SdkError | EC2ServiceError
@@ -4403,7 +4410,7 @@ export type EC2Service = {
    */
   readonly deleteTransitGatewayConnect: (
     args: DeleteTransitGatewayConnectCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeleteTransitGatewayConnectCommandOutput,
     SdkError | EC2ServiceError
@@ -4414,7 +4421,7 @@ export type EC2Service = {
    */
   readonly deleteTransitGatewayConnectPeer: (
     args: DeleteTransitGatewayConnectPeerCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeleteTransitGatewayConnectPeerCommandOutput,
     SdkError | EC2ServiceError
@@ -4425,7 +4432,7 @@ export type EC2Service = {
    */
   readonly deleteTransitGatewayMulticastDomain: (
     args: DeleteTransitGatewayMulticastDomainCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeleteTransitGatewayMulticastDomainCommandOutput,
     SdkError | EC2ServiceError
@@ -4436,7 +4443,7 @@ export type EC2Service = {
    */
   readonly deleteTransitGatewayPeeringAttachment: (
     args: DeleteTransitGatewayPeeringAttachmentCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeleteTransitGatewayPeeringAttachmentCommandOutput,
     SdkError | EC2ServiceError
@@ -4447,7 +4454,7 @@ export type EC2Service = {
    */
   readonly deleteTransitGatewayPolicyTable: (
     args: DeleteTransitGatewayPolicyTableCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeleteTransitGatewayPolicyTableCommandOutput,
     SdkError | EC2ServiceError
@@ -4458,7 +4465,7 @@ export type EC2Service = {
    */
   readonly deleteTransitGatewayPrefixListReference: (
     args: DeleteTransitGatewayPrefixListReferenceCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeleteTransitGatewayPrefixListReferenceCommandOutput,
     SdkError | EC2ServiceError
@@ -4469,7 +4476,7 @@ export type EC2Service = {
    */
   readonly deleteTransitGatewayRoute: (
     args: DeleteTransitGatewayRouteCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeleteTransitGatewayRouteCommandOutput,
     SdkError | EC2ServiceError
@@ -4480,7 +4487,7 @@ export type EC2Service = {
    */
   readonly deleteTransitGatewayRouteTable: (
     args: DeleteTransitGatewayRouteTableCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeleteTransitGatewayRouteTableCommandOutput,
     SdkError | EC2ServiceError
@@ -4491,7 +4498,7 @@ export type EC2Service = {
    */
   readonly deleteTransitGatewayRouteTableAnnouncement: (
     args: DeleteTransitGatewayRouteTableAnnouncementCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeleteTransitGatewayRouteTableAnnouncementCommandOutput,
     SdkError | EC2ServiceError
@@ -4502,7 +4509,7 @@ export type EC2Service = {
    */
   readonly deleteTransitGatewayVpcAttachment: (
     args: DeleteTransitGatewayVpcAttachmentCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeleteTransitGatewayVpcAttachmentCommandOutput,
     SdkError | EC2ServiceError
@@ -4513,7 +4520,7 @@ export type EC2Service = {
    */
   readonly deleteVerifiedAccessEndpoint: (
     args: DeleteVerifiedAccessEndpointCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeleteVerifiedAccessEndpointCommandOutput,
     SdkError | EC2ServiceError
@@ -4524,7 +4531,7 @@ export type EC2Service = {
    */
   readonly deleteVerifiedAccessGroup: (
     args: DeleteVerifiedAccessGroupCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeleteVerifiedAccessGroupCommandOutput,
     SdkError | EC2ServiceError
@@ -4535,7 +4542,7 @@ export type EC2Service = {
    */
   readonly deleteVerifiedAccessInstance: (
     args: DeleteVerifiedAccessInstanceCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeleteVerifiedAccessInstanceCommandOutput,
     SdkError | EC2ServiceError
@@ -4546,7 +4553,7 @@ export type EC2Service = {
    */
   readonly deleteVerifiedAccessTrustProvider: (
     args: DeleteVerifiedAccessTrustProviderCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeleteVerifiedAccessTrustProviderCommandOutput,
     SdkError | EC2ServiceError
@@ -4557,7 +4564,7 @@ export type EC2Service = {
    */
   readonly deleteVolume: (
     args: DeleteVolumeCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<DeleteVolumeCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -4565,7 +4572,7 @@ export type EC2Service = {
    */
   readonly deleteVpc: (
     args: DeleteVpcCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<DeleteVpcCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -4573,7 +4580,7 @@ export type EC2Service = {
    */
   readonly deleteVpcEndpointConnectionNotifications: (
     args: DeleteVpcEndpointConnectionNotificationsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeleteVpcEndpointConnectionNotificationsCommandOutput,
     SdkError | EC2ServiceError
@@ -4584,7 +4591,7 @@ export type EC2Service = {
    */
   readonly deleteVpcEndpoints: (
     args: DeleteVpcEndpointsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeleteVpcEndpointsCommandOutput,
     SdkError | EC2ServiceError
@@ -4595,7 +4602,7 @@ export type EC2Service = {
    */
   readonly deleteVpcEndpointServiceConfigurations: (
     args: DeleteVpcEndpointServiceConfigurationsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeleteVpcEndpointServiceConfigurationsCommandOutput,
     SdkError | EC2ServiceError
@@ -4606,7 +4613,7 @@ export type EC2Service = {
    */
   readonly deleteVpcPeeringConnection: (
     args: DeleteVpcPeeringConnectionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeleteVpcPeeringConnectionCommandOutput,
     SdkError | EC2ServiceError
@@ -4617,7 +4624,7 @@ export type EC2Service = {
    */
   readonly deleteVpnConnection: (
     args: DeleteVpnConnectionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeleteVpnConnectionCommandOutput,
     SdkError | EC2ServiceError
@@ -4628,7 +4635,7 @@ export type EC2Service = {
    */
   readonly deleteVpnConnectionRoute: (
     args: DeleteVpnConnectionRouteCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeleteVpnConnectionRouteCommandOutput,
     SdkError | EC2ServiceError
@@ -4639,7 +4646,7 @@ export type EC2Service = {
    */
   readonly deleteVpnGateway: (
     args: DeleteVpnGatewayCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<DeleteVpnGatewayCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -4647,7 +4654,7 @@ export type EC2Service = {
    */
   readonly deprovisionByoipCidr: (
     args: DeprovisionByoipCidrCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeprovisionByoipCidrCommandOutput,
     SdkError | EC2ServiceError
@@ -4658,7 +4665,7 @@ export type EC2Service = {
    */
   readonly deprovisionIpamByoasn: (
     args: DeprovisionIpamByoasnCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeprovisionIpamByoasnCommandOutput,
     SdkError | EC2ServiceError
@@ -4669,7 +4676,7 @@ export type EC2Service = {
    */
   readonly deprovisionIpamPoolCidr: (
     args: DeprovisionIpamPoolCidrCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeprovisionIpamPoolCidrCommandOutput,
     SdkError | EC2ServiceError
@@ -4680,7 +4687,7 @@ export type EC2Service = {
    */
   readonly deprovisionPublicIpv4PoolCidr: (
     args: DeprovisionPublicIpv4PoolCidrCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeprovisionPublicIpv4PoolCidrCommandOutput,
     SdkError | EC2ServiceError
@@ -4691,7 +4698,7 @@ export type EC2Service = {
    */
   readonly deregisterImage: (
     args: DeregisterImageCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<DeregisterImageCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -4699,7 +4706,7 @@ export type EC2Service = {
    */
   readonly deregisterInstanceEventNotificationAttributes: (
     args: DeregisterInstanceEventNotificationAttributesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeregisterInstanceEventNotificationAttributesCommandOutput,
     SdkError | EC2ServiceError
@@ -4710,7 +4717,7 @@ export type EC2Service = {
    */
   readonly deregisterTransitGatewayMulticastGroupMembers: (
     args: DeregisterTransitGatewayMulticastGroupMembersCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeregisterTransitGatewayMulticastGroupMembersCommandOutput,
     SdkError | EC2ServiceError
@@ -4721,7 +4728,7 @@ export type EC2Service = {
    */
   readonly deregisterTransitGatewayMulticastGroupSources: (
     args: DeregisterTransitGatewayMulticastGroupSourcesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DeregisterTransitGatewayMulticastGroupSourcesCommandOutput,
     SdkError | EC2ServiceError
@@ -4732,7 +4739,7 @@ export type EC2Service = {
    */
   readonly describeAccountAttributes: (
     args: DescribeAccountAttributesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeAccountAttributesCommandOutput,
     SdkError | EC2ServiceError
@@ -4743,7 +4750,7 @@ export type EC2Service = {
    */
   readonly describeAddresses: (
     args: DescribeAddressesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeAddressesCommandOutput,
     SdkError | EC2ServiceError
@@ -4754,7 +4761,7 @@ export type EC2Service = {
    */
   readonly describeAddressesAttribute: (
     args: DescribeAddressesAttributeCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeAddressesAttributeCommandOutput,
     SdkError | EC2ServiceError
@@ -4765,7 +4772,7 @@ export type EC2Service = {
    */
   readonly describeAddressTransfers: (
     args: DescribeAddressTransfersCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeAddressTransfersCommandOutput,
     SdkError | EC2ServiceError
@@ -4776,7 +4783,7 @@ export type EC2Service = {
    */
   readonly describeAggregateIdFormat: (
     args: DescribeAggregateIdFormatCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeAggregateIdFormatCommandOutput,
     SdkError | EC2ServiceError
@@ -4787,7 +4794,7 @@ export type EC2Service = {
    */
   readonly describeAvailabilityZones: (
     args: DescribeAvailabilityZonesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeAvailabilityZonesCommandOutput,
     SdkError | EC2ServiceError
@@ -4798,7 +4805,7 @@ export type EC2Service = {
    */
   readonly describeAwsNetworkPerformanceMetricSubscriptions: (
     args: DescribeAwsNetworkPerformanceMetricSubscriptionsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeAwsNetworkPerformanceMetricSubscriptionsCommandOutput,
     SdkError | EC2ServiceError
@@ -4809,7 +4816,7 @@ export type EC2Service = {
    */
   readonly describeBundleTasks: (
     args: DescribeBundleTasksCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeBundleTasksCommandOutput,
     SdkError | EC2ServiceError
@@ -4820,7 +4827,7 @@ export type EC2Service = {
    */
   readonly describeByoipCidrs: (
     args: DescribeByoipCidrsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeByoipCidrsCommandOutput,
     SdkError | EC2ServiceError
@@ -4831,7 +4838,7 @@ export type EC2Service = {
    */
   readonly describeCapacityBlockOfferings: (
     args: DescribeCapacityBlockOfferingsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeCapacityBlockOfferingsCommandOutput,
     SdkError | EC2ServiceError
@@ -4842,7 +4849,7 @@ export type EC2Service = {
    */
   readonly describeCapacityReservationFleets: (
     args: DescribeCapacityReservationFleetsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeCapacityReservationFleetsCommandOutput,
     SdkError | EC2ServiceError
@@ -4853,7 +4860,7 @@ export type EC2Service = {
    */
   readonly describeCapacityReservations: (
     args: DescribeCapacityReservationsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeCapacityReservationsCommandOutput,
     SdkError | EC2ServiceError
@@ -4864,7 +4871,7 @@ export type EC2Service = {
    */
   readonly describeCarrierGateways: (
     args: DescribeCarrierGatewaysCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeCarrierGatewaysCommandOutput,
     SdkError | EC2ServiceError
@@ -4875,7 +4882,7 @@ export type EC2Service = {
    */
   readonly describeClassicLinkInstances: (
     args: DescribeClassicLinkInstancesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeClassicLinkInstancesCommandOutput,
     SdkError | EC2ServiceError
@@ -4886,7 +4893,7 @@ export type EC2Service = {
    */
   readonly describeClientVpnAuthorizationRules: (
     args: DescribeClientVpnAuthorizationRulesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeClientVpnAuthorizationRulesCommandOutput,
     SdkError | EC2ServiceError
@@ -4897,7 +4904,7 @@ export type EC2Service = {
    */
   readonly describeClientVpnConnections: (
     args: DescribeClientVpnConnectionsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeClientVpnConnectionsCommandOutput,
     SdkError | EC2ServiceError
@@ -4908,7 +4915,7 @@ export type EC2Service = {
    */
   readonly describeClientVpnEndpoints: (
     args: DescribeClientVpnEndpointsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeClientVpnEndpointsCommandOutput,
     SdkError | EC2ServiceError
@@ -4919,7 +4926,7 @@ export type EC2Service = {
    */
   readonly describeClientVpnRoutes: (
     args: DescribeClientVpnRoutesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeClientVpnRoutesCommandOutput,
     SdkError | EC2ServiceError
@@ -4930,7 +4937,7 @@ export type EC2Service = {
    */
   readonly describeClientVpnTargetNetworks: (
     args: DescribeClientVpnTargetNetworksCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeClientVpnTargetNetworksCommandOutput,
     SdkError | EC2ServiceError
@@ -4941,7 +4948,7 @@ export type EC2Service = {
    */
   readonly describeCoipPools: (
     args: DescribeCoipPoolsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeCoipPoolsCommandOutput,
     SdkError | EC2ServiceError
@@ -4952,7 +4959,7 @@ export type EC2Service = {
    */
   readonly describeConversionTasks: (
     args: DescribeConversionTasksCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeConversionTasksCommandOutput,
     SdkError | EC2ServiceError
@@ -4963,7 +4970,7 @@ export type EC2Service = {
    */
   readonly describeCustomerGateways: (
     args: DescribeCustomerGatewaysCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeCustomerGatewaysCommandOutput,
     SdkError | EC2ServiceError
@@ -4974,7 +4981,7 @@ export type EC2Service = {
    */
   readonly describeDhcpOptions: (
     args: DescribeDhcpOptionsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeDhcpOptionsCommandOutput,
     SdkError | EC2ServiceError
@@ -4985,7 +4992,7 @@ export type EC2Service = {
    */
   readonly describeEgressOnlyInternetGateways: (
     args: DescribeEgressOnlyInternetGatewaysCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeEgressOnlyInternetGatewaysCommandOutput,
     SdkError | EC2ServiceError
@@ -4996,7 +5003,7 @@ export type EC2Service = {
    */
   readonly describeElasticGpus: (
     args: DescribeElasticGpusCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeElasticGpusCommandOutput,
     SdkError | EC2ServiceError
@@ -5007,7 +5014,7 @@ export type EC2Service = {
    */
   readonly describeExportImageTasks: (
     args: DescribeExportImageTasksCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeExportImageTasksCommandOutput,
     SdkError | EC2ServiceError
@@ -5018,7 +5025,7 @@ export type EC2Service = {
    */
   readonly describeExportTasks: (
     args: DescribeExportTasksCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeExportTasksCommandOutput,
     SdkError | EC2ServiceError
@@ -5029,7 +5036,7 @@ export type EC2Service = {
    */
   readonly describeFastLaunchImages: (
     args: DescribeFastLaunchImagesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeFastLaunchImagesCommandOutput,
     SdkError | EC2ServiceError
@@ -5040,7 +5047,7 @@ export type EC2Service = {
    */
   readonly describeFastSnapshotRestores: (
     args: DescribeFastSnapshotRestoresCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeFastSnapshotRestoresCommandOutput,
     SdkError | EC2ServiceError
@@ -5051,7 +5058,7 @@ export type EC2Service = {
    */
   readonly describeFleetHistory: (
     args: DescribeFleetHistoryCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeFleetHistoryCommandOutput,
     SdkError | EC2ServiceError
@@ -5062,7 +5069,7 @@ export type EC2Service = {
    */
   readonly describeFleetInstances: (
     args: DescribeFleetInstancesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeFleetInstancesCommandOutput,
     SdkError | EC2ServiceError
@@ -5073,7 +5080,7 @@ export type EC2Service = {
    */
   readonly describeFleets: (
     args: DescribeFleetsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<DescribeFleetsCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -5081,7 +5088,7 @@ export type EC2Service = {
    */
   readonly describeFlowLogs: (
     args: DescribeFlowLogsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<DescribeFlowLogsCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -5089,7 +5096,7 @@ export type EC2Service = {
    */
   readonly describeFpgaImageAttribute: (
     args: DescribeFpgaImageAttributeCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeFpgaImageAttributeCommandOutput,
     SdkError | EC2ServiceError
@@ -5100,7 +5107,7 @@ export type EC2Service = {
    */
   readonly describeFpgaImages: (
     args: DescribeFpgaImagesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeFpgaImagesCommandOutput,
     SdkError | EC2ServiceError
@@ -5111,7 +5118,7 @@ export type EC2Service = {
    */
   readonly describeHostReservationOfferings: (
     args: DescribeHostReservationOfferingsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeHostReservationOfferingsCommandOutput,
     SdkError | EC2ServiceError
@@ -5122,7 +5129,7 @@ export type EC2Service = {
    */
   readonly describeHostReservations: (
     args: DescribeHostReservationsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeHostReservationsCommandOutput,
     SdkError | EC2ServiceError
@@ -5133,7 +5140,7 @@ export type EC2Service = {
    */
   readonly describeHosts: (
     args: DescribeHostsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<DescribeHostsCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -5141,7 +5148,7 @@ export type EC2Service = {
    */
   readonly describeIamInstanceProfileAssociations: (
     args: DescribeIamInstanceProfileAssociationsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeIamInstanceProfileAssociationsCommandOutput,
     SdkError | EC2ServiceError
@@ -5152,7 +5159,7 @@ export type EC2Service = {
    */
   readonly describeIdentityIdFormat: (
     args: DescribeIdentityIdFormatCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeIdentityIdFormatCommandOutput,
     SdkError | EC2ServiceError
@@ -5163,7 +5170,7 @@ export type EC2Service = {
    */
   readonly describeIdFormat: (
     args: DescribeIdFormatCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<DescribeIdFormatCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -5171,7 +5178,7 @@ export type EC2Service = {
    */
   readonly describeImageAttribute: (
     args: DescribeImageAttributeCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeImageAttributeCommandOutput,
     SdkError | EC2ServiceError
@@ -5182,7 +5189,7 @@ export type EC2Service = {
    */
   readonly describeImages: (
     args: DescribeImagesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<DescribeImagesCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -5190,7 +5197,7 @@ export type EC2Service = {
    */
   readonly describeImportImageTasks: (
     args: DescribeImportImageTasksCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeImportImageTasksCommandOutput,
     SdkError | EC2ServiceError
@@ -5201,7 +5208,7 @@ export type EC2Service = {
    */
   readonly describeImportSnapshotTasks: (
     args: DescribeImportSnapshotTasksCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeImportSnapshotTasksCommandOutput,
     SdkError | EC2ServiceError
@@ -5212,7 +5219,7 @@ export type EC2Service = {
    */
   readonly describeInstanceAttribute: (
     args: DescribeInstanceAttributeCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeInstanceAttributeCommandOutput,
     SdkError | EC2ServiceError
@@ -5223,7 +5230,7 @@ export type EC2Service = {
    */
   readonly describeInstanceConnectEndpoints: (
     args: DescribeInstanceConnectEndpointsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeInstanceConnectEndpointsCommandOutput,
     SdkError | EC2ServiceError
@@ -5234,7 +5241,7 @@ export type EC2Service = {
    */
   readonly describeInstanceCreditSpecifications: (
     args: DescribeInstanceCreditSpecificationsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeInstanceCreditSpecificationsCommandOutput,
     SdkError | EC2ServiceError
@@ -5245,7 +5252,7 @@ export type EC2Service = {
    */
   readonly describeInstanceEventNotificationAttributes: (
     args: DescribeInstanceEventNotificationAttributesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeInstanceEventNotificationAttributesCommandOutput,
     SdkError | EC2ServiceError
@@ -5256,7 +5263,7 @@ export type EC2Service = {
    */
   readonly describeInstanceEventWindows: (
     args: DescribeInstanceEventWindowsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeInstanceEventWindowsCommandOutput,
     SdkError | EC2ServiceError
@@ -5267,7 +5274,7 @@ export type EC2Service = {
    */
   readonly describeInstances: (
     args: DescribeInstancesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeInstancesCommandOutput,
     SdkError | EC2ServiceError
@@ -5278,7 +5285,7 @@ export type EC2Service = {
    */
   readonly describeInstanceStatus: (
     args: DescribeInstanceStatusCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeInstanceStatusCommandOutput,
     SdkError | EC2ServiceError
@@ -5289,7 +5296,7 @@ export type EC2Service = {
    */
   readonly describeInstanceTopology: (
     args: DescribeInstanceTopologyCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeInstanceTopologyCommandOutput,
     SdkError | EC2ServiceError
@@ -5300,7 +5307,7 @@ export type EC2Service = {
    */
   readonly describeInstanceTypeOfferings: (
     args: DescribeInstanceTypeOfferingsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeInstanceTypeOfferingsCommandOutput,
     SdkError | EC2ServiceError
@@ -5311,7 +5318,7 @@ export type EC2Service = {
    */
   readonly describeInstanceTypes: (
     args: DescribeInstanceTypesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeInstanceTypesCommandOutput,
     SdkError | EC2ServiceError
@@ -5322,7 +5329,7 @@ export type EC2Service = {
    */
   readonly describeInternetGateways: (
     args: DescribeInternetGatewaysCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeInternetGatewaysCommandOutput,
     SdkError | EC2ServiceError
@@ -5333,7 +5340,7 @@ export type EC2Service = {
    */
   readonly describeIpamByoasn: (
     args: DescribeIpamByoasnCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeIpamByoasnCommandOutput,
     SdkError | EC2ServiceError
@@ -5344,7 +5351,7 @@ export type EC2Service = {
    */
   readonly describeIpamPools: (
     args: DescribeIpamPoolsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeIpamPoolsCommandOutput,
     SdkError | EC2ServiceError
@@ -5355,7 +5362,7 @@ export type EC2Service = {
    */
   readonly describeIpamResourceDiscoveries: (
     args: DescribeIpamResourceDiscoveriesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeIpamResourceDiscoveriesCommandOutput,
     SdkError | EC2ServiceError
@@ -5366,7 +5373,7 @@ export type EC2Service = {
    */
   readonly describeIpamResourceDiscoveryAssociations: (
     args: DescribeIpamResourceDiscoveryAssociationsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeIpamResourceDiscoveryAssociationsCommandOutput,
     SdkError | EC2ServiceError
@@ -5377,7 +5384,7 @@ export type EC2Service = {
    */
   readonly describeIpams: (
     args: DescribeIpamsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<DescribeIpamsCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -5385,7 +5392,7 @@ export type EC2Service = {
    */
   readonly describeIpamScopes: (
     args: DescribeIpamScopesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeIpamScopesCommandOutput,
     SdkError | EC2ServiceError
@@ -5396,7 +5403,7 @@ export type EC2Service = {
    */
   readonly describeIpv6Pools: (
     args: DescribeIpv6PoolsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeIpv6PoolsCommandOutput,
     SdkError | EC2ServiceError
@@ -5407,7 +5414,7 @@ export type EC2Service = {
    */
   readonly describeKeyPairs: (
     args: DescribeKeyPairsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<DescribeKeyPairsCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -5415,7 +5422,7 @@ export type EC2Service = {
    */
   readonly describeLaunchTemplates: (
     args: DescribeLaunchTemplatesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeLaunchTemplatesCommandOutput,
     SdkError | EC2ServiceError
@@ -5426,7 +5433,7 @@ export type EC2Service = {
    */
   readonly describeLaunchTemplateVersions: (
     args: DescribeLaunchTemplateVersionsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeLaunchTemplateVersionsCommandOutput,
     SdkError | EC2ServiceError
@@ -5437,7 +5444,7 @@ export type EC2Service = {
    */
   readonly describeLocalGatewayRouteTables: (
     args: DescribeLocalGatewayRouteTablesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeLocalGatewayRouteTablesCommandOutput,
     SdkError | EC2ServiceError
@@ -5448,7 +5455,7 @@ export type EC2Service = {
    */
   readonly describeLocalGatewayRouteTableVirtualInterfaceGroupAssociations: (
     args: DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsCommandOutput,
     SdkError | EC2ServiceError
@@ -5459,7 +5466,7 @@ export type EC2Service = {
    */
   readonly describeLocalGatewayRouteTableVpcAssociations: (
     args: DescribeLocalGatewayRouteTableVpcAssociationsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeLocalGatewayRouteTableVpcAssociationsCommandOutput,
     SdkError | EC2ServiceError
@@ -5470,7 +5477,7 @@ export type EC2Service = {
    */
   readonly describeLocalGateways: (
     args: DescribeLocalGatewaysCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeLocalGatewaysCommandOutput,
     SdkError | EC2ServiceError
@@ -5481,7 +5488,7 @@ export type EC2Service = {
    */
   readonly describeLocalGatewayVirtualInterfaceGroups: (
     args: DescribeLocalGatewayVirtualInterfaceGroupsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeLocalGatewayVirtualInterfaceGroupsCommandOutput,
     SdkError | EC2ServiceError
@@ -5492,7 +5499,7 @@ export type EC2Service = {
    */
   readonly describeLocalGatewayVirtualInterfaces: (
     args: DescribeLocalGatewayVirtualInterfacesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeLocalGatewayVirtualInterfacesCommandOutput,
     SdkError | EC2ServiceError
@@ -5503,7 +5510,7 @@ export type EC2Service = {
    */
   readonly describeLockedSnapshots: (
     args: DescribeLockedSnapshotsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeLockedSnapshotsCommandOutput,
     SdkError | EC2ServiceError
@@ -5514,7 +5521,7 @@ export type EC2Service = {
    */
   readonly describeManagedPrefixLists: (
     args: DescribeManagedPrefixListsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeManagedPrefixListsCommandOutput,
     SdkError | EC2ServiceError
@@ -5525,7 +5532,7 @@ export type EC2Service = {
    */
   readonly describeMovingAddresses: (
     args: DescribeMovingAddressesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeMovingAddressesCommandOutput,
     SdkError | EC2ServiceError
@@ -5536,7 +5543,7 @@ export type EC2Service = {
    */
   readonly describeNatGateways: (
     args: DescribeNatGatewaysCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeNatGatewaysCommandOutput,
     SdkError | EC2ServiceError
@@ -5547,7 +5554,7 @@ export type EC2Service = {
    */
   readonly describeNetworkAcls: (
     args: DescribeNetworkAclsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeNetworkAclsCommandOutput,
     SdkError | EC2ServiceError
@@ -5558,7 +5565,7 @@ export type EC2Service = {
    */
   readonly describeNetworkInsightsAccessScopeAnalyses: (
     args: DescribeNetworkInsightsAccessScopeAnalysesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeNetworkInsightsAccessScopeAnalysesCommandOutput,
     SdkError | EC2ServiceError
@@ -5569,7 +5576,7 @@ export type EC2Service = {
    */
   readonly describeNetworkInsightsAccessScopes: (
     args: DescribeNetworkInsightsAccessScopesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeNetworkInsightsAccessScopesCommandOutput,
     SdkError | EC2ServiceError
@@ -5580,7 +5587,7 @@ export type EC2Service = {
    */
   readonly describeNetworkInsightsAnalyses: (
     args: DescribeNetworkInsightsAnalysesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeNetworkInsightsAnalysesCommandOutput,
     SdkError | EC2ServiceError
@@ -5591,7 +5598,7 @@ export type EC2Service = {
    */
   readonly describeNetworkInsightsPaths: (
     args: DescribeNetworkInsightsPathsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeNetworkInsightsPathsCommandOutput,
     SdkError | EC2ServiceError
@@ -5602,7 +5609,7 @@ export type EC2Service = {
    */
   readonly describeNetworkInterfaceAttribute: (
     args: DescribeNetworkInterfaceAttributeCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeNetworkInterfaceAttributeCommandOutput,
     SdkError | EC2ServiceError
@@ -5613,7 +5620,7 @@ export type EC2Service = {
    */
   readonly describeNetworkInterfacePermissions: (
     args: DescribeNetworkInterfacePermissionsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeNetworkInterfacePermissionsCommandOutput,
     SdkError | EC2ServiceError
@@ -5624,7 +5631,7 @@ export type EC2Service = {
    */
   readonly describeNetworkInterfaces: (
     args: DescribeNetworkInterfacesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeNetworkInterfacesCommandOutput,
     SdkError | EC2ServiceError
@@ -5635,7 +5642,7 @@ export type EC2Service = {
    */
   readonly describePlacementGroups: (
     args: DescribePlacementGroupsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribePlacementGroupsCommandOutput,
     SdkError | EC2ServiceError
@@ -5646,7 +5653,7 @@ export type EC2Service = {
    */
   readonly describePrefixLists: (
     args: DescribePrefixListsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribePrefixListsCommandOutput,
     SdkError | EC2ServiceError
@@ -5657,7 +5664,7 @@ export type EC2Service = {
    */
   readonly describePrincipalIdFormat: (
     args: DescribePrincipalIdFormatCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribePrincipalIdFormatCommandOutput,
     SdkError | EC2ServiceError
@@ -5668,7 +5675,7 @@ export type EC2Service = {
    */
   readonly describePublicIpv4Pools: (
     args: DescribePublicIpv4PoolsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribePublicIpv4PoolsCommandOutput,
     SdkError | EC2ServiceError
@@ -5679,7 +5686,7 @@ export type EC2Service = {
    */
   readonly describeRegions: (
     args: DescribeRegionsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<DescribeRegionsCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -5687,7 +5694,7 @@ export type EC2Service = {
    */
   readonly describeReplaceRootVolumeTasks: (
     args: DescribeReplaceRootVolumeTasksCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeReplaceRootVolumeTasksCommandOutput,
     SdkError | EC2ServiceError
@@ -5698,7 +5705,7 @@ export type EC2Service = {
    */
   readonly describeReservedInstances: (
     args: DescribeReservedInstancesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeReservedInstancesCommandOutput,
     SdkError | EC2ServiceError
@@ -5709,7 +5716,7 @@ export type EC2Service = {
    */
   readonly describeReservedInstancesListings: (
     args: DescribeReservedInstancesListingsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeReservedInstancesListingsCommandOutput,
     SdkError | EC2ServiceError
@@ -5720,7 +5727,7 @@ export type EC2Service = {
    */
   readonly describeReservedInstancesModifications: (
     args: DescribeReservedInstancesModificationsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeReservedInstancesModificationsCommandOutput,
     SdkError | EC2ServiceError
@@ -5731,7 +5738,7 @@ export type EC2Service = {
    */
   readonly describeReservedInstancesOfferings: (
     args: DescribeReservedInstancesOfferingsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeReservedInstancesOfferingsCommandOutput,
     SdkError | EC2ServiceError
@@ -5742,7 +5749,7 @@ export type EC2Service = {
    */
   readonly describeRouteTables: (
     args: DescribeRouteTablesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeRouteTablesCommandOutput,
     SdkError | EC2ServiceError
@@ -5753,7 +5760,7 @@ export type EC2Service = {
    */
   readonly describeScheduledInstanceAvailability: (
     args: DescribeScheduledInstanceAvailabilityCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeScheduledInstanceAvailabilityCommandOutput,
     SdkError | EC2ServiceError
@@ -5764,7 +5771,7 @@ export type EC2Service = {
    */
   readonly describeScheduledInstances: (
     args: DescribeScheduledInstancesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeScheduledInstancesCommandOutput,
     SdkError | EC2ServiceError
@@ -5775,7 +5782,7 @@ export type EC2Service = {
    */
   readonly describeSecurityGroupReferences: (
     args: DescribeSecurityGroupReferencesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeSecurityGroupReferencesCommandOutput,
     SdkError | EC2ServiceError
@@ -5786,7 +5793,7 @@ export type EC2Service = {
    */
   readonly describeSecurityGroupRules: (
     args: DescribeSecurityGroupRulesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeSecurityGroupRulesCommandOutput,
     SdkError | EC2ServiceError
@@ -5797,7 +5804,7 @@ export type EC2Service = {
    */
   readonly describeSecurityGroups: (
     args: DescribeSecurityGroupsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeSecurityGroupsCommandOutput,
     SdkError | EC2ServiceError
@@ -5808,7 +5815,7 @@ export type EC2Service = {
    */
   readonly describeSnapshotAttribute: (
     args: DescribeSnapshotAttributeCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeSnapshotAttributeCommandOutput,
     SdkError | EC2ServiceError
@@ -5819,7 +5826,7 @@ export type EC2Service = {
    */
   readonly describeSnapshots: (
     args: DescribeSnapshotsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeSnapshotsCommandOutput,
     SdkError | EC2ServiceError
@@ -5830,7 +5837,7 @@ export type EC2Service = {
    */
   readonly describeSnapshotTierStatus: (
     args: DescribeSnapshotTierStatusCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeSnapshotTierStatusCommandOutput,
     SdkError | EC2ServiceError
@@ -5841,7 +5848,7 @@ export type EC2Service = {
    */
   readonly describeSpotDatafeedSubscription: (
     args: DescribeSpotDatafeedSubscriptionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeSpotDatafeedSubscriptionCommandOutput,
     SdkError | EC2ServiceError
@@ -5852,7 +5859,7 @@ export type EC2Service = {
    */
   readonly describeSpotFleetInstances: (
     args: DescribeSpotFleetInstancesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeSpotFleetInstancesCommandOutput,
     SdkError | EC2ServiceError
@@ -5863,7 +5870,7 @@ export type EC2Service = {
    */
   readonly describeSpotFleetRequestHistory: (
     args: DescribeSpotFleetRequestHistoryCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeSpotFleetRequestHistoryCommandOutput,
     SdkError | EC2ServiceError
@@ -5874,7 +5881,7 @@ export type EC2Service = {
    */
   readonly describeSpotFleetRequests: (
     args: DescribeSpotFleetRequestsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeSpotFleetRequestsCommandOutput,
     SdkError | EC2ServiceError
@@ -5885,7 +5892,7 @@ export type EC2Service = {
    */
   readonly describeSpotInstanceRequests: (
     args: DescribeSpotInstanceRequestsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeSpotInstanceRequestsCommandOutput,
     SdkError | EC2ServiceError
@@ -5896,7 +5903,7 @@ export type EC2Service = {
    */
   readonly describeSpotPriceHistory: (
     args: DescribeSpotPriceHistoryCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeSpotPriceHistoryCommandOutput,
     SdkError | EC2ServiceError
@@ -5907,7 +5914,7 @@ export type EC2Service = {
    */
   readonly describeStaleSecurityGroups: (
     args: DescribeStaleSecurityGroupsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeStaleSecurityGroupsCommandOutput,
     SdkError | EC2ServiceError
@@ -5918,7 +5925,7 @@ export type EC2Service = {
    */
   readonly describeStoreImageTasks: (
     args: DescribeStoreImageTasksCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeStoreImageTasksCommandOutput,
     SdkError | EC2ServiceError
@@ -5929,7 +5936,7 @@ export type EC2Service = {
    */
   readonly describeSubnets: (
     args: DescribeSubnetsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<DescribeSubnetsCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -5937,7 +5944,7 @@ export type EC2Service = {
    */
   readonly describeTags: (
     args: DescribeTagsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<DescribeTagsCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -5945,7 +5952,7 @@ export type EC2Service = {
    */
   readonly describeTrafficMirrorFilters: (
     args: DescribeTrafficMirrorFiltersCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeTrafficMirrorFiltersCommandOutput,
     SdkError | EC2ServiceError
@@ -5956,7 +5963,7 @@ export type EC2Service = {
    */
   readonly describeTrafficMirrorSessions: (
     args: DescribeTrafficMirrorSessionsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeTrafficMirrorSessionsCommandOutput,
     SdkError | EC2ServiceError
@@ -5967,7 +5974,7 @@ export type EC2Service = {
    */
   readonly describeTrafficMirrorTargets: (
     args: DescribeTrafficMirrorTargetsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeTrafficMirrorTargetsCommandOutput,
     SdkError | EC2ServiceError
@@ -5978,7 +5985,7 @@ export type EC2Service = {
    */
   readonly describeTransitGatewayAttachments: (
     args: DescribeTransitGatewayAttachmentsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeTransitGatewayAttachmentsCommandOutput,
     SdkError | EC2ServiceError
@@ -5989,7 +5996,7 @@ export type EC2Service = {
    */
   readonly describeTransitGatewayConnectPeers: (
     args: DescribeTransitGatewayConnectPeersCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeTransitGatewayConnectPeersCommandOutput,
     SdkError | EC2ServiceError
@@ -6000,7 +6007,7 @@ export type EC2Service = {
    */
   readonly describeTransitGatewayConnects: (
     args: DescribeTransitGatewayConnectsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeTransitGatewayConnectsCommandOutput,
     SdkError | EC2ServiceError
@@ -6011,7 +6018,7 @@ export type EC2Service = {
    */
   readonly describeTransitGatewayMulticastDomains: (
     args: DescribeTransitGatewayMulticastDomainsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeTransitGatewayMulticastDomainsCommandOutput,
     SdkError | EC2ServiceError
@@ -6022,7 +6029,7 @@ export type EC2Service = {
    */
   readonly describeTransitGatewayPeeringAttachments: (
     args: DescribeTransitGatewayPeeringAttachmentsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeTransitGatewayPeeringAttachmentsCommandOutput,
     SdkError | EC2ServiceError
@@ -6033,7 +6040,7 @@ export type EC2Service = {
    */
   readonly describeTransitGatewayPolicyTables: (
     args: DescribeTransitGatewayPolicyTablesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeTransitGatewayPolicyTablesCommandOutput,
     SdkError | EC2ServiceError
@@ -6044,7 +6051,7 @@ export type EC2Service = {
    */
   readonly describeTransitGatewayRouteTableAnnouncements: (
     args: DescribeTransitGatewayRouteTableAnnouncementsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeTransitGatewayRouteTableAnnouncementsCommandOutput,
     SdkError | EC2ServiceError
@@ -6055,7 +6062,7 @@ export type EC2Service = {
    */
   readonly describeTransitGatewayRouteTables: (
     args: DescribeTransitGatewayRouteTablesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeTransitGatewayRouteTablesCommandOutput,
     SdkError | EC2ServiceError
@@ -6066,7 +6073,7 @@ export type EC2Service = {
    */
   readonly describeTransitGateways: (
     args: DescribeTransitGatewaysCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeTransitGatewaysCommandOutput,
     SdkError | EC2ServiceError
@@ -6077,7 +6084,7 @@ export type EC2Service = {
    */
   readonly describeTransitGatewayVpcAttachments: (
     args: DescribeTransitGatewayVpcAttachmentsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeTransitGatewayVpcAttachmentsCommandOutput,
     SdkError | EC2ServiceError
@@ -6088,7 +6095,7 @@ export type EC2Service = {
    */
   readonly describeTrunkInterfaceAssociations: (
     args: DescribeTrunkInterfaceAssociationsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeTrunkInterfaceAssociationsCommandOutput,
     SdkError | EC2ServiceError
@@ -6099,7 +6106,7 @@ export type EC2Service = {
    */
   readonly describeVerifiedAccessEndpoints: (
     args: DescribeVerifiedAccessEndpointsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeVerifiedAccessEndpointsCommandOutput,
     SdkError | EC2ServiceError
@@ -6110,7 +6117,7 @@ export type EC2Service = {
    */
   readonly describeVerifiedAccessGroups: (
     args: DescribeVerifiedAccessGroupsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeVerifiedAccessGroupsCommandOutput,
     SdkError | EC2ServiceError
@@ -6121,7 +6128,7 @@ export type EC2Service = {
    */
   readonly describeVerifiedAccessInstanceLoggingConfigurations: (
     args: DescribeVerifiedAccessInstanceLoggingConfigurationsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeVerifiedAccessInstanceLoggingConfigurationsCommandOutput,
     SdkError | EC2ServiceError
@@ -6132,7 +6139,7 @@ export type EC2Service = {
    */
   readonly describeVerifiedAccessInstances: (
     args: DescribeVerifiedAccessInstancesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeVerifiedAccessInstancesCommandOutput,
     SdkError | EC2ServiceError
@@ -6143,7 +6150,7 @@ export type EC2Service = {
    */
   readonly describeVerifiedAccessTrustProviders: (
     args: DescribeVerifiedAccessTrustProvidersCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeVerifiedAccessTrustProvidersCommandOutput,
     SdkError | EC2ServiceError
@@ -6154,7 +6161,7 @@ export type EC2Service = {
    */
   readonly describeVolumeAttribute: (
     args: DescribeVolumeAttributeCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeVolumeAttributeCommandOutput,
     SdkError | EC2ServiceError
@@ -6165,7 +6172,7 @@ export type EC2Service = {
    */
   readonly describeVolumes: (
     args: DescribeVolumesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<DescribeVolumesCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -6173,7 +6180,7 @@ export type EC2Service = {
    */
   readonly describeVolumesModifications: (
     args: DescribeVolumesModificationsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeVolumesModificationsCommandOutput,
     SdkError | EC2ServiceError
@@ -6184,7 +6191,7 @@ export type EC2Service = {
    */
   readonly describeVolumeStatus: (
     args: DescribeVolumeStatusCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeVolumeStatusCommandOutput,
     SdkError | EC2ServiceError
@@ -6195,7 +6202,7 @@ export type EC2Service = {
    */
   readonly describeVpcAttribute: (
     args: DescribeVpcAttributeCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeVpcAttributeCommandOutput,
     SdkError | EC2ServiceError
@@ -6206,7 +6213,7 @@ export type EC2Service = {
    */
   readonly describeVpcClassicLink: (
     args: DescribeVpcClassicLinkCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeVpcClassicLinkCommandOutput,
     SdkError | EC2ServiceError
@@ -6217,7 +6224,7 @@ export type EC2Service = {
    */
   readonly describeVpcClassicLinkDnsSupport: (
     args: DescribeVpcClassicLinkDnsSupportCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeVpcClassicLinkDnsSupportCommandOutput,
     SdkError | EC2ServiceError
@@ -6228,7 +6235,7 @@ export type EC2Service = {
    */
   readonly describeVpcEndpointConnectionNotifications: (
     args: DescribeVpcEndpointConnectionNotificationsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeVpcEndpointConnectionNotificationsCommandOutput,
     SdkError | EC2ServiceError
@@ -6239,7 +6246,7 @@ export type EC2Service = {
    */
   readonly describeVpcEndpointConnections: (
     args: DescribeVpcEndpointConnectionsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeVpcEndpointConnectionsCommandOutput,
     SdkError | EC2ServiceError
@@ -6250,7 +6257,7 @@ export type EC2Service = {
    */
   readonly describeVpcEndpoints: (
     args: DescribeVpcEndpointsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeVpcEndpointsCommandOutput,
     SdkError | EC2ServiceError
@@ -6261,7 +6268,7 @@ export type EC2Service = {
    */
   readonly describeVpcEndpointServiceConfigurations: (
     args: DescribeVpcEndpointServiceConfigurationsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeVpcEndpointServiceConfigurationsCommandOutput,
     SdkError | EC2ServiceError
@@ -6272,7 +6279,7 @@ export type EC2Service = {
    */
   readonly describeVpcEndpointServicePermissions: (
     args: DescribeVpcEndpointServicePermissionsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeVpcEndpointServicePermissionsCommandOutput,
     SdkError | EC2ServiceError
@@ -6283,7 +6290,7 @@ export type EC2Service = {
    */
   readonly describeVpcEndpointServices: (
     args: DescribeVpcEndpointServicesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeVpcEndpointServicesCommandOutput,
     SdkError | EC2ServiceError
@@ -6294,7 +6301,7 @@ export type EC2Service = {
    */
   readonly describeVpcPeeringConnections: (
     args: DescribeVpcPeeringConnectionsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeVpcPeeringConnectionsCommandOutput,
     SdkError | EC2ServiceError
@@ -6305,7 +6312,7 @@ export type EC2Service = {
    */
   readonly describeVpcs: (
     args: DescribeVpcsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<DescribeVpcsCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -6313,7 +6320,7 @@ export type EC2Service = {
    */
   readonly describeVpnConnections: (
     args: DescribeVpnConnectionsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeVpnConnectionsCommandOutput,
     SdkError | EC2ServiceError
@@ -6324,7 +6331,7 @@ export type EC2Service = {
    */
   readonly describeVpnGateways: (
     args: DescribeVpnGatewaysCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DescribeVpnGatewaysCommandOutput,
     SdkError | EC2ServiceError
@@ -6335,7 +6342,7 @@ export type EC2Service = {
    */
   readonly detachClassicLinkVpc: (
     args: DetachClassicLinkVpcCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DetachClassicLinkVpcCommandOutput,
     SdkError | EC2ServiceError
@@ -6346,7 +6353,7 @@ export type EC2Service = {
    */
   readonly detachInternetGateway: (
     args: DetachInternetGatewayCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DetachInternetGatewayCommandOutput,
     SdkError | EC2ServiceError
@@ -6357,7 +6364,7 @@ export type EC2Service = {
    */
   readonly detachNetworkInterface: (
     args: DetachNetworkInterfaceCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DetachNetworkInterfaceCommandOutput,
     SdkError | EC2ServiceError
@@ -6368,7 +6375,7 @@ export type EC2Service = {
    */
   readonly detachVerifiedAccessTrustProvider: (
     args: DetachVerifiedAccessTrustProviderCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DetachVerifiedAccessTrustProviderCommandOutput,
     SdkError | EC2ServiceError
@@ -6379,7 +6386,7 @@ export type EC2Service = {
    */
   readonly detachVolume: (
     args: DetachVolumeCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<DetachVolumeCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -6387,7 +6394,7 @@ export type EC2Service = {
    */
   readonly detachVpnGateway: (
     args: DetachVpnGatewayCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<DetachVpnGatewayCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -6395,7 +6402,7 @@ export type EC2Service = {
    */
   readonly disableAddressTransfer: (
     args: DisableAddressTransferCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DisableAddressTransferCommandOutput,
     SdkError | EC2ServiceError
@@ -6406,7 +6413,7 @@ export type EC2Service = {
    */
   readonly disableAwsNetworkPerformanceMetricSubscription: (
     args: DisableAwsNetworkPerformanceMetricSubscriptionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DisableAwsNetworkPerformanceMetricSubscriptionCommandOutput,
     SdkError | EC2ServiceError
@@ -6417,7 +6424,7 @@ export type EC2Service = {
    */
   readonly disableEbsEncryptionByDefault: (
     args: DisableEbsEncryptionByDefaultCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DisableEbsEncryptionByDefaultCommandOutput,
     SdkError | EC2ServiceError
@@ -6428,7 +6435,7 @@ export type EC2Service = {
    */
   readonly disableFastLaunch: (
     args: DisableFastLaunchCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DisableFastLaunchCommandOutput,
     SdkError | EC2ServiceError
@@ -6439,7 +6446,7 @@ export type EC2Service = {
    */
   readonly disableFastSnapshotRestores: (
     args: DisableFastSnapshotRestoresCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DisableFastSnapshotRestoresCommandOutput,
     SdkError | EC2ServiceError
@@ -6450,7 +6457,7 @@ export type EC2Service = {
    */
   readonly disableImage: (
     args: DisableImageCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<DisableImageCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -6458,7 +6465,7 @@ export type EC2Service = {
    */
   readonly disableImageBlockPublicAccess: (
     args: DisableImageBlockPublicAccessCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DisableImageBlockPublicAccessCommandOutput,
     SdkError | EC2ServiceError
@@ -6469,7 +6476,7 @@ export type EC2Service = {
    */
   readonly disableImageDeprecation: (
     args: DisableImageDeprecationCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DisableImageDeprecationCommandOutput,
     SdkError | EC2ServiceError
@@ -6480,7 +6487,7 @@ export type EC2Service = {
    */
   readonly disableIpamOrganizationAdminAccount: (
     args: DisableIpamOrganizationAdminAccountCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DisableIpamOrganizationAdminAccountCommandOutput,
     SdkError | EC2ServiceError
@@ -6491,7 +6498,7 @@ export type EC2Service = {
    */
   readonly disableSerialConsoleAccess: (
     args: DisableSerialConsoleAccessCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DisableSerialConsoleAccessCommandOutput,
     SdkError | EC2ServiceError
@@ -6502,7 +6509,7 @@ export type EC2Service = {
    */
   readonly disableSnapshotBlockPublicAccess: (
     args: DisableSnapshotBlockPublicAccessCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DisableSnapshotBlockPublicAccessCommandOutput,
     SdkError | EC2ServiceError
@@ -6513,7 +6520,7 @@ export type EC2Service = {
    */
   readonly disableTransitGatewayRouteTablePropagation: (
     args: DisableTransitGatewayRouteTablePropagationCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DisableTransitGatewayRouteTablePropagationCommandOutput,
     SdkError | EC2ServiceError
@@ -6524,7 +6531,7 @@ export type EC2Service = {
    */
   readonly disableVgwRoutePropagation: (
     args: DisableVgwRoutePropagationCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DisableVgwRoutePropagationCommandOutput,
     SdkError | EC2ServiceError
@@ -6535,7 +6542,7 @@ export type EC2Service = {
    */
   readonly disableVpcClassicLink: (
     args: DisableVpcClassicLinkCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DisableVpcClassicLinkCommandOutput,
     SdkError | EC2ServiceError
@@ -6546,7 +6553,7 @@ export type EC2Service = {
    */
   readonly disableVpcClassicLinkDnsSupport: (
     args: DisableVpcClassicLinkDnsSupportCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DisableVpcClassicLinkDnsSupportCommandOutput,
     SdkError | EC2ServiceError
@@ -6557,7 +6564,7 @@ export type EC2Service = {
    */
   readonly disassociateAddress: (
     args: DisassociateAddressCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DisassociateAddressCommandOutput,
     SdkError | EC2ServiceError
@@ -6568,7 +6575,7 @@ export type EC2Service = {
    */
   readonly disassociateClientVpnTargetNetwork: (
     args: DisassociateClientVpnTargetNetworkCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DisassociateClientVpnTargetNetworkCommandOutput,
     SdkError | EC2ServiceError
@@ -6579,7 +6586,7 @@ export type EC2Service = {
    */
   readonly disassociateEnclaveCertificateIamRole: (
     args: DisassociateEnclaveCertificateIamRoleCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DisassociateEnclaveCertificateIamRoleCommandOutput,
     SdkError | EC2ServiceError
@@ -6590,7 +6597,7 @@ export type EC2Service = {
    */
   readonly disassociateIamInstanceProfile: (
     args: DisassociateIamInstanceProfileCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DisassociateIamInstanceProfileCommandOutput,
     SdkError | EC2ServiceError
@@ -6601,7 +6608,7 @@ export type EC2Service = {
    */
   readonly disassociateInstanceEventWindow: (
     args: DisassociateInstanceEventWindowCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DisassociateInstanceEventWindowCommandOutput,
     SdkError | EC2ServiceError
@@ -6612,7 +6619,7 @@ export type EC2Service = {
    */
   readonly disassociateIpamByoasn: (
     args: DisassociateIpamByoasnCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DisassociateIpamByoasnCommandOutput,
     SdkError | EC2ServiceError
@@ -6623,7 +6630,7 @@ export type EC2Service = {
    */
   readonly disassociateIpamResourceDiscovery: (
     args: DisassociateIpamResourceDiscoveryCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DisassociateIpamResourceDiscoveryCommandOutput,
     SdkError | EC2ServiceError
@@ -6634,7 +6641,7 @@ export type EC2Service = {
    */
   readonly disassociateNatGatewayAddress: (
     args: DisassociateNatGatewayAddressCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DisassociateNatGatewayAddressCommandOutput,
     SdkError | EC2ServiceError
@@ -6645,7 +6652,7 @@ export type EC2Service = {
    */
   readonly disassociateRouteTable: (
     args: DisassociateRouteTableCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DisassociateRouteTableCommandOutput,
     SdkError | EC2ServiceError
@@ -6656,7 +6663,7 @@ export type EC2Service = {
    */
   readonly disassociateSubnetCidrBlock: (
     args: DisassociateSubnetCidrBlockCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DisassociateSubnetCidrBlockCommandOutput,
     SdkError | EC2ServiceError
@@ -6667,7 +6674,7 @@ export type EC2Service = {
    */
   readonly disassociateTransitGatewayMulticastDomain: (
     args: DisassociateTransitGatewayMulticastDomainCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DisassociateTransitGatewayMulticastDomainCommandOutput,
     SdkError | EC2ServiceError
@@ -6678,7 +6685,7 @@ export type EC2Service = {
    */
   readonly disassociateTransitGatewayPolicyTable: (
     args: DisassociateTransitGatewayPolicyTableCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DisassociateTransitGatewayPolicyTableCommandOutput,
     SdkError | EC2ServiceError
@@ -6689,7 +6696,7 @@ export type EC2Service = {
    */
   readonly disassociateTransitGatewayRouteTable: (
     args: DisassociateTransitGatewayRouteTableCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DisassociateTransitGatewayRouteTableCommandOutput,
     SdkError | EC2ServiceError
@@ -6700,7 +6707,7 @@ export type EC2Service = {
    */
   readonly disassociateTrunkInterface: (
     args: DisassociateTrunkInterfaceCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DisassociateTrunkInterfaceCommandOutput,
     SdkError | EC2ServiceError
@@ -6711,7 +6718,7 @@ export type EC2Service = {
    */
   readonly disassociateVpcCidrBlock: (
     args: DisassociateVpcCidrBlockCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     DisassociateVpcCidrBlockCommandOutput,
     SdkError | EC2ServiceError
@@ -6722,7 +6729,7 @@ export type EC2Service = {
    */
   readonly enableAddressTransfer: (
     args: EnableAddressTransferCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     EnableAddressTransferCommandOutput,
     SdkError | EC2ServiceError
@@ -6733,7 +6740,7 @@ export type EC2Service = {
    */
   readonly enableAwsNetworkPerformanceMetricSubscription: (
     args: EnableAwsNetworkPerformanceMetricSubscriptionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     EnableAwsNetworkPerformanceMetricSubscriptionCommandOutput,
     SdkError | EC2ServiceError
@@ -6744,7 +6751,7 @@ export type EC2Service = {
    */
   readonly enableEbsEncryptionByDefault: (
     args: EnableEbsEncryptionByDefaultCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     EnableEbsEncryptionByDefaultCommandOutput,
     SdkError | EC2ServiceError
@@ -6755,7 +6762,7 @@ export type EC2Service = {
    */
   readonly enableFastLaunch: (
     args: EnableFastLaunchCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<EnableFastLaunchCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -6763,7 +6770,7 @@ export type EC2Service = {
    */
   readonly enableFastSnapshotRestores: (
     args: EnableFastSnapshotRestoresCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     EnableFastSnapshotRestoresCommandOutput,
     SdkError | EC2ServiceError
@@ -6774,7 +6781,7 @@ export type EC2Service = {
    */
   readonly enableImage: (
     args: EnableImageCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<EnableImageCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -6782,7 +6789,7 @@ export type EC2Service = {
    */
   readonly enableImageBlockPublicAccess: (
     args: EnableImageBlockPublicAccessCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     EnableImageBlockPublicAccessCommandOutput,
     SdkError | EC2ServiceError
@@ -6793,7 +6800,7 @@ export type EC2Service = {
    */
   readonly enableImageDeprecation: (
     args: EnableImageDeprecationCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     EnableImageDeprecationCommandOutput,
     SdkError | EC2ServiceError
@@ -6804,7 +6811,7 @@ export type EC2Service = {
    */
   readonly enableIpamOrganizationAdminAccount: (
     args: EnableIpamOrganizationAdminAccountCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     EnableIpamOrganizationAdminAccountCommandOutput,
     SdkError | EC2ServiceError
@@ -6815,7 +6822,7 @@ export type EC2Service = {
    */
   readonly enableReachabilityAnalyzerOrganizationSharing: (
     args: EnableReachabilityAnalyzerOrganizationSharingCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     EnableReachabilityAnalyzerOrganizationSharingCommandOutput,
     SdkError | EC2ServiceError
@@ -6826,7 +6833,7 @@ export type EC2Service = {
    */
   readonly enableSerialConsoleAccess: (
     args: EnableSerialConsoleAccessCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     EnableSerialConsoleAccessCommandOutput,
     SdkError | EC2ServiceError
@@ -6837,7 +6844,7 @@ export type EC2Service = {
    */
   readonly enableSnapshotBlockPublicAccess: (
     args: EnableSnapshotBlockPublicAccessCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     EnableSnapshotBlockPublicAccessCommandOutput,
     SdkError | EC2ServiceError
@@ -6848,7 +6855,7 @@ export type EC2Service = {
    */
   readonly enableTransitGatewayRouteTablePropagation: (
     args: EnableTransitGatewayRouteTablePropagationCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     EnableTransitGatewayRouteTablePropagationCommandOutput,
     SdkError | EC2ServiceError
@@ -6859,7 +6866,7 @@ export type EC2Service = {
    */
   readonly enableVgwRoutePropagation: (
     args: EnableVgwRoutePropagationCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     EnableVgwRoutePropagationCommandOutput,
     SdkError | EC2ServiceError
@@ -6870,7 +6877,7 @@ export type EC2Service = {
    */
   readonly enableVolumeIO: (
     args: EnableVolumeIOCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<EnableVolumeIOCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -6878,7 +6885,7 @@ export type EC2Service = {
    */
   readonly enableVpcClassicLink: (
     args: EnableVpcClassicLinkCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     EnableVpcClassicLinkCommandOutput,
     SdkError | EC2ServiceError
@@ -6889,7 +6896,7 @@ export type EC2Service = {
    */
   readonly enableVpcClassicLinkDnsSupport: (
     args: EnableVpcClassicLinkDnsSupportCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     EnableVpcClassicLinkDnsSupportCommandOutput,
     SdkError | EC2ServiceError
@@ -6900,7 +6907,7 @@ export type EC2Service = {
    */
   readonly exportClientVpnClientCertificateRevocationList: (
     args: ExportClientVpnClientCertificateRevocationListCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ExportClientVpnClientCertificateRevocationListCommandOutput,
     SdkError | EC2ServiceError
@@ -6911,7 +6918,7 @@ export type EC2Service = {
    */
   readonly exportClientVpnClientConfiguration: (
     args: ExportClientVpnClientConfigurationCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ExportClientVpnClientConfigurationCommandOutput,
     SdkError | EC2ServiceError
@@ -6922,7 +6929,7 @@ export type EC2Service = {
    */
   readonly exportImage: (
     args: ExportImageCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<ExportImageCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -6930,7 +6937,7 @@ export type EC2Service = {
    */
   readonly exportTransitGatewayRoutes: (
     args: ExportTransitGatewayRoutesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ExportTransitGatewayRoutesCommandOutput,
     SdkError | EC2ServiceError
@@ -6941,7 +6948,7 @@ export type EC2Service = {
    */
   readonly getAssociatedEnclaveCertificateIamRoles: (
     args: GetAssociatedEnclaveCertificateIamRolesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     GetAssociatedEnclaveCertificateIamRolesCommandOutput,
     SdkError | EC2ServiceError
@@ -6952,7 +6959,7 @@ export type EC2Service = {
    */
   readonly getAssociatedIpv6PoolCidrs: (
     args: GetAssociatedIpv6PoolCidrsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     GetAssociatedIpv6PoolCidrsCommandOutput,
     SdkError | EC2ServiceError
@@ -6963,7 +6970,7 @@ export type EC2Service = {
    */
   readonly getAwsNetworkPerformanceData: (
     args: GetAwsNetworkPerformanceDataCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     GetAwsNetworkPerformanceDataCommandOutput,
     SdkError | EC2ServiceError
@@ -6974,7 +6981,7 @@ export type EC2Service = {
    */
   readonly getCapacityReservationUsage: (
     args: GetCapacityReservationUsageCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     GetCapacityReservationUsageCommandOutput,
     SdkError | EC2ServiceError
@@ -6985,7 +6992,7 @@ export type EC2Service = {
    */
   readonly getCoipPoolUsage: (
     args: GetCoipPoolUsageCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<GetCoipPoolUsageCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -6993,7 +7000,7 @@ export type EC2Service = {
    */
   readonly getConsoleOutput: (
     args: GetConsoleOutputCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<GetConsoleOutputCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -7001,7 +7008,7 @@ export type EC2Service = {
    */
   readonly getConsoleScreenshot: (
     args: GetConsoleScreenshotCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     GetConsoleScreenshotCommandOutput,
     SdkError | EC2ServiceError
@@ -7012,7 +7019,7 @@ export type EC2Service = {
    */
   readonly getDefaultCreditSpecification: (
     args: GetDefaultCreditSpecificationCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     GetDefaultCreditSpecificationCommandOutput,
     SdkError | EC2ServiceError
@@ -7023,7 +7030,7 @@ export type EC2Service = {
    */
   readonly getEbsDefaultKmsKeyId: (
     args: GetEbsDefaultKmsKeyIdCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     GetEbsDefaultKmsKeyIdCommandOutput,
     SdkError | EC2ServiceError
@@ -7034,7 +7041,7 @@ export type EC2Service = {
    */
   readonly getEbsEncryptionByDefault: (
     args: GetEbsEncryptionByDefaultCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     GetEbsEncryptionByDefaultCommandOutput,
     SdkError | EC2ServiceError
@@ -7045,7 +7052,7 @@ export type EC2Service = {
    */
   readonly getFlowLogsIntegrationTemplate: (
     args: GetFlowLogsIntegrationTemplateCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     GetFlowLogsIntegrationTemplateCommandOutput,
     SdkError | EC2ServiceError
@@ -7056,7 +7063,7 @@ export type EC2Service = {
    */
   readonly getGroupsForCapacityReservation: (
     args: GetGroupsForCapacityReservationCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     GetGroupsForCapacityReservationCommandOutput,
     SdkError | EC2ServiceError
@@ -7067,7 +7074,7 @@ export type EC2Service = {
    */
   readonly getHostReservationPurchasePreview: (
     args: GetHostReservationPurchasePreviewCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     GetHostReservationPurchasePreviewCommandOutput,
     SdkError | EC2ServiceError
@@ -7078,7 +7085,7 @@ export type EC2Service = {
    */
   readonly getImageBlockPublicAccessState: (
     args: GetImageBlockPublicAccessStateCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     GetImageBlockPublicAccessStateCommandOutput,
     SdkError | EC2ServiceError
@@ -7089,7 +7096,7 @@ export type EC2Service = {
    */
   readonly getInstanceTypesFromInstanceRequirements: (
     args: GetInstanceTypesFromInstanceRequirementsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     GetInstanceTypesFromInstanceRequirementsCommandOutput,
     SdkError | EC2ServiceError
@@ -7100,7 +7107,7 @@ export type EC2Service = {
    */
   readonly getInstanceUefiData: (
     args: GetInstanceUefiDataCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     GetInstanceUefiDataCommandOutput,
     SdkError | EC2ServiceError
@@ -7111,7 +7118,7 @@ export type EC2Service = {
    */
   readonly getIpamAddressHistory: (
     args: GetIpamAddressHistoryCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     GetIpamAddressHistoryCommandOutput,
     SdkError | EC2ServiceError
@@ -7122,7 +7129,7 @@ export type EC2Service = {
    */
   readonly getIpamDiscoveredAccounts: (
     args: GetIpamDiscoveredAccountsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     GetIpamDiscoveredAccountsCommandOutput,
     SdkError | EC2ServiceError
@@ -7133,7 +7140,7 @@ export type EC2Service = {
    */
   readonly getIpamDiscoveredPublicAddresses: (
     args: GetIpamDiscoveredPublicAddressesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     GetIpamDiscoveredPublicAddressesCommandOutput,
     SdkError | EC2ServiceError
@@ -7144,7 +7151,7 @@ export type EC2Service = {
    */
   readonly getIpamDiscoveredResourceCidrs: (
     args: GetIpamDiscoveredResourceCidrsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     GetIpamDiscoveredResourceCidrsCommandOutput,
     SdkError | EC2ServiceError
@@ -7155,7 +7162,7 @@ export type EC2Service = {
    */
   readonly getIpamPoolAllocations: (
     args: GetIpamPoolAllocationsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     GetIpamPoolAllocationsCommandOutput,
     SdkError | EC2ServiceError
@@ -7166,7 +7173,7 @@ export type EC2Service = {
    */
   readonly getIpamPoolCidrs: (
     args: GetIpamPoolCidrsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<GetIpamPoolCidrsCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -7174,7 +7181,7 @@ export type EC2Service = {
    */
   readonly getIpamResourceCidrs: (
     args: GetIpamResourceCidrsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     GetIpamResourceCidrsCommandOutput,
     SdkError | EC2ServiceError
@@ -7185,7 +7192,7 @@ export type EC2Service = {
    */
   readonly getLaunchTemplateData: (
     args: GetLaunchTemplateDataCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     GetLaunchTemplateDataCommandOutput,
     SdkError | EC2ServiceError
@@ -7196,7 +7203,7 @@ export type EC2Service = {
    */
   readonly getManagedPrefixListAssociations: (
     args: GetManagedPrefixListAssociationsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     GetManagedPrefixListAssociationsCommandOutput,
     SdkError | EC2ServiceError
@@ -7207,7 +7214,7 @@ export type EC2Service = {
    */
   readonly getManagedPrefixListEntries: (
     args: GetManagedPrefixListEntriesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     GetManagedPrefixListEntriesCommandOutput,
     SdkError | EC2ServiceError
@@ -7218,7 +7225,7 @@ export type EC2Service = {
    */
   readonly getNetworkInsightsAccessScopeAnalysisFindings: (
     args: GetNetworkInsightsAccessScopeAnalysisFindingsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     GetNetworkInsightsAccessScopeAnalysisFindingsCommandOutput,
     SdkError | EC2ServiceError
@@ -7229,7 +7236,7 @@ export type EC2Service = {
    */
   readonly getNetworkInsightsAccessScopeContent: (
     args: GetNetworkInsightsAccessScopeContentCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     GetNetworkInsightsAccessScopeContentCommandOutput,
     SdkError | EC2ServiceError
@@ -7240,7 +7247,7 @@ export type EC2Service = {
    */
   readonly getPasswordData: (
     args: GetPasswordDataCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<GetPasswordDataCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -7248,7 +7255,7 @@ export type EC2Service = {
    */
   readonly getReservedInstancesExchangeQuote: (
     args: GetReservedInstancesExchangeQuoteCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     GetReservedInstancesExchangeQuoteCommandOutput,
     SdkError | EC2ServiceError
@@ -7259,7 +7266,7 @@ export type EC2Service = {
    */
   readonly getSecurityGroupsForVpc: (
     args: GetSecurityGroupsForVpcCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     GetSecurityGroupsForVpcCommandOutput,
     SdkError | EC2ServiceError
@@ -7270,7 +7277,7 @@ export type EC2Service = {
    */
   readonly getSerialConsoleAccessStatus: (
     args: GetSerialConsoleAccessStatusCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     GetSerialConsoleAccessStatusCommandOutput,
     SdkError | EC2ServiceError
@@ -7281,7 +7288,7 @@ export type EC2Service = {
    */
   readonly getSnapshotBlockPublicAccessState: (
     args: GetSnapshotBlockPublicAccessStateCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     GetSnapshotBlockPublicAccessStateCommandOutput,
     SdkError | EC2ServiceError
@@ -7292,7 +7299,7 @@ export type EC2Service = {
    */
   readonly getSpotPlacementScores: (
     args: GetSpotPlacementScoresCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     GetSpotPlacementScoresCommandOutput,
     SdkError | EC2ServiceError
@@ -7303,7 +7310,7 @@ export type EC2Service = {
    */
   readonly getSubnetCidrReservations: (
     args: GetSubnetCidrReservationsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     GetSubnetCidrReservationsCommandOutput,
     SdkError | EC2ServiceError
@@ -7314,7 +7321,7 @@ export type EC2Service = {
    */
   readonly getTransitGatewayAttachmentPropagations: (
     args: GetTransitGatewayAttachmentPropagationsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     GetTransitGatewayAttachmentPropagationsCommandOutput,
     SdkError | EC2ServiceError
@@ -7325,7 +7332,7 @@ export type EC2Service = {
    */
   readonly getTransitGatewayMulticastDomainAssociations: (
     args: GetTransitGatewayMulticastDomainAssociationsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     GetTransitGatewayMulticastDomainAssociationsCommandOutput,
     SdkError | EC2ServiceError
@@ -7336,7 +7343,7 @@ export type EC2Service = {
    */
   readonly getTransitGatewayPolicyTableAssociations: (
     args: GetTransitGatewayPolicyTableAssociationsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     GetTransitGatewayPolicyTableAssociationsCommandOutput,
     SdkError | EC2ServiceError
@@ -7347,7 +7354,7 @@ export type EC2Service = {
    */
   readonly getTransitGatewayPolicyTableEntries: (
     args: GetTransitGatewayPolicyTableEntriesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     GetTransitGatewayPolicyTableEntriesCommandOutput,
     SdkError | EC2ServiceError
@@ -7358,7 +7365,7 @@ export type EC2Service = {
    */
   readonly getTransitGatewayPrefixListReferences: (
     args: GetTransitGatewayPrefixListReferencesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     GetTransitGatewayPrefixListReferencesCommandOutput,
     SdkError | EC2ServiceError
@@ -7369,7 +7376,7 @@ export type EC2Service = {
    */
   readonly getTransitGatewayRouteTableAssociations: (
     args: GetTransitGatewayRouteTableAssociationsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     GetTransitGatewayRouteTableAssociationsCommandOutput,
     SdkError | EC2ServiceError
@@ -7380,7 +7387,7 @@ export type EC2Service = {
    */
   readonly getTransitGatewayRouteTablePropagations: (
     args: GetTransitGatewayRouteTablePropagationsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     GetTransitGatewayRouteTablePropagationsCommandOutput,
     SdkError | EC2ServiceError
@@ -7391,7 +7398,7 @@ export type EC2Service = {
    */
   readonly getVerifiedAccessEndpointPolicy: (
     args: GetVerifiedAccessEndpointPolicyCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     GetVerifiedAccessEndpointPolicyCommandOutput,
     SdkError | EC2ServiceError
@@ -7402,7 +7409,7 @@ export type EC2Service = {
    */
   readonly getVerifiedAccessGroupPolicy: (
     args: GetVerifiedAccessGroupPolicyCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     GetVerifiedAccessGroupPolicyCommandOutput,
     SdkError | EC2ServiceError
@@ -7413,7 +7420,7 @@ export type EC2Service = {
    */
   readonly getVpnConnectionDeviceSampleConfiguration: (
     args: GetVpnConnectionDeviceSampleConfigurationCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     GetVpnConnectionDeviceSampleConfigurationCommandOutput,
     SdkError | EC2ServiceError
@@ -7424,7 +7431,7 @@ export type EC2Service = {
    */
   readonly getVpnConnectionDeviceTypes: (
     args: GetVpnConnectionDeviceTypesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     GetVpnConnectionDeviceTypesCommandOutput,
     SdkError | EC2ServiceError
@@ -7435,7 +7442,7 @@ export type EC2Service = {
    */
   readonly getVpnTunnelReplacementStatus: (
     args: GetVpnTunnelReplacementStatusCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     GetVpnTunnelReplacementStatusCommandOutput,
     SdkError | EC2ServiceError
@@ -7446,7 +7453,7 @@ export type EC2Service = {
    */
   readonly importClientVpnClientCertificateRevocationList: (
     args: ImportClientVpnClientCertificateRevocationListCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ImportClientVpnClientCertificateRevocationListCommandOutput,
     SdkError | EC2ServiceError
@@ -7457,7 +7464,7 @@ export type EC2Service = {
    */
   readonly importImage: (
     args: ImportImageCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<ImportImageCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -7465,7 +7472,7 @@ export type EC2Service = {
    */
   readonly importInstance: (
     args: ImportInstanceCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<ImportInstanceCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -7473,7 +7480,7 @@ export type EC2Service = {
    */
   readonly importKeyPair: (
     args: ImportKeyPairCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<ImportKeyPairCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -7481,7 +7488,7 @@ export type EC2Service = {
    */
   readonly importSnapshot: (
     args: ImportSnapshotCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<ImportSnapshotCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -7489,7 +7496,7 @@ export type EC2Service = {
    */
   readonly importVolume: (
     args: ImportVolumeCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<ImportVolumeCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -7497,7 +7504,7 @@ export type EC2Service = {
    */
   readonly listImagesInRecycleBin: (
     args: ListImagesInRecycleBinCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ListImagesInRecycleBinCommandOutput,
     SdkError | EC2ServiceError
@@ -7508,7 +7515,7 @@ export type EC2Service = {
    */
   readonly listSnapshotsInRecycleBin: (
     args: ListSnapshotsInRecycleBinCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ListSnapshotsInRecycleBinCommandOutput,
     SdkError | EC2ServiceError
@@ -7519,7 +7526,7 @@ export type EC2Service = {
    */
   readonly lockSnapshot: (
     args: LockSnapshotCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<LockSnapshotCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -7527,7 +7534,7 @@ export type EC2Service = {
    */
   readonly modifyAddressAttribute: (
     args: ModifyAddressAttributeCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifyAddressAttributeCommandOutput,
     SdkError | EC2ServiceError
@@ -7538,7 +7545,7 @@ export type EC2Service = {
    */
   readonly modifyAvailabilityZoneGroup: (
     args: ModifyAvailabilityZoneGroupCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifyAvailabilityZoneGroupCommandOutput,
     SdkError | EC2ServiceError
@@ -7549,7 +7556,7 @@ export type EC2Service = {
    */
   readonly modifyCapacityReservation: (
     args: ModifyCapacityReservationCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifyCapacityReservationCommandOutput,
     SdkError | EC2ServiceError
@@ -7560,7 +7567,7 @@ export type EC2Service = {
    */
   readonly modifyCapacityReservationFleet: (
     args: ModifyCapacityReservationFleetCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifyCapacityReservationFleetCommandOutput,
     SdkError | EC2ServiceError
@@ -7571,7 +7578,7 @@ export type EC2Service = {
    */
   readonly modifyClientVpnEndpoint: (
     args: ModifyClientVpnEndpointCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifyClientVpnEndpointCommandOutput,
     SdkError | EC2ServiceError
@@ -7582,7 +7589,7 @@ export type EC2Service = {
    */
   readonly modifyDefaultCreditSpecification: (
     args: ModifyDefaultCreditSpecificationCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifyDefaultCreditSpecificationCommandOutput,
     SdkError | EC2ServiceError
@@ -7593,7 +7600,7 @@ export type EC2Service = {
    */
   readonly modifyEbsDefaultKmsKeyId: (
     args: ModifyEbsDefaultKmsKeyIdCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifyEbsDefaultKmsKeyIdCommandOutput,
     SdkError | EC2ServiceError
@@ -7604,7 +7611,7 @@ export type EC2Service = {
    */
   readonly modifyFleet: (
     args: ModifyFleetCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<ModifyFleetCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -7612,7 +7619,7 @@ export type EC2Service = {
    */
   readonly modifyFpgaImageAttribute: (
     args: ModifyFpgaImageAttributeCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifyFpgaImageAttributeCommandOutput,
     SdkError | EC2ServiceError
@@ -7623,7 +7630,7 @@ export type EC2Service = {
    */
   readonly modifyHosts: (
     args: ModifyHostsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<ModifyHostsCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -7631,7 +7638,7 @@ export type EC2Service = {
    */
   readonly modifyIdentityIdFormat: (
     args: ModifyIdentityIdFormatCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifyIdentityIdFormatCommandOutput,
     SdkError | EC2ServiceError
@@ -7642,7 +7649,7 @@ export type EC2Service = {
    */
   readonly modifyIdFormat: (
     args: ModifyIdFormatCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<ModifyIdFormatCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -7650,7 +7657,7 @@ export type EC2Service = {
    */
   readonly modifyImageAttribute: (
     args: ModifyImageAttributeCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifyImageAttributeCommandOutput,
     SdkError | EC2ServiceError
@@ -7661,7 +7668,7 @@ export type EC2Service = {
    */
   readonly modifyInstanceAttribute: (
     args: ModifyInstanceAttributeCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifyInstanceAttributeCommandOutput,
     SdkError | EC2ServiceError
@@ -7672,7 +7679,7 @@ export type EC2Service = {
    */
   readonly modifyInstanceCapacityReservationAttributes: (
     args: ModifyInstanceCapacityReservationAttributesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifyInstanceCapacityReservationAttributesCommandOutput,
     SdkError | EC2ServiceError
@@ -7683,7 +7690,7 @@ export type EC2Service = {
    */
   readonly modifyInstanceCreditSpecification: (
     args: ModifyInstanceCreditSpecificationCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifyInstanceCreditSpecificationCommandOutput,
     SdkError | EC2ServiceError
@@ -7694,7 +7701,7 @@ export type EC2Service = {
    */
   readonly modifyInstanceEventStartTime: (
     args: ModifyInstanceEventStartTimeCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifyInstanceEventStartTimeCommandOutput,
     SdkError | EC2ServiceError
@@ -7705,7 +7712,7 @@ export type EC2Service = {
    */
   readonly modifyInstanceEventWindow: (
     args: ModifyInstanceEventWindowCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifyInstanceEventWindowCommandOutput,
     SdkError | EC2ServiceError
@@ -7716,7 +7723,7 @@ export type EC2Service = {
    */
   readonly modifyInstanceMaintenanceOptions: (
     args: ModifyInstanceMaintenanceOptionsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifyInstanceMaintenanceOptionsCommandOutput,
     SdkError | EC2ServiceError
@@ -7727,7 +7734,7 @@ export type EC2Service = {
    */
   readonly modifyInstanceMetadataOptions: (
     args: ModifyInstanceMetadataOptionsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifyInstanceMetadataOptionsCommandOutput,
     SdkError | EC2ServiceError
@@ -7738,7 +7745,7 @@ export type EC2Service = {
    */
   readonly modifyInstancePlacement: (
     args: ModifyInstancePlacementCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifyInstancePlacementCommandOutput,
     SdkError | EC2ServiceError
@@ -7749,7 +7756,7 @@ export type EC2Service = {
    */
   readonly modifyIpam: (
     args: ModifyIpamCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<ModifyIpamCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -7757,7 +7764,7 @@ export type EC2Service = {
    */
   readonly modifyIpamPool: (
     args: ModifyIpamPoolCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<ModifyIpamPoolCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -7765,7 +7772,7 @@ export type EC2Service = {
    */
   readonly modifyIpamResourceCidr: (
     args: ModifyIpamResourceCidrCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifyIpamResourceCidrCommandOutput,
     SdkError | EC2ServiceError
@@ -7776,7 +7783,7 @@ export type EC2Service = {
    */
   readonly modifyIpamResourceDiscovery: (
     args: ModifyIpamResourceDiscoveryCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifyIpamResourceDiscoveryCommandOutput,
     SdkError | EC2ServiceError
@@ -7787,7 +7794,7 @@ export type EC2Service = {
    */
   readonly modifyIpamScope: (
     args: ModifyIpamScopeCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<ModifyIpamScopeCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -7795,7 +7802,7 @@ export type EC2Service = {
    */
   readonly modifyLaunchTemplate: (
     args: ModifyLaunchTemplateCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifyLaunchTemplateCommandOutput,
     SdkError | EC2ServiceError
@@ -7806,7 +7813,7 @@ export type EC2Service = {
    */
   readonly modifyLocalGatewayRoute: (
     args: ModifyLocalGatewayRouteCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifyLocalGatewayRouteCommandOutput,
     SdkError | EC2ServiceError
@@ -7817,7 +7824,7 @@ export type EC2Service = {
    */
   readonly modifyManagedPrefixList: (
     args: ModifyManagedPrefixListCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifyManagedPrefixListCommandOutput,
     SdkError | EC2ServiceError
@@ -7828,7 +7835,7 @@ export type EC2Service = {
    */
   readonly modifyNetworkInterfaceAttribute: (
     args: ModifyNetworkInterfaceAttributeCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifyNetworkInterfaceAttributeCommandOutput,
     SdkError | EC2ServiceError
@@ -7839,7 +7846,7 @@ export type EC2Service = {
    */
   readonly modifyPrivateDnsNameOptions: (
     args: ModifyPrivateDnsNameOptionsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifyPrivateDnsNameOptionsCommandOutput,
     SdkError | EC2ServiceError
@@ -7850,7 +7857,7 @@ export type EC2Service = {
    */
   readonly modifyReservedInstances: (
     args: ModifyReservedInstancesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifyReservedInstancesCommandOutput,
     SdkError | EC2ServiceError
@@ -7861,7 +7868,7 @@ export type EC2Service = {
    */
   readonly modifySecurityGroupRules: (
     args: ModifySecurityGroupRulesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifySecurityGroupRulesCommandOutput,
     SdkError | EC2ServiceError
@@ -7872,7 +7879,7 @@ export type EC2Service = {
    */
   readonly modifySnapshotAttribute: (
     args: ModifySnapshotAttributeCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifySnapshotAttributeCommandOutput,
     SdkError | EC2ServiceError
@@ -7883,7 +7890,7 @@ export type EC2Service = {
    */
   readonly modifySnapshotTier: (
     args: ModifySnapshotTierCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifySnapshotTierCommandOutput,
     SdkError | EC2ServiceError
@@ -7894,7 +7901,7 @@ export type EC2Service = {
    */
   readonly modifySpotFleetRequest: (
     args: ModifySpotFleetRequestCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifySpotFleetRequestCommandOutput,
     SdkError | EC2ServiceError
@@ -7905,7 +7912,7 @@ export type EC2Service = {
    */
   readonly modifySubnetAttribute: (
     args: ModifySubnetAttributeCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifySubnetAttributeCommandOutput,
     SdkError | EC2ServiceError
@@ -7916,7 +7923,7 @@ export type EC2Service = {
    */
   readonly modifyTrafficMirrorFilterNetworkServices: (
     args: ModifyTrafficMirrorFilterNetworkServicesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifyTrafficMirrorFilterNetworkServicesCommandOutput,
     SdkError | EC2ServiceError
@@ -7927,7 +7934,7 @@ export type EC2Service = {
    */
   readonly modifyTrafficMirrorFilterRule: (
     args: ModifyTrafficMirrorFilterRuleCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifyTrafficMirrorFilterRuleCommandOutput,
     SdkError | EC2ServiceError
@@ -7938,7 +7945,7 @@ export type EC2Service = {
    */
   readonly modifyTrafficMirrorSession: (
     args: ModifyTrafficMirrorSessionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifyTrafficMirrorSessionCommandOutput,
     SdkError | EC2ServiceError
@@ -7949,7 +7956,7 @@ export type EC2Service = {
    */
   readonly modifyTransitGateway: (
     args: ModifyTransitGatewayCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifyTransitGatewayCommandOutput,
     SdkError | EC2ServiceError
@@ -7960,7 +7967,7 @@ export type EC2Service = {
    */
   readonly modifyTransitGatewayPrefixListReference: (
     args: ModifyTransitGatewayPrefixListReferenceCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifyTransitGatewayPrefixListReferenceCommandOutput,
     SdkError | EC2ServiceError
@@ -7971,7 +7978,7 @@ export type EC2Service = {
    */
   readonly modifyTransitGatewayVpcAttachment: (
     args: ModifyTransitGatewayVpcAttachmentCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifyTransitGatewayVpcAttachmentCommandOutput,
     SdkError | EC2ServiceError
@@ -7982,7 +7989,7 @@ export type EC2Service = {
    */
   readonly modifyVerifiedAccessEndpoint: (
     args: ModifyVerifiedAccessEndpointCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifyVerifiedAccessEndpointCommandOutput,
     SdkError | EC2ServiceError
@@ -7993,7 +8000,7 @@ export type EC2Service = {
    */
   readonly modifyVerifiedAccessEndpointPolicy: (
     args: ModifyVerifiedAccessEndpointPolicyCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifyVerifiedAccessEndpointPolicyCommandOutput,
     SdkError | EC2ServiceError
@@ -8004,7 +8011,7 @@ export type EC2Service = {
    */
   readonly modifyVerifiedAccessGroup: (
     args: ModifyVerifiedAccessGroupCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifyVerifiedAccessGroupCommandOutput,
     SdkError | EC2ServiceError
@@ -8015,7 +8022,7 @@ export type EC2Service = {
    */
   readonly modifyVerifiedAccessGroupPolicy: (
     args: ModifyVerifiedAccessGroupPolicyCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifyVerifiedAccessGroupPolicyCommandOutput,
     SdkError | EC2ServiceError
@@ -8026,7 +8033,7 @@ export type EC2Service = {
    */
   readonly modifyVerifiedAccessInstance: (
     args: ModifyVerifiedAccessInstanceCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifyVerifiedAccessInstanceCommandOutput,
     SdkError | EC2ServiceError
@@ -8037,7 +8044,7 @@ export type EC2Service = {
    */
   readonly modifyVerifiedAccessInstanceLoggingConfiguration: (
     args: ModifyVerifiedAccessInstanceLoggingConfigurationCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifyVerifiedAccessInstanceLoggingConfigurationCommandOutput,
     SdkError | EC2ServiceError
@@ -8048,7 +8055,7 @@ export type EC2Service = {
    */
   readonly modifyVerifiedAccessTrustProvider: (
     args: ModifyVerifiedAccessTrustProviderCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifyVerifiedAccessTrustProviderCommandOutput,
     SdkError | EC2ServiceError
@@ -8059,7 +8066,7 @@ export type EC2Service = {
    */
   readonly modifyVolume: (
     args: ModifyVolumeCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<ModifyVolumeCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -8067,7 +8074,7 @@ export type EC2Service = {
    */
   readonly modifyVolumeAttribute: (
     args: ModifyVolumeAttributeCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifyVolumeAttributeCommandOutput,
     SdkError | EC2ServiceError
@@ -8078,7 +8085,7 @@ export type EC2Service = {
    */
   readonly modifyVpcAttribute: (
     args: ModifyVpcAttributeCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifyVpcAttributeCommandOutput,
     SdkError | EC2ServiceError
@@ -8089,7 +8096,7 @@ export type EC2Service = {
    */
   readonly modifyVpcEndpoint: (
     args: ModifyVpcEndpointCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifyVpcEndpointCommandOutput,
     SdkError | EC2ServiceError
@@ -8100,7 +8107,7 @@ export type EC2Service = {
    */
   readonly modifyVpcEndpointConnectionNotification: (
     args: ModifyVpcEndpointConnectionNotificationCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifyVpcEndpointConnectionNotificationCommandOutput,
     SdkError | EC2ServiceError
@@ -8111,7 +8118,7 @@ export type EC2Service = {
    */
   readonly modifyVpcEndpointServiceConfiguration: (
     args: ModifyVpcEndpointServiceConfigurationCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifyVpcEndpointServiceConfigurationCommandOutput,
     SdkError | EC2ServiceError
@@ -8122,7 +8129,7 @@ export type EC2Service = {
    */
   readonly modifyVpcEndpointServicePayerResponsibility: (
     args: ModifyVpcEndpointServicePayerResponsibilityCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifyVpcEndpointServicePayerResponsibilityCommandOutput,
     SdkError | EC2ServiceError
@@ -8133,7 +8140,7 @@ export type EC2Service = {
    */
   readonly modifyVpcEndpointServicePermissions: (
     args: ModifyVpcEndpointServicePermissionsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifyVpcEndpointServicePermissionsCommandOutput,
     SdkError | EC2ServiceError
@@ -8144,7 +8151,7 @@ export type EC2Service = {
    */
   readonly modifyVpcPeeringConnectionOptions: (
     args: ModifyVpcPeeringConnectionOptionsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifyVpcPeeringConnectionOptionsCommandOutput,
     SdkError | EC2ServiceError
@@ -8155,7 +8162,7 @@ export type EC2Service = {
    */
   readonly modifyVpcTenancy: (
     args: ModifyVpcTenancyCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<ModifyVpcTenancyCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -8163,7 +8170,7 @@ export type EC2Service = {
    */
   readonly modifyVpnConnection: (
     args: ModifyVpnConnectionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifyVpnConnectionCommandOutput,
     SdkError | EC2ServiceError
@@ -8174,7 +8181,7 @@ export type EC2Service = {
    */
   readonly modifyVpnConnectionOptions: (
     args: ModifyVpnConnectionOptionsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifyVpnConnectionOptionsCommandOutput,
     SdkError | EC2ServiceError
@@ -8185,7 +8192,7 @@ export type EC2Service = {
    */
   readonly modifyVpnTunnelCertificate: (
     args: ModifyVpnTunnelCertificateCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifyVpnTunnelCertificateCommandOutput,
     SdkError | EC2ServiceError
@@ -8196,7 +8203,7 @@ export type EC2Service = {
    */
   readonly modifyVpnTunnelOptions: (
     args: ModifyVpnTunnelOptionsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ModifyVpnTunnelOptionsCommandOutput,
     SdkError | EC2ServiceError
@@ -8207,7 +8214,7 @@ export type EC2Service = {
    */
   readonly monitorInstances: (
     args: MonitorInstancesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<MonitorInstancesCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -8215,7 +8222,7 @@ export type EC2Service = {
    */
   readonly moveAddressToVpc: (
     args: MoveAddressToVpcCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<MoveAddressToVpcCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -8223,7 +8230,7 @@ export type EC2Service = {
    */
   readonly moveByoipCidrToIpam: (
     args: MoveByoipCidrToIpamCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     MoveByoipCidrToIpamCommandOutput,
     SdkError | EC2ServiceError
@@ -8234,7 +8241,7 @@ export type EC2Service = {
    */
   readonly provisionByoipCidr: (
     args: ProvisionByoipCidrCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ProvisionByoipCidrCommandOutput,
     SdkError | EC2ServiceError
@@ -8245,7 +8252,7 @@ export type EC2Service = {
    */
   readonly provisionIpamByoasn: (
     args: ProvisionIpamByoasnCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ProvisionIpamByoasnCommandOutput,
     SdkError | EC2ServiceError
@@ -8256,7 +8263,7 @@ export type EC2Service = {
    */
   readonly provisionIpamPoolCidr: (
     args: ProvisionIpamPoolCidrCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ProvisionIpamPoolCidrCommandOutput,
     SdkError | EC2ServiceError
@@ -8267,7 +8274,7 @@ export type EC2Service = {
    */
   readonly provisionPublicIpv4PoolCidr: (
     args: ProvisionPublicIpv4PoolCidrCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ProvisionPublicIpv4PoolCidrCommandOutput,
     SdkError | EC2ServiceError
@@ -8278,7 +8285,7 @@ export type EC2Service = {
    */
   readonly purchaseCapacityBlock: (
     args: PurchaseCapacityBlockCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     PurchaseCapacityBlockCommandOutput,
     SdkError | EC2ServiceError
@@ -8289,7 +8296,7 @@ export type EC2Service = {
    */
   readonly purchaseHostReservation: (
     args: PurchaseHostReservationCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     PurchaseHostReservationCommandOutput,
     SdkError | EC2ServiceError
@@ -8300,7 +8307,7 @@ export type EC2Service = {
    */
   readonly purchaseReservedInstancesOffering: (
     args: PurchaseReservedInstancesOfferingCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     PurchaseReservedInstancesOfferingCommandOutput,
     SdkError | EC2ServiceError
@@ -8311,7 +8318,7 @@ export type EC2Service = {
    */
   readonly purchaseScheduledInstances: (
     args: PurchaseScheduledInstancesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     PurchaseScheduledInstancesCommandOutput,
     SdkError | EC2ServiceError
@@ -8322,7 +8329,7 @@ export type EC2Service = {
    */
   readonly rebootInstances: (
     args: RebootInstancesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<RebootInstancesCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -8330,7 +8337,7 @@ export type EC2Service = {
    */
   readonly registerImage: (
     args: RegisterImageCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<RegisterImageCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -8338,7 +8345,7 @@ export type EC2Service = {
    */
   readonly registerInstanceEventNotificationAttributes: (
     args: RegisterInstanceEventNotificationAttributesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     RegisterInstanceEventNotificationAttributesCommandOutput,
     SdkError | EC2ServiceError
@@ -8349,7 +8356,7 @@ export type EC2Service = {
    */
   readonly registerTransitGatewayMulticastGroupMembers: (
     args: RegisterTransitGatewayMulticastGroupMembersCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     RegisterTransitGatewayMulticastGroupMembersCommandOutput,
     SdkError | EC2ServiceError
@@ -8360,7 +8367,7 @@ export type EC2Service = {
    */
   readonly registerTransitGatewayMulticastGroupSources: (
     args: RegisterTransitGatewayMulticastGroupSourcesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     RegisterTransitGatewayMulticastGroupSourcesCommandOutput,
     SdkError | EC2ServiceError
@@ -8371,7 +8378,7 @@ export type EC2Service = {
    */
   readonly rejectTransitGatewayMulticastDomainAssociations: (
     args: RejectTransitGatewayMulticastDomainAssociationsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     RejectTransitGatewayMulticastDomainAssociationsCommandOutput,
     SdkError | EC2ServiceError
@@ -8382,7 +8389,7 @@ export type EC2Service = {
    */
   readonly rejectTransitGatewayPeeringAttachment: (
     args: RejectTransitGatewayPeeringAttachmentCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     RejectTransitGatewayPeeringAttachmentCommandOutput,
     SdkError | EC2ServiceError
@@ -8393,7 +8400,7 @@ export type EC2Service = {
    */
   readonly rejectTransitGatewayVpcAttachment: (
     args: RejectTransitGatewayVpcAttachmentCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     RejectTransitGatewayVpcAttachmentCommandOutput,
     SdkError | EC2ServiceError
@@ -8404,7 +8411,7 @@ export type EC2Service = {
    */
   readonly rejectVpcEndpointConnections: (
     args: RejectVpcEndpointConnectionsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     RejectVpcEndpointConnectionsCommandOutput,
     SdkError | EC2ServiceError
@@ -8415,7 +8422,7 @@ export type EC2Service = {
    */
   readonly rejectVpcPeeringConnection: (
     args: RejectVpcPeeringConnectionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     RejectVpcPeeringConnectionCommandOutput,
     SdkError | EC2ServiceError
@@ -8426,7 +8433,7 @@ export type EC2Service = {
    */
   readonly releaseAddress: (
     args: ReleaseAddressCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<ReleaseAddressCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -8434,7 +8441,7 @@ export type EC2Service = {
    */
   readonly releaseHosts: (
     args: ReleaseHostsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<ReleaseHostsCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -8442,7 +8449,7 @@ export type EC2Service = {
    */
   readonly releaseIpamPoolAllocation: (
     args: ReleaseIpamPoolAllocationCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ReleaseIpamPoolAllocationCommandOutput,
     SdkError | EC2ServiceError
@@ -8453,7 +8460,7 @@ export type EC2Service = {
    */
   readonly replaceIamInstanceProfileAssociation: (
     args: ReplaceIamInstanceProfileAssociationCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ReplaceIamInstanceProfileAssociationCommandOutput,
     SdkError | EC2ServiceError
@@ -8464,7 +8471,7 @@ export type EC2Service = {
    */
   readonly replaceNetworkAclAssociation: (
     args: ReplaceNetworkAclAssociationCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ReplaceNetworkAclAssociationCommandOutput,
     SdkError | EC2ServiceError
@@ -8475,7 +8482,7 @@ export type EC2Service = {
    */
   readonly replaceNetworkAclEntry: (
     args: ReplaceNetworkAclEntryCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ReplaceNetworkAclEntryCommandOutput,
     SdkError | EC2ServiceError
@@ -8486,7 +8493,7 @@ export type EC2Service = {
    */
   readonly replaceRoute: (
     args: ReplaceRouteCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<ReplaceRouteCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -8494,7 +8501,7 @@ export type EC2Service = {
    */
   readonly replaceRouteTableAssociation: (
     args: ReplaceRouteTableAssociationCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ReplaceRouteTableAssociationCommandOutput,
     SdkError | EC2ServiceError
@@ -8505,7 +8512,7 @@ export type EC2Service = {
    */
   readonly replaceTransitGatewayRoute: (
     args: ReplaceTransitGatewayRouteCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ReplaceTransitGatewayRouteCommandOutput,
     SdkError | EC2ServiceError
@@ -8516,7 +8523,7 @@ export type EC2Service = {
    */
   readonly replaceVpnTunnel: (
     args: ReplaceVpnTunnelCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<ReplaceVpnTunnelCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -8524,7 +8531,7 @@ export type EC2Service = {
    */
   readonly reportInstanceStatus: (
     args: ReportInstanceStatusCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ReportInstanceStatusCommandOutput,
     SdkError | EC2ServiceError
@@ -8535,7 +8542,7 @@ export type EC2Service = {
    */
   readonly requestSpotFleet: (
     args: RequestSpotFleetCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<RequestSpotFleetCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -8543,7 +8550,7 @@ export type EC2Service = {
    */
   readonly requestSpotInstances: (
     args: RequestSpotInstancesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     RequestSpotInstancesCommandOutput,
     SdkError | EC2ServiceError
@@ -8554,7 +8561,7 @@ export type EC2Service = {
    */
   readonly resetAddressAttribute: (
     args: ResetAddressAttributeCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ResetAddressAttributeCommandOutput,
     SdkError | EC2ServiceError
@@ -8565,7 +8572,7 @@ export type EC2Service = {
    */
   readonly resetEbsDefaultKmsKeyId: (
     args: ResetEbsDefaultKmsKeyIdCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ResetEbsDefaultKmsKeyIdCommandOutput,
     SdkError | EC2ServiceError
@@ -8576,7 +8583,7 @@ export type EC2Service = {
    */
   readonly resetFpgaImageAttribute: (
     args: ResetFpgaImageAttributeCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ResetFpgaImageAttributeCommandOutput,
     SdkError | EC2ServiceError
@@ -8587,7 +8594,7 @@ export type EC2Service = {
    */
   readonly resetImageAttribute: (
     args: ResetImageAttributeCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ResetImageAttributeCommandOutput,
     SdkError | EC2ServiceError
@@ -8598,7 +8605,7 @@ export type EC2Service = {
    */
   readonly resetInstanceAttribute: (
     args: ResetInstanceAttributeCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ResetInstanceAttributeCommandOutput,
     SdkError | EC2ServiceError
@@ -8609,7 +8616,7 @@ export type EC2Service = {
    */
   readonly resetNetworkInterfaceAttribute: (
     args: ResetNetworkInterfaceAttributeCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ResetNetworkInterfaceAttributeCommandOutput,
     SdkError | EC2ServiceError
@@ -8620,7 +8627,7 @@ export type EC2Service = {
    */
   readonly resetSnapshotAttribute: (
     args: ResetSnapshotAttributeCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     ResetSnapshotAttributeCommandOutput,
     SdkError | EC2ServiceError
@@ -8631,7 +8638,7 @@ export type EC2Service = {
    */
   readonly restoreAddressToClassic: (
     args: RestoreAddressToClassicCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     RestoreAddressToClassicCommandOutput,
     SdkError | EC2ServiceError
@@ -8642,7 +8649,7 @@ export type EC2Service = {
    */
   readonly restoreImageFromRecycleBin: (
     args: RestoreImageFromRecycleBinCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     RestoreImageFromRecycleBinCommandOutput,
     SdkError | EC2ServiceError
@@ -8653,7 +8660,7 @@ export type EC2Service = {
    */
   readonly restoreManagedPrefixListVersion: (
     args: RestoreManagedPrefixListVersionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     RestoreManagedPrefixListVersionCommandOutput,
     SdkError | EC2ServiceError
@@ -8664,7 +8671,7 @@ export type EC2Service = {
    */
   readonly restoreSnapshotFromRecycleBin: (
     args: RestoreSnapshotFromRecycleBinCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     RestoreSnapshotFromRecycleBinCommandOutput,
     SdkError | EC2ServiceError
@@ -8675,7 +8682,7 @@ export type EC2Service = {
    */
   readonly restoreSnapshotTier: (
     args: RestoreSnapshotTierCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     RestoreSnapshotTierCommandOutput,
     SdkError | EC2ServiceError
@@ -8686,7 +8693,7 @@ export type EC2Service = {
    */
   readonly revokeClientVpnIngress: (
     args: RevokeClientVpnIngressCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     RevokeClientVpnIngressCommandOutput,
     SdkError | EC2ServiceError
@@ -8697,7 +8704,7 @@ export type EC2Service = {
    */
   readonly revokeSecurityGroupEgress: (
     args: RevokeSecurityGroupEgressCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     RevokeSecurityGroupEgressCommandOutput,
     SdkError | EC2ServiceError
@@ -8708,7 +8715,7 @@ export type EC2Service = {
    */
   readonly revokeSecurityGroupIngress: (
     args: RevokeSecurityGroupIngressCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     RevokeSecurityGroupIngressCommandOutput,
     SdkError | EC2ServiceError
@@ -8719,7 +8726,7 @@ export type EC2Service = {
    */
   readonly runInstances: (
     args: RunInstancesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<RunInstancesCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -8727,7 +8734,7 @@ export type EC2Service = {
    */
   readonly runScheduledInstances: (
     args: RunScheduledInstancesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     RunScheduledInstancesCommandOutput,
     SdkError | EC2ServiceError
@@ -8738,7 +8745,7 @@ export type EC2Service = {
    */
   readonly searchLocalGatewayRoutes: (
     args: SearchLocalGatewayRoutesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     SearchLocalGatewayRoutesCommandOutput,
     SdkError | EC2ServiceError
@@ -8749,7 +8756,7 @@ export type EC2Service = {
    */
   readonly searchTransitGatewayMulticastGroups: (
     args: SearchTransitGatewayMulticastGroupsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     SearchTransitGatewayMulticastGroupsCommandOutput,
     SdkError | EC2ServiceError
@@ -8760,7 +8767,7 @@ export type EC2Service = {
    */
   readonly searchTransitGatewayRoutes: (
     args: SearchTransitGatewayRoutesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     SearchTransitGatewayRoutesCommandOutput,
     SdkError | EC2ServiceError
@@ -8771,7 +8778,7 @@ export type EC2Service = {
    */
   readonly sendDiagnosticInterrupt: (
     args: SendDiagnosticInterruptCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     SendDiagnosticInterruptCommandOutput,
     SdkError | EC2ServiceError
@@ -8782,7 +8789,7 @@ export type EC2Service = {
    */
   readonly startInstances: (
     args: StartInstancesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<StartInstancesCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -8790,7 +8797,7 @@ export type EC2Service = {
    */
   readonly startNetworkInsightsAccessScopeAnalysis: (
     args: StartNetworkInsightsAccessScopeAnalysisCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     StartNetworkInsightsAccessScopeAnalysisCommandOutput,
     SdkError | EC2ServiceError
@@ -8801,7 +8808,7 @@ export type EC2Service = {
    */
   readonly startNetworkInsightsAnalysis: (
     args: StartNetworkInsightsAnalysisCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     StartNetworkInsightsAnalysisCommandOutput,
     SdkError | EC2ServiceError
@@ -8812,7 +8819,7 @@ export type EC2Service = {
    */
   readonly startVpcEndpointServicePrivateDnsVerification: (
     args: StartVpcEndpointServicePrivateDnsVerificationCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     StartVpcEndpointServicePrivateDnsVerificationCommandOutput,
     SdkError | EC2ServiceError
@@ -8823,7 +8830,7 @@ export type EC2Service = {
    */
   readonly stopInstances: (
     args: StopInstancesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<StopInstancesCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -8831,7 +8838,7 @@ export type EC2Service = {
    */
   readonly terminateClientVpnConnections: (
     args: TerminateClientVpnConnectionsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     TerminateClientVpnConnectionsCommandOutput,
     SdkError | EC2ServiceError
@@ -8842,7 +8849,7 @@ export type EC2Service = {
    */
   readonly terminateInstances: (
     args: TerminateInstancesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     TerminateInstancesCommandOutput,
     SdkError | EC2ServiceError
@@ -8853,7 +8860,7 @@ export type EC2Service = {
    */
   readonly unassignIpv6Addresses: (
     args: UnassignIpv6AddressesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     UnassignIpv6AddressesCommandOutput,
     SdkError | EC2ServiceError
@@ -8864,7 +8871,7 @@ export type EC2Service = {
    */
   readonly unassignPrivateIpAddresses: (
     args: UnassignPrivateIpAddressesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     UnassignPrivateIpAddressesCommandOutput,
     SdkError | EC2ServiceError
@@ -8875,7 +8882,7 @@ export type EC2Service = {
    */
   readonly unassignPrivateNatGatewayAddress: (
     args: UnassignPrivateNatGatewayAddressCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     UnassignPrivateNatGatewayAddressCommandOutput,
     SdkError | EC2ServiceError
@@ -8886,7 +8893,7 @@ export type EC2Service = {
    */
   readonly unlockSnapshot: (
     args: UnlockSnapshotCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<UnlockSnapshotCommandOutput, SdkError | EC2ServiceError>;
 
   /**
@@ -8894,7 +8901,7 @@ export type EC2Service = {
    */
   readonly unmonitorInstances: (
     args: UnmonitorInstancesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     UnmonitorInstancesCommandOutput,
     SdkError | EC2ServiceError
@@ -8905,7 +8912,7 @@ export type EC2Service = {
    */
   readonly updateSecurityGroupRuleDescriptionsEgress: (
     args: UpdateSecurityGroupRuleDescriptionsEgressCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     UpdateSecurityGroupRuleDescriptionsEgressCommandOutput,
     SdkError | EC2ServiceError
@@ -8916,7 +8923,7 @@ export type EC2Service = {
    */
   readonly updateSecurityGroupRuleDescriptionsIngress: (
     args: UpdateSecurityGroupRuleDescriptionsIngressCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     UpdateSecurityGroupRuleDescriptionsIngressCommandOutput,
     SdkError | EC2ServiceError
@@ -8927,7 +8934,7 @@ export type EC2Service = {
    */
   readonly withdrawByoipCidr: (
     args: WithdrawByoipCidrCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ) => Effect.Effect<
     WithdrawByoipCidrCommandOutput,
     SdkError | EC2ServiceError
@@ -8951,9 +8958,13 @@ export const makeEC2Service = Effect.gen(function* (_) {
 
   return Record.toEntries(commands).reduce((acc, [command]) => {
     const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options: any) =>
+    const methodImpl = (args: any, options?: HttpHandlerOptions) =>
       Effect.tryPromise({
-        try: () => client.send(new CommandCtor(args), options ?? {}),
+        try: (abortSignal) =>
+          client.send(new CommandCtor(args), {
+            ...(options ?? {}),
+            abortSignal,
+          }),
         catch: (e) => {
           if (e instanceof EC2ServiceException) {
             const ServiceException = Data.tagged<

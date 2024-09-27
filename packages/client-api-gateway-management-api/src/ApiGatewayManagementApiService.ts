@@ -13,7 +13,6 @@ import {
   type PostToConnectionCommandInput,
   type PostToConnectionCommandOutput,
 } from "@aws-sdk/client-apigatewaymanagementapi";
-import { type HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
 import { Data, Effect, Layer, Record } from "effect";
 import {
   ApiGatewayManagementApiClientInstance,
@@ -30,6 +29,14 @@ import {
   TaggedException,
 } from "./Errors";
 
+interface HttpHandlerOptions {
+  /**
+   * The maximum time in milliseconds that the connection phase of a request
+   * may take before the connection attempt is abandoned.
+   */
+  requestTimeout?: number;
+}
+
 const commands = {
   DeleteConnectionCommand,
   GetConnectionCommand,
@@ -44,7 +51,7 @@ interface ApiGatewayManagementApiService$ {
    */
   deleteConnection(
     args: DeleteConnectionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteConnectionCommandOutput,
     SdkError | ForbiddenError | GoneError | LimitExceededError
@@ -55,7 +62,7 @@ interface ApiGatewayManagementApiService$ {
    */
   getConnection(
     args: GetConnectionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetConnectionCommandOutput,
     SdkError | ForbiddenError | GoneError | LimitExceededError
@@ -66,7 +73,7 @@ interface ApiGatewayManagementApiService$ {
    */
   postToConnection(
     args: PostToConnectionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     PostToConnectionCommandOutput,
     | SdkError
@@ -94,9 +101,13 @@ export const makeApiGatewayManagementApiService = Effect.gen(function* (_) {
 
   return Record.toEntries(commands).reduce((acc, [command]) => {
     const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options: any) =>
+    const methodImpl = (args: any, options?: HttpHandlerOptions) =>
       Effect.tryPromise({
-        try: () => client.send(new CommandCtor(args), options ?? {}),
+        try: (abortSignal) =>
+          client.send(new CommandCtor(args), {
+            ...(options ?? {}),
+            abortSignal,
+          }),
         catch: (e) => {
           if (
             e instanceof ApiGatewayManagementApiServiceException &&

@@ -38,8 +38,7 @@
     "effect": ">=3.0.0 <4.0.0"
   },
   "dependencies": {
-    "@aws-sdk/client-apigatewaymanagementapi": "^3",
-    "@aws-sdk/types": "^3"
+    "@aws-sdk/client-apigatewaymanagementapi": "^3"
   },
   "main": "lib/index.js",
   "license": "MIT",

@@ -41,8 +41,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3",
-    "@aws-sdk/lib-dynamodb": "^3",
-    "@aws-sdk/types": "^3"
+    "@aws-sdk/lib-dynamodb": "^3"
   },
   "main": "lib/index.js",
   "license": "MIT",

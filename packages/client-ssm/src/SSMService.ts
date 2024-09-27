@@ -424,7 +424,6 @@ import {
   type UpdateServiceSettingCommandInput,
   type UpdateServiceSettingCommandOutput,
 } from "@aws-sdk/client-ssm";
-import { type HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
 import { Data, Effect, Layer, Record } from "effect";
 import {
   AllServiceErrors,
@@ -566,6 +565,14 @@ import {
 } from "./Errors";
 import { SSMClientInstance, SSMClientInstanceLayer } from "./SSMClientInstance";
 import { DefaultSSMClientConfigLayer } from "./SSMClientInstanceConfig";
+
+interface HttpHandlerOptions {
+  /**
+   * The maximum time in milliseconds that the connection phase of a request
+   * may take before the connection attempt is abandoned.
+   */
+  requestTimeout?: number;
+}
 
 const commands = {
   AddTagsToResourceCommand,
@@ -718,7 +725,7 @@ interface SSMService$ {
    */
   addTagsToResource(
     args: AddTagsToResourceCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     AddTagsToResourceCommandOutput,
     | SdkError
@@ -734,7 +741,7 @@ interface SSMService$ {
    */
   associateOpsItemRelatedItem(
     args: AssociateOpsItemRelatedItemCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     AssociateOpsItemRelatedItemCommandOutput,
     | SdkError
@@ -751,7 +758,7 @@ interface SSMService$ {
    */
   cancelCommand(
     args: CancelCommandCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelCommandCommandOutput,
     | SdkError
@@ -766,7 +773,7 @@ interface SSMService$ {
    */
   cancelMaintenanceWindowExecution(
     args: CancelMaintenanceWindowExecutionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelMaintenanceWindowExecutionCommandOutput,
     SdkError | DoesNotExistError | InternalServerError
@@ -777,7 +784,7 @@ interface SSMService$ {
    */
   createActivation(
     args: CreateActivationCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateActivationCommandOutput,
     SdkError | InternalServerError | InvalidParametersError
@@ -788,7 +795,7 @@ interface SSMService$ {
    */
   createAssociation(
     args: CreateAssociationCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateAssociationCommandOutput,
     | SdkError
@@ -812,7 +819,7 @@ interface SSMService$ {
    */
   createAssociationBatch(
     args: CreateAssociationBatchCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateAssociationBatchCommandOutput,
     | SdkError
@@ -835,7 +842,7 @@ interface SSMService$ {
    */
   createDocument(
     args: CreateDocumentCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateDocumentCommandOutput,
     | SdkError
@@ -852,7 +859,7 @@ interface SSMService$ {
    */
   createMaintenanceWindow(
     args: CreateMaintenanceWindowCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateMaintenanceWindowCommandOutput,
     | SdkError
@@ -866,7 +873,7 @@ interface SSMService$ {
    */
   createOpsItem(
     args: CreateOpsItemCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateOpsItemCommandOutput,
     | SdkError
@@ -882,7 +889,7 @@ interface SSMService$ {
    */
   createOpsMetadata(
     args: CreateOpsMetadataCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateOpsMetadataCommandOutput,
     | SdkError
@@ -898,7 +905,7 @@ interface SSMService$ {
    */
   createPatchBaseline(
     args: CreatePatchBaselineCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreatePatchBaselineCommandOutput,
     | SdkError
@@ -912,7 +919,7 @@ interface SSMService$ {
    */
   createResourceDataSync(
     args: CreateResourceDataSyncCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateResourceDataSyncCommandOutput,
     | SdkError
@@ -927,7 +934,7 @@ interface SSMService$ {
    */
   deleteActivation(
     args: DeleteActivationCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteActivationCommandOutput,
     | SdkError
@@ -942,7 +949,7 @@ interface SSMService$ {
    */
   deleteAssociation(
     args: DeleteAssociationCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteAssociationCommandOutput,
     | SdkError
@@ -958,7 +965,7 @@ interface SSMService$ {
    */
   deleteDocument(
     args: DeleteDocumentCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDocumentCommandOutput,
     | SdkError
@@ -973,7 +980,7 @@ interface SSMService$ {
    */
   deleteInventory(
     args: DeleteInventoryCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteInventoryCommandOutput,
     | SdkError
@@ -989,7 +996,7 @@ interface SSMService$ {
    */
   deleteMaintenanceWindow(
     args: DeleteMaintenanceWindowCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteMaintenanceWindowCommandOutput,
     SdkError | InternalServerError
@@ -1000,7 +1007,7 @@ interface SSMService$ {
    */
   deleteOpsItem(
     args: DeleteOpsItemCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteOpsItemCommandOutput,
     SdkError | InternalServerError | OpsItemInvalidParameterError
@@ -1011,7 +1018,7 @@ interface SSMService$ {
    */
   deleteOpsMetadata(
     args: DeleteOpsMetadataCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteOpsMetadataCommandOutput,
     | SdkError
@@ -1025,7 +1032,7 @@ interface SSMService$ {
    */
   deleteParameter(
     args: DeleteParameterCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteParameterCommandOutput,
     SdkError | InternalServerError | ParameterNotFoundError
@@ -1036,7 +1043,7 @@ interface SSMService$ {
    */
   deleteParameters(
     args: DeleteParametersCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteParametersCommandOutput,
     SdkError | InternalServerError
@@ -1047,7 +1054,7 @@ interface SSMService$ {
    */
   deletePatchBaseline(
     args: DeletePatchBaselineCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeletePatchBaselineCommandOutput,
     SdkError | InternalServerError | ResourceInUseError
@@ -1058,7 +1065,7 @@ interface SSMService$ {
    */
   deleteResourceDataSync(
     args: DeleteResourceDataSyncCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteResourceDataSyncCommandOutput,
     | SdkError
@@ -1072,7 +1079,7 @@ interface SSMService$ {
    */
   deleteResourcePolicy(
     args: DeleteResourcePolicyCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteResourcePolicyCommandOutput,
     | SdkError
@@ -1089,7 +1096,7 @@ interface SSMService$ {
    */
   deregisterManagedInstance(
     args: DeregisterManagedInstanceCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeregisterManagedInstanceCommandOutput,
     SdkError | InternalServerError | InvalidInstanceIdError
@@ -1100,7 +1107,7 @@ interface SSMService$ {
    */
   deregisterPatchBaselineForPatchGroup(
     args: DeregisterPatchBaselineForPatchGroupCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeregisterPatchBaselineForPatchGroupCommandOutput,
     SdkError | InternalServerError | InvalidResourceIdError
@@ -1111,7 +1118,7 @@ interface SSMService$ {
    */
   deregisterTargetFromMaintenanceWindow(
     args: DeregisterTargetFromMaintenanceWindowCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeregisterTargetFromMaintenanceWindowCommandOutput,
     SdkError | DoesNotExistError | InternalServerError | TargetInUseError
@@ -1122,7 +1129,7 @@ interface SSMService$ {
    */
   deregisterTaskFromMaintenanceWindow(
     args: DeregisterTaskFromMaintenanceWindowCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeregisterTaskFromMaintenanceWindowCommandOutput,
     SdkError | DoesNotExistError | InternalServerError
@@ -1133,7 +1140,7 @@ interface SSMService$ {
    */
   describeActivations(
     args: DescribeActivationsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeActivationsCommandOutput,
     SdkError | InternalServerError | InvalidFilterError | InvalidNextTokenError
@@ -1144,7 +1151,7 @@ interface SSMService$ {
    */
   describeAssociation(
     args: DescribeAssociationCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeAssociationCommandOutput,
     | SdkError
@@ -1160,7 +1167,7 @@ interface SSMService$ {
    */
   describeAssociationExecutions(
     args: DescribeAssociationExecutionsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeAssociationExecutionsCommandOutput,
     | SdkError
@@ -1174,7 +1181,7 @@ interface SSMService$ {
    */
   describeAssociationExecutionTargets(
     args: DescribeAssociationExecutionTargetsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeAssociationExecutionTargetsCommandOutput,
     | SdkError
@@ -1189,7 +1196,7 @@ interface SSMService$ {
    */
   describeAutomationExecutions(
     args: DescribeAutomationExecutionsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeAutomationExecutionsCommandOutput,
     | SdkError
@@ -1204,7 +1211,7 @@ interface SSMService$ {
    */
   describeAutomationStepExecutions(
     args: DescribeAutomationStepExecutionsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeAutomationStepExecutionsCommandOutput,
     | SdkError
@@ -1220,7 +1227,7 @@ interface SSMService$ {
    */
   describeAvailablePatches(
     args: DescribeAvailablePatchesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeAvailablePatchesCommandOutput,
     SdkError | InternalServerError
@@ -1231,7 +1238,7 @@ interface SSMService$ {
    */
   describeDocument(
     args: DescribeDocumentCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeDocumentCommandOutput,
     | SdkError
@@ -1245,7 +1252,7 @@ interface SSMService$ {
    */
   describeDocumentPermission(
     args: DescribeDocumentPermissionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeDocumentPermissionCommandOutput,
     | SdkError
@@ -1261,7 +1268,7 @@ interface SSMService$ {
    */
   describeEffectiveInstanceAssociations(
     args: DescribeEffectiveInstanceAssociationsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeEffectiveInstanceAssociationsCommandOutput,
     | SdkError
@@ -1275,7 +1282,7 @@ interface SSMService$ {
    */
   describeEffectivePatchesForPatchBaseline(
     args: DescribeEffectivePatchesForPatchBaselineCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeEffectivePatchesForPatchBaselineCommandOutput,
     | SdkError
@@ -1290,7 +1297,7 @@ interface SSMService$ {
    */
   describeInstanceAssociationsStatus(
     args: DescribeInstanceAssociationsStatusCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeInstanceAssociationsStatusCommandOutput,
     | SdkError
@@ -1304,7 +1311,7 @@ interface SSMService$ {
    */
   describeInstanceInformation(
     args: DescribeInstanceInformationCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeInstanceInformationCommandOutput,
     | SdkError
@@ -1320,7 +1327,7 @@ interface SSMService$ {
    */
   describeInstancePatches(
     args: DescribeInstancePatchesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeInstancePatchesCommandOutput,
     | SdkError
@@ -1335,7 +1342,7 @@ interface SSMService$ {
    */
   describeInstancePatchStates(
     args: DescribeInstancePatchStatesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeInstancePatchStatesCommandOutput,
     SdkError | InternalServerError | InvalidNextTokenError
@@ -1346,7 +1353,7 @@ interface SSMService$ {
    */
   describeInstancePatchStatesForPatchGroup(
     args: DescribeInstancePatchStatesForPatchGroupCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeInstancePatchStatesForPatchGroupCommandOutput,
     SdkError | InternalServerError | InvalidFilterError | InvalidNextTokenError
@@ -1357,7 +1364,7 @@ interface SSMService$ {
    */
   describeInstanceProperties(
     args: DescribeInstancePropertiesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeInstancePropertiesCommandOutput,
     | SdkError
@@ -1375,7 +1382,7 @@ interface SSMService$ {
    */
   describeInventoryDeletions(
     args: DescribeInventoryDeletionsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeInventoryDeletionsCommandOutput,
     | SdkError
@@ -1389,7 +1396,7 @@ interface SSMService$ {
    */
   describeMaintenanceWindowExecutions(
     args: DescribeMaintenanceWindowExecutionsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeMaintenanceWindowExecutionsCommandOutput,
     SdkError | InternalServerError
@@ -1400,7 +1407,7 @@ interface SSMService$ {
    */
   describeMaintenanceWindowExecutionTaskInvocations(
     args: DescribeMaintenanceWindowExecutionTaskInvocationsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeMaintenanceWindowExecutionTaskInvocationsCommandOutput,
     SdkError | DoesNotExistError | InternalServerError
@@ -1411,7 +1418,7 @@ interface SSMService$ {
    */
   describeMaintenanceWindowExecutionTasks(
     args: DescribeMaintenanceWindowExecutionTasksCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeMaintenanceWindowExecutionTasksCommandOutput,
     SdkError | DoesNotExistError | InternalServerError
@@ -1422,7 +1429,7 @@ interface SSMService$ {
    */
   describeMaintenanceWindows(
     args: DescribeMaintenanceWindowsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeMaintenanceWindowsCommandOutput,
     SdkError | InternalServerError
@@ -1433,7 +1440,7 @@ interface SSMService$ {
    */
   describeMaintenanceWindowSchedule(
     args: DescribeMaintenanceWindowScheduleCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeMaintenanceWindowScheduleCommandOutput,
     SdkError | DoesNotExistError | InternalServerError
@@ -1444,7 +1451,7 @@ interface SSMService$ {
    */
   describeMaintenanceWindowsForTarget(
     args: DescribeMaintenanceWindowsForTargetCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeMaintenanceWindowsForTargetCommandOutput,
     SdkError | InternalServerError
@@ -1455,7 +1462,7 @@ interface SSMService$ {
    */
   describeMaintenanceWindowTargets(
     args: DescribeMaintenanceWindowTargetsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeMaintenanceWindowTargetsCommandOutput,
     SdkError | DoesNotExistError | InternalServerError
@@ -1466,7 +1473,7 @@ interface SSMService$ {
    */
   describeMaintenanceWindowTasks(
     args: DescribeMaintenanceWindowTasksCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeMaintenanceWindowTasksCommandOutput,
     SdkError | DoesNotExistError | InternalServerError
@@ -1477,7 +1484,7 @@ interface SSMService$ {
    */
   describeOpsItems(
     args: DescribeOpsItemsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeOpsItemsCommandOutput,
     SdkError | InternalServerError
@@ -1488,7 +1495,7 @@ interface SSMService$ {
    */
   describeParameters(
     args: DescribeParametersCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeParametersCommandOutput,
     | SdkError
@@ -1504,7 +1511,7 @@ interface SSMService$ {
    */
   describePatchBaselines(
     args: DescribePatchBaselinesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribePatchBaselinesCommandOutput,
     SdkError | InternalServerError
@@ -1515,7 +1522,7 @@ interface SSMService$ {
    */
   describePatchGroups(
     args: DescribePatchGroupsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribePatchGroupsCommandOutput,
     SdkError | InternalServerError
@@ -1526,7 +1533,7 @@ interface SSMService$ {
    */
   describePatchGroupState(
     args: DescribePatchGroupStateCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribePatchGroupStateCommandOutput,
     SdkError | InternalServerError | InvalidNextTokenError
@@ -1537,7 +1544,7 @@ interface SSMService$ {
    */
   describePatchProperties(
     args: DescribePatchPropertiesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribePatchPropertiesCommandOutput,
     SdkError | InternalServerError
@@ -1548,7 +1555,7 @@ interface SSMService$ {
    */
   describeSessions(
     args: DescribeSessionsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeSessionsCommandOutput,
     | SdkError
@@ -1562,7 +1569,7 @@ interface SSMService$ {
    */
   disassociateOpsItemRelatedItem(
     args: DisassociateOpsItemRelatedItemCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisassociateOpsItemRelatedItemCommandOutput,
     | SdkError
@@ -1578,7 +1585,7 @@ interface SSMService$ {
    */
   getAutomationExecution(
     args: GetAutomationExecutionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAutomationExecutionCommandOutput,
     SdkError | AutomationExecutionNotFoundError | InternalServerError
@@ -1589,7 +1596,7 @@ interface SSMService$ {
    */
   getCalendarState(
     args: GetCalendarStateCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetCalendarStateCommandOutput,
     | SdkError
@@ -1604,7 +1611,7 @@ interface SSMService$ {
    */
   getCommandInvocation(
     args: GetCommandInvocationCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetCommandInvocationCommandOutput,
     | SdkError
@@ -1620,7 +1627,7 @@ interface SSMService$ {
    */
   getConnectionStatus(
     args: GetConnectionStatusCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetConnectionStatusCommandOutput,
     SdkError | InternalServerError
@@ -1631,7 +1638,7 @@ interface SSMService$ {
    */
   getDefaultPatchBaseline(
     args: GetDefaultPatchBaselineCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDefaultPatchBaselineCommandOutput,
     SdkError | InternalServerError
@@ -1642,7 +1649,7 @@ interface SSMService$ {
    */
   getDeployablePatchSnapshotForInstance(
     args: GetDeployablePatchSnapshotForInstanceCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDeployablePatchSnapshotForInstanceCommandOutput,
     | SdkError
@@ -1656,7 +1663,7 @@ interface SSMService$ {
    */
   getDocument(
     args: GetDocumentCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDocumentCommandOutput,
     | SdkError
@@ -1670,7 +1677,7 @@ interface SSMService$ {
    */
   getInventory(
     args: GetInventoryCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetInventoryCommandOutput,
     | SdkError
@@ -1688,7 +1695,7 @@ interface SSMService$ {
    */
   getInventorySchema(
     args: GetInventorySchemaCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetInventorySchemaCommandOutput,
     | SdkError
@@ -1702,7 +1709,7 @@ interface SSMService$ {
    */
   getMaintenanceWindow(
     args: GetMaintenanceWindowCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetMaintenanceWindowCommandOutput,
     SdkError | DoesNotExistError | InternalServerError
@@ -1713,7 +1720,7 @@ interface SSMService$ {
    */
   getMaintenanceWindowExecution(
     args: GetMaintenanceWindowExecutionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetMaintenanceWindowExecutionCommandOutput,
     SdkError | DoesNotExistError | InternalServerError
@@ -1724,7 +1731,7 @@ interface SSMService$ {
    */
   getMaintenanceWindowExecutionTask(
     args: GetMaintenanceWindowExecutionTaskCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetMaintenanceWindowExecutionTaskCommandOutput,
     SdkError | DoesNotExistError | InternalServerError
@@ -1735,7 +1742,7 @@ interface SSMService$ {
    */
   getMaintenanceWindowExecutionTaskInvocation(
     args: GetMaintenanceWindowExecutionTaskInvocationCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetMaintenanceWindowExecutionTaskInvocationCommandOutput,
     SdkError | DoesNotExistError | InternalServerError
@@ -1746,7 +1753,7 @@ interface SSMService$ {
    */
   getMaintenanceWindowTask(
     args: GetMaintenanceWindowTaskCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetMaintenanceWindowTaskCommandOutput,
     SdkError | DoesNotExistError | InternalServerError
@@ -1757,7 +1764,7 @@ interface SSMService$ {
    */
   getOpsItem(
     args: GetOpsItemCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetOpsItemCommandOutput,
     | SdkError
@@ -1771,7 +1778,7 @@ interface SSMService$ {
    */
   getOpsMetadata(
     args: GetOpsMetadataCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetOpsMetadataCommandOutput,
     | SdkError
@@ -1785,7 +1792,7 @@ interface SSMService$ {
    */
   getOpsSummary(
     args: GetOpsSummaryCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetOpsSummaryCommandOutput,
     | SdkError
@@ -1802,7 +1809,7 @@ interface SSMService$ {
    */
   getParameter(
     args: GetParameterCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetParameterCommandOutput,
     | SdkError
@@ -1817,7 +1824,7 @@ interface SSMService$ {
    */
   getParameterHistory(
     args: GetParameterHistoryCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetParameterHistoryCommandOutput,
     | SdkError
@@ -1832,7 +1839,7 @@ interface SSMService$ {
    */
   getParameters(
     args: GetParametersCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetParametersCommandOutput,
     SdkError | InternalServerError | InvalidKeyIdError
@@ -1843,7 +1850,7 @@ interface SSMService$ {
    */
   getParametersByPath(
     args: GetParametersByPathCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetParametersByPathCommandOutput,
     | SdkError
@@ -1860,7 +1867,7 @@ interface SSMService$ {
    */
   getPatchBaseline(
     args: GetPatchBaselineCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPatchBaselineCommandOutput,
     SdkError | DoesNotExistError | InternalServerError | InvalidResourceIdError
@@ -1871,7 +1878,7 @@ interface SSMService$ {
    */
   getPatchBaselineForPatchGroup(
     args: GetPatchBaselineForPatchGroupCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPatchBaselineForPatchGroupCommandOutput,
     SdkError | InternalServerError
@@ -1882,7 +1889,7 @@ interface SSMService$ {
    */
   getResourcePolicies(
     args: GetResourcePoliciesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetResourcePoliciesCommandOutput,
     | SdkError
@@ -1896,7 +1903,7 @@ interface SSMService$ {
    */
   getServiceSetting(
     args: GetServiceSettingCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetServiceSettingCommandOutput,
     SdkError | InternalServerError | ServiceSettingNotFoundError
@@ -1907,7 +1914,7 @@ interface SSMService$ {
    */
   labelParameterVersion(
     args: LabelParameterVersionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     LabelParameterVersionCommandOutput,
     | SdkError
@@ -1923,7 +1930,7 @@ interface SSMService$ {
    */
   listAssociations(
     args: ListAssociationsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAssociationsCommandOutput,
     SdkError | InternalServerError | InvalidNextTokenError
@@ -1934,7 +1941,7 @@ interface SSMService$ {
    */
   listAssociationVersions(
     args: ListAssociationVersionsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAssociationVersionsCommandOutput,
     | SdkError
@@ -1948,7 +1955,7 @@ interface SSMService$ {
    */
   listCommandInvocations(
     args: ListCommandInvocationsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListCommandInvocationsCommandOutput,
     | SdkError
@@ -1964,7 +1971,7 @@ interface SSMService$ {
    */
   listCommands(
     args: ListCommandsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListCommandsCommandOutput,
     | SdkError
@@ -1980,7 +1987,7 @@ interface SSMService$ {
    */
   listComplianceItems(
     args: ListComplianceItemsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListComplianceItemsCommandOutput,
     | SdkError
@@ -1996,7 +2003,7 @@ interface SSMService$ {
    */
   listComplianceSummaries(
     args: ListComplianceSummariesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListComplianceSummariesCommandOutput,
     SdkError | InternalServerError | InvalidFilterError | InvalidNextTokenError
@@ -2007,7 +2014,7 @@ interface SSMService$ {
    */
   listDocumentMetadataHistory(
     args: ListDocumentMetadataHistoryCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDocumentMetadataHistoryCommandOutput,
     | SdkError
@@ -2022,7 +2029,7 @@ interface SSMService$ {
    */
   listDocuments(
     args: ListDocumentsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDocumentsCommandOutput,
     | SdkError
@@ -2036,7 +2043,7 @@ interface SSMService$ {
    */
   listDocumentVersions(
     args: ListDocumentVersionsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDocumentVersionsCommandOutput,
     | SdkError
@@ -2050,7 +2057,7 @@ interface SSMService$ {
    */
   listInventoryEntries(
     args: ListInventoryEntriesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListInventoryEntriesCommandOutput,
     | SdkError
@@ -2066,7 +2073,7 @@ interface SSMService$ {
    */
   listOpsItemEvents(
     args: ListOpsItemEventsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListOpsItemEventsCommandOutput,
     | SdkError
@@ -2081,7 +2088,7 @@ interface SSMService$ {
    */
   listOpsItemRelatedItems(
     args: ListOpsItemRelatedItemsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListOpsItemRelatedItemsCommandOutput,
     SdkError | InternalServerError | OpsItemInvalidParameterError
@@ -2092,7 +2099,7 @@ interface SSMService$ {
    */
   listOpsMetadata(
     args: ListOpsMetadataCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListOpsMetadataCommandOutput,
     SdkError | InternalServerError | OpsMetadataInvalidArgumentError
@@ -2103,7 +2110,7 @@ interface SSMService$ {
    */
   listResourceComplianceSummaries(
     args: ListResourceComplianceSummariesCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListResourceComplianceSummariesCommandOutput,
     SdkError | InternalServerError | InvalidFilterError | InvalidNextTokenError
@@ -2114,7 +2121,7 @@ interface SSMService$ {
    */
   listResourceDataSync(
     args: ListResourceDataSyncCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListResourceDataSyncCommandOutput,
     | SdkError
@@ -2128,7 +2135,7 @@ interface SSMService$ {
    */
   listTagsForResource(
     args: ListTagsForResourceCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsForResourceCommandOutput,
     | SdkError
@@ -2142,7 +2149,7 @@ interface SSMService$ {
    */
   modifyDocumentPermission(
     args: ModifyDocumentPermissionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyDocumentPermissionCommandOutput,
     | SdkError
@@ -2158,7 +2165,7 @@ interface SSMService$ {
    */
   putComplianceItems(
     args: PutComplianceItemsCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutComplianceItemsCommandOutput,
     | SdkError
@@ -2176,7 +2183,7 @@ interface SSMService$ {
    */
   putInventory(
     args: PutInventoryCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutInventoryCommandOutput,
     | SdkError
@@ -2199,7 +2206,7 @@ interface SSMService$ {
    */
   putParameter(
     args: PutParameterCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutParameterCommandOutput,
     | SdkError
@@ -2225,7 +2232,7 @@ interface SSMService$ {
    */
   putResourcePolicy(
     args: PutResourcePolicyCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutResourcePolicyCommandOutput,
     | SdkError
@@ -2243,7 +2250,7 @@ interface SSMService$ {
    */
   registerDefaultPatchBaseline(
     args: RegisterDefaultPatchBaselineCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     RegisterDefaultPatchBaselineCommandOutput,
     SdkError | DoesNotExistError | InternalServerError | InvalidResourceIdError
@@ -2254,7 +2261,7 @@ interface SSMService$ {
    */
   registerPatchBaselineForPatchGroup(
     args: RegisterPatchBaselineForPatchGroupCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     RegisterPatchBaselineForPatchGroupCommandOutput,
     | SdkError
@@ -2270,7 +2277,7 @@ interface SSMService$ {
    */
   registerTargetWithMaintenanceWindow(
     args: RegisterTargetWithMaintenanceWindowCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     RegisterTargetWithMaintenanceWindowCommandOutput,
     | SdkError
@@ -2285,7 +2292,7 @@ interface SSMService$ {
    */
   registerTaskWithMaintenanceWindow(
     args: RegisterTaskWithMaintenanceWindowCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     RegisterTaskWithMaintenanceWindowCommandOutput,
     | SdkError
@@ -2301,7 +2308,7 @@ interface SSMService$ {
    */
   removeTagsFromResource(
     args: RemoveTagsFromResourceCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     RemoveTagsFromResourceCommandOutput,
     | SdkError
@@ -2316,7 +2323,7 @@ interface SSMService$ {
    */
   resetServiceSetting(
     args: ResetServiceSettingCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ResetServiceSettingCommandOutput,
     | SdkError
@@ -2330,7 +2337,7 @@ interface SSMService$ {
    */
   resumeSession(
     args: ResumeSessionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ResumeSessionCommandOutput,
     SdkError | DoesNotExistError | InternalServerError
@@ -2341,7 +2348,7 @@ interface SSMService$ {
    */
   sendAutomationSignal(
     args: SendAutomationSignalCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     SendAutomationSignalCommandOutput,
     | SdkError
@@ -2356,7 +2363,7 @@ interface SSMService$ {
    */
   sendCommand(
     args: SendCommandCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     SendCommandCommandOutput,
     | SdkError
@@ -2378,7 +2385,7 @@ interface SSMService$ {
    */
   startAssociationsOnce(
     args: StartAssociationsOnceCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartAssociationsOnceCommandOutput,
     SdkError | AssociationDoesNotExistError | InvalidAssociationError
@@ -2389,7 +2396,7 @@ interface SSMService$ {
    */
   startAutomationExecution(
     args: StartAutomationExecutionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartAutomationExecutionCommandOutput,
     | SdkError
@@ -2407,7 +2414,7 @@ interface SSMService$ {
    */
   startChangeRequestExecution(
     args: StartChangeRequestExecutionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartChangeRequestExecutionCommandOutput,
     | SdkError
@@ -2425,7 +2432,7 @@ interface SSMService$ {
    */
   startSession(
     args: StartSessionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartSessionCommandOutput,
     | SdkError
@@ -2439,7 +2446,7 @@ interface SSMService$ {
    */
   stopAutomationExecution(
     args: StopAutomationExecutionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     StopAutomationExecutionCommandOutput,
     | SdkError
@@ -2453,7 +2460,7 @@ interface SSMService$ {
    */
   terminateSession(
     args: TerminateSessionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     TerminateSessionCommandOutput,
     SdkError | InternalServerError
@@ -2464,7 +2471,7 @@ interface SSMService$ {
    */
   unlabelParameterVersion(
     args: UnlabelParameterVersionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     UnlabelParameterVersionCommandOutput,
     | SdkError
@@ -2479,7 +2486,7 @@ interface SSMService$ {
    */
   updateAssociation(
     args: UpdateAssociationCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateAssociationCommandOutput,
     | SdkError
@@ -2503,7 +2510,7 @@ interface SSMService$ {
    */
   updateAssociationStatus(
     args: UpdateAssociationStatusCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateAssociationStatusCommandOutput,
     | SdkError
@@ -2520,7 +2527,7 @@ interface SSMService$ {
    */
   updateDocument(
     args: UpdateDocumentCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateDocumentCommandOutput,
     | SdkError
@@ -2541,7 +2548,7 @@ interface SSMService$ {
    */
   updateDocumentDefaultVersion(
     args: UpdateDocumentDefaultVersionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateDocumentDefaultVersionCommandOutput,
     | SdkError
@@ -2556,7 +2563,7 @@ interface SSMService$ {
    */
   updateDocumentMetadata(
     args: UpdateDocumentMetadataCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateDocumentMetadataCommandOutput,
     | SdkError
@@ -2571,7 +2578,7 @@ interface SSMService$ {
    */
   updateMaintenanceWindow(
     args: UpdateMaintenanceWindowCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateMaintenanceWindowCommandOutput,
     SdkError | DoesNotExistError | InternalServerError
@@ -2582,7 +2589,7 @@ interface SSMService$ {
    */
   updateMaintenanceWindowTarget(
     args: UpdateMaintenanceWindowTargetCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateMaintenanceWindowTargetCommandOutput,
     SdkError | DoesNotExistError | InternalServerError
@@ -2593,7 +2600,7 @@ interface SSMService$ {
    */
   updateMaintenanceWindowTask(
     args: UpdateMaintenanceWindowTaskCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateMaintenanceWindowTaskCommandOutput,
     SdkError | DoesNotExistError | InternalServerError
@@ -2604,7 +2611,7 @@ interface SSMService$ {
    */
   updateManagedInstanceRole(
     args: UpdateManagedInstanceRoleCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateManagedInstanceRoleCommandOutput,
     SdkError | InternalServerError | InvalidInstanceIdError
@@ -2615,7 +2622,7 @@ interface SSMService$ {
    */
   updateOpsItem(
     args: UpdateOpsItemCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateOpsItemCommandOutput,
     | SdkError
@@ -2633,7 +2640,7 @@ interface SSMService$ {
    */
   updateOpsMetadata(
     args: UpdateOpsMetadataCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateOpsMetadataCommandOutput,
     | SdkError
@@ -2649,7 +2656,7 @@ interface SSMService$ {
    */
   updatePatchBaseline(
     args: UpdatePatchBaselineCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdatePatchBaselineCommandOutput,
     SdkError | DoesNotExistError | InternalServerError
@@ -2660,7 +2667,7 @@ interface SSMService$ {
    */
   updateResourceDataSync(
     args: UpdateResourceDataSyncCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateResourceDataSyncCommandOutput,
     | SdkError
@@ -2675,7 +2682,7 @@ interface SSMService$ {
    */
   updateServiceSetting(
     args: UpdateServiceSettingCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateServiceSettingCommandOutput,
     | SdkError
@@ -2703,9 +2710,13 @@ export const makeSSMService = Effect.gen(function* (_) {
 
   return Record.toEntries(commands).reduce((acc, [command]) => {
     const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options: any) =>
+    const methodImpl = (args: any, options?: HttpHandlerOptions) =>
       Effect.tryPromise({
-        try: () => client.send(new CommandCtor(args), options ?? {}),
+        try: (abortSignal) =>
+          client.send(new CommandCtor(args), {
+            ...(options ?? {}),
+            abortSignal,
+          }),
         catch: (e) => {
           if (
             e instanceof SSMServiceException &&

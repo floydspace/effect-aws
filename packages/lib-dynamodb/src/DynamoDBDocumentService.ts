@@ -43,7 +43,6 @@ import {
   UpdateCommandInput,
   UpdateCommandOutput,
 } from "@aws-sdk/lib-dynamodb";
-import { HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
 import {
   ConditionalCheckFailedError,
   DuplicateItemError,
@@ -66,6 +65,14 @@ import {
   DynamoDBDocumentClientInstanceLayer,
 } from "./DynamoDBDocumentClientInstance";
 import { DefaultDynamoDBDocumentClientConfigLayer } from "./DynamoDBDocumentClientInstanceConfig";
+
+interface HttpHandlerOptions {
+  /**
+   * The maximum time in milliseconds that the connection phase of a request
+   * may take before the connection attempt is abandoned.
+   */
+  requestTimeout?: number;
+}
 
 const commands = {
   BatchExecuteStatementCommand,
@@ -95,7 +102,7 @@ export interface DynamoDBDocumentService {
    */
   batchExecuteStatement(
     args: BatchExecuteStatementCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchExecuteStatementCommandOutput,
     SdkError | InternalServerError | RequestLimitExceededError
@@ -106,7 +113,7 @@ export interface DynamoDBDocumentService {
    */
   batchGet(
     args: BatchGetCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchGetCommandOutput,
     | SdkError
@@ -122,7 +129,7 @@ export interface DynamoDBDocumentService {
    */
   batchWrite(
     args: BatchWriteCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchWriteCommandOutput,
     | SdkError
@@ -139,7 +146,7 @@ export interface DynamoDBDocumentService {
    */
   delete(
     args: DeleteCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteCommandOutput,
     | SdkError
@@ -158,7 +165,7 @@ export interface DynamoDBDocumentService {
    */
   executeStatement(
     args: ExecuteStatementCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ExecuteStatementCommandOutput,
     | SdkError
@@ -177,7 +184,7 @@ export interface DynamoDBDocumentService {
    */
   executeTransaction(
     args: ExecuteTransactionCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ExecuteTransactionCommandOutput,
     | SdkError
@@ -195,7 +202,7 @@ export interface DynamoDBDocumentService {
    */
   get(
     args: GetCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetCommandOutput,
     | SdkError
@@ -211,7 +218,7 @@ export interface DynamoDBDocumentService {
    */
   put(
     args: PutCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutCommandOutput,
     | SdkError
@@ -230,7 +237,7 @@ export interface DynamoDBDocumentService {
    */
   query(
     args: QueryCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     QueryCommandOutput,
     | SdkError
@@ -246,7 +253,7 @@ export interface DynamoDBDocumentService {
    */
   scan(
     args: ScanCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     ScanCommandOutput,
     | SdkError
@@ -262,7 +269,7 @@ export interface DynamoDBDocumentService {
    */
   transactGet(
     args: TransactGetCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     TransactGetCommandOutput,
     | SdkError
@@ -279,7 +286,7 @@ export interface DynamoDBDocumentService {
    */
   transactWrite(
     args: TransactWriteCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     TransactWriteCommandOutput,
     | SdkError
@@ -298,7 +305,7 @@ export interface DynamoDBDocumentService {
    */
   update(
     args: UpdateCommandInput,
-    options?: __HttpHandlerOptions,
+    options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateCommandOutput,
     | SdkError
@@ -331,9 +338,13 @@ export const makeDynamoDBDocumentService = Effect.gen(function* (_) {
 
   return Record.toEntries(commands).reduce((acc, [command]) => {
     const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options: any) =>
+    const methodImpl = (args: any, options?: HttpHandlerOptions) =>
       Effect.tryPromise({
-        try: () => client.send(new CommandCtor(args), options ?? {}),
+        try: (abortSignal) =>
+          client.send(new CommandCtor(args), {
+            ...(options ?? {}),
+            abortSignal,
+          }),
         catch: (e) => {
           if (e instanceof DynamoDBServiceException) {
             const ServiceException = Data.tagged<
