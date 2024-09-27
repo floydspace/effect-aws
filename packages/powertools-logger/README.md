@@ -3,8 +3,9 @@
 ## Installation
 
 ```bash
-npm install --save @effect-aws/powertools-logger
+npm install --save @effect-aws/powertools-logger @aws-lambda-powertools/logger
 ```
+_Note_: `@aws-lambda-powertools/logger` is a peer dependency and package supports v1.9.0 and higher.
 
 ## Usage
 
