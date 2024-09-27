@@ -19,8 +19,6 @@ import {
   SdkError,
 } from "../src";
 
-import "aws-sdk-client-mock-jest";
-
 const clientMock = mockClient(EC2Client);
 
 describe("EC2ClientImpl", () => {

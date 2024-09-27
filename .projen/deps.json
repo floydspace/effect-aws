@@ -37,6 +37,10 @@
       "type": "build"
     },
     {
+      "name": "aws-sdk-client-mock-vitest",
+      "type": "build"
+    },
+    {
       "name": "constructs",
       "version": "^10.0.0",
       "type": "build"

@@ -21,4 +21,5 @@
 /pnpm-workspace.yaml linguist-generated
 /tsconfig.dev.json linguist-generated
 /tsconfig.json linguist-generated
+/vitest.shared.ts linguist-generated
 /vitest.workspace.json linguist-generated

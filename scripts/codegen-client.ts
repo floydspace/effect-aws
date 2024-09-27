@@ -564,8 +564,6 @@ import {
   SdkError,
 } from "../src";
 
-import "aws-sdk-client-mock-jest";
-
 const clientMock = mockClient(${sdkName}Client);
 
 describe("${sdkName}ClientImpl", () => {

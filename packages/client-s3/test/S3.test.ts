@@ -31,8 +31,6 @@ import {
   SdkError,
 } from "../src";
 
-import "aws-sdk-client-mock-jest";
-
 const clientMock = mockClient(S3Client);
 
 describe("S3ClientImpl", () => {

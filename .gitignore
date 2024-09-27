@@ -46,6 +46,7 @@ jspm_packages/
 !/.nxignore
 !/.github/FUNDING.yml
 !/.changeset/config.json
+!/vitest.shared.ts
 !/vitest.workspace.json
 .direnv/
 docs/

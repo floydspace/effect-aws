@@ -20,7 +20,7 @@
       "type": "build"
     },
     {
-      "name": "aws-sdk-client-mock-jest",
+      "name": "aws-sdk-client-mock-vitest",
       "type": "build"
     },
     {

@@ -43,3 +43,4 @@ jspm_packages/
 !/project.json
 !/docgen.json
 docs/
+!/vitest.config.ts

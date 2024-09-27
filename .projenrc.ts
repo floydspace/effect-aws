@@ -19,6 +19,7 @@ const project = new MonorepoProject({
   authorEmail: "ifloydrose@gmail.com",
   authorName: "Victor Korzunin",
   typescriptVersion: "^5.4.2",
+  devDeps: ["aws-sdk-client-mock-vitest"],
 });
 
 new YamlFile(project, ".github/FUNDING.yml", { obj: { github: org } });
@@ -30,7 +31,9 @@ new Changesets(project, {
 
 new Docgen(project);
 
-new Vitest(project);
+new Vitest(project, {
+  sharedSetupFiles: ["vitest.setup.ts"],
+});
 
 project.addScripts({
   "codegen-client": "tsx ./scripts/codegen-client.ts",
@@ -38,7 +41,7 @@ project.addScripts({
 project.addDeps("effect@^3.0.0", "enquirer@^2.4.1");
 
 const commonDeps: string[] = [];
-const commonDevDeps = ["aws-sdk-client-mock", "aws-sdk-client-mock-jest"];
+const commonDevDeps = ["aws-sdk-client-mock", "aws-sdk-client-mock-vitest"];
 const commonPeerDeps = ["effect@>=3.0.0 <4.0.0"];
 
 new TypeScriptLibProject({

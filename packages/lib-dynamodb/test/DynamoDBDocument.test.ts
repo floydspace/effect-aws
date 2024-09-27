@@ -23,8 +23,6 @@ import {
   DynamoDBDocumentServiceLayer,
 } from "../src";
 
-import "aws-sdk-client-mock-jest";
-
 const dynamodbMock = mockClient(DynamoDBDocumentClient);
 const { put } = Effect.serviceFunctions(DynamoDBDocumentService);
 

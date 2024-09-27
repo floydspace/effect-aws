@@ -20,8 +20,6 @@ import {
   SdkError,
 } from "../src";
 
-import "aws-sdk-client-mock-jest";
-
 const clientMock = mockClient(ApiGatewayManagementApiClient);
 
 describe("ApiGatewayManagementApiClientImpl", () => {
