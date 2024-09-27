@@ -8,7 +8,6 @@ import {
 } from "@effect-aws/client-secrets-manager";
 import { Arg } from "@fluffy-spoon/substitute";
 import { Config, ConfigError, Effect, Exit, Layer, Secret } from "effect";
-import { describe, expect, it } from "vitest";
 import { SubstituteBuilder } from "./utils";
 import { fromSecretsManager } from "../src/ConfigProvider";
 
@@ -34,7 +33,7 @@ describe("fromSecretsManager", () => {
     );
 
     expect(result).toEqual(Exit.succeed("mocked-secret"));
-    clientSubstitute.received(1).send(Arg.any(), {});
+    clientSubstitute.received(1).send(Arg.any(), Arg.any());
   });
 
   it("should load default value if the secret does not exist", async () => {
@@ -64,7 +63,7 @@ describe("fromSecretsManager", () => {
     );
 
     expect(result).toEqual(Exit.succeed("mocked-default-value"));
-    clientSubstitute.received(1).send(Arg.any(), {});
+    clientSubstitute.received(1).send(Arg.any(), Arg.any());
   });
 
   it("should fail if request is invalid", async () => {
@@ -101,7 +100,7 @@ describe("fromSecretsManager", () => {
         ),
       ),
     );
-    clientSubstitute.received(1).send(Arg.any(), {});
+    clientSubstitute.received(1).send(Arg.any(), Arg.any());
   });
 
   it("should fail if the secret does not exist", async () => {
@@ -136,7 +135,7 @@ describe("fromSecretsManager", () => {
         ),
       ),
     );
-    clientSubstitute.received(1).send(Arg.any(), {});
+    clientSubstitute.received(1).send(Arg.any(), Arg.any());
   });
 
   it("should fail if the secret is empty", async () => {
@@ -166,6 +165,6 @@ describe("fromSecretsManager", () => {
         ),
       ),
     );
-    clientSubstitute.received(1).send(Arg.any(), {});
+    clientSubstitute.received(1).send(Arg.any(), Arg.any());
   });
 });

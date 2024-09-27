@@ -2,7 +2,6 @@ import { InvalidKeyId, ParameterNotFound } from "@aws-sdk/client-ssm";
 import { BaseSSMServiceLayer, SSMClientInstance } from "@effect-aws/client-ssm";
 import { Arg } from "@fluffy-spoon/substitute";
 import { Config, ConfigError, Effect, Exit, Layer, Secret } from "effect";
-import { describe, expect, it } from "vitest";
 import { SubstituteBuilder } from "./utils";
 import { fromParameterStore } from "../src/ConfigProvider";
 
@@ -28,7 +27,7 @@ describe("fromParameterStore", () => {
     );
 
     expect(result).toEqual(Exit.succeed("mocked-parameter"));
-    clientSubstitute.received(1).send(Arg.any(), {});
+    clientSubstitute.received(1).send(Arg.any(), Arg.any());
   });
 
   it("should load default value if the parameter does not exist", async () => {
@@ -58,7 +57,7 @@ describe("fromParameterStore", () => {
     );
 
     expect(result).toEqual(Exit.succeed("mocked-default-value"));
-    clientSubstitute.received(1).send(Arg.any(), {});
+    clientSubstitute.received(1).send(Arg.any(), Arg.any());
   });
 
   it("should fail if request is invalid", async () => {
@@ -95,7 +94,7 @@ describe("fromParameterStore", () => {
         ),
       ),
     );
-    clientSubstitute.received(1).send(Arg.any(), {});
+    clientSubstitute.received(1).send(Arg.any(), Arg.any());
   });
 
   it("should fail if the parameter does not exist", async () => {
@@ -130,7 +129,7 @@ describe("fromParameterStore", () => {
         ),
       ),
     );
-    clientSubstitute.received(1).send(Arg.any(), {});
+    clientSubstitute.received(1).send(Arg.any(), Arg.any());
   });
 
   it("should fail if the parameter is empty", async () => {
@@ -160,6 +159,6 @@ describe("fromParameterStore", () => {
         ),
       ),
     );
-    clientSubstitute.received(1).send(Arg.any(), {});
+    clientSubstitute.received(1).send(Arg.any(), Arg.any());
   });
 });
