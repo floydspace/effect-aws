@@ -2484,7 +2484,7 @@ const commands = {
  * @since 1.0.0
  * @category models
  */
-export type EC2Service = {
+interface EC2Service$ {
   readonly _: unique symbol;
 
   /**
@@ -8939,15 +8939,16 @@ export type EC2Service = {
     WithdrawByoipCidrCommandOutput,
     SdkError | EC2ServiceError
   >;
-};
+}
 
 /**
  * @since 1.0.0
- * @category tags
+ * @category models
  */
-export const EC2Service = Context.GenericTag<EC2Service>(
-  "@effect-aws/client-ec2/EC2Service",
-);
+export class EC2Service extends Effect.Tag("@effect-aws/client-ec2/EC2Service")<
+  EC2Service,
+  EC2Service$
+>() {}
 
 /**
  * @since 1.0.0
@@ -8993,7 +8994,7 @@ export const makeEC2Service = Effect.gen(function* (_) {
       "",
     );
     return { ...acc, [methodName]: methodImpl };
-  }, {}) as EC2Service;
+  }, {}) as EC2Service$;
 });
 
 /**

@@ -27,9 +27,7 @@ describe("EC2ClientImpl", () => {
 
     const args = {} as unknown as AcceptAddressTransferCommandInput;
 
-    const program = Effect.flatMap(EC2Service, (service) =>
-      service.acceptAddressTransfer(args),
-    );
+    const program = EC2Service.acceptAddressTransfer(args);
 
     const result = await pipe(
       program,
@@ -53,9 +51,7 @@ describe("EC2ClientImpl", () => {
 
     const args = {} as unknown as AcceptAddressTransferCommandInput;
 
-    const program = Effect.flatMap(EC2Service, (service) =>
-      service.acceptAddressTransfer(args),
-    );
+    const program = EC2Service.acceptAddressTransfer(args);
 
     const EC2ClientConfigLayer = Layer.succeed(EC2ClientInstanceConfig, {
       region: "eu-central-1",
@@ -86,9 +82,7 @@ describe("EC2ClientImpl", () => {
 
     const args = {} as unknown as AcceptAddressTransferCommandInput;
 
-    const program = Effect.flatMap(EC2Service, (service) =>
-      service.acceptAddressTransfer(args),
-    );
+    const program = EC2Service.acceptAddressTransfer(args);
 
     const EC2ClientInstanceLayer = Layer.succeed(
       EC2ClientInstance,
@@ -120,9 +114,7 @@ describe("EC2ClientImpl", () => {
 
     const args = {} as unknown as AcceptAddressTransferCommandInput;
 
-    const program = Effect.flatMap(EC2Service, (service) =>
-      service.acceptAddressTransfer(args),
-    );
+    const program = EC2Service.acceptAddressTransfer(args);
 
     const EC2ClientInstanceLayer = Layer.effect(
       EC2ClientInstance,
@@ -161,9 +153,7 @@ describe("EC2ClientImpl", () => {
 
     const args = {} as unknown as AcceptAddressTransferCommandInput;
 
-    const program = Effect.flatMap(EC2Service, (service) =>
-      service.acceptAddressTransfer(args),
-    );
+    const program = EC2Service.acceptAddressTransfer(args);
 
     const result = await pipe(
       program,

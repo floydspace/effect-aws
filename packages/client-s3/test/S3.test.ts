@@ -39,9 +39,7 @@ describe("S3ClientImpl", () => {
 
     const args: HeadObjectCommandInput = { Key: "test", Bucket: "test" };
 
-    const program = Effect.flatMap(S3Service, (service) =>
-      service.headObject(args),
-    );
+    const program = S3Service.headObject(args);
 
     const result = await pipe(
       program,
@@ -59,9 +57,7 @@ describe("S3ClientImpl", () => {
 
     const args: HeadObjectCommandInput = { Key: "test", Bucket: "test" };
 
-    const program = Effect.flatMap(S3Service, (service) =>
-      service.headObject(args),
-    );
+    const program = S3Service.headObject(args);
 
     const S3ClientConfigLayer = Layer.succeed(S3ClientInstanceConfig, {
       region: "eu-central-1",
@@ -86,9 +82,7 @@ describe("S3ClientImpl", () => {
 
     const args: HeadObjectCommandInput = { Key: "test", Bucket: "test" };
 
-    const program = Effect.flatMap(S3Service, (service) =>
-      service.headObject(args),
-    );
+    const program = S3Service.headObject(args);
 
     const S3ClientInstanceLayer = Layer.succeed(
       S3ClientInstance,
@@ -114,9 +108,7 @@ describe("S3ClientImpl", () => {
 
     const args: HeadObjectCommandInput = { Key: "test", Bucket: "test" };
 
-    const program = Effect.flatMap(S3Service, (service) =>
-      service.headObject(args),
-    );
+    const program = S3Service.headObject(args);
 
     const S3ClientInstanceLayer = Layer.effect(
       S3ClientInstance,
@@ -146,9 +138,7 @@ describe("S3ClientImpl", () => {
 
     const args: HeadObjectCommandInput = { Key: "test", Bucket: "test" };
 
-    const program = Effect.flatMap(S3Service, (service) =>
-      service.headObject(args, { requestTimeout: 1000 }),
-    );
+    const program = S3Service.headObject(args, { requestTimeout: 1000 });
 
     const result = await pipe(
       program,

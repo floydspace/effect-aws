@@ -415,11 +415,7 @@ const commands = {
   WriteGetObjectResponseCommand,
 };
 
-/**
- * @since 1.0.0
- * @category models
- */
-export interface S3Service {
+interface S3Service$ {
   readonly _: unique symbol;
 
   /**
@@ -1337,11 +1333,12 @@ export interface S3Service {
 
 /**
  * @since 1.0.0
- * @category tags
+ * @category models
  */
-export const S3Service = Context.GenericTag<S3Service>(
-  "@effect-aws/client-s3/S3Service",
-);
+export class S3Service extends Effect.Tag("@effect-aws/client-s3/S3Service")<
+  S3Service,
+  S3Service$
+>() {}
 
 /**
  * @since 1.0.0
@@ -1400,7 +1397,7 @@ export const makeS3Service = Effect.gen(function* (_) {
       "",
     );
     return { ...acc, [methodName]: methodImpl };
-  }, {}) as S3Service;
+  }, {}) as S3Service$;
 });
 
 /**
