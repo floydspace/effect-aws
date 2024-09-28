@@ -90,11 +90,7 @@ const commands = {
   UpdateCommand,
 };
 
-/**
- * @since 1.0.0
- * @category models
- */
-export interface DynamoDBDocumentService {
+interface DynamoDBDocumentService$ {
   readonly _: unique symbol;
 
   /**
@@ -322,12 +318,11 @@ export interface DynamoDBDocumentService {
 
 /**
  * @since 1.0.0
- * @category tags
+ * @category models
  */
-export const DynamoDBDocumentService =
-  Context.GenericTag<DynamoDBDocumentService>(
-    "@effect-aws/lib-dynamodb/DynamoDBDocumentService",
-  );
+export class DynamoDBDocumentService extends Effect.Tag(
+  "@effect-aws/lib-dynamodb/DynamoDBDocumentService",
+)<DynamoDBDocumentService, DynamoDBDocumentService$>() {}
 
 /**
  * @since 1.0.0
@@ -373,7 +368,7 @@ export const makeDynamoDBDocumentService = Effect.gen(function* (_) {
       "",
     );
     return { ...acc, [methodName]: methodImpl };
-  }, {}) as DynamoDBDocumentService;
+  }, {}) as DynamoDBDocumentService$;
 });
 
 /**

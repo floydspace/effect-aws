@@ -24,7 +24,6 @@ import {
 } from "../src";
 
 const dynamodbMock = mockClient(DynamoDBDocumentClient);
-const { put } = Effect.serviceFunctions(DynamoDBDocumentService);
 
 describe("DynamoDBDocumentClientImpl", () => {
   it("default", async () => {
@@ -35,7 +34,7 @@ describe("DynamoDBDocumentClientImpl", () => {
       Item: { testAttr: "test" },
     };
 
-    const program = put(args);
+    const program = DynamoDBDocumentService.put(args);
 
     const result = await pipe(
       program,
@@ -56,7 +55,7 @@ describe("DynamoDBDocumentClientImpl", () => {
       Item: { testAttr: "test" },
     };
 
-    const program = put(args);
+    const program = DynamoDBDocumentService.put(args);
 
     const DynamoDBDocumentClientConfigLayer = Layer.succeed(
       DynamoDBDocumentClientInstanceConfig,
@@ -86,7 +85,7 @@ describe("DynamoDBDocumentClientImpl", () => {
       Item: { testAttr: "test" },
     };
 
-    const program = put(args);
+    const program = DynamoDBDocumentService.put(args);
 
     const DynamoDBDocumentClientInstanceLayer = Layer.succeed(
       DynamoDBDocumentClientInstance,
@@ -119,7 +118,7 @@ describe("DynamoDBDocumentClientImpl", () => {
       Item: { testAttr: "test" },
     };
 
-    const program = put(args);
+    const program = DynamoDBDocumentService.put(args);
 
     const DynamoDBDocumentClientInstanceLayer = Layer.effect(
       DynamoDBDocumentClientInstance,
@@ -155,7 +154,7 @@ describe("DynamoDBDocumentClientImpl", () => {
       Item: { testAttr: "test" },
     };
 
-    const program = put(args, { requestTimeout: 1000 });
+    const program = DynamoDBDocumentService.put(args, { requestTimeout: 1000 });
 
     const result = await pipe(
       program,
