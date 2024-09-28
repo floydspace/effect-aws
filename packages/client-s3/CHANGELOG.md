@@ -1,5 +1,13 @@
 # @effect-aws/client-s3
 
+## 1.4.0
+
+### Minor Changes
+
+- [`dfddb5a`](https://github.com/floydspace/effect-aws/commit/dfddb5a5f1f3c2bacb27ddbfbe9b65e1a5cea6e7) Thanks [@floydspace](https://github.com/floydspace)! - replace generic tag with effect tag for ec2 and s3 services
+
+- [`e540420`](https://github.com/floydspace/effect-aws/commit/e5404208c2438e1e1546637a8edbbdc1c9468850) Thanks [@floydspace](https://github.com/floydspace)! - integrate aws-sdk abort signal with effect interruption
+
 ## 1.3.0
 
 ### Minor Changes
