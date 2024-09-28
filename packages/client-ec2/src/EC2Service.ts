@@ -1849,7 +1849,7 @@ import {
   type WithdrawByoipCidrCommandInput,
   type WithdrawByoipCidrCommandOutput,
 } from "@aws-sdk/client-ec2";
-import { Context, Effect, Layer, Record, Data } from "effect";
+import { Effect, Layer, Record, Data } from "effect";
 import { EC2ClientInstance, EC2ClientInstanceLayer } from "./EC2ClientInstance";
 import { DefaultEC2ClientConfigLayer } from "./EC2ClientInstanceConfig";
 import { EC2ServiceError, SdkError, TaggedException } from "./Errors";

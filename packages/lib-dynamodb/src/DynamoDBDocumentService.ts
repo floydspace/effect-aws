@@ -59,7 +59,7 @@ import {
   TransactionConflictError,
   TransactionInProgressError,
 } from "@effect-aws/client-dynamodb";
-import { Context, Data, Effect, Layer, Record } from "effect";
+import { Data, Effect, Layer, Record } from "effect";
 import {
   DynamoDBDocumentClientInstance,
   DynamoDBDocumentClientInstanceLayer,
