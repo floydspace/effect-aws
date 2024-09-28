@@ -1,5 +1,11 @@
 # @effect-aws/client-eventbridge
 
+## 1.5.0
+
+### Minor Changes
+
+- [`e540420`](https://github.com/floydspace/effect-aws/commit/e5404208c2438e1e1546637a8edbbdc1c9468850) Thanks [@floydspace](https://github.com/floydspace)! - integrate aws-sdk abort signal with effect interruption
+
 ## 1.4.0
 
 ### Minor Changes
