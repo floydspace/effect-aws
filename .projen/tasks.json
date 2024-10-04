@@ -22,6 +22,15 @@
         }
       ]
     },
+    "changeset": {
+      "name": "changeset",
+      "steps": [
+        {
+          "exec": "changeset",
+          "receiveArgs": true
+        }
+      ]
+    },
     "compile": {
       "name": "compile",
       "description": "Only compile for all affected projects",
@@ -130,6 +139,15 @@
         {
           "exec": "pnpm exec nx run-many --target=pre-compile --output-style=stream --nx-bail",
           "receiveArgs": true
+        }
+      ]
+    },
+    "release": {
+      "name": "release",
+      "description": "Release with changesets",
+      "steps": [
+        {
+          "exec": "changeset publish"
         }
       ]
     },

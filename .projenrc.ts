@@ -1,6 +1,6 @@
+import { Changesets } from "@floydspace/projen-components";
 import { YamlFile } from "projen";
 import {
-  Changesets,
   Docgen,
   MonorepoProject,
   TypeScriptLibProject,
@@ -19,7 +19,7 @@ const project = new MonorepoProject({
   authorEmail: "ifloydrose@gmail.com",
   authorName: "Victor Korzunin",
   typescriptVersion: "^5.4.2",
-  devDeps: ["aws-sdk-client-mock-vitest"],
+  devDeps: ["@floydspace/projen-components", "aws-sdk-client-mock-vitest"],
 });
 
 new YamlFile(project, ".github/FUNDING.yml", { obj: { github: org } });

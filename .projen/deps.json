@@ -18,6 +18,10 @@
       "type": "build"
     },
     {
+      "name": "@floydspace/projen-components",
+      "type": "build"
+    },
+    {
       "name": "@types/node",
       "version": "^18",
       "type": "build"

@@ -4,6 +4,7 @@
     ".eslintrc.json",
     ".gitattributes",
     ".github/FUNDING.yml",
+    ".github/workflows/release.yml",
     ".gitignore",
     ".npmignore",
     ".npmrc",

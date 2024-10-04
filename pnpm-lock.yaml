@@ -41,6 +41,9 @@ importers:
       '@effect/docgen':
         specifier: ^0.4.3
         version: 0.4.3(tsx@4.16.5)(typescript@5.4.5)
+      '@floydspace/projen-components':
+        specifier: 1.0.0-next.5
+        version: 1.0.0-next.5(projen@0.82.8)
       '@types/node':
         specifier: ^18
         version: 18.19.14
@@ -3006,6 +3009,26 @@ packages:
     resolution: {integrity: sha512-Ys+3g2TaW7gADOJzPt83SJtCDhMjndcDMFVQ/Tj9iA1BfJzFKD9mAUXT3OenpuPHbI6P/myECxRJrofUsDx/5g==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
+
+  /@floydspace/projen-components@1.0.0-next.5(projen@0.82.8):
+    resolution: {integrity: sha512-hcQ5LCETKNaUqgxqS1vhUrOxI10lxRSyeuxEBmk3Ng622JO/39+u0vS/B0Y0bIJg+pxL9LB6oHYQ3BYUIovxyQ==}
+    engines: {pnpm: '>=8 <9'}
+    peerDependencies:
+      projen: '>0.58.15'
+    dependencies:
+      projen: 0.82.8(constructs@10.3.0)
+    dev: true
+    bundledDependencies:
+      - '@commitlint/cli'
+      - '@commitlint/config-conventional'
+      - '@commitlint/types'
+      - '@cspell/cspell-types'
+      - cspell
+      - fs-extra
+      - merge
+      - shelljs
+      - shelljs-plugin-authors
+      - traverse
 
   /@fluffy-spoon/substitute@1.208.0:
     resolution: {integrity: sha512-BU5vKRoK4OYlKzDtyg4HbtWnUNLOvV0ntqEZIphz+mq2G0HlVFywwJ7M+FbIcnJVDbUReS01FyL5x8R01r7zBg==}
