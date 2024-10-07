@@ -42,8 +42,8 @@ importers:
         specifier: ^0.4.3
         version: 0.4.3(tsx@4.16.5)(typescript@5.4.5)
       '@floydspace/projen-components':
-        specifier: 1.0.0-next.5
-        version: 1.0.0-next.5(projen@0.82.8)
+        specifier: 1.0.0-next.7
+        version: 1.0.0-next.7(projen@0.82.8)
       '@types/node':
         specifier: ^18
         version: 18.19.14
@@ -3010,8 +3010,8 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
 
-  /@floydspace/projen-components@1.0.0-next.5(projen@0.82.8):
-    resolution: {integrity: sha512-hcQ5LCETKNaUqgxqS1vhUrOxI10lxRSyeuxEBmk3Ng622JO/39+u0vS/B0Y0bIJg+pxL9LB6oHYQ3BYUIovxyQ==}
+  /@floydspace/projen-components@1.0.0-next.7(projen@0.82.8):
+    resolution: {integrity: sha512-n4nWkUsg/rpweB+GLU91gF/2Xr2/GEkB+PUB1H5GwMHmwjS4LtSl/DLqlNPVrOP9+ZmScLd+S58EtNOSPYfCZw==}
     engines: {pnpm: '>=8 <9'}
     peerDependencies:
       projen: '>0.58.15'
