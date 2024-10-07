@@ -1,5 +1,8 @@
 # @effect-aws/ssm
 
+[![npm version](https://img.shields.io/npm/v/%40effect-aws%2Fssm?color=brightgreen&label=npm%20package)](https://www.npmjs.com/package/@effect-aws/ssm)
+[![npm downloads](https://img.shields.io/npm/dm/%40effect-aws%2Fssm)](https://www.npmjs.com/package/@effect-aws/ssm)
+
 This package provides a `fromParameterStore` [ConfigProvider](https://effect.website/docs/guides/configuration) constructor function.
 You can use it to read parameters from AWS Systems Manager Parameter Store as a `Config` schema.
 

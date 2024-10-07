@@ -1,5 +1,8 @@
 # @effect-aws/client-dynamodb
 
+[![npm version](https://img.shields.io/npm/v/%40effect-aws%2Fclient-dynamodb?color=brightgreen&label=npm%20package)](https://www.npmjs.com/package/@effect-aws/client-dynamodb)
+[![npm downloads](https://img.shields.io/npm/dm/%40effect-aws%2Fclient-dynamodb)](https://www.npmjs.com/package/@effect-aws/client-dynamodb)
+
 ## Installation
 
 ```bash

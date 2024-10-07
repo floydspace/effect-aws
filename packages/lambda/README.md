@@ -2,6 +2,9 @@
 
 Clean way to write AWS Lambda handlers using [Effect](https://www.effect.website/).
 
+[![npm version](https://img.shields.io/npm/v/%40effect-aws%2Flambda?color=brightgreen&label=npm%20package)](https://www.npmjs.com/package/@effect-aws/lambda)
+[![npm downloads](https://img.shields.io/npm/dm/%40effect-aws%2Flambda)](https://www.npmjs.com/package/@effect-aws/lambda)
+
 It provides a `makeLambda` function that takes an `EffectHandler` and returns a native promise Lambda handler function.
 
 The implementation supports defining global runtime layer with graceful shutdown. So all finalizers defined by `acquireRelease` will be called on lambda downscaling.

@@ -761,6 +761,9 @@ describe("${sdkName}ClientImpl", () => {
     `./packages/client-${serviceName}/README.md`,
     `# @effect-aws/client-${serviceName}
 
+[![npm version](https://img.shields.io/npm/v/%40effect-aws%2Fclient-${serviceName}?color=brightgreen&label=npm%20package)](https://www.npmjs.com/package/@effect-aws/client-${serviceName})
+[![npm downloads](https://img.shields.io/npm/dm/%40effect-aws%2Fclient-${serviceName})](https://www.npmjs.com/package/@effect-aws/client-${serviceName})
+
 ## Installation
 
 \`\`\`bash

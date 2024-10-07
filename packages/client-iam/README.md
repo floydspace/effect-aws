@@ -1,5 +1,8 @@
 # @effect-aws/client-iam
 
+[![npm version](https://img.shields.io/npm/v/%40effect-aws%2Fclient-iam?color=brightgreen&label=npm%20package)](https://www.npmjs.com/package/@effect-aws/client-iam)
+[![npm downloads](https://img.shields.io/npm/dm/%40effect-aws%2Fclient-iam)](https://www.npmjs.com/package/@effect-aws/client-iam)
+
 ## Installation
 
 ```bash

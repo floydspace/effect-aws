@@ -1,5 +1,8 @@
 # @effect-aws/client-sqs
 
+[![npm version](https://img.shields.io/npm/v/%40effect-aws%2Fclient-sqs?color=brightgreen&label=npm%20package)](https://www.npmjs.com/package/@effect-aws/client-sqs)
+[![npm downloads](https://img.shields.io/npm/dm/%40effect-aws%2Fclient-sqs)](https://www.npmjs.com/package/@effect-aws/client-sqs)
+
 ## Installation
 
 ```bash

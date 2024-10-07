@@ -1,5 +1,8 @@
 # @effect-aws/secrets-manager
 
+[![npm version](https://img.shields.io/npm/v/%40effect-aws%2Fsecrets-manager?color=brightgreen&label=npm%20package)](https://www.npmjs.com/package/@effect-aws/secrets-manager)
+[![npm downloads](https://img.shields.io/npm/dm/%40effect-aws%2Fsecrets-manager)](https://www.npmjs.com/package/@effect-aws/secrets-manager)
+
 This package provides a `fromSecretsManager` [ConfigProvider](https://effect.website/docs/guides/configuration) constructor function.
 You can use it to read secrets from AWS Secrets Manager as a `Config` schema.
 

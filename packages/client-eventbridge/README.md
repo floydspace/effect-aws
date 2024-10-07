@@ -1,5 +1,8 @@
 # @effect-aws/client-eventbridge
 
+[![npm version](https://img.shields.io/npm/v/%40effect-aws%2Fclient-eventbridge?color=brightgreen&label=npm%20package)](https://www.npmjs.com/package/@effect-aws/client-eventbridge)
+[![npm downloads](https://img.shields.io/npm/dm/%40effect-aws%2Fclient-eventbridge)](https://www.npmjs.com/package/@effect-aws/client-eventbridge)
+
 ## Installation
 
 ```bash
@@ -11,7 +14,10 @@ npm install --save @effect-aws/client-eventbridge
 With default EventBridgeClient instance:
 
 ```typescript
-import { EventBridgeService, DefaultEventBridgeServiceLayer } from "@effect-aws/client-eventbridge";
+import {
+  EventBridgeService,
+  DefaultEventBridgeServiceLayer,
+} from "@effect-aws/client-eventbridge";
 
 const program = EventBridgeService.putEvents(args);
 
@@ -64,7 +70,8 @@ const EventBridgeClientInstanceLayer = Layer.provide(
     EventBridgeClientInstance,
     EventBridgeClientInstanceConfig.pipe(
       Effect.map(
-        (config) => new EventBridgeClient({ ...config, region: "eu-central-1" }),
+        (config) =>
+          new EventBridgeClient({ ...config, region: "eu-central-1" }),
       ),
     ),
   ),

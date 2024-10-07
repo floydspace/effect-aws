@@ -1,5 +1,8 @@
 # @effect-aws/client-sns
 
+[![npm version](https://img.shields.io/npm/v/%40effect-aws%2Fclient-sns?color=brightgreen&label=npm%20package)](https://www.npmjs.com/package/@effect-aws/client-sns)
+[![npm downloads](https://img.shields.io/npm/dm/%40effect-aws%2Fclient-sns)](https://www.npmjs.com/package/@effect-aws/client-sns)
+
 ## Installation
 
 ```bash

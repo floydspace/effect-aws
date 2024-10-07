@@ -1,10 +1,14 @@
 # @effect-aws/powertools-logger
 
+[![npm version](https://img.shields.io/npm/v/%40effect-aws%2Fpowertools-logger?color=brightgreen&label=npm%20package)](https://www.npmjs.com/package/@effect-aws/powertools-logger)
+[![npm downloads](https://img.shields.io/npm/dm/%40effect-aws%2Fpowertools-logger)](https://www.npmjs.com/package/@effect-aws/powertools-logger)
+
 ## Installation
 
 ```bash
 npm install --save @effect-aws/powertools-logger @aws-lambda-powertools/logger
 ```
+
 _Note_: `@aws-lambda-powertools/logger` is a peer dependency and package supports v1.9.0 and higher.
 
 ## Usage

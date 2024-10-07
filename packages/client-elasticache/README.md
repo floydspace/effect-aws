@@ -1,5 +1,8 @@
 # @effect-aws/client-elasticache
 
+[![npm version](https://img.shields.io/npm/v/%40effect-aws%2Fclient-elasticache?color=brightgreen&label=npm%20package)](https://www.npmjs.com/package/@effect-aws/client-elasticache)
+[![npm downloads](https://img.shields.io/npm/dm/%40effect-aws%2Fclient-elasticache)](https://www.npmjs.com/package/@effect-aws/client-elasticache)
+
 ## Installation
 
 ```bash
@@ -11,7 +14,10 @@ npm install --save @effect-aws/client-elasticache
 With default ElastiCacheClient instance:
 
 ```typescript
-import { ElastiCacheService, DefaultElastiCacheServiceLayer } from "@effect-aws/client-elasticache";
+import {
+  ElastiCacheService,
+  DefaultElastiCacheServiceLayer,
+} from "@effect-aws/client-elasticache";
 
 const program = ElastiCacheService.listTagsForResource(args);
 
@@ -64,7 +70,8 @@ const ElastiCacheClientInstanceLayer = Layer.provide(
     ElastiCacheClientInstance,
     ElastiCacheClientInstanceConfig.pipe(
       Effect.map(
-        (config) => new ElastiCacheClient({ ...config, region: "eu-central-1" }),
+        (config) =>
+          new ElastiCacheClient({ ...config, region: "eu-central-1" }),
       ),
     ),
   ),
