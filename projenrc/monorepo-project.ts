@@ -16,10 +16,18 @@ export class MonorepoProject extends MonorepoTsProject {
   constructor(options: MonorepoProjectOptions) {
     super({
       packageManager: NodePackageManager.PNPM,
+      pnpmVersion: "8",
       license: "MIT",
       licenseOptions: {
         disableDefaultLicenses: true,
       },
+      github: true,
+      githubOptions: { mergify: false, pullRequestLint: false },
+      buildWorkflow: true,
+      buildWorkflowOptions: { mutableBuild: false },
+      pullRequestTemplate: false,
+      workflowNodeVersion: "lts/*",
+      workflowPackageCache: true,
       clobber: false, // enable it and run `pnpm default && pnpm clobber`, if you need to reset the project
       depsUpgrade: false, // enable it and run `pnpm default && pnpm upgrade` to upgrade projen and monorepo deps
       monorepoUpgradeDeps: false,
