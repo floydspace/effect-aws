@@ -185,6 +185,14 @@ const secretsManagerClient = new TypeScriptLibProject({
 
 new TypeScriptLibProject({
   parent: project,
+  name: "client-scheduler",
+  deps: [...commonDeps, "@aws-sdk/client-scheduler@^3"],
+  devDeps: commonDevDeps,
+  peerDeps: commonPeerDeps,
+});
+
+new TypeScriptLibProject({
+  parent: project,
   name: "lambda",
   devDeps: ["@types/aws-lambda"],
   peerDeps: commonPeerDeps,
