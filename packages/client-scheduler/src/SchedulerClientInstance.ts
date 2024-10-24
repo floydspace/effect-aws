@@ -40,6 +40,7 @@ export const SchedulerClientInstanceLayer = Layer.effect(
  * @since 1.0.0
  * @category layers
  */
-export const DefaultSchedulerClientInstanceLayer = SchedulerClientInstanceLayer.pipe(
-  Layer.provide(DefaultSchedulerClientConfigLayer),
-);
+export const DefaultSchedulerClientInstanceLayer =
+  SchedulerClientInstanceLayer.pipe(
+    Layer.provide(DefaultSchedulerClientConfigLayer),
+  );

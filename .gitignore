@@ -51,7 +51,7 @@ jspm_packages/
 !/vitest.workspace.json
 .direnv/
 docs/
-!/pnpm-workspace.yaml
-!/.projenrc.ts
 .idea
 .DS_Store
+!/pnpm-workspace.yaml
+!/.projenrc.ts

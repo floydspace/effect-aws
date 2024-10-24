@@ -15,16 +15,20 @@ import {
 } from "@aws-sdk/client-scheduler";
 import { Data, Effect, Layer, Record } from "effect";
 import {
+  AllServiceErrors,
+  ConflictError,
+  InternalServerError,
+  ResourceNotFoundError,
+  ThrottlingError,
+  ValidationError,
+  SdkError,
+  TaggedException,
+} from "./Errors";
+import {
   SchedulerClientInstance,
   SchedulerClientInstanceLayer,
 } from "./SchedulerClientInstance";
 import { DefaultSchedulerClientConfigLayer } from "./SchedulerClientInstanceConfig";
-import {
-  AllServiceErrors,
-  ConflictError,InternalServerError,ResourceNotFoundError,ThrottlingError,ValidationError,
-  SdkError,
-  TaggedException,
-} from "./Errors";
 
 interface HttpHandlerOptions {
   /**
@@ -35,7 +39,9 @@ interface HttpHandlerOptions {
 }
 
 const commands = {
-  ListTagsForResourceCommand,TagResourceCommand,UntagResourceCommand
+  ListTagsForResourceCommand,
+  TagResourceCommand,
+  UntagResourceCommand,
 };
 
 interface SchedulerService$ {
@@ -49,8 +55,12 @@ interface SchedulerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsForResourceCommandOutput,
-    SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
-  >
+    | SdkError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
 
   /**
    * @see {@link TagResourceCommand}
@@ -60,8 +70,13 @@ interface SchedulerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagResourceCommandOutput,
-    SdkError | ConflictError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
-  >
+    | SdkError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
 
   /**
    * @see {@link UntagResourceCommand}
@@ -71,18 +86,22 @@ interface SchedulerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
-    SdkError | ConflictError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
-  >
+    | SdkError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
 }
 
 /**
  * @since 1.0.0
  * @category models
  */
-export class SchedulerService extends Effect.Tag("@effect-aws/client-scheduler/SchedulerService")<
-  SchedulerService,
-  SchedulerService$
->() {}
+export class SchedulerService extends Effect.Tag(
+  "@effect-aws/client-scheduler/SchedulerService",
+)<SchedulerService, SchedulerService$>() {}
 
 /**
  * @since 1.0.0
@@ -101,7 +120,10 @@ export const makeSchedulerService = Effect.gen(function* (_) {
             abortSignal,
           }),
         catch: (e) => {
-          if (e instanceof SchedulerServiceException && AllServiceErrors.includes(e.name)) {
+          if (
+            e instanceof SchedulerServiceException &&
+            AllServiceErrors.includes(e.name)
+          ) {
             const ServiceException = Data.tagged<
               TaggedException<SchedulerServiceException>
             >(e.name);

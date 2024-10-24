@@ -26,7 +26,7 @@ describe("SchedulerClientImpl", () => {
   it("default", async () => {
     clientMock.reset().on(TagResourceCommand).resolves({});
 
-    const args = {} as unknown as TagResourceCommandInput
+    const args = {} as unknown as TagResourceCommandInput;
 
     const program = SchedulerService.tagResource(args);
 
@@ -44,13 +44,16 @@ describe("SchedulerClientImpl", () => {
   it("configurable", async () => {
     clientMock.reset().on(TagResourceCommand).resolves({});
 
-    const args = {} as unknown as TagResourceCommandInput
+    const args = {} as unknown as TagResourceCommandInput;
 
     const program = SchedulerService.tagResource(args);
 
-    const SchedulerClientConfigLayer = Layer.succeed(SchedulerClientInstanceConfig, {
-      region: "eu-central-1",
-    });
+    const SchedulerClientConfigLayer = Layer.succeed(
+      SchedulerClientInstanceConfig,
+      {
+        region: "eu-central-1",
+      },
+    );
     const CustomSchedulerServiceLayer = SchedulerServiceLayer.pipe(
       Layer.provide(SchedulerClientConfigLayer),
     );
@@ -69,7 +72,7 @@ describe("SchedulerClientImpl", () => {
   it("base", async () => {
     clientMock.reset().on(TagResourceCommand).resolves({});
 
-    const args = {} as unknown as TagResourceCommandInput
+    const args = {} as unknown as TagResourceCommandInput;
 
     const program = SchedulerService.tagResource(args);
 
@@ -95,7 +98,7 @@ describe("SchedulerClientImpl", () => {
   it("extended", async () => {
     clientMock.reset().on(TagResourceCommand).resolves({});
 
-    const args = {} as unknown as TagResourceCommandInput
+    const args = {} as unknown as TagResourceCommandInput;
 
     const program = SchedulerService.tagResource(args);
 
@@ -125,7 +128,7 @@ describe("SchedulerClientImpl", () => {
   it("fail", async () => {
     clientMock.reset().on(TagResourceCommand).rejects(new Error("test"));
 
-    const args = {} as unknown as TagResourceCommandInput
+    const args = {} as unknown as TagResourceCommandInput;
 
     const program = SchedulerService.tagResource(args);
 
@@ -160,7 +163,7 @@ describe("SchedulerClientImpl", () => {
         } as any),
       );
 
-    const args = {} as unknown as TagResourceCommandInput
+    const args = {} as unknown as TagResourceCommandInput;
 
     const program = SchedulerService.tagResource(args).pipe(
       Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),

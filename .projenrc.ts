@@ -218,5 +218,7 @@ project.addImplicitDependency(ssm, ssmClient);
 
 project.addGitIgnore(".direnv/"); // flake environment creates .direnv folder
 project.addGitIgnore("docs/"); // docs are generated
+project.addGitIgnore(".idea");
+project.addGitIgnore(".DS_Store");
 
 project.synth();
