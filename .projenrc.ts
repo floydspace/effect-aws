@@ -185,6 +185,14 @@ const secretsManagerClient = new TypeScriptLibProject({
 
 new TypeScriptLibProject({
   parent: project,
+  name: "client-scheduler",
+  deps: [...commonDeps, "@aws-sdk/client-scheduler@^3"],
+  devDeps: commonDevDeps,
+  peerDeps: commonPeerDeps,
+});
+
+new TypeScriptLibProject({
+  parent: project,
   name: "lambda",
   devDeps: ["@types/aws-lambda"],
   peerDeps: commonPeerDeps,
@@ -210,5 +218,7 @@ project.addImplicitDependency(ssm, ssmClient);
 
 project.addGitIgnore(".direnv/"); // flake environment creates .direnv folder
 project.addGitIgnore("docs/"); // docs are generated
+project.addGitIgnore(".idea");
+project.addGitIgnore(".DS_Store");
 
 project.synth();
