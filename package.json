@@ -94,6 +94,7 @@
       "packages/client-elasticache",
       "packages/client-eventbridge",
       "packages/client-iam",
+      "packages/client-kinesis",
       "packages/client-lambda",
       "packages/client-s3",
       "packages/client-scheduler",

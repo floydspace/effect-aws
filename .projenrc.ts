@@ -193,6 +193,14 @@ new TypeScriptLibProject({
 
 new TypeScriptLibProject({
   parent: project,
+  name: "client-kinesis",
+  deps: [...commonDeps, "@aws-sdk/client-kinesis@^3"],
+  devDeps: commonDevDeps,
+  peerDeps: commonPeerDeps,
+});
+
+new TypeScriptLibProject({
+  parent: project,
   name: "lambda",
   devDeps: ["@types/aws-lambda"],
   peerDeps: commonPeerDeps,
