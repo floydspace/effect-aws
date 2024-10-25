@@ -201,6 +201,94 @@ new TypeScriptLibProject({
 
 new TypeScriptLibProject({
   parent: project,
+  name: "client-account",
+  deps: [...commonDeps, "@aws-sdk/client-account@^3"],
+  devDeps: commonDevDeps,
+  peerDeps: commonPeerDeps,
+});
+
+new TypeScriptLibProject({
+  parent: project,
+  name: "client-cloudsearch",
+  deps: [...commonDeps, "@aws-sdk/client-cloudsearch@^3"],
+  devDeps: commonDevDeps,
+  peerDeps: commonPeerDeps,
+});
+
+new TypeScriptLibProject({
+  parent: project,
+  name: "client-cloudtrail",
+  deps: [...commonDeps, "@aws-sdk/client-cloudtrail@^3"],
+  devDeps: commonDevDeps,
+  peerDeps: commonPeerDeps,
+});
+
+new TypeScriptLibProject({
+  parent: project,
+  name: "client-cloudwatch",
+  deps: [...commonDeps, "@aws-sdk/client-cloudwatch@^3"],
+  devDeps: commonDevDeps,
+  peerDeps: commonPeerDeps,
+});
+
+new TypeScriptLibProject({
+  parent: project,
+  name: "client-cloudwatch-events",
+  deps: [...commonDeps, "@aws-sdk/client-cloudwatch-events@^3"],
+  devDeps: commonDevDeps,
+  peerDeps: commonPeerDeps,
+});
+
+new TypeScriptLibProject({
+  parent: project,
+  name: "client-cloudwatch-logs",
+  deps: [...commonDeps, "@aws-sdk/client-cloudwatch-logs@^3"],
+  devDeps: commonDevDeps,
+  peerDeps: commonPeerDeps,
+});
+
+new TypeScriptLibProject({
+  parent: project,
+  name: "client-cognito-identity-provider",
+  deps: [...commonDeps, "@aws-sdk/client-cognito-identity-provider@^3"],
+  devDeps: commonDevDeps,
+  peerDeps: commonPeerDeps,
+});
+
+new TypeScriptLibProject({
+  parent: project,
+  name: "client-kms",
+  deps: [...commonDeps, "@aws-sdk/client-kms@^3"],
+  devDeps: commonDevDeps,
+  peerDeps: commonPeerDeps,
+});
+
+new TypeScriptLibProject({
+  parent: project,
+  name: "client-mq",
+  deps: [...commonDeps, "@aws-sdk/client-mq@^3"],
+  devDeps: commonDevDeps,
+  peerDeps: commonPeerDeps,
+});
+
+new TypeScriptLibProject({
+  parent: project,
+  name: "client-rds",
+  deps: [...commonDeps, "@aws-sdk/client-rds@^3"],
+  devDeps: commonDevDeps,
+  peerDeps: commonPeerDeps,
+});
+
+new TypeScriptLibProject({
+  parent: project,
+  name: "client-sts",
+  deps: [...commonDeps, "@aws-sdk/client-sts@^3"],
+  devDeps: commonDevDeps,
+  peerDeps: commonPeerDeps,
+});
+
+new TypeScriptLibProject({
+  parent: project,
   name: "lambda",
   devDeps: ["@types/aws-lambda"],
   peerDeps: commonPeerDeps,
