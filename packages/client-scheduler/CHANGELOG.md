@@ -1,5 +1,11 @@
 # @effect-aws/client-scheduler
 
+## 1.0.1
+
+### Patch Changes
+
+- [#69](https://github.com/floydspace/effect-aws/pull/69) [`0cf6af5`](https://github.com/floydspace/effect-aws/commit/0cf6af591e45f0d8838b26493525db5ef389a90f) Thanks [@godu](https://github.com/godu)! - fix missed methods in scheduler service
+
 ## 1.0.0
 
 ### Major Changes
