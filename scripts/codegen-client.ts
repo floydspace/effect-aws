@@ -32,6 +32,7 @@ type Shape =
   | { type: "list" }
   | {
       type: "operation";
+      input: { target: string };
       errors: { target: string }[];
     }
   | {
@@ -89,19 +90,13 @@ async function main() {
         )
       ).json()) as Manifest;
 
-      const serviceShape = pipe(
-        manifest.shapes,
-        Record.values,
-        Array.findFirst(
-          (shape): shape is Extract<Shape, { type: "service" }> =>
-            shape.type === "service",
-        ),
-        Option.getOrThrowWith(() => new TypeError("ServiceShape is not found")),
-      );
-
       const operationTargets = pipe(
-        serviceShape.operations,
-        Array.map(({ target }) => target),
+        manifest.shapes,
+        Record.filter(
+          (shape): shape is Extract<Shape, { type: "operation" }> =>
+            shape.type === "operation",
+        ),
+        Record.keys,
       );
 
       const operationNames = pipe(
@@ -179,7 +174,7 @@ async function generateClient([
   );
 
   const { sdkId } = serviceShape.traits["aws.api#service"];
-  const sdkName = upperFirst(sdkId.replace(" ", ""));
+  const sdkName = upperFirst(String.replaceAll(" ", "")(sdkId));
 
   const awsClient = await import(
     `../packages/client-${serviceName}/node_modules/@aws-sdk/client-${originalServiceName}/dist-cjs/index.js`
@@ -192,6 +187,7 @@ async function generateClient([
     Record.filter(
       (value) =>
         typeof value === "function" &&
+        value.prototype &&
         value.prototype instanceof awsClient[serviceException],
     ),
     Record.keys,
@@ -337,9 +333,14 @@ export * from "./${sdkName}ClientInstanceConfig";
 export * from "./${sdkName}Service";
 `,
   );
+
   const operationTargets = pipe(
-    serviceShape.operations,
-    Array.map(({ target }) => target),
+    manifest.shapes,
+    Record.filter(
+      (shape): shape is Extract<Shape, { type: "operation" }> =>
+        shape.type === "operation",
+    ),
+    Record.keys,
   );
   const operationShapes = pipe(
     manifest.shapes,
