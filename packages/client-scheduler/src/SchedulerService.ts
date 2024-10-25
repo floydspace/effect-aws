@@ -3,6 +3,30 @@
  */
 import {
   SchedulerServiceException,
+  CreateScheduleCommand,
+  type CreateScheduleCommandInput,
+  type CreateScheduleCommandOutput,
+  CreateScheduleGroupCommand,
+  type CreateScheduleGroupCommandInput,
+  type CreateScheduleGroupCommandOutput,
+  DeleteScheduleCommand,
+  type DeleteScheduleCommandInput,
+  type DeleteScheduleCommandOutput,
+  DeleteScheduleGroupCommand,
+  type DeleteScheduleGroupCommandInput,
+  type DeleteScheduleGroupCommandOutput,
+  GetScheduleCommand,
+  type GetScheduleCommandInput,
+  type GetScheduleCommandOutput,
+  GetScheduleGroupCommand,
+  type GetScheduleGroupCommandInput,
+  type GetScheduleGroupCommandOutput,
+  ListScheduleGroupsCommand,
+  type ListScheduleGroupsCommandInput,
+  type ListScheduleGroupsCommandOutput,
+  ListSchedulesCommand,
+  type ListSchedulesCommandInput,
+  type ListSchedulesCommandOutput,
   ListTagsForResourceCommand,
   type ListTagsForResourceCommandInput,
   type ListTagsForResourceCommandOutput,
@@ -12,6 +36,9 @@ import {
   UntagResourceCommand,
   type UntagResourceCommandInput,
   type UntagResourceCommandOutput,
+  UpdateScheduleCommand,
+  type UpdateScheduleCommandInput,
+  type UpdateScheduleCommandOutput,
 } from "@aws-sdk/client-scheduler";
 import { Data, Effect, Layer, Record } from "effect";
 import {
@@ -19,6 +46,7 @@ import {
   ConflictError,
   InternalServerError,
   ResourceNotFoundError,
+  ServiceQuotaExceededError,
   ThrottlingError,
   ValidationError,
   SdkError,
@@ -39,13 +67,143 @@ interface HttpHandlerOptions {
 }
 
 const commands = {
+  CreateScheduleCommand,
+  CreateScheduleGroupCommand,
+  DeleteScheduleCommand,
+  DeleteScheduleGroupCommand,
+  GetScheduleCommand,
+  GetScheduleGroupCommand,
+  ListScheduleGroupsCommand,
+  ListSchedulesCommand,
   ListTagsForResourceCommand,
   TagResourceCommand,
   UntagResourceCommand,
+  UpdateScheduleCommand,
 };
 
 interface SchedulerService$ {
   readonly _: unique symbol;
+
+  /**
+   * @see {@link CreateScheduleCommand}
+   */
+  createSchedule(
+    args: CreateScheduleCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateScheduleCommandOutput,
+    | SdkError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ServiceQuotaExceededError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link CreateScheduleGroupCommand}
+   */
+  createScheduleGroup(
+    args: CreateScheduleGroupCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateScheduleGroupCommandOutput,
+    | SdkError
+    | ConflictError
+    | InternalServerError
+    | ServiceQuotaExceededError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link DeleteScheduleCommand}
+   */
+  deleteSchedule(
+    args: DeleteScheduleCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteScheduleCommandOutput,
+    | SdkError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link DeleteScheduleGroupCommand}
+   */
+  deleteScheduleGroup(
+    args: DeleteScheduleGroupCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteScheduleGroupCommandOutput,
+    | SdkError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link GetScheduleCommand}
+   */
+  getSchedule(
+    args: GetScheduleCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetScheduleCommandOutput,
+    | SdkError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link GetScheduleGroupCommand}
+   */
+  getScheduleGroup(
+    args: GetScheduleGroupCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetScheduleGroupCommandOutput,
+    | SdkError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link ListScheduleGroupsCommand}
+   */
+  listScheduleGroups(
+    args: ListScheduleGroupsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListScheduleGroupsCommandOutput,
+    SdkError | InternalServerError | ThrottlingError | ValidationError
+  >;
+
+  /**
+   * @see {@link ListSchedulesCommand}
+   */
+  listSchedules(
+    args: ListSchedulesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListSchedulesCommandOutput,
+    | SdkError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
 
   /**
    * @see {@link ListTagsForResourceCommand}
@@ -86,6 +244,22 @@ interface SchedulerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
+    | SdkError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link UpdateScheduleCommand}
+   */
+  updateSchedule(
+    args: UpdateScheduleCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateScheduleCommandOutput,
     | SdkError
     | ConflictError
     | InternalServerError

@@ -32,7 +32,7 @@ type Shape =
   | { type: "list" }
   | {
       type: "operation";
-      input: {target: string};
+      input: { target: string };
       errors: { target: string }[];
     }
   | {
@@ -90,7 +90,14 @@ async function main() {
         )
       ).json()) as Manifest;
 
-      const operationTargets = pipe(manifest.shapes, Record.filter((shape) : shape is Extract<Shape, { type: "operation" }>  => shape.type === "operation"), Record.keys);
+      const operationTargets = pipe(
+        manifest.shapes,
+        Record.filter(
+          (shape): shape is Extract<Shape, { type: "operation" }> =>
+            shape.type === "operation",
+        ),
+        Record.keys,
+      );
 
       const operationNames = pipe(
         operationTargets,
@@ -179,7 +186,8 @@ async function generateClient([
     awsClient,
     Record.filter(
       (value) =>
-        typeof value === "function" && value.prototype &&
+        typeof value === "function" &&
+        value.prototype &&
         value.prototype instanceof awsClient[serviceException],
     ),
     Record.keys,
@@ -325,8 +333,15 @@ export * from "./${sdkName}ClientInstanceConfig";
 export * from "./${sdkName}Service";
 `,
   );
-  
-  const operationTargets = pipe(manifest.shapes, Record.filter((shape) : shape is Extract<Shape, { type: "operation" }>  => shape.type === "operation"), Record.keys);
+
+  const operationTargets = pipe(
+    manifest.shapes,
+    Record.filter(
+      (shape): shape is Extract<Shape, { type: "operation" }> =>
+        shape.type === "operation",
+    ),
+    Record.keys,
+  );
   const operationShapes = pipe(
     manifest.shapes,
     Record.filter(
