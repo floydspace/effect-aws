@@ -1,13 +1,12 @@
 /**
  * @since 1.0.0
  */
-import { Logger } from "@aws-lambda-powertools/logger";
+import { type Logger, LogLevelThreshold } from "@aws-lambda-powertools/logger";
 import type {
   LogAttributes,
   LogItemExtraInput,
   LogItemMessage,
-  LogLevelThresholds,
-} from "@aws-lambda-powertools/logger/lib/types";
+} from "@aws-lambda-powertools/logger/types";
 import {
   Cause,
   Effect,
@@ -109,7 +108,6 @@ const makeLoggerInstance = (logger: Logger) => {
     });
 
     const unsafeLogger = logger as unknown as {
-      logLevelThresholds: LogLevelThresholds;
       processLogItem: (
         logLevel: number,
         input: LogItemMessage,
@@ -129,7 +127,7 @@ const makeLoggerInstance = (logger: Logger) => {
     };
 
     unsafeLogger.processLogItem(
-      unsafeLogger.logLevelThresholds[mappedLogLevel[options.logLevel.label]],
+      LogLevelThreshold[mappedLogLevel[options.logLevel.label]],
       !Array.isArray(options.message)
         ? options.message
         : options.message.length === 1 // since v3.5 the message is always an array
