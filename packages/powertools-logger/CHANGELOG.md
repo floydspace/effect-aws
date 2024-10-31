@@ -1,5 +1,11 @@
 # @effect-aws/powertools-logger
 
+## 1.4.0
+
+### Minor Changes
+
+- [#71](https://github.com/floydspace/effect-aws/pull/71) [`b223139`](https://github.com/floydspace/effect-aws/commit/b223139c68e9131d372d840c273df42cfbba2ef0) Thanks [@godu](https://github.com/godu)! - bump @aws-lambda-powertools/logger to v2
+
 ## 1.3.0
 
 ### Minor Changes
