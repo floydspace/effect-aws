@@ -1531,11 +1531,11 @@ importers:
   packages/powertools-logger:
     devDependencies:
       '@aws-lambda-powertools/commons':
-        specifier: 1.9.0
-        version: 1.9.0
+        specifier: 2.0.0
+        version: 2.0.0
       '@aws-lambda-powertools/logger':
-        specifier: 1.9.0
-        version: 1.9.0
+        specifier: 2.0.0
+        version: 2.0.0
       '@types/node':
         specifier: ^18
         version: 18.19.14
@@ -1757,14 +1757,19 @@ packages:
       '@smithy/util-utf8': 2.3.0
       tslib: 2.7.0
 
-  /@aws-lambda-powertools/commons@1.9.0:
-    resolution: {integrity: sha512-hxCYIgzApRyExDuheWfrsURXvsDOG1le6x3Qhp6rPsTFeg66Gq94ZsSLi+LtLxdbvBpaU8h5G4LdgwmVja1HdQ==}
+  /@aws-lambda-powertools/commons@2.0.0:
+    resolution: {integrity: sha512-wPBXPOOWak4p30Y/t2QqGmX267y+dVVAeKk8FaaQUz2Y94LvxKSyezd9sbsfW6sjFVRgKDwLa59EptfqBxygDw==}
     dev: true
 
-  /@aws-lambda-powertools/logger@1.9.0:
-    resolution: {integrity: sha512-DI4+HbRdWRiG53a4ySV8Hr25wZ7UEQrcZvTx1e66TOC5OR8aYOXcZP2C1YhMzFqvQX+xUjEX3lZWzEzPy9fBvA==}
+  /@aws-lambda-powertools/logger@2.0.0:
+    resolution: {integrity: sha512-tgTScZsTb40Z9jn3+vd3AdQ4UmI1CjGNqJoQwwTgrScOJXjrN1LJ/L+GQfV9hOZ5wMxcXvvOFr6WfYXt5gMEcg==}
+    peerDependencies:
+      '@middy/core': '>=3.x'
+    peerDependenciesMeta:
+      '@middy/core':
+        optional: true
     dependencies:
-      '@aws-lambda-powertools/commons': 1.9.0
+      '@aws-lambda-powertools/commons': 2.0.0
       lodash.merge: 4.6.2
     dev: true
 

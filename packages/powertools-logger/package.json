@@ -19,8 +19,8 @@
     "organization": false
   },
   "devDependencies": {
-    "@aws-lambda-powertools/commons": "1.9.0",
-    "@aws-lambda-powertools/logger": "1.9.0",
+    "@aws-lambda-powertools/commons": "2.0.0",
+    "@aws-lambda-powertools/logger": "2.0.0",
     "@types/node": "^18",
     "@typescript-eslint/eslint-plugin": "^7",
     "@typescript-eslint/parser": "^7",
@@ -35,7 +35,7 @@
     "vitest": "^2.0.5"
   },
   "peerDependencies": {
-    "@aws-lambda-powertools/logger": ">=1.9.0",
+    "@aws-lambda-powertools/logger": ">=2.0.0",
     "effect": ">=3.0.0 <4.0.0"
   },
   "main": "lib/index.js",
