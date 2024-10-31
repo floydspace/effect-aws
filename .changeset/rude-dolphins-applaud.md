@@ -1,5 +1,5 @@
 ---
-"@effect-aws/powertools-logger": major
+"@effect-aws/powertools-logger": minor
 ---
 
 bump @aws-lambda-powertools/logger to v2

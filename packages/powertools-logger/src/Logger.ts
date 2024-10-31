@@ -1,7 +1,7 @@
 /**
  * @since 1.0.0
  */
-import { type Logger, LogLevelThreshold } from "@aws-lambda-powertools/logger";
+import type { Logger } from "@aws-lambda-powertools/logger";
 import type {
   LogAttributes,
   LogItemExtraInput,
@@ -21,6 +21,27 @@ import {
 } from "effect";
 import { LoggerInstance, LoggerInstanceLayer } from "./LoggerInstance";
 import { DefaultLoggerOptionsLayer } from "./LoggerOptions";
+
+const LogLevelThreshold = {
+  TRACE: 6,
+  DEBUG: 8,
+  INFO: 12,
+  WARN: 16,
+  ERROR: 20,
+  CRITICAL: 24,
+  SILENT: 28,
+} as const;
+
+const MappedLogLevel = {
+  [LogLevel.All.label]: LogLevelThreshold.TRACE,
+  [LogLevel.Trace.label]: LogLevelThreshold.TRACE,
+  [LogLevel.Debug.label]: LogLevelThreshold.DEBUG,
+  [LogLevel.Info.label]: LogLevelThreshold.INFO,
+  [LogLevel.Warning.label]: LogLevelThreshold.WARN,
+  [LogLevel.Error.label]: LogLevelThreshold.ERROR,
+  [LogLevel.Fatal.label]: LogLevelThreshold.CRITICAL,
+  [LogLevel.None.label]: LogLevelThreshold.SILENT,
+} as const;
 
 const logExtraInput = FiberRef.unsafeMake<LogItemExtraInput>([]);
 
@@ -115,19 +136,8 @@ const makeLoggerInstance = (logger: Logger) => {
       ) => void;
     };
 
-    const mappedLogLevel = {
-      [LogLevel.All.label]: "DEBUG" as const,
-      [LogLevel.Debug.label]: "DEBUG" as const,
-      [LogLevel.Trace.label]: "DEBUG" as const,
-      [LogLevel.Info.label]: "INFO" as const,
-      [LogLevel.Warning.label]: "WARN" as const,
-      [LogLevel.Error.label]: "ERROR" as const,
-      [LogLevel.Fatal.label]: "CRITICAL" as const,
-      [LogLevel.None.label]: "SILENT" as const,
-    };
-
     unsafeLogger.processLogItem(
-      LogLevelThreshold[mappedLogLevel[options.logLevel.label]],
+      MappedLogLevel[options.logLevel.label],
       !Array.isArray(options.message)
         ? options.message
         : options.message.length === 1 // since v3.5 the message is always an array
