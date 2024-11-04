@@ -111,6 +111,9 @@ import {
   DeleteSAMLProviderCommand,
   type DeleteSAMLProviderCommandInput,
   type DeleteSAMLProviderCommandOutput,
+  DeleteSSHPublicKeyCommand,
+  type DeleteSSHPublicKeyCommandInput,
+  type DeleteSSHPublicKeyCommandOutput,
   DeleteServerCertificateCommand,
   type DeleteServerCertificateCommandInput,
   type DeleteServerCertificateCommandOutput,
@@ -123,9 +126,6 @@ import {
   DeleteSigningCertificateCommand,
   type DeleteSigningCertificateCommandInput,
   type DeleteSigningCertificateCommandOutput,
-  DeleteSSHPublicKeyCommand,
-  type DeleteSSHPublicKeyCommandInput,
-  type DeleteSSHPublicKeyCommandOutput,
   DeleteUserCommand,
   type DeleteUserCommandInput,
   type DeleteUserCommandOutput,
@@ -216,6 +216,9 @@ import {
   GetSAMLProviderCommand,
   type GetSAMLProviderCommandInput,
   type GetSAMLProviderCommandOutput,
+  GetSSHPublicKeyCommand,
+  type GetSSHPublicKeyCommandInput,
+  type GetSSHPublicKeyCommandOutput,
   GetServerCertificateCommand,
   type GetServerCertificateCommandInput,
   type GetServerCertificateCommandOutput,
@@ -228,9 +231,6 @@ import {
   GetServiceLinkedRoleDeletionStatusCommand,
   type GetServiceLinkedRoleDeletionStatusCommandInput,
   type GetServiceLinkedRoleDeletionStatusCommandOutput,
-  GetSSHPublicKeyCommand,
-  type GetSSHPublicKeyCommandInput,
-  type GetSSHPublicKeyCommandOutput,
   GetUserCommand,
   type GetUserCommandInput,
   type GetUserCommandOutput,
@@ -264,27 +264,27 @@ import {
   ListGroupsForUserCommand,
   type ListGroupsForUserCommandInput,
   type ListGroupsForUserCommandOutput,
+  ListInstanceProfileTagsCommand,
+  type ListInstanceProfileTagsCommandInput,
+  type ListInstanceProfileTagsCommandOutput,
   ListInstanceProfilesCommand,
   type ListInstanceProfilesCommandInput,
   type ListInstanceProfilesCommandOutput,
   ListInstanceProfilesForRoleCommand,
   type ListInstanceProfilesForRoleCommandInput,
   type ListInstanceProfilesForRoleCommandOutput,
-  ListInstanceProfileTagsCommand,
-  type ListInstanceProfileTagsCommandInput,
-  type ListInstanceProfileTagsCommandOutput,
-  ListMFADevicesCommand,
-  type ListMFADevicesCommandInput,
-  type ListMFADevicesCommandOutput,
   ListMFADeviceTagsCommand,
   type ListMFADeviceTagsCommandInput,
   type ListMFADeviceTagsCommandOutput,
-  ListOpenIDConnectProvidersCommand,
-  type ListOpenIDConnectProvidersCommandInput,
-  type ListOpenIDConnectProvidersCommandOutput,
+  ListMFADevicesCommand,
+  type ListMFADevicesCommandInput,
+  type ListMFADevicesCommandOutput,
   ListOpenIDConnectProviderTagsCommand,
   type ListOpenIDConnectProviderTagsCommandInput,
   type ListOpenIDConnectProviderTagsCommandOutput,
+  ListOpenIDConnectProvidersCommand,
+  type ListOpenIDConnectProvidersCommandInput,
+  type ListOpenIDConnectProvidersCommandOutput,
   ListPoliciesCommand,
   type ListPoliciesCommandInput,
   type ListPoliciesCommandOutput,
@@ -300,42 +300,42 @@ import {
   ListRolePoliciesCommand,
   type ListRolePoliciesCommandInput,
   type ListRolePoliciesCommandOutput,
-  ListRolesCommand,
-  type ListRolesCommandInput,
-  type ListRolesCommandOutput,
   ListRoleTagsCommand,
   type ListRoleTagsCommandInput,
   type ListRoleTagsCommandOutput,
-  ListSAMLProvidersCommand,
-  type ListSAMLProvidersCommandInput,
-  type ListSAMLProvidersCommandOutput,
+  ListRolesCommand,
+  type ListRolesCommandInput,
+  type ListRolesCommandOutput,
   ListSAMLProviderTagsCommand,
   type ListSAMLProviderTagsCommandInput,
   type ListSAMLProviderTagsCommandOutput,
-  ListServerCertificatesCommand,
-  type ListServerCertificatesCommandInput,
-  type ListServerCertificatesCommandOutput,
+  ListSAMLProvidersCommand,
+  type ListSAMLProvidersCommandInput,
+  type ListSAMLProvidersCommandOutput,
+  ListSSHPublicKeysCommand,
+  type ListSSHPublicKeysCommandInput,
+  type ListSSHPublicKeysCommandOutput,
   ListServerCertificateTagsCommand,
   type ListServerCertificateTagsCommandInput,
   type ListServerCertificateTagsCommandOutput,
+  ListServerCertificatesCommand,
+  type ListServerCertificatesCommandInput,
+  type ListServerCertificatesCommandOutput,
   ListServiceSpecificCredentialsCommand,
   type ListServiceSpecificCredentialsCommandInput,
   type ListServiceSpecificCredentialsCommandOutput,
   ListSigningCertificatesCommand,
   type ListSigningCertificatesCommandInput,
   type ListSigningCertificatesCommandOutput,
-  ListSSHPublicKeysCommand,
-  type ListSSHPublicKeysCommandInput,
-  type ListSSHPublicKeysCommandOutput,
   ListUserPoliciesCommand,
   type ListUserPoliciesCommandInput,
   type ListUserPoliciesCommandOutput,
-  ListUsersCommand,
-  type ListUsersCommandInput,
-  type ListUsersCommandOutput,
   ListUserTagsCommand,
   type ListUserTagsCommandInput,
   type ListUserTagsCommandOutput,
+  ListUsersCommand,
+  type ListUsersCommandInput,
+  type ListUsersCommandOutput,
   ListVirtualMFADevicesCommand,
   type ListVirtualMFADevicesCommandInput,
   type ListVirtualMFADevicesCommandOutput,
@@ -456,6 +456,9 @@ import {
   UpdateSAMLProviderCommand,
   type UpdateSAMLProviderCommandInput,
   type UpdateSAMLProviderCommandOutput,
+  UpdateSSHPublicKeyCommand,
+  type UpdateSSHPublicKeyCommandInput,
+  type UpdateSSHPublicKeyCommandOutput,
   UpdateServerCertificateCommand,
   type UpdateServerCertificateCommandInput,
   type UpdateServerCertificateCommandOutput,
@@ -465,21 +468,18 @@ import {
   UpdateSigningCertificateCommand,
   type UpdateSigningCertificateCommandInput,
   type UpdateSigningCertificateCommandOutput,
-  UpdateSSHPublicKeyCommand,
-  type UpdateSSHPublicKeyCommandInput,
-  type UpdateSSHPublicKeyCommandOutput,
   UpdateUserCommand,
   type UpdateUserCommandInput,
   type UpdateUserCommandOutput,
+  UploadSSHPublicKeyCommand,
+  type UploadSSHPublicKeyCommandInput,
+  type UploadSSHPublicKeyCommandOutput,
   UploadServerCertificateCommand,
   type UploadServerCertificateCommandInput,
   type UploadServerCertificateCommandOutput,
   UploadSigningCertificateCommand,
   type UploadSigningCertificateCommandInput,
   type UploadSigningCertificateCommandOutput,
-  UploadSSHPublicKeyCommand,
-  type UploadSSHPublicKeyCommandInput,
-  type UploadSSHPublicKeyCommandOutput,
 } from "@aws-sdk/client-iam";
 import { Data, Effect, Layer, Record } from "effect";
 import {
@@ -563,11 +563,11 @@ const commands = {
   DeleteRolePermissionsBoundaryCommand,
   DeleteRolePolicyCommand,
   DeleteSAMLProviderCommand,
+  DeleteSSHPublicKeyCommand,
   DeleteServerCertificateCommand,
   DeleteServiceLinkedRoleCommand,
   DeleteServiceSpecificCredentialCommand,
   DeleteSigningCertificateCommand,
-  DeleteSSHPublicKeyCommand,
   DeleteUserCommand,
   DeleteUserPermissionsBoundaryCommand,
   DeleteUserPolicyCommand,
@@ -598,11 +598,11 @@ const commands = {
   GetRoleCommand,
   GetRolePolicyCommand,
   GetSAMLProviderCommand,
+  GetSSHPublicKeyCommand,
   GetServerCertificateCommand,
   GetServiceLastAccessedDetailsCommand,
   GetServiceLastAccessedDetailsWithEntitiesCommand,
   GetServiceLinkedRoleDeletionStatusCommand,
-  GetSSHPublicKeyCommand,
   GetUserCommand,
   GetUserPolicyCommand,
   ListAccessKeysCommand,
@@ -614,30 +614,30 @@ const commands = {
   ListGroupPoliciesCommand,
   ListGroupsCommand,
   ListGroupsForUserCommand,
+  ListInstanceProfileTagsCommand,
   ListInstanceProfilesCommand,
   ListInstanceProfilesForRoleCommand,
-  ListInstanceProfileTagsCommand,
-  ListMFADevicesCommand,
   ListMFADeviceTagsCommand,
-  ListOpenIDConnectProvidersCommand,
+  ListMFADevicesCommand,
   ListOpenIDConnectProviderTagsCommand,
+  ListOpenIDConnectProvidersCommand,
   ListPoliciesCommand,
   ListPoliciesGrantingServiceAccessCommand,
   ListPolicyTagsCommand,
   ListPolicyVersionsCommand,
   ListRolePoliciesCommand,
-  ListRolesCommand,
   ListRoleTagsCommand,
-  ListSAMLProvidersCommand,
+  ListRolesCommand,
   ListSAMLProviderTagsCommand,
-  ListServerCertificatesCommand,
+  ListSAMLProvidersCommand,
+  ListSSHPublicKeysCommand,
   ListServerCertificateTagsCommand,
+  ListServerCertificatesCommand,
   ListServiceSpecificCredentialsCommand,
   ListSigningCertificatesCommand,
-  ListSSHPublicKeysCommand,
   ListUserPoliciesCommand,
-  ListUsersCommand,
   ListUserTagsCommand,
+  ListUsersCommand,
   ListVirtualMFADevicesCommand,
   PutGroupPolicyCommand,
   PutRolePermissionsBoundaryCommand,
@@ -678,14 +678,14 @@ const commands = {
   UpdateRoleCommand,
   UpdateRoleDescriptionCommand,
   UpdateSAMLProviderCommand,
+  UpdateSSHPublicKeyCommand,
   UpdateServerCertificateCommand,
   UpdateServiceSpecificCredentialCommand,
   UpdateSigningCertificateCommand,
-  UpdateSSHPublicKeyCommand,
   UpdateUserCommand,
+  UploadSSHPublicKeyCommand,
   UploadServerCertificateCommand,
   UploadSigningCertificateCommand,
-  UploadSSHPublicKeyCommand,
 };
 
 interface IAMService$ {
@@ -1225,6 +1225,17 @@ interface IAMService$ {
   >;
 
   /**
+   * @see {@link DeleteSSHPublicKeyCommand}
+   */
+  deleteSSHPublicKey(
+    args: DeleteSSHPublicKeyCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteSSHPublicKeyCommandOutput,
+    SdkError | NoSuchEntityError
+  >;
+
+  /**
    * @see {@link DeleteServerCertificateCommand}
    */
   deleteServerCertificate(
@@ -1274,17 +1285,6 @@ interface IAMService$ {
     | LimitExceededError
     | NoSuchEntityError
     | ServiceFailureError
-  >;
-
-  /**
-   * @see {@link DeleteSSHPublicKeyCommand}
-   */
-  deleteSSHPublicKey(
-    args: DeleteSSHPublicKeyCommandInput,
-    options?: HttpHandlerOptions,
-  ): Effect.Effect<
-    DeleteSSHPublicKeyCommandOutput,
-    SdkError | NoSuchEntityError
   >;
 
   /**
@@ -1649,6 +1649,17 @@ interface IAMService$ {
   >;
 
   /**
+   * @see {@link GetSSHPublicKeyCommand}
+   */
+  getSSHPublicKey(
+    args: GetSSHPublicKeyCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetSSHPublicKeyCommandOutput,
+    SdkError | NoSuchEntityError | UnrecognizedPublicKeyEncodingError
+  >;
+
+  /**
    * @see {@link GetServerCertificateCommand}
    */
   getServerCertificate(
@@ -1690,17 +1701,6 @@ interface IAMService$ {
   ): Effect.Effect<
     GetServiceLinkedRoleDeletionStatusCommandOutput,
     SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
-  >;
-
-  /**
-   * @see {@link GetSSHPublicKeyCommand}
-   */
-  getSSHPublicKey(
-    args: GetSSHPublicKeyCommandInput,
-    options?: HttpHandlerOptions,
-  ): Effect.Effect<
-    GetSSHPublicKeyCommandOutput,
-    SdkError | NoSuchEntityError | UnrecognizedPublicKeyEncodingError
   >;
 
   /**
@@ -1822,6 +1822,17 @@ interface IAMService$ {
   >;
 
   /**
+   * @see {@link ListInstanceProfileTagsCommand}
+   */
+  listInstanceProfileTags(
+    args: ListInstanceProfileTagsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListInstanceProfileTagsCommandOutput,
+    SdkError | NoSuchEntityError | ServiceFailureError
+  >;
+
+  /**
    * @see {@link ListInstanceProfilesCommand}
    */
   listInstanceProfiles(
@@ -1844,14 +1855,14 @@ interface IAMService$ {
   >;
 
   /**
-   * @see {@link ListInstanceProfileTagsCommand}
+   * @see {@link ListMFADeviceTagsCommand}
    */
-  listInstanceProfileTags(
-    args: ListInstanceProfileTagsCommandInput,
+  listMFADeviceTags(
+    args: ListMFADeviceTagsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
-    ListInstanceProfileTagsCommandOutput,
-    SdkError | NoSuchEntityError | ServiceFailureError
+    ListMFADeviceTagsCommandOutput,
+    SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -1866,13 +1877,13 @@ interface IAMService$ {
   >;
 
   /**
-   * @see {@link ListMFADeviceTagsCommand}
+   * @see {@link ListOpenIDConnectProviderTagsCommand}
    */
-  listMFADeviceTags(
-    args: ListMFADeviceTagsCommandInput,
+  listOpenIDConnectProviderTags(
+    args: ListOpenIDConnectProviderTagsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
-    ListMFADeviceTagsCommandOutput,
+    ListOpenIDConnectProviderTagsCommandOutput,
     SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
   >;
 
@@ -1885,17 +1896,6 @@ interface IAMService$ {
   ): Effect.Effect<
     ListOpenIDConnectProvidersCommandOutput,
     SdkError | ServiceFailureError
-  >;
-
-  /**
-   * @see {@link ListOpenIDConnectProviderTagsCommand}
-   */
-  listOpenIDConnectProviderTags(
-    args: ListOpenIDConnectProviderTagsCommandInput,
-    options?: HttpHandlerOptions,
-  ): Effect.Effect<
-    ListOpenIDConnectProviderTagsCommandOutput,
-    SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -1951,14 +1951,6 @@ interface IAMService$ {
   >;
 
   /**
-   * @see {@link ListRolesCommand}
-   */
-  listRoles(
-    args: ListRolesCommandInput,
-    options?: HttpHandlerOptions,
-  ): Effect.Effect<ListRolesCommandOutput, SdkError | ServiceFailureError>;
-
-  /**
    * @see {@link ListRoleTagsCommand}
    */
   listRoleTags(
@@ -1967,6 +1959,25 @@ interface IAMService$ {
   ): Effect.Effect<
     ListRoleTagsCommandOutput,
     SdkError | NoSuchEntityError | ServiceFailureError
+  >;
+
+  /**
+   * @see {@link ListRolesCommand}
+   */
+  listRoles(
+    args: ListRolesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<ListRolesCommandOutput, SdkError | ServiceFailureError>;
+
+  /**
+   * @see {@link ListSAMLProviderTagsCommand}
+   */
+  listSAMLProviderTags(
+    args: ListSAMLProviderTagsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListSAMLProviderTagsCommandOutput,
+    SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -1981,25 +1992,14 @@ interface IAMService$ {
   >;
 
   /**
-   * @see {@link ListSAMLProviderTagsCommand}
+   * @see {@link ListSSHPublicKeysCommand}
    */
-  listSAMLProviderTags(
-    args: ListSAMLProviderTagsCommandInput,
+  listSSHPublicKeys(
+    args: ListSSHPublicKeysCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
-    ListSAMLProviderTagsCommandOutput,
-    SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
-  >;
-
-  /**
-   * @see {@link ListServerCertificatesCommand}
-   */
-  listServerCertificates(
-    args: ListServerCertificatesCommandInput,
-    options?: HttpHandlerOptions,
-  ): Effect.Effect<
-    ListServerCertificatesCommandOutput,
-    SdkError | ServiceFailureError
+    ListSSHPublicKeysCommandOutput,
+    SdkError | NoSuchEntityError
   >;
 
   /**
@@ -2011,6 +2011,17 @@ interface IAMService$ {
   ): Effect.Effect<
     ListServerCertificateTagsCommandOutput,
     SdkError | NoSuchEntityError | ServiceFailureError
+  >;
+
+  /**
+   * @see {@link ListServerCertificatesCommand}
+   */
+  listServerCertificates(
+    args: ListServerCertificatesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListServerCertificatesCommandOutput,
+    SdkError | ServiceFailureError
   >;
 
   /**
@@ -2036,17 +2047,6 @@ interface IAMService$ {
   >;
 
   /**
-   * @see {@link ListSSHPublicKeysCommand}
-   */
-  listSSHPublicKeys(
-    args: ListSSHPublicKeysCommandInput,
-    options?: HttpHandlerOptions,
-  ): Effect.Effect<
-    ListSSHPublicKeysCommandOutput,
-    SdkError | NoSuchEntityError
-  >;
-
-  /**
    * @see {@link ListUserPoliciesCommand}
    */
   listUserPolicies(
@@ -2058,14 +2058,6 @@ interface IAMService$ {
   >;
 
   /**
-   * @see {@link ListUsersCommand}
-   */
-  listUsers(
-    args: ListUsersCommandInput,
-    options?: HttpHandlerOptions,
-  ): Effect.Effect<ListUsersCommandOutput, SdkError | ServiceFailureError>;
-
-  /**
    * @see {@link ListUserTagsCommand}
    */
   listUserTags(
@@ -2075,6 +2067,14 @@ interface IAMService$ {
     ListUserTagsCommandOutput,
     SdkError | NoSuchEntityError | ServiceFailureError
   >;
+
+  /**
+   * @see {@link ListUsersCommand}
+   */
+  listUsers(
+    args: ListUsersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<ListUsersCommandOutput, SdkError | ServiceFailureError>;
 
   /**
    * @see {@link ListVirtualMFADevicesCommand}
@@ -2641,6 +2641,17 @@ interface IAMService$ {
   >;
 
   /**
+   * @see {@link UpdateSSHPublicKeyCommand}
+   */
+  updateSSHPublicKey(
+    args: UpdateSSHPublicKeyCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateSSHPublicKeyCommandOutput,
+    SdkError | NoSuchEntityError
+  >;
+
+  /**
    * @see {@link UpdateServerCertificateCommand}
    */
   updateServerCertificate(
@@ -2678,17 +2689,6 @@ interface IAMService$ {
   >;
 
   /**
-   * @see {@link UpdateSSHPublicKeyCommand}
-   */
-  updateSSHPublicKey(
-    args: UpdateSSHPublicKeyCommandInput,
-    options?: HttpHandlerOptions,
-  ): Effect.Effect<
-    UpdateSSHPublicKeyCommandOutput,
-    SdkError | NoSuchEntityError
-  >;
-
-  /**
    * @see {@link UpdateUserCommand}
    */
   updateUser(
@@ -2703,6 +2703,22 @@ interface IAMService$ {
     | LimitExceededError
     | NoSuchEntityError
     | ServiceFailureError
+  >;
+
+  /**
+   * @see {@link UploadSSHPublicKeyCommand}
+   */
+  uploadSSHPublicKey(
+    args: UploadSSHPublicKeyCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UploadSSHPublicKeyCommandOutput,
+    | SdkError
+    | DuplicateSSHPublicKeyError
+    | InvalidPublicKeyError
+    | LimitExceededError
+    | NoSuchEntityError
+    | UnrecognizedPublicKeyEncodingError
   >;
 
   /**
@@ -2740,22 +2756,6 @@ interface IAMService$ {
     | MalformedCertificateError
     | NoSuchEntityError
     | ServiceFailureError
-  >;
-
-  /**
-   * @see {@link UploadSSHPublicKeyCommand}
-   */
-  uploadSSHPublicKey(
-    args: UploadSSHPublicKeyCommandInput,
-    options?: HttpHandlerOptions,
-  ): Effect.Effect<
-    UploadSSHPublicKeyCommandOutput,
-    | SdkError
-    | DuplicateSSHPublicKeyError
-    | InvalidPublicKeyError
-    | LimitExceededError
-    | NoSuchEntityError
-    | UnrecognizedPublicKeyEncodingError
   >;
 }
 

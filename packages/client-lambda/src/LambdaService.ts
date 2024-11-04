@@ -126,21 +126,21 @@ import {
   ListFunctionEventInvokeConfigsCommand,
   type ListFunctionEventInvokeConfigsCommandInput,
   type ListFunctionEventInvokeConfigsCommandOutput,
+  ListFunctionUrlConfigsCommand,
+  type ListFunctionUrlConfigsCommandInput,
+  type ListFunctionUrlConfigsCommandOutput,
   ListFunctionsCommand,
   type ListFunctionsCommandInput,
   type ListFunctionsCommandOutput,
   ListFunctionsByCodeSigningConfigCommand,
   type ListFunctionsByCodeSigningConfigCommandInput,
   type ListFunctionsByCodeSigningConfigCommandOutput,
-  ListFunctionUrlConfigsCommand,
-  type ListFunctionUrlConfigsCommandInput,
-  type ListFunctionUrlConfigsCommandOutput,
-  ListLayersCommand,
-  type ListLayersCommandInput,
-  type ListLayersCommandOutput,
   ListLayerVersionsCommand,
   type ListLayerVersionsCommandInput,
   type ListLayerVersionsCommandOutput,
+  ListLayersCommand,
+  type ListLayersCommandInput,
+  type ListLayersCommandOutput,
   ListProvisionedConcurrencyConfigsCommand,
   type ListProvisionedConcurrencyConfigsCommandInput,
   type ListProvisionedConcurrencyConfigsCommandOutput,
@@ -308,11 +308,11 @@ const commands = {
   ListCodeSigningConfigsCommand,
   ListEventSourceMappingsCommand,
   ListFunctionEventInvokeConfigsCommand,
+  ListFunctionUrlConfigsCommand,
   ListFunctionsCommand,
   ListFunctionsByCodeSigningConfigCommand,
-  ListFunctionUrlConfigsCommand,
-  ListLayersCommand,
   ListLayerVersionsCommand,
+  ListLayersCommand,
   ListProvisionedConcurrencyConfigsCommand,
   ListTagsCommand,
   ListVersionsByFunctionCommand,
@@ -1012,6 +1012,21 @@ interface LambdaService$ {
   >;
 
   /**
+   * @see {@link ListFunctionUrlConfigsCommand}
+   */
+  listFunctionUrlConfigs(
+    args: ListFunctionUrlConfigsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListFunctionUrlConfigsCommandOutput,
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
+
+  /**
    * @see {@link ListFunctionsCommand}
    */
   listFunctions(
@@ -1034,13 +1049,13 @@ interface LambdaService$ {
   >;
 
   /**
-   * @see {@link ListFunctionUrlConfigsCommand}
+   * @see {@link ListLayerVersionsCommand}
    */
-  listFunctionUrlConfigs(
-    args: ListFunctionUrlConfigsCommandInput,
+  listLayerVersions(
+    args: ListLayerVersionsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
-    ListFunctionUrlConfigsCommandOutput,
+    ListLayerVersionsCommandOutput,
     | SdkError
     | InvalidParameterValueError
     | ResourceNotFoundError
@@ -1057,21 +1072,6 @@ interface LambdaService$ {
   ): Effect.Effect<
     ListLayersCommandOutput,
     SdkError | InvalidParameterValueError | ServiceError | TooManyRequestsError
-  >;
-
-  /**
-   * @see {@link ListLayerVersionsCommand}
-   */
-  listLayerVersions(
-    args: ListLayerVersionsCommandInput,
-    options?: HttpHandlerOptions,
-  ): Effect.Effect<
-    ListLayerVersionsCommandOutput,
-    | SdkError
-    | InvalidParameterValueError
-    | ResourceNotFoundError
-    | ServiceError
-    | TooManyRequestsError
   >;
 
   /**

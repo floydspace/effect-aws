@@ -30,12 +30,12 @@ import {
   GetSecretValueCommand,
   type GetSecretValueCommandInput,
   type GetSecretValueCommandOutput,
-  ListSecretsCommand,
-  type ListSecretsCommandInput,
-  type ListSecretsCommandOutput,
   ListSecretVersionIdsCommand,
   type ListSecretVersionIdsCommandInput,
   type ListSecretVersionIdsCommandOutput,
+  ListSecretsCommand,
+  type ListSecretsCommandInput,
+  type ListSecretsCommandOutput,
   PutResourcePolicyCommand,
   type PutResourcePolicyCommandInput,
   type PutResourcePolicyCommandOutput,
@@ -115,8 +115,8 @@ const commands = {
   GetRandomPasswordCommand,
   GetResourcePolicyCommand,
   GetSecretValueCommand,
-  ListSecretsCommand,
   ListSecretVersionIdsCommand,
+  ListSecretsCommand,
   PutResourcePolicyCommand,
   PutSecretValueCommand,
   RemoveRegionsFromReplicationCommand,
@@ -277,21 +277,6 @@ interface SecretsManagerService$ {
   >;
 
   /**
-   * @see {@link ListSecretsCommand}
-   */
-  listSecrets(
-    args: ListSecretsCommandInput,
-    options?: HttpHandlerOptions,
-  ): Effect.Effect<
-    ListSecretsCommandOutput,
-    | SdkError
-    | InternalServiceError
-    | InvalidNextTokenError
-    | InvalidParameterError
-    | InvalidRequestError
-  >;
-
-  /**
    * @see {@link ListSecretVersionIdsCommand}
    */
   listSecretVersionIds(
@@ -304,6 +289,21 @@ interface SecretsManagerService$ {
     | InvalidNextTokenError
     | InvalidParameterError
     | ResourceNotFoundError
+  >;
+
+  /**
+   * @see {@link ListSecretsCommand}
+   */
+  listSecrets(
+    args: ListSecretsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListSecretsCommandOutput,
+    | SdkError
+    | InternalServiceError
+    | InvalidNextTokenError
+    | InvalidParameterError
+    | InvalidRequestError
   >;
 
   /**
