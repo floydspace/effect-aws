@@ -105,6 +105,8 @@
       "packages/client-kms",
       "packages/client-lambda",
       "packages/client-mq",
+      "packages/client-opensearch",
+      "packages/client-opensearchserverless",
       "packages/client-rds",
       "packages/client-s3",
       "packages/client-scheduler",
