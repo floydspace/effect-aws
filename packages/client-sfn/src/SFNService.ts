@@ -60,12 +60,12 @@ import {
   ListStateMachineAliasesCommand,
   type ListStateMachineAliasesCommandInput,
   type ListStateMachineAliasesCommandOutput,
-  ListStateMachinesCommand,
-  type ListStateMachinesCommandInput,
-  type ListStateMachinesCommandOutput,
   ListStateMachineVersionsCommand,
   type ListStateMachineVersionsCommandInput,
   type ListStateMachineVersionsCommandOutput,
+  ListStateMachinesCommand,
+  type ListStateMachinesCommandInput,
+  type ListStateMachinesCommandOutput,
   ListTagsForResourceCommand,
   type ListTagsForResourceCommandInput,
   type ListTagsForResourceCommandOutput,
@@ -185,8 +185,8 @@ const commands = {
   ListExecutionsCommand,
   ListMapRunsCommand,
   ListStateMachineAliasesCommand,
-  ListStateMachinesCommand,
   ListStateMachineVersionsCommand,
+  ListStateMachinesCommand,
   ListTagsForResourceCommand,
   PublishStateMachineVersionCommand,
   RedriveExecutionCommand,
@@ -483,17 +483,6 @@ interface SFNService$ {
   >;
 
   /**
-   * @see {@link ListStateMachinesCommand}
-   */
-  listStateMachines(
-    args: ListStateMachinesCommandInput,
-    options?: HttpHandlerOptions,
-  ): Effect.Effect<
-    ListStateMachinesCommandOutput,
-    SdkError | InvalidTokenError
-  >;
-
-  /**
    * @see {@link ListStateMachineVersionsCommand}
    */
   listStateMachineVersions(
@@ -502,6 +491,17 @@ interface SFNService$ {
   ): Effect.Effect<
     ListStateMachineVersionsCommandOutput,
     SdkError | InvalidArnError | InvalidTokenError | ValidationError
+  >;
+
+  /**
+   * @see {@link ListStateMachinesCommand}
+   */
+  listStateMachines(
+    args: ListStateMachinesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListStateMachinesCommandOutput,
+    SdkError | InvalidTokenError
   >;
 
   /**

@@ -132,12 +132,12 @@ import {
   DescribeReservedCacheNodesOfferingsCommand,
   type DescribeReservedCacheNodesOfferingsCommandInput,
   type DescribeReservedCacheNodesOfferingsCommandOutput,
-  DescribeServerlessCachesCommand,
-  type DescribeServerlessCachesCommandInput,
-  type DescribeServerlessCachesCommandOutput,
   DescribeServerlessCacheSnapshotsCommand,
   type DescribeServerlessCacheSnapshotsCommandInput,
   type DescribeServerlessCacheSnapshotsCommandOutput,
+  DescribeServerlessCachesCommand,
+  type DescribeServerlessCachesCommandInput,
+  type DescribeServerlessCachesCommandOutput,
   DescribeServiceUpdatesCommand,
   type DescribeServiceUpdatesCommandInput,
   type DescribeServiceUpdatesCommandOutput,
@@ -369,8 +369,8 @@ const commands = {
   DescribeReplicationGroupsCommand,
   DescribeReservedCacheNodesCommand,
   DescribeReservedCacheNodesOfferingsCommand,
-  DescribeServerlessCachesCommand,
   DescribeServerlessCacheSnapshotsCommand,
+  DescribeServerlessCachesCommand,
   DescribeServiceUpdatesCommand,
   DescribeSnapshotsCommand,
   DescribeUpdateActionsCommand,
@@ -1104,20 +1104,6 @@ interface ElastiCacheService$ {
   >;
 
   /**
-   * @see {@link DescribeServerlessCachesCommand}
-   */
-  describeServerlessCaches(
-    args: DescribeServerlessCachesCommandInput,
-    options?: HttpHandlerOptions,
-  ): Effect.Effect<
-    DescribeServerlessCachesCommandOutput,
-    | SdkError
-    | InvalidParameterCombinationError
-    | InvalidParameterValueError
-    | ServerlessCacheNotFoundFaultError
-  >;
-
-  /**
    * @see {@link DescribeServerlessCacheSnapshotsCommand}
    */
   describeServerlessCacheSnapshots(
@@ -1130,6 +1116,20 @@ interface ElastiCacheService$ {
     | InvalidParameterValueError
     | ServerlessCacheNotFoundFaultError
     | ServerlessCacheSnapshotNotFoundFaultError
+  >;
+
+  /**
+   * @see {@link DescribeServerlessCachesCommand}
+   */
+  describeServerlessCaches(
+    args: DescribeServerlessCachesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeServerlessCachesCommandOutput,
+    | SdkError
+    | InvalidParameterCombinationError
+    | InvalidParameterValueError
+    | ServerlessCacheNotFoundFaultError
   >;
 
   /**

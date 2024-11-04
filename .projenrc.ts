@@ -289,6 +289,22 @@ new TypeScriptLibProject({
 
 new TypeScriptLibProject({
   parent: project,
+  name: "client-opensearch",
+  deps: [...commonDeps, "@aws-sdk/client-opensearch@^3"],
+  devDeps: commonDevDeps,
+  peerDeps: commonPeerDeps,
+});
+
+new TypeScriptLibProject({
+  parent: project,
+  name: "client-opensearch-serverless",
+  deps: [...commonDeps, "@aws-sdk/client-opensearchserverless@^3"],
+  devDeps: commonDevDeps,
+  peerDeps: commonPeerDeps,
+});
+
+new TypeScriptLibProject({
+  parent: project,
   name: "lambda",
   devDeps: ["@types/aws-lambda"],
   peerDeps: commonPeerDeps,

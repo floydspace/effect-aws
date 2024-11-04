@@ -18,12 +18,12 @@ import {
   BatchGetDeploymentInstancesCommand,
   type BatchGetDeploymentInstancesCommandInput,
   type BatchGetDeploymentInstancesCommandOutput,
-  BatchGetDeploymentsCommand,
-  type BatchGetDeploymentsCommandInput,
-  type BatchGetDeploymentsCommandOutput,
   BatchGetDeploymentTargetsCommand,
   type BatchGetDeploymentTargetsCommandInput,
   type BatchGetDeploymentTargetsCommandOutput,
+  BatchGetDeploymentsCommand,
+  type BatchGetDeploymentsCommandInput,
+  type BatchGetDeploymentsCommandOutput,
   BatchGetOnPremisesInstancesCommand,
   type BatchGetOnPremisesInstancesCommandInput,
   type BatchGetOnPremisesInstancesCommandOutput,
@@ -99,12 +99,12 @@ import {
   ListDeploymentInstancesCommand,
   type ListDeploymentInstancesCommandInput,
   type ListDeploymentInstancesCommandOutput,
-  ListDeploymentsCommand,
-  type ListDeploymentsCommandInput,
-  type ListDeploymentsCommandOutput,
   ListDeploymentTargetsCommand,
   type ListDeploymentTargetsCommandInput,
   type ListDeploymentTargetsCommandOutput,
+  ListDeploymentsCommand,
+  type ListDeploymentsCommandInput,
+  type ListDeploymentsCommandOutput,
   ListGitHubAccountTokenNamesCommand,
   type ListGitHubAccountTokenNamesCommandInput,
   type ListGitHubAccountTokenNamesCommandOutput,
@@ -281,8 +281,8 @@ const commands = {
   BatchGetApplicationsCommand,
   BatchGetDeploymentGroupsCommand,
   BatchGetDeploymentInstancesCommand,
-  BatchGetDeploymentsCommand,
   BatchGetDeploymentTargetsCommand,
+  BatchGetDeploymentsCommand,
   BatchGetOnPremisesInstancesCommand,
   ContinueDeploymentCommand,
   CreateApplicationCommand,
@@ -308,8 +308,8 @@ const commands = {
   ListDeploymentConfigsCommand,
   ListDeploymentGroupsCommand,
   ListDeploymentInstancesCommand,
-  ListDeploymentsCommand,
   ListDeploymentTargetsCommand,
+  ListDeploymentsCommand,
   ListGitHubAccountTokenNamesCommand,
   ListOnPremisesInstancesCommand,
   ListTagsForResourceCommand,
@@ -415,20 +415,6 @@ interface CodeDeployService$ {
   >;
 
   /**
-   * @see {@link BatchGetDeploymentsCommand}
-   */
-  batchGetDeployments(
-    args: BatchGetDeploymentsCommandInput,
-    options?: HttpHandlerOptions,
-  ): Effect.Effect<
-    BatchGetDeploymentsCommandOutput,
-    | SdkError
-    | BatchLimitExceededError
-    | DeploymentIdRequiredError
-    | InvalidDeploymentIdError
-  >;
-
-  /**
    * @see {@link BatchGetDeploymentTargetsCommand}
    */
   batchGetDeploymentTargets(
@@ -446,6 +432,20 @@ interface CodeDeployService$ {
     | InstanceDoesNotExistError
     | InvalidDeploymentIdError
     | InvalidDeploymentTargetIdError
+  >;
+
+  /**
+   * @see {@link BatchGetDeploymentsCommand}
+   */
+  batchGetDeployments(
+    args: BatchGetDeploymentsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    BatchGetDeploymentsCommandOutput,
+    | SdkError
+    | BatchLimitExceededError
+    | DeploymentIdRequiredError
+    | InvalidDeploymentIdError
   >;
 
   /**
@@ -887,6 +887,26 @@ interface CodeDeployService$ {
   >;
 
   /**
+   * @see {@link ListDeploymentTargetsCommand}
+   */
+  listDeploymentTargets(
+    args: ListDeploymentTargetsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListDeploymentTargetsCommandOutput,
+    | SdkError
+    | DeploymentDoesNotExistError
+    | DeploymentIdRequiredError
+    | DeploymentNotStartedError
+    | InvalidDeploymentIdError
+    | InvalidDeploymentInstanceTypeError
+    | InvalidInstanceStatusError
+    | InvalidInstanceTypeError
+    | InvalidNextTokenError
+    | InvalidTargetFilterNameError
+  >;
+
+  /**
    * @see {@link ListDeploymentsCommand}
    */
   listDeployments(
@@ -906,26 +926,6 @@ interface CodeDeployService$ {
     | InvalidInputError
     | InvalidNextTokenError
     | InvalidTimeRangeError
-  >;
-
-  /**
-   * @see {@link ListDeploymentTargetsCommand}
-   */
-  listDeploymentTargets(
-    args: ListDeploymentTargetsCommandInput,
-    options?: HttpHandlerOptions,
-  ): Effect.Effect<
-    ListDeploymentTargetsCommandOutput,
-    | SdkError
-    | DeploymentDoesNotExistError
-    | DeploymentIdRequiredError
-    | DeploymentNotStartedError
-    | InvalidDeploymentIdError
-    | InvalidDeploymentInstanceTypeError
-    | InvalidInstanceStatusError
-    | InvalidInstanceTypeError
-    | InvalidNextTokenError
-    | InvalidTargetFilterNameError
   >;
 
   /**

@@ -96,12 +96,12 @@ import {
   DescribeAssociationCommand,
   type DescribeAssociationCommandInput,
   type DescribeAssociationCommandOutput,
-  DescribeAssociationExecutionsCommand,
-  type DescribeAssociationExecutionsCommandInput,
-  type DescribeAssociationExecutionsCommandOutput,
   DescribeAssociationExecutionTargetsCommand,
   type DescribeAssociationExecutionTargetsCommandInput,
   type DescribeAssociationExecutionTargetsCommandOutput,
+  DescribeAssociationExecutionsCommand,
+  type DescribeAssociationExecutionsCommandInput,
+  type DescribeAssociationExecutionsCommandOutput,
   DescribeAutomationExecutionsCommand,
   type DescribeAutomationExecutionsCommandInput,
   type DescribeAutomationExecutionsCommandOutput,
@@ -129,45 +129,45 @@ import {
   DescribeInstanceInformationCommand,
   type DescribeInstanceInformationCommandInput,
   type DescribeInstanceInformationCommandOutput,
-  DescribeInstancePatchesCommand,
-  type DescribeInstancePatchesCommandInput,
-  type DescribeInstancePatchesCommandOutput,
   DescribeInstancePatchStatesCommand,
   type DescribeInstancePatchStatesCommandInput,
   type DescribeInstancePatchStatesCommandOutput,
   DescribeInstancePatchStatesForPatchGroupCommand,
   type DescribeInstancePatchStatesForPatchGroupCommandInput,
   type DescribeInstancePatchStatesForPatchGroupCommandOutput,
+  DescribeInstancePatchesCommand,
+  type DescribeInstancePatchesCommandInput,
+  type DescribeInstancePatchesCommandOutput,
   DescribeInstancePropertiesCommand,
   type DescribeInstancePropertiesCommandInput,
   type DescribeInstancePropertiesCommandOutput,
   DescribeInventoryDeletionsCommand,
   type DescribeInventoryDeletionsCommandInput,
   type DescribeInventoryDeletionsCommandOutput,
-  DescribeMaintenanceWindowExecutionsCommand,
-  type DescribeMaintenanceWindowExecutionsCommandInput,
-  type DescribeMaintenanceWindowExecutionsCommandOutput,
   DescribeMaintenanceWindowExecutionTaskInvocationsCommand,
   type DescribeMaintenanceWindowExecutionTaskInvocationsCommandInput,
   type DescribeMaintenanceWindowExecutionTaskInvocationsCommandOutput,
   DescribeMaintenanceWindowExecutionTasksCommand,
   type DescribeMaintenanceWindowExecutionTasksCommandInput,
   type DescribeMaintenanceWindowExecutionTasksCommandOutput,
-  DescribeMaintenanceWindowsCommand,
-  type DescribeMaintenanceWindowsCommandInput,
-  type DescribeMaintenanceWindowsCommandOutput,
+  DescribeMaintenanceWindowExecutionsCommand,
+  type DescribeMaintenanceWindowExecutionsCommandInput,
+  type DescribeMaintenanceWindowExecutionsCommandOutput,
   DescribeMaintenanceWindowScheduleCommand,
   type DescribeMaintenanceWindowScheduleCommandInput,
   type DescribeMaintenanceWindowScheduleCommandOutput,
-  DescribeMaintenanceWindowsForTargetCommand,
-  type DescribeMaintenanceWindowsForTargetCommandInput,
-  type DescribeMaintenanceWindowsForTargetCommandOutput,
   DescribeMaintenanceWindowTargetsCommand,
   type DescribeMaintenanceWindowTargetsCommandInput,
   type DescribeMaintenanceWindowTargetsCommandOutput,
   DescribeMaintenanceWindowTasksCommand,
   type DescribeMaintenanceWindowTasksCommandInput,
   type DescribeMaintenanceWindowTasksCommandOutput,
+  DescribeMaintenanceWindowsCommand,
+  type DescribeMaintenanceWindowsCommandInput,
+  type DescribeMaintenanceWindowsCommandOutput,
+  DescribeMaintenanceWindowsForTargetCommand,
+  type DescribeMaintenanceWindowsForTargetCommandInput,
+  type DescribeMaintenanceWindowsForTargetCommandOutput,
   DescribeOpsItemsCommand,
   type DescribeOpsItemsCommandInput,
   type DescribeOpsItemsCommandOutput,
@@ -177,12 +177,12 @@ import {
   DescribePatchBaselinesCommand,
   type DescribePatchBaselinesCommandInput,
   type DescribePatchBaselinesCommandOutput,
-  DescribePatchGroupsCommand,
-  type DescribePatchGroupsCommandInput,
-  type DescribePatchGroupsCommandOutput,
   DescribePatchGroupStateCommand,
   type DescribePatchGroupStateCommandInput,
   type DescribePatchGroupStateCommandOutput,
+  DescribePatchGroupsCommand,
+  type DescribePatchGroupsCommandInput,
+  type DescribePatchGroupsCommandOutput,
   DescribePatchPropertiesCommand,
   type DescribePatchPropertiesCommandInput,
   type DescribePatchPropertiesCommandOutput,
@@ -270,12 +270,12 @@ import {
   LabelParameterVersionCommand,
   type LabelParameterVersionCommandInput,
   type LabelParameterVersionCommandOutput,
-  ListAssociationsCommand,
-  type ListAssociationsCommandInput,
-  type ListAssociationsCommandOutput,
   ListAssociationVersionsCommand,
   type ListAssociationVersionsCommandInput,
   type ListAssociationVersionsCommandOutput,
+  ListAssociationsCommand,
+  type ListAssociationsCommandInput,
+  type ListAssociationsCommandOutput,
   ListCommandInvocationsCommand,
   type ListCommandInvocationsCommandInput,
   type ListCommandInvocationsCommandOutput,
@@ -291,12 +291,12 @@ import {
   ListDocumentMetadataHistoryCommand,
   type ListDocumentMetadataHistoryCommandInput,
   type ListDocumentMetadataHistoryCommandOutput,
-  ListDocumentsCommand,
-  type ListDocumentsCommandInput,
-  type ListDocumentsCommandOutput,
   ListDocumentVersionsCommand,
   type ListDocumentVersionsCommandInput,
   type ListDocumentVersionsCommandOutput,
+  ListDocumentsCommand,
+  type ListDocumentsCommandInput,
+  type ListDocumentsCommandOutput,
   ListInventoryEntriesCommand,
   type ListInventoryEntriesCommandInput,
   type ListInventoryEntriesCommandOutput,
@@ -606,8 +606,8 @@ const commands = {
   DeregisterTaskFromMaintenanceWindowCommand,
   DescribeActivationsCommand,
   DescribeAssociationCommand,
-  DescribeAssociationExecutionsCommand,
   DescribeAssociationExecutionTargetsCommand,
+  DescribeAssociationExecutionsCommand,
   DescribeAutomationExecutionsCommand,
   DescribeAutomationStepExecutionsCommand,
   DescribeAvailablePatchesCommand,
@@ -617,24 +617,24 @@ const commands = {
   DescribeEffectivePatchesForPatchBaselineCommand,
   DescribeInstanceAssociationsStatusCommand,
   DescribeInstanceInformationCommand,
-  DescribeInstancePatchesCommand,
   DescribeInstancePatchStatesCommand,
   DescribeInstancePatchStatesForPatchGroupCommand,
+  DescribeInstancePatchesCommand,
   DescribeInstancePropertiesCommand,
   DescribeInventoryDeletionsCommand,
-  DescribeMaintenanceWindowExecutionsCommand,
   DescribeMaintenanceWindowExecutionTaskInvocationsCommand,
   DescribeMaintenanceWindowExecutionTasksCommand,
-  DescribeMaintenanceWindowsCommand,
+  DescribeMaintenanceWindowExecutionsCommand,
   DescribeMaintenanceWindowScheduleCommand,
-  DescribeMaintenanceWindowsForTargetCommand,
   DescribeMaintenanceWindowTargetsCommand,
   DescribeMaintenanceWindowTasksCommand,
+  DescribeMaintenanceWindowsCommand,
+  DescribeMaintenanceWindowsForTargetCommand,
   DescribeOpsItemsCommand,
   DescribeParametersCommand,
   DescribePatchBaselinesCommand,
-  DescribePatchGroupsCommand,
   DescribePatchGroupStateCommand,
+  DescribePatchGroupsCommand,
   DescribePatchPropertiesCommand,
   DescribeSessionsCommand,
   DisassociateOpsItemRelatedItemCommand,
@@ -664,15 +664,15 @@ const commands = {
   GetResourcePoliciesCommand,
   GetServiceSettingCommand,
   LabelParameterVersionCommand,
-  ListAssociationsCommand,
   ListAssociationVersionsCommand,
+  ListAssociationsCommand,
   ListCommandInvocationsCommand,
   ListCommandsCommand,
   ListComplianceItemsCommand,
   ListComplianceSummariesCommand,
   ListDocumentMetadataHistoryCommand,
-  ListDocumentsCommand,
   ListDocumentVersionsCommand,
+  ListDocumentsCommand,
   ListInventoryEntriesCommand,
   ListOpsItemEventsCommand,
   ListOpsItemRelatedItemsCommand,
@@ -1163,20 +1163,6 @@ interface SSMService$ {
   >;
 
   /**
-   * @see {@link DescribeAssociationExecutionsCommand}
-   */
-  describeAssociationExecutions(
-    args: DescribeAssociationExecutionsCommandInput,
-    options?: HttpHandlerOptions,
-  ): Effect.Effect<
-    DescribeAssociationExecutionsCommandOutput,
-    | SdkError
-    | AssociationDoesNotExistError
-    | InternalServerError
-    | InvalidNextTokenError
-  >;
-
-  /**
    * @see {@link DescribeAssociationExecutionTargetsCommand}
    */
   describeAssociationExecutionTargets(
@@ -1187,6 +1173,20 @@ interface SSMService$ {
     | SdkError
     | AssociationDoesNotExistError
     | AssociationExecutionDoesNotExistError
+    | InternalServerError
+    | InvalidNextTokenError
+  >;
+
+  /**
+   * @see {@link DescribeAssociationExecutionsCommand}
+   */
+  describeAssociationExecutions(
+    args: DescribeAssociationExecutionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeAssociationExecutionsCommandOutput,
+    | SdkError
+    | AssociationDoesNotExistError
     | InternalServerError
     | InvalidNextTokenError
   >;
@@ -1323,21 +1323,6 @@ interface SSMService$ {
   >;
 
   /**
-   * @see {@link DescribeInstancePatchesCommand}
-   */
-  describeInstancePatches(
-    args: DescribeInstancePatchesCommandInput,
-    options?: HttpHandlerOptions,
-  ): Effect.Effect<
-    DescribeInstancePatchesCommandOutput,
-    | SdkError
-    | InternalServerError
-    | InvalidFilterError
-    | InvalidInstanceIdError
-    | InvalidNextTokenError
-  >;
-
-  /**
    * @see {@link DescribeInstancePatchStatesCommand}
    */
   describeInstancePatchStates(
@@ -1357,6 +1342,21 @@ interface SSMService$ {
   ): Effect.Effect<
     DescribeInstancePatchStatesForPatchGroupCommandOutput,
     SdkError | InternalServerError | InvalidFilterError | InvalidNextTokenError
+  >;
+
+  /**
+   * @see {@link DescribeInstancePatchesCommand}
+   */
+  describeInstancePatches(
+    args: DescribeInstancePatchesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeInstancePatchesCommandOutput,
+    | SdkError
+    | InternalServerError
+    | InvalidFilterError
+    | InvalidInstanceIdError
+    | InvalidNextTokenError
   >;
 
   /**
@@ -1392,17 +1392,6 @@ interface SSMService$ {
   >;
 
   /**
-   * @see {@link DescribeMaintenanceWindowExecutionsCommand}
-   */
-  describeMaintenanceWindowExecutions(
-    args: DescribeMaintenanceWindowExecutionsCommandInput,
-    options?: HttpHandlerOptions,
-  ): Effect.Effect<
-    DescribeMaintenanceWindowExecutionsCommandOutput,
-    SdkError | InternalServerError
-  >;
-
-  /**
    * @see {@link DescribeMaintenanceWindowExecutionTaskInvocationsCommand}
    */
   describeMaintenanceWindowExecutionTaskInvocations(
@@ -1425,13 +1414,13 @@ interface SSMService$ {
   >;
 
   /**
-   * @see {@link DescribeMaintenanceWindowsCommand}
+   * @see {@link DescribeMaintenanceWindowExecutionsCommand}
    */
-  describeMaintenanceWindows(
-    args: DescribeMaintenanceWindowsCommandInput,
+  describeMaintenanceWindowExecutions(
+    args: DescribeMaintenanceWindowExecutionsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
-    DescribeMaintenanceWindowsCommandOutput,
+    DescribeMaintenanceWindowExecutionsCommandOutput,
     SdkError | InternalServerError
   >;
 
@@ -1444,17 +1433,6 @@ interface SSMService$ {
   ): Effect.Effect<
     DescribeMaintenanceWindowScheduleCommandOutput,
     SdkError | DoesNotExistError | InternalServerError
-  >;
-
-  /**
-   * @see {@link DescribeMaintenanceWindowsForTargetCommand}
-   */
-  describeMaintenanceWindowsForTarget(
-    args: DescribeMaintenanceWindowsForTargetCommandInput,
-    options?: HttpHandlerOptions,
-  ): Effect.Effect<
-    DescribeMaintenanceWindowsForTargetCommandOutput,
-    SdkError | InternalServerError
   >;
 
   /**
@@ -1477,6 +1455,28 @@ interface SSMService$ {
   ): Effect.Effect<
     DescribeMaintenanceWindowTasksCommandOutput,
     SdkError | DoesNotExistError | InternalServerError
+  >;
+
+  /**
+   * @see {@link DescribeMaintenanceWindowsCommand}
+   */
+  describeMaintenanceWindows(
+    args: DescribeMaintenanceWindowsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeMaintenanceWindowsCommandOutput,
+    SdkError | InternalServerError
+  >;
+
+  /**
+   * @see {@link DescribeMaintenanceWindowsForTargetCommand}
+   */
+  describeMaintenanceWindowsForTarget(
+    args: DescribeMaintenanceWindowsForTargetCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeMaintenanceWindowsForTargetCommandOutput,
+    SdkError | InternalServerError
   >;
 
   /**
@@ -1518,17 +1518,6 @@ interface SSMService$ {
   >;
 
   /**
-   * @see {@link DescribePatchGroupsCommand}
-   */
-  describePatchGroups(
-    args: DescribePatchGroupsCommandInput,
-    options?: HttpHandlerOptions,
-  ): Effect.Effect<
-    DescribePatchGroupsCommandOutput,
-    SdkError | InternalServerError
-  >;
-
-  /**
    * @see {@link DescribePatchGroupStateCommand}
    */
   describePatchGroupState(
@@ -1537,6 +1526,17 @@ interface SSMService$ {
   ): Effect.Effect<
     DescribePatchGroupStateCommandOutput,
     SdkError | InternalServerError | InvalidNextTokenError
+  >;
+
+  /**
+   * @see {@link DescribePatchGroupsCommand}
+   */
+  describePatchGroups(
+    args: DescribePatchGroupsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribePatchGroupsCommandOutput,
+    SdkError | InternalServerError
   >;
 
   /**
@@ -1926,17 +1926,6 @@ interface SSMService$ {
   >;
 
   /**
-   * @see {@link ListAssociationsCommand}
-   */
-  listAssociations(
-    args: ListAssociationsCommandInput,
-    options?: HttpHandlerOptions,
-  ): Effect.Effect<
-    ListAssociationsCommandOutput,
-    SdkError | InternalServerError | InvalidNextTokenError
-  >;
-
-  /**
    * @see {@link ListAssociationVersionsCommand}
    */
   listAssociationVersions(
@@ -1948,6 +1937,17 @@ interface SSMService$ {
     | AssociationDoesNotExistError
     | InternalServerError
     | InvalidNextTokenError
+  >;
+
+  /**
+   * @see {@link ListAssociationsCommand}
+   */
+  listAssociations(
+    args: ListAssociationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListAssociationsCommandOutput,
+    SdkError | InternalServerError | InvalidNextTokenError
   >;
 
   /**
@@ -2025,20 +2025,6 @@ interface SSMService$ {
   >;
 
   /**
-   * @see {@link ListDocumentsCommand}
-   */
-  listDocuments(
-    args: ListDocumentsCommandInput,
-    options?: HttpHandlerOptions,
-  ): Effect.Effect<
-    ListDocumentsCommandOutput,
-    | SdkError
-    | InternalServerError
-    | InvalidFilterKeyError
-    | InvalidNextTokenError
-  >;
-
-  /**
    * @see {@link ListDocumentVersionsCommand}
    */
   listDocumentVersions(
@@ -2049,6 +2035,20 @@ interface SSMService$ {
     | SdkError
     | InternalServerError
     | InvalidDocumentError
+    | InvalidNextTokenError
+  >;
+
+  /**
+   * @see {@link ListDocumentsCommand}
+   */
+  listDocuments(
+    args: ListDocumentsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListDocumentsCommandOutput,
+    | SdkError
+    | InternalServerError
+    | InvalidFilterKeyError
     | InvalidNextTokenError
   >;
 

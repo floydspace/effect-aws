@@ -39,12 +39,12 @@ import {
   ListMessageMoveTasksCommand,
   type ListMessageMoveTasksCommandInput,
   type ListMessageMoveTasksCommandOutput,
-  ListQueuesCommand,
-  type ListQueuesCommandInput,
-  type ListQueuesCommandOutput,
   ListQueueTagsCommand,
   type ListQueueTagsCommandInput,
   type ListQueueTagsCommandOutput,
+  ListQueuesCommand,
+  type ListQueuesCommandInput,
+  type ListQueuesCommandOutput,
   PurgeQueueCommand,
   type PurgeQueueCommandInput,
   type PurgeQueueCommandOutput,
@@ -131,8 +131,8 @@ const commands = {
   GetQueueUrlCommand,
   ListDeadLetterSourceQueuesCommand,
   ListMessageMoveTasksCommand,
-  ListQueuesCommand,
   ListQueueTagsCommand,
+  ListQueuesCommand,
   PurgeQueueCommand,
   ReceiveMessageCommand,
   RemovePermissionCommand,
@@ -357,21 +357,6 @@ interface SQSService$ {
   >;
 
   /**
-   * @see {@link ListQueuesCommand}
-   */
-  listQueues(
-    args: ListQueuesCommandInput,
-    options?: HttpHandlerOptions,
-  ): Effect.Effect<
-    ListQueuesCommandOutput,
-    | SdkError
-    | InvalidAddressError
-    | InvalidSecurityError
-    | RequestThrottledError
-    | UnsupportedOperationError
-  >;
-
-  /**
    * @see {@link ListQueueTagsCommand}
    */
   listQueueTags(
@@ -383,6 +368,21 @@ interface SQSService$ {
     | InvalidAddressError
     | InvalidSecurityError
     | QueueDoesNotExistError
+    | RequestThrottledError
+    | UnsupportedOperationError
+  >;
+
+  /**
+   * @see {@link ListQueuesCommand}
+   */
+  listQueues(
+    args: ListQueuesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListQueuesCommandOutput,
+    | SdkError
+    | InvalidAddressError
+    | InvalidSecurityError
     | RequestThrottledError
     | UnsupportedOperationError
   >;
