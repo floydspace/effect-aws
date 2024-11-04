@@ -9,7 +9,7 @@ import { Context, Effect, Layer, Runtime } from "effect";
  * @category tags
  */
 export class OpenSearchServerlessClientInstanceConfig extends Context.Tag(
-  "@effect-aws/client-opensearchserverless/OpenSearchServerlessClientInstanceConfig",
+  "@effect-aws/client-opensearch-serverless/OpenSearchServerlessClientInstanceConfig",
 )<
   OpenSearchServerlessClientInstanceConfig,
   OpenSearchServerlessClientConfig

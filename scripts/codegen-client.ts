@@ -58,6 +58,9 @@ function normalizeServiceName(serviceName: string) {
   if (serviceName === "api-gateway-management-api") {
     originalServiceName = "apigatewaymanagementapi";
   }
+  if (serviceName === "opensearch-serverless") {
+    originalServiceName = "opensearchserverless";
+  }
   return originalServiceName;
 }
 

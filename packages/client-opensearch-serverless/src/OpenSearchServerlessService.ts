@@ -673,7 +673,7 @@ interface OpenSearchServerlessService$ {
  * @category models
  */
 export class OpenSearchServerlessService extends Effect.Tag(
-  "@effect-aws/client-opensearchserverless/OpenSearchServerlessService",
+  "@effect-aws/client-opensearch-serverless/OpenSearchServerlessService",
 )<OpenSearchServerlessService, OpenSearchServerlessService$>() {}
 
 /**

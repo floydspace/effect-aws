@@ -15,7 +15,7 @@ import {
  * @category tags
  */
 export class OpenSearchServerlessClientInstance extends Context.Tag(
-  "@effect-aws/client-opensearchserverless/OpenSearchServerlessClientInstance",
+  "@effect-aws/client-opensearch-serverless/OpenSearchServerlessClientInstance",
 )<OpenSearchServerlessClientInstance, OpenSearchServerlessClient>() {}
 
 /**

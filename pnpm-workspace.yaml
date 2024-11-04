@@ -20,7 +20,7 @@ packages:
   - packages/client-lambda
   - packages/client-mq
   - packages/client-opensearch
-  - packages/client-opensearchserverless
+  - packages/client-opensearch-serverless
   - packages/client-rds
   - packages/client-s3
   - packages/client-scheduler

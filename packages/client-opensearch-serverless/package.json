@@ -1,5 +1,5 @@
 {
-  "name": "@effect-aws/client-opensearchserverless",
+  "name": "@effect-aws/client-opensearch-serverless",
   "scripts": {
     "build": "npx projen build",
     "compile": "npx projen compile",

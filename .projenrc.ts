@@ -297,7 +297,7 @@ new TypeScriptLibProject({
 
 new TypeScriptLibProject({
   parent: project,
-  name: "client-opensearchserverless",
+  name: "client-opensearch-serverless",
   deps: [...commonDeps, "@aws-sdk/client-opensearchserverless@^3"],
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,

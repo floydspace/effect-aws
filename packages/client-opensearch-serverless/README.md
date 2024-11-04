@@ -1,12 +1,12 @@
-# @effect-aws/client-opensearchserverless
+# @effect-aws/client-opensearch-serverless
 
-[![npm version](https://img.shields.io/npm/v/%40effect-aws%2Fclient-opensearchserverless?color=brightgreen&label=npm%20package)](https://www.npmjs.com/package/@effect-aws/client-opensearchserverless)
-[![npm downloads](https://img.shields.io/npm/dm/%40effect-aws%2Fclient-opensearchserverless)](https://www.npmjs.com/package/@effect-aws/client-opensearchserverless)
+[![npm version](https://img.shields.io/npm/v/%40effect-aws%2Fclient-opensearch-serverless?color=brightgreen&label=npm%20package)](https://www.npmjs.com/package/@effect-aws/client-opensearch-serverless)
+[![npm downloads](https://img.shields.io/npm/dm/%40effect-aws%2Fclient-opensearch-serverless)](https://www.npmjs.com/package/@effect-aws/client-opensearch-serverless)
 
 ## Installation
 
 ```bash
-npm install --save @effect-aws/client-opensearchserverless
+npm install --save @effect-aws/client-opensearch-serverless
 ```
 
 ## Usage
@@ -14,7 +14,7 @@ npm install --save @effect-aws/client-opensearchserverless
 With default OpenSearchServerlessClient instance:
 
 ```typescript
-import { OpenSearchServerlessService, DefaultOpenSearchServerlessServiceLayer } from "@effect-aws/client-opensearchserverless";
+import { OpenSearchServerlessService, DefaultOpenSearchServerlessServiceLayer } from "@effect-aws/client-opensearch-serverless";
 
 const program = OpenSearchServerlessService.listCollections(args);
 
@@ -32,7 +32,7 @@ import {
   OpenSearchServerlessService,
   BaseOpenSearchServerlessServiceLayer,
   OpenSearchServerlessClientInstance,
-} from "@effect-aws/client-opensearchserverless";
+} from "@effect-aws/client-opensearch-serverless";
 
 const program = OpenSearchServerlessService.listCollections(args);
 
@@ -58,7 +58,7 @@ import {
   DefaultOpenSearchServerlessClientConfigLayer,
   OpenSearchServerlessClientInstance,
   OpenSearchServerlessClientInstanceConfig,
-} from "@effect-aws/client-opensearchserverless";
+} from "@effect-aws/client-opensearch-serverless";
 
 const program = OpenSearchServerlessService.listCollections(args);
 
