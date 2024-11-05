@@ -157,7 +157,10 @@ import {
 import { SFNClientInstance, SFNClientInstanceLayer } from "./SFNClientInstance";
 import { DefaultSFNClientConfigLayer } from "./SFNClientInstanceConfig";
 
-interface HttpHandlerOptions {
+/**
+ * @since 1.4.1
+ */
+export interface HttpHandlerOptions {
   /**
    * The maximum time in milliseconds that the connection phase of a request
    * may take before the connection attempt is abandoned.

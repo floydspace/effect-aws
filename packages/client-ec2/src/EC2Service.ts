@@ -1854,7 +1854,10 @@ import { EC2ClientInstance, EC2ClientInstanceLayer } from "./EC2ClientInstance";
 import { DefaultEC2ClientConfigLayer } from "./EC2ClientInstanceConfig";
 import { EC2ServiceError, SdkError, TaggedException } from "./Errors";
 
-interface HttpHandlerOptions {
+/**
+ * @since 1.2.1
+ */
+export interface HttpHandlerOptions {
   /**
    * The maximum time in milliseconds that the connection phase of a request
    * may take before the connection attempt is abandoned.

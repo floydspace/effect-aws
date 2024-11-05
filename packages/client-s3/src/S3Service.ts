@@ -309,7 +309,10 @@ import {
 import { S3ClientInstance, S3ClientInstanceLayer } from "./S3ClientInstance";
 import { DefaultS3ClientConfigLayer } from "./S3ClientInstanceConfig";
 
-interface HttpHandlerOptions {
+/**
+ * @since 1.4.1
+ */
+export interface HttpHandlerOptions {
   /**
    * The maximum time in milliseconds that the connection phase of a request
    * may take before the connection attempt is abandoned.

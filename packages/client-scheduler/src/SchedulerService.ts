@@ -58,7 +58,10 @@ import {
 } from "./SchedulerClientInstance";
 import { DefaultSchedulerClientConfigLayer } from "./SchedulerClientInstanceConfig";
 
-interface HttpHandlerOptions {
+/**
+ * @since 1.0.2
+ */
+export interface HttpHandlerOptions {
   /**
    * The maximum time in milliseconds that the connection phase of a request
    * may take before the connection attempt is abandoned.
