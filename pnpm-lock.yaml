@@ -1581,7 +1581,7 @@ importers:
         version: 3.685.0(@aws-sdk/client-dynamodb@3.682.0)
     devDependencies:
       '@effect-aws/client-dynamodb':
-        specifier: 1.4.0
+        specifier: 1.4.1
         version: link:../client-dynamodb
       '@types/node':
         specifier: ^18
@@ -1677,7 +1677,7 @@ importers:
         specifier: ^3
         version: 3.682.0
       '@effect-aws/client-secrets-manager':
-        specifier: 1.2.0
+        specifier: 1.2.1
         version: link:../client-secrets-manager
       '@fluffy-spoon/substitute':
         specifier: ^1.208.0
@@ -1725,7 +1725,7 @@ importers:
         specifier: ^3
         version: 3.682.0
       '@effect-aws/client-ssm':
-        specifier: 1.1.0
+        specifier: 1.1.1
         version: link:../client-ssm
       '@fluffy-spoon/substitute':
         specifier: ^1.208.0
