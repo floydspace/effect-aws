@@ -133,7 +133,10 @@ import {
 } from "./OpenSearchServerlessClientInstance";
 import { DefaultOpenSearchServerlessClientConfigLayer } from "./OpenSearchServerlessClientInstanceConfig";
 
-interface HttpHandlerOptions {
+/**
+ * @since 1.0.1
+ */
+export interface HttpHandlerOptions {
   /**
    * The maximum time in milliseconds that the connection phase of a request
    * may take before the connection attempt is abandoned.
