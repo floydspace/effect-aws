@@ -3,6 +3,7 @@
 packages:
   - packages/client-account
   - packages/client-api-gateway-management-api
+  - packages/client-bedrock
   - packages/client-cloudsearch
   - packages/client-cloudtrail
   - packages/client-cloudwatch
@@ -30,6 +31,7 @@ packages:
   - packages/client-sqs
   - packages/client-ssm
   - packages/client-sts
+  - packages/client-textract
   - packages/lambda
   - packages/lib-dynamodb
   - packages/powertools-logger
