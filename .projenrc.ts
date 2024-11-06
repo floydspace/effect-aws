@@ -324,6 +324,22 @@ const ssm = new TypeScriptLibProject({
   peerDeps: [...commonPeerDeps, ssmClient.package.packageName],
 });
 
+new TypeScriptLibProject({
+  parent: project,
+  name: "client-bedrock",
+  deps: [...commonDeps, "@aws-sdk/client-bedrock@^3"],
+  devDeps: commonDevDeps,
+  peerDeps: commonPeerDeps,
+});
+
+new TypeScriptLibProject({
+  parent: project,
+  name: "client-textract",
+  deps: [...commonDeps, "@aws-sdk/client-textract@^3"],
+  devDeps: commonDevDeps,
+  peerDeps: commonPeerDeps,
+});
+
 project.addImplicitDependency(dynamodbLib, dynamodbClient);
 project.addImplicitDependency(secretsManager, secretsManagerClient);
 project.addImplicitDependency(ssm, ssmClient);
