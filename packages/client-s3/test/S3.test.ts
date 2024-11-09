@@ -10,6 +10,7 @@ import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
 import * as Layer from "effect/Layer";
+import { describe, expect, it, vi } from "vitest";
 
 const getSignedUrl = vi.hoisted(() =>
   vi
@@ -21,13 +22,10 @@ const getSignedUrl = vi.hoisted(() =>
 vi.mock("@aws-sdk/s3-request-presigner", () => ({ getSignedUrl }));
 
 import {
-  BaseS3ServiceLayer,
   DefaultS3ClientConfigLayer,
-  DefaultS3ServiceLayer,
+  S3,
   S3ClientInstance,
   S3ClientInstanceConfig,
-  S3Service,
-  S3ServiceLayer,
   SdkError,
 } from "../src";
 
@@ -39,11 +37,11 @@ describe("S3ClientImpl", () => {
 
     const args: HeadObjectCommandInput = { Key: "test", Bucket: "test" };
 
-    const program = S3Service.headObject(args);
+    const program = S3.headObject(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultS3ServiceLayer),
+      Effect.provide(S3.defaultLayer),
       Effect.runPromiseExit,
     );
 
@@ -57,12 +55,12 @@ describe("S3ClientImpl", () => {
 
     const args: HeadObjectCommandInput = { Key: "test", Bucket: "test" };
 
-    const program = S3Service.headObject(args);
+    const program = S3.headObject(args);
 
     const S3ClientConfigLayer = Layer.succeed(S3ClientInstanceConfig, {
       region: "eu-central-1",
     });
-    const CustomS3ServiceLayer = S3ServiceLayer.pipe(
+    const CustomS3ServiceLayer = S3.layer.pipe(
       Layer.provide(S3ClientConfigLayer),
     );
 
@@ -82,13 +80,13 @@ describe("S3ClientImpl", () => {
 
     const args: HeadObjectCommandInput = { Key: "test", Bucket: "test" };
 
-    const program = S3Service.headObject(args);
+    const program = S3.headObject(args);
 
     const S3ClientInstanceLayer = Layer.succeed(
       S3ClientInstance,
       new S3Client({ region: "eu-central-1" }),
     );
-    const CustomS3ServiceLayer = BaseS3ServiceLayer.pipe(
+    const CustomS3ServiceLayer = S3.baseLayer.pipe(
       Layer.provide(S3ClientInstanceLayer),
     );
 
@@ -108,7 +106,7 @@ describe("S3ClientImpl", () => {
 
     const args: HeadObjectCommandInput = { Key: "test", Bucket: "test" };
 
-    const program = S3Service.headObject(args);
+    const program = S3.headObject(args);
 
     const S3ClientInstanceLayer = Layer.effect(
       S3ClientInstance,
@@ -117,7 +115,7 @@ describe("S3ClientImpl", () => {
         (config) => new S3Client({ ...config, region: "eu-central-1" }),
       ),
     );
-    const CustomS3ServiceLayer = BaseS3ServiceLayer.pipe(
+    const CustomS3ServiceLayer = S3.baseLayer.pipe(
       Layer.provide(S3ClientInstanceLayer),
       Layer.provide(DefaultS3ClientConfigLayer),
     );
@@ -138,11 +136,11 @@ describe("S3ClientImpl", () => {
 
     const args: HeadObjectCommandInput = { Key: "test", Bucket: "test" };
 
-    const program = S3Service.headObject(args, { requestTimeout: 1000 });
+    const program = S3.headObject(args, { requestTimeout: 1000 });
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultS3ServiceLayer),
+      Effect.provide(S3.defaultLayer),
       Effect.runPromiseExit,
     );
 
@@ -163,13 +161,13 @@ describe("S3ClientImpl", () => {
   it("presigned url", async () => {
     const args: GetObjectCommandInput = { Key: "test", Bucket: "test" };
 
-    const program = Effect.flatMap(S3Service, (service) =>
+    const program = Effect.flatMap(S3, (service) =>
       service.getObject(args, { presigned: true, expiresIn: 100 }),
     );
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultS3ServiceLayer),
+      Effect.provide(S3.defaultLayer),
       Effect.runPromise,
     );
 

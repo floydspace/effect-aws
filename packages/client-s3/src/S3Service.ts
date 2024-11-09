@@ -2,7 +2,6 @@
  * @since 1.0.0
  */
 import {
-  S3ServiceException,
   AbortMultipartUploadCommand,
   type AbortMultipartUploadCommandInput,
   type AbortMultipartUploadCommandOutput,
@@ -21,12 +20,12 @@ import {
   CreateSessionCommand,
   type CreateSessionCommandInput,
   type CreateSessionCommandOutput,
-  DeleteBucketCommand,
-  type DeleteBucketCommandInput,
-  type DeleteBucketCommandOutput,
   DeleteBucketAnalyticsConfigurationCommand,
   type DeleteBucketAnalyticsConfigurationCommandInput,
   type DeleteBucketAnalyticsConfigurationCommandOutput,
+  DeleteBucketCommand,
+  type DeleteBucketCommandInput,
+  type DeleteBucketCommandOutput,
   DeleteBucketCorsCommand,
   type DeleteBucketCorsCommandInput,
   type DeleteBucketCorsCommandOutput,
@@ -132,15 +131,15 @@ import {
   GetBucketWebsiteCommand,
   type GetBucketWebsiteCommandInput,
   type GetBucketWebsiteCommandOutput,
-  GetObjectCommand,
-  type GetObjectCommandInput,
-  type GetObjectCommandOutput,
   GetObjectAclCommand,
   type GetObjectAclCommandInput,
   type GetObjectAclCommandOutput,
   GetObjectAttributesCommand,
   type GetObjectAttributesCommandInput,
   type GetObjectAttributesCommandOutput,
+  GetObjectCommand,
+  type GetObjectCommandInput,
+  type GetObjectCommandOutput,
   GetObjectLegalHoldCommand,
   type GetObjectLegalHoldCommandInput,
   type GetObjectLegalHoldCommandOutput,
@@ -252,12 +251,12 @@ import {
   PutBucketWebsiteCommand,
   type PutBucketWebsiteCommandInput,
   type PutBucketWebsiteCommandOutput,
-  PutObjectCommand,
-  type PutObjectCommandInput,
-  type PutObjectCommandOutput,
   PutObjectAclCommand,
   type PutObjectAclCommandInput,
   type PutObjectAclCommandOutput,
+  PutObjectCommand,
+  type PutObjectCommandInput,
+  type PutObjectCommandOutput,
   PutObjectLegalHoldCommand,
   type PutObjectLegalHoldCommandInput,
   type PutObjectLegalHoldCommandOutput,
@@ -276,6 +275,7 @@ import {
   RestoreObjectCommand,
   type RestoreObjectCommandInput,
   type RestoreObjectCommandOutput,
+  S3ServiceException,
   SelectObjectContentCommand,
   type SelectObjectContentCommandInput,
   type SelectObjectContentCommandOutput,
@@ -1336,15 +1336,6 @@ interface S3Service$ {
 
 /**
  * @since 1.0.0
- * @category models
- */
-export class S3Service extends Effect.Tag("@effect-aws/client-s3/S3Service")<
-  S3Service,
-  S3Service$
->() {}
-
-/**
- * @since 1.0.0
  * @category constructors
  */
 export const makeS3Service = Effect.gen(function* (_) {
@@ -1405,22 +1396,17 @@ export const makeS3Service = Effect.gen(function* (_) {
 
 /**
  * @since 1.0.0
- * @category layers
+ * @category models
  */
-export const BaseS3ServiceLayer = Layer.effect(S3Service, makeS3Service);
-
-/**
- * @since 1.0.0
- * @category layers
- */
-export const S3ServiceLayer = BaseS3ServiceLayer.pipe(
-  Layer.provide(S3ClientInstanceLayer),
-);
-
-/**
- * @since 1.0.0
- * @category layers
- */
-export const DefaultS3ServiceLayer = S3ServiceLayer.pipe(
-  Layer.provide(DefaultS3ClientConfigLayer),
-);
+export class S3Service extends Effect.Tag("@effect-aws/client-s3/S3Service")<
+  S3Service,
+  S3Service$
+>() {
+  static readonly baseLayer = Layer.effect(this, makeS3Service);
+  static readonly layer = this.baseLayer.pipe(
+    Layer.provide(S3ClientInstanceLayer),
+  );
+  static readonly defaultLayer = this.layer.pipe(
+    Layer.provide(DefaultS3ClientConfigLayer),
+  );
+}
