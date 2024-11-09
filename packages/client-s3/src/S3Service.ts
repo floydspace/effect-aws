@@ -275,6 +275,8 @@ import {
   RestoreObjectCommand,
   type RestoreObjectCommandInput,
   type RestoreObjectCommandOutput,
+  type S3Client,
+  type S3ClientConfig,
   S3ServiceException,
   SelectObjectContentCommand,
   type SelectObjectContentCommandInput,
@@ -307,7 +309,11 @@ import {
   TaggedException,
 } from "./Errors";
 import { S3ClientInstance, S3ClientInstanceLayer } from "./S3ClientInstance";
-import { DefaultS3ClientConfigLayer } from "./S3ClientInstanceConfig";
+import {
+  DefaultS3ClientConfigLayer,
+  makeDefaultS3ClientInstanceConfig,
+  S3ClientInstanceConfig,
+} from "./S3ClientInstanceConfig";
 
 /**
  * @since 1.4.1
@@ -1402,11 +1408,61 @@ export class S3Service extends Effect.Tag("@effect-aws/client-s3/S3Service")<
   S3Service,
   S3Service$
 >() {
-  static readonly baseLayer = Layer.effect(this, makeS3Service);
-  static readonly layer = this.baseLayer.pipe(
+  static readonly defaultLayer = Layer.effect(this, makeS3Service).pipe(
     Layer.provide(S3ClientInstanceLayer),
-  );
-  static readonly defaultLayer = this.layer.pipe(
     Layer.provide(DefaultS3ClientConfigLayer),
   );
+  static readonly layer = (config: S3ClientConfig) =>
+    Layer.effect(this, makeS3Service).pipe(
+      Layer.provide(S3ClientInstanceLayer),
+      Layer.provide(
+        Layer.effect(
+          S3ClientInstanceConfig,
+          makeDefaultS3ClientInstanceConfig.pipe(
+            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
+          ),
+        ),
+      ),
+    );
+  static readonly baseLayer = (
+    evaluate: (defaultConfig: S3ClientConfig) => S3Client,
+  ) =>
+    Layer.effect(this, makeS3Service).pipe(
+      Layer.provide(
+        Layer.effect(
+          S3ClientInstance,
+          Effect.map(makeDefaultS3ClientInstanceConfig, evaluate),
+        ),
+      ),
+    );
 }
+
+/**
+ * @since 1.0.0
+ * @category models
+ * @alias S3Service
+ */
+export const S3 = S3Service;
+
+/**
+ * @since 1.0.0
+ * @category layers
+ * @deprecated use S3.baseLayer instead
+ */
+export const BaseS3ServiceLayer = Layer.effect(S3Service, makeS3Service);
+
+/**
+ * @since 1.0.0
+ * @category layers
+ * @deprecated use S3.layer instead
+ */
+export const S3ServiceLayer = BaseS3ServiceLayer.pipe(
+  Layer.provide(S3ClientInstanceLayer),
+);
+
+/**
+ * @since 1.0.0
+ * @category layers
+ * @deprecated use S3.defaultLayer instead
+ */
+export const DefaultS3ServiceLayer = S3Service.defaultLayer;

@@ -5,12 +5,14 @@ import {
   type HeadObjectCommandInput,
   S3Client,
 } from "@aws-sdk/client-s3";
+// @ts-ignore
+import * as runtimeConfig from "@aws-sdk/client-s3/dist-cjs/runtimeConfig";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
-import * as Layer from "effect/Layer";
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { S3, SdkError } from "../src";
 
 const getSignedUrl = vi.hoisted(() =>
   vi
@@ -21,17 +23,14 @@ const getSignedUrl = vi.hoisted(() =>
 );
 vi.mock("@aws-sdk/s3-request-presigner", () => ({ getSignedUrl }));
 
-import {
-  DefaultS3ClientConfigLayer,
-  S3,
-  S3ClientInstance,
-  S3ClientInstanceConfig,
-  SdkError,
-} from "../src";
-
+const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(S3Client);
 
 describe("S3ClientImpl", () => {
+  afterEach(() => {
+    getRuntimeConfig.mockClear();
+  });
+
   it("default", async () => {
     clientMock.reset().on(HeadObjectCommand).resolves({});
 
@@ -46,6 +45,10 @@ describe("S3ClientImpl", () => {
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(HeadObjectCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(HeadObjectCommand, args);
   });
@@ -57,20 +60,18 @@ describe("S3ClientImpl", () => {
 
     const program = S3.headObject(args);
 
-    const S3ClientConfigLayer = Layer.succeed(S3ClientInstanceConfig, {
-      region: "eu-central-1",
-    });
-    const CustomS3ServiceLayer = S3.layer.pipe(
-      Layer.provide(S3ClientConfigLayer),
-    );
-
     const result = await pipe(
       program,
-      Effect.provide(CustomS3ServiceLayer),
+      Effect.provide(S3.layer({ region: "eu-central-1" })),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(HeadObjectCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(HeadObjectCommand, args);
   });
@@ -82,21 +83,19 @@ describe("S3ClientImpl", () => {
 
     const program = S3.headObject(args);
 
-    const S3ClientInstanceLayer = Layer.succeed(
-      S3ClientInstance,
-      new S3Client({ region: "eu-central-1" }),
-    );
-    const CustomS3ServiceLayer = S3.baseLayer.pipe(
-      Layer.provide(S3ClientInstanceLayer),
-    );
-
     const result = await pipe(
       program,
-      Effect.provide(CustomS3ServiceLayer),
+      Effect.provide(
+        S3.baseLayer(() => new S3Client({ region: "eu-central-1" })),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+    });
     expect(clientMock).toHaveReceivedCommandTimes(HeadObjectCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(HeadObjectCommand, args);
   });
@@ -108,25 +107,22 @@ describe("S3ClientImpl", () => {
 
     const program = S3.headObject(args);
 
-    const S3ClientInstanceLayer = Layer.effect(
-      S3ClientInstance,
-      Effect.map(
-        S3ClientInstanceConfig,
-        (config) => new S3Client({ ...config, region: "eu-central-1" }),
-      ),
-    );
-    const CustomS3ServiceLayer = S3.baseLayer.pipe(
-      Layer.provide(S3ClientInstanceLayer),
-      Layer.provide(DefaultS3ClientConfigLayer),
-    );
-
     const result = await pipe(
       program,
-      Effect.provide(CustomS3ServiceLayer),
+      Effect.provide(
+        S3.baseLayer(
+          (config) => new S3Client({ ...config, region: "eu-central-1" }),
+        ),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(HeadObjectCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(HeadObjectCommand, args);
   });
