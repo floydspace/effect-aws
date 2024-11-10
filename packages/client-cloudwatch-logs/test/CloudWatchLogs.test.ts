@@ -4,39 +4,41 @@ import {
   CloudWatchLogsClient,
   CloudWatchLogsServiceException,
 } from "@aws-sdk/client-cloudwatch-logs";
+// @ts-ignore
+import * as runtimeConfig from "@aws-sdk/client-cloudwatch-logs/dist-cjs/runtimeConfig";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
-import * as Layer from "effect/Layer";
-import {
-  BaseCloudWatchLogsServiceLayer,
-  DefaultCloudWatchLogsClientConfigLayer,
-  DefaultCloudWatchLogsServiceLayer,
-  CloudWatchLogsClientInstance,
-  CloudWatchLogsClientInstanceConfig,
-  CloudWatchLogsService,
-  CloudWatchLogsServiceLayer,
-  SdkError,
-} from "../src";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { CloudWatchLogs, SdkError } from "../src";
 
+const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(CloudWatchLogsClient);
 
 describe("CloudWatchLogsClientImpl", () => {
+  afterEach(() => {
+    getRuntimeConfig.mockClear();
+  });
+
   it("default", async () => {
     clientMock.reset().on(DescribeLogGroupsCommand).resolves({});
 
     const args = {} as unknown as DescribeLogGroupsCommandInput;
 
-    const program = CloudWatchLogsService.describeLogGroups(args);
+    const program = CloudWatchLogs.describeLogGroups(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultCloudWatchLogsServiceLayer),
+      Effect.provide(CloudWatchLogs.defaultLayer),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(DescribeLogGroupsCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(
       DescribeLogGroupsCommand,
@@ -49,25 +51,20 @@ describe("CloudWatchLogsClientImpl", () => {
 
     const args = {} as unknown as DescribeLogGroupsCommandInput;
 
-    const program = CloudWatchLogsService.describeLogGroups(args);
-
-    const CloudWatchLogsClientConfigLayer = Layer.succeed(
-      CloudWatchLogsClientInstanceConfig,
-      {
-        region: "eu-central-1",
-      },
-    );
-    const CustomCloudWatchLogsServiceLayer = CloudWatchLogsServiceLayer.pipe(
-      Layer.provide(CloudWatchLogsClientConfigLayer),
-    );
+    const program = CloudWatchLogs.describeLogGroups(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomCloudWatchLogsServiceLayer),
+      Effect.provide(CloudWatchLogs.layer({ region: "eu-central-1" })),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(DescribeLogGroupsCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(
       DescribeLogGroupsCommand,
@@ -80,24 +77,23 @@ describe("CloudWatchLogsClientImpl", () => {
 
     const args = {} as unknown as DescribeLogGroupsCommandInput;
 
-    const program = CloudWatchLogsService.describeLogGroups(args);
-
-    const CloudWatchLogsClientInstanceLayer = Layer.succeed(
-      CloudWatchLogsClientInstance,
-      new CloudWatchLogsClient({ region: "eu-central-1" }),
-    );
-    const CustomCloudWatchLogsServiceLayer =
-      BaseCloudWatchLogsServiceLayer.pipe(
-        Layer.provide(CloudWatchLogsClientInstanceLayer),
-      );
+    const program = CloudWatchLogs.describeLogGroups(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomCloudWatchLogsServiceLayer),
+      Effect.provide(
+        CloudWatchLogs.baseLayer(
+          () => new CloudWatchLogsClient({ region: "eu-central-1" }),
+        ),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+    });
     expect(clientMock).toHaveReceivedCommandTimes(DescribeLogGroupsCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(
       DescribeLogGroupsCommand,
@@ -110,29 +106,25 @@ describe("CloudWatchLogsClientImpl", () => {
 
     const args = {} as unknown as DescribeLogGroupsCommandInput;
 
-    const program = CloudWatchLogsService.describeLogGroups(args);
-
-    const CloudWatchLogsClientInstanceLayer = Layer.effect(
-      CloudWatchLogsClientInstance,
-      Effect.map(
-        CloudWatchLogsClientInstanceConfig,
-        (config) =>
-          new CloudWatchLogsClient({ ...config, region: "eu-central-1" }),
-      ),
-    );
-    const CustomCloudWatchLogsServiceLayer =
-      BaseCloudWatchLogsServiceLayer.pipe(
-        Layer.provide(CloudWatchLogsClientInstanceLayer),
-        Layer.provide(DefaultCloudWatchLogsClientConfigLayer),
-      );
+    const program = CloudWatchLogs.describeLogGroups(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomCloudWatchLogsServiceLayer),
+      Effect.provide(
+        CloudWatchLogs.baseLayer(
+          (config) =>
+            new CloudWatchLogsClient({ ...config, region: "eu-central-1" }),
+        ),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(DescribeLogGroupsCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(
       DescribeLogGroupsCommand,
@@ -145,11 +137,11 @@ describe("CloudWatchLogsClientImpl", () => {
 
     const args = {} as unknown as DescribeLogGroupsCommandInput;
 
-    const program = CloudWatchLogsService.describeLogGroups(args);
+    const program = CloudWatchLogs.describeLogGroups(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultCloudWatchLogsServiceLayer),
+      Effect.provide(CloudWatchLogs.defaultLayer),
       Effect.runPromiseExit,
     );
 
@@ -183,13 +175,13 @@ describe("CloudWatchLogsClientImpl", () => {
 
     const args = {} as unknown as DescribeLogGroupsCommandInput;
 
-    const program = CloudWatchLogsService.describeLogGroups(args).pipe(
+    const program = CloudWatchLogs.describeLogGroups(args).pipe(
       Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultCloudWatchLogsServiceLayer),
+      Effect.provide(CloudWatchLogs.defaultLayer),
       Effect.runPromiseExit,
     );
 

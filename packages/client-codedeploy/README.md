@@ -14,16 +14,13 @@ npm install --save @effect-aws/client-codedeploy
 With default CodeDeployClient instance:
 
 ```typescript
-import {
-  CodeDeployService,
-  DefaultCodeDeployServiceLayer,
-} from "@effect-aws/client-codedeploy";
+import { CodeDeploy } from "@effect-aws/client-codedeploy";
 
-const program = CodeDeployService.listApplications(args);
+const program = CodeDeploy.listApplications(args);
 
 const result = pipe(
   program,
-  Effect.provide(DefaultCodeDeployServiceLayer),
+  Effect.provide(CodeDeploy.defaultLayer),
   Effect.runPromise,
 );
 ```
@@ -31,23 +28,15 @@ const result = pipe(
 With custom CodeDeployClient instance:
 
 ```typescript
-import {
-  CodeDeployService,
-  BaseCodeDeployServiceLayer,
-  CodeDeployClientInstance,
-} from "@effect-aws/client-codedeploy";
+import { CodeDeploy } from "@effect-aws/client-codedeploy";
 
-const program = CodeDeployService.listApplications(args);
-
-const CodeDeployClientInstanceLayer = Layer.succeed(
-  CodeDeployClientInstance,
-  new CodeDeployClient({ region: "eu-central-1" }),
-);
+const program = CodeDeploy.listApplications(args);
 
 const result = await pipe(
   program,
-  Effect.provide(BaseCodeDeployServiceLayer),
-  Effect.provide(CodeDeployClientInstanceLayer),
+  Effect.provide(
+    CodeDeploy.baseLayer(() => new CodeDeployClient({ region: "eu-central-1" })),
+  ),
   Effect.runPromise,
 );
 ```
@@ -55,34 +44,15 @@ const result = await pipe(
 With custom CodeDeployClient configuration:
 
 ```typescript
-import {
-  CodeDeployService,
-  BaseCodeDeployServiceLayer,
-  DefaultCodeDeployClientConfigLayer,
-  CodeDeployClientInstance,
-  CodeDeployClientInstanceConfig,
-} from "@effect-aws/client-codedeploy";
+import { CodeDeploy } from "@effect-aws/client-codedeploy";
 
-const program = CodeDeployService.listApplications(args);
-
-const CodeDeployClientInstanceLayer = Layer.provide(
-  Layer.effect(
-    CodeDeployClientInstance,
-    CodeDeployClientInstanceConfig.pipe(
-      Effect.map(
-        (config) => new CodeDeployClient({ ...config, region: "eu-central-1" }),
-      ),
-    ),
-  ),
-  DefaultCodeDeployClientConfigLayer,
-);
+const program = CodeDeploy.listApplications(args);
 
 const result = await pipe(
   program,
-  Effect.provide(BaseCodeDeployServiceLayer),
-  Effect.provide(CodeDeployClientInstanceLayer),
+  Effect.provide(CodeDeploy.layer({ region: "eu-central-1" })),
   Effect.runPromiseExit,
 );
 ```
 
-or map over `DefaultCodeDeployClientConfigLayer` layer context and update the configuration...
+or use `CodeDeploy.baseLayer((default) => new CodeDeployClient({ ...default, region: "eu-central-1" }))`

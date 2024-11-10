@@ -3,6 +3,8 @@
  */
 import {
   SchedulerServiceException,
+  type SchedulerClient,
+  type SchedulerClientConfig,
   CreateScheduleCommand,
   type CreateScheduleCommandInput,
   type CreateScheduleCommandOutput,
@@ -56,10 +58,14 @@ import {
   SchedulerClientInstance,
   SchedulerClientInstanceLayer,
 } from "./SchedulerClientInstance";
-import { DefaultSchedulerClientConfigLayer } from "./SchedulerClientInstanceConfig";
+import {
+  DefaultSchedulerClientConfigLayer,
+  makeDefaultSchedulerClientInstanceConfig,
+  SchedulerClientInstanceConfig,
+} from "./SchedulerClientInstanceConfig";
 
 /**
- * @since 1.0.2
+ * @since 1.0.0
  */
 export interface HttpHandlerOptions {
   /**
@@ -274,14 +280,6 @@ interface SchedulerService$ {
 
 /**
  * @since 1.0.0
- * @category models
- */
-export class SchedulerService extends Effect.Tag(
-  "@effect-aws/client-scheduler/SchedulerService",
-)<SchedulerService, SchedulerService$>() {}
-
-/**
- * @since 1.0.0
  * @category constructors
  */
 export const makeSchedulerService = Effect.gen(function* (_) {
@@ -332,7 +330,51 @@ export const makeSchedulerService = Effect.gen(function* (_) {
 
 /**
  * @since 1.0.0
+ * @category models
+ */
+export class SchedulerService extends Effect.Tag(
+  "@effect-aws/client-scheduler/SchedulerService",
+)<SchedulerService, SchedulerService$>() {
+  static readonly defaultLayer = Layer.effect(this, makeSchedulerService).pipe(
+    Layer.provide(SchedulerClientInstanceLayer),
+    Layer.provide(DefaultSchedulerClientConfigLayer),
+  );
+  static readonly layer = (config: SchedulerClientConfig) =>
+    Layer.effect(this, makeSchedulerService).pipe(
+      Layer.provide(SchedulerClientInstanceLayer),
+      Layer.provide(
+        Layer.effect(
+          SchedulerClientInstanceConfig,
+          makeDefaultSchedulerClientInstanceConfig.pipe(
+            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
+          ),
+        ),
+      ),
+    );
+  static readonly baseLayer = (
+    evaluate: (defaultConfig: SchedulerClientConfig) => SchedulerClient,
+  ) =>
+    Layer.effect(this, makeSchedulerService).pipe(
+      Layer.provide(
+        Layer.effect(
+          SchedulerClientInstance,
+          Effect.map(makeDefaultSchedulerClientInstanceConfig, evaluate),
+        ),
+      ),
+    );
+}
+
+/**
+ * @since 1.0.0
+ * @category models
+ * @alias SchedulerService
+ */
+export const Scheduler = SchedulerService;
+
+/**
+ * @since 1.0.0
  * @category layers
+ * @deprecated use Scheduler.baseLayer instead
  */
 export const BaseSchedulerServiceLayer = Layer.effect(
   SchedulerService,
@@ -342,6 +384,7 @@ export const BaseSchedulerServiceLayer = Layer.effect(
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use Scheduler.layer instead
  */
 export const SchedulerServiceLayer = BaseSchedulerServiceLayer.pipe(
   Layer.provide(SchedulerClientInstanceLayer),
@@ -350,7 +393,6 @@ export const SchedulerServiceLayer = BaseSchedulerServiceLayer.pipe(
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use Scheduler.defaultLayer instead
  */
-export const DefaultSchedulerServiceLayer = SchedulerServiceLayer.pipe(
-  Layer.provide(DefaultSchedulerClientConfigLayer),
-);
+export const DefaultSchedulerServiceLayer = SchedulerService.defaultLayer;

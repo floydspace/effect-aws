@@ -4,39 +4,41 @@ import {
   KMSClient,
   KMSServiceException,
 } from "@aws-sdk/client-kms";
+// @ts-ignore
+import * as runtimeConfig from "@aws-sdk/client-kms/dist-cjs/runtimeConfig";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
-import * as Layer from "effect/Layer";
-import {
-  BaseKMSServiceLayer,
-  DefaultKMSClientConfigLayer,
-  DefaultKMSServiceLayer,
-  KMSClientInstance,
-  KMSClientInstanceConfig,
-  KMSService,
-  KMSServiceLayer,
-  SdkError,
-} from "../src";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { KMS, SdkError } from "../src";
 
+const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(KMSClient);
 
 describe("KMSClientImpl", () => {
+  afterEach(() => {
+    getRuntimeConfig.mockClear();
+  });
+
   it("default", async () => {
     clientMock.reset().on(ListKeysCommand).resolves({});
 
     const args = {} as unknown as ListKeysCommandInput;
 
-    const program = KMSService.listKeys(args);
+    const program = KMS.listKeys(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultKMSServiceLayer),
+      Effect.provide(KMS.defaultLayer),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(ListKeysCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(ListKeysCommand, args);
   });
@@ -46,22 +48,20 @@ describe("KMSClientImpl", () => {
 
     const args = {} as unknown as ListKeysCommandInput;
 
-    const program = KMSService.listKeys(args);
-
-    const KMSClientConfigLayer = Layer.succeed(KMSClientInstanceConfig, {
-      region: "eu-central-1",
-    });
-    const CustomKMSServiceLayer = KMSServiceLayer.pipe(
-      Layer.provide(KMSClientConfigLayer),
-    );
+    const program = KMS.listKeys(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomKMSServiceLayer),
+      Effect.provide(KMS.layer({ region: "eu-central-1" })),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(ListKeysCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(ListKeysCommand, args);
   });
@@ -71,23 +71,21 @@ describe("KMSClientImpl", () => {
 
     const args = {} as unknown as ListKeysCommandInput;
 
-    const program = KMSService.listKeys(args);
-
-    const KMSClientInstanceLayer = Layer.succeed(
-      KMSClientInstance,
-      new KMSClient({ region: "eu-central-1" }),
-    );
-    const CustomKMSServiceLayer = BaseKMSServiceLayer.pipe(
-      Layer.provide(KMSClientInstanceLayer),
-    );
+    const program = KMS.listKeys(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomKMSServiceLayer),
+      Effect.provide(
+        KMS.baseLayer(() => new KMSClient({ region: "eu-central-1" })),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+    });
     expect(clientMock).toHaveReceivedCommandTimes(ListKeysCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(ListKeysCommand, args);
   });
@@ -97,27 +95,24 @@ describe("KMSClientImpl", () => {
 
     const args = {} as unknown as ListKeysCommandInput;
 
-    const program = KMSService.listKeys(args);
-
-    const KMSClientInstanceLayer = Layer.effect(
-      KMSClientInstance,
-      Effect.map(
-        KMSClientInstanceConfig,
-        (config) => new KMSClient({ ...config, region: "eu-central-1" }),
-      ),
-    );
-    const CustomKMSServiceLayer = BaseKMSServiceLayer.pipe(
-      Layer.provide(KMSClientInstanceLayer),
-      Layer.provide(DefaultKMSClientConfigLayer),
-    );
+    const program = KMS.listKeys(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomKMSServiceLayer),
+      Effect.provide(
+        KMS.baseLayer(
+          (config) => new KMSClient({ ...config, region: "eu-central-1" }),
+        ),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(ListKeysCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(ListKeysCommand, args);
   });
@@ -127,11 +122,11 @@ describe("KMSClientImpl", () => {
 
     const args = {} as unknown as ListKeysCommandInput;
 
-    const program = KMSService.listKeys(args);
+    const program = KMS.listKeys(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultKMSServiceLayer),
+      Effect.provide(KMS.defaultLayer),
       Effect.runPromiseExit,
     );
 
@@ -162,13 +157,13 @@ describe("KMSClientImpl", () => {
 
     const args = {} as unknown as ListKeysCommandInput;
 
-    const program = KMSService.listKeys(args).pipe(
+    const program = KMS.listKeys(args).pipe(
       Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultKMSServiceLayer),
+      Effect.provide(KMS.defaultLayer),
       Effect.runPromiseExit,
     );
 

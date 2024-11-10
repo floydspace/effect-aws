@@ -14,13 +14,13 @@ npm install --save @effect-aws/client-cloudtrail
 With default CloudTrailClient instance:
 
 ```typescript
-import { CloudTrailService, DefaultCloudTrailServiceLayer } from "@effect-aws/client-cloudtrail";
+import { CloudTrail } from "@effect-aws/client-cloudtrail";
 
-const program = CloudTrailService.listTrails(args);
+const program = CloudTrail.listTrails(args);
 
 const result = pipe(
   program,
-  Effect.provide(DefaultCloudTrailServiceLayer),
+  Effect.provide(CloudTrail.defaultLayer),
   Effect.runPromise,
 );
 ```
@@ -28,23 +28,15 @@ const result = pipe(
 With custom CloudTrailClient instance:
 
 ```typescript
-import {
-  CloudTrailService,
-  BaseCloudTrailServiceLayer,
-  CloudTrailClientInstance,
-} from "@effect-aws/client-cloudtrail";
+import { CloudTrail } from "@effect-aws/client-cloudtrail";
 
-const program = CloudTrailService.listTrails(args);
-
-const CloudTrailClientInstanceLayer = Layer.succeed(
-  CloudTrailClientInstance,
-  new CloudTrailClient({ region: "eu-central-1" }),
-);
+const program = CloudTrail.listTrails(args);
 
 const result = await pipe(
   program,
-  Effect.provide(BaseCloudTrailServiceLayer),
-  Effect.provide(CloudTrailClientInstanceLayer),
+  Effect.provide(
+    CloudTrail.baseLayer(() => new CloudTrailClient({ region: "eu-central-1" })),
+  ),
   Effect.runPromise,
 );
 ```
@@ -52,34 +44,15 @@ const result = await pipe(
 With custom CloudTrailClient configuration:
 
 ```typescript
-import {
-  CloudTrailService,
-  BaseCloudTrailServiceLayer,
-  DefaultCloudTrailClientConfigLayer,
-  CloudTrailClientInstance,
-  CloudTrailClientInstanceConfig,
-} from "@effect-aws/client-cloudtrail";
+import { CloudTrail } from "@effect-aws/client-cloudtrail";
 
-const program = CloudTrailService.listTrails(args);
-
-const CloudTrailClientInstanceLayer = Layer.provide(
-  Layer.effect(
-    CloudTrailClientInstance,
-    CloudTrailClientInstanceConfig.pipe(
-      Effect.map(
-        (config) => new CloudTrailClient({ ...config, region: "eu-central-1" }),
-      ),
-    ),
-  ),
-  DefaultCloudTrailClientConfigLayer,
-);
+const program = CloudTrail.listTrails(args);
 
 const result = await pipe(
   program,
-  Effect.provide(BaseCloudTrailServiceLayer),
-  Effect.provide(CloudTrailClientInstanceLayer),
+  Effect.provide(CloudTrail.layer({ region: "eu-central-1" })),
   Effect.runPromiseExit,
 );
 ```
 
-or map over `DefaultCloudTrailClientConfigLayer` layer context and update the configuration...
+or use `CloudTrail.baseLayer((default) => new CloudTrailClient({ ...default, region: "eu-central-1" }))`

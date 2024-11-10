@@ -3,6 +3,8 @@
  */
 import {
   CloudTrailServiceException,
+  type CloudTrailClient,
+  type CloudTrailClientConfig,
   AddTagsCommand,
   type AddTagsCommandInput,
   type AddTagsCommandOutput,
@@ -156,7 +158,11 @@ import {
   CloudTrailClientInstance,
   CloudTrailClientInstanceLayer,
 } from "./CloudTrailClientInstance";
-import { DefaultCloudTrailClientConfigLayer } from "./CloudTrailClientInstanceConfig";
+import {
+  DefaultCloudTrailClientConfigLayer,
+  makeDefaultCloudTrailClientInstanceConfig,
+  CloudTrailClientInstanceConfig,
+} from "./CloudTrailClientInstanceConfig";
 import {
   AllServiceErrors,
   AccessDeniedError,
@@ -247,7 +253,7 @@ import {
 } from "./Errors";
 
 /**
- * @since 1.0.1
+ * @since 1.0.0
  */
 export interface HttpHandlerOptions {
   /**
@@ -1351,14 +1357,6 @@ interface CloudTrailService$ {
 
 /**
  * @since 1.0.0
- * @category models
- */
-export class CloudTrailService extends Effect.Tag(
-  "@effect-aws/client-cloudtrail/CloudTrailService",
-)<CloudTrailService, CloudTrailService$>() {}
-
-/**
- * @since 1.0.0
  * @category constructors
  */
 export const makeCloudTrailService = Effect.gen(function* (_) {
@@ -1409,7 +1407,51 @@ export const makeCloudTrailService = Effect.gen(function* (_) {
 
 /**
  * @since 1.0.0
+ * @category models
+ */
+export class CloudTrailService extends Effect.Tag(
+  "@effect-aws/client-cloudtrail/CloudTrailService",
+)<CloudTrailService, CloudTrailService$>() {
+  static readonly defaultLayer = Layer.effect(this, makeCloudTrailService).pipe(
+    Layer.provide(CloudTrailClientInstanceLayer),
+    Layer.provide(DefaultCloudTrailClientConfigLayer),
+  );
+  static readonly layer = (config: CloudTrailClientConfig) =>
+    Layer.effect(this, makeCloudTrailService).pipe(
+      Layer.provide(CloudTrailClientInstanceLayer),
+      Layer.provide(
+        Layer.effect(
+          CloudTrailClientInstanceConfig,
+          makeDefaultCloudTrailClientInstanceConfig.pipe(
+            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
+          ),
+        ),
+      ),
+    );
+  static readonly baseLayer = (
+    evaluate: (defaultConfig: CloudTrailClientConfig) => CloudTrailClient,
+  ) =>
+    Layer.effect(this, makeCloudTrailService).pipe(
+      Layer.provide(
+        Layer.effect(
+          CloudTrailClientInstance,
+          Effect.map(makeDefaultCloudTrailClientInstanceConfig, evaluate),
+        ),
+      ),
+    );
+}
+
+/**
+ * @since 1.0.0
+ * @category models
+ * @alias CloudTrailService
+ */
+export const CloudTrail = CloudTrailService;
+
+/**
+ * @since 1.0.0
  * @category layers
+ * @deprecated use CloudTrail.baseLayer instead
  */
 export const BaseCloudTrailServiceLayer = Layer.effect(
   CloudTrailService,
@@ -1419,6 +1461,7 @@ export const BaseCloudTrailServiceLayer = Layer.effect(
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use CloudTrail.layer instead
  */
 export const CloudTrailServiceLayer = BaseCloudTrailServiceLayer.pipe(
   Layer.provide(CloudTrailClientInstanceLayer),
@@ -1427,7 +1470,6 @@ export const CloudTrailServiceLayer = BaseCloudTrailServiceLayer.pipe(
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use CloudTrail.defaultLayer instead
  */
-export const DefaultCloudTrailServiceLayer = CloudTrailServiceLayer.pipe(
-  Layer.provide(DefaultCloudTrailClientConfigLayer),
-);
+export const DefaultCloudTrailServiceLayer = CloudTrailService.defaultLayer;

@@ -3,6 +3,8 @@
  */
 import {
   CloudSearchServiceException,
+  type CloudSearchClient,
+  type CloudSearchClientConfig,
   BuildSuggestersCommand,
   type BuildSuggestersCommandInput,
   type BuildSuggestersCommandOutput,
@@ -87,7 +89,11 @@ import {
   CloudSearchClientInstance,
   CloudSearchClientInstanceLayer,
 } from "./CloudSearchClientInstance";
-import { DefaultCloudSearchClientConfigLayer } from "./CloudSearchClientInstanceConfig";
+import {
+  DefaultCloudSearchClientConfigLayer,
+  makeDefaultCloudSearchClientInstanceConfig,
+  CloudSearchClientInstanceConfig,
+} from "./CloudSearchClientInstanceConfig";
 import {
   AllServiceErrors,
   BaseError,
@@ -103,7 +109,7 @@ import {
 } from "./Errors";
 
 /**
- * @since 1.0.1
+ * @since 1.0.0
  */
 export interface HttpHandlerOptions {
   /**
@@ -525,14 +531,6 @@ interface CloudSearchService$ {
 
 /**
  * @since 1.0.0
- * @category models
- */
-export class CloudSearchService extends Effect.Tag(
-  "@effect-aws/client-cloudsearch/CloudSearchService",
-)<CloudSearchService, CloudSearchService$>() {}
-
-/**
- * @since 1.0.0
  * @category constructors
  */
 export const makeCloudSearchService = Effect.gen(function* (_) {
@@ -583,7 +581,54 @@ export const makeCloudSearchService = Effect.gen(function* (_) {
 
 /**
  * @since 1.0.0
+ * @category models
+ */
+export class CloudSearchService extends Effect.Tag(
+  "@effect-aws/client-cloudsearch/CloudSearchService",
+)<CloudSearchService, CloudSearchService$>() {
+  static readonly defaultLayer = Layer.effect(
+    this,
+    makeCloudSearchService,
+  ).pipe(
+    Layer.provide(CloudSearchClientInstanceLayer),
+    Layer.provide(DefaultCloudSearchClientConfigLayer),
+  );
+  static readonly layer = (config: CloudSearchClientConfig) =>
+    Layer.effect(this, makeCloudSearchService).pipe(
+      Layer.provide(CloudSearchClientInstanceLayer),
+      Layer.provide(
+        Layer.effect(
+          CloudSearchClientInstanceConfig,
+          makeDefaultCloudSearchClientInstanceConfig.pipe(
+            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
+          ),
+        ),
+      ),
+    );
+  static readonly baseLayer = (
+    evaluate: (defaultConfig: CloudSearchClientConfig) => CloudSearchClient,
+  ) =>
+    Layer.effect(this, makeCloudSearchService).pipe(
+      Layer.provide(
+        Layer.effect(
+          CloudSearchClientInstance,
+          Effect.map(makeDefaultCloudSearchClientInstanceConfig, evaluate),
+        ),
+      ),
+    );
+}
+
+/**
+ * @since 1.0.0
+ * @category models
+ * @alias CloudSearchService
+ */
+export const CloudSearch = CloudSearchService;
+
+/**
+ * @since 1.0.0
  * @category layers
+ * @deprecated use CloudSearch.baseLayer instead
  */
 export const BaseCloudSearchServiceLayer = Layer.effect(
   CloudSearchService,
@@ -593,6 +638,7 @@ export const BaseCloudSearchServiceLayer = Layer.effect(
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use CloudSearch.layer instead
  */
 export const CloudSearchServiceLayer = BaseCloudSearchServiceLayer.pipe(
   Layer.provide(CloudSearchClientInstanceLayer),
@@ -601,7 +647,6 @@ export const CloudSearchServiceLayer = BaseCloudSearchServiceLayer.pipe(
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use CloudSearch.defaultLayer instead
  */
-export const DefaultCloudSearchServiceLayer = CloudSearchServiceLayer.pipe(
-  Layer.provide(DefaultCloudSearchClientConfigLayer),
-);
+export const DefaultCloudSearchServiceLayer = CloudSearchService.defaultLayer;

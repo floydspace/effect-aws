@@ -4,39 +4,41 @@ import {
   SchedulerClient,
   SchedulerServiceException,
 } from "@aws-sdk/client-scheduler";
+// @ts-ignore
+import * as runtimeConfig from "@aws-sdk/client-scheduler/dist-cjs/runtimeConfig";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
-import * as Layer from "effect/Layer";
-import {
-  BaseSchedulerServiceLayer,
-  DefaultSchedulerClientConfigLayer,
-  DefaultSchedulerServiceLayer,
-  SchedulerClientInstance,
-  SchedulerClientInstanceConfig,
-  SchedulerService,
-  SchedulerServiceLayer,
-  SdkError,
-} from "../src";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { Scheduler, SdkError } from "../src";
 
+const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(SchedulerClient);
 
 describe("SchedulerClientImpl", () => {
+  afterEach(() => {
+    getRuntimeConfig.mockClear();
+  });
+
   it("default", async () => {
     clientMock.reset().on(TagResourceCommand).resolves({});
 
     const args = {} as unknown as TagResourceCommandInput;
 
-    const program = SchedulerService.tagResource(args);
+    const program = Scheduler.tagResource(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultSchedulerServiceLayer),
+      Effect.provide(Scheduler.defaultLayer),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(TagResourceCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(TagResourceCommand, args);
   });
@@ -46,25 +48,20 @@ describe("SchedulerClientImpl", () => {
 
     const args = {} as unknown as TagResourceCommandInput;
 
-    const program = SchedulerService.tagResource(args);
-
-    const SchedulerClientConfigLayer = Layer.succeed(
-      SchedulerClientInstanceConfig,
-      {
-        region: "eu-central-1",
-      },
-    );
-    const CustomSchedulerServiceLayer = SchedulerServiceLayer.pipe(
-      Layer.provide(SchedulerClientConfigLayer),
-    );
+    const program = Scheduler.tagResource(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomSchedulerServiceLayer),
+      Effect.provide(Scheduler.layer({ region: "eu-central-1" })),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(TagResourceCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(TagResourceCommand, args);
   });
@@ -74,23 +71,23 @@ describe("SchedulerClientImpl", () => {
 
     const args = {} as unknown as TagResourceCommandInput;
 
-    const program = SchedulerService.tagResource(args);
-
-    const SchedulerClientInstanceLayer = Layer.succeed(
-      SchedulerClientInstance,
-      new SchedulerClient({ region: "eu-central-1" }),
-    );
-    const CustomSchedulerServiceLayer = BaseSchedulerServiceLayer.pipe(
-      Layer.provide(SchedulerClientInstanceLayer),
-    );
+    const program = Scheduler.tagResource(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomSchedulerServiceLayer),
+      Effect.provide(
+        Scheduler.baseLayer(
+          () => new SchedulerClient({ region: "eu-central-1" }),
+        ),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+    });
     expect(clientMock).toHaveReceivedCommandTimes(TagResourceCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(TagResourceCommand, args);
   });
@@ -100,27 +97,25 @@ describe("SchedulerClientImpl", () => {
 
     const args = {} as unknown as TagResourceCommandInput;
 
-    const program = SchedulerService.tagResource(args);
-
-    const SchedulerClientInstanceLayer = Layer.effect(
-      SchedulerClientInstance,
-      Effect.map(
-        SchedulerClientInstanceConfig,
-        (config) => new SchedulerClient({ ...config, region: "eu-central-1" }),
-      ),
-    );
-    const CustomSchedulerServiceLayer = BaseSchedulerServiceLayer.pipe(
-      Layer.provide(SchedulerClientInstanceLayer),
-      Layer.provide(DefaultSchedulerClientConfigLayer),
-    );
+    const program = Scheduler.tagResource(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomSchedulerServiceLayer),
+      Effect.provide(
+        Scheduler.baseLayer(
+          (config) =>
+            new SchedulerClient({ ...config, region: "eu-central-1" }),
+        ),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(TagResourceCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(TagResourceCommand, args);
   });
@@ -130,11 +125,11 @@ describe("SchedulerClientImpl", () => {
 
     const args = {} as unknown as TagResourceCommandInput;
 
-    const program = SchedulerService.tagResource(args);
+    const program = Scheduler.tagResource(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultSchedulerServiceLayer),
+      Effect.provide(Scheduler.defaultLayer),
       Effect.runPromiseExit,
     );
 
@@ -165,13 +160,13 @@ describe("SchedulerClientImpl", () => {
 
     const args = {} as unknown as TagResourceCommandInput;
 
-    const program = SchedulerService.tagResource(args).pipe(
+    const program = Scheduler.tagResource(args).pipe(
       Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultSchedulerServiceLayer),
+      Effect.provide(Scheduler.defaultLayer),
       Effect.runPromiseExit,
     );
 

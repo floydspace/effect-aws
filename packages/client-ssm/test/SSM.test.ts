@@ -4,39 +4,41 @@ import {
   SSMClient,
   SSMServiceException,
 } from "@aws-sdk/client-ssm";
+// @ts-ignore
+import * as runtimeConfig from "@aws-sdk/client-ssm/dist-cjs/runtimeConfig";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
-import * as Layer from "effect/Layer";
-import {
-  BaseSSMServiceLayer,
-  DefaultSSMClientConfigLayer,
-  DefaultSSMServiceLayer,
-  SSMClientInstance,
-  SSMClientInstanceConfig,
-  SSMService,
-  SSMServiceLayer,
-  SdkError,
-} from "../src";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { SSM, SdkError } from "../src";
 
+const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(SSMClient);
 
 describe("SSMClientImpl", () => {
+  afterEach(() => {
+    getRuntimeConfig.mockClear();
+  });
+
   it("default", async () => {
     clientMock.reset().on(DescribeParametersCommand).resolves({});
 
     const args = {} as unknown as DescribeParametersCommandInput;
 
-    const program = SSMService.describeParameters(args);
+    const program = SSM.describeParameters(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultSSMServiceLayer),
+      Effect.provide(SSM.defaultLayer),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(DescribeParametersCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(
       DescribeParametersCommand,
@@ -49,22 +51,20 @@ describe("SSMClientImpl", () => {
 
     const args = {} as unknown as DescribeParametersCommandInput;
 
-    const program = SSMService.describeParameters(args);
-
-    const SSMClientConfigLayer = Layer.succeed(SSMClientInstanceConfig, {
-      region: "eu-central-1",
-    });
-    const CustomSSMServiceLayer = SSMServiceLayer.pipe(
-      Layer.provide(SSMClientConfigLayer),
-    );
+    const program = SSM.describeParameters(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomSSMServiceLayer),
+      Effect.provide(SSM.layer({ region: "eu-central-1" })),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(DescribeParametersCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(
       DescribeParametersCommand,
@@ -77,23 +77,21 @@ describe("SSMClientImpl", () => {
 
     const args = {} as unknown as DescribeParametersCommandInput;
 
-    const program = SSMService.describeParameters(args);
-
-    const SSMClientInstanceLayer = Layer.succeed(
-      SSMClientInstance,
-      new SSMClient({ region: "eu-central-1" }),
-    );
-    const CustomSSMServiceLayer = BaseSSMServiceLayer.pipe(
-      Layer.provide(SSMClientInstanceLayer),
-    );
+    const program = SSM.describeParameters(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomSSMServiceLayer),
+      Effect.provide(
+        SSM.baseLayer(() => new SSMClient({ region: "eu-central-1" })),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+    });
     expect(clientMock).toHaveReceivedCommandTimes(DescribeParametersCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(
       DescribeParametersCommand,
@@ -106,27 +104,24 @@ describe("SSMClientImpl", () => {
 
     const args = {} as unknown as DescribeParametersCommandInput;
 
-    const program = SSMService.describeParameters(args);
-
-    const SSMClientInstanceLayer = Layer.effect(
-      SSMClientInstance,
-      Effect.map(
-        SSMClientInstanceConfig,
-        (config) => new SSMClient({ ...config, region: "eu-central-1" }),
-      ),
-    );
-    const CustomSSMServiceLayer = BaseSSMServiceLayer.pipe(
-      Layer.provide(SSMClientInstanceLayer),
-      Layer.provide(DefaultSSMClientConfigLayer),
-    );
+    const program = SSM.describeParameters(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomSSMServiceLayer),
+      Effect.provide(
+        SSM.baseLayer(
+          (config) => new SSMClient({ ...config, region: "eu-central-1" }),
+        ),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(DescribeParametersCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(
       DescribeParametersCommand,
@@ -139,11 +134,11 @@ describe("SSMClientImpl", () => {
 
     const args = {} as unknown as DescribeParametersCommandInput;
 
-    const program = SSMService.describeParameters(args);
+    const program = SSM.describeParameters(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultSSMServiceLayer),
+      Effect.provide(SSM.defaultLayer),
       Effect.runPromiseExit,
     );
 
@@ -177,13 +172,13 @@ describe("SSMClientImpl", () => {
 
     const args = {} as unknown as DescribeParametersCommandInput;
 
-    const program = SSMService.describeParameters(args).pipe(
+    const program = SSM.describeParameters(args).pipe(
       Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultSSMServiceLayer),
+      Effect.provide(SSM.defaultLayer),
       Effect.runPromiseExit,
     );
 

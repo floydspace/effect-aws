@@ -3,6 +3,8 @@
  */
 import {
   STSServiceException,
+  type STSClient,
+  type STSClientConfig,
   AssumeRoleCommand,
   type AssumeRoleCommandInput,
   type AssumeRoleCommandOutput,
@@ -43,10 +45,14 @@ import {
   TaggedException,
 } from "./Errors";
 import { STSClientInstance, STSClientInstanceLayer } from "./STSClientInstance";
-import { DefaultSTSClientConfigLayer } from "./STSClientInstanceConfig";
+import {
+  DefaultSTSClientConfigLayer,
+  makeDefaultSTSClientInstanceConfig,
+  STSClientInstanceConfig,
+} from "./STSClientInstanceConfig";
 
 /**
- * @since 1.0.1
+ * @since 1.0.0
  */
 export interface HttpHandlerOptions {
   /**
@@ -175,15 +181,6 @@ interface STSService$ {
 
 /**
  * @since 1.0.0
- * @category models
- */
-export class STSService extends Effect.Tag("@effect-aws/client-sts/STSService")<
-  STSService,
-  STSService$
->() {}
-
-/**
- * @since 1.0.0
  * @category constructors
  */
 export const makeSTSService = Effect.gen(function* (_) {
@@ -234,13 +231,59 @@ export const makeSTSService = Effect.gen(function* (_) {
 
 /**
  * @since 1.0.0
+ * @category models
+ */
+export class STSService extends Effect.Tag("@effect-aws/client-sts/STSService")<
+  STSService,
+  STSService$
+>() {
+  static readonly defaultLayer = Layer.effect(this, makeSTSService).pipe(
+    Layer.provide(STSClientInstanceLayer),
+    Layer.provide(DefaultSTSClientConfigLayer),
+  );
+  static readonly layer = (config: STSClientConfig) =>
+    Layer.effect(this, makeSTSService).pipe(
+      Layer.provide(STSClientInstanceLayer),
+      Layer.provide(
+        Layer.effect(
+          STSClientInstanceConfig,
+          makeDefaultSTSClientInstanceConfig.pipe(
+            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
+          ),
+        ),
+      ),
+    );
+  static readonly baseLayer = (
+    evaluate: (defaultConfig: STSClientConfig) => STSClient,
+  ) =>
+    Layer.effect(this, makeSTSService).pipe(
+      Layer.provide(
+        Layer.effect(
+          STSClientInstance,
+          Effect.map(makeDefaultSTSClientInstanceConfig, evaluate),
+        ),
+      ),
+    );
+}
+
+/**
+ * @since 1.0.0
+ * @category models
+ * @alias STSService
+ */
+export const STS = STSService;
+
+/**
+ * @since 1.0.0
  * @category layers
+ * @deprecated use STS.baseLayer instead
  */
 export const BaseSTSServiceLayer = Layer.effect(STSService, makeSTSService);
 
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use STS.layer instead
  */
 export const STSServiceLayer = BaseSTSServiceLayer.pipe(
   Layer.provide(STSClientInstanceLayer),
@@ -249,7 +292,6 @@ export const STSServiceLayer = BaseSTSServiceLayer.pipe(
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use STS.defaultLayer instead
  */
-export const DefaultSTSServiceLayer = STSServiceLayer.pipe(
-  Layer.provide(DefaultSTSClientConfigLayer),
-);
+export const DefaultSTSServiceLayer = STSService.defaultLayer;

@@ -1,0 +1,124 @@
+{
+  "client-account": {
+    "commandToTest": "ListRegions"
+  },
+  "client-api-gateway-management-api": {
+    "commandToTest": "PostToConnection",
+    "inputToTest": {
+      "ConnectionId": "test",
+      "Data": "test"
+    }
+  },
+  "client-bedrock": {
+    "commandToTest": "ListCustomModels"
+  },
+  "client-cloudsearch": {
+    "commandToTest": "DescribeDomains"
+  },
+  "client-cloudtrail": {
+    "commandToTest": "ListTrails"
+  },
+  "client-cloudwatch": {
+    "commandToTest": "DescribeAlarms"
+  },
+  "client-cloudwatch-events": {
+    "commandToTest": "ListRules"
+  },
+  "client-cloudwatch-logs": {
+    "commandToTest": "DescribeLogGroups"
+  },
+  "client-codedeploy": {
+    "commandToTest": "ListApplications"
+  },
+  "client-cognito-identity-provider": {
+    "commandToTest": "ListUserPools"
+  },
+  "client-dynamodb": {
+    "commandToTest": "PutItem",
+    "inputToTest": {
+      "TableName": "test",
+      "Item": { "testAttr": { "S": "test" } }
+    }
+  },
+  "client-elasticache": {
+    "commandToTest": "ListTagsForResource",
+    "inputToTest": {
+      "ResourceName": "test"
+    }
+  },
+  "client-eventbridge": {
+    "commandToTest": "PutEvents",
+    "inputToTest": { "Entries": [{ "Detail": "test" }] }
+  },
+  "client-iam": {
+    "commandToTest": "CreateRole"
+  },
+  "client-kinesis": {
+    "commandToTest": "PutRecord"
+  },
+  "client-kms": {
+    "commandToTest": "ListKeys"
+  },
+  "client-lambda": {
+    "commandToTest": "Invoke",
+    "inputToTest": {
+      "FunctionName": "test",
+      "Payload": "test"
+    }
+  },
+  "client-mq": {
+    "commandToTest": "ListBrokers"
+  },
+  "client-opensearch": {
+    "commandToTest": "DescribeDomains"
+  },
+  "client-opensearch-serverless": {
+    "commandToTest": "ListCollections"
+  },
+  "client-rds": {
+    "commandToTest": "DescribeDBInstances"
+  },
+  "client-s3": {
+    "commandToTest": "HeadObject",
+    "inputToTest": {
+      "Key": "test",
+      "Bucket": "test"
+    }
+  },
+  "client-scheduler": {
+    "commandToTest": "TagResource"
+  },
+  "client-secrets-manager": {
+    "commandToTest": "GetSecretValue",
+    "inputToTest": {
+      "SecretId": "test"
+    }
+  },
+  "client-sfn": {
+    "commandToTest": "StartExecution",
+    "inputToTest": {
+      "stateMachineArn": "test",
+      "input": "test"
+    }
+  },
+  "client-sns": {
+    "commandToTest": "Publish",
+    "inputToTest": {
+      "TopicArn": "test",
+      "Message": "test"
+    }
+  },
+  "client-sqs": {
+    "commandToTest": "SendMessage",
+    "inputToTest": {
+      "QueueUrl": "https://sqs.eu-central-1.amazonaws.com/123456789012/MyQueue",
+      "MessageBody": "Hello world!"
+    }
+  },
+  "client-ssm": {
+    "commandToTest": "DescribeParameters"
+  },
+  "client-textract": {
+    "commandToTest": "ListAdapters"
+  }
+}

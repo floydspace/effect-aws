@@ -3,6 +3,8 @@
  */
 import {
   CloudWatchServiceException,
+  type CloudWatchClient,
+  type CloudWatchClientConfig,
   DeleteAlarmsCommand,
   type DeleteAlarmsCommandInput,
   type DeleteAlarmsCommandOutput,
@@ -123,7 +125,11 @@ import {
   CloudWatchClientInstance,
   CloudWatchClientInstanceLayer,
 } from "./CloudWatchClientInstance";
-import { DefaultCloudWatchClientConfigLayer } from "./CloudWatchClientInstanceConfig";
+import {
+  DefaultCloudWatchClientConfigLayer,
+  makeDefaultCloudWatchClientInstanceConfig,
+  CloudWatchClientInstanceConfig,
+} from "./CloudWatchClientInstanceConfig";
 import {
   AllServiceErrors,
   ConcurrentModificationError,
@@ -138,13 +144,13 @@ import {
   LimitExceededFaultError,
   MissingRequiredParameterError,
   ResourceNotFoundError,
-  ResourceNotFoundExceptionError,
+  ResourceNotFoundError,
   SdkError,
   TaggedException,
 } from "./Errors";
 
 /**
- * @since 1.0.1
+ * @since 1.0.0
  */
 export interface HttpHandlerOptions {
   /**
@@ -219,7 +225,7 @@ interface CloudWatchService$ {
     | InvalidParameterCombinationError
     | InvalidParameterValueError
     | MissingRequiredParameterError
-    | ResourceNotFoundExceptionError
+    | ResourceNotFoundError
   >;
 
   /**
@@ -383,7 +389,7 @@ interface CloudWatchService$ {
     | SdkError
     | InvalidParameterValueError
     | MissingRequiredParameterError
-    | ResourceNotFoundExceptionError
+    | ResourceNotFoundError
   >;
 
   /**
@@ -425,7 +431,7 @@ interface CloudWatchService$ {
     | InvalidParameterCombinationError
     | InvalidParameterValueError
     | MissingRequiredParameterError
-    | ResourceNotFoundExceptionError
+    | ResourceNotFoundError
   >;
 
   /**
@@ -498,7 +504,7 @@ interface CloudWatchService$ {
     | SdkError
     | InternalServiceFaultError
     | InvalidParameterValueError
-    | ResourceNotFoundExceptionError
+    | ResourceNotFoundError
   >;
 
   /**
@@ -657,7 +663,7 @@ interface CloudWatchService$ {
     | ConcurrentModificationError
     | InternalServiceFaultError
     | InvalidParameterValueError
-    | ResourceNotFoundExceptionError
+    | ResourceNotFoundError
   >;
 
   /**
@@ -672,17 +678,9 @@ interface CloudWatchService$ {
     | ConcurrentModificationError
     | InternalServiceFaultError
     | InvalidParameterValueError
-    | ResourceNotFoundExceptionError
+    | ResourceNotFoundError
   >;
 }
-
-/**
- * @since 1.0.0
- * @category models
- */
-export class CloudWatchService extends Effect.Tag(
-  "@effect-aws/client-cloudwatch/CloudWatchService",
-)<CloudWatchService, CloudWatchService$>() {}
 
 /**
  * @since 1.0.0
@@ -736,7 +734,51 @@ export const makeCloudWatchService = Effect.gen(function* (_) {
 
 /**
  * @since 1.0.0
+ * @category models
+ */
+export class CloudWatchService extends Effect.Tag(
+  "@effect-aws/client-cloudwatch/CloudWatchService",
+)<CloudWatchService, CloudWatchService$>() {
+  static readonly defaultLayer = Layer.effect(this, makeCloudWatchService).pipe(
+    Layer.provide(CloudWatchClientInstanceLayer),
+    Layer.provide(DefaultCloudWatchClientConfigLayer),
+  );
+  static readonly layer = (config: CloudWatchClientConfig) =>
+    Layer.effect(this, makeCloudWatchService).pipe(
+      Layer.provide(CloudWatchClientInstanceLayer),
+      Layer.provide(
+        Layer.effect(
+          CloudWatchClientInstanceConfig,
+          makeDefaultCloudWatchClientInstanceConfig.pipe(
+            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
+          ),
+        ),
+      ),
+    );
+  static readonly baseLayer = (
+    evaluate: (defaultConfig: CloudWatchClientConfig) => CloudWatchClient,
+  ) =>
+    Layer.effect(this, makeCloudWatchService).pipe(
+      Layer.provide(
+        Layer.effect(
+          CloudWatchClientInstance,
+          Effect.map(makeDefaultCloudWatchClientInstanceConfig, evaluate),
+        ),
+      ),
+    );
+}
+
+/**
+ * @since 1.0.0
+ * @category models
+ * @alias CloudWatchService
+ */
+export const CloudWatch = CloudWatchService;
+
+/**
+ * @since 1.0.0
  * @category layers
+ * @deprecated use CloudWatch.baseLayer instead
  */
 export const BaseCloudWatchServiceLayer = Layer.effect(
   CloudWatchService,
@@ -746,6 +788,7 @@ export const BaseCloudWatchServiceLayer = Layer.effect(
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use CloudWatch.layer instead
  */
 export const CloudWatchServiceLayer = BaseCloudWatchServiceLayer.pipe(
   Layer.provide(CloudWatchClientInstanceLayer),
@@ -754,7 +797,6 @@ export const CloudWatchServiceLayer = BaseCloudWatchServiceLayer.pipe(
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use CloudWatch.defaultLayer instead
  */
-export const DefaultCloudWatchServiceLayer = CloudWatchServiceLayer.pipe(
-  Layer.provide(DefaultCloudWatchClientConfigLayer),
-);
+export const DefaultCloudWatchServiceLayer = CloudWatchService.defaultLayer;

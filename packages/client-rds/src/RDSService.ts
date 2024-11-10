@@ -3,6 +3,8 @@
  */
 import {
   RDSServiceException,
+  type RDSClient,
+  type RDSClientConfig,
   AddRoleToDBClusterCommand,
   type AddRoleToDBClusterCommandInput,
   type AddRoleToDBClusterCommandOutput,
@@ -641,10 +643,14 @@ import {
   TaggedException,
 } from "./Errors";
 import { RDSClientInstance, RDSClientInstanceLayer } from "./RDSClientInstance";
-import { DefaultRDSClientConfigLayer } from "./RDSClientInstanceConfig";
+import {
+  DefaultRDSClientConfigLayer,
+  makeDefaultRDSClientInstanceConfig,
+  RDSClientInstanceConfig,
+} from "./RDSClientInstanceConfig";
 
 /**
- * @since 1.0.1
+ * @since 1.0.0
  */
 export interface HttpHandlerOptions {
   /**
@@ -3162,15 +3168,6 @@ interface RDSService$ {
 
 /**
  * @since 1.0.0
- * @category models
- */
-export class RDSService extends Effect.Tag("@effect-aws/client-rds/RDSService")<
-  RDSService,
-  RDSService$
->() {}
-
-/**
- * @since 1.0.0
  * @category constructors
  */
 export const makeRDSService = Effect.gen(function* (_) {
@@ -3221,13 +3218,59 @@ export const makeRDSService = Effect.gen(function* (_) {
 
 /**
  * @since 1.0.0
+ * @category models
+ */
+export class RDSService extends Effect.Tag("@effect-aws/client-rds/RDSService")<
+  RDSService,
+  RDSService$
+>() {
+  static readonly defaultLayer = Layer.effect(this, makeRDSService).pipe(
+    Layer.provide(RDSClientInstanceLayer),
+    Layer.provide(DefaultRDSClientConfigLayer),
+  );
+  static readonly layer = (config: RDSClientConfig) =>
+    Layer.effect(this, makeRDSService).pipe(
+      Layer.provide(RDSClientInstanceLayer),
+      Layer.provide(
+        Layer.effect(
+          RDSClientInstanceConfig,
+          makeDefaultRDSClientInstanceConfig.pipe(
+            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
+          ),
+        ),
+      ),
+    );
+  static readonly baseLayer = (
+    evaluate: (defaultConfig: RDSClientConfig) => RDSClient,
+  ) =>
+    Layer.effect(this, makeRDSService).pipe(
+      Layer.provide(
+        Layer.effect(
+          RDSClientInstance,
+          Effect.map(makeDefaultRDSClientInstanceConfig, evaluate),
+        ),
+      ),
+    );
+}
+
+/**
+ * @since 1.0.0
+ * @category models
+ * @alias RDSService
+ */
+export const RDS = RDSService;
+
+/**
+ * @since 1.0.0
  * @category layers
+ * @deprecated use RDS.baseLayer instead
  */
 export const BaseRDSServiceLayer = Layer.effect(RDSService, makeRDSService);
 
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use RDS.layer instead
  */
 export const RDSServiceLayer = BaseRDSServiceLayer.pipe(
   Layer.provide(RDSClientInstanceLayer),
@@ -3236,7 +3279,6 @@ export const RDSServiceLayer = BaseRDSServiceLayer.pipe(
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use RDS.defaultLayer instead
  */
-export const DefaultRDSServiceLayer = RDSServiceLayer.pipe(
-  Layer.provide(DefaultRDSClientConfigLayer),
-);
+export const DefaultRDSServiceLayer = RDSService.defaultLayer;

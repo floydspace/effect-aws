@@ -14,13 +14,13 @@ npm install --save @effect-aws/client-account
 With default AccountClient instance:
 
 ```typescript
-import { AccountService, DefaultAccountServiceLayer } from "@effect-aws/client-account";
+import { Account } from "@effect-aws/client-account";
 
-const program = AccountService.listRegions(args);
+const program = Account.listRegions(args);
 
 const result = pipe(
   program,
-  Effect.provide(DefaultAccountServiceLayer),
+  Effect.provide(Account.defaultLayer),
   Effect.runPromise,
 );
 ```
@@ -28,23 +28,15 @@ const result = pipe(
 With custom AccountClient instance:
 
 ```typescript
-import {
-  AccountService,
-  BaseAccountServiceLayer,
-  AccountClientInstance,
-} from "@effect-aws/client-account";
+import { Account } from "@effect-aws/client-account";
 
-const program = AccountService.listRegions(args);
-
-const AccountClientInstanceLayer = Layer.succeed(
-  AccountClientInstance,
-  new AccountClient({ region: "eu-central-1" }),
-);
+const program = Account.listRegions(args);
 
 const result = await pipe(
   program,
-  Effect.provide(BaseAccountServiceLayer),
-  Effect.provide(AccountClientInstanceLayer),
+  Effect.provide(
+    Account.baseLayer(() => new AccountClient({ region: "eu-central-1" })),
+  ),
   Effect.runPromise,
 );
 ```
@@ -52,34 +44,15 @@ const result = await pipe(
 With custom AccountClient configuration:
 
 ```typescript
-import {
-  AccountService,
-  BaseAccountServiceLayer,
-  DefaultAccountClientConfigLayer,
-  AccountClientInstance,
-  AccountClientInstanceConfig,
-} from "@effect-aws/client-account";
+import { Account } from "@effect-aws/client-account";
 
-const program = AccountService.listRegions(args);
-
-const AccountClientInstanceLayer = Layer.provide(
-  Layer.effect(
-    AccountClientInstance,
-    AccountClientInstanceConfig.pipe(
-      Effect.map(
-        (config) => new AccountClient({ ...config, region: "eu-central-1" }),
-      ),
-    ),
-  ),
-  DefaultAccountClientConfigLayer,
-);
+const program = Account.listRegions(args);
 
 const result = await pipe(
   program,
-  Effect.provide(BaseAccountServiceLayer),
-  Effect.provide(AccountClientInstanceLayer),
+  Effect.provide(Account.layer({ region: "eu-central-1" })),
   Effect.runPromiseExit,
 );
 ```
 
-or map over `DefaultAccountClientConfigLayer` layer context and update the configuration...
+or use `Account.baseLayer((default) => new AccountClient({ ...default, region: "eu-central-1" }))`

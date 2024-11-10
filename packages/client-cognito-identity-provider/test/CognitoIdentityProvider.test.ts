@@ -4,39 +4,41 @@ import {
   CognitoIdentityProviderClient,
   CognitoIdentityProviderServiceException,
 } from "@aws-sdk/client-cognito-identity-provider";
+// @ts-ignore
+import * as runtimeConfig from "@aws-sdk/client-cognito-identity-provider/dist-cjs/runtimeConfig";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
-import * as Layer from "effect/Layer";
-import {
-  BaseCognitoIdentityProviderServiceLayer,
-  DefaultCognitoIdentityProviderClientConfigLayer,
-  DefaultCognitoIdentityProviderServiceLayer,
-  CognitoIdentityProviderClientInstance,
-  CognitoIdentityProviderClientInstanceConfig,
-  CognitoIdentityProviderService,
-  CognitoIdentityProviderServiceLayer,
-  SdkError,
-} from "../src";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { CognitoIdentityProvider, SdkError } from "../src";
 
+const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(CognitoIdentityProviderClient);
 
 describe("CognitoIdentityProviderClientImpl", () => {
+  afterEach(() => {
+    getRuntimeConfig.mockClear();
+  });
+
   it("default", async () => {
     clientMock.reset().on(ListUserPoolsCommand).resolves({});
 
     const args = {} as unknown as ListUserPoolsCommandInput;
 
-    const program = CognitoIdentityProviderService.listUserPools(args);
+    const program = CognitoIdentityProvider.listUserPools(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultCognitoIdentityProviderServiceLayer),
+      Effect.provide(CognitoIdentityProvider.defaultLayer),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(ListUserPoolsCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(ListUserPoolsCommand, args);
   });
@@ -46,26 +48,20 @@ describe("CognitoIdentityProviderClientImpl", () => {
 
     const args = {} as unknown as ListUserPoolsCommandInput;
 
-    const program = CognitoIdentityProviderService.listUserPools(args);
-
-    const CognitoIdentityProviderClientConfigLayer = Layer.succeed(
-      CognitoIdentityProviderClientInstanceConfig,
-      {
-        region: "eu-central-1",
-      },
-    );
-    const CustomCognitoIdentityProviderServiceLayer =
-      CognitoIdentityProviderServiceLayer.pipe(
-        Layer.provide(CognitoIdentityProviderClientConfigLayer),
-      );
+    const program = CognitoIdentityProvider.listUserPools(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomCognitoIdentityProviderServiceLayer),
+      Effect.provide(CognitoIdentityProvider.layer({ region: "eu-central-1" })),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(ListUserPoolsCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(ListUserPoolsCommand, args);
   });
@@ -75,24 +71,23 @@ describe("CognitoIdentityProviderClientImpl", () => {
 
     const args = {} as unknown as ListUserPoolsCommandInput;
 
-    const program = CognitoIdentityProviderService.listUserPools(args);
-
-    const CognitoIdentityProviderClientInstanceLayer = Layer.succeed(
-      CognitoIdentityProviderClientInstance,
-      new CognitoIdentityProviderClient({ region: "eu-central-1" }),
-    );
-    const CustomCognitoIdentityProviderServiceLayer =
-      BaseCognitoIdentityProviderServiceLayer.pipe(
-        Layer.provide(CognitoIdentityProviderClientInstanceLayer),
-      );
+    const program = CognitoIdentityProvider.listUserPools(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomCognitoIdentityProviderServiceLayer),
+      Effect.provide(
+        CognitoIdentityProvider.baseLayer(
+          () => new CognitoIdentityProviderClient({ region: "eu-central-1" }),
+        ),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+    });
     expect(clientMock).toHaveReceivedCommandTimes(ListUserPoolsCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(ListUserPoolsCommand, args);
   });
@@ -102,32 +97,28 @@ describe("CognitoIdentityProviderClientImpl", () => {
 
     const args = {} as unknown as ListUserPoolsCommandInput;
 
-    const program = CognitoIdentityProviderService.listUserPools(args);
-
-    const CognitoIdentityProviderClientInstanceLayer = Layer.effect(
-      CognitoIdentityProviderClientInstance,
-      Effect.map(
-        CognitoIdentityProviderClientInstanceConfig,
-        (config) =>
-          new CognitoIdentityProviderClient({
-            ...config,
-            region: "eu-central-1",
-          }),
-      ),
-    );
-    const CustomCognitoIdentityProviderServiceLayer =
-      BaseCognitoIdentityProviderServiceLayer.pipe(
-        Layer.provide(CognitoIdentityProviderClientInstanceLayer),
-        Layer.provide(DefaultCognitoIdentityProviderClientConfigLayer),
-      );
+    const program = CognitoIdentityProvider.listUserPools(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomCognitoIdentityProviderServiceLayer),
+      Effect.provide(
+        CognitoIdentityProvider.baseLayer(
+          (config) =>
+            new CognitoIdentityProviderClient({
+              ...config,
+              region: "eu-central-1",
+            }),
+        ),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(ListUserPoolsCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(ListUserPoolsCommand, args);
   });
@@ -137,11 +128,11 @@ describe("CognitoIdentityProviderClientImpl", () => {
 
     const args = {} as unknown as ListUserPoolsCommandInput;
 
-    const program = CognitoIdentityProviderService.listUserPools(args);
+    const program = CognitoIdentityProvider.listUserPools(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultCognitoIdentityProviderServiceLayer),
+      Effect.provide(CognitoIdentityProvider.defaultLayer),
       Effect.runPromiseExit,
     );
 
@@ -172,13 +163,13 @@ describe("CognitoIdentityProviderClientImpl", () => {
 
     const args = {} as unknown as ListUserPoolsCommandInput;
 
-    const program = CognitoIdentityProviderService.listUserPools(args).pipe(
+    const program = CognitoIdentityProvider.listUserPools(args).pipe(
       Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultCognitoIdentityProviderServiceLayer),
+      Effect.provide(CognitoIdentityProvider.defaultLayer),
       Effect.runPromiseExit,
     );
 

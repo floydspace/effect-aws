@@ -3,6 +3,8 @@
  */
 import {
   SQSServiceException,
+  type SQSClient,
+  type SQSClientConfig,
   AddPermissionCommand,
   type AddPermissionCommandInput,
   type AddPermissionCommandOutput,
@@ -108,10 +110,14 @@ import {
   TaggedException,
 } from "./Errors";
 import { SQSClientInstance, SQSClientInstanceLayer } from "./SQSClientInstance";
-import { DefaultSQSClientConfigLayer } from "./SQSClientInstanceConfig";
+import {
+  DefaultSQSClientConfigLayer,
+  makeDefaultSQSClientInstanceConfig,
+  SQSClientInstanceConfig,
+} from "./SQSClientInstanceConfig";
 
 /**
- * @since 1.5.1
+ * @since 1.0.0
  */
 export interface HttpHandlerOptions {
   /**
@@ -569,15 +575,6 @@ interface SQSService$ {
 
 /**
  * @since 1.0.0
- * @category models
- */
-export class SQSService extends Effect.Tag("@effect-aws/client-sqs/SQSService")<
-  SQSService,
-  SQSService$
->() {}
-
-/**
- * @since 1.0.0
  * @category constructors
  */
 export const makeSQSService = Effect.gen(function* (_) {
@@ -628,13 +625,59 @@ export const makeSQSService = Effect.gen(function* (_) {
 
 /**
  * @since 1.0.0
+ * @category models
+ */
+export class SQSService extends Effect.Tag("@effect-aws/client-sqs/SQSService")<
+  SQSService,
+  SQSService$
+>() {
+  static readonly defaultLayer = Layer.effect(this, makeSQSService).pipe(
+    Layer.provide(SQSClientInstanceLayer),
+    Layer.provide(DefaultSQSClientConfigLayer),
+  );
+  static readonly layer = (config: SQSClientConfig) =>
+    Layer.effect(this, makeSQSService).pipe(
+      Layer.provide(SQSClientInstanceLayer),
+      Layer.provide(
+        Layer.effect(
+          SQSClientInstanceConfig,
+          makeDefaultSQSClientInstanceConfig.pipe(
+            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
+          ),
+        ),
+      ),
+    );
+  static readonly baseLayer = (
+    evaluate: (defaultConfig: SQSClientConfig) => SQSClient,
+  ) =>
+    Layer.effect(this, makeSQSService).pipe(
+      Layer.provide(
+        Layer.effect(
+          SQSClientInstance,
+          Effect.map(makeDefaultSQSClientInstanceConfig, evaluate),
+        ),
+      ),
+    );
+}
+
+/**
+ * @since 1.0.0
+ * @category models
+ * @alias SQSService
+ */
+export const SQS = SQSService;
+
+/**
+ * @since 1.0.0
  * @category layers
+ * @deprecated use SQS.baseLayer instead
  */
 export const BaseSQSServiceLayer = Layer.effect(SQSService, makeSQSService);
 
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use SQS.layer instead
  */
 export const SQSServiceLayer = BaseSQSServiceLayer.pipe(
   Layer.provide(SQSClientInstanceLayer),
@@ -643,7 +686,6 @@ export const SQSServiceLayer = BaseSQSServiceLayer.pipe(
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use SQS.defaultLayer instead
  */
-export const DefaultSQSServiceLayer = SQSServiceLayer.pipe(
-  Layer.provide(DefaultSQSClientConfigLayer),
-);
+export const DefaultSQSServiceLayer = SQSService.defaultLayer;

@@ -14,16 +14,13 @@ npm install --save @effect-aws/client-eventbridge
 With default EventBridgeClient instance:
 
 ```typescript
-import {
-  EventBridgeService,
-  DefaultEventBridgeServiceLayer,
-} from "@effect-aws/client-eventbridge";
+import { EventBridge } from "@effect-aws/client-eventbridge";
 
-const program = EventBridgeService.putEvents(args);
+const program = EventBridge.putEvents(args);
 
 const result = pipe(
   program,
-  Effect.provide(DefaultEventBridgeServiceLayer),
+  Effect.provide(EventBridge.defaultLayer),
   Effect.runPromise,
 );
 ```
@@ -31,23 +28,15 @@ const result = pipe(
 With custom EventBridgeClient instance:
 
 ```typescript
-import {
-  EventBridgeService,
-  BaseEventBridgeServiceLayer,
-  EventBridgeClientInstance,
-} from "@effect-aws/client-eventbridge";
+import { EventBridge } from "@effect-aws/client-eventbridge";
 
-const program = EventBridgeService.putEvents(args);
-
-const EventBridgeClientInstanceLayer = Layer.succeed(
-  EventBridgeClientInstance,
-  new EventBridgeClient({ region: "eu-central-1" }),
-);
+const program = EventBridge.putEvents(args);
 
 const result = await pipe(
   program,
-  Effect.provide(BaseEventBridgeServiceLayer),
-  Effect.provide(EventBridgeClientInstanceLayer),
+  Effect.provide(
+    EventBridge.baseLayer(() => new EventBridgeClient({ region: "eu-central-1" })),
+  ),
   Effect.runPromise,
 );
 ```
@@ -55,35 +44,15 @@ const result = await pipe(
 With custom EventBridgeClient configuration:
 
 ```typescript
-import {
-  EventBridgeService,
-  BaseEventBridgeServiceLayer,
-  DefaultEventBridgeClientConfigLayer,
-  EventBridgeClientInstance,
-  EventBridgeClientInstanceConfig,
-} from "@effect-aws/client-eventbridge";
+import { EventBridge } from "@effect-aws/client-eventbridge";
 
-const program = EventBridgeService.putEvents(args);
-
-const EventBridgeClientInstanceLayer = Layer.provide(
-  Layer.effect(
-    EventBridgeClientInstance,
-    EventBridgeClientInstanceConfig.pipe(
-      Effect.map(
-        (config) =>
-          new EventBridgeClient({ ...config, region: "eu-central-1" }),
-      ),
-    ),
-  ),
-  DefaultEventBridgeClientConfigLayer,
-);
+const program = EventBridge.putEvents(args);
 
 const result = await pipe(
   program,
-  Effect.provide(BaseEventBridgeServiceLayer),
-  Effect.provide(EventBridgeClientInstanceLayer),
+  Effect.provide(EventBridge.layer({ region: "eu-central-1" })),
   Effect.runPromiseExit,
 );
 ```
 
-or map over `DefaultEventBridgeClientConfigLayer` layer context and update the configuration...
+or use `EventBridge.baseLayer((default) => new EventBridgeClient({ ...default, region: "eu-central-1" }))`

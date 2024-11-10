@@ -4,39 +4,41 @@ import {
   CloudSearchClient,
   CloudSearchServiceException,
 } from "@aws-sdk/client-cloudsearch";
+// @ts-ignore
+import * as runtimeConfig from "@aws-sdk/client-cloudsearch/dist-cjs/runtimeConfig";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
-import * as Layer from "effect/Layer";
-import {
-  BaseCloudSearchServiceLayer,
-  DefaultCloudSearchClientConfigLayer,
-  DefaultCloudSearchServiceLayer,
-  CloudSearchClientInstance,
-  CloudSearchClientInstanceConfig,
-  CloudSearchService,
-  CloudSearchServiceLayer,
-  SdkError,
-} from "../src";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { CloudSearch, SdkError } from "../src";
 
+const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(CloudSearchClient);
 
 describe("CloudSearchClientImpl", () => {
+  afterEach(() => {
+    getRuntimeConfig.mockClear();
+  });
+
   it("default", async () => {
     clientMock.reset().on(DescribeDomainsCommand).resolves({});
 
     const args = {} as unknown as DescribeDomainsCommandInput;
 
-    const program = CloudSearchService.describeDomains(args);
+    const program = CloudSearch.describeDomains(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultCloudSearchServiceLayer),
+      Effect.provide(CloudSearch.defaultLayer),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(DescribeDomainsCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(DescribeDomainsCommand, args);
   });
@@ -46,25 +48,20 @@ describe("CloudSearchClientImpl", () => {
 
     const args = {} as unknown as DescribeDomainsCommandInput;
 
-    const program = CloudSearchService.describeDomains(args);
-
-    const CloudSearchClientConfigLayer = Layer.succeed(
-      CloudSearchClientInstanceConfig,
-      {
-        region: "eu-central-1",
-      },
-    );
-    const CustomCloudSearchServiceLayer = CloudSearchServiceLayer.pipe(
-      Layer.provide(CloudSearchClientConfigLayer),
-    );
+    const program = CloudSearch.describeDomains(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomCloudSearchServiceLayer),
+      Effect.provide(CloudSearch.layer({ region: "eu-central-1" })),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(DescribeDomainsCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(DescribeDomainsCommand, args);
   });
@@ -74,23 +71,23 @@ describe("CloudSearchClientImpl", () => {
 
     const args = {} as unknown as DescribeDomainsCommandInput;
 
-    const program = CloudSearchService.describeDomains(args);
-
-    const CloudSearchClientInstanceLayer = Layer.succeed(
-      CloudSearchClientInstance,
-      new CloudSearchClient({ region: "eu-central-1" }),
-    );
-    const CustomCloudSearchServiceLayer = BaseCloudSearchServiceLayer.pipe(
-      Layer.provide(CloudSearchClientInstanceLayer),
-    );
+    const program = CloudSearch.describeDomains(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomCloudSearchServiceLayer),
+      Effect.provide(
+        CloudSearch.baseLayer(
+          () => new CloudSearchClient({ region: "eu-central-1" }),
+        ),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+    });
     expect(clientMock).toHaveReceivedCommandTimes(DescribeDomainsCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(DescribeDomainsCommand, args);
   });
@@ -100,28 +97,25 @@ describe("CloudSearchClientImpl", () => {
 
     const args = {} as unknown as DescribeDomainsCommandInput;
 
-    const program = CloudSearchService.describeDomains(args);
-
-    const CloudSearchClientInstanceLayer = Layer.effect(
-      CloudSearchClientInstance,
-      Effect.map(
-        CloudSearchClientInstanceConfig,
-        (config) =>
-          new CloudSearchClient({ ...config, region: "eu-central-1" }),
-      ),
-    );
-    const CustomCloudSearchServiceLayer = BaseCloudSearchServiceLayer.pipe(
-      Layer.provide(CloudSearchClientInstanceLayer),
-      Layer.provide(DefaultCloudSearchClientConfigLayer),
-    );
+    const program = CloudSearch.describeDomains(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomCloudSearchServiceLayer),
+      Effect.provide(
+        CloudSearch.baseLayer(
+          (config) =>
+            new CloudSearchClient({ ...config, region: "eu-central-1" }),
+        ),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(DescribeDomainsCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(DescribeDomainsCommand, args);
   });
@@ -131,11 +125,11 @@ describe("CloudSearchClientImpl", () => {
 
     const args = {} as unknown as DescribeDomainsCommandInput;
 
-    const program = CloudSearchService.describeDomains(args);
+    const program = CloudSearch.describeDomains(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultCloudSearchServiceLayer),
+      Effect.provide(CloudSearch.defaultLayer),
       Effect.runPromiseExit,
     );
 
@@ -166,13 +160,13 @@ describe("CloudSearchClientImpl", () => {
 
     const args = {} as unknown as DescribeDomainsCommandInput;
 
-    const program = CloudSearchService.describeDomains(args).pipe(
+    const program = CloudSearch.describeDomains(args).pipe(
       Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultCloudSearchServiceLayer),
+      Effect.provide(CloudSearch.defaultLayer),
       Effect.runPromiseExit,
     );
 

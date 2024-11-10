@@ -14,13 +14,13 @@ npm install --save @effect-aws/client-cognito-identity-provider
 With default CognitoIdentityProviderClient instance:
 
 ```typescript
-import { CognitoIdentityProviderService, DefaultCognitoIdentityProviderServiceLayer } from "@effect-aws/client-cognito-identity-provider";
+import { CognitoIdentityProvider } from "@effect-aws/client-cognito-identity-provider";
 
-const program = CognitoIdentityProviderService.listUserPools(args);
+const program = CognitoIdentityProvider.listUserPools(args);
 
 const result = pipe(
   program,
-  Effect.provide(DefaultCognitoIdentityProviderServiceLayer),
+  Effect.provide(CognitoIdentityProvider.defaultLayer),
   Effect.runPromise,
 );
 ```
@@ -28,23 +28,15 @@ const result = pipe(
 With custom CognitoIdentityProviderClient instance:
 
 ```typescript
-import {
-  CognitoIdentityProviderService,
-  BaseCognitoIdentityProviderServiceLayer,
-  CognitoIdentityProviderClientInstance,
-} from "@effect-aws/client-cognito-identity-provider";
+import { CognitoIdentityProvider } from "@effect-aws/client-cognito-identity-provider";
 
-const program = CognitoIdentityProviderService.listUserPools(args);
-
-const CognitoIdentityProviderClientInstanceLayer = Layer.succeed(
-  CognitoIdentityProviderClientInstance,
-  new CognitoIdentityProviderClient({ region: "eu-central-1" }),
-);
+const program = CognitoIdentityProvider.listUserPools(args);
 
 const result = await pipe(
   program,
-  Effect.provide(BaseCognitoIdentityProviderServiceLayer),
-  Effect.provide(CognitoIdentityProviderClientInstanceLayer),
+  Effect.provide(
+    CognitoIdentityProvider.baseLayer(() => new CognitoIdentityProviderClient({ region: "eu-central-1" })),
+  ),
   Effect.runPromise,
 );
 ```
@@ -52,34 +44,15 @@ const result = await pipe(
 With custom CognitoIdentityProviderClient configuration:
 
 ```typescript
-import {
-  CognitoIdentityProviderService,
-  BaseCognitoIdentityProviderServiceLayer,
-  DefaultCognitoIdentityProviderClientConfigLayer,
-  CognitoIdentityProviderClientInstance,
-  CognitoIdentityProviderClientInstanceConfig,
-} from "@effect-aws/client-cognito-identity-provider";
+import { CognitoIdentityProvider } from "@effect-aws/client-cognito-identity-provider";
 
-const program = CognitoIdentityProviderService.listUserPools(args);
-
-const CognitoIdentityProviderClientInstanceLayer = Layer.provide(
-  Layer.effect(
-    CognitoIdentityProviderClientInstance,
-    CognitoIdentityProviderClientInstanceConfig.pipe(
-      Effect.map(
-        (config) => new CognitoIdentityProviderClient({ ...config, region: "eu-central-1" }),
-      ),
-    ),
-  ),
-  DefaultCognitoIdentityProviderClientConfigLayer,
-);
+const program = CognitoIdentityProvider.listUserPools(args);
 
 const result = await pipe(
   program,
-  Effect.provide(BaseCognitoIdentityProviderServiceLayer),
-  Effect.provide(CognitoIdentityProviderClientInstanceLayer),
+  Effect.provide(CognitoIdentityProvider.layer({ region: "eu-central-1" })),
   Effect.runPromiseExit,
 );
 ```
 
-or map over `DefaultCognitoIdentityProviderClientConfigLayer` layer context and update the configuration...
+or use `CognitoIdentityProvider.baseLayer((default) => new CognitoIdentityProviderClient({ ...default, region: "eu-central-1" }))`

@@ -3,6 +3,8 @@
  */
 import {
   SecretsManagerServiceException,
+  type SecretsManagerClient,
+  type SecretsManagerClientConfig,
   BatchGetSecretValueCommand,
   type BatchGetSecretValueCommandInput,
   type BatchGetSecretValueCommandOutput,
@@ -95,10 +97,14 @@ import {
   SecretsManagerClientInstance,
   SecretsManagerClientInstanceLayer,
 } from "./SecretsManagerClientInstance";
-import { DefaultSecretsManagerClientConfigLayer } from "./SecretsManagerClientInstanceConfig";
+import {
+  DefaultSecretsManagerClientConfigLayer,
+  makeDefaultSecretsManagerClientInstanceConfig,
+  SecretsManagerClientInstanceConfig,
+} from "./SecretsManagerClientInstanceConfig";
 
 /**
- * @since 1.2.1
+ * @since 1.0.0
  */
 export interface HttpHandlerOptions {
   /**
@@ -506,14 +512,6 @@ interface SecretsManagerService$ {
 
 /**
  * @since 1.0.0
- * @category models
- */
-export class SecretsManagerService extends Effect.Tag(
-  "@effect-aws/client-secrets-manager/SecretsManagerService",
-)<SecretsManagerService, SecretsManagerService$>() {}
-
-/**
- * @since 1.0.0
  * @category constructors
  */
 export const makeSecretsManagerService = Effect.gen(function* (_) {
@@ -564,7 +562,56 @@ export const makeSecretsManagerService = Effect.gen(function* (_) {
 
 /**
  * @since 1.0.0
+ * @category models
+ */
+export class SecretsManagerService extends Effect.Tag(
+  "@effect-aws/client-secrets-manager/SecretsManagerService",
+)<SecretsManagerService, SecretsManagerService$>() {
+  static readonly defaultLayer = Layer.effect(
+    this,
+    makeSecretsManagerService,
+  ).pipe(
+    Layer.provide(SecretsManagerClientInstanceLayer),
+    Layer.provide(DefaultSecretsManagerClientConfigLayer),
+  );
+  static readonly layer = (config: SecretsManagerClientConfig) =>
+    Layer.effect(this, makeSecretsManagerService).pipe(
+      Layer.provide(SecretsManagerClientInstanceLayer),
+      Layer.provide(
+        Layer.effect(
+          SecretsManagerClientInstanceConfig,
+          makeDefaultSecretsManagerClientInstanceConfig.pipe(
+            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
+          ),
+        ),
+      ),
+    );
+  static readonly baseLayer = (
+    evaluate: (
+      defaultConfig: SecretsManagerClientConfig,
+    ) => SecretsManagerClient,
+  ) =>
+    Layer.effect(this, makeSecretsManagerService).pipe(
+      Layer.provide(
+        Layer.effect(
+          SecretsManagerClientInstance,
+          Effect.map(makeDefaultSecretsManagerClientInstanceConfig, evaluate),
+        ),
+      ),
+    );
+}
+
+/**
+ * @since 1.0.0
+ * @category models
+ * @alias SecretsManagerService
+ */
+export const SecretsManager = SecretsManagerService;
+
+/**
+ * @since 1.0.0
  * @category layers
+ * @deprecated use SecretsManager.baseLayer instead
  */
 export const BaseSecretsManagerServiceLayer = Layer.effect(
   SecretsManagerService,
@@ -574,6 +621,7 @@ export const BaseSecretsManagerServiceLayer = Layer.effect(
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use SecretsManager.layer instead
  */
 export const SecretsManagerServiceLayer = BaseSecretsManagerServiceLayer.pipe(
   Layer.provide(SecretsManagerClientInstanceLayer),
@@ -582,8 +630,7 @@ export const SecretsManagerServiceLayer = BaseSecretsManagerServiceLayer.pipe(
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use SecretsManager.defaultLayer instead
  */
 export const DefaultSecretsManagerServiceLayer =
-  SecretsManagerServiceLayer.pipe(
-    Layer.provide(DefaultSecretsManagerClientConfigLayer),
-  );
+  SecretsManagerService.defaultLayer;

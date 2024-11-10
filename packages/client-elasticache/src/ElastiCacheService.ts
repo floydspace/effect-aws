@@ -3,6 +3,8 @@
  */
 import {
   ElastiCacheServiceException,
+  type ElastiCacheClient,
+  type ElastiCacheClientConfig,
   AddTagsToResourceCommand,
   type AddTagsToResourceCommandInput,
   type AddTagsToResourceCommandOutput,
@@ -234,7 +236,11 @@ import {
   ElastiCacheClientInstance,
   ElastiCacheClientInstanceLayer,
 } from "./ElastiCacheClientInstance";
-import { DefaultElastiCacheClientConfigLayer } from "./ElastiCacheClientInstanceConfig";
+import {
+  DefaultElastiCacheClientConfigLayer,
+  makeDefaultElastiCacheClientInstanceConfig,
+  ElastiCacheClientInstanceConfig,
+} from "./ElastiCacheClientInstanceConfig";
 import {
   AllServiceErrors,
   APICallRateForCustomerExceededFaultError,
@@ -318,7 +324,7 @@ import {
 } from "./Errors";
 
 /**
- * @since 1.3.1
+ * @since 1.0.0
  */
 export interface HttpHandlerOptions {
   /**
@@ -1652,14 +1658,6 @@ interface ElastiCacheService$ {
 
 /**
  * @since 1.0.0
- * @category models
- */
-export class ElastiCacheService extends Effect.Tag(
-  "@effect-aws/client-elasticache/ElastiCacheService",
-)<ElastiCacheService, ElastiCacheService$>() {}
-
-/**
- * @since 1.0.0
  * @category constructors
  */
 export const makeElastiCacheService = Effect.gen(function* (_) {
@@ -1710,7 +1708,54 @@ export const makeElastiCacheService = Effect.gen(function* (_) {
 
 /**
  * @since 1.0.0
+ * @category models
+ */
+export class ElastiCacheService extends Effect.Tag(
+  "@effect-aws/client-elasticache/ElastiCacheService",
+)<ElastiCacheService, ElastiCacheService$>() {
+  static readonly defaultLayer = Layer.effect(
+    this,
+    makeElastiCacheService,
+  ).pipe(
+    Layer.provide(ElastiCacheClientInstanceLayer),
+    Layer.provide(DefaultElastiCacheClientConfigLayer),
+  );
+  static readonly layer = (config: ElastiCacheClientConfig) =>
+    Layer.effect(this, makeElastiCacheService).pipe(
+      Layer.provide(ElastiCacheClientInstanceLayer),
+      Layer.provide(
+        Layer.effect(
+          ElastiCacheClientInstanceConfig,
+          makeDefaultElastiCacheClientInstanceConfig.pipe(
+            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
+          ),
+        ),
+      ),
+    );
+  static readonly baseLayer = (
+    evaluate: (defaultConfig: ElastiCacheClientConfig) => ElastiCacheClient,
+  ) =>
+    Layer.effect(this, makeElastiCacheService).pipe(
+      Layer.provide(
+        Layer.effect(
+          ElastiCacheClientInstance,
+          Effect.map(makeDefaultElastiCacheClientInstanceConfig, evaluate),
+        ),
+      ),
+    );
+}
+
+/**
+ * @since 1.0.0
+ * @category models
+ * @alias ElastiCacheService
+ */
+export const ElastiCache = ElastiCacheService;
+
+/**
+ * @since 1.0.0
  * @category layers
+ * @deprecated use ElastiCache.baseLayer instead
  */
 export const BaseElastiCacheServiceLayer = Layer.effect(
   ElastiCacheService,
@@ -1720,6 +1765,7 @@ export const BaseElastiCacheServiceLayer = Layer.effect(
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use ElastiCache.layer instead
  */
 export const ElastiCacheServiceLayer = BaseElastiCacheServiceLayer.pipe(
   Layer.provide(ElastiCacheClientInstanceLayer),
@@ -1728,7 +1774,6 @@ export const ElastiCacheServiceLayer = BaseElastiCacheServiceLayer.pipe(
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use ElastiCache.defaultLayer instead
  */
-export const DefaultElastiCacheServiceLayer = ElastiCacheServiceLayer.pipe(
-  Layer.provide(DefaultElastiCacheClientConfigLayer),
-);
+export const DefaultElastiCacheServiceLayer = ElastiCacheService.defaultLayer;

@@ -4,39 +4,41 @@ import {
   SecretsManagerClient,
   SecretsManagerServiceException,
 } from "@aws-sdk/client-secrets-manager";
+// @ts-ignore
+import * as runtimeConfig from "@aws-sdk/client-secrets-manager/dist-cjs/runtimeConfig";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
-import * as Layer from "effect/Layer";
-import {
-  BaseSecretsManagerServiceLayer,
-  DefaultSecretsManagerClientConfigLayer,
-  DefaultSecretsManagerServiceLayer,
-  SecretsManagerClientInstance,
-  SecretsManagerClientInstanceConfig,
-  SecretsManagerService,
-  SecretsManagerServiceLayer,
-  SdkError,
-} from "../src";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { SecretsManager, SdkError } from "../src";
 
+const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(SecretsManagerClient);
 
 describe("SecretsManagerClientImpl", () => {
+  afterEach(() => {
+    getRuntimeConfig.mockClear();
+  });
+
   it("default", async () => {
     clientMock.reset().on(GetSecretValueCommand).resolves({});
 
     const args: GetSecretValueCommandInput = { SecretId: "test" };
 
-    const program = SecretsManagerService.getSecretValue(args);
+    const program = SecretsManager.getSecretValue(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultSecretsManagerServiceLayer),
+      Effect.provide(SecretsManager.defaultLayer),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(GetSecretValueCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(GetSecretValueCommand, args);
   });
@@ -46,25 +48,20 @@ describe("SecretsManagerClientImpl", () => {
 
     const args: GetSecretValueCommandInput = { SecretId: "test" };
 
-    const program = SecretsManagerService.getSecretValue(args);
-
-    const SecretsManagerClientConfigLayer = Layer.succeed(
-      SecretsManagerClientInstanceConfig,
-      {
-        region: "eu-central-1",
-      },
-    );
-    const CustomSecretsManagerServiceLayer = SecretsManagerServiceLayer.pipe(
-      Layer.provide(SecretsManagerClientConfigLayer),
-    );
+    const program = SecretsManager.getSecretValue(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomSecretsManagerServiceLayer),
+      Effect.provide(SecretsManager.layer({ region: "eu-central-1" })),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(GetSecretValueCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(GetSecretValueCommand, args);
   });
@@ -74,24 +71,23 @@ describe("SecretsManagerClientImpl", () => {
 
     const args: GetSecretValueCommandInput = { SecretId: "test" };
 
-    const program = SecretsManagerService.getSecretValue(args);
-
-    const SecretsManagerClientInstanceLayer = Layer.succeed(
-      SecretsManagerClientInstance,
-      new SecretsManagerClient({ region: "eu-central-1" }),
-    );
-    const CustomSecretsManagerServiceLayer =
-      BaseSecretsManagerServiceLayer.pipe(
-        Layer.provide(SecretsManagerClientInstanceLayer),
-      );
+    const program = SecretsManager.getSecretValue(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomSecretsManagerServiceLayer),
+      Effect.provide(
+        SecretsManager.baseLayer(
+          () => new SecretsManagerClient({ region: "eu-central-1" }),
+        ),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+    });
     expect(clientMock).toHaveReceivedCommandTimes(GetSecretValueCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(GetSecretValueCommand, args);
   });
@@ -101,29 +97,25 @@ describe("SecretsManagerClientImpl", () => {
 
     const args: GetSecretValueCommandInput = { SecretId: "test" };
 
-    const program = SecretsManagerService.getSecretValue(args);
-
-    const SecretsManagerClientInstanceLayer = Layer.effect(
-      SecretsManagerClientInstance,
-      Effect.map(
-        SecretsManagerClientInstanceConfig,
-        (config) =>
-          new SecretsManagerClient({ ...config, region: "eu-central-1" }),
-      ),
-    );
-    const CustomSecretsManagerServiceLayer =
-      BaseSecretsManagerServiceLayer.pipe(
-        Layer.provide(SecretsManagerClientInstanceLayer),
-        Layer.provide(DefaultSecretsManagerClientConfigLayer),
-      );
+    const program = SecretsManager.getSecretValue(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomSecretsManagerServiceLayer),
+      Effect.provide(
+        SecretsManager.baseLayer(
+          (config) =>
+            new SecretsManagerClient({ ...config, region: "eu-central-1" }),
+        ),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(GetSecretValueCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(GetSecretValueCommand, args);
   });
@@ -133,11 +125,11 @@ describe("SecretsManagerClientImpl", () => {
 
     const args: GetSecretValueCommandInput = { SecretId: "test" };
 
-    const program = SecretsManagerService.getSecretValue(args);
+    const program = SecretsManager.getSecretValue(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultSecretsManagerServiceLayer),
+      Effect.provide(SecretsManager.defaultLayer),
       Effect.runPromiseExit,
     );
 
@@ -168,13 +160,13 @@ describe("SecretsManagerClientImpl", () => {
 
     const args: GetSecretValueCommandInput = { SecretId: "test" };
 
-    const program = SecretsManagerService.getSecretValue(args).pipe(
+    const program = SecretsManager.getSecretValue(args).pipe(
       Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultSecretsManagerServiceLayer),
+      Effect.provide(SecretsManager.defaultLayer),
       Effect.runPromiseExit,
     );
 

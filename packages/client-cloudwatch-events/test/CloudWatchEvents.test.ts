@@ -4,39 +4,41 @@ import {
   CloudWatchEventsClient,
   CloudWatchEventsServiceException,
 } from "@aws-sdk/client-cloudwatch-events";
+// @ts-ignore
+import * as runtimeConfig from "@aws-sdk/client-cloudwatch-events/dist-cjs/runtimeConfig";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
-import * as Layer from "effect/Layer";
-import {
-  BaseCloudWatchEventsServiceLayer,
-  DefaultCloudWatchEventsClientConfigLayer,
-  DefaultCloudWatchEventsServiceLayer,
-  CloudWatchEventsClientInstance,
-  CloudWatchEventsClientInstanceConfig,
-  CloudWatchEventsService,
-  CloudWatchEventsServiceLayer,
-  SdkError,
-} from "../src";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { CloudWatchEvents, SdkError } from "../src";
 
+const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(CloudWatchEventsClient);
 
 describe("CloudWatchEventsClientImpl", () => {
+  afterEach(() => {
+    getRuntimeConfig.mockClear();
+  });
+
   it("default", async () => {
     clientMock.reset().on(ListRulesCommand).resolves({});
 
     const args = {} as unknown as ListRulesCommandInput;
 
-    const program = CloudWatchEventsService.listRules(args);
+    const program = CloudWatchEvents.listRules(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultCloudWatchEventsServiceLayer),
+      Effect.provide(CloudWatchEvents.defaultLayer),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(ListRulesCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(ListRulesCommand, args);
   });
@@ -46,26 +48,20 @@ describe("CloudWatchEventsClientImpl", () => {
 
     const args = {} as unknown as ListRulesCommandInput;
 
-    const program = CloudWatchEventsService.listRules(args);
-
-    const CloudWatchEventsClientConfigLayer = Layer.succeed(
-      CloudWatchEventsClientInstanceConfig,
-      {
-        region: "eu-central-1",
-      },
-    );
-    const CustomCloudWatchEventsServiceLayer =
-      CloudWatchEventsServiceLayer.pipe(
-        Layer.provide(CloudWatchEventsClientConfigLayer),
-      );
+    const program = CloudWatchEvents.listRules(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomCloudWatchEventsServiceLayer),
+      Effect.provide(CloudWatchEvents.layer({ region: "eu-central-1" })),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(ListRulesCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(ListRulesCommand, args);
   });
@@ -75,24 +71,23 @@ describe("CloudWatchEventsClientImpl", () => {
 
     const args = {} as unknown as ListRulesCommandInput;
 
-    const program = CloudWatchEventsService.listRules(args);
-
-    const CloudWatchEventsClientInstanceLayer = Layer.succeed(
-      CloudWatchEventsClientInstance,
-      new CloudWatchEventsClient({ region: "eu-central-1" }),
-    );
-    const CustomCloudWatchEventsServiceLayer =
-      BaseCloudWatchEventsServiceLayer.pipe(
-        Layer.provide(CloudWatchEventsClientInstanceLayer),
-      );
+    const program = CloudWatchEvents.listRules(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomCloudWatchEventsServiceLayer),
+      Effect.provide(
+        CloudWatchEvents.baseLayer(
+          () => new CloudWatchEventsClient({ region: "eu-central-1" }),
+        ),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+    });
     expect(clientMock).toHaveReceivedCommandTimes(ListRulesCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(ListRulesCommand, args);
   });
@@ -102,29 +97,25 @@ describe("CloudWatchEventsClientImpl", () => {
 
     const args = {} as unknown as ListRulesCommandInput;
 
-    const program = CloudWatchEventsService.listRules(args);
-
-    const CloudWatchEventsClientInstanceLayer = Layer.effect(
-      CloudWatchEventsClientInstance,
-      Effect.map(
-        CloudWatchEventsClientInstanceConfig,
-        (config) =>
-          new CloudWatchEventsClient({ ...config, region: "eu-central-1" }),
-      ),
-    );
-    const CustomCloudWatchEventsServiceLayer =
-      BaseCloudWatchEventsServiceLayer.pipe(
-        Layer.provide(CloudWatchEventsClientInstanceLayer),
-        Layer.provide(DefaultCloudWatchEventsClientConfigLayer),
-      );
+    const program = CloudWatchEvents.listRules(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomCloudWatchEventsServiceLayer),
+      Effect.provide(
+        CloudWatchEvents.baseLayer(
+          (config) =>
+            new CloudWatchEventsClient({ ...config, region: "eu-central-1" }),
+        ),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(ListRulesCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(ListRulesCommand, args);
   });
@@ -134,11 +125,11 @@ describe("CloudWatchEventsClientImpl", () => {
 
     const args = {} as unknown as ListRulesCommandInput;
 
-    const program = CloudWatchEventsService.listRules(args);
+    const program = CloudWatchEvents.listRules(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultCloudWatchEventsServiceLayer),
+      Effect.provide(CloudWatchEvents.defaultLayer),
       Effect.runPromiseExit,
     );
 
@@ -169,13 +160,13 @@ describe("CloudWatchEventsClientImpl", () => {
 
     const args = {} as unknown as ListRulesCommandInput;
 
-    const program = CloudWatchEventsService.listRules(args).pipe(
+    const program = CloudWatchEvents.listRules(args).pipe(
       Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultCloudWatchEventsServiceLayer),
+      Effect.provide(CloudWatchEvents.defaultLayer),
       Effect.runPromiseExit,
     );
 

@@ -3,6 +3,8 @@
  */
 import {
   DynamoDBServiceException,
+  type DynamoDBClient,
+  type DynamoDBClientConfig,
   BatchExecuteStatementCommand,
   type BatchExecuteStatementCommandInput,
   type BatchExecuteStatementCommandOutput,
@@ -180,7 +182,11 @@ import {
   DynamoDBClientInstance,
   DynamoDBClientInstanceLayer,
 } from "./DynamoDBClientInstance";
-import { DefaultDynamoDBClientConfigLayer } from "./DynamoDBClientInstanceConfig";
+import {
+  DefaultDynamoDBClientConfigLayer,
+  makeDefaultDynamoDBClientInstanceConfig,
+  DynamoDBClientInstanceConfig,
+} from "./DynamoDBClientInstanceConfig";
 import {
   AllServiceErrors,
   BackupInUseError,
@@ -221,7 +227,7 @@ import {
 } from "./Errors";
 
 /**
- * @since 1.4.1
+ * @since 1.0.0
  */
 export interface HttpHandlerOptions {
   /**
@@ -1131,14 +1137,6 @@ interface DynamoDBService$ {
 
 /**
  * @since 1.0.0
- * @category models
- */
-export class DynamoDBService extends Effect.Tag(
-  "@effect-aws/client-dynamodb/DynamoDBService",
-)<DynamoDBService, DynamoDBService$>() {}
-
-/**
- * @since 1.0.0
  * @category constructors
  */
 export const makeDynamoDBService = Effect.gen(function* (_) {
@@ -1189,7 +1187,51 @@ export const makeDynamoDBService = Effect.gen(function* (_) {
 
 /**
  * @since 1.0.0
+ * @category models
+ */
+export class DynamoDBService extends Effect.Tag(
+  "@effect-aws/client-dynamodb/DynamoDBService",
+)<DynamoDBService, DynamoDBService$>() {
+  static readonly defaultLayer = Layer.effect(this, makeDynamoDBService).pipe(
+    Layer.provide(DynamoDBClientInstanceLayer),
+    Layer.provide(DefaultDynamoDBClientConfigLayer),
+  );
+  static readonly layer = (config: DynamoDBClientConfig) =>
+    Layer.effect(this, makeDynamoDBService).pipe(
+      Layer.provide(DynamoDBClientInstanceLayer),
+      Layer.provide(
+        Layer.effect(
+          DynamoDBClientInstanceConfig,
+          makeDefaultDynamoDBClientInstanceConfig.pipe(
+            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
+          ),
+        ),
+      ),
+    );
+  static readonly baseLayer = (
+    evaluate: (defaultConfig: DynamoDBClientConfig) => DynamoDBClient,
+  ) =>
+    Layer.effect(this, makeDynamoDBService).pipe(
+      Layer.provide(
+        Layer.effect(
+          DynamoDBClientInstance,
+          Effect.map(makeDefaultDynamoDBClientInstanceConfig, evaluate),
+        ),
+      ),
+    );
+}
+
+/**
+ * @since 1.0.0
+ * @category models
+ * @alias DynamoDBService
+ */
+export const DynamoDB = DynamoDBService;
+
+/**
+ * @since 1.0.0
  * @category layers
+ * @deprecated use DynamoDB.baseLayer instead
  */
 export const BaseDynamoDBServiceLayer = Layer.effect(
   DynamoDBService,
@@ -1199,6 +1241,7 @@ export const BaseDynamoDBServiceLayer = Layer.effect(
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use DynamoDB.layer instead
  */
 export const DynamoDBServiceLayer = BaseDynamoDBServiceLayer.pipe(
   Layer.provide(DynamoDBClientInstanceLayer),
@@ -1207,7 +1250,6 @@ export const DynamoDBServiceLayer = BaseDynamoDBServiceLayer.pipe(
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use DynamoDB.defaultLayer instead
  */
-export const DefaultDynamoDBServiceLayer = DynamoDBServiceLayer.pipe(
-  Layer.provide(DefaultDynamoDBClientConfigLayer),
-);
+export const DefaultDynamoDBServiceLayer = DynamoDBService.defaultLayer;

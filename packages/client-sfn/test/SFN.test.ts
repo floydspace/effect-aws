@@ -4,25 +4,23 @@ import {
   SFNClient,
   SFNServiceException,
 } from "@aws-sdk/client-sfn";
+// @ts-ignore
+import * as runtimeConfig from "@aws-sdk/client-sfn/dist-cjs/runtimeConfig";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
-import * as Layer from "effect/Layer";
-import {
-  BaseSFNServiceLayer,
-  DefaultSFNClientConfigLayer,
-  DefaultSFNServiceLayer,
-  SFNClientInstance,
-  SFNClientInstanceConfig,
-  SFNService,
-  SFNServiceLayer,
-  SdkError,
-} from "../src";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { SFN, SdkError } from "../src";
 
+const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(SFNClient);
 
 describe("SFNClientImpl", () => {
+  afterEach(() => {
+    getRuntimeConfig.mockClear();
+  });
+
   it("default", async () => {
     clientMock.reset().on(StartExecutionCommand).resolves({});
 
@@ -31,15 +29,19 @@ describe("SFNClientImpl", () => {
       input: "test",
     };
 
-    const program = SFNService.startExecution(args);
+    const program = SFN.startExecution(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultSFNServiceLayer),
+      Effect.provide(SFN.defaultLayer),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(StartExecutionCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(StartExecutionCommand, args);
   });
@@ -52,22 +54,20 @@ describe("SFNClientImpl", () => {
       input: "test",
     };
 
-    const program = SFNService.startExecution(args);
-
-    const SFNClientConfigLayer = Layer.succeed(SFNClientInstanceConfig, {
-      region: "eu-central-1",
-    });
-    const CustomSFNServiceLayer = SFNServiceLayer.pipe(
-      Layer.provide(SFNClientConfigLayer),
-    );
+    const program = SFN.startExecution(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomSFNServiceLayer),
+      Effect.provide(SFN.layer({ region: "eu-central-1" })),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(StartExecutionCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(StartExecutionCommand, args);
   });
@@ -80,23 +80,21 @@ describe("SFNClientImpl", () => {
       input: "test",
     };
 
-    const program = SFNService.startExecution(args);
-
-    const SFNClientInstanceLayer = Layer.succeed(
-      SFNClientInstance,
-      new SFNClient({ region: "eu-central-1" }),
-    );
-    const CustomSFNServiceLayer = BaseSFNServiceLayer.pipe(
-      Layer.provide(SFNClientInstanceLayer),
-    );
+    const program = SFN.startExecution(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomSFNServiceLayer),
+      Effect.provide(
+        SFN.baseLayer(() => new SFNClient({ region: "eu-central-1" })),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+    });
     expect(clientMock).toHaveReceivedCommandTimes(StartExecutionCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(StartExecutionCommand, args);
   });
@@ -109,27 +107,24 @@ describe("SFNClientImpl", () => {
       input: "test",
     };
 
-    const program = SFNService.startExecution(args);
-
-    const SFNClientInstanceLayer = Layer.effect(
-      SFNClientInstance,
-      Effect.map(
-        SFNClientInstanceConfig,
-        (config) => new SFNClient({ ...config, region: "eu-central-1" }),
-      ),
-    );
-    const CustomSFNServiceLayer = BaseSFNServiceLayer.pipe(
-      Layer.provide(SFNClientInstanceLayer),
-      Layer.provide(DefaultSFNClientConfigLayer),
-    );
+    const program = SFN.startExecution(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomSFNServiceLayer),
+      Effect.provide(
+        SFN.baseLayer(
+          (config) => new SFNClient({ ...config, region: "eu-central-1" }),
+        ),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(StartExecutionCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(StartExecutionCommand, args);
   });
@@ -142,11 +137,11 @@ describe("SFNClientImpl", () => {
       input: "test",
     };
 
-    const program = SFNService.startExecution(args);
+    const program = SFN.startExecution(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultSFNServiceLayer),
+      Effect.provide(SFN.defaultLayer),
       Effect.runPromiseExit,
     );
 
@@ -180,13 +175,13 @@ describe("SFNClientImpl", () => {
       input: "test",
     };
 
-    const program = SFNService.startExecution(args).pipe(
+    const program = SFN.startExecution(args).pipe(
       Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultSFNServiceLayer),
+      Effect.provide(SFN.defaultLayer),
       Effect.runPromiseExit,
     );
 

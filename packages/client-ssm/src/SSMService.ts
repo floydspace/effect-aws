@@ -3,6 +3,8 @@
  */
 import {
   SSMServiceException,
+  type SSMClient,
+  type SSMClientConfig,
   AddTagsToResourceCommand,
   type AddTagsToResourceCommandInput,
   type AddTagsToResourceCommandOutput,
@@ -564,10 +566,14 @@ import {
   TaggedException,
 } from "./Errors";
 import { SSMClientInstance, SSMClientInstanceLayer } from "./SSMClientInstance";
-import { DefaultSSMClientConfigLayer } from "./SSMClientInstanceConfig";
+import {
+  DefaultSSMClientConfigLayer,
+  makeDefaultSSMClientInstanceConfig,
+  SSMClientInstanceConfig,
+} from "./SSMClientInstanceConfig";
 
 /**
- * @since 1.1.1
+ * @since 1.0.0
  */
 export interface HttpHandlerOptions {
   /**
@@ -2697,15 +2703,6 @@ interface SSMService$ {
 
 /**
  * @since 1.0.0
- * @category models
- */
-export class SSMService extends Effect.Tag("@effect-aws/client-ssm/SSMService")<
-  SSMService,
-  SSMService$
->() {}
-
-/**
- * @since 1.0.0
  * @category constructors
  */
 export const makeSSMService = Effect.gen(function* (_) {
@@ -2756,13 +2753,59 @@ export const makeSSMService = Effect.gen(function* (_) {
 
 /**
  * @since 1.0.0
+ * @category models
+ */
+export class SSMService extends Effect.Tag("@effect-aws/client-ssm/SSMService")<
+  SSMService,
+  SSMService$
+>() {
+  static readonly defaultLayer = Layer.effect(this, makeSSMService).pipe(
+    Layer.provide(SSMClientInstanceLayer),
+    Layer.provide(DefaultSSMClientConfigLayer),
+  );
+  static readonly layer = (config: SSMClientConfig) =>
+    Layer.effect(this, makeSSMService).pipe(
+      Layer.provide(SSMClientInstanceLayer),
+      Layer.provide(
+        Layer.effect(
+          SSMClientInstanceConfig,
+          makeDefaultSSMClientInstanceConfig.pipe(
+            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
+          ),
+        ),
+      ),
+    );
+  static readonly baseLayer = (
+    evaluate: (defaultConfig: SSMClientConfig) => SSMClient,
+  ) =>
+    Layer.effect(this, makeSSMService).pipe(
+      Layer.provide(
+        Layer.effect(
+          SSMClientInstance,
+          Effect.map(makeDefaultSSMClientInstanceConfig, evaluate),
+        ),
+      ),
+    );
+}
+
+/**
+ * @since 1.0.0
+ * @category models
+ * @alias SSMService
+ */
+export const SSM = SSMService;
+
+/**
+ * @since 1.0.0
  * @category layers
+ * @deprecated use SSM.baseLayer instead
  */
 export const BaseSSMServiceLayer = Layer.effect(SSMService, makeSSMService);
 
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use SSM.layer instead
  */
 export const SSMServiceLayer = BaseSSMServiceLayer.pipe(
   Layer.provide(SSMClientInstanceLayer),
@@ -2771,7 +2814,6 @@ export const SSMServiceLayer = BaseSSMServiceLayer.pipe(
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use SSM.defaultLayer instead
  */
-export const DefaultSSMServiceLayer = SSMServiceLayer.pipe(
-  Layer.provide(DefaultSSMClientConfigLayer),
-);
+export const DefaultSSMServiceLayer = SSMService.defaultLayer;

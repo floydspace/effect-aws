@@ -3,39 +3,41 @@ import {
   AcceptAddressTransferCommand,
   EC2Client,
 } from "@aws-sdk/client-ec2";
+// @ts-ignore
+import * as runtimeConfig from "@aws-sdk/client-ec2/dist-cjs/runtimeConfig";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
-import * as Layer from "effect/Layer";
-import {
-  BaseEC2ServiceLayer,
-  DefaultEC2ClientConfigLayer,
-  DefaultEC2ServiceLayer,
-  EC2ClientInstance,
-  EC2ClientInstanceConfig,
-  EC2Service,
-  EC2ServiceLayer,
-  SdkError,
-} from "../src";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { EC2, SdkError } from "../src";
 
+const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(EC2Client);
 
 describe("EC2ClientImpl", () => {
+  afterEach(() => {
+    getRuntimeConfig.mockClear();
+  });
+
   it("default", async () => {
     clientMock.reset().on(AcceptAddressTransferCommand).resolves({});
 
     const args = {} as unknown as AcceptAddressTransferCommandInput;
 
-    const program = EC2Service.acceptAddressTransfer(args);
+    const program = EC2.acceptAddressTransfer(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultEC2ServiceLayer),
+      Effect.provide(EC2.defaultLayer),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(
       AcceptAddressTransferCommand,
       1,
@@ -51,22 +53,20 @@ describe("EC2ClientImpl", () => {
 
     const args = {} as unknown as AcceptAddressTransferCommandInput;
 
-    const program = EC2Service.acceptAddressTransfer(args);
-
-    const EC2ClientConfigLayer = Layer.succeed(EC2ClientInstanceConfig, {
-      region: "eu-central-1",
-    });
-    const CustomEC2ServiceLayer = EC2ServiceLayer.pipe(
-      Layer.provide(EC2ClientConfigLayer),
-    );
+    const program = EC2.acceptAddressTransfer(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomEC2ServiceLayer),
+      Effect.provide(EC2.layer({ region: "eu-central-1" })),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(
       AcceptAddressTransferCommand,
       1,
@@ -82,23 +82,21 @@ describe("EC2ClientImpl", () => {
 
     const args = {} as unknown as AcceptAddressTransferCommandInput;
 
-    const program = EC2Service.acceptAddressTransfer(args);
-
-    const EC2ClientInstanceLayer = Layer.succeed(
-      EC2ClientInstance,
-      new EC2Client({ region: "eu-central-1" }),
-    );
-    const CustomEC2ServiceLayer = BaseEC2ServiceLayer.pipe(
-      Layer.provide(EC2ClientInstanceLayer),
-    );
+    const program = EC2.acceptAddressTransfer(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomEC2ServiceLayer),
+      Effect.provide(
+        EC2.baseLayer(() => new EC2Client({ region: "eu-central-1" })),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+    });
     expect(clientMock).toHaveReceivedCommandTimes(
       AcceptAddressTransferCommand,
       1,
@@ -114,27 +112,24 @@ describe("EC2ClientImpl", () => {
 
     const args = {} as unknown as AcceptAddressTransferCommandInput;
 
-    const program = EC2Service.acceptAddressTransfer(args);
-
-    const EC2ClientInstanceLayer = Layer.effect(
-      EC2ClientInstance,
-      Effect.map(
-        EC2ClientInstanceConfig,
-        (config) => new EC2Client({ ...config, region: "eu-central-1" }),
-      ),
-    );
-    const CustomEC2ServiceLayer = BaseEC2ServiceLayer.pipe(
-      Layer.provide(EC2ClientInstanceLayer),
-      Layer.provide(DefaultEC2ClientConfigLayer),
-    );
+    const program = EC2.acceptAddressTransfer(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomEC2ServiceLayer),
+      Effect.provide(
+        EC2.baseLayer(
+          (config) => new EC2Client({ ...config, region: "eu-central-1" }),
+        ),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(
       AcceptAddressTransferCommand,
       1,
@@ -153,11 +148,11 @@ describe("EC2ClientImpl", () => {
 
     const args = {} as unknown as AcceptAddressTransferCommandInput;
 
-    const program = EC2Service.acceptAddressTransfer(args);
+    const program = EC2.acceptAddressTransfer(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultEC2ServiceLayer),
+      Effect.provide(EC2.defaultLayer),
       Effect.runPromiseExit,
     );
 

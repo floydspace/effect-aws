@@ -3,6 +3,8 @@
  */
 import {
   LambdaServiceException,
+  type LambdaClient,
+  type LambdaClientConfig,
   AddLayerVersionPermissionCommand,
   type AddLayerVersionPermissionCommandInput,
   type AddLayerVersionPermissionCommandOutput,
@@ -256,10 +258,14 @@ import {
   LambdaClientInstance,
   LambdaClientInstanceLayer,
 } from "./LambdaClientInstance";
-import { DefaultLambdaClientConfigLayer } from "./LambdaClientInstanceConfig";
+import {
+  DefaultLambdaClientConfigLayer,
+  makeDefaultLambdaClientInstanceConfig,
+  LambdaClientInstanceConfig,
+} from "./LambdaClientInstanceConfig";
 
 /**
- * @since 1.5.1
+ * @since 1.0.0
  */
 export interface HttpHandlerOptions {
   /**
@@ -1438,14 +1444,6 @@ interface LambdaService$ {
 
 /**
  * @since 1.0.0
- * @category models
- */
-export class LambdaService extends Effect.Tag(
-  "@effect-aws/client-lambda/LambdaService",
-)<LambdaService, LambdaService$>() {}
-
-/**
- * @since 1.0.0
  * @category constructors
  */
 export const makeLambdaService = Effect.gen(function* (_) {
@@ -1496,7 +1494,51 @@ export const makeLambdaService = Effect.gen(function* (_) {
 
 /**
  * @since 1.0.0
+ * @category models
+ */
+export class LambdaService extends Effect.Tag(
+  "@effect-aws/client-lambda/LambdaService",
+)<LambdaService, LambdaService$>() {
+  static readonly defaultLayer = Layer.effect(this, makeLambdaService).pipe(
+    Layer.provide(LambdaClientInstanceLayer),
+    Layer.provide(DefaultLambdaClientConfigLayer),
+  );
+  static readonly layer = (config: LambdaClientConfig) =>
+    Layer.effect(this, makeLambdaService).pipe(
+      Layer.provide(LambdaClientInstanceLayer),
+      Layer.provide(
+        Layer.effect(
+          LambdaClientInstanceConfig,
+          makeDefaultLambdaClientInstanceConfig.pipe(
+            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
+          ),
+        ),
+      ),
+    );
+  static readonly baseLayer = (
+    evaluate: (defaultConfig: LambdaClientConfig) => LambdaClient,
+  ) =>
+    Layer.effect(this, makeLambdaService).pipe(
+      Layer.provide(
+        Layer.effect(
+          LambdaClientInstance,
+          Effect.map(makeDefaultLambdaClientInstanceConfig, evaluate),
+        ),
+      ),
+    );
+}
+
+/**
+ * @since 1.0.0
+ * @category models
+ * @alias LambdaService
+ */
+export const Lambda = LambdaService;
+
+/**
+ * @since 1.0.0
  * @category layers
+ * @deprecated use Lambda.baseLayer instead
  */
 export const BaseLambdaServiceLayer = Layer.effect(
   LambdaService,
@@ -1506,6 +1548,7 @@ export const BaseLambdaServiceLayer = Layer.effect(
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use Lambda.layer instead
  */
 export const LambdaServiceLayer = BaseLambdaServiceLayer.pipe(
   Layer.provide(LambdaClientInstanceLayer),
@@ -1514,7 +1557,6 @@ export const LambdaServiceLayer = BaseLambdaServiceLayer.pipe(
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use Lambda.defaultLayer instead
  */
-export const DefaultLambdaServiceLayer = LambdaServiceLayer.pipe(
-  Layer.provide(DefaultLambdaClientConfigLayer),
-);
+export const DefaultLambdaServiceLayer = LambdaService.defaultLayer;

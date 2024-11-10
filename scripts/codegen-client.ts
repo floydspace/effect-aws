@@ -6,6 +6,7 @@
  * 3. Run `Run pnpm run eslint --fix` to fix the formatting.
  * 4. Commit the changes and enjoy.
  */
+import { exec } from "node:child_process";
 import { mkdir, readdir, writeFile } from "node:fs/promises";
 
 import {
@@ -21,6 +22,7 @@ import {
 } from "effect";
 import { constVoid, flow, pipe } from "effect/Function";
 import Enquirer from "enquirer";
+import singularities from "./client-singularities.json";
 
 type Shape =
   | { type: "boolean" }
@@ -107,30 +109,38 @@ async function main() {
         Array.map(getNameFromTarget),
       );
 
-      const { commandToTest } = await enquirer.prompt({
-        type: "autocomplete",
-        name: "commandToTest",
-        message: `Which command do you want to test in ${packageName} ?`,
-        multiple: false,
-        choices: operationNames,
-      });
+      const { commandToTest } =
+        (singularities as any)[packageName] ??
+        (await enquirer.prompt({
+          type: "autocomplete",
+          name: "commandToTest",
+          message: `Which command do you want to test in ${packageName} ?`,
+          multiple: false,
+          choices: operationNames,
+        }));
 
-      const { inputToTest } = await enquirer.prompt({
-        type: "input",
-        name: "inputToTest",
-        message: `Which input do you want to test of ${commandToTest} ? (optional)`,
-        validate: Predicate.or(String.isEmpty)(
-          flow(
-            Effect.succeed,
-            Effect.tryMap({
-              try: JSON.parse,
-              catch: constVoid,
-            }),
-            Effect.runSyncExit,
-            Exit.isSuccess,
-          ),
-        ),
-      });
+      const { inputToTest } = (singularities as any)[packageName]?.inputToTest
+        ? {
+            inputToTest: JSON.stringify(
+              (singularities as any)[packageName].inputToTest,
+            ),
+          }
+        : await enquirer.prompt({
+            type: "input",
+            name: "inputToTest",
+            message: `Which input do you want to test of ${commandToTest} ? (optional)`,
+            validate: Predicate.or(String.isEmpty)(
+              flow(
+                Effect.succeed,
+                Effect.tryMap({
+                  try: JSON.parse,
+                  catch: constVoid,
+                }),
+                Effect.runSyncExit,
+                Exit.isSuccess,
+              ),
+            ),
+          });
 
       return [packageName, commandToTest, inputToTest] as const;
     }),
@@ -422,7 +432,7 @@ import {
 } from "./Errors";
 
 /**
- * @since 1.0.1
+ * @since 1.0.0
  */
 export interface HttpHandlerOptions {
   /**
@@ -863,4 +873,6 @@ const result = await pipe(
 or use \`${sdkName}.baseLayer((default) => new ${sdkName}Client({ ...default, region: "eu-central-1" }))\`
 `,
   );
+
+  exec(`pnpm exec nx run @effect-aws/client-${serviceName}:eslint --fix`);
 }

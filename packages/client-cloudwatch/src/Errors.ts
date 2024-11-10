@@ -53,8 +53,7 @@ export type LimitExceededFaultError = TaggedException<LimitExceededFault>;
 export type MissingRequiredParameterError =
   TaggedException<MissingRequiredParameterException>;
 export type ResourceNotFoundError = TaggedException<ResourceNotFound>;
-export type ResourceNotFoundExceptionError =
-  TaggedException<ResourceNotFoundException>;
+export type ResourceNotFoundError = TaggedException<ResourceNotFoundException>;
 
 export type SdkError = TaggedException<Error & { name: "SdkError" }>;
 export const SdkError = Data.tagged<SdkError>("SdkError");

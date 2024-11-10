@@ -4,39 +4,41 @@ import {
   CloudWatchClient,
   CloudWatchServiceException,
 } from "@aws-sdk/client-cloudwatch";
+// @ts-ignore
+import * as runtimeConfig from "@aws-sdk/client-cloudwatch/dist-cjs/runtimeConfig";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
-import * as Layer from "effect/Layer";
-import {
-  BaseCloudWatchServiceLayer,
-  DefaultCloudWatchClientConfigLayer,
-  DefaultCloudWatchServiceLayer,
-  CloudWatchClientInstance,
-  CloudWatchClientInstanceConfig,
-  CloudWatchService,
-  CloudWatchServiceLayer,
-  SdkError,
-} from "../src";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { CloudWatch, SdkError } from "../src";
 
+const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(CloudWatchClient);
 
 describe("CloudWatchClientImpl", () => {
+  afterEach(() => {
+    getRuntimeConfig.mockClear();
+  });
+
   it("default", async () => {
     clientMock.reset().on(DescribeAlarmsCommand).resolves({});
 
     const args = {} as unknown as DescribeAlarmsCommandInput;
 
-    const program = CloudWatchService.describeAlarms(args);
+    const program = CloudWatch.describeAlarms(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultCloudWatchServiceLayer),
+      Effect.provide(CloudWatch.defaultLayer),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(DescribeAlarmsCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(DescribeAlarmsCommand, args);
   });
@@ -46,25 +48,20 @@ describe("CloudWatchClientImpl", () => {
 
     const args = {} as unknown as DescribeAlarmsCommandInput;
 
-    const program = CloudWatchService.describeAlarms(args);
-
-    const CloudWatchClientConfigLayer = Layer.succeed(
-      CloudWatchClientInstanceConfig,
-      {
-        region: "eu-central-1",
-      },
-    );
-    const CustomCloudWatchServiceLayer = CloudWatchServiceLayer.pipe(
-      Layer.provide(CloudWatchClientConfigLayer),
-    );
+    const program = CloudWatch.describeAlarms(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomCloudWatchServiceLayer),
+      Effect.provide(CloudWatch.layer({ region: "eu-central-1" })),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(DescribeAlarmsCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(DescribeAlarmsCommand, args);
   });
@@ -74,23 +71,23 @@ describe("CloudWatchClientImpl", () => {
 
     const args = {} as unknown as DescribeAlarmsCommandInput;
 
-    const program = CloudWatchService.describeAlarms(args);
-
-    const CloudWatchClientInstanceLayer = Layer.succeed(
-      CloudWatchClientInstance,
-      new CloudWatchClient({ region: "eu-central-1" }),
-    );
-    const CustomCloudWatchServiceLayer = BaseCloudWatchServiceLayer.pipe(
-      Layer.provide(CloudWatchClientInstanceLayer),
-    );
+    const program = CloudWatch.describeAlarms(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomCloudWatchServiceLayer),
+      Effect.provide(
+        CloudWatch.baseLayer(
+          () => new CloudWatchClient({ region: "eu-central-1" }),
+        ),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+    });
     expect(clientMock).toHaveReceivedCommandTimes(DescribeAlarmsCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(DescribeAlarmsCommand, args);
   });
@@ -100,27 +97,25 @@ describe("CloudWatchClientImpl", () => {
 
     const args = {} as unknown as DescribeAlarmsCommandInput;
 
-    const program = CloudWatchService.describeAlarms(args);
-
-    const CloudWatchClientInstanceLayer = Layer.effect(
-      CloudWatchClientInstance,
-      Effect.map(
-        CloudWatchClientInstanceConfig,
-        (config) => new CloudWatchClient({ ...config, region: "eu-central-1" }),
-      ),
-    );
-    const CustomCloudWatchServiceLayer = BaseCloudWatchServiceLayer.pipe(
-      Layer.provide(CloudWatchClientInstanceLayer),
-      Layer.provide(DefaultCloudWatchClientConfigLayer),
-    );
+    const program = CloudWatch.describeAlarms(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomCloudWatchServiceLayer),
+      Effect.provide(
+        CloudWatch.baseLayer(
+          (config) =>
+            new CloudWatchClient({ ...config, region: "eu-central-1" }),
+        ),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(DescribeAlarmsCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(DescribeAlarmsCommand, args);
   });
@@ -130,11 +125,11 @@ describe("CloudWatchClientImpl", () => {
 
     const args = {} as unknown as DescribeAlarmsCommandInput;
 
-    const program = CloudWatchService.describeAlarms(args);
+    const program = CloudWatch.describeAlarms(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultCloudWatchServiceLayer),
+      Effect.provide(CloudWatch.defaultLayer),
       Effect.runPromiseExit,
     );
 
@@ -165,13 +160,13 @@ describe("CloudWatchClientImpl", () => {
 
     const args = {} as unknown as DescribeAlarmsCommandInput;
 
-    const program = CloudWatchService.describeAlarms(args).pipe(
+    const program = CloudWatch.describeAlarms(args).pipe(
       Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultCloudWatchServiceLayer),
+      Effect.provide(CloudWatch.defaultLayer),
       Effect.runPromiseExit,
     );
 

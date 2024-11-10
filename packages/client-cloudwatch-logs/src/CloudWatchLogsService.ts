@@ -3,6 +3,8 @@
  */
 import {
   CloudWatchLogsServiceException,
+  type CloudWatchLogsClient,
+  type CloudWatchLogsClientConfig,
   AssociateKmsKeyCommand,
   type AssociateKmsKeyCommandInput,
   type AssociateKmsKeyCommandOutput,
@@ -237,7 +239,11 @@ import {
   CloudWatchLogsClientInstance,
   CloudWatchLogsClientInstanceLayer,
 } from "./CloudWatchLogsClientInstance";
-import { DefaultCloudWatchLogsClientConfigLayer } from "./CloudWatchLogsClientInstanceConfig";
+import {
+  DefaultCloudWatchLogsClientConfigLayer,
+  makeDefaultCloudWatchLogsClientInstanceConfig,
+  CloudWatchLogsClientInstanceConfig,
+} from "./CloudWatchLogsClientInstanceConfig";
 import {
   AllServiceErrors,
   AccessDeniedError,
@@ -262,7 +268,7 @@ import {
 } from "./Errors";
 
 /**
- * @since 1.0.1
+ * @since 1.0.0
  */
 export interface HttpHandlerOptions {
   /**
@@ -1471,14 +1477,6 @@ interface CloudWatchLogsService$ {
 
 /**
  * @since 1.0.0
- * @category models
- */
-export class CloudWatchLogsService extends Effect.Tag(
-  "@effect-aws/client-cloudwatch-logs/CloudWatchLogsService",
-)<CloudWatchLogsService, CloudWatchLogsService$>() {}
-
-/**
- * @since 1.0.0
  * @category constructors
  */
 export const makeCloudWatchLogsService = Effect.gen(function* (_) {
@@ -1529,7 +1527,56 @@ export const makeCloudWatchLogsService = Effect.gen(function* (_) {
 
 /**
  * @since 1.0.0
+ * @category models
+ */
+export class CloudWatchLogsService extends Effect.Tag(
+  "@effect-aws/client-cloudwatch-logs/CloudWatchLogsService",
+)<CloudWatchLogsService, CloudWatchLogsService$>() {
+  static readonly defaultLayer = Layer.effect(
+    this,
+    makeCloudWatchLogsService,
+  ).pipe(
+    Layer.provide(CloudWatchLogsClientInstanceLayer),
+    Layer.provide(DefaultCloudWatchLogsClientConfigLayer),
+  );
+  static readonly layer = (config: CloudWatchLogsClientConfig) =>
+    Layer.effect(this, makeCloudWatchLogsService).pipe(
+      Layer.provide(CloudWatchLogsClientInstanceLayer),
+      Layer.provide(
+        Layer.effect(
+          CloudWatchLogsClientInstanceConfig,
+          makeDefaultCloudWatchLogsClientInstanceConfig.pipe(
+            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
+          ),
+        ),
+      ),
+    );
+  static readonly baseLayer = (
+    evaluate: (
+      defaultConfig: CloudWatchLogsClientConfig,
+    ) => CloudWatchLogsClient,
+  ) =>
+    Layer.effect(this, makeCloudWatchLogsService).pipe(
+      Layer.provide(
+        Layer.effect(
+          CloudWatchLogsClientInstance,
+          Effect.map(makeDefaultCloudWatchLogsClientInstanceConfig, evaluate),
+        ),
+      ),
+    );
+}
+
+/**
+ * @since 1.0.0
+ * @category models
+ * @alias CloudWatchLogsService
+ */
+export const CloudWatchLogs = CloudWatchLogsService;
+
+/**
+ * @since 1.0.0
  * @category layers
+ * @deprecated use CloudWatchLogs.baseLayer instead
  */
 export const BaseCloudWatchLogsServiceLayer = Layer.effect(
   CloudWatchLogsService,
@@ -1539,6 +1586,7 @@ export const BaseCloudWatchLogsServiceLayer = Layer.effect(
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use CloudWatchLogs.layer instead
  */
 export const CloudWatchLogsServiceLayer = BaseCloudWatchLogsServiceLayer.pipe(
   Layer.provide(CloudWatchLogsClientInstanceLayer),
@@ -1547,8 +1595,7 @@ export const CloudWatchLogsServiceLayer = BaseCloudWatchLogsServiceLayer.pipe(
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use CloudWatchLogs.defaultLayer instead
  */
 export const DefaultCloudWatchLogsServiceLayer =
-  CloudWatchLogsServiceLayer.pipe(
-    Layer.provide(DefaultCloudWatchLogsClientConfigLayer),
-  );
+  CloudWatchLogsService.defaultLayer;

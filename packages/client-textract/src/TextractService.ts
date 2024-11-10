@@ -3,6 +3,8 @@
  */
 import {
   TextractServiceException,
+  type TextractClient,
+  type TextractClientConfig,
   AnalyzeDocumentCommand,
   type AnalyzeDocumentCommandInput,
   type AnalyzeDocumentCommandOutput,
@@ -107,10 +109,14 @@ import {
   TextractClientInstance,
   TextractClientInstanceLayer,
 } from "./TextractClientInstance";
-import { DefaultTextractClientConfigLayer } from "./TextractClientInstanceConfig";
+import {
+  DefaultTextractClientConfigLayer,
+  makeDefaultTextractClientInstanceConfig,
+  TextractClientInstanceConfig,
+} from "./TextractClientInstanceConfig";
 
 /**
- * @since 1.0.1
+ * @since 1.0.0
  */
 export interface HttpHandlerOptions {
   /**
@@ -650,14 +656,6 @@ interface TextractService$ {
 
 /**
  * @since 1.0.0
- * @category models
- */
-export class TextractService extends Effect.Tag(
-  "@effect-aws/client-textract/TextractService",
-)<TextractService, TextractService$>() {}
-
-/**
- * @since 1.0.0
  * @category constructors
  */
 export const makeTextractService = Effect.gen(function* (_) {
@@ -708,7 +706,51 @@ export const makeTextractService = Effect.gen(function* (_) {
 
 /**
  * @since 1.0.0
+ * @category models
+ */
+export class TextractService extends Effect.Tag(
+  "@effect-aws/client-textract/TextractService",
+)<TextractService, TextractService$>() {
+  static readonly defaultLayer = Layer.effect(this, makeTextractService).pipe(
+    Layer.provide(TextractClientInstanceLayer),
+    Layer.provide(DefaultTextractClientConfigLayer),
+  );
+  static readonly layer = (config: TextractClientConfig) =>
+    Layer.effect(this, makeTextractService).pipe(
+      Layer.provide(TextractClientInstanceLayer),
+      Layer.provide(
+        Layer.effect(
+          TextractClientInstanceConfig,
+          makeDefaultTextractClientInstanceConfig.pipe(
+            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
+          ),
+        ),
+      ),
+    );
+  static readonly baseLayer = (
+    evaluate: (defaultConfig: TextractClientConfig) => TextractClient,
+  ) =>
+    Layer.effect(this, makeTextractService).pipe(
+      Layer.provide(
+        Layer.effect(
+          TextractClientInstance,
+          Effect.map(makeDefaultTextractClientInstanceConfig, evaluate),
+        ),
+      ),
+    );
+}
+
+/**
+ * @since 1.0.0
+ * @category models
+ * @alias TextractService
+ */
+export const Textract = TextractService;
+
+/**
+ * @since 1.0.0
  * @category layers
+ * @deprecated use Textract.baseLayer instead
  */
 export const BaseTextractServiceLayer = Layer.effect(
   TextractService,
@@ -718,6 +760,7 @@ export const BaseTextractServiceLayer = Layer.effect(
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use Textract.layer instead
  */
 export const TextractServiceLayer = BaseTextractServiceLayer.pipe(
   Layer.provide(TextractClientInstanceLayer),
@@ -726,7 +769,6 @@ export const TextractServiceLayer = BaseTextractServiceLayer.pipe(
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use Textract.defaultLayer instead
  */
-export const DefaultTextractServiceLayer = TextractServiceLayer.pipe(
-  Layer.provide(DefaultTextractClientConfigLayer),
-);
+export const DefaultTextractServiceLayer = TextractService.defaultLayer;

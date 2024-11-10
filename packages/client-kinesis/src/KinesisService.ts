@@ -3,6 +3,8 @@
  */
 import {
   KinesisServiceException,
+  type KinesisClient,
+  type KinesisClientConfig,
   AddTagsToStreamCommand,
   type AddTagsToStreamCommandInput,
   type AddTagsToStreamCommandOutput,
@@ -125,10 +127,14 @@ import {
   KinesisClientInstance,
   KinesisClientInstanceLayer,
 } from "./KinesisClientInstance";
-import { DefaultKinesisClientConfigLayer } from "./KinesisClientInstanceConfig";
+import {
+  DefaultKinesisClientConfigLayer,
+  makeDefaultKinesisClientInstanceConfig,
+  KinesisClientInstanceConfig,
+} from "./KinesisClientInstanceConfig";
 
 /**
- * @since 1.0.1
+ * @since 1.0.0
  */
 export interface HttpHandlerOptions {
   /**
@@ -683,14 +689,6 @@ interface KinesisService$ {
 
 /**
  * @since 1.0.0
- * @category models
- */
-export class KinesisService extends Effect.Tag(
-  "@effect-aws/client-kinesis/KinesisService",
-)<KinesisService, KinesisService$>() {}
-
-/**
- * @since 1.0.0
  * @category constructors
  */
 export const makeKinesisService = Effect.gen(function* (_) {
@@ -741,7 +739,51 @@ export const makeKinesisService = Effect.gen(function* (_) {
 
 /**
  * @since 1.0.0
+ * @category models
+ */
+export class KinesisService extends Effect.Tag(
+  "@effect-aws/client-kinesis/KinesisService",
+)<KinesisService, KinesisService$>() {
+  static readonly defaultLayer = Layer.effect(this, makeKinesisService).pipe(
+    Layer.provide(KinesisClientInstanceLayer),
+    Layer.provide(DefaultKinesisClientConfigLayer),
+  );
+  static readonly layer = (config: KinesisClientConfig) =>
+    Layer.effect(this, makeKinesisService).pipe(
+      Layer.provide(KinesisClientInstanceLayer),
+      Layer.provide(
+        Layer.effect(
+          KinesisClientInstanceConfig,
+          makeDefaultKinesisClientInstanceConfig.pipe(
+            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
+          ),
+        ),
+      ),
+    );
+  static readonly baseLayer = (
+    evaluate: (defaultConfig: KinesisClientConfig) => KinesisClient,
+  ) =>
+    Layer.effect(this, makeKinesisService).pipe(
+      Layer.provide(
+        Layer.effect(
+          KinesisClientInstance,
+          Effect.map(makeDefaultKinesisClientInstanceConfig, evaluate),
+        ),
+      ),
+    );
+}
+
+/**
+ * @since 1.0.0
+ * @category models
+ * @alias KinesisService
+ */
+export const Kinesis = KinesisService;
+
+/**
+ * @since 1.0.0
  * @category layers
+ * @deprecated use Kinesis.baseLayer instead
  */
 export const BaseKinesisServiceLayer = Layer.effect(
   KinesisService,
@@ -751,6 +793,7 @@ export const BaseKinesisServiceLayer = Layer.effect(
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use Kinesis.layer instead
  */
 export const KinesisServiceLayer = BaseKinesisServiceLayer.pipe(
   Layer.provide(KinesisClientInstanceLayer),
@@ -759,7 +802,6 @@ export const KinesisServiceLayer = BaseKinesisServiceLayer.pipe(
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use Kinesis.defaultLayer instead
  */
-export const DefaultKinesisServiceLayer = KinesisServiceLayer.pipe(
-  Layer.provide(DefaultKinesisClientConfigLayer),
-);
+export const DefaultKinesisServiceLayer = KinesisService.defaultLayer;

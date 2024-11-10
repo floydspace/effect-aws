@@ -3,6 +3,8 @@
  */
 import {
   CodeDeployServiceException,
+  type CodeDeployClient,
+  type CodeDeployClientConfig,
   AddTagsToOnPremisesInstancesCommand,
   type AddTagsToOnPremisesInstancesCommandInput,
   type AddTagsToOnPremisesInstancesCommandOutput,
@@ -150,7 +152,11 @@ import {
   CodeDeployClientInstance,
   CodeDeployClientInstanceLayer,
 } from "./CodeDeployClientInstance";
-import { DefaultCodeDeployClientConfigLayer } from "./CodeDeployClientInstanceConfig";
+import {
+  DefaultCodeDeployClientConfigLayer,
+  makeDefaultCodeDeployClientInstanceConfig,
+  CodeDeployClientInstanceConfig,
+} from "./CodeDeployClientInstanceConfig";
 import {
   AllServiceErrors,
   AlarmsLimitExceededError,
@@ -268,7 +274,7 @@ import {
 } from "./Errors";
 
 /**
- * @since 1.2.1
+ * @since 1.0.0
  */
 export interface HttpHandlerOptions {
   /**
@@ -1176,14 +1182,6 @@ interface CodeDeployService$ {
 
 /**
  * @since 1.0.0
- * @category models
- */
-export class CodeDeployService extends Effect.Tag(
-  "@effect-aws/client-codedeploy/CodeDeployService",
-)<CodeDeployService, CodeDeployService$>() {}
-
-/**
- * @since 1.0.0
  * @category constructors
  */
 export const makeCodeDeployService = Effect.gen(function* (_) {
@@ -1234,7 +1232,51 @@ export const makeCodeDeployService = Effect.gen(function* (_) {
 
 /**
  * @since 1.0.0
+ * @category models
+ */
+export class CodeDeployService extends Effect.Tag(
+  "@effect-aws/client-codedeploy/CodeDeployService",
+)<CodeDeployService, CodeDeployService$>() {
+  static readonly defaultLayer = Layer.effect(this, makeCodeDeployService).pipe(
+    Layer.provide(CodeDeployClientInstanceLayer),
+    Layer.provide(DefaultCodeDeployClientConfigLayer),
+  );
+  static readonly layer = (config: CodeDeployClientConfig) =>
+    Layer.effect(this, makeCodeDeployService).pipe(
+      Layer.provide(CodeDeployClientInstanceLayer),
+      Layer.provide(
+        Layer.effect(
+          CodeDeployClientInstanceConfig,
+          makeDefaultCodeDeployClientInstanceConfig.pipe(
+            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
+          ),
+        ),
+      ),
+    );
+  static readonly baseLayer = (
+    evaluate: (defaultConfig: CodeDeployClientConfig) => CodeDeployClient,
+  ) =>
+    Layer.effect(this, makeCodeDeployService).pipe(
+      Layer.provide(
+        Layer.effect(
+          CodeDeployClientInstance,
+          Effect.map(makeDefaultCodeDeployClientInstanceConfig, evaluate),
+        ),
+      ),
+    );
+}
+
+/**
+ * @since 1.0.0
+ * @category models
+ * @alias CodeDeployService
+ */
+export const CodeDeploy = CodeDeployService;
+
+/**
+ * @since 1.0.0
  * @category layers
+ * @deprecated use CodeDeploy.baseLayer instead
  */
 export const BaseCodeDeployServiceLayer = Layer.effect(
   CodeDeployService,
@@ -1244,6 +1286,7 @@ export const BaseCodeDeployServiceLayer = Layer.effect(
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use CodeDeploy.layer instead
  */
 export const CodeDeployServiceLayer = BaseCodeDeployServiceLayer.pipe(
   Layer.provide(CodeDeployClientInstanceLayer),
@@ -1252,7 +1295,6 @@ export const CodeDeployServiceLayer = BaseCodeDeployServiceLayer.pipe(
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use CodeDeploy.defaultLayer instead
  */
-export const DefaultCodeDeployServiceLayer = CodeDeployServiceLayer.pipe(
-  Layer.provide(DefaultCodeDeployClientConfigLayer),
-);
+export const DefaultCodeDeployServiceLayer = CodeDeployService.defaultLayer;

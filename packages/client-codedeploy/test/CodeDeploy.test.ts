@@ -4,39 +4,41 @@ import {
   CodeDeployClient,
   CodeDeployServiceException,
 } from "@aws-sdk/client-codedeploy";
+// @ts-ignore
+import * as runtimeConfig from "@aws-sdk/client-codedeploy/dist-cjs/runtimeConfig";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
-import * as Layer from "effect/Layer";
-import {
-  BaseCodeDeployServiceLayer,
-  DefaultCodeDeployClientConfigLayer,
-  DefaultCodeDeployServiceLayer,
-  CodeDeployClientInstance,
-  CodeDeployClientInstanceConfig,
-  CodeDeployService,
-  CodeDeployServiceLayer,
-  SdkError,
-} from "../src";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { CodeDeploy, SdkError } from "../src";
 
+const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(CodeDeployClient);
 
 describe("CodeDeployClientImpl", () => {
+  afterEach(() => {
+    getRuntimeConfig.mockClear();
+  });
+
   it("default", async () => {
     clientMock.reset().on(ListApplicationsCommand).resolves({});
 
     const args = {} as unknown as ListApplicationsCommandInput;
 
-    const program = CodeDeployService.listApplications(args);
+    const program = CodeDeploy.listApplications(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultCodeDeployServiceLayer),
+      Effect.provide(CodeDeploy.defaultLayer),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(ListApplicationsCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(ListApplicationsCommand, args);
   });
@@ -46,25 +48,20 @@ describe("CodeDeployClientImpl", () => {
 
     const args = {} as unknown as ListApplicationsCommandInput;
 
-    const program = CodeDeployService.listApplications(args);
-
-    const CodeDeployClientConfigLayer = Layer.succeed(
-      CodeDeployClientInstanceConfig,
-      {
-        region: "eu-central-1",
-      },
-    );
-    const CustomCodeDeployServiceLayer = CodeDeployServiceLayer.pipe(
-      Layer.provide(CodeDeployClientConfigLayer),
-    );
+    const program = CodeDeploy.listApplications(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomCodeDeployServiceLayer),
+      Effect.provide(CodeDeploy.layer({ region: "eu-central-1" })),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(ListApplicationsCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(ListApplicationsCommand, args);
   });
@@ -74,23 +71,23 @@ describe("CodeDeployClientImpl", () => {
 
     const args = {} as unknown as ListApplicationsCommandInput;
 
-    const program = CodeDeployService.listApplications(args);
-
-    const CodeDeployClientInstanceLayer = Layer.succeed(
-      CodeDeployClientInstance,
-      new CodeDeployClient({ region: "eu-central-1" }),
-    );
-    const CustomCodeDeployServiceLayer = BaseCodeDeployServiceLayer.pipe(
-      Layer.provide(CodeDeployClientInstanceLayer),
-    );
+    const program = CodeDeploy.listApplications(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomCodeDeployServiceLayer),
+      Effect.provide(
+        CodeDeploy.baseLayer(
+          () => new CodeDeployClient({ region: "eu-central-1" }),
+        ),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+    });
     expect(clientMock).toHaveReceivedCommandTimes(ListApplicationsCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(ListApplicationsCommand, args);
   });
@@ -100,27 +97,25 @@ describe("CodeDeployClientImpl", () => {
 
     const args = {} as unknown as ListApplicationsCommandInput;
 
-    const program = CodeDeployService.listApplications(args);
-
-    const CodeDeployClientInstanceLayer = Layer.effect(
-      CodeDeployClientInstance,
-      Effect.map(
-        CodeDeployClientInstanceConfig,
-        (config) => new CodeDeployClient({ ...config, region: "eu-central-1" }),
-      ),
-    );
-    const CustomCodeDeployServiceLayer = BaseCodeDeployServiceLayer.pipe(
-      Layer.provide(CodeDeployClientInstanceLayer),
-      Layer.provide(DefaultCodeDeployClientConfigLayer),
-    );
+    const program = CodeDeploy.listApplications(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomCodeDeployServiceLayer),
+      Effect.provide(
+        CodeDeploy.baseLayer(
+          (config) =>
+            new CodeDeployClient({ ...config, region: "eu-central-1" }),
+        ),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(ListApplicationsCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(ListApplicationsCommand, args);
   });
@@ -130,11 +125,11 @@ describe("CodeDeployClientImpl", () => {
 
     const args = {} as unknown as ListApplicationsCommandInput;
 
-    const program = CodeDeployService.listApplications(args);
+    const program = CodeDeploy.listApplications(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultCodeDeployServiceLayer),
+      Effect.provide(CodeDeploy.defaultLayer),
       Effect.runPromiseExit,
     );
 
@@ -165,13 +160,13 @@ describe("CodeDeployClientImpl", () => {
 
     const args = {} as unknown as ListApplicationsCommandInput;
 
-    const program = CodeDeployService.listApplications(args).pipe(
+    const program = CodeDeploy.listApplications(args).pipe(
       Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultCodeDeployServiceLayer),
+      Effect.provide(CodeDeploy.defaultLayer),
       Effect.runPromiseExit,
     );
 

@@ -14,13 +14,13 @@ npm install --save @effect-aws/client-cloudwatch-logs
 With default CloudWatchLogsClient instance:
 
 ```typescript
-import { CloudWatchLogsService, DefaultCloudWatchLogsServiceLayer } from "@effect-aws/client-cloudwatch-logs";
+import { CloudWatchLogs } from "@effect-aws/client-cloudwatch-logs";
 
-const program = CloudWatchLogsService.describeLogGroups(args);
+const program = CloudWatchLogs.describeLogGroups(args);
 
 const result = pipe(
   program,
-  Effect.provide(DefaultCloudWatchLogsServiceLayer),
+  Effect.provide(CloudWatchLogs.defaultLayer),
   Effect.runPromise,
 );
 ```
@@ -28,23 +28,15 @@ const result = pipe(
 With custom CloudWatchLogsClient instance:
 
 ```typescript
-import {
-  CloudWatchLogsService,
-  BaseCloudWatchLogsServiceLayer,
-  CloudWatchLogsClientInstance,
-} from "@effect-aws/client-cloudwatch-logs";
+import { CloudWatchLogs } from "@effect-aws/client-cloudwatch-logs";
 
-const program = CloudWatchLogsService.describeLogGroups(args);
-
-const CloudWatchLogsClientInstanceLayer = Layer.succeed(
-  CloudWatchLogsClientInstance,
-  new CloudWatchLogsClient({ region: "eu-central-1" }),
-);
+const program = CloudWatchLogs.describeLogGroups(args);
 
 const result = await pipe(
   program,
-  Effect.provide(BaseCloudWatchLogsServiceLayer),
-  Effect.provide(CloudWatchLogsClientInstanceLayer),
+  Effect.provide(
+    CloudWatchLogs.baseLayer(() => new CloudWatchLogsClient({ region: "eu-central-1" })),
+  ),
   Effect.runPromise,
 );
 ```
@@ -52,34 +44,15 @@ const result = await pipe(
 With custom CloudWatchLogsClient configuration:
 
 ```typescript
-import {
-  CloudWatchLogsService,
-  BaseCloudWatchLogsServiceLayer,
-  DefaultCloudWatchLogsClientConfigLayer,
-  CloudWatchLogsClientInstance,
-  CloudWatchLogsClientInstanceConfig,
-} from "@effect-aws/client-cloudwatch-logs";
+import { CloudWatchLogs } from "@effect-aws/client-cloudwatch-logs";
 
-const program = CloudWatchLogsService.describeLogGroups(args);
-
-const CloudWatchLogsClientInstanceLayer = Layer.provide(
-  Layer.effect(
-    CloudWatchLogsClientInstance,
-    CloudWatchLogsClientInstanceConfig.pipe(
-      Effect.map(
-        (config) => new CloudWatchLogsClient({ ...config, region: "eu-central-1" }),
-      ),
-    ),
-  ),
-  DefaultCloudWatchLogsClientConfigLayer,
-);
+const program = CloudWatchLogs.describeLogGroups(args);
 
 const result = await pipe(
   program,
-  Effect.provide(BaseCloudWatchLogsServiceLayer),
-  Effect.provide(CloudWatchLogsClientInstanceLayer),
+  Effect.provide(CloudWatchLogs.layer({ region: "eu-central-1" })),
   Effect.runPromiseExit,
 );
 ```
 
-or map over `DefaultCloudWatchLogsClientConfigLayer` layer context and update the configuration...
+or use `CloudWatchLogs.baseLayer((default) => new CloudWatchLogsClient({ ...default, region: "eu-central-1" }))`

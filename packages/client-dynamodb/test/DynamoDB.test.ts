@@ -4,25 +4,23 @@ import {
   DynamoDBClient,
   DynamoDBServiceException,
 } from "@aws-sdk/client-dynamodb";
+// @ts-ignore
+import * as runtimeConfig from "@aws-sdk/client-dynamodb/dist-cjs/runtimeConfig";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
-import * as Layer from "effect/Layer";
-import {
-  BaseDynamoDBServiceLayer,
-  DefaultDynamoDBClientConfigLayer,
-  DefaultDynamoDBServiceLayer,
-  DynamoDBClientInstance,
-  DynamoDBClientInstanceConfig,
-  DynamoDBService,
-  DynamoDBServiceLayer,
-  SdkError,
-} from "../src";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { DynamoDB, SdkError } from "../src";
 
+const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(DynamoDBClient);
 
 describe("DynamoDBClientImpl", () => {
+  afterEach(() => {
+    getRuntimeConfig.mockClear();
+  });
+
   it("default", async () => {
     clientMock.reset().on(PutItemCommand).resolves({});
 
@@ -31,15 +29,19 @@ describe("DynamoDBClientImpl", () => {
       Item: { testAttr: { S: "test" } },
     };
 
-    const program = DynamoDBService.putItem(args);
+    const program = DynamoDB.putItem(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultDynamoDBServiceLayer),
+      Effect.provide(DynamoDB.defaultLayer),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(PutItemCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(PutItemCommand, args);
   });
@@ -52,23 +54,20 @@ describe("DynamoDBClientImpl", () => {
       Item: { testAttr: { S: "test" } },
     };
 
-    const program = DynamoDBService.putItem(args);
-
-    const DynamoDBClientConfigLayer = Layer.succeed(
-      DynamoDBClientInstanceConfig,
-      { region: "eu-central-1" },
-    );
-    const CustomDynamoDBServiceLayer = DynamoDBServiceLayer.pipe(
-      Layer.provide(DynamoDBClientConfigLayer),
-    );
+    const program = DynamoDB.putItem(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomDynamoDBServiceLayer),
+      Effect.provide(DynamoDB.layer({ region: "eu-central-1" })),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(PutItemCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(PutItemCommand, args);
   });
@@ -81,23 +80,23 @@ describe("DynamoDBClientImpl", () => {
       Item: { testAttr: { S: "test" } },
     };
 
-    const program = DynamoDBService.putItem(args);
-
-    const DynamoDBClientInstanceLayer = Layer.succeed(
-      DynamoDBClientInstance,
-      new DynamoDBClient({ region: "eu-central-1" }),
-    );
-    const CustomDynamoDBServiceLayer = BaseDynamoDBServiceLayer.pipe(
-      Layer.provide(DynamoDBClientInstanceLayer),
-    );
+    const program = DynamoDB.putItem(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomDynamoDBServiceLayer),
+      Effect.provide(
+        DynamoDB.baseLayer(
+          () => new DynamoDBClient({ region: "eu-central-1" }),
+        ),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+    });
     expect(clientMock).toHaveReceivedCommandTimes(PutItemCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(PutItemCommand, args);
   });
@@ -110,27 +109,24 @@ describe("DynamoDBClientImpl", () => {
       Item: { testAttr: { S: "test" } },
     };
 
-    const program = DynamoDBService.putItem(args);
-
-    const DynamoDBClientInstanceLayer = Layer.effect(
-      DynamoDBClientInstance,
-      Effect.map(
-        DynamoDBClientInstanceConfig,
-        (config) => new DynamoDBClient({ ...config, region: "eu-central-1" }),
-      ),
-    );
-    const CustomDynamoDBServiceLayer = BaseDynamoDBServiceLayer.pipe(
-      Layer.provide(DynamoDBClientInstanceLayer),
-      Layer.provide(DefaultDynamoDBClientConfigLayer),
-    );
+    const program = DynamoDB.putItem(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomDynamoDBServiceLayer),
+      Effect.provide(
+        DynamoDB.baseLayer(
+          (config) => new DynamoDBClient({ ...config, region: "eu-central-1" }),
+        ),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(PutItemCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(PutItemCommand, args);
   });
@@ -143,11 +139,11 @@ describe("DynamoDBClientImpl", () => {
       Item: { testAttr: { S: "test" } },
     };
 
-    const program = DynamoDBService.putItem(args, { requestTimeout: 1000 });
+    const program = DynamoDB.putItem(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultDynamoDBServiceLayer),
+      Effect.provide(DynamoDB.defaultLayer),
       Effect.runPromiseExit,
     );
 
@@ -181,13 +177,13 @@ describe("DynamoDBClientImpl", () => {
       Item: { testAttr: { S: "test" } },
     };
 
-    const program = DynamoDBService.putItem(args).pipe(
+    const program = DynamoDB.putItem(args).pipe(
       Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultDynamoDBServiceLayer),
+      Effect.provide(DynamoDB.defaultLayer),
       Effect.runPromiseExit,
     );
 

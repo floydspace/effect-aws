@@ -3,6 +3,8 @@
  */
 import {
   BedrockServiceException,
+  type BedrockClient,
+  type BedrockClientConfig,
   BatchDeleteEvaluationJobCommand,
   type BatchDeleteEvaluationJobCommandInput,
   type BatchDeleteEvaluationJobCommandOutput,
@@ -153,7 +155,11 @@ import {
   BedrockClientInstance,
   BedrockClientInstanceLayer,
 } from "./BedrockClientInstance";
-import { DefaultBedrockClientConfigLayer } from "./BedrockClientInstanceConfig";
+import {
+  DefaultBedrockClientConfigLayer,
+  makeDefaultBedrockClientInstanceConfig,
+  BedrockClientInstanceConfig,
+} from "./BedrockClientInstanceConfig";
 import {
   AllServiceErrors,
   AccessDeniedError,
@@ -169,7 +175,7 @@ import {
 } from "./Errors";
 
 /**
- * @since 1.0.1
+ * @since 1.0.0
  */
 export interface HttpHandlerOptions {
   /**
@@ -1015,14 +1021,6 @@ interface BedrockService$ {
 
 /**
  * @since 1.0.0
- * @category models
- */
-export class BedrockService extends Effect.Tag(
-  "@effect-aws/client-bedrock/BedrockService",
-)<BedrockService, BedrockService$>() {}
-
-/**
- * @since 1.0.0
  * @category constructors
  */
 export const makeBedrockService = Effect.gen(function* (_) {
@@ -1073,7 +1071,51 @@ export const makeBedrockService = Effect.gen(function* (_) {
 
 /**
  * @since 1.0.0
+ * @category models
+ */
+export class BedrockService extends Effect.Tag(
+  "@effect-aws/client-bedrock/BedrockService",
+)<BedrockService, BedrockService$>() {
+  static readonly defaultLayer = Layer.effect(this, makeBedrockService).pipe(
+    Layer.provide(BedrockClientInstanceLayer),
+    Layer.provide(DefaultBedrockClientConfigLayer),
+  );
+  static readonly layer = (config: BedrockClientConfig) =>
+    Layer.effect(this, makeBedrockService).pipe(
+      Layer.provide(BedrockClientInstanceLayer),
+      Layer.provide(
+        Layer.effect(
+          BedrockClientInstanceConfig,
+          makeDefaultBedrockClientInstanceConfig.pipe(
+            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
+          ),
+        ),
+      ),
+    );
+  static readonly baseLayer = (
+    evaluate: (defaultConfig: BedrockClientConfig) => BedrockClient,
+  ) =>
+    Layer.effect(this, makeBedrockService).pipe(
+      Layer.provide(
+        Layer.effect(
+          BedrockClientInstance,
+          Effect.map(makeDefaultBedrockClientInstanceConfig, evaluate),
+        ),
+      ),
+    );
+}
+
+/**
+ * @since 1.0.0
+ * @category models
+ * @alias BedrockService
+ */
+export const Bedrock = BedrockService;
+
+/**
+ * @since 1.0.0
  * @category layers
+ * @deprecated use Bedrock.baseLayer instead
  */
 export const BaseBedrockServiceLayer = Layer.effect(
   BedrockService,
@@ -1083,6 +1125,7 @@ export const BaseBedrockServiceLayer = Layer.effect(
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use Bedrock.layer instead
  */
 export const BedrockServiceLayer = BaseBedrockServiceLayer.pipe(
   Layer.provide(BedrockClientInstanceLayer),
@@ -1091,7 +1134,6 @@ export const BedrockServiceLayer = BaseBedrockServiceLayer.pipe(
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use Bedrock.defaultLayer instead
  */
-export const DefaultBedrockServiceLayer = BedrockServiceLayer.pipe(
-  Layer.provide(DefaultBedrockClientConfigLayer),
-);
+export const DefaultBedrockServiceLayer = BedrockService.defaultLayer;
