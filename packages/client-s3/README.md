@@ -16,7 +16,7 @@ With default S3Client instance:
 ```typescript
 import { S3 } from "@effect-aws/client-s3";
 
-const program = S3.headObject(args);
+const program = Effect.flatMap(S3, (s3) => s3.headObject(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom S3Client instance:
 ```typescript
 import { S3 } from "@effect-aws/client-s3";
 
-const program = S3.headObject(args);
+const program = Effect.flatMap(S3, (s3) => s3.headObject(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom S3Client configuration:
 ```typescript
 import { S3 } from "@effect-aws/client-s3";
 
-const program = S3.headObject(args);
+const program = Effect.flatMap(S3, (s3) => s3.headObject(args));
 
 const result = await pipe(
   program,

@@ -139,7 +139,7 @@ describe("DynamoDBClientImpl", () => {
       Item: { testAttr: { S: "test" } },
     };
 
-    const program = DynamoDB.putItem(args);
+    const program = DynamoDB.putItem(args, { requestTimeout: 1000 });
 
     const result = await pipe(
       program,

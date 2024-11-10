@@ -1,6 +1,6 @@
 import {
-  type DescribeDBInstancesCommandInput,
-  DescribeDBInstancesCommand,
+  type DescribeDBClustersCommandInput,
+  DescribeDBClustersCommand,
   RDSClient,
   RDSServiceException,
 } from "@aws-sdk/client-rds";
@@ -22,11 +22,11 @@ describe("RDSClientImpl", () => {
   });
 
   it("default", async () => {
-    clientMock.reset().on(DescribeDBInstancesCommand).resolves({});
+    clientMock.reset().on(DescribeDBClustersCommand).resolves({});
 
-    const args = {} as unknown as DescribeDBInstancesCommandInput;
+    const args = {} as unknown as DescribeDBClustersCommandInput;
 
-    const program = RDS.describeDBInstances(args);
+    const program = RDS.describeDBClusters(args);
 
     const result = await pipe(
       program,
@@ -39,22 +39,19 @@ describe("RDSClientImpl", () => {
     expect(getRuntimeConfig).toHaveBeenCalledWith({
       logger: expect.any(Object),
     });
-    expect(clientMock).toHaveReceivedCommandTimes(
-      DescribeDBInstancesCommand,
-      1,
-    );
+    expect(clientMock).toHaveReceivedCommandTimes(DescribeDBClustersCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(
-      DescribeDBInstancesCommand,
+      DescribeDBClustersCommand,
       args,
     );
   });
 
   it("configurable", async () => {
-    clientMock.reset().on(DescribeDBInstancesCommand).resolves({});
+    clientMock.reset().on(DescribeDBClustersCommand).resolves({});
 
-    const args = {} as unknown as DescribeDBInstancesCommandInput;
+    const args = {} as unknown as DescribeDBClustersCommandInput;
 
-    const program = RDS.describeDBInstances(args);
+    const program = RDS.describeDBClusters(args);
 
     const result = await pipe(
       program,
@@ -68,22 +65,19 @@ describe("RDSClientImpl", () => {
       region: "eu-central-1",
       logger: expect.any(Object),
     });
-    expect(clientMock).toHaveReceivedCommandTimes(
-      DescribeDBInstancesCommand,
-      1,
-    );
+    expect(clientMock).toHaveReceivedCommandTimes(DescribeDBClustersCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(
-      DescribeDBInstancesCommand,
+      DescribeDBClustersCommand,
       args,
     );
   });
 
   it("base", async () => {
-    clientMock.reset().on(DescribeDBInstancesCommand).resolves({});
+    clientMock.reset().on(DescribeDBClustersCommand).resolves({});
 
-    const args = {} as unknown as DescribeDBInstancesCommandInput;
+    const args = {} as unknown as DescribeDBClustersCommandInput;
 
-    const program = RDS.describeDBInstances(args);
+    const program = RDS.describeDBClusters(args);
 
     const result = await pipe(
       program,
@@ -98,22 +92,19 @@ describe("RDSClientImpl", () => {
     expect(getRuntimeConfig).toHaveBeenCalledWith({
       region: "eu-central-1",
     });
-    expect(clientMock).toHaveReceivedCommandTimes(
-      DescribeDBInstancesCommand,
-      1,
-    );
+    expect(clientMock).toHaveReceivedCommandTimes(DescribeDBClustersCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(
-      DescribeDBInstancesCommand,
+      DescribeDBClustersCommand,
       args,
     );
   });
 
   it("extended", async () => {
-    clientMock.reset().on(DescribeDBInstancesCommand).resolves({});
+    clientMock.reset().on(DescribeDBClustersCommand).resolves({});
 
-    const args = {} as unknown as DescribeDBInstancesCommandInput;
+    const args = {} as unknown as DescribeDBClustersCommandInput;
 
-    const program = RDS.describeDBInstances(args);
+    const program = RDS.describeDBClusters(args);
 
     const result = await pipe(
       program,
@@ -131,25 +122,19 @@ describe("RDSClientImpl", () => {
       region: "eu-central-1",
       logger: expect.any(Object),
     });
-    expect(clientMock).toHaveReceivedCommandTimes(
-      DescribeDBInstancesCommand,
-      1,
-    );
+    expect(clientMock).toHaveReceivedCommandTimes(DescribeDBClustersCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(
-      DescribeDBInstancesCommand,
+      DescribeDBClustersCommand,
       args,
     );
   });
 
   it("fail", async () => {
-    clientMock
-      .reset()
-      .on(DescribeDBInstancesCommand)
-      .rejects(new Error("test"));
+    clientMock.reset().on(DescribeDBClustersCommand).rejects(new Error("test"));
 
-    const args = {} as unknown as DescribeDBInstancesCommandInput;
+    const args = {} as unknown as DescribeDBClustersCommandInput;
 
-    const program = RDS.describeDBInstances(args);
+    const program = RDS.describeDBClusters(args);
 
     const result = await pipe(
       program,
@@ -167,12 +152,9 @@ describe("RDSClientImpl", () => {
         }),
       ),
     );
-    expect(clientMock).toHaveReceivedCommandTimes(
-      DescribeDBInstancesCommand,
-      1,
-    );
+    expect(clientMock).toHaveReceivedCommandTimes(DescribeDBClustersCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(
-      DescribeDBInstancesCommand,
+      DescribeDBClustersCommand,
       args,
     );
   });
@@ -180,7 +162,7 @@ describe("RDSClientImpl", () => {
   it("should not catch unexpected error as expected", async () => {
     clientMock
       .reset()
-      .on(DescribeDBInstancesCommand)
+      .on(DescribeDBClustersCommand)
       .rejects(
         new RDSServiceException({
           name: "NotHandledException",
@@ -188,9 +170,9 @@ describe("RDSClientImpl", () => {
         } as any),
       );
 
-    const args = {} as unknown as DescribeDBInstancesCommandInput;
+    const args = {} as unknown as DescribeDBClustersCommandInput;
 
-    const program = RDS.describeDBInstances(args).pipe(
+    const program = RDS.describeDBClusters(args).pipe(
       Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 
@@ -210,12 +192,9 @@ describe("RDSClientImpl", () => {
         }),
       ),
     );
-    expect(clientMock).toHaveReceivedCommandTimes(
-      DescribeDBInstancesCommand,
-      1,
-    );
+    expect(clientMock).toHaveReceivedCommandTimes(DescribeDBClustersCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(
-      DescribeDBInstancesCommand,
+      DescribeDBClustersCommand,
       args,
     );
   });

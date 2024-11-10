@@ -35,7 +35,7 @@ const program = ApiGatewayManagementApi.postToConnection(args);
 const result = await pipe(
   program,
   Effect.provide(
-    ApiGatewayManagementApi.baseLayer(() => new ApiGatewayManagementApiClient({ region: "eu-central-1" })),
+    ApiGatewayManagementApi.baseLayer(() => new ApiGatewayManagementApiClient({ endpoint: "https://domain/path" })),
   ),
   Effect.runPromise,
 );
@@ -50,9 +50,9 @@ const program = ApiGatewayManagementApi.postToConnection(args);
 
 const result = await pipe(
   program,
-  Effect.provide(ApiGatewayManagementApi.layer({ region: "eu-central-1" })),
+  Effect.provide(ApiGatewayManagementApi.layer({ endpoint: "https://domain/path" })),
   Effect.runPromiseExit,
 );
 ```
 
-or use `ApiGatewayManagementApi.baseLayer((default) => new ApiGatewayManagementApiClient({ ...default, region: "eu-central-1" }))`
+or use `ApiGatewayManagementApi.baseLayer((default) => new ApiGatewayManagementApiClient({ ...default, endpoint: "https://domain/path" }))`

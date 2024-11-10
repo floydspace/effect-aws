@@ -76,7 +76,7 @@
     "commandToTest": "ListCollections"
   },
   "client-rds": {
-    "commandToTest": "DescribeDBInstances"
+    "commandToTest": "DescribeDBClusters"
   },
   "client-s3": {
     "commandToTest": "HeadObject",
