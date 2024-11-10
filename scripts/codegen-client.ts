@@ -9,15 +9,15 @@
 import { mkdir, readdir, writeFile } from "node:fs/promises";
 
 import {
-  Effect,
-  Option,
   Array,
+  Effect,
+  Exit,
+  Option,
+  Predicate,
   Record,
   String,
   Struct,
   Tuple,
-  Exit,
-  Predicate,
 } from "effect";
 import { constVoid, flow, pipe } from "effect/Function";
 import Enquirer from "enquirer";
@@ -386,6 +386,8 @@ export * from "./${sdkName}Service";
  */
 import {
   ${sdkName}ServiceException,
+  type ${sdkName}Client,
+  type ${sdkName}ClientConfig,
   ${pipe(
     operationNames,
     Array.map(
@@ -401,7 +403,11 @@ import {
   ${sdkName}ClientInstance,
   ${sdkName}ClientInstanceLayer,
 } from "./${sdkName}ClientInstance";
-import { Default${sdkName}ClientConfigLayer } from "./${sdkName}ClientInstanceConfig";
+import {
+  Default${sdkName}ClientConfigLayer,
+  makeDefault${sdkName}ClientInstanceConfig,
+  ${sdkName}ClientInstanceConfig,
+} from "./${sdkName}ClientInstanceConfig";
 import {
   AllServiceErrors,
   ${pipe(
@@ -465,15 +471,6 @@ ${pipe(
 
 /**
  * @since 1.0.0
- * @category models
- */
-export class ${sdkName}Service extends Effect.Tag("@effect-aws/client-${serviceName}/${sdkName}Service")<
-  ${sdkName}Service,
-  ${sdkName}Service$
->() {}
-
-/**
- * @since 1.0.0
  * @category constructors
  */
 export const make${sdkName}Service = Effect.gen(function* (_) {
@@ -521,7 +518,52 @@ export const make${sdkName}Service = Effect.gen(function* (_) {
 
 /**
  * @since 1.0.0
+ * @category models
+ */
+export class ${sdkName}Service extends Effect.Tag("@effect-aws/client-${serviceName}/${sdkName}Service")<
+  ${sdkName}Service,
+  ${sdkName}Service$
+>() {
+  static readonly defaultLayer = Layer.effect(this, make${sdkName}Service).pipe(
+    Layer.provide(${sdkName}ClientInstanceLayer),
+    Layer.provide(Default${sdkName}ClientConfigLayer),
+  );
+  static readonly layer = (config: ${sdkName}ClientConfig) =>
+    Layer.effect(this, make${sdkName}Service).pipe(
+      Layer.provide(${sdkName}ClientInstanceLayer),
+      Layer.provide(
+        Layer.effect(
+          ${sdkName}ClientInstanceConfig,
+          makeDefault${sdkName}ClientInstanceConfig.pipe(
+            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
+          ),
+        ),
+      ),
+    );
+  static readonly baseLayer = (
+    evaluate: (defaultConfig: ${sdkName}ClientConfig) => ${sdkName}Client,
+  ) =>
+    Layer.effect(this, make${sdkName}Service).pipe(
+      Layer.provide(
+        Layer.effect(
+          ${sdkName}ClientInstance,
+          Effect.map(makeDefault${sdkName}ClientInstanceConfig, evaluate),
+        ),
+      ),
+    );
+}
+
+/**
+ * @since 1.0.0
+ * @category models
+ * @alias ${sdkName}Service
+ */
+export const ${sdkName} = ${sdkName}Service;
+
+/**
+ * @since 1.0.0
  * @category layers
+ * @deprecated use ${sdkName}.baseLayer instead
  */
 export const Base${sdkName}ServiceLayer = Layer.effect(
   ${sdkName}Service,
@@ -531,6 +573,7 @@ export const Base${sdkName}ServiceLayer = Layer.effect(
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use ${sdkName}.layer instead
  */
 export const ${sdkName}ServiceLayer = Base${sdkName}ServiceLayer.pipe(
   Layer.provide(${sdkName}ClientInstanceLayer),
@@ -539,10 +582,9 @@ export const ${sdkName}ServiceLayer = Base${sdkName}ServiceLayer.pipe(
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use ${sdkName}.defaultLayer instead
  */
-export const Default${sdkName}ServiceLayer = ${sdkName}ServiceLayer.pipe(
-  Layer.provide(Default${sdkName}ClientConfigLayer),
-);
+export const Default${sdkName}ServiceLayer = ${sdkName}Service.defaultLayer;
 `,
   );
 
@@ -555,25 +597,23 @@ export const Default${sdkName}ServiceLayer = ${sdkName}ServiceLayer.pipe(
   ${sdkName}Client,
   ${sdkName}ServiceException,
 } from "@aws-sdk/client-${originalServiceName}";
+// @ts-ignore
+import * as runtimeConfig from "@aws-sdk/client-${originalServiceName}/dist-cjs/runtimeConfig";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
-import * as Layer from "effect/Layer";
-import {
-  Base${sdkName}ServiceLayer,
-  Default${sdkName}ClientConfigLayer,
-  Default${sdkName}ServiceLayer,
-  ${sdkName}ClientInstance,
-  ${sdkName}ClientInstanceConfig,
-  ${sdkName}Service,
-  ${sdkName}ServiceLayer,
-  SdkError,
-} from "../src";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { ${sdkName}, SdkError } from "../src";
 
+const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(${sdkName}Client);
 
 describe("${sdkName}ClientImpl", () => {
+  afterEach(() => {
+    getRuntimeConfig.mockClear();
+  });
+
   it("default", async () => {
     clientMock.reset().on(${commandToTest}Command).resolves({});
 
@@ -583,15 +623,19 @@ describe("${sdkName}ClientImpl", () => {
         : `const args = {} as unknown as ${commandToTest}CommandInput`
     }
 
-    const program = ${sdkName}Service.${pipe(commandToTest, lowerFirst)}(args);
+    const program = ${sdkName}.${pipe(commandToTest, lowerFirst)}(args);
 
     const result = await pipe(
       program,
-      Effect.provide(Default${sdkName}ServiceLayer),
+      Effect.provide(${sdkName}.defaultLayer),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(${commandToTest}Command, 1);
     expect(clientMock).toHaveReceivedCommandWith(${commandToTest}Command, args);
   });
@@ -605,22 +649,20 @@ describe("${sdkName}ClientImpl", () => {
         : `const args = {} as unknown as ${commandToTest}CommandInput`
     }
 
-    const program = ${sdkName}Service.${pipe(commandToTest, lowerFirst)}(args);
-
-    const ${sdkName}ClientConfigLayer = Layer.succeed(${sdkName}ClientInstanceConfig, {
-      region: "eu-central-1",
-    });
-    const Custom${sdkName}ServiceLayer = ${sdkName}ServiceLayer.pipe(
-      Layer.provide(${sdkName}ClientConfigLayer),
-    );
+    const program = ${sdkName}.${pipe(commandToTest, lowerFirst)}(args);
 
     const result = await pipe(
       program,
-      Effect.provide(Custom${sdkName}ServiceLayer),
+      Effect.provide(${sdkName}.layer({ region: "eu-central-1" })),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(${commandToTest}Command, 1);
     expect(clientMock).toHaveReceivedCommandWith(${commandToTest}Command, args);
   });
@@ -634,23 +676,21 @@ describe("${sdkName}ClientImpl", () => {
         : `const args = {} as unknown as ${commandToTest}CommandInput`
     }
 
-    const program = ${sdkName}Service.${pipe(commandToTest, lowerFirst)}(args);
-
-    const ${sdkName}ClientInstanceLayer = Layer.succeed(
-      ${sdkName}ClientInstance,
-      new ${sdkName}Client({ region: "eu-central-1" }),
-    );
-    const Custom${sdkName}ServiceLayer = Base${sdkName}ServiceLayer.pipe(
-      Layer.provide(${sdkName}ClientInstanceLayer),
-    );
+    const program = ${sdkName}.${pipe(commandToTest, lowerFirst)}(args);
 
     const result = await pipe(
       program,
-      Effect.provide(Custom${sdkName}ServiceLayer),
+      Effect.provide(
+        ${sdkName}.baseLayer(() => new ${sdkName}Client({ region: "eu-central-1" })),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+    });
     expect(clientMock).toHaveReceivedCommandTimes(${commandToTest}Command, 1);
     expect(clientMock).toHaveReceivedCommandWith(${commandToTest}Command, args);
   });
@@ -664,27 +704,24 @@ describe("${sdkName}ClientImpl", () => {
         : `const args = {} as unknown as ${commandToTest}CommandInput`
     }
 
-    const program = ${sdkName}Service.${pipe(commandToTest, lowerFirst)}(args);
-
-    const ${sdkName}ClientInstanceLayer = Layer.effect(
-      ${sdkName}ClientInstance,
-      Effect.map(
-        ${sdkName}ClientInstanceConfig,
-        (config) => new ${sdkName}Client({ ...config, region: "eu-central-1" }),
-      ),
-    );
-    const Custom${sdkName}ServiceLayer = Base${sdkName}ServiceLayer.pipe(
-      Layer.provide(${sdkName}ClientInstanceLayer),
-      Layer.provide(Default${sdkName}ClientConfigLayer),
-    );
+    const program = ${sdkName}.${pipe(commandToTest, lowerFirst)}(args);
 
     const result = await pipe(
       program,
-      Effect.provide(Custom${sdkName}ServiceLayer),
+      Effect.provide(
+        ${sdkName}.baseLayer(
+          (config) => new ${sdkName}Client({ ...config, region: "eu-central-1" }),
+        ),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(${commandToTest}Command, 1);
     expect(clientMock).toHaveReceivedCommandWith(${commandToTest}Command, args);
   });
@@ -698,11 +735,11 @@ describe("${sdkName}ClientImpl", () => {
         : `const args = {} as unknown as ${commandToTest}CommandInput`
     }
 
-    const program = ${sdkName}Service.${pipe(commandToTest, lowerFirst)}(args);
+    const program = ${sdkName}.${pipe(commandToTest, lowerFirst)}(args);
 
     const result = await pipe(
       program,
-      Effect.provide(Default${sdkName}ServiceLayer),
+      Effect.provide(${sdkName}.defaultLayer),
       Effect.runPromiseExit,
     );
 
@@ -737,13 +774,13 @@ describe("${sdkName}ClientImpl", () => {
         : `const args = {} as unknown as ${commandToTest}CommandInput`
     }
 
-    const program = ${sdkName}Service.${pipe(commandToTest, lowerFirst)}(args).pipe(
+    const program = ${sdkName}.${pipe(commandToTest, lowerFirst)}(args).pipe(
       Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 
     const result = await pipe(
       program,
-      Effect.provide(Default${sdkName}ServiceLayer),
+      Effect.provide(${sdkName}.defaultLayer),
       Effect.runPromiseExit,
     );
 
@@ -782,13 +819,13 @@ npm install --save @effect-aws/client-${serviceName}
 With default ${sdkName}Client instance:
 
 \`\`\`typescript
-import { ${sdkName}Service, Default${sdkName}ServiceLayer } from "@effect-aws/client-${serviceName}";
+import { ${sdkName} } from "@effect-aws/client-${serviceName}";
 
-const program = ${sdkName}Service.${pipe(commandToTest, lowerFirst)}(args);
+const program = ${sdkName}.${pipe(commandToTest, lowerFirst)}(args);
 
 const result = pipe(
   program,
-  Effect.provide(Default${sdkName}ServiceLayer),
+  Effect.provide(${sdkName}.defaultLayer),
   Effect.runPromise,
 );
 \`\`\`
@@ -796,23 +833,15 @@ const result = pipe(
 With custom ${sdkName}Client instance:
 
 \`\`\`typescript
-import {
-  ${sdkName}Service,
-  Base${sdkName}ServiceLayer,
-  ${sdkName}ClientInstance,
-} from "@effect-aws/client-${serviceName}";
+import { ${sdkName} } from "@effect-aws/client-${serviceName}";
 
-const program = ${sdkName}Service.${pipe(commandToTest, lowerFirst)}(args);
-
-const ${sdkName}ClientInstanceLayer = Layer.succeed(
-  ${sdkName}ClientInstance,
-  new ${sdkName}Client({ region: "eu-central-1" }),
-);
+const program = ${sdkName}.${pipe(commandToTest, lowerFirst)}(args);
 
 const result = await pipe(
   program,
-  Effect.provide(Base${sdkName}ServiceLayer),
-  Effect.provide(${sdkName}ClientInstanceLayer),
+  Effect.provide(
+    ${sdkName}.baseLayer(() => new ${sdkName}Client({ region: "eu-central-1" })),
+  ),
   Effect.runPromise,
 );
 \`\`\`
@@ -820,37 +849,18 @@ const result = await pipe(
 With custom ${sdkName}Client configuration:
 
 \`\`\`typescript
-import {
-  ${sdkName}Service,
-  Base${sdkName}ServiceLayer,
-  Default${sdkName}ClientConfigLayer,
-  ${sdkName}ClientInstance,
-  ${sdkName}ClientInstanceConfig,
-} from "@effect-aws/client-${serviceName}";
+import { ${sdkName} } from "@effect-aws/client-${serviceName}";
 
-const program = ${sdkName}Service.${pipe(commandToTest, lowerFirst)}(args);
-
-const ${sdkName}ClientInstanceLayer = Layer.provide(
-  Layer.effect(
-    ${sdkName}ClientInstance,
-    ${sdkName}ClientInstanceConfig.pipe(
-      Effect.map(
-        (config) => new ${sdkName}Client({ ...config, region: "eu-central-1" }),
-      ),
-    ),
-  ),
-  Default${sdkName}ClientConfigLayer,
-);
+const program = ${sdkName}.${pipe(commandToTest, lowerFirst)}(args);
 
 const result = await pipe(
   program,
-  Effect.provide(Base${sdkName}ServiceLayer),
-  Effect.provide(${sdkName}ClientInstanceLayer),
+  Effect.provide(${sdkName}.layer({ region: "eu-central-1" })),
   Effect.runPromiseExit,
 );
 \`\`\`
 
-or map over \`Default${sdkName}ClientConfigLayer\` layer context and update the configuration...
+or use \`${sdkName}.baseLayer((default) => new ${sdkName}Client({ ...default, region: "eu-central-1" }))\`
 `,
   );
 }

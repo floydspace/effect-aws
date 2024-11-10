@@ -62,12 +62,12 @@ import {
   DeleteObjectCommand,
   type DeleteObjectCommandInput,
   type DeleteObjectCommandOutput,
-  DeleteObjectsCommand,
-  type DeleteObjectsCommandInput,
-  type DeleteObjectsCommandOutput,
   DeleteObjectTaggingCommand,
   type DeleteObjectTaggingCommandInput,
   type DeleteObjectTaggingCommandOutput,
+  DeleteObjectsCommand,
+  type DeleteObjectsCommandInput,
+  type DeleteObjectsCommandOutput,
   DeletePublicAccessBlockCommand,
   type DeletePublicAccessBlockCommandInput,
   type DeletePublicAccessBlockCommandOutput,
@@ -185,15 +185,15 @@ import {
   ListMultipartUploadsCommand,
   type ListMultipartUploadsCommandInput,
   type ListMultipartUploadsCommandOutput,
+  ListObjectVersionsCommand,
+  type ListObjectVersionsCommandInput,
+  type ListObjectVersionsCommandOutput,
   ListObjectsCommand,
   type ListObjectsCommandInput,
   type ListObjectsCommandOutput,
   ListObjectsV2Command,
   type ListObjectsV2CommandInput,
   type ListObjectsV2CommandOutput,
-  ListObjectVersionsCommand,
-  type ListObjectVersionsCommandInput,
-  type ListObjectVersionsCommandOutput,
   ListPartsCommand,
   type ListPartsCommandInput,
   type ListPartsCommandOutput,
@@ -311,12 +311,12 @@ import {
 import { S3ClientInstance, S3ClientInstanceLayer } from "./S3ClientInstance";
 import {
   DefaultS3ClientConfigLayer,
-  makeDefaultS3ClientInstanceConfig,
   S3ClientInstanceConfig,
+  makeDefaultS3ClientInstanceConfig,
 } from "./S3ClientInstanceConfig";
 
 /**
- * @since 1.4.1
+ * @since 1.0.1
  */
 export interface HttpHandlerOptions {
   /**
@@ -347,8 +347,8 @@ const commands = {
   DeleteBucketTaggingCommand,
   DeleteBucketWebsiteCommand,
   DeleteObjectCommand,
-  DeleteObjectsCommand,
   DeleteObjectTaggingCommand,
+  DeleteObjectsCommand,
   DeletePublicAccessBlockCommand,
   GetBucketAccelerateConfigurationCommand,
   GetBucketAclCommand,
@@ -388,9 +388,9 @@ const commands = {
   ListBucketsCommand,
   ListDirectoryBucketsCommand,
   ListMultipartUploadsCommand,
+  ListObjectVersionsCommand,
   ListObjectsCommand,
   ListObjectsV2Command,
-  ListObjectVersionsCommand,
   ListPartsCommand,
   PutBucketAccelerateConfigurationCommand,
   PutBucketAclCommand,
@@ -627,20 +627,20 @@ interface S3Service$ {
   ): Effect.Effect<DeleteObjectCommandOutput, SdkError | S3ServiceError>;
 
   /**
-   * @see {@link DeleteObjectsCommand}
-   */
-  deleteObjects(
-    args: DeleteObjectsCommandInput,
-    options?: HttpHandlerOptions,
-  ): Effect.Effect<DeleteObjectsCommandOutput, SdkError | S3ServiceError>;
-
-  /**
    * @see {@link DeleteObjectTaggingCommand}
    */
   deleteObjectTagging(
     args: DeleteObjectTaggingCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<DeleteObjectTaggingCommandOutput, SdkError | S3ServiceError>;
+
+  /**
+   * @see {@link DeleteObjectsCommand}
+   */
+  deleteObjects(
+    args: DeleteObjectsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<DeleteObjectsCommandOutput, SdkError | S3ServiceError>;
 
   /**
    * @see {@link DeletePublicAccessBlockCommand}
@@ -1022,6 +1022,14 @@ interface S3Service$ {
   >;
 
   /**
+   * @see {@link ListObjectVersionsCommand}
+   */
+  listObjectVersions(
+    args: ListObjectVersionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<ListObjectVersionsCommandOutput, SdkError | S3ServiceError>;
+
+  /**
    * @see {@link ListObjectsCommand}
    */
   listObjects(
@@ -1036,14 +1044,6 @@ interface S3Service$ {
     args: ListObjectsV2CommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<ListObjectsV2CommandOutput, SdkError | NoSuchBucketError>;
-
-  /**
-   * @see {@link ListObjectVersionsCommand}
-   */
-  listObjectVersions(
-    args: ListObjectVersionsCommandInput,
-    options?: HttpHandlerOptions,
-  ): Effect.Effect<ListObjectVersionsCommandOutput, SdkError | S3ServiceError>;
 
   /**
    * @see {@link ListPartsCommand}
