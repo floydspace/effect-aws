@@ -1,164 +1,159 @@
+// @ts-ignore
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import * as runtimeConfig from "@aws-sdk/client-dynamodb/dist-cjs/runtimeConfig";
 import {
+  type PutCommandInput,
   DynamoDBDocumentClient,
   PutCommand,
-  PutCommandInput,
 } from "@aws-sdk/lib-dynamodb";
-import {
-  DefaultDynamoDBClientConfigLayer,
-  DynamoDBClientInstanceConfig,
-  SdkError,
-} from "@effect-aws/client-dynamodb";
+import { SdkError } from "@effect-aws/client-dynamodb";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
-import * as Layer from "effect/Layer";
-import {
-  BaseDynamoDBDocumentServiceLayer,
-  DefaultDynamoDBDocumentServiceLayer,
-  DynamoDBDocumentClientInstance,
-  DynamoDBDocumentClientInstanceConfig,
-  DynamoDBDocumentService,
-  DynamoDBDocumentServiceLayer,
-} from "../src";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { DynamoDBDocument } from "../src";
 
-const dynamodbMock = mockClient(DynamoDBDocumentClient);
+const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
+const clientMock = mockClient(DynamoDBDocumentClient);
 
 describe("DynamoDBDocumentClientImpl", () => {
+  afterEach(() => {
+    getRuntimeConfig.mockClear();
+  });
+
   it("default", async () => {
-    dynamodbMock.reset().on(PutCommand).resolves({});
+    clientMock.reset().on(PutCommand).resolves({});
 
     const args: PutCommandInput = {
       TableName: "test",
       Item: { testAttr: "test" },
     };
 
-    const program = DynamoDBDocumentService.put(args);
+    const program = DynamoDBDocument.put(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultDynamoDBDocumentServiceLayer),
+      Effect.provide(DynamoDBDocument.defaultLayer),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(dynamodbMock).toHaveReceivedCommandTimes(PutCommand, 1);
-    expect(dynamodbMock).toHaveReceivedCommandWith(PutCommand, args);
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      logger: expect.any(Object),
+    });
+    expect(clientMock).toHaveReceivedCommandTimes(PutCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(PutCommand, args);
   });
 
   it("configurable", async () => {
-    dynamodbMock.reset().on(PutCommand).resolves({});
+    clientMock.reset().on(PutCommand).resolves({});
 
     const args: PutCommandInput = {
       TableName: "test",
       Item: { testAttr: "test" },
     };
 
-    const program = DynamoDBDocumentService.put(args);
-
-    const DynamoDBDocumentClientConfigLayer = Layer.succeed(
-      DynamoDBDocumentClientInstanceConfig,
-      { marshallOptions: { removeUndefinedValues: true } },
-    );
-    const CustomDynamoDBDocumentServiceLayer =
-      DynamoDBDocumentServiceLayer.pipe(
-        Layer.provide(DynamoDBDocumentClientConfigLayer),
-      );
+    const program = DynamoDBDocument.put(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomDynamoDBDocumentServiceLayer),
+      Effect.provide(
+        DynamoDBDocument.layer({
+          marshallOptions: { removeUndefinedValues: true },
+        }),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(dynamodbMock).toHaveReceivedCommandTimes(PutCommand, 1);
-    expect(dynamodbMock).toHaveReceivedCommandWith(PutCommand, args);
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      logger: expect.any(Object),
+    });
+    expect(clientMock).toHaveReceivedCommandTimes(PutCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(PutCommand, args);
   });
 
   it("base", async () => {
-    dynamodbMock.reset().on(PutCommand).resolves({});
+    clientMock.reset().on(PutCommand).resolves({});
 
     const args: PutCommandInput = {
       TableName: "test",
       Item: { testAttr: "test" },
     };
 
-    const program = DynamoDBDocumentService.put(args);
-
-    const DynamoDBDocumentClientInstanceLayer = Layer.succeed(
-      DynamoDBDocumentClientInstance,
-      DynamoDBDocumentClient.from(
-        new DynamoDBClient({ region: "eu-central-1" }),
-        { marshallOptions: { removeUndefinedValues: true } },
-      ),
-    );
-    const CustomDynamoDBDocumentServiceLayer =
-      BaseDynamoDBDocumentServiceLayer.pipe(
-        Layer.provide(DynamoDBDocumentClientInstanceLayer),
-      );
+    const program = DynamoDBDocument.put(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomDynamoDBDocumentServiceLayer),
+      Effect.provide(
+        DynamoDBDocument.baseLayer(() =>
+          DynamoDBDocumentClient.from(
+            new DynamoDBClient({ region: "eu-central-1" }),
+            { marshallOptions: { removeUndefinedValues: true } },
+          ),
+        ),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(dynamodbMock).toHaveReceivedCommandTimes(PutCommand, 1);
-    expect(dynamodbMock).toHaveReceivedCommandWith(PutCommand, args);
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+    });
+    expect(clientMock).toHaveReceivedCommandTimes(PutCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(PutCommand, args);
   });
 
   it("extended", async () => {
-    dynamodbMock.reset().on(PutCommand).resolves({});
+    clientMock.reset().on(PutCommand).resolves({});
 
     const args: PutCommandInput = {
       TableName: "test",
       Item: { testAttr: "test" },
     };
 
-    const program = DynamoDBDocumentService.put(args);
-
-    const DynamoDBDocumentClientInstanceLayer = Layer.effect(
-      DynamoDBDocumentClientInstance,
-      Effect.map(DynamoDBClientInstanceConfig, (config) =>
-        DynamoDBDocumentClient.from(
-          new DynamoDBClient({ ...config, region: "eu-central-1" }),
-          { marshallOptions: { removeUndefinedValues: true } },
-        ),
-      ),
-    );
-    const CustomDynamoDBDocumentServiceLayer =
-      BaseDynamoDBDocumentServiceLayer.pipe(
-        Layer.provide(DynamoDBDocumentClientInstanceLayer),
-        Layer.provide(DefaultDynamoDBClientConfigLayer),
-      );
+    const program = DynamoDBDocument.put(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomDynamoDBDocumentServiceLayer),
+      Effect.provide(
+        DynamoDBDocument.baseLayer((config) =>
+          DynamoDBDocumentClient.from(
+            new DynamoDBClient({ ...config, region: "eu-central-1" }),
+            { marshallOptions: { removeUndefinedValues: true } },
+          ),
+        ),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(dynamodbMock).toHaveReceivedCommandTimes(PutCommand, 1);
-    expect(dynamodbMock).toHaveReceivedCommandWith(PutCommand, args);
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
+    expect(clientMock).toHaveReceivedCommandTimes(PutCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(PutCommand, args);
   });
 
   it("fail", async () => {
-    dynamodbMock.reset().on(PutCommand).rejects(new Error("test"));
+    clientMock.reset().on(PutCommand).rejects(new Error("test"));
 
     const args: PutCommandInput = {
       TableName: "test",
       Item: { testAttr: "test" },
     };
 
-    const program = DynamoDBDocumentService.put(args, { requestTimeout: 1000 });
+    const program = DynamoDBDocument.put(args, { requestTimeout: 1000 });
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultDynamoDBDocumentServiceLayer),
+      Effect.provide(DynamoDBDocument.defaultLayer),
       Effect.runPromiseExit,
     );
 
@@ -172,7 +167,7 @@ describe("DynamoDBDocumentClientImpl", () => {
         }),
       ),
     );
-    expect(dynamodbMock).toHaveReceivedCommandTimes(PutCommand, 1);
-    expect(dynamodbMock).toHaveReceivedCommandWith(PutCommand, args);
+    expect(clientMock).toHaveReceivedCommandTimes(PutCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(PutCommand, args);
   });
 });

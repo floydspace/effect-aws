@@ -86,8 +86,13 @@ const dynamodbLib = new TypeScriptLibProject({
     "@aws-sdk/client-dynamodb@^3",
     "@aws-sdk/lib-dynamodb@^3",
   ],
-  devDeps: commonDevDeps,
+  devDeps: [
+    ...commonDevDeps,
+    "@effect-aws/client-dynamodb@workspace:^",
+    "effect@3.0.0",
+  ],
   peerDeps: [...commonPeerDeps, dynamodbClient.package.packageName],
+  peerDependencyOptions: { pinnedDevDependency: false },
 });
 
 new TypeScriptLibProject({
@@ -313,15 +318,27 @@ new TypeScriptLibProject({
 const secretsManager = new TypeScriptLibProject({
   parent: project,
   name: "secrets-manager",
-  devDeps: ["@aws-sdk/client-secrets-manager@^3", "@fluffy-spoon/substitute"],
+  devDeps: [
+    "@aws-sdk/client-secrets-manager@^3",
+    "@effect-aws/client-secrets-manager@workspace:^",
+    "@fluffy-spoon/substitute",
+    "effect@3.0.0",
+  ],
   peerDeps: [...commonPeerDeps, secretsManagerClient.package.packageName],
+  peerDependencyOptions: { pinnedDevDependency: false },
 });
 
 const ssm = new TypeScriptLibProject({
   parent: project,
   name: "ssm",
-  devDeps: ["@aws-sdk/client-ssm@^3", "@fluffy-spoon/substitute"],
+  devDeps: [
+    "@aws-sdk/client-ssm@^3",
+    "@effect-aws/client-ssm@workspace:^",
+    "@fluffy-spoon/substitute",
+    "effect@3.0.0",
+  ],
   peerDeps: [...commonPeerDeps, ssmClient.package.packageName],
+  peerDependencyOptions: { pinnedDevDependency: false },
 });
 
 new TypeScriptLibProject({

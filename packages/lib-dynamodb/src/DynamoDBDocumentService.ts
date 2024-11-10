@@ -1,7 +1,10 @@
 /**
  * @since 1.0.0
  */
-import { DynamoDBServiceException } from "@aws-sdk/client-dynamodb";
+import {
+  DynamoDBClientConfig,
+  DynamoDBServiceException,
+} from "@aws-sdk/client-dynamodb";
 import {
   BatchExecuteStatementCommand,
   BatchExecuteStatementCommandInput,
@@ -15,6 +18,7 @@ import {
   DeleteCommand,
   DeleteCommandInput,
   DeleteCommandOutput,
+  DynamoDBDocumentClient,
   ExecuteStatementCommand,
   ExecuteStatementCommandInput,
   ExecuteStatementCommandOutput,
@@ -39,6 +43,7 @@ import {
   TransactWriteCommand,
   TransactWriteCommandInput,
   TransactWriteCommandOutput,
+  TranslateConfig,
   UpdateCommand,
   UpdateCommandInput,
   UpdateCommandOutput,
@@ -50,6 +55,7 @@ import {
   InternalServerError,
   InvalidEndpointError,
   ItemCollectionSizeLimitExceededError,
+  makeDefaultDynamoDBClientInstanceConfig,
   ProvisionedThroughputExceededError,
   RequestLimitExceededError,
   ResourceNotFoundError,
@@ -64,7 +70,11 @@ import {
   DynamoDBDocumentClientInstance,
   DynamoDBDocumentClientInstanceLayer,
 } from "./DynamoDBDocumentClientInstance";
-import { DefaultDynamoDBDocumentClientConfigLayer } from "./DynamoDBDocumentClientInstanceConfig";
+import {
+  DefaultDynamoDBDocumentClientConfigLayer,
+  DynamoDBDocumentClientInstanceConfig,
+  makeDefaultDynamoDBDocumentClientInstanceConfig,
+} from "./DynamoDBDocumentClientInstanceConfig";
 
 /**
  * @since 1.3.1
@@ -321,14 +331,6 @@ interface DynamoDBDocumentService$ {
 
 /**
  * @since 1.0.0
- * @category models
- */
-export class DynamoDBDocumentService extends Effect.Tag(
-  "@effect-aws/lib-dynamodb/DynamoDBDocumentService",
-)<DynamoDBDocumentService, DynamoDBDocumentService$>() {}
-
-/**
- * @since 1.0.0
  * @category constructors
  */
 export const makeDynamoDBDocumentService = Effect.gen(function* (_) {
@@ -376,7 +378,54 @@ export const makeDynamoDBDocumentService = Effect.gen(function* (_) {
 
 /**
  * @since 1.0.0
+ * @category models
+ */
+export class DynamoDBDocumentService extends Effect.Tag(
+  "@effect-aws/lib-dynamodb/DynamoDBDocumentService",
+)<DynamoDBDocumentService, DynamoDBDocumentService$>() {
+  static readonly defaultLayer = Layer.effect(
+    this,
+    makeDynamoDBDocumentService,
+  ).pipe(
+    Layer.provide(DynamoDBDocumentClientInstanceLayer),
+    Layer.provide(DefaultDynamoDBDocumentClientConfigLayer),
+  );
+  static readonly layer = (config: TranslateConfig) =>
+    Layer.effect(this, makeDynamoDBDocumentService).pipe(
+      Layer.provide(DynamoDBDocumentClientInstanceLayer),
+      Layer.provide(
+        Layer.effect(
+          DynamoDBDocumentClientInstanceConfig,
+          makeDefaultDynamoDBDocumentClientInstanceConfig.pipe(
+            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
+          ),
+        ),
+      ),
+    );
+  static readonly baseLayer = (
+    evaluate: (defaultConfig: DynamoDBClientConfig) => DynamoDBDocumentClient,
+  ) =>
+    Layer.effect(this, makeDynamoDBDocumentService).pipe(
+      Layer.provide(
+        Layer.effect(
+          DynamoDBDocumentClientInstance,
+          Effect.map(makeDefaultDynamoDBClientInstanceConfig, evaluate),
+        ),
+      ),
+    );
+}
+
+/**
+ * @since 1.0.0
+ * @category models
+ * @alias DynamoDBDocumentService
+ */
+export const DynamoDBDocument = DynamoDBDocumentService;
+
+/**
+ * @since 1.0.0
  * @category layers
+ * @deprecated use DynamoDBDocument.baseLayer instead
  */
 export const BaseDynamoDBDocumentServiceLayer = Layer.effect(
   DynamoDBDocumentService,
@@ -386,6 +435,7 @@ export const BaseDynamoDBDocumentServiceLayer = Layer.effect(
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use DynamoDBDocument.layer instead
  */
 export const DynamoDBDocumentServiceLayer =
   BaseDynamoDBDocumentServiceLayer.pipe(
@@ -395,8 +445,7 @@ export const DynamoDBDocumentServiceLayer =
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use DynamoDBDocument.defaultLayer instead
  */
 export const DefaultDynamoDBDocumentServiceLayer =
-  DynamoDBDocumentServiceLayer.pipe(
-    Layer.provide(DefaultDynamoDBDocumentClientConfigLayer),
-  );
+  DynamoDBDocumentService.defaultLayer;

@@ -1,6 +1,11 @@
 {
   "dependencies": [
     {
+      "name": "@effect-aws/client-dynamodb",
+      "version": "workspace:^",
+      "type": "build"
+    },
+    {
       "name": "@types/node",
       "version": "^18",
       "type": "build"
@@ -21,6 +26,11 @@
     },
     {
       "name": "aws-sdk-client-mock-vitest",
+      "type": "build"
+    },
+    {
+      "name": "effect",
+      "version": "3.0.0",
       "type": "build"
     },
     {

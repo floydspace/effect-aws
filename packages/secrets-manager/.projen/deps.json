@@ -6,6 +6,11 @@
       "type": "build"
     },
     {
+      "name": "@effect-aws/client-secrets-manager",
+      "version": "workspace:^",
+      "type": "build"
+    },
+    {
       "name": "@fluffy-spoon/substitute",
       "type": "build"
     },
@@ -22,6 +27,11 @@
     {
       "name": "@typescript-eslint/parser",
       "version": "^7",
+      "type": "build"
+    },
+    {
+      "name": "effect",
+      "version": "3.0.0",
       "type": "build"
     },
     {
