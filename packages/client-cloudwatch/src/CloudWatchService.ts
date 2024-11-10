@@ -2,9 +2,9 @@
  * @since 1.0.0
  */
 import {
-  CloudWatchServiceException,
   type CloudWatchClient,
   type CloudWatchClientConfig,
+  CloudWatchServiceException,
   DeleteAlarmsCommand,
   type DeleteAlarmsCommandInput,
   type DeleteAlarmsCommandOutput,
@@ -126,9 +126,9 @@ import {
   CloudWatchClientInstanceLayer,
 } from "./CloudWatchClientInstance";
 import {
+  CloudWatchClientInstanceConfig,
   DefaultCloudWatchClientConfigLayer,
   makeDefaultCloudWatchClientInstanceConfig,
-  CloudWatchClientInstanceConfig,
 } from "./CloudWatchClientInstanceConfig";
 import {
   AllServiceErrors,
@@ -144,7 +144,7 @@ import {
   LimitExceededFaultError,
   MissingRequiredParameterError,
   ResourceNotFoundError,
-  ResourceNotFoundError,
+  ResourceNotFoundExceptionError,
   SdkError,
   TaggedException,
 } from "./Errors";
@@ -225,7 +225,7 @@ interface CloudWatchService$ {
     | InvalidParameterCombinationError
     | InvalidParameterValueError
     | MissingRequiredParameterError
-    | ResourceNotFoundError
+    | ResourceNotFoundExceptionError
   >;
 
   /**
@@ -389,7 +389,7 @@ interface CloudWatchService$ {
     | SdkError
     | InvalidParameterValueError
     | MissingRequiredParameterError
-    | ResourceNotFoundError
+    | ResourceNotFoundExceptionError
   >;
 
   /**
@@ -431,7 +431,7 @@ interface CloudWatchService$ {
     | InvalidParameterCombinationError
     | InvalidParameterValueError
     | MissingRequiredParameterError
-    | ResourceNotFoundError
+    | ResourceNotFoundExceptionError
   >;
 
   /**
@@ -504,7 +504,7 @@ interface CloudWatchService$ {
     | SdkError
     | InternalServiceFaultError
     | InvalidParameterValueError
-    | ResourceNotFoundError
+    | ResourceNotFoundExceptionError
   >;
 
   /**
@@ -663,7 +663,7 @@ interface CloudWatchService$ {
     | ConcurrentModificationError
     | InternalServiceFaultError
     | InvalidParameterValueError
-    | ResourceNotFoundError
+    | ResourceNotFoundExceptionError
   >;
 
   /**
@@ -678,7 +678,7 @@ interface CloudWatchService$ {
     | ConcurrentModificationError
     | InternalServiceFaultError
     | InvalidParameterValueError
-    | ResourceNotFoundError
+    | ResourceNotFoundExceptionError
   >;
 }
 
