@@ -1,5 +1,11 @@
 # @effect-aws/client-sqs
 
+## 1.6.0
+
+### Minor Changes
+
+- [#80](https://github.com/floydspace/effect-aws/pull/80) [`4b16fbe`](https://github.com/floydspace/effect-aws/commit/4b16fbebce8131df7798ee92f43cf6b7df3e907c) Thanks [@floydspace](https://github.com/floydspace)! - simplify layers configuration (closes #78)
+
 ## 1.5.1
 
 ### Patch Changes
