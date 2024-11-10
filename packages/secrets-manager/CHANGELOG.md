@@ -1,5 +1,11 @@
 # @effect-aws/secrets-manager
 
+## 1.0.1
+
+### Patch Changes
+
+- [`cc97eae`](https://github.com/floydspace/effect-aws/commit/cc97eaed1f8df72b8e7fde05069e8ce8eaac578f) Thanks [@floydspace](https://github.com/floydspace)! - simplify layers configuration (closes #78)
+
 ## 1.0.0
 
 ### Major Changes
