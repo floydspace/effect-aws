@@ -3,6 +3,8 @@
  */
 import {
   IAMServiceException,
+  type IAMClient,
+  type IAMClientConfig,
   AddClientIDToOpenIDConnectProviderCommand,
   type AddClientIDToOpenIDConnectProviderCommandInput,
   type AddClientIDToOpenIDConnectProviderCommandOutput,
@@ -516,10 +518,14 @@ import {
   TaggedException,
 } from "./Errors";
 import { IAMClientInstance, IAMClientInstanceLayer } from "./IAMClientInstance";
-import { DefaultIAMClientConfigLayer } from "./IAMClientInstanceConfig";
+import {
+  DefaultIAMClientConfigLayer,
+  makeDefaultIAMClientInstanceConfig,
+  IAMClientInstanceConfig,
+} from "./IAMClientInstanceConfig";
 
 /**
- * @since 1.4.1
+ * @since 1.0.0
  */
 export interface HttpHandlerOptions {
   /**
@@ -2764,15 +2770,6 @@ interface IAMService$ {
 
 /**
  * @since 1.0.0
- * @category models
- */
-export class IAMService extends Effect.Tag("@effect-aws/client-iam/IAMService")<
-  IAMService,
-  IAMService$
->() {}
-
-/**
- * @since 1.0.0
  * @category constructors
  */
 export const makeIAMService = Effect.gen(function* (_) {
@@ -2823,13 +2820,59 @@ export const makeIAMService = Effect.gen(function* (_) {
 
 /**
  * @since 1.0.0
+ * @category models
+ */
+export class IAMService extends Effect.Tag("@effect-aws/client-iam/IAMService")<
+  IAMService,
+  IAMService$
+>() {
+  static readonly defaultLayer = Layer.effect(this, makeIAMService).pipe(
+    Layer.provide(IAMClientInstanceLayer),
+    Layer.provide(DefaultIAMClientConfigLayer),
+  );
+  static readonly layer = (config: IAMClientConfig) =>
+    Layer.effect(this, makeIAMService).pipe(
+      Layer.provide(IAMClientInstanceLayer),
+      Layer.provide(
+        Layer.effect(
+          IAMClientInstanceConfig,
+          makeDefaultIAMClientInstanceConfig.pipe(
+            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
+          ),
+        ),
+      ),
+    );
+  static readonly baseLayer = (
+    evaluate: (defaultConfig: IAMClientConfig) => IAMClient,
+  ) =>
+    Layer.effect(this, makeIAMService).pipe(
+      Layer.provide(
+        Layer.effect(
+          IAMClientInstance,
+          Effect.map(makeDefaultIAMClientInstanceConfig, evaluate),
+        ),
+      ),
+    );
+}
+
+/**
+ * @since 1.0.0
+ * @category models
+ * @alias IAMService
+ */
+export const IAM = IAMService;
+
+/**
+ * @since 1.0.0
  * @category layers
+ * @deprecated use IAM.baseLayer instead
  */
 export const BaseIAMServiceLayer = Layer.effect(IAMService, makeIAMService);
 
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use IAM.layer instead
  */
 export const IAMServiceLayer = BaseIAMServiceLayer.pipe(
   Layer.provide(IAMClientInstanceLayer),
@@ -2838,7 +2881,6 @@ export const IAMServiceLayer = BaseIAMServiceLayer.pipe(
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use IAM.defaultLayer instead
  */
-export const DefaultIAMServiceLayer = IAMServiceLayer.pipe(
-  Layer.provide(DefaultIAMClientConfigLayer),
-);
+export const DefaultIAMServiceLayer = IAMService.defaultLayer;

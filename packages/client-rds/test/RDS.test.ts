@@ -1,149 +1,159 @@
 import {
-  type DescribeDBClustersCommandInput,
-  DescribeDBClustersCommand,
+  type DescribeDBInstancesCommandInput,
+  DescribeDBInstancesCommand,
   RDSClient,
   RDSServiceException,
 } from "@aws-sdk/client-rds";
+// @ts-ignore
+import * as runtimeConfig from "@aws-sdk/client-rds/dist-cjs/runtimeConfig";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
-import * as Layer from "effect/Layer";
-import {
-  BaseRDSServiceLayer,
-  DefaultRDSClientConfigLayer,
-  DefaultRDSServiceLayer,
-  RDSClientInstance,
-  RDSClientInstanceConfig,
-  RDSService,
-  RDSServiceLayer,
-  SdkError,
-} from "../src";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { RDS, SdkError } from "../src";
 
+const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(RDSClient);
 
 describe("RDSClientImpl", () => {
+  afterEach(() => {
+    getRuntimeConfig.mockClear();
+  });
+
   it("default", async () => {
-    clientMock.reset().on(DescribeDBClustersCommand).resolves({});
+    clientMock.reset().on(DescribeDBInstancesCommand).resolves({});
 
-    const args = {} as unknown as DescribeDBClustersCommandInput;
+    const args = {} as unknown as DescribeDBInstancesCommandInput;
 
-    const program = RDSService.describeDBClusters(args);
+    const program = RDS.describeDBInstances(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultRDSServiceLayer),
+      Effect.provide(RDS.defaultLayer),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(clientMock).toHaveReceivedCommandTimes(DescribeDBClustersCommand, 1);
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      logger: expect.any(Object),
+    });
+    expect(clientMock).toHaveReceivedCommandTimes(
+      DescribeDBInstancesCommand,
+      1,
+    );
     expect(clientMock).toHaveReceivedCommandWith(
-      DescribeDBClustersCommand,
+      DescribeDBInstancesCommand,
       args,
     );
   });
 
   it("configurable", async () => {
-    clientMock.reset().on(DescribeDBClustersCommand).resolves({});
+    clientMock.reset().on(DescribeDBInstancesCommand).resolves({});
 
-    const args = {} as unknown as DescribeDBClustersCommandInput;
+    const args = {} as unknown as DescribeDBInstancesCommandInput;
 
-    const program = RDSService.describeDBClusters(args);
-
-    const RDSClientConfigLayer = Layer.succeed(RDSClientInstanceConfig, {
-      region: "eu-central-1",
-    });
-    const CustomRDSServiceLayer = RDSServiceLayer.pipe(
-      Layer.provide(RDSClientConfigLayer),
-    );
+    const program = RDS.describeDBInstances(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomRDSServiceLayer),
+      Effect.provide(RDS.layer({ region: "eu-central-1" })),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(clientMock).toHaveReceivedCommandTimes(DescribeDBClustersCommand, 1);
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
+    expect(clientMock).toHaveReceivedCommandTimes(
+      DescribeDBInstancesCommand,
+      1,
+    );
     expect(clientMock).toHaveReceivedCommandWith(
-      DescribeDBClustersCommand,
+      DescribeDBInstancesCommand,
       args,
     );
   });
 
   it("base", async () => {
-    clientMock.reset().on(DescribeDBClustersCommand).resolves({});
+    clientMock.reset().on(DescribeDBInstancesCommand).resolves({});
 
-    const args = {} as unknown as DescribeDBClustersCommandInput;
+    const args = {} as unknown as DescribeDBInstancesCommandInput;
 
-    const program = RDSService.describeDBClusters(args);
-
-    const RDSClientInstanceLayer = Layer.succeed(
-      RDSClientInstance,
-      new RDSClient({ region: "eu-central-1" }),
-    );
-    const CustomRDSServiceLayer = BaseRDSServiceLayer.pipe(
-      Layer.provide(RDSClientInstanceLayer),
-    );
+    const program = RDS.describeDBInstances(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomRDSServiceLayer),
+      Effect.provide(
+        RDS.baseLayer(() => new RDSClient({ region: "eu-central-1" })),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(clientMock).toHaveReceivedCommandTimes(DescribeDBClustersCommand, 1);
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+    });
+    expect(clientMock).toHaveReceivedCommandTimes(
+      DescribeDBInstancesCommand,
+      1,
+    );
     expect(clientMock).toHaveReceivedCommandWith(
-      DescribeDBClustersCommand,
+      DescribeDBInstancesCommand,
       args,
     );
   });
 
   it("extended", async () => {
-    clientMock.reset().on(DescribeDBClustersCommand).resolves({});
+    clientMock.reset().on(DescribeDBInstancesCommand).resolves({});
 
-    const args = {} as unknown as DescribeDBClustersCommandInput;
+    const args = {} as unknown as DescribeDBInstancesCommandInput;
 
-    const program = RDSService.describeDBClusters(args);
-
-    const RDSClientInstanceLayer = Layer.effect(
-      RDSClientInstance,
-      Effect.map(
-        RDSClientInstanceConfig,
-        (config) => new RDSClient({ ...config, region: "eu-central-1" }),
-      ),
-    );
-    const CustomRDSServiceLayer = BaseRDSServiceLayer.pipe(
-      Layer.provide(RDSClientInstanceLayer),
-      Layer.provide(DefaultRDSClientConfigLayer),
-    );
+    const program = RDS.describeDBInstances(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomRDSServiceLayer),
+      Effect.provide(
+        RDS.baseLayer(
+          (config) => new RDSClient({ ...config, region: "eu-central-1" }),
+        ),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
-    expect(clientMock).toHaveReceivedCommandTimes(DescribeDBClustersCommand, 1);
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
+    expect(clientMock).toHaveReceivedCommandTimes(
+      DescribeDBInstancesCommand,
+      1,
+    );
     expect(clientMock).toHaveReceivedCommandWith(
-      DescribeDBClustersCommand,
+      DescribeDBInstancesCommand,
       args,
     );
   });
 
   it("fail", async () => {
-    clientMock.reset().on(DescribeDBClustersCommand).rejects(new Error("test"));
+    clientMock
+      .reset()
+      .on(DescribeDBInstancesCommand)
+      .rejects(new Error("test"));
 
-    const args = {} as unknown as DescribeDBClustersCommandInput;
+    const args = {} as unknown as DescribeDBInstancesCommandInput;
 
-    const program = RDSService.describeDBClusters(args);
+    const program = RDS.describeDBInstances(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultRDSServiceLayer),
+      Effect.provide(RDS.defaultLayer),
       Effect.runPromiseExit,
     );
 
@@ -157,9 +167,12 @@ describe("RDSClientImpl", () => {
         }),
       ),
     );
-    expect(clientMock).toHaveReceivedCommandTimes(DescribeDBClustersCommand, 1);
+    expect(clientMock).toHaveReceivedCommandTimes(
+      DescribeDBInstancesCommand,
+      1,
+    );
     expect(clientMock).toHaveReceivedCommandWith(
-      DescribeDBClustersCommand,
+      DescribeDBInstancesCommand,
       args,
     );
   });
@@ -167,7 +180,7 @@ describe("RDSClientImpl", () => {
   it("should not catch unexpected error as expected", async () => {
     clientMock
       .reset()
-      .on(DescribeDBClustersCommand)
+      .on(DescribeDBInstancesCommand)
       .rejects(
         new RDSServiceException({
           name: "NotHandledException",
@@ -175,15 +188,15 @@ describe("RDSClientImpl", () => {
         } as any),
       );
 
-    const args = {} as unknown as DescribeDBClustersCommandInput;
+    const args = {} as unknown as DescribeDBInstancesCommandInput;
 
-    const program = RDSService.describeDBClusters(args).pipe(
+    const program = RDS.describeDBInstances(args).pipe(
       Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultRDSServiceLayer),
+      Effect.provide(RDS.defaultLayer),
       Effect.runPromiseExit,
     );
 
@@ -197,9 +210,12 @@ describe("RDSClientImpl", () => {
         }),
       ),
     );
-    expect(clientMock).toHaveReceivedCommandTimes(DescribeDBClustersCommand, 1);
+    expect(clientMock).toHaveReceivedCommandTimes(
+      DescribeDBInstancesCommand,
+      1,
+    );
     expect(clientMock).toHaveReceivedCommandWith(
-      DescribeDBClustersCommand,
+      DescribeDBInstancesCommand,
       args,
     );
   });

@@ -1,5 +1,4 @@
 import type {
-  S3ServiceException,
   BucketAlreadyExists,
   BucketAlreadyOwnedByYou,
   InvalidObjectState,
@@ -9,8 +8,21 @@ import type {
   NotFound,
   ObjectAlreadyInActiveTierError as ObjectAlreadyInActiveTierException,
   ObjectNotInActiveTierError as ObjectNotInActiveTierException,
+  S3ServiceException,
 } from "@aws-sdk/client-s3";
-import * as Data from "effect/Data";
+import { Data } from "effect";
+
+export const AllServiceErrors = [
+  "BucketAlreadyExists",
+  "BucketAlreadyOwnedByYou",
+  "InvalidObjectState",
+  "NoSuchBucket",
+  "NoSuchKey",
+  "NoSuchUpload",
+  "NotFound",
+  "ObjectAlreadyInActiveTierError",
+  "ObjectNotInActiveTierError",
+];
 
 export type TaggedException<T extends { name: string }> = T & {
   readonly _tag: T["name"];

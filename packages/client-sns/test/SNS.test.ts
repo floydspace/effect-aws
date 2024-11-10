@@ -4,39 +4,41 @@ import {
   SNSClient,
   SNSServiceException,
 } from "@aws-sdk/client-sns";
+// @ts-ignore
+import * as runtimeConfig from "@aws-sdk/client-sns/dist-cjs/runtimeConfig";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
-import * as Layer from "effect/Layer";
-import {
-  BaseSNSServiceLayer,
-  DefaultSNSClientConfigLayer,
-  DefaultSNSServiceLayer,
-  SNSClientInstance,
-  SNSClientInstanceConfig,
-  SNSService,
-  SNSServiceLayer,
-  SdkError,
-} from "../src";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { SNS, SdkError } from "../src";
 
+const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(SNSClient);
 
 describe("SNSClientImpl", () => {
+  afterEach(() => {
+    getRuntimeConfig.mockClear();
+  });
+
   it("default", async () => {
     clientMock.reset().on(PublishCommand).resolves({});
 
     const args: PublishCommandInput = { TopicArn: "test", Message: "test" };
 
-    const program = SNSService.publish(args);
+    const program = SNS.publish(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultSNSServiceLayer),
+      Effect.provide(SNS.defaultLayer),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(PublishCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(PublishCommand, args);
   });
@@ -46,22 +48,20 @@ describe("SNSClientImpl", () => {
 
     const args: PublishCommandInput = { TopicArn: "test", Message: "test" };
 
-    const program = SNSService.publish(args);
-
-    const SNSClientConfigLayer = Layer.succeed(SNSClientInstanceConfig, {
-      region: "eu-central-1",
-    });
-    const CustomSNSServiceLayer = SNSServiceLayer.pipe(
-      Layer.provide(SNSClientConfigLayer),
-    );
+    const program = SNS.publish(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomSNSServiceLayer),
+      Effect.provide(SNS.layer({ region: "eu-central-1" })),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(PublishCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(PublishCommand, args);
   });
@@ -71,23 +71,21 @@ describe("SNSClientImpl", () => {
 
     const args: PublishCommandInput = { TopicArn: "test", Message: "test" };
 
-    const program = SNSService.publish(args);
-
-    const SNSClientInstanceLayer = Layer.succeed(
-      SNSClientInstance,
-      new SNSClient({ region: "eu-central-1" }),
-    );
-    const CustomSNSServiceLayer = BaseSNSServiceLayer.pipe(
-      Layer.provide(SNSClientInstanceLayer),
-    );
+    const program = SNS.publish(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomSNSServiceLayer),
+      Effect.provide(
+        SNS.baseLayer(() => new SNSClient({ region: "eu-central-1" })),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+    });
     expect(clientMock).toHaveReceivedCommandTimes(PublishCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(PublishCommand, args);
   });
@@ -97,27 +95,24 @@ describe("SNSClientImpl", () => {
 
     const args: PublishCommandInput = { TopicArn: "test", Message: "test" };
 
-    const program = SNSService.publish(args);
-
-    const SNSClientInstanceLayer = Layer.effect(
-      SNSClientInstance,
-      Effect.map(
-        SNSClientInstanceConfig,
-        (config) => new SNSClient({ ...config, region: "eu-central-1" }),
-      ),
-    );
-    const CustomSNSServiceLayer = BaseSNSServiceLayer.pipe(
-      Layer.provide(SNSClientInstanceLayer),
-      Layer.provide(DefaultSNSClientConfigLayer),
-    );
+    const program = SNS.publish(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomSNSServiceLayer),
+      Effect.provide(
+        SNS.baseLayer(
+          (config) => new SNSClient({ ...config, region: "eu-central-1" }),
+        ),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(PublishCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(PublishCommand, args);
   });
@@ -127,11 +122,11 @@ describe("SNSClientImpl", () => {
 
     const args: PublishCommandInput = { TopicArn: "test", Message: "test" };
 
-    const program = SNSService.publish(args);
+    const program = SNS.publish(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultSNSServiceLayer),
+      Effect.provide(SNS.defaultLayer),
       Effect.runPromiseExit,
     );
 
@@ -162,13 +157,13 @@ describe("SNSClientImpl", () => {
 
     const args: PublishCommandInput = { TopicArn: "test", Message: "test" };
 
-    const program = SNSService.publish(args).pipe(
+    const program = SNS.publish(args).pipe(
       Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultSNSServiceLayer),
+      Effect.provide(SNS.defaultLayer),
       Effect.runPromiseExit,
     );
 

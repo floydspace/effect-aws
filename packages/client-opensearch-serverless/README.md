@@ -14,13 +14,13 @@ npm install --save @effect-aws/client-opensearch-serverless
 With default OpenSearchServerlessClient instance:
 
 ```typescript
-import { OpenSearchServerlessService, DefaultOpenSearchServerlessServiceLayer } from "@effect-aws/client-opensearch-serverless";
+import { OpenSearchServerless } from "@effect-aws/client-opensearch-serverless";
 
-const program = OpenSearchServerlessService.listCollections(args);
+const program = OpenSearchServerless.listCollections(args);
 
 const result = pipe(
   program,
-  Effect.provide(DefaultOpenSearchServerlessServiceLayer),
+  Effect.provide(OpenSearchServerless.defaultLayer),
   Effect.runPromise,
 );
 ```
@@ -28,23 +28,15 @@ const result = pipe(
 With custom OpenSearchServerlessClient instance:
 
 ```typescript
-import {
-  OpenSearchServerlessService,
-  BaseOpenSearchServerlessServiceLayer,
-  OpenSearchServerlessClientInstance,
-} from "@effect-aws/client-opensearch-serverless";
+import { OpenSearchServerless } from "@effect-aws/client-opensearch-serverless";
 
-const program = OpenSearchServerlessService.listCollections(args);
-
-const OpenSearchServerlessClientInstanceLayer = Layer.succeed(
-  OpenSearchServerlessClientInstance,
-  new OpenSearchServerlessClient({ region: "eu-central-1" }),
-);
+const program = OpenSearchServerless.listCollections(args);
 
 const result = await pipe(
   program,
-  Effect.provide(BaseOpenSearchServerlessServiceLayer),
-  Effect.provide(OpenSearchServerlessClientInstanceLayer),
+  Effect.provide(
+    OpenSearchServerless.baseLayer(() => new OpenSearchServerlessClient({ region: "eu-central-1" })),
+  ),
   Effect.runPromise,
 );
 ```
@@ -52,34 +44,15 @@ const result = await pipe(
 With custom OpenSearchServerlessClient configuration:
 
 ```typescript
-import {
-  OpenSearchServerlessService,
-  BaseOpenSearchServerlessServiceLayer,
-  DefaultOpenSearchServerlessClientConfigLayer,
-  OpenSearchServerlessClientInstance,
-  OpenSearchServerlessClientInstanceConfig,
-} from "@effect-aws/client-opensearch-serverless";
+import { OpenSearchServerless } from "@effect-aws/client-opensearch-serverless";
 
-const program = OpenSearchServerlessService.listCollections(args);
-
-const OpenSearchServerlessClientInstanceLayer = Layer.provide(
-  Layer.effect(
-    OpenSearchServerlessClientInstance,
-    OpenSearchServerlessClientInstanceConfig.pipe(
-      Effect.map(
-        (config) => new OpenSearchServerlessClient({ ...config, region: "eu-central-1" }),
-      ),
-    ),
-  ),
-  DefaultOpenSearchServerlessClientConfigLayer,
-);
+const program = OpenSearchServerless.listCollections(args);
 
 const result = await pipe(
   program,
-  Effect.provide(BaseOpenSearchServerlessServiceLayer),
-  Effect.provide(OpenSearchServerlessClientInstanceLayer),
+  Effect.provide(OpenSearchServerless.layer({ region: "eu-central-1" })),
   Effect.runPromiseExit,
 );
 ```
 
-or map over `DefaultOpenSearchServerlessClientConfigLayer` layer context and update the configuration...
+or use `OpenSearchServerless.baseLayer((default) => new OpenSearchServerlessClient({ ...default, region: "eu-central-1" }))`

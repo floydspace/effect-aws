@@ -14,16 +14,13 @@ npm install --save @effect-aws/client-api-gateway-management-api
 With default ApiGatewayManagementApiClient instance:
 
 ```typescript
-import {
-  ApiGatewayManagementApiService,
-  DefaultApiGatewayManagementApiServiceLayer,
-} from "@effect-aws/client-api-gateway-management-api";
+import { ApiGatewayManagementApi } from "@effect-aws/client-api-gateway-management-api";
 
-const program = ApiGatewayManagementApiService.postToConnection(args);
+const program = ApiGatewayManagementApi.postToConnection(args);
 
 const result = pipe(
   program,
-  Effect.provide(DefaultApiGatewayManagementApiServiceLayer),
+  Effect.provide(ApiGatewayManagementApi.defaultLayer),
   Effect.runPromise,
 );
 ```
@@ -31,23 +28,15 @@ const result = pipe(
 With custom ApiGatewayManagementApiClient instance:
 
 ```typescript
-import {
-  ApiGatewayManagementApiService,
-  BaseApiGatewayManagementApiServiceLayer,
-  ApiGatewayManagementApiClientInstance,
-} from "@effect-aws/client-api-gateway-management-api";
+import { ApiGatewayManagementApi } from "@effect-aws/client-api-gateway-management-api";
 
-const program = ApiGatewayManagementApiService.postToConnection(args);
-
-const ApiGatewayManagementApiClientInstanceLayer = Layer.succeed(
-  ApiGatewayManagementApiClientInstance,
-  new ApiGatewayManagementApiClient({ region: "eu-central-1" }),
-);
+const program = ApiGatewayManagementApi.postToConnection(args);
 
 const result = await pipe(
   program,
-  Effect.provide(BaseApiGatewayManagementApiServiceLayer),
-  Effect.provide(ApiGatewayManagementApiClientInstanceLayer),
+  Effect.provide(
+    ApiGatewayManagementApi.baseLayer(() => new ApiGatewayManagementApiClient({ region: "eu-central-1" })),
+  ),
   Effect.runPromise,
 );
 ```
@@ -55,26 +44,15 @@ const result = await pipe(
 With custom ApiGatewayManagementApiClient configuration:
 
 ```typescript
-import {
-  ApiGatewayManagementApiService,
-  ApiGatewayManagementApiServiceLayer,
-  ApiGatewayManagementApiClientInstanceConfig,
-} from "@effect-aws/client-api-gateway-management-api";
+import { ApiGatewayManagementApi } from "@effect-aws/client-api-gateway-management-api";
 
-const program = ApiGatewayManagementApiService.postToConnection(args);
-
-const CustomApiGatewayManagementApiServiceLayer = Layer.provide(
-  ApiGatewayManagementApiServiceLayer,
-  Layer.succeed(ApiGatewayManagementApiClientInstanceConfig, {
-    endpoint: `https://domain/path`,
-  }),
-);
+const program = ApiGatewayManagementApi.postToConnection(args);
 
 const result = await pipe(
   program,
-  Effect.provide(CustomApiGatewayManagementApiServiceLayer),
+  Effect.provide(ApiGatewayManagementApi.layer({ region: "eu-central-1" })),
   Effect.runPromiseExit,
 );
 ```
 
-or map over `DefaultApiGatewayManagementApiClientConfigLayer` layer context and update the configuration...
+or use `ApiGatewayManagementApi.baseLayer((default) => new ApiGatewayManagementApiClient({ ...default, region: "eu-central-1" }))`

@@ -4,25 +4,23 @@ import {
   SQSClient,
   SQSServiceException,
 } from "@aws-sdk/client-sqs";
+// @ts-ignore
+import * as runtimeConfig from "@aws-sdk/client-sqs/dist-cjs/runtimeConfig";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
-import * as Layer from "effect/Layer";
-import {
-  BaseSQSServiceLayer,
-  DefaultSQSClientConfigLayer,
-  DefaultSQSServiceLayer,
-  SQSClientInstance,
-  SQSClientInstanceConfig,
-  SQSService,
-  SQSServiceLayer,
-  SdkError,
-} from "../src";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { SQS, SdkError } from "../src";
 
+const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(SQSClient);
 
 describe("SQSClientImpl", () => {
+  afterEach(() => {
+    getRuntimeConfig.mockClear();
+  });
+
   it("default", async () => {
     clientMock.reset().on(SendMessageCommand).resolves({});
 
@@ -31,15 +29,19 @@ describe("SQSClientImpl", () => {
       MessageBody: "Hello world!",
     };
 
-    const program = SQSService.sendMessage(args);
+    const program = SQS.sendMessage(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultSQSServiceLayer),
+      Effect.provide(SQS.defaultLayer),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(SendMessageCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(SendMessageCommand, args);
   });
@@ -52,22 +54,20 @@ describe("SQSClientImpl", () => {
       MessageBody: "Hello world!",
     };
 
-    const program = SQSService.sendMessage(args);
-
-    const SQSClientConfigLayer = Layer.succeed(SQSClientInstanceConfig, {
-      region: "eu-central-1",
-    });
-    const CustomSQSServiceLayer = SQSServiceLayer.pipe(
-      Layer.provide(SQSClientConfigLayer),
-    );
+    const program = SQS.sendMessage(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomSQSServiceLayer),
+      Effect.provide(SQS.layer({ region: "eu-central-1" })),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(SendMessageCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(SendMessageCommand, args);
   });
@@ -80,23 +80,21 @@ describe("SQSClientImpl", () => {
       MessageBody: "Hello world!",
     };
 
-    const program = SQSService.sendMessage(args);
-
-    const SQSClientInstanceLayer = Layer.succeed(
-      SQSClientInstance,
-      new SQSClient({ region: "eu-central-1" }),
-    );
-    const CustomSQSServiceLayer = BaseSQSServiceLayer.pipe(
-      Layer.provide(SQSClientInstanceLayer),
-    );
+    const program = SQS.sendMessage(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomSQSServiceLayer),
+      Effect.provide(
+        SQS.baseLayer(() => new SQSClient({ region: "eu-central-1" })),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+    });
     expect(clientMock).toHaveReceivedCommandTimes(SendMessageCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(SendMessageCommand, args);
   });
@@ -109,27 +107,24 @@ describe("SQSClientImpl", () => {
       MessageBody: "Hello world!",
     };
 
-    const program = SQSService.sendMessage(args);
-
-    const SQSClientInstanceLayer = Layer.effect(
-      SQSClientInstance,
-      Effect.map(
-        SQSClientInstanceConfig,
-        (config) => new SQSClient({ ...config, region: "eu-central-1" }),
-      ),
-    );
-    const CustomSQSServiceLayer = BaseSQSServiceLayer.pipe(
-      Layer.provide(SQSClientInstanceLayer),
-      Layer.provide(DefaultSQSClientConfigLayer),
-    );
+    const program = SQS.sendMessage(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomSQSServiceLayer),
+      Effect.provide(
+        SQS.baseLayer(
+          (config) => new SQSClient({ ...config, region: "eu-central-1" }),
+        ),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(SendMessageCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(SendMessageCommand, args);
   });
@@ -142,11 +137,11 @@ describe("SQSClientImpl", () => {
       MessageBody: "Hello world!",
     };
 
-    const program = SQSService.sendMessage(args);
+    const program = SQS.sendMessage(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultSQSServiceLayer),
+      Effect.provide(SQS.defaultLayer),
       Effect.runPromiseExit,
     );
 
@@ -180,13 +175,13 @@ describe("SQSClientImpl", () => {
       MessageBody: "Hello world!",
     };
 
-    const program = SQSService.sendMessage(args).pipe(
+    const program = SQS.sendMessage(args).pipe(
       Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultSQSServiceLayer),
+      Effect.provide(SQS.defaultLayer),
       Effect.runPromiseExit,
     );
 

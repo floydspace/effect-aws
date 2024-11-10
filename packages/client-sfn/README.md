@@ -14,13 +14,13 @@ npm install --save @effect-aws/client-sfn
 With default SFNClient instance:
 
 ```typescript
-import { SFNService, DefaultSFNServiceLayer } from "@effect-aws/client-sfn";
+import { SFN } from "@effect-aws/client-sfn";
 
-const program = SFNService.startExecution(args);
+const program = SFN.startExecution(args);
 
 const result = pipe(
   program,
-  Effect.provide(DefaultSFNServiceLayer),
+  Effect.provide(SFN.defaultLayer),
   Effect.runPromise,
 );
 ```
@@ -28,23 +28,15 @@ const result = pipe(
 With custom SFNClient instance:
 
 ```typescript
-import {
-  SFNService,
-  BaseSFNServiceLayer,
-  SFNClientInstance,
-} from "@effect-aws/client-sfn";
+import { SFN } from "@effect-aws/client-sfn";
 
-const program = SFNService.startExecution(args);
-
-const SFNClientInstanceLayer = Layer.succeed(
-  SFNClientInstance,
-  new SFNClient({ region: "eu-central-1" }),
-);
+const program = SFN.startExecution(args);
 
 const result = await pipe(
   program,
-  Effect.provide(BaseSFNServiceLayer),
-  Effect.provide(SFNClientInstanceLayer),
+  Effect.provide(
+    SFN.baseLayer(() => new SFNClient({ region: "eu-central-1" })),
+  ),
   Effect.runPromise,
 );
 ```
@@ -52,34 +44,15 @@ const result = await pipe(
 With custom SFNClient configuration:
 
 ```typescript
-import {
-  SFNService,
-  BaseSFNServiceLayer,
-  DefaultSFNClientConfigLayer,
-  SFNClientInstance,
-  SFNClientInstanceConfig,
-} from "@effect-aws/client-sfn";
+import { SFN } from "@effect-aws/client-sfn";
 
-const program = SFNService.startExecution(args);
-
-const SFNClientInstanceLayer = Layer.provide(
-  Layer.effect(
-    SFNClientInstance,
-    SFNClientInstanceConfig.pipe(
-      Effect.map(
-        (config) => new SFNClient({ ...config, region: "eu-central-1" }),
-      ),
-    ),
-  ),
-  DefaultSFNClientConfigLayer,
-);
+const program = SFN.startExecution(args);
 
 const result = await pipe(
   program,
-  Effect.provide(BaseSFNServiceLayer),
-  Effect.provide(SFNClientInstanceLayer),
+  Effect.provide(SFN.layer({ region: "eu-central-1" })),
   Effect.runPromiseExit,
 );
 ```
 
-or map over `DefaultSFNClientConfigLayer` layer context and update the configuration...
+or use `SFN.baseLayer((default) => new SFNClient({ ...default, region: "eu-central-1" }))`

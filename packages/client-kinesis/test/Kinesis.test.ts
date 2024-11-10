@@ -4,39 +4,41 @@ import {
   KinesisClient,
   KinesisServiceException,
 } from "@aws-sdk/client-kinesis";
+// @ts-ignore
+import * as runtimeConfig from "@aws-sdk/client-kinesis/dist-cjs/runtimeConfig";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
-import * as Layer from "effect/Layer";
-import {
-  BaseKinesisServiceLayer,
-  DefaultKinesisClientConfigLayer,
-  DefaultKinesisServiceLayer,
-  KinesisClientInstance,
-  KinesisClientInstanceConfig,
-  KinesisService,
-  KinesisServiceLayer,
-  SdkError,
-} from "../src";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { Kinesis, SdkError } from "../src";
 
+const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(KinesisClient);
 
 describe("KinesisClientImpl", () => {
+  afterEach(() => {
+    getRuntimeConfig.mockClear();
+  });
+
   it("default", async () => {
     clientMock.reset().on(PutRecordCommand).resolves({});
 
     const args = {} as unknown as PutRecordCommandInput;
 
-    const program = KinesisService.putRecord(args);
+    const program = Kinesis.putRecord(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultKinesisServiceLayer),
+      Effect.provide(Kinesis.defaultLayer),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(PutRecordCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(PutRecordCommand, args);
   });
@@ -46,25 +48,20 @@ describe("KinesisClientImpl", () => {
 
     const args = {} as unknown as PutRecordCommandInput;
 
-    const program = KinesisService.putRecord(args);
-
-    const KinesisClientConfigLayer = Layer.succeed(
-      KinesisClientInstanceConfig,
-      {
-        region: "eu-central-1",
-      },
-    );
-    const CustomKinesisServiceLayer = KinesisServiceLayer.pipe(
-      Layer.provide(KinesisClientConfigLayer),
-    );
+    const program = Kinesis.putRecord(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomKinesisServiceLayer),
+      Effect.provide(Kinesis.layer({ region: "eu-central-1" })),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(PutRecordCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(PutRecordCommand, args);
   });
@@ -74,23 +71,21 @@ describe("KinesisClientImpl", () => {
 
     const args = {} as unknown as PutRecordCommandInput;
 
-    const program = KinesisService.putRecord(args);
-
-    const KinesisClientInstanceLayer = Layer.succeed(
-      KinesisClientInstance,
-      new KinesisClient({ region: "eu-central-1" }),
-    );
-    const CustomKinesisServiceLayer = BaseKinesisServiceLayer.pipe(
-      Layer.provide(KinesisClientInstanceLayer),
-    );
+    const program = Kinesis.putRecord(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomKinesisServiceLayer),
+      Effect.provide(
+        Kinesis.baseLayer(() => new KinesisClient({ region: "eu-central-1" })),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+    });
     expect(clientMock).toHaveReceivedCommandTimes(PutRecordCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(PutRecordCommand, args);
   });
@@ -100,27 +95,24 @@ describe("KinesisClientImpl", () => {
 
     const args = {} as unknown as PutRecordCommandInput;
 
-    const program = KinesisService.putRecord(args);
-
-    const KinesisClientInstanceLayer = Layer.effect(
-      KinesisClientInstance,
-      Effect.map(
-        KinesisClientInstanceConfig,
-        (config) => new KinesisClient({ ...config, region: "eu-central-1" }),
-      ),
-    );
-    const CustomKinesisServiceLayer = BaseKinesisServiceLayer.pipe(
-      Layer.provide(KinesisClientInstanceLayer),
-      Layer.provide(DefaultKinesisClientConfigLayer),
-    );
+    const program = Kinesis.putRecord(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomKinesisServiceLayer),
+      Effect.provide(
+        Kinesis.baseLayer(
+          (config) => new KinesisClient({ ...config, region: "eu-central-1" }),
+        ),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(PutRecordCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(PutRecordCommand, args);
   });
@@ -130,11 +122,11 @@ describe("KinesisClientImpl", () => {
 
     const args = {} as unknown as PutRecordCommandInput;
 
-    const program = KinesisService.putRecord(args);
+    const program = Kinesis.putRecord(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultKinesisServiceLayer),
+      Effect.provide(Kinesis.defaultLayer),
       Effect.runPromiseExit,
     );
 
@@ -165,13 +157,13 @@ describe("KinesisClientImpl", () => {
 
     const args = {} as unknown as PutRecordCommandInput;
 
-    const program = KinesisService.putRecord(args).pipe(
+    const program = Kinesis.putRecord(args).pipe(
       Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultKinesisServiceLayer),
+      Effect.provide(Kinesis.defaultLayer),
       Effect.runPromiseExit,
     );
 

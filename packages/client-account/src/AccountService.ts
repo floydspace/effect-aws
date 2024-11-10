@@ -3,6 +3,8 @@
  */
 import {
   AccountServiceException,
+  type AccountClient,
+  type AccountClientConfig,
   AcceptPrimaryEmailUpdateCommand,
   type AcceptPrimaryEmailUpdateCommandInput,
   type AcceptPrimaryEmailUpdateCommandOutput,
@@ -45,7 +47,11 @@ import {
   AccountClientInstance,
   AccountClientInstanceLayer,
 } from "./AccountClientInstance";
-import { DefaultAccountClientConfigLayer } from "./AccountClientInstanceConfig";
+import {
+  DefaultAccountClientConfigLayer,
+  makeDefaultAccountClientInstanceConfig,
+  AccountClientInstanceConfig,
+} from "./AccountClientInstanceConfig";
 import {
   AllServiceErrors,
   AccessDeniedError,
@@ -59,7 +65,7 @@ import {
 } from "./Errors";
 
 /**
- * @since 1.0.1
+ * @since 1.0.0
  */
 export interface HttpHandlerOptions {
   /**
@@ -280,14 +286,6 @@ interface AccountService$ {
 
 /**
  * @since 1.0.0
- * @category models
- */
-export class AccountService extends Effect.Tag(
-  "@effect-aws/client-account/AccountService",
-)<AccountService, AccountService$>() {}
-
-/**
- * @since 1.0.0
  * @category constructors
  */
 export const makeAccountService = Effect.gen(function* (_) {
@@ -338,7 +336,51 @@ export const makeAccountService = Effect.gen(function* (_) {
 
 /**
  * @since 1.0.0
+ * @category models
+ */
+export class AccountService extends Effect.Tag(
+  "@effect-aws/client-account/AccountService",
+)<AccountService, AccountService$>() {
+  static readonly defaultLayer = Layer.effect(this, makeAccountService).pipe(
+    Layer.provide(AccountClientInstanceLayer),
+    Layer.provide(DefaultAccountClientConfigLayer),
+  );
+  static readonly layer = (config: AccountClientConfig) =>
+    Layer.effect(this, makeAccountService).pipe(
+      Layer.provide(AccountClientInstanceLayer),
+      Layer.provide(
+        Layer.effect(
+          AccountClientInstanceConfig,
+          makeDefaultAccountClientInstanceConfig.pipe(
+            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
+          ),
+        ),
+      ),
+    );
+  static readonly baseLayer = (
+    evaluate: (defaultConfig: AccountClientConfig) => AccountClient,
+  ) =>
+    Layer.effect(this, makeAccountService).pipe(
+      Layer.provide(
+        Layer.effect(
+          AccountClientInstance,
+          Effect.map(makeDefaultAccountClientInstanceConfig, evaluate),
+        ),
+      ),
+    );
+}
+
+/**
+ * @since 1.0.0
+ * @category models
+ * @alias AccountService
+ */
+export const Account = AccountService;
+
+/**
+ * @since 1.0.0
  * @category layers
+ * @deprecated use Account.baseLayer instead
  */
 export const BaseAccountServiceLayer = Layer.effect(
   AccountService,
@@ -348,6 +390,7 @@ export const BaseAccountServiceLayer = Layer.effect(
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use Account.layer instead
  */
 export const AccountServiceLayer = BaseAccountServiceLayer.pipe(
   Layer.provide(AccountClientInstanceLayer),
@@ -356,7 +399,6 @@ export const AccountServiceLayer = BaseAccountServiceLayer.pipe(
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use Account.defaultLayer instead
  */
-export const DefaultAccountServiceLayer = AccountServiceLayer.pipe(
-  Layer.provide(DefaultAccountClientConfigLayer),
-);
+export const DefaultAccountServiceLayer = AccountService.defaultLayer;

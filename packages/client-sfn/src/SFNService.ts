@@ -3,6 +3,8 @@
  */
 import {
   SFNServiceException,
+  type SFNClient,
+  type SFNClientConfig,
   CreateActivityCommand,
   type CreateActivityCommandInput,
   type CreateActivityCommandOutput,
@@ -155,10 +157,14 @@ import {
   TaggedException,
 } from "./Errors";
 import { SFNClientInstance, SFNClientInstanceLayer } from "./SFNClientInstance";
-import { DefaultSFNClientConfigLayer } from "./SFNClientInstanceConfig";
+import {
+  DefaultSFNClientConfigLayer,
+  makeDefaultSFNClientInstanceConfig,
+  SFNClientInstanceConfig,
+} from "./SFNClientInstanceConfig";
 
 /**
- * @since 1.4.1
+ * @since 1.0.0
  */
 export interface HttpHandlerOptions {
   /**
@@ -758,15 +764,6 @@ interface SFNService$ {
 
 /**
  * @since 1.0.0
- * @category models
- */
-export class SFNService extends Effect.Tag("@effect-aws/client-sfn/SFNService")<
-  SFNService,
-  SFNService$
->() {}
-
-/**
- * @since 1.0.0
  * @category constructors
  */
 export const makeSFNService = Effect.gen(function* (_) {
@@ -817,13 +814,59 @@ export const makeSFNService = Effect.gen(function* (_) {
 
 /**
  * @since 1.0.0
+ * @category models
+ */
+export class SFNService extends Effect.Tag("@effect-aws/client-sfn/SFNService")<
+  SFNService,
+  SFNService$
+>() {
+  static readonly defaultLayer = Layer.effect(this, makeSFNService).pipe(
+    Layer.provide(SFNClientInstanceLayer),
+    Layer.provide(DefaultSFNClientConfigLayer),
+  );
+  static readonly layer = (config: SFNClientConfig) =>
+    Layer.effect(this, makeSFNService).pipe(
+      Layer.provide(SFNClientInstanceLayer),
+      Layer.provide(
+        Layer.effect(
+          SFNClientInstanceConfig,
+          makeDefaultSFNClientInstanceConfig.pipe(
+            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
+          ),
+        ),
+      ),
+    );
+  static readonly baseLayer = (
+    evaluate: (defaultConfig: SFNClientConfig) => SFNClient,
+  ) =>
+    Layer.effect(this, makeSFNService).pipe(
+      Layer.provide(
+        Layer.effect(
+          SFNClientInstance,
+          Effect.map(makeDefaultSFNClientInstanceConfig, evaluate),
+        ),
+      ),
+    );
+}
+
+/**
+ * @since 1.0.0
+ * @category models
+ * @alias SFNService
+ */
+export const SFN = SFNService;
+
+/**
+ * @since 1.0.0
  * @category layers
+ * @deprecated use SFN.baseLayer instead
  */
 export const BaseSFNServiceLayer = Layer.effect(SFNService, makeSFNService);
 
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use SFN.layer instead
  */
 export const SFNServiceLayer = BaseSFNServiceLayer.pipe(
   Layer.provide(SFNClientInstanceLayer),
@@ -832,7 +875,6 @@ export const SFNServiceLayer = BaseSFNServiceLayer.pipe(
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use SFN.defaultLayer instead
  */
-export const DefaultSFNServiceLayer = SFNServiceLayer.pipe(
-  Layer.provide(DefaultSFNClientConfigLayer),
-);
+export const DefaultSFNServiceLayer = SFNService.defaultLayer;

@@ -3,6 +3,8 @@
  */
 import {
   ApiGatewayManagementApiServiceException,
+  type ApiGatewayManagementApiClient,
+  type ApiGatewayManagementApiClientConfig,
   DeleteConnectionCommand,
   type DeleteConnectionCommandInput,
   type DeleteConnectionCommandOutput,
@@ -18,7 +20,11 @@ import {
   ApiGatewayManagementApiClientInstance,
   ApiGatewayManagementApiClientInstanceLayer,
 } from "./ApiGatewayManagementApiClientInstance";
-import { DefaultApiGatewayManagementApiClientConfigLayer } from "./ApiGatewayManagementApiClientInstanceConfig";
+import {
+  DefaultApiGatewayManagementApiClientConfigLayer,
+  makeDefaultApiGatewayManagementApiClientInstanceConfig,
+  ApiGatewayManagementApiClientInstanceConfig,
+} from "./ApiGatewayManagementApiClientInstanceConfig";
 import {
   AllServiceErrors,
   ForbiddenError,
@@ -30,7 +36,7 @@ import {
 } from "./Errors";
 
 /**
- * @since 1.4.1
+ * @since 1.0.0
  */
 export interface HttpHandlerOptions {
   /**
@@ -89,14 +95,6 @@ interface ApiGatewayManagementApiService$ {
 
 /**
  * @since 1.0.0
- * @category models
- */
-export class ApiGatewayManagementApiService extends Effect.Tag(
-  "@effect-aws/client-api-gateway-management-api/ApiGatewayManagementApiService",
-)<ApiGatewayManagementApiService, ApiGatewayManagementApiService$>() {}
-
-/**
- * @since 1.0.0
  * @category constructors
  */
 export const makeApiGatewayManagementApiService = Effect.gen(function* (_) {
@@ -147,7 +145,59 @@ export const makeApiGatewayManagementApiService = Effect.gen(function* (_) {
 
 /**
  * @since 1.0.0
+ * @category models
+ */
+export class ApiGatewayManagementApiService extends Effect.Tag(
+  "@effect-aws/client-api-gateway-management-api/ApiGatewayManagementApiService",
+)<ApiGatewayManagementApiService, ApiGatewayManagementApiService$>() {
+  static readonly defaultLayer = Layer.effect(
+    this,
+    makeApiGatewayManagementApiService,
+  ).pipe(
+    Layer.provide(ApiGatewayManagementApiClientInstanceLayer),
+    Layer.provide(DefaultApiGatewayManagementApiClientConfigLayer),
+  );
+  static readonly layer = (config: ApiGatewayManagementApiClientConfig) =>
+    Layer.effect(this, makeApiGatewayManagementApiService).pipe(
+      Layer.provide(ApiGatewayManagementApiClientInstanceLayer),
+      Layer.provide(
+        Layer.effect(
+          ApiGatewayManagementApiClientInstanceConfig,
+          makeDefaultApiGatewayManagementApiClientInstanceConfig.pipe(
+            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
+          ),
+        ),
+      ),
+    );
+  static readonly baseLayer = (
+    evaluate: (
+      defaultConfig: ApiGatewayManagementApiClientConfig,
+    ) => ApiGatewayManagementApiClient,
+  ) =>
+    Layer.effect(this, makeApiGatewayManagementApiService).pipe(
+      Layer.provide(
+        Layer.effect(
+          ApiGatewayManagementApiClientInstance,
+          Effect.map(
+            makeDefaultApiGatewayManagementApiClientInstanceConfig,
+            evaluate,
+          ),
+        ),
+      ),
+    );
+}
+
+/**
+ * @since 1.0.0
+ * @category models
+ * @alias ApiGatewayManagementApiService
+ */
+export const ApiGatewayManagementApi = ApiGatewayManagementApiService;
+
+/**
+ * @since 1.0.0
  * @category layers
+ * @deprecated use ApiGatewayManagementApi.baseLayer instead
  */
 export const BaseApiGatewayManagementApiServiceLayer = Layer.effect(
   ApiGatewayManagementApiService,
@@ -157,6 +207,7 @@ export const BaseApiGatewayManagementApiServiceLayer = Layer.effect(
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use ApiGatewayManagementApi.layer instead
  */
 export const ApiGatewayManagementApiServiceLayer =
   BaseApiGatewayManagementApiServiceLayer.pipe(
@@ -166,8 +217,7 @@ export const ApiGatewayManagementApiServiceLayer =
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use ApiGatewayManagementApi.defaultLayer instead
  */
 export const DefaultApiGatewayManagementApiServiceLayer =
-  ApiGatewayManagementApiServiceLayer.pipe(
-    Layer.provide(DefaultApiGatewayManagementApiClientConfigLayer),
-  );
+  ApiGatewayManagementApiService.defaultLayer;

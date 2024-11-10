@@ -3,6 +3,8 @@
  */
 import {
   SNSServiceException,
+  type SNSClient,
+  type SNSClientConfig,
   AddPermissionCommand,
   type AddPermissionCommandInput,
   type AddPermissionCommandOutput,
@@ -171,10 +173,14 @@ import {
   TaggedException,
 } from "./Errors";
 import { SNSClientInstance, SNSClientInstanceLayer } from "./SNSClientInstance";
-import { DefaultSNSClientConfigLayer } from "./SNSClientInstanceConfig";
+import {
+  DefaultSNSClientConfigLayer,
+  makeDefaultSNSClientInstanceConfig,
+  SNSClientInstanceConfig,
+} from "./SNSClientInstanceConfig";
 
 /**
- * @since 1.4.1
+ * @since 1.0.0
  */
 export interface HttpHandlerOptions {
   /**
@@ -902,15 +908,6 @@ interface SNSService$ {
 
 /**
  * @since 1.0.0
- * @category models
- */
-export class SNSService extends Effect.Tag("@effect-aws/client-sns/SNSService")<
-  SNSService,
-  SNSService$
->() {}
-
-/**
- * @since 1.0.0
  * @category constructors
  */
 export const makeSNSService = Effect.gen(function* (_) {
@@ -961,13 +958,59 @@ export const makeSNSService = Effect.gen(function* (_) {
 
 /**
  * @since 1.0.0
+ * @category models
+ */
+export class SNSService extends Effect.Tag("@effect-aws/client-sns/SNSService")<
+  SNSService,
+  SNSService$
+>() {
+  static readonly defaultLayer = Layer.effect(this, makeSNSService).pipe(
+    Layer.provide(SNSClientInstanceLayer),
+    Layer.provide(DefaultSNSClientConfigLayer),
+  );
+  static readonly layer = (config: SNSClientConfig) =>
+    Layer.effect(this, makeSNSService).pipe(
+      Layer.provide(SNSClientInstanceLayer),
+      Layer.provide(
+        Layer.effect(
+          SNSClientInstanceConfig,
+          makeDefaultSNSClientInstanceConfig.pipe(
+            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
+          ),
+        ),
+      ),
+    );
+  static readonly baseLayer = (
+    evaluate: (defaultConfig: SNSClientConfig) => SNSClient,
+  ) =>
+    Layer.effect(this, makeSNSService).pipe(
+      Layer.provide(
+        Layer.effect(
+          SNSClientInstance,
+          Effect.map(makeDefaultSNSClientInstanceConfig, evaluate),
+        ),
+      ),
+    );
+}
+
+/**
+ * @since 1.0.0
+ * @category models
+ * @alias SNSService
+ */
+export const SNS = SNSService;
+
+/**
+ * @since 1.0.0
  * @category layers
+ * @deprecated use SNS.baseLayer instead
  */
 export const BaseSNSServiceLayer = Layer.effect(SNSService, makeSNSService);
 
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use SNS.layer instead
  */
 export const SNSServiceLayer = BaseSNSServiceLayer.pipe(
   Layer.provide(SNSClientInstanceLayer),
@@ -976,7 +1019,6 @@ export const SNSServiceLayer = BaseSNSServiceLayer.pipe(
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use SNS.defaultLayer instead
  */
-export const DefaultSNSServiceLayer = SNSServiceLayer.pipe(
-  Layer.provide(DefaultSNSClientConfigLayer),
-);
+export const DefaultSNSServiceLayer = SNSService.defaultLayer;

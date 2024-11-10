@@ -4,39 +4,41 @@ import {
   OpenSearchServerlessClient,
   OpenSearchServerlessServiceException,
 } from "@aws-sdk/client-opensearchserverless";
+// @ts-ignore
+import * as runtimeConfig from "@aws-sdk/client-opensearchserverless/dist-cjs/runtimeConfig";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
-import * as Layer from "effect/Layer";
-import {
-  BaseOpenSearchServerlessServiceLayer,
-  DefaultOpenSearchServerlessClientConfigLayer,
-  DefaultOpenSearchServerlessServiceLayer,
-  OpenSearchServerlessClientInstance,
-  OpenSearchServerlessClientInstanceConfig,
-  OpenSearchServerlessService,
-  OpenSearchServerlessServiceLayer,
-  SdkError,
-} from "../src";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { OpenSearchServerless, SdkError } from "../src";
 
+const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(OpenSearchServerlessClient);
 
 describe("OpenSearchServerlessClientImpl", () => {
+  afterEach(() => {
+    getRuntimeConfig.mockClear();
+  });
+
   it("default", async () => {
     clientMock.reset().on(ListCollectionsCommand).resolves({});
 
     const args = {} as unknown as ListCollectionsCommandInput;
 
-    const program = OpenSearchServerlessService.listCollections(args);
+    const program = OpenSearchServerless.listCollections(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultOpenSearchServerlessServiceLayer),
+      Effect.provide(OpenSearchServerless.defaultLayer),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(ListCollectionsCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(ListCollectionsCommand, args);
   });
@@ -46,26 +48,20 @@ describe("OpenSearchServerlessClientImpl", () => {
 
     const args = {} as unknown as ListCollectionsCommandInput;
 
-    const program = OpenSearchServerlessService.listCollections(args);
-
-    const OpenSearchServerlessClientConfigLayer = Layer.succeed(
-      OpenSearchServerlessClientInstanceConfig,
-      {
-        region: "eu-central-1",
-      },
-    );
-    const CustomOpenSearchServerlessServiceLayer =
-      OpenSearchServerlessServiceLayer.pipe(
-        Layer.provide(OpenSearchServerlessClientConfigLayer),
-      );
+    const program = OpenSearchServerless.listCollections(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomOpenSearchServerlessServiceLayer),
+      Effect.provide(OpenSearchServerless.layer({ region: "eu-central-1" })),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(ListCollectionsCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(ListCollectionsCommand, args);
   });
@@ -75,24 +71,23 @@ describe("OpenSearchServerlessClientImpl", () => {
 
     const args = {} as unknown as ListCollectionsCommandInput;
 
-    const program = OpenSearchServerlessService.listCollections(args);
-
-    const OpenSearchServerlessClientInstanceLayer = Layer.succeed(
-      OpenSearchServerlessClientInstance,
-      new OpenSearchServerlessClient({ region: "eu-central-1" }),
-    );
-    const CustomOpenSearchServerlessServiceLayer =
-      BaseOpenSearchServerlessServiceLayer.pipe(
-        Layer.provide(OpenSearchServerlessClientInstanceLayer),
-      );
+    const program = OpenSearchServerless.listCollections(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomOpenSearchServerlessServiceLayer),
+      Effect.provide(
+        OpenSearchServerless.baseLayer(
+          () => new OpenSearchServerlessClient({ region: "eu-central-1" }),
+        ),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+    });
     expect(clientMock).toHaveReceivedCommandTimes(ListCollectionsCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(ListCollectionsCommand, args);
   });
@@ -102,29 +97,28 @@ describe("OpenSearchServerlessClientImpl", () => {
 
     const args = {} as unknown as ListCollectionsCommandInput;
 
-    const program = OpenSearchServerlessService.listCollections(args);
-
-    const OpenSearchServerlessClientInstanceLayer = Layer.effect(
-      OpenSearchServerlessClientInstance,
-      Effect.map(
-        OpenSearchServerlessClientInstanceConfig,
-        (config) =>
-          new OpenSearchServerlessClient({ ...config, region: "eu-central-1" }),
-      ),
-    );
-    const CustomOpenSearchServerlessServiceLayer =
-      BaseOpenSearchServerlessServiceLayer.pipe(
-        Layer.provide(OpenSearchServerlessClientInstanceLayer),
-        Layer.provide(DefaultOpenSearchServerlessClientConfigLayer),
-      );
+    const program = OpenSearchServerless.listCollections(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomOpenSearchServerlessServiceLayer),
+      Effect.provide(
+        OpenSearchServerless.baseLayer(
+          (config) =>
+            new OpenSearchServerlessClient({
+              ...config,
+              region: "eu-central-1",
+            }),
+        ),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(ListCollectionsCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(ListCollectionsCommand, args);
   });
@@ -134,11 +128,11 @@ describe("OpenSearchServerlessClientImpl", () => {
 
     const args = {} as unknown as ListCollectionsCommandInput;
 
-    const program = OpenSearchServerlessService.listCollections(args);
+    const program = OpenSearchServerless.listCollections(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultOpenSearchServerlessServiceLayer),
+      Effect.provide(OpenSearchServerless.defaultLayer),
       Effect.runPromiseExit,
     );
 
@@ -169,13 +163,13 @@ describe("OpenSearchServerlessClientImpl", () => {
 
     const args = {} as unknown as ListCollectionsCommandInput;
 
-    const program = OpenSearchServerlessService.listCollections(args).pipe(
+    const program = OpenSearchServerless.listCollections(args).pipe(
       Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultOpenSearchServerlessServiceLayer),
+      Effect.provide(OpenSearchServerless.defaultLayer),
       Effect.runPromiseExit,
     );
 

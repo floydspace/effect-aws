@@ -4,39 +4,41 @@ import {
   OpenSearchClient,
   OpenSearchServiceException,
 } from "@aws-sdk/client-opensearch";
+// @ts-ignore
+import * as runtimeConfig from "@aws-sdk/client-opensearch/dist-cjs/runtimeConfig";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
-import * as Layer from "effect/Layer";
-import {
-  BaseOpenSearchServiceLayer,
-  DefaultOpenSearchClientConfigLayer,
-  DefaultOpenSearchServiceLayer,
-  OpenSearchClientInstance,
-  OpenSearchClientInstanceConfig,
-  OpenSearchService,
-  OpenSearchServiceLayer,
-  SdkError,
-} from "../src";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { OpenSearch, SdkError } from "../src";
 
+const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(OpenSearchClient);
 
 describe("OpenSearchClientImpl", () => {
+  afterEach(() => {
+    getRuntimeConfig.mockClear();
+  });
+
   it("default", async () => {
     clientMock.reset().on(DescribeDomainsCommand).resolves({});
 
     const args = {} as unknown as DescribeDomainsCommandInput;
 
-    const program = OpenSearchService.describeDomains(args);
+    const program = OpenSearch.describeDomains(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultOpenSearchServiceLayer),
+      Effect.provide(OpenSearch.defaultLayer),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(DescribeDomainsCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(DescribeDomainsCommand, args);
   });
@@ -46,25 +48,20 @@ describe("OpenSearchClientImpl", () => {
 
     const args = {} as unknown as DescribeDomainsCommandInput;
 
-    const program = OpenSearchService.describeDomains(args);
-
-    const OpenSearchClientConfigLayer = Layer.succeed(
-      OpenSearchClientInstanceConfig,
-      {
-        region: "eu-central-1",
-      },
-    );
-    const CustomOpenSearchServiceLayer = OpenSearchServiceLayer.pipe(
-      Layer.provide(OpenSearchClientConfigLayer),
-    );
+    const program = OpenSearch.describeDomains(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomOpenSearchServiceLayer),
+      Effect.provide(OpenSearch.layer({ region: "eu-central-1" })),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(DescribeDomainsCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(DescribeDomainsCommand, args);
   });
@@ -74,23 +71,23 @@ describe("OpenSearchClientImpl", () => {
 
     const args = {} as unknown as DescribeDomainsCommandInput;
 
-    const program = OpenSearchService.describeDomains(args);
-
-    const OpenSearchClientInstanceLayer = Layer.succeed(
-      OpenSearchClientInstance,
-      new OpenSearchClient({ region: "eu-central-1" }),
-    );
-    const CustomOpenSearchServiceLayer = BaseOpenSearchServiceLayer.pipe(
-      Layer.provide(OpenSearchClientInstanceLayer),
-    );
+    const program = OpenSearch.describeDomains(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomOpenSearchServiceLayer),
+      Effect.provide(
+        OpenSearch.baseLayer(
+          () => new OpenSearchClient({ region: "eu-central-1" }),
+        ),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+    });
     expect(clientMock).toHaveReceivedCommandTimes(DescribeDomainsCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(DescribeDomainsCommand, args);
   });
@@ -100,27 +97,25 @@ describe("OpenSearchClientImpl", () => {
 
     const args = {} as unknown as DescribeDomainsCommandInput;
 
-    const program = OpenSearchService.describeDomains(args);
-
-    const OpenSearchClientInstanceLayer = Layer.effect(
-      OpenSearchClientInstance,
-      Effect.map(
-        OpenSearchClientInstanceConfig,
-        (config) => new OpenSearchClient({ ...config, region: "eu-central-1" }),
-      ),
-    );
-    const CustomOpenSearchServiceLayer = BaseOpenSearchServiceLayer.pipe(
-      Layer.provide(OpenSearchClientInstanceLayer),
-      Layer.provide(DefaultOpenSearchClientConfigLayer),
-    );
+    const program = OpenSearch.describeDomains(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomOpenSearchServiceLayer),
+      Effect.provide(
+        OpenSearch.baseLayer(
+          (config) =>
+            new OpenSearchClient({ ...config, region: "eu-central-1" }),
+        ),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(DescribeDomainsCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(DescribeDomainsCommand, args);
   });
@@ -130,11 +125,11 @@ describe("OpenSearchClientImpl", () => {
 
     const args = {} as unknown as DescribeDomainsCommandInput;
 
-    const program = OpenSearchService.describeDomains(args);
+    const program = OpenSearch.describeDomains(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultOpenSearchServiceLayer),
+      Effect.provide(OpenSearch.defaultLayer),
       Effect.runPromiseExit,
     );
 
@@ -165,13 +160,13 @@ describe("OpenSearchClientImpl", () => {
 
     const args = {} as unknown as DescribeDomainsCommandInput;
 
-    const program = OpenSearchService.describeDomains(args).pipe(
+    const program = OpenSearch.describeDomains(args).pipe(
       Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultOpenSearchServiceLayer),
+      Effect.provide(OpenSearch.defaultLayer),
       Effect.runPromiseExit,
     );
 

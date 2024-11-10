@@ -3,6 +3,8 @@
  */
 import {
   CognitoIdentityProviderServiceException,
+  type CognitoIdentityProviderClient,
+  type CognitoIdentityProviderClientConfig,
   AddCustomAttributesCommand,
   type AddCustomAttributesCommandInput,
   type AddCustomAttributesCommandOutput,
@@ -318,7 +320,11 @@ import {
   CognitoIdentityProviderClientInstance,
   CognitoIdentityProviderClientInstanceLayer,
 } from "./CognitoIdentityProviderClientInstance";
-import { DefaultCognitoIdentityProviderClientConfigLayer } from "./CognitoIdentityProviderClientInstanceConfig";
+import {
+  DefaultCognitoIdentityProviderClientConfigLayer,
+  makeDefaultCognitoIdentityProviderClientInstanceConfig,
+  CognitoIdentityProviderClientInstanceConfig,
+} from "./CognitoIdentityProviderClientInstanceConfig";
 import {
   AllServiceErrors,
   AliasExistsError,
@@ -368,7 +374,7 @@ import {
 } from "./Errors";
 
 /**
- * @since 1.0.1
+ * @since 1.0.0
  */
 export interface HttpHandlerOptions {
   /**
@@ -2446,14 +2452,6 @@ interface CognitoIdentityProviderService$ {
 
 /**
  * @since 1.0.0
- * @category models
- */
-export class CognitoIdentityProviderService extends Effect.Tag(
-  "@effect-aws/client-cognito-identity-provider/CognitoIdentityProviderService",
-)<CognitoIdentityProviderService, CognitoIdentityProviderService$>() {}
-
-/**
- * @since 1.0.0
  * @category constructors
  */
 export const makeCognitoIdentityProviderService = Effect.gen(function* (_) {
@@ -2504,7 +2502,59 @@ export const makeCognitoIdentityProviderService = Effect.gen(function* (_) {
 
 /**
  * @since 1.0.0
+ * @category models
+ */
+export class CognitoIdentityProviderService extends Effect.Tag(
+  "@effect-aws/client-cognito-identity-provider/CognitoIdentityProviderService",
+)<CognitoIdentityProviderService, CognitoIdentityProviderService$>() {
+  static readonly defaultLayer = Layer.effect(
+    this,
+    makeCognitoIdentityProviderService,
+  ).pipe(
+    Layer.provide(CognitoIdentityProviderClientInstanceLayer),
+    Layer.provide(DefaultCognitoIdentityProviderClientConfigLayer),
+  );
+  static readonly layer = (config: CognitoIdentityProviderClientConfig) =>
+    Layer.effect(this, makeCognitoIdentityProviderService).pipe(
+      Layer.provide(CognitoIdentityProviderClientInstanceLayer),
+      Layer.provide(
+        Layer.effect(
+          CognitoIdentityProviderClientInstanceConfig,
+          makeDefaultCognitoIdentityProviderClientInstanceConfig.pipe(
+            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
+          ),
+        ),
+      ),
+    );
+  static readonly baseLayer = (
+    evaluate: (
+      defaultConfig: CognitoIdentityProviderClientConfig,
+    ) => CognitoIdentityProviderClient,
+  ) =>
+    Layer.effect(this, makeCognitoIdentityProviderService).pipe(
+      Layer.provide(
+        Layer.effect(
+          CognitoIdentityProviderClientInstance,
+          Effect.map(
+            makeDefaultCognitoIdentityProviderClientInstanceConfig,
+            evaluate,
+          ),
+        ),
+      ),
+    );
+}
+
+/**
+ * @since 1.0.0
+ * @category models
+ * @alias CognitoIdentityProviderService
+ */
+export const CognitoIdentityProvider = CognitoIdentityProviderService;
+
+/**
+ * @since 1.0.0
  * @category layers
+ * @deprecated use CognitoIdentityProvider.baseLayer instead
  */
 export const BaseCognitoIdentityProviderServiceLayer = Layer.effect(
   CognitoIdentityProviderService,
@@ -2514,6 +2564,7 @@ export const BaseCognitoIdentityProviderServiceLayer = Layer.effect(
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use CognitoIdentityProvider.layer instead
  */
 export const CognitoIdentityProviderServiceLayer =
   BaseCognitoIdentityProviderServiceLayer.pipe(
@@ -2523,8 +2574,7 @@ export const CognitoIdentityProviderServiceLayer =
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use CognitoIdentityProvider.defaultLayer instead
  */
 export const DefaultCognitoIdentityProviderServiceLayer =
-  CognitoIdentityProviderServiceLayer.pipe(
-    Layer.provide(DefaultCognitoIdentityProviderClientConfigLayer),
-  );
+  CognitoIdentityProviderService.defaultLayer;

@@ -14,13 +14,13 @@ npm install --save @effect-aws/client-sts
 With default STSClient instance:
 
 ```typescript
-import { STSService, DefaultSTSServiceLayer } from "@effect-aws/client-sts";
+import { STS } from "@effect-aws/client-sts";
 
-const program = STSService.getCallerIdentity(args);
+const program = STS.getCallerIdentity(args);
 
 const result = pipe(
   program,
-  Effect.provide(DefaultSTSServiceLayer),
+  Effect.provide(STS.defaultLayer),
   Effect.runPromise,
 );
 ```
@@ -28,23 +28,15 @@ const result = pipe(
 With custom STSClient instance:
 
 ```typescript
-import {
-  STSService,
-  BaseSTSServiceLayer,
-  STSClientInstance,
-} from "@effect-aws/client-sts";
+import { STS } from "@effect-aws/client-sts";
 
-const program = STSService.getCallerIdentity(args);
-
-const STSClientInstanceLayer = Layer.succeed(
-  STSClientInstance,
-  new STSClient({ region: "eu-central-1" }),
-);
+const program = STS.getCallerIdentity(args);
 
 const result = await pipe(
   program,
-  Effect.provide(BaseSTSServiceLayer),
-  Effect.provide(STSClientInstanceLayer),
+  Effect.provide(
+    STS.baseLayer(() => new STSClient({ region: "eu-central-1" })),
+  ),
   Effect.runPromise,
 );
 ```
@@ -52,34 +44,15 @@ const result = await pipe(
 With custom STSClient configuration:
 
 ```typescript
-import {
-  STSService,
-  BaseSTSServiceLayer,
-  DefaultSTSClientConfigLayer,
-  STSClientInstance,
-  STSClientInstanceConfig,
-} from "@effect-aws/client-sts";
+import { STS } from "@effect-aws/client-sts";
 
-const program = STSService.getCallerIdentity(args);
-
-const STSClientInstanceLayer = Layer.provide(
-  Layer.effect(
-    STSClientInstance,
-    STSClientInstanceConfig.pipe(
-      Effect.map(
-        (config) => new STSClient({ ...config, region: "eu-central-1" }),
-      ),
-    ),
-  ),
-  DefaultSTSClientConfigLayer,
-);
+const program = STS.getCallerIdentity(args);
 
 const result = await pipe(
   program,
-  Effect.provide(BaseSTSServiceLayer),
-  Effect.provide(STSClientInstanceLayer),
+  Effect.provide(STS.layer({ region: "eu-central-1" })),
   Effect.runPromiseExit,
 );
 ```
 
-or map over `DefaultSTSClientConfigLayer` layer context and update the configuration...
+or use `STS.baseLayer((default) => new STSClient({ ...default, region: "eu-central-1" }))`

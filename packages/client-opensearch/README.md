@@ -14,13 +14,13 @@ npm install --save @effect-aws/client-opensearch
 With default OpenSearchClient instance:
 
 ```typescript
-import { OpenSearchService, DefaultOpenSearchServiceLayer } from "@effect-aws/client-opensearch";
+import { OpenSearch } from "@effect-aws/client-opensearch";
 
-const program = OpenSearchService.describeDomains(args);
+const program = OpenSearch.describeDomains(args);
 
 const result = pipe(
   program,
-  Effect.provide(DefaultOpenSearchServiceLayer),
+  Effect.provide(OpenSearch.defaultLayer),
   Effect.runPromise,
 );
 ```
@@ -28,23 +28,15 @@ const result = pipe(
 With custom OpenSearchClient instance:
 
 ```typescript
-import {
-  OpenSearchService,
-  BaseOpenSearchServiceLayer,
-  OpenSearchClientInstance,
-} from "@effect-aws/client-opensearch";
+import { OpenSearch } from "@effect-aws/client-opensearch";
 
-const program = OpenSearchService.describeDomains(args);
-
-const OpenSearchClientInstanceLayer = Layer.succeed(
-  OpenSearchClientInstance,
-  new OpenSearchClient({ region: "eu-central-1" }),
-);
+const program = OpenSearch.describeDomains(args);
 
 const result = await pipe(
   program,
-  Effect.provide(BaseOpenSearchServiceLayer),
-  Effect.provide(OpenSearchClientInstanceLayer),
+  Effect.provide(
+    OpenSearch.baseLayer(() => new OpenSearchClient({ region: "eu-central-1" })),
+  ),
   Effect.runPromise,
 );
 ```
@@ -52,34 +44,15 @@ const result = await pipe(
 With custom OpenSearchClient configuration:
 
 ```typescript
-import {
-  OpenSearchService,
-  BaseOpenSearchServiceLayer,
-  DefaultOpenSearchClientConfigLayer,
-  OpenSearchClientInstance,
-  OpenSearchClientInstanceConfig,
-} from "@effect-aws/client-opensearch";
+import { OpenSearch } from "@effect-aws/client-opensearch";
 
-const program = OpenSearchService.describeDomains(args);
-
-const OpenSearchClientInstanceLayer = Layer.provide(
-  Layer.effect(
-    OpenSearchClientInstance,
-    OpenSearchClientInstanceConfig.pipe(
-      Effect.map(
-        (config) => new OpenSearchClient({ ...config, region: "eu-central-1" }),
-      ),
-    ),
-  ),
-  DefaultOpenSearchClientConfigLayer,
-);
+const program = OpenSearch.describeDomains(args);
 
 const result = await pipe(
   program,
-  Effect.provide(BaseOpenSearchServiceLayer),
-  Effect.provide(OpenSearchClientInstanceLayer),
+  Effect.provide(OpenSearch.layer({ region: "eu-central-1" })),
   Effect.runPromiseExit,
 );
 ```
 
-or map over `DefaultOpenSearchClientConfigLayer` layer context and update the configuration...
+or use `OpenSearch.baseLayer((default) => new OpenSearchClient({ ...default, region: "eu-central-1" }))`

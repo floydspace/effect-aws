@@ -14,13 +14,13 @@ npm install --save @effect-aws/client-mq
 With default MqClient instance:
 
 ```typescript
-import { MqService, DefaultMqServiceLayer } from "@effect-aws/client-mq";
+import { Mq } from "@effect-aws/client-mq";
 
-const program = MqService.listBrokers(args);
+const program = Mq.listBrokers(args);
 
 const result = pipe(
   program,
-  Effect.provide(DefaultMqServiceLayer),
+  Effect.provide(Mq.defaultLayer),
   Effect.runPromise,
 );
 ```
@@ -28,23 +28,15 @@ const result = pipe(
 With custom MqClient instance:
 
 ```typescript
-import {
-  MqService,
-  BaseMqServiceLayer,
-  MqClientInstance,
-} from "@effect-aws/client-mq";
+import { Mq } from "@effect-aws/client-mq";
 
-const program = MqService.listBrokers(args);
-
-const MqClientInstanceLayer = Layer.succeed(
-  MqClientInstance,
-  new MqClient({ region: "eu-central-1" }),
-);
+const program = Mq.listBrokers(args);
 
 const result = await pipe(
   program,
-  Effect.provide(BaseMqServiceLayer),
-  Effect.provide(MqClientInstanceLayer),
+  Effect.provide(
+    Mq.baseLayer(() => new MqClient({ region: "eu-central-1" })),
+  ),
   Effect.runPromise,
 );
 ```
@@ -52,34 +44,15 @@ const result = await pipe(
 With custom MqClient configuration:
 
 ```typescript
-import {
-  MqService,
-  BaseMqServiceLayer,
-  DefaultMqClientConfigLayer,
-  MqClientInstance,
-  MqClientInstanceConfig,
-} from "@effect-aws/client-mq";
+import { Mq } from "@effect-aws/client-mq";
 
-const program = MqService.listBrokers(args);
-
-const MqClientInstanceLayer = Layer.provide(
-  Layer.effect(
-    MqClientInstance,
-    MqClientInstanceConfig.pipe(
-      Effect.map(
-        (config) => new MqClient({ ...config, region: "eu-central-1" }),
-      ),
-    ),
-  ),
-  DefaultMqClientConfigLayer,
-);
+const program = Mq.listBrokers(args);
 
 const result = await pipe(
   program,
-  Effect.provide(BaseMqServiceLayer),
-  Effect.provide(MqClientInstanceLayer),
+  Effect.provide(Mq.layer({ region: "eu-central-1" })),
   Effect.runPromiseExit,
 );
 ```
 
-or map over `DefaultMqClientConfigLayer` layer context and update the configuration...
+or use `Mq.baseLayer((default) => new MqClient({ ...default, region: "eu-central-1" }))`

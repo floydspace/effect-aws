@@ -3,6 +3,8 @@
  */
 import {
   OpenSearchServiceException,
+  type OpenSearchClient,
+  type OpenSearchClientConfig,
   AcceptInboundConnectionCommand,
   type AcceptInboundConnectionCommandInput,
   type AcceptInboundConnectionCommandOutput,
@@ -231,10 +233,14 @@ import {
   OpenSearchClientInstance,
   OpenSearchClientInstanceLayer,
 } from "./OpenSearchClientInstance";
-import { DefaultOpenSearchClientConfigLayer } from "./OpenSearchClientInstanceConfig";
+import {
+  DefaultOpenSearchClientConfigLayer,
+  makeDefaultOpenSearchClientInstanceConfig,
+  OpenSearchClientInstanceConfig,
+} from "./OpenSearchClientInstanceConfig";
 
 /**
- * @since 1.0.1
+ * @since 1.0.0
  */
 export interface HttpHandlerOptions {
   /**
@@ -1371,14 +1377,6 @@ interface OpenSearchService$ {
 
 /**
  * @since 1.0.0
- * @category models
- */
-export class OpenSearchService extends Effect.Tag(
-  "@effect-aws/client-opensearch/OpenSearchService",
-)<OpenSearchService, OpenSearchService$>() {}
-
-/**
- * @since 1.0.0
  * @category constructors
  */
 export const makeOpenSearchService = Effect.gen(function* (_) {
@@ -1429,7 +1427,51 @@ export const makeOpenSearchService = Effect.gen(function* (_) {
 
 /**
  * @since 1.0.0
+ * @category models
+ */
+export class OpenSearchService extends Effect.Tag(
+  "@effect-aws/client-opensearch/OpenSearchService",
+)<OpenSearchService, OpenSearchService$>() {
+  static readonly defaultLayer = Layer.effect(this, makeOpenSearchService).pipe(
+    Layer.provide(OpenSearchClientInstanceLayer),
+    Layer.provide(DefaultOpenSearchClientConfigLayer),
+  );
+  static readonly layer = (config: OpenSearchClientConfig) =>
+    Layer.effect(this, makeOpenSearchService).pipe(
+      Layer.provide(OpenSearchClientInstanceLayer),
+      Layer.provide(
+        Layer.effect(
+          OpenSearchClientInstanceConfig,
+          makeDefaultOpenSearchClientInstanceConfig.pipe(
+            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
+          ),
+        ),
+      ),
+    );
+  static readonly baseLayer = (
+    evaluate: (defaultConfig: OpenSearchClientConfig) => OpenSearchClient,
+  ) =>
+    Layer.effect(this, makeOpenSearchService).pipe(
+      Layer.provide(
+        Layer.effect(
+          OpenSearchClientInstance,
+          Effect.map(makeDefaultOpenSearchClientInstanceConfig, evaluate),
+        ),
+      ),
+    );
+}
+
+/**
+ * @since 1.0.0
+ * @category models
+ * @alias OpenSearchService
+ */
+export const OpenSearch = OpenSearchService;
+
+/**
+ * @since 1.0.0
  * @category layers
+ * @deprecated use OpenSearch.baseLayer instead
  */
 export const BaseOpenSearchServiceLayer = Layer.effect(
   OpenSearchService,
@@ -1439,6 +1481,7 @@ export const BaseOpenSearchServiceLayer = Layer.effect(
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use OpenSearch.layer instead
  */
 export const OpenSearchServiceLayer = BaseOpenSearchServiceLayer.pipe(
   Layer.provide(OpenSearchClientInstanceLayer),
@@ -1447,7 +1490,6 @@ export const OpenSearchServiceLayer = BaseOpenSearchServiceLayer.pipe(
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use OpenSearch.defaultLayer instead
  */
-export const DefaultOpenSearchServiceLayer = OpenSearchServiceLayer.pipe(
-  Layer.provide(DefaultOpenSearchClientConfigLayer),
-);
+export const DefaultOpenSearchServiceLayer = OpenSearchService.defaultLayer;

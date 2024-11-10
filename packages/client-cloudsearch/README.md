@@ -14,13 +14,13 @@ npm install --save @effect-aws/client-cloudsearch
 With default CloudSearchClient instance:
 
 ```typescript
-import { CloudSearchService, DefaultCloudSearchServiceLayer } from "@effect-aws/client-cloudsearch";
+import { CloudSearch } from "@effect-aws/client-cloudsearch";
 
-const program = CloudSearchService.describeDomains(args);
+const program = CloudSearch.describeDomains(args);
 
 const result = pipe(
   program,
-  Effect.provide(DefaultCloudSearchServiceLayer),
+  Effect.provide(CloudSearch.defaultLayer),
   Effect.runPromise,
 );
 ```
@@ -28,23 +28,15 @@ const result = pipe(
 With custom CloudSearchClient instance:
 
 ```typescript
-import {
-  CloudSearchService,
-  BaseCloudSearchServiceLayer,
-  CloudSearchClientInstance,
-} from "@effect-aws/client-cloudsearch";
+import { CloudSearch } from "@effect-aws/client-cloudsearch";
 
-const program = CloudSearchService.describeDomains(args);
-
-const CloudSearchClientInstanceLayer = Layer.succeed(
-  CloudSearchClientInstance,
-  new CloudSearchClient({ region: "eu-central-1" }),
-);
+const program = CloudSearch.describeDomains(args);
 
 const result = await pipe(
   program,
-  Effect.provide(BaseCloudSearchServiceLayer),
-  Effect.provide(CloudSearchClientInstanceLayer),
+  Effect.provide(
+    CloudSearch.baseLayer(() => new CloudSearchClient({ region: "eu-central-1" })),
+  ),
   Effect.runPromise,
 );
 ```
@@ -52,34 +44,15 @@ const result = await pipe(
 With custom CloudSearchClient configuration:
 
 ```typescript
-import {
-  CloudSearchService,
-  BaseCloudSearchServiceLayer,
-  DefaultCloudSearchClientConfigLayer,
-  CloudSearchClientInstance,
-  CloudSearchClientInstanceConfig,
-} from "@effect-aws/client-cloudsearch";
+import { CloudSearch } from "@effect-aws/client-cloudsearch";
 
-const program = CloudSearchService.describeDomains(args);
-
-const CloudSearchClientInstanceLayer = Layer.provide(
-  Layer.effect(
-    CloudSearchClientInstance,
-    CloudSearchClientInstanceConfig.pipe(
-      Effect.map(
-        (config) => new CloudSearchClient({ ...config, region: "eu-central-1" }),
-      ),
-    ),
-  ),
-  DefaultCloudSearchClientConfigLayer,
-);
+const program = CloudSearch.describeDomains(args);
 
 const result = await pipe(
   program,
-  Effect.provide(BaseCloudSearchServiceLayer),
-  Effect.provide(CloudSearchClientInstanceLayer),
+  Effect.provide(CloudSearch.layer({ region: "eu-central-1" })),
   Effect.runPromiseExit,
 );
 ```
 
-or map over `DefaultCloudSearchClientConfigLayer` layer context and update the configuration...
+or use `CloudSearch.baseLayer((default) => new CloudSearchClient({ ...default, region: "eu-central-1" }))`

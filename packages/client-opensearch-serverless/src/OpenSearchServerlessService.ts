@@ -3,6 +3,8 @@
  */
 import {
   OpenSearchServerlessServiceException,
+  type OpenSearchServerlessClient,
+  type OpenSearchServerlessClientConfig,
   BatchGetCollectionCommand,
   type BatchGetCollectionCommandInput,
   type BatchGetCollectionCommandOutput,
@@ -131,10 +133,14 @@ import {
   OpenSearchServerlessClientInstance,
   OpenSearchServerlessClientInstanceLayer,
 } from "./OpenSearchServerlessClientInstance";
-import { DefaultOpenSearchServerlessClientConfigLayer } from "./OpenSearchServerlessClientInstanceConfig";
+import {
+  DefaultOpenSearchServerlessClientConfigLayer,
+  makeDefaultOpenSearchServerlessClientInstanceConfig,
+  OpenSearchServerlessClientInstanceConfig,
+} from "./OpenSearchServerlessClientInstanceConfig";
 
 /**
- * @since 1.0.1
+ * @since 1.0.0
  */
 export interface HttpHandlerOptions {
   /**
@@ -673,14 +679,6 @@ interface OpenSearchServerlessService$ {
 
 /**
  * @since 1.0.0
- * @category models
- */
-export class OpenSearchServerlessService extends Effect.Tag(
-  "@effect-aws/client-opensearch-serverless/OpenSearchServerlessService",
-)<OpenSearchServerlessService, OpenSearchServerlessService$>() {}
-
-/**
- * @since 1.0.0
  * @category constructors
  */
 export const makeOpenSearchServerlessService = Effect.gen(function* (_) {
@@ -731,7 +729,59 @@ export const makeOpenSearchServerlessService = Effect.gen(function* (_) {
 
 /**
  * @since 1.0.0
+ * @category models
+ */
+export class OpenSearchServerlessService extends Effect.Tag(
+  "@effect-aws/client-opensearch-serverless/OpenSearchServerlessService",
+)<OpenSearchServerlessService, OpenSearchServerlessService$>() {
+  static readonly defaultLayer = Layer.effect(
+    this,
+    makeOpenSearchServerlessService,
+  ).pipe(
+    Layer.provide(OpenSearchServerlessClientInstanceLayer),
+    Layer.provide(DefaultOpenSearchServerlessClientConfigLayer),
+  );
+  static readonly layer = (config: OpenSearchServerlessClientConfig) =>
+    Layer.effect(this, makeOpenSearchServerlessService).pipe(
+      Layer.provide(OpenSearchServerlessClientInstanceLayer),
+      Layer.provide(
+        Layer.effect(
+          OpenSearchServerlessClientInstanceConfig,
+          makeDefaultOpenSearchServerlessClientInstanceConfig.pipe(
+            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
+          ),
+        ),
+      ),
+    );
+  static readonly baseLayer = (
+    evaluate: (
+      defaultConfig: OpenSearchServerlessClientConfig,
+    ) => OpenSearchServerlessClient,
+  ) =>
+    Layer.effect(this, makeOpenSearchServerlessService).pipe(
+      Layer.provide(
+        Layer.effect(
+          OpenSearchServerlessClientInstance,
+          Effect.map(
+            makeDefaultOpenSearchServerlessClientInstanceConfig,
+            evaluate,
+          ),
+        ),
+      ),
+    );
+}
+
+/**
+ * @since 1.0.0
+ * @category models
+ * @alias OpenSearchServerlessService
+ */
+export const OpenSearchServerless = OpenSearchServerlessService;
+
+/**
+ * @since 1.0.0
  * @category layers
+ * @deprecated use OpenSearchServerless.baseLayer instead
  */
 export const BaseOpenSearchServerlessServiceLayer = Layer.effect(
   OpenSearchServerlessService,
@@ -741,6 +791,7 @@ export const BaseOpenSearchServerlessServiceLayer = Layer.effect(
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use OpenSearchServerless.layer instead
  */
 export const OpenSearchServerlessServiceLayer =
   BaseOpenSearchServerlessServiceLayer.pipe(
@@ -750,8 +801,7 @@ export const OpenSearchServerlessServiceLayer =
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use OpenSearchServerless.defaultLayer instead
  */
 export const DefaultOpenSearchServerlessServiceLayer =
-  OpenSearchServerlessServiceLayer.pipe(
-    Layer.provide(DefaultOpenSearchServerlessClientConfigLayer),
-  );
+  OpenSearchServerlessService.defaultLayer;

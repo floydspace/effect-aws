@@ -14,13 +14,13 @@ npm install --save @effect-aws/client-sns
 With default SNSClient instance:
 
 ```typescript
-import { SNSService, DefaultSNSServiceLayer } from "@effect-aws/client-sns";
+import { SNS } from "@effect-aws/client-sns";
 
-const program = SNSService.publish(args);
+const program = SNS.publish(args);
 
 const result = pipe(
   program,
-  Effect.provide(DefaultSNSServiceLayer),
+  Effect.provide(SNS.defaultLayer),
   Effect.runPromise,
 );
 ```
@@ -28,23 +28,15 @@ const result = pipe(
 With custom SNSClient instance:
 
 ```typescript
-import {
-  SNSService,
-  BaseSNSServiceLayer,
-  SNSClientInstance,
-} from "@effect-aws/client-sns";
+import { SNS } from "@effect-aws/client-sns";
 
-const program = SNSService.publish(args);
-
-const SNSClientInstanceLayer = Layer.succeed(
-  SNSClientInstance,
-  new SNSClient({ region: "eu-central-1" }),
-);
+const program = SNS.publish(args);
 
 const result = await pipe(
   program,
-  Effect.provide(BaseSNSServiceLayer),
-  Effect.provide(SNSClientInstanceLayer),
+  Effect.provide(
+    SNS.baseLayer(() => new SNSClient({ region: "eu-central-1" })),
+  ),
   Effect.runPromise,
 );
 ```
@@ -52,34 +44,15 @@ const result = await pipe(
 With custom SNSClient configuration:
 
 ```typescript
-import {
-  SNSService,
-  BaseSNSServiceLayer,
-  DefaultSNSClientConfigLayer,
-  SNSClientInstance,
-  SNSClientInstanceConfig,
-} from "@effect-aws/client-sns";
+import { SNS } from "@effect-aws/client-sns";
 
-const program = SNSService.publish(args);
-
-const SNSClientInstanceLayer = Layer.provide(
-  Layer.effect(
-    SNSClientInstance,
-    SNSClientInstanceConfig.pipe(
-      Effect.map(
-        (config) => new SNSClient({ ...config, region: "eu-central-1" }),
-      ),
-    ),
-  ),
-  DefaultSNSClientConfigLayer,
-);
+const program = SNS.publish(args);
 
 const result = await pipe(
   program,
-  Effect.provide(BaseSNSServiceLayer),
-  Effect.provide(SNSClientInstanceLayer),
+  Effect.provide(SNS.layer({ region: "eu-central-1" })),
   Effect.runPromiseExit,
 );
 ```
 
-or map over `DefaultSNSClientConfigLayer` layer context and update the configuration...
+or use `SNS.baseLayer((default) => new SNSClient({ ...default, region: "eu-central-1" }))`

@@ -14,16 +14,13 @@ npm install --save @effect-aws/client-secrets-manager
 With default SecretsManagerClient instance:
 
 ```typescript
-import {
-  SecretsManagerService,
-  DefaultSecretsManagerServiceLayer,
-} from "@effect-aws/client-secrets-manager";
+import { SecretsManager } from "@effect-aws/client-secrets-manager";
 
-const program = SecretsManagerService.getSecretValue(args);
+const program = SecretsManager.getSecretValue(args);
 
 const result = pipe(
   program,
-  Effect.provide(DefaultSecretsManagerServiceLayer),
+  Effect.provide(SecretsManager.defaultLayer),
   Effect.runPromise,
 );
 ```
@@ -31,23 +28,15 @@ const result = pipe(
 With custom SecretsManagerClient instance:
 
 ```typescript
-import {
-  SecretsManagerService,
-  BaseSecretsManagerServiceLayer,
-  SecretsManagerClientInstance,
-} from "@effect-aws/client-secrets-manager";
+import { SecretsManager } from "@effect-aws/client-secrets-manager";
 
-const program = SecretsManagerService.getSecretValue(args);
-
-const SecretsManagerClientInstanceLayer = Layer.succeed(
-  SecretsManagerClientInstance,
-  new SecretsManagerClient({ region: "eu-central-1" }),
-);
+const program = SecretsManager.getSecretValue(args);
 
 const result = await pipe(
   program,
-  Effect.provide(BaseSecretsManagerServiceLayer),
-  Effect.provide(SecretsManagerClientInstanceLayer),
+  Effect.provide(
+    SecretsManager.baseLayer(() => new SecretsManagerClient({ region: "eu-central-1" })),
+  ),
   Effect.runPromise,
 );
 ```
@@ -55,35 +44,15 @@ const result = await pipe(
 With custom SecretsManagerClient configuration:
 
 ```typescript
-import {
-  SecretsManagerService,
-  BaseSecretsManagerServiceLayer,
-  DefaultSecretsManagerClientConfigLayer,
-  SecretsManagerClientInstance,
-  SecretsManagerClientInstanceConfig,
-} from "@effect-aws/client-secrets-manager";
+import { SecretsManager } from "@effect-aws/client-secrets-manager";
 
-const program = SecretsManagerService.getSecretValue(args);
-
-const SecretsManagerClientInstanceLayer = Layer.provide(
-  Layer.effect(
-    SecretsManagerClientInstance,
-    SecretsManagerClientInstanceConfig.pipe(
-      Effect.map(
-        (config) =>
-          new SecretsManagerClient({ ...config, region: "eu-central-1" }),
-      ),
-    ),
-  ),
-  DefaultSecretsManagerClientConfigLayer,
-);
+const program = SecretsManager.getSecretValue(args);
 
 const result = await pipe(
   program,
-  Effect.provide(BaseSecretsManagerServiceLayer),
-  Effect.provide(SecretsManagerClientInstanceLayer),
+  Effect.provide(SecretsManager.layer({ region: "eu-central-1" })),
   Effect.runPromiseExit,
 );
 ```
 
-or map over `DefaultSecretsManagerClientConfigLayer` layer context and update the configuration...
+or use `SecretsManager.baseLayer((default) => new SecretsManagerClient({ ...default, region: "eu-central-1" }))`

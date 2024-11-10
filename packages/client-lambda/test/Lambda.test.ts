@@ -4,39 +4,41 @@ import {
   LambdaClient,
   LambdaServiceException,
 } from "@aws-sdk/client-lambda";
+// @ts-ignore
+import * as runtimeConfig from "@aws-sdk/client-lambda/dist-cjs/runtimeConfig";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
-import * as Layer from "effect/Layer";
-import {
-  BaseLambdaServiceLayer,
-  DefaultLambdaClientConfigLayer,
-  DefaultLambdaServiceLayer,
-  LambdaClientInstance,
-  LambdaClientInstanceConfig,
-  LambdaService,
-  LambdaServiceLayer,
-  SdkError,
-} from "../src";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { Lambda, SdkError } from "../src";
 
+const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(LambdaClient);
 
 describe("LambdaClientImpl", () => {
+  afterEach(() => {
+    getRuntimeConfig.mockClear();
+  });
+
   it("default", async () => {
     clientMock.reset().on(InvokeCommand).resolves({});
 
     const args: InvokeCommandInput = { FunctionName: "test", Payload: "test" };
 
-    const program = LambdaService.invoke(args);
+    const program = Lambda.invoke(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultLambdaServiceLayer),
+      Effect.provide(Lambda.defaultLayer),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(InvokeCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(InvokeCommand, args);
   });
@@ -46,22 +48,20 @@ describe("LambdaClientImpl", () => {
 
     const args: InvokeCommandInput = { FunctionName: "test", Payload: "test" };
 
-    const program = LambdaService.invoke(args);
-
-    const LambdaClientConfigLayer = Layer.succeed(LambdaClientInstanceConfig, {
-      region: "eu-central-1",
-    });
-    const CustomLambdaServiceLayer = LambdaServiceLayer.pipe(
-      Layer.provide(LambdaClientConfigLayer),
-    );
+    const program = Lambda.invoke(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomLambdaServiceLayer),
+      Effect.provide(Lambda.layer({ region: "eu-central-1" })),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(InvokeCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(InvokeCommand, args);
   });
@@ -71,23 +71,21 @@ describe("LambdaClientImpl", () => {
 
     const args: InvokeCommandInput = { FunctionName: "test", Payload: "test" };
 
-    const program = LambdaService.invoke(args);
-
-    const LambdaClientInstanceLayer = Layer.succeed(
-      LambdaClientInstance,
-      new LambdaClient({ region: "eu-central-1" }),
-    );
-    const CustomLambdaServiceLayer = BaseLambdaServiceLayer.pipe(
-      Layer.provide(LambdaClientInstanceLayer),
-    );
+    const program = Lambda.invoke(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomLambdaServiceLayer),
+      Effect.provide(
+        Lambda.baseLayer(() => new LambdaClient({ region: "eu-central-1" })),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+    });
     expect(clientMock).toHaveReceivedCommandTimes(InvokeCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(InvokeCommand, args);
   });
@@ -97,27 +95,24 @@ describe("LambdaClientImpl", () => {
 
     const args: InvokeCommandInput = { FunctionName: "test", Payload: "test" };
 
-    const program = LambdaService.invoke(args);
-
-    const LambdaClientInstanceLayer = Layer.effect(
-      LambdaClientInstance,
-      Effect.map(
-        LambdaClientInstanceConfig,
-        (config) => new LambdaClient({ ...config, region: "eu-central-1" }),
-      ),
-    );
-    const CustomLambdaServiceLayer = BaseLambdaServiceLayer.pipe(
-      Layer.provide(LambdaClientInstanceLayer),
-      Layer.provide(DefaultLambdaClientConfigLayer),
-    );
+    const program = Lambda.invoke(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomLambdaServiceLayer),
+      Effect.provide(
+        Lambda.baseLayer(
+          (config) => new LambdaClient({ ...config, region: "eu-central-1" }),
+        ),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(InvokeCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(InvokeCommand, args);
   });
@@ -127,11 +122,11 @@ describe("LambdaClientImpl", () => {
 
     const args: InvokeCommandInput = { FunctionName: "test", Payload: "test" };
 
-    const program = LambdaService.invoke(args);
+    const program = Lambda.invoke(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultLambdaServiceLayer),
+      Effect.provide(Lambda.defaultLayer),
       Effect.runPromiseExit,
     );
 
@@ -162,13 +157,13 @@ describe("LambdaClientImpl", () => {
 
     const args: InvokeCommandInput = { FunctionName: "test", Payload: "test" };
 
-    const program = LambdaService.invoke(args).pipe(
+    const program = Lambda.invoke(args).pipe(
       Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultLambdaServiceLayer),
+      Effect.provide(Lambda.defaultLayer),
       Effect.runPromiseExit,
     );
 

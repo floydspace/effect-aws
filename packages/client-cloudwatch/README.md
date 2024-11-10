@@ -14,13 +14,13 @@ npm install --save @effect-aws/client-cloudwatch
 With default CloudWatchClient instance:
 
 ```typescript
-import { CloudWatchService, DefaultCloudWatchServiceLayer } from "@effect-aws/client-cloudwatch";
+import { CloudWatch } from "@effect-aws/client-cloudwatch";
 
-const program = CloudWatchService.describeAlarms(args);
+const program = CloudWatch.describeAlarms(args);
 
 const result = pipe(
   program,
-  Effect.provide(DefaultCloudWatchServiceLayer),
+  Effect.provide(CloudWatch.defaultLayer),
   Effect.runPromise,
 );
 ```
@@ -28,23 +28,15 @@ const result = pipe(
 With custom CloudWatchClient instance:
 
 ```typescript
-import {
-  CloudWatchService,
-  BaseCloudWatchServiceLayer,
-  CloudWatchClientInstance,
-} from "@effect-aws/client-cloudwatch";
+import { CloudWatch } from "@effect-aws/client-cloudwatch";
 
-const program = CloudWatchService.describeAlarms(args);
-
-const CloudWatchClientInstanceLayer = Layer.succeed(
-  CloudWatchClientInstance,
-  new CloudWatchClient({ region: "eu-central-1" }),
-);
+const program = CloudWatch.describeAlarms(args);
 
 const result = await pipe(
   program,
-  Effect.provide(BaseCloudWatchServiceLayer),
-  Effect.provide(CloudWatchClientInstanceLayer),
+  Effect.provide(
+    CloudWatch.baseLayer(() => new CloudWatchClient({ region: "eu-central-1" })),
+  ),
   Effect.runPromise,
 );
 ```
@@ -52,34 +44,15 @@ const result = await pipe(
 With custom CloudWatchClient configuration:
 
 ```typescript
-import {
-  CloudWatchService,
-  BaseCloudWatchServiceLayer,
-  DefaultCloudWatchClientConfigLayer,
-  CloudWatchClientInstance,
-  CloudWatchClientInstanceConfig,
-} from "@effect-aws/client-cloudwatch";
+import { CloudWatch } from "@effect-aws/client-cloudwatch";
 
-const program = CloudWatchService.describeAlarms(args);
-
-const CloudWatchClientInstanceLayer = Layer.provide(
-  Layer.effect(
-    CloudWatchClientInstance,
-    CloudWatchClientInstanceConfig.pipe(
-      Effect.map(
-        (config) => new CloudWatchClient({ ...config, region: "eu-central-1" }),
-      ),
-    ),
-  ),
-  DefaultCloudWatchClientConfigLayer,
-);
+const program = CloudWatch.describeAlarms(args);
 
 const result = await pipe(
   program,
-  Effect.provide(BaseCloudWatchServiceLayer),
-  Effect.provide(CloudWatchClientInstanceLayer),
+  Effect.provide(CloudWatch.layer({ region: "eu-central-1" })),
   Effect.runPromiseExit,
 );
 ```
 
-or map over `DefaultCloudWatchClientConfigLayer` layer context and update the configuration...
+or use `CloudWatch.baseLayer((default) => new CloudWatchClient({ ...default, region: "eu-central-1" }))`

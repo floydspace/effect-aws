@@ -14,16 +14,13 @@ npm install --save @effect-aws/client-dynamodb
 With default DynamoDBClient instance:
 
 ```typescript
-import {
-  DynamoDBService,
-  DefaultDynamoDBServiceLayer,
-} from "@effect-aws/client-dynamodb";
+import { DynamoDB } from "@effect-aws/client-dynamodb";
 
-const program = DynamoDBService.putItem(args);
+const program = DynamoDB.putItem(args);
 
 const result = pipe(
   program,
-  Effect.provide(DefaultDynamoDBServiceLayer),
+  Effect.provide(DynamoDB.defaultLayer),
   Effect.runPromise,
 );
 ```
@@ -31,23 +28,15 @@ const result = pipe(
 With custom DynamoDBClient instance:
 
 ```typescript
-import {
-  DynamoDBService,
-  BaseDynamoDBServiceLayer,
-  DynamoDBClientInstance,
-} from "@effect-aws/client-dynamodb";
+import { DynamoDB } from "@effect-aws/client-dynamodb";
 
-const program = DynamoDBService.putItem(args);
-
-const DynamoDBClientInstanceLayer = Layer.succeed(
-  DynamoDBClientInstance,
-  new DynamoDBClient({ region: "eu-central-1" }),
-);
+const program = DynamoDB.putItem(args);
 
 const result = await pipe(
   program,
-  Effect.provide(BaseDynamoDBServiceLayer),
-  Effect.provide(DynamoDBClientInstanceLayer),
+  Effect.provide(
+    DynamoDB.baseLayer(() => new DynamoDBClient({ region: "eu-central-1" })),
+  ),
   Effect.runPromise,
 );
 ```
@@ -55,34 +44,15 @@ const result = await pipe(
 With custom DynamoDBClient configuration:
 
 ```typescript
-import {
-  DynamoDBService,
-  BaseDynamoDBServiceLayer,
-  DefaultDynamoDBClientConfigLayer,
-  DynamoDBClientInstance,
-  DynamoDBClientInstanceConfig,
-} from "@effect-aws/client-dynamodb";
+import { DynamoDB } from "@effect-aws/client-dynamodb";
 
-const program = DynamoDBService.putItem(args);
-
-const DynamoDBClientInstanceLayer = Layer.provide(
-  Layer.effect(
-    DynamoDBClientInstance,
-    DynamoDBClientInstanceConfig.pipe(
-      Effect.map(
-        (config) => new DynamoDBClient({ ...config, region: "eu-central-1" }),
-      ),
-    ),
-  ),
-  DefaultDynamoDBClientConfigLayer,
-);
+const program = DynamoDB.putItem(args);
 
 const result = await pipe(
   program,
-  Effect.provide(BaseDynamoDBServiceLayer),
-  Effect.provide(DynamoDBClientInstanceLayer),
+  Effect.provide(DynamoDB.layer({ region: "eu-central-1" })),
   Effect.runPromiseExit,
 );
 ```
 
-or map over `DefaultDynamoDBClientConfigLayer` layer context and update the configuration...
+or use `DynamoDB.baseLayer((default) => new DynamoDBClient({ ...default, region: "eu-central-1" }))`

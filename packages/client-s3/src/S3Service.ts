@@ -2,7 +2,6 @@
  * @since 1.0.0
  */
 import {
-  S3ServiceException,
   AbortMultipartUploadCommand,
   type AbortMultipartUploadCommandInput,
   type AbortMultipartUploadCommandOutput,
@@ -21,12 +20,12 @@ import {
   CreateSessionCommand,
   type CreateSessionCommandInput,
   type CreateSessionCommandOutput,
-  DeleteBucketCommand,
-  type DeleteBucketCommandInput,
-  type DeleteBucketCommandOutput,
   DeleteBucketAnalyticsConfigurationCommand,
   type DeleteBucketAnalyticsConfigurationCommandInput,
   type DeleteBucketAnalyticsConfigurationCommandOutput,
+  DeleteBucketCommand,
+  type DeleteBucketCommandInput,
+  type DeleteBucketCommandOutput,
   DeleteBucketCorsCommand,
   type DeleteBucketCorsCommandInput,
   type DeleteBucketCorsCommandOutput,
@@ -63,12 +62,12 @@ import {
   DeleteObjectCommand,
   type DeleteObjectCommandInput,
   type DeleteObjectCommandOutput,
-  DeleteObjectsCommand,
-  type DeleteObjectsCommandInput,
-  type DeleteObjectsCommandOutput,
   DeleteObjectTaggingCommand,
   type DeleteObjectTaggingCommandInput,
   type DeleteObjectTaggingCommandOutput,
+  DeleteObjectsCommand,
+  type DeleteObjectsCommandInput,
+  type DeleteObjectsCommandOutput,
   DeletePublicAccessBlockCommand,
   type DeletePublicAccessBlockCommandInput,
   type DeletePublicAccessBlockCommandOutput,
@@ -132,15 +131,15 @@ import {
   GetBucketWebsiteCommand,
   type GetBucketWebsiteCommandInput,
   type GetBucketWebsiteCommandOutput,
-  GetObjectCommand,
-  type GetObjectCommandInput,
-  type GetObjectCommandOutput,
   GetObjectAclCommand,
   type GetObjectAclCommandInput,
   type GetObjectAclCommandOutput,
   GetObjectAttributesCommand,
   type GetObjectAttributesCommandInput,
   type GetObjectAttributesCommandOutput,
+  GetObjectCommand,
+  type GetObjectCommandInput,
+  type GetObjectCommandOutput,
   GetObjectLegalHoldCommand,
   type GetObjectLegalHoldCommandInput,
   type GetObjectLegalHoldCommandOutput,
@@ -186,15 +185,15 @@ import {
   ListMultipartUploadsCommand,
   type ListMultipartUploadsCommandInput,
   type ListMultipartUploadsCommandOutput,
+  ListObjectVersionsCommand,
+  type ListObjectVersionsCommandInput,
+  type ListObjectVersionsCommandOutput,
   ListObjectsCommand,
   type ListObjectsCommandInput,
   type ListObjectsCommandOutput,
   ListObjectsV2Command,
   type ListObjectsV2CommandInput,
   type ListObjectsV2CommandOutput,
-  ListObjectVersionsCommand,
-  type ListObjectVersionsCommandInput,
-  type ListObjectVersionsCommandOutput,
   ListPartsCommand,
   type ListPartsCommandInput,
   type ListPartsCommandOutput,
@@ -252,12 +251,12 @@ import {
   PutBucketWebsiteCommand,
   type PutBucketWebsiteCommandInput,
   type PutBucketWebsiteCommandOutput,
-  PutObjectCommand,
-  type PutObjectCommandInput,
-  type PutObjectCommandOutput,
   PutObjectAclCommand,
   type PutObjectAclCommandInput,
   type PutObjectAclCommandOutput,
+  PutObjectCommand,
+  type PutObjectCommandInput,
+  type PutObjectCommandOutput,
   PutObjectLegalHoldCommand,
   type PutObjectLegalHoldCommandInput,
   type PutObjectLegalHoldCommandOutput,
@@ -276,6 +275,9 @@ import {
   RestoreObjectCommand,
   type RestoreObjectCommandInput,
   type RestoreObjectCommandOutput,
+  type S3Client,
+  type S3ClientConfig,
+  S3ServiceException,
   SelectObjectContentCommand,
   type SelectObjectContentCommandInput,
   type SelectObjectContentCommandOutput,
@@ -307,10 +309,14 @@ import {
   TaggedException,
 } from "./Errors";
 import { S3ClientInstance, S3ClientInstanceLayer } from "./S3ClientInstance";
-import { DefaultS3ClientConfigLayer } from "./S3ClientInstanceConfig";
+import {
+  DefaultS3ClientConfigLayer,
+  S3ClientInstanceConfig,
+  makeDefaultS3ClientInstanceConfig,
+} from "./S3ClientInstanceConfig";
 
 /**
- * @since 1.4.1
+ * @since 1.0.1
  */
 export interface HttpHandlerOptions {
   /**
@@ -341,8 +347,8 @@ const commands = {
   DeleteBucketTaggingCommand,
   DeleteBucketWebsiteCommand,
   DeleteObjectCommand,
-  DeleteObjectsCommand,
   DeleteObjectTaggingCommand,
+  DeleteObjectsCommand,
   DeletePublicAccessBlockCommand,
   GetBucketAccelerateConfigurationCommand,
   GetBucketAclCommand,
@@ -382,9 +388,9 @@ const commands = {
   ListBucketsCommand,
   ListDirectoryBucketsCommand,
   ListMultipartUploadsCommand,
+  ListObjectVersionsCommand,
   ListObjectsCommand,
   ListObjectsV2Command,
-  ListObjectVersionsCommand,
   ListPartsCommand,
   PutBucketAccelerateConfigurationCommand,
   PutBucketAclCommand,
@@ -621,20 +627,20 @@ interface S3Service$ {
   ): Effect.Effect<DeleteObjectCommandOutput, SdkError | S3ServiceError>;
 
   /**
-   * @see {@link DeleteObjectsCommand}
-   */
-  deleteObjects(
-    args: DeleteObjectsCommandInput,
-    options?: HttpHandlerOptions,
-  ): Effect.Effect<DeleteObjectsCommandOutput, SdkError | S3ServiceError>;
-
-  /**
    * @see {@link DeleteObjectTaggingCommand}
    */
   deleteObjectTagging(
     args: DeleteObjectTaggingCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<DeleteObjectTaggingCommandOutput, SdkError | S3ServiceError>;
+
+  /**
+   * @see {@link DeleteObjectsCommand}
+   */
+  deleteObjects(
+    args: DeleteObjectsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<DeleteObjectsCommandOutput, SdkError | S3ServiceError>;
 
   /**
    * @see {@link DeletePublicAccessBlockCommand}
@@ -1016,6 +1022,14 @@ interface S3Service$ {
   >;
 
   /**
+   * @see {@link ListObjectVersionsCommand}
+   */
+  listObjectVersions(
+    args: ListObjectVersionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<ListObjectVersionsCommandOutput, SdkError | S3ServiceError>;
+
+  /**
    * @see {@link ListObjectsCommand}
    */
   listObjects(
@@ -1030,14 +1044,6 @@ interface S3Service$ {
     args: ListObjectsV2CommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<ListObjectsV2CommandOutput, SdkError | NoSuchBucketError>;
-
-  /**
-   * @see {@link ListObjectVersionsCommand}
-   */
-  listObjectVersions(
-    args: ListObjectVersionsCommandInput,
-    options?: HttpHandlerOptions,
-  ): Effect.Effect<ListObjectVersionsCommandOutput, SdkError | S3ServiceError>;
 
   /**
    * @see {@link ListPartsCommand}
@@ -1336,15 +1342,6 @@ interface S3Service$ {
 
 /**
  * @since 1.0.0
- * @category models
- */
-export class S3Service extends Effect.Tag("@effect-aws/client-s3/S3Service")<
-  S3Service,
-  S3Service$
->() {}
-
-/**
- * @since 1.0.0
  * @category constructors
  */
 export const makeS3Service = Effect.gen(function* (_) {
@@ -1405,13 +1402,59 @@ export const makeS3Service = Effect.gen(function* (_) {
 
 /**
  * @since 1.0.0
+ * @category models
+ */
+export class S3Service extends Effect.Tag("@effect-aws/client-s3/S3Service")<
+  S3Service,
+  S3Service$
+>() {
+  static readonly defaultLayer = Layer.effect(this, makeS3Service).pipe(
+    Layer.provide(S3ClientInstanceLayer),
+    Layer.provide(DefaultS3ClientConfigLayer),
+  );
+  static readonly layer = (config: S3ClientConfig) =>
+    Layer.effect(this, makeS3Service).pipe(
+      Layer.provide(S3ClientInstanceLayer),
+      Layer.provide(
+        Layer.effect(
+          S3ClientInstanceConfig,
+          makeDefaultS3ClientInstanceConfig.pipe(
+            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
+          ),
+        ),
+      ),
+    );
+  static readonly baseLayer = (
+    evaluate: (defaultConfig: S3ClientConfig) => S3Client,
+  ) =>
+    Layer.effect(this, makeS3Service).pipe(
+      Layer.provide(
+        Layer.effect(
+          S3ClientInstance,
+          Effect.map(makeDefaultS3ClientInstanceConfig, evaluate),
+        ),
+      ),
+    );
+}
+
+/**
+ * @since 1.0.0
+ * @category models
+ * @alias S3Service
+ */
+export const S3 = S3Service;
+
+/**
+ * @since 1.0.0
  * @category layers
+ * @deprecated use S3.baseLayer instead
  */
 export const BaseS3ServiceLayer = Layer.effect(S3Service, makeS3Service);
 
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use S3.layer instead
  */
 export const S3ServiceLayer = BaseS3ServiceLayer.pipe(
   Layer.provide(S3ClientInstanceLayer),
@@ -1420,7 +1463,6 @@ export const S3ServiceLayer = BaseS3ServiceLayer.pipe(
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use S3.defaultLayer instead
  */
-export const DefaultS3ServiceLayer = S3ServiceLayer.pipe(
-  Layer.provide(DefaultS3ClientConfigLayer),
-);
+export const DefaultS3ServiceLayer = S3Service.defaultLayer;

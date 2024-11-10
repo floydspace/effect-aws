@@ -14,13 +14,13 @@ npm install --save @effect-aws/client-rds
 With default RDSClient instance:
 
 ```typescript
-import { RDSService, DefaultRDSServiceLayer } from "@effect-aws/client-rds";
+import { RDS } from "@effect-aws/client-rds";
 
-const program = RDSService.describeDBClusters(args);
+const program = RDS.describeDBInstances(args);
 
 const result = pipe(
   program,
-  Effect.provide(DefaultRDSServiceLayer),
+  Effect.provide(RDS.defaultLayer),
   Effect.runPromise,
 );
 ```
@@ -28,23 +28,15 @@ const result = pipe(
 With custom RDSClient instance:
 
 ```typescript
-import {
-  RDSService,
-  BaseRDSServiceLayer,
-  RDSClientInstance,
-} from "@effect-aws/client-rds";
+import { RDS } from "@effect-aws/client-rds";
 
-const program = RDSService.describeDBClusters(args);
-
-const RDSClientInstanceLayer = Layer.succeed(
-  RDSClientInstance,
-  new RDSClient({ region: "eu-central-1" }),
-);
+const program = RDS.describeDBInstances(args);
 
 const result = await pipe(
   program,
-  Effect.provide(BaseRDSServiceLayer),
-  Effect.provide(RDSClientInstanceLayer),
+  Effect.provide(
+    RDS.baseLayer(() => new RDSClient({ region: "eu-central-1" })),
+  ),
   Effect.runPromise,
 );
 ```
@@ -52,34 +44,15 @@ const result = await pipe(
 With custom RDSClient configuration:
 
 ```typescript
-import {
-  RDSService,
-  BaseRDSServiceLayer,
-  DefaultRDSClientConfigLayer,
-  RDSClientInstance,
-  RDSClientInstanceConfig,
-} from "@effect-aws/client-rds";
+import { RDS } from "@effect-aws/client-rds";
 
-const program = RDSService.describeDBClusters(args);
-
-const RDSClientInstanceLayer = Layer.provide(
-  Layer.effect(
-    RDSClientInstance,
-    RDSClientInstanceConfig.pipe(
-      Effect.map(
-        (config) => new RDSClient({ ...config, region: "eu-central-1" }),
-      ),
-    ),
-  ),
-  DefaultRDSClientConfigLayer,
-);
+const program = RDS.describeDBInstances(args);
 
 const result = await pipe(
   program,
-  Effect.provide(BaseRDSServiceLayer),
-  Effect.provide(RDSClientInstanceLayer),
+  Effect.provide(RDS.layer({ region: "eu-central-1" })),
   Effect.runPromiseExit,
 );
 ```
 
-or map over `DefaultRDSClientConfigLayer` layer context and update the configuration...
+or use `RDS.baseLayer((default) => new RDSClient({ ...default, region: "eu-central-1" }))`

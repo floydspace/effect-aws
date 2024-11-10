@@ -14,16 +14,13 @@ npm install --save @effect-aws/client-lambda
 With default LambdaClient instance:
 
 ```typescript
-import {
-  LambdaService,
-  DefaultLambdaServiceLayer,
-} from "@effect-aws/client-lambda";
+import { Lambda } from "@effect-aws/client-lambda";
 
-const program = LambdaService.invoke(args);
+const program = Lambda.invoke(args);
 
 const result = pipe(
   program,
-  Effect.provide(DefaultLambdaServiceLayer),
+  Effect.provide(Lambda.defaultLayer),
   Effect.runPromise,
 );
 ```
@@ -31,23 +28,15 @@ const result = pipe(
 With custom LambdaClient instance:
 
 ```typescript
-import {
-  LambdaService,
-  BaseLambdaServiceLayer,
-  LambdaClientInstance,
-} from "@effect-aws/client-lambda";
+import { Lambda } from "@effect-aws/client-lambda";
 
-const program = LambdaService.invoke(args);
-
-const LambdaClientInstanceLayer = Layer.succeed(
-  LambdaClientInstance,
-  new LambdaClient({ region: "eu-central-1" }),
-);
+const program = Lambda.invoke(args);
 
 const result = await pipe(
   program,
-  Effect.provide(BaseLambdaServiceLayer),
-  Effect.provide(LambdaClientInstanceLayer),
+  Effect.provide(
+    Lambda.baseLayer(() => new LambdaClient({ region: "eu-central-1" })),
+  ),
   Effect.runPromise,
 );
 ```
@@ -55,34 +44,15 @@ const result = await pipe(
 With custom LambdaClient configuration:
 
 ```typescript
-import {
-  LambdaService,
-  BaseLambdaServiceLayer,
-  DefaultLambdaClientConfigLayer,
-  LambdaClientInstance,
-  LambdaClientInstanceConfig,
-} from "@effect-aws/client-lambda";
+import { Lambda } from "@effect-aws/client-lambda";
 
-const program = LambdaService.invoke(args);
-
-const LambdaClientInstanceLayer = Layer.provide(
-  Layer.effect(
-    LambdaClientInstance,
-    LambdaClientInstanceConfig.pipe(
-      Effect.map(
-        (config) => new LambdaClient({ ...config, region: "eu-central-1" }),
-      ),
-    ),
-  ),
-  DefaultLambdaClientConfigLayer,
-);
+const program = Lambda.invoke(args);
 
 const result = await pipe(
   program,
-  Effect.provide(BaseLambdaServiceLayer),
-  Effect.provide(LambdaClientInstanceLayer),
+  Effect.provide(Lambda.layer({ region: "eu-central-1" })),
   Effect.runPromiseExit,
 );
 ```
 
-or map over `DefaultLambdaClientConfigLayer` layer context and update the configuration...
+or use `Lambda.baseLayer((default) => new LambdaClient({ ...default, region: "eu-central-1" }))`

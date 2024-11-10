@@ -4,39 +4,41 @@ import {
   MqClient,
   MqServiceException,
 } from "@aws-sdk/client-mq";
+// @ts-ignore
+import * as runtimeConfig from "@aws-sdk/client-mq/dist-cjs/runtimeConfig";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
-import * as Layer from "effect/Layer";
-import {
-  BaseMqServiceLayer,
-  DefaultMqClientConfigLayer,
-  DefaultMqServiceLayer,
-  MqClientInstance,
-  MqClientInstanceConfig,
-  MqService,
-  MqServiceLayer,
-  SdkError,
-} from "../src";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { Mq, SdkError } from "../src";
 
+const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(MqClient);
 
 describe("MqClientImpl", () => {
+  afterEach(() => {
+    getRuntimeConfig.mockClear();
+  });
+
   it("default", async () => {
     clientMock.reset().on(ListBrokersCommand).resolves({});
 
     const args = {} as unknown as ListBrokersCommandInput;
 
-    const program = MqService.listBrokers(args);
+    const program = Mq.listBrokers(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultMqServiceLayer),
+      Effect.provide(Mq.defaultLayer),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(ListBrokersCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(ListBrokersCommand, args);
   });
@@ -46,22 +48,20 @@ describe("MqClientImpl", () => {
 
     const args = {} as unknown as ListBrokersCommandInput;
 
-    const program = MqService.listBrokers(args);
-
-    const MqClientConfigLayer = Layer.succeed(MqClientInstanceConfig, {
-      region: "eu-central-1",
-    });
-    const CustomMqServiceLayer = MqServiceLayer.pipe(
-      Layer.provide(MqClientConfigLayer),
-    );
+    const program = Mq.listBrokers(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomMqServiceLayer),
+      Effect.provide(Mq.layer({ region: "eu-central-1" })),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(ListBrokersCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(ListBrokersCommand, args);
   });
@@ -71,23 +71,21 @@ describe("MqClientImpl", () => {
 
     const args = {} as unknown as ListBrokersCommandInput;
 
-    const program = MqService.listBrokers(args);
-
-    const MqClientInstanceLayer = Layer.succeed(
-      MqClientInstance,
-      new MqClient({ region: "eu-central-1" }),
-    );
-    const CustomMqServiceLayer = BaseMqServiceLayer.pipe(
-      Layer.provide(MqClientInstanceLayer),
-    );
+    const program = Mq.listBrokers(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomMqServiceLayer),
+      Effect.provide(
+        Mq.baseLayer(() => new MqClient({ region: "eu-central-1" })),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+    });
     expect(clientMock).toHaveReceivedCommandTimes(ListBrokersCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(ListBrokersCommand, args);
   });
@@ -97,27 +95,24 @@ describe("MqClientImpl", () => {
 
     const args = {} as unknown as ListBrokersCommandInput;
 
-    const program = MqService.listBrokers(args);
-
-    const MqClientInstanceLayer = Layer.effect(
-      MqClientInstance,
-      Effect.map(
-        MqClientInstanceConfig,
-        (config) => new MqClient({ ...config, region: "eu-central-1" }),
-      ),
-    );
-    const CustomMqServiceLayer = BaseMqServiceLayer.pipe(
-      Layer.provide(MqClientInstanceLayer),
-      Layer.provide(DefaultMqClientConfigLayer),
-    );
+    const program = Mq.listBrokers(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomMqServiceLayer),
+      Effect.provide(
+        Mq.baseLayer(
+          (config) => new MqClient({ ...config, region: "eu-central-1" }),
+        ),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(ListBrokersCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(ListBrokersCommand, args);
   });
@@ -127,11 +122,11 @@ describe("MqClientImpl", () => {
 
     const args = {} as unknown as ListBrokersCommandInput;
 
-    const program = MqService.listBrokers(args);
+    const program = Mq.listBrokers(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultMqServiceLayer),
+      Effect.provide(Mq.defaultLayer),
       Effect.runPromiseExit,
     );
 
@@ -162,13 +157,13 @@ describe("MqClientImpl", () => {
 
     const args = {} as unknown as ListBrokersCommandInput;
 
-    const program = MqService.listBrokers(args).pipe(
+    const program = Mq.listBrokers(args).pipe(
       Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultMqServiceLayer),
+      Effect.provide(Mq.defaultLayer),
       Effect.runPromiseExit,
     );
 

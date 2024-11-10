@@ -4,39 +4,41 @@ import {
   EventBridgeClient,
   EventBridgeServiceException,
 } from "@aws-sdk/client-eventbridge";
+// @ts-ignore
+import * as runtimeConfig from "@aws-sdk/client-eventbridge/dist-cjs/runtimeConfig";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
-import * as Layer from "effect/Layer";
-import {
-  BaseEventBridgeServiceLayer,
-  DefaultEventBridgeClientConfigLayer,
-  DefaultEventBridgeServiceLayer,
-  EventBridgeClientInstance,
-  EventBridgeClientInstanceConfig,
-  EventBridgeService,
-  EventBridgeServiceLayer,
-  SdkError,
-} from "../src";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { EventBridge, SdkError } from "../src";
 
+const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(EventBridgeClient);
 
 describe("EventBridgeClientImpl", () => {
+  afterEach(() => {
+    getRuntimeConfig.mockClear();
+  });
+
   it("default", async () => {
     clientMock.reset().on(PutEventsCommand).resolves({});
 
     const args: PutEventsCommandInput = { Entries: [{ Detail: "test" }] };
 
-    const program = EventBridgeService.putEvents(args);
+    const program = EventBridge.putEvents(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultEventBridgeServiceLayer),
+      Effect.provide(EventBridge.defaultLayer),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(PutEventsCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(PutEventsCommand, args);
   });
@@ -46,25 +48,20 @@ describe("EventBridgeClientImpl", () => {
 
     const args: PutEventsCommandInput = { Entries: [{ Detail: "test" }] };
 
-    const program = EventBridgeService.putEvents(args);
-
-    const EventBridgeClientConfigLayer = Layer.succeed(
-      EventBridgeClientInstanceConfig,
-      {
-        region: "eu-central-1",
-      },
-    );
-    const CustomEventBridgeServiceLayer = EventBridgeServiceLayer.pipe(
-      Layer.provide(EventBridgeClientConfigLayer),
-    );
+    const program = EventBridge.putEvents(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomEventBridgeServiceLayer),
+      Effect.provide(EventBridge.layer({ region: "eu-central-1" })),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(PutEventsCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(PutEventsCommand, args);
   });
@@ -74,23 +71,23 @@ describe("EventBridgeClientImpl", () => {
 
     const args: PutEventsCommandInput = { Entries: [{ Detail: "test" }] };
 
-    const program = EventBridgeService.putEvents(args);
-
-    const EventBridgeClientInstanceLayer = Layer.succeed(
-      EventBridgeClientInstance,
-      new EventBridgeClient({ region: "eu-central-1" }),
-    );
-    const CustomEventBridgeServiceLayer = BaseEventBridgeServiceLayer.pipe(
-      Layer.provide(EventBridgeClientInstanceLayer),
-    );
+    const program = EventBridge.putEvents(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomEventBridgeServiceLayer),
+      Effect.provide(
+        EventBridge.baseLayer(
+          () => new EventBridgeClient({ region: "eu-central-1" }),
+        ),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+    });
     expect(clientMock).toHaveReceivedCommandTimes(PutEventsCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(PutEventsCommand, args);
   });
@@ -100,28 +97,25 @@ describe("EventBridgeClientImpl", () => {
 
     const args: PutEventsCommandInput = { Entries: [{ Detail: "test" }] };
 
-    const program = EventBridgeService.putEvents(args);
-
-    const EventBridgeClientInstanceLayer = Layer.effect(
-      EventBridgeClientInstance,
-      Effect.map(
-        EventBridgeClientInstanceConfig,
-        (config) =>
-          new EventBridgeClient({ ...config, region: "eu-central-1" }),
-      ),
-    );
-    const CustomEventBridgeServiceLayer = BaseEventBridgeServiceLayer.pipe(
-      Layer.provide(EventBridgeClientInstanceLayer),
-      Layer.provide(DefaultEventBridgeClientConfigLayer),
-    );
+    const program = EventBridge.putEvents(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomEventBridgeServiceLayer),
+      Effect.provide(
+        EventBridge.baseLayer(
+          (config) =>
+            new EventBridgeClient({ ...config, region: "eu-central-1" }),
+        ),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(PutEventsCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(PutEventsCommand, args);
   });
@@ -131,11 +125,11 @@ describe("EventBridgeClientImpl", () => {
 
     const args: PutEventsCommandInput = { Entries: [{ Detail: "test" }] };
 
-    const program = EventBridgeService.putEvents(args);
+    const program = EventBridge.putEvents(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultEventBridgeServiceLayer),
+      Effect.provide(EventBridge.defaultLayer),
       Effect.runPromiseExit,
     );
 
@@ -166,13 +160,13 @@ describe("EventBridgeClientImpl", () => {
 
     const args: PutEventsCommandInput = { Entries: [{ Detail: "test" }] };
 
-    const program = EventBridgeService.putEvents(args).pipe(
+    const program = EventBridge.putEvents(args).pipe(
       Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultEventBridgeServiceLayer),
+      Effect.provide(EventBridge.defaultLayer),
       Effect.runPromiseExit,
     );
 

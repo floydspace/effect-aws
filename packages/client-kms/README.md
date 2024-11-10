@@ -14,13 +14,13 @@ npm install --save @effect-aws/client-kms
 With default KMSClient instance:
 
 ```typescript
-import { KMSService, DefaultKMSServiceLayer } from "@effect-aws/client-kms";
+import { KMS } from "@effect-aws/client-kms";
 
-const program = KMSService.listKeys(args);
+const program = KMS.listKeys(args);
 
 const result = pipe(
   program,
-  Effect.provide(DefaultKMSServiceLayer),
+  Effect.provide(KMS.defaultLayer),
   Effect.runPromise,
 );
 ```
@@ -28,23 +28,15 @@ const result = pipe(
 With custom KMSClient instance:
 
 ```typescript
-import {
-  KMSService,
-  BaseKMSServiceLayer,
-  KMSClientInstance,
-} from "@effect-aws/client-kms";
+import { KMS } from "@effect-aws/client-kms";
 
-const program = KMSService.listKeys(args);
-
-const KMSClientInstanceLayer = Layer.succeed(
-  KMSClientInstance,
-  new KMSClient({ region: "eu-central-1" }),
-);
+const program = KMS.listKeys(args);
 
 const result = await pipe(
   program,
-  Effect.provide(BaseKMSServiceLayer),
-  Effect.provide(KMSClientInstanceLayer),
+  Effect.provide(
+    KMS.baseLayer(() => new KMSClient({ region: "eu-central-1" })),
+  ),
   Effect.runPromise,
 );
 ```
@@ -52,34 +44,15 @@ const result = await pipe(
 With custom KMSClient configuration:
 
 ```typescript
-import {
-  KMSService,
-  BaseKMSServiceLayer,
-  DefaultKMSClientConfigLayer,
-  KMSClientInstance,
-  KMSClientInstanceConfig,
-} from "@effect-aws/client-kms";
+import { KMS } from "@effect-aws/client-kms";
 
-const program = KMSService.listKeys(args);
-
-const KMSClientInstanceLayer = Layer.provide(
-  Layer.effect(
-    KMSClientInstance,
-    KMSClientInstanceConfig.pipe(
-      Effect.map(
-        (config) => new KMSClient({ ...config, region: "eu-central-1" }),
-      ),
-    ),
-  ),
-  DefaultKMSClientConfigLayer,
-);
+const program = KMS.listKeys(args);
 
 const result = await pipe(
   program,
-  Effect.provide(BaseKMSServiceLayer),
-  Effect.provide(KMSClientInstanceLayer),
+  Effect.provide(KMS.layer({ region: "eu-central-1" })),
   Effect.runPromiseExit,
 );
 ```
 
-or map over `DefaultKMSClientConfigLayer` layer context and update the configuration...
+or use `KMS.baseLayer((default) => new KMSClient({ ...default, region: "eu-central-1" }))`

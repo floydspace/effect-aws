@@ -3,6 +3,8 @@
  */
 import {
   CloudWatchEventsServiceException,
+  type CloudWatchEventsClient,
+  type CloudWatchEventsClientConfig,
   ActivateEventSourceCommand,
   type ActivateEventSourceCommandInput,
   type ActivateEventSourceCommandOutput,
@@ -162,7 +164,11 @@ import {
   CloudWatchEventsClientInstance,
   CloudWatchEventsClientInstanceLayer,
 } from "./CloudWatchEventsClientInstance";
-import { DefaultCloudWatchEventsClientConfigLayer } from "./CloudWatchEventsClientInstanceConfig";
+import {
+  DefaultCloudWatchEventsClientConfigLayer,
+  makeDefaultCloudWatchEventsClientInstanceConfig,
+  CloudWatchEventsClientInstanceConfig,
+} from "./CloudWatchEventsClientInstanceConfig";
 import {
   AllServiceErrors,
   ConcurrentModificationError,
@@ -181,7 +187,7 @@ import {
 } from "./Errors";
 
 /**
- * @since 1.0.1
+ * @since 1.0.0
  */
 export interface HttpHandlerOptions {
   /**
@@ -913,14 +919,6 @@ interface CloudWatchEventsService$ {
 
 /**
  * @since 1.0.0
- * @category models
- */
-export class CloudWatchEventsService extends Effect.Tag(
-  "@effect-aws/client-cloudwatch-events/CloudWatchEventsService",
-)<CloudWatchEventsService, CloudWatchEventsService$>() {}
-
-/**
- * @since 1.0.0
  * @category constructors
  */
 export const makeCloudWatchEventsService = Effect.gen(function* (_) {
@@ -971,7 +969,56 @@ export const makeCloudWatchEventsService = Effect.gen(function* (_) {
 
 /**
  * @since 1.0.0
+ * @category models
+ */
+export class CloudWatchEventsService extends Effect.Tag(
+  "@effect-aws/client-cloudwatch-events/CloudWatchEventsService",
+)<CloudWatchEventsService, CloudWatchEventsService$>() {
+  static readonly defaultLayer = Layer.effect(
+    this,
+    makeCloudWatchEventsService,
+  ).pipe(
+    Layer.provide(CloudWatchEventsClientInstanceLayer),
+    Layer.provide(DefaultCloudWatchEventsClientConfigLayer),
+  );
+  static readonly layer = (config: CloudWatchEventsClientConfig) =>
+    Layer.effect(this, makeCloudWatchEventsService).pipe(
+      Layer.provide(CloudWatchEventsClientInstanceLayer),
+      Layer.provide(
+        Layer.effect(
+          CloudWatchEventsClientInstanceConfig,
+          makeDefaultCloudWatchEventsClientInstanceConfig.pipe(
+            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
+          ),
+        ),
+      ),
+    );
+  static readonly baseLayer = (
+    evaluate: (
+      defaultConfig: CloudWatchEventsClientConfig,
+    ) => CloudWatchEventsClient,
+  ) =>
+    Layer.effect(this, makeCloudWatchEventsService).pipe(
+      Layer.provide(
+        Layer.effect(
+          CloudWatchEventsClientInstance,
+          Effect.map(makeDefaultCloudWatchEventsClientInstanceConfig, evaluate),
+        ),
+      ),
+    );
+}
+
+/**
+ * @since 1.0.0
+ * @category models
+ * @alias CloudWatchEventsService
+ */
+export const CloudWatchEvents = CloudWatchEventsService;
+
+/**
+ * @since 1.0.0
  * @category layers
+ * @deprecated use CloudWatchEvents.baseLayer instead
  */
 export const BaseCloudWatchEventsServiceLayer = Layer.effect(
   CloudWatchEventsService,
@@ -981,6 +1028,7 @@ export const BaseCloudWatchEventsServiceLayer = Layer.effect(
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use CloudWatchEvents.layer instead
  */
 export const CloudWatchEventsServiceLayer =
   BaseCloudWatchEventsServiceLayer.pipe(
@@ -990,8 +1038,7 @@ export const CloudWatchEventsServiceLayer =
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use CloudWatchEvents.defaultLayer instead
  */
 export const DefaultCloudWatchEventsServiceLayer =
-  CloudWatchEventsServiceLayer.pipe(
-    Layer.provide(DefaultCloudWatchEventsClientConfigLayer),
-  );
+  CloudWatchEventsService.defaultLayer;

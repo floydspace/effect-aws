@@ -14,13 +14,13 @@ npm install --save @effect-aws/client-ssm
 With default SSMClient instance:
 
 ```typescript
-import { SSMService, DefaultSSMServiceLayer } from "@effect-aws/client-ssm";
+import { SSM } from "@effect-aws/client-ssm";
 
-const program = SSMService.describeParameters(args);
+const program = SSM.describeParameters(args);
 
 const result = pipe(
   program,
-  Effect.provide(DefaultSSMServiceLayer),
+  Effect.provide(SSM.defaultLayer),
   Effect.runPromise,
 );
 ```
@@ -28,23 +28,15 @@ const result = pipe(
 With custom SSMClient instance:
 
 ```typescript
-import {
-  SSMService,
-  BaseSSMServiceLayer,
-  SSMClientInstance,
-} from "@effect-aws/client-ssm";
+import { SSM } from "@effect-aws/client-ssm";
 
-const program = SSMService.describeParameters(args);
-
-const SSMClientInstanceLayer = Layer.succeed(
-  SSMClientInstance,
-  new SSMClient({ region: "eu-central-1" }),
-);
+const program = SSM.describeParameters(args);
 
 const result = await pipe(
   program,
-  Effect.provide(BaseSSMServiceLayer),
-  Effect.provide(SSMClientInstanceLayer),
+  Effect.provide(
+    SSM.baseLayer(() => new SSMClient({ region: "eu-central-1" })),
+  ),
   Effect.runPromise,
 );
 ```
@@ -52,34 +44,15 @@ const result = await pipe(
 With custom SSMClient configuration:
 
 ```typescript
-import {
-  SSMService,
-  BaseSSMServiceLayer,
-  DefaultSSMClientConfigLayer,
-  SSMClientInstance,
-  SSMClientInstanceConfig,
-} from "@effect-aws/client-ssm";
+import { SSM } from "@effect-aws/client-ssm";
 
-const program = SSMService.describeParameters(args);
-
-const SSMClientInstanceLayer = Layer.provide(
-  Layer.effect(
-    SSMClientInstance,
-    SSMClientInstanceConfig.pipe(
-      Effect.map(
-        (config) => new SSMClient({ ...config, region: "eu-central-1" }),
-      ),
-    ),
-  ),
-  DefaultSSMClientConfigLayer,
-);
+const program = SSM.describeParameters(args);
 
 const result = await pipe(
   program,
-  Effect.provide(BaseSSMServiceLayer),
-  Effect.provide(SSMClientInstanceLayer),
+  Effect.provide(SSM.layer({ region: "eu-central-1" })),
   Effect.runPromiseExit,
 );
 ```
 
-or map over `DefaultSSMClientConfigLayer` layer context and update the configuration...
+or use `SSM.baseLayer((default) => new SSMClient({ ...default, region: "eu-central-1" }))`

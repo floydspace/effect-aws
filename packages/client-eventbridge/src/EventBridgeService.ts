@@ -3,6 +3,8 @@
  */
 import {
   EventBridgeServiceException,
+  type EventBridgeClient,
+  type EventBridgeClientConfig,
   ActivateEventSourceCommand,
   type ActivateEventSourceCommandInput,
   type ActivateEventSourceCommandOutput,
@@ -196,10 +198,14 @@ import {
   EventBridgeClientInstance,
   EventBridgeClientInstanceLayer,
 } from "./EventBridgeClientInstance";
-import { DefaultEventBridgeClientConfigLayer } from "./EventBridgeClientInstanceConfig";
+import {
+  DefaultEventBridgeClientConfigLayer,
+  makeDefaultEventBridgeClientInstanceConfig,
+  EventBridgeClientInstanceConfig,
+} from "./EventBridgeClientInstanceConfig";
 
 /**
- * @since 1.5.1
+ * @since 1.0.0
  */
 export interface HttpHandlerOptions {
   /**
@@ -1010,14 +1016,6 @@ interface EventBridgeService$ {
 
 /**
  * @since 1.0.0
- * @category models
- */
-export class EventBridgeService extends Effect.Tag(
-  "@effect-aws/client-eventbridge/EventBridgeService",
-)<EventBridgeService, EventBridgeService$>() {}
-
-/**
- * @since 1.0.0
  * @category constructors
  */
 export const makeEventBridgeService = Effect.gen(function* (_) {
@@ -1068,7 +1066,54 @@ export const makeEventBridgeService = Effect.gen(function* (_) {
 
 /**
  * @since 1.0.0
+ * @category models
+ */
+export class EventBridgeService extends Effect.Tag(
+  "@effect-aws/client-eventbridge/EventBridgeService",
+)<EventBridgeService, EventBridgeService$>() {
+  static readonly defaultLayer = Layer.effect(
+    this,
+    makeEventBridgeService,
+  ).pipe(
+    Layer.provide(EventBridgeClientInstanceLayer),
+    Layer.provide(DefaultEventBridgeClientConfigLayer),
+  );
+  static readonly layer = (config: EventBridgeClientConfig) =>
+    Layer.effect(this, makeEventBridgeService).pipe(
+      Layer.provide(EventBridgeClientInstanceLayer),
+      Layer.provide(
+        Layer.effect(
+          EventBridgeClientInstanceConfig,
+          makeDefaultEventBridgeClientInstanceConfig.pipe(
+            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
+          ),
+        ),
+      ),
+    );
+  static readonly baseLayer = (
+    evaluate: (defaultConfig: EventBridgeClientConfig) => EventBridgeClient,
+  ) =>
+    Layer.effect(this, makeEventBridgeService).pipe(
+      Layer.provide(
+        Layer.effect(
+          EventBridgeClientInstance,
+          Effect.map(makeDefaultEventBridgeClientInstanceConfig, evaluate),
+        ),
+      ),
+    );
+}
+
+/**
+ * @since 1.0.0
+ * @category models
+ * @alias EventBridgeService
+ */
+export const EventBridge = EventBridgeService;
+
+/**
+ * @since 1.0.0
  * @category layers
+ * @deprecated use EventBridge.baseLayer instead
  */
 export const BaseEventBridgeServiceLayer = Layer.effect(
   EventBridgeService,
@@ -1078,6 +1123,7 @@ export const BaseEventBridgeServiceLayer = Layer.effect(
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use EventBridge.layer instead
  */
 export const EventBridgeServiceLayer = BaseEventBridgeServiceLayer.pipe(
   Layer.provide(EventBridgeClientInstanceLayer),
@@ -1086,7 +1132,6 @@ export const EventBridgeServiceLayer = BaseEventBridgeServiceLayer.pipe(
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use EventBridge.defaultLayer instead
  */
-export const DefaultEventBridgeServiceLayer = EventBridgeServiceLayer.pipe(
-  Layer.provide(DefaultEventBridgeClientConfigLayer),
-);
+export const DefaultEventBridgeServiceLayer = EventBridgeService.defaultLayer;

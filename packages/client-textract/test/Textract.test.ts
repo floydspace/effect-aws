@@ -4,39 +4,41 @@ import {
   TextractClient,
   TextractServiceException,
 } from "@aws-sdk/client-textract";
+// @ts-ignore
+import * as runtimeConfig from "@aws-sdk/client-textract/dist-cjs/runtimeConfig";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
-import * as Layer from "effect/Layer";
-import {
-  BaseTextractServiceLayer,
-  DefaultTextractClientConfigLayer,
-  DefaultTextractServiceLayer,
-  TextractClientInstance,
-  TextractClientInstanceConfig,
-  TextractService,
-  TextractServiceLayer,
-  SdkError,
-} from "../src";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { Textract, SdkError } from "../src";
 
+const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(TextractClient);
 
 describe("TextractClientImpl", () => {
+  afterEach(() => {
+    getRuntimeConfig.mockClear();
+  });
+
   it("default", async () => {
     clientMock.reset().on(ListAdaptersCommand).resolves({});
 
     const args = {} as unknown as ListAdaptersCommandInput;
 
-    const program = TextractService.listAdapters(args);
+    const program = Textract.listAdapters(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultTextractServiceLayer),
+      Effect.provide(Textract.defaultLayer),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(ListAdaptersCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(ListAdaptersCommand, args);
   });
@@ -46,25 +48,20 @@ describe("TextractClientImpl", () => {
 
     const args = {} as unknown as ListAdaptersCommandInput;
 
-    const program = TextractService.listAdapters(args);
-
-    const TextractClientConfigLayer = Layer.succeed(
-      TextractClientInstanceConfig,
-      {
-        region: "eu-central-1",
-      },
-    );
-    const CustomTextractServiceLayer = TextractServiceLayer.pipe(
-      Layer.provide(TextractClientConfigLayer),
-    );
+    const program = Textract.listAdapters(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomTextractServiceLayer),
+      Effect.provide(Textract.layer({ region: "eu-central-1" })),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(ListAdaptersCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(ListAdaptersCommand, args);
   });
@@ -74,23 +71,23 @@ describe("TextractClientImpl", () => {
 
     const args = {} as unknown as ListAdaptersCommandInput;
 
-    const program = TextractService.listAdapters(args);
-
-    const TextractClientInstanceLayer = Layer.succeed(
-      TextractClientInstance,
-      new TextractClient({ region: "eu-central-1" }),
-    );
-    const CustomTextractServiceLayer = BaseTextractServiceLayer.pipe(
-      Layer.provide(TextractClientInstanceLayer),
-    );
+    const program = Textract.listAdapters(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomTextractServiceLayer),
+      Effect.provide(
+        Textract.baseLayer(
+          () => new TextractClient({ region: "eu-central-1" }),
+        ),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+    });
     expect(clientMock).toHaveReceivedCommandTimes(ListAdaptersCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(ListAdaptersCommand, args);
   });
@@ -100,27 +97,24 @@ describe("TextractClientImpl", () => {
 
     const args = {} as unknown as ListAdaptersCommandInput;
 
-    const program = TextractService.listAdapters(args);
-
-    const TextractClientInstanceLayer = Layer.effect(
-      TextractClientInstance,
-      Effect.map(
-        TextractClientInstanceConfig,
-        (config) => new TextractClient({ ...config, region: "eu-central-1" }),
-      ),
-    );
-    const CustomTextractServiceLayer = BaseTextractServiceLayer.pipe(
-      Layer.provide(TextractClientInstanceLayer),
-      Layer.provide(DefaultTextractClientConfigLayer),
-    );
+    const program = Textract.listAdapters(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomTextractServiceLayer),
+      Effect.provide(
+        Textract.baseLayer(
+          (config) => new TextractClient({ ...config, region: "eu-central-1" }),
+        ),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(ListAdaptersCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(ListAdaptersCommand, args);
   });
@@ -130,11 +124,11 @@ describe("TextractClientImpl", () => {
 
     const args = {} as unknown as ListAdaptersCommandInput;
 
-    const program = TextractService.listAdapters(args);
+    const program = Textract.listAdapters(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultTextractServiceLayer),
+      Effect.provide(Textract.defaultLayer),
       Effect.runPromiseExit,
     );
 
@@ -165,13 +159,13 @@ describe("TextractClientImpl", () => {
 
     const args = {} as unknown as ListAdaptersCommandInput;
 
-    const program = TextractService.listAdapters(args).pipe(
+    const program = Textract.listAdapters(args).pipe(
       Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultTextractServiceLayer),
+      Effect.provide(Textract.defaultLayer),
       Effect.runPromiseExit,
     );
 

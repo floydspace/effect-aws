@@ -3,6 +3,8 @@
  */
 import {
   MqServiceException,
+  type MqClient,
+  type MqClientConfig,
   CreateBrokerCommand,
   type CreateBrokerCommandInput,
   type CreateBrokerCommandOutput,
@@ -86,10 +88,14 @@ import {
   TaggedException,
 } from "./Errors";
 import { MqClientInstance, MqClientInstanceLayer } from "./MqClientInstance";
-import { DefaultMqClientConfigLayer } from "./MqClientInstanceConfig";
+import {
+  DefaultMqClientConfigLayer,
+  makeDefaultMqClientInstanceConfig,
+  MqClientInstanceConfig,
+} from "./MqClientInstanceConfig";
 
 /**
- * @since 1.0.1
+ * @since 1.0.0
  */
 export interface HttpHandlerOptions {
   /**
@@ -465,15 +471,6 @@ interface MqService$ {
 
 /**
  * @since 1.0.0
- * @category models
- */
-export class MqService extends Effect.Tag("@effect-aws/client-mq/MqService")<
-  MqService,
-  MqService$
->() {}
-
-/**
- * @since 1.0.0
  * @category constructors
  */
 export const makeMqService = Effect.gen(function* (_) {
@@ -524,13 +521,59 @@ export const makeMqService = Effect.gen(function* (_) {
 
 /**
  * @since 1.0.0
+ * @category models
+ */
+export class MqService extends Effect.Tag("@effect-aws/client-mq/MqService")<
+  MqService,
+  MqService$
+>() {
+  static readonly defaultLayer = Layer.effect(this, makeMqService).pipe(
+    Layer.provide(MqClientInstanceLayer),
+    Layer.provide(DefaultMqClientConfigLayer),
+  );
+  static readonly layer = (config: MqClientConfig) =>
+    Layer.effect(this, makeMqService).pipe(
+      Layer.provide(MqClientInstanceLayer),
+      Layer.provide(
+        Layer.effect(
+          MqClientInstanceConfig,
+          makeDefaultMqClientInstanceConfig.pipe(
+            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
+          ),
+        ),
+      ),
+    );
+  static readonly baseLayer = (
+    evaluate: (defaultConfig: MqClientConfig) => MqClient,
+  ) =>
+    Layer.effect(this, makeMqService).pipe(
+      Layer.provide(
+        Layer.effect(
+          MqClientInstance,
+          Effect.map(makeDefaultMqClientInstanceConfig, evaluate),
+        ),
+      ),
+    );
+}
+
+/**
+ * @since 1.0.0
+ * @category models
+ * @alias MqService
+ */
+export const Mq = MqService;
+
+/**
+ * @since 1.0.0
  * @category layers
+ * @deprecated use Mq.baseLayer instead
  */
 export const BaseMqServiceLayer = Layer.effect(MqService, makeMqService);
 
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use Mq.layer instead
  */
 export const MqServiceLayer = BaseMqServiceLayer.pipe(
   Layer.provide(MqClientInstanceLayer),
@@ -539,7 +582,6 @@ export const MqServiceLayer = BaseMqServiceLayer.pipe(
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use Mq.defaultLayer instead
  */
-export const DefaultMqServiceLayer = MqServiceLayer.pipe(
-  Layer.provide(DefaultMqClientConfigLayer),
-);
+export const DefaultMqServiceLayer = MqService.defaultLayer;

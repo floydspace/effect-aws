@@ -14,13 +14,13 @@ npm install --save @effect-aws/client-s3
 With default S3Client instance:
 
 ```typescript
-import { S3Service, DefaultS3ServiceLayer } from "@effect-aws/client-s3";
+import { S3 } from "@effect-aws/client-s3";
 
-const program = Effect.flatMap(S3Service, (s3) => s3.headObject(args));
+const program = S3.headObject(args);
 
 const result = pipe(
   program,
-  Effect.provide(DefaultS3ServiceLayer),
+  Effect.provide(S3.defaultLayer),
   Effect.runPromise,
 );
 ```
@@ -28,23 +28,15 @@ const result = pipe(
 With custom S3Client instance:
 
 ```typescript
-import {
-  S3Service,
-  BaseS3ServiceLayer,
-  S3ClientInstance,
-} from "@effect-aws/client-s3";
+import { S3 } from "@effect-aws/client-s3";
 
-const program = Effect.flatMap(S3Service, (s3) => s3.headObject(args));
-
-const S3ClientInstanceLayer = Layer.succeed(
-  S3ClientInstance,
-  new S3Client({ region: "eu-central-1" }),
-);
+const program = S3.headObject(args);
 
 const result = await pipe(
   program,
-  Effect.provide(BaseS3ServiceLayer),
-  Effect.provide(S3ClientInstanceLayer),
+  Effect.provide(
+    S3.baseLayer(() => new S3Client({ region: "eu-central-1" })),
+  ),
   Effect.runPromise,
 );
 ```
@@ -52,34 +44,15 @@ const result = await pipe(
 With custom S3Client configuration:
 
 ```typescript
-import {
-  S3Service,
-  BaseS3ServiceLayer,
-  DefaultS3ClientConfigLayer,
-  S3ClientInstance,
-  S3ClientInstanceConfig,
-} from "@effect-aws/client-s3";
+import { S3 } from "@effect-aws/client-s3";
 
-const program = Effect.flatMap(S3Service, (s3) => s3.headObject(args));
-
-const S3ClientInstanceLayer = Layer.provide(
-  Layer.effect(
-    S3ClientInstance,
-    S3ClientInstanceConfig.pipe(
-      Effect.map(
-        (config) => new S3Client({ ...config, region: "eu-central-1" }),
-      ),
-    ),
-  ),
-  DefaultS3ClientConfigLayer,
-);
+const program = S3.headObject(args);
 
 const result = await pipe(
   program,
-  Effect.provide(BaseS3ServiceLayer),
-  Effect.provide(S3ClientInstanceLayer),
+  Effect.provide(S3.layer({ region: "eu-central-1" })),
   Effect.runPromiseExit,
 );
 ```
 
-or map over `DefaultS3ClientConfigLayer` layer context and update the configuration...
+or use `S3.baseLayer((default) => new S3Client({ ...default, region: "eu-central-1" }))`

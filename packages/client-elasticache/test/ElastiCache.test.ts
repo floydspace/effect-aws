@@ -4,39 +4,41 @@ import {
   ElastiCacheClient,
   ElastiCacheServiceException,
 } from "@aws-sdk/client-elasticache";
+// @ts-ignore
+import * as runtimeConfig from "@aws-sdk/client-elasticache/dist-cjs/runtimeConfig";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
-import * as Layer from "effect/Layer";
-import {
-  BaseElastiCacheServiceLayer,
-  DefaultElastiCacheClientConfigLayer,
-  DefaultElastiCacheServiceLayer,
-  ElastiCacheClientInstance,
-  ElastiCacheClientInstanceConfig,
-  ElastiCacheService,
-  ElastiCacheServiceLayer,
-  SdkError,
-} from "../src";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { ElastiCache, SdkError } from "../src";
 
+const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(ElastiCacheClient);
 
 describe("ElastiCacheClientImpl", () => {
+  afterEach(() => {
+    getRuntimeConfig.mockClear();
+  });
+
   it("default", async () => {
     clientMock.reset().on(ListTagsForResourceCommand).resolves({});
 
     const args: ListTagsForResourceCommandInput = { ResourceName: "test" };
 
-    const program = ElastiCacheService.listTagsForResource(args);
+    const program = ElastiCache.listTagsForResource(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultElastiCacheServiceLayer),
+      Effect.provide(ElastiCache.defaultLayer),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(
       ListTagsForResourceCommand,
       1,
@@ -52,25 +54,20 @@ describe("ElastiCacheClientImpl", () => {
 
     const args: ListTagsForResourceCommandInput = { ResourceName: "test" };
 
-    const program = ElastiCacheService.listTagsForResource(args);
-
-    const ElastiCacheClientConfigLayer = Layer.succeed(
-      ElastiCacheClientInstanceConfig,
-      {
-        region: "eu-central-1",
-      },
-    );
-    const CustomElastiCacheServiceLayer = ElastiCacheServiceLayer.pipe(
-      Layer.provide(ElastiCacheClientConfigLayer),
-    );
+    const program = ElastiCache.listTagsForResource(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomElastiCacheServiceLayer),
+      Effect.provide(ElastiCache.layer({ region: "eu-central-1" })),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(
       ListTagsForResourceCommand,
       1,
@@ -86,23 +83,23 @@ describe("ElastiCacheClientImpl", () => {
 
     const args: ListTagsForResourceCommandInput = { ResourceName: "test" };
 
-    const program = ElastiCacheService.listTagsForResource(args);
-
-    const ElastiCacheClientInstanceLayer = Layer.succeed(
-      ElastiCacheClientInstance,
-      new ElastiCacheClient({ region: "eu-central-1" }),
-    );
-    const CustomElastiCacheServiceLayer = BaseElastiCacheServiceLayer.pipe(
-      Layer.provide(ElastiCacheClientInstanceLayer),
-    );
+    const program = ElastiCache.listTagsForResource(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomElastiCacheServiceLayer),
+      Effect.provide(
+        ElastiCache.baseLayer(
+          () => new ElastiCacheClient({ region: "eu-central-1" }),
+        ),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+    });
     expect(clientMock).toHaveReceivedCommandTimes(
       ListTagsForResourceCommand,
       1,
@@ -118,28 +115,25 @@ describe("ElastiCacheClientImpl", () => {
 
     const args: ListTagsForResourceCommandInput = { ResourceName: "test" };
 
-    const program = ElastiCacheService.listTagsForResource(args);
-
-    const ElastiCacheClientInstanceLayer = Layer.effect(
-      ElastiCacheClientInstance,
-      Effect.map(
-        ElastiCacheClientInstanceConfig,
-        (config) =>
-          new ElastiCacheClient({ ...config, region: "eu-central-1" }),
-      ),
-    );
-    const CustomElastiCacheServiceLayer = BaseElastiCacheServiceLayer.pipe(
-      Layer.provide(ElastiCacheClientInstanceLayer),
-      Layer.provide(DefaultElastiCacheClientConfigLayer),
-    );
+    const program = ElastiCache.listTagsForResource(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomElastiCacheServiceLayer),
+      Effect.provide(
+        ElastiCache.baseLayer(
+          (config) =>
+            new ElastiCacheClient({ ...config, region: "eu-central-1" }),
+        ),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(
       ListTagsForResourceCommand,
       1,
@@ -158,11 +152,11 @@ describe("ElastiCacheClientImpl", () => {
 
     const args: ListTagsForResourceCommandInput = { ResourceName: "test" };
 
-    const program = ElastiCacheService.listTagsForResource(args);
+    const program = ElastiCache.listTagsForResource(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultElastiCacheServiceLayer),
+      Effect.provide(ElastiCache.defaultLayer),
       Effect.runPromiseExit,
     );
 
@@ -199,13 +193,13 @@ describe("ElastiCacheClientImpl", () => {
 
     const args: ListTagsForResourceCommandInput = { ResourceName: "test" };
 
-    const program = ElastiCacheService.listTagsForResource(args).pipe(
+    const program = ElastiCache.listTagsForResource(args).pipe(
       Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultElastiCacheServiceLayer),
+      Effect.provide(ElastiCache.defaultLayer),
       Effect.runPromiseExit,
     );
 

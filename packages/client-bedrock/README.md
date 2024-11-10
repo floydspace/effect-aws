@@ -14,13 +14,13 @@ npm install --save @effect-aws/client-bedrock
 With default BedrockClient instance:
 
 ```typescript
-import { BedrockService, DefaultBedrockServiceLayer } from "@effect-aws/client-bedrock";
+import { Bedrock } from "@effect-aws/client-bedrock";
 
-const program = BedrockService.listCustomModels(args);
+const program = Bedrock.listCustomModels(args);
 
 const result = pipe(
   program,
-  Effect.provide(DefaultBedrockServiceLayer),
+  Effect.provide(Bedrock.defaultLayer),
   Effect.runPromise,
 );
 ```
@@ -28,23 +28,15 @@ const result = pipe(
 With custom BedrockClient instance:
 
 ```typescript
-import {
-  BedrockService,
-  BaseBedrockServiceLayer,
-  BedrockClientInstance,
-} from "@effect-aws/client-bedrock";
+import { Bedrock } from "@effect-aws/client-bedrock";
 
-const program = BedrockService.listCustomModels(args);
-
-const BedrockClientInstanceLayer = Layer.succeed(
-  BedrockClientInstance,
-  new BedrockClient({ region: "eu-central-1" }),
-);
+const program = Bedrock.listCustomModels(args);
 
 const result = await pipe(
   program,
-  Effect.provide(BaseBedrockServiceLayer),
-  Effect.provide(BedrockClientInstanceLayer),
+  Effect.provide(
+    Bedrock.baseLayer(() => new BedrockClient({ region: "eu-central-1" })),
+  ),
   Effect.runPromise,
 );
 ```
@@ -52,34 +44,15 @@ const result = await pipe(
 With custom BedrockClient configuration:
 
 ```typescript
-import {
-  BedrockService,
-  BaseBedrockServiceLayer,
-  DefaultBedrockClientConfigLayer,
-  BedrockClientInstance,
-  BedrockClientInstanceConfig,
-} from "@effect-aws/client-bedrock";
+import { Bedrock } from "@effect-aws/client-bedrock";
 
-const program = BedrockService.listCustomModels(args);
-
-const BedrockClientInstanceLayer = Layer.provide(
-  Layer.effect(
-    BedrockClientInstance,
-    BedrockClientInstanceConfig.pipe(
-      Effect.map(
-        (config) => new BedrockClient({ ...config, region: "eu-central-1" }),
-      ),
-    ),
-  ),
-  DefaultBedrockClientConfigLayer,
-);
+const program = Bedrock.listCustomModels(args);
 
 const result = await pipe(
   program,
-  Effect.provide(BaseBedrockServiceLayer),
-  Effect.provide(BedrockClientInstanceLayer),
+  Effect.provide(Bedrock.layer({ region: "eu-central-1" })),
   Effect.runPromiseExit,
 );
 ```
 
-or map over `DefaultBedrockClientConfigLayer` layer context and update the configuration...
+or use `Bedrock.baseLayer((default) => new BedrockClient({ ...default, region: "eu-central-1" }))`

@@ -3,6 +3,8 @@
  */
 import {
   KMSServiceException,
+  type KMSClient,
+  type KMSClientConfig,
   CancelKeyDeletionCommand,
   type CancelKeyDeletionCommandInput,
   type CancelKeyDeletionCommandOutput,
@@ -218,10 +220,14 @@ import {
   TaggedException,
 } from "./Errors";
 import { KMSClientInstance, KMSClientInstanceLayer } from "./KMSClientInstance";
-import { DefaultKMSClientConfigLayer } from "./KMSClientInstanceConfig";
+import {
+  DefaultKMSClientConfigLayer,
+  makeDefaultKMSClientInstanceConfig,
+  KMSClientInstanceConfig,
+} from "./KMSClientInstanceConfig";
 
 /**
- * @since 1.0.1
+ * @since 1.0.0
  */
 export interface HttpHandlerOptions {
   /**
@@ -1260,15 +1266,6 @@ interface KMSService$ {
 
 /**
  * @since 1.0.0
- * @category models
- */
-export class KMSService extends Effect.Tag("@effect-aws/client-kms/KMSService")<
-  KMSService,
-  KMSService$
->() {}
-
-/**
- * @since 1.0.0
  * @category constructors
  */
 export const makeKMSService = Effect.gen(function* (_) {
@@ -1319,13 +1316,59 @@ export const makeKMSService = Effect.gen(function* (_) {
 
 /**
  * @since 1.0.0
+ * @category models
+ */
+export class KMSService extends Effect.Tag("@effect-aws/client-kms/KMSService")<
+  KMSService,
+  KMSService$
+>() {
+  static readonly defaultLayer = Layer.effect(this, makeKMSService).pipe(
+    Layer.provide(KMSClientInstanceLayer),
+    Layer.provide(DefaultKMSClientConfigLayer),
+  );
+  static readonly layer = (config: KMSClientConfig) =>
+    Layer.effect(this, makeKMSService).pipe(
+      Layer.provide(KMSClientInstanceLayer),
+      Layer.provide(
+        Layer.effect(
+          KMSClientInstanceConfig,
+          makeDefaultKMSClientInstanceConfig.pipe(
+            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
+          ),
+        ),
+      ),
+    );
+  static readonly baseLayer = (
+    evaluate: (defaultConfig: KMSClientConfig) => KMSClient,
+  ) =>
+    Layer.effect(this, makeKMSService).pipe(
+      Layer.provide(
+        Layer.effect(
+          KMSClientInstance,
+          Effect.map(makeDefaultKMSClientInstanceConfig, evaluate),
+        ),
+      ),
+    );
+}
+
+/**
+ * @since 1.0.0
+ * @category models
+ * @alias KMSService
+ */
+export const KMS = KMSService;
+
+/**
+ * @since 1.0.0
  * @category layers
+ * @deprecated use KMS.baseLayer instead
  */
 export const BaseKMSServiceLayer = Layer.effect(KMSService, makeKMSService);
 
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use KMS.layer instead
  */
 export const KMSServiceLayer = BaseKMSServiceLayer.pipe(
   Layer.provide(KMSClientInstanceLayer),
@@ -1334,7 +1377,6 @@ export const KMSServiceLayer = BaseKMSServiceLayer.pipe(
 /**
  * @since 1.0.0
  * @category layers
+ * @deprecated use KMS.defaultLayer instead
  */
-export const DefaultKMSServiceLayer = KMSServiceLayer.pipe(
-  Layer.provide(DefaultKMSClientConfigLayer),
-);
+export const DefaultKMSServiceLayer = KMSService.defaultLayer;

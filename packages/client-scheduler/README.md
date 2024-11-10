@@ -14,13 +14,13 @@ npm install --save @effect-aws/client-scheduler
 With default SchedulerClient instance:
 
 ```typescript
-import { SchedulerService, DefaultSchedulerServiceLayer } from "@effect-aws/client-scheduler";
+import { Scheduler } from "@effect-aws/client-scheduler";
 
-const program = SchedulerService.tagResource(args);
+const program = Scheduler.tagResource(args);
 
 const result = pipe(
   program,
-  Effect.provide(DefaultSchedulerServiceLayer),
+  Effect.provide(Scheduler.defaultLayer),
   Effect.runPromise,
 );
 ```
@@ -28,23 +28,15 @@ const result = pipe(
 With custom SchedulerClient instance:
 
 ```typescript
-import {
-  SchedulerService,
-  BaseSchedulerServiceLayer,
-  SchedulerClientInstance,
-} from "@effect-aws/client-scheduler";
+import { Scheduler } from "@effect-aws/client-scheduler";
 
-const program = SchedulerService.tagResource(args);
-
-const SchedulerClientInstanceLayer = Layer.succeed(
-  SchedulerClientInstance,
-  new SchedulerClient({ region: "eu-central-1" }),
-);
+const program = Scheduler.tagResource(args);
 
 const result = await pipe(
   program,
-  Effect.provide(BaseSchedulerServiceLayer),
-  Effect.provide(SchedulerClientInstanceLayer),
+  Effect.provide(
+    Scheduler.baseLayer(() => new SchedulerClient({ region: "eu-central-1" })),
+  ),
   Effect.runPromise,
 );
 ```
@@ -52,34 +44,15 @@ const result = await pipe(
 With custom SchedulerClient configuration:
 
 ```typescript
-import {
-  SchedulerService,
-  BaseSchedulerServiceLayer,
-  DefaultSchedulerClientConfigLayer,
-  SchedulerClientInstance,
-  SchedulerClientInstanceConfig,
-} from "@effect-aws/client-scheduler";
+import { Scheduler } from "@effect-aws/client-scheduler";
 
-const program = SchedulerService.tagResource(args);
-
-const SchedulerClientInstanceLayer = Layer.provide(
-  Layer.effect(
-    SchedulerClientInstance,
-    SchedulerClientInstanceConfig.pipe(
-      Effect.map(
-        (config) => new SchedulerClient({ ...config, region: "eu-central-1" }),
-      ),
-    ),
-  ),
-  DefaultSchedulerClientConfigLayer,
-);
+const program = Scheduler.tagResource(args);
 
 const result = await pipe(
   program,
-  Effect.provide(BaseSchedulerServiceLayer),
-  Effect.provide(SchedulerClientInstanceLayer),
+  Effect.provide(Scheduler.layer({ region: "eu-central-1" })),
   Effect.runPromiseExit,
 );
 ```
 
-or map over `DefaultSchedulerClientConfigLayer` layer context and update the configuration...
+or use `Scheduler.baseLayer((default) => new SchedulerClient({ ...default, region: "eu-central-1" }))`

@@ -4,39 +4,41 @@ import {
   CloudTrailClient,
   CloudTrailServiceException,
 } from "@aws-sdk/client-cloudtrail";
+// @ts-ignore
+import * as runtimeConfig from "@aws-sdk/client-cloudtrail/dist-cjs/runtimeConfig";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
-import * as Layer from "effect/Layer";
-import {
-  BaseCloudTrailServiceLayer,
-  DefaultCloudTrailClientConfigLayer,
-  DefaultCloudTrailServiceLayer,
-  CloudTrailClientInstance,
-  CloudTrailClientInstanceConfig,
-  CloudTrailService,
-  CloudTrailServiceLayer,
-  SdkError,
-} from "../src";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { CloudTrail, SdkError } from "../src";
 
+const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(CloudTrailClient);
 
 describe("CloudTrailClientImpl", () => {
+  afterEach(() => {
+    getRuntimeConfig.mockClear();
+  });
+
   it("default", async () => {
     clientMock.reset().on(ListTrailsCommand).resolves({});
 
     const args = {} as unknown as ListTrailsCommandInput;
 
-    const program = CloudTrailService.listTrails(args);
+    const program = CloudTrail.listTrails(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultCloudTrailServiceLayer),
+      Effect.provide(CloudTrail.defaultLayer),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(ListTrailsCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(ListTrailsCommand, args);
   });
@@ -46,25 +48,20 @@ describe("CloudTrailClientImpl", () => {
 
     const args = {} as unknown as ListTrailsCommandInput;
 
-    const program = CloudTrailService.listTrails(args);
-
-    const CloudTrailClientConfigLayer = Layer.succeed(
-      CloudTrailClientInstanceConfig,
-      {
-        region: "eu-central-1",
-      },
-    );
-    const CustomCloudTrailServiceLayer = CloudTrailServiceLayer.pipe(
-      Layer.provide(CloudTrailClientConfigLayer),
-    );
+    const program = CloudTrail.listTrails(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomCloudTrailServiceLayer),
+      Effect.provide(CloudTrail.layer({ region: "eu-central-1" })),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(ListTrailsCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(ListTrailsCommand, args);
   });
@@ -74,23 +71,23 @@ describe("CloudTrailClientImpl", () => {
 
     const args = {} as unknown as ListTrailsCommandInput;
 
-    const program = CloudTrailService.listTrails(args);
-
-    const CloudTrailClientInstanceLayer = Layer.succeed(
-      CloudTrailClientInstance,
-      new CloudTrailClient({ region: "eu-central-1" }),
-    );
-    const CustomCloudTrailServiceLayer = BaseCloudTrailServiceLayer.pipe(
-      Layer.provide(CloudTrailClientInstanceLayer),
-    );
+    const program = CloudTrail.listTrails(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomCloudTrailServiceLayer),
+      Effect.provide(
+        CloudTrail.baseLayer(
+          () => new CloudTrailClient({ region: "eu-central-1" }),
+        ),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+    });
     expect(clientMock).toHaveReceivedCommandTimes(ListTrailsCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(ListTrailsCommand, args);
   });
@@ -100,27 +97,25 @@ describe("CloudTrailClientImpl", () => {
 
     const args = {} as unknown as ListTrailsCommandInput;
 
-    const program = CloudTrailService.listTrails(args);
-
-    const CloudTrailClientInstanceLayer = Layer.effect(
-      CloudTrailClientInstance,
-      Effect.map(
-        CloudTrailClientInstanceConfig,
-        (config) => new CloudTrailClient({ ...config, region: "eu-central-1" }),
-      ),
-    );
-    const CustomCloudTrailServiceLayer = BaseCloudTrailServiceLayer.pipe(
-      Layer.provide(CloudTrailClientInstanceLayer),
-      Layer.provide(DefaultCloudTrailClientConfigLayer),
-    );
+    const program = CloudTrail.listTrails(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomCloudTrailServiceLayer),
+      Effect.provide(
+        CloudTrail.baseLayer(
+          (config) =>
+            new CloudTrailClient({ ...config, region: "eu-central-1" }),
+        ),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(ListTrailsCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(ListTrailsCommand, args);
   });
@@ -130,11 +125,11 @@ describe("CloudTrailClientImpl", () => {
 
     const args = {} as unknown as ListTrailsCommandInput;
 
-    const program = CloudTrailService.listTrails(args);
+    const program = CloudTrail.listTrails(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultCloudTrailServiceLayer),
+      Effect.provide(CloudTrail.defaultLayer),
       Effect.runPromiseExit,
     );
 
@@ -165,13 +160,13 @@ describe("CloudTrailClientImpl", () => {
 
     const args = {} as unknown as ListTrailsCommandInput;
 
-    const program = CloudTrailService.listTrails(args).pipe(
+    const program = CloudTrail.listTrails(args).pipe(
       Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultCloudTrailServiceLayer),
+      Effect.provide(CloudTrail.defaultLayer),
       Effect.runPromiseExit,
     );
 

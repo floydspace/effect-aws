@@ -4,39 +4,41 @@ import {
   BedrockClient,
   BedrockServiceException,
 } from "@aws-sdk/client-bedrock";
+// @ts-ignore
+import * as runtimeConfig from "@aws-sdk/client-bedrock/dist-cjs/runtimeConfig";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
-import * as Layer from "effect/Layer";
-import {
-  BaseBedrockServiceLayer,
-  DefaultBedrockClientConfigLayer,
-  DefaultBedrockServiceLayer,
-  BedrockClientInstance,
-  BedrockClientInstanceConfig,
-  BedrockService,
-  BedrockServiceLayer,
-  SdkError,
-} from "../src";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { Bedrock, SdkError } from "../src";
 
+const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(BedrockClient);
 
 describe("BedrockClientImpl", () => {
+  afterEach(() => {
+    getRuntimeConfig.mockClear();
+  });
+
   it("default", async () => {
     clientMock.reset().on(ListCustomModelsCommand).resolves({});
 
     const args = {} as unknown as ListCustomModelsCommandInput;
 
-    const program = BedrockService.listCustomModels(args);
+    const program = Bedrock.listCustomModels(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultBedrockServiceLayer),
+      Effect.provide(Bedrock.defaultLayer),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(ListCustomModelsCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(ListCustomModelsCommand, args);
   });
@@ -46,25 +48,20 @@ describe("BedrockClientImpl", () => {
 
     const args = {} as unknown as ListCustomModelsCommandInput;
 
-    const program = BedrockService.listCustomModels(args);
-
-    const BedrockClientConfigLayer = Layer.succeed(
-      BedrockClientInstanceConfig,
-      {
-        region: "eu-central-1",
-      },
-    );
-    const CustomBedrockServiceLayer = BedrockServiceLayer.pipe(
-      Layer.provide(BedrockClientConfigLayer),
-    );
+    const program = Bedrock.listCustomModels(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomBedrockServiceLayer),
+      Effect.provide(Bedrock.layer({ region: "eu-central-1" })),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(ListCustomModelsCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(ListCustomModelsCommand, args);
   });
@@ -74,23 +71,21 @@ describe("BedrockClientImpl", () => {
 
     const args = {} as unknown as ListCustomModelsCommandInput;
 
-    const program = BedrockService.listCustomModels(args);
-
-    const BedrockClientInstanceLayer = Layer.succeed(
-      BedrockClientInstance,
-      new BedrockClient({ region: "eu-central-1" }),
-    );
-    const CustomBedrockServiceLayer = BaseBedrockServiceLayer.pipe(
-      Layer.provide(BedrockClientInstanceLayer),
-    );
+    const program = Bedrock.listCustomModels(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomBedrockServiceLayer),
+      Effect.provide(
+        Bedrock.baseLayer(() => new BedrockClient({ region: "eu-central-1" })),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+    });
     expect(clientMock).toHaveReceivedCommandTimes(ListCustomModelsCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(ListCustomModelsCommand, args);
   });
@@ -100,27 +95,24 @@ describe("BedrockClientImpl", () => {
 
     const args = {} as unknown as ListCustomModelsCommandInput;
 
-    const program = BedrockService.listCustomModels(args);
-
-    const BedrockClientInstanceLayer = Layer.effect(
-      BedrockClientInstance,
-      Effect.map(
-        BedrockClientInstanceConfig,
-        (config) => new BedrockClient({ ...config, region: "eu-central-1" }),
-      ),
-    );
-    const CustomBedrockServiceLayer = BaseBedrockServiceLayer.pipe(
-      Layer.provide(BedrockClientInstanceLayer),
-      Layer.provide(DefaultBedrockClientConfigLayer),
-    );
+    const program = Bedrock.listCustomModels(args);
 
     const result = await pipe(
       program,
-      Effect.provide(CustomBedrockServiceLayer),
+      Effect.provide(
+        Bedrock.baseLayer(
+          (config) => new BedrockClient({ ...config, region: "eu-central-1" }),
+        ),
+      ),
       Effect.runPromiseExit,
     );
 
     expect(result).toEqual(Exit.succeed({}));
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({
+      region: "eu-central-1",
+      logger: expect.any(Object),
+    });
     expect(clientMock).toHaveReceivedCommandTimes(ListCustomModelsCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(ListCustomModelsCommand, args);
   });
@@ -130,11 +122,11 @@ describe("BedrockClientImpl", () => {
 
     const args = {} as unknown as ListCustomModelsCommandInput;
 
-    const program = BedrockService.listCustomModels(args);
+    const program = Bedrock.listCustomModels(args);
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultBedrockServiceLayer),
+      Effect.provide(Bedrock.defaultLayer),
       Effect.runPromiseExit,
     );
 
@@ -165,13 +157,13 @@ describe("BedrockClientImpl", () => {
 
     const args = {} as unknown as ListCustomModelsCommandInput;
 
-    const program = BedrockService.listCustomModels(args).pipe(
+    const program = Bedrock.listCustomModels(args).pipe(
       Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 
     const result = await pipe(
       program,
-      Effect.provide(DefaultBedrockServiceLayer),
+      Effect.provide(Bedrock.defaultLayer),
       Effect.runPromiseExit,
     );
 
