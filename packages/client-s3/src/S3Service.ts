@@ -428,6 +428,22 @@ interface S3Service$ {
   readonly _: unique symbol;
 
   /**
+   * @see {@link GetObjectCommand}
+   */
+  getObject:
+    | ((
+        args: GetObjectCommandInput,
+        options?: { readonly presigned?: false } & HttpHandlerOptions,
+      ) => Effect.Effect<
+        GetObjectCommandOutput,
+        SdkError | InvalidObjectStateError | NoSuchKeyError
+      >)
+    | ((
+        args: GetObjectCommandInput,
+        options?: { readonly presigned: true } & RequestPresigningArguments,
+      ) => Effect.Effect<string, SdkError | S3ServiceError>);
+
+  /**
    * @see {@link AbortMultipartUploadCommand}
    */
   abortMultipartUpload(
@@ -845,21 +861,6 @@ interface S3Service$ {
     args: GetBucketWebsiteCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<GetBucketWebsiteCommandOutput, SdkError | S3ServiceError>;
-
-  /**
-   * @see {@link GetObjectCommand}
-   */
-  getObject(
-    args: GetObjectCommandInput,
-    options?: { readonly presigned?: false } & HttpHandlerOptions,
-  ): Effect.Effect<
-    GetObjectCommandOutput,
-    SdkError | InvalidObjectStateError | NoSuchKeyError
-  >;
-  getObject(
-    args: GetObjectCommandInput,
-    options?: { readonly presigned: true } & RequestPresigningArguments,
-  ): Effect.Effect<string, SdkError | S3ServiceError>;
 
   /**
    * @see {@link GetObjectAclCommand}
