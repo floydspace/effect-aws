@@ -1,5 +1,11 @@
 # @effect-aws/client-s3
 
+## 1.5.1
+
+### Patch Changes
+
+- [`a17e239`](https://github.com/floydspace/effect-aws/commit/a17e239530a7050459b78b4781a4c8ce8dcbc32b) Thanks [@floydspace](https://github.com/floydspace)! - Fix service level function types exporting when using overloading
+
 ## 1.5.0
 
 ### Minor Changes
