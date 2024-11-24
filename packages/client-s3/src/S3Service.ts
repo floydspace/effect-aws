@@ -1408,6 +1408,9 @@ export class S3Service extends Effect.Tag("@effect-aws/client-s3/S3Service")<
   S3Service,
   S3Service$
 >() {
+  declare static readonly getObject: S3Service$["getObject"];
+  declare static readonly putObject: S3Service$["putObject"];
+
   static readonly defaultLayer = Layer.effect(this, makeS3Service).pipe(
     Layer.provide(S3ClientInstanceLayer),
     Layer.provide(DefaultS3ClientConfigLayer),

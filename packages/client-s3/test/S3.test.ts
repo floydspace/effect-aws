@@ -157,9 +157,7 @@ describe("S3ClientImpl", () => {
   it("presigned url", async () => {
     const args: GetObjectCommandInput = { Key: "test", Bucket: "test" };
 
-    const program = Effect.flatMap(S3, (service) =>
-      service.getObject(args, { presigned: true, expiresIn: 100 }),
-    );
+    const program = S3.getObject(args, { presigned: true, expiresIn: 100 });
 
     const result = await pipe(
       program,
