@@ -31,7 +31,7 @@ importers:
     devDependencies:
       '@aws/pdk':
         specifier: ^0
-        version: 0.25.6(@aws-cdk/aws-cognito-identitypool-alpha@2.163.1-alpha.0)(aws-cdk-lib@2.165.0)(cdk-nag@2.31.0)(constructs@10.4.2)(projen@0.82.8)
+        version: 0.25.8(@aws-cdk/aws-cognito-identitypool-alpha@2.163.1-alpha.0)(aws-cdk-lib@2.165.0)(cdk-nag@2.31.0)(constructs@10.4.2)(projen@0.82.8)
       '@changesets/changelog-github':
         specifier: ^0.4.8
         version: 0.4.8
@@ -4097,8 +4097,8 @@ packages:
       tslib: 2.7.0
     dev: false
 
-  /@aws/pdk@0.25.6(@aws-cdk/aws-cognito-identitypool-alpha@2.163.1-alpha.0)(aws-cdk-lib@2.165.0)(cdk-nag@2.31.0)(constructs@10.4.2)(projen@0.82.8):
-    resolution: {integrity: sha512-WOl3A0Tic3SzLcFLhFhCv8lw/U66EvZXR2IYfkzsOV8pZBMGG6w8Tk3Anq8zKRrbjj6+ivK8zpZdbepYt9uZ+Q==}
+  /@aws/pdk@0.25.8(@aws-cdk/aws-cognito-identitypool-alpha@2.163.1-alpha.0)(aws-cdk-lib@2.165.0)(cdk-nag@2.31.0)(constructs@10.4.2)(projen@0.82.8):
+    resolution: {integrity: sha512-jFax9+Kyi4iTpITmbAzFgf/cRNr+SgUVjAMYVXbA8eJF38QKOYG6VuW80FGsBWexReDKejSRPMc9BsAT1/i4ZA==}
     hasBin: true
     peerDependencies:
       '@aws-cdk/aws-cognito-identitypool-alpha': ^2.163.1-alpha.0
