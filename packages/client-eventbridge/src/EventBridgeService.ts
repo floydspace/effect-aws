@@ -180,6 +180,7 @@ import {
 import { Data, Effect, Layer, Record } from "effect";
 import {
   AllServiceErrors,
+  AccessDeniedError,
   ConcurrentModificationError,
   IllegalStatusError,
   InternalError,
@@ -191,6 +192,7 @@ import {
   PolicyLengthExceededError,
   ResourceAlreadyExistsError,
   ResourceNotFoundError,
+  ThrottlingError,
   SdkError,
   TaggedException,
 } from "./Errors";
@@ -349,7 +351,13 @@ interface EventBridgeService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateConnectionCommandOutput,
-    SdkError | InternalError | LimitExceededError | ResourceAlreadyExistsError
+    | SdkError
+    | AccessDeniedError
+    | InternalError
+    | LimitExceededError
+    | ResourceAlreadyExistsError
+    | ResourceNotFoundError
+    | ThrottlingError
   >;
 
   /**
@@ -978,10 +986,12 @@ interface EventBridgeService$ {
   ): Effect.Effect<
     UpdateConnectionCommandOutput,
     | SdkError
+    | AccessDeniedError
     | ConcurrentModificationError
     | InternalError
     | LimitExceededError
     | ResourceNotFoundError
+    | ThrottlingError
   >;
 
   /**

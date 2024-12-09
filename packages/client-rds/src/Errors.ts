@@ -30,6 +30,7 @@ import type {
   DBInstanceAutomatedBackupNotFoundFault,
   DBInstanceAutomatedBackupQuotaExceededFault,
   DBInstanceNotFoundFault,
+  DBInstanceNotReadyFault,
   DBInstanceRoleAlreadyExistsFault,
   DBInstanceRoleNotFoundFault,
   DBInstanceRoleQuotaExceededFault,
@@ -178,6 +179,7 @@ export const AllServiceErrors = [
   "DBInstanceAutomatedBackupNotFoundFault",
   "DBInstanceAutomatedBackupQuotaExceededFault",
   "DBInstanceNotFoundFault",
+  "DBInstanceNotReadyFault",
   "DBInstanceRoleAlreadyExistsFault",
   "DBInstanceRoleNotFoundFault",
   "DBInstanceRoleQuotaExceededFault",
@@ -359,6 +361,8 @@ export type DBInstanceAutomatedBackupQuotaExceededFaultError =
   TaggedException<DBInstanceAutomatedBackupQuotaExceededFault>;
 export type DBInstanceNotFoundFaultError =
   TaggedException<DBInstanceNotFoundFault>;
+export type DBInstanceNotReadyFaultError =
+  TaggedException<DBInstanceNotReadyFault>;
 export type DBInstanceRoleAlreadyExistsFaultError =
   TaggedException<DBInstanceRoleAlreadyExistsFault>;
 export type DBInstanceRoleNotFoundFaultError =

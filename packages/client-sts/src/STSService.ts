@@ -14,6 +14,9 @@ import {
   AssumeRoleWithWebIdentityCommand,
   type AssumeRoleWithWebIdentityCommandInput,
   type AssumeRoleWithWebIdentityCommandOutput,
+  AssumeRootCommand,
+  type AssumeRootCommandInput,
+  type AssumeRootCommandOutput,
   DecodeAuthorizationMessageCommand,
   type DecodeAuthorizationMessageCommandInput,
   type DecodeAuthorizationMessageCommandOutput,
@@ -66,6 +69,7 @@ const commands = {
   AssumeRoleCommand,
   AssumeRoleWithSAMLCommand,
   AssumeRoleWithWebIdentityCommand,
+  AssumeRootCommand,
   DecodeAuthorizationMessageCommand,
   GetAccessKeyInfoCommand,
   GetCallerIdentityCommand,
@@ -124,6 +128,17 @@ interface STSService$ {
     | MalformedPolicyDocumentError
     | PackedPolicyTooLargeError
     | RegionDisabledError
+  >;
+
+  /**
+   * @see {@link AssumeRootCommand}
+   */
+  assumeRoot(
+    args: AssumeRootCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    AssumeRootCommandOutput,
+    SdkError | ExpiredTokenError | RegionDisabledError
   >;
 
   /**

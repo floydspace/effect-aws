@@ -23,6 +23,7 @@ import type {
   ProvisionedThroughputExceededException,
   ReplicaAlreadyExistsException,
   ReplicaNotFoundException,
+  ReplicatedWriteConflictException,
   RequestLimitExceeded,
   ResourceInUseException,
   ResourceNotFoundException,
@@ -60,6 +61,7 @@ export const AllServiceErrors = [
   "ProvisionedThroughputExceededException",
   "ReplicaAlreadyExistsException",
   "ReplicaNotFoundException",
+  "ReplicatedWriteConflictException",
   "RequestLimitExceeded",
   "ResourceInUseException",
   "ResourceNotFoundException",
@@ -110,6 +112,8 @@ export type ProvisionedThroughputExceededError =
 export type ReplicaAlreadyExistsError =
   TaggedException<ReplicaAlreadyExistsException>;
 export type ReplicaNotFoundError = TaggedException<ReplicaNotFoundException>;
+export type ReplicatedWriteConflictError =
+  TaggedException<ReplicatedWriteConflictException>;
 export type RequestLimitExceededError = TaggedException<RequestLimitExceeded>;
 export type ResourceInUseError = TaggedException<ResourceInUseException>;
 export type ResourceNotFoundError = TaggedException<ResourceNotFoundException>;

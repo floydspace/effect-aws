@@ -47,6 +47,12 @@ import {
   DeleteDestinationCommand,
   type DeleteDestinationCommandInput,
   type DeleteDestinationCommandOutput,
+  DeleteIndexPolicyCommand,
+  type DeleteIndexPolicyCommandInput,
+  type DeleteIndexPolicyCommandOutput,
+  DeleteIntegrationCommand,
+  type DeleteIntegrationCommandInput,
+  type DeleteIntegrationCommandOutput,
   DeleteLogAnomalyDetectorCommand,
   type DeleteLogAnomalyDetectorCommandInput,
   type DeleteLogAnomalyDetectorCommandOutput,
@@ -71,6 +77,9 @@ import {
   DeleteSubscriptionFilterCommand,
   type DeleteSubscriptionFilterCommandInput,
   type DeleteSubscriptionFilterCommandOutput,
+  DeleteTransformerCommand,
+  type DeleteTransformerCommandInput,
+  type DeleteTransformerCommandOutput,
   DescribeAccountPoliciesCommand,
   type DescribeAccountPoliciesCommandInput,
   type DescribeAccountPoliciesCommandOutput,
@@ -92,6 +101,12 @@ import {
   DescribeExportTasksCommand,
   type DescribeExportTasksCommandInput,
   type DescribeExportTasksCommandOutput,
+  DescribeFieldIndexesCommand,
+  type DescribeFieldIndexesCommandInput,
+  type DescribeFieldIndexesCommandOutput,
+  DescribeIndexPoliciesCommand,
+  type DescribeIndexPoliciesCommandInput,
+  type DescribeIndexPoliciesCommandOutput,
   DescribeLogGroupsCommand,
   type DescribeLogGroupsCommandInput,
   type DescribeLogGroupsCommandOutput,
@@ -134,6 +149,9 @@ import {
   GetDeliverySourceCommand,
   type GetDeliverySourceCommandInput,
   type GetDeliverySourceCommandOutput,
+  GetIntegrationCommand,
+  type GetIntegrationCommandInput,
+  type GetIntegrationCommandOutput,
   GetLogAnomalyDetectorCommand,
   type GetLogAnomalyDetectorCommandInput,
   type GetLogAnomalyDetectorCommandOutput,
@@ -149,12 +167,21 @@ import {
   GetQueryResultsCommand,
   type GetQueryResultsCommandInput,
   type GetQueryResultsCommandOutput,
+  GetTransformerCommand,
+  type GetTransformerCommandInput,
+  type GetTransformerCommandOutput,
   ListAnomaliesCommand,
   type ListAnomaliesCommandInput,
   type ListAnomaliesCommandOutput,
+  ListIntegrationsCommand,
+  type ListIntegrationsCommandInput,
+  type ListIntegrationsCommandOutput,
   ListLogAnomalyDetectorsCommand,
   type ListLogAnomalyDetectorsCommandInput,
   type ListLogAnomalyDetectorsCommandOutput,
+  ListLogGroupsForQueryCommand,
+  type ListLogGroupsForQueryCommandInput,
+  type ListLogGroupsForQueryCommandOutput,
   ListTagsForResourceCommand,
   type ListTagsForResourceCommandInput,
   type ListTagsForResourceCommandOutput,
@@ -182,6 +209,12 @@ import {
   PutDestinationPolicyCommand,
   type PutDestinationPolicyCommandInput,
   type PutDestinationPolicyCommandOutput,
+  PutIndexPolicyCommand,
+  type PutIndexPolicyCommandInput,
+  type PutIndexPolicyCommandOutput,
+  PutIntegrationCommand,
+  type PutIntegrationCommandInput,
+  type PutIntegrationCommandOutput,
   PutLogEventsCommand,
   type PutLogEventsCommandInput,
   type PutLogEventsCommandOutput,
@@ -200,6 +233,9 @@ import {
   PutSubscriptionFilterCommand,
   type PutSubscriptionFilterCommandInput,
   type PutSubscriptionFilterCommandOutput,
+  PutTransformerCommand,
+  type PutTransformerCommandInput,
+  type PutTransformerCommandOutput,
   StartLiveTailCommand,
   type StartLiveTailCommandInput,
   type StartLiveTailCommandOutput,
@@ -218,6 +254,9 @@ import {
   TestMetricFilterCommand,
   type TestMetricFilterCommandInput,
   type TestMetricFilterCommandOutput,
+  TestTransformerCommand,
+  type TestTransformerCommandInput,
+  type TestTransformerCommandOutput,
   UntagLogGroupCommand,
   type UntagLogGroupCommandInput,
   type UntagLogGroupCommandOutput,
@@ -293,6 +332,8 @@ const commands = {
   DeleteDeliveryDestinationPolicyCommand,
   DeleteDeliverySourceCommand,
   DeleteDestinationCommand,
+  DeleteIndexPolicyCommand,
+  DeleteIntegrationCommand,
   DeleteLogAnomalyDetectorCommand,
   DeleteLogGroupCommand,
   DeleteLogStreamCommand,
@@ -301,6 +342,7 @@ const commands = {
   DeleteResourcePolicyCommand,
   DeleteRetentionPolicyCommand,
   DeleteSubscriptionFilterCommand,
+  DeleteTransformerCommand,
   DescribeAccountPoliciesCommand,
   DescribeConfigurationTemplatesCommand,
   DescribeDeliveriesCommand,
@@ -308,6 +350,8 @@ const commands = {
   DescribeDeliverySourcesCommand,
   DescribeDestinationsCommand,
   DescribeExportTasksCommand,
+  DescribeFieldIndexesCommand,
+  DescribeIndexPoliciesCommand,
   DescribeLogGroupsCommand,
   DescribeLogStreamsCommand,
   DescribeMetricFiltersCommand,
@@ -322,13 +366,17 @@ const commands = {
   GetDeliveryDestinationCommand,
   GetDeliveryDestinationPolicyCommand,
   GetDeliverySourceCommand,
+  GetIntegrationCommand,
   GetLogAnomalyDetectorCommand,
   GetLogEventsCommand,
   GetLogGroupFieldsCommand,
   GetLogRecordCommand,
   GetQueryResultsCommand,
+  GetTransformerCommand,
   ListAnomaliesCommand,
+  ListIntegrationsCommand,
   ListLogAnomalyDetectorsCommand,
+  ListLogGroupsForQueryCommand,
   ListTagsForResourceCommand,
   ListTagsLogGroupCommand,
   PutAccountPolicyCommand,
@@ -338,18 +386,22 @@ const commands = {
   PutDeliverySourceCommand,
   PutDestinationCommand,
   PutDestinationPolicyCommand,
+  PutIndexPolicyCommand,
+  PutIntegrationCommand,
   PutLogEventsCommand,
   PutMetricFilterCommand,
   PutQueryDefinitionCommand,
   PutResourcePolicyCommand,
   PutRetentionPolicyCommand,
   PutSubscriptionFilterCommand,
+  PutTransformerCommand,
   StartLiveTailCommand,
   StartQueryCommand,
   StopQueryCommand,
   TagLogGroupCommand,
   TagResourceCommand,
   TestMetricFilterCommand,
+  TestTransformerCommand,
   UntagLogGroupCommand,
   UntagResourceCommand,
   UpdateAnomalyCommand,
@@ -584,6 +636,37 @@ interface CloudWatchLogsService$ {
   >;
 
   /**
+   * @see {@link DeleteIndexPolicyCommand}
+   */
+  deleteIndexPolicy(
+    args: DeleteIndexPolicyCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteIndexPolicyCommandOutput,
+    | SdkError
+    | InvalidParameterError
+    | LimitExceededError
+    | OperationAbortedError
+    | ResourceNotFoundError
+    | ServiceUnavailableError
+  >;
+
+  /**
+   * @see {@link DeleteIntegrationCommand}
+   */
+  deleteIntegration(
+    args: DeleteIntegrationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteIntegrationCommandOutput,
+    | SdkError
+    | InvalidParameterError
+    | ResourceNotFoundError
+    | ServiceUnavailableError
+    | ValidationError
+  >;
+
+  /**
    * @see {@link DeleteLogAnomalyDetectorCommand}
    */
   deleteLogAnomalyDetector(
@@ -702,6 +785,22 @@ interface CloudWatchLogsService$ {
   >;
 
   /**
+   * @see {@link DeleteTransformerCommand}
+   */
+  deleteTransformer(
+    args: DeleteTransformerCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteTransformerCommandOutput,
+    | SdkError
+    | InvalidOperationError
+    | InvalidParameterError
+    | OperationAbortedError
+    | ResourceNotFoundError
+    | ServiceUnavailableError
+  >;
+
+  /**
    * @see {@link DescribeAccountPoliciesCommand}
    */
   describeAccountPolicies(
@@ -796,6 +895,38 @@ interface CloudWatchLogsService$ {
   ): Effect.Effect<
     DescribeExportTasksCommandOutput,
     SdkError | InvalidParameterError | ServiceUnavailableError
+  >;
+
+  /**
+   * @see {@link DescribeFieldIndexesCommand}
+   */
+  describeFieldIndexes(
+    args: DescribeFieldIndexesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeFieldIndexesCommandOutput,
+    | SdkError
+    | InvalidParameterError
+    | LimitExceededError
+    | OperationAbortedError
+    | ResourceNotFoundError
+    | ServiceUnavailableError
+  >;
+
+  /**
+   * @see {@link DescribeIndexPoliciesCommand}
+   */
+  describeIndexPolicies(
+    args: DescribeIndexPoliciesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeIndexPoliciesCommandOutput,
+    | SdkError
+    | InvalidParameterError
+    | LimitExceededError
+    | OperationAbortedError
+    | ResourceNotFoundError
+    | ServiceUnavailableError
   >;
 
   /**
@@ -991,6 +1122,20 @@ interface CloudWatchLogsService$ {
   >;
 
   /**
+   * @see {@link GetIntegrationCommand}
+   */
+  getIntegration(
+    args: GetIntegrationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetIntegrationCommandOutput,
+    | SdkError
+    | InvalidParameterError
+    | ResourceNotFoundError
+    | ServiceUnavailableError
+  >;
+
+  /**
    * @see {@link GetLogAnomalyDetectorCommand}
    */
   getLogAnomalyDetector(
@@ -1064,6 +1209,21 @@ interface CloudWatchLogsService$ {
   >;
 
   /**
+   * @see {@link GetTransformerCommand}
+   */
+  getTransformer(
+    args: GetTransformerCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetTransformerCommandOutput,
+    | SdkError
+    | InvalidOperationError
+    | InvalidParameterError
+    | ResourceNotFoundError
+    | ServiceUnavailableError
+  >;
+
+  /**
    * @see {@link ListAnomaliesCommand}
    */
   listAnomalies(
@@ -1079,6 +1239,17 @@ interface CloudWatchLogsService$ {
   >;
 
   /**
+   * @see {@link ListIntegrationsCommand}
+   */
+  listIntegrations(
+    args: ListIntegrationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListIntegrationsCommandOutput,
+    SdkError | InvalidParameterError | ServiceUnavailableError
+  >;
+
+  /**
    * @see {@link ListLogAnomalyDetectorsCommand}
    */
   listLogAnomalyDetectors(
@@ -1089,6 +1260,21 @@ interface CloudWatchLogsService$ {
     | SdkError
     | InvalidParameterError
     | OperationAbortedError
+    | ResourceNotFoundError
+    | ServiceUnavailableError
+  >;
+
+  /**
+   * @see {@link ListLogGroupsForQueryCommand}
+   */
+  listLogGroupsForQuery(
+    args: ListLogGroupsForQueryCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListLogGroupsForQueryCommandOutput,
+    | SdkError
+    | AccessDeniedError
+    | InvalidParameterError
     | ResourceNotFoundError
     | ServiceUnavailableError
   >;
@@ -1227,6 +1413,37 @@ interface CloudWatchLogsService$ {
   >;
 
   /**
+   * @see {@link PutIndexPolicyCommand}
+   */
+  putIndexPolicy(
+    args: PutIndexPolicyCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    PutIndexPolicyCommandOutput,
+    | SdkError
+    | InvalidParameterError
+    | LimitExceededError
+    | OperationAbortedError
+    | ResourceNotFoundError
+    | ServiceUnavailableError
+  >;
+
+  /**
+   * @see {@link PutIntegrationCommand}
+   */
+  putIntegration(
+    args: PutIntegrationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    PutIntegrationCommandOutput,
+    | SdkError
+    | InvalidParameterError
+    | LimitExceededError
+    | ServiceUnavailableError
+    | ValidationError
+  >;
+
+  /**
    * @see {@link PutLogEventsCommand}
    */
   putLogEvents(
@@ -1252,6 +1469,7 @@ interface CloudWatchLogsService$ {
   ): Effect.Effect<
     PutMetricFilterCommandOutput,
     | SdkError
+    | InvalidOperationError
     | InvalidParameterError
     | LimitExceededError
     | OperationAbortedError
@@ -1312,6 +1530,24 @@ interface CloudWatchLogsService$ {
   ): Effect.Effect<
     PutSubscriptionFilterCommandOutput,
     | SdkError
+    | InvalidOperationError
+    | InvalidParameterError
+    | LimitExceededError
+    | OperationAbortedError
+    | ResourceNotFoundError
+    | ServiceUnavailableError
+  >;
+
+  /**
+   * @see {@link PutTransformerCommand}
+   */
+  putTransformer(
+    args: PutTransformerCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    PutTransformerCommandOutput,
+    | SdkError
+    | InvalidOperationError
     | InvalidParameterError
     | LimitExceededError
     | OperationAbortedError
@@ -1400,6 +1636,20 @@ interface CloudWatchLogsService$ {
   ): Effect.Effect<
     TestMetricFilterCommandOutput,
     SdkError | InvalidParameterError | ServiceUnavailableError
+  >;
+
+  /**
+   * @see {@link TestTransformerCommand}
+   */
+  testTransformer(
+    args: TestTransformerCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    TestTransformerCommandOutput,
+    | SdkError
+    | InvalidOperationError
+    | InvalidParameterError
+    | ServiceUnavailableError
   >;
 
   /**

@@ -213,6 +213,7 @@ import {
   ProvisionedThroughputExceededError,
   ReplicaAlreadyExistsError,
   ReplicaNotFoundError,
+  ReplicatedWriteConflictError,
   RequestLimitExceededError,
   ResourceInUseError,
   ResourceNotFoundError,
@@ -423,6 +424,7 @@ interface DynamoDBService$ {
     | InvalidEndpointError
     | ItemCollectionSizeLimitExceededError
     | ProvisionedThroughputExceededError
+    | ReplicatedWriteConflictError
     | RequestLimitExceededError
     | ResourceNotFoundError
     | TransactionConflictError
@@ -832,6 +834,7 @@ interface DynamoDBService$ {
     | InvalidEndpointError
     | ItemCollectionSizeLimitExceededError
     | ProvisionedThroughputExceededError
+    | ReplicatedWriteConflictError
     | RequestLimitExceededError
     | ResourceNotFoundError
     | TransactionConflictError
@@ -1066,6 +1069,7 @@ interface DynamoDBService$ {
     | InvalidEndpointError
     | ItemCollectionSizeLimitExceededError
     | ProvisionedThroughputExceededError
+    | ReplicatedWriteConflictError
     | RequestLimitExceededError
     | ResourceNotFoundError
     | TransactionConflictError

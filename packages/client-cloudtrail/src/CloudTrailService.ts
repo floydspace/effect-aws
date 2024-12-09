@@ -14,6 +14,9 @@ import {
   CreateChannelCommand,
   type CreateChannelCommandInput,
   type CreateChannelCommandOutput,
+  CreateDashboardCommand,
+  type CreateDashboardCommandInput,
+  type CreateDashboardCommandOutput,
   CreateEventDataStoreCommand,
   type CreateEventDataStoreCommandInput,
   type CreateEventDataStoreCommandOutput,
@@ -23,6 +26,9 @@ import {
   DeleteChannelCommand,
   type DeleteChannelCommandInput,
   type DeleteChannelCommandOutput,
+  DeleteDashboardCommand,
+  type DeleteDashboardCommandInput,
+  type DeleteDashboardCommandOutput,
   DeleteEventDataStoreCommand,
   type DeleteEventDataStoreCommandInput,
   type DeleteEventDataStoreCommandOutput,
@@ -47,9 +53,15 @@ import {
   EnableFederationCommand,
   type EnableFederationCommandInput,
   type EnableFederationCommandOutput,
+  GenerateQueryCommand,
+  type GenerateQueryCommandInput,
+  type GenerateQueryCommandOutput,
   GetChannelCommand,
   type GetChannelCommandInput,
   type GetChannelCommandOutput,
+  GetDashboardCommand,
+  type GetDashboardCommandInput,
+  type GetDashboardCommandOutput,
   GetEventDataStoreCommand,
   type GetEventDataStoreCommandInput,
   type GetEventDataStoreCommandOutput,
@@ -77,6 +89,9 @@ import {
   ListChannelsCommand,
   type ListChannelsCommandInput,
   type ListChannelsCommandOutput,
+  ListDashboardsCommand,
+  type ListDashboardsCommandInput,
+  type ListDashboardsCommandOutput,
   ListEventDataStoresCommand,
   type ListEventDataStoresCommandInput,
   type ListEventDataStoresCommandOutput,
@@ -122,6 +137,9 @@ import {
   RestoreEventDataStoreCommand,
   type RestoreEventDataStoreCommandInput,
   type RestoreEventDataStoreCommandOutput,
+  StartDashboardRefreshCommand,
+  type StartDashboardRefreshCommandInput,
+  type StartDashboardRefreshCommandOutput,
   StartEventDataStoreIngestionCommand,
   type StartEventDataStoreIngestionCommandInput,
   type StartEventDataStoreIngestionCommandOutput,
@@ -146,6 +164,9 @@ import {
   UpdateChannelCommand,
   type UpdateChannelCommandInput,
   type UpdateChannelCommandOutput,
+  UpdateDashboardCommand,
+  type UpdateDashboardCommandInput,
+  type UpdateDashboardCommandOutput,
   UpdateEventDataStoreCommand,
   type UpdateEventDataStoreCommandInput,
   type UpdateEventDataStoreCommandOutput,
@@ -190,6 +211,7 @@ import {
   EventDataStoreMaxLimitExceededError,
   EventDataStoreNotFoundError,
   EventDataStoreTerminationProtectedError,
+  GenerateResponseError,
   ImportNotFoundError,
   InactiveEventDataStoreError,
   InactiveQueryError,
@@ -242,6 +264,7 @@ import {
   ResourcePolicyNotValidError,
   ResourceTypeNotSupportedError,
   S3BucketDoesNotExistError,
+  ServiceQuotaExceededError,
   TagsLimitExceededError,
   ThrottlingError,
   TrailAlreadyExistsError,
@@ -267,9 +290,11 @@ const commands = {
   AddTagsCommand,
   CancelQueryCommand,
   CreateChannelCommand,
+  CreateDashboardCommand,
   CreateEventDataStoreCommand,
   CreateTrailCommand,
   DeleteChannelCommand,
+  DeleteDashboardCommand,
   DeleteEventDataStoreCommand,
   DeleteResourcePolicyCommand,
   DeleteTrailCommand,
@@ -278,7 +303,9 @@ const commands = {
   DescribeTrailsCommand,
   DisableFederationCommand,
   EnableFederationCommand,
+  GenerateQueryCommand,
   GetChannelCommand,
+  GetDashboardCommand,
   GetEventDataStoreCommand,
   GetEventSelectorsCommand,
   GetImportCommand,
@@ -288,6 +315,7 @@ const commands = {
   GetTrailCommand,
   GetTrailStatusCommand,
   ListChannelsCommand,
+  ListDashboardsCommand,
   ListEventDataStoresCommand,
   ListImportFailuresCommand,
   ListImportsCommand,
@@ -303,6 +331,7 @@ const commands = {
   RegisterOrganizationDelegatedAdminCommand,
   RemoveTagsCommand,
   RestoreEventDataStoreCommand,
+  StartDashboardRefreshCommand,
   StartEventDataStoreIngestionCommand,
   StartImportCommand,
   StartLoggingCommand,
@@ -311,6 +340,7 @@ const commands = {
   StopImportCommand,
   StopLoggingCommand,
   UpdateChannelCommand,
+  UpdateDashboardCommand,
   UpdateEventDataStoreCommand,
   UpdateTrailCommand,
 };
@@ -386,6 +416,25 @@ interface CloudTrailService$ {
     | InvalidTagParameterError
     | OperationNotPermittedError
     | TagsLimitExceededError
+    | UnsupportedOperationError
+  >;
+
+  /**
+   * @see {@link CreateDashboardCommand}
+   */
+  createDashboard(
+    args: CreateDashboardCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateDashboardCommandOutput,
+    | SdkError
+    | ConflictError
+    | EventDataStoreNotFoundError
+    | InactiveEventDataStoreError
+    | InsufficientEncryptionPolicyError
+    | InvalidQueryStatementError
+    | InvalidTagParameterError
+    | ServiceQuotaExceededError
     | UnsupportedOperationError
   >;
 
@@ -478,6 +527,17 @@ interface CloudTrailService$ {
   >;
 
   /**
+   * @see {@link DeleteDashboardCommand}
+   */
+  deleteDashboard(
+    args: DeleteDashboardCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteDashboardCommandOutput,
+    SdkError | ConflictError | ResourceNotFoundError | UnsupportedOperationError
+  >;
+
+  /**
    * @see {@link DeleteEventDataStoreCommand}
    */
   deleteEventDataStore(
@@ -511,6 +571,7 @@ interface CloudTrailService$ {
   ): Effect.Effect<
     DeleteResourcePolicyCommandOutput,
     | SdkError
+    | ConflictError
     | OperationNotPermittedError
     | ResourceARNNotValidError
     | ResourceNotFoundError
@@ -650,6 +711,25 @@ interface CloudTrailService$ {
   >;
 
   /**
+   * @see {@link GenerateQueryCommand}
+   */
+  generateQuery(
+    args: GenerateQueryCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GenerateQueryCommandOutput,
+    | SdkError
+    | EventDataStoreARNInvalidError
+    | EventDataStoreNotFoundError
+    | GenerateResponseError
+    | InactiveEventDataStoreError
+    | InvalidParameterError
+    | NoManagementAccountSLRExistsError
+    | OperationNotPermittedError
+    | UnsupportedOperationError
+  >;
+
+  /**
    * @see {@link GetChannelCommand}
    */
   getChannel(
@@ -662,6 +742,17 @@ interface CloudTrailService$ {
     | ChannelNotFoundError
     | OperationNotPermittedError
     | UnsupportedOperationError
+  >;
+
+  /**
+   * @see {@link GetDashboardCommand}
+   */
+  getDashboard(
+    args: GetDashboardCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetDashboardCommandOutput,
+    SdkError | ResourceNotFoundError | UnsupportedOperationError
   >;
 
   /**
@@ -817,6 +908,17 @@ interface CloudTrailService$ {
     | InvalidNextTokenError
     | OperationNotPermittedError
     | UnsupportedOperationError
+  >;
+
+  /**
+   * @see {@link ListDashboardsCommand}
+   */
+  listDashboards(
+    args: ListDashboardsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListDashboardsCommandOutput,
+    SdkError | UnsupportedOperationError
   >;
 
   /**
@@ -1028,6 +1130,7 @@ interface CloudTrailService$ {
   ): Effect.Effect<
     PutResourcePolicyCommandOutput,
     | SdkError
+    | ConflictError
     | OperationNotPermittedError
     | ResourceARNNotValidError
     | ResourceNotFoundError
@@ -1072,6 +1175,7 @@ interface CloudTrailService$ {
     | ChannelARNInvalidError
     | ChannelNotFoundError
     | CloudTrailARNInvalidError
+    | ConflictError
     | EventDataStoreARNInvalidError
     | EventDataStoreNotFoundError
     | InactiveEventDataStoreError
@@ -1106,6 +1210,22 @@ interface CloudTrailService$ {
     | OperationNotPermittedError
     | OrganizationNotInAllFeaturesModeError
     | OrganizationsNotInUseError
+    | UnsupportedOperationError
+  >;
+
+  /**
+   * @see {@link StartDashboardRefreshCommand}
+   */
+  startDashboardRefresh(
+    args: StartDashboardRefreshCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    StartDashboardRefreshCommandOutput,
+    | SdkError
+    | EventDataStoreNotFoundError
+    | InactiveEventDataStoreError
+    | ResourceNotFoundError
+    | ServiceQuotaExceededError
     | UnsupportedOperationError
   >;
 
@@ -1276,6 +1396,25 @@ interface CloudTrailService$ {
     | InvalidEventDataStoreCategoryError
     | InvalidParameterError
     | OperationNotPermittedError
+    | UnsupportedOperationError
+  >;
+
+  /**
+   * @see {@link UpdateDashboardCommand}
+   */
+  updateDashboard(
+    args: UpdateDashboardCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateDashboardCommandOutput,
+    | SdkError
+    | ConflictError
+    | EventDataStoreNotFoundError
+    | InactiveEventDataStoreError
+    | InsufficientEncryptionPolicyError
+    | InvalidQueryStatementError
+    | ResourceNotFoundError
+    | ServiceQuotaExceededError
     | UnsupportedOperationError
   >;
 

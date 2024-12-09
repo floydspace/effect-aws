@@ -24,6 +24,7 @@ import type {
   EventDataStoreMaxLimitExceededException,
   EventDataStoreNotFoundException,
   EventDataStoreTerminationProtectedException,
+  GenerateResponseException,
   ImportNotFoundException,
   InactiveEventDataStoreException,
   InactiveQueryException,
@@ -76,6 +77,7 @@ import type {
   ResourcePolicyNotValidException,
   ResourceTypeNotSupportedException,
   S3BucketDoesNotExistException,
+  ServiceQuotaExceededException,
   TagsLimitExceededException,
   ThrottlingException,
   TrailAlreadyExistsException,
@@ -111,6 +113,7 @@ export const AllServiceErrors = [
   "EventDataStoreMaxLimitExceededException",
   "EventDataStoreNotFoundException",
   "EventDataStoreTerminationProtectedException",
+  "GenerateResponseException",
   "ImportNotFoundException",
   "InactiveEventDataStoreException",
   "InactiveQueryException",
@@ -163,6 +166,7 @@ export const AllServiceErrors = [
   "ResourcePolicyNotValidException",
   "ResourceTypeNotSupportedException",
   "S3BucketDoesNotExistException",
+  "ServiceQuotaExceededException",
   "TagsLimitExceededException",
   "ThrottlingException",
   "TrailAlreadyExistsException",
@@ -221,6 +225,7 @@ export type EventDataStoreNotFoundError =
   TaggedException<EventDataStoreNotFoundException>;
 export type EventDataStoreTerminationProtectedError =
   TaggedException<EventDataStoreTerminationProtectedException>;
+export type GenerateResponseError = TaggedException<GenerateResponseException>;
 export type ImportNotFoundError = TaggedException<ImportNotFoundException>;
 export type InactiveEventDataStoreError =
   TaggedException<InactiveEventDataStoreException>;
@@ -309,6 +314,8 @@ export type ResourceTypeNotSupportedError =
   TaggedException<ResourceTypeNotSupportedException>;
 export type S3BucketDoesNotExistError =
   TaggedException<S3BucketDoesNotExistException>;
+export type ServiceQuotaExceededError =
+  TaggedException<ServiceQuotaExceededException>;
 export type TagsLimitExceededError =
   TaggedException<TagsLimitExceededException>;
 export type ThrottlingError = TaggedException<ThrottlingException>;

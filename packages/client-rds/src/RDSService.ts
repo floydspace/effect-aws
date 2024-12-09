@@ -526,6 +526,7 @@ import {
   DBInstanceAutomatedBackupNotFoundFaultError,
   DBInstanceAutomatedBackupQuotaExceededFaultError,
   DBInstanceNotFoundFaultError,
+  DBInstanceNotReadyFaultError,
   DBInstanceRoleAlreadyExistsFaultError,
   DBInstanceRoleNotFoundFaultError,
   DBInstanceRoleQuotaExceededFaultError,
@@ -1837,7 +1838,7 @@ interface RDSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeDBLogFilesCommandOutput,
-    SdkError | DBInstanceNotFoundFaultError
+    SdkError | DBInstanceNotFoundFaultError | DBInstanceNotReadyFaultError
   >;
 
   /**
@@ -2175,7 +2176,10 @@ interface RDSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DownloadDBLogFilePortionCommandOutput,
-    SdkError | DBInstanceNotFoundFaultError | DBLogFileNotFoundFaultError
+    | SdkError
+    | DBInstanceNotFoundFaultError
+    | DBInstanceNotReadyFaultError
+    | DBLogFileNotFoundFaultError
   >;
 
   /**

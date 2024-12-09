@@ -11,12 +11,18 @@ import {
   AddDataSourceCommand,
   type AddDataSourceCommandInput,
   type AddDataSourceCommandOutput,
+  AddDirectQueryDataSourceCommand,
+  type AddDirectQueryDataSourceCommandInput,
+  type AddDirectQueryDataSourceCommandOutput,
   AddTagsCommand,
   type AddTagsCommandInput,
   type AddTagsCommandOutput,
   AssociatePackageCommand,
   type AssociatePackageCommandInput,
   type AssociatePackageCommandOutput,
+  AssociatePackagesCommand,
+  type AssociatePackagesCommandInput,
+  type AssociatePackagesCommandOutput,
   AuthorizeVpcEndpointAccessCommand,
   type AuthorizeVpcEndpointAccessCommandInput,
   type AuthorizeVpcEndpointAccessCommandOutput,
@@ -47,6 +53,9 @@ import {
   DeleteDataSourceCommand,
   type DeleteDataSourceCommandInput,
   type DeleteDataSourceCommandOutput,
+  DeleteDirectQueryDataSourceCommand,
+  type DeleteDirectQueryDataSourceCommandInput,
+  type DeleteDirectQueryDataSourceCommandOutput,
   DeleteDomainCommand,
   type DeleteDomainCommandInput,
   type DeleteDomainCommandOutput,
@@ -110,6 +119,9 @@ import {
   DissociatePackageCommand,
   type DissociatePackageCommandInput,
   type DissociatePackageCommandOutput,
+  DissociatePackagesCommand,
+  type DissociatePackagesCommandInput,
+  type DissociatePackagesCommandOutput,
   GetApplicationCommand,
   type GetApplicationCommandInput,
   type GetApplicationCommandOutput,
@@ -119,6 +131,9 @@ import {
   GetDataSourceCommand,
   type GetDataSourceCommandInput,
   type GetDataSourceCommandOutput,
+  GetDirectQueryDataSourceCommand,
+  type GetDirectQueryDataSourceCommandInput,
+  type GetDirectQueryDataSourceCommandOutput,
   GetDomainMaintenanceStatusCommand,
   type GetDomainMaintenanceStatusCommandInput,
   type GetDomainMaintenanceStatusCommandOutput,
@@ -137,6 +152,9 @@ import {
   ListDataSourcesCommand,
   type ListDataSourcesCommandInput,
   type ListDataSourcesCommandOutput,
+  ListDirectQueryDataSourcesCommand,
+  type ListDirectQueryDataSourcesCommandInput,
+  type ListDirectQueryDataSourcesCommandOutput,
   ListDomainMaintenancesCommand,
   type ListDomainMaintenancesCommandInput,
   type ListDomainMaintenancesCommandOutput,
@@ -194,12 +212,18 @@ import {
   UpdateDataSourceCommand,
   type UpdateDataSourceCommandInput,
   type UpdateDataSourceCommandOutput,
+  UpdateDirectQueryDataSourceCommand,
+  type UpdateDirectQueryDataSourceCommandInput,
+  type UpdateDirectQueryDataSourceCommandOutput,
   UpdateDomainConfigCommand,
   type UpdateDomainConfigCommandInput,
   type UpdateDomainConfigCommandOutput,
   UpdatePackageCommand,
   type UpdatePackageCommandInput,
   type UpdatePackageCommandOutput,
+  UpdatePackageScopeCommand,
+  type UpdatePackageScopeCommandInput,
+  type UpdatePackageScopeCommandOutput,
   UpdateScheduledActionCommand,
   type UpdateScheduledActionCommandInput,
   type UpdateScheduledActionCommandOutput,
@@ -253,8 +277,10 @@ export interface HttpHandlerOptions {
 const commands = {
   AcceptInboundConnectionCommand,
   AddDataSourceCommand,
+  AddDirectQueryDataSourceCommand,
   AddTagsCommand,
   AssociatePackageCommand,
+  AssociatePackagesCommand,
   AuthorizeVpcEndpointAccessCommand,
   CancelDomainConfigChangeCommand,
   CancelServiceSoftwareUpdateCommand,
@@ -265,6 +291,7 @@ const commands = {
   CreateVpcEndpointCommand,
   DeleteApplicationCommand,
   DeleteDataSourceCommand,
+  DeleteDirectQueryDataSourceCommand,
   DeleteDomainCommand,
   DeleteInboundConnectionCommand,
   DeleteOutboundConnectionCommand,
@@ -286,15 +313,18 @@ const commands = {
   DescribeReservedInstancesCommand,
   DescribeVpcEndpointsCommand,
   DissociatePackageCommand,
+  DissociatePackagesCommand,
   GetApplicationCommand,
   GetCompatibleVersionsCommand,
   GetDataSourceCommand,
+  GetDirectQueryDataSourceCommand,
   GetDomainMaintenanceStatusCommand,
   GetPackageVersionHistoryCommand,
   GetUpgradeHistoryCommand,
   GetUpgradeStatusCommand,
   ListApplicationsCommand,
   ListDataSourcesCommand,
+  ListDirectQueryDataSourcesCommand,
   ListDomainMaintenancesCommand,
   ListDomainNamesCommand,
   ListDomainsForPackageCommand,
@@ -314,8 +344,10 @@ const commands = {
   StartServiceSoftwareUpdateCommand,
   UpdateApplicationCommand,
   UpdateDataSourceCommand,
+  UpdateDirectQueryDataSourceCommand,
   UpdateDomainConfigCommand,
   UpdatePackageCommand,
+  UpdatePackageScopeCommand,
   UpdateScheduledActionCommand,
   UpdateVpcEndpointCommand,
   UpgradeDomainCommand,
@@ -357,6 +389,23 @@ interface OpenSearchService$ {
   >;
 
   /**
+   * @see {@link AddDirectQueryDataSourceCommand}
+   */
+  addDirectQueryDataSource(
+    args: AddDirectQueryDataSourceCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    AddDirectQueryDataSourceCommandOutput,
+    | SdkError
+    | BaseError
+    | DisabledOperationError
+    | InternalError
+    | LimitExceededError
+    | ResourceNotFoundError
+    | ValidationError
+  >;
+
+  /**
    * @see {@link AddTagsCommand}
    */
   addTags(
@@ -379,6 +428,23 @@ interface OpenSearchService$ {
     | AccessDeniedError
     | BaseError
     | ConflictError
+    | InternalError
+    | ResourceNotFoundError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link AssociatePackagesCommand}
+   */
+  associatePackages(
+    args: AssociatePackagesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    AssociatePackagesCommandOutput,
+    | SdkError
+    | BaseError
+    | ConflictError
+    | DisabledOperationError
     | InternalError
     | ResourceNotFoundError
     | ValidationError
@@ -546,6 +612,22 @@ interface OpenSearchService$ {
     | SdkError
     | BaseError
     | DependencyFailureError
+    | DisabledOperationError
+    | InternalError
+    | ResourceNotFoundError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link DeleteDirectQueryDataSourceCommand}
+   */
+  deleteDirectQueryDataSource(
+    args: DeleteDirectQueryDataSourceCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteDirectQueryDataSourceCommandOutput,
+    | SdkError
+    | BaseError
     | DisabledOperationError
     | InternalError
     | ResourceNotFoundError
@@ -859,6 +941,23 @@ interface OpenSearchService$ {
   >;
 
   /**
+   * @see {@link DissociatePackagesCommand}
+   */
+  dissociatePackages(
+    args: DissociatePackagesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DissociatePackagesCommandOutput,
+    | SdkError
+    | BaseError
+    | ConflictError
+    | DisabledOperationError
+    | InternalError
+    | ResourceNotFoundError
+    | ValidationError
+  >;
+
+  /**
    * @see {@link GetApplicationCommand}
    */
   getApplication(
@@ -902,6 +1001,22 @@ interface OpenSearchService$ {
     | SdkError
     | BaseError
     | DependencyFailureError
+    | DisabledOperationError
+    | InternalError
+    | ResourceNotFoundError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link GetDirectQueryDataSourceCommand}
+   */
+  getDirectQueryDataSource(
+    args: GetDirectQueryDataSourceCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetDirectQueryDataSourceCommandOutput,
+    | SdkError
+    | BaseError
     | DisabledOperationError
     | InternalError
     | ResourceNotFoundError
@@ -1000,6 +1115,22 @@ interface OpenSearchService$ {
     | SdkError
     | BaseError
     | DependencyFailureError
+    | DisabledOperationError
+    | InternalError
+    | ResourceNotFoundError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link ListDirectQueryDataSourcesCommand}
+   */
+  listDirectQueryDataSources(
+    args: ListDirectQueryDataSourcesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListDirectQueryDataSourcesCommandOutput,
+    | SdkError
+    | BaseError
     | DisabledOperationError
     | InternalError
     | ResourceNotFoundError
@@ -1289,6 +1420,22 @@ interface OpenSearchService$ {
   >;
 
   /**
+   * @see {@link UpdateDirectQueryDataSourceCommand}
+   */
+  updateDirectQueryDataSource(
+    args: UpdateDirectQueryDataSourceCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateDirectQueryDataSourceCommandOutput,
+    | SdkError
+    | BaseError
+    | DisabledOperationError
+    | InternalError
+    | ResourceNotFoundError
+    | ValidationError
+  >;
+
+  /**
    * @see {@link UpdateDomainConfigCommand}
    */
   updateDomainConfig(
@@ -1318,6 +1465,22 @@ interface OpenSearchService$ {
     | BaseError
     | InternalError
     | LimitExceededError
+    | ResourceNotFoundError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link UpdatePackageScopeCommand}
+   */
+  updatePackageScope(
+    args: UpdatePackageScopeCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdatePackageScopeCommandOutput,
+    | SdkError
+    | BaseError
+    | DisabledOperationError
+    | InternalError
     | ResourceNotFoundError
     | ValidationError
   >;

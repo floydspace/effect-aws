@@ -149,9 +149,21 @@ import {
   DetachUserPolicyCommand,
   type DetachUserPolicyCommandInput,
   type DetachUserPolicyCommandOutput,
+  DisableOrganizationsRootCredentialsManagementCommand,
+  type DisableOrganizationsRootCredentialsManagementCommandInput,
+  type DisableOrganizationsRootCredentialsManagementCommandOutput,
+  DisableOrganizationsRootSessionsCommand,
+  type DisableOrganizationsRootSessionsCommandInput,
+  type DisableOrganizationsRootSessionsCommandOutput,
   EnableMFADeviceCommand,
   type EnableMFADeviceCommandInput,
   type EnableMFADeviceCommandOutput,
+  EnableOrganizationsRootCredentialsManagementCommand,
+  type EnableOrganizationsRootCredentialsManagementCommandInput,
+  type EnableOrganizationsRootCredentialsManagementCommandOutput,
+  EnableOrganizationsRootSessionsCommand,
+  type EnableOrganizationsRootSessionsCommandInput,
+  type EnableOrganizationsRootSessionsCommandOutput,
   GenerateCredentialReportCommand,
   type GenerateCredentialReportCommandInput,
   type GenerateCredentialReportCommandOutput,
@@ -287,6 +299,9 @@ import {
   ListOpenIDConnectProvidersCommand,
   type ListOpenIDConnectProvidersCommandInput,
   type ListOpenIDConnectProvidersCommandOutput,
+  ListOrganizationsFeaturesCommand,
+  type ListOrganizationsFeaturesCommandInput,
+  type ListOrganizationsFeaturesCommandOutput,
   ListPoliciesCommand,
   type ListPoliciesCommandInput,
   type ListPoliciesCommandOutput,
@@ -486,6 +501,8 @@ import {
 import { Data, Effect, Layer, Record } from "effect";
 import {
   AllServiceErrors,
+  AccountNotManagementOrDelegatedAdministratorError,
+  CallerIsNotManagementAccountError,
   ConcurrentModificationError,
   CredentialReportExpiredError,
   CredentialReportNotPresentError,
@@ -506,10 +523,13 @@ import {
   MalformedPolicyDocumentError,
   NoSuchEntityError,
   OpenIdIdpCommunicationError,
+  OrganizationNotFoundError,
+  OrganizationNotInAllFeaturesModeError,
   PasswordPolicyViolationError,
   PolicyEvaluationError,
   PolicyNotAttachableError,
   ReportGenerationLimitExceededError,
+  ServiceAccessNotEnabledError,
   ServiceFailureError,
   ServiceNotSupportedError,
   UnmodifiableEntityError,
@@ -584,7 +604,11 @@ const commands = {
   DetachGroupPolicyCommand,
   DetachRolePolicyCommand,
   DetachUserPolicyCommand,
+  DisableOrganizationsRootCredentialsManagementCommand,
+  DisableOrganizationsRootSessionsCommand,
   EnableMFADeviceCommand,
+  EnableOrganizationsRootCredentialsManagementCommand,
+  EnableOrganizationsRootSessionsCommand,
   GenerateCredentialReportCommand,
   GenerateOrganizationsAccessReportCommand,
   GenerateServiceLastAccessedDetailsCommand,
@@ -630,6 +654,7 @@ const commands = {
   ListMFADevicesCommand,
   ListOpenIDConnectProviderTagsCommand,
   ListOpenIDConnectProvidersCommand,
+  ListOrganizationsFeaturesCommand,
   ListPoliciesCommand,
   ListPoliciesGrantingServiceAccessCommand,
   ListPolicyTagsCommand,
@@ -1397,6 +1422,36 @@ interface IAMService$ {
   >;
 
   /**
+   * @see {@link DisableOrganizationsRootCredentialsManagementCommand}
+   */
+  disableOrganizationsRootCredentialsManagement(
+    args: DisableOrganizationsRootCredentialsManagementCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DisableOrganizationsRootCredentialsManagementCommandOutput,
+    | SdkError
+    | AccountNotManagementOrDelegatedAdministratorError
+    | OrganizationNotFoundError
+    | OrganizationNotInAllFeaturesModeError
+    | ServiceAccessNotEnabledError
+  >;
+
+  /**
+   * @see {@link DisableOrganizationsRootSessionsCommand}
+   */
+  disableOrganizationsRootSessions(
+    args: DisableOrganizationsRootSessionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DisableOrganizationsRootSessionsCommandOutput,
+    | SdkError
+    | AccountNotManagementOrDelegatedAdministratorError
+    | OrganizationNotFoundError
+    | OrganizationNotInAllFeaturesModeError
+    | ServiceAccessNotEnabledError
+  >;
+
+  /**
    * @see {@link EnableMFADeviceCommand}
    */
   enableMFADevice(
@@ -1412,6 +1467,38 @@ interface IAMService$ {
     | LimitExceededError
     | NoSuchEntityError
     | ServiceFailureError
+  >;
+
+  /**
+   * @see {@link EnableOrganizationsRootCredentialsManagementCommand}
+   */
+  enableOrganizationsRootCredentialsManagement(
+    args: EnableOrganizationsRootCredentialsManagementCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    EnableOrganizationsRootCredentialsManagementCommandOutput,
+    | SdkError
+    | AccountNotManagementOrDelegatedAdministratorError
+    | CallerIsNotManagementAccountError
+    | OrganizationNotFoundError
+    | OrganizationNotInAllFeaturesModeError
+    | ServiceAccessNotEnabledError
+  >;
+
+  /**
+   * @see {@link EnableOrganizationsRootSessionsCommand}
+   */
+  enableOrganizationsRootSessions(
+    args: EnableOrganizationsRootSessionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    EnableOrganizationsRootSessionsCommandOutput,
+    | SdkError
+    | AccountNotManagementOrDelegatedAdministratorError
+    | CallerIsNotManagementAccountError
+    | OrganizationNotFoundError
+    | OrganizationNotInAllFeaturesModeError
+    | ServiceAccessNotEnabledError
   >;
 
   /**
@@ -1905,6 +1992,21 @@ interface IAMService$ {
   ): Effect.Effect<
     ListOpenIDConnectProvidersCommandOutput,
     SdkError | ServiceFailureError
+  >;
+
+  /**
+   * @see {@link ListOrganizationsFeaturesCommand}
+   */
+  listOrganizationsFeatures(
+    args: ListOrganizationsFeaturesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListOrganizationsFeaturesCommandOutput,
+    | SdkError
+    | AccountNotManagementOrDelegatedAdministratorError
+    | OrganizationNotFoundError
+    | OrganizationNotInAllFeaturesModeError
+    | ServiceAccessNotEnabledError
   >;
 
   /**

@@ -1,4 +1,6 @@
 import type {
+  AccountNotManagementOrDelegatedAdministratorException,
+  CallerIsNotManagementAccountException,
   ConcurrentModificationException,
   CredentialReportExpiredException,
   CredentialReportNotPresentException,
@@ -19,10 +21,13 @@ import type {
   MalformedPolicyDocumentException,
   NoSuchEntityException,
   OpenIdIdpCommunicationErrorException,
+  OrganizationNotFoundException,
+  OrganizationNotInAllFeaturesModeException,
   PasswordPolicyViolationException,
   PolicyEvaluationException,
   PolicyNotAttachableException,
   ReportGenerationLimitExceededException,
+  ServiceAccessNotEnabledException,
   ServiceFailureException,
   ServiceNotSupportedException,
   UnmodifiableEntityException,
@@ -31,6 +36,8 @@ import type {
 import { Data } from "effect";
 
 export const AllServiceErrors = [
+  "AccountNotManagementOrDelegatedAdministratorException",
+  "CallerIsNotManagementAccountException",
   "ConcurrentModificationException",
   "CredentialReportExpiredException",
   "CredentialReportNotPresentException",
@@ -51,10 +58,13 @@ export const AllServiceErrors = [
   "MalformedPolicyDocumentException",
   "NoSuchEntityException",
   "OpenIdIdpCommunicationErrorException",
+  "OrganizationNotFoundException",
+  "OrganizationNotInAllFeaturesModeException",
   "PasswordPolicyViolationException",
   "PolicyEvaluationException",
   "PolicyNotAttachableException",
   "ReportGenerationLimitExceededException",
+  "ServiceAccessNotEnabledException",
   "ServiceFailureException",
   "ServiceNotSupportedException",
   "UnmodifiableEntityException",
@@ -65,6 +75,10 @@ export type TaggedException<T extends { name: string }> = T & {
   readonly _tag: T["name"];
 };
 
+export type AccountNotManagementOrDelegatedAdministratorError =
+  TaggedException<AccountNotManagementOrDelegatedAdministratorException>;
+export type CallerIsNotManagementAccountError =
+  TaggedException<CallerIsNotManagementAccountException>;
 export type ConcurrentModificationError =
   TaggedException<ConcurrentModificationException>;
 export type CredentialReportExpiredError =
@@ -98,6 +112,10 @@ export type MalformedPolicyDocumentError =
 export type NoSuchEntityError = TaggedException<NoSuchEntityException>;
 export type OpenIdIdpCommunicationError =
   TaggedException<OpenIdIdpCommunicationErrorException>;
+export type OrganizationNotFoundError =
+  TaggedException<OrganizationNotFoundException>;
+export type OrganizationNotInAllFeaturesModeError =
+  TaggedException<OrganizationNotInAllFeaturesModeException>;
 export type PasswordPolicyViolationError =
   TaggedException<PasswordPolicyViolationException>;
 export type PolicyEvaluationError = TaggedException<PolicyEvaluationException>;
@@ -105,6 +123,8 @@ export type PolicyNotAttachableError =
   TaggedException<PolicyNotAttachableException>;
 export type ReportGenerationLimitExceededError =
   TaggedException<ReportGenerationLimitExceededException>;
+export type ServiceAccessNotEnabledError =
+  TaggedException<ServiceAccessNotEnabledException>;
 export type ServiceFailureError = TaggedException<ServiceFailureException>;
 export type ServiceNotSupportedError =
   TaggedException<ServiceNotSupportedException>;

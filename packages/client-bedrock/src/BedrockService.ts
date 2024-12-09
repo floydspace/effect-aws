@@ -20,6 +20,9 @@ import {
   CreateInferenceProfileCommand,
   type CreateInferenceProfileCommandInput,
   type CreateInferenceProfileCommandOutput,
+  CreateMarketplaceModelEndpointCommand,
+  type CreateMarketplaceModelEndpointCommandInput,
+  type CreateMarketplaceModelEndpointCommandOutput,
   CreateModelCopyJobCommand,
   type CreateModelCopyJobCommandInput,
   type CreateModelCopyJobCommandOutput,
@@ -47,12 +50,18 @@ import {
   DeleteInferenceProfileCommand,
   type DeleteInferenceProfileCommandInput,
   type DeleteInferenceProfileCommandOutput,
+  DeleteMarketplaceModelEndpointCommand,
+  type DeleteMarketplaceModelEndpointCommandInput,
+  type DeleteMarketplaceModelEndpointCommandOutput,
   DeleteModelInvocationLoggingConfigurationCommand,
   type DeleteModelInvocationLoggingConfigurationCommandInput,
   type DeleteModelInvocationLoggingConfigurationCommandOutput,
   DeleteProvisionedModelThroughputCommand,
   type DeleteProvisionedModelThroughputCommandInput,
   type DeleteProvisionedModelThroughputCommandOutput,
+  DeregisterMarketplaceModelEndpointCommand,
+  type DeregisterMarketplaceModelEndpointCommandInput,
+  type DeregisterMarketplaceModelEndpointCommandOutput,
   GetCustomModelCommand,
   type GetCustomModelCommandInput,
   type GetCustomModelCommandOutput,
@@ -71,6 +80,9 @@ import {
   GetInferenceProfileCommand,
   type GetInferenceProfileCommandInput,
   type GetInferenceProfileCommandOutput,
+  GetMarketplaceModelEndpointCommand,
+  type GetMarketplaceModelEndpointCommandInput,
+  type GetMarketplaceModelEndpointCommandOutput,
   GetModelCopyJobCommand,
   type GetModelCopyJobCommandInput,
   type GetModelCopyJobCommandOutput,
@@ -86,6 +98,9 @@ import {
   GetModelInvocationLoggingConfigurationCommand,
   type GetModelInvocationLoggingConfigurationCommandInput,
   type GetModelInvocationLoggingConfigurationCommandOutput,
+  GetPromptRouterCommand,
+  type GetPromptRouterCommandInput,
+  type GetPromptRouterCommandOutput,
   GetProvisionedModelThroughputCommand,
   type GetProvisionedModelThroughputCommandInput,
   type GetProvisionedModelThroughputCommandOutput,
@@ -107,6 +122,9 @@ import {
   ListInferenceProfilesCommand,
   type ListInferenceProfilesCommandInput,
   type ListInferenceProfilesCommandOutput,
+  ListMarketplaceModelEndpointsCommand,
+  type ListMarketplaceModelEndpointsCommandInput,
+  type ListMarketplaceModelEndpointsCommandOutput,
   ListModelCopyJobsCommand,
   type ListModelCopyJobsCommandInput,
   type ListModelCopyJobsCommandOutput,
@@ -119,6 +137,9 @@ import {
   ListModelInvocationJobsCommand,
   type ListModelInvocationJobsCommandInput,
   type ListModelInvocationJobsCommandOutput,
+  ListPromptRoutersCommand,
+  type ListPromptRoutersCommandInput,
+  type ListPromptRoutersCommandOutput,
   ListProvisionedModelThroughputsCommand,
   type ListProvisionedModelThroughputsCommandInput,
   type ListProvisionedModelThroughputsCommandOutput,
@@ -128,6 +149,9 @@ import {
   PutModelInvocationLoggingConfigurationCommand,
   type PutModelInvocationLoggingConfigurationCommandInput,
   type PutModelInvocationLoggingConfigurationCommandOutput,
+  RegisterMarketplaceModelEndpointCommand,
+  type RegisterMarketplaceModelEndpointCommandInput,
+  type RegisterMarketplaceModelEndpointCommandOutput,
   StopEvaluationJobCommand,
   type StopEvaluationJobCommandInput,
   type StopEvaluationJobCommandOutput,
@@ -146,6 +170,9 @@ import {
   UpdateGuardrailCommand,
   type UpdateGuardrailCommandInput,
   type UpdateGuardrailCommandOutput,
+  UpdateMarketplaceModelEndpointCommand,
+  type UpdateMarketplaceModelEndpointCommandInput,
+  type UpdateMarketplaceModelEndpointCommandOutput,
   UpdateProvisionedModelThroughputCommand,
   type UpdateProvisionedModelThroughputCommandInput,
   type UpdateProvisionedModelThroughputCommandOutput,
@@ -167,6 +194,7 @@ import {
   InternalServerError,
   ResourceNotFoundError,
   ServiceQuotaExceededError,
+  ServiceUnavailableError,
   ThrottlingError,
   TooManyTagsError,
   ValidationError,
@@ -191,6 +219,7 @@ const commands = {
   CreateGuardrailCommand,
   CreateGuardrailVersionCommand,
   CreateInferenceProfileCommand,
+  CreateMarketplaceModelEndpointCommand,
   CreateModelCopyJobCommand,
   CreateModelCustomizationJobCommand,
   CreateModelImportJobCommand,
@@ -200,19 +229,23 @@ const commands = {
   DeleteGuardrailCommand,
   DeleteImportedModelCommand,
   DeleteInferenceProfileCommand,
+  DeleteMarketplaceModelEndpointCommand,
   DeleteModelInvocationLoggingConfigurationCommand,
   DeleteProvisionedModelThroughputCommand,
+  DeregisterMarketplaceModelEndpointCommand,
   GetCustomModelCommand,
   GetEvaluationJobCommand,
   GetFoundationModelCommand,
   GetGuardrailCommand,
   GetImportedModelCommand,
   GetInferenceProfileCommand,
+  GetMarketplaceModelEndpointCommand,
   GetModelCopyJobCommand,
   GetModelCustomizationJobCommand,
   GetModelImportJobCommand,
   GetModelInvocationJobCommand,
   GetModelInvocationLoggingConfigurationCommand,
+  GetPromptRouterCommand,
   GetProvisionedModelThroughputCommand,
   ListCustomModelsCommand,
   ListEvaluationJobsCommand,
@@ -220,19 +253,23 @@ const commands = {
   ListGuardrailsCommand,
   ListImportedModelsCommand,
   ListInferenceProfilesCommand,
+  ListMarketplaceModelEndpointsCommand,
   ListModelCopyJobsCommand,
   ListModelCustomizationJobsCommand,
   ListModelImportJobsCommand,
   ListModelInvocationJobsCommand,
+  ListPromptRoutersCommand,
   ListProvisionedModelThroughputsCommand,
   ListTagsForResourceCommand,
   PutModelInvocationLoggingConfigurationCommand,
+  RegisterMarketplaceModelEndpointCommand,
   StopEvaluationJobCommand,
   StopModelCustomizationJobCommand,
   StopModelInvocationJobCommand,
   TagResourceCommand,
   UntagResourceCommand,
   UpdateGuardrailCommand,
+  UpdateMarketplaceModelEndpointCommand,
   UpdateProvisionedModelThroughputCommand,
 };
 
@@ -327,6 +364,24 @@ interface BedrockService$ {
     | ServiceQuotaExceededError
     | ThrottlingError
     | TooManyTagsError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link CreateMarketplaceModelEndpointCommand}
+   */
+  createMarketplaceModelEndpoint(
+    args: CreateMarketplaceModelEndpointCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateMarketplaceModelEndpointCommandOutput,
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ServiceQuotaExceededError
+    | ThrottlingError
     | ValidationError
   >;
 
@@ -488,6 +543,22 @@ interface BedrockService$ {
   >;
 
   /**
+   * @see {@link DeleteMarketplaceModelEndpointCommand}
+   */
+  deleteMarketplaceModelEndpoint(
+    args: DeleteMarketplaceModelEndpointCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteMarketplaceModelEndpointCommandOutput,
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
    * @see {@link DeleteModelInvocationLoggingConfigurationCommand}
    */
   deleteModelInvocationLoggingConfiguration(
@@ -511,6 +582,23 @@ interface BedrockService$ {
     | ConflictError
     | InternalServerError
     | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link DeregisterMarketplaceModelEndpointCommand}
+   */
+  deregisterMarketplaceModelEndpoint(
+    args: DeregisterMarketplaceModelEndpointCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeregisterMarketplaceModelEndpointCommandOutput,
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ServiceUnavailableError
     | ThrottlingError
     | ValidationError
   >;
@@ -612,6 +700,22 @@ interface BedrockService$ {
   >;
 
   /**
+   * @see {@link GetMarketplaceModelEndpointCommand}
+   */
+  getMarketplaceModelEndpoint(
+    args: GetMarketplaceModelEndpointCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetMarketplaceModelEndpointCommandOutput,
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
    * @see {@link GetModelCopyJobCommand}
    */
   getModelCopyJob(
@@ -684,6 +788,22 @@ interface BedrockService$ {
   ): Effect.Effect<
     GetModelInvocationLoggingConfigurationCommandOutput,
     SdkError | AccessDeniedError | InternalServerError | ThrottlingError
+  >;
+
+  /**
+   * @see {@link GetPromptRouterCommand}
+   */
+  getPromptRouter(
+    args: GetPromptRouterCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetPromptRouterCommandOutput,
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
   >;
 
   /**
@@ -794,6 +914,22 @@ interface BedrockService$ {
   >;
 
   /**
+   * @see {@link ListMarketplaceModelEndpointsCommand}
+   */
+  listMarketplaceModelEndpoints(
+    args: ListMarketplaceModelEndpointsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListMarketplaceModelEndpointsCommandOutput,
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
    * @see {@link ListModelCopyJobsCommand}
    */
   listModelCopyJobs(
@@ -855,6 +991,21 @@ interface BedrockService$ {
   >;
 
   /**
+   * @see {@link ListPromptRoutersCommand}
+   */
+  listPromptRouters(
+    args: ListPromptRoutersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListPromptRoutersCommandOutput,
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
    * @see {@link ListProvisionedModelThroughputsCommand}
    */
   listProvisionedModelThroughputs(
@@ -896,6 +1047,23 @@ interface BedrockService$ {
     | SdkError
     | AccessDeniedError
     | InternalServerError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link RegisterMarketplaceModelEndpointCommand}
+   */
+  registerMarketplaceModelEndpoint(
+    args: RegisterMarketplaceModelEndpointCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    RegisterMarketplaceModelEndpointCommandOutput,
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ServiceUnavailableError
     | ThrottlingError
     | ValidationError
   >;
@@ -992,6 +1160,24 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateGuardrailCommandOutput,
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ServiceQuotaExceededError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link UpdateMarketplaceModelEndpointCommand}
+   */
+  updateMarketplaceModelEndpoint(
+    args: UpdateMarketplaceModelEndpointCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateMarketplaceModelEndpointCommandOutput,
     | SdkError
     | AccessDeniedError
     | ConflictError

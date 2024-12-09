@@ -92,6 +92,9 @@ import {
   ChangePasswordCommand,
   type ChangePasswordCommandInput,
   type ChangePasswordCommandOutput,
+  CompleteWebAuthnRegistrationCommand,
+  type CompleteWebAuthnRegistrationCommandInput,
+  type CompleteWebAuthnRegistrationCommandOutput,
   ConfirmDeviceCommand,
   type ConfirmDeviceCommandInput,
   type ConfirmDeviceCommandOutput,
@@ -107,6 +110,9 @@ import {
   CreateIdentityProviderCommand,
   type CreateIdentityProviderCommandInput,
   type CreateIdentityProviderCommandOutput,
+  CreateManagedLoginBrandingCommand,
+  type CreateManagedLoginBrandingCommandInput,
+  type CreateManagedLoginBrandingCommandOutput,
   CreateResourceServerCommand,
   type CreateResourceServerCommandInput,
   type CreateResourceServerCommandOutput,
@@ -128,6 +134,9 @@ import {
   DeleteIdentityProviderCommand,
   type DeleteIdentityProviderCommandInput,
   type DeleteIdentityProviderCommandOutput,
+  DeleteManagedLoginBrandingCommand,
+  type DeleteManagedLoginBrandingCommandInput,
+  type DeleteManagedLoginBrandingCommandOutput,
   DeleteResourceServerCommand,
   type DeleteResourceServerCommandInput,
   type DeleteResourceServerCommandOutput,
@@ -146,9 +155,18 @@ import {
   DeleteUserPoolDomainCommand,
   type DeleteUserPoolDomainCommandInput,
   type DeleteUserPoolDomainCommandOutput,
+  DeleteWebAuthnCredentialCommand,
+  type DeleteWebAuthnCredentialCommandInput,
+  type DeleteWebAuthnCredentialCommandOutput,
   DescribeIdentityProviderCommand,
   type DescribeIdentityProviderCommandInput,
   type DescribeIdentityProviderCommandOutput,
+  DescribeManagedLoginBrandingCommand,
+  type DescribeManagedLoginBrandingCommandInput,
+  type DescribeManagedLoginBrandingCommandOutput,
+  DescribeManagedLoginBrandingByClientCommand,
+  type DescribeManagedLoginBrandingByClientCommandInput,
+  type DescribeManagedLoginBrandingByClientCommandOutput,
   DescribeResourceServerCommand,
   type DescribeResourceServerCommandInput,
   type DescribeResourceServerCommandOutput,
@@ -200,6 +218,9 @@ import {
   GetUserAttributeVerificationCodeCommand,
   type GetUserAttributeVerificationCodeCommandInput,
   type GetUserAttributeVerificationCodeCommandOutput,
+  GetUserAuthFactorsCommand,
+  type GetUserAuthFactorsCommandInput,
+  type GetUserAuthFactorsCommandOutput,
   GetUserPoolMfaConfigCommand,
   type GetUserPoolMfaConfigCommandInput,
   type GetUserPoolMfaConfigCommandOutput,
@@ -239,6 +260,9 @@ import {
   ListUsersInGroupCommand,
   type ListUsersInGroupCommandInput,
   type ListUsersInGroupCommandOutput,
+  ListWebAuthnCredentialsCommand,
+  type ListWebAuthnCredentialsCommandInput,
+  type ListWebAuthnCredentialsCommandOutput,
   ResendConfirmationCodeCommand,
   type ResendConfirmationCodeCommandInput,
   type ResendConfirmationCodeCommandOutput,
@@ -272,6 +296,9 @@ import {
   StartUserImportJobCommand,
   type StartUserImportJobCommandInput,
   type StartUserImportJobCommandOutput,
+  StartWebAuthnRegistrationCommand,
+  type StartWebAuthnRegistrationCommandInput,
+  type StartWebAuthnRegistrationCommandOutput,
   StopUserImportJobCommand,
   type StopUserImportJobCommandInput,
   type StopUserImportJobCommandOutput,
@@ -293,6 +320,9 @@ import {
   UpdateIdentityProviderCommand,
   type UpdateIdentityProviderCommandInput,
   type UpdateIdentityProviderCommandOutput,
+  UpdateManagedLoginBrandingCommand,
+  type UpdateManagedLoginBrandingCommandInput,
+  type UpdateManagedLoginBrandingCommandOutput,
   UpdateResourceServerCommand,
   type UpdateResourceServerCommandInput,
   type UpdateResourceServerCommandOutput,
@@ -334,6 +364,7 @@ import {
   DuplicateProviderError,
   EnableSoftwareTokenMFAError,
   ExpiredCodeError,
+  FeatureUnavailableInTierError,
   ForbiddenError,
   GroupExistsError,
   InternalError,
@@ -347,6 +378,7 @@ import {
   InvalidUserPoolConfigurationError,
   LimitExceededError,
   MFAMethodNotFoundError,
+  ManagedLoginBrandingExistsError,
   NotAuthorizedError,
   PasswordHistoryPolicyViolationError,
   PasswordResetRequiredError,
@@ -354,6 +386,7 @@ import {
   ResourceNotFoundError,
   ScopeDoesNotExistError,
   SoftwareTokenMFANotFoundError,
+  TierChangeNotAllowedError,
   TooManyFailedAttemptsError,
   TooManyRequestsError,
   UnauthorizedError,
@@ -369,6 +402,13 @@ import {
   UserPoolAddOnNotEnabledError,
   UserPoolTaggingError,
   UsernameExistsError,
+  WebAuthnChallengeNotFoundError,
+  WebAuthnClientMismatchError,
+  WebAuthnConfigurationMissingError,
+  WebAuthnCredentialNotSupportedError,
+  WebAuthnNotEnabledError,
+  WebAuthnOriginNotAllowedError,
+  WebAuthnRelyingPartyMismatchError,
   SdkError,
   TaggedException,
 } from "./Errors";
@@ -414,11 +454,13 @@ const commands = {
   AdminUserGlobalSignOutCommand,
   AssociateSoftwareTokenCommand,
   ChangePasswordCommand,
+  CompleteWebAuthnRegistrationCommand,
   ConfirmDeviceCommand,
   ConfirmForgotPasswordCommand,
   ConfirmSignUpCommand,
   CreateGroupCommand,
   CreateIdentityProviderCommand,
+  CreateManagedLoginBrandingCommand,
   CreateResourceServerCommand,
   CreateUserImportJobCommand,
   CreateUserPoolCommand,
@@ -426,13 +468,17 @@ const commands = {
   CreateUserPoolDomainCommand,
   DeleteGroupCommand,
   DeleteIdentityProviderCommand,
+  DeleteManagedLoginBrandingCommand,
   DeleteResourceServerCommand,
   DeleteUserCommand,
   DeleteUserAttributesCommand,
   DeleteUserPoolCommand,
   DeleteUserPoolClientCommand,
   DeleteUserPoolDomainCommand,
+  DeleteWebAuthnCredentialCommand,
   DescribeIdentityProviderCommand,
+  DescribeManagedLoginBrandingCommand,
+  DescribeManagedLoginBrandingByClientCommand,
   DescribeResourceServerCommand,
   DescribeRiskConfigurationCommand,
   DescribeUserImportJobCommand,
@@ -450,6 +496,7 @@ const commands = {
   GetUICustomizationCommand,
   GetUserCommand,
   GetUserAttributeVerificationCodeCommand,
+  GetUserAuthFactorsCommand,
   GetUserPoolMfaConfigCommand,
   GlobalSignOutCommand,
   InitiateAuthCommand,
@@ -463,6 +510,7 @@ const commands = {
   ListUserPoolsCommand,
   ListUsersCommand,
   ListUsersInGroupCommand,
+  ListWebAuthnCredentialsCommand,
   ResendConfirmationCodeCommand,
   RespondToAuthChallengeCommand,
   RevokeTokenCommand,
@@ -474,6 +522,7 @@ const commands = {
   SetUserSettingsCommand,
   SignUpCommand,
   StartUserImportJobCommand,
+  StartWebAuthnRegistrationCommand,
   StopUserImportJobCommand,
   TagResourceCommand,
   UntagResourceCommand,
@@ -481,6 +530,7 @@ const commands = {
   UpdateDeviceStatusCommand,
   UpdateGroupCommand,
   UpdateIdentityProviderCommand,
+  UpdateManagedLoginBrandingCommand,
   UpdateResourceServerCommand,
   UpdateUserAttributesCommand,
   UpdateUserPoolCommand,
@@ -1058,6 +1108,29 @@ interface CognitoIdentityProviderService$ {
   >;
 
   /**
+   * @see {@link CompleteWebAuthnRegistrationCommand}
+   */
+  completeWebAuthnRegistration(
+    args: CompleteWebAuthnRegistrationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CompleteWebAuthnRegistrationCommandOutput,
+    | SdkError
+    | ForbiddenError
+    | InternalError
+    | InvalidParameterError
+    | LimitExceededError
+    | NotAuthorizedError
+    | TooManyRequestsError
+    | WebAuthnChallengeNotFoundError
+    | WebAuthnClientMismatchError
+    | WebAuthnCredentialNotSupportedError
+    | WebAuthnNotEnabledError
+    | WebAuthnOriginNotAllowedError
+    | WebAuthnRelyingPartyMismatchError
+  >;
+
+  /**
    * @see {@link ConfirmDeviceCommand}
    */
   confirmDevice(
@@ -1172,6 +1245,25 @@ interface CognitoIdentityProviderService$ {
   >;
 
   /**
+   * @see {@link CreateManagedLoginBrandingCommand}
+   */
+  createManagedLoginBranding(
+    args: CreateManagedLoginBrandingCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateManagedLoginBrandingCommandOutput,
+    | SdkError
+    | ConcurrentModificationError
+    | InternalError
+    | InvalidParameterError
+    | LimitExceededError
+    | ManagedLoginBrandingExistsError
+    | NotAuthorizedError
+    | ResourceNotFoundError
+    | TooManyRequestsError
+  >;
+
+  /**
    * @see {@link CreateResourceServerCommand}
    */
   createResourceServer(
@@ -1215,6 +1307,7 @@ interface CognitoIdentityProviderService$ {
   ): Effect.Effect<
     CreateUserPoolCommandOutput,
     | SdkError
+    | FeatureUnavailableInTierError
     | InternalError
     | InvalidEmailRoleAccessPolicyError
     | InvalidParameterError
@@ -1222,6 +1315,7 @@ interface CognitoIdentityProviderService$ {
     | InvalidSmsRoleTrustRelationshipError
     | LimitExceededError
     | NotAuthorizedError
+    | TierChangeNotAllowedError
     | TooManyRequestsError
     | UserPoolTaggingError
   >;
@@ -1254,6 +1348,7 @@ interface CognitoIdentityProviderService$ {
   ): Effect.Effect<
     CreateUserPoolDomainCommandOutput,
     | SdkError
+    | FeatureUnavailableInTierError
     | InternalError
     | InvalidParameterError
     | LimitExceededError
@@ -1293,6 +1388,23 @@ interface CognitoIdentityProviderService$ {
     | ResourceNotFoundError
     | TooManyRequestsError
     | UnsupportedIdentityProviderError
+  >;
+
+  /**
+   * @see {@link DeleteManagedLoginBrandingCommand}
+   */
+  deleteManagedLoginBranding(
+    args: DeleteManagedLoginBrandingCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteManagedLoginBrandingCommandOutput,
+    | SdkError
+    | ConcurrentModificationError
+    | InternalError
+    | InvalidParameterError
+    | NotAuthorizedError
+    | ResourceNotFoundError
+    | TooManyRequestsError
   >;
 
   /**
@@ -1401,6 +1513,22 @@ interface CognitoIdentityProviderService$ {
   >;
 
   /**
+   * @see {@link DeleteWebAuthnCredentialCommand}
+   */
+  deleteWebAuthnCredential(
+    args: DeleteWebAuthnCredentialCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteWebAuthnCredentialCommandOutput,
+    | SdkError
+    | ForbiddenError
+    | InternalError
+    | InvalidParameterError
+    | NotAuthorizedError
+    | ResourceNotFoundError
+  >;
+
+  /**
    * @see {@link DescribeIdentityProviderCommand}
    */
   describeIdentityProvider(
@@ -1408,6 +1536,38 @@ interface CognitoIdentityProviderService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeIdentityProviderCommandOutput,
+    | SdkError
+    | InternalError
+    | InvalidParameterError
+    | NotAuthorizedError
+    | ResourceNotFoundError
+    | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link DescribeManagedLoginBrandingCommand}
+   */
+  describeManagedLoginBranding(
+    args: DescribeManagedLoginBrandingCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeManagedLoginBrandingCommandOutput,
+    | SdkError
+    | InternalError
+    | InvalidParameterError
+    | NotAuthorizedError
+    | ResourceNotFoundError
+    | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link DescribeManagedLoginBrandingByClientCommand}
+   */
+  describeManagedLoginBrandingByClient(
+    args: DescribeManagedLoginBrandingByClientCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeManagedLoginBrandingByClientCommandOutput,
     | SdkError
     | InternalError
     | InvalidParameterError
@@ -1721,6 +1881,26 @@ interface CognitoIdentityProviderService$ {
   >;
 
   /**
+   * @see {@link GetUserAuthFactorsCommand}
+   */
+  getUserAuthFactors(
+    args: GetUserAuthFactorsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetUserAuthFactorsCommandOutput,
+    | SdkError
+    | ForbiddenError
+    | InternalError
+    | InvalidParameterError
+    | NotAuthorizedError
+    | PasswordResetRequiredError
+    | ResourceNotFoundError
+    | TooManyRequestsError
+    | UserNotConfirmedError
+    | UserNotFoundError
+  >;
+
+  /**
    * @see {@link GetUserPoolMfaConfigCommand}
    */
   getUserPoolMfaConfig(
@@ -1947,6 +2127,21 @@ interface CognitoIdentityProviderService$ {
   >;
 
   /**
+   * @see {@link ListWebAuthnCredentialsCommand}
+   */
+  listWebAuthnCredentials(
+    args: ListWebAuthnCredentialsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListWebAuthnCredentialsCommandOutput,
+    | SdkError
+    | ForbiddenError
+    | InternalError
+    | InvalidParameterError
+    | NotAuthorizedError
+  >;
+
+  /**
    * @see {@link ResendConfirmationCodeCommand}
    */
   resendConfirmationCode(
@@ -2033,6 +2228,7 @@ interface CognitoIdentityProviderService$ {
   ): Effect.Effect<
     SetLogDeliveryConfigurationCommandOutput,
     | SdkError
+    | FeatureUnavailableInTierError
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
@@ -2104,6 +2300,7 @@ interface CognitoIdentityProviderService$ {
     SetUserPoolMfaConfigCommandOutput,
     | SdkError
     | ConcurrentModificationError
+    | FeatureUnavailableInTierError
     | InternalError
     | InvalidParameterError
     | InvalidSmsRoleAccessPolicyError
@@ -2174,6 +2371,25 @@ interface CognitoIdentityProviderService$ {
     | PreconditionNotMetError
     | ResourceNotFoundError
     | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link StartWebAuthnRegistrationCommand}
+   */
+  startWebAuthnRegistration(
+    args: StartWebAuthnRegistrationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    StartWebAuthnRegistrationCommandOutput,
+    | SdkError
+    | ForbiddenError
+    | InternalError
+    | InvalidParameterError
+    | LimitExceededError
+    | NotAuthorizedError
+    | TooManyRequestsError
+    | WebAuthnConfigurationMissingError
+    | WebAuthnNotEnabledError
   >;
 
   /**
@@ -2299,6 +2515,23 @@ interface CognitoIdentityProviderService$ {
   >;
 
   /**
+   * @see {@link UpdateManagedLoginBrandingCommand}
+   */
+  updateManagedLoginBranding(
+    args: UpdateManagedLoginBrandingCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateManagedLoginBrandingCommandOutput,
+    | SdkError
+    | ConcurrentModificationError
+    | InternalError
+    | InvalidParameterError
+    | NotAuthorizedError
+    | ResourceNotFoundError
+    | TooManyRequestsError
+  >;
+
+  /**
    * @see {@link UpdateResourceServerCommand}
    */
   updateResourceServer(
@@ -2354,6 +2587,7 @@ interface CognitoIdentityProviderService$ {
     UpdateUserPoolCommandOutput,
     | SdkError
     | ConcurrentModificationError
+    | FeatureUnavailableInTierError
     | InternalError
     | InvalidEmailRoleAccessPolicyError
     | InvalidParameterError
@@ -2361,6 +2595,7 @@ interface CognitoIdentityProviderService$ {
     | InvalidSmsRoleTrustRelationshipError
     | NotAuthorizedError
     | ResourceNotFoundError
+    | TierChangeNotAllowedError
     | TooManyRequestsError
     | UserImportInProgressError
     | UserPoolTaggingError
@@ -2394,6 +2629,7 @@ interface CognitoIdentityProviderService$ {
   ): Effect.Effect<
     UpdateUserPoolDomainCommandOutput,
     | SdkError
+    | FeatureUnavailableInTierError
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError

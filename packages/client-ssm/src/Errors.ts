@@ -130,8 +130,10 @@ import type {
   UnsupportedInventoryItemContextException,
   UnsupportedInventorySchemaVersionException,
   UnsupportedOperatingSystem,
+  UnsupportedOperationException,
   UnsupportedParameterType,
   UnsupportedPlatformType,
+  ValidationException,
 } from "@aws-sdk/client-ssm";
 import { Data } from "effect";
 
@@ -267,8 +269,10 @@ export const AllServiceErrors = [
   "UnsupportedInventoryItemContextException",
   "UnsupportedInventorySchemaVersionException",
   "UnsupportedOperatingSystem",
+  "UnsupportedOperationException",
   "UnsupportedParameterType",
   "UnsupportedPlatformType",
+  "ValidationException",
 ];
 
 export type TaggedException<T extends { name: string }> = T & {
@@ -492,10 +496,13 @@ export type UnsupportedInventorySchemaVersionError =
   TaggedException<UnsupportedInventorySchemaVersionException>;
 export type UnsupportedOperatingSystemError =
   TaggedException<UnsupportedOperatingSystem>;
+export type UnsupportedOperationError =
+  TaggedException<UnsupportedOperationException>;
 export type UnsupportedParameterTypeError =
   TaggedException<UnsupportedParameterType>;
 export type UnsupportedPlatformTypeError =
   TaggedException<UnsupportedPlatformType>;
+export type ValidationError = TaggedException<ValidationException>;
 
 export type SdkError = TaggedException<Error & { name: "SdkError" }>;
 export const SdkError = Data.tagged<SdkError>("SdkError");

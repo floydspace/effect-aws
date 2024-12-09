@@ -1,4 +1,5 @@
 import type {
+  AccessDeniedException,
   ConcurrentModificationException,
   IllegalStatusException,
   InternalException,
@@ -10,10 +11,12 @@ import type {
   PolicyLengthExceededException,
   ResourceAlreadyExistsException,
   ResourceNotFoundException,
+  ThrottlingException,
 } from "@aws-sdk/client-eventbridge";
 import { Data } from "effect";
 
 export const AllServiceErrors = [
+  "AccessDeniedException",
   "ConcurrentModificationException",
   "IllegalStatusException",
   "InternalException",
@@ -25,12 +28,14 @@ export const AllServiceErrors = [
   "PolicyLengthExceededException",
   "ResourceAlreadyExistsException",
   "ResourceNotFoundException",
+  "ThrottlingException",
 ];
 
 export type TaggedException<T extends { name: string }> = T & {
   readonly _tag: T["name"];
 };
 
+export type AccessDeniedError = TaggedException<AccessDeniedException>;
 export type ConcurrentModificationError =
   TaggedException<ConcurrentModificationException>;
 export type IllegalStatusError = TaggedException<IllegalStatusException>;
@@ -47,6 +52,7 @@ export type PolicyLengthExceededError =
 export type ResourceAlreadyExistsError =
   TaggedException<ResourceAlreadyExistsException>;
 export type ResourceNotFoundError = TaggedException<ResourceNotFoundException>;
+export type ThrottlingError = TaggedException<ThrottlingException>;
 
 export type SdkError = TaggedException<Error & { name: "SdkError" }>;
 export const SdkError = Data.tagged<SdkError>("SdkError");

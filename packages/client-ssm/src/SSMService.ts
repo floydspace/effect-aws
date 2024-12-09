@@ -215,6 +215,9 @@ import {
   GetDocumentCommand,
   type GetDocumentCommandInput,
   type GetDocumentCommandOutput,
+  GetExecutionPreviewCommand,
+  type GetExecutionPreviewCommandInput,
+  type GetExecutionPreviewCommandOutput,
   GetInventoryCommand,
   type GetInventoryCommandInput,
   type GetInventoryCommandOutput,
@@ -302,6 +305,12 @@ import {
   ListInventoryEntriesCommand,
   type ListInventoryEntriesCommandInput,
   type ListInventoryEntriesCommandOutput,
+  ListNodesCommand,
+  type ListNodesCommandInput,
+  type ListNodesCommandOutput,
+  ListNodesSummaryCommand,
+  type ListNodesSummaryCommandInput,
+  type ListNodesSummaryCommandOutput,
   ListOpsItemEventsCommand,
   type ListOpsItemEventsCommandInput,
   type ListOpsItemEventsCommandOutput,
@@ -371,6 +380,9 @@ import {
   StartChangeRequestExecutionCommand,
   type StartChangeRequestExecutionCommandInput,
   type StartChangeRequestExecutionCommandOutput,
+  StartExecutionPreviewCommand,
+  type StartExecutionPreviewCommandInput,
+  type StartExecutionPreviewCommandOutput,
   StartSessionCommand,
   type StartSessionCommandInput,
   type StartSessionCommandOutput,
@@ -560,8 +572,10 @@ import {
   UnsupportedInventoryItemContextError,
   UnsupportedInventorySchemaVersionError,
   UnsupportedOperatingSystemError,
+  UnsupportedOperationError,
   UnsupportedParameterTypeError,
   UnsupportedPlatformTypeError,
+  ValidationError,
   SdkError,
   TaggedException,
 } from "./Errors";
@@ -654,6 +668,7 @@ const commands = {
   GetDefaultPatchBaselineCommand,
   GetDeployablePatchSnapshotForInstanceCommand,
   GetDocumentCommand,
+  GetExecutionPreviewCommand,
   GetInventoryCommand,
   GetInventorySchemaCommand,
   GetMaintenanceWindowCommand,
@@ -683,6 +698,8 @@ const commands = {
   ListDocumentVersionsCommand,
   ListDocumentsCommand,
   ListInventoryEntriesCommand,
+  ListNodesCommand,
+  ListNodesSummaryCommand,
   ListOpsItemEventsCommand,
   ListOpsItemRelatedItemsCommand,
   ListOpsMetadataCommand,
@@ -706,6 +723,7 @@ const commands = {
   StartAssociationsOnceCommand,
   StartAutomationExecutionCommand,
   StartChangeRequestExecutionCommand,
+  StartExecutionPreviewCommand,
   StartSessionCommand,
   StopAutomationExecutionCommand,
   TerminateSessionCommand,
@@ -1682,6 +1700,17 @@ interface SSMService$ {
   >;
 
   /**
+   * @see {@link GetExecutionPreviewCommand}
+   */
+  getExecutionPreview(
+    args: GetExecutionPreviewCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetExecutionPreviewCommandOutput,
+    SdkError | InternalServerError | ResourceNotFoundError
+  >;
+
+  /**
    * @see {@link GetInventoryCommand}
    */
   getInventory(
@@ -2078,6 +2107,39 @@ interface SSMService$ {
   >;
 
   /**
+   * @see {@link ListNodesCommand}
+   */
+  listNodes(
+    args: ListNodesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListNodesCommandOutput,
+    | SdkError
+    | InternalServerError
+    | InvalidFilterError
+    | InvalidNextTokenError
+    | ResourceDataSyncNotFoundError
+    | UnsupportedOperationError
+  >;
+
+  /**
+   * @see {@link ListNodesSummaryCommand}
+   */
+  listNodesSummary(
+    args: ListNodesSummaryCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListNodesSummaryCommandOutput,
+    | SdkError
+    | InternalServerError
+    | InvalidAggregatorError
+    | InvalidFilterError
+    | InvalidNextTokenError
+    | ResourceDataSyncNotFoundError
+    | UnsupportedOperationError
+  >;
+
+  /**
    * @see {@link ListOpsItemEventsCommand}
    */
   listOpsItemEvents(
@@ -2434,6 +2496,17 @@ interface SSMService$ {
     | IdempotentParameterMismatchError
     | InternalServerError
     | InvalidAutomationExecutionParametersError
+  >;
+
+  /**
+   * @see {@link StartExecutionPreviewCommand}
+   */
+  startExecutionPreview(
+    args: StartExecutionPreviewCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    StartExecutionPreviewCommandOutput,
+    SdkError | InternalServerError | ValidationError
   >;
 
   /**
