@@ -30,6 +30,7 @@ jspm_packages/
 .yarn-integrity
 .cache
 .tmp
+!/.github/workflows/build.yml
 !/.prettierignore
 !/.prettierrc.json
 !/.npmrc
