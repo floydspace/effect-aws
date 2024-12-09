@@ -1,5 +1,11 @@
 # @effect-aws/client-cognito-identity-provider
 
+## 1.2.0
+
+### Minor Changes
+
+- [`b24f980`](https://github.com/floydspace/effect-aws/commit/b24f98045ee3383c54d1152054e5b77f01d5f5e3) Thanks [@floydspace](https://github.com/floydspace)! - update services
+
 ## 1.1.0
 
 ### Minor Changes
