@@ -180,6 +180,14 @@ new TypeScriptLibProject({
   peerDeps: commonPeerDeps,
 });
 
+new TypeScriptLibProject({
+  parent: project,
+  name: "client-ecs",
+  deps: [...commonDeps, "@aws-sdk/client-ecs@^3"],
+  devDeps: commonDevDeps,
+  peerDeps: commonPeerDeps,
+});
+
 const secretsManagerClient = new TypeScriptLibProject({
   parent: project,
   name: "client-secrets-manager",
