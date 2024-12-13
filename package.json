@@ -109,6 +109,7 @@
       "packages/client-mq",
       "packages/client-opensearch",
       "packages/client-opensearch-serverless",
+      "packages/client-organizations",
       "packages/client-rds",
       "packages/client-s3",
       "packages/client-scheduler",
