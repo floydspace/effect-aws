@@ -3,6 +3,7 @@
 packages:
   - packages/client-account
   - packages/client-api-gateway-management-api
+  - packages/client-auto-scaling
   - packages/client-bedrock
   - packages/client-cloudsearch
   - packages/client-cloudtrail
@@ -13,6 +14,7 @@ packages:
   - packages/client-cognito-identity-provider
   - packages/client-dynamodb
   - packages/client-ec2
+  - packages/client-ecr
   - packages/client-ecs
   - packages/client-elasticache
   - packages/client-eventbridge
