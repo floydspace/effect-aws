@@ -365,6 +365,22 @@ new TypeScriptLibProject({
   peerDeps: commonPeerDeps,
 });
 
+new TypeScriptLibProject({
+  parent: project,
+  name: "client-ecr",
+  deps: [...commonDeps, "@aws-sdk/client-ecr@^3"],
+  devDeps: commonDevDeps,
+  peerDeps: commonPeerDeps,
+});
+
+new TypeScriptLibProject({
+  parent: project,
+  name: "client-auto-scaling",
+  deps: [...commonDeps, "@aws-sdk/client-auto-scaling@^3"],
+  devDeps: commonDevDeps,
+  peerDeps: commonPeerDeps,
+});
+
 project.addImplicitDependency(dynamodbLib, dynamodbClient);
 project.addImplicitDependency(secretsManager, secretsManagerClient);
 project.addImplicitDependency(ssm, ssmClient);
