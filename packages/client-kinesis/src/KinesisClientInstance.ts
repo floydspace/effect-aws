@@ -22,16 +22,20 @@ export class KinesisClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeKinesisClientInstance = Effect.map(
+export const makeKinesisClientInstance = Effect.flatMap(
   KinesisClientInstanceConfig,
-  (config) => new KinesisClient(config),
+  (config) =>
+    Effect.acquireRelease(
+      Effect.sync(() => new KinesisClient(config)),
+      (client) => Effect.sync(() => client.destroy()),
+    ),
 );
 
 /**
  * @since 1.0.0
  * @category layers
  */
-export const KinesisClientInstanceLayer = Layer.effect(
+export const KinesisClientInstanceLayer = Layer.scoped(
   KinesisClientInstance,
   makeKinesisClientInstance,
 );

@@ -22,16 +22,20 @@ export class OrganizationsClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeOrganizationsClientInstance = Effect.map(
+export const makeOrganizationsClientInstance = Effect.flatMap(
   OrganizationsClientInstanceConfig,
-  (config) => new OrganizationsClient(config),
+  (config) =>
+    Effect.acquireRelease(
+      Effect.sync(() => new OrganizationsClient(config)),
+      (client) => Effect.sync(() => client.destroy()),
+    ),
 );
 
 /**
  * @since 1.0.0
  * @category layers
  */
-export const OrganizationsClientInstanceLayer = Layer.effect(
+export const OrganizationsClientInstanceLayer = Layer.scoped(
   OrganizationsClientInstance,
   makeOrganizationsClientInstance,
 );

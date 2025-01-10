@@ -22,16 +22,20 @@ export class TextractClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeTextractClientInstance = Effect.map(
+export const makeTextractClientInstance = Effect.flatMap(
   TextractClientInstanceConfig,
-  (config) => new TextractClient(config),
+  (config) =>
+    Effect.acquireRelease(
+      Effect.sync(() => new TextractClient(config)),
+      (client) => Effect.sync(() => client.destroy()),
+    ),
 );
 
 /**
  * @since 1.0.0
  * @category layers
  */
-export const TextractClientInstanceLayer = Layer.effect(
+export const TextractClientInstanceLayer = Layer.scoped(
   TextractClientInstance,
   makeTextractClientInstance,
 );

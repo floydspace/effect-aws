@@ -22,16 +22,20 @@ export class AutoScalingClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeAutoScalingClientInstance = Effect.map(
+export const makeAutoScalingClientInstance = Effect.flatMap(
   AutoScalingClientInstanceConfig,
-  (config) => new AutoScalingClient(config),
+  (config) =>
+    Effect.acquireRelease(
+      Effect.sync(() => new AutoScalingClient(config)),
+      (client) => Effect.sync(() => client.destroy()),
+    ),
 );
 
 /**
  * @since 1.0.0
  * @category layers
  */
-export const AutoScalingClientInstanceLayer = Layer.effect(
+export const AutoScalingClientInstanceLayer = Layer.scoped(
   AutoScalingClientInstance,
   makeAutoScalingClientInstance,
 );

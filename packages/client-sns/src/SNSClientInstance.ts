@@ -22,16 +22,20 @@ export class SNSClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeSNSClientInstance = Effect.map(
+export const makeSNSClientInstance = Effect.flatMap(
   SNSClientInstanceConfig,
-  (config) => new SNSClient(config),
+  (config) =>
+    Effect.acquireRelease(
+      Effect.sync(() => new SNSClient(config)),
+      (client) => Effect.sync(() => client.destroy()),
+    ),
 );
 
 /**
  * @since 1.0.0
  * @category layers
  */
-export const SNSClientInstanceLayer = Layer.effect(
+export const SNSClientInstanceLayer = Layer.scoped(
   SNSClientInstance,
   makeSNSClientInstance,
 );

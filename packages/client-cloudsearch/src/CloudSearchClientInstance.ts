@@ -22,16 +22,20 @@ export class CloudSearchClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeCloudSearchClientInstance = Effect.map(
+export const makeCloudSearchClientInstance = Effect.flatMap(
   CloudSearchClientInstanceConfig,
-  (config) => new CloudSearchClient(config),
+  (config) =>
+    Effect.acquireRelease(
+      Effect.sync(() => new CloudSearchClient(config)),
+      (client) => Effect.sync(() => client.destroy()),
+    ),
 );
 
 /**
  * @since 1.0.0
  * @category layers
  */
-export const CloudSearchClientInstanceLayer = Layer.effect(
+export const CloudSearchClientInstanceLayer = Layer.scoped(
   CloudSearchClientInstance,
   makeCloudSearchClientInstance,
 );

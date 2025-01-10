@@ -22,16 +22,20 @@ export class CloudWatchLogsClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeCloudWatchLogsClientInstance = Effect.map(
+export const makeCloudWatchLogsClientInstance = Effect.flatMap(
   CloudWatchLogsClientInstanceConfig,
-  (config) => new CloudWatchLogsClient(config),
+  (config) =>
+    Effect.acquireRelease(
+      Effect.sync(() => new CloudWatchLogsClient(config)),
+      (client) => Effect.sync(() => client.destroy()),
+    ),
 );
 
 /**
  * @since 1.0.0
  * @category layers
  */
-export const CloudWatchLogsClientInstanceLayer = Layer.effect(
+export const CloudWatchLogsClientInstanceLayer = Layer.scoped(
   CloudWatchLogsClientInstance,
   makeCloudWatchLogsClientInstance,
 );

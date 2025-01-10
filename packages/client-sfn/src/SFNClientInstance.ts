@@ -22,16 +22,20 @@ export class SFNClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeSFNClientInstance = Effect.map(
+export const makeSFNClientInstance = Effect.flatMap(
   SFNClientInstanceConfig,
-  (config) => new SFNClient(config),
+  (config) =>
+    Effect.acquireRelease(
+      Effect.sync(() => new SFNClient(config)),
+      (client) => Effect.sync(() => client.destroy()),
+    ),
 );
 
 /**
  * @since 1.0.0
  * @category layers
  */
-export const SFNClientInstanceLayer = Layer.effect(
+export const SFNClientInstanceLayer = Layer.scoped(
   SFNClientInstance,
   makeSFNClientInstance,
 );

@@ -22,16 +22,20 @@ export class STSClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeSTSClientInstance = Effect.map(
+export const makeSTSClientInstance = Effect.flatMap(
   STSClientInstanceConfig,
-  (config) => new STSClient(config),
+  (config) =>
+    Effect.acquireRelease(
+      Effect.sync(() => new STSClient(config)),
+      (client) => Effect.sync(() => client.destroy()),
+    ),
 );
 
 /**
  * @since 1.0.0
  * @category layers
  */
-export const STSClientInstanceLayer = Layer.effect(
+export const STSClientInstanceLayer = Layer.scoped(
   STSClientInstance,
   makeSTSClientInstance,
 );

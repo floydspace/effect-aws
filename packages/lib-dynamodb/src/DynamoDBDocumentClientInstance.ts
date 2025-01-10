@@ -35,7 +35,7 @@ export const makeDynamoDBDocumentClientInstance = Effect.all([
  * @since 1.0.0
  * @category layers
  */
-export const DynamoDBDocumentClientInstanceLayer = Layer.effect(
+export const DynamoDBDocumentClientInstanceLayer = Layer.scoped(
   DynamoDBDocumentClientInstance,
   makeDynamoDBDocumentClientInstance,
 ).pipe(Layer.provide(DefaultDynamoDBClientInstanceLayer));

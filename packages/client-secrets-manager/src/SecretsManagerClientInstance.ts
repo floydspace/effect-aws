@@ -22,16 +22,20 @@ export class SecretsManagerClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeSecretsManagerClientInstance = Effect.map(
+export const makeSecretsManagerClientInstance = Effect.flatMap(
   SecretsManagerClientInstanceConfig,
-  (config) => new SecretsManagerClient(config),
+  (config) =>
+    Effect.acquireRelease(
+      Effect.sync(() => new SecretsManagerClient(config)),
+      (client) => Effect.sync(() => client.destroy()),
+    ),
 );
 
 /**
  * @since 1.0.0
  * @category layers
  */
-export const SecretsManagerClientInstanceLayer = Layer.effect(
+export const SecretsManagerClientInstanceLayer = Layer.scoped(
   SecretsManagerClientInstance,
   makeSecretsManagerClientInstance,
 );

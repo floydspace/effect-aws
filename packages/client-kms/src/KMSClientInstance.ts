@@ -22,16 +22,20 @@ export class KMSClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeKMSClientInstance = Effect.map(
+export const makeKMSClientInstance = Effect.flatMap(
   KMSClientInstanceConfig,
-  (config) => new KMSClient(config),
+  (config) =>
+    Effect.acquireRelease(
+      Effect.sync(() => new KMSClient(config)),
+      (client) => Effect.sync(() => client.destroy()),
+    ),
 );
 
 /**
  * @since 1.0.0
  * @category layers
  */
-export const KMSClientInstanceLayer = Layer.effect(
+export const KMSClientInstanceLayer = Layer.scoped(
   KMSClientInstance,
   makeKMSClientInstance,
 );

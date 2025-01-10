@@ -22,16 +22,20 @@ export class CognitoIdentityProviderClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeCognitoIdentityProviderClientInstance = Effect.map(
+export const makeCognitoIdentityProviderClientInstance = Effect.flatMap(
   CognitoIdentityProviderClientInstanceConfig,
-  (config) => new CognitoIdentityProviderClient(config),
+  (config) =>
+    Effect.acquireRelease(
+      Effect.sync(() => new CognitoIdentityProviderClient(config)),
+      (client) => Effect.sync(() => client.destroy()),
+    ),
 );
 
 /**
  * @since 1.0.0
  * @category layers
  */
-export const CognitoIdentityProviderClientInstanceLayer = Layer.effect(
+export const CognitoIdentityProviderClientInstanceLayer = Layer.scoped(
   CognitoIdentityProviderClientInstance,
   makeCognitoIdentityProviderClientInstance,
 );

@@ -22,16 +22,20 @@ export class BedrockClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeBedrockClientInstance = Effect.map(
+export const makeBedrockClientInstance = Effect.flatMap(
   BedrockClientInstanceConfig,
-  (config) => new BedrockClient(config),
+  (config) =>
+    Effect.acquireRelease(
+      Effect.sync(() => new BedrockClient(config)),
+      (client) => Effect.sync(() => client.destroy()),
+    ),
 );
 
 /**
  * @since 1.0.0
  * @category layers
  */
-export const BedrockClientInstanceLayer = Layer.effect(
+export const BedrockClientInstanceLayer = Layer.scoped(
   BedrockClientInstance,
   makeBedrockClientInstance,
 );
