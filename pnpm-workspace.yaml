@@ -30,6 +30,7 @@ packages:
   - packages/client-s3
   - packages/client-scheduler
   - packages/client-secrets-manager
+  - packages/client-ses
   - packages/client-sfn
   - packages/client-sns
   - packages/client-sqs
