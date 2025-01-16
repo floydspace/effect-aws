@@ -367,6 +367,14 @@ new TypeScriptLibProject({
 
 new TypeScriptLibProject({
   parent: project,
+  name: "client-ses",
+  deps: [...commonDeps, "@aws-sdk/client-ses@^3"],
+  devDeps: commonDevDeps,
+  peerDeps: commonPeerDeps,
+});
+
+new TypeScriptLibProject({
+  parent: project,
   name: "client-organizations",
   deps: [...commonDeps, "@aws-sdk/client-organizations@^3"],
   devDeps: commonDevDeps,
