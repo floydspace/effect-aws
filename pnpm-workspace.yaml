@@ -19,6 +19,12 @@ packages:
   - packages/client-elasticache
   - packages/client-eventbridge
   - packages/client-iam
+  - packages/client-iot
+  - packages/client-iot-data-plane
+  - packages/client-iot-events
+  - packages/client-iot-events-data
+  - packages/client-iot-jobs-data-plane
+  - packages/client-iot-wireless
   - packages/client-kinesis
   - packages/client-kms
   - packages/client-lambda

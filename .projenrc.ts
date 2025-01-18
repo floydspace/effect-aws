@@ -397,6 +397,54 @@ new TypeScriptLibProject({
   peerDeps: commonPeerDeps,
 });
 
+new TypeScriptLibProject({
+  parent: project,
+  name: "client-iot",
+  deps: [...commonDeps, "@aws-sdk/client-iot@^3"],
+  devDeps: commonDevDeps,
+  peerDeps: commonPeerDeps,
+});
+
+new TypeScriptLibProject({
+  parent: project,
+  name: "client-iot-wireless",
+  deps: [...commonDeps, "@aws-sdk/client-iot-wireless@^3"],
+  devDeps: commonDevDeps,
+  peerDeps: commonPeerDeps,
+});
+
+new TypeScriptLibProject({
+  parent: project,
+  name: "client-iot-data-plane",
+  deps: [...commonDeps, "@aws-sdk/client-iot-data-plane@^3"],
+  devDeps: commonDevDeps,
+  peerDeps: commonPeerDeps,
+});
+
+new TypeScriptLibProject({
+  parent: project,
+  name: "client-iot-jobs-data-plane",
+  deps: [...commonDeps, "@aws-sdk/client-iot-jobs-data-plane@^3"],
+  devDeps: commonDevDeps,
+  peerDeps: commonPeerDeps,
+});
+
+new TypeScriptLibProject({
+  parent: project,
+  name: "client-iot-events",
+  deps: [...commonDeps, "@aws-sdk/client-iot-events@^3"],
+  devDeps: commonDevDeps,
+  peerDeps: commonPeerDeps,
+});
+
+new TypeScriptLibProject({
+  parent: project,
+  name: "client-iot-events-data",
+  deps: [...commonDeps, "@aws-sdk/client-iot-events-data@^3"],
+  devDeps: commonDevDeps,
+  peerDeps: commonPeerDeps,
+});
+
 project.addImplicitDependency(dynamodbLib, dynamodbClient);
 project.addImplicitDependency(secretsManager, secretsManagerClient);
 project.addImplicitDependency(ssm, ssmClient);
