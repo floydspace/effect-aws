@@ -257,16 +257,20 @@ export class ${sdkName}ClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const make${sdkName}ClientInstance = Effect.map(
-  ${sdkName}ClientInstanceConfig,
-  (config) => new ${sdkName}Client(config),
+export const make${sdkName}ClientInstance = Effect.flatMap(
+	${sdkName}ClientInstanceConfig,
+	(config) =>
+		Effect.acquireRelease(
+			Effect.sync(() => new ${sdkName}Client(config)),
+			(client) => Effect.sync(() => client.destroy()),
+		),
 );
 
 /**
  * @since 1.0.0
  * @category layers
  */
-export const ${sdkName}ClientInstanceLayer = Layer.effect(
+export const ${sdkName}ClientInstanceLayer = Layer.scoped(
   ${sdkName}ClientInstance,
   make${sdkName}ClientInstance,
 );

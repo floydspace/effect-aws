@@ -22,16 +22,20 @@ export class CloudTrailClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeCloudTrailClientInstance = Effect.map(
+export const makeCloudTrailClientInstance = Effect.flatMap(
   CloudTrailClientInstanceConfig,
-  (config) => new CloudTrailClient(config),
+  (config) =>
+    Effect.acquireRelease(
+      Effect.sync(() => new CloudTrailClient(config)),
+      (client) => Effect.sync(() => client.destroy()),
+    ),
 );
 
 /**
  * @since 1.0.0
  * @category layers
  */
-export const CloudTrailClientInstanceLayer = Layer.effect(
+export const CloudTrailClientInstanceLayer = Layer.scoped(
   CloudTrailClientInstance,
   makeCloudTrailClientInstance,
 );

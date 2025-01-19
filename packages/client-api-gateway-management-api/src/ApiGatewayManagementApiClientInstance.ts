@@ -22,16 +22,20 @@ export class ApiGatewayManagementApiClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeApiGatewayManagementApiClientInstance = Effect.map(
+export const makeApiGatewayManagementApiClientInstance = Effect.flatMap(
   ApiGatewayManagementApiClientInstanceConfig,
-  (config) => new ApiGatewayManagementApiClient(config),
+  (config) =>
+    Effect.acquireRelease(
+      Effect.sync(() => new ApiGatewayManagementApiClient(config)),
+      (client) => Effect.sync(() => client.destroy()),
+    ),
 );
 
 /**
  * @since 1.0.0
  * @category layers
  */
-export const ApiGatewayManagementApiClientInstanceLayer = Layer.effect(
+export const ApiGatewayManagementApiClientInstanceLayer = Layer.scoped(
   ApiGatewayManagementApiClientInstance,
   makeApiGatewayManagementApiClientInstance,
 );

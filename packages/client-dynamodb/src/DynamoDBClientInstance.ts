@@ -22,16 +22,20 @@ export class DynamoDBClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeDynamoDBClientInstance = Effect.map(
+export const makeDynamoDBClientInstance = Effect.flatMap(
   DynamoDBClientInstanceConfig,
-  (config) => new DynamoDBClient(config),
+  (config) =>
+    Effect.acquireRelease(
+      Effect.sync(() => new DynamoDBClient(config)),
+      (client) => Effect.sync(() => client.destroy()),
+    ),
 );
 
 /**
  * @since 1.0.0
  * @category layers
  */
-export const DynamoDBClientInstanceLayer = Layer.effect(
+export const DynamoDBClientInstanceLayer = Layer.scoped(
   DynamoDBClientInstance,
   makeDynamoDBClientInstance,
 );

@@ -22,16 +22,20 @@ export class EC2ClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeEC2ClientInstance = Effect.map(
+export const makeEC2ClientInstance = Effect.flatMap(
   EC2ClientInstanceConfig,
-  (config) => new EC2Client(config),
+  (config) =>
+    Effect.acquireRelease(
+      Effect.sync(() => new EC2Client(config)),
+      (client) => Effect.sync(() => client.destroy()),
+    ),
 );
 
 /**
  * @since 1.0.0
  * @category layers
  */
-export const EC2ClientInstanceLayer = Layer.effect(
+export const EC2ClientInstanceLayer = Layer.scoped(
   EC2ClientInstance,
   makeEC2ClientInstance,
 );

@@ -22,16 +22,20 @@ export class S3ClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeS3ClientInstance = Effect.map(
+export const makeS3ClientInstance = Effect.flatMap(
   S3ClientInstanceConfig,
-  (config) => new S3Client(config),
+  (config) =>
+    Effect.acquireRelease(
+      Effect.sync(() => new S3Client(config)),
+      (client) => Effect.sync(() => client.destroy()),
+    ),
 );
 
 /**
  * @since 1.0.0
  * @category layers
  */
-export const S3ClientInstanceLayer = Layer.effect(
+export const S3ClientInstanceLayer = Layer.scoped(
   S3ClientInstance,
   makeS3ClientInstance,
 );

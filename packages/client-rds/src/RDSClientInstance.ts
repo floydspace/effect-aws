@@ -22,16 +22,20 @@ export class RDSClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeRDSClientInstance = Effect.map(
+export const makeRDSClientInstance = Effect.flatMap(
   RDSClientInstanceConfig,
-  (config) => new RDSClient(config),
+  (config) =>
+    Effect.acquireRelease(
+      Effect.sync(() => new RDSClient(config)),
+      (client) => Effect.sync(() => client.destroy()),
+    ),
 );
 
 /**
  * @since 1.0.0
  * @category layers
  */
-export const RDSClientInstanceLayer = Layer.effect(
+export const RDSClientInstanceLayer = Layer.scoped(
   RDSClientInstance,
   makeRDSClientInstance,
 );

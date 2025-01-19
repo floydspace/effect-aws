@@ -22,16 +22,20 @@ export class CodeDeployClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeCodeDeployClientInstance = Effect.map(
+export const makeCodeDeployClientInstance = Effect.flatMap(
   CodeDeployClientInstanceConfig,
-  (config) => new CodeDeployClient(config),
+  (config) =>
+    Effect.acquireRelease(
+      Effect.sync(() => new CodeDeployClient(config)),
+      (client) => Effect.sync(() => client.destroy()),
+    ),
 );
 
 /**
  * @since 1.0.0
  * @category layers
  */
-export const CodeDeployClientInstanceLayer = Layer.effect(
+export const CodeDeployClientInstanceLayer = Layer.scoped(
   CodeDeployClientInstance,
   makeCodeDeployClientInstance,
 );

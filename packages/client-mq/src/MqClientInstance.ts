@@ -22,16 +22,20 @@ export class MqClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeMqClientInstance = Effect.map(
+export const makeMqClientInstance = Effect.flatMap(
   MqClientInstanceConfig,
-  (config) => new MqClient(config),
+  (config) =>
+    Effect.acquireRelease(
+      Effect.sync(() => new MqClient(config)),
+      (client) => Effect.sync(() => client.destroy()),
+    ),
 );
 
 /**
  * @since 1.0.0
  * @category layers
  */
-export const MqClientInstanceLayer = Layer.effect(
+export const MqClientInstanceLayer = Layer.scoped(
   MqClientInstance,
   makeMqClientInstance,
 );

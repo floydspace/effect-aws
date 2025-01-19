@@ -22,16 +22,20 @@ export class ECSClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeECSClientInstance = Effect.map(
+export const makeECSClientInstance = Effect.flatMap(
   ECSClientInstanceConfig,
-  (config) => new ECSClient(config),
+  (config) =>
+    Effect.acquireRelease(
+      Effect.sync(() => new ECSClient(config)),
+      (client) => Effect.sync(() => client.destroy()),
+    ),
 );
 
 /**
  * @since 1.0.0
  * @category layers
  */
-export const ECSClientInstanceLayer = Layer.effect(
+export const ECSClientInstanceLayer = Layer.scoped(
   ECSClientInstance,
   makeECSClientInstance,
 );

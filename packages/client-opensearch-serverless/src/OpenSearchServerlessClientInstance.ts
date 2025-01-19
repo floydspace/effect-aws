@@ -22,16 +22,20 @@ export class OpenSearchServerlessClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeOpenSearchServerlessClientInstance = Effect.map(
+export const makeOpenSearchServerlessClientInstance = Effect.flatMap(
   OpenSearchServerlessClientInstanceConfig,
-  (config) => new OpenSearchServerlessClient(config),
+  (config) =>
+    Effect.acquireRelease(
+      Effect.sync(() => new OpenSearchServerlessClient(config)),
+      (client) => Effect.sync(() => client.destroy()),
+    ),
 );
 
 /**
  * @since 1.0.0
  * @category layers
  */
-export const OpenSearchServerlessClientInstanceLayer = Layer.effect(
+export const OpenSearchServerlessClientInstanceLayer = Layer.scoped(
   OpenSearchServerlessClientInstance,
   makeOpenSearchServerlessClientInstance,
 );

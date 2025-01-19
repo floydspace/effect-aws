@@ -22,16 +22,20 @@ export class SSMClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeSSMClientInstance = Effect.map(
+export const makeSSMClientInstance = Effect.flatMap(
   SSMClientInstanceConfig,
-  (config) => new SSMClient(config),
+  (config) =>
+    Effect.acquireRelease(
+      Effect.sync(() => new SSMClient(config)),
+      (client) => Effect.sync(() => client.destroy()),
+    ),
 );
 
 /**
  * @since 1.0.0
  * @category layers
  */
-export const SSMClientInstanceLayer = Layer.effect(
+export const SSMClientInstanceLayer = Layer.scoped(
   SSMClientInstance,
   makeSSMClientInstance,
 );

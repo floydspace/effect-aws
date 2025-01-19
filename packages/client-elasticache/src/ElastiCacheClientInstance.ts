@@ -22,16 +22,20 @@ export class ElastiCacheClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeElastiCacheClientInstance = Effect.map(
+export const makeElastiCacheClientInstance = Effect.flatMap(
   ElastiCacheClientInstanceConfig,
-  (config) => new ElastiCacheClient(config),
+  (config) =>
+    Effect.acquireRelease(
+      Effect.sync(() => new ElastiCacheClient(config)),
+      (client) => Effect.sync(() => client.destroy()),
+    ),
 );
 
 /**
  * @since 1.0.0
  * @category layers
  */
-export const ElastiCacheClientInstanceLayer = Layer.effect(
+export const ElastiCacheClientInstanceLayer = Layer.scoped(
   ElastiCacheClientInstance,
   makeElastiCacheClientInstance,
 );

@@ -22,16 +22,20 @@ export class LambdaClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeLambdaClientInstance = Effect.map(
+export const makeLambdaClientInstance = Effect.flatMap(
   LambdaClientInstanceConfig,
-  (config) => new LambdaClient(config),
+  (config) =>
+    Effect.acquireRelease(
+      Effect.sync(() => new LambdaClient(config)),
+      (client) => Effect.sync(() => client.destroy()),
+    ),
 );
 
 /**
  * @since 1.0.0
  * @category layers
  */
-export const LambdaClientInstanceLayer = Layer.effect(
+export const LambdaClientInstanceLayer = Layer.scoped(
   LambdaClientInstance,
   makeLambdaClientInstance,
 );

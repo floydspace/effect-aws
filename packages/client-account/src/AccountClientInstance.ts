@@ -22,16 +22,20 @@ export class AccountClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeAccountClientInstance = Effect.map(
+export const makeAccountClientInstance = Effect.flatMap(
   AccountClientInstanceConfig,
-  (config) => new AccountClient(config),
+  (config) =>
+    Effect.acquireRelease(
+      Effect.sync(() => new AccountClient(config)),
+      (client) => Effect.sync(() => client.destroy()),
+    ),
 );
 
 /**
  * @since 1.0.0
  * @category layers
  */
-export const AccountClientInstanceLayer = Layer.effect(
+export const AccountClientInstanceLayer = Layer.scoped(
   AccountClientInstance,
   makeAccountClientInstance,
 );

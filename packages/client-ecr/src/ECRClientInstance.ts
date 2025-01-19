@@ -22,16 +22,20 @@ export class ECRClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeECRClientInstance = Effect.map(
+export const makeECRClientInstance = Effect.flatMap(
   ECRClientInstanceConfig,
-  (config) => new ECRClient(config),
+  (config) =>
+    Effect.acquireRelease(
+      Effect.sync(() => new ECRClient(config)),
+      (client) => Effect.sync(() => client.destroy()),
+    ),
 );
 
 /**
  * @since 1.0.0
  * @category layers
  */
-export const ECRClientInstanceLayer = Layer.effect(
+export const ECRClientInstanceLayer = Layer.scoped(
   ECRClientInstance,
   makeECRClientInstance,
 );

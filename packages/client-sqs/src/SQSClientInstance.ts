@@ -22,16 +22,20 @@ export class SQSClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeSQSClientInstance = Effect.map(
+export const makeSQSClientInstance = Effect.flatMap(
   SQSClientInstanceConfig,
-  (config) => new SQSClient(config),
+  (config) =>
+    Effect.acquireRelease(
+      Effect.sync(() => new SQSClient(config)),
+      (client) => Effect.sync(() => client.destroy()),
+    ),
 );
 
 /**
  * @since 1.0.0
  * @category layers
  */
-export const SQSClientInstanceLayer = Layer.effect(
+export const SQSClientInstanceLayer = Layer.scoped(
   SQSClientInstance,
   makeSQSClientInstance,
 );

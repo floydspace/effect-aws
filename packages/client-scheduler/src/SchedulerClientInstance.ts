@@ -22,16 +22,20 @@ export class SchedulerClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeSchedulerClientInstance = Effect.map(
+export const makeSchedulerClientInstance = Effect.flatMap(
   SchedulerClientInstanceConfig,
-  (config) => new SchedulerClient(config),
+  (config) =>
+    Effect.acquireRelease(
+      Effect.sync(() => new SchedulerClient(config)),
+      (client) => Effect.sync(() => client.destroy()),
+    ),
 );
 
 /**
  * @since 1.0.0
  * @category layers
  */
-export const SchedulerClientInstanceLayer = Layer.effect(
+export const SchedulerClientInstanceLayer = Layer.scoped(
   SchedulerClientInstance,
   makeSchedulerClientInstance,
 );

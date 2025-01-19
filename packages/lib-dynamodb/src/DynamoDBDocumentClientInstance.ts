@@ -47,5 +47,4 @@ export const DynamoDBDocumentClientInstanceLayer = Layer.effect(
 export const DefaultDynamoDBDocumentClientInstanceLayer =
   DynamoDBDocumentClientInstanceLayer.pipe(
     Layer.provide(DefaultDynamoDBDocumentClientConfigLayer),
-    Layer.provide(DefaultDynamoDBClientInstanceLayer),
   );

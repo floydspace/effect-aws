@@ -22,16 +22,20 @@ export class EventBridgeClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeEventBridgeClientInstance = Effect.map(
+export const makeEventBridgeClientInstance = Effect.flatMap(
   EventBridgeClientInstanceConfig,
-  (config) => new EventBridgeClient(config),
+  (config) =>
+    Effect.acquireRelease(
+      Effect.sync(() => new EventBridgeClient(config)),
+      (client) => Effect.sync(() => client.destroy()),
+    ),
 );
 
 /**
  * @since 1.0.0
  * @category layers
  */
-export const EventBridgeClientInstanceLayer = Layer.effect(
+export const EventBridgeClientInstanceLayer = Layer.scoped(
   EventBridgeClientInstance,
   makeEventBridgeClientInstance,
 );
