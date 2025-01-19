@@ -22,16 +22,20 @@ export class IoTDataPlaneClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeIoTDataPlaneClientInstance = Effect.map(
+export const makeIoTDataPlaneClientInstance = Effect.flatMap(
   IoTDataPlaneClientInstanceConfig,
-  (config) => new IoTDataPlaneClient(config),
+  (config) =>
+    Effect.acquireRelease(
+      Effect.sync(() => new IoTDataPlaneClient(config)),
+      (client) => Effect.sync(() => client.destroy()),
+    ),
 );
 
 /**
  * @since 1.0.0
  * @category layers
  */
-export const IoTDataPlaneClientInstanceLayer = Layer.effect(
+export const IoTDataPlaneClientInstanceLayer = Layer.scoped(
   IoTDataPlaneClientInstance,
   makeIoTDataPlaneClientInstance,
 );

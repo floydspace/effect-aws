@@ -22,16 +22,20 @@ export class SESClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeSESClientInstance = Effect.map(
+export const makeSESClientInstance = Effect.flatMap(
   SESClientInstanceConfig,
-  (config) => new SESClient(config),
+  (config) =>
+    Effect.acquireRelease(
+      Effect.sync(() => new SESClient(config)),
+      (client) => Effect.sync(() => client.destroy()),
+    ),
 );
 
 /**
  * @since 1.0.0
  * @category layers
  */
-export const SESClientInstanceLayer = Layer.effect(
+export const SESClientInstanceLayer = Layer.scoped(
   SESClientInstance,
   makeSESClientInstance,
 );

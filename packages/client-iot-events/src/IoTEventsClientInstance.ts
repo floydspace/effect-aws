@@ -22,16 +22,20 @@ export class IoTEventsClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeIoTEventsClientInstance = Effect.map(
+export const makeIoTEventsClientInstance = Effect.flatMap(
   IoTEventsClientInstanceConfig,
-  (config) => new IoTEventsClient(config),
+  (config) =>
+    Effect.acquireRelease(
+      Effect.sync(() => new IoTEventsClient(config)),
+      (client) => Effect.sync(() => client.destroy()),
+    ),
 );
 
 /**
  * @since 1.0.0
  * @category layers
  */
-export const IoTEventsClientInstanceLayer = Layer.effect(
+export const IoTEventsClientInstanceLayer = Layer.scoped(
   IoTEventsClientInstance,
   makeIoTEventsClientInstance,
 );

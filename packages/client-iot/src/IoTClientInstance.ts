@@ -22,16 +22,20 @@ export class IoTClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeIoTClientInstance = Effect.map(
+export const makeIoTClientInstance = Effect.flatMap(
   IoTClientInstanceConfig,
-  (config) => new IoTClient(config),
+  (config) =>
+    Effect.acquireRelease(
+      Effect.sync(() => new IoTClient(config)),
+      (client) => Effect.sync(() => client.destroy()),
+    ),
 );
 
 /**
  * @since 1.0.0
  * @category layers
  */
-export const IoTClientInstanceLayer = Layer.effect(
+export const IoTClientInstanceLayer = Layer.scoped(
   IoTClientInstance,
   makeIoTClientInstance,
 );

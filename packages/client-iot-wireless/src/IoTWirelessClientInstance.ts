@@ -22,16 +22,20 @@ export class IoTWirelessClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeIoTWirelessClientInstance = Effect.map(
+export const makeIoTWirelessClientInstance = Effect.flatMap(
   IoTWirelessClientInstanceConfig,
-  (config) => new IoTWirelessClient(config),
+  (config) =>
+    Effect.acquireRelease(
+      Effect.sync(() => new IoTWirelessClient(config)),
+      (client) => Effect.sync(() => client.destroy()),
+    ),
 );
 
 /**
  * @since 1.0.0
  * @category layers
  */
-export const IoTWirelessClientInstanceLayer = Layer.effect(
+export const IoTWirelessClientInstanceLayer = Layer.scoped(
   IoTWirelessClientInstance,
   makeIoTWirelessClientInstance,
 );
