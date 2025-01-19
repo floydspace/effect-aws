@@ -9,6 +9,9 @@
       "Data": "test"
     }
   },
+  "client-auto-scaling": {
+    "commandToTest": "DescribeAutoScalingGroups"
+  },
   "client-bedrock": {
     "commandToTest": "ListCustomModels"
   },
@@ -40,6 +43,15 @@
       "Item": { "testAttr": { "S": "test" } }
     }
   },
+  "client-ec2": {
+    "commandToTest": "AcceptAddressTransfer"
+  },
+  "client-ecr": {
+    "commandToTest": "DescribeRepositories"
+  },
+  "client-ecs": {
+    "commandToTest": "ListClusters"
+  },
   "client-elasticache": {
     "commandToTest": "ListTagsForResource",
     "inputToTest": {
@@ -52,6 +64,24 @@
   },
   "client-iam": {
     "commandToTest": "CreateRole"
+  },
+  "client-iot": {
+    "commandToTest": "DescribeJob"
+  },
+  "client-iot-data-plane": {
+    "commandToTest": "Publish"
+  },
+  "client-iot-events": {
+    "commandToTest": "ListInputs"
+  },
+  "client-iot-events-data": {
+    "commandToTest": "DescribeAlarm"
+  },
+  "client-iot-jobs-data-plane": {
+    "commandToTest": "StartCommandExecution"
+  },
+  "client-iot-wireless": {
+    "commandToTest": "ListDestinations"
   },
   "client-kinesis": {
     "commandToTest": "PutRecord"
@@ -75,6 +105,9 @@
   "client-opensearch-serverless": {
     "commandToTest": "ListCollections"
   },
+  "client-organizations": {
+    "commandToTest": "DescribeOrganization"
+  },
   "client-rds": {
     "commandToTest": "DescribeDBClusters"
   },
@@ -93,6 +126,9 @@
     "inputToTest": {
       "SecretId": "test"
     }
+  },
+  "client-ses": {
+    "commandToTest": "SendEmail"
   },
   "client-sfn": {
     "commandToTest": "StartExecution",
@@ -117,6 +153,9 @@
   },
   "client-ssm": {
     "commandToTest": "DescribeParameters"
+  },
+  "client-sts": {
+    "commandToTest": "GetCallerIdentity"
   },
   "client-textract": {
     "commandToTest": "ListAdapters"

@@ -14,6 +14,9 @@ import {
   CreateBucketCommand,
   type CreateBucketCommandInput,
   type CreateBucketCommandOutput,
+  CreateBucketMetadataTableConfigurationCommand,
+  type CreateBucketMetadataTableConfigurationCommandInput,
+  type CreateBucketMetadataTableConfigurationCommandOutput,
   CreateMultipartUploadCommand,
   type CreateMultipartUploadCommandInput,
   type CreateMultipartUploadCommandOutput,
@@ -41,6 +44,9 @@ import {
   DeleteBucketLifecycleCommand,
   type DeleteBucketLifecycleCommandInput,
   type DeleteBucketLifecycleCommandOutput,
+  DeleteBucketMetadataTableConfigurationCommand,
+  type DeleteBucketMetadataTableConfigurationCommandInput,
+  type DeleteBucketMetadataTableConfigurationCommandOutput,
   DeleteBucketMetricsConfigurationCommand,
   type DeleteBucketMetricsConfigurationCommandInput,
   type DeleteBucketMetricsConfigurationCommandOutput,
@@ -101,6 +107,9 @@ import {
   GetBucketLoggingCommand,
   type GetBucketLoggingCommandInput,
   type GetBucketLoggingCommandOutput,
+  GetBucketMetadataTableConfigurationCommand,
+  type GetBucketMetadataTableConfigurationCommandInput,
+  type GetBucketMetadataTableConfigurationCommandOutput,
   GetBucketMetricsConfigurationCommand,
   type GetBucketMetricsConfigurationCommandInput,
   type GetBucketMetricsConfigurationCommandOutput,
@@ -297,7 +306,10 @@ import { Data, Effect, Layer, Record } from "effect";
 import {
   BucketAlreadyExistsError,
   BucketAlreadyOwnedByYouError,
+  EncryptionTypeMismatchError,
   InvalidObjectStateError,
+  InvalidRequestError,
+  InvalidWriteOffsetError,
   NoSuchBucketError,
   NoSuchKeyError,
   NoSuchUploadError,
@@ -307,6 +319,7 @@ import {
   S3ServiceError,
   SdkError,
   TaggedException,
+  TooManyPartsError,
 } from "./Errors";
 import { S3ClientInstance, S3ClientInstanceLayer } from "./S3ClientInstance";
 import {
@@ -331,6 +344,7 @@ const commands = {
   CompleteMultipartUploadCommand,
   CopyObjectCommand,
   CreateBucketCommand,
+  CreateBucketMetadataTableConfigurationCommand,
   CreateMultipartUploadCommand,
   CreateSessionCommand,
   DeleteBucketCommand,
@@ -340,6 +354,7 @@ const commands = {
   DeleteBucketIntelligentTieringConfigurationCommand,
   DeleteBucketInventoryConfigurationCommand,
   DeleteBucketLifecycleCommand,
+  DeleteBucketMetadataTableConfigurationCommand,
   DeleteBucketMetricsConfigurationCommand,
   DeleteBucketOwnershipControlsCommand,
   DeleteBucketPolicyCommand,
@@ -360,6 +375,7 @@ const commands = {
   GetBucketLifecycleConfigurationCommand,
   GetBucketLocationCommand,
   GetBucketLoggingCommand,
+  GetBucketMetadataTableConfigurationCommand,
   GetBucketMetricsConfigurationCommand,
   GetBucketNotificationConfigurationCommand,
   GetBucketOwnershipControlsCommand,
@@ -472,6 +488,17 @@ interface S3Service$ {
   >;
 
   /**
+   * @see {@link CreateBucketMetadataTableConfigurationCommand}
+   */
+  createBucketMetadataTableConfiguration(
+    args: CreateBucketMetadataTableConfigurationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateBucketMetadataTableConfigurationCommandOutput,
+    SdkError | S3ServiceError
+  >;
+
+  /**
    * @see {@link CreateMultipartUploadCommand}
    */
   createMultipartUpload(
@@ -558,6 +585,17 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteBucketLifecycleCommandOutput,
+    SdkError | S3ServiceError
+  >;
+
+  /**
+   * @see {@link DeleteBucketMetadataTableConfigurationCommand}
+   */
+  deleteBucketMetadataTableConfiguration(
+    args: DeleteBucketMetadataTableConfigurationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteBucketMetadataTableConfigurationCommandOutput,
     SdkError | S3ServiceError
   >;
 
@@ -747,6 +785,17 @@ interface S3Service$ {
     args: GetBucketLoggingCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<GetBucketLoggingCommandOutput, SdkError | S3ServiceError>;
+
+  /**
+   * @see {@link GetBucketMetadataTableConfigurationCommand}
+   */
+  getBucketMetadataTableConfiguration(
+    args: GetBucketMetadataTableConfigurationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetBucketMetadataTableConfigurationCommandOutput,
+    SdkError | S3ServiceError
+  >;
 
   /**
    * @see {@link GetBucketMetricsConfigurationCommand}
@@ -1233,7 +1282,14 @@ interface S3Service$ {
   putObject(
     args: PutObjectCommandInput,
     options?: { readonly presigned?: false } & HttpHandlerOptions,
-  ): Effect.Effect<PutObjectCommandOutput, SdkError | S3ServiceError>;
+  ): Effect.Effect<
+    PutObjectCommandOutput,
+    | SdkError
+    | EncryptionTypeMismatchError
+    | InvalidRequestError
+    | InvalidWriteOffsetError
+    | TooManyPartsError
+  >;
   putObject(
     args: PutObjectCommandInput,
     options?: { readonly presigned: true } & RequestPresigningArguments,

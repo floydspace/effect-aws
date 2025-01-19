@@ -846,6 +846,7 @@ interface OrganizationsService$ {
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
     | ConcurrentModificationError
+    | ConstraintViolationError
     | HandshakeConstraintViolationError
     | InvalidInputError
     | ServiceError

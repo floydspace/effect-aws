@@ -146,6 +146,9 @@ import {
   CancelConversionTaskCommand,
   type CancelConversionTaskCommandInput,
   type CancelConversionTaskCommandOutput,
+  CancelDeclarativePoliciesReportCommand,
+  type CancelDeclarativePoliciesReportCommandInput,
+  type CancelDeclarativePoliciesReportCommandOutput,
   CancelExportTaskCommand,
   type CancelExportTaskCommandInput,
   type CancelExportTaskCommandOutput,
@@ -404,6 +407,9 @@ import {
   CreateVolumeCommand,
   type CreateVolumeCommandInput,
   type CreateVolumeCommandOutput,
+  CreateVpcBlockPublicAccessExclusionCommand,
+  type CreateVpcBlockPublicAccessExclusionCommandInput,
+  type CreateVpcBlockPublicAccessExclusionCommandOutput,
   CreateVpcCommand,
   type CreateVpcCommandInput,
   type CreateVpcCommandOutput,
@@ -629,6 +635,9 @@ import {
   DeleteVolumeCommand,
   type DeleteVolumeCommandInput,
   type DeleteVolumeCommandOutput,
+  DeleteVpcBlockPublicAccessExclusionCommand,
+  type DeleteVpcBlockPublicAccessExclusionCommandInput,
+  type DeleteVpcBlockPublicAccessExclusionCommandOutput,
   DeleteVpcCommand,
   type DeleteVpcCommandInput,
   type DeleteVpcCommandOutput,
@@ -704,6 +713,12 @@ import {
   DescribeByoipCidrsCommand,
   type DescribeByoipCidrsCommandInput,
   type DescribeByoipCidrsCommandOutput,
+  DescribeCapacityBlockExtensionHistoryCommand,
+  type DescribeCapacityBlockExtensionHistoryCommandInput,
+  type DescribeCapacityBlockExtensionHistoryCommandOutput,
+  DescribeCapacityBlockExtensionOfferingsCommand,
+  type DescribeCapacityBlockExtensionOfferingsCommandInput,
+  type DescribeCapacityBlockExtensionOfferingsCommandOutput,
   DescribeCapacityBlockOfferingsCommand,
   type DescribeCapacityBlockOfferingsCommandInput,
   type DescribeCapacityBlockOfferingsCommandOutput,
@@ -746,6 +761,9 @@ import {
   DescribeCustomerGatewaysCommand,
   type DescribeCustomerGatewaysCommandInput,
   type DescribeCustomerGatewaysCommandOutput,
+  DescribeDeclarativePoliciesReportsCommand,
+  type DescribeDeclarativePoliciesReportsCommandInput,
+  type DescribeDeclarativePoliciesReportsCommandOutput,
   DescribeDhcpOptionsCommand,
   type DescribeDhcpOptionsCommandInput,
   type DescribeDhcpOptionsCommandOutput,
@@ -1106,12 +1124,21 @@ import {
   DescribeVpcAttributeCommand,
   type DescribeVpcAttributeCommandInput,
   type DescribeVpcAttributeCommandOutput,
+  DescribeVpcBlockPublicAccessExclusionsCommand,
+  type DescribeVpcBlockPublicAccessExclusionsCommandInput,
+  type DescribeVpcBlockPublicAccessExclusionsCommandOutput,
+  DescribeVpcBlockPublicAccessOptionsCommand,
+  type DescribeVpcBlockPublicAccessOptionsCommandInput,
+  type DescribeVpcBlockPublicAccessOptionsCommandOutput,
   DescribeVpcClassicLinkCommand,
   type DescribeVpcClassicLinkCommandInput,
   type DescribeVpcClassicLinkCommandOutput,
   DescribeVpcClassicLinkDnsSupportCommand,
   type DescribeVpcClassicLinkDnsSupportCommandInput,
   type DescribeVpcClassicLinkDnsSupportCommandOutput,
+  DescribeVpcEndpointAssociationsCommand,
+  type DescribeVpcEndpointAssociationsCommandInput,
+  type DescribeVpcEndpointAssociationsCommandOutput,
   DescribeVpcEndpointConnectionNotificationsCommand,
   type DescribeVpcEndpointConnectionNotificationsCommandInput,
   type DescribeVpcEndpointConnectionNotificationsCommandOutput,
@@ -1163,6 +1190,9 @@ import {
   DisableAddressTransferCommand,
   type DisableAddressTransferCommandInput,
   type DisableAddressTransferCommandOutput,
+  DisableAllowedImagesSettingsCommand,
+  type DisableAllowedImagesSettingsCommandInput,
+  type DisableAllowedImagesSettingsCommandOutput,
   DisableAwsNetworkPerformanceMetricSubscriptionCommand,
   type DisableAwsNetworkPerformanceMetricSubscriptionCommandInput,
   type DisableAwsNetworkPerformanceMetricSubscriptionCommandOutput,
@@ -1265,6 +1295,9 @@ import {
   EnableAddressTransferCommand,
   type EnableAddressTransferCommandInput,
   type EnableAddressTransferCommandOutput,
+  EnableAllowedImagesSettingsCommand,
+  type EnableAllowedImagesSettingsCommandInput,
+  type EnableAllowedImagesSettingsCommandOutput,
   EnableAwsNetworkPerformanceMetricSubscriptionCommand,
   type EnableAwsNetworkPerformanceMetricSubscriptionCommandInput,
   type EnableAwsNetworkPerformanceMetricSubscriptionCommandOutput,
@@ -1328,6 +1361,12 @@ import {
   ExportTransitGatewayRoutesCommand,
   type ExportTransitGatewayRoutesCommandInput,
   type ExportTransitGatewayRoutesCommandOutput,
+  ExportVerifiedAccessInstanceClientConfigurationCommand,
+  type ExportVerifiedAccessInstanceClientConfigurationCommandInput,
+  type ExportVerifiedAccessInstanceClientConfigurationCommandOutput,
+  GetAllowedImagesSettingsCommand,
+  type GetAllowedImagesSettingsCommandInput,
+  type GetAllowedImagesSettingsCommandOutput,
   GetAssociatedEnclaveCertificateIamRolesCommand,
   type GetAssociatedEnclaveCertificateIamRolesCommandInput,
   type GetAssociatedEnclaveCertificateIamRolesCommandOutput,
@@ -1349,6 +1388,9 @@ import {
   GetConsoleScreenshotCommand,
   type GetConsoleScreenshotCommandInput,
   type GetConsoleScreenshotCommandOutput,
+  GetDeclarativePoliciesReportSummaryCommand,
+  type GetDeclarativePoliciesReportSummaryCommandInput,
+  type GetDeclarativePoliciesReportSummaryCommandOutput,
   GetDefaultCreditSpecificationCommand,
   type GetDefaultCreditSpecificationCommandInput,
   type GetDefaultCreditSpecificationCommandOutput,
@@ -1463,6 +1505,9 @@ import {
   GetVerifiedAccessEndpointPolicyCommand,
   type GetVerifiedAccessEndpointPolicyCommandInput,
   type GetVerifiedAccessEndpointPolicyCommandOutput,
+  GetVerifiedAccessEndpointTargetsCommand,
+  type GetVerifiedAccessEndpointTargetsCommandInput,
+  type GetVerifiedAccessEndpointTargetsCommandOutput,
   GetVerifiedAccessGroupPolicyCommand,
   type GetVerifiedAccessGroupPolicyCommandInput,
   type GetVerifiedAccessGroupPolicyCommandOutput,
@@ -1568,6 +1613,9 @@ import {
   ModifyInstanceMetadataOptionsCommand,
   type ModifyInstanceMetadataOptionsCommandInput,
   type ModifyInstanceMetadataOptionsCommandOutput,
+  ModifyInstanceNetworkPerformanceOptionsCommand,
+  type ModifyInstanceNetworkPerformanceOptionsCommandInput,
+  type ModifyInstanceNetworkPerformanceOptionsCommandOutput,
   ModifyInstancePlacementCommand,
   type ModifyInstancePlacementCommandInput,
   type ModifyInstancePlacementCommandOutput,
@@ -1667,6 +1715,12 @@ import {
   ModifyVpcAttributeCommand,
   type ModifyVpcAttributeCommandInput,
   type ModifyVpcAttributeCommandOutput,
+  ModifyVpcBlockPublicAccessExclusionCommand,
+  type ModifyVpcBlockPublicAccessExclusionCommandInput,
+  type ModifyVpcBlockPublicAccessExclusionCommandOutput,
+  ModifyVpcBlockPublicAccessOptionsCommand,
+  type ModifyVpcBlockPublicAccessOptionsCommandInput,
+  type ModifyVpcBlockPublicAccessOptionsCommandOutput,
   ModifyVpcEndpointCommand,
   type ModifyVpcEndpointCommandInput,
   type ModifyVpcEndpointCommandOutput,
@@ -1727,6 +1781,9 @@ import {
   PurchaseCapacityBlockCommand,
   type PurchaseCapacityBlockCommandInput,
   type PurchaseCapacityBlockCommandOutput,
+  PurchaseCapacityBlockExtensionCommand,
+  type PurchaseCapacityBlockExtensionCommandInput,
+  type PurchaseCapacityBlockExtensionCommandOutput,
   PurchaseHostReservationCommand,
   type PurchaseHostReservationCommandInput,
   type PurchaseHostReservationCommandOutput,
@@ -1781,6 +1838,9 @@ import {
   ReplaceIamInstanceProfileAssociationCommand,
   type ReplaceIamInstanceProfileAssociationCommandInput,
   type ReplaceIamInstanceProfileAssociationCommandOutput,
+  ReplaceImageCriteriaInAllowedImagesSettingsCommand,
+  type ReplaceImageCriteriaInAllowedImagesSettingsCommandInput,
+  type ReplaceImageCriteriaInAllowedImagesSettingsCommandOutput,
   ReplaceNetworkAclAssociationCommand,
   type ReplaceNetworkAclAssociationCommandInput,
   type ReplaceNetworkAclAssociationCommandOutput,
@@ -1871,6 +1931,9 @@ import {
   SendDiagnosticInterruptCommand,
   type SendDiagnosticInterruptCommandInput,
   type SendDiagnosticInterruptCommandOutput,
+  StartDeclarativePoliciesReportCommand,
+  type StartDeclarativePoliciesReportCommandInput,
+  type StartDeclarativePoliciesReportCommandOutput,
   StartInstancesCommand,
   type StartInstancesCommandInput,
   type StartInstancesCommandOutput,
@@ -1986,6 +2049,7 @@ const commands = {
   CancelCapacityReservationCommand,
   CancelCapacityReservationFleetsCommand,
   CancelConversionTaskCommand,
+  CancelDeclarativePoliciesReportCommand,
   CancelExportTaskCommand,
   CancelImageLaunchPermissionCommand,
   CancelImportTaskCommand,
@@ -2073,6 +2137,7 @@ const commands = {
   CreateVerifiedAccessTrustProviderCommand,
   CreateVolumeCommand,
   CreateVpcCommand,
+  CreateVpcBlockPublicAccessExclusionCommand,
   CreateVpcEndpointCommand,
   CreateVpcEndpointConnectionNotificationCommand,
   CreateVpcEndpointServiceConfigurationCommand,
@@ -2148,6 +2213,7 @@ const commands = {
   DeleteVerifiedAccessTrustProviderCommand,
   DeleteVolumeCommand,
   DeleteVpcCommand,
+  DeleteVpcBlockPublicAccessExclusionCommand,
   DeleteVpcEndpointConnectionNotificationsCommand,
   DeleteVpcEndpointServiceConfigurationsCommand,
   DeleteVpcEndpointsCommand,
@@ -2172,6 +2238,8 @@ const commands = {
   DescribeAwsNetworkPerformanceMetricSubscriptionsCommand,
   DescribeBundleTasksCommand,
   DescribeByoipCidrsCommand,
+  DescribeCapacityBlockExtensionHistoryCommand,
+  DescribeCapacityBlockExtensionOfferingsCommand,
   DescribeCapacityBlockOfferingsCommand,
   DescribeCapacityReservationBillingRequestsCommand,
   DescribeCapacityReservationFleetsCommand,
@@ -2186,6 +2254,7 @@ const commands = {
   DescribeCoipPoolsCommand,
   DescribeConversionTasksCommand,
   DescribeCustomerGatewaysCommand,
+  DescribeDeclarativePoliciesReportsCommand,
   DescribeDhcpOptionsCommand,
   DescribeEgressOnlyInternetGatewaysCommand,
   DescribeElasticGpusCommand,
@@ -2306,8 +2375,11 @@ const commands = {
   DescribeVolumesCommand,
   DescribeVolumesModificationsCommand,
   DescribeVpcAttributeCommand,
+  DescribeVpcBlockPublicAccessExclusionsCommand,
+  DescribeVpcBlockPublicAccessOptionsCommand,
   DescribeVpcClassicLinkCommand,
   DescribeVpcClassicLinkDnsSupportCommand,
+  DescribeVpcEndpointAssociationsCommand,
   DescribeVpcEndpointConnectionNotificationsCommand,
   DescribeVpcEndpointConnectionsCommand,
   DescribeVpcEndpointServiceConfigurationsCommand,
@@ -2325,6 +2397,7 @@ const commands = {
   DetachVolumeCommand,
   DetachVpnGatewayCommand,
   DisableAddressTransferCommand,
+  DisableAllowedImagesSettingsCommand,
   DisableAwsNetworkPerformanceMetricSubscriptionCommand,
   DisableEbsEncryptionByDefaultCommand,
   DisableFastLaunchCommand,
@@ -2358,6 +2431,7 @@ const commands = {
   DisassociateTrunkInterfaceCommand,
   DisassociateVpcCidrBlockCommand,
   EnableAddressTransferCommand,
+  EnableAllowedImagesSettingsCommand,
   EnableAwsNetworkPerformanceMetricSubscriptionCommand,
   EnableEbsEncryptionByDefaultCommand,
   EnableFastLaunchCommand,
@@ -2379,6 +2453,8 @@ const commands = {
   ExportClientVpnClientConfigurationCommand,
   ExportImageCommand,
   ExportTransitGatewayRoutesCommand,
+  ExportVerifiedAccessInstanceClientConfigurationCommand,
+  GetAllowedImagesSettingsCommand,
   GetAssociatedEnclaveCertificateIamRolesCommand,
   GetAssociatedIpv6PoolCidrsCommand,
   GetAwsNetworkPerformanceDataCommand,
@@ -2386,6 +2462,7 @@ const commands = {
   GetCoipPoolUsageCommand,
   GetConsoleOutputCommand,
   GetConsoleScreenshotCommand,
+  GetDeclarativePoliciesReportSummaryCommand,
   GetDefaultCreditSpecificationCommand,
   GetEbsDefaultKmsKeyIdCommand,
   GetEbsEncryptionByDefaultCommand,
@@ -2424,6 +2501,7 @@ const commands = {
   GetTransitGatewayRouteTableAssociationsCommand,
   GetTransitGatewayRouteTablePropagationsCommand,
   GetVerifiedAccessEndpointPolicyCommand,
+  GetVerifiedAccessEndpointTargetsCommand,
   GetVerifiedAccessGroupPolicyCommand,
   GetVpnConnectionDeviceSampleConfigurationCommand,
   GetVpnConnectionDeviceTypesCommand,
@@ -2459,6 +2537,7 @@ const commands = {
   ModifyInstanceMaintenanceOptionsCommand,
   ModifyInstanceMetadataDefaultsCommand,
   ModifyInstanceMetadataOptionsCommand,
+  ModifyInstanceNetworkPerformanceOptionsCommand,
   ModifyInstancePlacementCommand,
   ModifyIpamCommand,
   ModifyIpamPoolCommand,
@@ -2492,6 +2571,8 @@ const commands = {
   ModifyVolumeCommand,
   ModifyVolumeAttributeCommand,
   ModifyVpcAttributeCommand,
+  ModifyVpcBlockPublicAccessExclusionCommand,
+  ModifyVpcBlockPublicAccessOptionsCommand,
   ModifyVpcEndpointCommand,
   ModifyVpcEndpointConnectionNotificationCommand,
   ModifyVpcEndpointServiceConfigurationCommand,
@@ -2512,6 +2593,7 @@ const commands = {
   ProvisionIpamPoolCidrCommand,
   ProvisionPublicIpv4PoolCidrCommand,
   PurchaseCapacityBlockCommand,
+  PurchaseCapacityBlockExtensionCommand,
   PurchaseHostReservationCommand,
   PurchaseReservedInstancesOfferingCommand,
   PurchaseScheduledInstancesCommand,
@@ -2530,6 +2612,7 @@ const commands = {
   ReleaseHostsCommand,
   ReleaseIpamPoolAllocationCommand,
   ReplaceIamInstanceProfileAssociationCommand,
+  ReplaceImageCriteriaInAllowedImagesSettingsCommand,
   ReplaceNetworkAclAssociationCommand,
   ReplaceNetworkAclEntryCommand,
   ReplaceRouteCommand,
@@ -2560,6 +2643,7 @@ const commands = {
   SearchTransitGatewayMulticastGroupsCommand,
   SearchTransitGatewayRoutesCommand,
   SendDiagnosticInterruptCommand,
+  StartDeclarativePoliciesReportCommand,
   StartInstancesCommand,
   StartNetworkInsightsAccessScopeAnalysisCommand,
   StartNetworkInsightsAnalysisCommand,
@@ -3081,6 +3165,17 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelConversionTaskCommandOutput,
+    SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link CancelDeclarativePoliciesReportCommand}
+   */
+  cancelDeclarativePoliciesReport(
+    args: CancelDeclarativePoliciesReportCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CancelDeclarativePoliciesReportCommandOutput,
     SdkError | EC2ServiceError
   >;
 
@@ -3961,6 +4056,17 @@ interface EC2Service$ {
   ): Effect.Effect<CreateVpcCommandOutput, SdkError | EC2ServiceError>;
 
   /**
+   * @see {@link CreateVpcBlockPublicAccessExclusionCommand}
+   */
+  createVpcBlockPublicAccessExclusion(
+    args: CreateVpcBlockPublicAccessExclusionCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateVpcBlockPublicAccessExclusionCommandOutput,
+    SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link CreateVpcEndpointCommand}
    */
   createVpcEndpoint(
@@ -4723,6 +4829,17 @@ interface EC2Service$ {
   ): Effect.Effect<DeleteVpcCommandOutput, SdkError | EC2ServiceError>;
 
   /**
+   * @see {@link DeleteVpcBlockPublicAccessExclusionCommand}
+   */
+  deleteVpcBlockPublicAccessExclusion(
+    args: DeleteVpcBlockPublicAccessExclusionCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteVpcBlockPublicAccessExclusionCommandOutput,
+    SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link DeleteVpcEndpointConnectionNotificationsCommand}
    */
   deleteVpcEndpointConnectionNotifications(
@@ -4972,6 +5089,28 @@ interface EC2Service$ {
   ): Effect.Effect<DescribeByoipCidrsCommandOutput, SdkError | EC2ServiceError>;
 
   /**
+   * @see {@link DescribeCapacityBlockExtensionHistoryCommand}
+   */
+  describeCapacityBlockExtensionHistory(
+    args: DescribeCapacityBlockExtensionHistoryCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeCapacityBlockExtensionHistoryCommandOutput,
+    SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link DescribeCapacityBlockExtensionOfferingsCommand}
+   */
+  describeCapacityBlockExtensionOfferings(
+    args: DescribeCapacityBlockExtensionOfferingsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeCapacityBlockExtensionOfferingsCommandOutput,
+    SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link DescribeCapacityBlockOfferingsCommand}
    */
   describeCapacityBlockOfferings(
@@ -5119,6 +5258,17 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeCustomerGatewaysCommandOutput,
+    SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link DescribeDeclarativePoliciesReportsCommand}
+   */
+  describeDeclarativePoliciesReports(
+    args: DescribeDeclarativePoliciesReportsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeDeclarativePoliciesReportsCommandOutput,
     SdkError | EC2ServiceError
   >;
 
@@ -6386,6 +6536,28 @@ interface EC2Service$ {
   >;
 
   /**
+   * @see {@link DescribeVpcBlockPublicAccessExclusionsCommand}
+   */
+  describeVpcBlockPublicAccessExclusions(
+    args: DescribeVpcBlockPublicAccessExclusionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeVpcBlockPublicAccessExclusionsCommandOutput,
+    SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link DescribeVpcBlockPublicAccessOptionsCommand}
+   */
+  describeVpcBlockPublicAccessOptions(
+    args: DescribeVpcBlockPublicAccessOptionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeVpcBlockPublicAccessOptionsCommandOutput,
+    SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link DescribeVpcClassicLinkCommand}
    */
   describeVpcClassicLink(
@@ -6404,6 +6576,17 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeVpcClassicLinkDnsSupportCommandOutput,
+    SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link DescribeVpcEndpointAssociationsCommand}
+   */
+  describeVpcEndpointAssociations(
+    args: DescribeVpcEndpointAssociationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeVpcEndpointAssociationsCommandOutput,
     SdkError | EC2ServiceError
   >;
 
@@ -6582,6 +6765,17 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisableAddressTransferCommandOutput,
+    SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link DisableAllowedImagesSettingsCommand}
+   */
+  disableAllowedImagesSettings(
+    args: DisableAllowedImagesSettingsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DisableAllowedImagesSettingsCommandOutput,
     SdkError | EC2ServiceError
   >;
 
@@ -6943,6 +7137,17 @@ interface EC2Service$ {
   >;
 
   /**
+   * @see {@link EnableAllowedImagesSettingsCommand}
+   */
+  enableAllowedImagesSettings(
+    args: EnableAllowedImagesSettingsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    EnableAllowedImagesSettingsCommandOutput,
+    SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link EnableAwsNetworkPerformanceMetricSubscriptionCommand}
    */
   enableAwsNetworkPerformanceMetricSubscription(
@@ -7162,6 +7367,28 @@ interface EC2Service$ {
   >;
 
   /**
+   * @see {@link ExportVerifiedAccessInstanceClientConfigurationCommand}
+   */
+  exportVerifiedAccessInstanceClientConfiguration(
+    args: ExportVerifiedAccessInstanceClientConfigurationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ExportVerifiedAccessInstanceClientConfigurationCommandOutput,
+    SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link GetAllowedImagesSettingsCommand}
+   */
+  getAllowedImagesSettings(
+    args: GetAllowedImagesSettingsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetAllowedImagesSettingsCommandOutput,
+    SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link GetAssociatedEnclaveCertificateIamRolesCommand}
    */
   getAssociatedEnclaveCertificateIamRoles(
@@ -7229,6 +7456,17 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetConsoleScreenshotCommandOutput,
+    SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link GetDeclarativePoliciesReportSummaryCommand}
+   */
+  getDeclarativePoliciesReportSummary(
+    args: GetDeclarativePoliciesReportSummaryCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetDeclarativePoliciesReportSummaryCommandOutput,
     SdkError | EC2ServiceError
   >;
 
@@ -7645,6 +7883,17 @@ interface EC2Service$ {
   >;
 
   /**
+   * @see {@link GetVerifiedAccessEndpointTargetsCommand}
+   */
+  getVerifiedAccessEndpointTargets(
+    args: GetVerifiedAccessEndpointTargetsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetVerifiedAccessEndpointTargetsCommandOutput,
+    SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link GetVerifiedAccessGroupPolicyCommand}
    */
   getVerifiedAccessGroupPolicy(
@@ -8003,6 +8252,17 @@ interface EC2Service$ {
   >;
 
   /**
+   * @see {@link ModifyInstanceNetworkPerformanceOptionsCommand}
+   */
+  modifyInstanceNetworkPerformanceOptions(
+    args: ModifyInstanceNetworkPerformanceOptionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ModifyInstanceNetworkPerformanceOptionsCommandOutput,
+    SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link ModifyInstancePlacementCommand}
    */
   modifyInstancePlacement(
@@ -8348,6 +8608,28 @@ interface EC2Service$ {
   ): Effect.Effect<ModifyVpcAttributeCommandOutput, SdkError | EC2ServiceError>;
 
   /**
+   * @see {@link ModifyVpcBlockPublicAccessExclusionCommand}
+   */
+  modifyVpcBlockPublicAccessExclusion(
+    args: ModifyVpcBlockPublicAccessExclusionCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ModifyVpcBlockPublicAccessExclusionCommandOutput,
+    SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link ModifyVpcBlockPublicAccessOptionsCommand}
+   */
+  modifyVpcBlockPublicAccessOptions(
+    args: ModifyVpcBlockPublicAccessOptionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ModifyVpcBlockPublicAccessOptionsCommandOutput,
+    SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link ModifyVpcEndpointCommand}
    */
   modifyVpcEndpoint(
@@ -8553,6 +8835,17 @@ interface EC2Service$ {
   >;
 
   /**
+   * @see {@link PurchaseCapacityBlockExtensionCommand}
+   */
+  purchaseCapacityBlockExtension(
+    args: PurchaseCapacityBlockExtensionCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    PurchaseCapacityBlockExtensionCommandOutput,
+    SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link PurchaseHostReservationCommand}
    */
   purchaseHostReservation(
@@ -8735,6 +9028,17 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ReplaceIamInstanceProfileAssociationCommandOutput,
+    SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link ReplaceImageCriteriaInAllowedImagesSettingsCommand}
+   */
+  replaceImageCriteriaInAllowedImagesSettings(
+    args: ReplaceImageCriteriaInAllowedImagesSettingsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ReplaceImageCriteriaInAllowedImagesSettingsCommandOutput,
     SdkError | EC2ServiceError
   >;
 
@@ -9053,6 +9357,17 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SendDiagnosticInterruptCommandOutput,
+    SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link StartDeclarativePoliciesReportCommand}
+   */
+  startDeclarativePoliciesReport(
+    args: StartDeclarativePoliciesReportCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    StartDeclarativePoliciesReportCommandOutput,
     SdkError | EC2ServiceError
   >;
 

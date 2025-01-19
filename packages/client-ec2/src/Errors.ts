@@ -1,5 +1,5 @@
 import type { EC2ServiceException } from "@aws-sdk/client-ec2";
-import * as Data from "effect/Data";
+import { Data } from "effect";
 
 export type TaggedException<T extends { name: string }> = T & {
   readonly _tag: T["name"];
