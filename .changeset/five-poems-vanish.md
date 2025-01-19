@@ -21,7 +21,6 @@
 "@effect-aws/client-bedrock": minor
 "@effect-aws/client-kinesis": minor
 "@effect-aws/client-lambda": minor
-"@effect-aws/lib-dynamodb": minor
 "@effect-aws/client-ec2": minor
 "@effect-aws/client-ecr": minor
 "@effect-aws/client-ecs": minor
@@ -35,7 +34,7 @@
 "@effect-aws/client-sts": minor
 "@effect-aws/client-mq": minor
 "@effect-aws/client-s3": minor
-"@effect-aws/lib-dynamodb": minor
+"@effect-aws/lib-dynamodb": patch
 ---
 
 Destroy client after layer lifecycle to release idle connections.
