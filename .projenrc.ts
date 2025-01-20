@@ -320,7 +320,7 @@ new TypeScriptLibProject({
   parent: project,
   name: "lambda",
   devDeps: ["@types/aws-lambda"],
-  peerDeps: commonPeerDeps,
+  peerDeps: ["effect@>=3.10.0 <4.0.0", "@effect/platform@>=0.69.0 <1.0.0"],
 });
 
 const secretsManager = new TypeScriptLibProject({
