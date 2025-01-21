@@ -12,6 +12,7 @@
     "docgen.json",
     "LICENSE",
     "project.json",
+    "tsconfig.cjs.json",
     "tsconfig.dev.json",
     "tsconfig.esm.json",
     "tsconfig.json",

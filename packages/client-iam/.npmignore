@@ -5,9 +5,9 @@
 /test/
 /tsconfig.dev.json
 /src/
-!/lib/
-!/lib/**/*.js
-!/lib/**/*.d.ts
+!/build/
+!/build/**/*.js
+!/build/**/*.d.ts
 dist
 /tsconfig.json
 /.github/
@@ -16,5 +16,6 @@ dist
 /.projenrc.js
 tsconfig.tsbuildinfo
 /.eslintrc.json
+/tsconfig.cjs.json
 /tsconfig.esm.json
 /.gitattributes

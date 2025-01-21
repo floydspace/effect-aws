@@ -16,6 +16,7 @@ export class MonorepoProject extends MonorepoTsProject {
   constructor(options: MonorepoProjectOptions) {
     super({
       packageManager: NodePackageManager.PNPM,
+      pnpmVersion: "9.12.3",
       license: "MIT",
       licenseOptions: {
         disableDefaultLicenses: true,
@@ -31,6 +32,9 @@ export class MonorepoProject extends MonorepoTsProject {
     this.addScripts({
       preinstall: `npx only-allow ${this.package.packageManager}`,
     });
+
+    this.package.addEngine("pnpm", ">=9 <10");
+    this.package.addField("packageManager", "pnpm@9.12.3");
 
     // pdk set it as latest which leads to peer warnings, so we need to set as matching the pdk peer version
     this.addDeps(

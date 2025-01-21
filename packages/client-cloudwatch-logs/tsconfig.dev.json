@@ -2,7 +2,7 @@
 {
   "compilerOptions": {
     "alwaysStrict": true,
-    "declaration": true,
+    "declaration": false,
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "inlineSourceMap": true,
@@ -11,7 +11,7 @@
       "es2019",
       "dom"
     ],
-    "module": "CommonJS",
+    "module": "nodenext",
     "noEmitOnError": false,
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
@@ -25,7 +25,7 @@
     "strictPropertyInitialization": true,
     "stripInternal": true,
     "target": "ES2019",
-    "moduleResolution": "node"
+    "moduleResolution": "nodenext"
   },
   "include": [
     "src/**/*.ts",

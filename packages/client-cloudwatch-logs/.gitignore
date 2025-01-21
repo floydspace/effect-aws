@@ -36,10 +36,11 @@ jspm_packages/
 !/tsconfig.json
 !/tsconfig.dev.json
 !/src/
-/lib
+/build
 /dist/
 !/.eslintrc.json
 !/tsconfig.esm.json
+!/tsconfig.cjs.json
 !/project.json
 !/docgen.json
 docs/

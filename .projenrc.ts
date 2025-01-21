@@ -1,6 +1,7 @@
 import { Changesets } from "@floydspace/projen-components";
 import { YamlFile } from "projen";
 import {
+  BuildUtils,
   Docgen,
   MonorepoProject,
   TypeScriptLibProject,
@@ -23,6 +24,8 @@ const project = new MonorepoProject({
 });
 
 new YamlFile(project, ".github/FUNDING.yml", { obj: { github: org } });
+
+new BuildUtils(project);
 
 new Changesets(project, {
   repo: repo,

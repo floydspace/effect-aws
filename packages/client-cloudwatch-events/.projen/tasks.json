@@ -26,7 +26,7 @@
       "description": "Only compile",
       "steps": [
         {
-          "exec": "tsc -b ./tsconfig.json ./tsconfig.esm.json"
+          "exec": "tsc -b ./tsconfig.cjs.json ./tsconfig.esm.json"
         }
       ]
     },
@@ -68,7 +68,12 @@
     },
     "post-compile": {
       "name": "post-compile",
-      "description": "Runs after successful compilation"
+      "description": "Runs after successful compilation",
+      "steps": [
+        {
+          "exec": "build-utils pack-v2"
+        }
+      ]
     },
     "pre-compile": {
       "name": "pre-compile",
