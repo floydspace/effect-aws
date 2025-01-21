@@ -92,16 +92,16 @@ import {
   ResourceNotFoundError,
   SdkError,
   TaggedException,
-} from "./Errors";
+} from "./Errors.js";
 import {
   SecretsManagerClientInstance,
   SecretsManagerClientInstanceLayer,
-} from "./SecretsManagerClientInstance";
+} from "./SecretsManagerClientInstance.js";
 import {
   DefaultSecretsManagerClientConfigLayer,
   makeDefaultSecretsManagerClientInstanceConfig,
   SecretsManagerClientInstanceConfig,
-} from "./SecretsManagerClientInstanceConfig";
+} from "./SecretsManagerClientInstanceConfig.js";
 
 /**
  * @since 1.0.0

@@ -46,12 +46,12 @@ import { Data, Effect, Layer, Record } from "effect";
 import {
   AccountClientInstance,
   AccountClientInstanceLayer,
-} from "./AccountClientInstance";
+} from "./AccountClientInstance.js";
 import {
   DefaultAccountClientConfigLayer,
   makeDefaultAccountClientInstanceConfig,
   AccountClientInstanceConfig,
-} from "./AccountClientInstanceConfig";
+} from "./AccountClientInstanceConfig.js";
 import {
   AllServiceErrors,
   AccessDeniedError,
@@ -62,7 +62,7 @@ import {
   ValidationError,
   SdkError,
   TaggedException,
-} from "./Errors";
+} from "./Errors.js";
 
 /**
  * @since 1.0.0

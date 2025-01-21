@@ -155,13 +155,16 @@ import {
   ValidationError,
   SdkError,
   TaggedException,
-} from "./Errors";
-import { SFNClientInstance, SFNClientInstanceLayer } from "./SFNClientInstance";
+} from "./Errors.js";
+import {
+  SFNClientInstance,
+  SFNClientInstanceLayer,
+} from "./SFNClientInstance.js";
 import {
   DefaultSFNClientConfigLayer,
   makeDefaultSFNClientInstanceConfig,
   SFNClientInstanceConfig,
-} from "./SFNClientInstanceConfig";
+} from "./SFNClientInstanceConfig.js";
 
 /**
  * @since 1.0.0

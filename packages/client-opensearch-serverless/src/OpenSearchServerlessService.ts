@@ -128,16 +128,16 @@ import {
   ValidationError,
   SdkError,
   TaggedException,
-} from "./Errors";
+} from "./Errors.js";
 import {
   OpenSearchServerlessClientInstance,
   OpenSearchServerlessClientInstanceLayer,
-} from "./OpenSearchServerlessClientInstance";
+} from "./OpenSearchServerlessClientInstance.js";
 import {
   DefaultOpenSearchServerlessClientConfigLayer,
   makeDefaultOpenSearchServerlessClientInstanceConfig,
   OpenSearchServerlessClientInstanceConfig,
-} from "./OpenSearchServerlessClientInstanceConfig";
+} from "./OpenSearchServerlessClientInstanceConfig.js";
 
 /**
  * @since 1.0.0

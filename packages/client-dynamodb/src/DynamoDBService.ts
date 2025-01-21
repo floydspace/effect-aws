@@ -181,12 +181,12 @@ import { Data, Effect, Layer, Record } from "effect";
 import {
   DynamoDBClientInstance,
   DynamoDBClientInstanceLayer,
-} from "./DynamoDBClientInstance";
+} from "./DynamoDBClientInstance.js";
 import {
   DefaultDynamoDBClientConfigLayer,
   makeDefaultDynamoDBClientInstanceConfig,
   DynamoDBClientInstanceConfig,
-} from "./DynamoDBClientInstanceConfig";
+} from "./DynamoDBClientInstanceConfig.js";
 import {
   AllServiceErrors,
   BackupInUseError,
@@ -225,7 +225,7 @@ import {
   TransactionInProgressError,
   SdkError,
   TaggedException,
-} from "./Errors";
+} from "./Errors.js";
 
 /**
  * @since 1.0.0

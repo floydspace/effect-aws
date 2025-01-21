@@ -52,16 +52,16 @@ import {
   ThrottlingError,
   SdkError,
   TaggedException,
-} from "./Errors";
+} from "./Errors.js";
 import {
   IoTEventsDataClientInstance,
   IoTEventsDataClientInstanceLayer,
-} from "./IoTEventsDataClientInstance";
+} from "./IoTEventsDataClientInstance.js";
 import {
   DefaultIoTEventsDataClientConfigLayer,
   makeDefaultIoTEventsDataClientInstanceConfig,
   IoTEventsDataClientInstanceConfig,
-} from "./IoTEventsDataClientInstanceConfig";
+} from "./IoTEventsDataClientInstanceConfig.js";
 
 /**
  * @since 1.0.0

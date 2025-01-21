@@ -154,12 +154,15 @@ import {
   type ValidatePullThroughCacheRuleCommandOutput,
 } from "@aws-sdk/client-ecr";
 import { Data, Effect, Layer, Record } from "effect";
-import { ECRClientInstance, ECRClientInstanceLayer } from "./ECRClientInstance";
+import {
+  ECRClientInstance,
+  ECRClientInstanceLayer,
+} from "./ECRClientInstance.js";
 import {
   DefaultECRClientConfigLayer,
   makeDefaultECRClientInstanceConfig,
   ECRClientInstanceConfig,
-} from "./ECRClientInstanceConfig";
+} from "./ECRClientInstanceConfig.js";
 import {
   AllServiceErrors,
   EmptyUploadError,
@@ -204,7 +207,7 @@ import {
   ValidationError,
   SdkError,
   TaggedException,
-} from "./Errors";
+} from "./Errors.js";
 
 /**
  * @since 1.0.0

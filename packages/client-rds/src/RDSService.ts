@@ -642,13 +642,16 @@ import {
   UnsupportedDBEngineVersionFaultError,
   SdkError,
   TaggedException,
-} from "./Errors";
-import { RDSClientInstance, RDSClientInstanceLayer } from "./RDSClientInstance";
+} from "./Errors.js";
+import {
+  RDSClientInstance,
+  RDSClientInstanceLayer,
+} from "./RDSClientInstance.js";
 import {
   DefaultRDSClientConfigLayer,
   makeDefaultRDSClientInstanceConfig,
   RDSClientInstanceConfig,
-} from "./RDSClientInstanceConfig";
+} from "./RDSClientInstanceConfig.js";
 
 /**
  * @since 1.0.0

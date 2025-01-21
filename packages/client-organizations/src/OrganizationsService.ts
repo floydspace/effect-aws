@@ -223,16 +223,16 @@ import {
   UnsupportedAPIEndpointError,
   SdkError,
   TaggedException,
-} from "./Errors";
+} from "./Errors.js";
 import {
   OrganizationsClientInstance,
   OrganizationsClientInstanceLayer,
-} from "./OrganizationsClientInstance";
+} from "./OrganizationsClientInstance.js";
 import {
   DefaultOrganizationsClientConfigLayer,
   makeDefaultOrganizationsClientInstanceConfig,
   OrganizationsClientInstanceConfig,
-} from "./OrganizationsClientInstanceConfig";
+} from "./OrganizationsClientInstanceConfig.js";
 
 /**
  * @since 1.0.0

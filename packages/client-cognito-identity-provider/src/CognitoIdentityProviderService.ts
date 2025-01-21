@@ -349,12 +349,12 @@ import { Data, Effect, Layer, Record } from "effect";
 import {
   CognitoIdentityProviderClientInstance,
   CognitoIdentityProviderClientInstanceLayer,
-} from "./CognitoIdentityProviderClientInstance";
+} from "./CognitoIdentityProviderClientInstance.js";
 import {
   DefaultCognitoIdentityProviderClientConfigLayer,
   makeDefaultCognitoIdentityProviderClientInstanceConfig,
   CognitoIdentityProviderClientInstanceConfig,
-} from "./CognitoIdentityProviderClientInstanceConfig";
+} from "./CognitoIdentityProviderClientInstanceConfig.js";
 import {
   AllServiceErrors,
   AliasExistsError,
@@ -411,7 +411,7 @@ import {
   WebAuthnRelyingPartyMismatchError,
   SdkError,
   TaggedException,
-} from "./Errors";
+} from "./Errors.js";
 
 /**
  * @since 1.0.0

@@ -252,16 +252,16 @@ import {
   ValidationError,
   SdkError,
   TaggedException,
-} from "./Errors";
+} from "./Errors.js";
 import {
   OpenSearchClientInstance,
   OpenSearchClientInstanceLayer,
-} from "./OpenSearchClientInstance";
+} from "./OpenSearchClientInstance.js";
 import {
   DefaultOpenSearchClientConfigLayer,
   makeDefaultOpenSearchClientInstanceConfig,
   OpenSearchClientInstanceConfig,
-} from "./OpenSearchClientInstanceConfig";
+} from "./OpenSearchClientInstanceConfig.js";
 
 /**
  * @since 1.0.0

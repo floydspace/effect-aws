@@ -320,13 +320,13 @@ import {
   SdkError,
   TaggedException,
   TooManyPartsError,
-} from "./Errors";
-import { S3ClientInstance, S3ClientInstanceLayer } from "./S3ClientInstance";
+} from "./Errors.js";
+import { S3ClientInstance, S3ClientInstanceLayer } from "./S3ClientInstance.js";
 import {
   DefaultS3ClientConfigLayer,
   S3ClientInstanceConfig,
   makeDefaultS3ClientInstanceConfig,
-} from "./S3ClientInstanceConfig";
+} from "./S3ClientInstanceConfig.js";
 
 /**
  * @since 1.0.1

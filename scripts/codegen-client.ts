@@ -119,28 +119,31 @@ async function main() {
           choices: operationNames,
         }));
 
-      const { inputToTest } = (singularities as any)[packageName]?.inputToTest
-        ? {
-            inputToTest: JSON.stringify(
-              (singularities as any)[packageName].inputToTest,
-            ),
-          }
-        : await enquirer.prompt({
-            type: "input",
-            name: "inputToTest",
-            message: `Which input do you want to test of ${commandToTest} ? (optional)`,
-            validate: Predicate.or(String.isEmpty)(
-              flow(
-                Effect.succeed,
-                Effect.tryMap({
-                  try: JSON.parse,
-                  catch: constVoid,
-                }),
-                Effect.runSyncExit,
-                Exit.isSuccess,
+      const { inputToTest } =
+        (singularities as any)[packageName]?.inputToTest !== undefined
+          ? {
+              inputToTest: (singularities as any)[packageName].inputToTest
+                ? JSON.stringify(
+                    (singularities as any)[packageName].inputToTest,
+                  )
+                : "",
+            }
+          : await enquirer.prompt({
+              type: "input",
+              name: "inputToTest",
+              message: `Which input do you want to test of ${commandToTest} ? (optional)`,
+              validate: Predicate.or(String.isEmpty)(
+                flow(
+                  Effect.succeed,
+                  Effect.tryMap({
+                    try: JSON.parse,
+                    catch: constVoid,
+                  }),
+                  Effect.runSyncExit,
+                  Exit.isSuccess,
+                ),
               ),
-            ),
-          });
+            });
 
       return [packageName, commandToTest, inputToTest] as const;
     }),
@@ -237,13 +240,11 @@ export const SdkError = Data.tagged<SdkError>("SdkError");
  * @since 1.0.0
  */
 import { ${sdkName}Client } from "@aws-sdk/client-${originalServiceName}";
-import * as Context from "effect/Context";
-import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
+import { Context, Effect, Layer } from "effect";
 import {
   Default${sdkName}ClientConfigLayer,
   ${sdkName}ClientInstanceConfig,
-} from "./${sdkName}ClientInstanceConfig";
+} from "./${sdkName}ClientInstanceConfig.js";
 
 /**
  * @since 1.0.0
@@ -344,10 +345,10 @@ export const Default${sdkName}ClientConfigLayer = Layer.effect(
 
   await writeFile(
     `./packages/client-${serviceName}/src/index.ts`,
-    `export * from "./Errors";
-export * from "./${sdkName}ClientInstance";
-export * from "./${sdkName}ClientInstanceConfig";
-export * from "./${sdkName}Service";
+    `export * from "./Errors.js";
+export * from "./${sdkName}ClientInstance.js";
+export * from "./${sdkName}ClientInstanceConfig.js";
+export * from "./${sdkName}Service.js";
 `,
   );
 
@@ -416,12 +417,12 @@ import { Data, Effect, Layer, Record } from "effect";
 import {
   ${sdkName}ClientInstance,
   ${sdkName}ClientInstanceLayer,
-} from "./${sdkName}ClientInstance";
+} from "./${sdkName}ClientInstance.js";
 import {
   Default${sdkName}ClientConfigLayer,
   makeDefault${sdkName}ClientInstanceConfig,
   ${sdkName}ClientInstanceConfig,
-} from "./${sdkName}ClientInstanceConfig";
+} from "./${sdkName}ClientInstanceConfig.js";
 import {
   AllServiceErrors,
   ${pipe(
@@ -433,7 +434,7 @@ import {
   )},
   SdkError,
   TaggedException,
-} from "./Errors";
+} from "./Errors.js";
 
 /**
  * @since 1.0.0
@@ -614,8 +615,7 @@ export const Default${sdkName}ServiceLayer = ${sdkName}Service.defaultLayer;
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-${originalServiceName}/dist-cjs/runtimeConfig";
 import { mockClient } from "aws-sdk-client-mock";
-import * as Effect from "effect/Effect";
-import * as Exit from "effect/Exit";
+import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { ${sdkName}, SdkError } from "../src";

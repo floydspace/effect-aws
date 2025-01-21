@@ -178,12 +178,12 @@ import { Data, Effect, Layer, Record } from "effect";
 import {
   CloudTrailClientInstance,
   CloudTrailClientInstanceLayer,
-} from "./CloudTrailClientInstance";
+} from "./CloudTrailClientInstance.js";
 import {
   DefaultCloudTrailClientConfigLayer,
   makeDefaultCloudTrailClientInstanceConfig,
   CloudTrailClientInstanceConfig,
-} from "./CloudTrailClientInstanceConfig";
+} from "./CloudTrailClientInstanceConfig.js";
 import {
   AllServiceErrors,
   AccessDeniedError,
@@ -273,7 +273,7 @@ import {
   UnsupportedOperationError,
   SdkError,
   TaggedException,
-} from "./Errors";
+} from "./Errors.js";
 
 /**
  * @since 1.0.0

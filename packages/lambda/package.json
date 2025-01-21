@@ -1,5 +1,11 @@
 {
   "name": "@effect-aws/lambda",
+  "description": "Effectful AWS Lambda handler",
+  "repository": {
+    "type": "git",
+    "url": "github:floydspace/effect-aws",
+    "directory": "packages/lambda"
+  },
   "scripts": {
     "build": "npx projen build",
     "compile": "npx projen compile",
@@ -38,7 +44,7 @@
   },
   "main": "build/cjs/index.js",
   "license": "MIT",
-  "homepage": "https://floydspace.github.io/effect-aws",
+  "homepage": "https://floydspace.github.io/effect-aws/docs/lambda",
   "publishConfig": {
     "access": "public",
     "directory": "dist"

@@ -195,16 +195,16 @@ import {
   ThrottlingError,
   SdkError,
   TaggedException,
-} from "./Errors";
+} from "./Errors.js";
 import {
   EventBridgeClientInstance,
   EventBridgeClientInstanceLayer,
-} from "./EventBridgeClientInstance";
+} from "./EventBridgeClientInstance.js";
 import {
   DefaultEventBridgeClientConfigLayer,
   makeDefaultEventBridgeClientInstanceConfig,
   EventBridgeClientInstanceConfig,
-} from "./EventBridgeClientInstanceConfig";
+} from "./EventBridgeClientInstanceConfig.js";
 
 /**
  * @since 1.0.0

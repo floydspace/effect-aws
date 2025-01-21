@@ -1,5 +1,11 @@
 {
   "name": "@effect-aws/client-iot-data-plane",
+  "description": "Effectful AWS IoT Data Plane client",
+  "repository": {
+    "type": "git",
+    "url": "github:floydspace/effect-aws",
+    "directory": "packages/client-iot-data-plane"
+  },
   "scripts": {
     "build": "npx projen build",
     "compile": "npx projen compile",
@@ -42,7 +48,7 @@
   },
   "main": "build/cjs/index.js",
   "license": "MIT",
-  "homepage": "https://floydspace.github.io/effect-aws",
+  "homepage": "https://floydspace.github.io/effect-aws/docs/client-iot-data-plane",
   "publishConfig": {
     "access": "public",
     "directory": "dist"

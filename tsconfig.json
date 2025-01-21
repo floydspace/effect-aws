@@ -28,6 +28,11 @@
     "target": "ES2019",
     "types": [
       "vitest/globals"
+    ],
+    "plugins": [
+      {
+        "name": "@effect/language-service"
+      }
     ]
   },
   "include": [

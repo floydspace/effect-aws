@@ -1,3 +1,3 @@
-export * from "./DynamoDBDocumentClientInstance";
-export * from "./DynamoDBDocumentClientInstanceConfig";
-export * from "./DynamoDBDocumentService";
+export * from "./DynamoDBDocumentClientInstance.js";
+export * from "./DynamoDBDocumentClientInstanceConfig.js";
+export * from "./DynamoDBDocumentService.js";

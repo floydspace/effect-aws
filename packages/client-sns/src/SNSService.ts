@@ -171,13 +171,16 @@ import {
   VerificationError,
   SdkError,
   TaggedException,
-} from "./Errors";
-import { SNSClientInstance, SNSClientInstanceLayer } from "./SNSClientInstance";
+} from "./Errors.js";
+import {
+  SNSClientInstance,
+  SNSClientInstanceLayer,
+} from "./SNSClientInstance.js";
 import {
   DefaultSNSClientConfigLayer,
   makeDefaultSNSClientInstanceConfig,
   SNSClientInstanceConfig,
-} from "./SNSClientInstanceConfig";
+} from "./SNSClientInstanceConfig.js";
 
 /**
  * @since 1.0.0

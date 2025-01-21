@@ -42,16 +42,16 @@ import {
   UnsupportedDocumentEncodingError,
   SdkError,
   TaggedException,
-} from "./Errors";
+} from "./Errors.js";
 import {
   IoTDataPlaneClientInstance,
   IoTDataPlaneClientInstanceLayer,
-} from "./IoTDataPlaneClientInstance";
+} from "./IoTDataPlaneClientInstance.js";
 import {
   DefaultIoTDataPlaneClientConfigLayer,
   makeDefaultIoTDataPlaneClientInstanceConfig,
   IoTDataPlaneClientInstanceConfig,
-} from "./IoTDataPlaneClientInstanceConfig";
+} from "./IoTDataPlaneClientInstanceConfig.js";
 
 /**
  * @since 1.0.0

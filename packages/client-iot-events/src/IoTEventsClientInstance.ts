@@ -2,13 +2,11 @@
  * @since 1.0.0
  */
 import { IoTEventsClient } from "@aws-sdk/client-iot-events";
-import * as Context from "effect/Context";
-import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
+import { Context, Effect, Layer } from "effect";
 import {
   DefaultIoTEventsClientConfigLayer,
   IoTEventsClientInstanceConfig,
-} from "./IoTEventsClientInstanceConfig";
+} from "./IoTEventsClientInstanceConfig.js";
 
 /**
  * @since 1.0.0

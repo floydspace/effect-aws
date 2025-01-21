@@ -2,13 +2,11 @@
  * @since 1.0.0
  */
 import { KMSClient } from "@aws-sdk/client-kms";
-import * as Context from "effect/Context";
-import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
+import { Context, Effect, Layer } from "effect";
 import {
   DefaultKMSClientConfigLayer,
   KMSClientInstanceConfig,
-} from "./KMSClientInstanceConfig";
+} from "./KMSClientInstanceConfig.js";
 
 /**
  * @since 1.0.0

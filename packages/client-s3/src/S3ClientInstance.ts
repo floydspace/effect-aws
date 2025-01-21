@@ -2,13 +2,11 @@
  * @since 1.0.0
  */
 import { S3Client } from "@aws-sdk/client-s3";
-import * as Context from "effect/Context";
-import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
+import { Context, Effect, Layer } from "effect";
 import {
   DefaultS3ClientConfigLayer,
   S3ClientInstanceConfig,
-} from "./S3ClientInstanceConfig";
+} from "./S3ClientInstanceConfig.js";
 
 /**
  * @since 1.0.0

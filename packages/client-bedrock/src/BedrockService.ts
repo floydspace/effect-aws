@@ -181,12 +181,12 @@ import { Data, Effect, Layer, Record } from "effect";
 import {
   BedrockClientInstance,
   BedrockClientInstanceLayer,
-} from "./BedrockClientInstance";
+} from "./BedrockClientInstance.js";
 import {
   DefaultBedrockClientConfigLayer,
   makeDefaultBedrockClientInstanceConfig,
   BedrockClientInstanceConfig,
-} from "./BedrockClientInstanceConfig";
+} from "./BedrockClientInstanceConfig.js";
 import {
   AllServiceErrors,
   AccessDeniedError,
@@ -200,7 +200,7 @@ import {
   ValidationError,
   SdkError,
   TaggedException,
-} from "./Errors";
+} from "./Errors.js";
 
 /**
  * @since 1.0.0

@@ -22,6 +22,10 @@
       "type": "build"
     },
     {
+      "name": "@effect/language-service",
+      "type": "build"
+    },
+    {
       "name": "@floydspace/projen-components",
       "type": "build"
     },

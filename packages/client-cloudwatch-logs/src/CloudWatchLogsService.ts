@@ -277,12 +277,12 @@ import { Data, Effect, Layer, Record } from "effect";
 import {
   CloudWatchLogsClientInstance,
   CloudWatchLogsClientInstanceLayer,
-} from "./CloudWatchLogsClientInstance";
+} from "./CloudWatchLogsClientInstance.js";
 import {
   DefaultCloudWatchLogsClientConfigLayer,
   makeDefaultCloudWatchLogsClientInstanceConfig,
   CloudWatchLogsClientInstanceConfig,
-} from "./CloudWatchLogsClientInstanceConfig";
+} from "./CloudWatchLogsClientInstanceConfig.js";
 import {
   AllServiceErrors,
   AccessDeniedError,
@@ -304,7 +304,7 @@ import {
   ValidationError,
   SdkError,
   TaggedException,
-} from "./Errors";
+} from "./Errors.js";
 
 /**
  * @since 1.0.0

@@ -98,16 +98,16 @@ import {
   UnsupportedOperationError,
   SdkError,
   TaggedException,
-} from "./Errors";
+} from "./Errors.js";
 import {
   IoTEventsClientInstance,
   IoTEventsClientInstanceLayer,
-} from "./IoTEventsClientInstance";
+} from "./IoTEventsClientInstance.js";
 import {
   DefaultIoTEventsClientConfigLayer,
   makeDefaultIoTEventsClientInstanceConfig,
   IoTEventsClientInstanceConfig,
-} from "./IoTEventsClientInstanceConfig";
+} from "./IoTEventsClientInstanceConfig.js";
 
 /**
  * @since 1.0.0

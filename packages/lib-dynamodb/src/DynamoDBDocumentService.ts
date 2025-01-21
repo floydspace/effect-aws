@@ -69,12 +69,12 @@ import { Data, Effect, Layer, Record } from "effect";
 import {
   DynamoDBDocumentClientInstance,
   DynamoDBDocumentClientInstanceLayer,
-} from "./DynamoDBDocumentClientInstance";
+} from "./DynamoDBDocumentClientInstance.js";
 import {
   DefaultDynamoDBDocumentClientConfigLayer,
   DynamoDBDocumentClientInstanceConfig,
   makeDefaultDynamoDBDocumentClientInstanceConfig,
-} from "./DynamoDBDocumentClientInstanceConfig";
+} from "./DynamoDBDocumentClientInstanceConfig.js";
 
 /**
  * @since 1.3.1

@@ -2,13 +2,11 @@
  * @since 1.0.0
  */
 import { AccountClient } from "@aws-sdk/client-account";
-import * as Context from "effect/Context";
-import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
+import { Context, Effect, Layer } from "effect";
 import {
   DefaultAccountClientConfigLayer,
   AccountClientInstanceConfig,
-} from "./AccountClientInstanceConfig";
+} from "./AccountClientInstanceConfig.js";
 
 /**
  * @since 1.0.0

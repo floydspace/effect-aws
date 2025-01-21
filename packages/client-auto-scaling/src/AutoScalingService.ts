@@ -205,12 +205,12 @@ import { Data, Effect, Layer, Record } from "effect";
 import {
   AutoScalingClientInstance,
   AutoScalingClientInstanceLayer,
-} from "./AutoScalingClientInstance";
+} from "./AutoScalingClientInstance.js";
 import {
   DefaultAutoScalingClientConfigLayer,
   makeDefaultAutoScalingClientInstanceConfig,
   AutoScalingClientInstanceConfig,
-} from "./AutoScalingClientInstanceConfig";
+} from "./AutoScalingClientInstanceConfig.js";
 import {
   AllServiceErrors,
   ActiveInstanceRefreshNotFoundFaultError,
@@ -225,7 +225,7 @@ import {
   ServiceLinkedRoleError,
   SdkError,
   TaggedException,
-} from "./Errors";
+} from "./Errors.js";
 
 /**
  * @since 1.0.0

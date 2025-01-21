@@ -2,9 +2,9 @@
  * @since 1.0.0
  */
 import {
+  CloudWatchServiceException,
   type CloudWatchClient,
   type CloudWatchClientConfig,
-  CloudWatchServiceException,
   DeleteAlarmsCommand,
   type DeleteAlarmsCommandInput,
   type DeleteAlarmsCommandOutput,
@@ -124,12 +124,12 @@ import { Data, Effect, Layer, Record } from "effect";
 import {
   CloudWatchClientInstance,
   CloudWatchClientInstanceLayer,
-} from "./CloudWatchClientInstance";
+} from "./CloudWatchClientInstance.js";
 import {
-  CloudWatchClientInstanceConfig,
   DefaultCloudWatchClientConfigLayer,
   makeDefaultCloudWatchClientInstanceConfig,
-} from "./CloudWatchClientInstanceConfig";
+  CloudWatchClientInstanceConfig,
+} from "./CloudWatchClientInstanceConfig.js";
 import {
   AllServiceErrors,
   ConcurrentModificationError,
@@ -147,7 +147,7 @@ import {
   ResourceNotFoundExceptionError,
   SdkError,
   TaggedException,
-} from "./Errors";
+} from "./Errors.js";
 
 /**
  * @since 1.0.0

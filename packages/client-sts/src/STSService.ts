@@ -46,13 +46,16 @@ import {
   RegionDisabledError,
   SdkError,
   TaggedException,
-} from "./Errors";
-import { STSClientInstance, STSClientInstanceLayer } from "./STSClientInstance";
+} from "./Errors.js";
+import {
+  STSClientInstance,
+  STSClientInstanceLayer,
+} from "./STSClientInstance.js";
 import {
   DefaultSTSClientConfigLayer,
   makeDefaultSTSClientInstanceConfig,
   STSClientInstanceConfig,
-} from "./STSClientInstanceConfig";
+} from "./STSClientInstanceConfig.js";
 
 /**
  * @since 1.0.0

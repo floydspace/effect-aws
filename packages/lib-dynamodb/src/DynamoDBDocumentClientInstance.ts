@@ -10,7 +10,7 @@ import { Context, Effect, Layer } from "effect";
 import {
   DefaultDynamoDBDocumentClientConfigLayer,
   DynamoDBDocumentClientInstanceConfig,
-} from "./DynamoDBDocumentClientInstanceConfig";
+} from "./DynamoDBDocumentClientInstanceConfig.js";
 
 /**
  * @since 1.0.0

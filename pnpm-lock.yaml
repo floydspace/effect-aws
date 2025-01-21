@@ -49,6 +49,9 @@ importers:
       '@effect/docgen':
         specifier: ^0.4.3
         version: 0.4.3(tsx@4.16.5)(typescript@5.4.5)
+      '@effect/language-service':
+        specifier: ^0.2.0
+        version: 0.2.0
       '@floydspace/projen-components':
         specifier: 1.0.0-next.5
         version: 1.0.0-next.5(projen@0.82.8(constructs@10.4.2))
@@ -101,7 +104,7 @@ importers:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.19.14)(typescript@5.4.5)
       tsx:
-        specifier: ~4.16.5
+        specifier: ^4.16.5
         version: 4.16.5
       typescript:
         specifier: ^5.4.2
@@ -3003,6 +3006,9 @@ packages:
     peerDependencies:
       tsx: ^4.1.0
       typescript: ^5.2.2
+
+  '@effect/language-service@0.2.0':
+    resolution: {integrity: sha512-DoK41yKGyQv79o0ca8gxEogMlt+IphXkdCXwgenbQjH1BXKD7tJAr0+VsDhblycQcvQ39f1l9NZN9CBqjM9ALA==}
 
   '@effect/markdown-toc@0.1.0':
     resolution: {integrity: sha512-IRfvvwqQLabVTIw9hhIj4scOGIYPfa13QuEFv+dBWE6p47R+RR0J8jQvfDINFf0Vn80XXVjNRtZxkZpkKXLx2A==}
@@ -8739,6 +8745,8 @@ snapshots:
       prettier: 3.2.5
       tsx: 4.16.5
       typescript: 5.4.5
+
+  '@effect/language-service@0.2.0': {}
 
   '@effect/markdown-toc@0.1.0':
     dependencies:

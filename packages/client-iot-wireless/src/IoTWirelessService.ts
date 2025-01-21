@@ -354,16 +354,16 @@ import {
   ValidationError,
   SdkError,
   TaggedException,
-} from "./Errors";
+} from "./Errors.js";
 import {
   IoTWirelessClientInstance,
   IoTWirelessClientInstanceLayer,
-} from "./IoTWirelessClientInstance";
+} from "./IoTWirelessClientInstance.js";
 import {
   DefaultIoTWirelessClientConfigLayer,
   makeDefaultIoTWirelessClientInstanceConfig,
   IoTWirelessClientInstanceConfig,
-} from "./IoTWirelessClientInstanceConfig";
+} from "./IoTWirelessClientInstanceConfig.js";
 
 /**
  * @since 1.0.0

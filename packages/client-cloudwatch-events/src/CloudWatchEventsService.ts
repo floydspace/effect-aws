@@ -163,12 +163,12 @@ import { Data, Effect, Layer, Record } from "effect";
 import {
   CloudWatchEventsClientInstance,
   CloudWatchEventsClientInstanceLayer,
-} from "./CloudWatchEventsClientInstance";
+} from "./CloudWatchEventsClientInstance.js";
 import {
   DefaultCloudWatchEventsClientConfigLayer,
   makeDefaultCloudWatchEventsClientInstanceConfig,
   CloudWatchEventsClientInstanceConfig,
-} from "./CloudWatchEventsClientInstanceConfig";
+} from "./CloudWatchEventsClientInstanceConfig.js";
 import {
   AllServiceErrors,
   ConcurrentModificationError,
@@ -184,7 +184,7 @@ import {
   ResourceNotFoundError,
   SdkError,
   TaggedException,
-} from "./Errors";
+} from "./Errors.js";
 
 /**
  * @since 1.0.0

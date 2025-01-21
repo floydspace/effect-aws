@@ -253,16 +253,16 @@ import {
   UnsupportedMediaTypeError,
   SdkError,
   TaggedException,
-} from "./Errors";
+} from "./Errors.js";
 import {
   LambdaClientInstance,
   LambdaClientInstanceLayer,
-} from "./LambdaClientInstance";
+} from "./LambdaClientInstance.js";
 import {
   DefaultLambdaClientConfigLayer,
   makeDefaultLambdaClientInstanceConfig,
   LambdaClientInstanceConfig,
-} from "./LambdaClientInstanceConfig";
+} from "./LambdaClientInstanceConfig.js";
 
 /**
  * @since 1.0.0

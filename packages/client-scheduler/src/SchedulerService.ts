@@ -53,16 +53,16 @@ import {
   ValidationError,
   SdkError,
   TaggedException,
-} from "./Errors";
+} from "./Errors.js";
 import {
   SchedulerClientInstance,
   SchedulerClientInstanceLayer,
-} from "./SchedulerClientInstance";
+} from "./SchedulerClientInstance.js";
 import {
   DefaultSchedulerClientConfigLayer,
   makeDefaultSchedulerClientInstanceConfig,
   SchedulerClientInstanceConfig,
-} from "./SchedulerClientInstanceConfig";
+} from "./SchedulerClientInstanceConfig.js";
 
 /**
  * @since 1.0.0

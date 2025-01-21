@@ -26,9 +26,12 @@ export class MonorepoProject extends MonorepoTsProject {
       monorepoUpgradeDeps: false,
       npmProvenance: false,
       ...options,
-      devDeps: [...(options.devDeps ?? []), "only-allow"],
     });
 
+    this.addDevDeps("tsx");
+    this.defaultTask?.reset("tsx .projenrc.ts");
+
+    this.addDevDeps("only-allow");
     this.addScripts({
       preinstall: `npx only-allow ${this.package.packageManager}`,
     });

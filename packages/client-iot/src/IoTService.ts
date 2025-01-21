@@ -854,13 +854,16 @@ import {
   VersionsLimitExceededError,
   SdkError,
   TaggedException,
-} from "./Errors";
-import { IoTClientInstance, IoTClientInstanceLayer } from "./IoTClientInstance";
+} from "./Errors.js";
+import {
+  IoTClientInstance,
+  IoTClientInstanceLayer,
+} from "./IoTClientInstance.js";
 import {
   DefaultIoTClientConfigLayer,
   makeDefaultIoTClientInstanceConfig,
   IoTClientInstanceConfig,
-} from "./IoTClientInstanceConfig";
+} from "./IoTClientInstanceConfig.js";
 
 /**
  * @since 1.0.0

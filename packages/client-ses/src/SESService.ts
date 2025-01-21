@@ -258,13 +258,16 @@ import {
   TrackingOptionsDoesNotExistError,
   SdkError,
   TaggedException,
-} from "./Errors";
-import { SESClientInstance, SESClientInstanceLayer } from "./SESClientInstance";
+} from "./Errors.js";
+import {
+  SESClientInstance,
+  SESClientInstanceLayer,
+} from "./SESClientInstance.js";
 import {
   DefaultSESClientConfigLayer,
   makeDefaultSESClientInstanceConfig,
   SESClientInstanceConfig,
-} from "./SESClientInstanceConfig";
+} from "./SESClientInstanceConfig.js";
 
 /**
  * @since 1.0.0

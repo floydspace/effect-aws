@@ -2,13 +2,11 @@
  * @since 1.0.0
  */
 import { CloudSearchClient } from "@aws-sdk/client-cloudsearch";
-import * as Context from "effect/Context";
-import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
+import { Context, Effect, Layer } from "effect";
 import {
   DefaultCloudSearchClientConfigLayer,
   CloudSearchClientInstanceConfig,
-} from "./CloudSearchClientInstanceConfig";
+} from "./CloudSearchClientInstanceConfig.js";
 
 /**
  * @since 1.0.0

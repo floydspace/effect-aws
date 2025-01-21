@@ -1,5 +1,11 @@
 {
   "name": "@effect-aws/ssm",
+  "description": "Effectful AWS SSM functions",
+  "repository": {
+    "type": "git",
+    "url": "github:floydspace/effect-aws",
+    "directory": "packages/ssm"
+  },
   "scripts": {
     "build": "npx projen build",
     "compile": "npx projen compile",
@@ -41,7 +47,7 @@
   },
   "main": "build/cjs/index.js",
   "license": "MIT",
-  "homepage": "https://floydspace.github.io/effect-aws",
+  "homepage": "https://floydspace.github.io/effect-aws/docs/ssm",
   "publishConfig": {
     "access": "public",
     "directory": "dist"

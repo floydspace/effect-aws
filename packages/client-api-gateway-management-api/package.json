@@ -1,5 +1,11 @@
 {
   "name": "@effect-aws/client-api-gateway-management-api",
+  "description": "Effectful AWS API Gateway Management API client",
+  "repository": {
+    "type": "git",
+    "url": "github:floydspace/effect-aws",
+    "directory": "packages/client-api-gateway-management-api"
+  },
   "scripts": {
     "build": "npx projen build",
     "compile": "npx projen compile",
@@ -42,7 +48,7 @@
   },
   "main": "build/cjs/index.js",
   "license": "MIT",
-  "homepage": "https://floydspace.github.io/effect-aws",
+  "homepage": "https://floydspace.github.io/effect-aws/docs/client-api-gateway-management-api",
   "publishConfig": {
     "access": "public",
     "directory": "dist"

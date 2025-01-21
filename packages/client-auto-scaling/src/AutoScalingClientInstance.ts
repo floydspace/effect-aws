@@ -2,13 +2,11 @@
  * @since 1.0.0
  */
 import { AutoScalingClient } from "@aws-sdk/client-auto-scaling";
-import * as Context from "effect/Context";
-import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
+import { Context, Effect, Layer } from "effect";
 import {
   DefaultAutoScalingClientConfigLayer,
   AutoScalingClientInstanceConfig,
-} from "./AutoScalingClientInstanceConfig";
+} from "./AutoScalingClientInstanceConfig.js";
 
 /**
  * @since 1.0.0

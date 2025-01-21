@@ -108,13 +108,16 @@ import {
   UnsupportedOperationError,
   SdkError,
   TaggedException,
-} from "./Errors";
-import { SQSClientInstance, SQSClientInstanceLayer } from "./SQSClientInstance";
+} from "./Errors.js";
+import {
+  SQSClientInstance,
+  SQSClientInstanceLayer,
+} from "./SQSClientInstance.js";
 import {
   DefaultSQSClientConfigLayer,
   makeDefaultSQSClientInstanceConfig,
   SQSClientInstanceConfig,
-} from "./SQSClientInstanceConfig";
+} from "./SQSClientInstanceConfig.js";
 
 /**
  * @since 1.0.0

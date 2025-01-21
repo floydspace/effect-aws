@@ -536,13 +536,16 @@ import {
   UnrecognizedPublicKeyEncodingError,
   SdkError,
   TaggedException,
-} from "./Errors";
-import { IAMClientInstance, IAMClientInstanceLayer } from "./IAMClientInstance";
+} from "./Errors.js";
+import {
+  IAMClientInstance,
+  IAMClientInstanceLayer,
+} from "./IAMClientInstance.js";
 import {
   DefaultIAMClientConfigLayer,
   makeDefaultIAMClientInstanceConfig,
   IAMClientInstanceConfig,
-} from "./IAMClientInstanceConfig";
+} from "./IAMClientInstanceConfig.js";
 
 /**
  * @since 1.0.0

@@ -19,12 +19,12 @@ import { Data, Effect, Layer, Record } from "effect";
 import {
   ApiGatewayManagementApiClientInstance,
   ApiGatewayManagementApiClientInstanceLayer,
-} from "./ApiGatewayManagementApiClientInstance";
+} from "./ApiGatewayManagementApiClientInstance.js";
 import {
   DefaultApiGatewayManagementApiClientConfigLayer,
   makeDefaultApiGatewayManagementApiClientInstanceConfig,
   ApiGatewayManagementApiClientInstanceConfig,
-} from "./ApiGatewayManagementApiClientInstanceConfig";
+} from "./ApiGatewayManagementApiClientInstanceConfig.js";
 import {
   AllServiceErrors,
   ForbiddenError,
@@ -33,7 +33,7 @@ import {
   PayloadTooLargeError,
   SdkError,
   TaggedException,
-} from "./Errors";
+} from "./Errors.js";
 
 /**
  * @since 1.0.0

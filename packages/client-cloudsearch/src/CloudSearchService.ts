@@ -88,12 +88,12 @@ import { Data, Effect, Layer, Record } from "effect";
 import {
   CloudSearchClientInstance,
   CloudSearchClientInstanceLayer,
-} from "./CloudSearchClientInstance";
+} from "./CloudSearchClientInstance.js";
 import {
   DefaultCloudSearchClientConfigLayer,
   makeDefaultCloudSearchClientInstanceConfig,
   CloudSearchClientInstanceConfig,
-} from "./CloudSearchClientInstanceConfig";
+} from "./CloudSearchClientInstanceConfig.js";
 import {
   AllServiceErrors,
   BaseError,
@@ -106,7 +106,7 @@ import {
   ValidationError,
   SdkError,
   TaggedException,
-} from "./Errors";
+} from "./Errors.js";
 
 /**
  * @since 1.0.0

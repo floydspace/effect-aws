@@ -122,16 +122,16 @@ import {
   ValidationError,
   SdkError,
   TaggedException,
-} from "./Errors";
+} from "./Errors.js";
 import {
   KinesisClientInstance,
   KinesisClientInstanceLayer,
-} from "./KinesisClientInstance";
+} from "./KinesisClientInstance.js";
 import {
   DefaultKinesisClientConfigLayer,
   makeDefaultKinesisClientInstanceConfig,
   KinesisClientInstanceConfig,
-} from "./KinesisClientInstanceConfig";
+} from "./KinesisClientInstanceConfig.js";
 
 /**
  * @since 1.0.0

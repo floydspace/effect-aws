@@ -218,13 +218,16 @@ import {
   XksProxyVpcEndpointServiceNotFoundError,
   SdkError,
   TaggedException,
-} from "./Errors";
-import { KMSClientInstance, KMSClientInstanceLayer } from "./KMSClientInstance";
+} from "./Errors.js";
+import {
+  KMSClientInstance,
+  KMSClientInstanceLayer,
+} from "./KMSClientInstance.js";
 import {
   DefaultKMSClientConfigLayer,
   makeDefaultKMSClientInstanceConfig,
   KMSClientInstanceConfig,
-} from "./KMSClientInstanceConfig";
+} from "./KMSClientInstanceConfig.js";
 
 /**
  * @since 1.0.0

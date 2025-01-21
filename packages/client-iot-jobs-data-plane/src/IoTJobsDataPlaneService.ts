@@ -37,16 +37,16 @@ import {
   ValidationError,
   SdkError,
   TaggedException,
-} from "./Errors";
+} from "./Errors.js";
 import {
   IoTJobsDataPlaneClientInstance,
   IoTJobsDataPlaneClientInstanceLayer,
-} from "./IoTJobsDataPlaneClientInstance";
+} from "./IoTJobsDataPlaneClientInstance.js";
 import {
   DefaultIoTJobsDataPlaneClientConfigLayer,
   makeDefaultIoTJobsDataPlaneClientInstanceConfig,
   IoTJobsDataPlaneClientInstanceConfig,
-} from "./IoTJobsDataPlaneClientInstanceConfig";
+} from "./IoTJobsDataPlaneClientInstanceConfig.js";
 
 /**
  * @since 1.0.0

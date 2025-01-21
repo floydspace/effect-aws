@@ -151,12 +151,12 @@ import { Data, Effect, Layer, Record } from "effect";
 import {
   CodeDeployClientInstance,
   CodeDeployClientInstanceLayer,
-} from "./CodeDeployClientInstance";
+} from "./CodeDeployClientInstance.js";
 import {
   DefaultCodeDeployClientConfigLayer,
   makeDefaultCodeDeployClientInstanceConfig,
   CodeDeployClientInstanceConfig,
-} from "./CodeDeployClientInstanceConfig";
+} from "./CodeDeployClientInstanceConfig.js";
 import {
   AllServiceErrors,
   AlarmsLimitExceededError,
@@ -271,7 +271,7 @@ import {
   UnsupportedActionForDeploymentTypeError,
   SdkError,
   TaggedException,
-} from "./Errors";
+} from "./Errors.js";
 
 /**
  * @since 1.0.0

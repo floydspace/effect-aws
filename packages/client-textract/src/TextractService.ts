@@ -104,16 +104,16 @@ import {
   ValidationError,
   SdkError,
   TaggedException,
-} from "./Errors";
+} from "./Errors.js";
 import {
   TextractClientInstance,
   TextractClientInstanceLayer,
-} from "./TextractClientInstance";
+} from "./TextractClientInstance.js";
 import {
   DefaultTextractClientConfigLayer,
   makeDefaultTextractClientInstanceConfig,
   TextractClientInstanceConfig,
-} from "./TextractClientInstanceConfig";
+} from "./TextractClientInstanceConfig.js";
 
 /**
  * @since 1.0.0

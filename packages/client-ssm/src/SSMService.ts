@@ -578,13 +578,16 @@ import {
   ValidationError,
   SdkError,
   TaggedException,
-} from "./Errors";
-import { SSMClientInstance, SSMClientInstanceLayer } from "./SSMClientInstance";
+} from "./Errors.js";
+import {
+  SSMClientInstance,
+  SSMClientInstanceLayer,
+} from "./SSMClientInstance.js";
 import {
   DefaultSSMClientConfigLayer,
   makeDefaultSSMClientInstanceConfig,
   SSMClientInstanceConfig,
-} from "./SSMClientInstanceConfig";
+} from "./SSMClientInstanceConfig.js";
 
 /**
  * @since 1.0.0

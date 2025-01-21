@@ -2,13 +2,11 @@
  * @since 1.0.0
  */
 import { CloudWatchLogsClient } from "@aws-sdk/client-cloudwatch-logs";
-import * as Context from "effect/Context";
-import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
+import { Context, Effect, Layer } from "effect";
 import {
   DefaultCloudWatchLogsClientConfigLayer,
   CloudWatchLogsClientInstanceConfig,
-} from "./CloudWatchLogsClientInstanceConfig";
+} from "./CloudWatchLogsClientInstanceConfig.js";
 
 /**
  * @since 1.0.0

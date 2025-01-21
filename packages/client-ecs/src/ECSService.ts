@@ -184,12 +184,15 @@ import {
   type UpdateTaskSetCommandOutput,
 } from "@aws-sdk/client-ecs";
 import { Data, Effect, Layer, Record } from "effect";
-import { ECSClientInstance, ECSClientInstanceLayer } from "./ECSClientInstance";
+import {
+  ECSClientInstance,
+  ECSClientInstanceLayer,
+} from "./ECSClientInstance.js";
 import {
   DefaultECSClientConfigLayer,
   makeDefaultECSClientInstanceConfig,
   ECSClientInstanceConfig,
-} from "./ECSClientInstanceConfig";
+} from "./ECSClientInstanceConfig.js";
 import {
   AllServiceErrors,
   AccessDeniedError,
@@ -220,7 +223,7 @@ import {
   UpdateInProgressError,
   SdkError,
   TaggedException,
-} from "./Errors";
+} from "./Errors.js";
 
 /**
  * @since 1.0.0

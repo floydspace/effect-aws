@@ -86,13 +86,13 @@ import {
   UnauthorizedError,
   SdkError,
   TaggedException,
-} from "./Errors";
-import { MqClientInstance, MqClientInstanceLayer } from "./MqClientInstance";
+} from "./Errors.js";
+import { MqClientInstance, MqClientInstanceLayer } from "./MqClientInstance.js";
 import {
   DefaultMqClientConfigLayer,
   makeDefaultMqClientInstanceConfig,
   MqClientInstanceConfig,
-} from "./MqClientInstanceConfig";
+} from "./MqClientInstanceConfig.js";
 
 /**
  * @since 1.0.0

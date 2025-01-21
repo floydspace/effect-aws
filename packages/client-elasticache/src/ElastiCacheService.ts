@@ -235,12 +235,12 @@ import { Data, Effect, Layer, Record } from "effect";
 import {
   ElastiCacheClientInstance,
   ElastiCacheClientInstanceLayer,
-} from "./ElastiCacheClientInstance";
+} from "./ElastiCacheClientInstance.js";
 import {
   DefaultElastiCacheClientConfigLayer,
   makeDefaultElastiCacheClientInstanceConfig,
   ElastiCacheClientInstanceConfig,
-} from "./ElastiCacheClientInstanceConfig";
+} from "./ElastiCacheClientInstanceConfig.js";
 import {
   AllServiceErrors,
   APICallRateForCustomerExceededFaultError,
@@ -321,7 +321,7 @@ import {
   UserQuotaExceededFaultError,
   SdkError,
   TaggedException,
-} from "./Errors";
+} from "./Errors.js";
 
 /**
  * @since 1.0.0

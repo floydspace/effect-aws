@@ -19,8 +19,8 @@ import {
   Logger as Log,
   LogLevel,
 } from "effect";
-import { LoggerInstance, LoggerInstanceLayer } from "./LoggerInstance";
-import { DefaultLoggerOptionsLayer } from "./LoggerOptions";
+import { LoggerInstance, LoggerInstanceLayer } from "./LoggerInstance.js";
+import { DefaultLoggerOptionsLayer } from "./LoggerOptions.js";
 
 const LogLevelThreshold = {
   TRACE: 6,

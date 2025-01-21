@@ -4,7 +4,7 @@
 import type { Context } from "aws-lambda";
 import { Layer, Runtime } from "effect";
 import * as Effect from "effect/Effect";
-import { fromLayer } from "./Runtime";
+import { fromLayer } from "./Runtime.js";
 
 /**
  * @since 1.0.0
