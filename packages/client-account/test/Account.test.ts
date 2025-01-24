@@ -1,8 +1,8 @@
 import {
-  type ListRegionsCommandInput,
-  ListRegionsCommand,
   AccountClient,
   AccountServiceException,
+  ListRegionsCommand,
+  type ListRegionsCommandInput,
 } from "@aws-sdk/client-account";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-account/dist-cjs/runtimeConfig";
@@ -10,7 +10,7 @@ import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { Account, SdkError } from "../src";
+import { Account, SdkError } from "../src/index.js";
 
 const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(AccountClient);

@@ -58,13 +58,6 @@
         "cwd": "packages/client-organizations"
       }
     },
-    "eslint": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "pnpm exec projen eslint",
-        "cwd": "packages/client-organizations"
-      }
-    },
     "test:watch": {
       "executor": "nx:run-commands",
       "options": {

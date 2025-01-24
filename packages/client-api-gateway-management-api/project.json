@@ -58,13 +58,6 @@
         "cwd": "packages/client-api-gateway-management-api"
       }
     },
-    "eslint": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "pnpm exec projen eslint",
-        "cwd": "packages/client-api-gateway-management-api"
-      }
-    },
     "test:watch": {
       "executor": "nx:run-commands",
       "options": {

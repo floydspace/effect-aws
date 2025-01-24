@@ -6,7 +6,7 @@ import {
   MonorepoProject,
   TypeScriptLibProject,
   Vitest,
-} from "./projenrc";
+} from "./projenrc/index.js";
 
 const org = "floydspace";
 const name = "effect-aws";
@@ -43,7 +43,7 @@ project.addScripts({
 });
 project.addDeps("effect@^3.0.0", "enquirer@^2.4.1");
 project.addDevDeps("@effect/language-service");
-project.tsconfig?.file.addOverride("compilerOptions.plugins", [
+project.tsconfigBase?.file.addOverride("compilerOptions.plugins", [
   { name: "@effect/language-service" },
 ]);
 

@@ -1,4 +1,4 @@
-import { Component, JsonFile, TextFile, Project, typescript } from "projen";
+import { Component, JsonFile, Project, TextFile, typescript } from "projen";
 
 export interface VitestOptions {
   sharedSetupFiles?: string[];
@@ -72,7 +72,7 @@ export class Vitest extends Component {
         if (this.options.sharedSetupFiles?.length) {
           new TextFile(subproject, "vitest.config.ts", {
             lines: [
-              'import configShared from "../../vitest.shared";',
+              'import configShared from "../../vitest.shared.js";',
               "",
               "export default configShared;",
               "",

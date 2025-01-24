@@ -1,6 +1,13 @@
-import { MonorepoTsProject, MonorepoTsProjectOptions } from "@aws/pdk/monorepo";
+import type { MonorepoTsProjectOptions } from "@aws/pdk/monorepo";
+import { MonorepoTsProject, NxProject } from "@aws/pdk/monorepo";
 import pdkPackage from "@aws/pdk/package.json";
-import { NodePackageManager } from "projen/lib/javascript";
+import { JsonPatch, typescript } from "projen";
+import {
+  NodePackageManager,
+  TypeScriptModuleResolution,
+  TypescriptConfig,
+  TypescriptConfigExtends,
+} from "projen/lib/javascript";
 
 type PredefinedProps =
   | "defaultReleaseBranch"
@@ -13,6 +20,9 @@ export type MonorepoProjectOptions = Omit<
 >;
 
 export class MonorepoProject extends MonorepoTsProject {
+  readonly tsconfigBase: TypescriptConfig;
+  readonly tsconfigBuild: TypescriptConfig;
+
   constructor(options: MonorepoProjectOptions) {
     super({
       packageManager: NodePackageManager.PNPM,
@@ -25,6 +35,7 @@ export class MonorepoProject extends MonorepoTsProject {
       depsUpgrade: false, // enable it and run `pnpm default && pnpm upgrade` to upgrade projen and monorepo deps
       monorepoUpgradeDeps: false,
       npmProvenance: false,
+      disableTsconfigDev: true,
       ...options,
     });
 
@@ -38,10 +49,195 @@ export class MonorepoProject extends MonorepoTsProject {
 
     this.package.addEngine("pnpm", ">=9 <10");
     this.package.addField("packageManager", "pnpm@9.12.3");
+    this.package.addField("type", "module");
 
     // pdk set it as latest which leads to peer warnings, so we need to set as matching the pdk peer version
     this.addDeps(
       `@aws-cdk/aws-cognito-identitypool-alpha@${pdkPackage.peerDependencies["@aws-cdk/aws-cognito-identitypool-alpha"]}`,
     );
+
+    this.eslint?.eslintTask.exec("eslint --ext .ts .");
+
+    this.tsconfigBase = new TypescriptConfig(this, {
+      fileName: "tsconfig.base.json",
+      compilerOptions: this.tsconfig?.compilerOptions,
+    });
+    this.tsconfigBase.file.addOverride("compilerOptions", {
+      baseUrl: ".",
+      checkJs: false,
+      composite: true,
+      declarationMap: true,
+      downlevelIteration: true,
+      emitDecoratorMetadata: true,
+      forceConsistentCasingInFileNames: true,
+      lib: ["ES2022", "DOM", "DOM.Iterable"],
+      incremental: true,
+      isolatedModules: true,
+      module: "NodeNext",
+      moduleDetection: "force",
+      moduleResolution: "NodeNext",
+      noErrorTruncation: false,
+      noUncheckedIndexedAccess: false,
+      removeComments: false,
+      skipLibCheck: true,
+      target: "ES2022",
+    });
+    this.tsconfigBase.file.addDeletionOverride("exclude");
+    this.tsconfigBase.file.addDeletionOverride("include");
+
+    this.tsconfigBuild = new TypescriptConfig(this, {
+      fileName: "tsconfig.build.json",
+      extends: TypescriptConfigExtends.fromTypescriptConfigs([
+        this.tsconfigBase,
+      ]),
+    });
+    this.tsconfigBuild.file.addDeletionOverride("exclude");
+    this.tsconfigBuild.file.addOverride("include", []);
+  }
+
+  preSynthesize(): void {
+    super.preSynthesize();
+
+    this.tsconfig?.addExtends(this.tsconfigBase);
+    this.tsconfig?.file.addDeletionOverride("compilerOptions");
+    this.tsconfig?.file.addDeletionOverride("exclude");
+    // this.tsconfig?.file.addOverride("include", []);
+
+    if (this.subprojects.length) {
+      this.tsconfigBase.file.addOverride(
+        "compilerOptions.paths",
+        this.subprojects
+          .map((p) => [
+            {
+              alias: `${p.name}`,
+              path: `./packages/${p.outdir.split("/").pop()}/src/index.js`,
+            },
+            {
+              alias: `${p.name}/*`,
+              path: `./packages/${p.outdir.split("/").pop()}/src/*.js`,
+            },
+            {
+              alias: `${p.name}/test/*`,
+              path: `./packages/${p.outdir.split("/").pop()}/test/*.js`,
+            },
+          ])
+          .flat()
+          .reduce((acc, { alias, path }) => ({ ...acc, [alias]: [path] }), {}),
+      );
+      this.tsconfig?.file.addOverride(
+        "references",
+        this.subprojects.map((p) => ({
+          path: `packages/${p.outdir.split("/").pop()}`,
+        })),
+      );
+      this.tsconfigBuild?.file.addOverride(
+        "references",
+        this.subprojects.map((p) => ({
+          path: `packages/${p.outdir.split("/").pop()}/tsconfig.esm.json`,
+        })),
+      );
+    }
+
+    this.subprojects.forEach((subproject) => {
+      if (subproject instanceof typescript.TypeScriptProject) {
+        const implDeps = NxProject.ensure(subproject).implicitDependencies;
+
+        subproject.tsconfig?.addExtends(this.tsconfigBase);
+        subproject.tsconfig?.file.addDeletionOverride("compilerOptions");
+        subproject.tsconfig?.file.addDeletionOverride("exclude");
+        subproject.tsconfig?.file.addOverride("include", []);
+
+        const tsconfigSrc = new TypescriptConfig(subproject, {
+          fileName: "tsconfig.src.json",
+          include: ["src"],
+          compilerOptions: {
+            types: ["node"],
+            outDir: "build/src",
+            tsBuildInfoFile: ".tsbuildinfo/src.tsbuildinfo",
+            rootDir: "src",
+          },
+        });
+        tsconfigSrc.addExtends(this.tsconfigBase);
+        tsconfigSrc.file.addDeletionOverride("exclude");
+        if (implDeps.length) {
+          tsconfigSrc?.file.addToArray(
+            "references",
+            ...implDeps.map((d) => ({ path: `../${d.split("/").pop()}` })),
+          );
+        }
+
+        subproject.tsconfigDev?.addExtends(this.tsconfigBase);
+        subproject.tsconfigDev?.file.patch(
+          JsonPatch.replace("/compilerOptions", {
+            types: ["node"],
+            tsBuildInfoFile: ".tsbuildinfo/test.tsbuildinfo",
+            rootDir: "test",
+            noEmit: true,
+          }),
+        );
+        subproject.tsconfigDev?.file.addDeletionOverride("exclude");
+        subproject.tsconfigDev?.file.addOverride("include", ["test"]);
+        subproject.tsconfigDev?.file.addToArray("references", {
+          path: tsconfigSrc.fileName,
+        });
+        if (implDeps.length) {
+          subproject.tsconfigDev?.file.addToArray(
+            "references",
+            ...implDeps.map((d) => ({ path: `../${d.split("/").pop()}` })),
+          );
+        }
+
+        // Add tsconfig for esm
+        const tsconfigEsm = new TypescriptConfig(subproject, {
+          fileName: "tsconfig.esm.json",
+          compilerOptions: {
+            types: ["node"],
+            tsBuildInfoFile: ".tsbuildinfo/build.tsbuildinfo",
+            outDir: "build/esm",
+            declarationDir: "build/dts",
+            stripInternal: true,
+          },
+        });
+        tsconfigEsm.addExtends(tsconfigSrc);
+        tsconfigEsm.file.addDeletionOverride("exclude");
+        tsconfigEsm.file.addDeletionOverride("include");
+        if (implDeps.length) {
+          tsconfigEsm?.file.addToArray(
+            "references",
+            ...implDeps.map((d) => ({
+              path: `../${d.split("/").pop()}/${tsconfigEsm.fileName}`,
+            })),
+          );
+        }
+
+        // Add tsconfig for cjs
+        const tsconfigCjs = new TypescriptConfig(subproject, {
+          fileName: "tsconfig.cjs.json",
+          compilerOptions: {
+            outDir: "build/cjs",
+            moduleResolution: TypeScriptModuleResolution.NODE,
+            module: "CommonJS",
+          },
+        });
+        tsconfigCjs.addExtends(tsconfigSrc);
+        tsconfigCjs.file.addDeletionOverride("exclude");
+        tsconfigCjs.file.addDeletionOverride("include");
+        if (implDeps.length) {
+          tsconfigCjs?.file.addToArray(
+            "references",
+            ...implDeps.map((d) => ({
+              path: `../${d.split("/").pop()}/${tsconfigCjs.fileName}`,
+            })),
+          );
+        }
+
+        // Build both cjs and esm
+        subproject.compileTask.reset(
+          "tsc -b ./tsconfig.cjs.json ./tsconfig.esm.json",
+        );
+        subproject.addPackageIgnore("/tsconfig.cjs.json");
+        subproject.addPackageIgnore("/tsconfig.esm.json");
+      }
+    });
   }
 }

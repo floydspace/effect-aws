@@ -29,8 +29,6 @@ jspm_packages/
 *.tgz
 .yarn-integrity
 .cache
-!/.prettierignore
-!/.prettierrc.json
 !/.npmrc
 !/test/
 !/tsconfig.json
@@ -38,10 +36,10 @@ jspm_packages/
 !/src/
 /build
 /dist/
-!/.eslintrc.json
+!/project.json
+!/tsconfig.src.json
 !/tsconfig.esm.json
 !/tsconfig.cjs.json
-!/project.json
 !/docgen.json
 docs/
 !/vitest.config.ts

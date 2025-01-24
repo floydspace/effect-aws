@@ -618,7 +618,7 @@ import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { ${sdkName}, SdkError } from "../src";
+import { ${sdkName}, SdkError } from "@effect-aws/client-${serviceName}";
 
 const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(${sdkName}Client);

@@ -35,7 +35,6 @@ jspm_packages/
 !/.npmrc
 !/test/
 !/tsconfig.json
-!/tsconfig.dev.json
 !/src/
 /lib
 /dist/
@@ -44,6 +43,8 @@ jspm_packages/
 !.nx/plugins
 !/nx.json
 !/.nxignore
+!/tsconfig.base.json
+!/tsconfig.build.json
 !/.github/FUNDING.yml
 !/.changeset/config.json
 !/.github/workflows/release.yml

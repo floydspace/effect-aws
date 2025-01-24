@@ -58,13 +58,6 @@
         "cwd": "packages/client-iot-events-data"
       }
     },
-    "eslint": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "pnpm exec projen eslint",
-        "cwd": "packages/client-iot-events-data"
-      }
-    },
     "test:watch": {
       "executor": "nx:run-commands",
       "options": {

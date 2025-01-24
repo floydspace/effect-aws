@@ -3,7 +3,6 @@
 /.prettierignore
 /.prettierrc.json
 /test/
-/tsconfig.dev.json
 /src/
 !/lib/
 !/lib/**/*.js
@@ -16,6 +15,8 @@ dist
 /.projenrc.js
 tsconfig.tsbuildinfo
 /.eslintrc.json
+/tsconfig.base.json
+/tsconfig.build.json
 /.changeset/
 /.gitattributes
 /.projenrc.ts

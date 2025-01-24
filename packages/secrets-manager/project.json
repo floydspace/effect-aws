@@ -58,13 +58,6 @@
         "cwd": "packages/secrets-manager"
       }
     },
-    "eslint": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "pnpm exec projen eslint",
-        "cwd": "packages/secrets-manager"
-      }
-    },
     "test:watch": {
       "executor": "nx:run-commands",
       "options": {

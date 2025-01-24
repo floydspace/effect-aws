@@ -58,13 +58,6 @@
         "cwd": "packages/client-cloudwatch"
       }
     },
-    "eslint": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "pnpm exec projen eslint",
-        "cwd": "packages/client-cloudwatch"
-      }
-    },
     "test:watch": {
       "executor": "nx:run-commands",
       "options": {
