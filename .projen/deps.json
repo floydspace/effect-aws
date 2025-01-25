@@ -1,11 +1,6 @@
 {
   "dependencies": [
     {
-      "name": "@aws/pdk",
-      "version": "^0",
-      "type": "build"
-    },
-    {
       "name": "@changesets/changelog-github",
       "type": "build"
     },
@@ -27,6 +22,7 @@
     },
     {
       "name": "@floydspace/projen-components",
+      "version": "next",
       "type": "build"
     },
     {
@@ -79,11 +75,6 @@
       "type": "build"
     },
     {
-      "name": "nx",
-      "version": "^19",
-      "type": "build"
-    },
-    {
       "name": "only-allow",
       "type": "build"
     },
@@ -93,7 +84,6 @@
     },
     {
       "name": "projen",
-      "version": "^0.82.8",
       "type": "build"
     },
     {
@@ -112,39 +102,6 @@
     {
       "name": "vitest",
       "type": "build"
-    },
-    {
-      "name": "@types/babel__traverse",
-      "version": "7.18.2",
-      "type": "override"
-    },
-    {
-      "name": "@zkochan/js-yaml",
-      "version": "npm:js-yaml@4.1.0",
-      "type": "override"
-    },
-    {
-      "name": "wrap-ansi",
-      "version": "^7.0.0",
-      "type": "override"
-    },
-    {
-      "name": "nx",
-      "version": "^19",
-      "type": "peer"
-    },
-    {
-      "name": "@aws-cdk/aws-cognito-identitypool-alpha",
-      "version": "^2.163.1-alpha.0",
-      "type": "runtime"
-    },
-    {
-      "name": "aws-cdk-lib",
-      "type": "runtime"
-    },
-    {
-      "name": "cdk-nag",
-      "type": "runtime"
     },
     {
       "name": "effect",

@@ -11,9 +11,11 @@ export class Docgen extends Component {
 
     project.addDevDeps("@effect/docgen");
 
-    project.addTask("docgen", {
-      exec: "pnpm exec nx run-many --target=docgen --output-style=stream --nx-bail && node scripts/docs.mjs",
-    });
+    project
+      .addTask("docgen", {
+        exec: "pnpm --recursive --parallel run docgen",
+      })
+      .exec("node scripts/docs.mjs");
   }
 
   preSynthesize(): void {

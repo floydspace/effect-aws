@@ -39,10 +39,6 @@ jspm_packages/
 /lib
 /dist/
 !/.eslintrc.json
-.nx/*
-!.nx/plugins
-!/nx.json
-!/.nxignore
 !/tsconfig.base.json
 !/tsconfig.build.json
 !/.github/FUNDING.yml
