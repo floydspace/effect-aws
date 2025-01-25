@@ -26,7 +26,7 @@
   "devDependencies": {
     "@aws-lambda-powertools/commons": "2.0.0",
     "@aws-lambda-powertools/logger": "2.0.0",
-    "@types/node": "^18",
+    "@types/node": "ts5.4",
     "effect": "3.0.0",
     "typescript": "^5.4.2",
     "vitest": "^2.0.5"

@@ -27,7 +27,7 @@
     "@aws-sdk/client-ssm": "^3",
     "@effect-aws/client-ssm": "workspace:^",
     "@fluffy-spoon/substitute": "^1.208.0",
-    "@types/node": "^18",
+    "@types/node": "ts5.4",
     "effect": "3.0.0",
     "typescript": "^5.4.2",
     "vitest": "^2.0.5"

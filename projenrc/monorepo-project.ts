@@ -22,6 +22,7 @@ export class MonorepoProject extends PnpmMonorepoProject {
 
   constructor(options: MonorepoProjectOptions) {
     super({
+      projenVersion: "0.90.0",
       pnpmVersion: "9.12.3",
       license: "MIT",
       github: true,

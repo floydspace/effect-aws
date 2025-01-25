@@ -16,7 +16,7 @@
     },
     {
       "name": "@types/node",
-      "version": "^18",
+      "version": "ts5.4",
       "type": "build"
     },
     {
