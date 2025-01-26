@@ -25,7 +25,7 @@ export class TypeScriptLibProject extends typescript.TypeScriptProject {
       license: "MIT",
       packageManager: javascript.NodePackageManager.PNPM,
       outdir: `packages/${options.name}`,
-      prettier: false, // Monorepo prettier doesn't work for some reason
+      prettier: false,
       projenVersion: parent?.deps.getDependency("projen").version,
       typescriptVersion: parent?.deps.getDependency("typescript").version,
       package: false, // It will be created by @changesets/cli
@@ -60,37 +60,6 @@ export class TypeScriptLibProject extends typescript.TypeScriptProject {
       { path: "tsconfig.src.json" },
       { path: this.tsconfigDev.fileName },
     ]);
-
-    // // Add tsconfig for esm
-    // new JsonFile(this, "tsconfig.esm.json", {
-    //   obj: {
-    //     extends: "./tsconfig.json",
-    //     compilerOptions: {
-    //       outDir: `${this.libdir}/esm`,
-    //       resolveJsonModule: false, // JSON modules are not supported in esm
-    //       declaration: true,
-    //       declarationDir: `${this.libdir}/dts`,
-    //     },
-    //   },
-    // });
-
-    // // Add tsconfig for cjs
-    // new JsonFile(this, "tsconfig.cjs.json", {
-    //   obj: {
-    //     extends: "./tsconfig.json",
-    //     compilerOptions: {
-    //       outDir: `${this.libdir}/cjs`,
-    //       moduleResolution: javascript.TypeScriptModuleResolution.NODE,
-    //       module: "CommonJS",
-    //     },
-    //   },
-    // });
-
-    // // Build both cjs and esm
-    // this.compileTask.reset("tsc -b ./tsconfig.cjs.json ./tsconfig.esm.json");
-
-    // this.addPackageIgnore("/tsconfig.cjs.json");
-    // this.addPackageIgnore("/tsconfig.esm.json");
 
     this.addFields({
       // Reference to esm index for root imports

@@ -22,8 +22,8 @@ jobs:
           fetch-depth: 0
       - name: Set git identity
         run: |-
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
       - name: Setup Node.js

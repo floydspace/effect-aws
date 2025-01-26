@@ -1,6 +1,7 @@
 import type { PnpmMonorepoProjectOptions } from "@floydspace/projen-components";
 import { LinkableProject, PnpmMonorepoProject } from "@floydspace/projen-components";
-import { JsonPatch, typescript } from "projen";
+import { github, JsonPatch, typescript } from "projen";
+import type { GitIdentity } from "projen/lib/github/task-workflow.js";
 import { TypescriptConfig, TypescriptConfigExtends, TypeScriptModuleResolution } from "projen/lib/javascript";
 
 type PredefinedProps = "packageManager" | "clobber" | "depsUpgrade";
@@ -76,6 +77,18 @@ export class MonorepoProject extends PnpmMonorepoProject {
 
   preSynthesize(): void {
     super.preSynthesize();
+
+    // Set git identity for release workflow to keep the bot's commits consistent
+    const releaseWorkflow = this.node.tryFindChild(`GithubWorkflow#release`) as github.GithubWorkflow;
+    if (releaseWorkflow) {
+      // @ts-ignore - `jobs` is private
+      const jobStep = releaseWorkflow.jobs.release.steps.find((s) => s.name === "Set git identity");
+      const gitIdentity: GitIdentity = {
+        name: "github-actions[bot]",
+        email: "github-actions[bot]@users.noreply.github.com",
+      };
+      jobStep.run = github.WorkflowSteps.setupGitIdentity({ gitIdentity }).run;
+    }
 
     this.tsconfig?.addExtends(this.tsconfigBase);
     this.tsconfig?.file.addDeletionOverride("compilerOptions");
