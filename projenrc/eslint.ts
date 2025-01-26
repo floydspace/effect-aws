@@ -45,7 +45,7 @@ export class Eslint extends Component {
       if (subproject instanceof javascript.NodeProject) {
         const eslintTask = subproject.addTask("eslint", {
           description: "Runs eslint against the codebase",
-          exec: "eslint --fix $@ src test",
+          exec: "eslint $@ src test",
           receiveArgs: true,
         });
         subproject.preCompileTask.spawn(eslintTask);

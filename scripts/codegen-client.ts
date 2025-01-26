@@ -878,5 +878,5 @@ or use \`${sdkName}.baseLayer((default) => new ${sdkName}Client({ ...default, re
 `,
   );
 
-  exec(`pnpm --filter @effect-aws/client-${serviceName} run eslint`);
+  exec(`pnpm --filter @effect-aws/client-${serviceName} run eslint --fix`);
 }

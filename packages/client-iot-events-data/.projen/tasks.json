@@ -39,7 +39,7 @@
       "description": "Runs eslint against the codebase",
       "steps": [
         {
-          "exec": "eslint --fix $@ src test",
+          "exec": "eslint $@ src test",
           "receiveArgs": true
         }
       ]

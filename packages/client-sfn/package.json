@@ -29,8 +29,7 @@
     "aws-sdk-client-mock": "^4.0.2",
     "aws-sdk-client-mock-vitest": "^4.0.0",
     "effect": "3.0.0",
-    "typescript": "^5.4.2",
-    "vitest": "^2.0.5"
+    "typescript": "^5.4.2"
   },
   "peerDependencies": {
     "effect": ">=3.0.0 <4.0.0"

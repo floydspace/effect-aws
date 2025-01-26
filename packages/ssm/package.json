@@ -30,8 +30,7 @@
     "@fluffy-spoon/substitute": "^1.208.0",
     "@types/node": "ts5.4",
     "effect": "3.0.0",
-    "typescript": "^5.4.2",
-    "vitest": "^2.0.5"
+    "typescript": "^5.4.2"
   },
   "peerDependencies": {
     "@effect-aws/client-ssm": "^1.0.0",

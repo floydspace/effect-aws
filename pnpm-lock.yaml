@@ -126,9 +126,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
-      vitest:
-        specifier: ^2.0.5
-        version: 2.0.5(@types/node@22.10.10)
     publishDirectory: dist
 
   packages/client-api-gateway-management-api:
@@ -152,9 +149,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
-      vitest:
-        specifier: ^2.0.5
-        version: 2.0.5(@types/node@22.10.10)
     publishDirectory: dist
 
   packages/client-auto-scaling:
@@ -178,9 +172,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
-      vitest:
-        specifier: ^2.0.5
-        version: 2.0.5(@types/node@22.10.10)
     publishDirectory: dist
 
   packages/client-bedrock:
@@ -204,9 +195,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
-      vitest:
-        specifier: ^2.0.5
-        version: 2.0.5(@types/node@22.10.10)
     publishDirectory: dist
 
   packages/client-cloudsearch:
@@ -230,9 +218,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
-      vitest:
-        specifier: ^2.0.5
-        version: 2.0.5(@types/node@22.10.10)
     publishDirectory: dist
 
   packages/client-cloudtrail:
@@ -256,9 +241,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
-      vitest:
-        specifier: ^2.0.5
-        version: 2.0.5(@types/node@22.10.10)
     publishDirectory: dist
 
   packages/client-cloudwatch:
@@ -282,9 +264,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
-      vitest:
-        specifier: ^2.0.5
-        version: 2.0.5(@types/node@22.10.10)
     publishDirectory: dist
 
   packages/client-cloudwatch-events:
@@ -308,9 +287,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
-      vitest:
-        specifier: ^2.0.5
-        version: 2.0.5(@types/node@22.10.10)
     publishDirectory: dist
 
   packages/client-cloudwatch-logs:
@@ -334,9 +310,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
-      vitest:
-        specifier: ^2.0.5
-        version: 2.0.5(@types/node@22.10.10)
     publishDirectory: dist
 
   packages/client-codedeploy:
@@ -360,9 +333,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
-      vitest:
-        specifier: ^2.0.5
-        version: 2.0.5(@types/node@22.10.10)
     publishDirectory: dist
 
   packages/client-cognito-identity-provider:
@@ -386,9 +356,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
-      vitest:
-        specifier: ^2.0.5
-        version: 2.0.5(@types/node@22.10.10)
     publishDirectory: dist
 
   packages/client-dynamodb:
@@ -412,9 +379,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
-      vitest:
-        specifier: ^2.0.5
-        version: 2.0.5(@types/node@22.10.10)
     publishDirectory: dist
 
   packages/client-ec2:
@@ -438,9 +402,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
-      vitest:
-        specifier: ^2.0.5
-        version: 2.0.5(@types/node@22.10.10)
     publishDirectory: dist
 
   packages/client-ecr:
@@ -464,9 +425,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
-      vitest:
-        specifier: ^2.0.5
-        version: 2.0.5(@types/node@22.10.10)
     publishDirectory: dist
 
   packages/client-ecs:
@@ -490,9 +448,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
-      vitest:
-        specifier: ^2.0.5
-        version: 2.0.5(@types/node@22.10.10)
     publishDirectory: dist
 
   packages/client-elasticache:
@@ -516,9 +471,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
-      vitest:
-        specifier: ^2.0.5
-        version: 2.0.5(@types/node@22.10.10)
     publishDirectory: dist
 
   packages/client-eventbridge:
@@ -542,9 +494,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
-      vitest:
-        specifier: ^2.0.5
-        version: 2.0.5(@types/node@22.10.10)
     publishDirectory: dist
 
   packages/client-iam:
@@ -568,9 +517,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
-      vitest:
-        specifier: ^2.0.5
-        version: 2.0.5(@types/node@22.10.10)
     publishDirectory: dist
 
   packages/client-iot:
@@ -594,9 +540,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
-      vitest:
-        specifier: ^2.0.5
-        version: 2.0.5(@types/node@22.10.10)
     publishDirectory: dist
 
   packages/client-iot-data-plane:
@@ -620,9 +563,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
-      vitest:
-        specifier: ^2.0.5
-        version: 2.0.5(@types/node@22.10.10)
     publishDirectory: dist
 
   packages/client-iot-events:
@@ -646,9 +586,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
-      vitest:
-        specifier: ^2.0.5
-        version: 2.0.5(@types/node@22.10.10)
     publishDirectory: dist
 
   packages/client-iot-events-data:
@@ -672,9 +609,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
-      vitest:
-        specifier: ^2.0.5
-        version: 2.0.5(@types/node@22.10.10)
     publishDirectory: dist
 
   packages/client-iot-jobs-data-plane:
@@ -698,9 +632,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
-      vitest:
-        specifier: ^2.0.5
-        version: 2.0.5(@types/node@22.10.10)
     publishDirectory: dist
 
   packages/client-iot-wireless:
@@ -724,9 +655,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
-      vitest:
-        specifier: ^2.0.5
-        version: 2.0.5(@types/node@22.10.10)
     publishDirectory: dist
 
   packages/client-kinesis:
@@ -750,9 +678,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
-      vitest:
-        specifier: ^2.0.5
-        version: 2.0.5(@types/node@22.10.10)
     publishDirectory: dist
 
   packages/client-kms:
@@ -776,9 +701,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
-      vitest:
-        specifier: ^2.0.5
-        version: 2.0.5(@types/node@22.10.10)
     publishDirectory: dist
 
   packages/client-lambda:
@@ -802,9 +724,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
-      vitest:
-        specifier: ^2.0.5
-        version: 2.0.5(@types/node@22.10.10)
     publishDirectory: dist
 
   packages/client-mq:
@@ -828,9 +747,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
-      vitest:
-        specifier: ^2.0.5
-        version: 2.0.5(@types/node@22.10.10)
     publishDirectory: dist
 
   packages/client-opensearch:
@@ -854,9 +770,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
-      vitest:
-        specifier: ^2.0.5
-        version: 2.0.5(@types/node@22.10.10)
     publishDirectory: dist
 
   packages/client-opensearch-serverless:
@@ -880,9 +793,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
-      vitest:
-        specifier: ^2.0.5
-        version: 2.0.5(@types/node@22.10.10)
     publishDirectory: dist
 
   packages/client-organizations:
@@ -906,9 +816,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
-      vitest:
-        specifier: ^2.0.5
-        version: 2.0.5(@types/node@22.10.10)
     publishDirectory: dist
 
   packages/client-rds:
@@ -932,9 +839,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
-      vitest:
-        specifier: ^2.0.5
-        version: 2.0.5(@types/node@22.10.10)
     publishDirectory: dist
 
   packages/client-s3:
@@ -964,9 +868,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
-      vitest:
-        specifier: ^2.0.5
-        version: 2.0.5(@types/node@22.10.10)
     publishDirectory: dist
 
   packages/client-scheduler:
@@ -990,9 +891,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
-      vitest:
-        specifier: ^2.0.5
-        version: 2.0.5(@types/node@22.10.10)
     publishDirectory: dist
 
   packages/client-secrets-manager:
@@ -1016,9 +914,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
-      vitest:
-        specifier: ^2.0.5
-        version: 2.0.5(@types/node@22.10.10)
     publishDirectory: dist
 
   packages/client-ses:
@@ -1042,9 +937,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
-      vitest:
-        specifier: ^2.0.5
-        version: 2.0.5(@types/node@22.10.10)
     publishDirectory: dist
 
   packages/client-sfn:
@@ -1068,9 +960,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
-      vitest:
-        specifier: ^2.0.5
-        version: 2.0.5(@types/node@22.10.10)
     publishDirectory: dist
 
   packages/client-sns:
@@ -1094,9 +983,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
-      vitest:
-        specifier: ^2.0.5
-        version: 2.0.5(@types/node@22.10.10)
     publishDirectory: dist
 
   packages/client-sqs:
@@ -1120,9 +1006,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
-      vitest:
-        specifier: ^2.0.5
-        version: 2.0.5(@types/node@22.10.10)
     publishDirectory: dist
 
   packages/client-ssm:
@@ -1146,9 +1029,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
-      vitest:
-        specifier: ^2.0.5
-        version: 2.0.5(@types/node@22.10.10)
     publishDirectory: dist
 
   packages/client-sts:
@@ -1172,9 +1052,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
-      vitest:
-        specifier: ^2.0.5
-        version: 2.0.5(@types/node@22.10.10)
     publishDirectory: dist
 
   packages/client-textract:
@@ -1198,9 +1075,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
-      vitest:
-        specifier: ^2.0.5
-        version: 2.0.5(@types/node@22.10.10)
     publishDirectory: dist
 
   packages/lambda:
@@ -1217,9 +1091,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
-      vitest:
-        specifier: ^2.0.5
-        version: 2.0.5(@types/node@22.10.10)
     publishDirectory: dist
 
   packages/lib-dynamodb:
@@ -1249,9 +1120,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
-      vitest:
-        specifier: ^2.0.5
-        version: 2.0.5(@types/node@22.10.10)
     publishDirectory: dist
 
   packages/powertools-logger:
@@ -1271,9 +1139,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
-      vitest:
-        specifier: ^2.0.5
-        version: 2.0.5(@types/node@22.10.10)
     publishDirectory: dist
 
   packages/secrets-manager:
@@ -1296,9 +1161,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
-      vitest:
-        specifier: ^2.0.5
-        version: 2.0.5(@types/node@22.10.10)
     publishDirectory: dist
 
   packages/ssm:
@@ -1321,9 +1183,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
-      vitest:
-        specifier: ^2.0.5
-        version: 2.0.5(@types/node@22.10.10)
     publishDirectory: dist
 
 packages:

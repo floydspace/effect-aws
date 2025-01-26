@@ -29,10 +29,6 @@
       "type": "build"
     },
     {
-      "name": "vitest",
-      "type": "build"
-    },
-    {
       "name": "@effect-aws/client-dynamodb",
       "type": "peer"
     },
