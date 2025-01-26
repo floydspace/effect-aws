@@ -56,7 +56,7 @@ export class TypeScriptLibProject extends typescript.TypeScriptProject {
     this.package.addField("type", "module");
 
     this.tsconfig?.file.addOverride("references", [
-      { path: "tsconfig.esm.json" },
+      { path: "tsconfig.src.json" },
       { path: this.tsconfigDev.fileName },
     ]);
 

@@ -4,7 +4,7 @@
   "include": [],
   "references": [
     {
-      "path": "tsconfig.esm.json"
+      "path": "tsconfig.src.json"
     },
     {
       "path": "tsconfig.dev.json"
