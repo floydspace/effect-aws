@@ -6,11 +6,11 @@ import {
 } from "@aws-sdk/client-iot-events";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-iot-events/dist-cjs/runtimeConfig";
+import { IoTEvents, SdkError } from "@effect-aws/client-iot-events";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { IoTEvents, SdkError } from "../src";
 
 const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(IoTEventsClient);
@@ -75,9 +75,7 @@ describe("IoTEventsClientImpl", () => {
     const result = await pipe(
       program,
       Effect.provide(
-        IoTEvents.baseLayer(
-          () => new IoTEventsClient({ region: "eu-central-1" }),
-        ),
+        IoTEvents.baseLayer(() => new IoTEventsClient({ region: "eu-central-1" })),
       ),
       Effect.runPromiseExit,
     );

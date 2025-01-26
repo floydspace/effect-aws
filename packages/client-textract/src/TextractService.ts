@@ -667,10 +667,7 @@ export const makeTextractService = Effect.gen(function*(_) {
             abortSignal,
           }),
         catch: (e) => {
-          if (
-            e instanceof TextractServiceException &&
-            AllServiceErrors.includes(e.name)
-          ) {
+          if (e instanceof TextractServiceException && AllServiceErrors.includes(e.name)) {
             const ServiceException = Data.tagged<
               TaggedException<TextractServiceException>
             >(e.name);
@@ -704,9 +701,10 @@ export const makeTextractService = Effect.gen(function*(_) {
  * @since 1.0.0
  * @category models
  */
-export class TextractService extends Effect.Tag(
-  "@effect-aws/client-textract/TextractService",
-)<TextractService, TextractService$>() {
+export class TextractService extends Effect.Tag("@effect-aws/client-textract/TextractService")<
+  TextractService,
+  TextractService$
+>() {
   static readonly defaultLayer = Layer.effect(this, makeTextractService).pipe(
     Layer.provide(TextractClientInstanceLayer),
     Layer.provide(DefaultTextractClientConfigLayer),

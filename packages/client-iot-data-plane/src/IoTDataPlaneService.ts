@@ -172,12 +172,7 @@ interface IoTDataPlaneService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PublishCommandOutput,
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | MethodNotAllowedError
-    | ThrottlingError
-    | UnauthorizedError
+    SdkError | InternalFailureError | InvalidRequestError | MethodNotAllowedError | ThrottlingError | UnauthorizedError
   >;
 
   /**
@@ -218,10 +213,7 @@ export const makeIoTDataPlaneService = Effect.gen(function*(_) {
             abortSignal,
           }),
         catch: (e) => {
-          if (
-            e instanceof IoTDataPlaneServiceException &&
-            AllServiceErrors.includes(e.name)
-          ) {
+          if (e instanceof IoTDataPlaneServiceException && AllServiceErrors.includes(e.name)) {
             const ServiceException = Data.tagged<
               TaggedException<IoTDataPlaneServiceException>
             >(e.name);
@@ -255,13 +247,11 @@ export const makeIoTDataPlaneService = Effect.gen(function*(_) {
  * @since 1.0.0
  * @category models
  */
-export class IoTDataPlaneService extends Effect.Tag(
-  "@effect-aws/client-iot-data-plane/IoTDataPlaneService",
-)<IoTDataPlaneService, IoTDataPlaneService$>() {
-  static readonly defaultLayer = Layer.effect(
-    this,
-    makeIoTDataPlaneService,
-  ).pipe(
+export class IoTDataPlaneService extends Effect.Tag("@effect-aws/client-iot-data-plane/IoTDataPlaneService")<
+  IoTDataPlaneService,
+  IoTDataPlaneService$
+>() {
+  static readonly defaultLayer = Layer.effect(this, makeIoTDataPlaneService).pipe(
     Layer.provide(IoTDataPlaneClientInstanceLayer),
     Layer.provide(DefaultIoTDataPlaneClientConfigLayer),
   );

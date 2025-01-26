@@ -6,11 +6,11 @@ import {
 } from "@aws-sdk/client-ecs";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-ecs/dist-cjs/runtimeConfig";
+import { ECS, SdkError } from "@effect-aws/client-ecs";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { ECS, SdkError } from "../src";
 
 const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(ECSClient);

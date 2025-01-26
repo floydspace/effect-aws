@@ -360,10 +360,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AcceptInboundConnectionCommandOutput,
-    | SdkError
-    | DisabledOperationError
-    | LimitExceededError
-    | ResourceNotFoundError
+    SdkError | DisabledOperationError | LimitExceededError | ResourceNotFoundError
   >;
 
   /**
@@ -420,13 +417,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AssociatePackageCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | BaseError
-    | ConflictError
-    | InternalError
-    | ResourceNotFoundError
-    | ValidationError
+    SdkError | AccessDeniedError | BaseError | ConflictError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -471,12 +462,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelDomainConfigChangeCommandOutput,
-    | SdkError
-    | BaseError
-    | DisabledOperationError
-    | InternalError
-    | ResourceNotFoundError
-    | ValidationError
+    SdkError | BaseError | DisabledOperationError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -487,11 +473,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelServiceSoftwareUpdateCommandOutput,
-    | SdkError
-    | BaseError
-    | InternalError
-    | ResourceNotFoundError
-    | ValidationError
+    SdkError | BaseError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -502,13 +484,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateApplicationCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | BaseError
-    | ConflictError
-    | DisabledOperationError
-    | InternalError
-    | ValidationError
+    SdkError | AccessDeniedError | BaseError | ConflictError | DisabledOperationError | InternalError | ValidationError
   >;
 
   /**
@@ -537,11 +513,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateOutboundConnectionCommandOutput,
-    | SdkError
-    | DisabledOperationError
-    | InternalError
-    | LimitExceededError
-    | ResourceAlreadyExistsError
+    SdkError | DisabledOperationError | InternalError | LimitExceededError | ResourceAlreadyExistsError
   >;
 
   /**
@@ -570,13 +542,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateVpcEndpointCommandOutput,
-    | SdkError
-    | BaseError
-    | ConflictError
-    | DisabledOperationError
-    | InternalError
-    | LimitExceededError
-    | ValidationError
+    SdkError | BaseError | ConflictError | DisabledOperationError | InternalError | LimitExceededError | ValidationError
   >;
 
   /**
@@ -622,12 +588,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDirectQueryDataSourceCommandOutput,
-    | SdkError
-    | BaseError
-    | DisabledOperationError
-    | InternalError
-    | ResourceNotFoundError
-    | ValidationError
+    SdkError | BaseError | DisabledOperationError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -638,11 +599,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDomainCommandOutput,
-    | SdkError
-    | BaseError
-    | InternalError
-    | ResourceNotFoundError
-    | ValidationError
+    SdkError | BaseError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -675,13 +632,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeletePackageCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | BaseError
-    | ConflictError
-    | InternalError
-    | ResourceNotFoundError
-    | ValidationError
+    SdkError | AccessDeniedError | BaseError | ConflictError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -692,11 +643,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteVpcEndpointCommandOutput,
-    | SdkError
-    | BaseError
-    | DisabledOperationError
-    | InternalError
-    | ResourceNotFoundError
+    SdkError | BaseError | DisabledOperationError | InternalError | ResourceNotFoundError
   >;
 
   /**
@@ -707,11 +654,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeDomainCommandOutput,
-    | SdkError
-    | BaseError
-    | InternalError
-    | ResourceNotFoundError
-    | ValidationError
+    SdkError | BaseError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -722,11 +665,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeDomainAutoTunesCommandOutput,
-    | SdkError
-    | BaseError
-    | InternalError
-    | ResourceNotFoundError
-    | ValidationError
+    SdkError | BaseError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -737,11 +676,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeDomainChangeProgressCommandOutput,
-    | SdkError
-    | BaseError
-    | InternalError
-    | ResourceNotFoundError
-    | ValidationError
+    SdkError | BaseError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -752,11 +687,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeDomainConfigCommandOutput,
-    | SdkError
-    | BaseError
-    | InternalError
-    | ResourceNotFoundError
-    | ValidationError
+    SdkError | BaseError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -767,12 +698,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeDomainHealthCommandOutput,
-    | SdkError
-    | BaseError
-    | DisabledOperationError
-    | InternalError
-    | ResourceNotFoundError
-    | ValidationError
+    SdkError | BaseError | DisabledOperationError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -811,12 +737,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeDryRunProgressCommandOutput,
-    | SdkError
-    | BaseError
-    | DisabledOperationError
-    | InternalError
-    | ResourceNotFoundError
-    | ValidationError
+    SdkError | BaseError | DisabledOperationError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -866,12 +787,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribePackagesCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | BaseError
-    | InternalError
-    | ResourceNotFoundError
-    | ValidationError
+    SdkError | AccessDeniedError | BaseError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -882,11 +798,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeReservedInstanceOfferingsCommandOutput,
-    | SdkError
-    | DisabledOperationError
-    | InternalError
-    | ResourceNotFoundError
-    | ValidationError
+    SdkError | DisabledOperationError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -897,11 +809,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeReservedInstancesCommandOutput,
-    | SdkError
-    | DisabledOperationError
-    | InternalError
-    | ResourceNotFoundError
-    | ValidationError
+    SdkError | DisabledOperationError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -912,11 +820,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeVpcEndpointsCommandOutput,
-    | SdkError
-    | BaseError
-    | DisabledOperationError
-    | InternalError
-    | ValidationError
+    SdkError | BaseError | DisabledOperationError | InternalError | ValidationError
   >;
 
   /**
@@ -927,13 +831,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DissociatePackageCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | BaseError
-    | ConflictError
-    | InternalError
-    | ResourceNotFoundError
-    | ValidationError
+    SdkError | AccessDeniedError | BaseError | ConflictError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -978,12 +876,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetCompatibleVersionsCommandOutput,
-    | SdkError
-    | BaseError
-    | DisabledOperationError
-    | InternalError
-    | ResourceNotFoundError
-    | ValidationError
+    SdkError | BaseError | DisabledOperationError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -1011,12 +904,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDirectQueryDataSourceCommandOutput,
-    | SdkError
-    | BaseError
-    | DisabledOperationError
-    | InternalError
-    | ResourceNotFoundError
-    | ValidationError
+    SdkError | BaseError | DisabledOperationError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -1027,12 +915,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDomainMaintenanceStatusCommandOutput,
-    | SdkError
-    | BaseError
-    | DisabledOperationError
-    | InternalError
-    | ResourceNotFoundError
-    | ValidationError
+    SdkError | BaseError | DisabledOperationError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -1043,12 +926,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPackageVersionHistoryCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | BaseError
-    | InternalError
-    | ResourceNotFoundError
-    | ValidationError
+    SdkError | AccessDeniedError | BaseError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -1059,12 +937,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetUpgradeHistoryCommandOutput,
-    | SdkError
-    | BaseError
-    | DisabledOperationError
-    | InternalError
-    | ResourceNotFoundError
-    | ValidationError
+    SdkError | BaseError | DisabledOperationError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -1075,12 +948,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetUpgradeStatusCommandOutput,
-    | SdkError
-    | BaseError
-    | DisabledOperationError
-    | InternalError
-    | ResourceNotFoundError
-    | ValidationError
+    SdkError | BaseError | DisabledOperationError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -1125,12 +993,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDirectQueryDataSourcesCommandOutput,
-    | SdkError
-    | BaseError
-    | DisabledOperationError
-    | InternalError
-    | ResourceNotFoundError
-    | ValidationError
+    SdkError | BaseError | DisabledOperationError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -1141,12 +1004,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDomainMaintenancesCommandOutput,
-    | SdkError
-    | BaseError
-    | DisabledOperationError
-    | InternalError
-    | ResourceNotFoundError
-    | ValidationError
+    SdkError | BaseError | DisabledOperationError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -1168,12 +1026,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDomainsForPackageCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | BaseError
-    | InternalError
-    | ResourceNotFoundError
-    | ValidationError
+    SdkError | AccessDeniedError | BaseError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -1184,11 +1037,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListInstanceTypeDetailsCommandOutput,
-    | SdkError
-    | BaseError
-    | InternalError
-    | ResourceNotFoundError
-    | ValidationError
+    SdkError | BaseError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -1199,12 +1048,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListPackagesForDomainCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | BaseError
-    | InternalError
-    | ResourceNotFoundError
-    | ValidationError
+    SdkError | AccessDeniedError | BaseError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -1215,12 +1059,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListScheduledActionsCommandOutput,
-    | SdkError
-    | BaseError
-    | InternalError
-    | InvalidPaginationTokenError
-    | ResourceNotFoundError
-    | ValidationError
+    SdkError | BaseError | InternalError | InvalidPaginationTokenError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -1231,11 +1070,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsCommandOutput,
-    | SdkError
-    | BaseError
-    | InternalError
-    | ResourceNotFoundError
-    | ValidationError
+    SdkError | BaseError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -1246,11 +1081,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListVersionsCommandOutput,
-    | SdkError
-    | BaseError
-    | InternalError
-    | ResourceNotFoundError
-    | ValidationError
+    SdkError | BaseError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -1261,11 +1092,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListVpcEndpointAccessCommandOutput,
-    | SdkError
-    | BaseError
-    | DisabledOperationError
-    | InternalError
-    | ResourceNotFoundError
+    SdkError | BaseError | DisabledOperationError | InternalError | ResourceNotFoundError
   >;
 
   /**
@@ -1287,11 +1114,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListVpcEndpointsForDomainCommandOutput,
-    | SdkError
-    | BaseError
-    | DisabledOperationError
-    | InternalError
-    | ResourceNotFoundError
+    SdkError | BaseError | DisabledOperationError | InternalError | ResourceNotFoundError
   >;
 
   /**
@@ -1341,12 +1164,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RevokeVpcEndpointAccessCommandOutput,
-    | SdkError
-    | BaseError
-    | DisabledOperationError
-    | InternalError
-    | ResourceNotFoundError
-    | ValidationError
+    SdkError | BaseError | DisabledOperationError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -1357,12 +1175,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartDomainMaintenanceCommandOutput,
-    | SdkError
-    | BaseError
-    | DisabledOperationError
-    | InternalError
-    | ResourceNotFoundError
-    | ValidationError
+    SdkError | BaseError | DisabledOperationError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -1373,11 +1186,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartServiceSoftwareUpdateCommandOutput,
-    | SdkError
-    | BaseError
-    | InternalError
-    | ResourceNotFoundError
-    | ValidationError
+    SdkError | BaseError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -1423,12 +1232,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateDirectQueryDataSourceCommandOutput,
-    | SdkError
-    | BaseError
-    | DisabledOperationError
-    | InternalError
-    | ResourceNotFoundError
-    | ValidationError
+    SdkError | BaseError | DisabledOperationError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -1473,12 +1277,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdatePackageScopeCommandOutput,
-    | SdkError
-    | BaseError
-    | DisabledOperationError
-    | InternalError
-    | ResourceNotFoundError
-    | ValidationError
+    SdkError | BaseError | DisabledOperationError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -1551,10 +1350,7 @@ export const makeOpenSearchService = Effect.gen(function*(_) {
             abortSignal,
           }),
         catch: (e) => {
-          if (
-            e instanceof OpenSearchServiceException &&
-            AllServiceErrors.includes(e.name)
-          ) {
+          if (e instanceof OpenSearchServiceException && AllServiceErrors.includes(e.name)) {
             const ServiceException = Data.tagged<
               TaggedException<OpenSearchServiceException>
             >(e.name);
@@ -1588,9 +1384,10 @@ export const makeOpenSearchService = Effect.gen(function*(_) {
  * @since 1.0.0
  * @category models
  */
-export class OpenSearchService extends Effect.Tag(
-  "@effect-aws/client-opensearch/OpenSearchService",
-)<OpenSearchService, OpenSearchService$>() {
+export class OpenSearchService extends Effect.Tag("@effect-aws/client-opensearch/OpenSearchService")<
+  OpenSearchService,
+  OpenSearchService$
+>() {
   static readonly defaultLayer = Layer.effect(this, makeOpenSearchService).pipe(
     Layer.provide(OpenSearchClientInstanceLayer),
     Layer.provide(DefaultOpenSearchClientConfigLayer),

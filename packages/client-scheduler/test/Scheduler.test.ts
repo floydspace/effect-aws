@@ -6,11 +6,11 @@ import {
 } from "@aws-sdk/client-scheduler";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-scheduler/dist-cjs/runtimeConfig";
+import { Scheduler, SdkError } from "@effect-aws/client-scheduler";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { Scheduler, SdkError } from "../src";
 
 const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(SchedulerClient);
@@ -75,9 +75,7 @@ describe("SchedulerClientImpl", () => {
     const result = await pipe(
       program,
       Effect.provide(
-        Scheduler.baseLayer(
-          () => new SchedulerClient({ region: "eu-central-1" }),
-        ),
+        Scheduler.baseLayer(() => new SchedulerClient({ region: "eu-central-1" })),
       ),
       Effect.runPromiseExit,
     );

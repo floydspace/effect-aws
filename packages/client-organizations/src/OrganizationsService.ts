@@ -1045,12 +1045,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListHandshakesForAccountCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | ConcurrentModificationError
-    | InvalidInputError
-    | ServiceError
-    | TooManyRequestsError
+    SdkError | AccessDeniedError | ConcurrentModificationError | InvalidInputError | ServiceError | TooManyRequestsError
   >;
 
   /**
@@ -1369,10 +1364,7 @@ export const makeOrganizationsService = Effect.gen(function*(_) {
             abortSignal,
           }),
         catch: (e) => {
-          if (
-            e instanceof OrganizationsServiceException &&
-            AllServiceErrors.includes(e.name)
-          ) {
+          if (e instanceof OrganizationsServiceException && AllServiceErrors.includes(e.name)) {
             const ServiceException = Data.tagged<
               TaggedException<OrganizationsServiceException>
             >(e.name);
@@ -1406,13 +1398,11 @@ export const makeOrganizationsService = Effect.gen(function*(_) {
  * @since 1.0.0
  * @category models
  */
-export class OrganizationsService extends Effect.Tag(
-  "@effect-aws/client-organizations/OrganizationsService",
-)<OrganizationsService, OrganizationsService$>() {
-  static readonly defaultLayer = Layer.effect(
-    this,
-    makeOrganizationsService,
-  ).pipe(
+export class OrganizationsService extends Effect.Tag("@effect-aws/client-organizations/OrganizationsService")<
+  OrganizationsService,
+  OrganizationsService$
+>() {
+  static readonly defaultLayer = Layer.effect(this, makeOrganizationsService).pipe(
     Layer.provide(OrganizationsClientInstanceLayer),
     Layer.provide(DefaultOrganizationsClientConfigLayer),
   );

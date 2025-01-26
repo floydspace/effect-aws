@@ -787,11 +787,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelCommandCommandOutput,
-    | SdkError
-    | DuplicateInstanceIdError
-    | InternalServerError
-    | InvalidCommandIdError
-    | InvalidInstanceIdError
+    SdkError | DuplicateInstanceIdError | InternalServerError | InvalidCommandIdError | InvalidInstanceIdError
   >;
 
   /**
@@ -888,10 +884,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateMaintenanceWindowCommandOutput,
-    | SdkError
-    | IdempotentParameterMismatchError
-    | InternalServerError
-    | ResourceLimitExceededError
+    SdkError | IdempotentParameterMismatchError | InternalServerError | ResourceLimitExceededError
   >;
 
   /**
@@ -934,10 +927,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreatePatchBaselineCommandOutput,
-    | SdkError
-    | IdempotentParameterMismatchError
-    | InternalServerError
-    | ResourceLimitExceededError
+    SdkError | IdempotentParameterMismatchError | InternalServerError | ResourceLimitExceededError
   >;
 
   /**
@@ -963,11 +953,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteActivationCommandOutput,
-    | SdkError
-    | InternalServerError
-    | InvalidActivationError
-    | InvalidActivationIdError
-    | TooManyUpdatesError
+    SdkError | InternalServerError | InvalidActivationError | InvalidActivationIdError | TooManyUpdatesError
   >;
 
   /**
@@ -994,11 +980,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDocumentCommandOutput,
-    | SdkError
-    | AssociatedInstancesError
-    | InternalServerError
-    | InvalidDocumentError
-    | InvalidDocumentOperationError
+    SdkError | AssociatedInstancesError | InternalServerError | InvalidDocumentError | InvalidDocumentOperationError
   >;
 
   /**
@@ -1047,10 +1029,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteOpsMetadataCommandOutput,
-    | SdkError
-    | InternalServerError
-    | OpsMetadataInvalidArgumentError
-    | OpsMetadataNotFoundError
+    SdkError | InternalServerError | OpsMetadataInvalidArgumentError | OpsMetadataNotFoundError
   >;
 
   /**
@@ -1094,10 +1073,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteResourceDataSyncCommandOutput,
-    | SdkError
-    | InternalServerError
-    | ResourceDataSyncInvalidConfigurationError
-    | ResourceDataSyncNotFoundError
+    SdkError | InternalServerError | ResourceDataSyncInvalidConfigurationError | ResourceDataSyncNotFoundError
   >;
 
   /**
@@ -1211,10 +1187,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeAssociationExecutionsCommandOutput,
-    | SdkError
-    | AssociationDoesNotExistError
-    | InternalServerError
-    | InvalidNextTokenError
+    SdkError | AssociationDoesNotExistError | InternalServerError | InvalidNextTokenError
   >;
 
   /**
@@ -1225,11 +1198,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeAutomationExecutionsCommandOutput,
-    | SdkError
-    | InternalServerError
-    | InvalidFilterKeyError
-    | InvalidFilterValueError
-    | InvalidNextTokenError
+    SdkError | InternalServerError | InvalidFilterKeyError | InvalidFilterValueError | InvalidNextTokenError
   >;
 
   /**
@@ -1267,10 +1236,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeDocumentCommandOutput,
-    | SdkError
-    | InternalServerError
-    | InvalidDocumentError
-    | InvalidDocumentVersionError
+    SdkError | InternalServerError | InvalidDocumentError | InvalidDocumentVersionError
   >;
 
   /**
@@ -1297,10 +1263,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeEffectiveInstanceAssociationsCommandOutput,
-    | SdkError
-    | InternalServerError
-    | InvalidInstanceIdError
-    | InvalidNextTokenError
+    SdkError | InternalServerError | InvalidInstanceIdError | InvalidNextTokenError
   >;
 
   /**
@@ -1311,11 +1274,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeEffectivePatchesForPatchBaselineCommandOutput,
-    | SdkError
-    | DoesNotExistError
-    | InternalServerError
-    | InvalidResourceIdError
-    | UnsupportedOperatingSystemError
+    SdkError | DoesNotExistError | InternalServerError | InvalidResourceIdError | UnsupportedOperatingSystemError
   >;
 
   /**
@@ -1326,10 +1285,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeInstanceAssociationsStatusCommandOutput,
-    | SdkError
-    | InternalServerError
-    | InvalidInstanceIdError
-    | InvalidNextTokenError
+    SdkError | InternalServerError | InvalidInstanceIdError | InvalidNextTokenError
   >;
 
   /**
@@ -1378,11 +1334,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeInstancePatchesCommandOutput,
-    | SdkError
-    | InternalServerError
-    | InvalidFilterError
-    | InvalidInstanceIdError
-    | InvalidNextTokenError
+    SdkError | InternalServerError | InvalidFilterError | InvalidInstanceIdError | InvalidNextTokenError
   >;
 
   /**
@@ -1411,10 +1363,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeInventoryDeletionsCommandOutput,
-    | SdkError
-    | InternalServerError
-    | InvalidDeletionIdError
-    | InvalidNextTokenError
+    SdkError | InternalServerError | InvalidDeletionIdError | InvalidNextTokenError
   >;
 
   /**
@@ -1584,10 +1533,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeSessionsCommandOutput,
-    | SdkError
-    | InternalServerError
-    | InvalidFilterKeyError
-    | InvalidNextTokenError
+    SdkError | InternalServerError | InvalidFilterKeyError | InvalidNextTokenError
   >;
 
   /**
@@ -1625,11 +1571,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetCalendarStateCommandOutput,
-    | SdkError
-    | InternalServerError
-    | InvalidDocumentError
-    | InvalidDocumentTypeError
-    | UnsupportedCalendarError
+    SdkError | InternalServerError | InvalidDocumentError | InvalidDocumentTypeError | UnsupportedCalendarError
   >;
 
   /**
@@ -1678,10 +1620,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDeployablePatchSnapshotForInstanceCommandOutput,
-    | SdkError
-    | InternalServerError
-    | UnsupportedFeatureRequiredError
-    | UnsupportedOperatingSystemError
+    SdkError | InternalServerError | UnsupportedFeatureRequiredError | UnsupportedOperatingSystemError
   >;
 
   /**
@@ -1692,10 +1631,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDocumentCommandOutput,
-    | SdkError
-    | InternalServerError
-    | InvalidDocumentError
-    | InvalidDocumentVersionError
+    SdkError | InternalServerError | InvalidDocumentError | InvalidDocumentVersionError
   >;
 
   /**
@@ -1735,10 +1671,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetInventorySchemaCommandOutput,
-    | SdkError
-    | InternalServerError
-    | InvalidNextTokenError
-    | InvalidTypeNameError
+    SdkError | InternalServerError | InvalidNextTokenError | InvalidTypeNameError
   >;
 
   /**
@@ -1804,10 +1737,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetOpsItemCommandOutput,
-    | SdkError
-    | InternalServerError
-    | OpsItemAccessDeniedError
-    | OpsItemNotFoundError
+    SdkError | InternalServerError | OpsItemAccessDeniedError | OpsItemNotFoundError
   >;
 
   /**
@@ -1818,10 +1748,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetOpsMetadataCommandOutput,
-    | SdkError
-    | InternalServerError
-    | OpsMetadataInvalidArgumentError
-    | OpsMetadataNotFoundError
+    SdkError | InternalServerError | OpsMetadataInvalidArgumentError | OpsMetadataNotFoundError
   >;
 
   /**
@@ -1849,11 +1776,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetParameterCommandOutput,
-    | SdkError
-    | InternalServerError
-    | InvalidKeyIdError
-    | ParameterNotFoundError
-    | ParameterVersionNotFoundError
+    SdkError | InternalServerError | InvalidKeyIdError | ParameterNotFoundError | ParameterVersionNotFoundError
   >;
 
   /**
@@ -1864,11 +1787,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetParameterHistoryCommandOutput,
-    | SdkError
-    | InternalServerError
-    | InvalidKeyIdError
-    | InvalidNextTokenError
-    | ParameterNotFoundError
+    SdkError | InternalServerError | InvalidKeyIdError | InvalidNextTokenError | ParameterNotFoundError
   >;
 
   /**
@@ -1929,10 +1848,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetResourcePoliciesCommandOutput,
-    | SdkError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ResourcePolicyInvalidParameterError
+    SdkError | InternalServerError | ResourceNotFoundError | ResourcePolicyInvalidParameterError
   >;
 
   /**
@@ -1970,10 +1886,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAssociationVersionsCommandOutput,
-    | SdkError
-    | AssociationDoesNotExistError
-    | InternalServerError
-    | InvalidNextTokenError
+    SdkError | AssociationDoesNotExistError | InternalServerError | InvalidNextTokenError
   >;
 
   /**
@@ -2054,11 +1967,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDocumentMetadataHistoryCommandOutput,
-    | SdkError
-    | InternalServerError
-    | InvalidDocumentError
-    | InvalidDocumentVersionError
-    | InvalidNextTokenError
+    SdkError | InternalServerError | InvalidDocumentError | InvalidDocumentVersionError | InvalidNextTokenError
   >;
 
   /**
@@ -2069,10 +1978,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDocumentVersionsCommandOutput,
-    | SdkError
-    | InternalServerError
-    | InvalidDocumentError
-    | InvalidNextTokenError
+    SdkError | InternalServerError | InvalidDocumentError | InvalidNextTokenError
   >;
 
   /**
@@ -2083,10 +1989,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDocumentsCommandOutput,
-    | SdkError
-    | InternalServerError
-    | InvalidFilterKeyError
-    | InvalidNextTokenError
+    SdkError | InternalServerError | InvalidFilterKeyError | InvalidNextTokenError
   >;
 
   /**
@@ -2146,11 +2049,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListOpsItemEventsCommandOutput,
-    | SdkError
-    | InternalServerError
-    | OpsItemInvalidParameterError
-    | OpsItemLimitExceededError
-    | OpsItemNotFoundError
+    SdkError | InternalServerError | OpsItemInvalidParameterError | OpsItemLimitExceededError | OpsItemNotFoundError
   >;
 
   /**
@@ -2194,10 +2093,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListResourceDataSyncCommandOutput,
-    | SdkError
-    | InternalServerError
-    | InvalidNextTokenError
-    | ResourceDataSyncInvalidConfigurationError
+    SdkError | InternalServerError | InvalidNextTokenError | ResourceDataSyncInvalidConfigurationError
   >;
 
   /**
@@ -2208,10 +2104,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsForResourceCommandOutput,
-    | SdkError
-    | InternalServerError
-    | InvalidResourceIdError
-    | InvalidResourceTypeError
+    SdkError | InternalServerError | InvalidResourceIdError | InvalidResourceTypeError
   >;
 
   /**
@@ -2350,11 +2243,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RegisterTargetWithMaintenanceWindowCommandOutput,
-    | SdkError
-    | DoesNotExistError
-    | IdempotentParameterMismatchError
-    | InternalServerError
-    | ResourceLimitExceededError
+    SdkError | DoesNotExistError | IdempotentParameterMismatchError | InternalServerError | ResourceLimitExceededError
   >;
 
   /**
@@ -2381,11 +2270,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RemoveTagsFromResourceCommandOutput,
-    | SdkError
-    | InternalServerError
-    | InvalidResourceIdError
-    | InvalidResourceTypeError
-    | TooManyUpdatesError
+    SdkError | InternalServerError | InvalidResourceIdError | InvalidResourceTypeError | TooManyUpdatesError
   >;
 
   /**
@@ -2396,10 +2281,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ResetServiceSettingCommandOutput,
-    | SdkError
-    | InternalServerError
-    | ServiceSettingNotFoundError
-    | TooManyUpdatesError
+    SdkError | InternalServerError | ServiceSettingNotFoundError | TooManyUpdatesError
   >;
 
   /**
@@ -2516,10 +2398,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartSessionCommandOutput,
-    | SdkError
-    | InternalServerError
-    | InvalidDocumentError
-    | TargetNotConnectedError
+    SdkError | InternalServerError | InvalidDocumentError | TargetNotConnectedError
   >;
 
   /**
@@ -2530,10 +2409,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StopAutomationExecutionCommandOutput,
-    | SdkError
-    | AutomationExecutionNotFoundError
-    | InternalServerError
-    | InvalidAutomationStatusUpdateError
+    SdkError | AutomationExecutionNotFoundError | InternalServerError | InvalidAutomationStatusUpdateError
   >;
 
   /**
@@ -2555,11 +2431,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UnlabelParameterVersionCommandOutput,
-    | SdkError
-    | InternalServerError
-    | ParameterNotFoundError
-    | ParameterVersionNotFoundError
-    | TooManyUpdatesError
+    SdkError | InternalServerError | ParameterNotFoundError | ParameterVersionNotFoundError | TooManyUpdatesError
   >;
 
   /**
@@ -2647,11 +2519,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateDocumentMetadataCommandOutput,
-    | SdkError
-    | InternalServerError
-    | InvalidDocumentError
-    | InvalidDocumentOperationError
-    | InvalidDocumentVersionError
+    SdkError | InternalServerError | InvalidDocumentError | InvalidDocumentOperationError | InvalidDocumentVersionError
   >;
 
   /**
@@ -2766,10 +2634,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateServiceSettingCommandOutput,
-    | SdkError
-    | InternalServerError
-    | ServiceSettingNotFoundError
-    | TooManyUpdatesError
+    SdkError | InternalServerError | ServiceSettingNotFoundError | TooManyUpdatesError
   >;
 }
 
@@ -2790,10 +2655,7 @@ export const makeSSMService = Effect.gen(function*(_) {
             abortSignal,
           }),
         catch: (e) => {
-          if (
-            e instanceof SSMServiceException &&
-            AllServiceErrors.includes(e.name)
-          ) {
+          if (e instanceof SSMServiceException && AllServiceErrors.includes(e.name)) {
             const ServiceException = Data.tagged<
               TaggedException<SSMServiceException>
             >(e.name);
@@ -2872,7 +2734,10 @@ export const SSM = SSMService;
  * @category layers
  * @deprecated use SSM.baseLayer instead
  */
-export const BaseSSMServiceLayer = Layer.effect(SSMService, makeSSMService);
+export const BaseSSMServiceLayer = Layer.effect(
+  SSMService,
+  makeSSMService,
+);
 
 /**
  * @since 1.0.0

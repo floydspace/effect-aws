@@ -368,10 +368,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchPutScheduledUpdateGroupActionCommandOutput,
-    | SdkError
-    | AlreadyExistsFaultError
-    | LimitExceededFaultError
-    | ResourceContentionFaultError
+    SdkError | AlreadyExistsFaultError | LimitExceededFaultError | ResourceContentionFaultError
   >;
 
   /**
@@ -382,10 +379,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelInstanceRefreshCommandOutput,
-    | SdkError
-    | ActiveInstanceRefreshNotFoundFaultError
-    | LimitExceededFaultError
-    | ResourceContentionFaultError
+    SdkError | ActiveInstanceRefreshNotFoundFaultError | LimitExceededFaultError | ResourceContentionFaultError
   >;
 
   /**
@@ -407,11 +401,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateAutoScalingGroupCommandOutput,
-    | SdkError
-    | AlreadyExistsFaultError
-    | LimitExceededFaultError
-    | ResourceContentionFaultError
-    | ServiceLinkedRoleError
+    SdkError | AlreadyExistsFaultError | LimitExceededFaultError | ResourceContentionFaultError | ServiceLinkedRoleError
   >;
 
   /**
@@ -422,10 +412,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateLaunchConfigurationCommandOutput,
-    | SdkError
-    | AlreadyExistsFaultError
-    | LimitExceededFaultError
-    | ResourceContentionFaultError
+    SdkError | AlreadyExistsFaultError | LimitExceededFaultError | ResourceContentionFaultError
   >;
 
   /**
@@ -451,10 +438,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteAutoScalingGroupCommandOutput,
-    | SdkError
-    | ResourceContentionFaultError
-    | ResourceInUseFaultError
-    | ScalingActivityInProgressFaultError
+    SdkError | ResourceContentionFaultError | ResourceInUseFaultError | ScalingActivityInProgressFaultError
   >;
 
   /**
@@ -689,10 +673,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribePoliciesCommandOutput,
-    | SdkError
-    | InvalidNextTokenError
-    | ResourceContentionFaultError
-    | ServiceLinkedRoleError
+    SdkError | InvalidNextTokenError | ResourceContentionFaultError | ServiceLinkedRoleError
   >;
 
   /**
@@ -769,10 +750,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeWarmPoolCommandOutput,
-    | SdkError
-    | InvalidNextTokenError
-    | LimitExceededFaultError
-    | ResourceContentionFaultError
+    SdkError | InvalidNextTokenError | LimitExceededFaultError | ResourceContentionFaultError
   >;
 
   /**
@@ -860,9 +838,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ExecutePolicyCommandOutput,
-    | SdkError
-    | ResourceContentionFaultError
-    | ScalingActivityInProgressFaultError
+    SdkError | ResourceContentionFaultError | ScalingActivityInProgressFaultError
   >;
 
   /**
@@ -906,10 +882,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutNotificationConfigurationCommandOutput,
-    | SdkError
-    | LimitExceededFaultError
-    | ResourceContentionFaultError
-    | ServiceLinkedRoleError
+    SdkError | LimitExceededFaultError | ResourceContentionFaultError | ServiceLinkedRoleError
   >;
 
   /**
@@ -920,10 +893,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutScalingPolicyCommandOutput,
-    | SdkError
-    | LimitExceededFaultError
-    | ResourceContentionFaultError
-    | ServiceLinkedRoleError
+    SdkError | LimitExceededFaultError | ResourceContentionFaultError | ServiceLinkedRoleError
   >;
 
   /**
@@ -934,10 +904,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutScheduledUpdateGroupActionCommandOutput,
-    | SdkError
-    | AlreadyExistsFaultError
-    | LimitExceededFaultError
-    | ResourceContentionFaultError
+    SdkError | AlreadyExistsFaultError | LimitExceededFaultError | ResourceContentionFaultError
   >;
 
   /**
@@ -996,9 +963,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SetDesiredCapacityCommandOutput,
-    | SdkError
-    | ResourceContentionFaultError
-    | ScalingActivityInProgressFaultError
+    SdkError | ResourceContentionFaultError | ScalingActivityInProgressFaultError
   >;
 
   /**
@@ -1031,10 +996,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartInstanceRefreshCommandOutput,
-    | SdkError
-    | InstanceRefreshInProgressFaultError
-    | LimitExceededFaultError
-    | ResourceContentionFaultError
+    SdkError | InstanceRefreshInProgressFaultError | LimitExceededFaultError | ResourceContentionFaultError
   >;
 
   /**
@@ -1056,9 +1018,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TerminateInstanceInAutoScalingGroupCommandOutput,
-    | SdkError
-    | ResourceContentionFaultError
-    | ScalingActivityInProgressFaultError
+    SdkError | ResourceContentionFaultError | ScalingActivityInProgressFaultError
   >;
 
   /**
@@ -1069,10 +1029,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateAutoScalingGroupCommandOutput,
-    | SdkError
-    | ResourceContentionFaultError
-    | ScalingActivityInProgressFaultError
-    | ServiceLinkedRoleError
+    SdkError | ResourceContentionFaultError | ScalingActivityInProgressFaultError | ServiceLinkedRoleError
   >;
 }
 
@@ -1093,10 +1050,7 @@ export const makeAutoScalingService = Effect.gen(function*(_) {
             abortSignal,
           }),
         catch: (e) => {
-          if (
-            e instanceof AutoScalingServiceException &&
-            AllServiceErrors.includes(e.name)
-          ) {
+          if (e instanceof AutoScalingServiceException && AllServiceErrors.includes(e.name)) {
             const ServiceException = Data.tagged<
               TaggedException<AutoScalingServiceException>
             >(e.name);
@@ -1130,13 +1084,11 @@ export const makeAutoScalingService = Effect.gen(function*(_) {
  * @since 1.0.0
  * @category models
  */
-export class AutoScalingService extends Effect.Tag(
-  "@effect-aws/client-auto-scaling/AutoScalingService",
-)<AutoScalingService, AutoScalingService$>() {
-  static readonly defaultLayer = Layer.effect(
-    this,
-    makeAutoScalingService,
-  ).pipe(
+export class AutoScalingService extends Effect.Tag("@effect-aws/client-auto-scaling/AutoScalingService")<
+  AutoScalingService,
+  AutoScalingService$
+>() {
+  static readonly defaultLayer = Layer.effect(this, makeAutoScalingService).pipe(
     Layer.provide(AutoScalingClientInstanceLayer),
     Layer.provide(DefaultAutoScalingClientConfigLayer),
   );

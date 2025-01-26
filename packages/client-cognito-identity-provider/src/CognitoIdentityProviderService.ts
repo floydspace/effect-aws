@@ -980,12 +980,7 @@ interface CognitoIdentityProviderService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AdminSetUserSettingsCommandOutput,
-    | SdkError
-    | InternalError
-    | InvalidParameterError
-    | NotAuthorizedError
-    | ResourceNotFoundError
-    | UserNotFoundError
+    SdkError | InternalError | InvalidParameterError | NotAuthorizedError | ResourceNotFoundError | UserNotFoundError
   >;
 
   /**
@@ -1363,12 +1358,7 @@ interface CognitoIdentityProviderService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteGroupCommandOutput,
-    | SdkError
-    | InternalError
-    | InvalidParameterError
-    | NotAuthorizedError
-    | ResourceNotFoundError
-    | TooManyRequestsError
+    SdkError | InternalError | InvalidParameterError | NotAuthorizedError | ResourceNotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1414,12 +1404,7 @@ interface CognitoIdentityProviderService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteResourceServerCommandOutput,
-    | SdkError
-    | InternalError
-    | InvalidParameterError
-    | NotAuthorizedError
-    | ResourceNotFoundError
-    | TooManyRequestsError
+    SdkError | InternalError | InvalidParameterError | NotAuthorizedError | ResourceNotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1504,11 +1489,7 @@ interface CognitoIdentityProviderService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteUserPoolDomainCommandOutput,
-    | SdkError
-    | InternalError
-    | InvalidParameterError
-    | NotAuthorizedError
-    | ResourceNotFoundError
+    SdkError | InternalError | InvalidParameterError | NotAuthorizedError | ResourceNotFoundError
   >;
 
   /**
@@ -1519,12 +1500,7 @@ interface CognitoIdentityProviderService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteWebAuthnCredentialCommandOutput,
-    | SdkError
-    | ForbiddenError
-    | InternalError
-    | InvalidParameterError
-    | NotAuthorizedError
-    | ResourceNotFoundError
+    SdkError | ForbiddenError | InternalError | InvalidParameterError | NotAuthorizedError | ResourceNotFoundError
   >;
 
   /**
@@ -1535,12 +1511,7 @@ interface CognitoIdentityProviderService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeIdentityProviderCommandOutput,
-    | SdkError
-    | InternalError
-    | InvalidParameterError
-    | NotAuthorizedError
-    | ResourceNotFoundError
-    | TooManyRequestsError
+    SdkError | InternalError | InvalidParameterError | NotAuthorizedError | ResourceNotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1551,12 +1522,7 @@ interface CognitoIdentityProviderService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeManagedLoginBrandingCommandOutput,
-    | SdkError
-    | InternalError
-    | InvalidParameterError
-    | NotAuthorizedError
-    | ResourceNotFoundError
-    | TooManyRequestsError
+    SdkError | InternalError | InvalidParameterError | NotAuthorizedError | ResourceNotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1567,12 +1533,7 @@ interface CognitoIdentityProviderService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeManagedLoginBrandingByClientCommandOutput,
-    | SdkError
-    | InternalError
-    | InvalidParameterError
-    | NotAuthorizedError
-    | ResourceNotFoundError
-    | TooManyRequestsError
+    SdkError | InternalError | InvalidParameterError | NotAuthorizedError | ResourceNotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1583,12 +1544,7 @@ interface CognitoIdentityProviderService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeResourceServerCommandOutput,
-    | SdkError
-    | InternalError
-    | InvalidParameterError
-    | NotAuthorizedError
-    | ResourceNotFoundError
-    | TooManyRequestsError
+    SdkError | InternalError | InvalidParameterError | NotAuthorizedError | ResourceNotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1616,12 +1572,7 @@ interface CognitoIdentityProviderService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeUserImportJobCommandOutput,
-    | SdkError
-    | InternalError
-    | InvalidParameterError
-    | NotAuthorizedError
-    | ResourceNotFoundError
-    | TooManyRequestsError
+    SdkError | InternalError | InvalidParameterError | NotAuthorizedError | ResourceNotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1649,12 +1600,7 @@ interface CognitoIdentityProviderService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeUserPoolClientCommandOutput,
-    | SdkError
-    | InternalError
-    | InvalidParameterError
-    | NotAuthorizedError
-    | ResourceNotFoundError
-    | TooManyRequestsError
+    SdkError | InternalError | InvalidParameterError | NotAuthorizedError | ResourceNotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1665,11 +1611,7 @@ interface CognitoIdentityProviderService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeUserPoolDomainCommandOutput,
-    | SdkError
-    | InternalError
-    | InvalidParameterError
-    | NotAuthorizedError
-    | ResourceNotFoundError
+    SdkError | InternalError | InvalidParameterError | NotAuthorizedError | ResourceNotFoundError
   >;
 
   /**
@@ -1727,12 +1669,7 @@ interface CognitoIdentityProviderService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetCSVHeaderCommandOutput,
-    | SdkError
-    | InternalError
-    | InvalidParameterError
-    | NotAuthorizedError
-    | ResourceNotFoundError
-    | TooManyRequestsError
+    SdkError | InternalError | InvalidParameterError | NotAuthorizedError | ResourceNotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1764,12 +1701,7 @@ interface CognitoIdentityProviderService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetGroupCommandOutput,
-    | SdkError
-    | InternalError
-    | InvalidParameterError
-    | NotAuthorizedError
-    | ResourceNotFoundError
-    | TooManyRequestsError
+    SdkError | InternalError | InvalidParameterError | NotAuthorizedError | ResourceNotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1780,12 +1712,7 @@ interface CognitoIdentityProviderService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetIdentityProviderByIdentifierCommandOutput,
-    | SdkError
-    | InternalError
-    | InvalidParameterError
-    | NotAuthorizedError
-    | ResourceNotFoundError
-    | TooManyRequestsError
+    SdkError | InternalError | InvalidParameterError | NotAuthorizedError | ResourceNotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1796,12 +1723,7 @@ interface CognitoIdentityProviderService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetLogDeliveryConfigurationCommandOutput,
-    | SdkError
-    | InternalError
-    | InvalidParameterError
-    | NotAuthorizedError
-    | ResourceNotFoundError
-    | TooManyRequestsError
+    SdkError | InternalError | InvalidParameterError | NotAuthorizedError | ResourceNotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1823,12 +1745,7 @@ interface CognitoIdentityProviderService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetUICustomizationCommandOutput,
-    | SdkError
-    | InternalError
-    | InvalidParameterError
-    | NotAuthorizedError
-    | ResourceNotFoundError
-    | TooManyRequestsError
+    SdkError | InternalError | InvalidParameterError | NotAuthorizedError | ResourceNotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1907,12 +1824,7 @@ interface CognitoIdentityProviderService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetUserPoolMfaConfigCommandOutput,
-    | SdkError
-    | InternalError
-    | InvalidParameterError
-    | NotAuthorizedError
-    | ResourceNotFoundError
-    | TooManyRequestsError
+    SdkError | InternalError | InvalidParameterError | NotAuthorizedError | ResourceNotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1990,12 +1902,7 @@ interface CognitoIdentityProviderService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListGroupsCommandOutput,
-    | SdkError
-    | InternalError
-    | InvalidParameterError
-    | NotAuthorizedError
-    | ResourceNotFoundError
-    | TooManyRequestsError
+    SdkError | InternalError | InvalidParameterError | NotAuthorizedError | ResourceNotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -2006,12 +1913,7 @@ interface CognitoIdentityProviderService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListIdentityProvidersCommandOutput,
-    | SdkError
-    | InternalError
-    | InvalidParameterError
-    | NotAuthorizedError
-    | ResourceNotFoundError
-    | TooManyRequestsError
+    SdkError | InternalError | InvalidParameterError | NotAuthorizedError | ResourceNotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -2022,12 +1924,7 @@ interface CognitoIdentityProviderService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListResourceServersCommandOutput,
-    | SdkError
-    | InternalError
-    | InvalidParameterError
-    | NotAuthorizedError
-    | ResourceNotFoundError
-    | TooManyRequestsError
+    SdkError | InternalError | InvalidParameterError | NotAuthorizedError | ResourceNotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -2038,12 +1935,7 @@ interface CognitoIdentityProviderService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsForResourceCommandOutput,
-    | SdkError
-    | InternalError
-    | InvalidParameterError
-    | NotAuthorizedError
-    | ResourceNotFoundError
-    | TooManyRequestsError
+    SdkError | InternalError | InvalidParameterError | NotAuthorizedError | ResourceNotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -2054,12 +1946,7 @@ interface CognitoIdentityProviderService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListUserImportJobsCommandOutput,
-    | SdkError
-    | InternalError
-    | InvalidParameterError
-    | NotAuthorizedError
-    | ResourceNotFoundError
-    | TooManyRequestsError
+    SdkError | InternalError | InvalidParameterError | NotAuthorizedError | ResourceNotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -2070,12 +1957,7 @@ interface CognitoIdentityProviderService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListUserPoolClientsCommandOutput,
-    | SdkError
-    | InternalError
-    | InvalidParameterError
-    | NotAuthorizedError
-    | ResourceNotFoundError
-    | TooManyRequestsError
+    SdkError | InternalError | InvalidParameterError | NotAuthorizedError | ResourceNotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -2086,11 +1968,7 @@ interface CognitoIdentityProviderService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListUserPoolsCommandOutput,
-    | SdkError
-    | InternalError
-    | InvalidParameterError
-    | NotAuthorizedError
-    | TooManyRequestsError
+    SdkError | InternalError | InvalidParameterError | NotAuthorizedError | TooManyRequestsError
   >;
 
   /**
@@ -2101,12 +1979,7 @@ interface CognitoIdentityProviderService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListUsersCommandOutput,
-    | SdkError
-    | InternalError
-    | InvalidParameterError
-    | NotAuthorizedError
-    | ResourceNotFoundError
-    | TooManyRequestsError
+    SdkError | InternalError | InvalidParameterError | NotAuthorizedError | ResourceNotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -2117,12 +1990,7 @@ interface CognitoIdentityProviderService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListUsersInGroupCommandOutput,
-    | SdkError
-    | InternalError
-    | InvalidParameterError
-    | NotAuthorizedError
-    | ResourceNotFoundError
-    | TooManyRequestsError
+    SdkError | InternalError | InvalidParameterError | NotAuthorizedError | ResourceNotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -2133,11 +2001,7 @@ interface CognitoIdentityProviderService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListWebAuthnCredentialsCommandOutput,
-    | SdkError
-    | ForbiddenError
-    | InternalError
-    | InvalidParameterError
-    | NotAuthorizedError
+    SdkError | ForbiddenError | InternalError | InvalidParameterError | NotAuthorizedError
   >;
 
   /**
@@ -2262,12 +2126,7 @@ interface CognitoIdentityProviderService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SetUICustomizationCommandOutput,
-    | SdkError
-    | InternalError
-    | InvalidParameterError
-    | NotAuthorizedError
-    | ResourceNotFoundError
-    | TooManyRequestsError
+    SdkError | InternalError | InvalidParameterError | NotAuthorizedError | ResourceNotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -2416,12 +2275,7 @@ interface CognitoIdentityProviderService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagResourceCommandOutput,
-    | SdkError
-    | InternalError
-    | InvalidParameterError
-    | NotAuthorizedError
-    | ResourceNotFoundError
-    | TooManyRequestsError
+    SdkError | InternalError | InvalidParameterError | NotAuthorizedError | ResourceNotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -2432,12 +2286,7 @@ interface CognitoIdentityProviderService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
-    | SdkError
-    | InternalError
-    | InvalidParameterError
-    | NotAuthorizedError
-    | ResourceNotFoundError
-    | TooManyRequestsError
+    SdkError | InternalError | InvalidParameterError | NotAuthorizedError | ResourceNotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -2487,12 +2336,7 @@ interface CognitoIdentityProviderService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateGroupCommandOutput,
-    | SdkError
-    | InternalError
-    | InvalidParameterError
-    | NotAuthorizedError
-    | ResourceNotFoundError
-    | TooManyRequestsError
+    SdkError | InternalError | InvalidParameterError | NotAuthorizedError | ResourceNotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -2538,12 +2382,7 @@ interface CognitoIdentityProviderService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateResourceServerCommandOutput,
-    | SdkError
-    | InternalError
-    | InvalidParameterError
-    | NotAuthorizedError
-    | ResourceNotFoundError
-    | TooManyRequestsError
+    SdkError | InternalError | InvalidParameterError | NotAuthorizedError | ResourceNotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -2702,10 +2541,7 @@ export const makeCognitoIdentityProviderService = Effect.gen(function*(_) {
             abortSignal,
           }),
         catch: (e) => {
-          if (
-            e instanceof CognitoIdentityProviderServiceException &&
-            AllServiceErrors.includes(e.name)
-          ) {
+          if (e instanceof CognitoIdentityProviderServiceException && AllServiceErrors.includes(e.name)) {
             const ServiceException = Data.tagged<
               TaggedException<CognitoIdentityProviderServiceException>
             >(e.name);
@@ -2739,13 +2575,13 @@ export const makeCognitoIdentityProviderService = Effect.gen(function*(_) {
  * @since 1.0.0
  * @category models
  */
-export class CognitoIdentityProviderService extends Effect.Tag(
-  "@effect-aws/client-cognito-identity-provider/CognitoIdentityProviderService",
-)<CognitoIdentityProviderService, CognitoIdentityProviderService$>() {
-  static readonly defaultLayer = Layer.effect(
-    this,
-    makeCognitoIdentityProviderService,
-  ).pipe(
+export class CognitoIdentityProviderService
+  extends Effect.Tag("@effect-aws/client-cognito-identity-provider/CognitoIdentityProviderService")<
+    CognitoIdentityProviderService,
+    CognitoIdentityProviderService$
+  >()
+{
+  static readonly defaultLayer = Layer.effect(this, makeCognitoIdentityProviderService).pipe(
     Layer.provide(CognitoIdentityProviderClientInstanceLayer),
     Layer.provide(DefaultCognitoIdentityProviderClientConfigLayer),
   );
@@ -2762,18 +2598,13 @@ export class CognitoIdentityProviderService extends Effect.Tag(
       ),
     );
   static readonly baseLayer = (
-    evaluate: (
-      defaultConfig: CognitoIdentityProviderClientConfig,
-    ) => CognitoIdentityProviderClient,
+    evaluate: (defaultConfig: CognitoIdentityProviderClientConfig) => CognitoIdentityProviderClient,
   ) =>
     Layer.effect(this, makeCognitoIdentityProviderService).pipe(
       Layer.provide(
         Layer.effect(
           CognitoIdentityProviderClientInstance,
-          Effect.map(
-            makeDefaultCognitoIdentityProviderClientInstanceConfig,
-            evaluate,
-          ),
+          Effect.map(makeDefaultCognitoIdentityProviderClientInstanceConfig, evaluate),
         ),
       ),
     );

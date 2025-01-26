@@ -515,11 +515,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteChannelCommandOutput,
-    | SdkError
-    | ChannelARNInvalidError
-    | ChannelNotFoundError
-    | OperationNotPermittedError
-    | UnsupportedOperationError
+    SdkError | ChannelARNInvalidError | ChannelNotFoundError | OperationNotPermittedError | UnsupportedOperationError
   >;
 
   /**
@@ -733,11 +729,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetChannelCommandOutput,
-    | SdkError
-    | ChannelARNInvalidError
-    | ChannelNotFoundError
-    | OperationNotPermittedError
-    | UnsupportedOperationError
+    SdkError | ChannelARNInvalidError | ChannelNotFoundError | OperationNotPermittedError | UnsupportedOperationError
   >;
 
   /**
@@ -793,11 +785,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetImportCommandOutput,
-    | SdkError
-    | ImportNotFoundError
-    | InvalidParameterError
-    | OperationNotPermittedError
-    | UnsupportedOperationError
+    SdkError | ImportNotFoundError | InvalidParameterError | OperationNotPermittedError | UnsupportedOperationError
   >;
 
   /**
@@ -900,10 +888,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListChannelsCommandOutput,
-    | SdkError
-    | InvalidNextTokenError
-    | OperationNotPermittedError
-    | UnsupportedOperationError
+    SdkError | InvalidNextTokenError | OperationNotPermittedError | UnsupportedOperationError
   >;
 
   /**
@@ -941,11 +926,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListImportFailuresCommandOutput,
-    | SdkError
-    | InvalidNextTokenError
-    | InvalidParameterError
-    | OperationNotPermittedError
-    | UnsupportedOperationError
+    SdkError | InvalidNextTokenError | InvalidParameterError | OperationNotPermittedError | UnsupportedOperationError
   >;
 
   /**
@@ -972,10 +953,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListInsightsMetricDataCommandOutput,
-    | SdkError
-    | InvalidParameterError
-    | OperationNotPermittedError
-    | UnsupportedOperationError
+    SdkError | InvalidParameterError | OperationNotPermittedError | UnsupportedOperationError
   >;
 
   /**
@@ -986,11 +964,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListPublicKeysCommandOutput,
-    | SdkError
-    | InvalidTimeRangeError
-    | InvalidTokenError
-    | OperationNotPermittedError
-    | UnsupportedOperationError
+    SdkError | InvalidTimeRangeError | InvalidTokenError | OperationNotPermittedError | UnsupportedOperationError
   >;
 
   /**
@@ -1345,11 +1319,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StopImportCommandOutput,
-    | SdkError
-    | ImportNotFoundError
-    | InvalidParameterError
-    | OperationNotPermittedError
-    | UnsupportedOperationError
+    SdkError | ImportNotFoundError | InvalidParameterError | OperationNotPermittedError | UnsupportedOperationError
   >;
 
   /**
@@ -1507,10 +1477,7 @@ export const makeCloudTrailService = Effect.gen(function*(_) {
             abortSignal,
           }),
         catch: (e) => {
-          if (
-            e instanceof CloudTrailServiceException &&
-            AllServiceErrors.includes(e.name)
-          ) {
+          if (e instanceof CloudTrailServiceException && AllServiceErrors.includes(e.name)) {
             const ServiceException = Data.tagged<
               TaggedException<CloudTrailServiceException>
             >(e.name);
@@ -1544,9 +1511,10 @@ export const makeCloudTrailService = Effect.gen(function*(_) {
  * @since 1.0.0
  * @category models
  */
-export class CloudTrailService extends Effect.Tag(
-  "@effect-aws/client-cloudtrail/CloudTrailService",
-)<CloudTrailService, CloudTrailService$>() {
+export class CloudTrailService extends Effect.Tag("@effect-aws/client-cloudtrail/CloudTrailService")<
+  CloudTrailService,
+  CloudTrailService$
+>() {
   static readonly defaultLayer = Layer.effect(this, makeCloudTrailService).pipe(
     Layer.provide(CloudTrailClientInstanceLayer),
     Layer.provide(DefaultCloudTrailClientConfigLayer),

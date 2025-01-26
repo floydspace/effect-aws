@@ -6,11 +6,11 @@ import {
 } from "@aws-sdk/client-opensearch";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-opensearch/dist-cjs/runtimeConfig";
+import { OpenSearch, SdkError } from "@effect-aws/client-opensearch";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { OpenSearch, SdkError } from "../src";
 
 const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(OpenSearchClient);
@@ -75,9 +75,7 @@ describe("OpenSearchClientImpl", () => {
     const result = await pipe(
       program,
       Effect.provide(
-        OpenSearch.baseLayer(
-          () => new OpenSearchClient({ region: "eu-central-1" }),
-        ),
+        OpenSearch.baseLayer(() => new OpenSearchClient({ region: "eu-central-1" })),
       ),
       Effect.runPromiseExit,
     );

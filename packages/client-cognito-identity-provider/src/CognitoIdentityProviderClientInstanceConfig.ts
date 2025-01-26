@@ -10,10 +10,7 @@ import { Context, Effect, Layer, Runtime } from "effect";
  */
 export class CognitoIdentityProviderClientInstanceConfig extends Context.Tag(
   "@effect-aws/client-cognito-identity-provider/CognitoIdentityProviderClientInstanceConfig",
-)<
-  CognitoIdentityProviderClientInstanceConfig,
-  CognitoIdentityProviderClientConfig
->() {}
+)<CognitoIdentityProviderClientInstanceConfig, CognitoIdentityProviderClientConfig>() {}
 
 /**
  * @since 1.0.0

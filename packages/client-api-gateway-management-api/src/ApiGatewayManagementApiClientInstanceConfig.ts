@@ -10,10 +10,7 @@ import { Context, Effect, Layer, Runtime } from "effect";
  */
 export class ApiGatewayManagementApiClientInstanceConfig extends Context.Tag(
   "@effect-aws/client-api-gateway-management-api/ApiGatewayManagementApiClientInstanceConfig",
-)<
-  ApiGatewayManagementApiClientInstanceConfig,
-  ApiGatewayManagementApiClientConfig
->() {}
+)<ApiGatewayManagementApiClientInstanceConfig, ApiGatewayManagementApiClientConfig>() {}
 
 /**
  * @since 1.0.0

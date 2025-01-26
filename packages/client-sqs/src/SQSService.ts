@@ -388,11 +388,7 @@ interface SQSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListQueuesCommandOutput,
-    | SdkError
-    | InvalidAddressError
-    | InvalidSecurityError
-    | RequestThrottledError
-    | UnsupportedOperationError
+    SdkError | InvalidAddressError | InvalidSecurityError | RequestThrottledError | UnsupportedOperationError
   >;
 
   /**
@@ -589,10 +585,7 @@ export const makeSQSService = Effect.gen(function*(_) {
             abortSignal,
           }),
         catch: (e) => {
-          if (
-            e instanceof SQSServiceException &&
-            AllServiceErrors.includes(e.name)
-          ) {
+          if (e instanceof SQSServiceException && AllServiceErrors.includes(e.name)) {
             const ServiceException = Data.tagged<
               TaggedException<SQSServiceException>
             >(e.name);
@@ -671,7 +664,10 @@ export const SQS = SQSService;
  * @category layers
  * @deprecated use SQS.baseLayer instead
  */
-export const BaseSQSServiceLayer = Layer.effect(SQSService, makeSQSService);
+export const BaseSQSServiceLayer = Layer.effect(
+  SQSService,
+  makeSQSService,
+);
 
 /**
  * @since 1.0.0

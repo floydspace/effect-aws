@@ -468,11 +468,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteAliasCommandOutput,
-    | SdkError
-    | InvalidParameterValueError
-    | ResourceConflictError
-    | ServiceError
-    | TooManyRequestsError
+    SdkError | InvalidParameterValueError | ResourceConflictError | ServiceError | TooManyRequestsError
   >;
 
   /**
@@ -483,11 +479,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteCodeSigningConfigCommandOutput,
-    | SdkError
-    | InvalidParameterValueError
-    | ResourceConflictError
-    | ResourceNotFoundError
-    | ServiceError
+    SdkError | InvalidParameterValueError | ResourceConflictError | ResourceNotFoundError | ServiceError
   >;
 
   /**
@@ -580,11 +572,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteFunctionUrlConfigCommandOutput,
-    | SdkError
-    | ResourceConflictError
-    | ResourceNotFoundError
-    | ServiceError
-    | TooManyRequestsError
+    SdkError | ResourceConflictError | ResourceNotFoundError | ServiceError | TooManyRequestsError
   >;
 
   /**
@@ -633,11 +621,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAliasCommandOutput,
-    | SdkError
-    | InvalidParameterValueError
-    | ResourceNotFoundError
-    | ServiceError
-    | TooManyRequestsError
+    SdkError | InvalidParameterValueError | ResourceNotFoundError | ServiceError | TooManyRequestsError
   >;
 
   /**
@@ -659,11 +643,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetEventSourceMappingCommandOutput,
-    | SdkError
-    | InvalidParameterValueError
-    | ResourceNotFoundError
-    | ServiceError
-    | TooManyRequestsError
+    SdkError | InvalidParameterValueError | ResourceNotFoundError | ServiceError | TooManyRequestsError
   >;
 
   /**
@@ -674,11 +654,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetFunctionCommandOutput,
-    | SdkError
-    | InvalidParameterValueError
-    | ResourceNotFoundError
-    | ServiceError
-    | TooManyRequestsError
+    SdkError | InvalidParameterValueError | ResourceNotFoundError | ServiceError | TooManyRequestsError
   >;
 
   /**
@@ -689,11 +665,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetFunctionCodeSigningConfigCommandOutput,
-    | SdkError
-    | InvalidParameterValueError
-    | ResourceNotFoundError
-    | ServiceError
-    | TooManyRequestsError
+    SdkError | InvalidParameterValueError | ResourceNotFoundError | ServiceError | TooManyRequestsError
   >;
 
   /**
@@ -704,11 +676,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetFunctionConcurrencyCommandOutput,
-    | SdkError
-    | InvalidParameterValueError
-    | ResourceNotFoundError
-    | ServiceError
-    | TooManyRequestsError
+    SdkError | InvalidParameterValueError | ResourceNotFoundError | ServiceError | TooManyRequestsError
   >;
 
   /**
@@ -719,11 +687,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetFunctionConfigurationCommandOutput,
-    | SdkError
-    | InvalidParameterValueError
-    | ResourceNotFoundError
-    | ServiceError
-    | TooManyRequestsError
+    SdkError | InvalidParameterValueError | ResourceNotFoundError | ServiceError | TooManyRequestsError
   >;
 
   /**
@@ -734,11 +698,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetFunctionEventInvokeConfigCommandOutput,
-    | SdkError
-    | InvalidParameterValueError
-    | ResourceNotFoundError
-    | ServiceError
-    | TooManyRequestsError
+    SdkError | InvalidParameterValueError | ResourceNotFoundError | ServiceError | TooManyRequestsError
   >;
 
   /**
@@ -749,11 +709,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetFunctionRecursionConfigCommandOutput,
-    | SdkError
-    | InvalidParameterValueError
-    | ResourceNotFoundError
-    | ServiceError
-    | TooManyRequestsError
+    SdkError | InvalidParameterValueError | ResourceNotFoundError | ServiceError | TooManyRequestsError
   >;
 
   /**
@@ -764,11 +720,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetFunctionUrlConfigCommandOutput,
-    | SdkError
-    | InvalidParameterValueError
-    | ResourceNotFoundError
-    | ServiceError
-    | TooManyRequestsError
+    SdkError | InvalidParameterValueError | ResourceNotFoundError | ServiceError | TooManyRequestsError
   >;
 
   /**
@@ -779,11 +731,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetLayerVersionCommandOutput,
-    | SdkError
-    | InvalidParameterValueError
-    | ResourceNotFoundError
-    | ServiceError
-    | TooManyRequestsError
+    SdkError | InvalidParameterValueError | ResourceNotFoundError | ServiceError | TooManyRequestsError
   >;
 
   /**
@@ -794,11 +742,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetLayerVersionByArnCommandOutput,
-    | SdkError
-    | InvalidParameterValueError
-    | ResourceNotFoundError
-    | ServiceError
-    | TooManyRequestsError
+    SdkError | InvalidParameterValueError | ResourceNotFoundError | ServiceError | TooManyRequestsError
   >;
 
   /**
@@ -809,11 +753,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetLayerVersionPolicyCommandOutput,
-    | SdkError
-    | InvalidParameterValueError
-    | ResourceNotFoundError
-    | ServiceError
-    | TooManyRequestsError
+    SdkError | InvalidParameterValueError | ResourceNotFoundError | ServiceError | TooManyRequestsError
   >;
 
   /**
@@ -824,11 +764,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPolicyCommandOutput,
-    | SdkError
-    | InvalidParameterValueError
-    | ResourceNotFoundError
-    | ServiceError
-    | TooManyRequestsError
+    SdkError | InvalidParameterValueError | ResourceNotFoundError | ServiceError | TooManyRequestsError
   >;
 
   /**
@@ -855,11 +791,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetRuntimeManagementConfigCommandOutput,
-    | SdkError
-    | InvalidParameterValueError
-    | ResourceNotFoundError
-    | ServiceError
-    | TooManyRequestsError
+    SdkError | InvalidParameterValueError | ResourceNotFoundError | ServiceError | TooManyRequestsError
   >;
 
   /**
@@ -968,11 +900,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAliasesCommandOutput,
-    | SdkError
-    | InvalidParameterValueError
-    | ResourceNotFoundError
-    | ServiceError
-    | TooManyRequestsError
+    SdkError | InvalidParameterValueError | ResourceNotFoundError | ServiceError | TooManyRequestsError
   >;
 
   /**
@@ -994,11 +922,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListEventSourceMappingsCommandOutput,
-    | SdkError
-    | InvalidParameterValueError
-    | ResourceNotFoundError
-    | ServiceError
-    | TooManyRequestsError
+    SdkError | InvalidParameterValueError | ResourceNotFoundError | ServiceError | TooManyRequestsError
   >;
 
   /**
@@ -1009,11 +933,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListFunctionEventInvokeConfigsCommandOutput,
-    | SdkError
-    | InvalidParameterValueError
-    | ResourceNotFoundError
-    | ServiceError
-    | TooManyRequestsError
+    SdkError | InvalidParameterValueError | ResourceNotFoundError | ServiceError | TooManyRequestsError
   >;
 
   /**
@@ -1024,11 +944,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListFunctionUrlConfigsCommandOutput,
-    | SdkError
-    | InvalidParameterValueError
-    | ResourceNotFoundError
-    | ServiceError
-    | TooManyRequestsError
+    SdkError | InvalidParameterValueError | ResourceNotFoundError | ServiceError | TooManyRequestsError
   >;
 
   /**
@@ -1061,11 +977,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListLayerVersionsCommandOutput,
-    | SdkError
-    | InvalidParameterValueError
-    | ResourceNotFoundError
-    | ServiceError
-    | TooManyRequestsError
+    SdkError | InvalidParameterValueError | ResourceNotFoundError | ServiceError | TooManyRequestsError
   >;
 
   /**
@@ -1087,11 +999,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListProvisionedConcurrencyConfigsCommandOutput,
-    | SdkError
-    | InvalidParameterValueError
-    | ResourceNotFoundError
-    | ServiceError
-    | TooManyRequestsError
+    SdkError | InvalidParameterValueError | ResourceNotFoundError | ServiceError | TooManyRequestsError
   >;
 
   /**
@@ -1102,11 +1010,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsCommandOutput,
-    | SdkError
-    | InvalidParameterValueError
-    | ResourceNotFoundError
-    | ServiceError
-    | TooManyRequestsError
+    SdkError | InvalidParameterValueError | ResourceNotFoundError | ServiceError | TooManyRequestsError
   >;
 
   /**
@@ -1117,11 +1021,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListVersionsByFunctionCommandOutput,
-    | SdkError
-    | InvalidParameterValueError
-    | ResourceNotFoundError
-    | ServiceError
-    | TooManyRequestsError
+    SdkError | InvalidParameterValueError | ResourceNotFoundError | ServiceError | TooManyRequestsError
   >;
 
   /**
@@ -1455,10 +1355,7 @@ export const makeLambdaService = Effect.gen(function*(_) {
             abortSignal,
           }),
         catch: (e) => {
-          if (
-            e instanceof LambdaServiceException &&
-            AllServiceErrors.includes(e.name)
-          ) {
+          if (e instanceof LambdaServiceException && AllServiceErrors.includes(e.name)) {
             const ServiceException = Data.tagged<
               TaggedException<LambdaServiceException>
             >(e.name);
@@ -1492,9 +1389,10 @@ export const makeLambdaService = Effect.gen(function*(_) {
  * @since 1.0.0
  * @category models
  */
-export class LambdaService extends Effect.Tag(
-  "@effect-aws/client-lambda/LambdaService",
-)<LambdaService, LambdaService$>() {
+export class LambdaService extends Effect.Tag("@effect-aws/client-lambda/LambdaService")<
+  LambdaService,
+  LambdaService$
+>() {
   static readonly defaultLayer = Layer.effect(this, makeLambdaService).pipe(
     Layer.provide(LambdaClientInstanceLayer),
     Layer.provide(DefaultLambdaClientConfigLayer),

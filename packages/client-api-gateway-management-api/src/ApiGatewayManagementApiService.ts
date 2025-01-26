@@ -78,11 +78,7 @@ interface ApiGatewayManagementApiService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PostToConnectionCommandOutput,
-    | SdkError
-    | ForbiddenError
-    | GoneError
-    | LimitExceededError
-    | PayloadTooLargeError
+    SdkError | ForbiddenError | GoneError | LimitExceededError | PayloadTooLargeError
   >;
 }
 
@@ -103,10 +99,7 @@ export const makeApiGatewayManagementApiService = Effect.gen(function*(_) {
             abortSignal,
           }),
         catch: (e) => {
-          if (
-            e instanceof ApiGatewayManagementApiServiceException &&
-            AllServiceErrors.includes(e.name)
-          ) {
+          if (e instanceof ApiGatewayManagementApiServiceException && AllServiceErrors.includes(e.name)) {
             const ServiceException = Data.tagged<
               TaggedException<ApiGatewayManagementApiServiceException>
             >(e.name);
@@ -140,13 +133,13 @@ export const makeApiGatewayManagementApiService = Effect.gen(function*(_) {
  * @since 1.0.0
  * @category models
  */
-export class ApiGatewayManagementApiService extends Effect.Tag(
-  "@effect-aws/client-api-gateway-management-api/ApiGatewayManagementApiService",
-)<ApiGatewayManagementApiService, ApiGatewayManagementApiService$>() {
-  static readonly defaultLayer = Layer.effect(
-    this,
-    makeApiGatewayManagementApiService,
-  ).pipe(
+export class ApiGatewayManagementApiService
+  extends Effect.Tag("@effect-aws/client-api-gateway-management-api/ApiGatewayManagementApiService")<
+    ApiGatewayManagementApiService,
+    ApiGatewayManagementApiService$
+  >()
+{
+  static readonly defaultLayer = Layer.effect(this, makeApiGatewayManagementApiService).pipe(
     Layer.provide(ApiGatewayManagementApiClientInstanceLayer),
     Layer.provide(DefaultApiGatewayManagementApiClientConfigLayer),
   );
@@ -163,18 +156,13 @@ export class ApiGatewayManagementApiService extends Effect.Tag(
       ),
     );
   static readonly baseLayer = (
-    evaluate: (
-      defaultConfig: ApiGatewayManagementApiClientConfig,
-    ) => ApiGatewayManagementApiClient,
+    evaluate: (defaultConfig: ApiGatewayManagementApiClientConfig) => ApiGatewayManagementApiClient,
   ) =>
     Layer.effect(this, makeApiGatewayManagementApiService).pipe(
       Layer.provide(
         Layer.effect(
           ApiGatewayManagementApiClientInstance,
-          Effect.map(
-            makeDefaultApiGatewayManagementApiClientInstanceConfig,
-            evaluate,
-          ),
+          Effect.map(makeDefaultApiGatewayManagementApiClientInstanceConfig, evaluate),
         ),
       ),
     );

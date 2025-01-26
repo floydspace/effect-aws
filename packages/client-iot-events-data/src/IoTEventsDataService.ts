@@ -43,6 +43,7 @@ import {
   type ListDetectorsCommandOutput,
 } from "@aws-sdk/client-iot-events-data";
 import { Data, Effect, Layer, Record } from "effect";
+import { AllServiceErrors, SdkError } from "./Errors.js";
 import type {
   InternalFailureError,
   InvalidRequestError,
@@ -51,7 +52,6 @@ import type {
   TaggedException,
   ThrottlingError,
 } from "./Errors.js";
-import { AllServiceErrors, SdkError } from "./Errors.js";
 import { IoTEventsDataClientInstance, IoTEventsDataClientInstanceLayer } from "./IoTEventsDataClientInstance.js";
 import {
   DefaultIoTEventsDataClientConfigLayer,
@@ -96,11 +96,7 @@ interface IoTEventsDataService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchAcknowledgeAlarmCommandOutput,
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ServiceUnavailableError
-    | ThrottlingError
+    SdkError | InternalFailureError | InvalidRequestError | ServiceUnavailableError | ThrottlingError
   >;
 
   /**
@@ -111,11 +107,7 @@ interface IoTEventsDataService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchDeleteDetectorCommandOutput,
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ServiceUnavailableError
-    | ThrottlingError
+    SdkError | InternalFailureError | InvalidRequestError | ServiceUnavailableError | ThrottlingError
   >;
 
   /**
@@ -126,11 +118,7 @@ interface IoTEventsDataService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchDisableAlarmCommandOutput,
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ServiceUnavailableError
-    | ThrottlingError
+    SdkError | InternalFailureError | InvalidRequestError | ServiceUnavailableError | ThrottlingError
   >;
 
   /**
@@ -141,11 +129,7 @@ interface IoTEventsDataService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchEnableAlarmCommandOutput,
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ServiceUnavailableError
-    | ThrottlingError
+    SdkError | InternalFailureError | InvalidRequestError | ServiceUnavailableError | ThrottlingError
   >;
 
   /**
@@ -156,11 +140,7 @@ interface IoTEventsDataService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchPutMessageCommandOutput,
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ServiceUnavailableError
-    | ThrottlingError
+    SdkError | InternalFailureError | InvalidRequestError | ServiceUnavailableError | ThrottlingError
   >;
 
   /**
@@ -171,11 +151,7 @@ interface IoTEventsDataService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchResetAlarmCommandOutput,
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ServiceUnavailableError
-    | ThrottlingError
+    SdkError | InternalFailureError | InvalidRequestError | ServiceUnavailableError | ThrottlingError
   >;
 
   /**
@@ -186,11 +162,7 @@ interface IoTEventsDataService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchSnoozeAlarmCommandOutput,
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ServiceUnavailableError
-    | ThrottlingError
+    SdkError | InternalFailureError | InvalidRequestError | ServiceUnavailableError | ThrottlingError
   >;
 
   /**
@@ -201,11 +173,7 @@ interface IoTEventsDataService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchUpdateDetectorCommandOutput,
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ServiceUnavailableError
-    | ThrottlingError
+    SdkError | InternalFailureError | InvalidRequestError | ServiceUnavailableError | ThrottlingError
   >;
 
   /**
@@ -290,10 +258,7 @@ export const makeIoTEventsDataService = Effect.gen(function*(_) {
             abortSignal,
           }),
         catch: (e) => {
-          if (
-            e instanceof IoTEventsDataServiceException &&
-            AllServiceErrors.includes(e.name)
-          ) {
+          if (e instanceof IoTEventsDataServiceException && AllServiceErrors.includes(e.name)) {
             const ServiceException = Data.tagged<
               TaggedException<IoTEventsDataServiceException>
             >(e.name);
@@ -327,13 +292,11 @@ export const makeIoTEventsDataService = Effect.gen(function*(_) {
  * @since 1.0.0
  * @category models
  */
-export class IoTEventsDataService extends Effect.Tag(
-  "@effect-aws/client-iot-events-data/IoTEventsDataService",
-)<IoTEventsDataService, IoTEventsDataService$>() {
-  static readonly defaultLayer = Layer.effect(
-    this,
-    makeIoTEventsDataService,
-  ).pipe(
+export class IoTEventsDataService extends Effect.Tag("@effect-aws/client-iot-events-data/IoTEventsDataService")<
+  IoTEventsDataService,
+  IoTEventsDataService$
+>() {
+  static readonly defaultLayer = Layer.effect(this, makeIoTEventsDataService).pipe(
     Layer.provide(IoTEventsDataClientInstanceLayer),
     Layer.provide(DefaultIoTEventsDataClientConfigLayer),
   );

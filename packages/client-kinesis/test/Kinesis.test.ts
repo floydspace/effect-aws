@@ -6,11 +6,11 @@ import {
 } from "@aws-sdk/client-kinesis";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-kinesis/dist-cjs/runtimeConfig";
+import { Kinesis, SdkError } from "@effect-aws/client-kinesis";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { Kinesis, SdkError } from "../src";
 
 const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(KinesisClient);

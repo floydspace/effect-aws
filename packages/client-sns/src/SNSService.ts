@@ -245,11 +245,7 @@ interface SNSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AddPermissionCommandOutput,
-    | SdkError
-    | AuthorizationError
-    | InternalError
-    | InvalidParameterError
-    | NotFoundError
+    SdkError | AuthorizationError | InternalError | InvalidParameterError | NotFoundError
   >;
 
   /**
@@ -260,11 +256,7 @@ interface SNSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CheckIfPhoneNumberIsOptedOutCommandOutput,
-    | SdkError
-    | AuthorizationError
-    | InternalError
-    | InvalidParameterError
-    | ThrottledError
+    SdkError | AuthorizationError | InternalError | InvalidParameterError | ThrottledError
   >;
 
   /**
@@ -304,11 +296,7 @@ interface SNSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreatePlatformEndpointCommandOutput,
-    | SdkError
-    | AuthorizationError
-    | InternalError
-    | InvalidParameterError
-    | NotFoundError
+    SdkError | AuthorizationError | InternalError | InvalidParameterError | NotFoundError
   >;
 
   /**
@@ -319,13 +307,7 @@ interface SNSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateSMSSandboxPhoneNumberCommandOutput,
-    | SdkError
-    | AuthorizationError
-    | InternalError
-    | InvalidParameterError
-    | OptedOutError
-    | ThrottledError
-    | UserError
+    SdkError | AuthorizationError | InternalError | InvalidParameterError | OptedOutError | ThrottledError | UserError
   >;
 
   /**
@@ -414,12 +396,7 @@ interface SNSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDataProtectionPolicyCommandOutput,
-    | SdkError
-    | AuthorizationError
-    | InternalError
-    | InvalidParameterError
-    | InvalidSecurityError
-    | NotFoundError
+    SdkError | AuthorizationError | InternalError | InvalidParameterError | InvalidSecurityError | NotFoundError
   >;
 
   /**
@@ -430,11 +407,7 @@ interface SNSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetEndpointAttributesCommandOutput,
-    | SdkError
-    | AuthorizationError
-    | InternalError
-    | InvalidParameterError
-    | NotFoundError
+    SdkError | AuthorizationError | InternalError | InvalidParameterError | NotFoundError
   >;
 
   /**
@@ -445,11 +418,7 @@ interface SNSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPlatformApplicationAttributesCommandOutput,
-    | SdkError
-    | AuthorizationError
-    | InternalError
-    | InvalidParameterError
-    | NotFoundError
+    SdkError | AuthorizationError | InternalError | InvalidParameterError | NotFoundError
   >;
 
   /**
@@ -460,11 +429,7 @@ interface SNSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetSMSAttributesCommandOutput,
-    | SdkError
-    | AuthorizationError
-    | InternalError
-    | InvalidParameterError
-    | ThrottledError
+    SdkError | AuthorizationError | InternalError | InvalidParameterError | ThrottledError
   >;
 
   /**
@@ -486,11 +451,7 @@ interface SNSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetSubscriptionAttributesCommandOutput,
-    | SdkError
-    | AuthorizationError
-    | InternalError
-    | InvalidParameterError
-    | NotFoundError
+    SdkError | AuthorizationError | InternalError | InvalidParameterError | NotFoundError
   >;
 
   /**
@@ -501,12 +462,7 @@ interface SNSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetTopicAttributesCommandOutput,
-    | SdkError
-    | AuthorizationError
-    | InternalError
-    | InvalidParameterError
-    | InvalidSecurityError
-    | NotFoundError
+    SdkError | AuthorizationError | InternalError | InvalidParameterError | InvalidSecurityError | NotFoundError
   >;
 
   /**
@@ -517,11 +473,7 @@ interface SNSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListEndpointsByPlatformApplicationCommandOutput,
-    | SdkError
-    | AuthorizationError
-    | InternalError
-    | InvalidParameterError
-    | NotFoundError
+    SdkError | AuthorizationError | InternalError | InvalidParameterError | NotFoundError
   >;
 
   /**
@@ -532,12 +484,7 @@ interface SNSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListOriginationNumbersCommandOutput,
-    | SdkError
-    | AuthorizationError
-    | InternalError
-    | InvalidParameterError
-    | ThrottledError
-    | ValidationError
+    SdkError | AuthorizationError | InternalError | InvalidParameterError | ThrottledError | ValidationError
   >;
 
   /**
@@ -548,11 +495,7 @@ interface SNSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListPhoneNumbersOptedOutCommandOutput,
-    | SdkError
-    | AuthorizationError
-    | InternalError
-    | InvalidParameterError
-    | ThrottledError
+    SdkError | AuthorizationError | InternalError | InvalidParameterError | ThrottledError
   >;
 
   /**
@@ -574,12 +517,7 @@ interface SNSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListSMSSandboxPhoneNumbersCommandOutput,
-    | SdkError
-    | AuthorizationError
-    | InternalError
-    | InvalidParameterError
-    | ResourceNotFoundError
-    | ThrottledError
+    SdkError | AuthorizationError | InternalError | InvalidParameterError | ResourceNotFoundError | ThrottledError
   >;
 
   /**
@@ -601,11 +539,7 @@ interface SNSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListSubscriptionsByTopicCommandOutput,
-    | SdkError
-    | AuthorizationError
-    | InternalError
-    | InvalidParameterError
-    | NotFoundError
+    SdkError | AuthorizationError | InternalError | InvalidParameterError | NotFoundError
   >;
 
   /**
@@ -643,11 +577,7 @@ interface SNSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     OptInPhoneNumberCommandOutput,
-    | SdkError
-    | AuthorizationError
-    | InternalError
-    | InvalidParameterError
-    | ThrottledError
+    SdkError | AuthorizationError | InternalError | InvalidParameterError | ThrottledError
   >;
 
   /**
@@ -715,12 +645,7 @@ interface SNSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutDataProtectionPolicyCommandOutput,
-    | SdkError
-    | AuthorizationError
-    | InternalError
-    | InvalidParameterError
-    | InvalidSecurityError
-    | NotFoundError
+    SdkError | AuthorizationError | InternalError | InvalidParameterError | InvalidSecurityError | NotFoundError
   >;
 
   /**
@@ -731,11 +656,7 @@ interface SNSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RemovePermissionCommandOutput,
-    | SdkError
-    | AuthorizationError
-    | InternalError
-    | InvalidParameterError
-    | NotFoundError
+    SdkError | AuthorizationError | InternalError | InvalidParameterError | NotFoundError
   >;
 
   /**
@@ -746,11 +667,7 @@ interface SNSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SetEndpointAttributesCommandOutput,
-    | SdkError
-    | AuthorizationError
-    | InternalError
-    | InvalidParameterError
-    | NotFoundError
+    SdkError | AuthorizationError | InternalError | InvalidParameterError | NotFoundError
   >;
 
   /**
@@ -761,11 +678,7 @@ interface SNSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SetPlatformApplicationAttributesCommandOutput,
-    | SdkError
-    | AuthorizationError
-    | InternalError
-    | InvalidParameterError
-    | NotFoundError
+    SdkError | AuthorizationError | InternalError | InvalidParameterError | NotFoundError
   >;
 
   /**
@@ -776,11 +689,7 @@ interface SNSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SetSMSAttributesCommandOutput,
-    | SdkError
-    | AuthorizationError
-    | InternalError
-    | InvalidParameterError
-    | ThrottledError
+    SdkError | AuthorizationError | InternalError | InvalidParameterError | ThrottledError
   >;
 
   /**
@@ -808,12 +717,7 @@ interface SNSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SetTopicAttributesCommandOutput,
-    | SdkError
-    | AuthorizationError
-    | InternalError
-    | InvalidParameterError
-    | InvalidSecurityError
-    | NotFoundError
+    SdkError | AuthorizationError | InternalError | InvalidParameterError | InvalidSecurityError | NotFoundError
   >;
 
   /**
@@ -861,12 +765,7 @@ interface SNSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UnsubscribeCommandOutput,
-    | SdkError
-    | AuthorizationError
-    | InternalError
-    | InvalidParameterError
-    | InvalidSecurityError
-    | NotFoundError
+    SdkError | AuthorizationError | InternalError | InvalidParameterError | InvalidSecurityError | NotFoundError
   >;
 
   /**
@@ -922,10 +821,7 @@ export const makeSNSService = Effect.gen(function*(_) {
             abortSignal,
           }),
         catch: (e) => {
-          if (
-            e instanceof SNSServiceException &&
-            AllServiceErrors.includes(e.name)
-          ) {
+          if (e instanceof SNSServiceException && AllServiceErrors.includes(e.name)) {
             const ServiceException = Data.tagged<
               TaggedException<SNSServiceException>
             >(e.name);
@@ -1004,7 +900,10 @@ export const SNS = SNSService;
  * @category layers
  * @deprecated use SNS.baseLayer instead
  */
-export const BaseSNSServiceLayer = Layer.effect(SNSService, makeSNSService);
+export const BaseSNSServiceLayer = Layer.effect(
+  SNSService,
+  makeSNSService,
+);
 
 /**
  * @since 1.0.0

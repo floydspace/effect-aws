@@ -361,10 +361,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CloneReceiptRuleSetCommandOutput,
-    | SdkError
-    | AlreadyExistsError
-    | LimitExceededError
-    | RuleSetDoesNotExistError
+    SdkError | AlreadyExistsError | LimitExceededError | RuleSetDoesNotExistError
   >;
 
   /**
@@ -375,10 +372,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateConfigurationSetCommandOutput,
-    | SdkError
-    | ConfigurationSetAlreadyExistsError
-    | InvalidConfigurationSetError
-    | LimitExceededError
+    SdkError | ConfigurationSetAlreadyExistsError | InvalidConfigurationSetError | LimitExceededError
   >;
 
   /**
@@ -406,10 +400,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateConfigurationSetTrackingOptionsCommandOutput,
-    | SdkError
-    | ConfigurationSetDoesNotExistError
-    | InvalidTrackingOptionsError
-    | TrackingOptionsAlreadyExistsError
+    SdkError | ConfigurationSetDoesNotExistError | InvalidTrackingOptionsError | TrackingOptionsAlreadyExistsError
   >;
 
   /**
@@ -497,9 +488,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteConfigurationSetEventDestinationCommandOutput,
-    | SdkError
-    | ConfigurationSetDoesNotExistError
-    | EventDestinationDoesNotExistError
+    SdkError | ConfigurationSetDoesNotExistError | EventDestinationDoesNotExistError
   >;
 
   /**
@@ -510,9 +499,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteConfigurationSetTrackingOptionsCommandOutput,
-    | SdkError
-    | ConfigurationSetDoesNotExistError
-    | TrackingOptionsDoesNotExistError
+    SdkError | ConfigurationSetDoesNotExistError | TrackingOptionsDoesNotExistError
   >;
 
   /**
@@ -532,7 +519,10 @@ interface SESService$ {
   deleteIdentity(
     args: DeleteIdentityCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DeleteIdentityCommandOutput, SdkError>;
+  ): Effect.Effect<
+    DeleteIdentityCommandOutput,
+    SdkError
+  >;
 
   /**
    * @see {@link DeleteIdentityPolicyCommand}
@@ -540,7 +530,10 @@ interface SESService$ {
   deleteIdentityPolicy(
     args: DeleteIdentityPolicyCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DeleteIdentityPolicyCommandOutput, SdkError>;
+  ): Effect.Effect<
+    DeleteIdentityPolicyCommandOutput,
+    SdkError
+  >;
 
   /**
    * @see {@link DeleteReceiptFilterCommand}
@@ -548,7 +541,10 @@ interface SESService$ {
   deleteReceiptFilter(
     args: DeleteReceiptFilterCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DeleteReceiptFilterCommandOutput, SdkError>;
+  ): Effect.Effect<
+    DeleteReceiptFilterCommandOutput,
+    SdkError
+  >;
 
   /**
    * @see {@link DeleteReceiptRuleCommand}
@@ -578,7 +574,10 @@ interface SESService$ {
   deleteTemplate(
     args: DeleteTemplateCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DeleteTemplateCommandOutput, SdkError>;
+  ): Effect.Effect<
+    DeleteTemplateCommandOutput,
+    SdkError
+  >;
 
   /**
    * @see {@link DeleteVerifiedEmailAddressCommand}
@@ -586,7 +585,10 @@ interface SESService$ {
   deleteVerifiedEmailAddress(
     args: DeleteVerifiedEmailAddressCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DeleteVerifiedEmailAddressCommandOutput, SdkError>;
+  ): Effect.Effect<
+    DeleteVerifiedEmailAddressCommandOutput,
+    SdkError
+  >;
 
   /**
    * @see {@link DescribeActiveReceiptRuleSetCommand}
@@ -594,7 +596,10 @@ interface SESService$ {
   describeActiveReceiptRuleSet(
     args: DescribeActiveReceiptRuleSetCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DescribeActiveReceiptRuleSetCommandOutput, SdkError>;
+  ): Effect.Effect<
+    DescribeActiveReceiptRuleSetCommandOutput,
+    SdkError
+  >;
 
   /**
    * @see {@link DescribeConfigurationSetCommand}
@@ -635,7 +640,10 @@ interface SESService$ {
   getAccountSendingEnabled(
     args: GetAccountSendingEnabledCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<GetAccountSendingEnabledCommandOutput, SdkError>;
+  ): Effect.Effect<
+    GetAccountSendingEnabledCommandOutput,
+    SdkError
+  >;
 
   /**
    * @see {@link GetCustomVerificationEmailTemplateCommand}
@@ -654,7 +662,10 @@ interface SESService$ {
   getIdentityDkimAttributes(
     args: GetIdentityDkimAttributesCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<GetIdentityDkimAttributesCommandOutput, SdkError>;
+  ): Effect.Effect<
+    GetIdentityDkimAttributesCommandOutput,
+    SdkError
+  >;
 
   /**
    * @see {@link GetIdentityMailFromDomainAttributesCommand}
@@ -662,7 +673,10 @@ interface SESService$ {
   getIdentityMailFromDomainAttributes(
     args: GetIdentityMailFromDomainAttributesCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<GetIdentityMailFromDomainAttributesCommandOutput, SdkError>;
+  ): Effect.Effect<
+    GetIdentityMailFromDomainAttributesCommandOutput,
+    SdkError
+  >;
 
   /**
    * @see {@link GetIdentityNotificationAttributesCommand}
@@ -670,7 +684,10 @@ interface SESService$ {
   getIdentityNotificationAttributes(
     args: GetIdentityNotificationAttributesCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<GetIdentityNotificationAttributesCommandOutput, SdkError>;
+  ): Effect.Effect<
+    GetIdentityNotificationAttributesCommandOutput,
+    SdkError
+  >;
 
   /**
    * @see {@link GetIdentityPoliciesCommand}
@@ -678,7 +695,10 @@ interface SESService$ {
   getIdentityPolicies(
     args: GetIdentityPoliciesCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<GetIdentityPoliciesCommandOutput, SdkError>;
+  ): Effect.Effect<
+    GetIdentityPoliciesCommandOutput,
+    SdkError
+  >;
 
   /**
    * @see {@link GetIdentityVerificationAttributesCommand}
@@ -686,7 +706,10 @@ interface SESService$ {
   getIdentityVerificationAttributes(
     args: GetIdentityVerificationAttributesCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<GetIdentityVerificationAttributesCommandOutput, SdkError>;
+  ): Effect.Effect<
+    GetIdentityVerificationAttributesCommandOutput,
+    SdkError
+  >;
 
   /**
    * @see {@link GetSendQuotaCommand}
@@ -694,7 +717,10 @@ interface SESService$ {
   getSendQuota(
     args: GetSendQuotaCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<GetSendQuotaCommandOutput, SdkError>;
+  ): Effect.Effect<
+    GetSendQuotaCommandOutput,
+    SdkError
+  >;
 
   /**
    * @see {@link GetSendStatisticsCommand}
@@ -702,7 +728,10 @@ interface SESService$ {
   getSendStatistics(
     args: GetSendStatisticsCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<GetSendStatisticsCommandOutput, SdkError>;
+  ): Effect.Effect<
+    GetSendStatisticsCommandOutput,
+    SdkError
+  >;
 
   /**
    * @see {@link GetTemplateCommand}
@@ -721,7 +750,10 @@ interface SESService$ {
   listConfigurationSets(
     args: ListConfigurationSetsCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<ListConfigurationSetsCommandOutput, SdkError>;
+  ): Effect.Effect<
+    ListConfigurationSetsCommandOutput,
+    SdkError
+  >;
 
   /**
    * @see {@link ListCustomVerificationEmailTemplatesCommand}
@@ -729,7 +761,10 @@ interface SESService$ {
   listCustomVerificationEmailTemplates(
     args: ListCustomVerificationEmailTemplatesCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<ListCustomVerificationEmailTemplatesCommandOutput, SdkError>;
+  ): Effect.Effect<
+    ListCustomVerificationEmailTemplatesCommandOutput,
+    SdkError
+  >;
 
   /**
    * @see {@link ListIdentitiesCommand}
@@ -737,7 +772,10 @@ interface SESService$ {
   listIdentities(
     args: ListIdentitiesCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<ListIdentitiesCommandOutput, SdkError>;
+  ): Effect.Effect<
+    ListIdentitiesCommandOutput,
+    SdkError
+  >;
 
   /**
    * @see {@link ListIdentityPoliciesCommand}
@@ -745,7 +783,10 @@ interface SESService$ {
   listIdentityPolicies(
     args: ListIdentityPoliciesCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<ListIdentityPoliciesCommandOutput, SdkError>;
+  ): Effect.Effect<
+    ListIdentityPoliciesCommandOutput,
+    SdkError
+  >;
 
   /**
    * @see {@link ListReceiptFiltersCommand}
@@ -753,7 +794,10 @@ interface SESService$ {
   listReceiptFilters(
     args: ListReceiptFiltersCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<ListReceiptFiltersCommandOutput, SdkError>;
+  ): Effect.Effect<
+    ListReceiptFiltersCommandOutput,
+    SdkError
+  >;
 
   /**
    * @see {@link ListReceiptRuleSetsCommand}
@@ -761,7 +805,10 @@ interface SESService$ {
   listReceiptRuleSets(
     args: ListReceiptRuleSetsCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<ListReceiptRuleSetsCommandOutput, SdkError>;
+  ): Effect.Effect<
+    ListReceiptRuleSetsCommandOutput,
+    SdkError
+  >;
 
   /**
    * @see {@link ListTemplatesCommand}
@@ -769,7 +816,10 @@ interface SESService$ {
   listTemplates(
     args: ListTemplatesCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<ListTemplatesCommandOutput, SdkError>;
+  ): Effect.Effect<
+    ListTemplatesCommandOutput,
+    SdkError
+  >;
 
   /**
    * @see {@link ListVerifiedEmailAddressesCommand}
@@ -777,7 +827,10 @@ interface SESService$ {
   listVerifiedEmailAddresses(
     args: ListVerifiedEmailAddressesCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<ListVerifiedEmailAddressesCommandOutput, SdkError>;
+  ): Effect.Effect<
+    ListVerifiedEmailAddressesCommandOutput,
+    SdkError
+  >;
 
   /**
    * @see {@link PutConfigurationSetDeliveryOptionsCommand}
@@ -818,7 +871,10 @@ interface SESService$ {
   sendBounce(
     args: SendBounceCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<SendBounceCommandOutput, SdkError | MessageRejectedError>;
+  ): Effect.Effect<
+    SendBounceCommandOutput,
+    SdkError | MessageRejectedError
+  >;
 
   /**
    * @see {@link SendBulkTemplatedEmailCommand}
@@ -919,7 +975,10 @@ interface SESService$ {
   setIdentityDkimEnabled(
     args: SetIdentityDkimEnabledCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<SetIdentityDkimEnabledCommandOutput, SdkError>;
+  ): Effect.Effect<
+    SetIdentityDkimEnabledCommandOutput,
+    SdkError
+  >;
 
   /**
    * @see {@link SetIdentityFeedbackForwardingEnabledCommand}
@@ -927,7 +986,10 @@ interface SESService$ {
   setIdentityFeedbackForwardingEnabled(
     args: SetIdentityFeedbackForwardingEnabledCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<SetIdentityFeedbackForwardingEnabledCommandOutput, SdkError>;
+  ): Effect.Effect<
+    SetIdentityFeedbackForwardingEnabledCommandOutput,
+    SdkError
+  >;
 
   /**
    * @see {@link SetIdentityHeadersInNotificationsEnabledCommand}
@@ -946,7 +1008,10 @@ interface SESService$ {
   setIdentityMailFromDomain(
     args: SetIdentityMailFromDomainCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<SetIdentityMailFromDomainCommandOutput, SdkError>;
+  ): Effect.Effect<
+    SetIdentityMailFromDomainCommandOutput,
+    SdkError
+  >;
 
   /**
    * @see {@link SetIdentityNotificationTopicCommand}
@@ -954,7 +1019,10 @@ interface SESService$ {
   setIdentityNotificationTopic(
     args: SetIdentityNotificationTopicCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<SetIdentityNotificationTopicCommandOutput, SdkError>;
+  ): Effect.Effect<
+    SetIdentityNotificationTopicCommandOutput,
+    SdkError
+  >;
 
   /**
    * @see {@link SetReceiptRulePositionCommand}
@@ -975,10 +1043,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TestRenderTemplateCommandOutput,
-    | SdkError
-    | InvalidRenderingParameterError
-    | MissingRenderingAttributeError
-    | TemplateDoesNotExistError
+    SdkError | InvalidRenderingParameterError | MissingRenderingAttributeError | TemplateDoesNotExistError
   >;
 
   /**
@@ -987,7 +1052,10 @@ interface SESService$ {
   updateAccountSendingEnabled(
     args: UpdateAccountSendingEnabledCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<UpdateAccountSendingEnabledCommandOutput, SdkError>;
+  ): Effect.Effect<
+    UpdateAccountSendingEnabledCommandOutput,
+    SdkError
+  >;
 
   /**
    * @see {@link UpdateConfigurationSetEventDestinationCommand}
@@ -1035,10 +1103,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateConfigurationSetTrackingOptionsCommandOutput,
-    | SdkError
-    | ConfigurationSetDoesNotExistError
-    | InvalidTrackingOptionsError
-    | TrackingOptionsDoesNotExistError
+    SdkError | ConfigurationSetDoesNotExistError | InvalidTrackingOptionsError | TrackingOptionsDoesNotExistError
   >;
 
   /**
@@ -1089,7 +1154,10 @@ interface SESService$ {
   verifyDomainDkim(
     args: VerifyDomainDkimCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<VerifyDomainDkimCommandOutput, SdkError>;
+  ): Effect.Effect<
+    VerifyDomainDkimCommandOutput,
+    SdkError
+  >;
 
   /**
    * @see {@link VerifyDomainIdentityCommand}
@@ -1097,7 +1165,10 @@ interface SESService$ {
   verifyDomainIdentity(
     args: VerifyDomainIdentityCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<VerifyDomainIdentityCommandOutput, SdkError>;
+  ): Effect.Effect<
+    VerifyDomainIdentityCommandOutput,
+    SdkError
+  >;
 
   /**
    * @see {@link VerifyEmailAddressCommand}
@@ -1105,7 +1176,10 @@ interface SESService$ {
   verifyEmailAddress(
     args: VerifyEmailAddressCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<VerifyEmailAddressCommandOutput, SdkError>;
+  ): Effect.Effect<
+    VerifyEmailAddressCommandOutput,
+    SdkError
+  >;
 
   /**
    * @see {@link VerifyEmailIdentityCommand}
@@ -1113,7 +1187,10 @@ interface SESService$ {
   verifyEmailIdentity(
     args: VerifyEmailIdentityCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<VerifyEmailIdentityCommandOutput, SdkError>;
+  ): Effect.Effect<
+    VerifyEmailIdentityCommandOutput,
+    SdkError
+  >;
 }
 
 /**
@@ -1133,10 +1210,7 @@ export const makeSESService = Effect.gen(function*(_) {
             abortSignal,
           }),
         catch: (e) => {
-          if (
-            e instanceof SESServiceException &&
-            AllServiceErrors.includes(e.name)
-          ) {
+          if (e instanceof SESServiceException && AllServiceErrors.includes(e.name)) {
             const ServiceException = Data.tagged<
               TaggedException<SESServiceException>
             >(e.name);
@@ -1215,7 +1289,10 @@ export const SES = SESService;
  * @category layers
  * @deprecated use SES.baseLayer instead
  */
-export const BaseSESServiceLayer = Layer.effect(SESService, makeSESService);
+export const BaseSESServiceLayer = Layer.effect(
+  SESService,
+  makeSESService,
+);
 
 /**
  * @since 1.0.0

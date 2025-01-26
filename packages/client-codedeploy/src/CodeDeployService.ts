@@ -447,10 +447,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchGetDeploymentsCommandOutput,
-    | SdkError
-    | BatchLimitExceededError
-    | DeploymentIdRequiredError
-    | InvalidDeploymentIdError
+    SdkError | BatchLimitExceededError | DeploymentIdRequiredError | InvalidDeploymentIdError
   >;
 
   /**
@@ -461,10 +458,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchGetOnPremisesInstancesCommandOutput,
-    | SdkError
-    | BatchLimitExceededError
-    | InstanceNameRequiredError
-    | InvalidInstanceNameError
+    SdkError | BatchLimitExceededError | InstanceNameRequiredError | InvalidInstanceNameError
   >;
 
   /**
@@ -611,10 +605,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteApplicationCommandOutput,
-    | SdkError
-    | ApplicationNameRequiredError
-    | InvalidApplicationNameError
-    | InvalidRoleError
+    SdkError | ApplicationNameRequiredError | InvalidApplicationNameError | InvalidRoleError
   >;
 
   /**
@@ -670,7 +661,10 @@ interface CodeDeployService$ {
   deleteResourcesByExternalId(
     args: DeleteResourcesByExternalIdCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DeleteResourcesByExternalIdCommandOutput, SdkError>;
+  ): Effect.Effect<
+    DeleteResourcesByExternalIdCommandOutput,
+    SdkError
+  >;
 
   /**
    * @see {@link DeregisterOnPremisesInstanceCommand}
@@ -691,10 +685,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetApplicationCommandOutput,
-    | SdkError
-    | ApplicationDoesNotExistError
-    | ApplicationNameRequiredError
-    | InvalidApplicationNameError
+    SdkError | ApplicationDoesNotExistError | ApplicationNameRequiredError | InvalidApplicationNameError
   >;
 
   /**
@@ -722,10 +713,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDeploymentCommandOutput,
-    | SdkError
-    | DeploymentDoesNotExistError
-    | DeploymentIdRequiredError
-    | InvalidDeploymentIdError
+    SdkError | DeploymentDoesNotExistError | DeploymentIdRequiredError | InvalidDeploymentIdError
   >;
 
   /**
@@ -806,10 +794,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetOnPremisesInstanceCommandOutput,
-    | SdkError
-    | InstanceNameRequiredError
-    | InstanceNotRegisteredError
-    | InvalidInstanceNameError
+    SdkError | InstanceNameRequiredError | InstanceNotRegisteredError | InvalidInstanceNameError
   >;
 
   /**
@@ -941,10 +926,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListGitHubAccountTokenNamesCommandOutput,
-    | SdkError
-    | InvalidNextTokenError
-    | OperationNotSupportedError
-    | ResourceValidationError
+    SdkError | InvalidNextTokenError | OperationNotSupportedError | ResourceValidationError
   >;
 
   /**
@@ -955,10 +937,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListOnPremisesInstancesCommandOutput,
-    | SdkError
-    | InvalidNextTokenError
-    | InvalidRegistrationStatusError
-    | InvalidTagFilterError
+    SdkError | InvalidNextTokenError | InvalidRegistrationStatusError | InvalidTagFilterError
   >;
 
   /**
@@ -1193,10 +1172,7 @@ export const makeCodeDeployService = Effect.gen(function*(_) {
             abortSignal,
           }),
         catch: (e) => {
-          if (
-            e instanceof CodeDeployServiceException &&
-            AllServiceErrors.includes(e.name)
-          ) {
+          if (e instanceof CodeDeployServiceException && AllServiceErrors.includes(e.name)) {
             const ServiceException = Data.tagged<
               TaggedException<CodeDeployServiceException>
             >(e.name);
@@ -1230,9 +1206,10 @@ export const makeCodeDeployService = Effect.gen(function*(_) {
  * @since 1.0.0
  * @category models
  */
-export class CodeDeployService extends Effect.Tag(
-  "@effect-aws/client-codedeploy/CodeDeployService",
-)<CodeDeployService, CodeDeployService$>() {
+export class CodeDeployService extends Effect.Tag("@effect-aws/client-codedeploy/CodeDeployService")<
+  CodeDeployService,
+  CodeDeployService$
+>() {
   static readonly defaultLayer = Layer.effect(this, makeCodeDeployService).pipe(
     Layer.provide(CodeDeployClientInstanceLayer),
     Layer.provide(DefaultCodeDeployClientConfigLayer),

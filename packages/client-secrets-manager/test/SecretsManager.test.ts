@@ -6,11 +6,11 @@ import {
 } from "@aws-sdk/client-secrets-manager";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-secrets-manager/dist-cjs/runtimeConfig";
+import { SdkError, SecretsManager } from "@effect-aws/client-secrets-manager";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { SdkError, SecretsManager } from "../src";
 
 const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(SecretsManagerClient);
@@ -75,9 +75,7 @@ describe("SecretsManagerClientImpl", () => {
     const result = await pipe(
       program,
       Effect.provide(
-        SecretsManager.baseLayer(
-          () => new SecretsManagerClient({ region: "eu-central-1" }),
-        ),
+        SecretsManager.baseLayer(() => new SecretsManagerClient({ region: "eu-central-1" })),
       ),
       Effect.runPromiseExit,
     );

@@ -7,11 +7,11 @@ import {
 } from "@aws-sdk/client-s3";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-s3/dist-cjs/runtimeConfig";
+import { S3, SdkError } from "@effect-aws/client-s3";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { S3, SdkError } from "../src";
 
 const getSignedUrl = vi.hoisted(() =>
   vi

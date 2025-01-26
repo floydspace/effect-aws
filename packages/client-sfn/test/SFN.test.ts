@@ -6,11 +6,11 @@ import {
 } from "@aws-sdk/client-sfn";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-sfn/dist-cjs/runtimeConfig";
+import { SdkError, SFN } from "@effect-aws/client-sfn";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { SdkError, SFN } from "../src";
 
 const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(SFNClient);
@@ -23,10 +23,7 @@ describe("SFNClientImpl", () => {
   it("default", async () => {
     clientMock.reset().on(StartExecutionCommand).resolves({});
 
-    const args: StartExecutionCommandInput = {
-      stateMachineArn: "test",
-      input: "test",
-    };
+    const args: StartExecutionCommandInput = { stateMachineArn: "test", input: "test" };
 
     const program = SFN.startExecution(args);
 
@@ -48,10 +45,7 @@ describe("SFNClientImpl", () => {
   it("configurable", async () => {
     clientMock.reset().on(StartExecutionCommand).resolves({});
 
-    const args: StartExecutionCommandInput = {
-      stateMachineArn: "test",
-      input: "test",
-    };
+    const args: StartExecutionCommandInput = { stateMachineArn: "test", input: "test" };
 
     const program = SFN.startExecution(args);
 
@@ -74,10 +68,7 @@ describe("SFNClientImpl", () => {
   it("base", async () => {
     clientMock.reset().on(StartExecutionCommand).resolves({});
 
-    const args: StartExecutionCommandInput = {
-      stateMachineArn: "test",
-      input: "test",
-    };
+    const args: StartExecutionCommandInput = { stateMachineArn: "test", input: "test" };
 
     const program = SFN.startExecution(args);
 
@@ -101,10 +92,7 @@ describe("SFNClientImpl", () => {
   it("extended", async () => {
     clientMock.reset().on(StartExecutionCommand).resolves({});
 
-    const args: StartExecutionCommandInput = {
-      stateMachineArn: "test",
-      input: "test",
-    };
+    const args: StartExecutionCommandInput = { stateMachineArn: "test", input: "test" };
 
     const program = SFN.startExecution(args);
 
@@ -131,10 +119,7 @@ describe("SFNClientImpl", () => {
   it("fail", async () => {
     clientMock.reset().on(StartExecutionCommand).rejects(new Error("test"));
 
-    const args: StartExecutionCommandInput = {
-      stateMachineArn: "test",
-      input: "test",
-    };
+    const args: StartExecutionCommandInput = { stateMachineArn: "test", input: "test" };
 
     const program = SFN.startExecution(args);
 
@@ -169,10 +154,7 @@ describe("SFNClientImpl", () => {
         } as any),
       );
 
-    const args: StartExecutionCommandInput = {
-      stateMachineArn: "test",
-      input: "test",
-    };
+    const args: StartExecutionCommandInput = { stateMachineArn: "test", input: "test" };
 
     const program = SFN.startExecution(args).pipe(
       Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),

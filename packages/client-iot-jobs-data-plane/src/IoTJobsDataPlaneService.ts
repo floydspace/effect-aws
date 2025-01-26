@@ -22,6 +22,7 @@ import {
   type UpdateJobExecutionCommandOutput,
 } from "@aws-sdk/client-iot-jobs-data-plane";
 import { Data, Effect, Layer, Record } from "effect";
+import { AllServiceErrors, SdkError } from "./Errors.js";
 import type {
   CertificateValidationError,
   ConflictError,
@@ -36,7 +37,6 @@ import type {
   ThrottlingError,
   ValidationError,
 } from "./Errors.js";
-import { AllServiceErrors, SdkError } from "./Errors.js";
 import {
   IoTJobsDataPlaneClientInstance,
   IoTJobsDataPlaneClientInstanceLayer,
@@ -170,10 +170,7 @@ export const makeIoTJobsDataPlaneService = Effect.gen(function*(_) {
             abortSignal,
           }),
         catch: (e) => {
-          if (
-            e instanceof IoTJobsDataPlaneServiceException &&
-            AllServiceErrors.includes(e.name)
-          ) {
+          if (e instanceof IoTJobsDataPlaneServiceException && AllServiceErrors.includes(e.name)) {
             const ServiceException = Data.tagged<
               TaggedException<IoTJobsDataPlaneServiceException>
             >(e.name);
@@ -207,13 +204,13 @@ export const makeIoTJobsDataPlaneService = Effect.gen(function*(_) {
  * @since 1.0.0
  * @category models
  */
-export class IoTJobsDataPlaneService extends Effect.Tag(
-  "@effect-aws/client-iot-jobs-data-plane/IoTJobsDataPlaneService",
-)<IoTJobsDataPlaneService, IoTJobsDataPlaneService$>() {
-  static readonly defaultLayer = Layer.effect(
-    this,
-    makeIoTJobsDataPlaneService,
-  ).pipe(
+export class IoTJobsDataPlaneService
+  extends Effect.Tag("@effect-aws/client-iot-jobs-data-plane/IoTJobsDataPlaneService")<
+    IoTJobsDataPlaneService,
+    IoTJobsDataPlaneService$
+  >()
+{
+  static readonly defaultLayer = Layer.effect(this, makeIoTJobsDataPlaneService).pipe(
     Layer.provide(IoTJobsDataPlaneClientInstanceLayer),
     Layer.provide(DefaultIoTJobsDataPlaneClientConfigLayer),
   );
@@ -230,9 +227,7 @@ export class IoTJobsDataPlaneService extends Effect.Tag(
       ),
     );
   static readonly baseLayer = (
-    evaluate: (
-      defaultConfig: IoTJobsDataPlaneClientConfig,
-    ) => IoTJobsDataPlaneClient,
+    evaluate: (defaultConfig: IoTJobsDataPlaneClientConfig) => IoTJobsDataPlaneClient,
   ) =>
     Layer.effect(this, makeIoTJobsDataPlaneService).pipe(
       Layer.provide(

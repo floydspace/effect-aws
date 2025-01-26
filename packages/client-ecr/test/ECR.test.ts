@@ -6,11 +6,11 @@ import {
 } from "@aws-sdk/client-ecr";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-ecr/dist-cjs/runtimeConfig";
+import { ECR, SdkError } from "@effect-aws/client-ecr";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { ECR, SdkError } from "../src";
 
 const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(ECRClient);
@@ -38,14 +38,8 @@ describe("ECRClientImpl", () => {
     expect(getRuntimeConfig).toHaveBeenCalledWith({
       logger: expect.any(Object),
     });
-    expect(clientMock).toHaveReceivedCommandTimes(
-      DescribeRepositoriesCommand,
-      1,
-    );
-    expect(clientMock).toHaveReceivedCommandWith(
-      DescribeRepositoriesCommand,
-      args,
-    );
+    expect(clientMock).toHaveReceivedCommandTimes(DescribeRepositoriesCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(DescribeRepositoriesCommand, args);
   });
 
   it("configurable", async () => {
@@ -67,14 +61,8 @@ describe("ECRClientImpl", () => {
       region: "eu-central-1",
       logger: expect.any(Object),
     });
-    expect(clientMock).toHaveReceivedCommandTimes(
-      DescribeRepositoriesCommand,
-      1,
-    );
-    expect(clientMock).toHaveReceivedCommandWith(
-      DescribeRepositoriesCommand,
-      args,
-    );
+    expect(clientMock).toHaveReceivedCommandTimes(DescribeRepositoriesCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(DescribeRepositoriesCommand, args);
   });
 
   it("base", async () => {
@@ -97,14 +85,8 @@ describe("ECRClientImpl", () => {
     expect(getRuntimeConfig).toHaveBeenCalledWith({
       region: "eu-central-1",
     });
-    expect(clientMock).toHaveReceivedCommandTimes(
-      DescribeRepositoriesCommand,
-      1,
-    );
-    expect(clientMock).toHaveReceivedCommandWith(
-      DescribeRepositoriesCommand,
-      args,
-    );
+    expect(clientMock).toHaveReceivedCommandTimes(DescribeRepositoriesCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(DescribeRepositoriesCommand, args);
   });
 
   it("extended", async () => {
@@ -130,21 +112,12 @@ describe("ECRClientImpl", () => {
       region: "eu-central-1",
       logger: expect.any(Object),
     });
-    expect(clientMock).toHaveReceivedCommandTimes(
-      DescribeRepositoriesCommand,
-      1,
-    );
-    expect(clientMock).toHaveReceivedCommandWith(
-      DescribeRepositoriesCommand,
-      args,
-    );
+    expect(clientMock).toHaveReceivedCommandTimes(DescribeRepositoriesCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(DescribeRepositoriesCommand, args);
   });
 
   it("fail", async () => {
-    clientMock
-      .reset()
-      .on(DescribeRepositoriesCommand)
-      .rejects(new Error("test"));
+    clientMock.reset().on(DescribeRepositoriesCommand).rejects(new Error("test"));
 
     const args = {} as unknown as DescribeRepositoriesCommandInput;
 
@@ -166,14 +139,8 @@ describe("ECRClientImpl", () => {
         }),
       ),
     );
-    expect(clientMock).toHaveReceivedCommandTimes(
-      DescribeRepositoriesCommand,
-      1,
-    );
-    expect(clientMock).toHaveReceivedCommandWith(
-      DescribeRepositoriesCommand,
-      args,
-    );
+    expect(clientMock).toHaveReceivedCommandTimes(DescribeRepositoriesCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(DescribeRepositoriesCommand, args);
   });
 
   it("should not catch unexpected error as expected", async () => {
@@ -209,13 +176,7 @@ describe("ECRClientImpl", () => {
         }),
       ),
     );
-    expect(clientMock).toHaveReceivedCommandTimes(
-      DescribeRepositoriesCommand,
-      1,
-    );
-    expect(clientMock).toHaveReceivedCommandWith(
-      DescribeRepositoriesCommand,
-      args,
-    );
+    expect(clientMock).toHaveReceivedCommandTimes(DescribeRepositoriesCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(DescribeRepositoriesCommand, args);
   });
 });

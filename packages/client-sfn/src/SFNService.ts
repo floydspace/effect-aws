@@ -284,7 +284,10 @@ interface SFNService$ {
   deleteActivity(
     args: DeleteActivityCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DeleteActivityCommandOutput, SdkError | InvalidArnError>;
+  ): Effect.Effect<
+    DeleteActivityCommandOutput,
+    SdkError | InvalidArnError
+  >;
 
   /**
    * @see {@link DeleteStateMachineCommand}
@@ -305,11 +308,7 @@ interface SFNService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteStateMachineAliasCommandOutput,
-    | SdkError
-    | ConflictError
-    | InvalidArnError
-    | ResourceNotFoundError
-    | ValidationError
+    SdkError | ConflictError | InvalidArnError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -444,7 +443,10 @@ interface SFNService$ {
   listActivities(
     args: ListActivitiesCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<ListActivitiesCommandOutput, SdkError | InvalidTokenError>;
+  ): Effect.Effect<
+    ListActivitiesCommandOutput,
+    SdkError | InvalidTokenError
+  >;
 
   /**
    * @see {@link ListExecutionsCommand}
@@ -680,11 +682,7 @@ interface SFNService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TestStateCommandOutput,
-    | SdkError
-    | InvalidArnError
-    | InvalidDefinitionError
-    | InvalidExecutionInputError
-    | ValidationError
+    SdkError | InvalidArnError | InvalidDefinitionError | InvalidExecutionInputError | ValidationError
   >;
 
   /**
@@ -741,12 +739,7 @@ interface SFNService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateStateMachineAliasCommandOutput,
-    | SdkError
-    | ConflictError
-    | InvalidArnError
-    | ResourceNotFoundError
-    | StateMachineDeletingError
-    | ValidationError
+    SdkError | ConflictError | InvalidArnError | ResourceNotFoundError | StateMachineDeletingError | ValidationError
   >;
 
   /**
@@ -778,10 +771,7 @@ export const makeSFNService = Effect.gen(function*(_) {
             abortSignal,
           }),
         catch: (e) => {
-          if (
-            e instanceof SFNServiceException &&
-            AllServiceErrors.includes(e.name)
-          ) {
+          if (e instanceof SFNServiceException && AllServiceErrors.includes(e.name)) {
             const ServiceException = Data.tagged<
               TaggedException<SFNServiceException>
             >(e.name);
@@ -860,7 +850,10 @@ export const SFN = SFNService;
  * @category layers
  * @deprecated use SFN.baseLayer instead
  */
-export const BaseSFNServiceLayer = Layer.effect(SFNService, makeSFNService);
+export const BaseSFNServiceLayer = Layer.effect(
+  SFNService,
+  makeSFNService,
+);
 
 /**
  * @since 1.0.0

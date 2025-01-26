@@ -1,11 +1,11 @@
 import { ListBrokersCommand, type ListBrokersCommandInput, MqClient, MqServiceException } from "@aws-sdk/client-mq";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-mq/dist-cjs/runtimeConfig";
+import { Mq, SdkError } from "@effect-aws/client-mq";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { Mq, SdkError } from "../src";
 
 const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(MqClient);

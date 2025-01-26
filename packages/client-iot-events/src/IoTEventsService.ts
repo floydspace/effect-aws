@@ -372,11 +372,7 @@ interface IoTEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAlarmModelsCommandOutput,
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ServiceUnavailableError
-    | ThrottlingError
+    SdkError | InternalFailureError | InvalidRequestError | ServiceUnavailableError | ThrottlingError
   >;
 
   /**
@@ -403,11 +399,7 @@ interface IoTEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDetectorModelsCommandOutput,
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ServiceUnavailableError
-    | ThrottlingError
+    SdkError | InternalFailureError | InvalidRequestError | ServiceUnavailableError | ThrottlingError
   >;
 
   /**
@@ -434,11 +426,7 @@ interface IoTEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListInputsCommandOutput,
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ServiceUnavailableError
-    | ThrottlingError
+    SdkError | InternalFailureError | InvalidRequestError | ServiceUnavailableError | ThrottlingError
   >;
 
   /**
@@ -449,12 +437,7 @@ interface IoTEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsForResourceCommandOutput,
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceInUseError
-    | ResourceNotFoundError
-    | ThrottlingError
+    SdkError | InternalFailureError | InvalidRequestError | ResourceInUseError | ResourceNotFoundError | ThrottlingError
   >;
 
   /**
@@ -515,12 +498,7 @@ interface IoTEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceInUseError
-    | ResourceNotFoundError
-    | ThrottlingError
+    SdkError | InternalFailureError | InvalidRequestError | ResourceInUseError | ResourceNotFoundError | ThrottlingError
   >;
 
   /**
@@ -592,10 +570,7 @@ export const makeIoTEventsService = Effect.gen(function*(_) {
             abortSignal,
           }),
         catch: (e) => {
-          if (
-            e instanceof IoTEventsServiceException &&
-            AllServiceErrors.includes(e.name)
-          ) {
+          if (e instanceof IoTEventsServiceException && AllServiceErrors.includes(e.name)) {
             const ServiceException = Data.tagged<
               TaggedException<IoTEventsServiceException>
             >(e.name);
@@ -629,9 +604,10 @@ export const makeIoTEventsService = Effect.gen(function*(_) {
  * @since 1.0.0
  * @category models
  */
-export class IoTEventsService extends Effect.Tag(
-  "@effect-aws/client-iot-events/IoTEventsService",
-)<IoTEventsService, IoTEventsService$>() {
+export class IoTEventsService extends Effect.Tag("@effect-aws/client-iot-events/IoTEventsService")<
+  IoTEventsService,
+  IoTEventsService$
+>() {
   static readonly defaultLayer = Layer.effect(this, makeIoTEventsService).pipe(
     Layer.provide(IoTEventsClientInstanceLayer),
     Layer.provide(DefaultIoTEventsClientConfigLayer),

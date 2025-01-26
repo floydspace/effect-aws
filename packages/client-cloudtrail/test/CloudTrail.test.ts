@@ -6,11 +6,11 @@ import {
 } from "@aws-sdk/client-cloudtrail";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-cloudtrail/dist-cjs/runtimeConfig";
+import { CloudTrail, SdkError } from "@effect-aws/client-cloudtrail";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { CloudTrail, SdkError } from "../src";
 
 const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(CloudTrailClient);
@@ -75,9 +75,7 @@ describe("CloudTrailClientImpl", () => {
     const result = await pipe(
       program,
       Effect.provide(
-        CloudTrail.baseLayer(
-          () => new CloudTrailClient({ region: "eu-central-1" }),
-        ),
+        CloudTrail.baseLayer(() => new CloudTrailClient({ region: "eu-central-1" })),
       ),
       Effect.runPromiseExit,
     );

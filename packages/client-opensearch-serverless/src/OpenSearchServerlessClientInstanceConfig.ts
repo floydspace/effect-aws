@@ -10,10 +10,7 @@ import { Context, Effect, Layer, Runtime } from "effect";
  */
 export class OpenSearchServerlessClientInstanceConfig extends Context.Tag(
   "@effect-aws/client-opensearch-serverless/OpenSearchServerlessClientInstanceConfig",
-)<
-  OpenSearchServerlessClientInstanceConfig,
-  OpenSearchServerlessClientConfig
->() {}
+)<OpenSearchServerlessClientInstanceConfig, OpenSearchServerlessClientConfig>() {}
 
 /**
  * @since 1.0.0

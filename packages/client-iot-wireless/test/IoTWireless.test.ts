@@ -6,11 +6,11 @@ import {
 } from "@aws-sdk/client-iot-wireless";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-iot-wireless/dist-cjs/runtimeConfig";
+import { IoTWireless, SdkError } from "@effect-aws/client-iot-wireless";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { IoTWireless, SdkError } from "../src";
 
 const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(IoTWirelessClient);
@@ -75,9 +75,7 @@ describe("IoTWirelessClientImpl", () => {
     const result = await pipe(
       program,
       Effect.provide(
-        IoTWireless.baseLayer(
-          () => new IoTWirelessClient({ region: "eu-central-1" }),
-        ),
+        IoTWireless.baseLayer(() => new IoTWirelessClient({ region: "eu-central-1" })),
       ),
       Effect.runPromiseExit,
     );

@@ -6,11 +6,11 @@ import {
 } from "@aws-sdk/client-cloudwatch-events";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-cloudwatch-events/dist-cjs/runtimeConfig";
+import { CloudWatchEvents, SdkError } from "@effect-aws/client-cloudwatch-events";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { CloudWatchEvents, SdkError } from "../src";
 
 const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(CloudWatchEventsClient);
@@ -75,9 +75,7 @@ describe("CloudWatchEventsClientImpl", () => {
     const result = await pipe(
       program,
       Effect.provide(
-        CloudWatchEvents.baseLayer(
-          () => new CloudWatchEventsClient({ region: "eu-central-1" }),
-        ),
+        CloudWatchEvents.baseLayer(() => new CloudWatchEventsClient({ region: "eu-central-1" })),
       ),
       Effect.runPromiseExit,
     );
