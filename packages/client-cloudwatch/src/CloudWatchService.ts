@@ -71,12 +71,12 @@ import {
   ListManagedInsightRulesCommand,
   type ListManagedInsightRulesCommandInput,
   type ListManagedInsightRulesCommandOutput,
-  ListMetricStreamsCommand,
-  type ListMetricStreamsCommandInput,
-  type ListMetricStreamsCommandOutput,
   ListMetricsCommand,
   type ListMetricsCommandInput,
   type ListMetricsCommandOutput,
+  ListMetricStreamsCommand,
+  type ListMetricStreamsCommandInput,
+  type ListMetricStreamsCommandOutput,
   ListTagsForResourceCommand,
   type ListTagsForResourceCommandInput,
   type ListTagsForResourceCommandOutput,
@@ -121,17 +121,13 @@ import {
   type UntagResourceCommandOutput,
 } from "@aws-sdk/client-cloudwatch";
 import { Data, Effect, Layer, Record } from "effect";
-import {
-  CloudWatchClientInstance,
-  CloudWatchClientInstanceLayer,
-} from "./CloudWatchClientInstance";
+import { CloudWatchClientInstance, CloudWatchClientInstanceLayer } from "./CloudWatchClientInstance.js";
 import {
   CloudWatchClientInstanceConfig,
   DefaultCloudWatchClientConfigLayer,
   makeDefaultCloudWatchClientInstanceConfig,
-} from "./CloudWatchClientInstanceConfig";
-import {
-  AllServiceErrors,
+} from "./CloudWatchClientInstanceConfig.js";
+import type {
   ConcurrentModificationError,
   DashboardInvalidInputError,
   DashboardNotFoundError,
@@ -145,9 +141,9 @@ import {
   MissingRequiredParameterError,
   ResourceNotFoundError,
   ResourceNotFoundExceptionError,
-  SdkError,
   TaggedException,
-} from "./Errors";
+} from "./Errors.js";
+import { AllServiceErrors, SdkError } from "./Errors.js";
 
 /**
  * @since 1.0.0
@@ -686,7 +682,7 @@ interface CloudWatchService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeCloudWatchService = Effect.gen(function* (_) {
+export const makeCloudWatchService = Effect.gen(function*(_) {
   const client = yield* _(CloudWatchClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {

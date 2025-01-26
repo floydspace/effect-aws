@@ -1,17 +1,16 @@
 import {
-  type DescribeAlarmsCommandInput,
-  DescribeAlarmsCommand,
   CloudWatchClient,
   CloudWatchServiceException,
+  DescribeAlarmsCommand,
+  type DescribeAlarmsCommandInput,
 } from "@aws-sdk/client-cloudwatch";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-cloudwatch/dist-cjs/runtimeConfig";
+import { CloudWatch, SdkError } from "@effect-aws/client-cloudwatch";
 import { mockClient } from "aws-sdk-client-mock";
-import * as Effect from "effect/Effect";
-import * as Exit from "effect/Exit";
+import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { CloudWatch, SdkError } from "../src";
 
 const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(CloudWatchClient);
@@ -76,9 +75,7 @@ describe("CloudWatchClientImpl", () => {
     const result = await pipe(
       program,
       Effect.provide(
-        CloudWatch.baseLayer(
-          () => new CloudWatchClient({ region: "eu-central-1" }),
-        ),
+        CloudWatch.baseLayer(() => new CloudWatchClient({ region: "eu-central-1" })),
       ),
       Effect.runPromiseExit,
     );
@@ -103,8 +100,7 @@ describe("CloudWatchClientImpl", () => {
       program,
       Effect.provide(
         CloudWatch.baseLayer(
-          (config) =>
-            new CloudWatchClient({ ...config, region: "eu-central-1" }),
+          (config) => new CloudWatchClient({ ...config, region: "eu-central-1" }),
         ),
       ),
       Effect.runPromiseExit,

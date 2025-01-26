@@ -2,9 +2,6 @@
  * @since 1.0.0
  */
 import {
-  CodeDeployServiceException,
-  type CodeDeployClient,
-  type CodeDeployClientConfig,
   AddTagsToOnPremisesInstancesCommand,
   type AddTagsToOnPremisesInstancesCommandInput,
   type AddTagsToOnPremisesInstancesCommandOutput,
@@ -20,15 +17,18 @@ import {
   BatchGetDeploymentInstancesCommand,
   type BatchGetDeploymentInstancesCommandInput,
   type BatchGetDeploymentInstancesCommandOutput,
-  BatchGetDeploymentTargetsCommand,
-  type BatchGetDeploymentTargetsCommandInput,
-  type BatchGetDeploymentTargetsCommandOutput,
   BatchGetDeploymentsCommand,
   type BatchGetDeploymentsCommandInput,
   type BatchGetDeploymentsCommandOutput,
+  BatchGetDeploymentTargetsCommand,
+  type BatchGetDeploymentTargetsCommandInput,
+  type BatchGetDeploymentTargetsCommandOutput,
   BatchGetOnPremisesInstancesCommand,
   type BatchGetOnPremisesInstancesCommandInput,
   type BatchGetOnPremisesInstancesCommandOutput,
+  type CodeDeployClient,
+  type CodeDeployClientConfig,
+  CodeDeployServiceException,
   ContinueDeploymentCommand,
   type ContinueDeploymentCommandInput,
   type ContinueDeploymentCommandOutput,
@@ -101,12 +101,12 @@ import {
   ListDeploymentInstancesCommand,
   type ListDeploymentInstancesCommandInput,
   type ListDeploymentInstancesCommandOutput,
-  ListDeploymentTargetsCommand,
-  type ListDeploymentTargetsCommandInput,
-  type ListDeploymentTargetsCommandOutput,
   ListDeploymentsCommand,
   type ListDeploymentsCommandInput,
   type ListDeploymentsCommandOutput,
+  ListDeploymentTargetsCommand,
+  type ListDeploymentTargetsCommandInput,
+  type ListDeploymentTargetsCommandOutput,
   ListGitHubAccountTokenNamesCommand,
   type ListGitHubAccountTokenNamesCommandInput,
   type ListGitHubAccountTokenNamesCommandOutput,
@@ -148,17 +148,13 @@ import {
   type UpdateDeploymentGroupCommandOutput,
 } from "@aws-sdk/client-codedeploy";
 import { Data, Effect, Layer, Record } from "effect";
+import { CodeDeployClientInstance, CodeDeployClientInstanceLayer } from "./CodeDeployClientInstance.js";
 import {
-  CodeDeployClientInstance,
-  CodeDeployClientInstanceLayer,
-} from "./CodeDeployClientInstance";
-import {
+  CodeDeployClientInstanceConfig,
   DefaultCodeDeployClientConfigLayer,
   makeDefaultCodeDeployClientInstanceConfig,
-  CodeDeployClientInstanceConfig,
-} from "./CodeDeployClientInstanceConfig";
-import {
-  AllServiceErrors,
+} from "./CodeDeployClientInstanceConfig.js";
+import type {
   AlarmsLimitExceededError,
   ApplicationAlreadyExistsError,
   ApplicationDoesNotExistError,
@@ -263,15 +259,15 @@ import {
   RevisionDoesNotExistError,
   RevisionRequiredError,
   RoleRequiredError,
+  TaggedException,
   TagLimitExceededError,
   TagRequiredError,
   TagSetListLimitExceededError,
   ThrottlingError,
   TriggerTargetsLimitExceededError,
   UnsupportedActionForDeploymentTypeError,
-  SdkError,
-  TaggedException,
-} from "./Errors";
+} from "./Errors.js";
+import { AllServiceErrors, SdkError } from "./Errors.js";
 
 /**
  * @since 1.0.0
@@ -451,10 +447,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchGetDeploymentsCommandOutput,
-    | SdkError
-    | BatchLimitExceededError
-    | DeploymentIdRequiredError
-    | InvalidDeploymentIdError
+    SdkError | BatchLimitExceededError | DeploymentIdRequiredError | InvalidDeploymentIdError
   >;
 
   /**
@@ -465,10 +458,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchGetOnPremisesInstancesCommandOutput,
-    | SdkError
-    | BatchLimitExceededError
-    | InstanceNameRequiredError
-    | InvalidInstanceNameError
+    SdkError | BatchLimitExceededError | InstanceNameRequiredError | InvalidInstanceNameError
   >;
 
   /**
@@ -615,10 +605,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteApplicationCommandOutput,
-    | SdkError
-    | ApplicationNameRequiredError
-    | InvalidApplicationNameError
-    | InvalidRoleError
+    SdkError | ApplicationNameRequiredError | InvalidApplicationNameError | InvalidRoleError
   >;
 
   /**
@@ -674,7 +661,10 @@ interface CodeDeployService$ {
   deleteResourcesByExternalId(
     args: DeleteResourcesByExternalIdCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DeleteResourcesByExternalIdCommandOutput, SdkError>;
+  ): Effect.Effect<
+    DeleteResourcesByExternalIdCommandOutput,
+    SdkError
+  >;
 
   /**
    * @see {@link DeregisterOnPremisesInstanceCommand}
@@ -695,10 +685,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetApplicationCommandOutput,
-    | SdkError
-    | ApplicationDoesNotExistError
-    | ApplicationNameRequiredError
-    | InvalidApplicationNameError
+    SdkError | ApplicationDoesNotExistError | ApplicationNameRequiredError | InvalidApplicationNameError
   >;
 
   /**
@@ -726,10 +713,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDeploymentCommandOutput,
-    | SdkError
-    | DeploymentDoesNotExistError
-    | DeploymentIdRequiredError
-    | InvalidDeploymentIdError
+    SdkError | DeploymentDoesNotExistError | DeploymentIdRequiredError | InvalidDeploymentIdError
   >;
 
   /**
@@ -810,10 +794,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetOnPremisesInstanceCommandOutput,
-    | SdkError
-    | InstanceNameRequiredError
-    | InstanceNotRegisteredError
-    | InvalidInstanceNameError
+    SdkError | InstanceNameRequiredError | InstanceNotRegisteredError | InvalidInstanceNameError
   >;
 
   /**
@@ -945,10 +926,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListGitHubAccountTokenNamesCommandOutput,
-    | SdkError
-    | InvalidNextTokenError
-    | OperationNotSupportedError
-    | ResourceValidationError
+    SdkError | InvalidNextTokenError | OperationNotSupportedError | ResourceValidationError
   >;
 
   /**
@@ -959,10 +937,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListOnPremisesInstancesCommandOutput,
-    | SdkError
-    | InvalidNextTokenError
-    | InvalidRegistrationStatusError
-    | InvalidTagFilterError
+    SdkError | InvalidNextTokenError | InvalidRegistrationStatusError | InvalidTagFilterError
   >;
 
   /**
@@ -1184,7 +1159,7 @@ interface CodeDeployService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeCodeDeployService = Effect.gen(function* (_) {
+export const makeCodeDeployService = Effect.gen(function*(_) {
   const client = yield* _(CodeDeployClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {
@@ -1197,10 +1172,7 @@ export const makeCodeDeployService = Effect.gen(function* (_) {
             abortSignal,
           }),
         catch: (e) => {
-          if (
-            e instanceof CodeDeployServiceException &&
-            AllServiceErrors.includes(e.name)
-          ) {
+          if (e instanceof CodeDeployServiceException && AllServiceErrors.includes(e.name)) {
             const ServiceException = Data.tagged<
               TaggedException<CodeDeployServiceException>
             >(e.name);
@@ -1234,9 +1206,10 @@ export const makeCodeDeployService = Effect.gen(function* (_) {
  * @since 1.0.0
  * @category models
  */
-export class CodeDeployService extends Effect.Tag(
-  "@effect-aws/client-codedeploy/CodeDeployService",
-)<CodeDeployService, CodeDeployService$>() {
+export class CodeDeployService extends Effect.Tag("@effect-aws/client-codedeploy/CodeDeployService")<
+  CodeDeployService,
+  CodeDeployService$
+>() {
   static readonly defaultLayer = Layer.effect(this, makeCodeDeployService).pipe(
     Layer.provide(CodeDeployClientInstanceLayer),
     Layer.provide(DefaultCodeDeployClientConfigLayer),

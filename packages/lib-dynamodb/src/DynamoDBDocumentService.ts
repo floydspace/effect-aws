@@ -1,80 +1,79 @@
 /**
  * @since 1.0.0
  */
-import {
-  DynamoDBClientConfig,
-  DynamoDBServiceException,
-} from "@aws-sdk/client-dynamodb";
-import {
-  BatchExecuteStatementCommand,
+import type { DynamoDBClientConfig } from "@aws-sdk/client-dynamodb";
+import { DynamoDBServiceException } from "@aws-sdk/client-dynamodb";
+import type {
   BatchExecuteStatementCommandInput,
   BatchExecuteStatementCommandOutput,
-  BatchGetCommand,
   BatchGetCommandInput,
   BatchGetCommandOutput,
-  BatchWriteCommand,
   BatchWriteCommandInput,
   BatchWriteCommandOutput,
-  DeleteCommand,
   DeleteCommandInput,
   DeleteCommandOutput,
   DynamoDBDocumentClient,
-  ExecuteStatementCommand,
   ExecuteStatementCommandInput,
   ExecuteStatementCommandOutput,
-  ExecuteTransactionCommand,
   ExecuteTransactionCommandInput,
   ExecuteTransactionCommandOutput,
-  GetCommand,
   GetCommandInput,
   GetCommandOutput,
-  PutCommand,
   PutCommandInput,
   PutCommandOutput,
-  QueryCommand,
   QueryCommandInput,
   QueryCommandOutput,
-  ScanCommand,
   ScanCommandInput,
   ScanCommandOutput,
-  TransactGetCommand,
   TransactGetCommandInput,
   TransactGetCommandOutput,
-  TransactWriteCommand,
   TransactWriteCommandInput,
   TransactWriteCommandOutput,
   TranslateConfig,
-  UpdateCommand,
   UpdateCommandInput,
   UpdateCommandOutput,
 } from "@aws-sdk/lib-dynamodb";
 import {
+  BatchExecuteStatementCommand,
+  BatchGetCommand,
+  BatchWriteCommand,
+  DeleteCommand,
+  ExecuteStatementCommand,
+  ExecuteTransactionCommand,
+  GetCommand,
+  PutCommand,
+  QueryCommand,
+  ScanCommand,
+  TransactGetCommand,
+  TransactWriteCommand,
+  UpdateCommand,
+} from "@aws-sdk/lib-dynamodb";
+import type {
   ConditionalCheckFailedError,
   DuplicateItemError,
   IdempotentParameterMismatchError,
   InternalServerError,
   InvalidEndpointError,
   ItemCollectionSizeLimitExceededError,
-  makeDefaultDynamoDBClientInstanceConfig,
   ProvisionedThroughputExceededError,
   RequestLimitExceededError,
   ResourceNotFoundError,
-  SdkError,
   TaggedException,
   TransactionCanceledError,
   TransactionConflictError,
   TransactionInProgressError,
 } from "@effect-aws/client-dynamodb";
+import { makeDefaultDynamoDBClientInstanceConfig, SdkError } from "@effect-aws/client-dynamodb";
 import { Data, Effect, Layer, Record } from "effect";
 import {
   DynamoDBDocumentClientInstance,
   DynamoDBDocumentClientInstanceLayer,
-} from "./DynamoDBDocumentClientInstance";
+} from "./DynamoDBDocumentClientInstance.js";
 import {
   DefaultDynamoDBDocumentClientConfigLayer,
   DynamoDBDocumentClientInstanceConfig,
   makeDefaultDynamoDBDocumentClientInstanceConfig,
-} from "./DynamoDBDocumentClientInstanceConfig";
+} from "./DynamoDBDocumentClientInstanceConfig.js";
 
 /**
  * @since 1.3.1
@@ -333,7 +332,7 @@ interface DynamoDBDocumentService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeDynamoDBDocumentService = Effect.gen(function* (_) {
+export const makeDynamoDBDocumentService = Effect.gen(function*(_) {
   const client = yield* _(DynamoDBDocumentClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {
@@ -437,15 +436,13 @@ export const BaseDynamoDBDocumentServiceLayer = Layer.effect(
  * @category layers
  * @deprecated use DynamoDBDocument.layer instead
  */
-export const DynamoDBDocumentServiceLayer =
-  BaseDynamoDBDocumentServiceLayer.pipe(
-    Layer.provide(DynamoDBDocumentClientInstanceLayer),
-  );
+export const DynamoDBDocumentServiceLayer = BaseDynamoDBDocumentServiceLayer.pipe(
+  Layer.provide(DynamoDBDocumentClientInstanceLayer),
+);
 
 /**
  * @since 1.0.0
  * @category layers
  * @deprecated use DynamoDBDocument.defaultLayer instead
  */
-export const DefaultDynamoDBDocumentServiceLayer =
-  DynamoDBDocumentService.defaultLayer;
+export const DefaultDynamoDBDocumentServiceLayer = DynamoDBDocumentService.defaultLayer;

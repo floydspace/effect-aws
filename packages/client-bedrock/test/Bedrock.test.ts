@@ -1,17 +1,16 @@
 import {
-  type ListCustomModelsCommandInput,
-  ListCustomModelsCommand,
   BedrockClient,
   BedrockServiceException,
+  ListCustomModelsCommand,
+  type ListCustomModelsCommandInput,
 } from "@aws-sdk/client-bedrock";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-bedrock/dist-cjs/runtimeConfig";
+import { Bedrock, SdkError } from "@effect-aws/client-bedrock";
 import { mockClient } from "aws-sdk-client-mock";
-import * as Effect from "effect/Effect";
-import * as Exit from "effect/Exit";
+import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { Bedrock, SdkError } from "../src";
 
 const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(BedrockClient);

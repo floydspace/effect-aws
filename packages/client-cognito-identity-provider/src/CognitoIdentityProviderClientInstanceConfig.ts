@@ -10,40 +10,38 @@ import { Context, Effect, Layer, Runtime } from "effect";
  */
 export class CognitoIdentityProviderClientInstanceConfig extends Context.Tag(
   "@effect-aws/client-cognito-identity-provider/CognitoIdentityProviderClientInstanceConfig",
-)<
-  CognitoIdentityProviderClientInstanceConfig,
-  CognitoIdentityProviderClientConfig
->() {}
+)<CognitoIdentityProviderClientInstanceConfig, CognitoIdentityProviderClientConfig>() {}
 
 /**
  * @since 1.0.0
  * @category constructors
  */
-export const makeDefaultCognitoIdentityProviderClientInstanceConfig: Effect.Effect<CognitoIdentityProviderClientConfig> =
-  Effect.gen(function* (_) {
-    const runtime = yield* _(Effect.runtime<never>());
-    const runSync = Runtime.runSync(runtime);
+export const makeDefaultCognitoIdentityProviderClientInstanceConfig: Effect.Effect<
+  CognitoIdentityProviderClientConfig
+> = Effect.gen(function*(_) {
+  const runtime = yield* _(Effect.runtime<never>());
+  const runSync = Runtime.runSync(runtime);
 
-    return {
-      logger: {
-        info(m) {
-          Effect.logInfo(m).pipe(runSync);
-        },
-        warn(m) {
-          Effect.logWarning(m).pipe(runSync);
-        },
-        error(m) {
-          Effect.logError(m).pipe(runSync);
-        },
-        debug(m) {
-          Effect.logDebug(m).pipe(runSync);
-        },
-        trace(m) {
-          Effect.logTrace(m).pipe(runSync);
-        },
+  return {
+    logger: {
+      info(m) {
+        Effect.logInfo(m).pipe(runSync);
       },
-    };
-  });
+      warn(m) {
+        Effect.logWarning(m).pipe(runSync);
+      },
+      error(m) {
+        Effect.logError(m).pipe(runSync);
+      },
+      debug(m) {
+        Effect.logDebug(m).pipe(runSync);
+      },
+      trace(m) {
+        Effect.logTrace(m).pipe(runSync);
+      },
+    },
+  };
+});
 
 /**
  * @since 1.0.0

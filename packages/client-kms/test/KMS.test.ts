@@ -1,17 +1,11 @@
-import {
-  type ListKeysCommandInput,
-  ListKeysCommand,
-  KMSClient,
-  KMSServiceException,
-} from "@aws-sdk/client-kms";
+import { KMSClient, KMSServiceException, ListKeysCommand, type ListKeysCommandInput } from "@aws-sdk/client-kms";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-kms/dist-cjs/runtimeConfig";
+import { KMS, SdkError } from "@effect-aws/client-kms";
 import { mockClient } from "aws-sdk-client-mock";
-import * as Effect from "effect/Effect";
-import * as Exit from "effect/Exit";
+import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { KMS, SdkError } from "../src";
 
 const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(KMSClient);

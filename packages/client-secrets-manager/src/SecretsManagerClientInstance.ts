@@ -2,13 +2,11 @@
  * @since 1.0.0
  */
 import { SecretsManagerClient } from "@aws-sdk/client-secrets-manager";
-import * as Context from "effect/Context";
-import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
+import { Context, Effect, Layer } from "effect";
 import {
   DefaultSecretsManagerClientConfigLayer,
   SecretsManagerClientInstanceConfig,
-} from "./SecretsManagerClientInstanceConfig";
+} from "./SecretsManagerClientInstanceConfig.js";
 
 /**
  * @since 1.0.0
@@ -44,7 +42,6 @@ export const SecretsManagerClientInstanceLayer = Layer.scoped(
  * @since 1.0.0
  * @category layers
  */
-export const DefaultSecretsManagerClientInstanceLayer =
-  SecretsManagerClientInstanceLayer.pipe(
-    Layer.provide(DefaultSecretsManagerClientConfigLayer),
-  );
+export const DefaultSecretsManagerClientInstanceLayer = SecretsManagerClientInstanceLayer.pipe(
+  Layer.provide(DefaultSecretsManagerClientConfigLayer),
+);

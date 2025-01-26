@@ -1,17 +1,16 @@
 import {
-  type ListApplicationsCommandInput,
-  ListApplicationsCommand,
   CodeDeployClient,
   CodeDeployServiceException,
+  ListApplicationsCommand,
+  type ListApplicationsCommandInput,
 } from "@aws-sdk/client-codedeploy";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-codedeploy/dist-cjs/runtimeConfig";
+import { CodeDeploy, SdkError } from "@effect-aws/client-codedeploy";
 import { mockClient } from "aws-sdk-client-mock";
-import * as Effect from "effect/Effect";
-import * as Exit from "effect/Exit";
+import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { CodeDeploy, SdkError } from "../src";
 
 const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(CodeDeployClient);
@@ -76,9 +75,7 @@ describe("CodeDeployClientImpl", () => {
     const result = await pipe(
       program,
       Effect.provide(
-        CodeDeploy.baseLayer(
-          () => new CodeDeployClient({ region: "eu-central-1" }),
-        ),
+        CodeDeploy.baseLayer(() => new CodeDeployClient({ region: "eu-central-1" })),
       ),
       Effect.runPromiseExit,
     );
@@ -103,8 +100,7 @@ describe("CodeDeployClientImpl", () => {
       program,
       Effect.provide(
         CodeDeploy.baseLayer(
-          (config) =>
-            new CodeDeployClient({ ...config, region: "eu-central-1" }),
+          (config) => new CodeDeployClient({ ...config, region: "eu-central-1" }),
         ),
       ),
       Effect.runPromiseExit,

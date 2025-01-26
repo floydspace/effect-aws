@@ -1,17 +1,11 @@
-import {
-  type DescribeJobCommandInput,
-  DescribeJobCommand,
-  IoTClient,
-  IoTServiceException,
-} from "@aws-sdk/client-iot";
+import { DescribeJobCommand, type DescribeJobCommandInput, IoTClient, IoTServiceException } from "@aws-sdk/client-iot";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-iot/dist-cjs/runtimeConfig";
+import { IoT, SdkError } from "@effect-aws/client-iot";
 import { mockClient } from "aws-sdk-client-mock";
-import * as Effect from "effect/Effect";
-import * as Exit from "effect/Exit";
+import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { IoT, SdkError } from "../src";
 
 const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(IoTClient);

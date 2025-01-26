@@ -37,10 +37,8 @@ export type TaggedException<T extends { name: string }> = T & {
 };
 
 export type BucketAlreadyExistsError = TaggedException<BucketAlreadyExists>;
-export type BucketAlreadyOwnedByYouError =
-  TaggedException<BucketAlreadyOwnedByYou>;
-export type EncryptionTypeMismatchError =
-  TaggedException<EncryptionTypeMismatch>;
+export type BucketAlreadyOwnedByYouError = TaggedException<BucketAlreadyOwnedByYou>;
+export type EncryptionTypeMismatchError = TaggedException<EncryptionTypeMismatch>;
 export type InvalidObjectStateError = TaggedException<InvalidObjectState>;
 export type InvalidRequestError = TaggedException<InvalidRequest>;
 export type InvalidWriteOffsetError = TaggedException<InvalidWriteOffset>;
@@ -48,10 +46,8 @@ export type NoSuchBucketError = TaggedException<NoSuchBucket>;
 export type NoSuchKeyError = TaggedException<NoSuchKey>;
 export type NoSuchUploadError = TaggedException<NoSuchUpload>;
 export type NotFoundError = TaggedException<NotFound>;
-export type ObjectAlreadyInActiveTierError =
-  TaggedException<ObjectAlreadyInActiveTierException>;
-export type ObjectNotInActiveTierError =
-  TaggedException<ObjectNotInActiveTierException>;
+export type ObjectAlreadyInActiveTierError = TaggedException<ObjectAlreadyInActiveTierException>;
+export type ObjectNotInActiveTierError = TaggedException<ObjectNotInActiveTierException>;
 export type TooManyPartsError = TaggedException<TooManyParts>;
 
 export type S3ServiceError = TaggedException<

@@ -2,13 +2,8 @@
  * @since 1.0.0
  */
 import { RDSClient } from "@aws-sdk/client-rds";
-import * as Context from "effect/Context";
-import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
-import {
-  DefaultRDSClientConfigLayer,
-  RDSClientInstanceConfig,
-} from "./RDSClientInstanceConfig";
+import { Context, Effect, Layer } from "effect";
+import { DefaultRDSClientConfigLayer, RDSClientInstanceConfig } from "./RDSClientInstanceConfig.js";
 
 /**
  * @since 1.0.0

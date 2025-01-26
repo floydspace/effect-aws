@@ -1,7 +1,8 @@
-import { Component, JsonFile, TextFile, Project, typescript } from "projen";
+import type { Project } from "projen";
+import { Component, JsonFile, TextFile, typescript } from "projen";
 
 export interface VitestOptions {
-  sharedSetupFiles?: string[];
+  sharedSetupFiles?: Array<string>;
 }
 
 export class Vitest extends Component {
@@ -29,25 +30,6 @@ export class Vitest extends Component {
       ];
     }
 
-    if (this.options.sharedSetupFiles?.length) {
-      new TextFile(project, "vitest.shared.ts", {
-        lines: [
-          "/* eslint-disable import/no-extraneous-dependencies */",
-          'import path from "node:path";',
-          'import { defineProject } from "vitest/config";',
-          "",
-          "export default defineProject({",
-          "  test: {",
-          `    setupFiles: [${this.options.sharedSetupFiles
-            .map((file) => `path.join(__dirname, "${file}")`)
-            .join(", ")}],`,
-          "  },",
-          "});",
-          "",
-        ],
-      });
-    }
-
     new JsonFile(project, "vitest.workspace.json", {
       obj: ["packages/*"],
       omitEmpty: true,
@@ -55,11 +37,49 @@ export class Vitest extends Component {
   }
 
   preSynthesize(): void {
+    const packages = this.project.subprojects.map((subproject) => subproject.outdir.split("/").pop());
+
+    new TextFile(this, "vitest.shared.ts", {
+      lines: [
+        'import path from "node:path";',
+        'import type { UserConfig } from "vitest/config";',
+        "",
+        "const alias = (pkg: string, dir = pkg) => {",
+        "  const name = `@effect-aws/${pkg}`",
+        '  const target = process.env.TEST_DIST !== undefined ? "dist/dist/esm" : "src"',
+        "  return ({",
+        '    [`${name}/test`]: path.join(__dirname, "packages", dir, "test"),',
+        '    [`${name}`]: path.join(__dirname, "packages", dir, target)',
+        "  })",
+        "}",
+        "",
+        // This is a workaround, see https://github.com/vitest-dev/vitest/issues/4744
+        "const config: UserConfig = {",
+        "  esbuild: {",
+        '    target: "es2020"',
+        "  },",
+        "  test: {",
+        ...(this.options.sharedSetupFiles?.length
+          ? [
+            `    setupFiles: [${
+              this.options.sharedSetupFiles.map((file) => `path.join(__dirname, "${file}")`).join(", ")
+            }],`,
+          ]
+          : []),
+        '    include: ["test/**/*.test.ts"],',
+        "    alias: {",
+        packages.map((pkg) => `      ...alias("${pkg}"),`).join("\n"),
+        "    }",
+        "  }",
+        "}",
+        "",
+        "export default config;",
+      ],
+    });
+
     this.project.subprojects.forEach((subproject) => {
       if (subproject instanceof typescript.TypeScriptProject) {
-        subproject.addDevDeps("vitest");
-
-        subproject.testTask.prependExec(
+        subproject.testTask.exec(
           "vitest run --globals --reporter verbose",
           { receiveArgs: true },
         );
@@ -72,9 +92,12 @@ export class Vitest extends Component {
         if (this.options.sharedSetupFiles?.length) {
           new TextFile(subproject, "vitest.config.ts", {
             lines: [
-              'import configShared from "../../vitest.shared";',
+              'import { mergeConfig, type UserConfigExport } from "vitest/config";',
+              'import configShared from "../../vitest.shared.js";',
               "",
-              "export default configShared;",
+              "const config: UserConfigExport = {};",
+              "",
+              "export default mergeConfig(configShared, config);",
               "",
             ],
           });

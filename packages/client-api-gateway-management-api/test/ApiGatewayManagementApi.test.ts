@@ -1,17 +1,16 @@
 import {
-  type PostToConnectionCommandInput,
-  PostToConnectionCommand,
   ApiGatewayManagementApiClient,
   ApiGatewayManagementApiServiceException,
+  PostToConnectionCommand,
+  type PostToConnectionCommandInput,
 } from "@aws-sdk/client-apigatewaymanagementapi";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-apigatewaymanagementapi/dist-cjs/runtimeConfig";
+import { ApiGatewayManagementApi, SdkError } from "@effect-aws/client-api-gateway-management-api";
 import { mockClient } from "aws-sdk-client-mock";
-import * as Effect from "effect/Effect";
-import * as Exit from "effect/Exit";
+import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { ApiGatewayManagementApi, SdkError } from "../src";
 
 const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(ApiGatewayManagementApiClient);
@@ -24,10 +23,7 @@ describe("ApiGatewayManagementApiClientImpl", () => {
   it("default", async () => {
     clientMock.reset().on(PostToConnectionCommand).resolves({});
 
-    const args: PostToConnectionCommandInput = {
-      ConnectionId: "test",
-      Data: "test",
-    };
+    const args: PostToConnectionCommandInput = { ConnectionId: "test", Data: "test" };
 
     const program = ApiGatewayManagementApi.postToConnection(args);
 
@@ -49,10 +45,7 @@ describe("ApiGatewayManagementApiClientImpl", () => {
   it("configurable", async () => {
     clientMock.reset().on(PostToConnectionCommand).resolves({});
 
-    const args: PostToConnectionCommandInput = {
-      ConnectionId: "test",
-      Data: "test",
-    };
+    const args: PostToConnectionCommandInput = { ConnectionId: "test", Data: "test" };
 
     const program = ApiGatewayManagementApi.postToConnection(args);
 
@@ -75,19 +68,14 @@ describe("ApiGatewayManagementApiClientImpl", () => {
   it("base", async () => {
     clientMock.reset().on(PostToConnectionCommand).resolves({});
 
-    const args: PostToConnectionCommandInput = {
-      ConnectionId: "test",
-      Data: "test",
-    };
+    const args: PostToConnectionCommandInput = { ConnectionId: "test", Data: "test" };
 
     const program = ApiGatewayManagementApi.postToConnection(args);
 
     const result = await pipe(
       program,
       Effect.provide(
-        ApiGatewayManagementApi.baseLayer(
-          () => new ApiGatewayManagementApiClient({ region: "eu-central-1" }),
-        ),
+        ApiGatewayManagementApi.baseLayer(() => new ApiGatewayManagementApiClient({ region: "eu-central-1" })),
       ),
       Effect.runPromiseExit,
     );
@@ -104,10 +92,7 @@ describe("ApiGatewayManagementApiClientImpl", () => {
   it("extended", async () => {
     clientMock.reset().on(PostToConnectionCommand).resolves({});
 
-    const args: PostToConnectionCommandInput = {
-      ConnectionId: "test",
-      Data: "test",
-    };
+    const args: PostToConnectionCommandInput = { ConnectionId: "test", Data: "test" };
 
     const program = ApiGatewayManagementApi.postToConnection(args);
 
@@ -115,11 +100,7 @@ describe("ApiGatewayManagementApiClientImpl", () => {
       program,
       Effect.provide(
         ApiGatewayManagementApi.baseLayer(
-          (config) =>
-            new ApiGatewayManagementApiClient({
-              ...config,
-              region: "eu-central-1",
-            }),
+          (config) => new ApiGatewayManagementApiClient({ ...config, region: "eu-central-1" }),
         ),
       ),
       Effect.runPromiseExit,
@@ -138,10 +119,7 @@ describe("ApiGatewayManagementApiClientImpl", () => {
   it("fail", async () => {
     clientMock.reset().on(PostToConnectionCommand).rejects(new Error("test"));
 
-    const args: PostToConnectionCommandInput = {
-      ConnectionId: "test",
-      Data: "test",
-    };
+    const args: PostToConnectionCommandInput = { ConnectionId: "test", Data: "test" };
 
     const program = ApiGatewayManagementApi.postToConnection(args);
 
@@ -176,10 +154,7 @@ describe("ApiGatewayManagementApiClientImpl", () => {
         } as any),
       );
 
-    const args: PostToConnectionCommandInput = {
-      ConnectionId: "test",
-      Data: "test",
-    };
+    const args: PostToConnectionCommandInput = { ConnectionId: "test", Data: "test" };
 
     const program = ApiGatewayManagementApi.postToConnection(args).pipe(
       Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),

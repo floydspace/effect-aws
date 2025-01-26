@@ -1,17 +1,16 @@
 import {
-  type StartCommandExecutionCommandInput,
-  StartCommandExecutionCommand,
   IoTJobsDataPlaneClient,
   IoTJobsDataPlaneServiceException,
+  StartCommandExecutionCommand,
+  type StartCommandExecutionCommandInput,
 } from "@aws-sdk/client-iot-jobs-data-plane";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-iot-jobs-data-plane/dist-cjs/runtimeConfig";
+import { IoTJobsDataPlane, SdkError } from "@effect-aws/client-iot-jobs-data-plane";
 import { mockClient } from "aws-sdk-client-mock";
-import * as Effect from "effect/Effect";
-import * as Exit from "effect/Exit";
+import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { IoTJobsDataPlane, SdkError } from "../src";
 
 const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(IoTJobsDataPlaneClient);
@@ -39,14 +38,8 @@ describe("IoTJobsDataPlaneClientImpl", () => {
     expect(getRuntimeConfig).toHaveBeenCalledWith({
       logger: expect.any(Object),
     });
-    expect(clientMock).toHaveReceivedCommandTimes(
-      StartCommandExecutionCommand,
-      1,
-    );
-    expect(clientMock).toHaveReceivedCommandWith(
-      StartCommandExecutionCommand,
-      args,
-    );
+    expect(clientMock).toHaveReceivedCommandTimes(StartCommandExecutionCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(StartCommandExecutionCommand, args);
   });
 
   it("configurable", async () => {
@@ -68,14 +61,8 @@ describe("IoTJobsDataPlaneClientImpl", () => {
       region: "eu-central-1",
       logger: expect.any(Object),
     });
-    expect(clientMock).toHaveReceivedCommandTimes(
-      StartCommandExecutionCommand,
-      1,
-    );
-    expect(clientMock).toHaveReceivedCommandWith(
-      StartCommandExecutionCommand,
-      args,
-    );
+    expect(clientMock).toHaveReceivedCommandTimes(StartCommandExecutionCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(StartCommandExecutionCommand, args);
   });
 
   it("base", async () => {
@@ -88,9 +75,7 @@ describe("IoTJobsDataPlaneClientImpl", () => {
     const result = await pipe(
       program,
       Effect.provide(
-        IoTJobsDataPlane.baseLayer(
-          () => new IoTJobsDataPlaneClient({ region: "eu-central-1" }),
-        ),
+        IoTJobsDataPlane.baseLayer(() => new IoTJobsDataPlaneClient({ region: "eu-central-1" })),
       ),
       Effect.runPromiseExit,
     );
@@ -100,14 +85,8 @@ describe("IoTJobsDataPlaneClientImpl", () => {
     expect(getRuntimeConfig).toHaveBeenCalledWith({
       region: "eu-central-1",
     });
-    expect(clientMock).toHaveReceivedCommandTimes(
-      StartCommandExecutionCommand,
-      1,
-    );
-    expect(clientMock).toHaveReceivedCommandWith(
-      StartCommandExecutionCommand,
-      args,
-    );
+    expect(clientMock).toHaveReceivedCommandTimes(StartCommandExecutionCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(StartCommandExecutionCommand, args);
   });
 
   it("extended", async () => {
@@ -121,8 +100,7 @@ describe("IoTJobsDataPlaneClientImpl", () => {
       program,
       Effect.provide(
         IoTJobsDataPlane.baseLayer(
-          (config) =>
-            new IoTJobsDataPlaneClient({ ...config, region: "eu-central-1" }),
+          (config) => new IoTJobsDataPlaneClient({ ...config, region: "eu-central-1" }),
         ),
       ),
       Effect.runPromiseExit,
@@ -134,21 +112,12 @@ describe("IoTJobsDataPlaneClientImpl", () => {
       region: "eu-central-1",
       logger: expect.any(Object),
     });
-    expect(clientMock).toHaveReceivedCommandTimes(
-      StartCommandExecutionCommand,
-      1,
-    );
-    expect(clientMock).toHaveReceivedCommandWith(
-      StartCommandExecutionCommand,
-      args,
-    );
+    expect(clientMock).toHaveReceivedCommandTimes(StartCommandExecutionCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(StartCommandExecutionCommand, args);
   });
 
   it("fail", async () => {
-    clientMock
-      .reset()
-      .on(StartCommandExecutionCommand)
-      .rejects(new Error("test"));
+    clientMock.reset().on(StartCommandExecutionCommand).rejects(new Error("test"));
 
     const args = {} as unknown as StartCommandExecutionCommandInput;
 
@@ -170,14 +139,8 @@ describe("IoTJobsDataPlaneClientImpl", () => {
         }),
       ),
     );
-    expect(clientMock).toHaveReceivedCommandTimes(
-      StartCommandExecutionCommand,
-      1,
-    );
-    expect(clientMock).toHaveReceivedCommandWith(
-      StartCommandExecutionCommand,
-      args,
-    );
+    expect(clientMock).toHaveReceivedCommandTimes(StartCommandExecutionCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(StartCommandExecutionCommand, args);
   });
 
   it("should not catch unexpected error as expected", async () => {
@@ -213,13 +176,7 @@ describe("IoTJobsDataPlaneClientImpl", () => {
         }),
       ),
     );
-    expect(clientMock).toHaveReceivedCommandTimes(
-      StartCommandExecutionCommand,
-      1,
-    );
-    expect(clientMock).toHaveReceivedCommandWith(
-      StartCommandExecutionCommand,
-      args,
-    );
+    expect(clientMock).toHaveReceivedCommandTimes(StartCommandExecutionCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(StartCommandExecutionCommand, args);
   });
 });

@@ -16,8 +16,8 @@ export class ElastiCacheClientInstanceConfig extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeDefaultElastiCacheClientInstanceConfig: Effect.Effect<ElastiCacheClientConfig> =
-  Effect.gen(function* (_) {
+export const makeDefaultElastiCacheClientInstanceConfig: Effect.Effect<ElastiCacheClientConfig> = Effect.gen(
+  function*(_) {
     const runtime = yield* _(Effect.runtime<never>());
     const runSync = Runtime.runSync(runtime);
 
@@ -40,7 +40,8 @@ export const makeDefaultElastiCacheClientInstanceConfig: Effect.Effect<ElastiCac
         },
       },
     };
-  });
+  },
+);
 
 /**
  * @since 1.0.0

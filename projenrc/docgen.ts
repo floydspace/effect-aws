@@ -1,4 +1,5 @@
-import { Component, JsonFile, Project, javascript } from "projen";
+import type { Project } from "projen";
+import { Component, javascript, JsonFile } from "projen";
 
 export class Docgen extends Component {
   public static of(project: Project): Docgen | undefined {
@@ -9,11 +10,13 @@ export class Docgen extends Component {
   constructor(project: javascript.NodeProject) {
     super(project);
 
-    project.addDevDeps("@effect/docgen", "tsx");
+    project.addDevDeps("@effect/docgen");
 
-    project.addTask("docgen", {
-      exec: "pnpm exec nx run-many --target=docgen --output-style=stream --nx-bail && node scripts/docs.mjs",
-    });
+    project
+      .addTask("docgen", {
+        exec: "pnpm --recursive --parallel run docgen",
+      })
+      .exec("node scripts/docs.mjs");
   }
 
   preSynthesize(): void {

@@ -1,18 +1,17 @@
-import path from "node:path";
-
-import { JsonFile, javascript, typescript } from "projen";
+import { javascript, typescript } from "projen";
 
 type PredefinedProps = "defaultReleaseBranch" | "authorName" | "authorEmail";
 
-export type TypeScriptLibProjectOptions = Omit<
-  typescript.TypeScriptProjectOptions,
-  PredefinedProps
-> &
-  Partial<Pick<typescript.TypeScriptProjectOptions, PredefinedProps>>;
+export type TypeScriptLibProjectOptions =
+  & Omit<
+    typescript.TypeScriptProjectOptions,
+    PredefinedProps
+  >
+  & Partial<Pick<typescript.TypeScriptProjectOptions, PredefinedProps>>;
 
 export class TypeScriptLibProject extends typescript.TypeScriptProject {
   constructor({
-    jestOptions: { jestConfig, ...jestOptions } = {},
+    jestOptions: { jestConfig: _, ...jestOptions } = {},
     ...options
   }: TypeScriptLibProjectOptions) {
     const parent = options.parent as javascript.NodeProject | undefined;
@@ -20,52 +19,51 @@ export class TypeScriptLibProject extends typescript.TypeScriptProject {
       defaultReleaseBranch: "main",
       authorEmail: "ifloydrose@gmail.com",
       authorName: "Victor Korzunin",
-      homepage: parent?.package.manifest.homepage,
+      repository: parent?.package.manifest.repository.url,
+      repositoryDirectory: `packages/${options.name}`,
+      homepage: `${parent?.package.manifest.homepage}/docs/${options.name}`,
       license: "MIT",
       packageManager: javascript.NodePackageManager.PNPM,
       outdir: `packages/${options.name}`,
-      prettier: true, // Monorepo prettier doesn't work for some reason
+      prettier: false,
       projenVersion: parent?.deps.getDependency("projen").version,
       typescriptVersion: parent?.deps.getDependency("typescript").version,
       package: false, // It will be created by @changesets/cli
       depsUpgrade: false, // Updates are handled by monorepo task
+      eslint: false,
       jest: false,
       jestOptions: {
         ...jestOptions,
         configFilePath: "jest.config.json",
         junitReporting: false,
       },
+      libdir: "build",
       tsconfig: {
         compilerOptions: {
-          moduleResolution: javascript.TypeScriptModuleResolution.NODE,
+          moduleResolution: javascript.TypeScriptModuleResolution.NODE_NEXT,
+          module: javascript.TypeScriptModuleResolution.NODE_NEXT,
           lib: ["es2019", "dom"],
+          outDir: "build/cjs",
+          declaration: false, // Declaration is set in esm tsconfig
         },
       },
+      tsconfigDev: { compilerOptions: { outDir: undefined } },
       ...options,
-      name: `@effect-aws/${options.name}`,
+      name: `@${parent?.name}/${options.name}`,
     });
 
-    // Add tsconfig for esm
-    new JsonFile(this, `${path.dirname(this.srcdir)}/tsconfig.esm.json`, {
-      obj: {
-        extends: "./tsconfig.json",
-        compilerOptions: {
-          outDir: "./lib/esm",
-          module: "es6", // esm
-          resolveJsonModule: false, // JSON modules are not supported in esm
-          declaration: false, // Declaration are generated for cjs
-        },
-      },
-    });
+    this.package.addField("main", `${this.libdir}/cjs/index.js`);
+    this.package.addField("types", `${this.libdir}/dts/index.d.ts`);
+    this.package.addField("type", "module");
 
-    // Build both cjs and esm
-    this.compileTask.reset("tsc -b ./tsconfig.json ./tsconfig.esm.json");
-
-    this.npmignore?.addPatterns("/tsconfig.esm.json");
+    this.tsconfig?.file.addOverride("references", [
+      { path: "tsconfig.src.json" },
+      { path: this.tsconfigDev.fileName },
+    ]);
 
     this.addFields({
       // Reference to esm index for root imports
-      module: "lib/esm/index.js",
+      module: `${this.libdir}/esm/index.js`,
       publishConfig: { access: "public" },
       sideEffects: [],
     });

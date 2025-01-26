@@ -1,17 +1,11 @@
-import {
-  type SendMessageCommandInput,
-  SendMessageCommand,
-  SQSClient,
-  SQSServiceException,
-} from "@aws-sdk/client-sqs";
+import { SendMessageCommand, type SendMessageCommandInput, SQSClient, SQSServiceException } from "@aws-sdk/client-sqs";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-sqs/dist-cjs/runtimeConfig";
+import { SdkError, SQS } from "@effect-aws/client-sqs";
 import { mockClient } from "aws-sdk-client-mock";
-import * as Effect from "effect/Effect";
-import * as Exit from "effect/Exit";
+import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { SQS, SdkError } from "../src";
 
 const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(SQSClient);

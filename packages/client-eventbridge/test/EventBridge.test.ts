@@ -1,17 +1,16 @@
 import {
-  type PutEventsCommandInput,
-  PutEventsCommand,
   EventBridgeClient,
   EventBridgeServiceException,
+  PutEventsCommand,
+  type PutEventsCommandInput,
 } from "@aws-sdk/client-eventbridge";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-eventbridge/dist-cjs/runtimeConfig";
+import { EventBridge, SdkError } from "@effect-aws/client-eventbridge";
 import { mockClient } from "aws-sdk-client-mock";
-import * as Effect from "effect/Effect";
-import * as Exit from "effect/Exit";
+import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { EventBridge, SdkError } from "../src";
 
 const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(EventBridgeClient);
@@ -76,9 +75,7 @@ describe("EventBridgeClientImpl", () => {
     const result = await pipe(
       program,
       Effect.provide(
-        EventBridge.baseLayer(
-          () => new EventBridgeClient({ region: "eu-central-1" }),
-        ),
+        EventBridge.baseLayer(() => new EventBridgeClient({ region: "eu-central-1" })),
       ),
       Effect.runPromiseExit,
     );
@@ -103,8 +100,7 @@ describe("EventBridgeClientImpl", () => {
       program,
       Effect.provide(
         EventBridge.baseLayer(
-          (config) =>
-            new EventBridgeClient({ ...config, region: "eu-central-1" }),
+          (config) => new EventBridgeClient({ ...config, region: "eu-central-1" }),
         ),
       ),
       Effect.runPromiseExit,

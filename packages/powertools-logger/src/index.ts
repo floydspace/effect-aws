@@ -1,3 +1,3 @@
-export * from "./LoggerOptions";
-export * from "./LoggerInstance";
-export * from "./Logger";
+export * from "./Logger.js";
+export * from "./LoggerInstance.js";
+export * from "./LoggerOptions.js";

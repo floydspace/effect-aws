@@ -1,17 +1,16 @@
 import {
-  type DescribeDomainsCommandInput,
-  DescribeDomainsCommand,
   CloudSearchClient,
   CloudSearchServiceException,
+  DescribeDomainsCommand,
+  type DescribeDomainsCommandInput,
 } from "@aws-sdk/client-cloudsearch";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-cloudsearch/dist-cjs/runtimeConfig";
+import { CloudSearch, SdkError } from "@effect-aws/client-cloudsearch";
 import { mockClient } from "aws-sdk-client-mock";
-import * as Effect from "effect/Effect";
-import * as Exit from "effect/Exit";
+import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { CloudSearch, SdkError } from "../src";
 
 const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(CloudSearchClient);
@@ -76,9 +75,7 @@ describe("CloudSearchClientImpl", () => {
     const result = await pipe(
       program,
       Effect.provide(
-        CloudSearch.baseLayer(
-          () => new CloudSearchClient({ region: "eu-central-1" }),
-        ),
+        CloudSearch.baseLayer(() => new CloudSearchClient({ region: "eu-central-1" })),
       ),
       Effect.runPromiseExit,
     );
@@ -103,8 +100,7 @@ describe("CloudSearchClientImpl", () => {
       program,
       Effect.provide(
         CloudSearch.baseLayer(
-          (config) =>
-            new CloudSearchClient({ ...config, region: "eu-central-1" }),
+          (config) => new CloudSearchClient({ ...config, region: "eu-central-1" }),
         ),
       ),
       Effect.runPromiseExit,

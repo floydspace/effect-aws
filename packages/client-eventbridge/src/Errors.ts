@@ -36,21 +36,16 @@ export type TaggedException<T extends { name: string }> = T & {
 };
 
 export type AccessDeniedError = TaggedException<AccessDeniedException>;
-export type ConcurrentModificationError =
-  TaggedException<ConcurrentModificationException>;
+export type ConcurrentModificationError = TaggedException<ConcurrentModificationException>;
 export type IllegalStatusError = TaggedException<IllegalStatusException>;
 export type InternalError = TaggedException<InternalException>;
-export type InvalidEventPatternError =
-  TaggedException<InvalidEventPatternException>;
+export type InvalidEventPatternError = TaggedException<InvalidEventPatternException>;
 export type InvalidStateError = TaggedException<InvalidStateException>;
 export type LimitExceededError = TaggedException<LimitExceededException>;
 export type ManagedRuleError = TaggedException<ManagedRuleException>;
-export type OperationDisabledError =
-  TaggedException<OperationDisabledException>;
-export type PolicyLengthExceededError =
-  TaggedException<PolicyLengthExceededException>;
-export type ResourceAlreadyExistsError =
-  TaggedException<ResourceAlreadyExistsException>;
+export type OperationDisabledError = TaggedException<OperationDisabledException>;
+export type PolicyLengthExceededError = TaggedException<PolicyLengthExceededException>;
+export type ResourceAlreadyExistsError = TaggedException<ResourceAlreadyExistsException>;
 export type ResourceNotFoundError = TaggedException<ResourceNotFoundException>;
 export type ThrottlingError = TaggedException<ThrottlingException>;
 

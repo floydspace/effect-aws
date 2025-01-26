@@ -2,9 +2,6 @@
  * @since 1.0.0
  */
 import {
-  SecretsManagerServiceException,
-  type SecretsManagerClient,
-  type SecretsManagerClientConfig,
   BatchGetSecretValueCommand,
   type BatchGetSecretValueCommandInput,
   type BatchGetSecretValueCommandOutput,
@@ -32,12 +29,12 @@ import {
   GetSecretValueCommand,
   type GetSecretValueCommandInput,
   type GetSecretValueCommandOutput,
-  ListSecretVersionIdsCommand,
-  type ListSecretVersionIdsCommandInput,
-  type ListSecretVersionIdsCommandOutput,
   ListSecretsCommand,
   type ListSecretsCommandInput,
   type ListSecretsCommandOutput,
+  ListSecretVersionIdsCommand,
+  type ListSecretVersionIdsCommandInput,
+  type ListSecretVersionIdsCommandOutput,
   PutResourcePolicyCommand,
   type PutResourcePolicyCommandInput,
   type PutResourcePolicyCommandOutput,
@@ -56,6 +53,9 @@ import {
   RotateSecretCommand,
   type RotateSecretCommandInput,
   type RotateSecretCommandOutput,
+  type SecretsManagerClient,
+  type SecretsManagerClientConfig,
+  SecretsManagerServiceException,
   StopReplicationToReplicaCommand,
   type StopReplicationToReplicaCommandInput,
   type StopReplicationToReplicaCommandOutput,
@@ -76,8 +76,7 @@ import {
   type ValidateResourcePolicyCommandOutput,
 } from "@aws-sdk/client-secrets-manager";
 import { Data, Effect, Layer, Record } from "effect";
-import {
-  AllServiceErrors,
+import type {
   DecryptionError,
   EncryptionError,
   InternalServiceError,
@@ -90,18 +89,15 @@ import {
   PublicPolicyError,
   ResourceExistsError,
   ResourceNotFoundError,
-  SdkError,
   TaggedException,
-} from "./Errors";
-import {
-  SecretsManagerClientInstance,
-  SecretsManagerClientInstanceLayer,
-} from "./SecretsManagerClientInstance";
+} from "./Errors.js";
+import { AllServiceErrors, SdkError } from "./Errors.js";
+import { SecretsManagerClientInstance, SecretsManagerClientInstanceLayer } from "./SecretsManagerClientInstance.js";
 import {
   DefaultSecretsManagerClientConfigLayer,
   makeDefaultSecretsManagerClientInstanceConfig,
   SecretsManagerClientInstanceConfig,
-} from "./SecretsManagerClientInstanceConfig";
+} from "./SecretsManagerClientInstanceConfig.js";
 
 /**
  * @since 1.0.0
@@ -168,11 +164,7 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelRotateSecretCommandOutput,
-    | SdkError
-    | InternalServiceError
-    | InvalidParameterError
-    | InvalidRequestError
-    | ResourceNotFoundError
+    SdkError | InternalServiceError | InvalidParameterError | InvalidRequestError | ResourceNotFoundError
   >;
 
   /**
@@ -204,11 +196,7 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteResourcePolicyCommandOutput,
-    | SdkError
-    | InternalServiceError
-    | InvalidParameterError
-    | InvalidRequestError
-    | ResourceNotFoundError
+    SdkError | InternalServiceError | InvalidParameterError | InvalidRequestError | ResourceNotFoundError
   >;
 
   /**
@@ -219,11 +207,7 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteSecretCommandOutput,
-    | SdkError
-    | InternalServiceError
-    | InvalidParameterError
-    | InvalidRequestError
-    | ResourceNotFoundError
+    SdkError | InternalServiceError | InvalidParameterError | InvalidRequestError | ResourceNotFoundError
   >;
 
   /**
@@ -234,10 +218,7 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeSecretCommandOutput,
-    | SdkError
-    | InternalServiceError
-    | InvalidParameterError
-    | ResourceNotFoundError
+    SdkError | InternalServiceError | InvalidParameterError | ResourceNotFoundError
   >;
 
   /**
@@ -248,10 +229,7 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetRandomPasswordCommandOutput,
-    | SdkError
-    | InternalServiceError
-    | InvalidParameterError
-    | InvalidRequestError
+    SdkError | InternalServiceError | InvalidParameterError | InvalidRequestError
   >;
 
   /**
@@ -262,11 +240,7 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetResourcePolicyCommandOutput,
-    | SdkError
-    | InternalServiceError
-    | InvalidParameterError
-    | InvalidRequestError
-    | ResourceNotFoundError
+    SdkError | InternalServiceError | InvalidParameterError | InvalidRequestError | ResourceNotFoundError
   >;
 
   /**
@@ -293,11 +267,7 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListSecretVersionIdsCommandOutput,
-    | SdkError
-    | InternalServiceError
-    | InvalidNextTokenError
-    | InvalidParameterError
-    | ResourceNotFoundError
+    SdkError | InternalServiceError | InvalidNextTokenError | InvalidParameterError | ResourceNotFoundError
   >;
 
   /**
@@ -308,11 +278,7 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListSecretsCommandOutput,
-    | SdkError
-    | InternalServiceError
-    | InvalidNextTokenError
-    | InvalidParameterError
-    | InvalidRequestError
+    SdkError | InternalServiceError | InvalidNextTokenError | InvalidParameterError | InvalidRequestError
   >;
 
   /**
@@ -359,11 +325,7 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RemoveRegionsFromReplicationCommandOutput,
-    | SdkError
-    | InternalServiceError
-    | InvalidParameterError
-    | InvalidRequestError
-    | ResourceNotFoundError
+    SdkError | InternalServiceError | InvalidParameterError | InvalidRequestError | ResourceNotFoundError
   >;
 
   /**
@@ -374,11 +336,7 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ReplicateSecretToRegionsCommandOutput,
-    | SdkError
-    | InternalServiceError
-    | InvalidParameterError
-    | InvalidRequestError
-    | ResourceNotFoundError
+    SdkError | InternalServiceError | InvalidParameterError | InvalidRequestError | ResourceNotFoundError
   >;
 
   /**
@@ -389,11 +347,7 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RestoreSecretCommandOutput,
-    | SdkError
-    | InternalServiceError
-    | InvalidParameterError
-    | InvalidRequestError
-    | ResourceNotFoundError
+    SdkError | InternalServiceError | InvalidParameterError | InvalidRequestError | ResourceNotFoundError
   >;
 
   /**
@@ -404,11 +358,7 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RotateSecretCommandOutput,
-    | SdkError
-    | InternalServiceError
-    | InvalidParameterError
-    | InvalidRequestError
-    | ResourceNotFoundError
+    SdkError | InternalServiceError | InvalidParameterError | InvalidRequestError | ResourceNotFoundError
   >;
 
   /**
@@ -419,11 +369,7 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StopReplicationToReplicaCommandOutput,
-    | SdkError
-    | InternalServiceError
-    | InvalidParameterError
-    | InvalidRequestError
-    | ResourceNotFoundError
+    SdkError | InternalServiceError | InvalidParameterError | InvalidRequestError | ResourceNotFoundError
   >;
 
   /**
@@ -434,11 +380,7 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagResourceCommandOutput,
-    | SdkError
-    | InternalServiceError
-    | InvalidParameterError
-    | InvalidRequestError
-    | ResourceNotFoundError
+    SdkError | InternalServiceError | InvalidParameterError | InvalidRequestError | ResourceNotFoundError
   >;
 
   /**
@@ -449,11 +391,7 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
-    | SdkError
-    | InternalServiceError
-    | InvalidParameterError
-    | InvalidRequestError
-    | ResourceNotFoundError
+    SdkError | InternalServiceError | InvalidParameterError | InvalidRequestError | ResourceNotFoundError
   >;
 
   /**
@@ -514,7 +452,7 @@ interface SecretsManagerService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeSecretsManagerService = Effect.gen(function* (_) {
+export const makeSecretsManagerService = Effect.gen(function*(_) {
   const client = yield* _(SecretsManagerClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {
@@ -527,10 +465,7 @@ export const makeSecretsManagerService = Effect.gen(function* (_) {
             abortSignal,
           }),
         catch: (e) => {
-          if (
-            e instanceof SecretsManagerServiceException &&
-            AllServiceErrors.includes(e.name)
-          ) {
+          if (e instanceof SecretsManagerServiceException && AllServiceErrors.includes(e.name)) {
             const ServiceException = Data.tagged<
               TaggedException<SecretsManagerServiceException>
             >(e.name);
@@ -564,13 +499,11 @@ export const makeSecretsManagerService = Effect.gen(function* (_) {
  * @since 1.0.0
  * @category models
  */
-export class SecretsManagerService extends Effect.Tag(
-  "@effect-aws/client-secrets-manager/SecretsManagerService",
-)<SecretsManagerService, SecretsManagerService$>() {
-  static readonly defaultLayer = Layer.effect(
-    this,
-    makeSecretsManagerService,
-  ).pipe(
+export class SecretsManagerService extends Effect.Tag("@effect-aws/client-secrets-manager/SecretsManagerService")<
+  SecretsManagerService,
+  SecretsManagerService$
+>() {
+  static readonly defaultLayer = Layer.effect(this, makeSecretsManagerService).pipe(
     Layer.provide(SecretsManagerClientInstanceLayer),
     Layer.provide(DefaultSecretsManagerClientConfigLayer),
   );
@@ -587,9 +520,7 @@ export class SecretsManagerService extends Effect.Tag(
       ),
     );
   static readonly baseLayer = (
-    evaluate: (
-      defaultConfig: SecretsManagerClientConfig,
-    ) => SecretsManagerClient,
+    evaluate: (defaultConfig: SecretsManagerClientConfig) => SecretsManagerClient,
   ) =>
     Layer.effect(this, makeSecretsManagerService).pipe(
       Layer.provide(
@@ -632,5 +563,4 @@ export const SecretsManagerServiceLayer = BaseSecretsManagerServiceLayer.pipe(
  * @category layers
  * @deprecated use SecretsManager.defaultLayer instead
  */
-export const DefaultSecretsManagerServiceLayer =
-  SecretsManagerService.defaultLayer;
+export const DefaultSecretsManagerServiceLayer = SecretsManagerService.defaultLayer;

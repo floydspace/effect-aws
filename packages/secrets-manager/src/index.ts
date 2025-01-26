@@ -1,1 +1,1 @@
-export * from "./ConfigProvider";
+export * from "./ConfigProvider.js";

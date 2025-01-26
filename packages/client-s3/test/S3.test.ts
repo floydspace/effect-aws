@@ -7,19 +7,18 @@ import {
 } from "@aws-sdk/client-s3";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-s3/dist-cjs/runtimeConfig";
+import { S3, SdkError } from "@effect-aws/client-s3";
 import { mockClient } from "aws-sdk-client-mock";
-import * as Effect from "effect/Effect";
-import * as Exit from "effect/Exit";
+import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { S3, SdkError } from "../src";
 
 const getSignedUrl = vi.hoisted(() =>
   vi
     .fn()
     .mockResolvedValue(
       "https://test.s3.eu-central-1.amazonaws.com/test?whatever",
-    ),
+    )
 );
 vi.mock("@aws-sdk/s3-request-presigner", () => ({ getSignedUrl }));
 

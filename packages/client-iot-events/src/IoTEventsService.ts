@@ -2,9 +2,6 @@
  * @since 1.0.0
  */
 import {
-  IoTEventsServiceException,
-  type IoTEventsClient,
-  type IoTEventsClientConfig,
   CreateAlarmModelCommand,
   type CreateAlarmModelCommandInput,
   type CreateAlarmModelCommandOutput,
@@ -26,12 +23,12 @@ import {
   DescribeAlarmModelCommand,
   type DescribeAlarmModelCommandInput,
   type DescribeAlarmModelCommandOutput,
-  DescribeDetectorModelCommand,
-  type DescribeDetectorModelCommandInput,
-  type DescribeDetectorModelCommandOutput,
   DescribeDetectorModelAnalysisCommand,
   type DescribeDetectorModelAnalysisCommandInput,
   type DescribeDetectorModelAnalysisCommandOutput,
+  DescribeDetectorModelCommand,
+  type DescribeDetectorModelCommandInput,
+  type DescribeDetectorModelCommandOutput,
   DescribeInputCommand,
   type DescribeInputCommandInput,
   type DescribeInputCommandOutput,
@@ -41,18 +38,21 @@ import {
   GetDetectorModelAnalysisResultsCommand,
   type GetDetectorModelAnalysisResultsCommandInput,
   type GetDetectorModelAnalysisResultsCommandOutput,
-  ListAlarmModelVersionsCommand,
-  type ListAlarmModelVersionsCommandInput,
-  type ListAlarmModelVersionsCommandOutput,
+  type IoTEventsClient,
+  type IoTEventsClientConfig,
+  IoTEventsServiceException,
   ListAlarmModelsCommand,
   type ListAlarmModelsCommandInput,
   type ListAlarmModelsCommandOutput,
-  ListDetectorModelVersionsCommand,
-  type ListDetectorModelVersionsCommandInput,
-  type ListDetectorModelVersionsCommandOutput,
+  ListAlarmModelVersionsCommand,
+  type ListAlarmModelVersionsCommandInput,
+  type ListAlarmModelVersionsCommandOutput,
   ListDetectorModelsCommand,
   type ListDetectorModelsCommandInput,
   type ListDetectorModelsCommandOutput,
+  ListDetectorModelVersionsCommand,
+  type ListDetectorModelVersionsCommandInput,
+  type ListDetectorModelVersionsCommandOutput,
   ListInputRoutingsCommand,
   type ListInputRoutingsCommandInput,
   type ListInputRoutingsCommandOutput,
@@ -85,8 +85,7 @@ import {
   type UpdateInputCommandOutput,
 } from "@aws-sdk/client-iot-events";
 import { Data, Effect, Layer, Record } from "effect";
-import {
-  AllServiceErrors,
+import type {
   InternalFailureError,
   InvalidRequestError,
   LimitExceededError,
@@ -94,20 +93,17 @@ import {
   ResourceInUseError,
   ResourceNotFoundError,
   ServiceUnavailableError,
+  TaggedException,
   ThrottlingError,
   UnsupportedOperationError,
-  SdkError,
-  TaggedException,
-} from "./Errors";
-import {
-  IoTEventsClientInstance,
-  IoTEventsClientInstanceLayer,
-} from "./IoTEventsClientInstance";
+} from "./Errors.js";
+import { AllServiceErrors, SdkError } from "./Errors.js";
+import { IoTEventsClientInstance, IoTEventsClientInstanceLayer } from "./IoTEventsClientInstance.js";
 import {
   DefaultIoTEventsClientConfigLayer,
-  makeDefaultIoTEventsClientInstanceConfig,
   IoTEventsClientInstanceConfig,
-} from "./IoTEventsClientInstanceConfig";
+  makeDefaultIoTEventsClientInstanceConfig,
+} from "./IoTEventsClientInstanceConfig.js";
 
 /**
  * @since 1.0.0
@@ -376,11 +372,7 @@ interface IoTEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAlarmModelsCommandOutput,
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ServiceUnavailableError
-    | ThrottlingError
+    SdkError | InternalFailureError | InvalidRequestError | ServiceUnavailableError | ThrottlingError
   >;
 
   /**
@@ -407,11 +399,7 @@ interface IoTEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDetectorModelsCommandOutput,
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ServiceUnavailableError
-    | ThrottlingError
+    SdkError | InternalFailureError | InvalidRequestError | ServiceUnavailableError | ThrottlingError
   >;
 
   /**
@@ -438,11 +426,7 @@ interface IoTEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListInputsCommandOutput,
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ServiceUnavailableError
-    | ThrottlingError
+    SdkError | InternalFailureError | InvalidRequestError | ServiceUnavailableError | ThrottlingError
   >;
 
   /**
@@ -453,12 +437,7 @@ interface IoTEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsForResourceCommandOutput,
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceInUseError
-    | ResourceNotFoundError
-    | ThrottlingError
+    SdkError | InternalFailureError | InvalidRequestError | ResourceInUseError | ResourceNotFoundError | ThrottlingError
   >;
 
   /**
@@ -519,12 +498,7 @@ interface IoTEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceInUseError
-    | ResourceNotFoundError
-    | ThrottlingError
+    SdkError | InternalFailureError | InvalidRequestError | ResourceInUseError | ResourceNotFoundError | ThrottlingError
   >;
 
   /**
@@ -583,7 +557,7 @@ interface IoTEventsService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeIoTEventsService = Effect.gen(function* (_) {
+export const makeIoTEventsService = Effect.gen(function*(_) {
   const client = yield* _(IoTEventsClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {
@@ -596,10 +570,7 @@ export const makeIoTEventsService = Effect.gen(function* (_) {
             abortSignal,
           }),
         catch: (e) => {
-          if (
-            e instanceof IoTEventsServiceException &&
-            AllServiceErrors.includes(e.name)
-          ) {
+          if (e instanceof IoTEventsServiceException && AllServiceErrors.includes(e.name)) {
             const ServiceException = Data.tagged<
               TaggedException<IoTEventsServiceException>
             >(e.name);
@@ -633,9 +604,10 @@ export const makeIoTEventsService = Effect.gen(function* (_) {
  * @since 1.0.0
  * @category models
  */
-export class IoTEventsService extends Effect.Tag(
-  "@effect-aws/client-iot-events/IoTEventsService",
-)<IoTEventsService, IoTEventsService$>() {
+export class IoTEventsService extends Effect.Tag("@effect-aws/client-iot-events/IoTEventsService")<
+  IoTEventsService,
+  IoTEventsService$
+>() {
   static readonly defaultLayer = Layer.effect(this, makeIoTEventsService).pipe(
     Layer.provide(IoTEventsClientInstanceLayer),
     Layer.provide(DefaultIoTEventsClientConfigLayer),

@@ -2,9 +2,6 @@
  * @since 1.0.0
  */
 import {
-  IoTEventsDataServiceException,
-  type IoTEventsDataClient,
-  type IoTEventsDataClientConfig,
   BatchAcknowledgeAlarmCommand,
   type BatchAcknowledgeAlarmCommandInput,
   type BatchAcknowledgeAlarmCommandOutput,
@@ -35,6 +32,9 @@ import {
   DescribeDetectorCommand,
   type DescribeDetectorCommandInput,
   type DescribeDetectorCommandOutput,
+  type IoTEventsDataClient,
+  type IoTEventsDataClientConfig,
+  IoTEventsDataServiceException,
   ListAlarmsCommand,
   type ListAlarmsCommandInput,
   type ListAlarmsCommandOutput,
@@ -43,25 +43,21 @@ import {
   type ListDetectorsCommandOutput,
 } from "@aws-sdk/client-iot-events-data";
 import { Data, Effect, Layer, Record } from "effect";
-import {
-  AllServiceErrors,
+import { AllServiceErrors, SdkError } from "./Errors.js";
+import type {
   InternalFailureError,
   InvalidRequestError,
   ResourceNotFoundError,
   ServiceUnavailableError,
-  ThrottlingError,
-  SdkError,
   TaggedException,
-} from "./Errors";
-import {
-  IoTEventsDataClientInstance,
-  IoTEventsDataClientInstanceLayer,
-} from "./IoTEventsDataClientInstance";
+  ThrottlingError,
+} from "./Errors.js";
+import { IoTEventsDataClientInstance, IoTEventsDataClientInstanceLayer } from "./IoTEventsDataClientInstance.js";
 import {
   DefaultIoTEventsDataClientConfigLayer,
-  makeDefaultIoTEventsDataClientInstanceConfig,
   IoTEventsDataClientInstanceConfig,
-} from "./IoTEventsDataClientInstanceConfig";
+  makeDefaultIoTEventsDataClientInstanceConfig,
+} from "./IoTEventsDataClientInstanceConfig.js";
 
 /**
  * @since 1.0.0
@@ -100,11 +96,7 @@ interface IoTEventsDataService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchAcknowledgeAlarmCommandOutput,
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ServiceUnavailableError
-    | ThrottlingError
+    SdkError | InternalFailureError | InvalidRequestError | ServiceUnavailableError | ThrottlingError
   >;
 
   /**
@@ -115,11 +107,7 @@ interface IoTEventsDataService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchDeleteDetectorCommandOutput,
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ServiceUnavailableError
-    | ThrottlingError
+    SdkError | InternalFailureError | InvalidRequestError | ServiceUnavailableError | ThrottlingError
   >;
 
   /**
@@ -130,11 +118,7 @@ interface IoTEventsDataService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchDisableAlarmCommandOutput,
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ServiceUnavailableError
-    | ThrottlingError
+    SdkError | InternalFailureError | InvalidRequestError | ServiceUnavailableError | ThrottlingError
   >;
 
   /**
@@ -145,11 +129,7 @@ interface IoTEventsDataService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchEnableAlarmCommandOutput,
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ServiceUnavailableError
-    | ThrottlingError
+    SdkError | InternalFailureError | InvalidRequestError | ServiceUnavailableError | ThrottlingError
   >;
 
   /**
@@ -160,11 +140,7 @@ interface IoTEventsDataService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchPutMessageCommandOutput,
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ServiceUnavailableError
-    | ThrottlingError
+    SdkError | InternalFailureError | InvalidRequestError | ServiceUnavailableError | ThrottlingError
   >;
 
   /**
@@ -175,11 +151,7 @@ interface IoTEventsDataService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchResetAlarmCommandOutput,
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ServiceUnavailableError
-    | ThrottlingError
+    SdkError | InternalFailureError | InvalidRequestError | ServiceUnavailableError | ThrottlingError
   >;
 
   /**
@@ -190,11 +162,7 @@ interface IoTEventsDataService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchSnoozeAlarmCommandOutput,
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ServiceUnavailableError
-    | ThrottlingError
+    SdkError | InternalFailureError | InvalidRequestError | ServiceUnavailableError | ThrottlingError
   >;
 
   /**
@@ -205,11 +173,7 @@ interface IoTEventsDataService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchUpdateDetectorCommandOutput,
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ServiceUnavailableError
-    | ThrottlingError
+    SdkError | InternalFailureError | InvalidRequestError | ServiceUnavailableError | ThrottlingError
   >;
 
   /**
@@ -281,7 +245,7 @@ interface IoTEventsDataService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeIoTEventsDataService = Effect.gen(function* (_) {
+export const makeIoTEventsDataService = Effect.gen(function*(_) {
   const client = yield* _(IoTEventsDataClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {
@@ -294,10 +258,7 @@ export const makeIoTEventsDataService = Effect.gen(function* (_) {
             abortSignal,
           }),
         catch: (e) => {
-          if (
-            e instanceof IoTEventsDataServiceException &&
-            AllServiceErrors.includes(e.name)
-          ) {
+          if (e instanceof IoTEventsDataServiceException && AllServiceErrors.includes(e.name)) {
             const ServiceException = Data.tagged<
               TaggedException<IoTEventsDataServiceException>
             >(e.name);
@@ -331,13 +292,11 @@ export const makeIoTEventsDataService = Effect.gen(function* (_) {
  * @since 1.0.0
  * @category models
  */
-export class IoTEventsDataService extends Effect.Tag(
-  "@effect-aws/client-iot-events-data/IoTEventsDataService",
-)<IoTEventsDataService, IoTEventsDataService$>() {
-  static readonly defaultLayer = Layer.effect(
-    this,
-    makeIoTEventsDataService,
-  ).pipe(
+export class IoTEventsDataService extends Effect.Tag("@effect-aws/client-iot-events-data/IoTEventsDataService")<
+  IoTEventsDataService,
+  IoTEventsDataService$
+>() {
+  static readonly defaultLayer = Layer.effect(this, makeIoTEventsDataService).pipe(
     Layer.provide(IoTEventsDataClientInstanceLayer),
     Layer.provide(DefaultIoTEventsDataClientConfigLayer),
   );
@@ -397,5 +356,4 @@ export const IoTEventsDataServiceLayer = BaseIoTEventsDataServiceLayer.pipe(
  * @category layers
  * @deprecated use IoTEventsData.defaultLayer instead
  */
-export const DefaultIoTEventsDataServiceLayer =
-  IoTEventsDataService.defaultLayer;
+export const DefaultIoTEventsDataServiceLayer = IoTEventsDataService.defaultLayer;

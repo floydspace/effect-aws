@@ -1,17 +1,16 @@
 import {
-  type ListCollectionsCommandInput,
   ListCollectionsCommand,
+  type ListCollectionsCommandInput,
   OpenSearchServerlessClient,
   OpenSearchServerlessServiceException,
 } from "@aws-sdk/client-opensearchserverless";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-opensearchserverless/dist-cjs/runtimeConfig";
+import { OpenSearchServerless, SdkError } from "@effect-aws/client-opensearch-serverless";
 import { mockClient } from "aws-sdk-client-mock";
-import * as Effect from "effect/Effect";
-import * as Exit from "effect/Exit";
+import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { OpenSearchServerless, SdkError } from "../src";
 
 const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(OpenSearchServerlessClient);
@@ -76,9 +75,7 @@ describe("OpenSearchServerlessClientImpl", () => {
     const result = await pipe(
       program,
       Effect.provide(
-        OpenSearchServerless.baseLayer(
-          () => new OpenSearchServerlessClient({ region: "eu-central-1" }),
-        ),
+        OpenSearchServerless.baseLayer(() => new OpenSearchServerlessClient({ region: "eu-central-1" })),
       ),
       Effect.runPromiseExit,
     );
@@ -103,11 +100,7 @@ describe("OpenSearchServerlessClientImpl", () => {
       program,
       Effect.provide(
         OpenSearchServerless.baseLayer(
-          (config) =>
-            new OpenSearchServerlessClient({
-              ...config,
-              region: "eu-central-1",
-            }),
+          (config) => new OpenSearchServerlessClient({ ...config, region: "eu-central-1" }),
         ),
       ),
       Effect.runPromiseExit,

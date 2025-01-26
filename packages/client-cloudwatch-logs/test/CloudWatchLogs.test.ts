@@ -1,17 +1,16 @@
 import {
-  type DescribeLogGroupsCommandInput,
-  DescribeLogGroupsCommand,
   CloudWatchLogsClient,
   CloudWatchLogsServiceException,
+  DescribeLogGroupsCommand,
+  type DescribeLogGroupsCommandInput,
 } from "@aws-sdk/client-cloudwatch-logs";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-cloudwatch-logs/dist-cjs/runtimeConfig";
+import { CloudWatchLogs, SdkError } from "@effect-aws/client-cloudwatch-logs";
 import { mockClient } from "aws-sdk-client-mock";
-import * as Effect from "effect/Effect";
-import * as Exit from "effect/Exit";
+import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { CloudWatchLogs, SdkError } from "../src";
 
 const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(CloudWatchLogsClient);
@@ -40,10 +39,7 @@ describe("CloudWatchLogsClientImpl", () => {
       logger: expect.any(Object),
     });
     expect(clientMock).toHaveReceivedCommandTimes(DescribeLogGroupsCommand, 1);
-    expect(clientMock).toHaveReceivedCommandWith(
-      DescribeLogGroupsCommand,
-      args,
-    );
+    expect(clientMock).toHaveReceivedCommandWith(DescribeLogGroupsCommand, args);
   });
 
   it("configurable", async () => {
@@ -66,10 +62,7 @@ describe("CloudWatchLogsClientImpl", () => {
       logger: expect.any(Object),
     });
     expect(clientMock).toHaveReceivedCommandTimes(DescribeLogGroupsCommand, 1);
-    expect(clientMock).toHaveReceivedCommandWith(
-      DescribeLogGroupsCommand,
-      args,
-    );
+    expect(clientMock).toHaveReceivedCommandWith(DescribeLogGroupsCommand, args);
   });
 
   it("base", async () => {
@@ -82,9 +75,7 @@ describe("CloudWatchLogsClientImpl", () => {
     const result = await pipe(
       program,
       Effect.provide(
-        CloudWatchLogs.baseLayer(
-          () => new CloudWatchLogsClient({ region: "eu-central-1" }),
-        ),
+        CloudWatchLogs.baseLayer(() => new CloudWatchLogsClient({ region: "eu-central-1" })),
       ),
       Effect.runPromiseExit,
     );
@@ -95,10 +86,7 @@ describe("CloudWatchLogsClientImpl", () => {
       region: "eu-central-1",
     });
     expect(clientMock).toHaveReceivedCommandTimes(DescribeLogGroupsCommand, 1);
-    expect(clientMock).toHaveReceivedCommandWith(
-      DescribeLogGroupsCommand,
-      args,
-    );
+    expect(clientMock).toHaveReceivedCommandWith(DescribeLogGroupsCommand, args);
   });
 
   it("extended", async () => {
@@ -112,8 +100,7 @@ describe("CloudWatchLogsClientImpl", () => {
       program,
       Effect.provide(
         CloudWatchLogs.baseLayer(
-          (config) =>
-            new CloudWatchLogsClient({ ...config, region: "eu-central-1" }),
+          (config) => new CloudWatchLogsClient({ ...config, region: "eu-central-1" }),
         ),
       ),
       Effect.runPromiseExit,
@@ -126,10 +113,7 @@ describe("CloudWatchLogsClientImpl", () => {
       logger: expect.any(Object),
     });
     expect(clientMock).toHaveReceivedCommandTimes(DescribeLogGroupsCommand, 1);
-    expect(clientMock).toHaveReceivedCommandWith(
-      DescribeLogGroupsCommand,
-      args,
-    );
+    expect(clientMock).toHaveReceivedCommandWith(DescribeLogGroupsCommand, args);
   });
 
   it("fail", async () => {
@@ -156,10 +140,7 @@ describe("CloudWatchLogsClientImpl", () => {
       ),
     );
     expect(clientMock).toHaveReceivedCommandTimes(DescribeLogGroupsCommand, 1);
-    expect(clientMock).toHaveReceivedCommandWith(
-      DescribeLogGroupsCommand,
-      args,
-    );
+    expect(clientMock).toHaveReceivedCommandWith(DescribeLogGroupsCommand, args);
   });
 
   it("should not catch unexpected error as expected", async () => {
@@ -196,9 +177,6 @@ describe("CloudWatchLogsClientImpl", () => {
       ),
     );
     expect(clientMock).toHaveReceivedCommandTimes(DescribeLogGroupsCommand, 1);
-    expect(clientMock).toHaveReceivedCommandWith(
-      DescribeLogGroupsCommand,
-      args,
-    );
+    expect(clientMock).toHaveReceivedCommandWith(DescribeLogGroupsCommand, args);
   });
 });

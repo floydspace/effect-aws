@@ -2,9 +2,6 @@
  * @since 1.0.0
  */
 import {
-  EventBridgeServiceException,
-  type EventBridgeClient,
-  type EventBridgeClientConfig,
   ActivateEventSourceCommand,
   type ActivateEventSourceCommandInput,
   type ActivateEventSourceCommandOutput,
@@ -89,6 +86,9 @@ import {
   EnableRuleCommand,
   type EnableRuleCommandInput,
   type EnableRuleCommandOutput,
+  type EventBridgeClient,
+  type EventBridgeClientConfig,
+  EventBridgeServiceException,
   ListApiDestinationsCommand,
   type ListApiDestinationsCommandInput,
   type ListApiDestinationsCommandOutput,
@@ -178,8 +178,7 @@ import {
   type UpdateEventBusCommandOutput,
 } from "@aws-sdk/client-eventbridge";
 import { Data, Effect, Layer, Record } from "effect";
-import {
-  AllServiceErrors,
+import type {
   AccessDeniedError,
   ConcurrentModificationError,
   IllegalStatusError,
@@ -192,19 +191,16 @@ import {
   PolicyLengthExceededError,
   ResourceAlreadyExistsError,
   ResourceNotFoundError,
-  ThrottlingError,
-  SdkError,
   TaggedException,
-} from "./Errors";
-import {
-  EventBridgeClientInstance,
-  EventBridgeClientInstanceLayer,
-} from "./EventBridgeClientInstance";
+  ThrottlingError,
+} from "./Errors.js";
+import { AllServiceErrors, SdkError } from "./Errors.js";
+import { EventBridgeClientInstance, EventBridgeClientInstanceLayer } from "./EventBridgeClientInstance.js";
 import {
   DefaultEventBridgeClientConfigLayer,
-  makeDefaultEventBridgeClientInstanceConfig,
   EventBridgeClientInstanceConfig,
-} from "./EventBridgeClientInstanceConfig";
+  makeDefaultEventBridgeClientInstanceConfig,
+} from "./EventBridgeClientInstanceConfig.js";
 
 /**
  * @since 1.0.0
@@ -304,11 +300,7 @@ interface EventBridgeService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelReplayCommandOutput,
-    | SdkError
-    | ConcurrentModificationError
-    | IllegalStatusError
-    | InternalError
-    | ResourceNotFoundError
+    SdkError | ConcurrentModificationError | IllegalStatusError | InternalError | ResourceNotFoundError
   >;
 
   /**
@@ -319,11 +311,7 @@ interface EventBridgeService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateApiDestinationCommandOutput,
-    | SdkError
-    | InternalError
-    | LimitExceededError
-    | ResourceAlreadyExistsError
-    | ResourceNotFoundError
+    SdkError | InternalError | LimitExceededError | ResourceAlreadyExistsError | ResourceNotFoundError
   >;
 
   /**
@@ -429,10 +417,7 @@ interface EventBridgeService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeauthorizeConnectionCommandOutput,
-    | SdkError
-    | ConcurrentModificationError
-    | InternalError
-    | ResourceNotFoundError
+    SdkError | ConcurrentModificationError | InternalError | ResourceNotFoundError
   >;
 
   /**
@@ -443,10 +428,7 @@ interface EventBridgeService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteApiDestinationCommandOutput,
-    | SdkError
-    | ConcurrentModificationError
-    | InternalError
-    | ResourceNotFoundError
+    SdkError | ConcurrentModificationError | InternalError | ResourceNotFoundError
   >;
 
   /**
@@ -457,10 +439,7 @@ interface EventBridgeService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteArchiveCommandOutput,
-    | SdkError
-    | ConcurrentModificationError
-    | InternalError
-    | ResourceNotFoundError
+    SdkError | ConcurrentModificationError | InternalError | ResourceNotFoundError
   >;
 
   /**
@@ -471,10 +450,7 @@ interface EventBridgeService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteConnectionCommandOutput,
-    | SdkError
-    | ConcurrentModificationError
-    | InternalError
-    | ResourceNotFoundError
+    SdkError | ConcurrentModificationError | InternalError | ResourceNotFoundError
   >;
 
   /**
@@ -485,10 +461,7 @@ interface EventBridgeService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteEndpointCommandOutput,
-    | SdkError
-    | ConcurrentModificationError
-    | InternalError
-    | ResourceNotFoundError
+    SdkError | ConcurrentModificationError | InternalError | ResourceNotFoundError
   >;
 
   /**
@@ -510,10 +483,7 @@ interface EventBridgeService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeletePartnerEventSourceCommandOutput,
-    | SdkError
-    | ConcurrentModificationError
-    | InternalError
-    | OperationDisabledError
+    SdkError | ConcurrentModificationError | InternalError | OperationDisabledError
   >;
 
   /**
@@ -524,11 +494,7 @@ interface EventBridgeService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteRuleCommandOutput,
-    | SdkError
-    | ConcurrentModificationError
-    | InternalError
-    | ManagedRuleError
-    | ResourceNotFoundError
+    SdkError | ConcurrentModificationError | InternalError | ManagedRuleError | ResourceNotFoundError
   >;
 
   /**
@@ -550,10 +516,7 @@ interface EventBridgeService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeArchiveCommandOutput,
-    | SdkError
-    | InternalError
-    | ResourceAlreadyExistsError
-    | ResourceNotFoundError
+    SdkError | InternalError | ResourceAlreadyExistsError | ResourceNotFoundError
   >;
 
   /**
@@ -641,11 +604,7 @@ interface EventBridgeService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisableRuleCommandOutput,
-    | SdkError
-    | ConcurrentModificationError
-    | InternalError
-    | ManagedRuleError
-    | ResourceNotFoundError
+    SdkError | ConcurrentModificationError | InternalError | ManagedRuleError | ResourceNotFoundError
   >;
 
   /**
@@ -656,11 +615,7 @@ interface EventBridgeService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     EnableRuleCommandOutput,
-    | SdkError
-    | ConcurrentModificationError
-    | InternalError
-    | ManagedRuleError
-    | ResourceNotFoundError
+    SdkError | ConcurrentModificationError | InternalError | ManagedRuleError | ResourceNotFoundError
   >;
 
   /**
@@ -669,7 +624,10 @@ interface EventBridgeService$ {
   listApiDestinations(
     args: ListApiDestinationsCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<ListApiDestinationsCommandOutput, SdkError | InternalError>;
+  ): Effect.Effect<
+    ListApiDestinationsCommandOutput,
+    SdkError | InternalError
+  >;
 
   /**
    * @see {@link ListArchivesCommand}
@@ -688,7 +646,10 @@ interface EventBridgeService$ {
   listConnections(
     args: ListConnectionsCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<ListConnectionsCommandOutput, SdkError | InternalError>;
+  ): Effect.Effect<
+    ListConnectionsCommandOutput,
+    SdkError | InternalError
+  >;
 
   /**
    * @see {@link ListEndpointsCommand}
@@ -696,7 +657,10 @@ interface EventBridgeService$ {
   listEndpoints(
     args: ListEndpointsCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<ListEndpointsCommandOutput, SdkError | InternalError>;
+  ): Effect.Effect<
+    ListEndpointsCommandOutput,
+    SdkError | InternalError
+  >;
 
   /**
    * @see {@link ListEventBusesCommand}
@@ -704,7 +668,10 @@ interface EventBridgeService$ {
   listEventBuses(
     args: ListEventBusesCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<ListEventBusesCommandOutput, SdkError | InternalError>;
+  ): Effect.Effect<
+    ListEventBusesCommandOutput,
+    SdkError | InternalError
+  >;
 
   /**
    * @see {@link ListEventSourcesCommand}
@@ -745,7 +712,10 @@ interface EventBridgeService$ {
   listReplays(
     args: ListReplaysCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<ListReplaysCommandOutput, SdkError | InternalError>;
+  ): Effect.Effect<
+    ListReplaysCommandOutput,
+    SdkError | InternalError
+  >;
 
   /**
    * @see {@link ListRuleNamesByTargetCommand}
@@ -797,7 +767,10 @@ interface EventBridgeService$ {
   putEvents(
     args: PutEventsCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<PutEventsCommandOutput, SdkError | InternalError>;
+  ): Effect.Effect<
+    PutEventsCommandOutput,
+    SdkError | InternalError
+  >;
 
   /**
    * @see {@link PutPartnerEventsCommand}
@@ -867,11 +840,7 @@ interface EventBridgeService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RemovePermissionCommandOutput,
-    | SdkError
-    | ConcurrentModificationError
-    | InternalError
-    | OperationDisabledError
-    | ResourceNotFoundError
+    SdkError | ConcurrentModificationError | InternalError | OperationDisabledError | ResourceNotFoundError
   >;
 
   /**
@@ -882,11 +851,7 @@ interface EventBridgeService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RemoveTargetsCommandOutput,
-    | SdkError
-    | ConcurrentModificationError
-    | InternalError
-    | ManagedRuleError
-    | ResourceNotFoundError
+    SdkError | ConcurrentModificationError | InternalError | ManagedRuleError | ResourceNotFoundError
   >;
 
   /**
@@ -913,11 +878,7 @@ interface EventBridgeService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagResourceCommandOutput,
-    | SdkError
-    | ConcurrentModificationError
-    | InternalError
-    | ManagedRuleError
-    | ResourceNotFoundError
+    SdkError | ConcurrentModificationError | InternalError | ManagedRuleError | ResourceNotFoundError
   >;
 
   /**
@@ -939,11 +900,7 @@ interface EventBridgeService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
-    | SdkError
-    | ConcurrentModificationError
-    | InternalError
-    | ManagedRuleError
-    | ResourceNotFoundError
+    SdkError | ConcurrentModificationError | InternalError | ManagedRuleError | ResourceNotFoundError
   >;
 
   /**
@@ -954,11 +911,7 @@ interface EventBridgeService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateApiDestinationCommandOutput,
-    | SdkError
-    | ConcurrentModificationError
-    | InternalError
-    | LimitExceededError
-    | ResourceNotFoundError
+    SdkError | ConcurrentModificationError | InternalError | LimitExceededError | ResourceNotFoundError
   >;
 
   /**
@@ -1002,10 +955,7 @@ interface EventBridgeService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateEndpointCommandOutput,
-    | SdkError
-    | ConcurrentModificationError
-    | InternalError
-    | ResourceNotFoundError
+    SdkError | ConcurrentModificationError | InternalError | ResourceNotFoundError
   >;
 
   /**
@@ -1016,11 +966,7 @@ interface EventBridgeService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateEventBusCommandOutput,
-    | SdkError
-    | ConcurrentModificationError
-    | InternalError
-    | OperationDisabledError
-    | ResourceNotFoundError
+    SdkError | ConcurrentModificationError | InternalError | OperationDisabledError | ResourceNotFoundError
   >;
 }
 
@@ -1028,7 +974,7 @@ interface EventBridgeService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeEventBridgeService = Effect.gen(function* (_) {
+export const makeEventBridgeService = Effect.gen(function*(_) {
   const client = yield* _(EventBridgeClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {
@@ -1041,10 +987,7 @@ export const makeEventBridgeService = Effect.gen(function* (_) {
             abortSignal,
           }),
         catch: (e) => {
-          if (
-            e instanceof EventBridgeServiceException &&
-            AllServiceErrors.includes(e.name)
-          ) {
+          if (e instanceof EventBridgeServiceException && AllServiceErrors.includes(e.name)) {
             const ServiceException = Data.tagged<
               TaggedException<EventBridgeServiceException>
             >(e.name);
@@ -1078,13 +1021,11 @@ export const makeEventBridgeService = Effect.gen(function* (_) {
  * @since 1.0.0
  * @category models
  */
-export class EventBridgeService extends Effect.Tag(
-  "@effect-aws/client-eventbridge/EventBridgeService",
-)<EventBridgeService, EventBridgeService$>() {
-  static readonly defaultLayer = Layer.effect(
-    this,
-    makeEventBridgeService,
-  ).pipe(
+export class EventBridgeService extends Effect.Tag("@effect-aws/client-eventbridge/EventBridgeService")<
+  EventBridgeService,
+  EventBridgeService$
+>() {
+  static readonly defaultLayer = Layer.effect(this, makeEventBridgeService).pipe(
     Layer.provide(EventBridgeClientInstanceLayer),
     Layer.provide(DefaultEventBridgeClientConfigLayer),
   );

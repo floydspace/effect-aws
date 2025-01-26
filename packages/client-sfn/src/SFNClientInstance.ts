@@ -2,13 +2,8 @@
  * @since 1.0.0
  */
 import { SFNClient } from "@aws-sdk/client-sfn";
-import * as Context from "effect/Context";
-import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
-import {
-  DefaultSFNClientConfigLayer,
-  SFNClientInstanceConfig,
-} from "./SFNClientInstanceConfig";
+import { Context, Effect, Layer } from "effect";
+import { DefaultSFNClientConfigLayer, SFNClientInstanceConfig } from "./SFNClientInstanceConfig.js";
 
 /**
  * @since 1.0.0

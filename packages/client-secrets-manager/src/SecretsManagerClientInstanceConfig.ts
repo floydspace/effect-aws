@@ -16,8 +16,8 @@ export class SecretsManagerClientInstanceConfig extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeDefaultSecretsManagerClientInstanceConfig: Effect.Effect<SecretsManagerClientConfig> =
-  Effect.gen(function* (_) {
+export const makeDefaultSecretsManagerClientInstanceConfig: Effect.Effect<SecretsManagerClientConfig> = Effect.gen(
+  function*(_) {
     const runtime = yield* _(Effect.runtime<never>());
     const runSync = Runtime.runSync(runtime);
 
@@ -40,7 +40,8 @@ export const makeDefaultSecretsManagerClientInstanceConfig: Effect.Effect<Secret
         },
       },
     };
-  });
+  },
+);
 
 /**
  * @since 1.0.0

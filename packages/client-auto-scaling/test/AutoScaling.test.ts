@@ -1,17 +1,16 @@
 import {
-  type DescribeAutoScalingGroupsCommandInput,
-  DescribeAutoScalingGroupsCommand,
   AutoScalingClient,
   AutoScalingServiceException,
+  DescribeAutoScalingGroupsCommand,
+  type DescribeAutoScalingGroupsCommandInput,
 } from "@aws-sdk/client-auto-scaling";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-auto-scaling/dist-cjs/runtimeConfig";
+import { AutoScaling, SdkError } from "@effect-aws/client-auto-scaling";
 import { mockClient } from "aws-sdk-client-mock";
-import * as Effect from "effect/Effect";
-import * as Exit from "effect/Exit";
+import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { AutoScaling, SdkError } from "../src";
 
 const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(AutoScalingClient);
@@ -39,14 +38,8 @@ describe("AutoScalingClientImpl", () => {
     expect(getRuntimeConfig).toHaveBeenCalledWith({
       logger: expect.any(Object),
     });
-    expect(clientMock).toHaveReceivedCommandTimes(
-      DescribeAutoScalingGroupsCommand,
-      1,
-    );
-    expect(clientMock).toHaveReceivedCommandWith(
-      DescribeAutoScalingGroupsCommand,
-      args,
-    );
+    expect(clientMock).toHaveReceivedCommandTimes(DescribeAutoScalingGroupsCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(DescribeAutoScalingGroupsCommand, args);
   });
 
   it("configurable", async () => {
@@ -68,14 +61,8 @@ describe("AutoScalingClientImpl", () => {
       region: "eu-central-1",
       logger: expect.any(Object),
     });
-    expect(clientMock).toHaveReceivedCommandTimes(
-      DescribeAutoScalingGroupsCommand,
-      1,
-    );
-    expect(clientMock).toHaveReceivedCommandWith(
-      DescribeAutoScalingGroupsCommand,
-      args,
-    );
+    expect(clientMock).toHaveReceivedCommandTimes(DescribeAutoScalingGroupsCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(DescribeAutoScalingGroupsCommand, args);
   });
 
   it("base", async () => {
@@ -88,9 +75,7 @@ describe("AutoScalingClientImpl", () => {
     const result = await pipe(
       program,
       Effect.provide(
-        AutoScaling.baseLayer(
-          () => new AutoScalingClient({ region: "eu-central-1" }),
-        ),
+        AutoScaling.baseLayer(() => new AutoScalingClient({ region: "eu-central-1" })),
       ),
       Effect.runPromiseExit,
     );
@@ -100,14 +85,8 @@ describe("AutoScalingClientImpl", () => {
     expect(getRuntimeConfig).toHaveBeenCalledWith({
       region: "eu-central-1",
     });
-    expect(clientMock).toHaveReceivedCommandTimes(
-      DescribeAutoScalingGroupsCommand,
-      1,
-    );
-    expect(clientMock).toHaveReceivedCommandWith(
-      DescribeAutoScalingGroupsCommand,
-      args,
-    );
+    expect(clientMock).toHaveReceivedCommandTimes(DescribeAutoScalingGroupsCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(DescribeAutoScalingGroupsCommand, args);
   });
 
   it("extended", async () => {
@@ -121,8 +100,7 @@ describe("AutoScalingClientImpl", () => {
       program,
       Effect.provide(
         AutoScaling.baseLayer(
-          (config) =>
-            new AutoScalingClient({ ...config, region: "eu-central-1" }),
+          (config) => new AutoScalingClient({ ...config, region: "eu-central-1" }),
         ),
       ),
       Effect.runPromiseExit,
@@ -134,21 +112,12 @@ describe("AutoScalingClientImpl", () => {
       region: "eu-central-1",
       logger: expect.any(Object),
     });
-    expect(clientMock).toHaveReceivedCommandTimes(
-      DescribeAutoScalingGroupsCommand,
-      1,
-    );
-    expect(clientMock).toHaveReceivedCommandWith(
-      DescribeAutoScalingGroupsCommand,
-      args,
-    );
+    expect(clientMock).toHaveReceivedCommandTimes(DescribeAutoScalingGroupsCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(DescribeAutoScalingGroupsCommand, args);
   });
 
   it("fail", async () => {
-    clientMock
-      .reset()
-      .on(DescribeAutoScalingGroupsCommand)
-      .rejects(new Error("test"));
+    clientMock.reset().on(DescribeAutoScalingGroupsCommand).rejects(new Error("test"));
 
     const args = {} as unknown as DescribeAutoScalingGroupsCommandInput;
 
@@ -170,14 +139,8 @@ describe("AutoScalingClientImpl", () => {
         }),
       ),
     );
-    expect(clientMock).toHaveReceivedCommandTimes(
-      DescribeAutoScalingGroupsCommand,
-      1,
-    );
-    expect(clientMock).toHaveReceivedCommandWith(
-      DescribeAutoScalingGroupsCommand,
-      args,
-    );
+    expect(clientMock).toHaveReceivedCommandTimes(DescribeAutoScalingGroupsCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(DescribeAutoScalingGroupsCommand, args);
   });
 
   it("should not catch unexpected error as expected", async () => {
@@ -213,13 +176,7 @@ describe("AutoScalingClientImpl", () => {
         }),
       ),
     );
-    expect(clientMock).toHaveReceivedCommandTimes(
-      DescribeAutoScalingGroupsCommand,
-      1,
-    );
-    expect(clientMock).toHaveReceivedCommandWith(
-      DescribeAutoScalingGroupsCommand,
-      args,
-    );
+    expect(clientMock).toHaveReceivedCommandTimes(DescribeAutoScalingGroupsCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(DescribeAutoScalingGroupsCommand, args);
   });
 });

@@ -2,9 +2,6 @@
  * @since 1.0.0
  */
 import {
-  IoTWirelessServiceException,
-  type IoTWirelessClient,
-  type IoTWirelessClientConfig,
   AssociateAwsAccountWithPartnerAccountCommand,
   type AssociateAwsAccountWithPartnerAccountCommandInput,
   type AssociateAwsAccountWithPartnerAccountCommandOutput,
@@ -185,12 +182,12 @@ import {
   GetWirelessDeviceStatisticsCommand,
   type GetWirelessDeviceStatisticsCommandInput,
   type GetWirelessDeviceStatisticsCommandOutput,
-  GetWirelessGatewayCommand,
-  type GetWirelessGatewayCommandInput,
-  type GetWirelessGatewayCommandOutput,
   GetWirelessGatewayCertificateCommand,
   type GetWirelessGatewayCertificateCommandInput,
   type GetWirelessGatewayCertificateCommandOutput,
+  GetWirelessGatewayCommand,
+  type GetWirelessGatewayCommandInput,
+  type GetWirelessGatewayCommandOutput,
   GetWirelessGatewayFirmwareInformationCommand,
   type GetWirelessGatewayFirmwareInformationCommandInput,
   type GetWirelessGatewayFirmwareInformationCommandOutput,
@@ -203,6 +200,9 @@ import {
   GetWirelessGatewayTaskDefinitionCommand,
   type GetWirelessGatewayTaskDefinitionCommandInput,
   type GetWirelessGatewayTaskDefinitionCommandOutput,
+  type IoTWirelessClient,
+  type IoTWirelessClientConfig,
+  IoTWirelessServiceException,
   ListDestinationsCommand,
   type ListDestinationsCommandInput,
   type ListDestinationsCommandOutput,
@@ -218,12 +218,12 @@ import {
   ListFuotaTasksCommand,
   type ListFuotaTasksCommandInput,
   type ListFuotaTasksCommandOutput,
-  ListMulticastGroupsCommand,
-  type ListMulticastGroupsCommandInput,
-  type ListMulticastGroupsCommandOutput,
   ListMulticastGroupsByFuotaTaskCommand,
   type ListMulticastGroupsByFuotaTaskCommandInput,
   type ListMulticastGroupsByFuotaTaskCommandOutput,
+  ListMulticastGroupsCommand,
+  type ListMulticastGroupsCommandInput,
+  type ListMulticastGroupsCommandOutput,
   ListNetworkAnalyzerConfigurationsCommand,
   type ListNetworkAnalyzerConfigurationsCommandInput,
   type ListNetworkAnalyzerConfigurationsCommandOutput,
@@ -248,12 +248,12 @@ import {
   ListWirelessDevicesCommand,
   type ListWirelessDevicesCommandInput,
   type ListWirelessDevicesCommandOutput,
-  ListWirelessGatewayTaskDefinitionsCommand,
-  type ListWirelessGatewayTaskDefinitionsCommandInput,
-  type ListWirelessGatewayTaskDefinitionsCommandOutput,
   ListWirelessGatewaysCommand,
   type ListWirelessGatewaysCommandInput,
   type ListWirelessGatewaysCommandOutput,
+  ListWirelessGatewayTaskDefinitionsCommand,
+  type ListWirelessGatewayTaskDefinitionsCommandInput,
+  type ListWirelessGatewayTaskDefinitionsCommandOutput,
   PutPositionConfigurationCommand,
   type PutPositionConfigurationCommandInput,
   type PutPositionConfigurationCommandOutput,
@@ -343,27 +343,23 @@ import {
   type UpdateWirelessGatewayCommandOutput,
 } from "@aws-sdk/client-iot-wireless";
 import { Data, Effect, Layer, Record } from "effect";
-import {
-  AllServiceErrors,
+import { AllServiceErrors, SdkError } from "./Errors.js";
+import type {
   AccessDeniedError,
   ConflictError,
   InternalServerError,
   ResourceNotFoundError,
+  TaggedException,
   ThrottlingError,
   TooManyTagsError,
   ValidationError,
-  SdkError,
-  TaggedException,
-} from "./Errors";
-import {
-  IoTWirelessClientInstance,
-  IoTWirelessClientInstanceLayer,
-} from "./IoTWirelessClientInstance";
+} from "./Errors.js";
+import { IoTWirelessClientInstance, IoTWirelessClientInstanceLayer } from "./IoTWirelessClientInstance.js";
 import {
   DefaultIoTWirelessClientConfigLayer,
-  makeDefaultIoTWirelessClientInstanceConfig,
   IoTWirelessClientInstanceConfig,
-} from "./IoTWirelessClientInstanceConfig";
+  makeDefaultIoTWirelessClientInstanceConfig,
+} from "./IoTWirelessClientInstanceConfig.js";
 
 /**
  * @since 1.0.0
@@ -655,12 +651,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateDeviceProfileCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | ConflictError
-    | InternalServerError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | ConflictError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -722,12 +713,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateServiceProfileCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | ConflictError
-    | InternalServerError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | ConflictError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -755,12 +741,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateWirelessGatewayCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | ConflictError
-    | InternalServerError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | ConflictError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -839,12 +820,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteFuotaTaskCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -889,12 +865,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteQueuedMessagesCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -922,12 +893,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteWirelessDeviceCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -955,12 +921,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteWirelessGatewayCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -971,12 +932,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteWirelessGatewayTaskCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -987,12 +943,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteWirelessGatewayTaskDefinitionCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1003,11 +954,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeregisterWirelessDeviceCommandOutput,
-    | SdkError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1018,11 +965,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisassociateAwsAccountFromPartnerAccountCommandOutput,
-    | SdkError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1033,12 +976,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisassociateMulticastGroupFromFuotaTaskCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | ConflictError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ValidationError
+    SdkError | AccessDeniedError | ConflictError | InternalServerError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -1066,12 +1004,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisassociateWirelessDeviceFromMulticastGroupCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1099,12 +1032,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisassociateWirelessGatewayFromCertificateCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1132,12 +1060,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDestinationCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1148,12 +1071,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDeviceProfileCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1175,12 +1093,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetFuotaTaskCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1191,12 +1104,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetLogLevelsByResourceTypesCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1241,12 +1149,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetMulticastGroupCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1257,12 +1160,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetMulticastGroupSessionCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1273,12 +1171,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetNetworkAnalyzerConfigurationCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1289,11 +1182,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPartnerAccountCommandOutput,
-    | SdkError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1304,12 +1193,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPositionCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1320,12 +1204,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPositionConfigurationCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1336,12 +1215,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPositionEstimateCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1352,12 +1226,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetResourceEventConfigurationCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1368,12 +1237,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetResourceLogLevelCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1384,12 +1248,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetResourcePositionCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1400,11 +1259,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetServiceEndpointCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1415,12 +1270,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetServiceProfileCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1431,12 +1281,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetWirelessDeviceCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1464,12 +1309,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetWirelessDeviceStatisticsCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1480,12 +1320,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetWirelessGatewayCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1496,12 +1331,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetWirelessGatewayCertificateCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1512,12 +1342,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetWirelessGatewayFirmwareInformationCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1528,12 +1353,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetWirelessGatewayStatisticsCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1544,12 +1364,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetWirelessGatewayTaskCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1560,12 +1375,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetWirelessGatewayTaskDefinitionCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1576,11 +1386,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDestinationsCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1591,11 +1397,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDeviceProfilesCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1623,11 +1425,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListEventConfigurationsCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1638,11 +1436,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListFuotaTasksCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1653,11 +1447,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListMulticastGroupsCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1668,12 +1458,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListMulticastGroupsByFuotaTaskCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1684,11 +1469,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListNetworkAnalyzerConfigurationsCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1699,11 +1480,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListPartnerAccountsCommandOutput,
-    | SdkError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1714,11 +1491,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListPositionConfigurationsCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1729,12 +1502,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListQueuedMessagesCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1745,11 +1513,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListServiceProfilesCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1760,12 +1524,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsForResourceCommandOutput,
-    | SdkError
-    | ConflictError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | ConflictError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1793,11 +1552,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListWirelessDevicesCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1808,11 +1563,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListWirelessGatewayTaskDefinitionsCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1823,11 +1574,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListWirelessGatewaysCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1838,12 +1585,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutPositionConfigurationCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1854,12 +1596,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutResourceLogLevelCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1870,12 +1607,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ResetAllResourceLogLevelsCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1886,12 +1618,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ResetResourceLogLevelCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1919,11 +1646,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SendDataToWirelessDeviceCommandOutput,
-    | SdkError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1934,12 +1657,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartBulkAssociateWirelessDeviceWithMulticastGroupCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1950,12 +1668,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartBulkDisassociateWirelessDeviceFromMulticastGroupCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -2051,11 +1764,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TestWirelessDeviceCommandOutput,
-    | SdkError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -2066,12 +1775,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
-    | SdkError
-    | ConflictError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | ConflictError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -2082,12 +1786,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateDestinationCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -2098,11 +1797,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateEventConfigurationByResourceTypesCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -2181,12 +1876,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateNetworkAnalyzerConfigurationCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -2197,11 +1887,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdatePartnerAccountCommandOutput,
-    | SdkError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -2212,12 +1898,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdatePositionCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -2245,12 +1926,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateResourcePositionCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -2261,12 +1937,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateWirelessDeviceCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -2294,12 +1965,7 @@ interface IoTWirelessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateWirelessGatewayCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 }
 
@@ -2307,7 +1973,7 @@ interface IoTWirelessService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeIoTWirelessService = Effect.gen(function* (_) {
+export const makeIoTWirelessService = Effect.gen(function*(_) {
   const client = yield* _(IoTWirelessClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {
@@ -2320,10 +1986,7 @@ export const makeIoTWirelessService = Effect.gen(function* (_) {
             abortSignal,
           }),
         catch: (e) => {
-          if (
-            e instanceof IoTWirelessServiceException &&
-            AllServiceErrors.includes(e.name)
-          ) {
+          if (e instanceof IoTWirelessServiceException && AllServiceErrors.includes(e.name)) {
             const ServiceException = Data.tagged<
               TaggedException<IoTWirelessServiceException>
             >(e.name);
@@ -2357,13 +2020,11 @@ export const makeIoTWirelessService = Effect.gen(function* (_) {
  * @since 1.0.0
  * @category models
  */
-export class IoTWirelessService extends Effect.Tag(
-  "@effect-aws/client-iot-wireless/IoTWirelessService",
-)<IoTWirelessService, IoTWirelessService$>() {
-  static readonly defaultLayer = Layer.effect(
-    this,
-    makeIoTWirelessService,
-  ).pipe(
+export class IoTWirelessService extends Effect.Tag("@effect-aws/client-iot-wireless/IoTWirelessService")<
+  IoTWirelessService,
+  IoTWirelessService$
+>() {
+  static readonly defaultLayer = Layer.effect(this, makeIoTWirelessService).pipe(
     Layer.provide(IoTWirelessClientInstanceLayer),
     Layer.provide(DefaultIoTWirelessClientConfigLayer),
   );

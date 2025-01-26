@@ -16,31 +16,30 @@ export class KMSClientInstanceConfig extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeDefaultKMSClientInstanceConfig: Effect.Effect<KMSClientConfig> =
-  Effect.gen(function* (_) {
-    const runtime = yield* _(Effect.runtime<never>());
-    const runSync = Runtime.runSync(runtime);
+export const makeDefaultKMSClientInstanceConfig: Effect.Effect<KMSClientConfig> = Effect.gen(function*(_) {
+  const runtime = yield* _(Effect.runtime<never>());
+  const runSync = Runtime.runSync(runtime);
 
-    return {
-      logger: {
-        info(m) {
-          Effect.logInfo(m).pipe(runSync);
-        },
-        warn(m) {
-          Effect.logWarning(m).pipe(runSync);
-        },
-        error(m) {
-          Effect.logError(m).pipe(runSync);
-        },
-        debug(m) {
-          Effect.logDebug(m).pipe(runSync);
-        },
-        trace(m) {
-          Effect.logTrace(m).pipe(runSync);
-        },
+  return {
+    logger: {
+      info(m) {
+        Effect.logInfo(m).pipe(runSync);
       },
-    };
-  });
+      warn(m) {
+        Effect.logWarning(m).pipe(runSync);
+      },
+      error(m) {
+        Effect.logError(m).pipe(runSync);
+      },
+      debug(m) {
+        Effect.logDebug(m).pipe(runSync);
+      },
+      trace(m) {
+        Effect.logTrace(m).pipe(runSync);
+      },
+    },
+  };
+});
 
 /**
  * @since 1.0.0

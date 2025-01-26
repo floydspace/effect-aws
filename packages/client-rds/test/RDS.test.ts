@@ -1,17 +1,16 @@
 import {
-  type DescribeDBClustersCommandInput,
   DescribeDBClustersCommand,
+  type DescribeDBClustersCommandInput,
   RDSClient,
   RDSServiceException,
 } from "@aws-sdk/client-rds";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-rds/dist-cjs/runtimeConfig";
+import { RDS, SdkError } from "@effect-aws/client-rds";
 import { mockClient } from "aws-sdk-client-mock";
-import * as Effect from "effect/Effect";
-import * as Exit from "effect/Exit";
+import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { RDS, SdkError } from "../src";
 
 const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(RDSClient);
@@ -40,10 +39,7 @@ describe("RDSClientImpl", () => {
       logger: expect.any(Object),
     });
     expect(clientMock).toHaveReceivedCommandTimes(DescribeDBClustersCommand, 1);
-    expect(clientMock).toHaveReceivedCommandWith(
-      DescribeDBClustersCommand,
-      args,
-    );
+    expect(clientMock).toHaveReceivedCommandWith(DescribeDBClustersCommand, args);
   });
 
   it("configurable", async () => {
@@ -66,10 +62,7 @@ describe("RDSClientImpl", () => {
       logger: expect.any(Object),
     });
     expect(clientMock).toHaveReceivedCommandTimes(DescribeDBClustersCommand, 1);
-    expect(clientMock).toHaveReceivedCommandWith(
-      DescribeDBClustersCommand,
-      args,
-    );
+    expect(clientMock).toHaveReceivedCommandWith(DescribeDBClustersCommand, args);
   });
 
   it("base", async () => {
@@ -93,10 +86,7 @@ describe("RDSClientImpl", () => {
       region: "eu-central-1",
     });
     expect(clientMock).toHaveReceivedCommandTimes(DescribeDBClustersCommand, 1);
-    expect(clientMock).toHaveReceivedCommandWith(
-      DescribeDBClustersCommand,
-      args,
-    );
+    expect(clientMock).toHaveReceivedCommandWith(DescribeDBClustersCommand, args);
   });
 
   it("extended", async () => {
@@ -123,10 +113,7 @@ describe("RDSClientImpl", () => {
       logger: expect.any(Object),
     });
     expect(clientMock).toHaveReceivedCommandTimes(DescribeDBClustersCommand, 1);
-    expect(clientMock).toHaveReceivedCommandWith(
-      DescribeDBClustersCommand,
-      args,
-    );
+    expect(clientMock).toHaveReceivedCommandWith(DescribeDBClustersCommand, args);
   });
 
   it("fail", async () => {
@@ -153,10 +140,7 @@ describe("RDSClientImpl", () => {
       ),
     );
     expect(clientMock).toHaveReceivedCommandTimes(DescribeDBClustersCommand, 1);
-    expect(clientMock).toHaveReceivedCommandWith(
-      DescribeDBClustersCommand,
-      args,
-    );
+    expect(clientMock).toHaveReceivedCommandWith(DescribeDBClustersCommand, args);
   });
 
   it("should not catch unexpected error as expected", async () => {
@@ -193,9 +177,6 @@ describe("RDSClientImpl", () => {
       ),
     );
     expect(clientMock).toHaveReceivedCommandTimes(DescribeDBClustersCommand, 1);
-    expect(clientMock).toHaveReceivedCommandWith(
-      DescribeDBClustersCommand,
-      args,
-    );
+    expect(clientMock).toHaveReceivedCommandWith(DescribeDBClustersCommand, args);
   });
 });

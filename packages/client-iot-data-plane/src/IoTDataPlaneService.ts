@@ -2,9 +2,6 @@
  * @since 1.0.0
  */
 import {
-  IoTDataPlaneServiceException,
-  type IoTDataPlaneClient,
-  type IoTDataPlaneClientConfig,
   DeleteThingShadowCommand,
   type DeleteThingShadowCommandInput,
   type DeleteThingShadowCommandOutput,
@@ -14,6 +11,9 @@ import {
   GetThingShadowCommand,
   type GetThingShadowCommandInput,
   type GetThingShadowCommandOutput,
+  type IoTDataPlaneClient,
+  type IoTDataPlaneClientConfig,
+  IoTDataPlaneServiceException,
   ListNamedShadowsForThingCommand,
   type ListNamedShadowsForThingCommandInput,
   type ListNamedShadowsForThingCommandOutput,
@@ -28,8 +28,7 @@ import {
   type UpdateThingShadowCommandOutput,
 } from "@aws-sdk/client-iot-data-plane";
 import { Data, Effect, Layer, Record } from "effect";
-import {
-  AllServiceErrors,
+import type {
   ConflictError,
   InternalFailureError,
   InvalidRequestError,
@@ -37,21 +36,18 @@ import {
   RequestEntityTooLargeError,
   ResourceNotFoundError,
   ServiceUnavailableError,
+  TaggedException,
   ThrottlingError,
   UnauthorizedError,
   UnsupportedDocumentEncodingError,
-  SdkError,
-  TaggedException,
-} from "./Errors";
-import {
-  IoTDataPlaneClientInstance,
-  IoTDataPlaneClientInstanceLayer,
-} from "./IoTDataPlaneClientInstance";
+} from "./Errors.js";
+import { AllServiceErrors, SdkError } from "./Errors.js";
+import { IoTDataPlaneClientInstance, IoTDataPlaneClientInstanceLayer } from "./IoTDataPlaneClientInstance.js";
 import {
   DefaultIoTDataPlaneClientConfigLayer,
-  makeDefaultIoTDataPlaneClientInstanceConfig,
   IoTDataPlaneClientInstanceConfig,
-} from "./IoTDataPlaneClientInstanceConfig";
+  makeDefaultIoTDataPlaneClientInstanceConfig,
+} from "./IoTDataPlaneClientInstanceConfig.js";
 
 /**
  * @since 1.0.0
@@ -176,12 +172,7 @@ interface IoTDataPlaneService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PublishCommandOutput,
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | MethodNotAllowedError
-    | ThrottlingError
-    | UnauthorizedError
+    SdkError | InternalFailureError | InvalidRequestError | MethodNotAllowedError | ThrottlingError | UnauthorizedError
   >;
 
   /**
@@ -209,7 +200,7 @@ interface IoTDataPlaneService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeIoTDataPlaneService = Effect.gen(function* (_) {
+export const makeIoTDataPlaneService = Effect.gen(function*(_) {
   const client = yield* _(IoTDataPlaneClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {
@@ -222,10 +213,7 @@ export const makeIoTDataPlaneService = Effect.gen(function* (_) {
             abortSignal,
           }),
         catch: (e) => {
-          if (
-            e instanceof IoTDataPlaneServiceException &&
-            AllServiceErrors.includes(e.name)
-          ) {
+          if (e instanceof IoTDataPlaneServiceException && AllServiceErrors.includes(e.name)) {
             const ServiceException = Data.tagged<
               TaggedException<IoTDataPlaneServiceException>
             >(e.name);
@@ -259,13 +247,11 @@ export const makeIoTDataPlaneService = Effect.gen(function* (_) {
  * @since 1.0.0
  * @category models
  */
-export class IoTDataPlaneService extends Effect.Tag(
-  "@effect-aws/client-iot-data-plane/IoTDataPlaneService",
-)<IoTDataPlaneService, IoTDataPlaneService$>() {
-  static readonly defaultLayer = Layer.effect(
-    this,
-    makeIoTDataPlaneService,
-  ).pipe(
+export class IoTDataPlaneService extends Effect.Tag("@effect-aws/client-iot-data-plane/IoTDataPlaneService")<
+  IoTDataPlaneService,
+  IoTDataPlaneService$
+>() {
+  static readonly defaultLayer = Layer.effect(this, makeIoTDataPlaneService).pipe(
     Layer.provide(IoTDataPlaneClientInstanceLayer),
     Layer.provide(DefaultIoTDataPlaneClientConfigLayer),
   );

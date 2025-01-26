@@ -2,13 +2,8 @@
  * @since 1.0.0
  */
 import { ECSClient } from "@aws-sdk/client-ecs";
-import * as Context from "effect/Context";
-import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
-import {
-  DefaultECSClientConfigLayer,
-  ECSClientInstanceConfig,
-} from "./ECSClientInstanceConfig";
+import { Context, Effect, Layer } from "effect";
+import { DefaultECSClientConfigLayer, ECSClientInstanceConfig } from "./ECSClientInstanceConfig.js";
 
 /**
  * @since 1.0.0

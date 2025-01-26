@@ -31,18 +31,14 @@ export type TaggedException<T extends { name: string }> = T & {
   readonly _tag: T["name"];
 };
 
-export type CertificateValidationError =
-  TaggedException<CertificateValidationException>;
+export type CertificateValidationError = TaggedException<CertificateValidationException>;
 export type ConflictError = TaggedException<ConflictException>;
 export type InternalServerError = TaggedException<InternalServerException>;
 export type InvalidRequestError = TaggedException<InvalidRequestException>;
-export type InvalidStateTransitionError =
-  TaggedException<InvalidStateTransitionException>;
+export type InvalidStateTransitionError = TaggedException<InvalidStateTransitionException>;
 export type ResourceNotFoundError = TaggedException<ResourceNotFoundException>;
-export type ServiceQuotaExceededError =
-  TaggedException<ServiceQuotaExceededException>;
-export type ServiceUnavailableError =
-  TaggedException<ServiceUnavailableException>;
+export type ServiceQuotaExceededError = TaggedException<ServiceQuotaExceededException>;
+export type ServiceUnavailableError = TaggedException<ServiceUnavailableException>;
 export type TerminalStateError = TaggedException<TerminalStateException>;
 export type ThrottlingError = TaggedException<ThrottlingException>;
 export type ValidationError = TaggedException<ValidationException>;

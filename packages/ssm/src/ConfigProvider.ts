@@ -2,16 +2,15 @@
  * @since 1.0.0
  */
 import { DefaultSSMServiceLayer, SSMService } from "@effect-aws/client-ssm";
+import type { Config, Layer } from "effect";
 import {
   Array,
   Cause,
-  Config,
   ConfigError,
   ConfigProvider,
   ConfigProviderPathPatch,
   Effect,
   HashSet,
-  Layer,
   Option,
   pipe,
 } from "effect";
@@ -31,10 +30,8 @@ export const fromParameterStore = (config?: {
     { pathDelim: "_", serviceLayer: DefaultSSMServiceLayer },
     config,
   );
-  const makePathString = (path: ReadonlyArray<string>): string =>
-    pipe(path, Array.join(pathDelim));
-  const unmakePathString = (pathString: string): ReadonlyArray<string> =>
-    pathString.split(pathDelim);
+  const makePathString = (path: ReadonlyArray<string>): string => pipe(path, Array.join(pathDelim));
+  const unmakePathString = (pathString: string): ReadonlyArray<string> => pathString.split(pathDelim);
 
   const load = <A>(
     path: ReadonlyArray<string>,
@@ -52,42 +49,38 @@ export const fromParameterStore = (config?: {
             path as Array<string>,
             `Expected ${pathString} parameter to exist in AWS Systems Manager Parameter Store`,
           ),
-        ),
-      ),
+        )),
       Effect.catchTag("ParameterVersionNotFound", () =>
         Effect.fail(
           ConfigError.MissingData(
             path as Array<string>,
             `Expected ${pathString} parameter version to exist in AWS Systems Manager Parameter Store`,
           ),
-        ),
-      ),
+        )),
       Effect.catchTag("NoSuchElementException", () =>
         Effect.fail(
           ConfigError.MissingData(
             path as Array<string>,
             `Expected ${pathString} to exist in AWS Systems Manager Parameter Store`,
           ),
-        ),
-      ),
+        )),
       Effect.catchTag("InvalidKeyId", () =>
         Effect.fail(
           ConfigError.InvalidData(
             path as Array<string>,
             "Invalid key ID when retrieving configuration from AWS Systems Manager Parameter Store",
           ),
-        ),
-      ),
+        )),
       Effect.catchAllCause((cause) =>
         Cause.isFailType(cause) && ConfigError.isConfigError(cause.error)
           ? Effect.fail(cause.error)
           : Effect.fail(
-              ConfigError.SourceUnavailable(
-                path as Array<string>,
-                "Failed to load configuration from AWS Systems Manager Parameter Store",
-                cause,
-              ),
+            ConfigError.SourceUnavailable(
+              path as Array<string>,
+              "Failed to load configuration from AWS Systems Manager Parameter Store",
+              cause,
             ),
+          )
       ),
       Effect.flatMap((value) =>
         pipe(
@@ -96,7 +89,7 @@ export const fromParameterStore = (config?: {
             onFailure: ConfigError.prefixed(path as Array<string>),
             onSuccess: Array.of,
           }),
-        ),
+        )
       ),
       Effect.provide(serviceLayer),
     );

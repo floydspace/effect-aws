@@ -1,17 +1,16 @@
 import {
-  type ListAdaptersCommandInput,
   ListAdaptersCommand,
+  type ListAdaptersCommandInput,
   TextractClient,
   TextractServiceException,
 } from "@aws-sdk/client-textract";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-textract/dist-cjs/runtimeConfig";
+import { SdkError, Textract } from "@effect-aws/client-textract";
 import { mockClient } from "aws-sdk-client-mock";
-import * as Effect from "effect/Effect";
-import * as Exit from "effect/Exit";
+import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { Textract, SdkError } from "../src";
 
 const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(TextractClient);
@@ -76,9 +75,7 @@ describe("TextractClientImpl", () => {
     const result = await pipe(
       program,
       Effect.provide(
-        Textract.baseLayer(
-          () => new TextractClient({ region: "eu-central-1" }),
-        ),
+        Textract.baseLayer(() => new TextractClient({ region: "eu-central-1" })),
       ),
       Effect.runPromiseExit,
     );

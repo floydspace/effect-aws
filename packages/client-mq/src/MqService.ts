@@ -2,9 +2,6 @@
  * @since 1.0.0
  */
 import {
-  MqServiceException,
-  type MqClient,
-  type MqClientConfig,
   CreateBrokerCommand,
   type CreateBrokerCommandInput,
   type CreateBrokerCommandOutput,
@@ -59,6 +56,9 @@ import {
   ListUsersCommand,
   type ListUsersCommandInput,
   type ListUsersCommandOutput,
+  type MqClient,
+  type MqClientConfig,
+  MqServiceException,
   PromoteCommand,
   type PromoteCommandInput,
   type PromoteCommandOutput,
@@ -76,23 +76,22 @@ import {
   type UpdateUserCommandOutput,
 } from "@aws-sdk/client-mq";
 import { Data, Effect, Layer, Record } from "effect";
-import {
-  AllServiceErrors,
+import { AllServiceErrors, SdkError } from "./Errors.js";
+import type {
   BadRequestError,
   ConflictError,
   ForbiddenError,
   InternalServerError,
   NotFoundError,
-  UnauthorizedError,
-  SdkError,
   TaggedException,
-} from "./Errors";
-import { MqClientInstance, MqClientInstanceLayer } from "./MqClientInstance";
+  UnauthorizedError,
+} from "./Errors.js";
+import { MqClientInstance, MqClientInstanceLayer } from "./MqClientInstance.js";
 import {
   DefaultMqClientConfigLayer,
   makeDefaultMqClientInstanceConfig,
   MqClientInstanceConfig,
-} from "./MqClientInstanceConfig";
+} from "./MqClientInstanceConfig.js";
 
 /**
  * @since 1.0.0
@@ -142,12 +141,7 @@ interface MqService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateBrokerCommandOutput,
-    | SdkError
-    | BadRequestError
-    | ConflictError
-    | ForbiddenError
-    | InternalServerError
-    | UnauthorizedError
+    SdkError | BadRequestError | ConflictError | ForbiddenError | InternalServerError | UnauthorizedError
   >;
 
   /**
@@ -158,11 +152,7 @@ interface MqService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateConfigurationCommandOutput,
-    | SdkError
-    | BadRequestError
-    | ConflictError
-    | ForbiddenError
-    | InternalServerError
+    SdkError | BadRequestError | ConflictError | ForbiddenError | InternalServerError
   >;
 
   /**
@@ -173,11 +163,7 @@ interface MqService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateTagsCommandOutput,
-    | SdkError
-    | BadRequestError
-    | ForbiddenError
-    | InternalServerError
-    | NotFoundError
+    SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
   >;
 
   /**
@@ -188,12 +174,7 @@ interface MqService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateUserCommandOutput,
-    | SdkError
-    | BadRequestError
-    | ConflictError
-    | ForbiddenError
-    | InternalServerError
-    | NotFoundError
+    SdkError | BadRequestError | ConflictError | ForbiddenError | InternalServerError | NotFoundError
   >;
 
   /**
@@ -204,11 +185,7 @@ interface MqService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteBrokerCommandOutput,
-    | SdkError
-    | BadRequestError
-    | ForbiddenError
-    | InternalServerError
-    | NotFoundError
+    SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
   >;
 
   /**
@@ -219,11 +196,7 @@ interface MqService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteTagsCommandOutput,
-    | SdkError
-    | BadRequestError
-    | ForbiddenError
-    | InternalServerError
-    | NotFoundError
+    SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
   >;
 
   /**
@@ -234,11 +207,7 @@ interface MqService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteUserCommandOutput,
-    | SdkError
-    | BadRequestError
-    | ForbiddenError
-    | InternalServerError
-    | NotFoundError
+    SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
   >;
 
   /**
@@ -249,11 +218,7 @@ interface MqService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeBrokerCommandOutput,
-    | SdkError
-    | BadRequestError
-    | ForbiddenError
-    | InternalServerError
-    | NotFoundError
+    SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
   >;
 
   /**
@@ -286,11 +251,7 @@ interface MqService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeConfigurationCommandOutput,
-    | SdkError
-    | BadRequestError
-    | ForbiddenError
-    | InternalServerError
-    | NotFoundError
+    SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
   >;
 
   /**
@@ -301,11 +262,7 @@ interface MqService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeConfigurationRevisionCommandOutput,
-    | SdkError
-    | BadRequestError
-    | ForbiddenError
-    | InternalServerError
-    | NotFoundError
+    SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
   >;
 
   /**
@@ -316,11 +273,7 @@ interface MqService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeUserCommandOutput,
-    | SdkError
-    | BadRequestError
-    | ForbiddenError
-    | InternalServerError
-    | NotFoundError
+    SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
   >;
 
   /**
@@ -342,11 +295,7 @@ interface MqService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListConfigurationRevisionsCommandOutput,
-    | SdkError
-    | BadRequestError
-    | ForbiddenError
-    | InternalServerError
-    | NotFoundError
+    SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
   >;
 
   /**
@@ -368,11 +317,7 @@ interface MqService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsCommandOutput,
-    | SdkError
-    | BadRequestError
-    | ForbiddenError
-    | InternalServerError
-    | NotFoundError
+    SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
   >;
 
   /**
@@ -383,11 +328,7 @@ interface MqService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListUsersCommandOutput,
-    | SdkError
-    | BadRequestError
-    | ForbiddenError
-    | InternalServerError
-    | NotFoundError
+    SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
   >;
 
   /**
@@ -398,11 +339,7 @@ interface MqService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PromoteCommandOutput,
-    | SdkError
-    | BadRequestError
-    | ForbiddenError
-    | InternalServerError
-    | NotFoundError
+    SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
   >;
 
   /**
@@ -413,11 +350,7 @@ interface MqService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RebootBrokerCommandOutput,
-    | SdkError
-    | BadRequestError
-    | ForbiddenError
-    | InternalServerError
-    | NotFoundError
+    SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
   >;
 
   /**
@@ -428,12 +361,7 @@ interface MqService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateBrokerCommandOutput,
-    | SdkError
-    | BadRequestError
-    | ConflictError
-    | ForbiddenError
-    | InternalServerError
-    | NotFoundError
+    SdkError | BadRequestError | ConflictError | ForbiddenError | InternalServerError | NotFoundError
   >;
 
   /**
@@ -444,12 +372,7 @@ interface MqService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateConfigurationCommandOutput,
-    | SdkError
-    | BadRequestError
-    | ConflictError
-    | ForbiddenError
-    | InternalServerError
-    | NotFoundError
+    SdkError | BadRequestError | ConflictError | ForbiddenError | InternalServerError | NotFoundError
   >;
 
   /**
@@ -460,12 +383,7 @@ interface MqService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateUserCommandOutput,
-    | SdkError
-    | BadRequestError
-    | ConflictError
-    | ForbiddenError
-    | InternalServerError
-    | NotFoundError
+    SdkError | BadRequestError | ConflictError | ForbiddenError | InternalServerError | NotFoundError
   >;
 }
 
@@ -473,7 +391,7 @@ interface MqService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeMqService = Effect.gen(function* (_) {
+export const makeMqService = Effect.gen(function*(_) {
   const client = yield* _(MqClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {
@@ -486,10 +404,7 @@ export const makeMqService = Effect.gen(function* (_) {
             abortSignal,
           }),
         catch: (e) => {
-          if (
-            e instanceof MqServiceException &&
-            AllServiceErrors.includes(e.name)
-          ) {
+          if (e instanceof MqServiceException && AllServiceErrors.includes(e.name)) {
             const ServiceException = Data.tagged<
               TaggedException<MqServiceException>
             >(e.name);
@@ -568,7 +483,10 @@ export const Mq = MqService;
  * @category layers
  * @deprecated use Mq.baseLayer instead
  */
-export const BaseMqServiceLayer = Layer.effect(MqService, makeMqService);
+export const BaseMqServiceLayer = Layer.effect(
+  MqService,
+  makeMqService,
+);
 
 /**
  * @since 1.0.0

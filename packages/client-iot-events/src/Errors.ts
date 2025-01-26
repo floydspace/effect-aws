@@ -30,15 +30,12 @@ export type TaggedException<T extends { name: string }> = T & {
 export type InternalFailureError = TaggedException<InternalFailureException>;
 export type InvalidRequestError = TaggedException<InvalidRequestException>;
 export type LimitExceededError = TaggedException<LimitExceededException>;
-export type ResourceAlreadyExistsError =
-  TaggedException<ResourceAlreadyExistsException>;
+export type ResourceAlreadyExistsError = TaggedException<ResourceAlreadyExistsException>;
 export type ResourceInUseError = TaggedException<ResourceInUseException>;
 export type ResourceNotFoundError = TaggedException<ResourceNotFoundException>;
-export type ServiceUnavailableError =
-  TaggedException<ServiceUnavailableException>;
+export type ServiceUnavailableError = TaggedException<ServiceUnavailableException>;
 export type ThrottlingError = TaggedException<ThrottlingException>;
-export type UnsupportedOperationError =
-  TaggedException<UnsupportedOperationException>;
+export type UnsupportedOperationError = TaggedException<UnsupportedOperationException>;
 
 export type SdkError = TaggedException<Error & { name: "SdkError" }>;
 export const SdkError = Data.tagged<SdkError>("SdkError");

@@ -1,17 +1,16 @@
 import {
-  type DescribeAlarmCommandInput,
   DescribeAlarmCommand,
+  type DescribeAlarmCommandInput,
   IoTEventsDataClient,
   IoTEventsDataServiceException,
 } from "@aws-sdk/client-iot-events-data";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-iot-events-data/dist-cjs/runtimeConfig";
+import { IoTEventsData, SdkError } from "@effect-aws/client-iot-events-data";
 import { mockClient } from "aws-sdk-client-mock";
-import * as Effect from "effect/Effect";
-import * as Exit from "effect/Exit";
+import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { IoTEventsData, SdkError } from "../src";
 
 const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(IoTEventsDataClient);
@@ -76,9 +75,7 @@ describe("IoTEventsDataClientImpl", () => {
     const result = await pipe(
       program,
       Effect.provide(
-        IoTEventsData.baseLayer(
-          () => new IoTEventsDataClient({ region: "eu-central-1" }),
-        ),
+        IoTEventsData.baseLayer(() => new IoTEventsDataClient({ region: "eu-central-1" })),
       ),
       Effect.runPromiseExit,
     );
@@ -103,8 +100,7 @@ describe("IoTEventsDataClientImpl", () => {
       program,
       Effect.provide(
         IoTEventsData.baseLayer(
-          (config) =>
-            new IoTEventsDataClient({ ...config, region: "eu-central-1" }),
+          (config) => new IoTEventsDataClient({ ...config, region: "eu-central-1" }),
         ),
       ),
       Effect.runPromiseExit,

@@ -2,13 +2,8 @@
  * @since 1.0.0
  */
 import { STSClient } from "@aws-sdk/client-sts";
-import * as Context from "effect/Context";
-import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
-import {
-  DefaultSTSClientConfigLayer,
-  STSClientInstanceConfig,
-} from "./STSClientInstanceConfig";
+import { Context, Effect, Layer } from "effect";
+import { DefaultSTSClientConfigLayer, STSClientInstanceConfig } from "./STSClientInstanceConfig.js";
 
 /**
  * @since 1.0.0

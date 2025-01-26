@@ -2,9 +2,6 @@
  * @since 1.0.0
  */
 import {
-  OpenSearchServerlessServiceException,
-  type OpenSearchServerlessClient,
-  type OpenSearchServerlessClientConfig,
   BatchGetCollectionCommand,
   type BatchGetCollectionCommandInput,
   type BatchGetCollectionCommandOutput,
@@ -89,6 +86,9 @@ import {
   ListVpcEndpointsCommand,
   type ListVpcEndpointsCommandInput,
   type ListVpcEndpointsCommandOutput,
+  type OpenSearchServerlessClient,
+  type OpenSearchServerlessClientConfig,
+  OpenSearchServerlessServiceException,
   TagResourceCommand,
   type TagResourceCommandInput,
   type TagResourceCommandOutput,
@@ -118,26 +118,25 @@ import {
   type UpdateVpcEndpointCommandOutput,
 } from "@aws-sdk/client-opensearchserverless";
 import { Data, Effect, Layer, Record } from "effect";
-import {
-  AllServiceErrors,
+import { AllServiceErrors, SdkError } from "./Errors.js";
+import type {
   ConflictError,
   InternalServerError,
   OcuLimitExceededError,
   ResourceNotFoundError,
   ServiceQuotaExceededError,
-  ValidationError,
-  SdkError,
   TaggedException,
-} from "./Errors";
+  ValidationError,
+} from "./Errors.js";
 import {
   OpenSearchServerlessClientInstance,
   OpenSearchServerlessClientInstanceLayer,
-} from "./OpenSearchServerlessClientInstance";
+} from "./OpenSearchServerlessClientInstance.js";
 import {
   DefaultOpenSearchServerlessClientConfigLayer,
   makeDefaultOpenSearchServerlessClientInstanceConfig,
   OpenSearchServerlessClientInstanceConfig,
-} from "./OpenSearchServerlessClientInstanceConfig";
+} from "./OpenSearchServerlessClientInstanceConfig.js";
 
 /**
  * @since 1.0.0
@@ -245,11 +244,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateAccessPolicyCommandOutput,
-    | SdkError
-    | ConflictError
-    | InternalServerError
-    | ServiceQuotaExceededError
-    | ValidationError
+    SdkError | ConflictError | InternalServerError | ServiceQuotaExceededError | ValidationError
   >;
 
   /**
@@ -260,12 +255,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateCollectionCommandOutput,
-    | SdkError
-    | ConflictError
-    | InternalServerError
-    | OcuLimitExceededError
-    | ServiceQuotaExceededError
-    | ValidationError
+    SdkError | ConflictError | InternalServerError | OcuLimitExceededError | ServiceQuotaExceededError | ValidationError
   >;
 
   /**
@@ -276,11 +266,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateLifecyclePolicyCommandOutput,
-    | SdkError
-    | ConflictError
-    | InternalServerError
-    | ServiceQuotaExceededError
-    | ValidationError
+    SdkError | ConflictError | InternalServerError | ServiceQuotaExceededError | ValidationError
   >;
 
   /**
@@ -291,11 +277,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateSecurityConfigCommandOutput,
-    | SdkError
-    | ConflictError
-    | InternalServerError
-    | ServiceQuotaExceededError
-    | ValidationError
+    SdkError | ConflictError | InternalServerError | ServiceQuotaExceededError | ValidationError
   >;
 
   /**
@@ -306,11 +288,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateSecurityPolicyCommandOutput,
-    | SdkError
-    | ConflictError
-    | InternalServerError
-    | ServiceQuotaExceededError
-    | ValidationError
+    SdkError | ConflictError | InternalServerError | ServiceQuotaExceededError | ValidationError
   >;
 
   /**
@@ -321,11 +299,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateVpcEndpointCommandOutput,
-    | SdkError
-    | ConflictError
-    | InternalServerError
-    | ServiceQuotaExceededError
-    | ValidationError
+    SdkError | ConflictError | InternalServerError | ServiceQuotaExceededError | ValidationError
   >;
 
   /**
@@ -336,11 +310,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteAccessPolicyCommandOutput,
-    | SdkError
-    | ConflictError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ValidationError
+    SdkError | ConflictError | InternalServerError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -351,11 +321,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteCollectionCommandOutput,
-    | SdkError
-    | ConflictError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ValidationError
+    SdkError | ConflictError | InternalServerError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -366,11 +332,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteLifecyclePolicyCommandOutput,
-    | SdkError
-    | ConflictError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ValidationError
+    SdkError | ConflictError | InternalServerError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -381,11 +343,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteSecurityConfigCommandOutput,
-    | SdkError
-    | ConflictError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ValidationError
+    SdkError | ConflictError | InternalServerError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -396,11 +354,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteSecurityPolicyCommandOutput,
-    | SdkError
-    | ConflictError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ValidationError
+    SdkError | ConflictError | InternalServerError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -411,11 +365,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteVpcEndpointCommandOutput,
-    | SdkError
-    | ConflictError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ValidationError
+    SdkError | ConflictError | InternalServerError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -558,12 +508,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagResourceCommandOutput,
-    | SdkError
-    | ConflictError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ServiceQuotaExceededError
-    | ValidationError
+    SdkError | ConflictError | InternalServerError | ResourceNotFoundError | ServiceQuotaExceededError | ValidationError
   >;
 
   /**
@@ -574,11 +519,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
-    | SdkError
-    | ConflictError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ValidationError
+    SdkError | ConflictError | InternalServerError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -589,11 +530,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateAccessPolicyCommandOutput,
-    | SdkError
-    | ConflictError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ValidationError
+    SdkError | ConflictError | InternalServerError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -626,12 +563,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateLifecyclePolicyCommandOutput,
-    | SdkError
-    | ConflictError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ServiceQuotaExceededError
-    | ValidationError
+    SdkError | ConflictError | InternalServerError | ResourceNotFoundError | ServiceQuotaExceededError | ValidationError
   >;
 
   /**
@@ -642,11 +574,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateSecurityConfigCommandOutput,
-    | SdkError
-    | ConflictError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ValidationError
+    SdkError | ConflictError | InternalServerError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -657,12 +585,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateSecurityPolicyCommandOutput,
-    | SdkError
-    | ConflictError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ServiceQuotaExceededError
-    | ValidationError
+    SdkError | ConflictError | InternalServerError | ResourceNotFoundError | ServiceQuotaExceededError | ValidationError
   >;
 
   /**
@@ -681,7 +604,7 @@ interface OpenSearchServerlessService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeOpenSearchServerlessService = Effect.gen(function* (_) {
+export const makeOpenSearchServerlessService = Effect.gen(function*(_) {
   const client = yield* _(OpenSearchServerlessClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {
@@ -694,10 +617,7 @@ export const makeOpenSearchServerlessService = Effect.gen(function* (_) {
             abortSignal,
           }),
         catch: (e) => {
-          if (
-            e instanceof OpenSearchServerlessServiceException &&
-            AllServiceErrors.includes(e.name)
-          ) {
+          if (e instanceof OpenSearchServerlessServiceException && AllServiceErrors.includes(e.name)) {
             const ServiceException = Data.tagged<
               TaggedException<OpenSearchServerlessServiceException>
             >(e.name);
@@ -731,13 +651,13 @@ export const makeOpenSearchServerlessService = Effect.gen(function* (_) {
  * @since 1.0.0
  * @category models
  */
-export class OpenSearchServerlessService extends Effect.Tag(
-  "@effect-aws/client-opensearch-serverless/OpenSearchServerlessService",
-)<OpenSearchServerlessService, OpenSearchServerlessService$>() {
-  static readonly defaultLayer = Layer.effect(
-    this,
-    makeOpenSearchServerlessService,
-  ).pipe(
+export class OpenSearchServerlessService
+  extends Effect.Tag("@effect-aws/client-opensearch-serverless/OpenSearchServerlessService")<
+    OpenSearchServerlessService,
+    OpenSearchServerlessService$
+  >()
+{
+  static readonly defaultLayer = Layer.effect(this, makeOpenSearchServerlessService).pipe(
     Layer.provide(OpenSearchServerlessClientInstanceLayer),
     Layer.provide(DefaultOpenSearchServerlessClientConfigLayer),
   );
@@ -754,18 +674,13 @@ export class OpenSearchServerlessService extends Effect.Tag(
       ),
     );
   static readonly baseLayer = (
-    evaluate: (
-      defaultConfig: OpenSearchServerlessClientConfig,
-    ) => OpenSearchServerlessClient,
+    evaluate: (defaultConfig: OpenSearchServerlessClientConfig) => OpenSearchServerlessClient,
   ) =>
     Layer.effect(this, makeOpenSearchServerlessService).pipe(
       Layer.provide(
         Layer.effect(
           OpenSearchServerlessClientInstance,
-          Effect.map(
-            makeDefaultOpenSearchServerlessClientInstanceConfig,
-            evaluate,
-          ),
+          Effect.map(makeDefaultOpenSearchServerlessClientInstanceConfig, evaluate),
         ),
       ),
     );
@@ -793,15 +708,13 @@ export const BaseOpenSearchServerlessServiceLayer = Layer.effect(
  * @category layers
  * @deprecated use OpenSearchServerless.layer instead
  */
-export const OpenSearchServerlessServiceLayer =
-  BaseOpenSearchServerlessServiceLayer.pipe(
-    Layer.provide(OpenSearchServerlessClientInstanceLayer),
-  );
+export const OpenSearchServerlessServiceLayer = BaseOpenSearchServerlessServiceLayer.pipe(
+  Layer.provide(OpenSearchServerlessClientInstanceLayer),
+);
 
 /**
  * @since 1.0.0
  * @category layers
  * @deprecated use OpenSearchServerless.defaultLayer instead
  */
-export const DefaultOpenSearchServerlessServiceLayer =
-  OpenSearchServerlessService.defaultLayer;
+export const DefaultOpenSearchServerlessServiceLayer = OpenSearchServerlessService.defaultLayer;

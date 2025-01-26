@@ -2,13 +2,8 @@
  * @since 1.0.0
  */
 import { TextractClient } from "@aws-sdk/client-textract";
-import * as Context from "effect/Context";
-import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
-import {
-  DefaultTextractClientConfigLayer,
-  TextractClientInstanceConfig,
-} from "./TextractClientInstanceConfig";
+import { Context, Effect, Layer } from "effect";
+import { DefaultTextractClientConfigLayer, TextractClientInstanceConfig } from "./TextractClientInstanceConfig.js";
 
 /**
  * @since 1.0.0
@@ -44,7 +39,6 @@ export const TextractClientInstanceLayer = Layer.scoped(
  * @since 1.0.0
  * @category layers
  */
-export const DefaultTextractClientInstanceLayer =
-  TextractClientInstanceLayer.pipe(
-    Layer.provide(DefaultTextractClientConfigLayer),
-  );
+export const DefaultTextractClientInstanceLayer = TextractClientInstanceLayer.pipe(
+  Layer.provide(DefaultTextractClientConfigLayer),
+);

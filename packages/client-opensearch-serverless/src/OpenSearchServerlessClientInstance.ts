@@ -2,13 +2,11 @@
  * @since 1.0.0
  */
 import { OpenSearchServerlessClient } from "@aws-sdk/client-opensearchserverless";
-import * as Context from "effect/Context";
-import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
+import { Context, Effect, Layer } from "effect";
 import {
   DefaultOpenSearchServerlessClientConfigLayer,
   OpenSearchServerlessClientInstanceConfig,
-} from "./OpenSearchServerlessClientInstanceConfig";
+} from "./OpenSearchServerlessClientInstanceConfig.js";
 
 /**
  * @since 1.0.0
@@ -44,7 +42,6 @@ export const OpenSearchServerlessClientInstanceLayer = Layer.scoped(
  * @since 1.0.0
  * @category layers
  */
-export const DefaultOpenSearchServerlessClientInstanceLayer =
-  OpenSearchServerlessClientInstanceLayer.pipe(
-    Layer.provide(DefaultOpenSearchServerlessClientConfigLayer),
-  );
+export const DefaultOpenSearchServerlessClientInstanceLayer = OpenSearchServerlessClientInstanceLayer.pipe(
+  Layer.provide(DefaultOpenSearchServerlessClientConfigLayer),
+);

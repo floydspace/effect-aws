@@ -2,9 +2,6 @@
  * @since 1.0.0
  */
 import {
-  STSServiceException,
-  type STSClient,
-  type STSClientConfig,
   AssumeRoleCommand,
   type AssumeRoleCommandInput,
   type AssumeRoleCommandOutput,
@@ -32,10 +29,12 @@ import {
   GetSessionTokenCommand,
   type GetSessionTokenCommandInput,
   type GetSessionTokenCommandOutput,
+  type STSClient,
+  type STSClientConfig,
+  STSServiceException,
 } from "@aws-sdk/client-sts";
 import { Data, Effect, Layer, Record } from "effect";
-import {
-  AllServiceErrors,
+import type {
   ExpiredTokenError,
   IDPCommunicationError,
   IDPRejectedClaimError,
@@ -44,15 +43,15 @@ import {
   MalformedPolicyDocumentError,
   PackedPolicyTooLargeError,
   RegionDisabledError,
-  SdkError,
   TaggedException,
-} from "./Errors";
-import { STSClientInstance, STSClientInstanceLayer } from "./STSClientInstance";
+} from "./Errors.js";
+import { AllServiceErrors, SdkError } from "./Errors.js";
+import { STSClientInstance, STSClientInstanceLayer } from "./STSClientInstance.js";
 import {
   DefaultSTSClientConfigLayer,
   makeDefaultSTSClientInstanceConfig,
   STSClientInstanceConfig,
-} from "./STSClientInstanceConfig";
+} from "./STSClientInstanceConfig.js";
 
 /**
  * @since 1.0.0
@@ -88,11 +87,7 @@ interface STSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AssumeRoleCommandOutput,
-    | SdkError
-    | ExpiredTokenError
-    | MalformedPolicyDocumentError
-    | PackedPolicyTooLargeError
-    | RegionDisabledError
+    SdkError | ExpiredTokenError | MalformedPolicyDocumentError | PackedPolicyTooLargeError | RegionDisabledError
   >;
 
   /**
@@ -158,7 +153,10 @@ interface STSService$ {
   getAccessKeyInfo(
     args: GetAccessKeyInfoCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<GetAccessKeyInfoCommandOutput, SdkError>;
+  ): Effect.Effect<
+    GetAccessKeyInfoCommandOutput,
+    SdkError
+  >;
 
   /**
    * @see {@link GetCallerIdentityCommand}
@@ -166,7 +164,10 @@ interface STSService$ {
   getCallerIdentity(
     args: GetCallerIdentityCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<GetCallerIdentityCommandOutput, SdkError>;
+  ): Effect.Effect<
+    GetCallerIdentityCommandOutput,
+    SdkError
+  >;
 
   /**
    * @see {@link GetFederationTokenCommand}
@@ -176,10 +177,7 @@ interface STSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetFederationTokenCommandOutput,
-    | SdkError
-    | MalformedPolicyDocumentError
-    | PackedPolicyTooLargeError
-    | RegionDisabledError
+    SdkError | MalformedPolicyDocumentError | PackedPolicyTooLargeError | RegionDisabledError
   >;
 
   /**
@@ -198,7 +196,7 @@ interface STSService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeSTSService = Effect.gen(function* (_) {
+export const makeSTSService = Effect.gen(function*(_) {
   const client = yield* _(STSClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {
@@ -211,10 +209,7 @@ export const makeSTSService = Effect.gen(function* (_) {
             abortSignal,
           }),
         catch: (e) => {
-          if (
-            e instanceof STSServiceException &&
-            AllServiceErrors.includes(e.name)
-          ) {
+          if (e instanceof STSServiceException && AllServiceErrors.includes(e.name)) {
             const ServiceException = Data.tagged<
               TaggedException<STSServiceException>
             >(e.name);
@@ -293,7 +288,10 @@ export const STS = STSService;
  * @category layers
  * @deprecated use STS.baseLayer instead
  */
-export const BaseSTSServiceLayer = Layer.effect(STSService, makeSTSService);
+export const BaseSTSServiceLayer = Layer.effect(
+  STSService,
+  makeSTSService,
+);
 
 /**
  * @since 1.0.0

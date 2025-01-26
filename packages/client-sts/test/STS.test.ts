@@ -1,17 +1,16 @@
 import {
-  type GetCallerIdentityCommandInput,
   GetCallerIdentityCommand,
+  type GetCallerIdentityCommandInput,
   STSClient,
   STSServiceException,
 } from "@aws-sdk/client-sts";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-sts/dist-cjs/runtimeConfig";
+import { SdkError, STS } from "@effect-aws/client-sts";
 import { mockClient } from "aws-sdk-client-mock";
-import * as Effect from "effect/Effect";
-import * as Exit from "effect/Exit";
+import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { STS, SdkError } from "../src";
 
 const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(STSClient);
@@ -40,10 +39,7 @@ describe("STSClientImpl", () => {
       logger: expect.any(Object),
     });
     expect(clientMock).toHaveReceivedCommandTimes(GetCallerIdentityCommand, 1);
-    expect(clientMock).toHaveReceivedCommandWith(
-      GetCallerIdentityCommand,
-      args,
-    );
+    expect(clientMock).toHaveReceivedCommandWith(GetCallerIdentityCommand, args);
   });
 
   it("configurable", async () => {
@@ -66,10 +62,7 @@ describe("STSClientImpl", () => {
       logger: expect.any(Object),
     });
     expect(clientMock).toHaveReceivedCommandTimes(GetCallerIdentityCommand, 1);
-    expect(clientMock).toHaveReceivedCommandWith(
-      GetCallerIdentityCommand,
-      args,
-    );
+    expect(clientMock).toHaveReceivedCommandWith(GetCallerIdentityCommand, args);
   });
 
   it("base", async () => {
@@ -93,10 +86,7 @@ describe("STSClientImpl", () => {
       region: "eu-central-1",
     });
     expect(clientMock).toHaveReceivedCommandTimes(GetCallerIdentityCommand, 1);
-    expect(clientMock).toHaveReceivedCommandWith(
-      GetCallerIdentityCommand,
-      args,
-    );
+    expect(clientMock).toHaveReceivedCommandWith(GetCallerIdentityCommand, args);
   });
 
   it("extended", async () => {
@@ -123,10 +113,7 @@ describe("STSClientImpl", () => {
       logger: expect.any(Object),
     });
     expect(clientMock).toHaveReceivedCommandTimes(GetCallerIdentityCommand, 1);
-    expect(clientMock).toHaveReceivedCommandWith(
-      GetCallerIdentityCommand,
-      args,
-    );
+    expect(clientMock).toHaveReceivedCommandWith(GetCallerIdentityCommand, args);
   });
 
   it("fail", async () => {
@@ -153,10 +140,7 @@ describe("STSClientImpl", () => {
       ),
     );
     expect(clientMock).toHaveReceivedCommandTimes(GetCallerIdentityCommand, 1);
-    expect(clientMock).toHaveReceivedCommandWith(
-      GetCallerIdentityCommand,
-      args,
-    );
+    expect(clientMock).toHaveReceivedCommandWith(GetCallerIdentityCommand, args);
   });
 
   it("should not catch unexpected error as expected", async () => {
@@ -193,9 +177,6 @@ describe("STSClientImpl", () => {
       ),
     );
     expect(clientMock).toHaveReceivedCommandTimes(GetCallerIdentityCommand, 1);
-    expect(clientMock).toHaveReceivedCommandWith(
-      GetCallerIdentityCommand,
-      args,
-    );
+    expect(clientMock).toHaveReceivedCommandWith(GetCallerIdentityCommand, args);
   });
 });

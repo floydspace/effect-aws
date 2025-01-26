@@ -2,8 +2,7 @@
  * @since 1.0.0
  */
 import type { ConstructorOptions } from "@aws-lambda-powertools/logger/types";
-import * as Context from "effect/Context";
-import * as Layer from "effect/Layer";
+import { Context, Layer } from "effect";
 
 /**
  * @since 1.0.0

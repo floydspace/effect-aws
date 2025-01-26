@@ -1,17 +1,16 @@
 import {
-  type ListUserPoolsCommandInput,
-  ListUserPoolsCommand,
   CognitoIdentityProviderClient,
   CognitoIdentityProviderServiceException,
+  ListUserPoolsCommand,
+  type ListUserPoolsCommandInput,
 } from "@aws-sdk/client-cognito-identity-provider";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-cognito-identity-provider/dist-cjs/runtimeConfig";
+import { CognitoIdentityProvider, SdkError } from "@effect-aws/client-cognito-identity-provider";
 import { mockClient } from "aws-sdk-client-mock";
-import * as Effect from "effect/Effect";
-import * as Exit from "effect/Exit";
+import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { CognitoIdentityProvider, SdkError } from "../src";
 
 const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(CognitoIdentityProviderClient);
@@ -76,9 +75,7 @@ describe("CognitoIdentityProviderClientImpl", () => {
     const result = await pipe(
       program,
       Effect.provide(
-        CognitoIdentityProvider.baseLayer(
-          () => new CognitoIdentityProviderClient({ region: "eu-central-1" }),
-        ),
+        CognitoIdentityProvider.baseLayer(() => new CognitoIdentityProviderClient({ region: "eu-central-1" })),
       ),
       Effect.runPromiseExit,
     );
@@ -103,11 +100,7 @@ describe("CognitoIdentityProviderClientImpl", () => {
       program,
       Effect.provide(
         CognitoIdentityProvider.baseLayer(
-          (config) =>
-            new CognitoIdentityProviderClient({
-              ...config,
-              region: "eu-central-1",
-            }),
+          (config) => new CognitoIdentityProviderClient({ ...config, region: "eu-central-1" }),
         ),
       ),
       Effect.runPromiseExit,

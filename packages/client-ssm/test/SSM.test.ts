@@ -1,17 +1,16 @@
 import {
-  type DescribeParametersCommandInput,
   DescribeParametersCommand,
+  type DescribeParametersCommandInput,
   SSMClient,
   SSMServiceException,
 } from "@aws-sdk/client-ssm";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-ssm/dist-cjs/runtimeConfig";
+import { SdkError, SSM } from "@effect-aws/client-ssm";
 import { mockClient } from "aws-sdk-client-mock";
-import * as Effect from "effect/Effect";
-import * as Exit from "effect/Exit";
+import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { SSM, SdkError } from "../src";
 
 const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(SSMClient);
@@ -40,10 +39,7 @@ describe("SSMClientImpl", () => {
       logger: expect.any(Object),
     });
     expect(clientMock).toHaveReceivedCommandTimes(DescribeParametersCommand, 1);
-    expect(clientMock).toHaveReceivedCommandWith(
-      DescribeParametersCommand,
-      args,
-    );
+    expect(clientMock).toHaveReceivedCommandWith(DescribeParametersCommand, args);
   });
 
   it("configurable", async () => {
@@ -66,10 +62,7 @@ describe("SSMClientImpl", () => {
       logger: expect.any(Object),
     });
     expect(clientMock).toHaveReceivedCommandTimes(DescribeParametersCommand, 1);
-    expect(clientMock).toHaveReceivedCommandWith(
-      DescribeParametersCommand,
-      args,
-    );
+    expect(clientMock).toHaveReceivedCommandWith(DescribeParametersCommand, args);
   });
 
   it("base", async () => {
@@ -93,10 +86,7 @@ describe("SSMClientImpl", () => {
       region: "eu-central-1",
     });
     expect(clientMock).toHaveReceivedCommandTimes(DescribeParametersCommand, 1);
-    expect(clientMock).toHaveReceivedCommandWith(
-      DescribeParametersCommand,
-      args,
-    );
+    expect(clientMock).toHaveReceivedCommandWith(DescribeParametersCommand, args);
   });
 
   it("extended", async () => {
@@ -123,10 +113,7 @@ describe("SSMClientImpl", () => {
       logger: expect.any(Object),
     });
     expect(clientMock).toHaveReceivedCommandTimes(DescribeParametersCommand, 1);
-    expect(clientMock).toHaveReceivedCommandWith(
-      DescribeParametersCommand,
-      args,
-    );
+    expect(clientMock).toHaveReceivedCommandWith(DescribeParametersCommand, args);
   });
 
   it("fail", async () => {
@@ -153,10 +140,7 @@ describe("SSMClientImpl", () => {
       ),
     );
     expect(clientMock).toHaveReceivedCommandTimes(DescribeParametersCommand, 1);
-    expect(clientMock).toHaveReceivedCommandWith(
-      DescribeParametersCommand,
-      args,
-    );
+    expect(clientMock).toHaveReceivedCommandWith(DescribeParametersCommand, args);
   });
 
   it("should not catch unexpected error as expected", async () => {
@@ -193,9 +177,6 @@ describe("SSMClientImpl", () => {
       ),
     );
     expect(clientMock).toHaveReceivedCommandTimes(DescribeParametersCommand, 1);
-    expect(clientMock).toHaveReceivedCommandWith(
-      DescribeParametersCommand,
-      args,
-    );
+    expect(clientMock).toHaveReceivedCommandWith(DescribeParametersCommand, args);
   });
 });

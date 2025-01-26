@@ -2,9 +2,6 @@
  * @since 1.0.0
  */
 import {
-  KMSServiceException,
-  type KMSClient,
-  type KMSClientConfig,
   CancelKeyDeletionCommand,
   type CancelKeyDeletionCommandInput,
   type CancelKeyDeletionCommandOutput,
@@ -95,6 +92,9 @@ import {
   ImportKeyMaterialCommand,
   type ImportKeyMaterialCommandInput,
   type ImportKeyMaterialCommandOutput,
+  type KMSClient,
+  type KMSClientConfig,
+  KMSServiceException,
   ListAliasesCommand,
   type ListAliasesCommandInput,
   type ListAliasesCommandOutput,
@@ -166,8 +166,7 @@ import {
   type VerifyMacCommandOutput,
 } from "@aws-sdk/client-kms";
 import { Data, Effect, Layer, Record } from "effect";
-import {
-  AllServiceErrors,
+import type {
   AlreadyExistsError,
   CloudHsmClusterInUseError,
   CloudHsmClusterInvalidConfigurationError,
@@ -194,15 +193,16 @@ import {
   InvalidImportTokenError,
   InvalidKeyUsageError,
   InvalidMarkerError,
+  KeyUnavailableError,
   KMSInternalError,
   KMSInvalidMacError,
   KMSInvalidSignatureError,
   KMSInvalidStateError,
-  KeyUnavailableError,
   LimitExceededError,
   MalformedPolicyDocumentError,
   NotFoundError,
   TagError,
+  TaggedException,
   UnsupportedOperationError,
   XksKeyAlreadyInUseError,
   XksKeyInvalidConfigurationError,
@@ -216,15 +216,14 @@ import {
   XksProxyVpcEndpointServiceInUseError,
   XksProxyVpcEndpointServiceInvalidConfigurationError,
   XksProxyVpcEndpointServiceNotFoundError,
-  SdkError,
-  TaggedException,
-} from "./Errors";
-import { KMSClientInstance, KMSClientInstanceLayer } from "./KMSClientInstance";
+} from "./Errors.js";
+import { AllServiceErrors, SdkError } from "./Errors.js";
+import { KMSClientInstance, KMSClientInstanceLayer } from "./KMSClientInstance.js";
 import {
   DefaultKMSClientConfigLayer,
-  makeDefaultKMSClientInstanceConfig,
   KMSClientInstanceConfig,
-} from "./KMSClientInstanceConfig";
+  makeDefaultKMSClientInstanceConfig,
+} from "./KMSClientInstanceConfig.js";
 
 /**
  * @since 1.0.0
@@ -304,12 +303,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelKeyDeletionCommandOutput,
-    | SdkError
-    | DependencyTimeoutError
-    | InvalidArnError
-    | KMSInternalError
-    | KMSInvalidStateError
-    | NotFoundError
+    SdkError | DependencyTimeoutError | InvalidArnError | KMSInternalError | KMSInvalidStateError | NotFoundError
   >;
 
   /**
@@ -448,11 +442,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteAliasCommandOutput,
-    | SdkError
-    | DependencyTimeoutError
-    | KMSInternalError
-    | KMSInvalidStateError
-    | NotFoundError
+    SdkError | DependencyTimeoutError | KMSInternalError | KMSInvalidStateError | NotFoundError
   >;
 
   /**
@@ -515,10 +505,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeCustomKeyStoresCommandOutput,
-    | SdkError
-    | CustomKeyStoreNotFoundError
-    | InvalidMarkerError
-    | KMSInternalError
+    SdkError | CustomKeyStoreNotFoundError | InvalidMarkerError | KMSInternalError
   >;
 
   /**
@@ -529,11 +516,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeKeyCommandOutput,
-    | SdkError
-    | DependencyTimeoutError
-    | InvalidArnError
-    | KMSInternalError
-    | NotFoundError
+    SdkError | DependencyTimeoutError | InvalidArnError | KMSInternalError | NotFoundError
   >;
 
   /**
@@ -544,12 +527,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisableKeyCommandOutput,
-    | SdkError
-    | DependencyTimeoutError
-    | InvalidArnError
-    | KMSInternalError
-    | KMSInvalidStateError
-    | NotFoundError
+    SdkError | DependencyTimeoutError | InvalidArnError | KMSInternalError | KMSInvalidStateError | NotFoundError
   >;
 
   /**
@@ -578,10 +556,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisconnectCustomKeyStoreCommandOutput,
-    | SdkError
-    | CustomKeyStoreInvalidStateError
-    | CustomKeyStoreNotFoundError
-    | KMSInternalError
+    SdkError | CustomKeyStoreInvalidStateError | CustomKeyStoreNotFoundError | KMSInternalError
   >;
 
   /**
@@ -764,12 +739,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetKeyPolicyCommandOutput,
-    | SdkError
-    | DependencyTimeoutError
-    | InvalidArnError
-    | KMSInternalError
-    | KMSInvalidStateError
-    | NotFoundError
+    SdkError | DependencyTimeoutError | InvalidArnError | KMSInternalError | KMSInvalidStateError | NotFoundError
   >;
 
   /**
@@ -856,12 +826,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAliasesCommandOutput,
-    | SdkError
-    | DependencyTimeoutError
-    | InvalidArnError
-    | InvalidMarkerError
-    | KMSInternalError
-    | NotFoundError
+    SdkError | DependencyTimeoutError | InvalidArnError | InvalidMarkerError | KMSInternalError | NotFoundError
   >;
 
   /**
@@ -890,12 +855,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListKeyPoliciesCommandOutput,
-    | SdkError
-    | DependencyTimeoutError
-    | InvalidArnError
-    | KMSInternalError
-    | KMSInvalidStateError
-    | NotFoundError
+    SdkError | DependencyTimeoutError | InvalidArnError | KMSInternalError | KMSInvalidStateError | NotFoundError
   >;
 
   /**
@@ -934,11 +894,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListResourceTagsCommandOutput,
-    | SdkError
-    | InvalidArnError
-    | InvalidMarkerError
-    | KMSInternalError
-    | NotFoundError
+    SdkError | InvalidArnError | InvalidMarkerError | KMSInternalError | NotFoundError
   >;
 
   /**
@@ -949,12 +905,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListRetirableGrantsCommandOutput,
-    | SdkError
-    | DependencyTimeoutError
-    | InvalidArnError
-    | InvalidMarkerError
-    | KMSInternalError
-    | NotFoundError
+    SdkError | DependencyTimeoutError | InvalidArnError | InvalidMarkerError | KMSInternalError | NotFoundError
   >;
 
   /**
@@ -1084,12 +1035,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ScheduleKeyDeletionCommandOutput,
-    | SdkError
-    | DependencyTimeoutError
-    | InvalidArnError
-    | KMSInternalError
-    | KMSInvalidStateError
-    | NotFoundError
+    SdkError | DependencyTimeoutError | InvalidArnError | KMSInternalError | KMSInvalidStateError | NotFoundError
   >;
 
   /**
@@ -1120,13 +1066,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagResourceCommandOutput,
-    | SdkError
-    | InvalidArnError
-    | KMSInternalError
-    | KMSInvalidStateError
-    | LimitExceededError
-    | NotFoundError
-    | TagError
+    SdkError | InvalidArnError | KMSInternalError | KMSInvalidStateError | LimitExceededError | NotFoundError | TagError
   >;
 
   /**
@@ -1137,12 +1077,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
-    | SdkError
-    | InvalidArnError
-    | KMSInternalError
-    | KMSInvalidStateError
-    | NotFoundError
-    | TagError
+    SdkError | InvalidArnError | KMSInternalError | KMSInvalidStateError | NotFoundError | TagError
   >;
 
   /**
@@ -1153,12 +1088,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateAliasCommandOutput,
-    | SdkError
-    | DependencyTimeoutError
-    | KMSInternalError
-    | KMSInvalidStateError
-    | LimitExceededError
-    | NotFoundError
+    SdkError | DependencyTimeoutError | KMSInternalError | KMSInvalidStateError | LimitExceededError | NotFoundError
   >;
 
   /**
@@ -1197,12 +1127,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateKeyDescriptionCommandOutput,
-    | SdkError
-    | DependencyTimeoutError
-    | InvalidArnError
-    | KMSInternalError
-    | KMSInvalidStateError
-    | NotFoundError
+    SdkError | DependencyTimeoutError | InvalidArnError | KMSInternalError | KMSInvalidStateError | NotFoundError
   >;
 
   /**
@@ -1268,7 +1193,7 @@ interface KMSService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeKMSService = Effect.gen(function* (_) {
+export const makeKMSService = Effect.gen(function*(_) {
   const client = yield* _(KMSClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {
@@ -1281,10 +1206,7 @@ export const makeKMSService = Effect.gen(function* (_) {
             abortSignal,
           }),
         catch: (e) => {
-          if (
-            e instanceof KMSServiceException &&
-            AllServiceErrors.includes(e.name)
-          ) {
+          if (e instanceof KMSServiceException && AllServiceErrors.includes(e.name)) {
             const ServiceException = Data.tagged<
               TaggedException<KMSServiceException>
             >(e.name);
@@ -1363,7 +1285,10 @@ export const KMS = KMSService;
  * @category layers
  * @deprecated use KMS.baseLayer instead
  */
-export const BaseKMSServiceLayer = Layer.effect(KMSService, makeKMSService);
+export const BaseKMSServiceLayer = Layer.effect(
+  KMSService,
+  makeKMSService,
+);
 
 /**
  * @since 1.0.0

@@ -2,9 +2,6 @@
  * @since 1.0.0
  */
 import {
-  DynamoDBServiceException,
-  type DynamoDBClient,
-  type DynamoDBClientConfig,
   BatchExecuteStatementCommand,
   type BatchExecuteStatementCommandInput,
   type BatchExecuteStatementCommandOutput,
@@ -77,6 +74,9 @@ import {
   DisableKinesisStreamingDestinationCommand,
   type DisableKinesisStreamingDestinationCommandInput,
   type DisableKinesisStreamingDestinationCommandOutput,
+  type DynamoDBClient,
+  type DynamoDBClientConfig,
+  DynamoDBServiceException,
   EnableKinesisStreamingDestinationCommand,
   type EnableKinesisStreamingDestinationCommandInput,
   type EnableKinesisStreamingDestinationCommandOutput,
@@ -178,17 +178,13 @@ import {
   type UpdateTimeToLiveCommandOutput,
 } from "@aws-sdk/client-dynamodb";
 import { Data, Effect, Layer, Record } from "effect";
-import {
-  DynamoDBClientInstance,
-  DynamoDBClientInstanceLayer,
-} from "./DynamoDBClientInstance";
+import { DynamoDBClientInstance, DynamoDBClientInstanceLayer } from "./DynamoDBClientInstance.js";
 import {
   DefaultDynamoDBClientConfigLayer,
-  makeDefaultDynamoDBClientInstanceConfig,
   DynamoDBClientInstanceConfig,
-} from "./DynamoDBClientInstanceConfig";
-import {
-  AllServiceErrors,
+  makeDefaultDynamoDBClientInstanceConfig,
+} from "./DynamoDBClientInstanceConfig.js";
+import type {
   BackupInUseError,
   BackupNotFoundError,
   ConditionalCheckFailedError,
@@ -220,12 +216,12 @@ import {
   TableAlreadyExistsError,
   TableInUseError,
   TableNotFoundError,
+  TaggedException,
   TransactionCanceledError,
   TransactionConflictError,
   TransactionInProgressError,
-  SdkError,
-  TaggedException,
-} from "./Errors";
+} from "./Errors.js";
+import { AllServiceErrors, SdkError } from "./Errors.js";
 
 /**
  * @since 1.0.0
@@ -387,11 +383,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateTableCommandOutput,
-    | SdkError
-    | InternalServerError
-    | InvalidEndpointError
-    | LimitExceededError
-    | ResourceInUseError
+    SdkError | InternalServerError | InvalidEndpointError | LimitExceededError | ResourceInUseError
   >;
 
   /**
@@ -402,12 +394,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteBackupCommandOutput,
-    | SdkError
-    | BackupInUseError
-    | BackupNotFoundError
-    | InternalServerError
-    | InvalidEndpointError
-    | LimitExceededError
+    SdkError | BackupInUseError | BackupNotFoundError | InternalServerError | InvalidEndpointError | LimitExceededError
   >;
 
   /**
@@ -502,7 +489,10 @@ interface DynamoDBService$ {
   describeEndpoints(
     args: DescribeEndpointsCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DescribeEndpointsCommandOutput, SdkError>;
+  ): Effect.Effect<
+    DescribeEndpointsCommandOutput,
+    SdkError
+  >;
 
   /**
    * @see {@link DescribeExportCommand}
@@ -523,10 +513,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeGlobalTableCommandOutput,
-    | SdkError
-    | GlobalTableNotFoundError
-    | InternalServerError
-    | InvalidEndpointError
+    SdkError | GlobalTableNotFoundError | InternalServerError | InvalidEndpointError
   >;
 
   /**
@@ -537,10 +524,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeGlobalTableSettingsCommandOutput,
-    | SdkError
-    | GlobalTableNotFoundError
-    | InternalServerError
-    | InvalidEndpointError
+    SdkError | GlobalTableNotFoundError | InternalServerError | InvalidEndpointError
   >;
 
   /**
@@ -549,7 +533,10 @@ interface DynamoDBService$ {
   describeImport(
     args: DescribeImportCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DescribeImportCommandOutput, SdkError | ImportNotFoundError>;
+  ): Effect.Effect<
+    DescribeImportCommandOutput,
+    SdkError | ImportNotFoundError
+  >;
 
   /**
    * @see {@link DescribeKinesisStreamingDestinationCommand}
@@ -559,10 +546,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeKinesisStreamingDestinationCommandOutput,
-    | SdkError
-    | InternalServerError
-    | InvalidEndpointError
-    | ResourceNotFoundError
+    SdkError | InternalServerError | InvalidEndpointError | ResourceNotFoundError
   >;
 
   /**
@@ -584,10 +568,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeTableCommandOutput,
-    | SdkError
-    | InternalServerError
-    | InvalidEndpointError
-    | ResourceNotFoundError
+    SdkError | InternalServerError | InvalidEndpointError | ResourceNotFoundError
   >;
 
   /**
@@ -609,10 +590,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeTimeToLiveCommandOutput,
-    | SdkError
-    | InternalServerError
-    | InvalidEndpointError
-    | ResourceNotFoundError
+    SdkError | InternalServerError | InvalidEndpointError | ResourceNotFoundError
   >;
 
   /**
@@ -725,11 +703,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetResourcePolicyCommandOutput,
-    | SdkError
-    | InternalServerError
-    | InvalidEndpointError
-    | PolicyNotFoundError
-    | ResourceNotFoundError
+    SdkError | InternalServerError | InvalidEndpointError | PolicyNotFoundError | ResourceNotFoundError
   >;
 
   /**
@@ -793,7 +767,10 @@ interface DynamoDBService$ {
   listImports(
     args: ListImportsCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<ListImportsCommandOutput, SdkError | LimitExceededError>;
+  ): Effect.Effect<
+    ListImportsCommandOutput,
+    SdkError | LimitExceededError
+  >;
 
   /**
    * @see {@link ListTablesCommand}
@@ -814,10 +791,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsOfResourceCommandOutput,
-    | SdkError
-    | InternalServerError
-    | InvalidEndpointError
-    | ResourceNotFoundError
+    SdkError | InternalServerError | InvalidEndpointError | ResourceNotFoundError
   >;
 
   /**
@@ -1002,11 +976,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateContinuousBackupsCommandOutput,
-    | SdkError
-    | ContinuousBackupsUnavailableError
-    | InternalServerError
-    | InvalidEndpointError
-    | TableNotFoundError
+    SdkError | ContinuousBackupsUnavailableError | InternalServerError | InvalidEndpointError | TableNotFoundError
   >;
 
   /**
@@ -1115,11 +1085,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateTableReplicaAutoScalingCommandOutput,
-    | SdkError
-    | InternalServerError
-    | LimitExceededError
-    | ResourceInUseError
-    | ResourceNotFoundError
+    SdkError | InternalServerError | LimitExceededError | ResourceInUseError | ResourceNotFoundError
   >;
 
   /**
@@ -1143,7 +1109,7 @@ interface DynamoDBService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeDynamoDBService = Effect.gen(function* (_) {
+export const makeDynamoDBService = Effect.gen(function*(_) {
   const client = yield* _(DynamoDBClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {
@@ -1156,10 +1122,7 @@ export const makeDynamoDBService = Effect.gen(function* (_) {
             abortSignal,
           }),
         catch: (e) => {
-          if (
-            e instanceof DynamoDBServiceException &&
-            AllServiceErrors.includes(e.name)
-          ) {
+          if (e instanceof DynamoDBServiceException && AllServiceErrors.includes(e.name)) {
             const ServiceException = Data.tagged<
               TaggedException<DynamoDBServiceException>
             >(e.name);
@@ -1193,9 +1156,10 @@ export const makeDynamoDBService = Effect.gen(function* (_) {
  * @since 1.0.0
  * @category models
  */
-export class DynamoDBService extends Effect.Tag(
-  "@effect-aws/client-dynamodb/DynamoDBService",
-)<DynamoDBService, DynamoDBService$>() {
+export class DynamoDBService extends Effect.Tag("@effect-aws/client-dynamodb/DynamoDBService")<
+  DynamoDBService,
+  DynamoDBService$
+>() {
   static readonly defaultLayer = Layer.effect(this, makeDynamoDBService).pipe(
     Layer.provide(DynamoDBClientInstanceLayer),
     Layer.provide(DefaultDynamoDBClientConfigLayer),

@@ -68,12 +68,12 @@ import {
   DeleteObjectCommand,
   type DeleteObjectCommandInput,
   type DeleteObjectCommandOutput,
-  DeleteObjectTaggingCommand,
-  type DeleteObjectTaggingCommandInput,
-  type DeleteObjectTaggingCommandOutput,
   DeleteObjectsCommand,
   type DeleteObjectsCommandInput,
   type DeleteObjectsCommandOutput,
+  DeleteObjectTaggingCommand,
+  type DeleteObjectTaggingCommandInput,
+  type DeleteObjectTaggingCommandOutput,
   DeletePublicAccessBlockCommand,
   type DeletePublicAccessBlockCommandInput,
   type DeletePublicAccessBlockCommandOutput,
@@ -194,15 +194,15 @@ import {
   ListMultipartUploadsCommand,
   type ListMultipartUploadsCommandInput,
   type ListMultipartUploadsCommandOutput,
-  ListObjectVersionsCommand,
-  type ListObjectVersionsCommandInput,
-  type ListObjectVersionsCommandOutput,
   ListObjectsCommand,
   type ListObjectsCommandInput,
   type ListObjectsCommandOutput,
   ListObjectsV2Command,
   type ListObjectsV2CommandInput,
   type ListObjectsV2CommandOutput,
+  ListObjectVersionsCommand,
+  type ListObjectVersionsCommandInput,
+  type ListObjectVersionsCommandOutput,
   ListPartsCommand,
   type ListPartsCommandInput,
   type ListPartsCommandOutput,
@@ -303,7 +303,7 @@ import {
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import type { RequestPresigningArguments } from "@aws-sdk/types";
 import { Data, Effect, Layer, Record } from "effect";
-import {
+import type {
   BucketAlreadyExistsError,
   BucketAlreadyOwnedByYouError,
   EncryptionTypeMismatchError,
@@ -317,16 +317,16 @@ import {
   ObjectAlreadyInActiveTierError,
   ObjectNotInActiveTierError,
   S3ServiceError,
-  SdkError,
   TaggedException,
   TooManyPartsError,
-} from "./Errors";
-import { S3ClientInstance, S3ClientInstanceLayer } from "./S3ClientInstance";
+} from "./Errors.js";
+import { SdkError } from "./Errors.js";
+import { S3ClientInstance, S3ClientInstanceLayer } from "./S3ClientInstance.js";
 import {
   DefaultS3ClientConfigLayer,
-  S3ClientInstanceConfig,
   makeDefaultS3ClientInstanceConfig,
-} from "./S3ClientInstanceConfig";
+  S3ClientInstanceConfig,
+} from "./S3ClientInstanceConfig.js";
 
 /**
  * @since 1.0.1
@@ -1400,7 +1400,7 @@ interface S3Service$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeS3Service = Effect.gen(function* (_) {
+export const makeS3Service = Effect.gen(function*(_) {
   const client = yield* _(S3ClientInstance);
 
   const catchErrors = (e: unknown) => {
@@ -1436,18 +1436,17 @@ export const makeS3Service = Effect.gen(function* (_) {
     ) =>
       options?.presigned
         ? Effect.tryPromise({
-            try: () =>
-              getSignedUrl(client as any, new CommandCtor(args), options),
-            catch: catchErrors,
-          })
+          try: () => getSignedUrl(client as any, new CommandCtor(args), options),
+          catch: catchErrors,
+        })
         : Effect.tryPromise({
-            try: (abortSignal) =>
-              client.send(new CommandCtor(args), {
-                ...(options ?? {}),
-                abortSignal,
-              }),
-            catch: catchErrors,
-          });
+          try: (abortSignal) =>
+            client.send(new CommandCtor(args), {
+              ...(options ?? {}),
+              abortSignal,
+            }),
+          catch: catchErrors,
+        });
     const methodName = (command[0].toLowerCase() + command.slice(1)).replace(
       /Command$/,
       "",

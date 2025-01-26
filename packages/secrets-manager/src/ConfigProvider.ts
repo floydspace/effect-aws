@@ -1,20 +1,16 @@
 /**
  * @since 1.0.0
  */
-import {
-  DefaultSecretsManagerServiceLayer,
-  SecretsManagerService,
-} from "@effect-aws/client-secrets-manager";
+import { DefaultSecretsManagerServiceLayer, SecretsManagerService } from "@effect-aws/client-secrets-manager";
+import type { Config, Layer } from "effect";
 import {
   Array,
   Cause,
-  Config,
   ConfigError,
   ConfigProvider,
   ConfigProviderPathPatch,
   Effect,
   HashSet,
-  Layer,
   Option,
   pipe,
 } from "effect";
@@ -34,10 +30,8 @@ export const fromSecretsManager = (config?: {
     { pathDelim: "_", serviceLayer: DefaultSecretsManagerServiceLayer },
     config,
   );
-  const makePathString = (path: ReadonlyArray<string>): string =>
-    pipe(path, Array.join(pathDelim));
-  const unmakePathString = (pathString: string): ReadonlyArray<string> =>
-    pathString.split(pathDelim);
+  const makePathString = (path: ReadonlyArray<string>): string => pipe(path, Array.join(pathDelim));
+  const unmakePathString = (pathString: string): ReadonlyArray<string> => pathString.split(pathDelim);
 
   const load = <A>(
     path: ReadonlyArray<string>,
@@ -52,42 +46,38 @@ export const fromSecretsManager = (config?: {
             path as Array<string>,
             `Expected ${pathString} to exist in AWS Secrets Manager`,
           ),
-        ),
-      ),
+        )),
       Effect.catchTag("NoSuchElementException", () =>
         Effect.fail(
           ConfigError.MissingData(
             path as Array<string>,
             `Expected ${pathString} to exist in AWS Secrets Manager`,
           ),
-        ),
-      ),
+        )),
       Effect.catchTag("InvalidParameterException", () =>
         Effect.fail(
           ConfigError.InvalidData(
             path as Array<string>,
             "Invalid parameter provided to AWS Secrets Manager",
           ),
-        ),
-      ),
+        )),
       Effect.catchTag("InvalidRequestException", () =>
         Effect.fail(
           ConfigError.InvalidData(
             path as Array<string>,
             "Invalid request to AWS Secrets Manager",
           ),
-        ),
-      ),
+        )),
       Effect.catchAllCause((cause) =>
         Cause.isFailType(cause) && ConfigError.isConfigError(cause.error)
           ? Effect.fail(cause.error)
           : Effect.fail(
-              ConfigError.SourceUnavailable(
-                path as Array<string>,
-                "Failed to load configuration from AWS Secrets Manager",
-                cause,
-              ),
+            ConfigError.SourceUnavailable(
+              path as Array<string>,
+              "Failed to load configuration from AWS Secrets Manager",
+              cause,
             ),
+          )
       ),
       Effect.flatMap((value) =>
         pipe(
@@ -96,7 +86,7 @@ export const fromSecretsManager = (config?: {
             onFailure: ConfigError.prefixed(path as Array<string>),
             onSuccess: Array.of,
           }),
-        ),
+        )
       ),
       Effect.provide(serviceLayer),
     );

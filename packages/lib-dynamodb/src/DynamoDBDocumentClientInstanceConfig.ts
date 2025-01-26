@@ -16,8 +16,7 @@ export class DynamoDBDocumentClientInstanceConfig extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeDefaultDynamoDBDocumentClientInstanceConfig: Effect.Effect<TranslateConfig> =
-  Effect.succeed({});
+export const makeDefaultDynamoDBDocumentClientInstanceConfig: Effect.Effect<TranslateConfig> = Effect.succeed({});
 
 /**
  * @since 1.0.0

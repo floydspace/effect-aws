@@ -1,17 +1,16 @@
 import {
-  type PublishCommandInput,
-  PublishCommand,
   IoTDataPlaneClient,
   IoTDataPlaneServiceException,
+  PublishCommand,
+  type PublishCommandInput,
 } from "@aws-sdk/client-iot-data-plane";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-iot-data-plane/dist-cjs/runtimeConfig";
+import { IoTDataPlane, SdkError } from "@effect-aws/client-iot-data-plane";
 import { mockClient } from "aws-sdk-client-mock";
-import * as Effect from "effect/Effect";
-import * as Exit from "effect/Exit";
+import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { IoTDataPlane, SdkError } from "../src";
 
 const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(IoTDataPlaneClient);
@@ -76,9 +75,7 @@ describe("IoTDataPlaneClientImpl", () => {
     const result = await pipe(
       program,
       Effect.provide(
-        IoTDataPlane.baseLayer(
-          () => new IoTDataPlaneClient({ region: "eu-central-1" }),
-        ),
+        IoTDataPlane.baseLayer(() => new IoTDataPlaneClient({ region: "eu-central-1" })),
       ),
       Effect.runPromiseExit,
     );
@@ -103,8 +100,7 @@ describe("IoTDataPlaneClientImpl", () => {
       program,
       Effect.provide(
         IoTDataPlane.baseLayer(
-          (config) =>
-            new IoTDataPlaneClient({ ...config, region: "eu-central-1" }),
+          (config) => new IoTDataPlaneClient({ ...config, region: "eu-central-1" }),
         ),
       ),
       Effect.runPromiseExit,

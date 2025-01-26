@@ -1,11 +1,6 @@
 {
   "dependencies": [
     {
-      "name": "@aws/pdk",
-      "version": "^0",
-      "type": "build"
-    },
-    {
       "name": "@changesets/changelog-github",
       "type": "build"
     },
@@ -14,26 +9,49 @@
       "type": "build"
     },
     {
+      "name": "@effect/build-utils",
+      "type": "build"
+    },
+    {
       "name": "@effect/docgen",
       "type": "build"
     },
     {
+      "name": "@effect/eslint-plugin",
+      "type": "build"
+    },
+    {
+      "name": "@effect/language-service",
+      "type": "build"
+    },
+    {
+      "name": "@eslint/compat",
+      "type": "build"
+    },
+    {
+      "name": "@eslint/eslintrc",
+      "type": "build"
+    },
+    {
+      "name": "@eslint/js",
+      "type": "build"
+    },
+    {
       "name": "@floydspace/projen-components",
+      "version": "next",
       "type": "build"
     },
     {
       "name": "@types/node",
-      "version": "^18",
+      "version": "ts5.4",
       "type": "build"
     },
     {
       "name": "@typescript-eslint/eslint-plugin",
-      "version": "^7",
       "type": "build"
     },
     {
       "name": "@typescript-eslint/parser",
-      "version": "^7",
       "type": "build"
     },
     {
@@ -50,7 +68,7 @@
       "type": "build"
     },
     {
-      "name": "eslint-config-prettier",
+      "name": "eslint",
       "type": "build"
     },
     {
@@ -58,21 +76,19 @@
       "type": "build"
     },
     {
+      "name": "eslint-plugin-codegen",
+      "type": "build"
+    },
+    {
       "name": "eslint-plugin-import",
       "type": "build"
     },
     {
-      "name": "eslint-plugin-prettier",
+      "name": "eslint-plugin-simple-import-sort",
       "type": "build"
     },
     {
-      "name": "eslint",
-      "version": "^8",
-      "type": "build"
-    },
-    {
-      "name": "nx",
-      "version": "^19",
+      "name": "eslint-plugin-sort-destructure-keys",
       "type": "build"
     },
     {
@@ -80,12 +96,7 @@
       "type": "build"
     },
     {
-      "name": "prettier",
-      "type": "build"
-    },
-    {
       "name": "projen",
-      "version": "^0.82.8",
       "type": "build"
     },
     {
@@ -104,39 +115,6 @@
     {
       "name": "vitest",
       "type": "build"
-    },
-    {
-      "name": "@types/babel__traverse",
-      "version": "7.18.2",
-      "type": "override"
-    },
-    {
-      "name": "@zkochan/js-yaml",
-      "version": "npm:js-yaml@4.1.0",
-      "type": "override"
-    },
-    {
-      "name": "wrap-ansi",
-      "version": "^7.0.0",
-      "type": "override"
-    },
-    {
-      "name": "nx",
-      "version": "^19",
-      "type": "peer"
-    },
-    {
-      "name": "@aws-cdk/aws-cognito-identitypool-alpha",
-      "version": "^2.163.1-alpha.0",
-      "type": "runtime"
-    },
-    {
-      "name": "aws-cdk-lib",
-      "type": "runtime"
-    },
-    {
-      "name": "cdk-nag",
-      "type": "runtime"
     },
     {
       "name": "effect",

@@ -2,17 +2,7 @@
   "dependencies": [
     {
       "name": "@types/node",
-      "version": "^18",
-      "type": "build"
-    },
-    {
-      "name": "@typescript-eslint/eslint-plugin",
-      "version": "^7",
-      "type": "build"
-    },
-    {
-      "name": "@typescript-eslint/parser",
-      "version": "^7",
+      "version": "ts5.4",
       "type": "build"
     },
     {
@@ -24,37 +14,8 @@
       "type": "build"
     },
     {
-      "name": "eslint-config-prettier",
-      "type": "build"
-    },
-    {
-      "name": "eslint-import-resolver-typescript",
-      "type": "build"
-    },
-    {
-      "name": "eslint-plugin-import",
-      "type": "build"
-    },
-    {
-      "name": "eslint-plugin-prettier",
-      "type": "build"
-    },
-    {
-      "name": "eslint",
-      "version": "^8",
-      "type": "build"
-    },
-    {
-      "name": "prettier",
-      "type": "build"
-    },
-    {
       "name": "typescript",
       "version": "^5.4.2",
-      "type": "build"
-    },
-    {
-      "name": "vitest",
       "type": "build"
     },
     {

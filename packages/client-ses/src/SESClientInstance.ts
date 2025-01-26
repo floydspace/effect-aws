@@ -2,13 +2,8 @@
  * @since 1.0.0
  */
 import { SESClient } from "@aws-sdk/client-ses";
-import * as Context from "effect/Context";
-import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
-import {
-  DefaultSESClientConfigLayer,
-  SESClientInstanceConfig,
-} from "./SESClientInstanceConfig";
+import { Context, Effect, Layer } from "effect";
+import { DefaultSESClientConfigLayer, SESClientInstanceConfig } from "./SESClientInstanceConfig.js";
 
 /**
  * @since 1.0.0

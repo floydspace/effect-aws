@@ -2,13 +2,8 @@
  * @since 1.0.0
  */
 import { SQSClient } from "@aws-sdk/client-sqs";
-import * as Context from "effect/Context";
-import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
-import {
-  DefaultSQSClientConfigLayer,
-  SQSClientInstanceConfig,
-} from "./SQSClientInstanceConfig";
+import { Context, Effect, Layer } from "effect";
+import { DefaultSQSClientConfigLayer, SQSClientInstanceConfig } from "./SQSClientInstanceConfig.js";
 
 /**
  * @since 1.0.0

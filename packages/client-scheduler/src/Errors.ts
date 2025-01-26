@@ -24,8 +24,7 @@ export type TaggedException<T extends { name: string }> = T & {
 export type ConflictError = TaggedException<ConflictException>;
 export type InternalServerError = TaggedException<InternalServerException>;
 export type ResourceNotFoundError = TaggedException<ResourceNotFoundException>;
-export type ServiceQuotaExceededError =
-  TaggedException<ServiceQuotaExceededException>;
+export type ServiceQuotaExceededError = TaggedException<ServiceQuotaExceededException>;
 export type ThrottlingError = TaggedException<ThrottlingException>;
 export type ValidationError = TaggedException<ValidationException>;
 

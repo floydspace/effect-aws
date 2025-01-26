@@ -16,8 +16,8 @@ export class OrganizationsClientInstanceConfig extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeDefaultOrganizationsClientInstanceConfig: Effect.Effect<OrganizationsClientConfig> =
-  Effect.gen(function* (_) {
+export const makeDefaultOrganizationsClientInstanceConfig: Effect.Effect<OrganizationsClientConfig> = Effect.gen(
+  function*(_) {
     const runtime = yield* _(Effect.runtime<never>());
     const runSync = Runtime.runSync(runtime);
 
@@ -40,7 +40,8 @@ export const makeDefaultOrganizationsClientInstanceConfig: Effect.Effect<Organiz
         },
       },
     };
-  });
+  },
+);
 
 /**
  * @since 1.0.0

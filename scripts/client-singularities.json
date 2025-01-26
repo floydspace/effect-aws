@@ -1,6 +1,7 @@
 {
   "client-account": {
-    "commandToTest": "ListRegions"
+    "commandToTest": "ListRegions",
+    "inputToTest": null
   },
   "client-api-gateway-management-api": {
     "commandToTest": "PostToConnection",
@@ -10,31 +11,40 @@
     }
   },
   "client-auto-scaling": {
-    "commandToTest": "DescribeAutoScalingGroups"
+    "commandToTest": "DescribeAutoScalingGroups",
+    "inputToTest": null
   },
   "client-bedrock": {
-    "commandToTest": "ListCustomModels"
+    "commandToTest": "ListCustomModels",
+    "inputToTest": null
   },
   "client-cloudsearch": {
-    "commandToTest": "DescribeDomains"
+    "commandToTest": "DescribeDomains",
+    "inputToTest": null
   },
   "client-cloudtrail": {
-    "commandToTest": "ListTrails"
+    "commandToTest": "ListTrails",
+    "inputToTest": null
   },
   "client-cloudwatch": {
-    "commandToTest": "DescribeAlarms"
+    "commandToTest": "DescribeAlarms",
+    "inputToTest": null
   },
   "client-cloudwatch-events": {
-    "commandToTest": "ListRules"
+    "commandToTest": "ListRules",
+    "inputToTest": null
   },
   "client-cloudwatch-logs": {
-    "commandToTest": "DescribeLogGroups"
+    "commandToTest": "DescribeLogGroups",
+    "inputToTest": null
   },
   "client-codedeploy": {
-    "commandToTest": "ListApplications"
+    "commandToTest": "ListApplications",
+    "inputToTest": null
   },
   "client-cognito-identity-provider": {
-    "commandToTest": "ListUserPools"
+    "commandToTest": "ListUserPools",
+    "inputToTest": null
   },
   "client-dynamodb": {
     "commandToTest": "PutItem",
@@ -44,13 +54,16 @@
     }
   },
   "client-ec2": {
-    "commandToTest": "AcceptAddressTransfer"
+    "commandToTest": "AcceptAddressTransfer",
+    "inputToTest": null
   },
   "client-ecr": {
-    "commandToTest": "DescribeRepositories"
+    "commandToTest": "DescribeRepositories",
+    "inputToTest": null
   },
   "client-ecs": {
-    "commandToTest": "ListClusters"
+    "commandToTest": "ListClusters",
+    "inputToTest": null
   },
   "client-elasticache": {
     "commandToTest": "ListTagsForResource",
@@ -63,31 +76,40 @@
     "inputToTest": { "Entries": [{ "Detail": "test" }] }
   },
   "client-iam": {
-    "commandToTest": "CreateRole"
+    "commandToTest": "CreateRole",
+    "inputToTest": null
   },
   "client-iot": {
-    "commandToTest": "DescribeJob"
+    "commandToTest": "DescribeJob",
+    "inputToTest": null
   },
   "client-iot-data-plane": {
-    "commandToTest": "Publish"
+    "commandToTest": "Publish",
+    "inputToTest": null
   },
   "client-iot-events": {
-    "commandToTest": "ListInputs"
+    "commandToTest": "ListInputs",
+    "inputToTest": null
   },
   "client-iot-events-data": {
-    "commandToTest": "DescribeAlarm"
+    "commandToTest": "DescribeAlarm",
+    "inputToTest": null
   },
   "client-iot-jobs-data-plane": {
-    "commandToTest": "StartCommandExecution"
+    "commandToTest": "StartCommandExecution",
+    "inputToTest": null
   },
   "client-iot-wireless": {
-    "commandToTest": "ListDestinations"
+    "commandToTest": "ListDestinations",
+    "inputToTest": null
   },
   "client-kinesis": {
-    "commandToTest": "PutRecord"
+    "commandToTest": "PutRecord",
+    "inputToTest": null
   },
   "client-kms": {
-    "commandToTest": "ListKeys"
+    "commandToTest": "ListKeys",
+    "inputToTest": null
   },
   "client-lambda": {
     "commandToTest": "Invoke",
@@ -97,19 +119,24 @@
     }
   },
   "client-mq": {
-    "commandToTest": "ListBrokers"
+    "commandToTest": "ListBrokers",
+    "inputToTest": null
   },
   "client-opensearch": {
-    "commandToTest": "DescribeDomains"
+    "commandToTest": "DescribeDomains",
+    "inputToTest": null
   },
   "client-opensearch-serverless": {
-    "commandToTest": "ListCollections"
+    "commandToTest": "ListCollections",
+    "inputToTest": null
   },
   "client-organizations": {
-    "commandToTest": "DescribeOrganization"
+    "commandToTest": "DescribeOrganization",
+    "inputToTest": null
   },
   "client-rds": {
-    "commandToTest": "DescribeDBClusters"
+    "commandToTest": "DescribeDBClusters",
+    "inputToTest": null
   },
   "client-s3": {
     "commandToTest": "HeadObject",
@@ -119,7 +146,8 @@
     }
   },
   "client-scheduler": {
-    "commandToTest": "TagResource"
+    "commandToTest": "TagResource",
+    "inputToTest": null
   },
   "client-secrets-manager": {
     "commandToTest": "GetSecretValue",
@@ -128,7 +156,8 @@
     }
   },
   "client-ses": {
-    "commandToTest": "SendEmail"
+    "commandToTest": "SendEmail",
+    "inputToTest": null
   },
   "client-sfn": {
     "commandToTest": "StartExecution",
@@ -152,12 +181,15 @@
     }
   },
   "client-ssm": {
-    "commandToTest": "DescribeParameters"
+    "commandToTest": "DescribeParameters",
+    "inputToTest": null
   },
   "client-sts": {
-    "commandToTest": "GetCallerIdentity"
+    "commandToTest": "GetCallerIdentity",
+    "inputToTest": null
   },
   "client-textract": {
-    "commandToTest": "ListAdapters"
+    "commandToTest": "ListAdapters",
+    "inputToTest": null
   }
 }

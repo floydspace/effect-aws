@@ -2,12 +2,12 @@
  * @since 1.0.0
  */
 import {
-  CloudSearchServiceException,
-  type CloudSearchClient,
-  type CloudSearchClientConfig,
   BuildSuggestersCommand,
   type BuildSuggestersCommandInput,
   type BuildSuggestersCommandOutput,
+  type CloudSearchClient,
+  type CloudSearchClientConfig,
+  CloudSearchServiceException,
   CreateDomainCommand,
   type CreateDomainCommandInput,
   type CreateDomainCommandOutput,
@@ -85,17 +85,13 @@ import {
   type UpdateServiceAccessPoliciesCommandOutput,
 } from "@aws-sdk/client-cloudsearch";
 import { Data, Effect, Layer, Record } from "effect";
+import { CloudSearchClientInstance, CloudSearchClientInstanceLayer } from "./CloudSearchClientInstance.js";
 import {
-  CloudSearchClientInstance,
-  CloudSearchClientInstanceLayer,
-} from "./CloudSearchClientInstance";
-import {
+  CloudSearchClientInstanceConfig,
   DefaultCloudSearchClientConfigLayer,
   makeDefaultCloudSearchClientInstanceConfig,
-  CloudSearchClientInstanceConfig,
-} from "./CloudSearchClientInstanceConfig";
-import {
-  AllServiceErrors,
+} from "./CloudSearchClientInstanceConfig.js";
+import type {
   BaseError,
   DisabledOperationError,
   InternalError,
@@ -103,10 +99,10 @@ import {
   LimitExceededError,
   ResourceAlreadyExistsError,
   ResourceNotFoundError,
-  ValidationError,
-  SdkError,
   TaggedException,
-} from "./Errors";
+  ValidationError,
+} from "./Errors.js";
+import { AllServiceErrors, SdkError } from "./Errors.js";
 
 /**
  * @since 1.0.0
@@ -159,11 +155,7 @@ interface CloudSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BuildSuggestersCommandOutput,
-    | SdkError
-    | BaseError
-    | InternalError
-    | ResourceNotFoundError
-    | ValidationError
+    SdkError | BaseError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -174,12 +166,7 @@ interface CloudSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateDomainCommandOutput,
-    | SdkError
-    | BaseError
-    | InternalError
-    | LimitExceededError
-    | ResourceAlreadyExistsError
-    | ValidationError
+    SdkError | BaseError | InternalError | LimitExceededError | ResourceAlreadyExistsError | ValidationError
   >;
 
   /**
@@ -258,12 +245,7 @@ interface CloudSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteAnalysisSchemeCommandOutput,
-    | SdkError
-    | BaseError
-    | InternalError
-    | InvalidTypeError
-    | ResourceNotFoundError
-    | ValidationError
+    SdkError | BaseError | InternalError | InvalidTypeError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -285,12 +267,7 @@ interface CloudSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteExpressionCommandOutput,
-    | SdkError
-    | BaseError
-    | InternalError
-    | InvalidTypeError
-    | ResourceNotFoundError
-    | ValidationError
+    SdkError | BaseError | InternalError | InvalidTypeError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -301,12 +278,7 @@ interface CloudSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteIndexFieldCommandOutput,
-    | SdkError
-    | BaseError
-    | InternalError
-    | InvalidTypeError
-    | ResourceNotFoundError
-    | ValidationError
+    SdkError | BaseError | InternalError | InvalidTypeError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -317,12 +289,7 @@ interface CloudSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteSuggesterCommandOutput,
-    | SdkError
-    | BaseError
-    | InternalError
-    | InvalidTypeError
-    | ResourceNotFoundError
-    | ValidationError
+    SdkError | BaseError | InternalError | InvalidTypeError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -361,12 +328,7 @@ interface CloudSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeDomainEndpointOptionsCommandOutput,
-    | SdkError
-    | BaseError
-    | DisabledOperationError
-    | InternalError
-    | LimitExceededError
-    | ResourceNotFoundError
+    SdkError | BaseError | DisabledOperationError | InternalError | LimitExceededError | ResourceNotFoundError
   >;
 
   /**
@@ -443,11 +405,7 @@ interface CloudSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     IndexDocumentsCommandOutput,
-    | SdkError
-    | BaseError
-    | InternalError
-    | ResourceNotFoundError
-    | ValidationError
+    SdkError | BaseError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -456,7 +414,10 @@ interface CloudSearchService$ {
   listDomainNames(
     args: ListDomainNamesCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<ListDomainNamesCommandOutput, SdkError | BaseError>;
+  ): Effect.Effect<
+    ListDomainNamesCommandOutput,
+    SdkError | BaseError
+  >;
 
   /**
    * @see {@link UpdateAvailabilityOptionsCommand}
@@ -533,7 +494,7 @@ interface CloudSearchService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeCloudSearchService = Effect.gen(function* (_) {
+export const makeCloudSearchService = Effect.gen(function*(_) {
   const client = yield* _(CloudSearchClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {
@@ -546,10 +507,7 @@ export const makeCloudSearchService = Effect.gen(function* (_) {
             abortSignal,
           }),
         catch: (e) => {
-          if (
-            e instanceof CloudSearchServiceException &&
-            AllServiceErrors.includes(e.name)
-          ) {
+          if (e instanceof CloudSearchServiceException && AllServiceErrors.includes(e.name)) {
             const ServiceException = Data.tagged<
               TaggedException<CloudSearchServiceException>
             >(e.name);
@@ -583,13 +541,11 @@ export const makeCloudSearchService = Effect.gen(function* (_) {
  * @since 1.0.0
  * @category models
  */
-export class CloudSearchService extends Effect.Tag(
-  "@effect-aws/client-cloudsearch/CloudSearchService",
-)<CloudSearchService, CloudSearchService$>() {
-  static readonly defaultLayer = Layer.effect(
-    this,
-    makeCloudSearchService,
-  ).pipe(
+export class CloudSearchService extends Effect.Tag("@effect-aws/client-cloudsearch/CloudSearchService")<
+  CloudSearchService,
+  CloudSearchService$
+>() {
+  static readonly defaultLayer = Layer.effect(this, makeCloudSearchService).pipe(
     Layer.provide(CloudSearchClientInstanceLayer),
     Layer.provide(DefaultCloudSearchClientConfigLayer),
   );

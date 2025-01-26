@@ -78,45 +78,32 @@ export type TaggedException<T extends { name: string }> = T & {
 export type ActivityAlreadyExistsError = TaggedException<ActivityAlreadyExists>;
 export type ActivityDoesNotExistError = TaggedException<ActivityDoesNotExist>;
 export type ActivityLimitExceededError = TaggedException<ActivityLimitExceeded>;
-export type ActivityWorkerLimitExceededError =
-  TaggedException<ActivityWorkerLimitExceeded>;
+export type ActivityWorkerLimitExceededError = TaggedException<ActivityWorkerLimitExceeded>;
 export type ConflictError = TaggedException<ConflictException>;
-export type ExecutionAlreadyExistsError =
-  TaggedException<ExecutionAlreadyExists>;
+export type ExecutionAlreadyExistsError = TaggedException<ExecutionAlreadyExists>;
 export type ExecutionDoesNotExistError = TaggedException<ExecutionDoesNotExist>;
-export type ExecutionLimitExceededError =
-  TaggedException<ExecutionLimitExceeded>;
-export type ExecutionNotRedrivableError =
-  TaggedException<ExecutionNotRedrivable>;
+export type ExecutionLimitExceededError = TaggedException<ExecutionLimitExceeded>;
+export type ExecutionNotRedrivableError = TaggedException<ExecutionNotRedrivable>;
 export type InvalidArnError = TaggedException<InvalidArn>;
 export type InvalidDefinitionError = TaggedException<InvalidDefinition>;
-export type InvalidEncryptionConfigurationError =
-  TaggedException<InvalidEncryptionConfiguration>;
+export type InvalidEncryptionConfigurationError = TaggedException<InvalidEncryptionConfiguration>;
 export type InvalidExecutionInputError = TaggedException<InvalidExecutionInput>;
-export type InvalidLoggingConfigurationError =
-  TaggedException<InvalidLoggingConfiguration>;
+export type InvalidLoggingConfigurationError = TaggedException<InvalidLoggingConfiguration>;
 export type InvalidNameError = TaggedException<InvalidName>;
 export type InvalidOutputError = TaggedException<InvalidOutput>;
 export type InvalidTokenError = TaggedException<InvalidToken>;
-export type InvalidTracingConfigurationError =
-  TaggedException<InvalidTracingConfiguration>;
+export type InvalidTracingConfigurationError = TaggedException<InvalidTracingConfiguration>;
 export type KmsAccessDeniedError = TaggedException<KmsAccessDeniedException>;
 export type KmsInvalidStateError = TaggedException<KmsInvalidStateException>;
 export type KmsThrottlingError = TaggedException<KmsThrottlingException>;
-export type MissingRequiredParameterError =
-  TaggedException<MissingRequiredParameter>;
+export type MissingRequiredParameterError = TaggedException<MissingRequiredParameter>;
 export type ResourceNotFoundError = TaggedException<ResourceNotFound>;
-export type ServiceQuotaExceededError =
-  TaggedException<ServiceQuotaExceededException>;
-export type StateMachineAlreadyExistsError =
-  TaggedException<StateMachineAlreadyExists>;
+export type ServiceQuotaExceededError = TaggedException<ServiceQuotaExceededException>;
+export type StateMachineAlreadyExistsError = TaggedException<StateMachineAlreadyExists>;
 export type StateMachineDeletingError = TaggedException<StateMachineDeleting>;
-export type StateMachineDoesNotExistError =
-  TaggedException<StateMachineDoesNotExist>;
-export type StateMachineLimitExceededError =
-  TaggedException<StateMachineLimitExceeded>;
-export type StateMachineTypeNotSupportedError =
-  TaggedException<StateMachineTypeNotSupported>;
+export type StateMachineDoesNotExistError = TaggedException<StateMachineDoesNotExist>;
+export type StateMachineLimitExceededError = TaggedException<StateMachineLimitExceeded>;
+export type StateMachineTypeNotSupportedError = TaggedException<StateMachineTypeNotSupported>;
 export type TaskDoesNotExistError = TaggedException<TaskDoesNotExist>;
 export type TaskTimedOutError = TaggedException<TaskTimedOut>;
 export type TooManyTagsError = TaggedException<TooManyTags>;

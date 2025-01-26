@@ -2,12 +2,12 @@
  * @since 1.0.0
  */
 import {
-  AccountServiceException,
-  type AccountClient,
-  type AccountClientConfig,
   AcceptPrimaryEmailUpdateCommand,
   type AcceptPrimaryEmailUpdateCommandInput,
   type AcceptPrimaryEmailUpdateCommandOutput,
+  type AccountClient,
+  type AccountClientConfig,
+  AccountServiceException,
   DeleteAlternateContactCommand,
   type DeleteAlternateContactCommandInput,
   type DeleteAlternateContactCommandOutput,
@@ -43,26 +43,22 @@ import {
   type StartPrimaryEmailUpdateCommandOutput,
 } from "@aws-sdk/client-account";
 import { Data, Effect, Layer, Record } from "effect";
+import { AccountClientInstance, AccountClientInstanceLayer } from "./AccountClientInstance.js";
 import {
-  AccountClientInstance,
-  AccountClientInstanceLayer,
-} from "./AccountClientInstance";
-import {
+  AccountClientInstanceConfig,
   DefaultAccountClientConfigLayer,
   makeDefaultAccountClientInstanceConfig,
-  AccountClientInstanceConfig,
-} from "./AccountClientInstanceConfig";
-import {
-  AllServiceErrors,
+} from "./AccountClientInstanceConfig.js";
+import type {
   AccessDeniedError,
   ConflictError,
   InternalServerError,
   ResourceNotFoundError,
+  TaggedException,
   TooManyRequestsError,
   ValidationError,
-  SdkError,
-  TaggedException,
-} from "./Errors";
+} from "./Errors.js";
+import { AllServiceErrors, SdkError } from "./Errors.js";
 
 /**
  * @since 1.0.0
@@ -118,12 +114,7 @@ interface AccountService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteAlternateContactCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | TooManyRequestsError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | TooManyRequestsError | ValidationError
   >;
 
   /**
@@ -134,12 +125,7 @@ interface AccountService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisableRegionCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | ConflictError
-    | InternalServerError
-    | TooManyRequestsError
-    | ValidationError
+    SdkError | AccessDeniedError | ConflictError | InternalServerError | TooManyRequestsError | ValidationError
   >;
 
   /**
@@ -150,12 +136,7 @@ interface AccountService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     EnableRegionCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | ConflictError
-    | InternalServerError
-    | TooManyRequestsError
-    | ValidationError
+    SdkError | AccessDeniedError | ConflictError | InternalServerError | TooManyRequestsError | ValidationError
   >;
 
   /**
@@ -166,12 +147,7 @@ interface AccountService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAlternateContactCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | TooManyRequestsError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | TooManyRequestsError | ValidationError
   >;
 
   /**
@@ -182,12 +158,7 @@ interface AccountService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetContactInformationCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | TooManyRequestsError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | TooManyRequestsError | ValidationError
   >;
 
   /**
@@ -198,12 +169,7 @@ interface AccountService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPrimaryEmailCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | TooManyRequestsError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | TooManyRequestsError | ValidationError
   >;
 
   /**
@@ -214,11 +180,7 @@ interface AccountService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetRegionOptStatusCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | TooManyRequestsError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | TooManyRequestsError | ValidationError
   >;
 
   /**
@@ -229,11 +191,7 @@ interface AccountService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListRegionsCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | TooManyRequestsError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | TooManyRequestsError | ValidationError
   >;
 
   /**
@@ -244,11 +202,7 @@ interface AccountService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutAlternateContactCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | TooManyRequestsError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | TooManyRequestsError | ValidationError
   >;
 
   /**
@@ -259,11 +213,7 @@ interface AccountService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutContactInformationCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | TooManyRequestsError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | TooManyRequestsError | ValidationError
   >;
 
   /**
@@ -288,7 +238,7 @@ interface AccountService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeAccountService = Effect.gen(function* (_) {
+export const makeAccountService = Effect.gen(function*(_) {
   const client = yield* _(AccountClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {
@@ -301,10 +251,7 @@ export const makeAccountService = Effect.gen(function* (_) {
             abortSignal,
           }),
         catch: (e) => {
-          if (
-            e instanceof AccountServiceException &&
-            AllServiceErrors.includes(e.name)
-          ) {
+          if (e instanceof AccountServiceException && AllServiceErrors.includes(e.name)) {
             const ServiceException = Data.tagged<
               TaggedException<AccountServiceException>
             >(e.name);
@@ -338,9 +285,10 @@ export const makeAccountService = Effect.gen(function* (_) {
  * @since 1.0.0
  * @category models
  */
-export class AccountService extends Effect.Tag(
-  "@effect-aws/client-account/AccountService",
-)<AccountService, AccountService$>() {
+export class AccountService extends Effect.Tag("@effect-aws/client-account/AccountService")<
+  AccountService,
+  AccountService$
+>() {
   static readonly defaultLayer = Layer.effect(this, makeAccountService).pipe(
     Layer.provide(AccountClientInstanceLayer),
     Layer.provide(DefaultAccountClientConfigLayer),

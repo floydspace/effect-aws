@@ -10,17 +10,14 @@ import { Context, Effect, Layer, Runtime } from "effect";
  */
 export class OpenSearchServerlessClientInstanceConfig extends Context.Tag(
   "@effect-aws/client-opensearch-serverless/OpenSearchServerlessClientInstanceConfig",
-)<
-  OpenSearchServerlessClientInstanceConfig,
-  OpenSearchServerlessClientConfig
->() {}
+)<OpenSearchServerlessClientInstanceConfig, OpenSearchServerlessClientConfig>() {}
 
 /**
  * @since 1.0.0
  * @category constructors
  */
 export const makeDefaultOpenSearchServerlessClientInstanceConfig: Effect.Effect<OpenSearchServerlessClientConfig> =
-  Effect.gen(function* (_) {
+  Effect.gen(function*(_) {
     const runtime = yield* _(Effect.runtime<never>());
     const runSync = Runtime.runSync(runtime);
 

@@ -2,13 +2,11 @@
  * @since 1.0.0
  */
 import { OrganizationsClient } from "@aws-sdk/client-organizations";
-import * as Context from "effect/Context";
-import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
+import { Context, Effect, Layer } from "effect";
 import {
   DefaultOrganizationsClientConfigLayer,
   OrganizationsClientInstanceConfig,
-} from "./OrganizationsClientInstanceConfig";
+} from "./OrganizationsClientInstanceConfig.js";
 
 /**
  * @since 1.0.0
@@ -44,7 +42,6 @@ export const OrganizationsClientInstanceLayer = Layer.scoped(
  * @since 1.0.0
  * @category layers
  */
-export const DefaultOrganizationsClientInstanceLayer =
-  OrganizationsClientInstanceLayer.pipe(
-    Layer.provide(DefaultOrganizationsClientConfigLayer),
-  );
+export const DefaultOrganizationsClientInstanceLayer = OrganizationsClientInstanceLayer.pipe(
+  Layer.provide(DefaultOrganizationsClientConfigLayer),
+);

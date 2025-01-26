@@ -2,9 +2,6 @@
  * @since 1.0.0
  */
 import {
-  ECSServiceException,
-  type ECSClient,
-  type ECSClientConfig,
   CreateCapacityProviderCommand,
   type CreateCapacityProviderCommandInput,
   type CreateCapacityProviderCommandOutput,
@@ -65,15 +62,18 @@ import {
   DescribeTaskDefinitionCommand,
   type DescribeTaskDefinitionCommandInput,
   type DescribeTaskDefinitionCommandOutput,
-  DescribeTaskSetsCommand,
-  type DescribeTaskSetsCommandInput,
-  type DescribeTaskSetsCommandOutput,
   DescribeTasksCommand,
   type DescribeTasksCommandInput,
   type DescribeTasksCommandOutput,
+  DescribeTaskSetsCommand,
+  type DescribeTaskSetsCommandInput,
+  type DescribeTaskSetsCommandOutput,
   DiscoverPollEndpointCommand,
   type DiscoverPollEndpointCommandInput,
   type DiscoverPollEndpointCommandOutput,
+  type ECSClient,
+  type ECSClientConfig,
+  ECSServiceException,
   ExecuteCommandCommand,
   type ExecuteCommandCommandInput,
   type ExecuteCommandCommandOutput,
@@ -95,12 +95,12 @@ import {
   ListServiceDeploymentsCommand,
   type ListServiceDeploymentsCommandInput,
   type ListServiceDeploymentsCommandOutput,
-  ListServicesCommand,
-  type ListServicesCommandInput,
-  type ListServicesCommandOutput,
   ListServicesByNamespaceCommand,
   type ListServicesByNamespaceCommandInput,
   type ListServicesByNamespaceCommandOutput,
+  ListServicesCommand,
+  type ListServicesCommandInput,
+  type ListServicesCommandOutput,
   ListTagsForResourceCommand,
   type ListTagsForResourceCommandInput,
   type ListTagsForResourceCommandOutput,
@@ -184,14 +184,13 @@ import {
   type UpdateTaskSetCommandOutput,
 } from "@aws-sdk/client-ecs";
 import { Data, Effect, Layer, Record } from "effect";
-import { ECSClientInstance, ECSClientInstanceLayer } from "./ECSClientInstance";
+import { ECSClientInstance, ECSClientInstanceLayer } from "./ECSClientInstance.js";
 import {
   DefaultECSClientConfigLayer,
-  makeDefaultECSClientInstanceConfig,
   ECSClientInstanceConfig,
-} from "./ECSClientInstanceConfig";
-import {
-  AllServiceErrors,
+  makeDefaultECSClientInstanceConfig,
+} from "./ECSClientInstanceConfig.js";
+import type {
   AccessDeniedError,
   AttributeLimitExceededError,
   BlockedError,
@@ -213,14 +212,14 @@ import {
   ServerError,
   ServiceNotActiveError,
   ServiceNotFoundError,
+  TaggedException,
   TargetNotConnectedError,
   TargetNotFoundError,
   TaskSetNotFoundError,
   UnsupportedFeatureError,
   UpdateInProgressError,
-  SdkError,
-  TaggedException,
-} from "./Errors";
+} from "./Errors.js";
+import { AllServiceErrors, SdkError } from "./Errors.js";
 
 /**
  * @since 1.0.0
@@ -306,12 +305,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateCapacityProviderCommandOutput,
-    | SdkError
-    | ClientError
-    | InvalidParameterError
-    | LimitExceededError
-    | ServerError
-    | UpdateInProgressError
+    SdkError | ClientError | InvalidParameterError | LimitExceededError | ServerError | UpdateInProgressError
   >;
 
   /**
@@ -322,11 +316,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateClusterCommandOutput,
-    | SdkError
-    | ClientError
-    | InvalidParameterError
-    | NamespaceNotFoundError
-    | ServerError
+    SdkError | ClientError | InvalidParameterError | NamespaceNotFoundError | ServerError
   >;
 
   /**
@@ -390,10 +380,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteAttributesCommandOutput,
-    | SdkError
-    | ClusterNotFoundError
-    | InvalidParameterError
-    | TargetNotFoundError
+    SdkError | ClusterNotFoundError | InvalidParameterError | TargetNotFoundError
   >;
 
   /**
@@ -434,12 +421,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteServiceCommandOutput,
-    | SdkError
-    | ClientError
-    | ClusterNotFoundError
-    | InvalidParameterError
-    | ServerError
-    | ServiceNotFoundError
+    SdkError | ClientError | ClusterNotFoundError | InvalidParameterError | ServerError | ServiceNotFoundError
   >;
 
   /**
@@ -450,11 +432,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteTaskDefinitionsCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | ClientError
-    | InvalidParameterError
-    | ServerError
+    SdkError | AccessDeniedError | ClientError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -485,11 +463,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeregisterContainerInstanceCommandOutput,
-    | SdkError
-    | ClientError
-    | ClusterNotFoundError
-    | InvalidParameterError
-    | ServerError
+    SdkError | ClientError | ClusterNotFoundError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -533,11 +507,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeContainerInstancesCommandOutput,
-    | SdkError
-    | ClientError
-    | ClusterNotFoundError
-    | InvalidParameterError
-    | ServerError
+    SdkError | ClientError | ClusterNotFoundError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -584,11 +554,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeServicesCommandOutput,
-    | SdkError
-    | ClientError
-    | ClusterNotFoundError
-    | InvalidParameterError
-    | ServerError
+    SdkError | ClientError | ClusterNotFoundError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -629,11 +595,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeTasksCommandOutput,
-    | SdkError
-    | ClientError
-    | ClusterNotFoundError
-    | InvalidParameterError
-    | ServerError
+    SdkError | ClientError | ClusterNotFoundError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -723,11 +685,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListContainerInstancesCommandOutput,
-    | SdkError
-    | ClientError
-    | ClusterNotFoundError
-    | InvalidParameterError
-    | ServerError
+    SdkError | ClientError | ClusterNotFoundError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -755,11 +713,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListServicesCommandOutput,
-    | SdkError
-    | ClientError
-    | ClusterNotFoundError
-    | InvalidParameterError
-    | ServerError
+    SdkError | ClientError | ClusterNotFoundError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -770,11 +724,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListServicesByNamespaceCommandOutput,
-    | SdkError
-    | ClientError
-    | InvalidParameterError
-    | NamespaceNotFoundError
-    | ServerError
+    SdkError | ClientError | InvalidParameterError | NamespaceNotFoundError | ServerError
   >;
 
   /**
@@ -785,11 +735,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsForResourceCommandOutput,
-    | SdkError
-    | ClientError
-    | ClusterNotFoundError
-    | InvalidParameterError
-    | ServerError
+    SdkError | ClientError | ClusterNotFoundError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -822,12 +768,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTasksCommandOutput,
-    | SdkError
-    | ClientError
-    | ClusterNotFoundError
-    | InvalidParameterError
-    | ServerError
-    | ServiceNotFoundError
+    SdkError | ClientError | ClusterNotFoundError | InvalidParameterError | ServerError | ServiceNotFoundError
   >;
 
   /**
@@ -860,11 +801,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutAttributesCommandOutput,
-    | SdkError
-    | AttributeLimitExceededError
-    | ClusterNotFoundError
-    | InvalidParameterError
-    | TargetNotFoundError
+    SdkError | AttributeLimitExceededError | ClusterNotFoundError | InvalidParameterError | TargetNotFoundError
   >;
 
   /**
@@ -935,12 +872,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartTaskCommandOutput,
-    | SdkError
-    | ClientError
-    | ClusterNotFoundError
-    | InvalidParameterError
-    | ServerError
-    | UnsupportedFeatureError
+    SdkError | ClientError | ClusterNotFoundError | InvalidParameterError | ServerError | UnsupportedFeatureError
   >;
 
   /**
@@ -951,11 +883,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StopTaskCommandOutput,
-    | SdkError
-    | ClientError
-    | ClusterNotFoundError
-    | InvalidParameterError
-    | ServerError
+    SdkError | ClientError | ClusterNotFoundError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -966,11 +894,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SubmitAttachmentStateChangesCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | ClientError
-    | InvalidParameterError
-    | ServerError
+    SdkError | AccessDeniedError | ClientError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -992,11 +916,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SubmitTaskStateChangeCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | ClientError
-    | InvalidParameterError
-    | ServerError
+    SdkError | AccessDeniedError | ClientError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -1007,12 +927,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagResourceCommandOutput,
-    | SdkError
-    | ClientError
-    | ClusterNotFoundError
-    | InvalidParameterError
-    | ResourceNotFoundError
-    | ServerError
+    SdkError | ClientError | ClusterNotFoundError | InvalidParameterError | ResourceNotFoundError | ServerError
   >;
 
   /**
@@ -1023,12 +938,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
-    | SdkError
-    | ClientError
-    | ClusterNotFoundError
-    | InvalidParameterError
-    | ResourceNotFoundError
-    | ServerError
+    SdkError | ClientError | ClusterNotFoundError | InvalidParameterError | ResourceNotFoundError | ServerError
   >;
 
   /**
@@ -1050,12 +960,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateClusterCommandOutput,
-    | SdkError
-    | ClientError
-    | ClusterNotFoundError
-    | InvalidParameterError
-    | NamespaceNotFoundError
-    | ServerError
+    SdkError | ClientError | ClusterNotFoundError | InvalidParameterError | NamespaceNotFoundError | ServerError
   >;
 
   /**
@@ -1066,11 +971,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateClusterSettingsCommandOutput,
-    | SdkError
-    | ClientError
-    | ClusterNotFoundError
-    | InvalidParameterError
-    | ServerError
+    SdkError | ClientError | ClusterNotFoundError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -1099,11 +1000,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateContainerInstancesStateCommandOutput,
-    | SdkError
-    | ClientError
-    | ClusterNotFoundError
-    | InvalidParameterError
-    | ServerError
+    SdkError | ClientError | ClusterNotFoundError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -1191,7 +1088,7 @@ interface ECSService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeECSService = Effect.gen(function* (_) {
+export const makeECSService = Effect.gen(function*(_) {
   const client = yield* _(ECSClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {
@@ -1204,10 +1101,7 @@ export const makeECSService = Effect.gen(function* (_) {
             abortSignal,
           }),
         catch: (e) => {
-          if (
-            e instanceof ECSServiceException &&
-            AllServiceErrors.includes(e.name)
-          ) {
+          if (e instanceof ECSServiceException && AllServiceErrors.includes(e.name)) {
             const ServiceException = Data.tagged<
               TaggedException<ECSServiceException>
             >(e.name);
@@ -1286,7 +1180,10 @@ export const ECS = ECSService;
  * @category layers
  * @deprecated use ECS.baseLayer instead
  */
-export const BaseECSServiceLayer = Layer.effect(ECSService, makeECSService);
+export const BaseECSServiceLayer = Layer.effect(
+  ECSService,
+  makeECSService,
+);
 
 /**
  * @since 1.0.0

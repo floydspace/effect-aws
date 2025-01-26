@@ -2,15 +2,15 @@
  * @since 1.0.0
  */
 import {
-  CloudTrailServiceException,
-  type CloudTrailClient,
-  type CloudTrailClientConfig,
   AddTagsCommand,
   type AddTagsCommandInput,
   type AddTagsCommandOutput,
   CancelQueryCommand,
   type CancelQueryCommandInput,
   type CancelQueryCommandOutput,
+  type CloudTrailClient,
+  type CloudTrailClientConfig,
+  CloudTrailServiceException,
   CreateChannelCommand,
   type CreateChannelCommandInput,
   type CreateChannelCommandOutput,
@@ -175,37 +175,33 @@ import {
   type UpdateTrailCommandOutput,
 } from "@aws-sdk/client-cloudtrail";
 import { Data, Effect, Layer, Record } from "effect";
+import { CloudTrailClientInstance, CloudTrailClientInstanceLayer } from "./CloudTrailClientInstance.js";
 import {
-  CloudTrailClientInstance,
-  CloudTrailClientInstanceLayer,
-} from "./CloudTrailClientInstance";
-import {
+  CloudTrailClientInstanceConfig,
   DefaultCloudTrailClientConfigLayer,
   makeDefaultCloudTrailClientInstanceConfig,
-  CloudTrailClientInstanceConfig,
-} from "./CloudTrailClientInstanceConfig";
-import {
-  AllServiceErrors,
+} from "./CloudTrailClientInstanceConfig.js";
+import type {
   AccessDeniedError,
   AccountHasOngoingImportError,
   AccountNotFoundError,
   AccountNotRegisteredError,
   AccountRegisteredError,
   CannotDelegateManagementAccountError,
-  ChannelARNInvalidError,
   ChannelAlreadyExistsError,
+  ChannelARNInvalidError,
   ChannelExistsForEDSError,
   ChannelMaxLimitExceededError,
   ChannelNotFoundError,
-  CloudTrailARNInvalidError,
   CloudTrailAccessNotEnabledError,
+  CloudTrailARNInvalidError,
   CloudTrailInvalidClientTokenIdError,
   CloudWatchLogsDeliveryUnavailableError,
   ConcurrentModificationError,
   ConflictError,
   DelegatedAdminAccountLimitExceededError,
-  EventDataStoreARNInvalidError,
   EventDataStoreAlreadyExistsError,
+  EventDataStoreARNInvalidError,
   EventDataStoreFederationEnabledError,
   EventDataStoreHasOngoingImportError,
   EventDataStoreMaxLimitExceededError,
@@ -265,15 +261,15 @@ import {
   ResourceTypeNotSupportedError,
   S3BucketDoesNotExistError,
   ServiceQuotaExceededError,
+  TaggedException,
   TagsLimitExceededError,
   ThrottlingError,
   TrailAlreadyExistsError,
   TrailNotFoundError,
   TrailNotProvidedError,
   UnsupportedOperationError,
-  SdkError,
-  TaggedException,
-} from "./Errors";
+} from "./Errors.js";
+import { AllServiceErrors, SdkError } from "./Errors.js";
 
 /**
  * @since 1.0.0
@@ -519,11 +515,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteChannelCommandOutput,
-    | SdkError
-    | ChannelARNInvalidError
-    | ChannelNotFoundError
-    | OperationNotPermittedError
-    | UnsupportedOperationError
+    SdkError | ChannelARNInvalidError | ChannelNotFoundError | OperationNotPermittedError | UnsupportedOperationError
   >;
 
   /**
@@ -737,11 +729,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetChannelCommandOutput,
-    | SdkError
-    | ChannelARNInvalidError
-    | ChannelNotFoundError
-    | OperationNotPermittedError
-    | UnsupportedOperationError
+    SdkError | ChannelARNInvalidError | ChannelNotFoundError | OperationNotPermittedError | UnsupportedOperationError
   >;
 
   /**
@@ -797,11 +785,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetImportCommandOutput,
-    | SdkError
-    | ImportNotFoundError
-    | InvalidParameterError
-    | OperationNotPermittedError
-    | UnsupportedOperationError
+    SdkError | ImportNotFoundError | InvalidParameterError | OperationNotPermittedError | UnsupportedOperationError
   >;
 
   /**
@@ -904,10 +888,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListChannelsCommandOutput,
-    | SdkError
-    | InvalidNextTokenError
-    | OperationNotPermittedError
-    | UnsupportedOperationError
+    SdkError | InvalidNextTokenError | OperationNotPermittedError | UnsupportedOperationError
   >;
 
   /**
@@ -945,11 +926,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListImportFailuresCommandOutput,
-    | SdkError
-    | InvalidNextTokenError
-    | InvalidParameterError
-    | OperationNotPermittedError
-    | UnsupportedOperationError
+    SdkError | InvalidNextTokenError | InvalidParameterError | OperationNotPermittedError | UnsupportedOperationError
   >;
 
   /**
@@ -976,10 +953,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListInsightsMetricDataCommandOutput,
-    | SdkError
-    | InvalidParameterError
-    | OperationNotPermittedError
-    | UnsupportedOperationError
+    SdkError | InvalidParameterError | OperationNotPermittedError | UnsupportedOperationError
   >;
 
   /**
@@ -990,11 +964,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListPublicKeysCommandOutput,
-    | SdkError
-    | InvalidTimeRangeError
-    | InvalidTokenError
-    | OperationNotPermittedError
-    | UnsupportedOperationError
+    SdkError | InvalidTimeRangeError | InvalidTokenError | OperationNotPermittedError | UnsupportedOperationError
   >;
 
   /**
@@ -1349,11 +1319,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StopImportCommandOutput,
-    | SdkError
-    | ImportNotFoundError
-    | InvalidParameterError
-    | OperationNotPermittedError
-    | UnsupportedOperationError
+    SdkError | ImportNotFoundError | InvalidParameterError | OperationNotPermittedError | UnsupportedOperationError
   >;
 
   /**
@@ -1498,7 +1464,7 @@ interface CloudTrailService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeCloudTrailService = Effect.gen(function* (_) {
+export const makeCloudTrailService = Effect.gen(function*(_) {
   const client = yield* _(CloudTrailClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {
@@ -1511,10 +1477,7 @@ export const makeCloudTrailService = Effect.gen(function* (_) {
             abortSignal,
           }),
         catch: (e) => {
-          if (
-            e instanceof CloudTrailServiceException &&
-            AllServiceErrors.includes(e.name)
-          ) {
+          if (e instanceof CloudTrailServiceException && AllServiceErrors.includes(e.name)) {
             const ServiceException = Data.tagged<
               TaggedException<CloudTrailServiceException>
             >(e.name);
@@ -1548,9 +1511,10 @@ export const makeCloudTrailService = Effect.gen(function* (_) {
  * @since 1.0.0
  * @category models
  */
-export class CloudTrailService extends Effect.Tag(
-  "@effect-aws/client-cloudtrail/CloudTrailService",
-)<CloudTrailService, CloudTrailService$>() {
+export class CloudTrailService extends Effect.Tag("@effect-aws/client-cloudtrail/CloudTrailService")<
+  CloudTrailService,
+  CloudTrailService$
+>() {
   static readonly defaultLayer = Layer.effect(this, makeCloudTrailService).pipe(
     Layer.provide(CloudTrailClientInstanceLayer),
     Layer.provide(DefaultCloudTrailClientConfigLayer),

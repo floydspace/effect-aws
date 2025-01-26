@@ -2,13 +2,8 @@
  * @since 1.0.0
  */
 import { KinesisClient } from "@aws-sdk/client-kinesis";
-import * as Context from "effect/Context";
-import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
-import {
-  DefaultKinesisClientConfigLayer,
-  KinesisClientInstanceConfig,
-} from "./KinesisClientInstanceConfig";
+import { Context, Effect, Layer } from "effect";
+import { DefaultKinesisClientConfigLayer, KinesisClientInstanceConfig } from "./KinesisClientInstanceConfig.js";
 
 /**
  * @since 1.0.0
@@ -44,7 +39,6 @@ export const KinesisClientInstanceLayer = Layer.scoped(
  * @since 1.0.0
  * @category layers
  */
-export const DefaultKinesisClientInstanceLayer =
-  KinesisClientInstanceLayer.pipe(
-    Layer.provide(DefaultKinesisClientConfigLayer),
-  );
+export const DefaultKinesisClientInstanceLayer = KinesisClientInstanceLayer.pipe(
+  Layer.provide(DefaultKinesisClientConfigLayer),
+);

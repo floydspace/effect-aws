@@ -2,9 +2,6 @@
  * @since 1.0.0
  */
 import {
-  KinesisServiceException,
-  type KinesisClient,
-  type KinesisClientConfig,
   AddTagsToStreamCommand,
   type AddTagsToStreamCommandInput,
   type AddTagsToStreamCommandOutput,
@@ -53,6 +50,9 @@ import {
   IncreaseStreamRetentionPeriodCommand,
   type IncreaseStreamRetentionPeriodCommandInput,
   type IncreaseStreamRetentionPeriodCommandOutput,
+  type KinesisClient,
+  type KinesisClientConfig,
+  KinesisServiceException,
   ListShardsCommand,
   type ListShardsCommandInput,
   type ListShardsCommandOutput,
@@ -103,8 +103,7 @@ import {
   type UpdateStreamModeCommandOutput,
 } from "@aws-sdk/client-kinesis";
 import { Data, Effect, Layer, Record } from "effect";
-import {
-  AllServiceErrors,
+import type {
   AccessDeniedError,
   ExpiredIteratorError,
   ExpiredNextTokenError,
@@ -119,19 +118,16 @@ import {
   ProvisionedThroughputExceededError,
   ResourceInUseError,
   ResourceNotFoundError,
-  ValidationError,
-  SdkError,
   TaggedException,
-} from "./Errors";
-import {
-  KinesisClientInstance,
-  KinesisClientInstanceLayer,
-} from "./KinesisClientInstance";
+  ValidationError,
+} from "./Errors.js";
+import { AllServiceErrors, SdkError } from "./Errors.js";
+import { KinesisClientInstance, KinesisClientInstanceLayer } from "./KinesisClientInstance.js";
 import {
   DefaultKinesisClientConfigLayer,
-  makeDefaultKinesisClientInstanceConfig,
   KinesisClientInstanceConfig,
-} from "./KinesisClientInstanceConfig";
+  makeDefaultKinesisClientInstanceConfig,
+} from "./KinesisClientInstanceConfig.js";
 
 /**
  * @since 1.0.0
@@ -274,7 +270,10 @@ interface KinesisService$ {
   describeLimits(
     args: DescribeLimitsCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DescribeLimitsCommandOutput, SdkError | LimitExceededError>;
+  ): Effect.Effect<
+    DescribeLimitsCommandOutput,
+    SdkError | LimitExceededError
+  >;
 
   /**
    * @see {@link DescribeStreamCommand}
@@ -284,11 +283,7 @@ interface KinesisService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeStreamCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InvalidArgumentError
-    | LimitExceededError
-    | ResourceNotFoundError
+    SdkError | AccessDeniedError | InvalidArgumentError | LimitExceededError | ResourceNotFoundError
   >;
 
   /**
@@ -310,11 +305,7 @@ interface KinesisService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeStreamSummaryCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InvalidArgumentError
-    | LimitExceededError
-    | ResourceNotFoundError
+    SdkError | AccessDeniedError | InvalidArgumentError | LimitExceededError | ResourceNotFoundError
   >;
 
   /**
@@ -395,11 +386,7 @@ interface KinesisService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetShardIteratorCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InvalidArgumentError
-    | ProvisionedThroughputExceededError
-    | ResourceNotFoundError
+    SdkError | AccessDeniedError | InvalidArgumentError | ProvisionedThroughputExceededError | ResourceNotFoundError
   >;
 
   /**
@@ -470,11 +457,7 @@ interface KinesisService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsForStreamCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InvalidArgumentError
-    | LimitExceededError
-    | ResourceNotFoundError
+    SdkError | AccessDeniedError | InvalidArgumentError | LimitExceededError | ResourceNotFoundError
   >;
 
   /**
@@ -560,11 +543,7 @@ interface KinesisService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RegisterStreamConsumerCommandOutput,
-    | SdkError
-    | InvalidArgumentError
-    | LimitExceededError
-    | ResourceInUseError
-    | ResourceNotFoundError
+    SdkError | InvalidArgumentError | LimitExceededError | ResourceInUseError | ResourceNotFoundError
   >;
 
   /**
@@ -679,11 +658,7 @@ interface KinesisService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateStreamModeCommandOutput,
-    | SdkError
-    | InvalidArgumentError
-    | LimitExceededError
-    | ResourceInUseError
-    | ResourceNotFoundError
+    SdkError | InvalidArgumentError | LimitExceededError | ResourceInUseError | ResourceNotFoundError
   >;
 }
 
@@ -691,7 +666,7 @@ interface KinesisService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeKinesisService = Effect.gen(function* (_) {
+export const makeKinesisService = Effect.gen(function*(_) {
   const client = yield* _(KinesisClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {
@@ -704,10 +679,7 @@ export const makeKinesisService = Effect.gen(function* (_) {
             abortSignal,
           }),
         catch: (e) => {
-          if (
-            e instanceof KinesisServiceException &&
-            AllServiceErrors.includes(e.name)
-          ) {
+          if (e instanceof KinesisServiceException && AllServiceErrors.includes(e.name)) {
             const ServiceException = Data.tagged<
               TaggedException<KinesisServiceException>
             >(e.name);
@@ -741,9 +713,10 @@ export const makeKinesisService = Effect.gen(function* (_) {
  * @since 1.0.0
  * @category models
  */
-export class KinesisService extends Effect.Tag(
-  "@effect-aws/client-kinesis/KinesisService",
-)<KinesisService, KinesisService$>() {
+export class KinesisService extends Effect.Tag("@effect-aws/client-kinesis/KinesisService")<
+  KinesisService,
+  KinesisService$
+>() {
   static readonly defaultLayer = Layer.effect(this, makeKinesisService).pipe(
     Layer.provide(KinesisClientInstanceLayer),
     Layer.provide(DefaultKinesisClientConfigLayer),

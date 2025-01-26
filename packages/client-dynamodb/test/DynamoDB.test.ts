@@ -1,17 +1,16 @@
 import {
-  type PutItemCommandInput,
-  PutItemCommand,
   DynamoDBClient,
   DynamoDBServiceException,
+  PutItemCommand,
+  type PutItemCommandInput,
 } from "@aws-sdk/client-dynamodb";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-dynamodb/dist-cjs/runtimeConfig";
+import { DynamoDB, SdkError } from "@effect-aws/client-dynamodb";
 import { mockClient } from "aws-sdk-client-mock";
-import * as Effect from "effect/Effect";
-import * as Exit from "effect/Exit";
+import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { DynamoDB, SdkError } from "../src";
 
 const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(DynamoDBClient);
@@ -24,10 +23,7 @@ describe("DynamoDBClientImpl", () => {
   it("default", async () => {
     clientMock.reset().on(PutItemCommand).resolves({});
 
-    const args: PutItemCommandInput = {
-      TableName: "test",
-      Item: { testAttr: { S: "test" } },
-    };
+    const args: PutItemCommandInput = { TableName: "test", Item: { testAttr: { S: "test" } } };
 
     const program = DynamoDB.putItem(args);
 
@@ -49,10 +45,7 @@ describe("DynamoDBClientImpl", () => {
   it("configurable", async () => {
     clientMock.reset().on(PutItemCommand).resolves({});
 
-    const args: PutItemCommandInput = {
-      TableName: "test",
-      Item: { testAttr: { S: "test" } },
-    };
+    const args: PutItemCommandInput = { TableName: "test", Item: { testAttr: { S: "test" } } };
 
     const program = DynamoDB.putItem(args);
 
@@ -75,19 +68,14 @@ describe("DynamoDBClientImpl", () => {
   it("base", async () => {
     clientMock.reset().on(PutItemCommand).resolves({});
 
-    const args: PutItemCommandInput = {
-      TableName: "test",
-      Item: { testAttr: { S: "test" } },
-    };
+    const args: PutItemCommandInput = { TableName: "test", Item: { testAttr: { S: "test" } } };
 
     const program = DynamoDB.putItem(args);
 
     const result = await pipe(
       program,
       Effect.provide(
-        DynamoDB.baseLayer(
-          () => new DynamoDBClient({ region: "eu-central-1" }),
-        ),
+        DynamoDB.baseLayer(() => new DynamoDBClient({ region: "eu-central-1" })),
       ),
       Effect.runPromiseExit,
     );
@@ -104,10 +92,7 @@ describe("DynamoDBClientImpl", () => {
   it("extended", async () => {
     clientMock.reset().on(PutItemCommand).resolves({});
 
-    const args: PutItemCommandInput = {
-      TableName: "test",
-      Item: { testAttr: { S: "test" } },
-    };
+    const args: PutItemCommandInput = { TableName: "test", Item: { testAttr: { S: "test" } } };
 
     const program = DynamoDB.putItem(args);
 
@@ -134,10 +119,7 @@ describe("DynamoDBClientImpl", () => {
   it("fail", async () => {
     clientMock.reset().on(PutItemCommand).rejects(new Error("test"));
 
-    const args: PutItemCommandInput = {
-      TableName: "test",
-      Item: { testAttr: { S: "test" } },
-    };
+    const args: PutItemCommandInput = { TableName: "test", Item: { testAttr: { S: "test" } } };
 
     const program = DynamoDB.putItem(args, { requestTimeout: 1000 });
 
@@ -172,10 +154,7 @@ describe("DynamoDBClientImpl", () => {
         } as any),
       );
 
-    const args: PutItemCommandInput = {
-      TableName: "test",
-      Item: { testAttr: { S: "test" } },
-    };
+    const args: PutItemCommandInput = { TableName: "test", Item: { testAttr: { S: "test" } } };
 
     const program = DynamoDB.putItem(args).pipe(
       Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),

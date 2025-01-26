@@ -2,13 +2,11 @@
  * @since 1.0.0
  */
 import { OpenSearchClient } from "@aws-sdk/client-opensearch";
-import * as Context from "effect/Context";
-import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
+import { Context, Effect, Layer } from "effect";
 import {
   DefaultOpenSearchClientConfigLayer,
   OpenSearchClientInstanceConfig,
-} from "./OpenSearchClientInstanceConfig";
+} from "./OpenSearchClientInstanceConfig.js";
 
 /**
  * @since 1.0.0
@@ -44,7 +42,6 @@ export const OpenSearchClientInstanceLayer = Layer.scoped(
  * @since 1.0.0
  * @category layers
  */
-export const DefaultOpenSearchClientInstanceLayer =
-  OpenSearchClientInstanceLayer.pipe(
-    Layer.provide(DefaultOpenSearchClientConfigLayer),
-  );
+export const DefaultOpenSearchClientInstanceLayer = OpenSearchClientInstanceLayer.pipe(
+  Layer.provide(DefaultOpenSearchClientConfigLayer),
+);

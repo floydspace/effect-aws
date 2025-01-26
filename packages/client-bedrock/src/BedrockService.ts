@@ -2,12 +2,12 @@
  * @since 1.0.0
  */
 import {
-  BedrockServiceException,
-  type BedrockClient,
-  type BedrockClientConfig,
   BatchDeleteEvaluationJobCommand,
   type BatchDeleteEvaluationJobCommandInput,
   type BatchDeleteEvaluationJobCommandOutput,
+  type BedrockClient,
+  type BedrockClientConfig,
+  BedrockServiceException,
   CreateEvaluationJobCommand,
   type CreateEvaluationJobCommandInput,
   type CreateEvaluationJobCommandOutput,
@@ -178,29 +178,25 @@ import {
   type UpdateProvisionedModelThroughputCommandOutput,
 } from "@aws-sdk/client-bedrock";
 import { Data, Effect, Layer, Record } from "effect";
+import { BedrockClientInstance, BedrockClientInstanceLayer } from "./BedrockClientInstance.js";
 import {
-  BedrockClientInstance,
-  BedrockClientInstanceLayer,
-} from "./BedrockClientInstance";
-import {
+  BedrockClientInstanceConfig,
   DefaultBedrockClientConfigLayer,
   makeDefaultBedrockClientInstanceConfig,
-  BedrockClientInstanceConfig,
-} from "./BedrockClientInstanceConfig";
-import {
-  AllServiceErrors,
+} from "./BedrockClientInstanceConfig.js";
+import type {
   AccessDeniedError,
   ConflictError,
   InternalServerError,
   ResourceNotFoundError,
   ServiceQuotaExceededError,
   ServiceUnavailableError,
+  TaggedException,
   ThrottlingError,
   TooManyTagsError,
   ValidationError,
-  SdkError,
-  TaggedException,
-} from "./Errors";
+} from "./Errors.js";
+import { AllServiceErrors, SdkError } from "./Errors.js";
 
 /**
  * @since 1.0.0
@@ -393,11 +389,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateModelCopyJobCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | TooManyTagsError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | TooManyTagsError
   >;
 
   /**
@@ -550,12 +542,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteMarketplaceModelEndpointCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -611,12 +598,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetCustomModelCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -627,12 +609,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetEvaluationJobCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -643,12 +620,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetFoundationModelCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -659,12 +631,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetGuardrailCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -675,12 +642,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetImportedModelCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -691,12 +653,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetInferenceProfileCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -707,12 +664,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetMarketplaceModelEndpointCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -723,12 +675,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetModelCopyJobCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -739,12 +686,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetModelCustomizationJobCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -755,12 +697,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetModelImportJobCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -771,12 +708,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetModelInvocationJobCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -798,12 +730,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPromptRouterCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -814,12 +741,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetProvisionedModelThroughputCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -830,11 +752,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListCustomModelsCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -845,11 +763,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListEvaluationJobsCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -860,11 +774,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListFoundationModelsCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -875,12 +785,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListGuardrailsCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -891,11 +796,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListImportedModelsCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -906,11 +807,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListInferenceProfilesCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -921,12 +818,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListMarketplaceModelEndpointsCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -937,12 +829,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListModelCopyJobsCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -953,11 +840,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListModelCustomizationJobsCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -968,11 +851,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListModelImportJobsCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -983,11 +862,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListModelInvocationJobsCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -998,11 +873,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListPromptRoutersCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1013,11 +884,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListProvisionedModelThroughputsCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1028,12 +895,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsForResourceCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1044,11 +906,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutModelInvocationLoggingConfigurationCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1144,12 +1002,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1196,12 +1049,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateProvisionedModelThroughputCommandOutput,
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 }
 
@@ -1209,7 +1057,7 @@ interface BedrockService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeBedrockService = Effect.gen(function* (_) {
+export const makeBedrockService = Effect.gen(function*(_) {
   const client = yield* _(BedrockClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {
@@ -1222,10 +1070,7 @@ export const makeBedrockService = Effect.gen(function* (_) {
             abortSignal,
           }),
         catch: (e) => {
-          if (
-            e instanceof BedrockServiceException &&
-            AllServiceErrors.includes(e.name)
-          ) {
+          if (e instanceof BedrockServiceException && AllServiceErrors.includes(e.name)) {
             const ServiceException = Data.tagged<
               TaggedException<BedrockServiceException>
             >(e.name);
@@ -1259,9 +1104,10 @@ export const makeBedrockService = Effect.gen(function* (_) {
  * @since 1.0.0
  * @category models
  */
-export class BedrockService extends Effect.Tag(
-  "@effect-aws/client-bedrock/BedrockService",
-)<BedrockService, BedrockService$>() {
+export class BedrockService extends Effect.Tag("@effect-aws/client-bedrock/BedrockService")<
+  BedrockService,
+  BedrockService$
+>() {
   static readonly defaultLayer = Layer.effect(this, makeBedrockService).pipe(
     Layer.provide(BedrockClientInstanceLayer),
     Layer.provide(DefaultBedrockClientConfigLayer),

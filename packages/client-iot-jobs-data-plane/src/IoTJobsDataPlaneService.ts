@@ -2,15 +2,15 @@
  * @since 1.0.0
  */
 import {
-  IoTJobsDataPlaneServiceException,
-  type IoTJobsDataPlaneClient,
-  type IoTJobsDataPlaneClientConfig,
   DescribeJobExecutionCommand,
   type DescribeJobExecutionCommandInput,
   type DescribeJobExecutionCommandOutput,
   GetPendingJobExecutionsCommand,
   type GetPendingJobExecutionsCommandInput,
   type GetPendingJobExecutionsCommandOutput,
+  type IoTJobsDataPlaneClient,
+  type IoTJobsDataPlaneClientConfig,
+  IoTJobsDataPlaneServiceException,
   StartCommandExecutionCommand,
   type StartCommandExecutionCommandInput,
   type StartCommandExecutionCommandOutput,
@@ -22,8 +22,8 @@ import {
   type UpdateJobExecutionCommandOutput,
 } from "@aws-sdk/client-iot-jobs-data-plane";
 import { Data, Effect, Layer, Record } from "effect";
-import {
-  AllServiceErrors,
+import { AllServiceErrors, SdkError } from "./Errors.js";
+import type {
   CertificateValidationError,
   ConflictError,
   InternalServerError,
@@ -32,21 +32,20 @@ import {
   ResourceNotFoundError,
   ServiceQuotaExceededError,
   ServiceUnavailableError,
+  TaggedException,
   TerminalStateError,
   ThrottlingError,
   ValidationError,
-  SdkError,
-  TaggedException,
-} from "./Errors";
+} from "./Errors.js";
 import {
   IoTJobsDataPlaneClientInstance,
   IoTJobsDataPlaneClientInstanceLayer,
-} from "./IoTJobsDataPlaneClientInstance";
+} from "./IoTJobsDataPlaneClientInstance.js";
 import {
   DefaultIoTJobsDataPlaneClientConfigLayer,
-  makeDefaultIoTJobsDataPlaneClientInstanceConfig,
   IoTJobsDataPlaneClientInstanceConfig,
-} from "./IoTJobsDataPlaneClientInstanceConfig";
+  makeDefaultIoTJobsDataPlaneClientInstanceConfig,
+} from "./IoTJobsDataPlaneClientInstanceConfig.js";
 
 /**
  * @since 1.0.0
@@ -158,7 +157,7 @@ interface IoTJobsDataPlaneService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeIoTJobsDataPlaneService = Effect.gen(function* (_) {
+export const makeIoTJobsDataPlaneService = Effect.gen(function*(_) {
   const client = yield* _(IoTJobsDataPlaneClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {
@@ -171,10 +170,7 @@ export const makeIoTJobsDataPlaneService = Effect.gen(function* (_) {
             abortSignal,
           }),
         catch: (e) => {
-          if (
-            e instanceof IoTJobsDataPlaneServiceException &&
-            AllServiceErrors.includes(e.name)
-          ) {
+          if (e instanceof IoTJobsDataPlaneServiceException && AllServiceErrors.includes(e.name)) {
             const ServiceException = Data.tagged<
               TaggedException<IoTJobsDataPlaneServiceException>
             >(e.name);
@@ -208,13 +204,13 @@ export const makeIoTJobsDataPlaneService = Effect.gen(function* (_) {
  * @since 1.0.0
  * @category models
  */
-export class IoTJobsDataPlaneService extends Effect.Tag(
-  "@effect-aws/client-iot-jobs-data-plane/IoTJobsDataPlaneService",
-)<IoTJobsDataPlaneService, IoTJobsDataPlaneService$>() {
-  static readonly defaultLayer = Layer.effect(
-    this,
-    makeIoTJobsDataPlaneService,
-  ).pipe(
+export class IoTJobsDataPlaneService
+  extends Effect.Tag("@effect-aws/client-iot-jobs-data-plane/IoTJobsDataPlaneService")<
+    IoTJobsDataPlaneService,
+    IoTJobsDataPlaneService$
+  >()
+{
+  static readonly defaultLayer = Layer.effect(this, makeIoTJobsDataPlaneService).pipe(
     Layer.provide(IoTJobsDataPlaneClientInstanceLayer),
     Layer.provide(DefaultIoTJobsDataPlaneClientConfigLayer),
   );
@@ -231,9 +227,7 @@ export class IoTJobsDataPlaneService extends Effect.Tag(
       ),
     );
   static readonly baseLayer = (
-    evaluate: (
-      defaultConfig: IoTJobsDataPlaneClientConfig,
-    ) => IoTJobsDataPlaneClient,
+    evaluate: (defaultConfig: IoTJobsDataPlaneClientConfig) => IoTJobsDataPlaneClient,
   ) =>
     Layer.effect(this, makeIoTJobsDataPlaneService).pipe(
       Layer.provide(
@@ -267,15 +261,13 @@ export const BaseIoTJobsDataPlaneServiceLayer = Layer.effect(
  * @category layers
  * @deprecated use IoTJobsDataPlane.layer instead
  */
-export const IoTJobsDataPlaneServiceLayer =
-  BaseIoTJobsDataPlaneServiceLayer.pipe(
-    Layer.provide(IoTJobsDataPlaneClientInstanceLayer),
-  );
+export const IoTJobsDataPlaneServiceLayer = BaseIoTJobsDataPlaneServiceLayer.pipe(
+  Layer.provide(IoTJobsDataPlaneClientInstanceLayer),
+);
 
 /**
  * @since 1.0.0
  * @category layers
  * @deprecated use IoTJobsDataPlane.defaultLayer instead
  */
-export const DefaultIoTJobsDataPlaneServiceLayer =
-  IoTJobsDataPlaneService.defaultLayer;
+export const DefaultIoTJobsDataPlaneServiceLayer = IoTJobsDataPlaneService.defaultLayer;

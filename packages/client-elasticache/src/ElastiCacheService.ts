@@ -2,9 +2,6 @@
  * @since 1.0.0
  */
 import {
-  ElastiCacheServiceException,
-  type ElastiCacheClient,
-  type ElastiCacheClientConfig,
   AddTagsToResourceCommand,
   type AddTagsToResourceCommandInput,
   type AddTagsToResourceCommandOutput,
@@ -134,12 +131,12 @@ import {
   DescribeReservedCacheNodesOfferingsCommand,
   type DescribeReservedCacheNodesOfferingsCommandInput,
   type DescribeReservedCacheNodesOfferingsCommandOutput,
-  DescribeServerlessCacheSnapshotsCommand,
-  type DescribeServerlessCacheSnapshotsCommandInput,
-  type DescribeServerlessCacheSnapshotsCommandOutput,
   DescribeServerlessCachesCommand,
   type DescribeServerlessCachesCommandInput,
   type DescribeServerlessCachesCommandOutput,
+  DescribeServerlessCacheSnapshotsCommand,
+  type DescribeServerlessCacheSnapshotsCommandInput,
+  type DescribeServerlessCacheSnapshotsCommandOutput,
   DescribeServiceUpdatesCommand,
   type DescribeServiceUpdatesCommandInput,
   type DescribeServiceUpdatesCommandOutput,
@@ -158,6 +155,9 @@ import {
   DisassociateGlobalReplicationGroupCommand,
   type DisassociateGlobalReplicationGroupCommandInput,
   type DisassociateGlobalReplicationGroupCommandOutput,
+  type ElastiCacheClient,
+  type ElastiCacheClientConfig,
+  ElastiCacheServiceException,
   ExportServerlessCacheSnapshotCommand,
   type ExportServerlessCacheSnapshotCommandInput,
   type ExportServerlessCacheSnapshotCommandOutput,
@@ -232,17 +232,13 @@ import {
   type TestMigrationCommandOutput,
 } from "@aws-sdk/client-elasticache";
 import { Data, Effect, Layer, Record } from "effect";
-import {
-  ElastiCacheClientInstance,
-  ElastiCacheClientInstanceLayer,
-} from "./ElastiCacheClientInstance";
+import { ElastiCacheClientInstance, ElastiCacheClientInstanceLayer } from "./ElastiCacheClientInstance.js";
 import {
   DefaultElastiCacheClientConfigLayer,
-  makeDefaultElastiCacheClientInstanceConfig,
   ElastiCacheClientInstanceConfig,
-} from "./ElastiCacheClientInstanceConfig";
-import {
-  AllServiceErrors,
+  makeDefaultElastiCacheClientInstanceConfig,
+} from "./ElastiCacheClientInstanceConfig.js";
+import type {
   APICallRateForCustomerExceededFaultError,
   AuthorizationAlreadyExistsFaultError,
   AuthorizationNotFoundFaultError,
@@ -283,11 +279,11 @@ import {
   InvalidUserGroupStateFaultError,
   InvalidUserStateFaultError,
   InvalidVPCNetworkStateFaultError,
-  NoOperationFaultError,
   NodeGroupNotFoundFaultError,
   NodeGroupsPerReplicationGroupQuotaExceededFaultError,
   NodeQuotaForClusterExceededFaultError,
   NodeQuotaForCustomerExceededFaultError,
+  NoOperationFaultError,
   ReplicationGroupAlreadyExistsFaultError,
   ReplicationGroupAlreadyUnderMigrationFaultError,
   ReplicationGroupNotFoundFaultError,
@@ -310,6 +306,7 @@ import {
   SnapshotQuotaExceededFaultError,
   SubnetInUseError,
   SubnetNotAllowedFaultError,
+  TaggedException,
   TagNotFoundFaultError,
   TagQuotaPerResourceExceededError,
   TestFailoverNotAvailableFaultError,
@@ -319,9 +316,8 @@ import {
   UserGroupQuotaExceededFaultError,
   UserNotFoundFaultError,
   UserQuotaExceededFaultError,
-  SdkError,
-  TaggedException,
-} from "./Errors";
+} from "./Errors.js";
+import { AllServiceErrors, SdkError } from "./Errors.js";
 
 /**
  * @since 1.0.0
@@ -967,10 +963,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeCacheClustersCommandOutput,
-    | SdkError
-    | CacheClusterNotFoundFaultError
-    | InvalidParameterCombinationError
-    | InvalidParameterValueError
+    SdkError | CacheClusterNotFoundFaultError | InvalidParameterCombinationError | InvalidParameterValueError
   >;
 
   /**
@@ -979,7 +972,10 @@ interface ElastiCacheService$ {
   describeCacheEngineVersions(
     args: DescribeCacheEngineVersionsCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DescribeCacheEngineVersionsCommandOutput, SdkError>;
+  ): Effect.Effect<
+    DescribeCacheEngineVersionsCommandOutput,
+    SdkError
+  >;
 
   /**
    * @see {@link DescribeCacheParameterGroupsCommand}
@@ -989,10 +985,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeCacheParameterGroupsCommandOutput,
-    | SdkError
-    | CacheParameterGroupNotFoundFaultError
-    | InvalidParameterCombinationError
-    | InvalidParameterValueError
+    SdkError | CacheParameterGroupNotFoundFaultError | InvalidParameterCombinationError | InvalidParameterValueError
   >;
 
   /**
@@ -1003,10 +996,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeCacheParametersCommandOutput,
-    | SdkError
-    | CacheParameterGroupNotFoundFaultError
-    | InvalidParameterCombinationError
-    | InvalidParameterValueError
+    SdkError | CacheParameterGroupNotFoundFaultError | InvalidParameterCombinationError | InvalidParameterValueError
   >;
 
   /**
@@ -1017,10 +1007,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeCacheSecurityGroupsCommandOutput,
-    | SdkError
-    | CacheSecurityGroupNotFoundFaultError
-    | InvalidParameterCombinationError
-    | InvalidParameterValueError
+    SdkError | CacheSecurityGroupNotFoundFaultError | InvalidParameterCombinationError | InvalidParameterValueError
   >;
 
   /**
@@ -1064,10 +1051,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeGlobalReplicationGroupsCommandOutput,
-    | SdkError
-    | GlobalReplicationGroupNotFoundFaultError
-    | InvalidParameterCombinationError
-    | InvalidParameterValueError
+    SdkError | GlobalReplicationGroupNotFoundFaultError | InvalidParameterCombinationError | InvalidParameterValueError
   >;
 
   /**
@@ -1078,10 +1062,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeReplicationGroupsCommandOutput,
-    | SdkError
-    | InvalidParameterCombinationError
-    | InvalidParameterValueError
-    | ReplicationGroupNotFoundFaultError
+    SdkError | InvalidParameterCombinationError | InvalidParameterValueError | ReplicationGroupNotFoundFaultError
   >;
 
   /**
@@ -1092,10 +1073,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeReservedCacheNodesCommandOutput,
-    | SdkError
-    | InvalidParameterCombinationError
-    | InvalidParameterValueError
-    | ReservedCacheNodeNotFoundFaultError
+    SdkError | InvalidParameterCombinationError | InvalidParameterValueError | ReservedCacheNodeNotFoundFaultError
   >;
 
   /**
@@ -1135,10 +1113,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeServerlessCachesCommandOutput,
-    | SdkError
-    | InvalidParameterCombinationError
-    | InvalidParameterValueError
-    | ServerlessCacheNotFoundFaultError
+    SdkError | InvalidParameterCombinationError | InvalidParameterValueError | ServerlessCacheNotFoundFaultError
   >;
 
   /**
@@ -1149,10 +1124,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeServiceUpdatesCommandOutput,
-    | SdkError
-    | InvalidParameterCombinationError
-    | InvalidParameterValueError
-    | ServiceUpdateNotFoundFaultError
+    SdkError | InvalidParameterCombinationError | InvalidParameterValueError | ServiceUpdateNotFoundFaultError
   >;
 
   /**
@@ -1189,10 +1161,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeUserGroupsCommandOutput,
-    | SdkError
-    | InvalidParameterCombinationError
-    | ServiceLinkedRoleNotFoundFaultError
-    | UserGroupNotFoundFaultError
+    SdkError | InvalidParameterCombinationError | ServiceLinkedRoleNotFoundFaultError | UserGroupNotFoundFaultError
   >;
 
   /**
@@ -1203,10 +1172,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeUsersCommandOutput,
-    | SdkError
-    | InvalidParameterCombinationError
-    | ServiceLinkedRoleNotFoundFaultError
-    | UserNotFoundFaultError
+    SdkError | InvalidParameterCombinationError | ServiceLinkedRoleNotFoundFaultError | UserNotFoundFaultError
   >;
 
   /**
@@ -1541,9 +1507,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RebootCacheClusterCommandOutput,
-    | SdkError
-    | CacheClusterNotFoundFaultError
-    | InvalidCacheClusterStateFaultError
+    SdkError | CacheClusterNotFoundFaultError | InvalidCacheClusterStateFaultError
   >;
 
   /**
@@ -1660,7 +1624,7 @@ interface ElastiCacheService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeElastiCacheService = Effect.gen(function* (_) {
+export const makeElastiCacheService = Effect.gen(function*(_) {
   const client = yield* _(ElastiCacheClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {
@@ -1673,10 +1637,7 @@ export const makeElastiCacheService = Effect.gen(function* (_) {
             abortSignal,
           }),
         catch: (e) => {
-          if (
-            e instanceof ElastiCacheServiceException &&
-            AllServiceErrors.includes(e.name)
-          ) {
+          if (e instanceof ElastiCacheServiceException && AllServiceErrors.includes(e.name)) {
             const ServiceException = Data.tagged<
               TaggedException<ElastiCacheServiceException>
             >(e.name);
@@ -1710,13 +1671,11 @@ export const makeElastiCacheService = Effect.gen(function* (_) {
  * @since 1.0.0
  * @category models
  */
-export class ElastiCacheService extends Effect.Tag(
-  "@effect-aws/client-elasticache/ElastiCacheService",
-)<ElastiCacheService, ElastiCacheService$>() {
-  static readonly defaultLayer = Layer.effect(
-    this,
-    makeElastiCacheService,
-  ).pipe(
+export class ElastiCacheService extends Effect.Tag("@effect-aws/client-elasticache/ElastiCacheService")<
+  ElastiCacheService,
+  ElastiCacheService$
+>() {
+  static readonly defaultLayer = Layer.effect(this, makeElastiCacheService).pipe(
     Layer.provide(ElastiCacheClientInstanceLayer),
     Layer.provide(DefaultElastiCacheClientConfigLayer),
   );

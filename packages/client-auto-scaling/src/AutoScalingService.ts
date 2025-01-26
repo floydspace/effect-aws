@@ -2,21 +2,21 @@
  * @since 1.0.0
  */
 import {
-  AutoScalingServiceException,
-  type AutoScalingClient,
-  type AutoScalingClientConfig,
   AttachInstancesCommand,
   type AttachInstancesCommandInput,
   type AttachInstancesCommandOutput,
-  AttachLoadBalancerTargetGroupsCommand,
-  type AttachLoadBalancerTargetGroupsCommandInput,
-  type AttachLoadBalancerTargetGroupsCommandOutput,
   AttachLoadBalancersCommand,
   type AttachLoadBalancersCommandInput,
   type AttachLoadBalancersCommandOutput,
+  AttachLoadBalancerTargetGroupsCommand,
+  type AttachLoadBalancerTargetGroupsCommandInput,
+  type AttachLoadBalancerTargetGroupsCommandOutput,
   AttachTrafficSourcesCommand,
   type AttachTrafficSourcesCommandInput,
   type AttachTrafficSourcesCommandOutput,
+  type AutoScalingClient,
+  type AutoScalingClientConfig,
+  AutoScalingServiceException,
   BatchDeleteScheduledActionCommand,
   type BatchDeleteScheduledActionCommandInput,
   type BatchDeleteScheduledActionCommandOutput,
@@ -83,18 +83,18 @@ import {
   DescribeLaunchConfigurationsCommand,
   type DescribeLaunchConfigurationsCommandInput,
   type DescribeLaunchConfigurationsCommandOutput,
-  DescribeLifecycleHookTypesCommand,
-  type DescribeLifecycleHookTypesCommandInput,
-  type DescribeLifecycleHookTypesCommandOutput,
   DescribeLifecycleHooksCommand,
   type DescribeLifecycleHooksCommandInput,
   type DescribeLifecycleHooksCommandOutput,
-  DescribeLoadBalancerTargetGroupsCommand,
-  type DescribeLoadBalancerTargetGroupsCommandInput,
-  type DescribeLoadBalancerTargetGroupsCommandOutput,
+  DescribeLifecycleHookTypesCommand,
+  type DescribeLifecycleHookTypesCommandInput,
+  type DescribeLifecycleHookTypesCommandOutput,
   DescribeLoadBalancersCommand,
   type DescribeLoadBalancersCommandInput,
   type DescribeLoadBalancersCommandOutput,
+  DescribeLoadBalancerTargetGroupsCommand,
+  type DescribeLoadBalancerTargetGroupsCommandInput,
+  type DescribeLoadBalancerTargetGroupsCommandOutput,
   DescribeMetricCollectionTypesCommand,
   type DescribeMetricCollectionTypesCommandInput,
   type DescribeMetricCollectionTypesCommandOutput,
@@ -128,12 +128,12 @@ import {
   DetachInstancesCommand,
   type DetachInstancesCommandInput,
   type DetachInstancesCommandOutput,
-  DetachLoadBalancerTargetGroupsCommand,
-  type DetachLoadBalancerTargetGroupsCommandInput,
-  type DetachLoadBalancerTargetGroupsCommandOutput,
   DetachLoadBalancersCommand,
   type DetachLoadBalancersCommandInput,
   type DetachLoadBalancersCommandOutput,
+  DetachLoadBalancerTargetGroupsCommand,
+  type DetachLoadBalancerTargetGroupsCommandInput,
+  type DetachLoadBalancerTargetGroupsCommandOutput,
   DetachTrafficSourcesCommand,
   type DetachTrafficSourcesCommandInput,
   type DetachTrafficSourcesCommandOutput,
@@ -202,17 +202,13 @@ import {
   type UpdateAutoScalingGroupCommandOutput,
 } from "@aws-sdk/client-auto-scaling";
 import { Data, Effect, Layer, Record } from "effect";
+import { AutoScalingClientInstance, AutoScalingClientInstanceLayer } from "./AutoScalingClientInstance.js";
 import {
-  AutoScalingClientInstance,
-  AutoScalingClientInstanceLayer,
-} from "./AutoScalingClientInstance";
-import {
+  AutoScalingClientInstanceConfig,
   DefaultAutoScalingClientConfigLayer,
   makeDefaultAutoScalingClientInstanceConfig,
-  AutoScalingClientInstanceConfig,
-} from "./AutoScalingClientInstanceConfig";
-import {
-  AllServiceErrors,
+} from "./AutoScalingClientInstanceConfig.js";
+import type {
   ActiveInstanceRefreshNotFoundFaultError,
   AlreadyExistsFaultError,
   InstanceRefreshInProgressFaultError,
@@ -223,9 +219,9 @@ import {
   ResourceInUseFaultError,
   ScalingActivityInProgressFaultError,
   ServiceLinkedRoleError,
-  SdkError,
   TaggedException,
-} from "./Errors";
+} from "./Errors.js";
+import { AllServiceErrors, SdkError } from "./Errors.js";
 
 /**
  * @since 1.0.0
@@ -372,10 +368,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchPutScheduledUpdateGroupActionCommandOutput,
-    | SdkError
-    | AlreadyExistsFaultError
-    | LimitExceededFaultError
-    | ResourceContentionFaultError
+    SdkError | AlreadyExistsFaultError | LimitExceededFaultError | ResourceContentionFaultError
   >;
 
   /**
@@ -386,10 +379,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelInstanceRefreshCommandOutput,
-    | SdkError
-    | ActiveInstanceRefreshNotFoundFaultError
-    | LimitExceededFaultError
-    | ResourceContentionFaultError
+    SdkError | ActiveInstanceRefreshNotFoundFaultError | LimitExceededFaultError | ResourceContentionFaultError
   >;
 
   /**
@@ -411,11 +401,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateAutoScalingGroupCommandOutput,
-    | SdkError
-    | AlreadyExistsFaultError
-    | LimitExceededFaultError
-    | ResourceContentionFaultError
-    | ServiceLinkedRoleError
+    SdkError | AlreadyExistsFaultError | LimitExceededFaultError | ResourceContentionFaultError | ServiceLinkedRoleError
   >;
 
   /**
@@ -426,10 +412,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateLaunchConfigurationCommandOutput,
-    | SdkError
-    | AlreadyExistsFaultError
-    | LimitExceededFaultError
-    | ResourceContentionFaultError
+    SdkError | AlreadyExistsFaultError | LimitExceededFaultError | ResourceContentionFaultError
   >;
 
   /**
@@ -455,10 +438,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteAutoScalingGroupCommandOutput,
-    | SdkError
-    | ResourceContentionFaultError
-    | ResourceInUseFaultError
-    | ScalingActivityInProgressFaultError
+    SdkError | ResourceContentionFaultError | ResourceInUseFaultError | ScalingActivityInProgressFaultError
   >;
 
   /**
@@ -693,10 +673,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribePoliciesCommandOutput,
-    | SdkError
-    | InvalidNextTokenError
-    | ResourceContentionFaultError
-    | ServiceLinkedRoleError
+    SdkError | InvalidNextTokenError | ResourceContentionFaultError | ServiceLinkedRoleError
   >;
 
   /**
@@ -773,10 +750,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeWarmPoolCommandOutput,
-    | SdkError
-    | InvalidNextTokenError
-    | LimitExceededFaultError
-    | ResourceContentionFaultError
+    SdkError | InvalidNextTokenError | LimitExceededFaultError | ResourceContentionFaultError
   >;
 
   /**
@@ -864,9 +838,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ExecutePolicyCommandOutput,
-    | SdkError
-    | ResourceContentionFaultError
-    | ScalingActivityInProgressFaultError
+    SdkError | ResourceContentionFaultError | ScalingActivityInProgressFaultError
   >;
 
   /**
@@ -910,10 +882,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutNotificationConfigurationCommandOutput,
-    | SdkError
-    | LimitExceededFaultError
-    | ResourceContentionFaultError
-    | ServiceLinkedRoleError
+    SdkError | LimitExceededFaultError | ResourceContentionFaultError | ServiceLinkedRoleError
   >;
 
   /**
@@ -924,10 +893,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutScalingPolicyCommandOutput,
-    | SdkError
-    | LimitExceededFaultError
-    | ResourceContentionFaultError
-    | ServiceLinkedRoleError
+    SdkError | LimitExceededFaultError | ResourceContentionFaultError | ServiceLinkedRoleError
   >;
 
   /**
@@ -938,10 +904,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutScheduledUpdateGroupActionCommandOutput,
-    | SdkError
-    | AlreadyExistsFaultError
-    | LimitExceededFaultError
-    | ResourceContentionFaultError
+    SdkError | AlreadyExistsFaultError | LimitExceededFaultError | ResourceContentionFaultError
   >;
 
   /**
@@ -1000,9 +963,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SetDesiredCapacityCommandOutput,
-    | SdkError
-    | ResourceContentionFaultError
-    | ScalingActivityInProgressFaultError
+    SdkError | ResourceContentionFaultError | ScalingActivityInProgressFaultError
   >;
 
   /**
@@ -1035,10 +996,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartInstanceRefreshCommandOutput,
-    | SdkError
-    | InstanceRefreshInProgressFaultError
-    | LimitExceededFaultError
-    | ResourceContentionFaultError
+    SdkError | InstanceRefreshInProgressFaultError | LimitExceededFaultError | ResourceContentionFaultError
   >;
 
   /**
@@ -1060,9 +1018,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TerminateInstanceInAutoScalingGroupCommandOutput,
-    | SdkError
-    | ResourceContentionFaultError
-    | ScalingActivityInProgressFaultError
+    SdkError | ResourceContentionFaultError | ScalingActivityInProgressFaultError
   >;
 
   /**
@@ -1073,10 +1029,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateAutoScalingGroupCommandOutput,
-    | SdkError
-    | ResourceContentionFaultError
-    | ScalingActivityInProgressFaultError
-    | ServiceLinkedRoleError
+    SdkError | ResourceContentionFaultError | ScalingActivityInProgressFaultError | ServiceLinkedRoleError
   >;
 }
 
@@ -1084,7 +1037,7 @@ interface AutoScalingService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeAutoScalingService = Effect.gen(function* (_) {
+export const makeAutoScalingService = Effect.gen(function*(_) {
   const client = yield* _(AutoScalingClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {
@@ -1097,10 +1050,7 @@ export const makeAutoScalingService = Effect.gen(function* (_) {
             abortSignal,
           }),
         catch: (e) => {
-          if (
-            e instanceof AutoScalingServiceException &&
-            AllServiceErrors.includes(e.name)
-          ) {
+          if (e instanceof AutoScalingServiceException && AllServiceErrors.includes(e.name)) {
             const ServiceException = Data.tagged<
               TaggedException<AutoScalingServiceException>
             >(e.name);
@@ -1134,13 +1084,11 @@ export const makeAutoScalingService = Effect.gen(function* (_) {
  * @since 1.0.0
  * @category models
  */
-export class AutoScalingService extends Effect.Tag(
-  "@effect-aws/client-auto-scaling/AutoScalingService",
-)<AutoScalingService, AutoScalingService$>() {
-  static readonly defaultLayer = Layer.effect(
-    this,
-    makeAutoScalingService,
-  ).pipe(
+export class AutoScalingService extends Effect.Tag("@effect-aws/client-auto-scaling/AutoScalingService")<
+  AutoScalingService,
+  AutoScalingService$
+>() {
+  static readonly defaultLayer = Layer.effect(this, makeAutoScalingService).pipe(
     Layer.provide(AutoScalingClientInstanceLayer),
     Layer.provide(DefaultAutoScalingClientConfigLayer),
   );

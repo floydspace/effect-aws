@@ -1,17 +1,11 @@
-import {
-  type CreateRoleCommandInput,
-  CreateRoleCommand,
-  IAMClient,
-  IAMServiceException,
-} from "@aws-sdk/client-iam";
+import { CreateRoleCommand, type CreateRoleCommandInput, IAMClient, IAMServiceException } from "@aws-sdk/client-iam";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-iam/dist-cjs/runtimeConfig";
+import { IAM, SdkError } from "@effect-aws/client-iam";
 import { mockClient } from "aws-sdk-client-mock";
-import * as Effect from "effect/Effect";
-import * as Exit from "effect/Exit";
+import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { IAM, SdkError } from "../src";
 
 const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(IAMClient);

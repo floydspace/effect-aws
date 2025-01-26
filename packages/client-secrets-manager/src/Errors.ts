@@ -40,10 +40,8 @@ export type InvalidNextTokenError = TaggedException<InvalidNextTokenException>;
 export type InvalidParameterError = TaggedException<InvalidParameterException>;
 export type InvalidRequestError = TaggedException<InvalidRequestException>;
 export type LimitExceededError = TaggedException<LimitExceededException>;
-export type MalformedPolicyDocumentError =
-  TaggedException<MalformedPolicyDocumentException>;
-export type PreconditionNotMetError =
-  TaggedException<PreconditionNotMetException>;
+export type MalformedPolicyDocumentError = TaggedException<MalformedPolicyDocumentException>;
+export type PreconditionNotMetError = TaggedException<PreconditionNotMetException>;
 export type PublicPolicyError = TaggedException<PublicPolicyException>;
 export type ResourceExistsError = TaggedException<ResourceExistsException>;
 export type ResourceNotFoundError = TaggedException<ResourceNotFoundException>;

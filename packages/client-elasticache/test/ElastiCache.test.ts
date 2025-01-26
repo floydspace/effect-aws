@@ -1,17 +1,16 @@
 import {
-  type ListTagsForResourceCommandInput,
-  ListTagsForResourceCommand,
   ElastiCacheClient,
   ElastiCacheServiceException,
+  ListTagsForResourceCommand,
+  type ListTagsForResourceCommandInput,
 } from "@aws-sdk/client-elasticache";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-elasticache/dist-cjs/runtimeConfig";
+import { ElastiCache, SdkError } from "@effect-aws/client-elasticache";
 import { mockClient } from "aws-sdk-client-mock";
-import * as Effect from "effect/Effect";
-import * as Exit from "effect/Exit";
+import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { ElastiCache, SdkError } from "../src";
 
 const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(ElastiCacheClient);
@@ -39,14 +38,8 @@ describe("ElastiCacheClientImpl", () => {
     expect(getRuntimeConfig).toHaveBeenCalledWith({
       logger: expect.any(Object),
     });
-    expect(clientMock).toHaveReceivedCommandTimes(
-      ListTagsForResourceCommand,
-      1,
-    );
-    expect(clientMock).toHaveReceivedCommandWith(
-      ListTagsForResourceCommand,
-      args,
-    );
+    expect(clientMock).toHaveReceivedCommandTimes(ListTagsForResourceCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(ListTagsForResourceCommand, args);
   });
 
   it("configurable", async () => {
@@ -68,14 +61,8 @@ describe("ElastiCacheClientImpl", () => {
       region: "eu-central-1",
       logger: expect.any(Object),
     });
-    expect(clientMock).toHaveReceivedCommandTimes(
-      ListTagsForResourceCommand,
-      1,
-    );
-    expect(clientMock).toHaveReceivedCommandWith(
-      ListTagsForResourceCommand,
-      args,
-    );
+    expect(clientMock).toHaveReceivedCommandTimes(ListTagsForResourceCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(ListTagsForResourceCommand, args);
   });
 
   it("base", async () => {
@@ -88,9 +75,7 @@ describe("ElastiCacheClientImpl", () => {
     const result = await pipe(
       program,
       Effect.provide(
-        ElastiCache.baseLayer(
-          () => new ElastiCacheClient({ region: "eu-central-1" }),
-        ),
+        ElastiCache.baseLayer(() => new ElastiCacheClient({ region: "eu-central-1" })),
       ),
       Effect.runPromiseExit,
     );
@@ -100,14 +85,8 @@ describe("ElastiCacheClientImpl", () => {
     expect(getRuntimeConfig).toHaveBeenCalledWith({
       region: "eu-central-1",
     });
-    expect(clientMock).toHaveReceivedCommandTimes(
-      ListTagsForResourceCommand,
-      1,
-    );
-    expect(clientMock).toHaveReceivedCommandWith(
-      ListTagsForResourceCommand,
-      args,
-    );
+    expect(clientMock).toHaveReceivedCommandTimes(ListTagsForResourceCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(ListTagsForResourceCommand, args);
   });
 
   it("extended", async () => {
@@ -121,8 +100,7 @@ describe("ElastiCacheClientImpl", () => {
       program,
       Effect.provide(
         ElastiCache.baseLayer(
-          (config) =>
-            new ElastiCacheClient({ ...config, region: "eu-central-1" }),
+          (config) => new ElastiCacheClient({ ...config, region: "eu-central-1" }),
         ),
       ),
       Effect.runPromiseExit,
@@ -134,21 +112,12 @@ describe("ElastiCacheClientImpl", () => {
       region: "eu-central-1",
       logger: expect.any(Object),
     });
-    expect(clientMock).toHaveReceivedCommandTimes(
-      ListTagsForResourceCommand,
-      1,
-    );
-    expect(clientMock).toHaveReceivedCommandWith(
-      ListTagsForResourceCommand,
-      args,
-    );
+    expect(clientMock).toHaveReceivedCommandTimes(ListTagsForResourceCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(ListTagsForResourceCommand, args);
   });
 
   it("fail", async () => {
-    clientMock
-      .reset()
-      .on(ListTagsForResourceCommand)
-      .rejects(new Error("test"));
+    clientMock.reset().on(ListTagsForResourceCommand).rejects(new Error("test"));
 
     const args: ListTagsForResourceCommandInput = { ResourceName: "test" };
 
@@ -170,14 +139,8 @@ describe("ElastiCacheClientImpl", () => {
         }),
       ),
     );
-    expect(clientMock).toHaveReceivedCommandTimes(
-      ListTagsForResourceCommand,
-      1,
-    );
-    expect(clientMock).toHaveReceivedCommandWith(
-      ListTagsForResourceCommand,
-      args,
-    );
+    expect(clientMock).toHaveReceivedCommandTimes(ListTagsForResourceCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(ListTagsForResourceCommand, args);
   });
 
   it("should not catch unexpected error as expected", async () => {
@@ -213,13 +176,7 @@ describe("ElastiCacheClientImpl", () => {
         }),
       ),
     );
-    expect(clientMock).toHaveReceivedCommandTimes(
-      ListTagsForResourceCommand,
-      1,
-    );
-    expect(clientMock).toHaveReceivedCommandWith(
-      ListTagsForResourceCommand,
-      args,
-    );
+    expect(clientMock).toHaveReceivedCommandTimes(ListTagsForResourceCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(ListTagsForResourceCommand, args);
   });
 });
