@@ -34,7 +34,7 @@ export const fromLayer = <R, E>(layer: Layer.Layer<R, E>) => {
 
   const signalHandler: NodeJS.SignalsListener = (signal) => {
     Effect.runFork(
-      Effect.gen(function* (_) {
+      Effect.gen(function*(_) {
         yield* _(Console.log(`[runtime] ${signal} received`));
         yield* _(Console.log("[runtime] cleaning up"));
         yield* _(destroy);

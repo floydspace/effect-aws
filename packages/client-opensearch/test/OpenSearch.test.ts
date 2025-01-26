@@ -1,6 +1,6 @@
 import {
-  type DescribeDomainsCommandInput,
   DescribeDomainsCommand,
+  type DescribeDomainsCommandInput,
   OpenSearchClient,
   OpenSearchServiceException,
 } from "@aws-sdk/client-opensearch";
@@ -102,8 +102,7 @@ describe("OpenSearchClientImpl", () => {
       program,
       Effect.provide(
         OpenSearch.baseLayer(
-          (config) =>
-            new OpenSearchClient({ ...config, region: "eu-central-1" }),
+          (config) => new OpenSearchClient({ ...config, region: "eu-central-1" }),
         ),
       ),
       Effect.runPromiseExit,

@@ -2,9 +2,9 @@
  * @since 1.0.0
  */
 import {
-  ApiGatewayManagementApiServiceException,
   type ApiGatewayManagementApiClient,
   type ApiGatewayManagementApiClientConfig,
+  ApiGatewayManagementApiServiceException,
   DeleteConnectionCommand,
   type DeleteConnectionCommandInput,
   type DeleteConnectionCommandOutput,
@@ -21,19 +21,12 @@ import {
   ApiGatewayManagementApiClientInstanceLayer,
 } from "./ApiGatewayManagementApiClientInstance.js";
 import {
+  ApiGatewayManagementApiClientInstanceConfig,
   DefaultApiGatewayManagementApiClientConfigLayer,
   makeDefaultApiGatewayManagementApiClientInstanceConfig,
-  ApiGatewayManagementApiClientInstanceConfig,
 } from "./ApiGatewayManagementApiClientInstanceConfig.js";
-import {
-  AllServiceErrors,
-  ForbiddenError,
-  GoneError,
-  LimitExceededError,
-  PayloadTooLargeError,
-  SdkError,
-  TaggedException,
-} from "./Errors.js";
+import type { ForbiddenError, GoneError, LimitExceededError, PayloadTooLargeError, TaggedException } from "./Errors.js";
+import { AllServiceErrors, SdkError } from "./Errors.js";
 
 /**
  * @since 1.0.0
@@ -97,7 +90,7 @@ interface ApiGatewayManagementApiService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeApiGatewayManagementApiService = Effect.gen(function* (_) {
+export const makeApiGatewayManagementApiService = Effect.gen(function*(_) {
   const client = yield* _(ApiGatewayManagementApiClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {
@@ -209,15 +202,13 @@ export const BaseApiGatewayManagementApiServiceLayer = Layer.effect(
  * @category layers
  * @deprecated use ApiGatewayManagementApi.layer instead
  */
-export const ApiGatewayManagementApiServiceLayer =
-  BaseApiGatewayManagementApiServiceLayer.pipe(
-    Layer.provide(ApiGatewayManagementApiClientInstanceLayer),
-  );
+export const ApiGatewayManagementApiServiceLayer = BaseApiGatewayManagementApiServiceLayer.pipe(
+  Layer.provide(ApiGatewayManagementApiClientInstanceLayer),
+);
 
 /**
  * @since 1.0.0
  * @category layers
  * @deprecated use ApiGatewayManagementApi.defaultLayer instead
  */
-export const DefaultApiGatewayManagementApiServiceLayer =
-  ApiGatewayManagementApiService.defaultLayer;
+export const DefaultApiGatewayManagementApiServiceLayer = ApiGatewayManagementApiService.defaultLayer;

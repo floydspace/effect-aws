@@ -2,9 +2,6 @@
  * @since 1.0.0
  */
 import {
-  OrganizationsServiceException,
-  type OrganizationsClient,
-  type OrganizationsClientConfig,
   AcceptHandshakeCommand,
   type AcceptHandshakeCommandInput,
   type AcceptHandshakeCommandOutput,
@@ -23,24 +20,24 @@ import {
   CreateGovCloudAccountCommand,
   type CreateGovCloudAccountCommandInput,
   type CreateGovCloudAccountCommandOutput,
-  CreateOrganizationCommand,
-  type CreateOrganizationCommandInput,
-  type CreateOrganizationCommandOutput,
   CreateOrganizationalUnitCommand,
   type CreateOrganizationalUnitCommandInput,
   type CreateOrganizationalUnitCommandOutput,
+  CreateOrganizationCommand,
+  type CreateOrganizationCommandInput,
+  type CreateOrganizationCommandOutput,
   CreatePolicyCommand,
   type CreatePolicyCommandInput,
   type CreatePolicyCommandOutput,
   DeclineHandshakeCommand,
   type DeclineHandshakeCommandInput,
   type DeclineHandshakeCommandOutput,
-  DeleteOrganizationCommand,
-  type DeleteOrganizationCommandInput,
-  type DeleteOrganizationCommandOutput,
   DeleteOrganizationalUnitCommand,
   type DeleteOrganizationalUnitCommandInput,
   type DeleteOrganizationalUnitCommandOutput,
+  DeleteOrganizationCommand,
+  type DeleteOrganizationCommandInput,
+  type DeleteOrganizationCommandOutput,
   DeletePolicyCommand,
   type DeletePolicyCommandInput,
   type DeletePolicyCommandOutput,
@@ -62,12 +59,12 @@ import {
   DescribeHandshakeCommand,
   type DescribeHandshakeCommandInput,
   type DescribeHandshakeCommandOutput,
-  DescribeOrganizationCommand,
-  type DescribeOrganizationCommandInput,
-  type DescribeOrganizationCommandOutput,
   DescribeOrganizationalUnitCommand,
   type DescribeOrganizationalUnitCommandInput,
   type DescribeOrganizationalUnitCommandOutput,
+  DescribeOrganizationCommand,
+  type DescribeOrganizationCommandInput,
+  type DescribeOrganizationCommandOutput,
   DescribePolicyCommand,
   type DescribePolicyCommandInput,
   type DescribePolicyCommandOutput,
@@ -83,12 +80,12 @@ import {
   DisablePolicyTypeCommand,
   type DisablePolicyTypeCommandInput,
   type DisablePolicyTypeCommandOutput,
-  EnableAWSServiceAccessCommand,
-  type EnableAWSServiceAccessCommandInput,
-  type EnableAWSServiceAccessCommandOutput,
   EnableAllFeaturesCommand,
   type EnableAllFeaturesCommandInput,
   type EnableAllFeaturesCommandOutput,
+  EnableAWSServiceAccessCommand,
+  type EnableAWSServiceAccessCommandInput,
+  type EnableAWSServiceAccessCommandOutput,
   EnablePolicyTypeCommand,
   type EnablePolicyTypeCommandInput,
   type EnablePolicyTypeCommandOutput,
@@ -98,15 +95,15 @@ import {
   LeaveOrganizationCommand,
   type LeaveOrganizationCommandInput,
   type LeaveOrganizationCommandOutput,
-  ListAWSServiceAccessForOrganizationCommand,
-  type ListAWSServiceAccessForOrganizationCommandInput,
-  type ListAWSServiceAccessForOrganizationCommandOutput,
   ListAccountsCommand,
   type ListAccountsCommandInput,
   type ListAccountsCommandOutput,
   ListAccountsForParentCommand,
   type ListAccountsForParentCommandInput,
   type ListAccountsForParentCommandOutput,
+  ListAWSServiceAccessForOrganizationCommand,
+  type ListAWSServiceAccessForOrganizationCommandInput,
+  type ListAWSServiceAccessForOrganizationCommandOutput,
   ListChildrenCommand,
   type ListChildrenCommandInput,
   type ListChildrenCommandOutput,
@@ -149,6 +146,9 @@ import {
   MoveAccountCommand,
   type MoveAccountCommandInput,
   type MoveAccountCommandOutput,
+  type OrganizationsClient,
+  type OrganizationsClientConfig,
+  OrganizationsServiceException,
   PutResourcePolicyCommand,
   type PutResourcePolicyCommandInput,
   type PutResourcePolicyCommandOutput,
@@ -172,9 +172,7 @@ import {
   type UpdatePolicyCommandOutput,
 } from "@aws-sdk/client-organizations";
 import { Data, Effect, Layer, Record } from "effect";
-import {
-  AllServiceErrors,
-  AWSOrganizationsNotInUseError,
+import type {
   AccessDeniedError,
   AccessDeniedForDependencyError,
   AccountAlreadyClosedError,
@@ -183,6 +181,7 @@ import {
   AccountNotRegisteredError,
   AccountOwnerNotVerifiedError,
   AlreadyInOrganizationError,
+  AWSOrganizationsNotInUseError,
   ChildNotFoundError,
   ConcurrentModificationError,
   ConflictError,
@@ -203,9 +202,9 @@ import {
   InvalidInputError,
   MalformedPolicyDocumentError,
   MasterCannotLeaveOrganizationError,
-  OrganizationNotEmptyError,
   OrganizationalUnitNotEmptyError,
   OrganizationalUnitNotFoundError,
+  OrganizationNotEmptyError,
   ParentNotFoundError,
   PolicyChangesInProgressError,
   PolicyInUseError,
@@ -218,16 +217,13 @@ import {
   RootNotFoundError,
   ServiceError,
   SourceParentNotFoundError,
+  TaggedException,
   TargetNotFoundError,
   TooManyRequestsError,
   UnsupportedAPIEndpointError,
-  SdkError,
-  TaggedException,
 } from "./Errors.js";
-import {
-  OrganizationsClientInstance,
-  OrganizationsClientInstanceLayer,
-} from "./OrganizationsClientInstance.js";
+import { AllServiceErrors, SdkError } from "./Errors.js";
+import { OrganizationsClientInstance, OrganizationsClientInstanceLayer } from "./OrganizationsClientInstance.js";
 import {
   DefaultOrganizationsClientConfigLayer,
   makeDefaultOrganizationsClientInstanceConfig,
@@ -1360,7 +1356,7 @@ interface OrganizationsService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeOrganizationsService = Effect.gen(function* (_) {
+export const makeOrganizationsService = Effect.gen(function*(_) {
   const client = yield* _(OrganizationsClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {
@@ -1476,5 +1472,4 @@ export const OrganizationsServiceLayer = BaseOrganizationsServiceLayer.pipe(
  * @category layers
  * @deprecated use Organizations.defaultLayer instead
  */
-export const DefaultOrganizationsServiceLayer =
-  OrganizationsService.defaultLayer;
+export const DefaultOrganizationsServiceLayer = OrganizationsService.defaultLayer;

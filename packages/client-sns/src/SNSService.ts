@@ -2,9 +2,6 @@
  * @since 1.0.0
  */
 import {
-  SNSServiceException,
-  type SNSClient,
-  type SNSClientConfig,
   AddPermissionCommand,
   type AddPermissionCommandInput,
   type AddPermissionCommandOutput,
@@ -74,12 +71,12 @@ import {
   ListSMSSandboxPhoneNumbersCommand,
   type ListSMSSandboxPhoneNumbersCommandInput,
   type ListSMSSandboxPhoneNumbersCommandOutput,
-  ListSubscriptionsCommand,
-  type ListSubscriptionsCommandInput,
-  type ListSubscriptionsCommandOutput,
   ListSubscriptionsByTopicCommand,
   type ListSubscriptionsByTopicCommandInput,
   type ListSubscriptionsByTopicCommandOutput,
+  ListSubscriptionsCommand,
+  type ListSubscriptionsCommandInput,
+  type ListSubscriptionsCommandOutput,
   ListTagsForResourceCommand,
   type ListTagsForResourceCommandInput,
   type ListTagsForResourceCommandOutput,
@@ -89,12 +86,12 @@ import {
   OptInPhoneNumberCommand,
   type OptInPhoneNumberCommandInput,
   type OptInPhoneNumberCommandOutput,
-  PublishCommand,
-  type PublishCommandInput,
-  type PublishCommandOutput,
   PublishBatchCommand,
   type PublishBatchCommandInput,
   type PublishBatchCommandOutput,
+  PublishCommand,
+  type PublishCommandInput,
+  type PublishCommandOutput,
   PutDataProtectionPolicyCommand,
   type PutDataProtectionPolicyCommandInput,
   type PutDataProtectionPolicyCommandOutput,
@@ -116,6 +113,9 @@ import {
   SetTopicAttributesCommand,
   type SetTopicAttributesCommandInput,
   type SetTopicAttributesCommandOutput,
+  type SNSClient,
+  type SNSClientConfig,
+  SNSServiceException,
   SubscribeCommand,
   type SubscribeCommandInput,
   type SubscribeCommandOutput,
@@ -133,8 +133,7 @@ import {
   type VerifySMSSandboxPhoneNumberCommandOutput,
 } from "@aws-sdk/client-sns";
 import { Data, Effect, Layer, Record } from "effect";
-import {
-  AllServiceErrors,
+import type {
   AuthorizationError,
   BatchEntryIdsNotDistinctError,
   BatchRequestTooLongError,
@@ -161,6 +160,7 @@ import {
   ResourceNotFoundError,
   StaleTagError,
   SubscriptionLimitExceededError,
+  TaggedException,
   TagLimitExceededError,
   TagPolicyError,
   ThrottledError,
@@ -169,13 +169,9 @@ import {
   UserError,
   ValidationError,
   VerificationError,
-  SdkError,
-  TaggedException,
 } from "./Errors.js";
-import {
-  SNSClientInstance,
-  SNSClientInstanceLayer,
-} from "./SNSClientInstance.js";
+import { AllServiceErrors, SdkError } from "./Errors.js";
+import { SNSClientInstance, SNSClientInstanceLayer } from "./SNSClientInstance.js";
 import {
   DefaultSNSClientConfigLayer,
   makeDefaultSNSClientInstanceConfig,
@@ -913,7 +909,7 @@ interface SNSService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeSNSService = Effect.gen(function* (_) {
+export const makeSNSService = Effect.gen(function*(_) {
   const client = yield* _(SNSClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {

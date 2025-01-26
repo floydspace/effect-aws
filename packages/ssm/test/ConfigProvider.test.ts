@@ -2,8 +2,8 @@ import { InvalidKeyId, ParameterNotFound } from "@aws-sdk/client-ssm";
 import { BaseSSMServiceLayer, SSMClientInstance } from "@effect-aws/client-ssm";
 import { Arg } from "@fluffy-spoon/substitute";
 import { Config, ConfigError, Effect, Exit, Layer, Secret } from "effect";
-import { SubstituteBuilder } from "./utils";
 import { fromParameterStore } from "../src/ConfigProvider";
+import { SubstituteBuilder } from "./utils";
 
 describe("fromParameterStore", () => {
   it("should load configuration from AWS Systems Manager Parameter Store", async () => {

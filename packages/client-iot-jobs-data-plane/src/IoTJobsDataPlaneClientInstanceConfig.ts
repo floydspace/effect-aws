@@ -16,8 +16,8 @@ export class IoTJobsDataPlaneClientInstanceConfig extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeDefaultIoTJobsDataPlaneClientInstanceConfig: Effect.Effect<IoTJobsDataPlaneClientConfig> =
-  Effect.gen(function* (_) {
+export const makeDefaultIoTJobsDataPlaneClientInstanceConfig: Effect.Effect<IoTJobsDataPlaneClientConfig> = Effect.gen(
+  function*(_) {
     const runtime = yield* _(Effect.runtime<never>());
     const runSync = Runtime.runSync(runtime);
 
@@ -40,7 +40,8 @@ export const makeDefaultIoTJobsDataPlaneClientInstanceConfig: Effect.Effect<IoTJ
         },
       },
     };
-  });
+  },
+);
 
 /**
  * @since 1.0.0

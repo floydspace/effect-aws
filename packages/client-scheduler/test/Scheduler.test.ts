@@ -1,8 +1,8 @@
 import {
-  type TagResourceCommandInput,
-  TagResourceCommand,
   SchedulerClient,
   SchedulerServiceException,
+  TagResourceCommand,
+  type TagResourceCommandInput,
 } from "@aws-sdk/client-scheduler";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-scheduler/dist-cjs/runtimeConfig";
@@ -102,8 +102,7 @@ describe("SchedulerClientImpl", () => {
       program,
       Effect.provide(
         Scheduler.baseLayer(
-          (config) =>
-            new SchedulerClient({ ...config, region: "eu-central-1" }),
+          (config) => new SchedulerClient({ ...config, region: "eu-central-1" }),
         ),
       ),
       Effect.runPromiseExit,

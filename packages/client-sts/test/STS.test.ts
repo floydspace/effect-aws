@@ -1,6 +1,6 @@
 import {
-  type GetCallerIdentityCommandInput,
   GetCallerIdentityCommand,
+  type GetCallerIdentityCommandInput,
   STSClient,
   STSServiceException,
 } from "@aws-sdk/client-sts";
@@ -10,7 +10,7 @@ import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { STS, SdkError } from "../src";
+import { SdkError, STS } from "../src";
 
 const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(STSClient);

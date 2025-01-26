@@ -53,8 +53,7 @@ export type KMSNotFoundError = TaggedException<KMSNotFoundException>;
 export type KMSOptInRequiredError = TaggedException<KMSOptInRequired>;
 export type KMSThrottlingError = TaggedException<KMSThrottlingException>;
 export type LimitExceededError = TaggedException<LimitExceededException>;
-export type ProvisionedThroughputExceededError =
-  TaggedException<ProvisionedThroughputExceededException>;
+export type ProvisionedThroughputExceededError = TaggedException<ProvisionedThroughputExceededException>;
 export type ResourceInUseError = TaggedException<ResourceInUseException>;
 export type ResourceNotFoundError = TaggedException<ResourceNotFoundException>;
 export type ValidationError = TaggedException<ValidationException>;

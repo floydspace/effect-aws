@@ -2,9 +2,6 @@
  * @since 1.0.0
  */
 import {
-  IoTServiceException,
-  type IoTClient,
-  type IoTClientConfig,
   AcceptCertificateTransferCommand,
   type AcceptCertificateTransferCommandInput,
   type AcceptCertificateTransferCommandOutput,
@@ -452,6 +449,9 @@ import {
   GetV2LoggingOptionsCommand,
   type GetV2LoggingOptionsCommandInput,
   type GetV2LoggingOptionsCommandOutput,
+  type IoTClient,
+  type IoTClientConfig,
+  IoTServiceException,
   ListActiveViolationsCommand,
   type ListActiveViolationsCommandInput,
   type ListActiveViolationsCommandOutput,
@@ -485,12 +485,12 @@ import {
   ListCertificateProvidersCommand,
   type ListCertificateProvidersCommandInput,
   type ListCertificateProvidersCommandOutput,
-  ListCertificatesCommand,
-  type ListCertificatesCommandInput,
-  type ListCertificatesCommandOutput,
   ListCertificatesByCACommand,
   type ListCertificatesByCACommandInput,
   type ListCertificatesByCACommandOutput,
+  ListCertificatesCommand,
+  type ListCertificatesCommandInput,
+  type ListCertificatesCommandOutput,
   ListCommandExecutionsCommand,
   type ListCommandExecutionsCommandInput,
   type ListCommandExecutionsCommandOutput,
@@ -524,12 +524,12 @@ import {
   ListJobExecutionsForThingCommand,
   type ListJobExecutionsForThingCommandInput,
   type ListJobExecutionsForThingCommandOutput,
-  ListJobTemplatesCommand,
-  type ListJobTemplatesCommandInput,
-  type ListJobTemplatesCommandOutput,
   ListJobsCommand,
   type ListJobsCommandInput,
   type ListJobsCommandOutput,
+  ListJobTemplatesCommand,
+  type ListJobTemplatesCommandInput,
+  type ListJobTemplatesCommandOutput,
   ListManagedJobTemplatesCommand,
   type ListManagedJobTemplatesCommandInput,
   type ListManagedJobTemplatesCommandOutput,
@@ -545,12 +545,12 @@ import {
   ListOutgoingCertificatesCommand,
   type ListOutgoingCertificatesCommandInput,
   type ListOutgoingCertificatesCommandOutput,
-  ListPackageVersionsCommand,
-  type ListPackageVersionsCommandInput,
-  type ListPackageVersionsCommandOutput,
   ListPackagesCommand,
   type ListPackagesCommandInput,
   type ListPackagesCommandOutput,
+  ListPackageVersionsCommand,
+  type ListPackageVersionsCommandInput,
+  type ListPackageVersionsCommandOutput,
   ListPoliciesCommand,
   type ListPoliciesCommandInput,
   type ListPoliciesCommandOutput,
@@ -569,12 +569,12 @@ import {
   ListPrincipalThingsV2Command,
   type ListPrincipalThingsV2CommandInput,
   type ListPrincipalThingsV2CommandOutput,
-  ListProvisioningTemplateVersionsCommand,
-  type ListProvisioningTemplateVersionsCommandInput,
-  type ListProvisioningTemplateVersionsCommandOutput,
   ListProvisioningTemplatesCommand,
   type ListProvisioningTemplatesCommandInput,
   type ListProvisioningTemplatesCommandOutput,
+  ListProvisioningTemplateVersionsCommand,
+  type ListProvisioningTemplateVersionsCommandInput,
+  type ListProvisioningTemplateVersionsCommandOutput,
   ListRelatedResourcesForAuditFindingCommand,
   type ListRelatedResourcesForAuditFindingCommandInput,
   type ListRelatedResourcesForAuditFindingCommandOutput,
@@ -623,9 +623,6 @@ import {
   ListThingRegistrationTasksCommand,
   type ListThingRegistrationTasksCommandInput,
   type ListThingRegistrationTasksCommandOutput,
-  ListThingTypesCommand,
-  type ListThingTypesCommandInput,
-  type ListThingTypesCommandOutput,
   ListThingsCommand,
   type ListThingsCommandInput,
   type ListThingsCommandOutput,
@@ -635,6 +632,9 @@ import {
   ListThingsInThingGroupCommand,
   type ListThingsInThingGroupCommandInput,
   type ListThingsInThingGroupCommandOutput,
+  ListThingTypesCommand,
+  type ListThingTypesCommandInput,
+  type ListThingTypesCommandOutput,
   ListTopicRuleDestinationsCommand,
   type ListTopicRuleDestinationsCommandInput,
   type ListTopicRuleDestinationsCommandOutput,
@@ -817,8 +817,7 @@ import {
   type ValidateSecurityProfileBehaviorsCommandOutput,
 } from "@aws-sdk/client-iot";
 import { Data, Effect, Layer, Record } from "effect";
-import {
-  AllServiceErrors,
+import type {
   CertificateConflictError,
   CertificateStateError,
   CertificateValidationError,
@@ -844,6 +843,7 @@ import {
   ServiceQuotaExceededError,
   ServiceUnavailableError,
   SqlParseError,
+  TaggedException,
   TaskAlreadyExistsError,
   ThrottlingError,
   TransferAlreadyCompletedError,
@@ -852,17 +852,13 @@ import {
   ValidationError,
   VersionConflictError,
   VersionsLimitExceededError,
-  SdkError,
-  TaggedException,
 } from "./Errors.js";
-import {
-  IoTClientInstance,
-  IoTClientInstanceLayer,
-} from "./IoTClientInstance.js";
+import { AllServiceErrors, SdkError } from "./Errors.js";
+import { IoTClientInstance, IoTClientInstanceLayer } from "./IoTClientInstance.js";
 import {
   DefaultIoTClientConfigLayer,
-  makeDefaultIoTClientInstanceConfig,
   IoTClientInstanceConfig,
+  makeDefaultIoTClientInstanceConfig,
 } from "./IoTClientInstanceConfig.js";
 
 /**
@@ -5403,7 +5399,7 @@ interface IoTService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeIoTService = Effect.gen(function* (_) {
+export const makeIoTService = Effect.gen(function*(_) {
   const client = yield* _(IoTClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {

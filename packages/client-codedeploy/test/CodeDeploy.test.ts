@@ -1,8 +1,8 @@
 import {
-  type ListApplicationsCommandInput,
-  ListApplicationsCommand,
   CodeDeployClient,
   CodeDeployServiceException,
+  ListApplicationsCommand,
+  type ListApplicationsCommandInput,
 } from "@aws-sdk/client-codedeploy";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-codedeploy/dist-cjs/runtimeConfig";
@@ -102,8 +102,7 @@ describe("CodeDeployClientImpl", () => {
       program,
       Effect.provide(
         CodeDeploy.baseLayer(
-          (config) =>
-            new CodeDeployClient({ ...config, region: "eu-central-1" }),
+          (config) => new CodeDeployClient({ ...config, region: "eu-central-1" }),
         ),
       ),
       Effect.runPromiseExit,

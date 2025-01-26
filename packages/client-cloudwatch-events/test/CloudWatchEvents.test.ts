@@ -1,8 +1,8 @@
 import {
-  type ListRulesCommandInput,
-  ListRulesCommand,
   CloudWatchEventsClient,
   CloudWatchEventsServiceException,
+  ListRulesCommand,
+  type ListRulesCommandInput,
 } from "@aws-sdk/client-cloudwatch-events";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-cloudwatch-events/dist-cjs/runtimeConfig";
@@ -102,8 +102,7 @@ describe("CloudWatchEventsClientImpl", () => {
       program,
       Effect.provide(
         CloudWatchEvents.baseLayer(
-          (config) =>
-            new CloudWatchEventsClient({ ...config, region: "eu-central-1" }),
+          (config) => new CloudWatchEventsClient({ ...config, region: "eu-central-1" }),
         ),
       ),
       Effect.runPromiseExit,

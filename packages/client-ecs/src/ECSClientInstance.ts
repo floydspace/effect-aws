@@ -3,10 +3,7 @@
  */
 import { ECSClient } from "@aws-sdk/client-ecs";
 import { Context, Effect, Layer } from "effect";
-import {
-  DefaultECSClientConfigLayer,
-  ECSClientInstanceConfig,
-} from "./ECSClientInstanceConfig.js";
+import { DefaultECSClientConfigLayer, ECSClientInstanceConfig } from "./ECSClientInstanceConfig.js";
 
 /**
  * @since 1.0.0

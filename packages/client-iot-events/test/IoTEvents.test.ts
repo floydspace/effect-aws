@@ -1,8 +1,8 @@
 import {
-  type ListInputsCommandInput,
-  ListInputsCommand,
   IoTEventsClient,
   IoTEventsServiceException,
+  ListInputsCommand,
+  type ListInputsCommandInput,
 } from "@aws-sdk/client-iot-events";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-iot-events/dist-cjs/runtimeConfig";
@@ -102,8 +102,7 @@ describe("IoTEventsClientImpl", () => {
       program,
       Effect.provide(
         IoTEvents.baseLayer(
-          (config) =>
-            new IoTEventsClient({ ...config, region: "eu-central-1" }),
+          (config) => new IoTEventsClient({ ...config, region: "eu-central-1" }),
         ),
       ),
       Effect.runPromiseExit,

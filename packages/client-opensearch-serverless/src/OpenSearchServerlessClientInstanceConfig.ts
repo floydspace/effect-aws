@@ -20,7 +20,7 @@ export class OpenSearchServerlessClientInstanceConfig extends Context.Tag(
  * @category constructors
  */
 export const makeDefaultOpenSearchServerlessClientInstanceConfig: Effect.Effect<OpenSearchServerlessClientConfig> =
-  Effect.gen(function* (_) {
+  Effect.gen(function*(_) {
     const runtime = yield* _(Effect.runtime<never>());
     const runSync = Runtime.runSync(runtime);
 

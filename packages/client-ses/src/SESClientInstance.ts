@@ -3,10 +3,7 @@
  */
 import { SESClient } from "@aws-sdk/client-ses";
 import { Context, Effect, Layer } from "effect";
-import {
-  DefaultSESClientConfigLayer,
-  SESClientInstanceConfig,
-} from "./SESClientInstanceConfig.js";
+import { DefaultSESClientConfigLayer, SESClientInstanceConfig } from "./SESClientInstanceConfig.js";
 
 /**
  * @since 1.0.0

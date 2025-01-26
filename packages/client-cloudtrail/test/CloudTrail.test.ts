@@ -1,8 +1,8 @@
 import {
-  type ListTrailsCommandInput,
-  ListTrailsCommand,
   CloudTrailClient,
   CloudTrailServiceException,
+  ListTrailsCommand,
+  type ListTrailsCommandInput,
 } from "@aws-sdk/client-cloudtrail";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-cloudtrail/dist-cjs/runtimeConfig";
@@ -102,8 +102,7 @@ describe("CloudTrailClientImpl", () => {
       program,
       Effect.provide(
         CloudTrail.baseLayer(
-          (config) =>
-            new CloudTrailClient({ ...config, region: "eu-central-1" }),
+          (config) => new CloudTrailClient({ ...config, region: "eu-central-1" }),
         ),
       ),
       Effect.runPromiseExit,

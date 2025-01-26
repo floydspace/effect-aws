@@ -2,9 +2,6 @@
  * @since 1.0.0
  */
 import {
-  SESServiceException,
-  type SESClient,
-  type SESClientConfig,
   CloneReceiptRuleSetCommand,
   type CloneReceiptRuleSetCommandInput,
   type CloneReceiptRuleSetCommandOutput,
@@ -158,6 +155,9 @@ import {
   SendTemplatedEmailCommand,
   type SendTemplatedEmailCommandInput,
   type SendTemplatedEmailCommandOutput,
+  type SESClient,
+  type SESClientConfig,
+  SESServiceException,
   SetActiveReceiptRuleSetCommand,
   type SetActiveReceiptRuleSetCommandInput,
   type SetActiveReceiptRuleSetCommandOutput,
@@ -220,8 +220,7 @@ import {
   type VerifyEmailIdentityCommandOutput,
 } from "@aws-sdk/client-ses";
 import { Data, Effect, Layer, Record } from "effect";
-import {
-  AllServiceErrors,
+import type {
   AccountSendingPausedError,
   AlreadyExistsError,
   CannotDeleteError,
@@ -253,16 +252,13 @@ import {
   ProductionAccessNotGrantedError,
   RuleDoesNotExistError,
   RuleSetDoesNotExistError,
+  TaggedException,
   TemplateDoesNotExistError,
   TrackingOptionsAlreadyExistsError,
   TrackingOptionsDoesNotExistError,
-  SdkError,
-  TaggedException,
 } from "./Errors.js";
-import {
-  SESClientInstance,
-  SESClientInstanceLayer,
-} from "./SESClientInstance.js";
+import { AllServiceErrors, SdkError } from "./Errors.js";
+import { SESClientInstance, SESClientInstanceLayer } from "./SESClientInstance.js";
 import {
   DefaultSESClientConfigLayer,
   makeDefaultSESClientInstanceConfig,
@@ -1124,7 +1120,7 @@ interface SESService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeSESService = Effect.gen(function* (_) {
+export const makeSESService = Effect.gen(function*(_) {
   const client = yield* _(SESClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {

@@ -1,8 +1,8 @@
 import {
-  type ListDestinationsCommandInput,
-  ListDestinationsCommand,
   IoTWirelessClient,
   IoTWirelessServiceException,
+  ListDestinationsCommand,
+  type ListDestinationsCommandInput,
 } from "@aws-sdk/client-iot-wireless";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-iot-wireless/dist-cjs/runtimeConfig";
@@ -102,8 +102,7 @@ describe("IoTWirelessClientImpl", () => {
       program,
       Effect.provide(
         IoTWireless.baseLayer(
-          (config) =>
-            new IoTWirelessClient({ ...config, region: "eu-central-1" }),
+          (config) => new IoTWirelessClient({ ...config, region: "eu-central-1" }),
         ),
       ),
       Effect.runPromiseExit,

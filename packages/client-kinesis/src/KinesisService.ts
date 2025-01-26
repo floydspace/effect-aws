@@ -2,9 +2,6 @@
  * @since 1.0.0
  */
 import {
-  KinesisServiceException,
-  type KinesisClient,
-  type KinesisClientConfig,
   AddTagsToStreamCommand,
   type AddTagsToStreamCommandInput,
   type AddTagsToStreamCommandOutput,
@@ -53,6 +50,9 @@ import {
   IncreaseStreamRetentionPeriodCommand,
   type IncreaseStreamRetentionPeriodCommandInput,
   type IncreaseStreamRetentionPeriodCommandOutput,
+  type KinesisClient,
+  type KinesisClientConfig,
+  KinesisServiceException,
   ListShardsCommand,
   type ListShardsCommandInput,
   type ListShardsCommandOutput,
@@ -103,8 +103,7 @@ import {
   type UpdateStreamModeCommandOutput,
 } from "@aws-sdk/client-kinesis";
 import { Data, Effect, Layer, Record } from "effect";
-import {
-  AllServiceErrors,
+import type {
   AccessDeniedError,
   ExpiredIteratorError,
   ExpiredNextTokenError,
@@ -119,18 +118,15 @@ import {
   ProvisionedThroughputExceededError,
   ResourceInUseError,
   ResourceNotFoundError,
-  ValidationError,
-  SdkError,
   TaggedException,
+  ValidationError,
 } from "./Errors.js";
-import {
-  KinesisClientInstance,
-  KinesisClientInstanceLayer,
-} from "./KinesisClientInstance.js";
+import { AllServiceErrors, SdkError } from "./Errors.js";
+import { KinesisClientInstance, KinesisClientInstanceLayer } from "./KinesisClientInstance.js";
 import {
   DefaultKinesisClientConfigLayer,
-  makeDefaultKinesisClientInstanceConfig,
   KinesisClientInstanceConfig,
+  makeDefaultKinesisClientInstanceConfig,
 } from "./KinesisClientInstanceConfig.js";
 
 /**
@@ -691,7 +687,7 @@ interface KinesisService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeKinesisService = Effect.gen(function* (_) {
+export const makeKinesisService = Effect.gen(function*(_) {
   const client = yield* _(KinesisClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {

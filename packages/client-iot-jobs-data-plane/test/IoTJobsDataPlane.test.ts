@@ -1,8 +1,8 @@
 import {
-  type StartCommandExecutionCommandInput,
-  StartCommandExecutionCommand,
   IoTJobsDataPlaneClient,
   IoTJobsDataPlaneServiceException,
+  StartCommandExecutionCommand,
+  type StartCommandExecutionCommandInput,
 } from "@aws-sdk/client-iot-jobs-data-plane";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-iot-jobs-data-plane/dist-cjs/runtimeConfig";
@@ -120,8 +120,7 @@ describe("IoTJobsDataPlaneClientImpl", () => {
       program,
       Effect.provide(
         IoTJobsDataPlane.baseLayer(
-          (config) =>
-            new IoTJobsDataPlaneClient({ ...config, region: "eu-central-1" }),
+          (config) => new IoTJobsDataPlaneClient({ ...config, region: "eu-central-1" }),
         ),
       ),
       Effect.runPromiseExit,

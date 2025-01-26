@@ -1,8 +1,4 @@
-import {
-  type AcceptAddressTransferCommandInput,
-  AcceptAddressTransferCommand,
-  EC2Client,
-} from "@aws-sdk/client-ec2";
+import { AcceptAddressTransferCommand, type AcceptAddressTransferCommandInput, EC2Client } from "@aws-sdk/client-ec2";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-ec2/dist-cjs/runtimeConfig";
 import { mockClient } from "aws-sdk-client-mock";

@@ -1,9 +1,4 @@
-import {
-  type CreateRoleCommandInput,
-  CreateRoleCommand,
-  IAMClient,
-  IAMServiceException,
-} from "@aws-sdk/client-iam";
+import { CreateRoleCommand, type CreateRoleCommandInput, IAMClient, IAMServiceException } from "@aws-sdk/client-iam";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-iam/dist-cjs/runtimeConfig";
 import { mockClient } from "aws-sdk-client-mock";

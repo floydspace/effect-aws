@@ -3,10 +3,7 @@
  */
 import { BedrockClient } from "@aws-sdk/client-bedrock";
 import { Context, Effect, Layer } from "effect";
-import {
-  DefaultBedrockClientConfigLayer,
-  BedrockClientInstanceConfig,
-} from "./BedrockClientInstanceConfig.js";
+import { BedrockClientInstanceConfig, DefaultBedrockClientConfigLayer } from "./BedrockClientInstanceConfig.js";
 
 /**
  * @since 1.0.0
@@ -42,7 +39,6 @@ export const BedrockClientInstanceLayer = Layer.scoped(
  * @since 1.0.0
  * @category layers
  */
-export const DefaultBedrockClientInstanceLayer =
-  BedrockClientInstanceLayer.pipe(
-    Layer.provide(DefaultBedrockClientConfigLayer),
-  );
+export const DefaultBedrockClientInstanceLayer = BedrockClientInstanceLayer.pipe(
+  Layer.provide(DefaultBedrockClientConfigLayer),
+);

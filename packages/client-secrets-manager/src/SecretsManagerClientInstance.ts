@@ -42,7 +42,6 @@ export const SecretsManagerClientInstanceLayer = Layer.scoped(
  * @since 1.0.0
  * @category layers
  */
-export const DefaultSecretsManagerClientInstanceLayer =
-  SecretsManagerClientInstanceLayer.pipe(
-    Layer.provide(DefaultSecretsManagerClientConfigLayer),
-  );
+export const DefaultSecretsManagerClientInstanceLayer = SecretsManagerClientInstanceLayer.pipe(
+  Layer.provide(DefaultSecretsManagerClientConfigLayer),
+);

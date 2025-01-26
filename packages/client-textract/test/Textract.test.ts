@@ -1,6 +1,6 @@
 import {
-  type ListAdaptersCommandInput,
   ListAdaptersCommand,
+  type ListAdaptersCommandInput,
   TextractClient,
   TextractServiceException,
 } from "@aws-sdk/client-textract";
@@ -10,7 +10,7 @@ import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { Textract, SdkError } from "../src";
+import { SdkError, Textract } from "../src";
 
 const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(TextractClient);

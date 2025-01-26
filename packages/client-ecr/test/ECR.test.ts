@@ -1,6 +1,6 @@
 import {
-  type DescribeRepositoriesCommandInput,
   DescribeRepositoriesCommand,
+  type DescribeRepositoriesCommandInput,
   ECRClient,
   ECRServiceException,
 } from "@aws-sdk/client-ecr";

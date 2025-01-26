@@ -3,10 +3,7 @@
  */
 import { SSMClient } from "@aws-sdk/client-ssm";
 import { Context, Effect, Layer } from "effect";
-import {
-  DefaultSSMClientConfigLayer,
-  SSMClientInstanceConfig,
-} from "./SSMClientInstanceConfig.js";
+import { DefaultSSMClientConfigLayer, SSMClientInstanceConfig } from "./SSMClientInstanceConfig.js";
 
 /**
  * @since 1.0.0

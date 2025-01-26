@@ -1,8 +1,8 @@
 import {
-  type StartExecutionCommandInput,
-  StartExecutionCommand,
   SFNClient,
   SFNServiceException,
+  StartExecutionCommand,
+  type StartExecutionCommandInput,
 } from "@aws-sdk/client-sfn";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-sfn/dist-cjs/runtimeConfig";
@@ -10,7 +10,7 @@ import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { SFN, SdkError } from "../src";
+import { SdkError, SFN } from "../src";
 
 const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(SFNClient);

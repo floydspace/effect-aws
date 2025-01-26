@@ -2,9 +2,6 @@
  * @since 1.0.0
  */
 import {
-  CognitoIdentityProviderServiceException,
-  type CognitoIdentityProviderClient,
-  type CognitoIdentityProviderClientConfig,
   AddCustomAttributesCommand,
   type AddCustomAttributesCommandInput,
   type AddCustomAttributesCommandOutput,
@@ -17,12 +14,12 @@ import {
   AdminCreateUserCommand,
   type AdminCreateUserCommandInput,
   type AdminCreateUserCommandOutput,
-  AdminDeleteUserCommand,
-  type AdminDeleteUserCommandInput,
-  type AdminDeleteUserCommandOutput,
   AdminDeleteUserAttributesCommand,
   type AdminDeleteUserAttributesCommandInput,
   type AdminDeleteUserAttributesCommandOutput,
+  AdminDeleteUserCommand,
+  type AdminDeleteUserCommandInput,
+  type AdminDeleteUserCommandOutput,
   AdminDisableProviderForUserCommand,
   type AdminDisableProviderForUserCommandInput,
   type AdminDisableProviderForUserCommandOutput,
@@ -92,6 +89,9 @@ import {
   ChangePasswordCommand,
   type ChangePasswordCommandInput,
   type ChangePasswordCommandOutput,
+  type CognitoIdentityProviderClient,
+  type CognitoIdentityProviderClientConfig,
+  CognitoIdentityProviderServiceException,
   CompleteWebAuthnRegistrationCommand,
   type CompleteWebAuthnRegistrationCommandInput,
   type CompleteWebAuthnRegistrationCommandOutput,
@@ -119,12 +119,12 @@ import {
   CreateUserImportJobCommand,
   type CreateUserImportJobCommandInput,
   type CreateUserImportJobCommandOutput,
-  CreateUserPoolCommand,
-  type CreateUserPoolCommandInput,
-  type CreateUserPoolCommandOutput,
   CreateUserPoolClientCommand,
   type CreateUserPoolClientCommandInput,
   type CreateUserPoolClientCommandOutput,
+  CreateUserPoolCommand,
+  type CreateUserPoolCommandInput,
+  type CreateUserPoolCommandOutput,
   CreateUserPoolDomainCommand,
   type CreateUserPoolDomainCommandInput,
   type CreateUserPoolDomainCommandOutput,
@@ -140,18 +140,18 @@ import {
   DeleteResourceServerCommand,
   type DeleteResourceServerCommandInput,
   type DeleteResourceServerCommandOutput,
-  DeleteUserCommand,
-  type DeleteUserCommandInput,
-  type DeleteUserCommandOutput,
   DeleteUserAttributesCommand,
   type DeleteUserAttributesCommandInput,
   type DeleteUserAttributesCommandOutput,
-  DeleteUserPoolCommand,
-  type DeleteUserPoolCommandInput,
-  type DeleteUserPoolCommandOutput,
+  DeleteUserCommand,
+  type DeleteUserCommandInput,
+  type DeleteUserCommandOutput,
   DeleteUserPoolClientCommand,
   type DeleteUserPoolClientCommandInput,
   type DeleteUserPoolClientCommandOutput,
+  DeleteUserPoolCommand,
+  type DeleteUserPoolCommandInput,
+  type DeleteUserPoolCommandOutput,
   DeleteUserPoolDomainCommand,
   type DeleteUserPoolDomainCommandInput,
   type DeleteUserPoolDomainCommandOutput,
@@ -161,12 +161,12 @@ import {
   DescribeIdentityProviderCommand,
   type DescribeIdentityProviderCommandInput,
   type DescribeIdentityProviderCommandOutput,
-  DescribeManagedLoginBrandingCommand,
-  type DescribeManagedLoginBrandingCommandInput,
-  type DescribeManagedLoginBrandingCommandOutput,
   DescribeManagedLoginBrandingByClientCommand,
   type DescribeManagedLoginBrandingByClientCommandInput,
   type DescribeManagedLoginBrandingByClientCommandOutput,
+  DescribeManagedLoginBrandingCommand,
+  type DescribeManagedLoginBrandingCommandInput,
+  type DescribeManagedLoginBrandingCommandOutput,
   DescribeResourceServerCommand,
   type DescribeResourceServerCommandInput,
   type DescribeResourceServerCommandOutput,
@@ -176,12 +176,12 @@ import {
   DescribeUserImportJobCommand,
   type DescribeUserImportJobCommandInput,
   type DescribeUserImportJobCommandOutput,
-  DescribeUserPoolCommand,
-  type DescribeUserPoolCommandInput,
-  type DescribeUserPoolCommandOutput,
   DescribeUserPoolClientCommand,
   type DescribeUserPoolClientCommandInput,
   type DescribeUserPoolClientCommandOutput,
+  DescribeUserPoolCommand,
+  type DescribeUserPoolCommandInput,
+  type DescribeUserPoolCommandOutput,
   DescribeUserPoolDomainCommand,
   type DescribeUserPoolDomainCommandInput,
   type DescribeUserPoolDomainCommandOutput,
@@ -212,15 +212,15 @@ import {
   GetUICustomizationCommand,
   type GetUICustomizationCommandInput,
   type GetUICustomizationCommandOutput,
-  GetUserCommand,
-  type GetUserCommandInput,
-  type GetUserCommandOutput,
   GetUserAttributeVerificationCodeCommand,
   type GetUserAttributeVerificationCodeCommandInput,
   type GetUserAttributeVerificationCodeCommandOutput,
   GetUserAuthFactorsCommand,
   type GetUserAuthFactorsCommandInput,
   type GetUserAuthFactorsCommandOutput,
+  GetUserCommand,
+  type GetUserCommandInput,
+  type GetUserCommandOutput,
   GetUserPoolMfaConfigCommand,
   type GetUserPoolMfaConfigCommandInput,
   type GetUserPoolMfaConfigCommandOutput,
@@ -329,12 +329,12 @@ import {
   UpdateUserAttributesCommand,
   type UpdateUserAttributesCommandInput,
   type UpdateUserAttributesCommandOutput,
-  UpdateUserPoolCommand,
-  type UpdateUserPoolCommandInput,
-  type UpdateUserPoolCommandOutput,
   UpdateUserPoolClientCommand,
   type UpdateUserPoolClientCommandInput,
   type UpdateUserPoolClientCommandOutput,
+  UpdateUserPoolCommand,
+  type UpdateUserPoolCommandInput,
+  type UpdateUserPoolCommandOutput,
   UpdateUserPoolDomainCommand,
   type UpdateUserPoolDomainCommandInput,
   type UpdateUserPoolDomainCommandOutput,
@@ -351,12 +351,11 @@ import {
   CognitoIdentityProviderClientInstanceLayer,
 } from "./CognitoIdentityProviderClientInstance.js";
 import {
+  CognitoIdentityProviderClientInstanceConfig,
   DefaultCognitoIdentityProviderClientConfigLayer,
   makeDefaultCognitoIdentityProviderClientInstanceConfig,
-  CognitoIdentityProviderClientInstanceConfig,
 } from "./CognitoIdentityProviderClientInstanceConfig.js";
-import {
-  AllServiceErrors,
+import type {
   AliasExistsError,
   CodeDeliveryFailureError,
   CodeMismatchError,
@@ -377,8 +376,8 @@ import {
   InvalidSmsRoleTrustRelationshipError,
   InvalidUserPoolConfigurationError,
   LimitExceededError,
-  MFAMethodNotFoundError,
   ManagedLoginBrandingExistsError,
+  MFAMethodNotFoundError,
   NotAuthorizedError,
   PasswordHistoryPolicyViolationError,
   PasswordResetRequiredError,
@@ -386,6 +385,7 @@ import {
   ResourceNotFoundError,
   ScopeDoesNotExistError,
   SoftwareTokenMFANotFoundError,
+  TaggedException,
   TierChangeNotAllowedError,
   TooManyFailedAttemptsError,
   TooManyRequestsError,
@@ -397,11 +397,11 @@ import {
   UnsupportedUserStateError,
   UserImportInProgressError,
   UserLambdaValidationError,
+  UsernameExistsError,
   UserNotConfirmedError,
   UserNotFoundError,
   UserPoolAddOnNotEnabledError,
   UserPoolTaggingError,
-  UsernameExistsError,
   WebAuthnChallengeNotFoundError,
   WebAuthnClientMismatchError,
   WebAuthnConfigurationMissingError,
@@ -409,9 +409,8 @@ import {
   WebAuthnNotEnabledError,
   WebAuthnOriginNotAllowedError,
   WebAuthnRelyingPartyMismatchError,
-  SdkError,
-  TaggedException,
 } from "./Errors.js";
+import { AllServiceErrors, SdkError } from "./Errors.js";
 
 /**
  * @since 1.0.0
@@ -2690,7 +2689,7 @@ interface CognitoIdentityProviderService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeCognitoIdentityProviderService = Effect.gen(function* (_) {
+export const makeCognitoIdentityProviderService = Effect.gen(function*(_) {
   const client = yield* _(CognitoIdentityProviderClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {
@@ -2802,15 +2801,13 @@ export const BaseCognitoIdentityProviderServiceLayer = Layer.effect(
  * @category layers
  * @deprecated use CognitoIdentityProvider.layer instead
  */
-export const CognitoIdentityProviderServiceLayer =
-  BaseCognitoIdentityProviderServiceLayer.pipe(
-    Layer.provide(CognitoIdentityProviderClientInstanceLayer),
-  );
+export const CognitoIdentityProviderServiceLayer = BaseCognitoIdentityProviderServiceLayer.pipe(
+  Layer.provide(CognitoIdentityProviderClientInstanceLayer),
+);
 
 /**
  * @since 1.0.0
  * @category layers
  * @deprecated use CognitoIdentityProvider.defaultLayer instead
  */
-export const DefaultCognitoIdentityProviderServiceLayer =
-  CognitoIdentityProviderService.defaultLayer;
+export const DefaultCognitoIdentityProviderServiceLayer = CognitoIdentityProviderService.defaultLayer;

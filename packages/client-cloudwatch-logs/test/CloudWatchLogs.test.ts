@@ -1,8 +1,8 @@
 import {
-  type DescribeLogGroupsCommandInput,
-  DescribeLogGroupsCommand,
   CloudWatchLogsClient,
   CloudWatchLogsServiceException,
+  DescribeLogGroupsCommand,
+  type DescribeLogGroupsCommandInput,
 } from "@aws-sdk/client-cloudwatch-logs";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-cloudwatch-logs/dist-cjs/runtimeConfig";
@@ -111,8 +111,7 @@ describe("CloudWatchLogsClientImpl", () => {
       program,
       Effect.provide(
         CloudWatchLogs.baseLayer(
-          (config) =>
-            new CloudWatchLogsClient({ ...config, region: "eu-central-1" }),
+          (config) => new CloudWatchLogsClient({ ...config, region: "eu-central-1" }),
         ),
       ),
       Effect.runPromiseExit,

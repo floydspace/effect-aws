@@ -4,8 +4,8 @@
 import { CloudTrailClient } from "@aws-sdk/client-cloudtrail";
 import { Context, Effect, Layer } from "effect";
 import {
-  DefaultCloudTrailClientConfigLayer,
   CloudTrailClientInstanceConfig,
+  DefaultCloudTrailClientConfigLayer,
 } from "./CloudTrailClientInstanceConfig.js";
 
 /**
@@ -42,7 +42,6 @@ export const CloudTrailClientInstanceLayer = Layer.scoped(
  * @since 1.0.0
  * @category layers
  */
-export const DefaultCloudTrailClientInstanceLayer =
-  CloudTrailClientInstanceLayer.pipe(
-    Layer.provide(DefaultCloudTrailClientConfigLayer),
-  );
+export const DefaultCloudTrailClientInstanceLayer = CloudTrailClientInstanceLayer.pipe(
+  Layer.provide(DefaultCloudTrailClientConfigLayer),
+);

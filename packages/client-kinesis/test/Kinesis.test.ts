@@ -1,8 +1,8 @@
 import {
-  type PutRecordCommandInput,
-  PutRecordCommand,
   KinesisClient,
   KinesisServiceException,
+  PutRecordCommand,
+  type PutRecordCommandInput,
 } from "@aws-sdk/client-kinesis";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-kinesis/dist-cjs/runtimeConfig";

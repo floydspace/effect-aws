@@ -1,8 +1,8 @@
 import {
-  type DescribeDomainsCommandInput,
-  DescribeDomainsCommand,
   CloudSearchClient,
   CloudSearchServiceException,
+  DescribeDomainsCommand,
+  type DescribeDomainsCommandInput,
 } from "@aws-sdk/client-cloudsearch";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-cloudsearch/dist-cjs/runtimeConfig";
@@ -102,8 +102,7 @@ describe("CloudSearchClientImpl", () => {
       program,
       Effect.provide(
         CloudSearch.baseLayer(
-          (config) =>
-            new CloudSearchClient({ ...config, region: "eu-central-1" }),
+          (config) => new CloudSearchClient({ ...config, region: "eu-central-1" }),
         ),
       ),
       Effect.runPromiseExit,

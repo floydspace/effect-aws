@@ -33,15 +33,12 @@ export type ConflictError = TaggedException<ConflictException>;
 export type InternalFailureError = TaggedException<InternalFailureException>;
 export type InvalidRequestError = TaggedException<InvalidRequestException>;
 export type MethodNotAllowedError = TaggedException<MethodNotAllowedException>;
-export type RequestEntityTooLargeError =
-  TaggedException<RequestEntityTooLargeException>;
+export type RequestEntityTooLargeError = TaggedException<RequestEntityTooLargeException>;
 export type ResourceNotFoundError = TaggedException<ResourceNotFoundException>;
-export type ServiceUnavailableError =
-  TaggedException<ServiceUnavailableException>;
+export type ServiceUnavailableError = TaggedException<ServiceUnavailableException>;
 export type ThrottlingError = TaggedException<ThrottlingException>;
 export type UnauthorizedError = TaggedException<UnauthorizedException>;
-export type UnsupportedDocumentEncodingError =
-  TaggedException<UnsupportedDocumentEncodingException>;
+export type UnsupportedDocumentEncodingError = TaggedException<UnsupportedDocumentEncodingException>;
 
 export type SdkError = TaggedException<Error & { name: "SdkError" }>;
 export const SdkError = Data.tagged<SdkError>("SdkError");

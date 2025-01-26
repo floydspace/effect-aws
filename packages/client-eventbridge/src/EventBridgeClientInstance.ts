@@ -42,7 +42,6 @@ export const EventBridgeClientInstanceLayer = Layer.scoped(
  * @since 1.0.0
  * @category layers
  */
-export const DefaultEventBridgeClientInstanceLayer =
-  EventBridgeClientInstanceLayer.pipe(
-    Layer.provide(DefaultEventBridgeClientConfigLayer),
-  );
+export const DefaultEventBridgeClientInstanceLayer = EventBridgeClientInstanceLayer.pipe(
+  Layer.provide(DefaultEventBridgeClientConfigLayer),
+);

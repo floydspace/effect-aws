@@ -1,6 +1,6 @@
 import {
-  type DescribeOrganizationCommandInput,
   DescribeOrganizationCommand,
+  type DescribeOrganizationCommandInput,
   OrganizationsClient,
   OrganizationsServiceException,
 } from "@aws-sdk/client-organizations";
@@ -120,8 +120,7 @@ describe("OrganizationsClientImpl", () => {
       program,
       Effect.provide(
         Organizations.baseLayer(
-          (config) =>
-            new OrganizationsClient({ ...config, region: "eu-central-1" }),
+          (config) => new OrganizationsClient({ ...config, region: "eu-central-1" }),
         ),
       ),
       Effect.runPromiseExit,

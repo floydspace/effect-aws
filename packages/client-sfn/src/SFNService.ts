@@ -2,27 +2,24 @@
  * @since 1.0.0
  */
 import {
-  SFNServiceException,
-  type SFNClient,
-  type SFNClientConfig,
   CreateActivityCommand,
   type CreateActivityCommandInput,
   type CreateActivityCommandOutput,
-  CreateStateMachineCommand,
-  type CreateStateMachineCommandInput,
-  type CreateStateMachineCommandOutput,
   CreateStateMachineAliasCommand,
   type CreateStateMachineAliasCommandInput,
   type CreateStateMachineAliasCommandOutput,
+  CreateStateMachineCommand,
+  type CreateStateMachineCommandInput,
+  type CreateStateMachineCommandOutput,
   DeleteActivityCommand,
   type DeleteActivityCommandInput,
   type DeleteActivityCommandOutput,
-  DeleteStateMachineCommand,
-  type DeleteStateMachineCommandInput,
-  type DeleteStateMachineCommandOutput,
   DeleteStateMachineAliasCommand,
   type DeleteStateMachineAliasCommandInput,
   type DeleteStateMachineAliasCommandOutput,
+  DeleteStateMachineCommand,
+  type DeleteStateMachineCommandInput,
+  type DeleteStateMachineCommandOutput,
   DeleteStateMachineVersionCommand,
   type DeleteStateMachineVersionCommandInput,
   type DeleteStateMachineVersionCommandOutput,
@@ -35,12 +32,12 @@ import {
   DescribeMapRunCommand,
   type DescribeMapRunCommandInput,
   type DescribeMapRunCommandOutput,
-  DescribeStateMachineCommand,
-  type DescribeStateMachineCommandInput,
-  type DescribeStateMachineCommandOutput,
   DescribeStateMachineAliasCommand,
   type DescribeStateMachineAliasCommandInput,
   type DescribeStateMachineAliasCommandOutput,
+  DescribeStateMachineCommand,
+  type DescribeStateMachineCommandInput,
+  type DescribeStateMachineCommandOutput,
   DescribeStateMachineForExecutionCommand,
   type DescribeStateMachineForExecutionCommandInput,
   type DescribeStateMachineForExecutionCommandOutput,
@@ -62,12 +59,12 @@ import {
   ListStateMachineAliasesCommand,
   type ListStateMachineAliasesCommandInput,
   type ListStateMachineAliasesCommandOutput,
-  ListStateMachineVersionsCommand,
-  type ListStateMachineVersionsCommandInput,
-  type ListStateMachineVersionsCommandOutput,
   ListStateMachinesCommand,
   type ListStateMachinesCommandInput,
   type ListStateMachinesCommandOutput,
+  ListStateMachineVersionsCommand,
+  type ListStateMachineVersionsCommandInput,
+  type ListStateMachineVersionsCommandOutput,
   ListTagsForResourceCommand,
   type ListTagsForResourceCommandInput,
   type ListTagsForResourceCommandOutput,
@@ -86,6 +83,9 @@ import {
   SendTaskSuccessCommand,
   type SendTaskSuccessCommandInput,
   type SendTaskSuccessCommandOutput,
+  type SFNClient,
+  type SFNClientConfig,
+  SFNServiceException,
   StartExecutionCommand,
   type StartExecutionCommandInput,
   type StartExecutionCommandOutput,
@@ -107,19 +107,18 @@ import {
   UpdateMapRunCommand,
   type UpdateMapRunCommandInput,
   type UpdateMapRunCommandOutput,
-  UpdateStateMachineCommand,
-  type UpdateStateMachineCommandInput,
-  type UpdateStateMachineCommandOutput,
   UpdateStateMachineAliasCommand,
   type UpdateStateMachineAliasCommandInput,
   type UpdateStateMachineAliasCommandOutput,
+  UpdateStateMachineCommand,
+  type UpdateStateMachineCommandInput,
+  type UpdateStateMachineCommandOutput,
   ValidateStateMachineDefinitionCommand,
   type ValidateStateMachineDefinitionCommandInput,
   type ValidateStateMachineDefinitionCommandOutput,
 } from "@aws-sdk/client-sfn";
 import { Data, Effect, Layer, Record } from "effect";
-import {
-  AllServiceErrors,
+import type {
   ActivityAlreadyExistsError,
   ActivityDoesNotExistError,
   ActivityLimitExceededError,
@@ -149,17 +148,14 @@ import {
   StateMachineDoesNotExistError,
   StateMachineLimitExceededError,
   StateMachineTypeNotSupportedError,
+  TaggedException,
   TaskDoesNotExistError,
   TaskTimedOutError,
   TooManyTagsError,
   ValidationError,
-  SdkError,
-  TaggedException,
 } from "./Errors.js";
-import {
-  SFNClientInstance,
-  SFNClientInstanceLayer,
-} from "./SFNClientInstance.js";
+import { AllServiceErrors, SdkError } from "./Errors.js";
+import { SFNClientInstance, SFNClientInstanceLayer } from "./SFNClientInstance.js";
 import {
   DefaultSFNClientConfigLayer,
   makeDefaultSFNClientInstanceConfig,
@@ -769,7 +765,7 @@ interface SFNService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeSFNService = Effect.gen(function* (_) {
+export const makeSFNService = Effect.gen(function*(_) {
   const client = yield* _(SFNClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {

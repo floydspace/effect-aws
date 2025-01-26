@@ -1,6 +1,6 @@
 import {
-  type GetSecretValueCommandInput,
   GetSecretValueCommand,
+  type GetSecretValueCommandInput,
   SecretsManagerClient,
   SecretsManagerServiceException,
 } from "@aws-sdk/client-secrets-manager";
@@ -10,7 +10,7 @@ import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { SecretsManager, SdkError } from "../src";
+import { SdkError, SecretsManager } from "../src";
 
 const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(SecretsManagerClient);
@@ -102,8 +102,7 @@ describe("SecretsManagerClientImpl", () => {
       program,
       Effect.provide(
         SecretsManager.baseLayer(
-          (config) =>
-            new SecretsManagerClient({ ...config, region: "eu-central-1" }),
+          (config) => new SecretsManagerClient({ ...config, region: "eu-central-1" }),
         ),
       ),
       Effect.runPromiseExit,

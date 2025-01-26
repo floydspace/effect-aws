@@ -16,8 +16,8 @@ export class OpenSearchClientInstanceConfig extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeDefaultOpenSearchClientInstanceConfig: Effect.Effect<OpenSearchClientConfig> =
-  Effect.gen(function* (_) {
+export const makeDefaultOpenSearchClientInstanceConfig: Effect.Effect<OpenSearchClientConfig> = Effect.gen(
+  function*(_) {
     const runtime = yield* _(Effect.runtime<never>());
     const runSync = Runtime.runSync(runtime);
 
@@ -40,7 +40,8 @@ export const makeDefaultOpenSearchClientInstanceConfig: Effect.Effect<OpenSearch
         },
       },
     };
-  });
+  },
+);
 
 /**
  * @since 1.0.0

@@ -1,8 +1,8 @@
 import {
-  type PutEventsCommandInput,
-  PutEventsCommand,
   EventBridgeClient,
   EventBridgeServiceException,
+  PutEventsCommand,
+  type PutEventsCommandInput,
 } from "@aws-sdk/client-eventbridge";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-eventbridge/dist-cjs/runtimeConfig";
@@ -102,8 +102,7 @@ describe("EventBridgeClientImpl", () => {
       program,
       Effect.provide(
         EventBridge.baseLayer(
-          (config) =>
-            new EventBridgeClient({ ...config, region: "eu-central-1" }),
+          (config) => new EventBridgeClient({ ...config, region: "eu-central-1" }),
         ),
       ),
       Effect.runPromiseExit,

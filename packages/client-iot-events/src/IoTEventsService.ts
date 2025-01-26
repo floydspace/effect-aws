@@ -2,9 +2,6 @@
  * @since 1.0.0
  */
 import {
-  IoTEventsServiceException,
-  type IoTEventsClient,
-  type IoTEventsClientConfig,
   CreateAlarmModelCommand,
   type CreateAlarmModelCommandInput,
   type CreateAlarmModelCommandOutput,
@@ -26,12 +23,12 @@ import {
   DescribeAlarmModelCommand,
   type DescribeAlarmModelCommandInput,
   type DescribeAlarmModelCommandOutput,
-  DescribeDetectorModelCommand,
-  type DescribeDetectorModelCommandInput,
-  type DescribeDetectorModelCommandOutput,
   DescribeDetectorModelAnalysisCommand,
   type DescribeDetectorModelAnalysisCommandInput,
   type DescribeDetectorModelAnalysisCommandOutput,
+  DescribeDetectorModelCommand,
+  type DescribeDetectorModelCommandInput,
+  type DescribeDetectorModelCommandOutput,
   DescribeInputCommand,
   type DescribeInputCommandInput,
   type DescribeInputCommandOutput,
@@ -41,18 +38,21 @@ import {
   GetDetectorModelAnalysisResultsCommand,
   type GetDetectorModelAnalysisResultsCommandInput,
   type GetDetectorModelAnalysisResultsCommandOutput,
-  ListAlarmModelVersionsCommand,
-  type ListAlarmModelVersionsCommandInput,
-  type ListAlarmModelVersionsCommandOutput,
+  type IoTEventsClient,
+  type IoTEventsClientConfig,
+  IoTEventsServiceException,
   ListAlarmModelsCommand,
   type ListAlarmModelsCommandInput,
   type ListAlarmModelsCommandOutput,
-  ListDetectorModelVersionsCommand,
-  type ListDetectorModelVersionsCommandInput,
-  type ListDetectorModelVersionsCommandOutput,
+  ListAlarmModelVersionsCommand,
+  type ListAlarmModelVersionsCommandInput,
+  type ListAlarmModelVersionsCommandOutput,
   ListDetectorModelsCommand,
   type ListDetectorModelsCommandInput,
   type ListDetectorModelsCommandOutput,
+  ListDetectorModelVersionsCommand,
+  type ListDetectorModelVersionsCommandInput,
+  type ListDetectorModelVersionsCommandOutput,
   ListInputRoutingsCommand,
   type ListInputRoutingsCommandInput,
   type ListInputRoutingsCommandOutput,
@@ -85,8 +85,7 @@ import {
   type UpdateInputCommandOutput,
 } from "@aws-sdk/client-iot-events";
 import { Data, Effect, Layer, Record } from "effect";
-import {
-  AllServiceErrors,
+import type {
   InternalFailureError,
   InvalidRequestError,
   LimitExceededError,
@@ -94,19 +93,16 @@ import {
   ResourceInUseError,
   ResourceNotFoundError,
   ServiceUnavailableError,
+  TaggedException,
   ThrottlingError,
   UnsupportedOperationError,
-  SdkError,
-  TaggedException,
 } from "./Errors.js";
-import {
-  IoTEventsClientInstance,
-  IoTEventsClientInstanceLayer,
-} from "./IoTEventsClientInstance.js";
+import { AllServiceErrors, SdkError } from "./Errors.js";
+import { IoTEventsClientInstance, IoTEventsClientInstanceLayer } from "./IoTEventsClientInstance.js";
 import {
   DefaultIoTEventsClientConfigLayer,
-  makeDefaultIoTEventsClientInstanceConfig,
   IoTEventsClientInstanceConfig,
+  makeDefaultIoTEventsClientInstanceConfig,
 } from "./IoTEventsClientInstanceConfig.js";
 
 /**
@@ -583,7 +579,7 @@ interface IoTEventsService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeIoTEventsService = Effect.gen(function* (_) {
+export const makeIoTEventsService = Effect.gen(function*(_) {
   const client = yield* _(IoTEventsClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {

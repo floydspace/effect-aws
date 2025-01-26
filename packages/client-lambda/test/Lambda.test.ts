@@ -1,9 +1,4 @@
-import {
-  type InvokeCommandInput,
-  InvokeCommand,
-  LambdaClient,
-  LambdaServiceException,
-} from "@aws-sdk/client-lambda";
+import { InvokeCommand, type InvokeCommandInput, LambdaClient, LambdaServiceException } from "@aws-sdk/client-lambda";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-lambda/dist-cjs/runtimeConfig";
 import { mockClient } from "aws-sdk-client-mock";

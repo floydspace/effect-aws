@@ -1,9 +1,4 @@
-import {
-  type ListBrokersCommandInput,
-  ListBrokersCommand,
-  MqClient,
-  MqServiceException,
-} from "@aws-sdk/client-mq";
+import { ListBrokersCommand, type ListBrokersCommandInput, MqClient, MqServiceException } from "@aws-sdk/client-mq";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-mq/dist-cjs/runtimeConfig";
 import { mockClient } from "aws-sdk-client-mock";

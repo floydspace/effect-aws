@@ -2,15 +2,15 @@
  * @since 1.0.0
  */
 import {
-  CloudWatchEventsServiceException,
-  type CloudWatchEventsClient,
-  type CloudWatchEventsClientConfig,
   ActivateEventSourceCommand,
   type ActivateEventSourceCommandInput,
   type ActivateEventSourceCommandOutput,
   CancelReplayCommand,
   type CancelReplayCommandInput,
   type CancelReplayCommandOutput,
+  type CloudWatchEventsClient,
+  type CloudWatchEventsClientConfig,
+  CloudWatchEventsServiceException,
   CreateApiDestinationCommand,
   type CreateApiDestinationCommandInput,
   type CreateApiDestinationCommandOutput,
@@ -165,12 +165,11 @@ import {
   CloudWatchEventsClientInstanceLayer,
 } from "./CloudWatchEventsClientInstance.js";
 import {
+  CloudWatchEventsClientInstanceConfig,
   DefaultCloudWatchEventsClientConfigLayer,
   makeDefaultCloudWatchEventsClientInstanceConfig,
-  CloudWatchEventsClientInstanceConfig,
 } from "./CloudWatchEventsClientInstanceConfig.js";
-import {
-  AllServiceErrors,
+import type {
   ConcurrentModificationError,
   IllegalStatusError,
   InternalError,
@@ -182,9 +181,9 @@ import {
   PolicyLengthExceededError,
   ResourceAlreadyExistsError,
   ResourceNotFoundError,
-  SdkError,
   TaggedException,
 } from "./Errors.js";
+import { AllServiceErrors, SdkError } from "./Errors.js";
 
 /**
  * @since 1.0.0
@@ -921,7 +920,7 @@ interface CloudWatchEventsService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeCloudWatchEventsService = Effect.gen(function* (_) {
+export const makeCloudWatchEventsService = Effect.gen(function*(_) {
   const client = yield* _(CloudWatchEventsClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {
@@ -1030,15 +1029,13 @@ export const BaseCloudWatchEventsServiceLayer = Layer.effect(
  * @category layers
  * @deprecated use CloudWatchEvents.layer instead
  */
-export const CloudWatchEventsServiceLayer =
-  BaseCloudWatchEventsServiceLayer.pipe(
-    Layer.provide(CloudWatchEventsClientInstanceLayer),
-  );
+export const CloudWatchEventsServiceLayer = BaseCloudWatchEventsServiceLayer.pipe(
+  Layer.provide(CloudWatchEventsClientInstanceLayer),
+);
 
 /**
  * @since 1.0.0
  * @category layers
  * @deprecated use CloudWatchEvents.defaultLayer instead
  */
-export const DefaultCloudWatchEventsServiceLayer =
-  CloudWatchEventsService.defaultLayer;
+export const DefaultCloudWatchEventsServiceLayer = CloudWatchEventsService.defaultLayer;

@@ -1,5 +1,6 @@
-import { Parameter, SSMClient } from "@aws-sdk/client-ssm";
-import Substitute, { Arg, SubstituteOf } from "@fluffy-spoon/substitute";
+import type { Parameter, SSMClient } from "@aws-sdk/client-ssm";
+import type { SubstituteOf } from "@fluffy-spoon/substitute";
+import Substitute, { Arg } from "@fluffy-spoon/substitute";
 
 export class SubstituteBuilder {
   static forSSM(): SSMSubstituteBuilder {

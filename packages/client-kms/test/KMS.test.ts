@@ -1,9 +1,4 @@
-import {
-  type ListKeysCommandInput,
-  ListKeysCommand,
-  KMSClient,
-  KMSServiceException,
-} from "@aws-sdk/client-kms";
+import { KMSClient, KMSServiceException, ListKeysCommand, type ListKeysCommandInput } from "@aws-sdk/client-kms";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-kms/dist-cjs/runtimeConfig";
 import { mockClient } from "aws-sdk-client-mock";

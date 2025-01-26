@@ -3,10 +3,7 @@
  */
 import { EC2Client } from "@aws-sdk/client-ec2";
 import { Context, Effect, Layer } from "effect";
-import {
-  DefaultEC2ClientConfigLayer,
-  EC2ClientInstanceConfig,
-} from "./EC2ClientInstanceConfig.js";
+import { DefaultEC2ClientConfigLayer, EC2ClientInstanceConfig } from "./EC2ClientInstanceConfig.js";
 
 /**
  * @since 1.0.0

@@ -2,9 +2,6 @@
  * @since 1.0.0
  */
 import {
-  IoTEventsDataServiceException,
-  type IoTEventsDataClient,
-  type IoTEventsDataClientConfig,
   BatchAcknowledgeAlarmCommand,
   type BatchAcknowledgeAlarmCommandInput,
   type BatchAcknowledgeAlarmCommandOutput,
@@ -35,6 +32,9 @@ import {
   DescribeDetectorCommand,
   type DescribeDetectorCommandInput,
   type DescribeDetectorCommandOutput,
+  type IoTEventsDataClient,
+  type IoTEventsDataClientConfig,
+  IoTEventsDataServiceException,
   ListAlarmsCommand,
   type ListAlarmsCommandInput,
   type ListAlarmsCommandOutput,
@@ -43,24 +43,20 @@ import {
   type ListDetectorsCommandOutput,
 } from "@aws-sdk/client-iot-events-data";
 import { Data, Effect, Layer, Record } from "effect";
-import {
-  AllServiceErrors,
+import type {
   InternalFailureError,
   InvalidRequestError,
   ResourceNotFoundError,
   ServiceUnavailableError,
-  ThrottlingError,
-  SdkError,
   TaggedException,
+  ThrottlingError,
 } from "./Errors.js";
-import {
-  IoTEventsDataClientInstance,
-  IoTEventsDataClientInstanceLayer,
-} from "./IoTEventsDataClientInstance.js";
+import { AllServiceErrors, SdkError } from "./Errors.js";
+import { IoTEventsDataClientInstance, IoTEventsDataClientInstanceLayer } from "./IoTEventsDataClientInstance.js";
 import {
   DefaultIoTEventsDataClientConfigLayer,
-  makeDefaultIoTEventsDataClientInstanceConfig,
   IoTEventsDataClientInstanceConfig,
+  makeDefaultIoTEventsDataClientInstanceConfig,
 } from "./IoTEventsDataClientInstanceConfig.js";
 
 /**
@@ -281,7 +277,7 @@ interface IoTEventsDataService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeIoTEventsDataService = Effect.gen(function* (_) {
+export const makeIoTEventsDataService = Effect.gen(function*(_) {
   const client = yield* _(IoTEventsDataClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {
@@ -397,5 +393,4 @@ export const IoTEventsDataServiceLayer = BaseIoTEventsDataServiceLayer.pipe(
  * @category layers
  * @deprecated use IoTEventsData.defaultLayer instead
  */
-export const DefaultIoTEventsDataServiceLayer =
-  IoTEventsDataService.defaultLayer;
+export const DefaultIoTEventsDataServiceLayer = IoTEventsDataService.defaultLayer;

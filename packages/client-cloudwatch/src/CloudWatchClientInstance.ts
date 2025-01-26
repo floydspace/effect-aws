@@ -4,8 +4,8 @@
 import { CloudWatchClient } from "@aws-sdk/client-cloudwatch";
 import { Context, Effect, Layer } from "effect";
 import {
-  DefaultCloudWatchClientConfigLayer,
   CloudWatchClientInstanceConfig,
+  DefaultCloudWatchClientConfigLayer,
 } from "./CloudWatchClientInstanceConfig.js";
 
 /**
@@ -42,7 +42,6 @@ export const CloudWatchClientInstanceLayer = Layer.scoped(
  * @since 1.0.0
  * @category layers
  */
-export const DefaultCloudWatchClientInstanceLayer =
-  CloudWatchClientInstanceLayer.pipe(
-    Layer.provide(DefaultCloudWatchClientConfigLayer),
-  );
+export const DefaultCloudWatchClientInstanceLayer = CloudWatchClientInstanceLayer.pipe(
+  Layer.provide(DefaultCloudWatchClientConfigLayer),
+);

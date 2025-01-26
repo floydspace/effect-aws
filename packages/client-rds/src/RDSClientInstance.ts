@@ -3,10 +3,7 @@
  */
 import { RDSClient } from "@aws-sdk/client-rds";
 import { Context, Effect, Layer } from "effect";
-import {
-  DefaultRDSClientConfigLayer,
-  RDSClientInstanceConfig,
-} from "./RDSClientInstanceConfig.js";
+import { DefaultRDSClientConfigLayer, RDSClientInstanceConfig } from "./RDSClientInstanceConfig.js";
 
 /**
  * @since 1.0.0

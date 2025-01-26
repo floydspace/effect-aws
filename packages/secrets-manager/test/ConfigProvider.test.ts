@@ -1,15 +1,9 @@
-import {
-  InvalidRequestException,
-  ResourceNotFoundException,
-} from "@aws-sdk/client-secrets-manager";
-import {
-  BaseSecretsManagerServiceLayer,
-  SecretsManagerClientInstance,
-} from "@effect-aws/client-secrets-manager";
+import { InvalidRequestException, ResourceNotFoundException } from "@aws-sdk/client-secrets-manager";
+import { BaseSecretsManagerServiceLayer, SecretsManagerClientInstance } from "@effect-aws/client-secrets-manager";
 import { Arg } from "@fluffy-spoon/substitute";
 import { Config, ConfigError, Effect, Exit, Layer, Secret } from "effect";
-import { SubstituteBuilder } from "./utils";
 import { fromSecretsManager } from "../src/ConfigProvider";
+import { SubstituteBuilder } from "./utils";
 
 describe("fromSecretsManager", () => {
   it("should load configuration from AWS Secrets Manager", async () => {

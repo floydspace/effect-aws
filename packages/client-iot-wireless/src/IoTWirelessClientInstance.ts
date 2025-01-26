@@ -42,7 +42,6 @@ export const IoTWirelessClientInstanceLayer = Layer.scoped(
  * @since 1.0.0
  * @category layers
  */
-export const DefaultIoTWirelessClientInstanceLayer =
-  IoTWirelessClientInstanceLayer.pipe(
-    Layer.provide(DefaultIoTWirelessClientConfigLayer),
-  );
+export const DefaultIoTWirelessClientInstanceLayer = IoTWirelessClientInstanceLayer.pipe(
+  Layer.provide(DefaultIoTWirelessClientConfigLayer),
+);

@@ -1,11 +1,7 @@
 // @ts-ignore
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import * as runtimeConfig from "@aws-sdk/client-dynamodb/dist-cjs/runtimeConfig";
-import {
-  type PutCommandInput,
-  DynamoDBDocumentClient,
-  PutCommand,
-} from "@aws-sdk/lib-dynamodb";
+import { DynamoDBDocumentClient, PutCommand, type PutCommandInput } from "@aws-sdk/lib-dynamodb";
 import { SdkError } from "@effect-aws/client-dynamodb";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
@@ -93,7 +89,7 @@ describe("DynamoDBDocumentClientImpl", () => {
           DynamoDBDocumentClient.from(
             new DynamoDBClient({ region: "eu-central-1" }),
             { marshallOptions: { removeUndefinedValues: true } },
-          ),
+          )
         ),
       ),
       Effect.runPromiseExit,
@@ -125,7 +121,7 @@ describe("DynamoDBDocumentClientImpl", () => {
           DynamoDBDocumentClient.from(
             new DynamoDBClient({ ...config, region: "eu-central-1" }),
             { marshallOptions: { removeUndefinedValues: true } },
-          ),
+          )
         ),
       ),
       Effect.runPromiseExit,

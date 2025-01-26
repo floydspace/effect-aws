@@ -3,10 +3,7 @@
  */
 import { IoTEventsClient } from "@aws-sdk/client-iot-events";
 import { Context, Effect, Layer } from "effect";
-import {
-  DefaultIoTEventsClientConfigLayer,
-  IoTEventsClientInstanceConfig,
-} from "./IoTEventsClientInstanceConfig.js";
+import { DefaultIoTEventsClientConfigLayer, IoTEventsClientInstanceConfig } from "./IoTEventsClientInstanceConfig.js";
 
 /**
  * @since 1.0.0
@@ -42,7 +39,6 @@ export const IoTEventsClientInstanceLayer = Layer.scoped(
  * @since 1.0.0
  * @category layers
  */
-export const DefaultIoTEventsClientInstanceLayer =
-  IoTEventsClientInstanceLayer.pipe(
-    Layer.provide(DefaultIoTEventsClientConfigLayer),
-  );
+export const DefaultIoTEventsClientInstanceLayer = IoTEventsClientInstanceLayer.pipe(
+  Layer.provide(DefaultIoTEventsClientConfigLayer),
+);

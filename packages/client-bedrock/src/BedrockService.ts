@@ -2,12 +2,12 @@
  * @since 1.0.0
  */
 import {
-  BedrockServiceException,
-  type BedrockClient,
-  type BedrockClientConfig,
   BatchDeleteEvaluationJobCommand,
   type BatchDeleteEvaluationJobCommandInput,
   type BatchDeleteEvaluationJobCommandOutput,
+  type BedrockClient,
+  type BedrockClientConfig,
+  BedrockServiceException,
   CreateEvaluationJobCommand,
   type CreateEvaluationJobCommandInput,
   type CreateEvaluationJobCommandOutput,
@@ -178,29 +178,25 @@ import {
   type UpdateProvisionedModelThroughputCommandOutput,
 } from "@aws-sdk/client-bedrock";
 import { Data, Effect, Layer, Record } from "effect";
+import { BedrockClientInstance, BedrockClientInstanceLayer } from "./BedrockClientInstance.js";
 import {
-  BedrockClientInstance,
-  BedrockClientInstanceLayer,
-} from "./BedrockClientInstance.js";
-import {
+  BedrockClientInstanceConfig,
   DefaultBedrockClientConfigLayer,
   makeDefaultBedrockClientInstanceConfig,
-  BedrockClientInstanceConfig,
 } from "./BedrockClientInstanceConfig.js";
-import {
-  AllServiceErrors,
+import type {
   AccessDeniedError,
   ConflictError,
   InternalServerError,
   ResourceNotFoundError,
   ServiceQuotaExceededError,
   ServiceUnavailableError,
+  TaggedException,
   ThrottlingError,
   TooManyTagsError,
   ValidationError,
-  SdkError,
-  TaggedException,
 } from "./Errors.js";
+import { AllServiceErrors, SdkError } from "./Errors.js";
 
 /**
  * @since 1.0.0
@@ -1209,7 +1205,7 @@ interface BedrockService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeBedrockService = Effect.gen(function* (_) {
+export const makeBedrockService = Effect.gen(function*(_) {
   const client = yield* _(BedrockClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {

@@ -42,7 +42,6 @@ export const IoTDataPlaneClientInstanceLayer = Layer.scoped(
  * @since 1.0.0
  * @category layers
  */
-export const DefaultIoTDataPlaneClientInstanceLayer =
-  IoTDataPlaneClientInstanceLayer.pipe(
-    Layer.provide(DefaultIoTDataPlaneClientConfigLayer),
-  );
+export const DefaultIoTDataPlaneClientInstanceLayer = IoTDataPlaneClientInstanceLayer.pipe(
+  Layer.provide(DefaultIoTDataPlaneClientConfigLayer),
+);

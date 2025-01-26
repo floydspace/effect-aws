@@ -1,6 +1,6 @@
 import {
-  type DescribeAlarmCommandInput,
   DescribeAlarmCommand,
+  type DescribeAlarmCommandInput,
   IoTEventsDataClient,
   IoTEventsDataServiceException,
 } from "@aws-sdk/client-iot-events-data";
@@ -102,8 +102,7 @@ describe("IoTEventsDataClientImpl", () => {
       program,
       Effect.provide(
         IoTEventsData.baseLayer(
-          (config) =>
-            new IoTEventsDataClient({ ...config, region: "eu-central-1" }),
+          (config) => new IoTEventsDataClient({ ...config, region: "eu-central-1" }),
         ),
       ),
       Effect.runPromiseExit,

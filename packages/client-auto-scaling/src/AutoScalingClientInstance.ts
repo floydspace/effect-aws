@@ -4,8 +4,8 @@
 import { AutoScalingClient } from "@aws-sdk/client-auto-scaling";
 import { Context, Effect, Layer } from "effect";
 import {
-  DefaultAutoScalingClientConfigLayer,
   AutoScalingClientInstanceConfig,
+  DefaultAutoScalingClientConfigLayer,
 } from "./AutoScalingClientInstanceConfig.js";
 
 /**
@@ -42,7 +42,6 @@ export const AutoScalingClientInstanceLayer = Layer.scoped(
  * @since 1.0.0
  * @category layers
  */
-export const DefaultAutoScalingClientInstanceLayer =
-  AutoScalingClientInstanceLayer.pipe(
-    Layer.provide(DefaultAutoScalingClientConfigLayer),
-  );
+export const DefaultAutoScalingClientInstanceLayer = AutoScalingClientInstanceLayer.pipe(
+  Layer.provide(DefaultAutoScalingClientConfigLayer),
+);

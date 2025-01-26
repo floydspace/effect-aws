@@ -1,8 +1,8 @@
 import {
-  type ListUserPoolsCommandInput,
-  ListUserPoolsCommand,
   CognitoIdentityProviderClient,
   CognitoIdentityProviderServiceException,
+  ListUserPoolsCommand,
+  type ListUserPoolsCommandInput,
 } from "@aws-sdk/client-cognito-identity-provider";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-cognito-identity-provider/dist-cjs/runtimeConfig";

@@ -3,10 +3,7 @@
  */
 import { STSClient } from "@aws-sdk/client-sts";
 import { Context, Effect, Layer } from "effect";
-import {
-  DefaultSTSClientConfigLayer,
-  STSClientInstanceConfig,
-} from "./STSClientInstanceConfig.js";
+import { DefaultSTSClientConfigLayer, STSClientInstanceConfig } from "./STSClientInstanceConfig.js";
 
 /**
  * @since 1.0.0

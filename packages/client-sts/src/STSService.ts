@@ -2,9 +2,6 @@
  * @since 1.0.0
  */
 import {
-  STSServiceException,
-  type STSClient,
-  type STSClientConfig,
   AssumeRoleCommand,
   type AssumeRoleCommandInput,
   type AssumeRoleCommandOutput,
@@ -32,10 +29,12 @@ import {
   GetSessionTokenCommand,
   type GetSessionTokenCommandInput,
   type GetSessionTokenCommandOutput,
+  type STSClient,
+  type STSClientConfig,
+  STSServiceException,
 } from "@aws-sdk/client-sts";
 import { Data, Effect, Layer, Record } from "effect";
-import {
-  AllServiceErrors,
+import type {
   ExpiredTokenError,
   IDPCommunicationError,
   IDPRejectedClaimError,
@@ -44,13 +43,10 @@ import {
   MalformedPolicyDocumentError,
   PackedPolicyTooLargeError,
   RegionDisabledError,
-  SdkError,
   TaggedException,
 } from "./Errors.js";
-import {
-  STSClientInstance,
-  STSClientInstanceLayer,
-} from "./STSClientInstance.js";
+import { AllServiceErrors, SdkError } from "./Errors.js";
+import { STSClientInstance, STSClientInstanceLayer } from "./STSClientInstance.js";
 import {
   DefaultSTSClientConfigLayer,
   makeDefaultSTSClientInstanceConfig,
@@ -201,7 +197,7 @@ interface STSService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeSTSService = Effect.gen(function* (_) {
+export const makeSTSService = Effect.gen(function*(_) {
   const client = yield* _(STSClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {

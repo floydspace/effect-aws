@@ -42,7 +42,6 @@ export const IoTEventsDataClientInstanceLayer = Layer.scoped(
  * @since 1.0.0
  * @category layers
  */
-export const DefaultIoTEventsDataClientInstanceLayer =
-  IoTEventsDataClientInstanceLayer.pipe(
-    Layer.provide(DefaultIoTEventsDataClientConfigLayer),
-  );
+export const DefaultIoTEventsDataClientInstanceLayer = IoTEventsDataClientInstanceLayer.pipe(
+  Layer.provide(DefaultIoTEventsDataClientConfigLayer),
+);

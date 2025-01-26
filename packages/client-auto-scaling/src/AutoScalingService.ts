@@ -2,21 +2,21 @@
  * @since 1.0.0
  */
 import {
-  AutoScalingServiceException,
-  type AutoScalingClient,
-  type AutoScalingClientConfig,
   AttachInstancesCommand,
   type AttachInstancesCommandInput,
   type AttachInstancesCommandOutput,
-  AttachLoadBalancerTargetGroupsCommand,
-  type AttachLoadBalancerTargetGroupsCommandInput,
-  type AttachLoadBalancerTargetGroupsCommandOutput,
   AttachLoadBalancersCommand,
   type AttachLoadBalancersCommandInput,
   type AttachLoadBalancersCommandOutput,
+  AttachLoadBalancerTargetGroupsCommand,
+  type AttachLoadBalancerTargetGroupsCommandInput,
+  type AttachLoadBalancerTargetGroupsCommandOutput,
   AttachTrafficSourcesCommand,
   type AttachTrafficSourcesCommandInput,
   type AttachTrafficSourcesCommandOutput,
+  type AutoScalingClient,
+  type AutoScalingClientConfig,
+  AutoScalingServiceException,
   BatchDeleteScheduledActionCommand,
   type BatchDeleteScheduledActionCommandInput,
   type BatchDeleteScheduledActionCommandOutput,
@@ -83,18 +83,18 @@ import {
   DescribeLaunchConfigurationsCommand,
   type DescribeLaunchConfigurationsCommandInput,
   type DescribeLaunchConfigurationsCommandOutput,
-  DescribeLifecycleHookTypesCommand,
-  type DescribeLifecycleHookTypesCommandInput,
-  type DescribeLifecycleHookTypesCommandOutput,
   DescribeLifecycleHooksCommand,
   type DescribeLifecycleHooksCommandInput,
   type DescribeLifecycleHooksCommandOutput,
-  DescribeLoadBalancerTargetGroupsCommand,
-  type DescribeLoadBalancerTargetGroupsCommandInput,
-  type DescribeLoadBalancerTargetGroupsCommandOutput,
+  DescribeLifecycleHookTypesCommand,
+  type DescribeLifecycleHookTypesCommandInput,
+  type DescribeLifecycleHookTypesCommandOutput,
   DescribeLoadBalancersCommand,
   type DescribeLoadBalancersCommandInput,
   type DescribeLoadBalancersCommandOutput,
+  DescribeLoadBalancerTargetGroupsCommand,
+  type DescribeLoadBalancerTargetGroupsCommandInput,
+  type DescribeLoadBalancerTargetGroupsCommandOutput,
   DescribeMetricCollectionTypesCommand,
   type DescribeMetricCollectionTypesCommandInput,
   type DescribeMetricCollectionTypesCommandOutput,
@@ -128,12 +128,12 @@ import {
   DetachInstancesCommand,
   type DetachInstancesCommandInput,
   type DetachInstancesCommandOutput,
-  DetachLoadBalancerTargetGroupsCommand,
-  type DetachLoadBalancerTargetGroupsCommandInput,
-  type DetachLoadBalancerTargetGroupsCommandOutput,
   DetachLoadBalancersCommand,
   type DetachLoadBalancersCommandInput,
   type DetachLoadBalancersCommandOutput,
+  DetachLoadBalancerTargetGroupsCommand,
+  type DetachLoadBalancerTargetGroupsCommandInput,
+  type DetachLoadBalancerTargetGroupsCommandOutput,
   DetachTrafficSourcesCommand,
   type DetachTrafficSourcesCommandInput,
   type DetachTrafficSourcesCommandOutput,
@@ -202,17 +202,13 @@ import {
   type UpdateAutoScalingGroupCommandOutput,
 } from "@aws-sdk/client-auto-scaling";
 import { Data, Effect, Layer, Record } from "effect";
+import { AutoScalingClientInstance, AutoScalingClientInstanceLayer } from "./AutoScalingClientInstance.js";
 import {
-  AutoScalingClientInstance,
-  AutoScalingClientInstanceLayer,
-} from "./AutoScalingClientInstance.js";
-import {
+  AutoScalingClientInstanceConfig,
   DefaultAutoScalingClientConfigLayer,
   makeDefaultAutoScalingClientInstanceConfig,
-  AutoScalingClientInstanceConfig,
 } from "./AutoScalingClientInstanceConfig.js";
-import {
-  AllServiceErrors,
+import type {
   ActiveInstanceRefreshNotFoundFaultError,
   AlreadyExistsFaultError,
   InstanceRefreshInProgressFaultError,
@@ -223,9 +219,9 @@ import {
   ResourceInUseFaultError,
   ScalingActivityInProgressFaultError,
   ServiceLinkedRoleError,
-  SdkError,
   TaggedException,
 } from "./Errors.js";
+import { AllServiceErrors, SdkError } from "./Errors.js";
 
 /**
  * @since 1.0.0
@@ -1084,7 +1080,7 @@ interface AutoScalingService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeAutoScalingService = Effect.gen(function* (_) {
+export const makeAutoScalingService = Effect.gen(function*(_) {
   const client = yield* _(AutoScalingClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {

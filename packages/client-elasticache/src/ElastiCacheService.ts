@@ -2,9 +2,6 @@
  * @since 1.0.0
  */
 import {
-  ElastiCacheServiceException,
-  type ElastiCacheClient,
-  type ElastiCacheClientConfig,
   AddTagsToResourceCommand,
   type AddTagsToResourceCommandInput,
   type AddTagsToResourceCommandOutput,
@@ -134,12 +131,12 @@ import {
   DescribeReservedCacheNodesOfferingsCommand,
   type DescribeReservedCacheNodesOfferingsCommandInput,
   type DescribeReservedCacheNodesOfferingsCommandOutput,
-  DescribeServerlessCacheSnapshotsCommand,
-  type DescribeServerlessCacheSnapshotsCommandInput,
-  type DescribeServerlessCacheSnapshotsCommandOutput,
   DescribeServerlessCachesCommand,
   type DescribeServerlessCachesCommandInput,
   type DescribeServerlessCachesCommandOutput,
+  DescribeServerlessCacheSnapshotsCommand,
+  type DescribeServerlessCacheSnapshotsCommandInput,
+  type DescribeServerlessCacheSnapshotsCommandOutput,
   DescribeServiceUpdatesCommand,
   type DescribeServiceUpdatesCommandInput,
   type DescribeServiceUpdatesCommandOutput,
@@ -158,6 +155,9 @@ import {
   DisassociateGlobalReplicationGroupCommand,
   type DisassociateGlobalReplicationGroupCommandInput,
   type DisassociateGlobalReplicationGroupCommandOutput,
+  type ElastiCacheClient,
+  type ElastiCacheClientConfig,
+  ElastiCacheServiceException,
   ExportServerlessCacheSnapshotCommand,
   type ExportServerlessCacheSnapshotCommandInput,
   type ExportServerlessCacheSnapshotCommandOutput,
@@ -232,17 +232,13 @@ import {
   type TestMigrationCommandOutput,
 } from "@aws-sdk/client-elasticache";
 import { Data, Effect, Layer, Record } from "effect";
-import {
-  ElastiCacheClientInstance,
-  ElastiCacheClientInstanceLayer,
-} from "./ElastiCacheClientInstance.js";
+import { ElastiCacheClientInstance, ElastiCacheClientInstanceLayer } from "./ElastiCacheClientInstance.js";
 import {
   DefaultElastiCacheClientConfigLayer,
-  makeDefaultElastiCacheClientInstanceConfig,
   ElastiCacheClientInstanceConfig,
+  makeDefaultElastiCacheClientInstanceConfig,
 } from "./ElastiCacheClientInstanceConfig.js";
-import {
-  AllServiceErrors,
+import type {
   APICallRateForCustomerExceededFaultError,
   AuthorizationAlreadyExistsFaultError,
   AuthorizationNotFoundFaultError,
@@ -283,11 +279,11 @@ import {
   InvalidUserGroupStateFaultError,
   InvalidUserStateFaultError,
   InvalidVPCNetworkStateFaultError,
-  NoOperationFaultError,
   NodeGroupNotFoundFaultError,
   NodeGroupsPerReplicationGroupQuotaExceededFaultError,
   NodeQuotaForClusterExceededFaultError,
   NodeQuotaForCustomerExceededFaultError,
+  NoOperationFaultError,
   ReplicationGroupAlreadyExistsFaultError,
   ReplicationGroupAlreadyUnderMigrationFaultError,
   ReplicationGroupNotFoundFaultError,
@@ -310,6 +306,7 @@ import {
   SnapshotQuotaExceededFaultError,
   SubnetInUseError,
   SubnetNotAllowedFaultError,
+  TaggedException,
   TagNotFoundFaultError,
   TagQuotaPerResourceExceededError,
   TestFailoverNotAvailableFaultError,
@@ -319,9 +316,8 @@ import {
   UserGroupQuotaExceededFaultError,
   UserNotFoundFaultError,
   UserQuotaExceededFaultError,
-  SdkError,
-  TaggedException,
 } from "./Errors.js";
+import { AllServiceErrors, SdkError } from "./Errors.js";
 
 /**
  * @since 1.0.0
@@ -1660,7 +1656,7 @@ interface ElastiCacheService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeElastiCacheService = Effect.gen(function* (_) {
+export const makeElastiCacheService = Effect.gen(function*(_) {
   const client = yield* _(ElastiCacheClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {

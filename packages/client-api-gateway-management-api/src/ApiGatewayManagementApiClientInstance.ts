@@ -4,8 +4,8 @@
 import { ApiGatewayManagementApiClient } from "@aws-sdk/client-apigatewaymanagementapi";
 import { Context, Effect, Layer } from "effect";
 import {
-  DefaultApiGatewayManagementApiClientConfigLayer,
   ApiGatewayManagementApiClientInstanceConfig,
+  DefaultApiGatewayManagementApiClientConfigLayer,
 } from "./ApiGatewayManagementApiClientInstanceConfig.js";
 
 /**
@@ -42,7 +42,6 @@ export const ApiGatewayManagementApiClientInstanceLayer = Layer.scoped(
  * @since 1.0.0
  * @category layers
  */
-export const DefaultApiGatewayManagementApiClientInstanceLayer =
-  ApiGatewayManagementApiClientInstanceLayer.pipe(
-    Layer.provide(DefaultApiGatewayManagementApiClientConfigLayer),
-  );
+export const DefaultApiGatewayManagementApiClientInstanceLayer = ApiGatewayManagementApiClientInstanceLayer.pipe(
+  Layer.provide(DefaultApiGatewayManagementApiClientConfigLayer),
+);

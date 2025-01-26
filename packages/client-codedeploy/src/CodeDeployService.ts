@@ -2,9 +2,6 @@
  * @since 1.0.0
  */
 import {
-  CodeDeployServiceException,
-  type CodeDeployClient,
-  type CodeDeployClientConfig,
   AddTagsToOnPremisesInstancesCommand,
   type AddTagsToOnPremisesInstancesCommandInput,
   type AddTagsToOnPremisesInstancesCommandOutput,
@@ -20,15 +17,18 @@ import {
   BatchGetDeploymentInstancesCommand,
   type BatchGetDeploymentInstancesCommandInput,
   type BatchGetDeploymentInstancesCommandOutput,
-  BatchGetDeploymentTargetsCommand,
-  type BatchGetDeploymentTargetsCommandInput,
-  type BatchGetDeploymentTargetsCommandOutput,
   BatchGetDeploymentsCommand,
   type BatchGetDeploymentsCommandInput,
   type BatchGetDeploymentsCommandOutput,
+  BatchGetDeploymentTargetsCommand,
+  type BatchGetDeploymentTargetsCommandInput,
+  type BatchGetDeploymentTargetsCommandOutput,
   BatchGetOnPremisesInstancesCommand,
   type BatchGetOnPremisesInstancesCommandInput,
   type BatchGetOnPremisesInstancesCommandOutput,
+  type CodeDeployClient,
+  type CodeDeployClientConfig,
+  CodeDeployServiceException,
   ContinueDeploymentCommand,
   type ContinueDeploymentCommandInput,
   type ContinueDeploymentCommandOutput,
@@ -101,12 +101,12 @@ import {
   ListDeploymentInstancesCommand,
   type ListDeploymentInstancesCommandInput,
   type ListDeploymentInstancesCommandOutput,
-  ListDeploymentTargetsCommand,
-  type ListDeploymentTargetsCommandInput,
-  type ListDeploymentTargetsCommandOutput,
   ListDeploymentsCommand,
   type ListDeploymentsCommandInput,
   type ListDeploymentsCommandOutput,
+  ListDeploymentTargetsCommand,
+  type ListDeploymentTargetsCommandInput,
+  type ListDeploymentTargetsCommandOutput,
   ListGitHubAccountTokenNamesCommand,
   type ListGitHubAccountTokenNamesCommandInput,
   type ListGitHubAccountTokenNamesCommandOutput,
@@ -148,17 +148,13 @@ import {
   type UpdateDeploymentGroupCommandOutput,
 } from "@aws-sdk/client-codedeploy";
 import { Data, Effect, Layer, Record } from "effect";
+import { CodeDeployClientInstance, CodeDeployClientInstanceLayer } from "./CodeDeployClientInstance.js";
 import {
-  CodeDeployClientInstance,
-  CodeDeployClientInstanceLayer,
-} from "./CodeDeployClientInstance.js";
-import {
+  CodeDeployClientInstanceConfig,
   DefaultCodeDeployClientConfigLayer,
   makeDefaultCodeDeployClientInstanceConfig,
-  CodeDeployClientInstanceConfig,
 } from "./CodeDeployClientInstanceConfig.js";
-import {
-  AllServiceErrors,
+import type {
   AlarmsLimitExceededError,
   ApplicationAlreadyExistsError,
   ApplicationDoesNotExistError,
@@ -263,15 +259,15 @@ import {
   RevisionDoesNotExistError,
   RevisionRequiredError,
   RoleRequiredError,
+  TaggedException,
   TagLimitExceededError,
   TagRequiredError,
   TagSetListLimitExceededError,
   ThrottlingError,
   TriggerTargetsLimitExceededError,
   UnsupportedActionForDeploymentTypeError,
-  SdkError,
-  TaggedException,
 } from "./Errors.js";
+import { AllServiceErrors, SdkError } from "./Errors.js";
 
 /**
  * @since 1.0.0
@@ -1184,7 +1180,7 @@ interface CodeDeployService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeCodeDeployService = Effect.gen(function* (_) {
+export const makeCodeDeployService = Effect.gen(function*(_) {
   const client = yield* _(CodeDeployClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {

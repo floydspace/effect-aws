@@ -2,9 +2,6 @@
  * @since 1.0.0
  */
 import {
-  KMSServiceException,
-  type KMSClient,
-  type KMSClientConfig,
   CancelKeyDeletionCommand,
   type CancelKeyDeletionCommandInput,
   type CancelKeyDeletionCommandOutput,
@@ -95,6 +92,9 @@ import {
   ImportKeyMaterialCommand,
   type ImportKeyMaterialCommandInput,
   type ImportKeyMaterialCommandOutput,
+  type KMSClient,
+  type KMSClientConfig,
+  KMSServiceException,
   ListAliasesCommand,
   type ListAliasesCommandInput,
   type ListAliasesCommandOutput,
@@ -166,8 +166,7 @@ import {
   type VerifyMacCommandOutput,
 } from "@aws-sdk/client-kms";
 import { Data, Effect, Layer, Record } from "effect";
-import {
-  AllServiceErrors,
+import type {
   AlreadyExistsError,
   CloudHsmClusterInUseError,
   CloudHsmClusterInvalidConfigurationError,
@@ -194,15 +193,16 @@ import {
   InvalidImportTokenError,
   InvalidKeyUsageError,
   InvalidMarkerError,
+  KeyUnavailableError,
   KMSInternalError,
   KMSInvalidMacError,
   KMSInvalidSignatureError,
   KMSInvalidStateError,
-  KeyUnavailableError,
   LimitExceededError,
   MalformedPolicyDocumentError,
   NotFoundError,
   TagError,
+  TaggedException,
   UnsupportedOperationError,
   XksKeyAlreadyInUseError,
   XksKeyInvalidConfigurationError,
@@ -216,17 +216,13 @@ import {
   XksProxyVpcEndpointServiceInUseError,
   XksProxyVpcEndpointServiceInvalidConfigurationError,
   XksProxyVpcEndpointServiceNotFoundError,
-  SdkError,
-  TaggedException,
 } from "./Errors.js";
-import {
-  KMSClientInstance,
-  KMSClientInstanceLayer,
-} from "./KMSClientInstance.js";
+import { AllServiceErrors, SdkError } from "./Errors.js";
+import { KMSClientInstance, KMSClientInstanceLayer } from "./KMSClientInstance.js";
 import {
   DefaultKMSClientConfigLayer,
-  makeDefaultKMSClientInstanceConfig,
   KMSClientInstanceConfig,
+  makeDefaultKMSClientInstanceConfig,
 } from "./KMSClientInstanceConfig.js";
 
 /**
@@ -1271,7 +1267,7 @@ interface KMSService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeKMSService = Effect.gen(function* (_) {
+export const makeKMSService = Effect.gen(function*(_) {
   const client = yield* _(KMSClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {

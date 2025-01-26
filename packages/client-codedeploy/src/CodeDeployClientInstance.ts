@@ -4,8 +4,8 @@
 import { CodeDeployClient } from "@aws-sdk/client-codedeploy";
 import { Context, Effect, Layer } from "effect";
 import {
-  DefaultCodeDeployClientConfigLayer,
   CodeDeployClientInstanceConfig,
+  DefaultCodeDeployClientConfigLayer,
 } from "./CodeDeployClientInstanceConfig.js";
 
 /**
@@ -42,7 +42,6 @@ export const CodeDeployClientInstanceLayer = Layer.scoped(
  * @since 1.0.0
  * @category layers
  */
-export const DefaultCodeDeployClientInstanceLayer =
-  CodeDeployClientInstanceLayer.pipe(
-    Layer.provide(DefaultCodeDeployClientConfigLayer),
-  );
+export const DefaultCodeDeployClientInstanceLayer = CodeDeployClientInstanceLayer.pipe(
+  Layer.provide(DefaultCodeDeployClientConfigLayer),
+);

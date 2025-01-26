@@ -3,10 +3,7 @@
  */
 import { MqClient } from "@aws-sdk/client-mq";
 import { Context, Effect, Layer } from "effect";
-import {
-  DefaultMqClientConfigLayer,
-  MqClientInstanceConfig,
-} from "./MqClientInstanceConfig.js";
+import { DefaultMqClientConfigLayer, MqClientInstanceConfig } from "./MqClientInstanceConfig.js";
 
 /**
  * @since 1.0.0

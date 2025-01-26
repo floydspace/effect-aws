@@ -3,10 +3,7 @@
  */
 import { SFNClient } from "@aws-sdk/client-sfn";
 import { Context, Effect, Layer } from "effect";
-import {
-  DefaultSFNClientConfigLayer,
-  SFNClientInstanceConfig,
-} from "./SFNClientInstanceConfig.js";
+import { DefaultSFNClientConfigLayer, SFNClientInstanceConfig } from "./SFNClientInstanceConfig.js";
 
 /**
  * @since 1.0.0

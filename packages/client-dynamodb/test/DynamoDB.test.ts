@@ -1,8 +1,8 @@
 import {
-  type PutItemCommandInput,
-  PutItemCommand,
   DynamoDBClient,
   DynamoDBServiceException,
+  PutItemCommand,
+  type PutItemCommandInput,
 } from "@aws-sdk/client-dynamodb";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-dynamodb/dist-cjs/runtimeConfig";

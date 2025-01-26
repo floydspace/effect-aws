@@ -2,9 +2,6 @@
  * @since 1.0.0
  */
 import {
-  ECRServiceException,
-  type ECRClient,
-  type ECRClientConfig,
   BatchCheckLayerAvailabilityCommand,
   type BatchCheckLayerAvailabilityCommandInput,
   type BatchCheckLayerAvailabilityCommandOutput,
@@ -68,6 +65,9 @@ import {
   DescribeRepositoryCreationTemplatesCommand,
   type DescribeRepositoryCreationTemplatesCommandInput,
   type DescribeRepositoryCreationTemplatesCommandOutput,
+  type ECRClient,
+  type ECRClientConfig,
+  ECRServiceException,
   GetAccountSettingCommand,
   type GetAccountSettingCommandInput,
   type GetAccountSettingCommandOutput,
@@ -154,17 +154,13 @@ import {
   type ValidatePullThroughCacheRuleCommandOutput,
 } from "@aws-sdk/client-ecr";
 import { Data, Effect, Layer, Record } from "effect";
-import {
-  ECRClientInstance,
-  ECRClientInstanceLayer,
-} from "./ECRClientInstance.js";
+import { ECRClientInstance, ECRClientInstanceLayer } from "./ECRClientInstance.js";
 import {
   DefaultECRClientConfigLayer,
-  makeDefaultECRClientInstanceConfig,
   ECRClientInstanceConfig,
+  makeDefaultECRClientInstanceConfig,
 } from "./ECRClientInstanceConfig.js";
-import {
-  AllServiceErrors,
+import type {
   EmptyUploadError,
   ImageAlreadyExistsError,
   ImageDigestDoesNotMatchError,
@@ -194,6 +190,7 @@ import {
   ScanNotFoundError,
   SecretNotFoundError,
   ServerError,
+  TaggedException,
   TemplateAlreadyExistsError,
   TemplateNotFoundError,
   TooManyTagsError,
@@ -205,9 +202,8 @@ import {
   UnsupportedUpstreamRegistryError,
   UploadNotFoundError,
   ValidationError,
-  SdkError,
-  TaggedException,
 } from "./Errors.js";
+import { AllServiceErrors, SdkError } from "./Errors.js";
 
 /**
  * @since 1.0.0
@@ -998,7 +994,7 @@ interface ECRService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeECRService = Effect.gen(function* (_) {
+export const makeECRService = Effect.gen(function*(_) {
   const client = yield* _(ECRClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {

@@ -1,8 +1,8 @@
 import {
-  type DescribeAlarmsCommandInput,
-  DescribeAlarmsCommand,
   CloudWatchClient,
   CloudWatchServiceException,
+  DescribeAlarmsCommand,
+  type DescribeAlarmsCommandInput,
 } from "@aws-sdk/client-cloudwatch";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-cloudwatch/dist-cjs/runtimeConfig";
@@ -102,8 +102,7 @@ describe("CloudWatchClientImpl", () => {
       program,
       Effect.provide(
         CloudWatch.baseLayer(
-          (config) =>
-            new CloudWatchClient({ ...config, region: "eu-central-1" }),
+          (config) => new CloudWatchClient({ ...config, region: "eu-central-1" }),
         ),
       ),
       Effect.runPromiseExit,

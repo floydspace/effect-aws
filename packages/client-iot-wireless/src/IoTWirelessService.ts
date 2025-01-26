@@ -2,9 +2,6 @@
  * @since 1.0.0
  */
 import {
-  IoTWirelessServiceException,
-  type IoTWirelessClient,
-  type IoTWirelessClientConfig,
   AssociateAwsAccountWithPartnerAccountCommand,
   type AssociateAwsAccountWithPartnerAccountCommandInput,
   type AssociateAwsAccountWithPartnerAccountCommandOutput,
@@ -185,12 +182,12 @@ import {
   GetWirelessDeviceStatisticsCommand,
   type GetWirelessDeviceStatisticsCommandInput,
   type GetWirelessDeviceStatisticsCommandOutput,
-  GetWirelessGatewayCommand,
-  type GetWirelessGatewayCommandInput,
-  type GetWirelessGatewayCommandOutput,
   GetWirelessGatewayCertificateCommand,
   type GetWirelessGatewayCertificateCommandInput,
   type GetWirelessGatewayCertificateCommandOutput,
+  GetWirelessGatewayCommand,
+  type GetWirelessGatewayCommandInput,
+  type GetWirelessGatewayCommandOutput,
   GetWirelessGatewayFirmwareInformationCommand,
   type GetWirelessGatewayFirmwareInformationCommandInput,
   type GetWirelessGatewayFirmwareInformationCommandOutput,
@@ -203,6 +200,9 @@ import {
   GetWirelessGatewayTaskDefinitionCommand,
   type GetWirelessGatewayTaskDefinitionCommandInput,
   type GetWirelessGatewayTaskDefinitionCommandOutput,
+  type IoTWirelessClient,
+  type IoTWirelessClientConfig,
+  IoTWirelessServiceException,
   ListDestinationsCommand,
   type ListDestinationsCommandInput,
   type ListDestinationsCommandOutput,
@@ -218,12 +218,12 @@ import {
   ListFuotaTasksCommand,
   type ListFuotaTasksCommandInput,
   type ListFuotaTasksCommandOutput,
-  ListMulticastGroupsCommand,
-  type ListMulticastGroupsCommandInput,
-  type ListMulticastGroupsCommandOutput,
   ListMulticastGroupsByFuotaTaskCommand,
   type ListMulticastGroupsByFuotaTaskCommandInput,
   type ListMulticastGroupsByFuotaTaskCommandOutput,
+  ListMulticastGroupsCommand,
+  type ListMulticastGroupsCommandInput,
+  type ListMulticastGroupsCommandOutput,
   ListNetworkAnalyzerConfigurationsCommand,
   type ListNetworkAnalyzerConfigurationsCommandInput,
   type ListNetworkAnalyzerConfigurationsCommandOutput,
@@ -248,12 +248,12 @@ import {
   ListWirelessDevicesCommand,
   type ListWirelessDevicesCommandInput,
   type ListWirelessDevicesCommandOutput,
-  ListWirelessGatewayTaskDefinitionsCommand,
-  type ListWirelessGatewayTaskDefinitionsCommandInput,
-  type ListWirelessGatewayTaskDefinitionsCommandOutput,
   ListWirelessGatewaysCommand,
   type ListWirelessGatewaysCommandInput,
   type ListWirelessGatewaysCommandOutput,
+  ListWirelessGatewayTaskDefinitionsCommand,
+  type ListWirelessGatewayTaskDefinitionsCommandInput,
+  type ListWirelessGatewayTaskDefinitionsCommandOutput,
   PutPositionConfigurationCommand,
   type PutPositionConfigurationCommandInput,
   type PutPositionConfigurationCommandOutput,
@@ -343,26 +343,22 @@ import {
   type UpdateWirelessGatewayCommandOutput,
 } from "@aws-sdk/client-iot-wireless";
 import { Data, Effect, Layer, Record } from "effect";
-import {
-  AllServiceErrors,
+import type {
   AccessDeniedError,
   ConflictError,
   InternalServerError,
   ResourceNotFoundError,
+  TaggedException,
   ThrottlingError,
   TooManyTagsError,
   ValidationError,
-  SdkError,
-  TaggedException,
 } from "./Errors.js";
-import {
-  IoTWirelessClientInstance,
-  IoTWirelessClientInstanceLayer,
-} from "./IoTWirelessClientInstance.js";
+import { AllServiceErrors, SdkError } from "./Errors.js";
+import { IoTWirelessClientInstance, IoTWirelessClientInstanceLayer } from "./IoTWirelessClientInstance.js";
 import {
   DefaultIoTWirelessClientConfigLayer,
-  makeDefaultIoTWirelessClientInstanceConfig,
   IoTWirelessClientInstanceConfig,
+  makeDefaultIoTWirelessClientInstanceConfig,
 } from "./IoTWirelessClientInstanceConfig.js";
 
 /**
@@ -2307,7 +2303,7 @@ interface IoTWirelessService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeIoTWirelessService = Effect.gen(function* (_) {
+export const makeIoTWirelessService = Effect.gen(function*(_) {
   const client = yield* _(IoTWirelessClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {

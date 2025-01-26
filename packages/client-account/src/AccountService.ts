@@ -2,12 +2,12 @@
  * @since 1.0.0
  */
 import {
-  AccountServiceException,
-  type AccountClient,
-  type AccountClientConfig,
   AcceptPrimaryEmailUpdateCommand,
   type AcceptPrimaryEmailUpdateCommandInput,
   type AcceptPrimaryEmailUpdateCommandOutput,
+  type AccountClient,
+  type AccountClientConfig,
+  AccountServiceException,
   DeleteAlternateContactCommand,
   type DeleteAlternateContactCommandInput,
   type DeleteAlternateContactCommandOutput,
@@ -43,26 +43,22 @@ import {
   type StartPrimaryEmailUpdateCommandOutput,
 } from "@aws-sdk/client-account";
 import { Data, Effect, Layer, Record } from "effect";
+import { AccountClientInstance, AccountClientInstanceLayer } from "./AccountClientInstance.js";
 import {
-  AccountClientInstance,
-  AccountClientInstanceLayer,
-} from "./AccountClientInstance.js";
-import {
+  AccountClientInstanceConfig,
   DefaultAccountClientConfigLayer,
   makeDefaultAccountClientInstanceConfig,
-  AccountClientInstanceConfig,
 } from "./AccountClientInstanceConfig.js";
-import {
-  AllServiceErrors,
+import type {
   AccessDeniedError,
   ConflictError,
   InternalServerError,
   ResourceNotFoundError,
+  TaggedException,
   TooManyRequestsError,
   ValidationError,
-  SdkError,
-  TaggedException,
 } from "./Errors.js";
+import { AllServiceErrors, SdkError } from "./Errors.js";
 
 /**
  * @since 1.0.0
@@ -288,7 +284,7 @@ interface AccountService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeAccountService = Effect.gen(function* (_) {
+export const makeAccountService = Effect.gen(function*(_) {
   const client = yield* _(AccountClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {

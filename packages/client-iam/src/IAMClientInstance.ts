@@ -3,10 +3,7 @@
  */
 import { IAMClient } from "@aws-sdk/client-iam";
 import { Context, Effect, Layer } from "effect";
-import {
-  DefaultIAMClientConfigLayer,
-  IAMClientInstanceConfig,
-} from "./IAMClientInstanceConfig.js";
+import { DefaultIAMClientConfigLayer, IAMClientInstanceConfig } from "./IAMClientInstanceConfig.js";
 
 /**
  * @since 1.0.0

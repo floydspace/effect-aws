@@ -3,10 +3,7 @@
  */
 import { ECRClient } from "@aws-sdk/client-ecr";
 import { Context, Effect, Layer } from "effect";
-import {
-  DefaultECRClientConfigLayer,
-  ECRClientInstanceConfig,
-} from "./ECRClientInstanceConfig.js";
+import { DefaultECRClientConfigLayer, ECRClientInstanceConfig } from "./ECRClientInstanceConfig.js";
 
 /**
  * @since 1.0.0

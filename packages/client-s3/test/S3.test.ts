@@ -18,7 +18,7 @@ const getSignedUrl = vi.hoisted(() =>
     .fn()
     .mockResolvedValue(
       "https://test.s3.eu-central-1.amazonaws.com/test?whatever",
-    ),
+    )
 );
 vi.mock("@aws-sdk/s3-request-presigner", () => ({ getSignedUrl }));
 

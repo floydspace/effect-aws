@@ -2,12 +2,12 @@
  * @since 1.0.0
  */
 import {
-  CloudSearchServiceException,
-  type CloudSearchClient,
-  type CloudSearchClientConfig,
   BuildSuggestersCommand,
   type BuildSuggestersCommandInput,
   type BuildSuggestersCommandOutput,
+  type CloudSearchClient,
+  type CloudSearchClientConfig,
+  CloudSearchServiceException,
   CreateDomainCommand,
   type CreateDomainCommandInput,
   type CreateDomainCommandOutput,
@@ -85,17 +85,13 @@ import {
   type UpdateServiceAccessPoliciesCommandOutput,
 } from "@aws-sdk/client-cloudsearch";
 import { Data, Effect, Layer, Record } from "effect";
+import { CloudSearchClientInstance, CloudSearchClientInstanceLayer } from "./CloudSearchClientInstance.js";
 import {
-  CloudSearchClientInstance,
-  CloudSearchClientInstanceLayer,
-} from "./CloudSearchClientInstance.js";
-import {
+  CloudSearchClientInstanceConfig,
   DefaultCloudSearchClientConfigLayer,
   makeDefaultCloudSearchClientInstanceConfig,
-  CloudSearchClientInstanceConfig,
 } from "./CloudSearchClientInstanceConfig.js";
-import {
-  AllServiceErrors,
+import type {
   BaseError,
   DisabledOperationError,
   InternalError,
@@ -103,10 +99,10 @@ import {
   LimitExceededError,
   ResourceAlreadyExistsError,
   ResourceNotFoundError,
-  ValidationError,
-  SdkError,
   TaggedException,
+  ValidationError,
 } from "./Errors.js";
+import { AllServiceErrors, SdkError } from "./Errors.js";
 
 /**
  * @since 1.0.0
@@ -533,7 +529,7 @@ interface CloudSearchService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeCloudSearchService = Effect.gen(function* (_) {
+export const makeCloudSearchService = Effect.gen(function*(_) {
   const client = yield* _(CloudSearchClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {

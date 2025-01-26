@@ -2,9 +2,6 @@
  * @since 1.0.0
  */
 import {
-  EventBridgeServiceException,
-  type EventBridgeClient,
-  type EventBridgeClientConfig,
   ActivateEventSourceCommand,
   type ActivateEventSourceCommandInput,
   type ActivateEventSourceCommandOutput,
@@ -89,6 +86,9 @@ import {
   EnableRuleCommand,
   type EnableRuleCommandInput,
   type EnableRuleCommandOutput,
+  type EventBridgeClient,
+  type EventBridgeClientConfig,
+  EventBridgeServiceException,
   ListApiDestinationsCommand,
   type ListApiDestinationsCommandInput,
   type ListApiDestinationsCommandOutput,
@@ -178,8 +178,7 @@ import {
   type UpdateEventBusCommandOutput,
 } from "@aws-sdk/client-eventbridge";
 import { Data, Effect, Layer, Record } from "effect";
-import {
-  AllServiceErrors,
+import type {
   AccessDeniedError,
   ConcurrentModificationError,
   IllegalStatusError,
@@ -192,18 +191,15 @@ import {
   PolicyLengthExceededError,
   ResourceAlreadyExistsError,
   ResourceNotFoundError,
-  ThrottlingError,
-  SdkError,
   TaggedException,
+  ThrottlingError,
 } from "./Errors.js";
-import {
-  EventBridgeClientInstance,
-  EventBridgeClientInstanceLayer,
-} from "./EventBridgeClientInstance.js";
+import { AllServiceErrors, SdkError } from "./Errors.js";
+import { EventBridgeClientInstance, EventBridgeClientInstanceLayer } from "./EventBridgeClientInstance.js";
 import {
   DefaultEventBridgeClientConfigLayer,
-  makeDefaultEventBridgeClientInstanceConfig,
   EventBridgeClientInstanceConfig,
+  makeDefaultEventBridgeClientInstanceConfig,
 } from "./EventBridgeClientInstanceConfig.js";
 
 /**
@@ -1028,7 +1024,7 @@ interface EventBridgeService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeEventBridgeService = Effect.gen(function* (_) {
+export const makeEventBridgeService = Effect.gen(function*(_) {
   const client = yield* _(EventBridgeClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {

@@ -1,8 +1,8 @@
 import {
-  type ListTagsForResourceCommandInput,
-  ListTagsForResourceCommand,
   ElastiCacheClient,
   ElastiCacheServiceException,
+  ListTagsForResourceCommand,
+  type ListTagsForResourceCommandInput,
 } from "@aws-sdk/client-elasticache";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-elasticache/dist-cjs/runtimeConfig";
@@ -120,8 +120,7 @@ describe("ElastiCacheClientImpl", () => {
       program,
       Effect.provide(
         ElastiCache.baseLayer(
-          (config) =>
-            new ElastiCacheClient({ ...config, region: "eu-central-1" }),
+          (config) => new ElastiCacheClient({ ...config, region: "eu-central-1" }),
         ),
       ),
       Effect.runPromiseExit,

@@ -3,10 +3,7 @@
  */
 import { LambdaClient } from "@aws-sdk/client-lambda";
 import { Context, Effect, Layer } from "effect";
-import {
-  DefaultLambdaClientConfigLayer,
-  LambdaClientInstanceConfig,
-} from "./LambdaClientInstanceConfig.js";
+import { DefaultLambdaClientConfigLayer, LambdaClientInstanceConfig } from "./LambdaClientInstanceConfig.js";
 
 /**
  * @since 1.0.0

@@ -2,9 +2,6 @@
  * @since 1.0.0
  */
 import {
-  DynamoDBServiceException,
-  type DynamoDBClient,
-  type DynamoDBClientConfig,
   BatchExecuteStatementCommand,
   type BatchExecuteStatementCommandInput,
   type BatchExecuteStatementCommandOutput,
@@ -77,6 +74,9 @@ import {
   DisableKinesisStreamingDestinationCommand,
   type DisableKinesisStreamingDestinationCommandInput,
   type DisableKinesisStreamingDestinationCommandOutput,
+  type DynamoDBClient,
+  type DynamoDBClientConfig,
+  DynamoDBServiceException,
   EnableKinesisStreamingDestinationCommand,
   type EnableKinesisStreamingDestinationCommandInput,
   type EnableKinesisStreamingDestinationCommandOutput,
@@ -178,17 +178,13 @@ import {
   type UpdateTimeToLiveCommandOutput,
 } from "@aws-sdk/client-dynamodb";
 import { Data, Effect, Layer, Record } from "effect";
-import {
-  DynamoDBClientInstance,
-  DynamoDBClientInstanceLayer,
-} from "./DynamoDBClientInstance.js";
+import { DynamoDBClientInstance, DynamoDBClientInstanceLayer } from "./DynamoDBClientInstance.js";
 import {
   DefaultDynamoDBClientConfigLayer,
-  makeDefaultDynamoDBClientInstanceConfig,
   DynamoDBClientInstanceConfig,
+  makeDefaultDynamoDBClientInstanceConfig,
 } from "./DynamoDBClientInstanceConfig.js";
-import {
-  AllServiceErrors,
+import type {
   BackupInUseError,
   BackupNotFoundError,
   ConditionalCheckFailedError,
@@ -220,12 +216,12 @@ import {
   TableAlreadyExistsError,
   TableInUseError,
   TableNotFoundError,
+  TaggedException,
   TransactionCanceledError,
   TransactionConflictError,
   TransactionInProgressError,
-  SdkError,
-  TaggedException,
 } from "./Errors.js";
+import { AllServiceErrors, SdkError } from "./Errors.js";
 
 /**
  * @since 1.0.0
@@ -1143,7 +1139,7 @@ interface DynamoDBService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeDynamoDBService = Effect.gen(function* (_) {
+export const makeDynamoDBService = Effect.gen(function*(_) {
   const client = yield* _(DynamoDBClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {

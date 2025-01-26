@@ -2,10 +2,7 @@
  * @since 1.0.0
  */
 import { DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
-import {
-  DefaultDynamoDBClientInstanceLayer,
-  DynamoDBClientInstance,
-} from "@effect-aws/client-dynamodb";
+import { DefaultDynamoDBClientInstanceLayer, DynamoDBClientInstance } from "@effect-aws/client-dynamodb";
 import { Context, Effect, Layer } from "effect";
 import {
   DefaultDynamoDBDocumentClientConfigLayer,
@@ -44,7 +41,6 @@ export const DynamoDBDocumentClientInstanceLayer = Layer.effect(
  * @since 1.0.0
  * @category layers
  */
-export const DefaultDynamoDBDocumentClientInstanceLayer =
-  DynamoDBDocumentClientInstanceLayer.pipe(
-    Layer.provide(DefaultDynamoDBDocumentClientConfigLayer),
-  );
+export const DefaultDynamoDBDocumentClientInstanceLayer = DynamoDBDocumentClientInstanceLayer.pipe(
+  Layer.provide(DefaultDynamoDBDocumentClientConfigLayer),
+);

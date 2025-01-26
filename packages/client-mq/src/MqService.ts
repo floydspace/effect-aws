@@ -2,9 +2,6 @@
  * @since 1.0.0
  */
 import {
-  MqServiceException,
-  type MqClient,
-  type MqClientConfig,
   CreateBrokerCommand,
   type CreateBrokerCommandInput,
   type CreateBrokerCommandOutput,
@@ -59,6 +56,9 @@ import {
   ListUsersCommand,
   type ListUsersCommandInput,
   type ListUsersCommandOutput,
+  type MqClient,
+  type MqClientConfig,
+  MqServiceException,
   PromoteCommand,
   type PromoteCommandInput,
   type PromoteCommandOutput,
@@ -76,17 +76,16 @@ import {
   type UpdateUserCommandOutput,
 } from "@aws-sdk/client-mq";
 import { Data, Effect, Layer, Record } from "effect";
-import {
-  AllServiceErrors,
+import type {
   BadRequestError,
   ConflictError,
   ForbiddenError,
   InternalServerError,
   NotFoundError,
-  UnauthorizedError,
-  SdkError,
   TaggedException,
+  UnauthorizedError,
 } from "./Errors.js";
+import { AllServiceErrors, SdkError } from "./Errors.js";
 import { MqClientInstance, MqClientInstanceLayer } from "./MqClientInstance.js";
 import {
   DefaultMqClientConfigLayer,
@@ -473,7 +472,7 @@ interface MqService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeMqService = Effect.gen(function* (_) {
+export const makeMqService = Effect.gen(function*(_) {
   const client = yield* _(MqClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {

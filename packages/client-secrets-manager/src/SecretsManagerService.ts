@@ -2,9 +2,6 @@
  * @since 1.0.0
  */
 import {
-  SecretsManagerServiceException,
-  type SecretsManagerClient,
-  type SecretsManagerClientConfig,
   BatchGetSecretValueCommand,
   type BatchGetSecretValueCommandInput,
   type BatchGetSecretValueCommandOutput,
@@ -32,12 +29,12 @@ import {
   GetSecretValueCommand,
   type GetSecretValueCommandInput,
   type GetSecretValueCommandOutput,
-  ListSecretVersionIdsCommand,
-  type ListSecretVersionIdsCommandInput,
-  type ListSecretVersionIdsCommandOutput,
   ListSecretsCommand,
   type ListSecretsCommandInput,
   type ListSecretsCommandOutput,
+  ListSecretVersionIdsCommand,
+  type ListSecretVersionIdsCommandInput,
+  type ListSecretVersionIdsCommandOutput,
   PutResourcePolicyCommand,
   type PutResourcePolicyCommandInput,
   type PutResourcePolicyCommandOutput,
@@ -56,6 +53,9 @@ import {
   RotateSecretCommand,
   type RotateSecretCommandInput,
   type RotateSecretCommandOutput,
+  type SecretsManagerClient,
+  type SecretsManagerClientConfig,
+  SecretsManagerServiceException,
   StopReplicationToReplicaCommand,
   type StopReplicationToReplicaCommandInput,
   type StopReplicationToReplicaCommandOutput,
@@ -76,8 +76,7 @@ import {
   type ValidateResourcePolicyCommandOutput,
 } from "@aws-sdk/client-secrets-manager";
 import { Data, Effect, Layer, Record } from "effect";
-import {
-  AllServiceErrors,
+import type {
   DecryptionError,
   EncryptionError,
   InternalServiceError,
@@ -90,13 +89,10 @@ import {
   PublicPolicyError,
   ResourceExistsError,
   ResourceNotFoundError,
-  SdkError,
   TaggedException,
 } from "./Errors.js";
-import {
-  SecretsManagerClientInstance,
-  SecretsManagerClientInstanceLayer,
-} from "./SecretsManagerClientInstance.js";
+import { AllServiceErrors, SdkError } from "./Errors.js";
+import { SecretsManagerClientInstance, SecretsManagerClientInstanceLayer } from "./SecretsManagerClientInstance.js";
 import {
   DefaultSecretsManagerClientConfigLayer,
   makeDefaultSecretsManagerClientInstanceConfig,
@@ -514,7 +510,7 @@ interface SecretsManagerService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeSecretsManagerService = Effect.gen(function* (_) {
+export const makeSecretsManagerService = Effect.gen(function*(_) {
   const client = yield* _(SecretsManagerClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {
@@ -632,5 +628,4 @@ export const SecretsManagerServiceLayer = BaseSecretsManagerServiceLayer.pipe(
  * @category layers
  * @deprecated use SecretsManager.defaultLayer instead
  */
-export const DefaultSecretsManagerServiceLayer =
-  SecretsManagerService.defaultLayer;
+export const DefaultSecretsManagerServiceLayer = SecretsManagerService.defaultLayer;

@@ -2,15 +2,15 @@
  * @since 1.0.0
  */
 import {
-  CloudWatchLogsServiceException,
-  type CloudWatchLogsClient,
-  type CloudWatchLogsClientConfig,
   AssociateKmsKeyCommand,
   type AssociateKmsKeyCommandInput,
   type AssociateKmsKeyCommandOutput,
   CancelExportTaskCommand,
   type CancelExportTaskCommandInput,
   type CancelExportTaskCommandOutput,
+  type CloudWatchLogsClient,
+  type CloudWatchLogsClientConfig,
+  CloudWatchLogsServiceException,
   CreateDeliveryCommand,
   type CreateDeliveryCommandInput,
   type CreateDeliveryCommandOutput,
@@ -274,17 +274,13 @@ import {
   type UpdateLogAnomalyDetectorCommandOutput,
 } from "@aws-sdk/client-cloudwatch-logs";
 import { Data, Effect, Layer, Record } from "effect";
+import { CloudWatchLogsClientInstance, CloudWatchLogsClientInstanceLayer } from "./CloudWatchLogsClientInstance.js";
 import {
-  CloudWatchLogsClientInstance,
-  CloudWatchLogsClientInstanceLayer,
-} from "./CloudWatchLogsClientInstance.js";
-import {
+  CloudWatchLogsClientInstanceConfig,
   DefaultCloudWatchLogsClientConfigLayer,
   makeDefaultCloudWatchLogsClientInstanceConfig,
-  CloudWatchLogsClientInstanceConfig,
 } from "./CloudWatchLogsClientInstanceConfig.js";
-import {
-  AllServiceErrors,
+import type {
   AccessDeniedError,
   ConflictError,
   DataAlreadyAcceptedError,
@@ -298,13 +294,13 @@ import {
   ResourceNotFoundError,
   ServiceQuotaExceededError,
   ServiceUnavailableError,
+  TaggedException,
   ThrottlingError,
   TooManyTagsError,
   UnrecognizedClientError,
   ValidationError,
-  SdkError,
-  TaggedException,
 } from "./Errors.js";
+import { AllServiceErrors, SdkError } from "./Errors.js";
 
 /**
  * @since 1.0.0
@@ -1729,7 +1725,7 @@ interface CloudWatchLogsService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeCloudWatchLogsService = Effect.gen(function* (_) {
+export const makeCloudWatchLogsService = Effect.gen(function*(_) {
   const client = yield* _(CloudWatchLogsClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {
@@ -1847,5 +1843,4 @@ export const CloudWatchLogsServiceLayer = BaseCloudWatchLogsServiceLayer.pipe(
  * @category layers
  * @deprecated use CloudWatchLogs.defaultLayer instead
  */
-export const DefaultCloudWatchLogsServiceLayer =
-  CloudWatchLogsService.defaultLayer;
+export const DefaultCloudWatchLogsServiceLayer = CloudWatchLogsService.defaultLayer;

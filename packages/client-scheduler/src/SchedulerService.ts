@@ -2,9 +2,6 @@
  * @since 1.0.0
  */
 import {
-  SchedulerServiceException,
-  type SchedulerClient,
-  type SchedulerClientConfig,
   CreateScheduleCommand,
   type CreateScheduleCommandInput,
   type CreateScheduleCommandOutput,
@@ -32,6 +29,9 @@ import {
   ListTagsForResourceCommand,
   type ListTagsForResourceCommandInput,
   type ListTagsForResourceCommandOutput,
+  type SchedulerClient,
+  type SchedulerClientConfig,
+  SchedulerServiceException,
   TagResourceCommand,
   type TagResourceCommandInput,
   type TagResourceCommandOutput,
@@ -43,21 +43,17 @@ import {
   type UpdateScheduleCommandOutput,
 } from "@aws-sdk/client-scheduler";
 import { Data, Effect, Layer, Record } from "effect";
-import {
-  AllServiceErrors,
+import type {
   ConflictError,
   InternalServerError,
   ResourceNotFoundError,
   ServiceQuotaExceededError,
+  TaggedException,
   ThrottlingError,
   ValidationError,
-  SdkError,
-  TaggedException,
 } from "./Errors.js";
-import {
-  SchedulerClientInstance,
-  SchedulerClientInstanceLayer,
-} from "./SchedulerClientInstance.js";
+import { AllServiceErrors, SdkError } from "./Errors.js";
+import { SchedulerClientInstance, SchedulerClientInstanceLayer } from "./SchedulerClientInstance.js";
 import {
   DefaultSchedulerClientConfigLayer,
   makeDefaultSchedulerClientInstanceConfig,
@@ -282,7 +278,7 @@ interface SchedulerService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeSchedulerService = Effect.gen(function* (_) {
+export const makeSchedulerService = Effect.gen(function*(_) {
   const client = yield* _(SchedulerClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {

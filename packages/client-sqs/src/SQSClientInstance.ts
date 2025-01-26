@@ -3,10 +3,7 @@
  */
 import { SQSClient } from "@aws-sdk/client-sqs";
 import { Context, Effect, Layer } from "effect";
-import {
-  DefaultSQSClientConfigLayer,
-  SQSClientInstanceConfig,
-} from "./SQSClientInstanceConfig.js";
+import { DefaultSQSClientConfigLayer, SQSClientInstanceConfig } from "./SQSClientInstanceConfig.js";
 
 /**
  * @since 1.0.0

@@ -1,6 +1,6 @@
 import {
-  type ListCollectionsCommandInput,
   ListCollectionsCommand,
+  type ListCollectionsCommandInput,
   OpenSearchServerlessClient,
   OpenSearchServerlessServiceException,
 } from "@aws-sdk/client-opensearchserverless";

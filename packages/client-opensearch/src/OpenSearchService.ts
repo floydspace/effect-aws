@@ -2,9 +2,6 @@
  * @since 1.0.0
  */
 import {
-  OpenSearchServiceException,
-  type OpenSearchClient,
-  type OpenSearchClientConfig,
   AcceptInboundConnectionCommand,
   type AcceptInboundConnectionCommandInput,
   type AcceptInboundConnectionCommandOutput,
@@ -71,15 +68,15 @@ import {
   DeleteVpcEndpointCommand,
   type DeleteVpcEndpointCommandInput,
   type DeleteVpcEndpointCommandOutput,
-  DescribeDomainCommand,
-  type DescribeDomainCommandInput,
-  type DescribeDomainCommandOutput,
   DescribeDomainAutoTunesCommand,
   type DescribeDomainAutoTunesCommandInput,
   type DescribeDomainAutoTunesCommandOutput,
   DescribeDomainChangeProgressCommand,
   type DescribeDomainChangeProgressCommandInput,
   type DescribeDomainChangeProgressCommandOutput,
+  DescribeDomainCommand,
+  type DescribeDomainCommandInput,
+  type DescribeDomainCommandOutput,
   DescribeDomainConfigCommand,
   type DescribeDomainConfigCommandInput,
   type DescribeDomainConfigCommandOutput,
@@ -188,6 +185,9 @@ import {
   ListVpcEndpointsForDomainCommand,
   type ListVpcEndpointsForDomainCommandInput,
   type ListVpcEndpointsForDomainCommandOutput,
+  type OpenSearchClient,
+  type OpenSearchClientConfig,
+  OpenSearchServiceException,
   PurchaseReservedInstanceOfferingCommand,
   type PurchaseReservedInstanceOfferingCommandInput,
   type PurchaseReservedInstanceOfferingCommandOutput,
@@ -235,8 +235,7 @@ import {
   type UpgradeDomainCommandOutput,
 } from "@aws-sdk/client-opensearch";
 import { Data, Effect, Layer, Record } from "effect";
-import {
-  AllServiceErrors,
+import type {
   AccessDeniedError,
   BaseError,
   ConflictError,
@@ -249,14 +248,11 @@ import {
   ResourceAlreadyExistsError,
   ResourceNotFoundError,
   SlotNotAvailableError,
-  ValidationError,
-  SdkError,
   TaggedException,
+  ValidationError,
 } from "./Errors.js";
-import {
-  OpenSearchClientInstance,
-  OpenSearchClientInstanceLayer,
-} from "./OpenSearchClientInstance.js";
+import { AllServiceErrors, SdkError } from "./Errors.js";
+import { OpenSearchClientInstance, OpenSearchClientInstanceLayer } from "./OpenSearchClientInstance.js";
 import {
   DefaultOpenSearchClientConfigLayer,
   makeDefaultOpenSearchClientInstanceConfig,
@@ -1542,7 +1538,7 @@ interface OpenSearchService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeOpenSearchService = Effect.gen(function* (_) {
+export const makeOpenSearchService = Effect.gen(function*(_) {
   const client = yield* _(OpenSearchClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {

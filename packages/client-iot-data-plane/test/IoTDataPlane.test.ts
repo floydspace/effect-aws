@@ -1,8 +1,8 @@
 import {
-  type PublishCommandInput,
-  PublishCommand,
   IoTDataPlaneClient,
   IoTDataPlaneServiceException,
+  PublishCommand,
+  type PublishCommandInput,
 } from "@aws-sdk/client-iot-data-plane";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-iot-data-plane/dist-cjs/runtimeConfig";
@@ -102,8 +102,7 @@ describe("IoTDataPlaneClientImpl", () => {
       program,
       Effect.provide(
         IoTDataPlane.baseLayer(
-          (config) =>
-            new IoTDataPlaneClient({ ...config, region: "eu-central-1" }),
+          (config) => new IoTDataPlaneClient({ ...config, region: "eu-central-1" }),
         ),
       ),
       Effect.runPromiseExit,

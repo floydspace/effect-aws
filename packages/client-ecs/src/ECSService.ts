@@ -2,9 +2,6 @@
  * @since 1.0.0
  */
 import {
-  ECSServiceException,
-  type ECSClient,
-  type ECSClientConfig,
   CreateCapacityProviderCommand,
   type CreateCapacityProviderCommandInput,
   type CreateCapacityProviderCommandOutput,
@@ -65,15 +62,18 @@ import {
   DescribeTaskDefinitionCommand,
   type DescribeTaskDefinitionCommandInput,
   type DescribeTaskDefinitionCommandOutput,
-  DescribeTaskSetsCommand,
-  type DescribeTaskSetsCommandInput,
-  type DescribeTaskSetsCommandOutput,
   DescribeTasksCommand,
   type DescribeTasksCommandInput,
   type DescribeTasksCommandOutput,
+  DescribeTaskSetsCommand,
+  type DescribeTaskSetsCommandInput,
+  type DescribeTaskSetsCommandOutput,
   DiscoverPollEndpointCommand,
   type DiscoverPollEndpointCommandInput,
   type DiscoverPollEndpointCommandOutput,
+  type ECSClient,
+  type ECSClientConfig,
+  ECSServiceException,
   ExecuteCommandCommand,
   type ExecuteCommandCommandInput,
   type ExecuteCommandCommandOutput,
@@ -95,12 +95,12 @@ import {
   ListServiceDeploymentsCommand,
   type ListServiceDeploymentsCommandInput,
   type ListServiceDeploymentsCommandOutput,
-  ListServicesCommand,
-  type ListServicesCommandInput,
-  type ListServicesCommandOutput,
   ListServicesByNamespaceCommand,
   type ListServicesByNamespaceCommandInput,
   type ListServicesByNamespaceCommandOutput,
+  ListServicesCommand,
+  type ListServicesCommandInput,
+  type ListServicesCommandOutput,
   ListTagsForResourceCommand,
   type ListTagsForResourceCommandInput,
   type ListTagsForResourceCommandOutput,
@@ -184,17 +184,13 @@ import {
   type UpdateTaskSetCommandOutput,
 } from "@aws-sdk/client-ecs";
 import { Data, Effect, Layer, Record } from "effect";
-import {
-  ECSClientInstance,
-  ECSClientInstanceLayer,
-} from "./ECSClientInstance.js";
+import { ECSClientInstance, ECSClientInstanceLayer } from "./ECSClientInstance.js";
 import {
   DefaultECSClientConfigLayer,
-  makeDefaultECSClientInstanceConfig,
   ECSClientInstanceConfig,
+  makeDefaultECSClientInstanceConfig,
 } from "./ECSClientInstanceConfig.js";
-import {
-  AllServiceErrors,
+import type {
   AccessDeniedError,
   AttributeLimitExceededError,
   BlockedError,
@@ -216,14 +212,14 @@ import {
   ServerError,
   ServiceNotActiveError,
   ServiceNotFoundError,
+  TaggedException,
   TargetNotConnectedError,
   TargetNotFoundError,
   TaskSetNotFoundError,
   UnsupportedFeatureError,
   UpdateInProgressError,
-  SdkError,
-  TaggedException,
 } from "./Errors.js";
+import { AllServiceErrors, SdkError } from "./Errors.js";
 
 /**
  * @since 1.0.0
@@ -1194,7 +1190,7 @@ interface ECSService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeECSService = Effect.gen(function* (_) {
+export const makeECSService = Effect.gen(function*(_) {
   const client = yield* _(ECSClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {

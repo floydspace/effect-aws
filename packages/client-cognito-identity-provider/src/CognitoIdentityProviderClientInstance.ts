@@ -4,8 +4,8 @@
 import { CognitoIdentityProviderClient } from "@aws-sdk/client-cognito-identity-provider";
 import { Context, Effect, Layer } from "effect";
 import {
-  DefaultCognitoIdentityProviderClientConfigLayer,
   CognitoIdentityProviderClientInstanceConfig,
+  DefaultCognitoIdentityProviderClientConfigLayer,
 } from "./CognitoIdentityProviderClientInstanceConfig.js";
 
 /**
@@ -42,7 +42,6 @@ export const CognitoIdentityProviderClientInstanceLayer = Layer.scoped(
  * @since 1.0.0
  * @category layers
  */
-export const DefaultCognitoIdentityProviderClientInstanceLayer =
-  CognitoIdentityProviderClientInstanceLayer.pipe(
-    Layer.provide(DefaultCognitoIdentityProviderClientConfigLayer),
-  );
+export const DefaultCognitoIdentityProviderClientInstanceLayer = CognitoIdentityProviderClientInstanceLayer.pipe(
+  Layer.provide(DefaultCognitoIdentityProviderClientConfigLayer),
+);

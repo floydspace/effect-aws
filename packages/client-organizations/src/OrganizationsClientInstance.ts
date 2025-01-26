@@ -42,7 +42,6 @@ export const OrganizationsClientInstanceLayer = Layer.scoped(
  * @since 1.0.0
  * @category layers
  */
-export const DefaultOrganizationsClientInstanceLayer =
-  OrganizationsClientInstanceLayer.pipe(
-    Layer.provide(DefaultOrganizationsClientConfigLayer),
-  );
+export const DefaultOrganizationsClientInstanceLayer = OrganizationsClientInstanceLayer.pipe(
+  Layer.provide(DefaultOrganizationsClientConfigLayer),
+);

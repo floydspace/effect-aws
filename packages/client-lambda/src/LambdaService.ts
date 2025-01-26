@@ -2,9 +2,6 @@
  * @since 1.0.0
  */
 import {
-  LambdaServiceException,
-  type LambdaClient,
-  type LambdaClientConfig,
   AddLayerVersionPermissionCommand,
   type AddLayerVersionPermissionCommandInput,
   type AddLayerVersionPermissionCommandOutput,
@@ -35,12 +32,12 @@ import {
   DeleteEventSourceMappingCommand,
   type DeleteEventSourceMappingCommandInput,
   type DeleteEventSourceMappingCommandOutput,
-  DeleteFunctionCommand,
-  type DeleteFunctionCommandInput,
-  type DeleteFunctionCommandOutput,
   DeleteFunctionCodeSigningConfigCommand,
   type DeleteFunctionCodeSigningConfigCommandInput,
   type DeleteFunctionCodeSigningConfigCommandOutput,
+  DeleteFunctionCommand,
+  type DeleteFunctionCommandInput,
+  type DeleteFunctionCommandOutput,
   DeleteFunctionConcurrencyCommand,
   type DeleteFunctionConcurrencyCommandInput,
   type DeleteFunctionConcurrencyCommandOutput,
@@ -68,12 +65,12 @@ import {
   GetEventSourceMappingCommand,
   type GetEventSourceMappingCommandInput,
   type GetEventSourceMappingCommandOutput,
-  GetFunctionCommand,
-  type GetFunctionCommandInput,
-  type GetFunctionCommandOutput,
   GetFunctionCodeSigningConfigCommand,
   type GetFunctionCodeSigningConfigCommandInput,
   type GetFunctionCodeSigningConfigCommandOutput,
+  GetFunctionCommand,
+  type GetFunctionCommandInput,
+  type GetFunctionCommandOutput,
   GetFunctionConcurrencyCommand,
   type GetFunctionConcurrencyCommandInput,
   type GetFunctionConcurrencyCommandOutput,
@@ -89,12 +86,12 @@ import {
   GetFunctionUrlConfigCommand,
   type GetFunctionUrlConfigCommandInput,
   type GetFunctionUrlConfigCommandOutput,
-  GetLayerVersionCommand,
-  type GetLayerVersionCommandInput,
-  type GetLayerVersionCommandOutput,
   GetLayerVersionByArnCommand,
   type GetLayerVersionByArnCommandInput,
   type GetLayerVersionByArnCommandOutput,
+  GetLayerVersionCommand,
+  type GetLayerVersionCommandInput,
+  type GetLayerVersionCommandOutput,
   GetLayerVersionPolicyCommand,
   type GetLayerVersionPolicyCommandInput,
   type GetLayerVersionPolicyCommandOutput,
@@ -107,15 +104,18 @@ import {
   GetRuntimeManagementConfigCommand,
   type GetRuntimeManagementConfigCommandInput,
   type GetRuntimeManagementConfigCommandOutput,
-  InvokeCommand,
-  type InvokeCommandInput,
-  type InvokeCommandOutput,
   InvokeAsyncCommand,
   type InvokeAsyncCommandInput,
   type InvokeAsyncCommandOutput,
+  InvokeCommand,
+  type InvokeCommandInput,
+  type InvokeCommandOutput,
   InvokeWithResponseStreamCommand,
   type InvokeWithResponseStreamCommandInput,
   type InvokeWithResponseStreamCommandOutput,
+  type LambdaClient,
+  type LambdaClientConfig,
+  LambdaServiceException,
   ListAliasesCommand,
   type ListAliasesCommandInput,
   type ListAliasesCommandOutput,
@@ -128,21 +128,21 @@ import {
   ListFunctionEventInvokeConfigsCommand,
   type ListFunctionEventInvokeConfigsCommandInput,
   type ListFunctionEventInvokeConfigsCommandOutput,
-  ListFunctionUrlConfigsCommand,
-  type ListFunctionUrlConfigsCommandInput,
-  type ListFunctionUrlConfigsCommandOutput,
-  ListFunctionsCommand,
-  type ListFunctionsCommandInput,
-  type ListFunctionsCommandOutput,
   ListFunctionsByCodeSigningConfigCommand,
   type ListFunctionsByCodeSigningConfigCommandInput,
   type ListFunctionsByCodeSigningConfigCommandOutput,
-  ListLayerVersionsCommand,
-  type ListLayerVersionsCommandInput,
-  type ListLayerVersionsCommandOutput,
+  ListFunctionsCommand,
+  type ListFunctionsCommandInput,
+  type ListFunctionsCommandOutput,
+  ListFunctionUrlConfigsCommand,
+  type ListFunctionUrlConfigsCommandInput,
+  type ListFunctionUrlConfigsCommandOutput,
   ListLayersCommand,
   type ListLayersCommandInput,
   type ListLayersCommandOutput,
+  ListLayerVersionsCommand,
+  type ListLayerVersionsCommandInput,
+  type ListLayerVersionsCommandOutput,
   ListProvisionedConcurrencyConfigsCommand,
   type ListProvisionedConcurrencyConfigsCommandInput,
   type ListProvisionedConcurrencyConfigsCommandOutput,
@@ -211,8 +211,7 @@ import {
   type UpdateFunctionUrlConfigCommandOutput,
 } from "@aws-sdk/client-lambda";
 import { Data, Effect, Layer, Record } from "effect";
-import {
-  AllServiceErrors,
+import type {
   CodeSigningConfigNotFoundError,
   CodeStorageExceededError,
   CodeVerificationFailedError,
@@ -249,19 +248,16 @@ import {
   SnapStartNotReadyError,
   SnapStartTimeoutError,
   SubnetIPAddressLimitReachedError,
+  TaggedException,
   TooManyRequestsError,
   UnsupportedMediaTypeError,
-  SdkError,
-  TaggedException,
 } from "./Errors.js";
-import {
-  LambdaClientInstance,
-  LambdaClientInstanceLayer,
-} from "./LambdaClientInstance.js";
+import { AllServiceErrors, SdkError } from "./Errors.js";
+import { LambdaClientInstance, LambdaClientInstanceLayer } from "./LambdaClientInstance.js";
 import {
   DefaultLambdaClientConfigLayer,
-  makeDefaultLambdaClientInstanceConfig,
   LambdaClientInstanceConfig,
+  makeDefaultLambdaClientInstanceConfig,
 } from "./LambdaClientInstanceConfig.js";
 
 /**
@@ -1446,7 +1442,7 @@ interface LambdaService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeLambdaService = Effect.gen(function* (_) {
+export const makeLambdaService = Effect.gen(function*(_) {
   const client = yield* _(LambdaClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {

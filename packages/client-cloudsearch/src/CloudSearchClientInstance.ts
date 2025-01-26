@@ -4,8 +4,8 @@
 import { CloudSearchClient } from "@aws-sdk/client-cloudsearch";
 import { Context, Effect, Layer } from "effect";
 import {
-  DefaultCloudSearchClientConfigLayer,
   CloudSearchClientInstanceConfig,
+  DefaultCloudSearchClientConfigLayer,
 } from "./CloudSearchClientInstanceConfig.js";
 
 /**
@@ -42,7 +42,6 @@ export const CloudSearchClientInstanceLayer = Layer.scoped(
  * @since 1.0.0
  * @category layers
  */
-export const DefaultCloudSearchClientInstanceLayer =
-  CloudSearchClientInstanceLayer.pipe(
-    Layer.provide(DefaultCloudSearchClientConfigLayer),
-  );
+export const DefaultCloudSearchClientInstanceLayer = CloudSearchClientInstanceLayer.pipe(
+  Layer.provide(DefaultCloudSearchClientConfigLayer),
+);

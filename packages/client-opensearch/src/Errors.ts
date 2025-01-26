@@ -38,17 +38,13 @@ export type TaggedException<T extends { name: string }> = T & {
 export type AccessDeniedError = TaggedException<AccessDeniedException>;
 export type BaseError = TaggedException<BaseException>;
 export type ConflictError = TaggedException<ConflictException>;
-export type DependencyFailureError =
-  TaggedException<DependencyFailureException>;
-export type DisabledOperationError =
-  TaggedException<DisabledOperationException>;
+export type DependencyFailureError = TaggedException<DependencyFailureException>;
+export type DisabledOperationError = TaggedException<DisabledOperationException>;
 export type InternalError = TaggedException<InternalException>;
-export type InvalidPaginationTokenError =
-  TaggedException<InvalidPaginationTokenException>;
+export type InvalidPaginationTokenError = TaggedException<InvalidPaginationTokenException>;
 export type InvalidTypeError = TaggedException<InvalidTypeException>;
 export type LimitExceededError = TaggedException<LimitExceededException>;
-export type ResourceAlreadyExistsError =
-  TaggedException<ResourceAlreadyExistsException>;
+export type ResourceAlreadyExistsError = TaggedException<ResourceAlreadyExistsException>;
 export type ResourceNotFoundError = TaggedException<ResourceNotFoundException>;
 export type SlotNotAvailableError = TaggedException<SlotNotAvailableException>;
 export type ValidationError = TaggedException<ValidationException>;

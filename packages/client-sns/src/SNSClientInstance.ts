@@ -3,10 +3,7 @@
  */
 import { SNSClient } from "@aws-sdk/client-sns";
 import { Context, Effect, Layer } from "effect";
-import {
-  DefaultSNSClientConfigLayer,
-  SNSClientInstanceConfig,
-} from "./SNSClientInstanceConfig.js";
+import { DefaultSNSClientConfigLayer, SNSClientInstanceConfig } from "./SNSClientInstanceConfig.js";
 
 /**
  * @since 1.0.0

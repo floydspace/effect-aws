@@ -1,8 +1,8 @@
 import {
-  type PostToConnectionCommandInput,
-  PostToConnectionCommand,
   ApiGatewayManagementApiClient,
   ApiGatewayManagementApiServiceException,
+  PostToConnectionCommand,
+  type PostToConnectionCommandInput,
 } from "@aws-sdk/client-apigatewaymanagementapi";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-apigatewaymanagementapi/dist-cjs/runtimeConfig";

@@ -2,23 +2,8 @@
  * @since 1.0.0
  */
 import type { Logger } from "@aws-lambda-powertools/logger";
-import type {
-  LogAttributes,
-  LogItemExtraInput,
-  LogItemMessage,
-} from "@aws-lambda-powertools/logger/types";
-import {
-  Cause,
-  Effect,
-  FiberId,
-  FiberRef,
-  FiberRefs,
-  HashMap,
-  Layer,
-  List,
-  Logger as Log,
-  LogLevel,
-} from "effect";
+import type { LogAttributes, LogItemExtraInput, LogItemMessage } from "@aws-lambda-powertools/logger/types";
+import { Cause, Effect, FiberId, FiberRef, FiberRefs, HashMap, Layer, List, Logger as Log, LogLevel } from "effect";
 import { LoggerInstance, LoggerInstanceLayer } from "./LoggerInstance.js";
 import { DefaultLoggerOptionsLayer } from "./LoggerOptions.js";
 
@@ -46,11 +31,10 @@ const MappedLogLevel = {
 const logExtraInput = FiberRef.unsafeMake<LogItemExtraInput>([]);
 
 const processLog = (effect: (message: string) => Effect.Effect<void>) => {
-  return (input: LogItemMessage, ...extraInput: LogAttributes[]) => {
+  return (input: LogItemMessage, ...extraInput: Array<LogAttributes>) => {
     const message = typeof input === "string" ? input : input.message;
 
-    const extraInputs =
-      typeof input === "string" ? extraInput : [input, ...extraInput];
+    const extraInputs = typeof input === "string" ? extraInput : [input, ...extraInput];
 
     return Effect.locally(effect(message), logExtraInput, extraInputs);
   };
@@ -141,8 +125,8 @@ const makeLoggerInstance = (logger: Logger) => {
       !Array.isArray(options.message)
         ? options.message
         : options.message.length === 1 // since v3.5 the message is always an array
-          ? options.message[0]
-          : options.message,
+        ? options.message[0]
+        : options.message,
       extraInputs as LogItemExtraInput,
     );
   });

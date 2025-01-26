@@ -25,8 +25,7 @@ export type ConflictError = TaggedException<ConflictException>;
 export type InternalServerError = TaggedException<InternalServerException>;
 export type OcuLimitExceededError = TaggedException<OcuLimitExceededException>;
 export type ResourceNotFoundError = TaggedException<ResourceNotFoundException>;
-export type ServiceQuotaExceededError =
-  TaggedException<ServiceQuotaExceededException>;
+export type ServiceQuotaExceededError = TaggedException<ServiceQuotaExceededException>;
 export type ValidationError = TaggedException<ValidationException>;
 
 export type SdkError = TaggedException<Error & { name: "SdkError" }>;

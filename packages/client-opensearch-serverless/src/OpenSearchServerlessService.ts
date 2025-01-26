@@ -2,9 +2,6 @@
  * @since 1.0.0
  */
 import {
-  OpenSearchServerlessServiceException,
-  type OpenSearchServerlessClient,
-  type OpenSearchServerlessClientConfig,
   BatchGetCollectionCommand,
   type BatchGetCollectionCommandInput,
   type BatchGetCollectionCommandOutput,
@@ -89,6 +86,9 @@ import {
   ListVpcEndpointsCommand,
   type ListVpcEndpointsCommandInput,
   type ListVpcEndpointsCommandOutput,
+  type OpenSearchServerlessClient,
+  type OpenSearchServerlessClientConfig,
+  OpenSearchServerlessServiceException,
   TagResourceCommand,
   type TagResourceCommandInput,
   type TagResourceCommandOutput,
@@ -118,17 +118,16 @@ import {
   type UpdateVpcEndpointCommandOutput,
 } from "@aws-sdk/client-opensearchserverless";
 import { Data, Effect, Layer, Record } from "effect";
-import {
-  AllServiceErrors,
+import type {
   ConflictError,
   InternalServerError,
   OcuLimitExceededError,
   ResourceNotFoundError,
   ServiceQuotaExceededError,
-  ValidationError,
-  SdkError,
   TaggedException,
+  ValidationError,
 } from "./Errors.js";
+import { AllServiceErrors, SdkError } from "./Errors.js";
 import {
   OpenSearchServerlessClientInstance,
   OpenSearchServerlessClientInstanceLayer,
@@ -681,7 +680,7 @@ interface OpenSearchServerlessService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeOpenSearchServerlessService = Effect.gen(function* (_) {
+export const makeOpenSearchServerlessService = Effect.gen(function*(_) {
   const client = yield* _(OpenSearchServerlessClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {
@@ -793,15 +792,13 @@ export const BaseOpenSearchServerlessServiceLayer = Layer.effect(
  * @category layers
  * @deprecated use OpenSearchServerless.layer instead
  */
-export const OpenSearchServerlessServiceLayer =
-  BaseOpenSearchServerlessServiceLayer.pipe(
-    Layer.provide(OpenSearchServerlessClientInstanceLayer),
-  );
+export const OpenSearchServerlessServiceLayer = BaseOpenSearchServerlessServiceLayer.pipe(
+  Layer.provide(OpenSearchServerlessClientInstanceLayer),
+);
 
 /**
  * @since 1.0.0
  * @category layers
  * @deprecated use OpenSearchServerless.defaultLayer instead
  */
-export const DefaultOpenSearchServerlessServiceLayer =
-  OpenSearchServerlessService.defaultLayer;
+export const DefaultOpenSearchServerlessServiceLayer = OpenSearchServerlessService.defaultLayer;

@@ -1,8 +1,8 @@
 import {
-  type ListCustomModelsCommandInput,
-  ListCustomModelsCommand,
   BedrockClient,
   BedrockServiceException,
+  ListCustomModelsCommand,
+  type ListCustomModelsCommandInput,
 } from "@aws-sdk/client-bedrock";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-bedrock/dist-cjs/runtimeConfig";

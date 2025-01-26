@@ -1,8 +1,8 @@
 import {
-  type DescribeAutoScalingGroupsCommandInput,
-  DescribeAutoScalingGroupsCommand,
   AutoScalingClient,
   AutoScalingServiceException,
+  DescribeAutoScalingGroupsCommand,
+  type DescribeAutoScalingGroupsCommandInput,
 } from "@aws-sdk/client-auto-scaling";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-auto-scaling/dist-cjs/runtimeConfig";
@@ -120,8 +120,7 @@ describe("AutoScalingClientImpl", () => {
       program,
       Effect.provide(
         AutoScaling.baseLayer(
-          (config) =>
-            new AutoScalingClient({ ...config, region: "eu-central-1" }),
+          (config) => new AutoScalingClient({ ...config, region: "eu-central-1" }),
         ),
       ),
       Effect.runPromiseExit,

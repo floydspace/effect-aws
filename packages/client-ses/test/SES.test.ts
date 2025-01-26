@@ -1,16 +1,11 @@
-import {
-  type SendEmailCommandInput,
-  SendEmailCommand,
-  SESClient,
-  SESServiceException,
-} from "@aws-sdk/client-ses";
+import { SendEmailCommand, type SendEmailCommandInput, SESClient, SESServiceException } from "@aws-sdk/client-ses";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-ses/dist-cjs/runtimeConfig";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { SES, SdkError } from "../src";
+import { SdkError, SES } from "../src";
 
 const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(SESClient);

@@ -2,30 +2,27 @@
  * @since 1.0.0
  */
 import {
-  SQSServiceException,
-  type SQSClient,
-  type SQSClientConfig,
   AddPermissionCommand,
   type AddPermissionCommandInput,
   type AddPermissionCommandOutput,
   CancelMessageMoveTaskCommand,
   type CancelMessageMoveTaskCommandInput,
   type CancelMessageMoveTaskCommandOutput,
-  ChangeMessageVisibilityCommand,
-  type ChangeMessageVisibilityCommandInput,
-  type ChangeMessageVisibilityCommandOutput,
   ChangeMessageVisibilityBatchCommand,
   type ChangeMessageVisibilityBatchCommandInput,
   type ChangeMessageVisibilityBatchCommandOutput,
+  ChangeMessageVisibilityCommand,
+  type ChangeMessageVisibilityCommandInput,
+  type ChangeMessageVisibilityCommandOutput,
   CreateQueueCommand,
   type CreateQueueCommandInput,
   type CreateQueueCommandOutput,
-  DeleteMessageCommand,
-  type DeleteMessageCommandInput,
-  type DeleteMessageCommandOutput,
   DeleteMessageBatchCommand,
   type DeleteMessageBatchCommandInput,
   type DeleteMessageBatchCommandOutput,
+  DeleteMessageCommand,
+  type DeleteMessageCommandInput,
+  type DeleteMessageCommandOutput,
   DeleteQueueCommand,
   type DeleteQueueCommandInput,
   type DeleteQueueCommandOutput,
@@ -41,12 +38,12 @@ import {
   ListMessageMoveTasksCommand,
   type ListMessageMoveTasksCommandInput,
   type ListMessageMoveTasksCommandOutput,
-  ListQueueTagsCommand,
-  type ListQueueTagsCommandInput,
-  type ListQueueTagsCommandOutput,
   ListQueuesCommand,
   type ListQueuesCommandInput,
   type ListQueuesCommandOutput,
+  ListQueueTagsCommand,
+  type ListQueueTagsCommandInput,
+  type ListQueueTagsCommandOutput,
   PurgeQueueCommand,
   type PurgeQueueCommandInput,
   type PurgeQueueCommandOutput,
@@ -56,15 +53,18 @@ import {
   RemovePermissionCommand,
   type RemovePermissionCommandInput,
   type RemovePermissionCommandOutput,
-  SendMessageCommand,
-  type SendMessageCommandInput,
-  type SendMessageCommandOutput,
   SendMessageBatchCommand,
   type SendMessageBatchCommandInput,
   type SendMessageBatchCommandOutput,
+  SendMessageCommand,
+  type SendMessageCommandInput,
+  type SendMessageCommandOutput,
   SetQueueAttributesCommand,
   type SetQueueAttributesCommandInput,
   type SetQueueAttributesCommandOutput,
+  type SQSClient,
+  type SQSClientConfig,
+  SQSServiceException,
   StartMessageMoveTaskCommand,
   type StartMessageMoveTaskCommandInput,
   type StartMessageMoveTaskCommandOutput,
@@ -76,8 +76,7 @@ import {
   type UntagQueueCommandOutput,
 } from "@aws-sdk/client-sqs";
 import { Data, Effect, Layer, Record } from "effect";
-import {
-  AllServiceErrors,
+import type {
   BatchEntryIdsNotDistinctError,
   BatchRequestTooLongError,
   EmptyBatchRequestError,
@@ -104,15 +103,12 @@ import {
   ReceiptHandleIsInvalidError,
   RequestThrottledError,
   ResourceNotFoundError,
+  TaggedException,
   TooManyEntriesInBatchRequestError,
   UnsupportedOperationError,
-  SdkError,
-  TaggedException,
 } from "./Errors.js";
-import {
-  SQSClientInstance,
-  SQSClientInstanceLayer,
-} from "./SQSClientInstance.js";
+import { AllServiceErrors, SdkError } from "./Errors.js";
+import { SQSClientInstance, SQSClientInstanceLayer } from "./SQSClientInstance.js";
 import {
   DefaultSQSClientConfigLayer,
   makeDefaultSQSClientInstanceConfig,
@@ -580,7 +576,7 @@ interface SQSService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeSQSService = Effect.gen(function* (_) {
+export const makeSQSService = Effect.gen(function*(_) {
   const client = yield* _(SQSClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {

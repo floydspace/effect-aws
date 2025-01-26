@@ -3,10 +3,7 @@
  */
 import { IoTClient } from "@aws-sdk/client-iot";
 import { Context, Effect, Layer } from "effect";
-import {
-  DefaultIoTClientConfigLayer,
-  IoTClientInstanceConfig,
-} from "./IoTClientInstanceConfig.js";
+import { DefaultIoTClientConfigLayer, IoTClientInstanceConfig } from "./IoTClientInstanceConfig.js";
 
 /**
  * @since 1.0.0

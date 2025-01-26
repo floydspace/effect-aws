@@ -42,7 +42,6 @@ export const OpenSearchClientInstanceLayer = Layer.scoped(
  * @since 1.0.0
  * @category layers
  */
-export const DefaultOpenSearchClientInstanceLayer =
-  OpenSearchClientInstanceLayer.pipe(
-    Layer.provide(DefaultOpenSearchClientConfigLayer),
-  );
+export const DefaultOpenSearchClientInstanceLayer = OpenSearchClientInstanceLayer.pipe(
+  Layer.provide(DefaultOpenSearchClientConfigLayer),
+);

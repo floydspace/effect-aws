@@ -2,15 +2,15 @@
  * @since 1.0.0
  */
 import {
-  CloudTrailServiceException,
-  type CloudTrailClient,
-  type CloudTrailClientConfig,
   AddTagsCommand,
   type AddTagsCommandInput,
   type AddTagsCommandOutput,
   CancelQueryCommand,
   type CancelQueryCommandInput,
   type CancelQueryCommandOutput,
+  type CloudTrailClient,
+  type CloudTrailClientConfig,
+  CloudTrailServiceException,
   CreateChannelCommand,
   type CreateChannelCommandInput,
   type CreateChannelCommandOutput,
@@ -175,37 +175,33 @@ import {
   type UpdateTrailCommandOutput,
 } from "@aws-sdk/client-cloudtrail";
 import { Data, Effect, Layer, Record } from "effect";
+import { CloudTrailClientInstance, CloudTrailClientInstanceLayer } from "./CloudTrailClientInstance.js";
 import {
-  CloudTrailClientInstance,
-  CloudTrailClientInstanceLayer,
-} from "./CloudTrailClientInstance.js";
-import {
+  CloudTrailClientInstanceConfig,
   DefaultCloudTrailClientConfigLayer,
   makeDefaultCloudTrailClientInstanceConfig,
-  CloudTrailClientInstanceConfig,
 } from "./CloudTrailClientInstanceConfig.js";
-import {
-  AllServiceErrors,
+import type {
   AccessDeniedError,
   AccountHasOngoingImportError,
   AccountNotFoundError,
   AccountNotRegisteredError,
   AccountRegisteredError,
   CannotDelegateManagementAccountError,
-  ChannelARNInvalidError,
   ChannelAlreadyExistsError,
+  ChannelARNInvalidError,
   ChannelExistsForEDSError,
   ChannelMaxLimitExceededError,
   ChannelNotFoundError,
-  CloudTrailARNInvalidError,
   CloudTrailAccessNotEnabledError,
+  CloudTrailARNInvalidError,
   CloudTrailInvalidClientTokenIdError,
   CloudWatchLogsDeliveryUnavailableError,
   ConcurrentModificationError,
   ConflictError,
   DelegatedAdminAccountLimitExceededError,
-  EventDataStoreARNInvalidError,
   EventDataStoreAlreadyExistsError,
+  EventDataStoreARNInvalidError,
   EventDataStoreFederationEnabledError,
   EventDataStoreHasOngoingImportError,
   EventDataStoreMaxLimitExceededError,
@@ -265,15 +261,15 @@ import {
   ResourceTypeNotSupportedError,
   S3BucketDoesNotExistError,
   ServiceQuotaExceededError,
+  TaggedException,
   TagsLimitExceededError,
   ThrottlingError,
   TrailAlreadyExistsError,
   TrailNotFoundError,
   TrailNotProvidedError,
   UnsupportedOperationError,
-  SdkError,
-  TaggedException,
 } from "./Errors.js";
+import { AllServiceErrors, SdkError } from "./Errors.js";
 
 /**
  * @since 1.0.0
@@ -1498,7 +1494,7 @@ interface CloudTrailService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeCloudTrailService = Effect.gen(function* (_) {
+export const makeCloudTrailService = Effect.gen(function*(_) {
   const client = yield* _(CloudTrailClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {

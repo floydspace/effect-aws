@@ -42,7 +42,6 @@ export const IoTJobsDataPlaneClientInstanceLayer = Layer.scoped(
  * @since 1.0.0
  * @category layers
  */
-export const DefaultIoTJobsDataPlaneClientInstanceLayer =
-  IoTJobsDataPlaneClientInstanceLayer.pipe(
-    Layer.provide(DefaultIoTJobsDataPlaneClientConfigLayer),
-  );
+export const DefaultIoTJobsDataPlaneClientInstanceLayer = IoTJobsDataPlaneClientInstanceLayer.pipe(
+  Layer.provide(DefaultIoTJobsDataPlaneClientConfigLayer),
+);

@@ -1,16 +1,11 @@
-import {
-  type PublishCommandInput,
-  PublishCommand,
-  SNSClient,
-  SNSServiceException,
-} from "@aws-sdk/client-sns";
+import { PublishCommand, type PublishCommandInput, SNSClient, SNSServiceException } from "@aws-sdk/client-sns";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-sns/dist-cjs/runtimeConfig";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { SNS, SdkError } from "../src";
+import { SdkError, SNS } from "../src";
 
 const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(SNSClient);

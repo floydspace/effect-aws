@@ -1,8 +1,8 @@
 import {
-  type ListClustersCommandInput,
-  ListClustersCommand,
   ECSClient,
   ECSServiceException,
+  ListClustersCommand,
+  type ListClustersCommandInput,
 } from "@aws-sdk/client-ecs";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-ecs/dist-cjs/runtimeConfig";

@@ -2,9 +2,6 @@
  * @since 1.0.0
  */
 import {
-  TextractServiceException,
-  type TextractClient,
-  type TextractClientConfig,
   AnalyzeDocumentCommand,
   type AnalyzeDocumentCommandInput,
   type AnalyzeDocumentCommandOutput,
@@ -50,12 +47,12 @@ import {
   GetLendingAnalysisSummaryCommand,
   type GetLendingAnalysisSummaryCommandInput,
   type GetLendingAnalysisSummaryCommandOutput,
-  ListAdapterVersionsCommand,
-  type ListAdapterVersionsCommandInput,
-  type ListAdapterVersionsCommandOutput,
   ListAdaptersCommand,
   type ListAdaptersCommandInput,
   type ListAdaptersCommandOutput,
+  ListAdapterVersionsCommand,
+  type ListAdapterVersionsCommandInput,
+  type ListAdapterVersionsCommandOutput,
   ListTagsForResourceCommand,
   type ListTagsForResourceCommandInput,
   type ListTagsForResourceCommandOutput,
@@ -74,6 +71,9 @@ import {
   TagResourceCommand,
   type TagResourceCommandInput,
   type TagResourceCommandOutput,
+  type TextractClient,
+  type TextractClientConfig,
+  TextractServiceException,
   UntagResourceCommand,
   type UntagResourceCommandInput,
   type UntagResourceCommandOutput,
@@ -82,8 +82,7 @@ import {
   type UpdateAdapterCommandOutput,
 } from "@aws-sdk/client-textract";
 import { Data, Effect, Layer, Record } from "effect";
-import {
-  AllServiceErrors,
+import type {
   AccessDeniedError,
   BadDocumentError,
   ConflictError,
@@ -99,16 +98,13 @@ import {
   ProvisionedThroughputExceededError,
   ResourceNotFoundError,
   ServiceQuotaExceededError,
+  TaggedException,
   ThrottlingError,
   UnsupportedDocumentError,
   ValidationError,
-  SdkError,
-  TaggedException,
 } from "./Errors.js";
-import {
-  TextractClientInstance,
-  TextractClientInstanceLayer,
-} from "./TextractClientInstance.js";
+import { AllServiceErrors, SdkError } from "./Errors.js";
+import { TextractClientInstance, TextractClientInstanceLayer } from "./TextractClientInstance.js";
 import {
   DefaultTextractClientConfigLayer,
   makeDefaultTextractClientInstanceConfig,
@@ -658,7 +654,7 @@ interface TextractService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeTextractService = Effect.gen(function* (_) {
+export const makeTextractService = Effect.gen(function*(_) {
   const client = yield* _(TextractClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {

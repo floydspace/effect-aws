@@ -1,6 +1,6 @@
 import {
-  type DescribeParametersCommandInput,
   DescribeParametersCommand,
+  type DescribeParametersCommandInput,
   SSMClient,
   SSMServiceException,
 } from "@aws-sdk/client-ssm";
@@ -10,7 +10,7 @@ import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { SSM, SdkError } from "../src";
+import { SdkError, SSM } from "../src";
 
 const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(SSMClient);

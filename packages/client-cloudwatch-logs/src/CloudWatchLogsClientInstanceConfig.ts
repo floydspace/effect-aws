@@ -16,8 +16,8 @@ export class CloudWatchLogsClientInstanceConfig extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeDefaultCloudWatchLogsClientInstanceConfig: Effect.Effect<CloudWatchLogsClientConfig> =
-  Effect.gen(function* (_) {
+export const makeDefaultCloudWatchLogsClientInstanceConfig: Effect.Effect<CloudWatchLogsClientConfig> = Effect.gen(
+  function*(_) {
     const runtime = yield* _(Effect.runtime<never>());
     const runSync = Runtime.runSync(runtime);
 
@@ -40,7 +40,8 @@ export const makeDefaultCloudWatchLogsClientInstanceConfig: Effect.Effect<CloudW
         },
       },
     };
-  });
+  },
+);
 
 /**
  * @since 1.0.0

@@ -1,6 +1,7 @@
 import type { Context as LambdaContext, SNSEvent } from "aws-lambda";
 import { Context, Effect, Layer } from "effect";
-import { EffectHandler, makeLambda } from "../src/Handler";
+import type { EffectHandler } from "../src/Handler";
+import { makeLambda } from "../src/Handler";
 
 describe("makeLambda", () => {
   it("should call the handler function without dependencies", async () => {
@@ -32,7 +33,7 @@ describe("makeLambda", () => {
     );
 
     const myEffectHandler: EffectHandler<SNSEvent, FooService> = () =>
-      Effect.gen(function* (_) {
+      Effect.gen(function*(_) {
         const service = yield* _(FooService);
         return yield* _(service.bar());
       });

@@ -22,8 +22,7 @@ export type TaggedException<T extends { name: string }> = T & {
 export type InternalFailureError = TaggedException<InternalFailureException>;
 export type InvalidRequestError = TaggedException<InvalidRequestException>;
 export type ResourceNotFoundError = TaggedException<ResourceNotFoundException>;
-export type ServiceUnavailableError =
-  TaggedException<ServiceUnavailableException>;
+export type ServiceUnavailableError = TaggedException<ServiceUnavailableException>;
 export type ThrottlingError = TaggedException<ThrottlingException>;
 
 export type SdkError = TaggedException<Error & { name: "SdkError" }>;
