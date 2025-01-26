@@ -1,15 +1,12 @@
 {
   "files": [
     ".changeset/config.json",
-    ".eslintrc.json",
     ".gitattributes",
     ".github/FUNDING.yml",
     ".github/workflows/release.yml",
     ".gitignore",
     ".npmignore",
     ".npmrc",
-    ".prettierignore",
-    ".prettierrc.json",
     ".projen/deps.json",
     ".projen/files.json",
     ".projen/tasks.json",

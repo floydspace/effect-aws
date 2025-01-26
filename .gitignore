@@ -30,15 +30,12 @@ jspm_packages/
 .yarn-integrity
 .cache
 .tmp
-!/.prettierignore
-!/.prettierrc.json
 !/.npmrc
 !/test/
 !/tsconfig.json
 !/src/
 /lib
 /dist/
-!/.eslintrc.json
 !/tsconfig.base.json
 !/tsconfig.build.json
 !/.github/FUNDING.yml

@@ -1,19 +1,13 @@
 import { Changesets } from "@floydspace/projen-components";
 import { YamlFile } from "projen";
-import {
-  BuildUtils,
-  Docgen,
-  MonorepoProject,
-  TypeScriptLibProject,
-  Vitest,
-} from "./projenrc/index.js";
+import { BuildUtils, Docgen, Eslint, MonorepoProject, TypeScriptLibProject, Vitest } from "./projenrc/index.js";
 
 const org = "floydspace";
 const name = "effect-aws";
 const repo = `${org}/${name}`;
 
 const project = new MonorepoProject({
-  name: name,
+  name,
   description: "Effectful AWS",
   repository: `github:${repo}`,
   homepage: `https://${org}.github.io/${name}`,
@@ -28,12 +22,13 @@ new YamlFile(project, ".github/FUNDING.yml", { obj: { github: org } });
 new BuildUtils(project);
 
 new Changesets(project, {
-  repo: repo,
+  repo,
   onlyUpdatePeerDependentsWhenOutOfRange: true,
 });
 
 new Docgen(project);
 
+new Eslint(project);
 new Vitest(project, {
   sharedSetupFiles: ["vitest.setup.ts"],
 });
@@ -47,7 +42,7 @@ project.tsconfigBase?.file.addOverride("compilerOptions.plugins", [
   { name: "@effect/language-service" },
 ]);
 
-const commonDeps: string[] = [];
+const commonDeps: Array<string> = [];
 const commonDevDeps = ["aws-sdk-client-mock", "aws-sdk-client-mock-vitest"];
 const commonPeerDeps = ["effect@>=3.0.0 <4.0.0"];
 

@@ -1,7 +1,8 @@
-import { Component, JsonFile, Project, TextFile, typescript } from "projen";
+import type { Project } from "projen";
+import { Component, JsonFile, TextFile, typescript } from "projen";
 
 export interface VitestOptions {
-  sharedSetupFiles?: string[];
+  sharedSetupFiles?: Array<string>;
 }
 
 export class Vitest extends Component {
@@ -38,9 +39,11 @@ export class Vitest extends Component {
           "",
           "export default defineProject({",
           "  test: {",
-          `    setupFiles: [${this.options.sharedSetupFiles
-            .map((file) => `path.join(__dirname, "${file}")`)
-            .join(", ")}],`,
+          `    setupFiles: [${
+            this.options.sharedSetupFiles
+              .map((file) => `path.join(__dirname, "${file}")`)
+              .join(", ")
+          }],`,
           "  },",
           "});",
           "",
@@ -59,7 +62,7 @@ export class Vitest extends Component {
       if (subproject instanceof typescript.TypeScriptProject) {
         subproject.addDevDeps("vitest");
 
-        subproject.testTask.prependExec(
+        subproject.testTask.exec(
           "vitest run --globals --reporter verbose",
           { receiveArgs: true },
         );

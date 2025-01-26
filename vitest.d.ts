@@ -1,5 +1,4 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import { CustomMatcher } from "aws-sdk-client-mock-vitest";
+import type { CustomMatcher } from "aws-sdk-client-mock-vitest";
 import "vitest";
 
 declare module "vitest" {

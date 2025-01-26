@@ -9,17 +9,7 @@
 import { exec } from "node:child_process";
 import { mkdir, readdir, writeFile } from "node:fs/promises";
 
-import {
-  Array,
-  Effect,
-  Exit,
-  Option,
-  Predicate,
-  Record,
-  String,
-  Struct,
-  Tuple,
-} from "effect";
+import { Array, Effect, Exit, Option, Predicate, Record, String, Struct, Tuple } from "effect";
 import { constVoid, flow, pipe } from "effect/Function";
 import Enquirer from "enquirer";
 import singularities from "./client-singularities.json";
@@ -33,20 +23,20 @@ type Shape =
   | { type: "enum" }
   | { type: "list" }
   | {
-      type: "operation";
-      input: { target: string };
-      errors: { target: string }[];
-    }
+    type: "operation";
+    input: { target: string };
+    errors: Array<{ target: string }>;
+  }
   | {
-      type: "service";
-      operations: { target: string }[];
-      traits: {
-        "aws.api#service": {
-          sdkId: string;
-          cloudFormationName: string;
-        };
+    type: "service";
+    operations: Array<{ target: string }>;
+    traits: {
+      "aws.api#service": {
+        sdkId: string;
+        cloudFormationName: string;
       };
-    }
+    };
+  }
   | { type: "structure" };
 
 interface Manifest {
@@ -68,7 +58,7 @@ function normalizeServiceName(serviceName: string) {
 
 async function main() {
   const enquirer = new Enquirer<{
-    services: string[];
+    services: Array<string>;
     commandToTest: string;
     inputToTest: string;
   }>();
@@ -78,9 +68,7 @@ async function main() {
     name: "services",
     message: "Which clients do you want to generate ?",
     multiple: true,
-    choices: (await readdir("./packages")).filter((s) =>
-      s.startsWith("client-"),
-    ),
+    choices: (await readdir("./packages")).filter((s) => s.startsWith("client-")),
   });
 
   const each = services.map((packageName) =>
@@ -98,8 +86,7 @@ async function main() {
       const operationTargets = pipe(
         manifest.shapes,
         Record.filter(
-          (shape): shape is Extract<Shape, { type: "operation" }> =>
-            shape.type === "operation",
+          (shape): shape is Extract<Shape, { type: "operation" }> => shape.type === "operation",
         ),
         Record.keys,
       );
@@ -109,8 +96,7 @@ async function main() {
         Array.map(getNameFromTarget),
       );
 
-      const { commandToTest } =
-        (singularities as any)[packageName] ??
+      const { commandToTest } = (singularities as any)[packageName] ??
         (await enquirer.prompt({
           type: "autocomplete",
           name: "commandToTest",
@@ -119,34 +105,33 @@ async function main() {
           choices: operationNames,
         }));
 
-      const { inputToTest } =
-        (singularities as any)[packageName]?.inputToTest !== undefined
-          ? {
-              inputToTest: (singularities as any)[packageName].inputToTest
-                ? JSON.stringify(
-                    (singularities as any)[packageName].inputToTest,
-                  )
-                : "",
-            }
-          : await enquirer.prompt({
-              type: "input",
-              name: "inputToTest",
-              message: `Which input do you want to test of ${commandToTest} ? (optional)`,
-              validate: Predicate.or(String.isEmpty)(
-                flow(
-                  Effect.succeed,
-                  Effect.tryMap({
-                    try: JSON.parse,
-                    catch: constVoid,
-                  }),
-                  Effect.runSyncExit,
-                  Exit.isSuccess,
-                ),
-              ),
-            });
+      const { inputToTest } = (singularities as any)[packageName]?.inputToTest !== undefined
+        ? {
+          inputToTest: (singularities as any)[packageName].inputToTest
+            ? JSON.stringify(
+              (singularities as any)[packageName].inputToTest,
+            )
+            : "",
+        }
+        : await enquirer.prompt({
+          type: "input",
+          name: "inputToTest",
+          message: `Which input do you want to test of ${commandToTest} ? (optional)`,
+          validate: Predicate.or(String.isEmpty)(
+            flow(
+              Effect.succeed,
+              Effect.tryMap({
+                try: JSON.parse,
+                catch: constVoid,
+              }),
+              Effect.runSyncExit,
+              Exit.isSuccess,
+            ),
+          ),
+        });
 
       return [packageName, commandToTest, inputToTest] as const;
-    }),
+    })
   );
 
   const results = await Effect.runPromise(Effect.all(each, { concurrency: 1 }));
@@ -183,8 +168,7 @@ async function generateClient([
     manifest.shapes,
     Record.values,
     Array.findFirst(
-      (shape): shape is Extract<Shape, { type: "service" }> =>
-        shape.type === "service",
+      (shape): shape is Extract<Shape, { type: "service" }> => shape.type === "service",
     ),
     Option.getOrThrowWith(() => new TypeError("ServiceShape is not found")),
   );
@@ -211,7 +195,11 @@ async function generateClient([
 
   await writeFile(
     `./packages/client-${serviceName}/src/Errors.ts`,
-    `import type { ${exportedErrors.map((e) => (e.endsWith("Error") ? `${e} as ${String.replace(/Error$/, "")(e)}Exception` : e)).join(", ")} } from "@aws-sdk/client-${originalServiceName}";
+    `import type { ${
+      exportedErrors.map((e) => (e.endsWith("Error") ? `${e} as ${String.replace(/Error$/, "")(e)}Exception` : e)).join(
+        ", ",
+      )
+    } } from "@aws-sdk/client-${originalServiceName}";
 import { Data } from "effect";
 
 export const AllServiceErrors = [${exportedErrors.map((e) => `"${e}"`).join(", ")}];
@@ -220,14 +208,20 @@ export type TaggedException<T extends { name: string }> = T & {
   readonly _tag: T["name"];
 };
 
-${pipe(
-  exportedErrors,
-  Array.map(
-    (taggedError) =>
-      `export type ${pipe(taggedError, String.replace(/(Failure|Exception|Error|ErrorException)$/, ""))}Error = TaggedException<${taggedError.endsWith("Error") ? `${String.replace(/Error$/, "")(taggedError)}Exception` : taggedError}>;`,
-  ),
-  Array.join("\n"),
-)}
+${
+      pipe(
+        exportedErrors,
+        Array.map(
+          (taggedError) =>
+            `export type ${
+              pipe(taggedError, String.replace(/(Failure|Exception|Error|ErrorException)$/, ""))
+            }Error = TaggedException<${
+              taggedError.endsWith("Error") ? `${String.replace(/Error$/, "")(taggedError)}Exception` : taggedError
+            }>;`,
+        ),
+        Array.join("\n"),
+      )
+    }
 
 export type SdkError = TaggedException<Error & { name: "SdkError" }>;
 export const SdkError = Data.tagged<SdkError>("SdkError");
@@ -355,28 +349,26 @@ export * from "./${sdkName}Service.js";
   const operationTargets = pipe(
     manifest.shapes,
     Record.filter(
-      (shape): shape is Extract<Shape, { type: "operation" }> =>
-        shape.type === "operation",
+      (shape): shape is Extract<Shape, { type: "operation" }> => shape.type === "operation",
     ),
     Record.keys,
   );
   const operationShapes = pipe(
     manifest.shapes,
     Record.filter(
-      (shape): shape is Extract<Shape, { type: "operation" }> =>
-        shape.type === "operation",
+      (shape): shape is Extract<Shape, { type: "operation" }> => shape.type === "operation",
     ),
     Struct.pick(...operationTargets),
     Record.filter(Predicate.isNotUndefined),
     Record.mapKeys(getNameFromTarget),
     Record.toEntries,
-  ) as [
+  ) as Array<[
     string,
     {
       type: "operation";
-      errors: { target: string }[];
+      errors: Array<{ target: string }>;
     },
-  ][];
+  ]>;
 
   const operationNames = pipe(operationTargets, Array.map(getNameFromTarget));
 
@@ -384,8 +376,7 @@ export * from "./${sdkName}Service.js";
     operationShapes,
     Array.map(Tuple.getSecond),
     Array.filter(
-      (shape): shape is Extract<Shape, { type: "operation" }> =>
-        shape.type === "operation",
+      (shape): shape is Extract<Shape, { type: "operation" }> => shape.type === "operation",
     ),
     Array.flatMap(({ errors }) => errors ?? []),
     Array.map(flow(({ target }) => target, getNameFromTarget)),
@@ -403,15 +394,18 @@ import {
   ${sdkName}ServiceException,
   type ${sdkName}Client,
   type ${sdkName}ClientConfig,
-  ${pipe(
-    operationNames,
-    Array.map(
-      (name) => `${name}Command,
+  ${
+      pipe(
+        operationNames,
+        Array.map(
+          (name) =>
+            `${name}Command,
   type ${name}CommandInput,
   type ${name}CommandOutput,`,
-    ),
-    Array.join("\n  "),
-  )}
+        ),
+        Array.join("\n  "),
+      )
+    }
 } from "@aws-sdk/client-${originalServiceName}";
 import { Data, Effect, Layer, Record } from "effect";
 import {
@@ -425,13 +419,15 @@ import {
 } from "./${sdkName}ClientInstanceConfig.js";
 import {
   AllServiceErrors,
-  ${pipe(
-    importedErrors.map(
-      String.replace(/(Failure|Exception|Error|ErrorException)$/, ""),
-    ),
-    Array.map((error) => `${error}Error`),
-    Array.join(","),
-  )},
+  ${
+      pipe(
+        importedErrors.map(
+          String.replace(/(Failure|Exception|Error|ErrorException)$/, ""),
+        ),
+        Array.map((error) => `${error}Error`),
+        Array.join(","),
+      )
+    },
   SdkError,
   TaggedException,
 } from "./Errors.js";
@@ -448,28 +444,31 @@ export interface HttpHandlerOptions {
 }
 
 const commands = {
-  ${pipe(
-    operationNames,
-    Array.map((name) => `${name}Command`),
-  )}
+  ${
+      pipe(
+        operationNames,
+        Array.map((name) => `${name}Command`),
+      )
+    }
 };
 
 interface ${sdkName}Service$ {
   readonly _: unique symbol;
 
-${pipe(
-  operationShapes,
-  Array.map(([operationName, operationShape]) => {
-    const errors = pipe(
-      operationShape.errors || [],
-      Array.map(flow(Struct.get("target"), getNameFromTarget)),
-      Array.intersection(importedErrors),
-      Array.map(
-        String.replace(/(Failure|Exception|Error|ErrorException)$/, ""),
-      ),
-      Array.map((error) => `${error}Error`),
-    );
-    return `  /**
+${
+      pipe(
+        operationShapes,
+        Array.map(([operationName, operationShape]) => {
+          const errors = pipe(
+            operationShape.errors || [],
+            Array.map(flow(Struct.get("target"), getNameFromTarget)),
+            Array.intersection(importedErrors),
+            Array.map(
+              String.replace(/(Failure|Exception|Error|ErrorException)$/, ""),
+            ),
+            Array.map((error) => `${error}Error`),
+          );
+          return `  /**
    * @see {@link ${operationName}Command}
    */
   ${pipe(operationName, lowerFirst)}(
@@ -479,9 +478,10 @@ ${pipe(
     ${operationName}CommandOutput,
     ${pipe(["SdkError", ...errors], Array.join(" | "))}
   >`;
-  }),
-  Array.join("\n\n"),
-)}
+        }),
+        Array.join("\n\n"),
+      )
+    }
 }
 
 /**
@@ -878,5 +878,5 @@ or use \`${sdkName}.baseLayer((default) => new ${sdkName}Client({ ...default, re
 `,
   );
 
-  exec(`pnpm exec nx run @effect-aws/client-${serviceName}:eslint --fix`);
+  exec(`pnpm --filter @effect-aws/client-${serviceName} run eslint`);
 }

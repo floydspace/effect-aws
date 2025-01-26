@@ -17,7 +17,23 @@
       "type": "build"
     },
     {
+      "name": "@effect/eslint-plugin",
+      "type": "build"
+    },
+    {
       "name": "@effect/language-service",
+      "type": "build"
+    },
+    {
+      "name": "@eslint/compat",
+      "type": "build"
+    },
+    {
+      "name": "@eslint/eslintrc",
+      "type": "build"
+    },
+    {
+      "name": "@eslint/js",
       "type": "build"
     },
     {
@@ -32,12 +48,10 @@
     },
     {
       "name": "@typescript-eslint/eslint-plugin",
-      "version": "^7",
       "type": "build"
     },
     {
       "name": "@typescript-eslint/parser",
-      "version": "^7",
       "type": "build"
     },
     {
@@ -54,7 +68,7 @@
       "type": "build"
     },
     {
-      "name": "eslint-config-prettier",
+      "name": "eslint",
       "type": "build"
     },
     {
@@ -62,16 +76,19 @@
       "type": "build"
     },
     {
+      "name": "eslint-plugin-codegen",
+      "type": "build"
+    },
+    {
       "name": "eslint-plugin-import",
       "type": "build"
     },
     {
-      "name": "eslint-plugin-prettier",
+      "name": "eslint-plugin-simple-import-sort",
       "type": "build"
     },
     {
-      "name": "eslint",
-      "version": "^8",
+      "name": "eslint-plugin-sort-destructure-keys",
       "type": "build"
     },
     {
@@ -79,12 +96,7 @@
       "type": "build"
     },
     {
-      "name": "prettier",
-      "type": "build"
-    },
-    {
       "name": "projen",
-      "version": "0.90.0",
       "type": "build"
     },
     {

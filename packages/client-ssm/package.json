@@ -10,6 +10,7 @@
     "build": "npx projen build",
     "compile": "npx projen compile",
     "default": "npx projen default",
+    "eslint": "npx projen eslint",
     "package": "npx projen package",
     "post-compile": "npx projen post-compile",
     "pre-compile": "npx projen pre-compile",

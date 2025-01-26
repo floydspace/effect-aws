@@ -1,4 +1,5 @@
-import { Component, JsonFile, Project, javascript } from "projen";
+import type { Project } from "projen";
+import { Component, javascript, JsonFile } from "projen";
 
 export class Docgen extends Component {
   public static of(project: Project): Docgen | undefined {

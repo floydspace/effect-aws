@@ -2,15 +2,12 @@
 
 * text=auto eol=lf
 /.changeset/config.json linguist-generated
-/.eslintrc.json linguist-generated
 /.gitattributes linguist-generated
 /.github/FUNDING.yml linguist-generated
 /.github/workflows/release.yml linguist-generated
 /.gitignore linguist-generated
 /.npmignore linguist-generated
 /.npmrc linguist-generated
-/.prettierignore linguist-generated
-/.prettierrc.json linguist-generated
 /.projen/** linguist-generated
 /.projen/deps.json linguist-generated
 /.projen/files.json linguist-generated

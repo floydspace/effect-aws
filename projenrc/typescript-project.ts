@@ -2,15 +2,16 @@ import { javascript, typescript } from "projen";
 
 type PredefinedProps = "defaultReleaseBranch" | "authorName" | "authorEmail";
 
-export type TypeScriptLibProjectOptions = Omit<
-  typescript.TypeScriptProjectOptions,
-  PredefinedProps
-> &
-  Partial<Pick<typescript.TypeScriptProjectOptions, PredefinedProps>>;
+export type TypeScriptLibProjectOptions =
+  & Omit<
+    typescript.TypeScriptProjectOptions,
+    PredefinedProps
+  >
+  & Partial<Pick<typescript.TypeScriptProjectOptions, PredefinedProps>>;
 
 export class TypeScriptLibProject extends typescript.TypeScriptProject {
   constructor({
-    jestOptions: { jestConfig, ...jestOptions } = {},
+    jestOptions: { jestConfig: _, ...jestOptions } = {},
     ...options
   }: TypeScriptLibProjectOptions) {
     const parent = options.parent as javascript.NodeProject | undefined;

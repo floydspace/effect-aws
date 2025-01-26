@@ -1,14 +1,7 @@
-import {
-  LinkableProject,
-  PnpmMonorepoProject,
-  PnpmMonorepoProjectOptions,
-} from "@floydspace/projen-components";
+import type { PnpmMonorepoProjectOptions } from "@floydspace/projen-components";
+import { LinkableProject, PnpmMonorepoProject } from "@floydspace/projen-components";
 import { JsonPatch, typescript } from "projen";
-import {
-  TypeScriptModuleResolution,
-  TypescriptConfig,
-  TypescriptConfigExtends,
-} from "projen/lib/javascript";
+import { TypescriptConfig, TypescriptConfigExtends, TypeScriptModuleResolution } from "projen/lib/javascript";
 
 type PredefinedProps = "packageManager" | "clobber" | "depsUpgrade";
 export type MonorepoProjectOptions = Omit<
@@ -22,9 +15,10 @@ export class MonorepoProject extends PnpmMonorepoProject {
 
   constructor(options: MonorepoProjectOptions) {
     super({
-      projenVersion: "0.90.0",
       pnpmVersion: "9.12.3",
       license: "MIT",
+      eslint: false,
+      prettier: false,
       github: true,
       githubOptions: { mergify: false, pullRequestLint: false },
       release: false,
@@ -42,8 +36,6 @@ export class MonorepoProject extends PnpmMonorepoProject {
     this.package.addField("type", "module");
 
     this.buildTask.prependExec("tsc -b tsconfig.build.json");
-
-    this.eslint?.eslintTask.exec("eslint --ext .ts .");
 
     this.tsconfigBase = new TypescriptConfig(this, {
       fileName: "tsconfig.base.json",
@@ -127,8 +119,7 @@ export class MonorepoProject extends PnpmMonorepoProject {
 
     this.subprojects.forEach((subproject) => {
       if (subproject instanceof typescript.TypeScriptProject) {
-        const implDeps =
-          LinkableProject.ensure(subproject).implicitDependencies;
+        const implDeps = LinkableProject.ensure(subproject).implicitDependencies;
 
         subproject.tsconfig?.addExtends(this.tsconfigBase);
         subproject.tsconfig?.file.addDeletionOverride("compilerOptions");

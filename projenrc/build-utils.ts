@@ -1,9 +1,9 @@
-import { Component, Project, javascript } from "projen";
+import type { Project } from "projen";
+import { Component, javascript } from "projen";
 
 export class BuildUtils extends Component {
   public static of(project: Project): BuildUtils | undefined {
-    const isBuildUtils = (o: Component): o is BuildUtils =>
-      o instanceof BuildUtils;
+    const isBuildUtils = (o: Component): o is BuildUtils => o instanceof BuildUtils;
     return project.components.find(isBuildUtils);
   }
 
@@ -20,7 +20,7 @@ export class BuildUtils extends Component {
   preSynthesize(): void {
     this.project.subprojects.forEach((subproject) => {
       if (subproject instanceof javascript.NodeProject) {
-        subproject.postCompileTask.exec("build-utils pack-v2");
+        subproject.packageTask.exec("build-utils pack-v2");
 
         subproject.addFields({
           publishConfig: { access: "public", directory: "dist" },
