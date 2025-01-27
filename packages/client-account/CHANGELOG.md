@@ -1,5 +1,11 @@
 # @effect-aws/client-account
 
+## 1.3.0
+
+### Minor Changes
+
+- [#102](https://github.com/floydspace/effect-aws/pull/102) [`40e1c69`](https://github.com/floydspace/effect-aws/commit/40e1c6977694718ac2510186fe84103f07c3e314) Thanks [@floydspace](https://github.com/floydspace)! - regression test of release
+
 ## 1.2.0
 
 ### Minor Changes
