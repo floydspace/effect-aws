@@ -1,7 +1,8 @@
 import { Logger as LoggerCtor } from "@aws-lambda-powertools/logger";
+import * as Logger from "@effect-aws/powertools-logger";
 import * as Effect from "effect/Effect";
 import { pipe } from "effect/Function";
-import * as Logger from "../src";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 describe("Logger", () => {
   let log: ReturnType<typeof vi.spyOn>;

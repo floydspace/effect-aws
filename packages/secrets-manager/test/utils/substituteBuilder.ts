@@ -1,6 +1,6 @@
 import type { GetSecretValueCommandOutput, SecretsManagerClient } from "@aws-sdk/client-secrets-manager";
 import type { SubstituteOf } from "@fluffy-spoon/substitute";
-import Substitute, { Arg } from "@fluffy-spoon/substitute";
+import { Arg, Substitute } from "@fluffy-spoon/substitute";
 
 export class SubstituteBuilder {
   static forSecretsManager(): SecretsManagerSubstituteBuilder {

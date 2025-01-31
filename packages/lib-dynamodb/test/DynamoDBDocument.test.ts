@@ -1,14 +1,14 @@
-// @ts-ignore
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+// @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-dynamodb/dist-cjs/runtimeConfig";
 import { DynamoDBDocumentClient, PutCommand, type PutCommandInput } from "@aws-sdk/lib-dynamodb";
 import { SdkError } from "@effect-aws/client-dynamodb";
+import { DynamoDBDocument } from "@effect-aws/lib-dynamodb";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { DynamoDBDocument } from "../src";
 
 const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(DynamoDBDocumentClient);

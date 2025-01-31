@@ -1,1 +1,1 @@
-export * from "./substituteBuilder";
+export * from "./substituteBuilder.js";

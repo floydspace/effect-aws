@@ -19,7 +19,7 @@ export class Vitest extends Component {
 
     project.addDevDeps("vitest", "@vitest/coverage-v8");
 
-    project.testTask.reset("vitest --globals", { receiveArgs: true });
+    project.testTask.reset("vitest", { receiveArgs: true });
 
     const compilerOptions = project.tsconfig?.compilerOptions as any;
 
@@ -80,13 +80,13 @@ export class Vitest extends Component {
     this.project.subprojects.forEach((subproject) => {
       if (subproject instanceof typescript.TypeScriptProject) {
         subproject.testTask.exec(
-          "vitest run --globals --reporter verbose",
+          "vitest run --reporter verbose",
           { receiveArgs: true },
         );
 
         subproject.addTask("test:watch", {
           description: "Run tests in watch mode",
-          exec: "vitest --globals --reporter verbose",
+          exec: "vitest --reporter verbose",
         });
 
         if (this.options.sharedSetupFiles?.length) {

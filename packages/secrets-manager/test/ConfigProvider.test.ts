@@ -1,9 +1,10 @@
 import { InvalidRequestException, ResourceNotFoundException } from "@aws-sdk/client-secrets-manager";
-import { BaseSecretsManagerServiceLayer, SecretsManagerClientInstance } from "@effect-aws/client-secrets-manager";
+import { SecretsManager } from "@effect-aws/client-secrets-manager";
+import { fromSecretsManager } from "@effect-aws/secrets-manager";
 import { Arg } from "@fluffy-spoon/substitute";
-import { Config, ConfigError, Effect, Exit, Layer, Secret } from "effect";
-import { fromSecretsManager } from "../src/ConfigProvider";
-import { SubstituteBuilder } from "./utils";
+import { Config, ConfigError, Effect, Exit, Secret } from "effect";
+import { describe, expect, it } from "vitest";
+import { SubstituteBuilder } from "./utils/index.js";
 
 describe("fromSecretsManager", () => {
   it("should load configuration from AWS Secrets Manager", async () => {
@@ -12,14 +13,7 @@ describe("fromSecretsManager", () => {
       .withSecretString("mocked-secret")
       .succeeds();
 
-    const clientInstanceLayer = Layer.succeed(
-      SecretsManagerClientInstance,
-      clientSubstitute,
-    );
-    const serviceLayer = Layer.provide(
-      BaseSecretsManagerServiceLayer,
-      clientInstanceLayer,
-    );
+    const serviceLayer = SecretsManager.baseLayer(() => clientSubstitute);
 
     const result = await Config.string("test").pipe(
       Effect.withConfigProvider(fromSecretsManager({ serviceLayer })),
@@ -40,14 +34,7 @@ describe("fromSecretsManager", () => {
         }),
       );
 
-    const clientInstanceLayer = Layer.succeed(
-      SecretsManagerClientInstance,
-      clientSubstitute,
-    );
-    const serviceLayer = Layer.provide(
-      BaseSecretsManagerServiceLayer,
-      clientInstanceLayer,
-    );
+    const serviceLayer = SecretsManager.baseLayer(() => clientSubstitute);
 
     const result = await Config.secret("my-secret-that-doesnt-exist").pipe(
       Config.withDefault(Secret.fromString("mocked-default-value")),
@@ -70,14 +57,7 @@ describe("fromSecretsManager", () => {
         }),
       );
 
-    const clientInstanceLayer = Layer.succeed(
-      SecretsManagerClientInstance,
-      clientSubstitute,
-    );
-    const serviceLayer = Layer.provide(
-      BaseSecretsManagerServiceLayer,
-      clientInstanceLayer,
-    );
+    const serviceLayer = SecretsManager.baseLayer(() => clientSubstitute);
 
     const result = await Config.secret("test").pipe(
       Config.withDefault(Secret.fromString("mocked-default-value")),
@@ -107,14 +87,7 @@ describe("fromSecretsManager", () => {
         }),
       );
 
-    const clientInstanceLayer = Layer.succeed(
-      SecretsManagerClientInstance,
-      clientSubstitute,
-    );
-    const serviceLayer = Layer.provide(
-      BaseSecretsManagerServiceLayer,
-      clientInstanceLayer,
-    );
+    const serviceLayer = SecretsManager.baseLayer(() => clientSubstitute);
 
     const result = await Config.string("test").pipe(
       Effect.withConfigProvider(fromSecretsManager({ serviceLayer })),
@@ -137,14 +110,7 @@ describe("fromSecretsManager", () => {
       .mockGetSecretValue()
       .succeeds();
 
-    const clientInstanceLayer = Layer.succeed(
-      SecretsManagerClientInstance,
-      clientSubstitute,
-    );
-    const serviceLayer = Layer.provide(
-      BaseSecretsManagerServiceLayer,
-      clientInstanceLayer,
-    );
+    const serviceLayer = SecretsManager.baseLayer(() => clientSubstitute);
 
     const result = await Config.string("test").pipe(
       Effect.withConfigProvider(fromSecretsManager({ serviceLayer })),

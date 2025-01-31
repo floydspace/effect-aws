@@ -157,7 +157,7 @@
       "description": "Run tests for all affected projects",
       "steps": [
         {
-          "exec": "vitest --globals",
+          "exec": "vitest",
           "receiveArgs": true
         }
       ]

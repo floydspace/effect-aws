@@ -1,7 +1,8 @@
+import type { EffectHandler } from "@effect-aws/lambda";
+import { makeLambda } from "@effect-aws/lambda";
 import type { Context as LambdaContext, SNSEvent } from "aws-lambda";
 import { Context, Effect, Layer } from "effect";
-import type { EffectHandler } from "../src/Handler";
-import { makeLambda } from "../src/Handler";
+import { describe, expect, it } from "vitest";
 
 describe("makeLambda", () => {
   it("should call the handler function without dependencies", async () => {

@@ -1,9 +1,10 @@
 import { InvalidKeyId, ParameterNotFound } from "@aws-sdk/client-ssm";
-import { BaseSSMServiceLayer, SSMClientInstance } from "@effect-aws/client-ssm";
+import { SSM } from "@effect-aws/client-ssm";
+import { fromParameterStore } from "@effect-aws/ssm";
 import { Arg } from "@fluffy-spoon/substitute";
-import { Config, ConfigError, Effect, Exit, Layer, Secret } from "effect";
-import { fromParameterStore } from "../src/ConfigProvider";
-import { SubstituteBuilder } from "./utils";
+import { Config, ConfigError, Effect, Exit, Secret } from "effect";
+import { describe, expect, it } from "vitest";
+import { SubstituteBuilder } from "./utils/index.js";
 
 describe("fromParameterStore", () => {
   it("should load configuration from AWS Systems Manager Parameter Store", async () => {
@@ -12,14 +13,7 @@ describe("fromParameterStore", () => {
       .withParameterValue("mocked-parameter")
       .succeeds();
 
-    const clientInstanceLayer = Layer.succeed(
-      SSMClientInstance,
-      clientSubstitute,
-    );
-    const serviceLayer = Layer.provide(
-      BaseSSMServiceLayer,
-      clientInstanceLayer,
-    );
+    const serviceLayer = SSM.baseLayer(() => clientSubstitute);
 
     const result = await Config.string("test").pipe(
       Effect.withConfigProvider(fromParameterStore({ serviceLayer })),
@@ -40,14 +34,7 @@ describe("fromParameterStore", () => {
         }),
       );
 
-    const clientInstanceLayer = Layer.succeed(
-      SSMClientInstance,
-      clientSubstitute,
-    );
-    const serviceLayer = Layer.provide(
-      BaseSSMServiceLayer,
-      clientInstanceLayer,
-    );
+    const serviceLayer = SSM.baseLayer(() => clientSubstitute);
 
     const result = await Config.secret("my-param-that-doesnt-exist").pipe(
       Config.withDefault(Secret.fromString("mocked-default-value")),
@@ -70,14 +57,7 @@ describe("fromParameterStore", () => {
         }),
       );
 
-    const clientInstanceLayer = Layer.succeed(
-      SSMClientInstance,
-      clientSubstitute,
-    );
-    const serviceLayer = Layer.provide(
-      BaseSSMServiceLayer,
-      clientInstanceLayer,
-    );
+    const serviceLayer = SSM.baseLayer(() => clientSubstitute);
 
     const result = await Config.secret("test").pipe(
       Config.withDefault(Secret.fromString("mocked-default-value")),
@@ -107,14 +87,7 @@ describe("fromParameterStore", () => {
         }),
       );
 
-    const clientInstanceLayer = Layer.succeed(
-      SSMClientInstance,
-      clientSubstitute,
-    );
-    const serviceLayer = Layer.provide(
-      BaseSSMServiceLayer,
-      clientInstanceLayer,
-    );
+    const serviceLayer = SSM.baseLayer(() => clientSubstitute);
 
     const result = await Config.string("test").pipe(
       Effect.withConfigProvider(fromParameterStore({ serviceLayer })),
@@ -137,14 +110,7 @@ describe("fromParameterStore", () => {
       .mockGetParameter()
       .succeeds();
 
-    const clientInstanceLayer = Layer.succeed(
-      SSMClientInstance,
-      clientSubstitute,
-    );
-    const serviceLayer = Layer.provide(
-      BaseSSMServiceLayer,
-      clientInstanceLayer,
-    );
+    const serviceLayer = SSM.baseLayer(() => clientSubstitute);
 
     const result = await Config.string("test").pipe(
       Effect.withConfigProvider(fromParameterStore({ serviceLayer })),

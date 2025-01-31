@@ -89,7 +89,7 @@
       "description": "Run tests",
       "steps": [
         {
-          "exec": "vitest run --globals --reporter verbose",
+          "exec": "vitest run --reporter verbose",
           "receiveArgs": true
         }
       ]
@@ -99,7 +99,7 @@
       "description": "Run tests in watch mode",
       "steps": [
         {
-          "exec": "vitest --globals --reporter verbose"
+          "exec": "vitest --reporter verbose"
         }
       ]
     },
