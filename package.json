@@ -33,7 +33,7 @@
   "devDependencies": {
     "@changesets/changelog-github": "^0.5.0",
     "@changesets/cli": "^2.27.12",
-    "@effect/build-utils": "^0.7.8",
+    "@effect/build-utils": "^0.7.9",
     "@effect/docgen": "^0.4.3",
     "@effect/eslint-plugin": "^0.2.0",
     "@effect/language-service": "^0.2.0",
@@ -64,11 +64,7 @@
     "effect": "^3.0.0",
     "enquirer": "^2.4.1"
   },
-  "pnpm": {
-    "patchedDependencies": {
-      "@effect/build-utils": "patches/@effect__build-utils.patch"
-    }
-  },
+  "pnpm": {},
   "engines": {
     "node": ">=18",
     "pnpm": ">=9 <10"

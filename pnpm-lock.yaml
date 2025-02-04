@@ -4,11 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-patchedDependencies:
-  '@effect/build-utils':
-    hash: okb6unczjwmokrwzr4bqhavdgi
-    path: patches/@effect__build-utils.patch
-
 importers:
 
   .:
@@ -27,8 +22,8 @@ importers:
         specifier: ^2.27.12
         version: 2.27.12
       '@effect/build-utils':
-        specifier: ^0.7.8
-        version: 0.7.8(patch_hash=okb6unczjwmokrwzr4bqhavdgi)
+        specifier: ^0.7.9
+        version: 0.7.9
       '@effect/docgen':
         specifier: ^0.4.3
         version: 0.4.3(tsx@4.16.5)(typescript@5.4.5)
@@ -1718,8 +1713,8 @@ packages:
   '@dprint/typescript@0.91.8':
     resolution: {integrity: sha512-tuKn4leCPItox1O4uunHcQF0QllDCvPWklnNQIh2PiWWVtRAGltJJnM4Cwj5AciplosD1Hiz7vAY3ew3crLb3A==}
 
-  '@effect/build-utils@0.7.8':
-    resolution: {integrity: sha512-ixcKsG6UnjIKqIbgCkTMJRcte+bW+p0ffHu/5QvDgVuzg3Nv0OUmgLOps49ExVE2VvoRddS4jVcjxlIzkPCKow==}
+  '@effect/build-utils@0.7.9':
+    resolution: {integrity: sha512-I9tuSvKOnhF2NNsCzHulsUvEwJBQKqiZ1RtbJA+DfxqXZ9J1QSh4txnfnDC2D2bygMYuWqMJWg7TvAWun7cs6w==}
     engines: {node: '>=16.17.1'}
     hasBin: true
 
@@ -7184,7 +7179,7 @@ snapshots:
 
   '@dprint/typescript@0.91.8': {}
 
-  '@effect/build-utils@0.7.8(patch_hash=okb6unczjwmokrwzr4bqhavdgi)': {}
+  '@effect/build-utils@0.7.9': {}
 
   '@effect/docgen@0.4.3(tsx@4.16.5)(typescript@5.4.5)':
     dependencies:

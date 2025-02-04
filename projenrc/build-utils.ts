@@ -11,10 +11,6 @@ export class BuildUtils extends Component {
     super(project);
 
     project.addDevDeps("@effect/build-utils");
-
-    project.package.manifest.pnpm.patchedDependencies = {
-      "@effect/build-utils": "patches/@effect__build-utils.patch",
-    };
   }
 
   preSynthesize(): void {
