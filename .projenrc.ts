@@ -43,18 +43,15 @@ project.tsconfigBase?.file.addOverride("compilerOptions.plugins", [
 ]);
 
 const commonDeps: Array<string> = [];
-const commonDevDeps = ["aws-sdk-client-mock", "aws-sdk-client-mock-vitest"];
+const commonDevDeps = ["effect@3.0.0", "aws-sdk-client-mock", "aws-sdk-client-mock-vitest"];
 const commonPeerDeps = ["effect@>=3.0.0 <4.0.0"];
 
 new TypeScriptLibProject({
   parent: project,
   name: "powertools-logger",
   description: "Effectful AWS Lambda Powertools Logger",
-  devDeps: ["@aws-lambda-powertools/commons@2.0.0"],
-  peerDeps: [
-    ...commonPeerDeps,
-    "@aws-lambda-powertools/logger@>=2.0.0", // lower versions are not supported, raise an issue if you need it
-  ],
+  devDeps: ["@aws-lambda-powertools/commons@2.0.0", "@aws-lambda-powertools/logger@2.0.0", "effect@3.0.0"],
+  peerDeps: [...commonPeerDeps, "@aws-lambda-powertools/logger@>=2.0.0"],
 });
 
 new TypeScriptLibProject({
@@ -84,22 +81,14 @@ const dynamodbClient = new TypeScriptLibProject({
   peerDeps: commonPeerDeps,
 });
 
-const dynamodbLib = new TypeScriptLibProject({
+new TypeScriptLibProject({
   parent: project,
   name: "lib-dynamodb",
   description: "Effectful AWS DynamoDB library",
-  deps: [
-    ...commonDeps,
-    "@aws-sdk/client-dynamodb@^3",
-    "@aws-sdk/lib-dynamodb@^3",
-  ],
-  devDeps: [
-    ...commonDevDeps,
-    "@effect-aws/client-dynamodb@workspace:^",
-    "effect@3.0.0",
-  ],
-  peerDeps: [...commonPeerDeps, dynamodbClient.package.packageName],
-  peerDependencyOptions: { pinnedDevDependency: false },
+  deps: [...commonDeps, "@aws-sdk/client-dynamodb@^3", "@aws-sdk/lib-dynamodb@^3"],
+  devDeps: commonDevDeps,
+  peerDeps: commonPeerDeps,
+  workspaceDeps: [dynamodbClient],
 });
 
 new TypeScriptLibProject({
@@ -354,36 +343,34 @@ new TypeScriptLibProject({
   parent: project,
   name: "lambda",
   description: "Effectful AWS Lambda handler",
-  devDeps: ["@types/aws-lambda"],
+  devDeps: ["@types/aws-lambda", "effect@3.0.0"],
   peerDeps: commonPeerDeps,
 });
 
-const secretsManager = new TypeScriptLibProject({
+new TypeScriptLibProject({
   parent: project,
   name: "secrets-manager",
   description: "Effectful AWS Secrets Manager functions",
   devDeps: [
     "@aws-sdk/client-secrets-manager@^3",
-    "@effect-aws/client-secrets-manager@workspace:^",
     "@fluffy-spoon/substitute",
     "effect@3.0.0",
   ],
-  peerDeps: [...commonPeerDeps, secretsManagerClient.package.packageName],
-  peerDependencyOptions: { pinnedDevDependency: false },
+  peerDeps: commonPeerDeps,
+  workspaceDeps: [secretsManagerClient],
 });
 
-const ssm = new TypeScriptLibProject({
+new TypeScriptLibProject({
   parent: project,
   name: "ssm",
   description: "Effectful AWS SSM functions",
   devDeps: [
     "@aws-sdk/client-ssm@^3",
-    "@effect-aws/client-ssm@workspace:^",
     "@fluffy-spoon/substitute",
     "effect@3.0.0",
   ],
-  peerDeps: [...commonPeerDeps, ssmClient.package.packageName],
-  peerDependencyOptions: { pinnedDevDependency: false },
+  peerDeps: commonPeerDeps,
+  workspaceDeps: [ssmClient],
 });
 
 new TypeScriptLibProject({
@@ -493,10 +480,6 @@ new TypeScriptLibProject({
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
 });
-
-project.addImplicitDependency(dynamodbLib, dynamodbClient);
-project.addImplicitDependency(secretsManager, secretsManagerClient);
-project.addImplicitDependency(ssm, ssmClient);
 
 project.addGitIgnore(".direnv/"); // flake environment creates .direnv folder
 project.addGitIgnore("docs/"); // docs are generated

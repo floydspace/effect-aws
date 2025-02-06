@@ -1,17 +1,17 @@
+import { LinkableProject } from "@floydspace/projen-components";
 import { javascript, typescript } from "projen";
 
 type PredefinedProps = "defaultReleaseBranch" | "authorName" | "authorEmail";
 
 export type TypeScriptLibProjectOptions =
-  & Omit<
-    typescript.TypeScriptProjectOptions,
-    PredefinedProps
-  >
-  & Partial<Pick<typescript.TypeScriptProjectOptions, PredefinedProps>>;
+  & Omit<typescript.TypeScriptProjectOptions, PredefinedProps>
+  & Partial<Pick<typescript.TypeScriptProjectOptions, PredefinedProps>>
+  & { workspaceDeps?: Array<javascript.NodeProject> };
 
 export class TypeScriptLibProject extends typescript.TypeScriptProject {
   constructor({
     jestOptions: { jestConfig: _, ...jestOptions } = {},
+    workspaceDeps,
     ...options
   }: TypeScriptLibProjectOptions) {
     const parent = options.parent as javascript.NodeProject | undefined;
@@ -50,7 +50,14 @@ export class TypeScriptLibProject extends typescript.TypeScriptProject {
       tsconfigDev: { compilerOptions: { outDir: undefined } },
       ...options,
       name: `@${parent?.name}/${options.name}`,
+      peerDependencyOptions: { pinnedDevDependency: false },
     });
+
+    if (workspaceDeps?.length) {
+      LinkableProject.ensure(this).addImplicitDependency(...workspaceDeps);
+      this.addPeerDeps(...workspaceDeps.map((dep) => dep.package.packageName));
+      this.addDevDeps(...workspaceDeps.map((dep) => `${dep.package.packageName}@workspace:^`));
+    }
 
     this.package.addField("main", `${this.libdir}/cjs/index.js`);
     this.package.addField("types", `${this.libdir}/dts/index.d.ts`);
