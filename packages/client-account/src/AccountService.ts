@@ -305,7 +305,13 @@ export class AccountService extends Effect.Tag("@effect-aws/client-account/Accou
     );
 }
 
+/**
+ * @since 1.0.0
+ */
 export declare namespace AccountService {
+  /**
+   * @since 1.0.0
+   */
   export interface Config extends Omit<AccountClientConfig, "logger"> {
     readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
   }

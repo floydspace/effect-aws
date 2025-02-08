@@ -20,6 +20,10 @@ const proto = {
   [TypeId]: TypeId,
 };
 
+/**
+ * @since 0.1.0
+ * @category constructors
+ */
 export type ServiceLoggerConstructorProps = {
   readonly trace?: (...message: ReadonlyArray<any>) => Effect.Effect<void, never, never>;
   readonly debug: (...message: ReadonlyArray<any>) => Effect.Effect<void, never, never>;
@@ -44,7 +48,7 @@ export const make = (props: ServiceLoggerConstructorProps): ServiceLogger => Obj
 
 /**
  * @since 0.1.0
- * @category instances
+ * @category constructors
  */
 export const defaultServiceLogger = make({
   trace: Effect.logTrace,
