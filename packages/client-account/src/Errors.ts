@@ -24,5 +24,6 @@ export type InternalServerError = TaggedException<InternalServerException>;
 export type ResourceNotFoundError = TaggedException<ResourceNotFoundException>;
 export type TooManyRequestsError = TaggedException<TooManyRequestsException>;
 export type ValidationError = TaggedException<ValidationException>;
+
 export type SdkError = CommonSdkError;
 export const SdkError = CommonSdkError;

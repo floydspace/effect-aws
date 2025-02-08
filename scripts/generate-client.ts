@@ -89,7 +89,7 @@ export async function generateClient([
   );
 
   await generateServiceConfigFile(
-    `./packages/client-${serviceName}/src/${sdkName}ClientInstanceConfig.ts`,
+    `./packages/client-${serviceName}/src/${sdkName}ServiceConfig.ts`,
     serviceName,
     sdkName,
     originalServiceName,
@@ -130,13 +130,10 @@ async function generateErrorsFile(filePath: string, exportedErrors: Array<string
         ", ",
       )
     } } from "@aws-sdk/client-${originalServiceName}";
-import { Data } from "effect";
+import type { TaggedException } from "@effect-aws/commons";
+import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
-export const AllServiceErrors = [${exportedErrors.map((e) => `"${e}"`).join(", ")}];
-
-export type TaggedException<T extends { name: string }> = T & {
-  readonly _tag: T["name"];
-};
+export const AllServiceErrors = [${exportedErrors.map((e) => `"${e}"`).join(", ")}] as const;
 
 ${
       pipe(
@@ -153,8 +150,8 @@ ${
       )
     }
 
-export type SdkError = TaggedException<Error & { name: "SdkError" }>;
-export const SdkError = Data.tagged<SdkError>("SdkError");
+export type SdkError = CommonSdkError;
+export const SdkError = CommonSdkError;
 `,
   );
 }
@@ -172,10 +169,7 @@ async function generateClientInstanceFile(
  */
 import { ${sdkName}Client } from "@aws-sdk/client-${originalServiceName}";
 import { Context, Effect, Layer } from "effect";
-import {
-  Default${sdkName}ClientConfigLayer,
-  ${sdkName}ClientInstanceConfig,
-} from "./${sdkName}ClientInstanceConfig.js";
+import * as ${sdkName}ServiceConfig from "./${sdkName}ServiceConfig.js";
 
 /**
  * @since 1.0.0
@@ -189,8 +183,8 @@ export class ${sdkName}ClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const make${sdkName}ClientInstance = Effect.flatMap(
-	${sdkName}ClientInstanceConfig,
+export const make = Effect.flatMap(
+	${sdkName}ServiceConfig.to${sdkName}ClientConfig,
 	(config) =>
 		Effect.acquireRelease(
 			Effect.sync(() => new ${sdkName}Client(config)),
@@ -202,18 +196,7 @@ export const make${sdkName}ClientInstance = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const ${sdkName}ClientInstanceLayer = Layer.scoped(
-  ${sdkName}ClientInstance,
-  make${sdkName}ClientInstance,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- */
-export const Default${sdkName}ClientInstanceLayer = ${sdkName}ClientInstanceLayer.pipe(
-  Layer.provide(Default${sdkName}ClientConfigLayer),
-);
+export const layer = Layer.scoped(${sdkName}ClientInstance, make);
 `,
   );
 }
@@ -230,54 +213,54 @@ async function generateServiceConfigFile(
  * @since 1.0.0
  */
 import type { ${sdkName}ClientConfig } from "@aws-sdk/client-${originalServiceName}";
-import { Context, Effect, Layer, Runtime } from "effect";
+import { ServiceLogger } from "@effect-aws/commons";
+import { Effect, FiberRef, Layer } from "effect";
+import { dual } from "effect/Function";
+import { globalValue } from "effect/GlobalValue";
+import type { ${sdkName}Service } from "./${sdkName}Service.js";
 
 /**
  * @since 1.0.0
- * @category tags
+ * @category ${serviceName} service config
  */
-export class ${sdkName}ClientInstanceConfig extends Context.Tag(
-  "@effect-aws/client-${serviceName}/${sdkName}ClientInstanceConfig",
-)<${sdkName}ClientInstanceConfig, ${sdkName}ClientConfig>() {}
-
-/**
- * @since 1.0.0
- * @category constructors
- */
-export const makeDefault${sdkName}ClientInstanceConfig: Effect.Effect<${sdkName}ClientConfig> =
-  Effect.gen(function* (_) {
-    const runtime = yield* _(Effect.runtime<never>());
-    const runSync = Runtime.runSync(runtime);
-
-    return {
-      logger: {
-        info(m) {
-          Effect.logInfo(m).pipe(runSync);
-        },
-        warn(m) {
-          Effect.logWarning(m).pipe(runSync);
-        },
-        error(m) {
-          Effect.logError(m).pipe(runSync);
-        },
-        debug(m) {
-          Effect.logDebug(m).pipe(runSync);
-        },
-        trace(m) {
-          Effect.logTrace(m).pipe(runSync);
-        },
-      },
-    };
-  });
-
-/**
- * @since 1.0.0
- * @category layers
- */
-export const Default${sdkName}ClientConfigLayer = Layer.effect(
-  ${sdkName}ClientInstanceConfig,
-  makeDefault${sdkName}ClientInstanceConfig,
+const current${sdkName}ServiceConfig = globalValue(
+  "@effect-aws/client-${serviceName}/current${sdkName}ServiceConfig",
+  () => FiberRef.unsafeMake<${sdkName}Service.Config>({}),
 );
+
+/**
+ * @since 1.0.0
+ * @category ${serviceName} service config
+ */
+export const with${sdkName}ServiceConfig: {
+  (config: ${sdkName}Service.Config): <A, E, R>(effect: Effect.Effect<A, E, R>) => Effect.Effect<A, E, R>;
+  <A, E, R>(effect: Effect.Effect<A, E, R>, config: ${sdkName}Service.Config): Effect.Effect<A, E, R>;
+} = dual(
+  2,
+  <A, E, R>(effect: Effect.Effect<A, E, R>, config: ${sdkName}Service.Config): Effect.Effect<A, E, R> =>
+    Effect.locally(effect, current${sdkName}ServiceConfig, config),
+);
+
+/**
+ * @since 1.0.0
+ * @category ${serviceName} service config
+ */
+export const set${sdkName}ServiceConfig = (config: ${sdkName}Service.Config) =>
+  Layer.locallyScoped(current${sdkName}ServiceConfig, config);
+
+/**
+ * @since 1.0.0
+ * @category adapters
+ */
+export const to${sdkName}ClientConfig: Effect.Effect<${sdkName}ClientConfig> = Effect.gen(function*(_) {
+  const { logger: serviceLogger, ...config } = yield* _(FiberRef.get(current${sdkName}ServiceConfig));
+
+  const logger = serviceLogger === true
+    ? yield* _(ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger))
+    : (serviceLogger ? yield* _(ServiceLogger.toClientLogger(ServiceLogger.make(serviceLogger))) : undefined);
+
+  return { logger, ...config };
+});
 `,
   );
 }
@@ -285,10 +268,50 @@ export const Default${sdkName}ClientConfigLayer = Layer.effect(
 async function generateIndexFile(filePath: string, sdkName: string) {
   await writeFile(
     filePath,
-    `export * from "./Errors.js";
-export * from "./${sdkName}ClientInstance.js";
-export * from "./${sdkName}ClientInstanceConfig.js";
+    `/**
+ * @since 1.0.0
+ */
+import { ${sdkName}Service } from "./${sdkName}Service.js";
+
+/**
+ * @since 1.0.0
+ */
+export * from "./Errors.js";
+
+/**
+ * @since 1.0.0
+ */
+export * as ${sdkName}ClientInstance from "./${sdkName}ClientInstance.js";
+
+/**
+ * @since 1.0.0
+ */
+export * as ${sdkName}ServiceConfig from "./${sdkName}ServiceConfig.js";
+
+/**
+ * @since 1.0.0
+ */
 export * from "./${sdkName}Service.js";
+
+/**
+ * @since 1.0.0
+ * @category exports
+ * @alias ${sdkName}Service
+ */
+export declare namespace ${sdkName} {
+  /**
+   * @since 1.0.0
+   * @alias ${sdkName}Service.Config
+   */
+  export type Config = ${sdkName}Service.Config;
+}
+
+/**
+ * @since 1.0.0
+ * @category exports
+ * @alias ${sdkName}Service
+ */
+export const ${sdkName} = ${sdkName}Service;
 `,
   );
 }
@@ -346,7 +369,6 @@ async function generateServiceFile(
  * @since 1.0.0
  */
 import {
-  ${sdkName}ServiceException,
   type ${sdkName}Client,
   type ${sdkName}ClientConfig,
   ${
@@ -362,18 +384,12 @@ import {
       )
     }
 } from "@aws-sdk/client-${originalServiceName}";
-import { Data, Effect, Layer, Record } from "effect";
-import {
-  ${sdkName}ClientInstance,
-  ${sdkName}ClientInstanceLayer,
-} from "./${sdkName}ClientInstance.js";
-import {
-  Default${sdkName}ClientConfigLayer,
-  makeDefault${sdkName}ClientInstanceConfig,
-  ${sdkName}ClientInstanceConfig,
-} from "./${sdkName}ClientInstanceConfig.js";
-import {
-  AllServiceErrors,
+import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import { Service } from "@effect-aws/commons";
+import { Effect, Layer } from "effect";
+import * as Instance from "./${sdkName}ClientInstance.js";
+import * as ${sdkName}ServiceConfig from "./${sdkName}ServiceConfig.js";
+import type {
   ${
       pipe(
         importedErrors.map(
@@ -383,20 +399,8 @@ import {
         Array.join(","),
       )
     },
-  SdkError,
-  TaggedException,
 } from "./Errors.js";
-
-/**
- * @since 1.0.0
- */
-export interface HttpHandlerOptions {
-  /**
-   * The maximum time in milliseconds that the connection phase of a request
-   * may take before the connection attempt is abandoned.
-   */
-  requestTimeout?: number;
-}
+import { AllServiceErrors } from "./Errors.js";
 
 const commands = {
   ${
@@ -444,46 +448,9 @@ ${
  * @category constructors
  */
 export const make${sdkName}Service = Effect.gen(function* (_) {
-  const client = yield* _(${sdkName}ClientInstance);
+  const client = yield* _(Instance.${sdkName}ClientInstance);
 
-  return Record.toEntries(commands).reduce((acc, [command]) => {
-    const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options?: HttpHandlerOptions) =>
-      Effect.tryPromise({
-        try: (abortSignal) =>
-          client.send(new CommandCtor(args), {
-            ...(options ?? {}),
-            abortSignal,
-          }),
-        catch: (e) => {
-          if (e instanceof ${sdkName}ServiceException && AllServiceErrors.includes(e.name)) {
-            const ServiceException = Data.tagged<
-              TaggedException<${sdkName}ServiceException>
-            >(e.name);
-
-            return ServiceException({
-              ...e,
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          if (e instanceof Error) {
-            return SdkError({
-              ...e,
-              name: "SdkError",
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          throw e;
-        },
-      });
-    const methodName = (command[0].toLowerCase() + command.slice(1)).replace(
-      /Command$/,
-      "",
-    );
-    return { ...acc, [methodName]: methodImpl };
-  }, {}) as ${sdkName}Service$;
+  return Service.fromClientAndCommands<${sdkName}Service$>(client, commands, AllServiceErrors);
 });
 
 /**
@@ -494,21 +461,11 @@ export class ${sdkName}Service extends Effect.Tag("@effect-aws/client-${serviceN
   ${sdkName}Service,
   ${sdkName}Service$
 >() {
-  static readonly defaultLayer = Layer.effect(this, make${sdkName}Service).pipe(
-    Layer.provide(${sdkName}ClientInstanceLayer),
-    Layer.provide(Default${sdkName}ClientConfigLayer),
-  );
-  static readonly layer = (config: ${sdkName}ClientConfig) =>
+  static readonly defaultLayer = Layer.effect(this, make${sdkName}Service).pipe(Layer.provide(Instance.layer));
+  static readonly layer = (config: ${sdkName}Service.Config) =>
     Layer.effect(this, make${sdkName}Service).pipe(
-      Layer.provide(${sdkName}ClientInstanceLayer),
-      Layer.provide(
-        Layer.effect(
-          ${sdkName}ClientInstanceConfig,
-          makeDefault${sdkName}ClientInstanceConfig.pipe(
-            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
-          ),
-        ),
-      ),
+      Layer.provide(Instance.layer),
+      Layer.provide(${sdkName}ServiceConfig.set${sdkName}ServiceConfig(config)),
     );
   static readonly baseLayer = (
     evaluate: (defaultConfig: ${sdkName}ClientConfig) => ${sdkName}Client,
@@ -516,8 +473,8 @@ export class ${sdkName}Service extends Effect.Tag("@effect-aws/client-${serviceN
     Layer.effect(this, make${sdkName}Service).pipe(
       Layer.provide(
         Layer.effect(
-          ${sdkName}ClientInstance,
-          Effect.map(makeDefault${sdkName}ClientInstanceConfig, evaluate),
+          Instance.${sdkName}ClientInstance,
+          Effect.map(${sdkName}ServiceConfig.to${sdkName}ClientConfig, evaluate),
         ),
       ),
     );
@@ -525,36 +482,15 @@ export class ${sdkName}Service extends Effect.Tag("@effect-aws/client-${serviceN
 
 /**
  * @since 1.0.0
- * @category models
- * @alias ${sdkName}Service
  */
-export const ${sdkName} = ${sdkName}Service;
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use ${sdkName}.baseLayer instead
- */
-export const Base${sdkName}ServiceLayer = Layer.effect(
-  ${sdkName}Service,
-  make${sdkName}Service,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use ${sdkName}.layer instead
- */
-export const ${sdkName}ServiceLayer = Base${sdkName}ServiceLayer.pipe(
-  Layer.provide(${sdkName}ClientInstanceLayer),
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use ${sdkName}.defaultLayer instead
- */
-export const Default${sdkName}ServiceLayer = ${sdkName}Service.defaultLayer;
+export declare namespace ${sdkName}Service {
+  /**
+   * @since 1.0.0
+   */
+  export interface Config extends Omit<${sdkName}ClientConfig, "logger"> {
+    readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
+  }
+}
 `,
   );
 }
@@ -577,11 +513,11 @@ async function generateTestFile(
 } from "@aws-sdk/client-${originalServiceName}";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-${originalServiceName}/dist-cjs/runtimeConfig";
+import { ${sdkName}, ${sdkName}ServiceConfig, SdkError } from "@effect-aws/client-${serviceName}";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { ${sdkName}, SdkError } from "@effect-aws/client-${serviceName}";
 
 const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(${sdkName}Client);
@@ -610,9 +546,7 @@ describe("${sdkName}ClientImpl", () => {
 
     expect(result).toEqual(Exit.succeed({}));
     expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
-    expect(getRuntimeConfig).toHaveBeenCalledWith({
-      logger: expect.any(Object),
-    });
+    expect(getRuntimeConfig).toHaveBeenCalledWith({});
     expect(clientMock).toHaveReceivedCommandTimes(${commandToTest}Command, 1);
     expect(clientMock).toHaveReceivedCommandWith(${commandToTest}Command, args);
   });
@@ -630,7 +564,7 @@ describe("${sdkName}ClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provide(${sdkName}.layer({ region: "eu-central-1" })),
+      Effect.provide(${sdkName}.layer({ region: "eu-central-1", logger: true })),
       Effect.runPromiseExit,
     );
 
@@ -690,6 +624,7 @@ describe("${sdkName}ClientImpl", () => {
           (config) => new ${sdkName}Client({ ...config, region: "eu-central-1" }),
         ),
       ),
+      ${sdkName}ServiceConfig.with${sdkName}ServiceConfig({ logger: true }),
       Effect.runPromiseExit,
     );
 

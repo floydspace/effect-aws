@@ -6,6 +6,11 @@ import { AccountService } from "./AccountService.js";
 /**
  * @since 1.0.0
  */
+export * from "./Errors.js";
+
+/**
+ * @since 1.0.0
+ */
 export * as AccountClientInstance from "./AccountClientInstance.js";
 
 /**
@@ -17,11 +22,6 @@ export * as AccountServiceConfig from "./AccountServiceConfig.js";
  * @since 1.0.0
  */
 export * from "./AccountService.js";
-
-/**
- * @since 1.0.0
- */
-export * from "./Errors.js";
 
 /**
  * @since 1.0.0
