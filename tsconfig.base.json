@@ -28,9 +28,6 @@
     "strictPropertyInitialization": true,
     "stripInternal": true,
     "target": "ES2022",
-    "types": [
-      "vitest/globals"
-    ],
     "baseUrl": ".",
     "checkJs": false,
     "composite": true,
