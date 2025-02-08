@@ -23,7 +23,7 @@
     "watch": "pnpm exec projen watch",
     "install:ci": "pnpm exec projen install:ci",
     "synth-workspace": "pnpm exec projen",
-    "codegen-client": "tsx ./scripts/codegen-client.ts"
+    "codegen-client": "tsx ./scripts/codegen-cli.ts"
   },
   "author": {
     "name": "Victor Korzunin",

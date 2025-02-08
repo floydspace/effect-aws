@@ -1,18 +1,8 @@
-/**
- * How to use:
- *
- * 1. Define a new package in `.projenrc.ts` (the package must have the same name as the AWS client) and run `pnpm run synth-workspace`.
- * 2. Run `pnpm run codegen-client`, select the package to generate.
- * 3. Run `Run pnpm run eslint --fix` to fix the formatting.
- * 4. Commit the changes and enjoy.
- */
 import { exec } from "node:child_process";
-import { mkdir, readdir, writeFile } from "node:fs/promises";
+import { mkdir, writeFile } from "node:fs/promises";
 
-import { Array, Effect, Exit, Option, Predicate, Record, String, Struct, Tuple } from "effect";
-import { constVoid, flow, pipe } from "effect/Function";
-import Enquirer from "enquirer";
-import singularities from "./client-singularities.json";
+import { Array, Option, Predicate, Record, String, Struct, Tuple } from "effect";
+import { flow, pipe } from "effect/Function";
 
 type Shape =
   | { type: "boolean" }
@@ -39,104 +29,8 @@ type Shape =
   }
   | { type: "structure" };
 
-interface Manifest {
+export interface Manifest {
   shapes: Record<string, Shape>;
-}
-
-main().catch(console.error);
-
-function normalizeServiceName(serviceName: string) {
-  let originalServiceName = serviceName;
-  if (serviceName === "api-gateway-management-api") {
-    originalServiceName = "apigatewaymanagementapi";
-  }
-  if (serviceName === "opensearch-serverless") {
-    originalServiceName = "opensearchserverless";
-  }
-  return originalServiceName;
-}
-
-async function main() {
-  const enquirer = new Enquirer<{
-    services: Array<string>;
-    commandToTest: string;
-    inputToTest: string;
-  }>();
-
-  const { services } = await enquirer.prompt({
-    type: "autocomplete",
-    name: "services",
-    message: "Which clients do you want to generate ?",
-    multiple: true,
-    choices: (await readdir("./packages")).filter((s) => s.startsWith("client-")),
-  });
-
-  const each = services.map((packageName) =>
-    Effect.promise(async () => {
-      const serviceName = pipe(packageName, String.replace(/^client-/, ""));
-
-      const originalServiceName = normalizeServiceName(serviceName);
-
-      const manifest = (await (
-        await fetch(
-          `https://raw.githubusercontent.com/aws/aws-sdk-js-v3/main/codegen/sdk-codegen/aws-models/${originalServiceName}.json`,
-        )
-      ).json()) as Manifest;
-
-      const operationTargets = pipe(
-        manifest.shapes,
-        Record.filter(
-          (shape): shape is Extract<Shape, { type: "operation" }> => shape.type === "operation",
-        ),
-        Record.keys,
-      );
-
-      const operationNames = pipe(
-        operationTargets,
-        Array.map(getNameFromTarget),
-      );
-
-      const { commandToTest } = (singularities as any)[packageName] ??
-        (await enquirer.prompt({
-          type: "autocomplete",
-          name: "commandToTest",
-          message: `Which command do you want to test in ${packageName} ?`,
-          multiple: false,
-          choices: operationNames,
-        }));
-
-      const { inputToTest } = (singularities as any)[packageName]?.inputToTest !== undefined
-        ? {
-          inputToTest: (singularities as any)[packageName].inputToTest
-            ? JSON.stringify(
-              (singularities as any)[packageName].inputToTest,
-            )
-            : "",
-        }
-        : await enquirer.prompt({
-          type: "input",
-          name: "inputToTest",
-          message: `Which input do you want to test of ${commandToTest} ? (optional)`,
-          validate: Predicate.or(String.isEmpty)(
-            flow(
-              Effect.succeed,
-              Effect.tryMap({
-                try: JSON.parse,
-                catch: constVoid,
-              }),
-              Effect.runSyncExit,
-              Exit.isSuccess,
-            ),
-          ),
-        });
-
-      return [packageName, commandToTest, inputToTest] as const;
-    })
-  );
-
-  const results = await Effect.runPromise(Effect.all(each, { concurrency: 1 }));
-
-  return Promise.all(results.map(generateClient));
 }
 
 const getNameFromTarget = flow(
@@ -149,21 +43,13 @@ const lowerFirst = flow(Array.modify(0, String.toLowerCase), Array.join(""));
 
 const upperFirst = flow(Array.modify(0, String.toUpperCase), Array.join(""));
 
-async function generateClient([
-  packageName,
+export async function generateClient([
+  serviceName,
+  originalServiceName,
+  manifest,
   commandToTest,
   inputToTest,
-]: readonly [string, string, string]) {
-  const serviceName = pipe(packageName, String.replace(/^client-/, ""));
-
-  const originalServiceName = normalizeServiceName(serviceName);
-
-  const manifest = (await (
-    await fetch(
-      `https://raw.githubusercontent.com/aws/aws-sdk-js-v3/main/codegen/sdk-codegen/aws-models/${originalServiceName}.json`,
-    )
-  ).json()) as Manifest;
-
+]: readonly [string, string, Manifest, string, string]) {
   const serviceShape = pipe(
     manifest.shapes,
     Record.values,
@@ -193,8 +79,52 @@ async function generateClient([
     Record.keys,
   );
 
+  await generateErrorsFile(`./packages/client-${serviceName}/src/Errors.ts`, exportedErrors, originalServiceName);
+
+  await generateClientInstanceFile(
+    `./packages/client-${serviceName}/src/${sdkName}ClientInstance.ts`,
+    serviceName,
+    sdkName,
+    originalServiceName,
+  );
+
+  await generateServiceConfigFile(
+    `./packages/client-${serviceName}/src/${sdkName}ClientInstanceConfig.ts`,
+    serviceName,
+    sdkName,
+    originalServiceName,
+  );
+
+  await generateIndexFile(`./packages/client-${serviceName}/src/index.ts`, sdkName);
+
+  await generateServiceFile(
+    `./packages/client-${serviceName}/src/${sdkName}Service.ts`,
+    serviceName,
+    sdkName,
+    exportedErrors,
+    originalServiceName,
+    manifest,
+  );
+
+  await mkdir(`./packages/client-${serviceName}/test`, { recursive: true });
+
+  await generateTestFile(
+    `./packages/client-${serviceName}/test/${sdkName}.test.ts`,
+    serviceName,
+    sdkName,
+    commandToTest,
+    originalServiceName,
+    inputToTest,
+  );
+
+  await generateReadmeFile(`./packages/client-${serviceName}/README.md`, serviceName, sdkName, commandToTest);
+
+  exec(`pnpm --filter @effect-aws/client-${serviceName} run eslint --fix`);
+}
+
+async function generateErrorsFile(filePath: string, exportedErrors: Array<string>, originalServiceName: string) {
   await writeFile(
-    `./packages/client-${serviceName}/src/Errors.ts`,
+    filePath,
     `import type { ${
       exportedErrors.map((e) => (e.endsWith("Error") ? `${e} as ${String.replace(/Error$/, "")(e)}Exception` : e)).join(
         ", ",
@@ -227,9 +157,16 @@ export type SdkError = TaggedException<Error & { name: "SdkError" }>;
 export const SdkError = Data.tagged<SdkError>("SdkError");
 `,
   );
+}
 
+async function generateClientInstanceFile(
+  filePath: string,
+  serviceName: string,
+  sdkName: string,
+  originalServiceName: string,
+) {
   await writeFile(
-    `./packages/client-${serviceName}/src/${sdkName}ClientInstance.ts`,
+    filePath,
     `/**
  * @since 1.0.0
  */
@@ -279,9 +216,16 @@ export const Default${sdkName}ClientInstanceLayer = ${sdkName}ClientInstanceLaye
 );
 `,
   );
+}
 
+async function generateServiceConfigFile(
+  filePath: string,
+  serviceName: string,
+  sdkName: string,
+  originalServiceName: string,
+) {
   await writeFile(
-    `./packages/client-${serviceName}/src/${sdkName}ClientInstanceConfig.ts`,
+    filePath,
     `/**
  * @since 1.0.0
  */
@@ -336,16 +280,27 @@ export const Default${sdkName}ClientConfigLayer = Layer.effect(
 );
 `,
   );
+}
 
+async function generateIndexFile(filePath: string, sdkName: string) {
   await writeFile(
-    `./packages/client-${serviceName}/src/index.ts`,
+    filePath,
     `export * from "./Errors.js";
 export * from "./${sdkName}ClientInstance.js";
 export * from "./${sdkName}ClientInstanceConfig.js";
 export * from "./${sdkName}Service.js";
 `,
   );
+}
 
+async function generateServiceFile(
+  filePath: string,
+  serviceName: string,
+  sdkName: string,
+  exportedErrors: Array<string>,
+  originalServiceName: string,
+  manifest: Manifest,
+) {
   const operationTargets = pipe(
     manifest.shapes,
     Record.filter(
@@ -386,7 +341,7 @@ export * from "./${sdkName}Service.js";
   );
 
   await writeFile(
-    `./packages/client-${serviceName}/src/${sdkName}Service.ts`,
+    filePath,
     `/**
  * @since 1.0.0
  */
@@ -602,10 +557,18 @@ export const ${sdkName}ServiceLayer = Base${sdkName}ServiceLayer.pipe(
 export const Default${sdkName}ServiceLayer = ${sdkName}Service.defaultLayer;
 `,
   );
+}
 
-  await mkdir(`./packages/client-${serviceName}/test`, { recursive: true });
+async function generateTestFile(
+  filePath: string,
+  serviceName: string,
+  sdkName: string,
+  commandToTest: string,
+  originalServiceName: string,
+  inputToTest: string,
+) {
   await writeFile(
-    `./packages/client-${serviceName}/test/${sdkName}.test.ts`,
+    filePath,
     `import {
   type ${commandToTest}CommandInput,
   ${commandToTest}Command,
@@ -814,9 +777,11 @@ describe("${sdkName}ClientImpl", () => {
 });
 `,
   );
+}
 
+async function generateReadmeFile(filePath: string, serviceName: string, sdkName: string, commandToTest: string) {
   await writeFile(
-    `./packages/client-${serviceName}/README.md`,
+    filePath,
     `# @effect-aws/client-${serviceName}
 
 [![npm version](https://img.shields.io/npm/v/%40effect-aws%2Fclient-${serviceName}?color=brightgreen&label=npm%20package)](https://www.npmjs.com/package/@effect-aws/client-${serviceName})
@@ -877,6 +842,4 @@ const result = await pipe(
 or use \`${sdkName}.baseLayer((default) => new ${sdkName}Client({ ...default, region: "eu-central-1" }))\`
 `,
   );
-
-  exec(`pnpm --filter @effect-aws/client-${serviceName} run eslint --fix`);
 }

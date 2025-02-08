@@ -34,7 +34,7 @@ new Vitest(project, {
 });
 
 project.addScripts({
-  "codegen-client": "tsx ./scripts/codegen-client.ts",
+  "codegen-client": "tsx ./scripts/codegen-cli.ts",
 });
 project.addDeps("effect@^3.0.0", "enquirer@^2.4.1");
 project.addDevDeps("@effect/language-service");
