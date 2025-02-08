@@ -17,6 +17,9 @@
       "path": "tsconfig.src.json"
     },
     {
+      "path": "../commons"
+    },
+    {
       "path": "../client-dynamodb"
     }
   ]

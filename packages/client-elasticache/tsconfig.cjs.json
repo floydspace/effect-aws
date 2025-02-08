@@ -5,5 +5,10 @@
     "outDir": "build/cjs",
     "moduleResolution": "node",
     "module": "CommonJS"
-  }
+  },
+  "references": [
+    {
+      "path": "../commons/tsconfig.cjs.json"
+    }
+  ]
 }

@@ -46,6 +46,14 @@ const commonDeps: Array<string> = [];
 const commonDevDeps = ["effect@3.0.0", "aws-sdk-client-mock", "aws-sdk-client-mock-vitest"];
 const commonPeerDeps = ["effect@>=3.0.0 <4.0.0"];
 
+const commons = new TypeScriptLibProject({
+  parent: project,
+  name: "commons",
+  description: "Effectful AWS common library",
+  deps: ["@smithy/types"],
+  peerDeps: commonPeerDeps,
+});
+
 new TypeScriptLibProject({
   parent: project,
   name: "powertools-logger",
@@ -61,6 +69,7 @@ new TypeScriptLibProject({
   deps: [...commonDeps, "@aws-sdk/client-apigatewaymanagementapi@^3"],
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
+  workspaceDeps: [commons],
 });
 
 new TypeScriptLibProject({
@@ -70,6 +79,7 @@ new TypeScriptLibProject({
   deps: [...commonDeps, "@aws-sdk/client-codedeploy@^3"],
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
+  workspaceDeps: [commons],
 });
 
 const dynamodbClient = new TypeScriptLibProject({
@@ -79,6 +89,7 @@ const dynamodbClient = new TypeScriptLibProject({
   deps: [...commonDeps, "@aws-sdk/client-dynamodb@^3"],
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
+  workspaceDeps: [commons],
 });
 
 new TypeScriptLibProject({
@@ -88,7 +99,8 @@ new TypeScriptLibProject({
   deps: [...commonDeps, "@aws-sdk/client-dynamodb@^3", "@aws-sdk/lib-dynamodb@^3"],
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
-  workspaceDeps: [dynamodbClient],
+  workspaceDeps: [commons],
+  workspacePeerDeps: [dynamodbClient],
 });
 
 new TypeScriptLibProject({
@@ -98,6 +110,7 @@ new TypeScriptLibProject({
   deps: [...commonDeps, "@aws-sdk/client-eventbridge@^3"],
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
+  workspaceDeps: [commons],
 });
 
 new TypeScriptLibProject({
@@ -107,6 +120,7 @@ new TypeScriptLibProject({
   deps: [...commonDeps, "@aws-sdk/client-lambda@^3"],
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
+  workspaceDeps: [commons],
 });
 
 new TypeScriptLibProject({
@@ -121,6 +135,7 @@ new TypeScriptLibProject({
   ],
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
+  workspaceDeps: [commons],
 });
 
 new TypeScriptLibProject({
@@ -130,6 +145,7 @@ new TypeScriptLibProject({
   deps: [...commonDeps, "@aws-sdk/client-sns@^3"],
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
+  workspaceDeps: [commons],
 });
 
 new TypeScriptLibProject({
@@ -139,6 +155,7 @@ new TypeScriptLibProject({
   deps: [...commonDeps, "@aws-sdk/client-sqs@^3"],
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
+  workspaceDeps: [commons],
 });
 
 new TypeScriptLibProject({
@@ -148,6 +165,7 @@ new TypeScriptLibProject({
   deps: [...commonDeps, "@aws-sdk/client-sfn@^3"],
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
+  workspaceDeps: [commons],
 });
 
 const ssmClient = new TypeScriptLibProject({
@@ -157,6 +175,7 @@ const ssmClient = new TypeScriptLibProject({
   deps: [...commonDeps, "@aws-sdk/client-ssm@^3"],
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
+  workspaceDeps: [commons],
 });
 
 new TypeScriptLibProject({
@@ -166,6 +185,7 @@ new TypeScriptLibProject({
   deps: [...commonDeps, "@aws-sdk/client-iam@^3"],
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
+  workspaceDeps: [commons],
 });
 
 new TypeScriptLibProject({
@@ -175,6 +195,7 @@ new TypeScriptLibProject({
   deps: [...commonDeps, "@aws-sdk/client-elasticache@^3"],
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
+  workspaceDeps: [commons],
 });
 
 new TypeScriptLibProject({
@@ -184,6 +205,7 @@ new TypeScriptLibProject({
   deps: [...commonDeps, "@aws-sdk/client-ec2@^3"],
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
+  workspaceDeps: [commons],
 });
 
 new TypeScriptLibProject({
@@ -193,6 +215,7 @@ new TypeScriptLibProject({
   deps: [...commonDeps, "@aws-sdk/client-ecs@^3"],
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
+  workspaceDeps: [commons],
 });
 
 const secretsManagerClient = new TypeScriptLibProject({
@@ -202,6 +225,7 @@ const secretsManagerClient = new TypeScriptLibProject({
   deps: [...commonDeps, "@aws-sdk/client-secrets-manager@^3"],
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
+  workspaceDeps: [commons],
 });
 
 new TypeScriptLibProject({
@@ -211,6 +235,7 @@ new TypeScriptLibProject({
   deps: [...commonDeps, "@aws-sdk/client-scheduler@^3"],
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
+  workspaceDeps: [commons],
 });
 
 new TypeScriptLibProject({
@@ -220,6 +245,7 @@ new TypeScriptLibProject({
   deps: [...commonDeps, "@aws-sdk/client-kinesis@^3"],
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
+  workspaceDeps: [commons],
 });
 
 new TypeScriptLibProject({
@@ -229,6 +255,7 @@ new TypeScriptLibProject({
   deps: [...commonDeps, "@aws-sdk/client-account@^3"],
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
+  workspaceDeps: [commons],
 });
 
 new TypeScriptLibProject({
@@ -238,6 +265,7 @@ new TypeScriptLibProject({
   deps: [...commonDeps, "@aws-sdk/client-cloudsearch@^3"],
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
+  workspaceDeps: [commons],
 });
 
 new TypeScriptLibProject({
@@ -247,6 +275,7 @@ new TypeScriptLibProject({
   deps: [...commonDeps, "@aws-sdk/client-cloudtrail@^3"],
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
+  workspaceDeps: [commons],
 });
 
 new TypeScriptLibProject({
@@ -256,6 +285,7 @@ new TypeScriptLibProject({
   deps: [...commonDeps, "@aws-sdk/client-cloudwatch@^3"],
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
+  workspaceDeps: [commons],
 });
 
 new TypeScriptLibProject({
@@ -265,6 +295,7 @@ new TypeScriptLibProject({
   deps: [...commonDeps, "@aws-sdk/client-cloudwatch-events@^3"],
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
+  workspaceDeps: [commons],
 });
 
 new TypeScriptLibProject({
@@ -274,6 +305,7 @@ new TypeScriptLibProject({
   deps: [...commonDeps, "@aws-sdk/client-cloudwatch-logs@^3"],
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
+  workspaceDeps: [commons],
 });
 
 new TypeScriptLibProject({
@@ -283,6 +315,7 @@ new TypeScriptLibProject({
   deps: [...commonDeps, "@aws-sdk/client-cognito-identity-provider@^3"],
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
+  workspaceDeps: [commons],
 });
 
 new TypeScriptLibProject({
@@ -292,6 +325,7 @@ new TypeScriptLibProject({
   deps: [...commonDeps, "@aws-sdk/client-kms@^3"],
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
+  workspaceDeps: [commons],
 });
 
 new TypeScriptLibProject({
@@ -301,6 +335,7 @@ new TypeScriptLibProject({
   deps: [...commonDeps, "@aws-sdk/client-mq@^3"],
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
+  workspaceDeps: [commons],
 });
 
 new TypeScriptLibProject({
@@ -310,6 +345,7 @@ new TypeScriptLibProject({
   deps: [...commonDeps, "@aws-sdk/client-rds@^3"],
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
+  workspaceDeps: [commons],
 });
 
 new TypeScriptLibProject({
@@ -319,6 +355,7 @@ new TypeScriptLibProject({
   deps: [...commonDeps, "@aws-sdk/client-sts@^3"],
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
+  workspaceDeps: [commons],
 });
 
 new TypeScriptLibProject({
@@ -328,6 +365,7 @@ new TypeScriptLibProject({
   deps: [...commonDeps, "@aws-sdk/client-opensearch@^3"],
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
+  workspaceDeps: [commons],
 });
 
 new TypeScriptLibProject({
@@ -337,6 +375,7 @@ new TypeScriptLibProject({
   deps: [...commonDeps, "@aws-sdk/client-opensearchserverless@^3"],
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
+  workspaceDeps: [commons],
 });
 
 new TypeScriptLibProject({
@@ -357,7 +396,7 @@ new TypeScriptLibProject({
     "effect@3.0.0",
   ],
   peerDeps: commonPeerDeps,
-  workspaceDeps: [secretsManagerClient],
+  workspacePeerDeps: [secretsManagerClient],
 });
 
 new TypeScriptLibProject({
@@ -370,7 +409,7 @@ new TypeScriptLibProject({
     "effect@3.0.0",
   ],
   peerDeps: commonPeerDeps,
-  workspaceDeps: [ssmClient],
+  workspacePeerDeps: [ssmClient],
 });
 
 new TypeScriptLibProject({
@@ -380,6 +419,7 @@ new TypeScriptLibProject({
   deps: [...commonDeps, "@aws-sdk/client-bedrock@^3"],
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
+  workspaceDeps: [commons],
 });
 
 new TypeScriptLibProject({
@@ -389,6 +429,7 @@ new TypeScriptLibProject({
   deps: [...commonDeps, "@aws-sdk/client-textract@^3"],
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
+  workspaceDeps: [commons],
 });
 
 new TypeScriptLibProject({
@@ -398,6 +439,7 @@ new TypeScriptLibProject({
   deps: [...commonDeps, "@aws-sdk/client-ses@^3"],
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
+  workspaceDeps: [commons],
 });
 
 new TypeScriptLibProject({
@@ -407,6 +449,7 @@ new TypeScriptLibProject({
   deps: [...commonDeps, "@aws-sdk/client-organizations@^3"],
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
+  workspaceDeps: [commons],
 });
 
 new TypeScriptLibProject({
@@ -416,6 +459,7 @@ new TypeScriptLibProject({
   deps: [...commonDeps, "@aws-sdk/client-ecr@^3"],
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
+  workspaceDeps: [commons],
 });
 
 new TypeScriptLibProject({
@@ -425,6 +469,7 @@ new TypeScriptLibProject({
   deps: [...commonDeps, "@aws-sdk/client-auto-scaling@^3"],
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
+  workspaceDeps: [commons],
 });
 
 new TypeScriptLibProject({
@@ -434,6 +479,7 @@ new TypeScriptLibProject({
   deps: [...commonDeps, "@aws-sdk/client-iot@^3"],
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
+  workspaceDeps: [commons],
 });
 
 new TypeScriptLibProject({
@@ -443,6 +489,7 @@ new TypeScriptLibProject({
   deps: [...commonDeps, "@aws-sdk/client-iot-wireless@^3"],
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
+  workspaceDeps: [commons],
 });
 
 new TypeScriptLibProject({
@@ -452,6 +499,7 @@ new TypeScriptLibProject({
   deps: [...commonDeps, "@aws-sdk/client-iot-data-plane@^3"],
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
+  workspaceDeps: [commons],
 });
 
 new TypeScriptLibProject({
@@ -461,6 +509,7 @@ new TypeScriptLibProject({
   deps: [...commonDeps, "@aws-sdk/client-iot-jobs-data-plane@^3"],
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
+  workspaceDeps: [commons],
 });
 
 new TypeScriptLibProject({
@@ -470,6 +519,7 @@ new TypeScriptLibProject({
   deps: [...commonDeps, "@aws-sdk/client-iot-events@^3"],
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
+  workspaceDeps: [commons],
 });
 
 new TypeScriptLibProject({
@@ -479,6 +529,7 @@ new TypeScriptLibProject({
   deps: [...commonDeps, "@aws-sdk/client-iot-events-data@^3"],
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
+  workspaceDeps: [commons],
 });
 
 project.addGitIgnore(".direnv/"); // flake environment creates .direnv folder

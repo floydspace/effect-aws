@@ -35,7 +35,8 @@
     "effect": ">=3.0.0 <4.0.0"
   },
   "dependencies": {
-    "@aws-sdk/client-ecr": "^3"
+    "@aws-sdk/client-ecr": "^3",
+    "@effect-aws/commons": "workspace:^"
   },
   "main": "build/cjs/index.js",
   "license": "MIT",

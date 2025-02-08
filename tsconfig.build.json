@@ -4,6 +4,9 @@
   "include": [],
   "references": [
     {
+      "path": "packages/commons/tsconfig.esm.json"
+    },
+    {
       "path": "packages/powertools-logger/tsconfig.esm.json"
     },
     {

@@ -6,7 +6,7 @@ import {
 } from "@aws-sdk/client-account";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-account/dist-cjs/runtimeConfig";
-import { Account, SdkError } from "@effect-aws/client-account";
+import { Account, AccountServiceConfig, SdkError } from "@effect-aws/client-account";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
@@ -35,9 +35,7 @@ describe("AccountClientImpl", () => {
 
     expect(result).toEqual(Exit.succeed({}));
     expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
-    expect(getRuntimeConfig).toHaveBeenCalledWith({
-      logger: expect.any(Object),
-    });
+    expect(getRuntimeConfig).toHaveBeenCalledWith({});
     expect(clientMock).toHaveReceivedCommandTimes(ListRegionsCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(ListRegionsCommand, args);
   });
@@ -51,7 +49,7 @@ describe("AccountClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provide(Account.layer({ region: "eu-central-1" })),
+      Effect.provide(Account.layer({ region: "eu-central-1", logger: true })),
       Effect.runPromiseExit,
     );
 
@@ -103,6 +101,7 @@ describe("AccountClientImpl", () => {
           (config) => new AccountClient({ ...config, region: "eu-central-1" }),
         ),
       ),
+      AccountServiceConfig.withAccountServiceConfig({ logger: true }),
       Effect.runPromiseExit,
     );
 

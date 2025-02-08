@@ -42,13 +42,10 @@ import {
   type StartPrimaryEmailUpdateCommandInput,
   type StartPrimaryEmailUpdateCommandOutput,
 } from "@aws-sdk/client-account";
+import type { ServiceLogger } from "@effect-aws/commons";
 import { Data, Effect, Layer, Record } from "effect";
-import { AccountClientInstance, AccountClientInstanceLayer } from "./AccountClientInstance.js";
-import {
-  AccountClientInstanceConfig,
-  DefaultAccountClientConfigLayer,
-  makeDefaultAccountClientInstanceConfig,
-} from "./AccountClientInstanceConfig.js";
+import * as Instance from "./AccountClientInstance.js";
+import * as AccountServiceConfig from "./AccountServiceConfig.js";
 import type {
   AccessDeniedError,
   ConflictError,
@@ -238,8 +235,8 @@ interface AccountService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeAccountService = Effect.gen(function*(_) {
-  const client = yield* _(AccountClientInstance);
+export const make = Effect.gen(function*(_) {
+  const client = yield* _(Instance.AccountClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {
     const CommandCtor = commands[command] as any;
@@ -289,33 +286,29 @@ export class AccountService extends Effect.Tag("@effect-aws/client-account/Accou
   AccountService,
   AccountService$
 >() {
-  static readonly defaultLayer = Layer.effect(this, makeAccountService).pipe(
-    Layer.provide(AccountClientInstanceLayer),
-    Layer.provide(DefaultAccountClientConfigLayer),
-  );
-  static readonly layer = (config: AccountClientConfig) =>
-    Layer.effect(this, makeAccountService).pipe(
-      Layer.provide(AccountClientInstanceLayer),
-      Layer.provide(
-        Layer.effect(
-          AccountClientInstanceConfig,
-          makeDefaultAccountClientInstanceConfig.pipe(
-            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
-          ),
-        ),
-      ),
+  static readonly defaultLayer = Layer.effect(this, make).pipe(Layer.provide(Instance.layer));
+  static readonly layer = (config: AccountService.Config) =>
+    Layer.effect(this, make).pipe(
+      Layer.provide(Instance.layer),
+      Layer.provide(AccountServiceConfig.setAccountServiceConfig(config)),
     );
   static readonly baseLayer = (
     evaluate: (defaultConfig: AccountClientConfig) => AccountClient,
   ) =>
-    Layer.effect(this, makeAccountService).pipe(
+    Layer.effect(this, make).pipe(
       Layer.provide(
         Layer.effect(
-          AccountClientInstance,
-          Effect.map(makeDefaultAccountClientInstanceConfig, evaluate),
+          Instance.AccountClientInstance,
+          Effect.map(AccountServiceConfig.toAccountClientConfig, evaluate),
         ),
       ),
     );
+}
+
+export declare namespace AccountService {
+  export interface Config extends Omit<AccountClientConfig, "logger"> {
+    readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
+  }
 }
 
 /**
@@ -330,10 +323,7 @@ export const Account = AccountService;
  * @category layers
  * @deprecated use Account.baseLayer instead
  */
-export const BaseAccountServiceLayer = Layer.effect(
-  AccountService,
-  makeAccountService,
-);
+export const BaseAccountServiceLayer = Layer.effect(AccountService, make);
 
 /**
  * @since 1.0.0
@@ -341,7 +331,7 @@ export const BaseAccountServiceLayer = Layer.effect(
  * @deprecated use Account.layer instead
  */
 export const AccountServiceLayer = BaseAccountServiceLayer.pipe(
-  Layer.provide(AccountClientInstanceLayer),
+  Layer.provide(Instance.layer),
 );
 
 /**

@@ -38,7 +38,8 @@
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3",
-    "@aws-sdk/lib-dynamodb": "^3"
+    "@aws-sdk/lib-dynamodb": "^3",
+    "@effect-aws/commons": "workspace:^"
   },
   "main": "build/cjs/index.js",
   "license": "MIT",

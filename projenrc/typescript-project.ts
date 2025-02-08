@@ -6,12 +6,16 @@ type PredefinedProps = "defaultReleaseBranch" | "authorName" | "authorEmail";
 export type TypeScriptLibProjectOptions =
   & Omit<typescript.TypeScriptProjectOptions, PredefinedProps>
   & Partial<Pick<typescript.TypeScriptProjectOptions, PredefinedProps>>
-  & { workspaceDeps?: Array<javascript.NodeProject> };
+  & {
+    workspaceDeps?: Array<javascript.NodeProject>;
+    workspacePeerDeps?: Array<javascript.NodeProject>;
+  };
 
 export class TypeScriptLibProject extends typescript.TypeScriptProject {
   constructor({
     jestOptions: { jestConfig: _, ...jestOptions } = {},
     workspaceDeps,
+    workspacePeerDeps,
     ...options
   }: TypeScriptLibProjectOptions) {
     const parent = options.parent as javascript.NodeProject | undefined;
@@ -55,8 +59,13 @@ export class TypeScriptLibProject extends typescript.TypeScriptProject {
 
     if (workspaceDeps?.length) {
       LinkableProject.ensure(this).addImplicitDependency(...workspaceDeps);
-      this.addPeerDeps(...workspaceDeps.map((dep) => dep.package.packageName));
-      this.addDevDeps(...workspaceDeps.map((dep) => `${dep.package.packageName}@workspace:^`));
+      this.addDeps(...workspaceDeps.map((dep) => `${dep.package.packageName}@workspace:^`));
+    }
+
+    if (workspacePeerDeps?.length) {
+      LinkableProject.ensure(this).addImplicitDependency(...workspacePeerDeps);
+      this.addPeerDeps(...workspacePeerDeps.map((dep) => dep.package.packageName));
+      this.addDevDeps(...workspacePeerDeps.map((dep) => `${dep.package.packageName}@workspace:^`));
     }
 
     this.package.addField("main", `${this.libdir}/cjs/index.js`);

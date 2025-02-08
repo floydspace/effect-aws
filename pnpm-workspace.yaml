@@ -43,6 +43,7 @@ packages:
   - packages/client-ssm
   - packages/client-sts
   - packages/client-textract
+  - packages/commons
   - packages/lambda
   - packages/lib-dynamodb
   - packages/powertools-logger

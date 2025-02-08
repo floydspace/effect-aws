@@ -52,6 +52,15 @@
       }
     ],
     "paths": {
+      "@effect-aws/commons": [
+        "./packages/commons/src/index.js"
+      ],
+      "@effect-aws/commons/*": [
+        "./packages/commons/src/*.js"
+      ],
+      "@effect-aws/commons/test/*": [
+        "./packages/commons/test/*.js"
+      ],
       "@effect-aws/powertools-logger": [
         "./packages/powertools-logger/src/index.js"
       ],

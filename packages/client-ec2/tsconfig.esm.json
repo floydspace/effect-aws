@@ -9,5 +9,10 @@
     "outDir": "build/esm",
     "declarationDir": "build/dts",
     "stripInternal": true
-  }
+  },
+  "references": [
+    {
+      "path": "../commons/tsconfig.esm.json"
+    }
+  ]
 }

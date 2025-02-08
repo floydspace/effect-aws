@@ -9,6 +9,9 @@
   ],
   "references": [
     {
+      "path": "packages/commons"
+    },
+    {
       "path": "packages/powertools-logger"
     },
     {
