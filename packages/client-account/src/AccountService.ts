@@ -235,7 +235,7 @@ interface AccountService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const make = Effect.gen(function*(_) {
+export const makeAccountService = Effect.gen(function*(_) {
   const client = yield* _(Instance.AccountClientInstance);
 
   return Record.toEntries(commands).reduce((acc, [command]) => {
@@ -286,16 +286,16 @@ export class AccountService extends Effect.Tag("@effect-aws/client-account/Accou
   AccountService,
   AccountService$
 >() {
-  static readonly defaultLayer = Layer.effect(this, make).pipe(Layer.provide(Instance.layer));
+  static readonly defaultLayer = Layer.effect(this, makeAccountService).pipe(Layer.provide(Instance.layer));
   static readonly layer = (config: AccountService.Config) =>
-    Layer.effect(this, make).pipe(
+    Layer.effect(this, makeAccountService).pipe(
       Layer.provide(Instance.layer),
       Layer.provide(AccountServiceConfig.setAccountServiceConfig(config)),
     );
   static readonly baseLayer = (
     evaluate: (defaultConfig: AccountClientConfig) => AccountClient,
   ) =>
-    Layer.effect(this, make).pipe(
+    Layer.effect(this, makeAccountService).pipe(
       Layer.provide(
         Layer.effect(
           Instance.AccountClientInstance,
@@ -316,33 +316,3 @@ export declare namespace AccountService {
     readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
   }
 }
-
-/**
- * @since 1.0.0
- * @category models
- * @alias AccountService
- */
-export const Account = AccountService;
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use Account.baseLayer instead
- */
-export const BaseAccountServiceLayer = Layer.effect(AccountService, make);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use Account.layer instead
- */
-export const AccountServiceLayer = BaseAccountServiceLayer.pipe(
-  Layer.provide(Instance.layer),
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use Account.defaultLayer instead
- */
-export const DefaultAccountServiceLayer = AccountService.defaultLayer;
