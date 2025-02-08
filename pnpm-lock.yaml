@@ -1200,6 +1200,9 @@ importers:
 
   packages/commons:
     dependencies:
+      '@smithy/smithy-client':
+        specifier: ^4.1.2
+        version: 4.1.2
       '@smithy/types':
         specifier: ^4.1.0
         version: 4.1.0

@@ -7,7 +7,6 @@ import {
   type AcceptPrimaryEmailUpdateCommandOutput,
   type AccountClient,
   type AccountClientConfig,
-  AccountServiceException,
   DeleteAlternateContactCommand,
   type DeleteAlternateContactCommandInput,
   type DeleteAlternateContactCommandOutput,
@@ -42,8 +41,9 @@ import {
   type StartPrimaryEmailUpdateCommandInput,
   type StartPrimaryEmailUpdateCommandOutput,
 } from "@aws-sdk/client-account";
-import type { ServiceLogger } from "@effect-aws/commons";
-import { Data, Effect, Layer, Record } from "effect";
+import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import { Service } from "@effect-aws/commons";
+import { Effect, Layer } from "effect";
 import * as Instance from "./AccountClientInstance.js";
 import * as AccountServiceConfig from "./AccountServiceConfig.js";
 import type {
@@ -51,22 +51,10 @@ import type {
   ConflictError,
   InternalServerError,
   ResourceNotFoundError,
-  TaggedException,
   TooManyRequestsError,
   ValidationError,
 } from "./Errors.js";
-import { AllServiceErrors, SdkError } from "./Errors.js";
-
-/**
- * @since 1.0.0
- */
-export interface HttpHandlerOptions {
-  /**
-   * The maximum time in milliseconds that the connection phase of a request
-   * may take before the connection attempt is abandoned.
-   */
-  requestTimeout?: number;
-}
+import { AllServiceErrors } from "./Errors.js";
 
 const commands = {
   AcceptPrimaryEmailUpdateCommand,
@@ -238,44 +226,7 @@ interface AccountService$ {
 export const makeAccountService = Effect.gen(function*(_) {
   const client = yield* _(Instance.AccountClientInstance);
 
-  return Record.toEntries(commands).reduce((acc, [command]) => {
-    const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options?: HttpHandlerOptions) =>
-      Effect.tryPromise({
-        try: (abortSignal) =>
-          client.send(new CommandCtor(args), {
-            ...(options ?? {}),
-            abortSignal,
-          }),
-        catch: (e) => {
-          if (e instanceof AccountServiceException && AllServiceErrors.includes(e.name)) {
-            const ServiceException = Data.tagged<
-              TaggedException<AccountServiceException>
-            >(e.name);
-
-            return ServiceException({
-              ...e,
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          if (e instanceof Error) {
-            return SdkError({
-              ...e,
-              name: "SdkError",
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          throw e;
-        },
-      });
-    const methodName = (command[0].toLowerCase() + command.slice(1)).replace(
-      /Command$/,
-      "",
-    );
-    return { ...acc, [methodName]: methodImpl };
-  }, {}) as AccountService$;
+  return Service.fromClientAndCommands<AccountService$>(client, commands, AllServiceErrors);
 });
 
 /**
