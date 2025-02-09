@@ -40,7 +40,6 @@ import {
   type GetDetectorModelAnalysisResultsCommandOutput,
   type IoTEventsClient,
   type IoTEventsClientConfig,
-  IoTEventsServiceException,
   ListAlarmModelsCommand,
   type ListAlarmModelsCommandInput,
   type ListAlarmModelsCommandOutput,
@@ -84,7 +83,9 @@ import {
   type UpdateInputCommandInput,
   type UpdateInputCommandOutput,
 } from "@aws-sdk/client-iot-events";
-import { Data, Effect, Layer, Record } from "effect";
+import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import { Service } from "@effect-aws/commons";
+import { Effect, Layer } from "effect";
 import type {
   InternalFailureError,
   InvalidRequestError,
@@ -93,28 +94,12 @@ import type {
   ResourceInUseError,
   ResourceNotFoundError,
   ServiceUnavailableError,
-  TaggedException,
   ThrottlingError,
   UnsupportedOperationError,
 } from "./Errors.js";
-import { AllServiceErrors, SdkError } from "./Errors.js";
-import { IoTEventsClientInstance, IoTEventsClientInstanceLayer } from "./IoTEventsClientInstance.js";
-import {
-  DefaultIoTEventsClientConfigLayer,
-  IoTEventsClientInstanceConfig,
-  makeDefaultIoTEventsClientInstanceConfig,
-} from "./IoTEventsClientInstanceConfig.js";
-
-/**
- * @since 1.0.0
- */
-export interface HttpHandlerOptions {
-  /**
-   * The maximum time in milliseconds that the connection phase of a request
-   * may take before the connection attempt is abandoned.
-   */
-  requestTimeout?: number;
-}
+import { AllServiceErrors } from "./Errors.js";
+import * as Instance from "./IoTEventsClientInstance.js";
+import * as IoTEventsServiceConfig from "./IoTEventsServiceConfig.js";
 
 const commands = {
   CreateAlarmModelCommand,
@@ -557,47 +542,10 @@ interface IoTEventsService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeIoTEventsService = Effect.gen(function*(_) {
-  const client = yield* _(IoTEventsClientInstance);
+export const makeIoTEventsService = Effect.gen(function*() {
+  const client = yield* Instance.IoTEventsClientInstance;
 
-  return Record.toEntries(commands).reduce((acc, [command]) => {
-    const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options?: HttpHandlerOptions) =>
-      Effect.tryPromise({
-        try: (abortSignal) =>
-          client.send(new CommandCtor(args), {
-            ...(options ?? {}),
-            abortSignal,
-          }),
-        catch: (e) => {
-          if (e instanceof IoTEventsServiceException && AllServiceErrors.includes(e.name)) {
-            const ServiceException = Data.tagged<
-              TaggedException<IoTEventsServiceException>
-            >(e.name);
-
-            return ServiceException({
-              ...e,
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          if (e instanceof Error) {
-            return SdkError({
-              ...e,
-              name: "SdkError",
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          throw e;
-        },
-      });
-    const methodName = (command[0].toLowerCase() + command.slice(1)).replace(
-      /Command$/,
-      "",
-    );
-    return { ...acc, [methodName]: methodImpl };
-  }, {}) as IoTEventsService$;
+  return Service.fromClientAndCommands<IoTEventsService$>(client, commands, AllServiceErrors);
 });
 
 /**
@@ -608,21 +556,11 @@ export class IoTEventsService extends Effect.Tag("@effect-aws/client-iot-events/
   IoTEventsService,
   IoTEventsService$
 >() {
-  static readonly defaultLayer = Layer.effect(this, makeIoTEventsService).pipe(
-    Layer.provide(IoTEventsClientInstanceLayer),
-    Layer.provide(DefaultIoTEventsClientConfigLayer),
-  );
-  static readonly layer = (config: IoTEventsClientConfig) =>
+  static readonly defaultLayer = Layer.effect(this, makeIoTEventsService).pipe(Layer.provide(Instance.layer));
+  static readonly layer = (config: IoTEventsService.Config) =>
     Layer.effect(this, makeIoTEventsService).pipe(
-      Layer.provide(IoTEventsClientInstanceLayer),
-      Layer.provide(
-        Layer.effect(
-          IoTEventsClientInstanceConfig,
-          makeDefaultIoTEventsClientInstanceConfig.pipe(
-            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
-          ),
-        ),
-      ),
+      Layer.provide(Instance.layer),
+      Layer.provide(IoTEventsServiceConfig.setIoTEventsServiceConfig(config)),
     );
   static readonly baseLayer = (
     evaluate: (defaultConfig: IoTEventsClientConfig) => IoTEventsClient,
@@ -630,8 +568,8 @@ export class IoTEventsService extends Effect.Tag("@effect-aws/client-iot-events/
     Layer.effect(this, makeIoTEventsService).pipe(
       Layer.provide(
         Layer.effect(
-          IoTEventsClientInstance,
-          Effect.map(makeDefaultIoTEventsClientInstanceConfig, evaluate),
+          Instance.IoTEventsClientInstance,
+          Effect.map(IoTEventsServiceConfig.toIoTEventsClientConfig, evaluate),
         ),
       ),
     );
@@ -639,33 +577,12 @@ export class IoTEventsService extends Effect.Tag("@effect-aws/client-iot-events/
 
 /**
  * @since 1.0.0
- * @category models
- * @alias IoTEventsService
  */
-export const IoTEvents = IoTEventsService;
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use IoTEvents.baseLayer instead
- */
-export const BaseIoTEventsServiceLayer = Layer.effect(
-  IoTEventsService,
-  makeIoTEventsService,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use IoTEvents.layer instead
- */
-export const IoTEventsServiceLayer = BaseIoTEventsServiceLayer.pipe(
-  Layer.provide(IoTEventsClientInstanceLayer),
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use IoTEvents.defaultLayer instead
- */
-export const DefaultIoTEventsServiceLayer = IoTEventsService.defaultLayer;
+export declare namespace IoTEventsService {
+  /**
+   * @since 1.0.0
+   */
+  export interface Config extends Omit<IoTEventsClientConfig, "logger"> {
+    readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
+  }
+}

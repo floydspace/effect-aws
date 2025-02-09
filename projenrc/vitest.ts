@@ -21,15 +21,6 @@ export class Vitest extends Component {
 
     project.testTask.reset("vitest", { receiveArgs: true });
 
-    const compilerOptions = project.tsconfig?.compilerOptions as any;
-
-    if (compilerOptions) {
-      compilerOptions.types = [
-        ...(compilerOptions.types ?? []),
-        "vitest/globals",
-      ];
-    }
-
     new JsonFile(project, "vitest.workspace.json", {
       obj: ["packages/*"],
       omitEmpty: true,

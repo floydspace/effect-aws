@@ -135,7 +135,8 @@ import type {
   UnsupportedPlatformType,
   ValidationException,
 } from "@aws-sdk/client-ssm";
-import { Data } from "effect";
+import type { TaggedException } from "@effect-aws/commons";
+import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "AlreadyExistsException",
@@ -273,11 +274,7 @@ export const AllServiceErrors = [
   "UnsupportedParameterType",
   "UnsupportedPlatformType",
   "ValidationException",
-];
-
-export type TaggedException<T extends { name: string }> = T & {
-  readonly _tag: T["name"];
-};
+] as const;
 
 export type AlreadyExistsError = TaggedException<AlreadyExistsException>;
 export type AssociatedInstancesError = TaggedException<AssociatedInstances>;
@@ -417,5 +414,5 @@ export type UnsupportedParameterTypeError = TaggedException<UnsupportedParameter
 export type UnsupportedPlatformTypeError = TaggedException<UnsupportedPlatformType>;
 export type ValidationError = TaggedException<ValidationException>;
 
-export type SdkError = TaggedException<Error & { name: "SdkError" }>;
-export const SdkError = Data.tagged<SdkError>("SdkError");
+export type SdkError = CommonSdkError;
+export const SdkError = CommonSdkError;

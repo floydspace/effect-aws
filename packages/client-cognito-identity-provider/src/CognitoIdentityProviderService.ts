@@ -91,7 +91,6 @@ import {
   type ChangePasswordCommandOutput,
   type CognitoIdentityProviderClient,
   type CognitoIdentityProviderClientConfig,
-  CognitoIdentityProviderServiceException,
   CompleteWebAuthnRegistrationCommand,
   type CompleteWebAuthnRegistrationCommandInput,
   type CompleteWebAuthnRegistrationCommandOutput,
@@ -345,16 +344,11 @@ import {
   type VerifyUserAttributeCommandInput,
   type VerifyUserAttributeCommandOutput,
 } from "@aws-sdk/client-cognito-identity-provider";
-import { Data, Effect, Layer, Record } from "effect";
-import {
-  CognitoIdentityProviderClientInstance,
-  CognitoIdentityProviderClientInstanceLayer,
-} from "./CognitoIdentityProviderClientInstance.js";
-import {
-  CognitoIdentityProviderClientInstanceConfig,
-  DefaultCognitoIdentityProviderClientConfigLayer,
-  makeDefaultCognitoIdentityProviderClientInstanceConfig,
-} from "./CognitoIdentityProviderClientInstanceConfig.js";
+import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import { Service } from "@effect-aws/commons";
+import { Effect, Layer } from "effect";
+import * as Instance from "./CognitoIdentityProviderClientInstance.js";
+import * as CognitoIdentityProviderServiceConfig from "./CognitoIdentityProviderServiceConfig.js";
 import type {
   AliasExistsError,
   CodeDeliveryFailureError,
@@ -385,7 +379,6 @@ import type {
   ResourceNotFoundError,
   ScopeDoesNotExistError,
   SoftwareTokenMFANotFoundError,
-  TaggedException,
   TierChangeNotAllowedError,
   TooManyFailedAttemptsError,
   TooManyRequestsError,
@@ -410,18 +403,7 @@ import type {
   WebAuthnOriginNotAllowedError,
   WebAuthnRelyingPartyMismatchError,
 } from "./Errors.js";
-import { AllServiceErrors, SdkError } from "./Errors.js";
-
-/**
- * @since 1.0.0
- */
-export interface HttpHandlerOptions {
-  /**
-   * The maximum time in milliseconds that the connection phase of a request
-   * may take before the connection attempt is abandoned.
-   */
-  requestTimeout?: number;
-}
+import { AllServiceErrors } from "./Errors.js";
 
 const commands = {
   AddCustomAttributesCommand,
@@ -2528,47 +2510,10 @@ interface CognitoIdentityProviderService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeCognitoIdentityProviderService = Effect.gen(function*(_) {
-  const client = yield* _(CognitoIdentityProviderClientInstance);
+export const makeCognitoIdentityProviderService = Effect.gen(function*() {
+  const client = yield* Instance.CognitoIdentityProviderClientInstance;
 
-  return Record.toEntries(commands).reduce((acc, [command]) => {
-    const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options?: HttpHandlerOptions) =>
-      Effect.tryPromise({
-        try: (abortSignal) =>
-          client.send(new CommandCtor(args), {
-            ...(options ?? {}),
-            abortSignal,
-          }),
-        catch: (e) => {
-          if (e instanceof CognitoIdentityProviderServiceException && AllServiceErrors.includes(e.name)) {
-            const ServiceException = Data.tagged<
-              TaggedException<CognitoIdentityProviderServiceException>
-            >(e.name);
-
-            return ServiceException({
-              ...e,
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          if (e instanceof Error) {
-            return SdkError({
-              ...e,
-              name: "SdkError",
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          throw e;
-        },
-      });
-    const methodName = (command[0].toLowerCase() + command.slice(1)).replace(
-      /Command$/,
-      "",
-    );
-    return { ...acc, [methodName]: methodImpl };
-  }, {}) as CognitoIdentityProviderService$;
+  return Service.fromClientAndCommands<CognitoIdentityProviderService$>(client, commands, AllServiceErrors);
 });
 
 /**
@@ -2582,20 +2527,12 @@ export class CognitoIdentityProviderService
   >()
 {
   static readonly defaultLayer = Layer.effect(this, makeCognitoIdentityProviderService).pipe(
-    Layer.provide(CognitoIdentityProviderClientInstanceLayer),
-    Layer.provide(DefaultCognitoIdentityProviderClientConfigLayer),
+    Layer.provide(Instance.layer),
   );
-  static readonly layer = (config: CognitoIdentityProviderClientConfig) =>
+  static readonly layer = (config: CognitoIdentityProviderService.Config) =>
     Layer.effect(this, makeCognitoIdentityProviderService).pipe(
-      Layer.provide(CognitoIdentityProviderClientInstanceLayer),
-      Layer.provide(
-        Layer.effect(
-          CognitoIdentityProviderClientInstanceConfig,
-          makeDefaultCognitoIdentityProviderClientInstanceConfig.pipe(
-            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
-          ),
-        ),
-      ),
+      Layer.provide(Instance.layer),
+      Layer.provide(CognitoIdentityProviderServiceConfig.setCognitoIdentityProviderServiceConfig(config)),
     );
   static readonly baseLayer = (
     evaluate: (defaultConfig: CognitoIdentityProviderClientConfig) => CognitoIdentityProviderClient,
@@ -2603,8 +2540,8 @@ export class CognitoIdentityProviderService
     Layer.effect(this, makeCognitoIdentityProviderService).pipe(
       Layer.provide(
         Layer.effect(
-          CognitoIdentityProviderClientInstance,
-          Effect.map(makeDefaultCognitoIdentityProviderClientInstanceConfig, evaluate),
+          Instance.CognitoIdentityProviderClientInstance,
+          Effect.map(CognitoIdentityProviderServiceConfig.toCognitoIdentityProviderClientConfig, evaluate),
         ),
       ),
     );
@@ -2612,33 +2549,12 @@ export class CognitoIdentityProviderService
 
 /**
  * @since 1.0.0
- * @category models
- * @alias CognitoIdentityProviderService
  */
-export const CognitoIdentityProvider = CognitoIdentityProviderService;
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use CognitoIdentityProvider.baseLayer instead
- */
-export const BaseCognitoIdentityProviderServiceLayer = Layer.effect(
-  CognitoIdentityProviderService,
-  makeCognitoIdentityProviderService,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use CognitoIdentityProvider.layer instead
- */
-export const CognitoIdentityProviderServiceLayer = BaseCognitoIdentityProviderServiceLayer.pipe(
-  Layer.provide(CognitoIdentityProviderClientInstanceLayer),
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use CognitoIdentityProvider.defaultLayer instead
- */
-export const DefaultCognitoIdentityProviderServiceLayer = CognitoIdentityProviderService.defaultLayer;
+export declare namespace CognitoIdentityProviderService {
+  /**
+   * @since 1.0.0
+   */
+  export interface Config extends Omit<CognitoIdentityProviderClientConfig, "logger"> {
+    readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
+  }
+}

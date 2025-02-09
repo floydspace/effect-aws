@@ -3,10 +3,7 @@
  */
 import { OpenSearchClient } from "@aws-sdk/client-opensearch";
 import { Context, Effect, Layer } from "effect";
-import {
-  DefaultOpenSearchClientConfigLayer,
-  OpenSearchClientInstanceConfig,
-} from "./OpenSearchClientInstanceConfig.js";
+import * as OpenSearchServiceConfig from "./OpenSearchServiceConfig.js";
 
 /**
  * @since 1.0.0
@@ -20,8 +17,8 @@ export class OpenSearchClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeOpenSearchClientInstance = Effect.flatMap(
-  OpenSearchClientInstanceConfig,
+export const make = Effect.flatMap(
+  OpenSearchServiceConfig.toOpenSearchClientConfig,
   (config) =>
     Effect.acquireRelease(
       Effect.sync(() => new OpenSearchClient(config)),
@@ -33,15 +30,4 @@ export const makeOpenSearchClientInstance = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const OpenSearchClientInstanceLayer = Layer.scoped(
-  OpenSearchClientInstance,
-  makeOpenSearchClientInstance,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- */
-export const DefaultOpenSearchClientInstanceLayer = OpenSearchClientInstanceLayer.pipe(
-  Layer.provide(DefaultOpenSearchClientConfigLayer),
-);
+export const layer = Layer.scoped(OpenSearchClientInstance, make);

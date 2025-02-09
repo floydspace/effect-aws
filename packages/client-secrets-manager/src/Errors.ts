@@ -12,7 +12,8 @@ import type {
   ResourceExistsException,
   ResourceNotFoundException,
 } from "@aws-sdk/client-secrets-manager";
-import { Data } from "effect";
+import type { TaggedException } from "@effect-aws/commons";
+import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "DecryptionFailure",
@@ -27,11 +28,7 @@ export const AllServiceErrors = [
   "PublicPolicyException",
   "ResourceExistsException",
   "ResourceNotFoundException",
-];
-
-export type TaggedException<T extends { name: string }> = T & {
-  readonly _tag: T["name"];
-};
+] as const;
 
 export type DecryptionError = TaggedException<DecryptionFailure>;
 export type EncryptionError = TaggedException<EncryptionFailure>;
@@ -46,5 +43,5 @@ export type PublicPolicyError = TaggedException<PublicPolicyException>;
 export type ResourceExistsError = TaggedException<ResourceExistsException>;
 export type ResourceNotFoundError = TaggedException<ResourceNotFoundException>;
 
-export type SdkError = TaggedException<Error & { name: "SdkError" }>;
-export const SdkError = Data.tagged<SdkError>("SdkError");
+export type SdkError = CommonSdkError;
+export const SdkError = CommonSdkError;

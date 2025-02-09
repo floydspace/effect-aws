@@ -1,7 +1,7 @@
 import { DescribeJobCommand, type DescribeJobCommandInput, IoTClient, IoTServiceException } from "@aws-sdk/client-iot";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-iot/dist-cjs/runtimeConfig";
-import { IoT, SdkError } from "@effect-aws/client-iot";
+import { IoT, IoTServiceConfig, SdkError } from "@effect-aws/client-iot";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
@@ -30,9 +30,7 @@ describe("IoTClientImpl", () => {
 
     expect(result).toEqual(Exit.succeed({}));
     expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
-    expect(getRuntimeConfig).toHaveBeenCalledWith({
-      logger: expect.any(Object),
-    });
+    expect(getRuntimeConfig).toHaveBeenCalledWith({});
     expect(clientMock).toHaveReceivedCommandTimes(DescribeJobCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(DescribeJobCommand, args);
   });
@@ -46,7 +44,7 @@ describe("IoTClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provide(IoT.layer({ region: "eu-central-1" })),
+      Effect.provide(IoT.layer({ region: "eu-central-1", logger: true })),
       Effect.runPromiseExit,
     );
 
@@ -98,6 +96,7 @@ describe("IoTClientImpl", () => {
           (config) => new IoTClient({ ...config, region: "eu-central-1" }),
         ),
       ),
+      IoTServiceConfig.withIoTServiceConfig({ logger: true }),
       Effect.runPromiseExit,
     );
 

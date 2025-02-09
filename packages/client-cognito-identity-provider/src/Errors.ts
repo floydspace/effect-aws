@@ -52,7 +52,8 @@ import type {
   WebAuthnOriginNotAllowedException,
   WebAuthnRelyingPartyMismatchException,
 } from "@aws-sdk/client-cognito-identity-provider";
-import { Data } from "effect";
+import type { TaggedException } from "@effect-aws/commons";
+import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "AliasExistsException",
@@ -107,11 +108,7 @@ export const AllServiceErrors = [
   "WebAuthnNotEnabledException",
   "WebAuthnOriginNotAllowedException",
   "WebAuthnRelyingPartyMismatchException",
-];
-
-export type TaggedException<T extends { name: string }> = T & {
-  readonly _tag: T["name"];
-};
+] as const;
 
 export type AliasExistsError = TaggedException<AliasExistsException>;
 export type CodeDeliveryFailureError = TaggedException<CodeDeliveryFailureException>;
@@ -166,5 +163,5 @@ export type WebAuthnNotEnabledError = TaggedException<WebAuthnNotEnabledExceptio
 export type WebAuthnOriginNotAllowedError = TaggedException<WebAuthnOriginNotAllowedException>;
 export type WebAuthnRelyingPartyMismatchError = TaggedException<WebAuthnRelyingPartyMismatchException>;
 
-export type SdkError = TaggedException<Error & { name: "SdkError" }>;
-export const SdkError = Data.tagged<SdkError>("SdkError");
+export type SdkError = CommonSdkError;
+export const SdkError = CommonSdkError;

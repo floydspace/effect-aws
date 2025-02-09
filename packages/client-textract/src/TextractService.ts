@@ -73,7 +73,6 @@ import {
   type TagResourceCommandOutput,
   type TextractClient,
   type TextractClientConfig,
-  TextractServiceException,
   UntagResourceCommand,
   type UntagResourceCommandInput,
   type UntagResourceCommandOutput,
@@ -81,7 +80,9 @@ import {
   type UpdateAdapterCommandInput,
   type UpdateAdapterCommandOutput,
 } from "@aws-sdk/client-textract";
-import { Data, Effect, Layer, Record } from "effect";
+import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import { Service } from "@effect-aws/commons";
+import { Effect, Layer } from "effect";
 import type {
   AccessDeniedError,
   BadDocumentError,
@@ -98,29 +99,13 @@ import type {
   ProvisionedThroughputExceededError,
   ResourceNotFoundError,
   ServiceQuotaExceededError,
-  TaggedException,
   ThrottlingError,
   UnsupportedDocumentError,
   ValidationError,
 } from "./Errors.js";
-import { AllServiceErrors, SdkError } from "./Errors.js";
-import { TextractClientInstance, TextractClientInstanceLayer } from "./TextractClientInstance.js";
-import {
-  DefaultTextractClientConfigLayer,
-  makeDefaultTextractClientInstanceConfig,
-  TextractClientInstanceConfig,
-} from "./TextractClientInstanceConfig.js";
-
-/**
- * @since 1.0.0
- */
-export interface HttpHandlerOptions {
-  /**
-   * The maximum time in milliseconds that the connection phase of a request
-   * may take before the connection attempt is abandoned.
-   */
-  requestTimeout?: number;
-}
+import { AllServiceErrors } from "./Errors.js";
+import * as Instance from "./TextractClientInstance.js";
+import * as TextractServiceConfig from "./TextractServiceConfig.js";
 
 const commands = {
   AnalyzeDocumentCommand,
@@ -654,47 +639,10 @@ interface TextractService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeTextractService = Effect.gen(function*(_) {
-  const client = yield* _(TextractClientInstance);
+export const makeTextractService = Effect.gen(function*() {
+  const client = yield* Instance.TextractClientInstance;
 
-  return Record.toEntries(commands).reduce((acc, [command]) => {
-    const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options?: HttpHandlerOptions) =>
-      Effect.tryPromise({
-        try: (abortSignal) =>
-          client.send(new CommandCtor(args), {
-            ...(options ?? {}),
-            abortSignal,
-          }),
-        catch: (e) => {
-          if (e instanceof TextractServiceException && AllServiceErrors.includes(e.name)) {
-            const ServiceException = Data.tagged<
-              TaggedException<TextractServiceException>
-            >(e.name);
-
-            return ServiceException({
-              ...e,
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          if (e instanceof Error) {
-            return SdkError({
-              ...e,
-              name: "SdkError",
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          throw e;
-        },
-      });
-    const methodName = (command[0].toLowerCase() + command.slice(1)).replace(
-      /Command$/,
-      "",
-    );
-    return { ...acc, [methodName]: methodImpl };
-  }, {}) as TextractService$;
+  return Service.fromClientAndCommands<TextractService$>(client, commands, AllServiceErrors);
 });
 
 /**
@@ -705,21 +653,11 @@ export class TextractService extends Effect.Tag("@effect-aws/client-textract/Tex
   TextractService,
   TextractService$
 >() {
-  static readonly defaultLayer = Layer.effect(this, makeTextractService).pipe(
-    Layer.provide(TextractClientInstanceLayer),
-    Layer.provide(DefaultTextractClientConfigLayer),
-  );
-  static readonly layer = (config: TextractClientConfig) =>
+  static readonly defaultLayer = Layer.effect(this, makeTextractService).pipe(Layer.provide(Instance.layer));
+  static readonly layer = (config: TextractService.Config) =>
     Layer.effect(this, makeTextractService).pipe(
-      Layer.provide(TextractClientInstanceLayer),
-      Layer.provide(
-        Layer.effect(
-          TextractClientInstanceConfig,
-          makeDefaultTextractClientInstanceConfig.pipe(
-            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
-          ),
-        ),
-      ),
+      Layer.provide(Instance.layer),
+      Layer.provide(TextractServiceConfig.setTextractServiceConfig(config)),
     );
   static readonly baseLayer = (
     evaluate: (defaultConfig: TextractClientConfig) => TextractClient,
@@ -727,8 +665,8 @@ export class TextractService extends Effect.Tag("@effect-aws/client-textract/Tex
     Layer.effect(this, makeTextractService).pipe(
       Layer.provide(
         Layer.effect(
-          TextractClientInstance,
-          Effect.map(makeDefaultTextractClientInstanceConfig, evaluate),
+          Instance.TextractClientInstance,
+          Effect.map(TextractServiceConfig.toTextractClientConfig, evaluate),
         ),
       ),
     );
@@ -736,33 +674,12 @@ export class TextractService extends Effect.Tag("@effect-aws/client-textract/Tex
 
 /**
  * @since 1.0.0
- * @category models
- * @alias TextractService
  */
-export const Textract = TextractService;
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use Textract.baseLayer instead
- */
-export const BaseTextractServiceLayer = Layer.effect(
-  TextractService,
-  makeTextractService,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use Textract.layer instead
- */
-export const TextractServiceLayer = BaseTextractServiceLayer.pipe(
-  Layer.provide(TextractClientInstanceLayer),
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use Textract.defaultLayer instead
- */
-export const DefaultTextractServiceLayer = TextractService.defaultLayer;
+export declare namespace TextractService {
+  /**
+   * @since 1.0.0
+   */
+  export interface Config extends Omit<TextractClientConfig, "logger"> {
+    readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
+  }
+}

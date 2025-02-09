@@ -3,10 +3,7 @@
  */
 import { CloudSearchClient } from "@aws-sdk/client-cloudsearch";
 import { Context, Effect, Layer } from "effect";
-import {
-  CloudSearchClientInstanceConfig,
-  DefaultCloudSearchClientConfigLayer,
-} from "./CloudSearchClientInstanceConfig.js";
+import * as CloudSearchServiceConfig from "./CloudSearchServiceConfig.js";
 
 /**
  * @since 1.0.0
@@ -20,8 +17,8 @@ export class CloudSearchClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeCloudSearchClientInstance = Effect.flatMap(
-  CloudSearchClientInstanceConfig,
+export const make = Effect.flatMap(
+  CloudSearchServiceConfig.toCloudSearchClientConfig,
   (config) =>
     Effect.acquireRelease(
       Effect.sync(() => new CloudSearchClient(config)),
@@ -33,15 +30,4 @@ export const makeCloudSearchClientInstance = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const CloudSearchClientInstanceLayer = Layer.scoped(
-  CloudSearchClientInstance,
-  makeCloudSearchClientInstance,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- */
-export const DefaultCloudSearchClientInstanceLayer = CloudSearchClientInstanceLayer.pipe(
-  Layer.provide(DefaultCloudSearchClientConfigLayer),
-);
+export const layer = Layer.scoped(CloudSearchClientInstance, make);

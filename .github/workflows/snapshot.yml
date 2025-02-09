@@ -1,0 +1,33 @@
+name: Snapshot
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  snapshot:
+    name: Snapshot
+    if: github.repository_owner == 'floydspace'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: pnpm
+      - name: Install dependencies
+        run: pnpm i --frozen-lockfile
+      - name: build
+        run: pnpm exec projen build
+      - name: Create snapshot
+        id: snapshot
+        run: pnpx pkg-pr-new@0.0.28 publish --pnpm --comment=off ./packages/*

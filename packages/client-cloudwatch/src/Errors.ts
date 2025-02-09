@@ -13,7 +13,8 @@ import type {
   ResourceNotFound,
   ResourceNotFoundException,
 } from "@aws-sdk/client-cloudwatch";
-import { Data } from "effect";
+import type { TaggedException } from "@effect-aws/commons";
+import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "ConcurrentModificationException",
@@ -29,11 +30,7 @@ export const AllServiceErrors = [
   "MissingRequiredParameterException",
   "ResourceNotFound",
   "ResourceNotFoundException",
-];
-
-export type TaggedException<T extends { name: string }> = T & {
-  readonly _tag: T["name"];
-};
+] as const;
 
 export type ConcurrentModificationError = TaggedException<ConcurrentModificationException>;
 export type DashboardInvalidInputError = TaggedException<DashboardInvalidInputException>;
@@ -49,5 +46,5 @@ export type MissingRequiredParameterError = TaggedException<MissingRequiredParam
 export type ResourceNotFoundError = TaggedException<ResourceNotFound>;
 export type ResourceNotFoundExceptionError = TaggedException<ResourceNotFoundException>;
 
-export type SdkError = TaggedException<Error & { name: "SdkError" }>;
-export const SdkError = Data.tagged<SdkError>("SdkError");
+export type SdkError = CommonSdkError;
+export const SdkError = CommonSdkError;

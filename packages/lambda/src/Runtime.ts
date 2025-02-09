@@ -34,12 +34,12 @@ export const fromLayer = <R, E>(layer: Layer.Layer<R, E>) => {
 
   const signalHandler: NodeJS.SignalsListener = (signal) => {
     Effect.runFork(
-      Effect.gen(function*(_) {
-        yield* _(Console.log(`[runtime] ${signal} received`));
-        yield* _(Console.log("[runtime] cleaning up"));
-        yield* _(destroy);
-        yield* _(Console.log("[runtime] exiting"));
-        yield* _(Effect.sync(() => process.exit(0)));
+      Effect.gen(function*() {
+        yield* Console.log(`[runtime] ${signal} received`);
+        yield* Console.log("[runtime] cleaning up");
+        yield* destroy;
+        yield* Console.log("[runtime] exiting");
+        yield* Effect.sync(() => process.exit(0));
       }),
     );
   };

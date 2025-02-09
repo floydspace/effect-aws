@@ -3,7 +3,7 @@
  */
 import { SchedulerClient } from "@aws-sdk/client-scheduler";
 import { Context, Effect, Layer } from "effect";
-import { DefaultSchedulerClientConfigLayer, SchedulerClientInstanceConfig } from "./SchedulerClientInstanceConfig.js";
+import * as SchedulerServiceConfig from "./SchedulerServiceConfig.js";
 
 /**
  * @since 1.0.0
@@ -17,8 +17,8 @@ export class SchedulerClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeSchedulerClientInstance = Effect.flatMap(
-  SchedulerClientInstanceConfig,
+export const make = Effect.flatMap(
+  SchedulerServiceConfig.toSchedulerClientConfig,
   (config) =>
     Effect.acquireRelease(
       Effect.sync(() => new SchedulerClient(config)),
@@ -30,15 +30,4 @@ export const makeSchedulerClientInstance = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const SchedulerClientInstanceLayer = Layer.scoped(
-  SchedulerClientInstance,
-  makeSchedulerClientInstance,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- */
-export const DefaultSchedulerClientInstanceLayer = SchedulerClientInstanceLayer.pipe(
-  Layer.provide(DefaultSchedulerClientConfigLayer),
-);
+export const layer = Layer.scoped(SchedulerClientInstance, make);

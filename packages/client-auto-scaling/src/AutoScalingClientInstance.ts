@@ -3,10 +3,7 @@
  */
 import { AutoScalingClient } from "@aws-sdk/client-auto-scaling";
 import { Context, Effect, Layer } from "effect";
-import {
-  AutoScalingClientInstanceConfig,
-  DefaultAutoScalingClientConfigLayer,
-} from "./AutoScalingClientInstanceConfig.js";
+import * as AutoScalingServiceConfig from "./AutoScalingServiceConfig.js";
 
 /**
  * @since 1.0.0
@@ -20,8 +17,8 @@ export class AutoScalingClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeAutoScalingClientInstance = Effect.flatMap(
-  AutoScalingClientInstanceConfig,
+export const make = Effect.flatMap(
+  AutoScalingServiceConfig.toAutoScalingClientConfig,
   (config) =>
     Effect.acquireRelease(
       Effect.sync(() => new AutoScalingClient(config)),
@@ -33,15 +30,4 @@ export const makeAutoScalingClientInstance = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const AutoScalingClientInstanceLayer = Layer.scoped(
-  AutoScalingClientInstance,
-  makeAutoScalingClientInstance,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- */
-export const DefaultAutoScalingClientInstanceLayer = AutoScalingClientInstanceLayer.pipe(
-  Layer.provide(DefaultAutoScalingClientConfigLayer),
-);
+export const layer = Layer.scoped(AutoScalingClientInstance, make);

@@ -73,7 +73,6 @@ import {
   type DiscoverPollEndpointCommandOutput,
   type ECSClient,
   type ECSClientConfig,
-  ECSServiceException,
   ExecuteCommandCommand,
   type ExecuteCommandCommandInput,
   type ExecuteCommandCommandOutput,
@@ -183,13 +182,11 @@ import {
   type UpdateTaskSetCommandInput,
   type UpdateTaskSetCommandOutput,
 } from "@aws-sdk/client-ecs";
-import { Data, Effect, Layer, Record } from "effect";
-import { ECSClientInstance, ECSClientInstanceLayer } from "./ECSClientInstance.js";
-import {
-  DefaultECSClientConfigLayer,
-  ECSClientInstanceConfig,
-  makeDefaultECSClientInstanceConfig,
-} from "./ECSClientInstanceConfig.js";
+import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import { Service } from "@effect-aws/commons";
+import { Effect, Layer } from "effect";
+import * as Instance from "./ECSClientInstance.js";
+import * as ECSServiceConfig from "./ECSServiceConfig.js";
 import type {
   AccessDeniedError,
   AttributeLimitExceededError,
@@ -212,25 +209,13 @@ import type {
   ServerError,
   ServiceNotActiveError,
   ServiceNotFoundError,
-  TaggedException,
   TargetNotConnectedError,
   TargetNotFoundError,
   TaskSetNotFoundError,
   UnsupportedFeatureError,
   UpdateInProgressError,
 } from "./Errors.js";
-import { AllServiceErrors, SdkError } from "./Errors.js";
-
-/**
- * @since 1.0.0
- */
-export interface HttpHandlerOptions {
-  /**
-   * The maximum time in milliseconds that the connection phase of a request
-   * may take before the connection attempt is abandoned.
-   */
-  requestTimeout?: number;
-}
+import { AllServiceErrors } from "./Errors.js";
 
 const commands = {
   CreateCapacityProviderCommand,
@@ -1088,47 +1073,10 @@ interface ECSService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeECSService = Effect.gen(function*(_) {
-  const client = yield* _(ECSClientInstance);
+export const makeECSService = Effect.gen(function*() {
+  const client = yield* Instance.ECSClientInstance;
 
-  return Record.toEntries(commands).reduce((acc, [command]) => {
-    const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options?: HttpHandlerOptions) =>
-      Effect.tryPromise({
-        try: (abortSignal) =>
-          client.send(new CommandCtor(args), {
-            ...(options ?? {}),
-            abortSignal,
-          }),
-        catch: (e) => {
-          if (e instanceof ECSServiceException && AllServiceErrors.includes(e.name)) {
-            const ServiceException = Data.tagged<
-              TaggedException<ECSServiceException>
-            >(e.name);
-
-            return ServiceException({
-              ...e,
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          if (e instanceof Error) {
-            return SdkError({
-              ...e,
-              name: "SdkError",
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          throw e;
-        },
-      });
-    const methodName = (command[0].toLowerCase() + command.slice(1)).replace(
-      /Command$/,
-      "",
-    );
-    return { ...acc, [methodName]: methodImpl };
-  }, {}) as ECSService$;
+  return Service.fromClientAndCommands<ECSService$>(client, commands, AllServiceErrors);
 });
 
 /**
@@ -1139,21 +1087,11 @@ export class ECSService extends Effect.Tag("@effect-aws/client-ecs/ECSService")<
   ECSService,
   ECSService$
 >() {
-  static readonly defaultLayer = Layer.effect(this, makeECSService).pipe(
-    Layer.provide(ECSClientInstanceLayer),
-    Layer.provide(DefaultECSClientConfigLayer),
-  );
-  static readonly layer = (config: ECSClientConfig) =>
+  static readonly defaultLayer = Layer.effect(this, makeECSService).pipe(Layer.provide(Instance.layer));
+  static readonly layer = (config: ECSService.Config) =>
     Layer.effect(this, makeECSService).pipe(
-      Layer.provide(ECSClientInstanceLayer),
-      Layer.provide(
-        Layer.effect(
-          ECSClientInstanceConfig,
-          makeDefaultECSClientInstanceConfig.pipe(
-            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
-          ),
-        ),
-      ),
+      Layer.provide(Instance.layer),
+      Layer.provide(ECSServiceConfig.setECSServiceConfig(config)),
     );
   static readonly baseLayer = (
     evaluate: (defaultConfig: ECSClientConfig) => ECSClient,
@@ -1161,8 +1099,8 @@ export class ECSService extends Effect.Tag("@effect-aws/client-ecs/ECSService")<
     Layer.effect(this, makeECSService).pipe(
       Layer.provide(
         Layer.effect(
-          ECSClientInstance,
-          Effect.map(makeDefaultECSClientInstanceConfig, evaluate),
+          Instance.ECSClientInstance,
+          Effect.map(ECSServiceConfig.toECSClientConfig, evaluate),
         ),
       ),
     );
@@ -1170,33 +1108,12 @@ export class ECSService extends Effect.Tag("@effect-aws/client-ecs/ECSService")<
 
 /**
  * @since 1.0.0
- * @category models
- * @alias ECSService
  */
-export const ECS = ECSService;
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use ECS.baseLayer instead
- */
-export const BaseECSServiceLayer = Layer.effect(
-  ECSService,
-  makeECSService,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use ECS.layer instead
- */
-export const ECSServiceLayer = BaseECSServiceLayer.pipe(
-  Layer.provide(ECSClientInstanceLayer),
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use ECS.defaultLayer instead
- */
-export const DefaultECSServiceLayer = ECSService.defaultLayer;
+export declare namespace ECSService {
+  /**
+   * @since 1.0.0
+   */
+  export interface Config extends Omit<ECSClientConfig, "logger"> {
+    readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
+  }
+}

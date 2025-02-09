@@ -34,7 +34,8 @@ import type {
   ValidationException,
   VerificationException,
 } from "@aws-sdk/client-sns";
-import { Data } from "effect";
+import type { TaggedException } from "@effect-aws/commons";
+import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "AuthorizationErrorException",
@@ -71,11 +72,7 @@ export const AllServiceErrors = [
   "UserErrorException",
   "ValidationException",
   "VerificationException",
-];
-
-export type TaggedException<T extends { name: string }> = T & {
-  readonly _tag: T["name"];
-};
+] as const;
 
 export type AuthorizationError = TaggedException<AuthorizationErrorException>;
 export type BatchEntryIdsNotDistinctError = TaggedException<BatchEntryIdsNotDistinctException>;
@@ -112,5 +109,5 @@ export type UserError = TaggedException<UserErrorException>;
 export type ValidationError = TaggedException<ValidationException>;
 export type VerificationError = TaggedException<VerificationException>;
 
-export type SdkError = TaggedException<Error & { name: "SdkError" }>;
-export const SdkError = Data.tagged<SdkError>("SdkError");
+export type SdkError = CommonSdkError;
+export const SdkError = CommonSdkError;

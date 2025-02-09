@@ -31,9 +31,10 @@ import {
   type GetSessionTokenCommandOutput,
   type STSClient,
   type STSClientConfig,
-  STSServiceException,
 } from "@aws-sdk/client-sts";
-import { Data, Effect, Layer, Record } from "effect";
+import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import { Service } from "@effect-aws/commons";
+import { Effect, Layer } from "effect";
 import type {
   ExpiredTokenError,
   IDPCommunicationError,
@@ -43,26 +44,10 @@ import type {
   MalformedPolicyDocumentError,
   PackedPolicyTooLargeError,
   RegionDisabledError,
-  TaggedException,
 } from "./Errors.js";
-import { AllServiceErrors, SdkError } from "./Errors.js";
-import { STSClientInstance, STSClientInstanceLayer } from "./STSClientInstance.js";
-import {
-  DefaultSTSClientConfigLayer,
-  makeDefaultSTSClientInstanceConfig,
-  STSClientInstanceConfig,
-} from "./STSClientInstanceConfig.js";
-
-/**
- * @since 1.0.0
- */
-export interface HttpHandlerOptions {
-  /**
-   * The maximum time in milliseconds that the connection phase of a request
-   * may take before the connection attempt is abandoned.
-   */
-  requestTimeout?: number;
-}
+import { AllServiceErrors } from "./Errors.js";
+import * as Instance from "./STSClientInstance.js";
+import * as STSServiceConfig from "./STSServiceConfig.js";
 
 const commands = {
   AssumeRoleCommand,
@@ -196,47 +181,10 @@ interface STSService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeSTSService = Effect.gen(function*(_) {
-  const client = yield* _(STSClientInstance);
+export const makeSTSService = Effect.gen(function*() {
+  const client = yield* Instance.STSClientInstance;
 
-  return Record.toEntries(commands).reduce((acc, [command]) => {
-    const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options?: HttpHandlerOptions) =>
-      Effect.tryPromise({
-        try: (abortSignal) =>
-          client.send(new CommandCtor(args), {
-            ...(options ?? {}),
-            abortSignal,
-          }),
-        catch: (e) => {
-          if (e instanceof STSServiceException && AllServiceErrors.includes(e.name)) {
-            const ServiceException = Data.tagged<
-              TaggedException<STSServiceException>
-            >(e.name);
-
-            return ServiceException({
-              ...e,
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          if (e instanceof Error) {
-            return SdkError({
-              ...e,
-              name: "SdkError",
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          throw e;
-        },
-      });
-    const methodName = (command[0].toLowerCase() + command.slice(1)).replace(
-      /Command$/,
-      "",
-    );
-    return { ...acc, [methodName]: methodImpl };
-  }, {}) as STSService$;
+  return Service.fromClientAndCommands<STSService$>(client, commands, AllServiceErrors);
 });
 
 /**
@@ -247,21 +195,11 @@ export class STSService extends Effect.Tag("@effect-aws/client-sts/STSService")<
   STSService,
   STSService$
 >() {
-  static readonly defaultLayer = Layer.effect(this, makeSTSService).pipe(
-    Layer.provide(STSClientInstanceLayer),
-    Layer.provide(DefaultSTSClientConfigLayer),
-  );
-  static readonly layer = (config: STSClientConfig) =>
+  static readonly defaultLayer = Layer.effect(this, makeSTSService).pipe(Layer.provide(Instance.layer));
+  static readonly layer = (config: STSService.Config) =>
     Layer.effect(this, makeSTSService).pipe(
-      Layer.provide(STSClientInstanceLayer),
-      Layer.provide(
-        Layer.effect(
-          STSClientInstanceConfig,
-          makeDefaultSTSClientInstanceConfig.pipe(
-            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
-          ),
-        ),
-      ),
+      Layer.provide(Instance.layer),
+      Layer.provide(STSServiceConfig.setSTSServiceConfig(config)),
     );
   static readonly baseLayer = (
     evaluate: (defaultConfig: STSClientConfig) => STSClient,
@@ -269,8 +207,8 @@ export class STSService extends Effect.Tag("@effect-aws/client-sts/STSService")<
     Layer.effect(this, makeSTSService).pipe(
       Layer.provide(
         Layer.effect(
-          STSClientInstance,
-          Effect.map(makeDefaultSTSClientInstanceConfig, evaluate),
+          Instance.STSClientInstance,
+          Effect.map(STSServiceConfig.toSTSClientConfig, evaluate),
         ),
       ),
     );
@@ -278,33 +216,12 @@ export class STSService extends Effect.Tag("@effect-aws/client-sts/STSService")<
 
 /**
  * @since 1.0.0
- * @category models
- * @alias STSService
  */
-export const STS = STSService;
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use STS.baseLayer instead
- */
-export const BaseSTSServiceLayer = Layer.effect(
-  STSService,
-  makeSTSService,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use STS.layer instead
- */
-export const STSServiceLayer = BaseSTSServiceLayer.pipe(
-  Layer.provide(STSClientInstanceLayer),
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use STS.defaultLayer instead
- */
-export const DefaultSTSServiceLayer = STSService.defaultLayer;
+export declare namespace STSService {
+  /**
+   * @since 1.0.0
+   */
+  export interface Config extends Omit<STSClientConfig, "logger"> {
+    readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
+  }
+}

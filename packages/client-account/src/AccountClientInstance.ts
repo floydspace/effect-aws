@@ -3,7 +3,7 @@
  */
 import { AccountClient } from "@aws-sdk/client-account";
 import { Context, Effect, Layer } from "effect";
-import { AccountClientInstanceConfig, DefaultAccountClientConfigLayer } from "./AccountClientInstanceConfig.js";
+import * as AccountServiceConfig from "./AccountServiceConfig.js";
 
 /**
  * @since 1.0.0
@@ -17,8 +17,8 @@ export class AccountClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeAccountClientInstance = Effect.flatMap(
-  AccountClientInstanceConfig,
+export const make = Effect.flatMap(
+  AccountServiceConfig.toAccountClientConfig,
   (config) =>
     Effect.acquireRelease(
       Effect.sync(() => new AccountClient(config)),
@@ -30,15 +30,4 @@ export const makeAccountClientInstance = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const AccountClientInstanceLayer = Layer.scoped(
-  AccountClientInstance,
-  makeAccountClientInstance,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- */
-export const DefaultAccountClientInstanceLayer = AccountClientInstanceLayer.pipe(
-  Layer.provide(DefaultAccountClientConfigLayer),
-);
+export const layer = Layer.scoped(AccountClientInstance, make);

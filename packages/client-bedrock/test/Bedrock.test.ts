@@ -6,7 +6,7 @@ import {
 } from "@aws-sdk/client-bedrock";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-bedrock/dist-cjs/runtimeConfig";
-import { Bedrock, SdkError } from "@effect-aws/client-bedrock";
+import { Bedrock, BedrockServiceConfig, SdkError } from "@effect-aws/client-bedrock";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
@@ -35,9 +35,7 @@ describe("BedrockClientImpl", () => {
 
     expect(result).toEqual(Exit.succeed({}));
     expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
-    expect(getRuntimeConfig).toHaveBeenCalledWith({
-      logger: expect.any(Object),
-    });
+    expect(getRuntimeConfig).toHaveBeenCalledWith({});
     expect(clientMock).toHaveReceivedCommandTimes(ListCustomModelsCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(ListCustomModelsCommand, args);
   });
@@ -51,7 +49,7 @@ describe("BedrockClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provide(Bedrock.layer({ region: "eu-central-1" })),
+      Effect.provide(Bedrock.layer({ region: "eu-central-1", logger: true })),
       Effect.runPromiseExit,
     );
 
@@ -103,6 +101,7 @@ describe("BedrockClientImpl", () => {
           (config) => new BedrockClient({ ...config, region: "eu-central-1" }),
         ),
       ),
+      BedrockServiceConfig.withBedrockServiceConfig({ logger: true }),
       Effect.runPromiseExit,
     );
 

@@ -23,7 +23,7 @@
     "watch": "pnpm exec projen watch",
     "install:ci": "pnpm exec projen install:ci",
     "synth-workspace": "pnpm exec projen",
-    "codegen-client": "tsx ./scripts/codegen-client.ts"
+    "codegen-client": "tsx ./scripts/codegen-cli.ts"
   },
   "author": {
     "name": "Victor Korzunin",
@@ -37,6 +37,7 @@
     "@effect/docgen": "^0.4.3",
     "@effect/eslint-plugin": "^0.2.0",
     "@effect/language-service": "^0.2.0",
+    "@effect/vitest": "0.3.4",
     "@eslint/compat": "^1.2.5",
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.19.0",
@@ -61,7 +62,7 @@
     "vitest": "^2.0.5"
   },
   "dependencies": {
-    "effect": "^3.0.0",
+    "effect": "3.0.4",
     "enquirer": "^2.4.1"
   },
   "pnpm": {},

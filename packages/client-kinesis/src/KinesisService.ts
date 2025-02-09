@@ -52,7 +52,6 @@ import {
   type IncreaseStreamRetentionPeriodCommandOutput,
   type KinesisClient,
   type KinesisClientConfig,
-  KinesisServiceException,
   ListShardsCommand,
   type ListShardsCommandInput,
   type ListShardsCommandOutput,
@@ -102,7 +101,9 @@ import {
   type UpdateStreamModeCommandInput,
   type UpdateStreamModeCommandOutput,
 } from "@aws-sdk/client-kinesis";
-import { Data, Effect, Layer, Record } from "effect";
+import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import { Service } from "@effect-aws/commons";
+import { Effect, Layer } from "effect";
 import type {
   AccessDeniedError,
   ExpiredIteratorError,
@@ -118,27 +119,11 @@ import type {
   ProvisionedThroughputExceededError,
   ResourceInUseError,
   ResourceNotFoundError,
-  TaggedException,
   ValidationError,
 } from "./Errors.js";
-import { AllServiceErrors, SdkError } from "./Errors.js";
-import { KinesisClientInstance, KinesisClientInstanceLayer } from "./KinesisClientInstance.js";
-import {
-  DefaultKinesisClientConfigLayer,
-  KinesisClientInstanceConfig,
-  makeDefaultKinesisClientInstanceConfig,
-} from "./KinesisClientInstanceConfig.js";
-
-/**
- * @since 1.0.0
- */
-export interface HttpHandlerOptions {
-  /**
-   * The maximum time in milliseconds that the connection phase of a request
-   * may take before the connection attempt is abandoned.
-   */
-  requestTimeout?: number;
-}
+import { AllServiceErrors } from "./Errors.js";
+import * as Instance from "./KinesisClientInstance.js";
+import * as KinesisServiceConfig from "./KinesisServiceConfig.js";
 
 const commands = {
   AddTagsToStreamCommand,
@@ -666,47 +651,10 @@ interface KinesisService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeKinesisService = Effect.gen(function*(_) {
-  const client = yield* _(KinesisClientInstance);
+export const makeKinesisService = Effect.gen(function*() {
+  const client = yield* Instance.KinesisClientInstance;
 
-  return Record.toEntries(commands).reduce((acc, [command]) => {
-    const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options?: HttpHandlerOptions) =>
-      Effect.tryPromise({
-        try: (abortSignal) =>
-          client.send(new CommandCtor(args), {
-            ...(options ?? {}),
-            abortSignal,
-          }),
-        catch: (e) => {
-          if (e instanceof KinesisServiceException && AllServiceErrors.includes(e.name)) {
-            const ServiceException = Data.tagged<
-              TaggedException<KinesisServiceException>
-            >(e.name);
-
-            return ServiceException({
-              ...e,
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          if (e instanceof Error) {
-            return SdkError({
-              ...e,
-              name: "SdkError",
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          throw e;
-        },
-      });
-    const methodName = (command[0].toLowerCase() + command.slice(1)).replace(
-      /Command$/,
-      "",
-    );
-    return { ...acc, [methodName]: methodImpl };
-  }, {}) as KinesisService$;
+  return Service.fromClientAndCommands<KinesisService$>(client, commands, AllServiceErrors);
 });
 
 /**
@@ -717,21 +665,11 @@ export class KinesisService extends Effect.Tag("@effect-aws/client-kinesis/Kines
   KinesisService,
   KinesisService$
 >() {
-  static readonly defaultLayer = Layer.effect(this, makeKinesisService).pipe(
-    Layer.provide(KinesisClientInstanceLayer),
-    Layer.provide(DefaultKinesisClientConfigLayer),
-  );
-  static readonly layer = (config: KinesisClientConfig) =>
+  static readonly defaultLayer = Layer.effect(this, makeKinesisService).pipe(Layer.provide(Instance.layer));
+  static readonly layer = (config: KinesisService.Config) =>
     Layer.effect(this, makeKinesisService).pipe(
-      Layer.provide(KinesisClientInstanceLayer),
-      Layer.provide(
-        Layer.effect(
-          KinesisClientInstanceConfig,
-          makeDefaultKinesisClientInstanceConfig.pipe(
-            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
-          ),
-        ),
-      ),
+      Layer.provide(Instance.layer),
+      Layer.provide(KinesisServiceConfig.setKinesisServiceConfig(config)),
     );
   static readonly baseLayer = (
     evaluate: (defaultConfig: KinesisClientConfig) => KinesisClient,
@@ -739,8 +677,8 @@ export class KinesisService extends Effect.Tag("@effect-aws/client-kinesis/Kines
     Layer.effect(this, makeKinesisService).pipe(
       Layer.provide(
         Layer.effect(
-          KinesisClientInstance,
-          Effect.map(makeDefaultKinesisClientInstanceConfig, evaluate),
+          Instance.KinesisClientInstance,
+          Effect.map(KinesisServiceConfig.toKinesisClientConfig, evaluate),
         ),
       ),
     );
@@ -748,33 +686,12 @@ export class KinesisService extends Effect.Tag("@effect-aws/client-kinesis/Kines
 
 /**
  * @since 1.0.0
- * @category models
- * @alias KinesisService
  */
-export const Kinesis = KinesisService;
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use Kinesis.baseLayer instead
- */
-export const BaseKinesisServiceLayer = Layer.effect(
-  KinesisService,
-  makeKinesisService,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use Kinesis.layer instead
- */
-export const KinesisServiceLayer = BaseKinesisServiceLayer.pipe(
-  Layer.provide(KinesisClientInstanceLayer),
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use Kinesis.defaultLayer instead
- */
-export const DefaultKinesisServiceLayer = KinesisService.defaultLayer;
+export declare namespace KinesisService {
+  /**
+   * @since 1.0.0
+   */
+  export interface Config extends Omit<KinesisClientConfig, "logger"> {
+    readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
+  }
+}

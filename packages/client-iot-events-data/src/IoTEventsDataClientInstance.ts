@@ -3,10 +3,7 @@
  */
 import { IoTEventsDataClient } from "@aws-sdk/client-iot-events-data";
 import { Context, Effect, Layer } from "effect";
-import {
-  DefaultIoTEventsDataClientConfigLayer,
-  IoTEventsDataClientInstanceConfig,
-} from "./IoTEventsDataClientInstanceConfig.js";
+import * as IoTEventsDataServiceConfig from "./IoTEventsDataServiceConfig.js";
 
 /**
  * @since 1.0.0
@@ -20,8 +17,8 @@ export class IoTEventsDataClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeIoTEventsDataClientInstance = Effect.flatMap(
-  IoTEventsDataClientInstanceConfig,
+export const make = Effect.flatMap(
+  IoTEventsDataServiceConfig.toIoTEventsDataClientConfig,
   (config) =>
     Effect.acquireRelease(
       Effect.sync(() => new IoTEventsDataClient(config)),
@@ -33,15 +30,4 @@ export const makeIoTEventsDataClientInstance = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const IoTEventsDataClientInstanceLayer = Layer.scoped(
-  IoTEventsDataClientInstance,
-  makeIoTEventsDataClientInstance,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- */
-export const DefaultIoTEventsDataClientInstanceLayer = IoTEventsDataClientInstanceLayer.pipe(
-  Layer.provide(DefaultIoTEventsDataClientConfigLayer),
-);
+export const layer = Layer.scoped(IoTEventsDataClientInstance, make);

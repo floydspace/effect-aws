@@ -33,7 +33,8 @@ import type {
   TooManyTags,
   ValidationException,
 } from "@aws-sdk/client-sfn";
-import { Data } from "effect";
+import type { TaggedException } from "@effect-aws/commons";
+import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "ActivityAlreadyExists",
@@ -69,11 +70,7 @@ export const AllServiceErrors = [
   "TaskTimedOut",
   "TooManyTags",
   "ValidationException",
-];
-
-export type TaggedException<T extends { name: string }> = T & {
-  readonly _tag: T["name"];
-};
+] as const;
 
 export type ActivityAlreadyExistsError = TaggedException<ActivityAlreadyExists>;
 export type ActivityDoesNotExistError = TaggedException<ActivityDoesNotExist>;
@@ -109,5 +106,5 @@ export type TaskTimedOutError = TaggedException<TaskTimedOut>;
 export type TooManyTagsError = TaggedException<TooManyTags>;
 export type ValidationError = TaggedException<ValidationException>;
 
-export type SdkError = TaggedException<Error & { name: "SdkError" }>;
-export const SdkError = Data.tagged<SdkError>("SdkError");
+export type SdkError = CommonSdkError;
+export const SdkError = CommonSdkError;

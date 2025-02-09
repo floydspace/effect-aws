@@ -6,7 +6,7 @@ import {
 } from "@aws-sdk/client-organizations";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-organizations/dist-cjs/runtimeConfig";
-import { Organizations, SdkError } from "@effect-aws/client-organizations";
+import { Organizations, OrganizationsServiceConfig, SdkError } from "@effect-aws/client-organizations";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
@@ -35,9 +35,7 @@ describe("OrganizationsClientImpl", () => {
 
     expect(result).toEqual(Exit.succeed({}));
     expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
-    expect(getRuntimeConfig).toHaveBeenCalledWith({
-      logger: expect.any(Object),
-    });
+    expect(getRuntimeConfig).toHaveBeenCalledWith({});
     expect(clientMock).toHaveReceivedCommandTimes(DescribeOrganizationCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(DescribeOrganizationCommand, args);
   });
@@ -51,7 +49,7 @@ describe("OrganizationsClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provide(Organizations.layer({ region: "eu-central-1" })),
+      Effect.provide(Organizations.layer({ region: "eu-central-1", logger: true })),
       Effect.runPromiseExit,
     );
 
@@ -103,6 +101,7 @@ describe("OrganizationsClientImpl", () => {
           (config) => new OrganizationsClient({ ...config, region: "eu-central-1" }),
         ),
       ),
+      OrganizationsServiceConfig.withOrganizationsServiceConfig({ logger: true }),
       Effect.runPromiseExit,
     );
 

@@ -250,7 +250,6 @@ import {
   type GetUserPolicyCommandOutput,
   type IAMClient,
   type IAMClientConfig,
-  IAMServiceException,
   ListAccessKeysCommand,
   type ListAccessKeysCommandInput,
   type ListAccessKeysCommandOutput,
@@ -498,7 +497,9 @@ import {
   type UploadSSHPublicKeyCommandInput,
   type UploadSSHPublicKeyCommandOutput,
 } from "@aws-sdk/client-iam";
-import { Data, Effect, Layer, Record } from "effect";
+import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import { Service } from "@effect-aws/commons";
+import { Effect, Layer } from "effect";
 import type {
   AccountNotManagementOrDelegatedAdministratorError,
   CallerIsNotManagementAccountError,
@@ -531,28 +532,12 @@ import type {
   ServiceAccessNotEnabledError,
   ServiceFailureError,
   ServiceNotSupportedError,
-  TaggedException,
   UnmodifiableEntityError,
   UnrecognizedPublicKeyEncodingError,
 } from "./Errors.js";
-import { AllServiceErrors, SdkError } from "./Errors.js";
-import { IAMClientInstance, IAMClientInstanceLayer } from "./IAMClientInstance.js";
-import {
-  DefaultIAMClientConfigLayer,
-  IAMClientInstanceConfig,
-  makeDefaultIAMClientInstanceConfig,
-} from "./IAMClientInstanceConfig.js";
-
-/**
- * @since 1.0.0
- */
-export interface HttpHandlerOptions {
-  /**
-   * The maximum time in milliseconds that the connection phase of a request
-   * may take before the connection attempt is abandoned.
-   */
-  requestTimeout?: number;
-}
+import { AllServiceErrors } from "./Errors.js";
+import * as Instance from "./IAMClientInstance.js";
+import * as IAMServiceConfig from "./IAMServiceConfig.js";
 
 const commands = {
   AddClientIDToOpenIDConnectProviderCommand,
@@ -2759,47 +2744,10 @@ interface IAMService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeIAMService = Effect.gen(function*(_) {
-  const client = yield* _(IAMClientInstance);
+export const makeIAMService = Effect.gen(function*() {
+  const client = yield* Instance.IAMClientInstance;
 
-  return Record.toEntries(commands).reduce((acc, [command]) => {
-    const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options?: HttpHandlerOptions) =>
-      Effect.tryPromise({
-        try: (abortSignal) =>
-          client.send(new CommandCtor(args), {
-            ...(options ?? {}),
-            abortSignal,
-          }),
-        catch: (e) => {
-          if (e instanceof IAMServiceException && AllServiceErrors.includes(e.name)) {
-            const ServiceException = Data.tagged<
-              TaggedException<IAMServiceException>
-            >(e.name);
-
-            return ServiceException({
-              ...e,
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          if (e instanceof Error) {
-            return SdkError({
-              ...e,
-              name: "SdkError",
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          throw e;
-        },
-      });
-    const methodName = (command[0].toLowerCase() + command.slice(1)).replace(
-      /Command$/,
-      "",
-    );
-    return { ...acc, [methodName]: methodImpl };
-  }, {}) as IAMService$;
+  return Service.fromClientAndCommands<IAMService$>(client, commands, AllServiceErrors);
 });
 
 /**
@@ -2810,21 +2758,11 @@ export class IAMService extends Effect.Tag("@effect-aws/client-iam/IAMService")<
   IAMService,
   IAMService$
 >() {
-  static readonly defaultLayer = Layer.effect(this, makeIAMService).pipe(
-    Layer.provide(IAMClientInstanceLayer),
-    Layer.provide(DefaultIAMClientConfigLayer),
-  );
-  static readonly layer = (config: IAMClientConfig) =>
+  static readonly defaultLayer = Layer.effect(this, makeIAMService).pipe(Layer.provide(Instance.layer));
+  static readonly layer = (config: IAMService.Config) =>
     Layer.effect(this, makeIAMService).pipe(
-      Layer.provide(IAMClientInstanceLayer),
-      Layer.provide(
-        Layer.effect(
-          IAMClientInstanceConfig,
-          makeDefaultIAMClientInstanceConfig.pipe(
-            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
-          ),
-        ),
-      ),
+      Layer.provide(Instance.layer),
+      Layer.provide(IAMServiceConfig.setIAMServiceConfig(config)),
     );
   static readonly baseLayer = (
     evaluate: (defaultConfig: IAMClientConfig) => IAMClient,
@@ -2832,8 +2770,8 @@ export class IAMService extends Effect.Tag("@effect-aws/client-iam/IAMService")<
     Layer.effect(this, makeIAMService).pipe(
       Layer.provide(
         Layer.effect(
-          IAMClientInstance,
-          Effect.map(makeDefaultIAMClientInstanceConfig, evaluate),
+          Instance.IAMClientInstance,
+          Effect.map(IAMServiceConfig.toIAMClientConfig, evaluate),
         ),
       ),
     );
@@ -2841,33 +2779,12 @@ export class IAMService extends Effect.Tag("@effect-aws/client-iam/IAMService")<
 
 /**
  * @since 1.0.0
- * @category models
- * @alias IAMService
  */
-export const IAM = IAMService;
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use IAM.baseLayer instead
- */
-export const BaseIAMServiceLayer = Layer.effect(
-  IAMService,
-  makeIAMService,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use IAM.layer instead
- */
-export const IAMServiceLayer = BaseIAMServiceLayer.pipe(
-  Layer.provide(IAMClientInstanceLayer),
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use IAM.defaultLayer instead
- */
-export const DefaultIAMServiceLayer = IAMService.defaultLayer;
+export declare namespace IAMService {
+  /**
+   * @since 1.0.0
+   */
+  export interface Config extends Omit<IAMClientConfig, "logger"> {
+    readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
+  }
+}

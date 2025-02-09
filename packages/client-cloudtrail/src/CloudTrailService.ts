@@ -10,7 +10,6 @@ import {
   type CancelQueryCommandOutput,
   type CloudTrailClient,
   type CloudTrailClientConfig,
-  CloudTrailServiceException,
   CreateChannelCommand,
   type CreateChannelCommandInput,
   type CreateChannelCommandOutput,
@@ -174,13 +173,11 @@ import {
   type UpdateTrailCommandInput,
   type UpdateTrailCommandOutput,
 } from "@aws-sdk/client-cloudtrail";
-import { Data, Effect, Layer, Record } from "effect";
-import { CloudTrailClientInstance, CloudTrailClientInstanceLayer } from "./CloudTrailClientInstance.js";
-import {
-  CloudTrailClientInstanceConfig,
-  DefaultCloudTrailClientConfigLayer,
-  makeDefaultCloudTrailClientInstanceConfig,
-} from "./CloudTrailClientInstanceConfig.js";
+import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import { Service } from "@effect-aws/commons";
+import { Effect, Layer } from "effect";
+import * as Instance from "./CloudTrailClientInstance.js";
+import * as CloudTrailServiceConfig from "./CloudTrailServiceConfig.js";
 import type {
   AccessDeniedError,
   AccountHasOngoingImportError,
@@ -261,7 +258,6 @@ import type {
   ResourceTypeNotSupportedError,
   S3BucketDoesNotExistError,
   ServiceQuotaExceededError,
-  TaggedException,
   TagsLimitExceededError,
   ThrottlingError,
   TrailAlreadyExistsError,
@@ -269,18 +265,7 @@ import type {
   TrailNotProvidedError,
   UnsupportedOperationError,
 } from "./Errors.js";
-import { AllServiceErrors, SdkError } from "./Errors.js";
-
-/**
- * @since 1.0.0
- */
-export interface HttpHandlerOptions {
-  /**
-   * The maximum time in milliseconds that the connection phase of a request
-   * may take before the connection attempt is abandoned.
-   */
-  requestTimeout?: number;
-}
+import { AllServiceErrors } from "./Errors.js";
 
 const commands = {
   AddTagsCommand,
@@ -1464,47 +1449,10 @@ interface CloudTrailService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeCloudTrailService = Effect.gen(function*(_) {
-  const client = yield* _(CloudTrailClientInstance);
+export const makeCloudTrailService = Effect.gen(function*() {
+  const client = yield* Instance.CloudTrailClientInstance;
 
-  return Record.toEntries(commands).reduce((acc, [command]) => {
-    const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options?: HttpHandlerOptions) =>
-      Effect.tryPromise({
-        try: (abortSignal) =>
-          client.send(new CommandCtor(args), {
-            ...(options ?? {}),
-            abortSignal,
-          }),
-        catch: (e) => {
-          if (e instanceof CloudTrailServiceException && AllServiceErrors.includes(e.name)) {
-            const ServiceException = Data.tagged<
-              TaggedException<CloudTrailServiceException>
-            >(e.name);
-
-            return ServiceException({
-              ...e,
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          if (e instanceof Error) {
-            return SdkError({
-              ...e,
-              name: "SdkError",
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          throw e;
-        },
-      });
-    const methodName = (command[0].toLowerCase() + command.slice(1)).replace(
-      /Command$/,
-      "",
-    );
-    return { ...acc, [methodName]: methodImpl };
-  }, {}) as CloudTrailService$;
+  return Service.fromClientAndCommands<CloudTrailService$>(client, commands, AllServiceErrors);
 });
 
 /**
@@ -1515,21 +1463,11 @@ export class CloudTrailService extends Effect.Tag("@effect-aws/client-cloudtrail
   CloudTrailService,
   CloudTrailService$
 >() {
-  static readonly defaultLayer = Layer.effect(this, makeCloudTrailService).pipe(
-    Layer.provide(CloudTrailClientInstanceLayer),
-    Layer.provide(DefaultCloudTrailClientConfigLayer),
-  );
-  static readonly layer = (config: CloudTrailClientConfig) =>
+  static readonly defaultLayer = Layer.effect(this, makeCloudTrailService).pipe(Layer.provide(Instance.layer));
+  static readonly layer = (config: CloudTrailService.Config) =>
     Layer.effect(this, makeCloudTrailService).pipe(
-      Layer.provide(CloudTrailClientInstanceLayer),
-      Layer.provide(
-        Layer.effect(
-          CloudTrailClientInstanceConfig,
-          makeDefaultCloudTrailClientInstanceConfig.pipe(
-            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
-          ),
-        ),
-      ),
+      Layer.provide(Instance.layer),
+      Layer.provide(CloudTrailServiceConfig.setCloudTrailServiceConfig(config)),
     );
   static readonly baseLayer = (
     evaluate: (defaultConfig: CloudTrailClientConfig) => CloudTrailClient,
@@ -1537,8 +1475,8 @@ export class CloudTrailService extends Effect.Tag("@effect-aws/client-cloudtrail
     Layer.effect(this, makeCloudTrailService).pipe(
       Layer.provide(
         Layer.effect(
-          CloudTrailClientInstance,
-          Effect.map(makeDefaultCloudTrailClientInstanceConfig, evaluate),
+          Instance.CloudTrailClientInstance,
+          Effect.map(CloudTrailServiceConfig.toCloudTrailClientConfig, evaluate),
         ),
       ),
     );
@@ -1546,33 +1484,12 @@ export class CloudTrailService extends Effect.Tag("@effect-aws/client-cloudtrail
 
 /**
  * @since 1.0.0
- * @category models
- * @alias CloudTrailService
  */
-export const CloudTrail = CloudTrailService;
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use CloudTrail.baseLayer instead
- */
-export const BaseCloudTrailServiceLayer = Layer.effect(
-  CloudTrailService,
-  makeCloudTrailService,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use CloudTrail.layer instead
- */
-export const CloudTrailServiceLayer = BaseCloudTrailServiceLayer.pipe(
-  Layer.provide(CloudTrailClientInstanceLayer),
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use CloudTrail.defaultLayer instead
- */
-export const DefaultCloudTrailServiceLayer = CloudTrailService.defaultLayer;
+export declare namespace CloudTrailService {
+  /**
+   * @since 1.0.0
+   */
+  export interface Config extends Omit<CloudTrailClientConfig, "logger"> {
+    readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
+  }
+}

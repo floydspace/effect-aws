@@ -7,7 +7,6 @@ import {
   type BuildSuggestersCommandOutput,
   type CloudSearchClient,
   type CloudSearchClientConfig,
-  CloudSearchServiceException,
   CreateDomainCommand,
   type CreateDomainCommandInput,
   type CreateDomainCommandOutput,
@@ -84,13 +83,11 @@ import {
   type UpdateServiceAccessPoliciesCommandInput,
   type UpdateServiceAccessPoliciesCommandOutput,
 } from "@aws-sdk/client-cloudsearch";
-import { Data, Effect, Layer, Record } from "effect";
-import { CloudSearchClientInstance, CloudSearchClientInstanceLayer } from "./CloudSearchClientInstance.js";
-import {
-  CloudSearchClientInstanceConfig,
-  DefaultCloudSearchClientConfigLayer,
-  makeDefaultCloudSearchClientInstanceConfig,
-} from "./CloudSearchClientInstanceConfig.js";
+import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import { Service } from "@effect-aws/commons";
+import { Effect, Layer } from "effect";
+import * as Instance from "./CloudSearchClientInstance.js";
+import * as CloudSearchServiceConfig from "./CloudSearchServiceConfig.js";
 import type {
   BaseError,
   DisabledOperationError,
@@ -99,21 +96,9 @@ import type {
   LimitExceededError,
   ResourceAlreadyExistsError,
   ResourceNotFoundError,
-  TaggedException,
   ValidationError,
 } from "./Errors.js";
-import { AllServiceErrors, SdkError } from "./Errors.js";
-
-/**
- * @since 1.0.0
- */
-export interface HttpHandlerOptions {
-  /**
-   * The maximum time in milliseconds that the connection phase of a request
-   * may take before the connection attempt is abandoned.
-   */
-  requestTimeout?: number;
-}
+import { AllServiceErrors } from "./Errors.js";
 
 const commands = {
   BuildSuggestersCommand,
@@ -494,47 +479,10 @@ interface CloudSearchService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeCloudSearchService = Effect.gen(function*(_) {
-  const client = yield* _(CloudSearchClientInstance);
+export const makeCloudSearchService = Effect.gen(function*() {
+  const client = yield* Instance.CloudSearchClientInstance;
 
-  return Record.toEntries(commands).reduce((acc, [command]) => {
-    const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options?: HttpHandlerOptions) =>
-      Effect.tryPromise({
-        try: (abortSignal) =>
-          client.send(new CommandCtor(args), {
-            ...(options ?? {}),
-            abortSignal,
-          }),
-        catch: (e) => {
-          if (e instanceof CloudSearchServiceException && AllServiceErrors.includes(e.name)) {
-            const ServiceException = Data.tagged<
-              TaggedException<CloudSearchServiceException>
-            >(e.name);
-
-            return ServiceException({
-              ...e,
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          if (e instanceof Error) {
-            return SdkError({
-              ...e,
-              name: "SdkError",
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          throw e;
-        },
-      });
-    const methodName = (command[0].toLowerCase() + command.slice(1)).replace(
-      /Command$/,
-      "",
-    );
-    return { ...acc, [methodName]: methodImpl };
-  }, {}) as CloudSearchService$;
+  return Service.fromClientAndCommands<CloudSearchService$>(client, commands, AllServiceErrors);
 });
 
 /**
@@ -545,21 +493,11 @@ export class CloudSearchService extends Effect.Tag("@effect-aws/client-cloudsear
   CloudSearchService,
   CloudSearchService$
 >() {
-  static readonly defaultLayer = Layer.effect(this, makeCloudSearchService).pipe(
-    Layer.provide(CloudSearchClientInstanceLayer),
-    Layer.provide(DefaultCloudSearchClientConfigLayer),
-  );
-  static readonly layer = (config: CloudSearchClientConfig) =>
+  static readonly defaultLayer = Layer.effect(this, makeCloudSearchService).pipe(Layer.provide(Instance.layer));
+  static readonly layer = (config: CloudSearchService.Config) =>
     Layer.effect(this, makeCloudSearchService).pipe(
-      Layer.provide(CloudSearchClientInstanceLayer),
-      Layer.provide(
-        Layer.effect(
-          CloudSearchClientInstanceConfig,
-          makeDefaultCloudSearchClientInstanceConfig.pipe(
-            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
-          ),
-        ),
-      ),
+      Layer.provide(Instance.layer),
+      Layer.provide(CloudSearchServiceConfig.setCloudSearchServiceConfig(config)),
     );
   static readonly baseLayer = (
     evaluate: (defaultConfig: CloudSearchClientConfig) => CloudSearchClient,
@@ -567,8 +505,8 @@ export class CloudSearchService extends Effect.Tag("@effect-aws/client-cloudsear
     Layer.effect(this, makeCloudSearchService).pipe(
       Layer.provide(
         Layer.effect(
-          CloudSearchClientInstance,
-          Effect.map(makeDefaultCloudSearchClientInstanceConfig, evaluate),
+          Instance.CloudSearchClientInstance,
+          Effect.map(CloudSearchServiceConfig.toCloudSearchClientConfig, evaluate),
         ),
       ),
     );
@@ -576,33 +514,12 @@ export class CloudSearchService extends Effect.Tag("@effect-aws/client-cloudsear
 
 /**
  * @since 1.0.0
- * @category models
- * @alias CloudSearchService
  */
-export const CloudSearch = CloudSearchService;
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use CloudSearch.baseLayer instead
- */
-export const BaseCloudSearchServiceLayer = Layer.effect(
-  CloudSearchService,
-  makeCloudSearchService,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use CloudSearch.layer instead
- */
-export const CloudSearchServiceLayer = BaseCloudSearchServiceLayer.pipe(
-  Layer.provide(CloudSearchClientInstanceLayer),
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use CloudSearch.defaultLayer instead
- */
-export const DefaultCloudSearchServiceLayer = CloudSearchService.defaultLayer;
+export declare namespace CloudSearchService {
+  /**
+   * @since 1.0.0
+   */
+  export interface Config extends Omit<CloudSearchClientConfig, "logger"> {
+    readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
+  }
+}

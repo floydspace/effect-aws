@@ -10,7 +10,6 @@ import {
   type CancelExportTaskCommandOutput,
   type CloudWatchLogsClient,
   type CloudWatchLogsClientConfig,
-  CloudWatchLogsServiceException,
   CreateDeliveryCommand,
   type CreateDeliveryCommandInput,
   type CreateDeliveryCommandOutput,
@@ -273,13 +272,11 @@ import {
   type UpdateLogAnomalyDetectorCommandInput,
   type UpdateLogAnomalyDetectorCommandOutput,
 } from "@aws-sdk/client-cloudwatch-logs";
-import { Data, Effect, Layer, Record } from "effect";
-import { CloudWatchLogsClientInstance, CloudWatchLogsClientInstanceLayer } from "./CloudWatchLogsClientInstance.js";
-import {
-  CloudWatchLogsClientInstanceConfig,
-  DefaultCloudWatchLogsClientConfigLayer,
-  makeDefaultCloudWatchLogsClientInstanceConfig,
-} from "./CloudWatchLogsClientInstanceConfig.js";
+import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import { Service } from "@effect-aws/commons";
+import { Effect, Layer } from "effect";
+import * as Instance from "./CloudWatchLogsClientInstance.js";
+import * as CloudWatchLogsServiceConfig from "./CloudWatchLogsServiceConfig.js";
 import type {
   AccessDeniedError,
   ConflictError,
@@ -294,24 +291,12 @@ import type {
   ResourceNotFoundError,
   ServiceQuotaExceededError,
   ServiceUnavailableError,
-  TaggedException,
   ThrottlingError,
   TooManyTagsError,
   UnrecognizedClientError,
   ValidationError,
 } from "./Errors.js";
-import { AllServiceErrors, SdkError } from "./Errors.js";
-
-/**
- * @since 1.0.0
- */
-export interface HttpHandlerOptions {
-  /**
-   * The maximum time in milliseconds that the connection phase of a request
-   * may take before the connection attempt is abandoned.
-   */
-  requestTimeout?: number;
-}
+import { AllServiceErrors } from "./Errors.js";
 
 const commands = {
   AssociateKmsKeyCommand,
@@ -1530,47 +1515,10 @@ interface CloudWatchLogsService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeCloudWatchLogsService = Effect.gen(function*(_) {
-  const client = yield* _(CloudWatchLogsClientInstance);
+export const makeCloudWatchLogsService = Effect.gen(function*() {
+  const client = yield* Instance.CloudWatchLogsClientInstance;
 
-  return Record.toEntries(commands).reduce((acc, [command]) => {
-    const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options?: HttpHandlerOptions) =>
-      Effect.tryPromise({
-        try: (abortSignal) =>
-          client.send(new CommandCtor(args), {
-            ...(options ?? {}),
-            abortSignal,
-          }),
-        catch: (e) => {
-          if (e instanceof CloudWatchLogsServiceException && AllServiceErrors.includes(e.name)) {
-            const ServiceException = Data.tagged<
-              TaggedException<CloudWatchLogsServiceException>
-            >(e.name);
-
-            return ServiceException({
-              ...e,
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          if (e instanceof Error) {
-            return SdkError({
-              ...e,
-              name: "SdkError",
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          throw e;
-        },
-      });
-    const methodName = (command[0].toLowerCase() + command.slice(1)).replace(
-      /Command$/,
-      "",
-    );
-    return { ...acc, [methodName]: methodImpl };
-  }, {}) as CloudWatchLogsService$;
+  return Service.fromClientAndCommands<CloudWatchLogsService$>(client, commands, AllServiceErrors);
 });
 
 /**
@@ -1581,21 +1529,11 @@ export class CloudWatchLogsService extends Effect.Tag("@effect-aws/client-cloudw
   CloudWatchLogsService,
   CloudWatchLogsService$
 >() {
-  static readonly defaultLayer = Layer.effect(this, makeCloudWatchLogsService).pipe(
-    Layer.provide(CloudWatchLogsClientInstanceLayer),
-    Layer.provide(DefaultCloudWatchLogsClientConfigLayer),
-  );
-  static readonly layer = (config: CloudWatchLogsClientConfig) =>
+  static readonly defaultLayer = Layer.effect(this, makeCloudWatchLogsService).pipe(Layer.provide(Instance.layer));
+  static readonly layer = (config: CloudWatchLogsService.Config) =>
     Layer.effect(this, makeCloudWatchLogsService).pipe(
-      Layer.provide(CloudWatchLogsClientInstanceLayer),
-      Layer.provide(
-        Layer.effect(
-          CloudWatchLogsClientInstanceConfig,
-          makeDefaultCloudWatchLogsClientInstanceConfig.pipe(
-            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
-          ),
-        ),
-      ),
+      Layer.provide(Instance.layer),
+      Layer.provide(CloudWatchLogsServiceConfig.setCloudWatchLogsServiceConfig(config)),
     );
   static readonly baseLayer = (
     evaluate: (defaultConfig: CloudWatchLogsClientConfig) => CloudWatchLogsClient,
@@ -1603,8 +1541,8 @@ export class CloudWatchLogsService extends Effect.Tag("@effect-aws/client-cloudw
     Layer.effect(this, makeCloudWatchLogsService).pipe(
       Layer.provide(
         Layer.effect(
-          CloudWatchLogsClientInstance,
-          Effect.map(makeDefaultCloudWatchLogsClientInstanceConfig, evaluate),
+          Instance.CloudWatchLogsClientInstance,
+          Effect.map(CloudWatchLogsServiceConfig.toCloudWatchLogsClientConfig, evaluate),
         ),
       ),
     );
@@ -1612,33 +1550,12 @@ export class CloudWatchLogsService extends Effect.Tag("@effect-aws/client-cloudw
 
 /**
  * @since 1.0.0
- * @category models
- * @alias CloudWatchLogsService
  */
-export const CloudWatchLogs = CloudWatchLogsService;
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use CloudWatchLogs.baseLayer instead
- */
-export const BaseCloudWatchLogsServiceLayer = Layer.effect(
-  CloudWatchLogsService,
-  makeCloudWatchLogsService,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use CloudWatchLogs.layer instead
- */
-export const CloudWatchLogsServiceLayer = BaseCloudWatchLogsServiceLayer.pipe(
-  Layer.provide(CloudWatchLogsClientInstanceLayer),
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use CloudWatchLogs.defaultLayer instead
- */
-export const DefaultCloudWatchLogsServiceLayer = CloudWatchLogsService.defaultLayer;
+export declare namespace CloudWatchLogsService {
+  /**
+   * @since 1.0.0
+   */
+  export interface Config extends Omit<CloudWatchLogsClientConfig, "logger"> {
+    readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
+  }
+}

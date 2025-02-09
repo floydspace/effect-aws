@@ -6,7 +6,7 @@ import {
 } from "@aws-sdk/client-sts";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-sts/dist-cjs/runtimeConfig";
-import { SdkError, STS } from "@effect-aws/client-sts";
+import { SdkError, STS, STSServiceConfig } from "@effect-aws/client-sts";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
@@ -35,9 +35,7 @@ describe("STSClientImpl", () => {
 
     expect(result).toEqual(Exit.succeed({}));
     expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
-    expect(getRuntimeConfig).toHaveBeenCalledWith({
-      logger: expect.any(Object),
-    });
+    expect(getRuntimeConfig).toHaveBeenCalledWith({});
     expect(clientMock).toHaveReceivedCommandTimes(GetCallerIdentityCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(GetCallerIdentityCommand, args);
   });
@@ -51,7 +49,7 @@ describe("STSClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provide(STS.layer({ region: "eu-central-1" })),
+      Effect.provide(STS.layer({ region: "eu-central-1", logger: true })),
       Effect.runPromiseExit,
     );
 
@@ -103,6 +101,7 @@ describe("STSClientImpl", () => {
           (config) => new STSClient({ ...config, region: "eu-central-1" }),
         ),
       ),
+      STSServiceConfig.withSTSServiceConfig({ logger: true }),
       Effect.runPromiseExit,
     );
 

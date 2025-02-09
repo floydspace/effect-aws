@@ -1,7 +1,7 @@
 import { SendEmailCommand, type SendEmailCommandInput, SESClient, SESServiceException } from "@aws-sdk/client-ses";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-ses/dist-cjs/runtimeConfig";
-import { SdkError, SES } from "@effect-aws/client-ses";
+import { SdkError, SES, SESServiceConfig } from "@effect-aws/client-ses";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
@@ -30,9 +30,7 @@ describe("SESClientImpl", () => {
 
     expect(result).toEqual(Exit.succeed({}));
     expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
-    expect(getRuntimeConfig).toHaveBeenCalledWith({
-      logger: expect.any(Object),
-    });
+    expect(getRuntimeConfig).toHaveBeenCalledWith({});
     expect(clientMock).toHaveReceivedCommandTimes(SendEmailCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(SendEmailCommand, args);
   });
@@ -46,7 +44,7 @@ describe("SESClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provide(SES.layer({ region: "eu-central-1" })),
+      Effect.provide(SES.layer({ region: "eu-central-1", logger: true })),
       Effect.runPromiseExit,
     );
 
@@ -98,6 +96,7 @@ describe("SESClientImpl", () => {
           (config) => new SESClient({ ...config, region: "eu-central-1" }),
         ),
       ),
+      SESServiceConfig.withSESServiceConfig({ logger: true }),
       Effect.runPromiseExit,
     );
 

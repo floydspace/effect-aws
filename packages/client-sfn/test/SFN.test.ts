@@ -6,7 +6,7 @@ import {
 } from "@aws-sdk/client-sfn";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-sfn/dist-cjs/runtimeConfig";
-import { SdkError, SFN } from "@effect-aws/client-sfn";
+import { SdkError, SFN, SFNServiceConfig } from "@effect-aws/client-sfn";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
@@ -35,9 +35,7 @@ describe("SFNClientImpl", () => {
 
     expect(result).toEqual(Exit.succeed({}));
     expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
-    expect(getRuntimeConfig).toHaveBeenCalledWith({
-      logger: expect.any(Object),
-    });
+    expect(getRuntimeConfig).toHaveBeenCalledWith({});
     expect(clientMock).toHaveReceivedCommandTimes(StartExecutionCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(StartExecutionCommand, args);
   });
@@ -51,7 +49,7 @@ describe("SFNClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provide(SFN.layer({ region: "eu-central-1" })),
+      Effect.provide(SFN.layer({ region: "eu-central-1", logger: true })),
       Effect.runPromiseExit,
     );
 
@@ -103,6 +101,7 @@ describe("SFNClientImpl", () => {
           (config) => new SFNClient({ ...config, region: "eu-central-1" }),
         ),
       ),
+      SFNServiceConfig.withSFNServiceConfig({ logger: true }),
       Effect.runPromiseExit,
     );
 

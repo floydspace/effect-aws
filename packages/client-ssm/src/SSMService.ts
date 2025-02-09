@@ -370,7 +370,6 @@ import {
   type SendCommandCommandOutput,
   type SSMClient,
   type SSMClientConfig,
-  SSMServiceException,
   StartAssociationsOnceCommand,
   type StartAssociationsOnceCommandInput,
   type StartAssociationsOnceCommandOutput,
@@ -438,7 +437,9 @@ import {
   type UpdateServiceSettingCommandInput,
   type UpdateServiceSettingCommandOutput,
 } from "@aws-sdk/client-ssm";
-import { Data, Effect, Layer, Record } from "effect";
+import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import { Service } from "@effect-aws/commons";
+import { Effect, Layer } from "effect";
 import type {
   AlreadyExistsError,
   AssociatedInstancesError,
@@ -561,7 +562,6 @@ import type {
   ServiceSettingNotFoundError,
   StatusUnchangedError,
   SubTypeCountLimitExceededError,
-  TaggedException,
   TargetInUseError,
   TargetNotConnectedError,
   TooManyTagsError,
@@ -577,24 +577,9 @@ import type {
   UnsupportedPlatformTypeError,
   ValidationError,
 } from "./Errors.js";
-import { AllServiceErrors, SdkError } from "./Errors.js";
-import { SSMClientInstance, SSMClientInstanceLayer } from "./SSMClientInstance.js";
-import {
-  DefaultSSMClientConfigLayer,
-  makeDefaultSSMClientInstanceConfig,
-  SSMClientInstanceConfig,
-} from "./SSMClientInstanceConfig.js";
-
-/**
- * @since 1.0.0
- */
-export interface HttpHandlerOptions {
-  /**
-   * The maximum time in milliseconds that the connection phase of a request
-   * may take before the connection attempt is abandoned.
-   */
-  requestTimeout?: number;
-}
+import { AllServiceErrors } from "./Errors.js";
+import * as Instance from "./SSMClientInstance.js";
+import * as SSMServiceConfig from "./SSMServiceConfig.js";
 
 const commands = {
   AddTagsToResourceCommand,
@@ -2642,47 +2627,10 @@ interface SSMService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeSSMService = Effect.gen(function*(_) {
-  const client = yield* _(SSMClientInstance);
+export const makeSSMService = Effect.gen(function*() {
+  const client = yield* Instance.SSMClientInstance;
 
-  return Record.toEntries(commands).reduce((acc, [command]) => {
-    const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options?: HttpHandlerOptions) =>
-      Effect.tryPromise({
-        try: (abortSignal) =>
-          client.send(new CommandCtor(args), {
-            ...(options ?? {}),
-            abortSignal,
-          }),
-        catch: (e) => {
-          if (e instanceof SSMServiceException && AllServiceErrors.includes(e.name)) {
-            const ServiceException = Data.tagged<
-              TaggedException<SSMServiceException>
-            >(e.name);
-
-            return ServiceException({
-              ...e,
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          if (e instanceof Error) {
-            return SdkError({
-              ...e,
-              name: "SdkError",
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          throw e;
-        },
-      });
-    const methodName = (command[0].toLowerCase() + command.slice(1)).replace(
-      /Command$/,
-      "",
-    );
-    return { ...acc, [methodName]: methodImpl };
-  }, {}) as SSMService$;
+  return Service.fromClientAndCommands<SSMService$>(client, commands, AllServiceErrors);
 });
 
 /**
@@ -2693,21 +2641,11 @@ export class SSMService extends Effect.Tag("@effect-aws/client-ssm/SSMService")<
   SSMService,
   SSMService$
 >() {
-  static readonly defaultLayer = Layer.effect(this, makeSSMService).pipe(
-    Layer.provide(SSMClientInstanceLayer),
-    Layer.provide(DefaultSSMClientConfigLayer),
-  );
-  static readonly layer = (config: SSMClientConfig) =>
+  static readonly defaultLayer = Layer.effect(this, makeSSMService).pipe(Layer.provide(Instance.layer));
+  static readonly layer = (config: SSMService.Config) =>
     Layer.effect(this, makeSSMService).pipe(
-      Layer.provide(SSMClientInstanceLayer),
-      Layer.provide(
-        Layer.effect(
-          SSMClientInstanceConfig,
-          makeDefaultSSMClientInstanceConfig.pipe(
-            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
-          ),
-        ),
-      ),
+      Layer.provide(Instance.layer),
+      Layer.provide(SSMServiceConfig.setSSMServiceConfig(config)),
     );
   static readonly baseLayer = (
     evaluate: (defaultConfig: SSMClientConfig) => SSMClient,
@@ -2715,8 +2653,8 @@ export class SSMService extends Effect.Tag("@effect-aws/client-ssm/SSMService")<
     Layer.effect(this, makeSSMService).pipe(
       Layer.provide(
         Layer.effect(
-          SSMClientInstance,
-          Effect.map(makeDefaultSSMClientInstanceConfig, evaluate),
+          Instance.SSMClientInstance,
+          Effect.map(SSMServiceConfig.toSSMClientConfig, evaluate),
         ),
       ),
     );
@@ -2724,33 +2662,12 @@ export class SSMService extends Effect.Tag("@effect-aws/client-ssm/SSMService")<
 
 /**
  * @since 1.0.0
- * @category models
- * @alias SSMService
  */
-export const SSM = SSMService;
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use SSM.baseLayer instead
- */
-export const BaseSSMServiceLayer = Layer.effect(
-  SSMService,
-  makeSSMService,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use SSM.layer instead
- */
-export const SSMServiceLayer = BaseSSMServiceLayer.pipe(
-  Layer.provide(SSMClientInstanceLayer),
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use SSM.defaultLayer instead
- */
-export const DefaultSSMServiceLayer = SSMService.defaultLayer;
+export declare namespace SSMService {
+  /**
+   * @since 1.0.0
+   */
+  export interface Config extends Omit<SSMClientConfig, "logger"> {
+    readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
+  }
+}

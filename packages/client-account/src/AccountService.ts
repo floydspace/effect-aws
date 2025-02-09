@@ -7,7 +7,6 @@ import {
   type AcceptPrimaryEmailUpdateCommandOutput,
   type AccountClient,
   type AccountClientConfig,
-  AccountServiceException,
   DeleteAlternateContactCommand,
   type DeleteAlternateContactCommandInput,
   type DeleteAlternateContactCommandOutput,
@@ -42,34 +41,20 @@ import {
   type StartPrimaryEmailUpdateCommandInput,
   type StartPrimaryEmailUpdateCommandOutput,
 } from "@aws-sdk/client-account";
-import { Data, Effect, Layer, Record } from "effect";
-import { AccountClientInstance, AccountClientInstanceLayer } from "./AccountClientInstance.js";
-import {
-  AccountClientInstanceConfig,
-  DefaultAccountClientConfigLayer,
-  makeDefaultAccountClientInstanceConfig,
-} from "./AccountClientInstanceConfig.js";
+import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import { Service } from "@effect-aws/commons";
+import { Effect, Layer } from "effect";
+import * as Instance from "./AccountClientInstance.js";
+import * as AccountServiceConfig from "./AccountServiceConfig.js";
 import type {
   AccessDeniedError,
   ConflictError,
   InternalServerError,
   ResourceNotFoundError,
-  TaggedException,
   TooManyRequestsError,
   ValidationError,
 } from "./Errors.js";
-import { AllServiceErrors, SdkError } from "./Errors.js";
-
-/**
- * @since 1.0.0
- */
-export interface HttpHandlerOptions {
-  /**
-   * The maximum time in milliseconds that the connection phase of a request
-   * may take before the connection attempt is abandoned.
-   */
-  requestTimeout?: number;
-}
+import { AllServiceErrors } from "./Errors.js";
 
 const commands = {
   AcceptPrimaryEmailUpdateCommand,
@@ -238,47 +223,10 @@ interface AccountService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeAccountService = Effect.gen(function*(_) {
-  const client = yield* _(AccountClientInstance);
+export const makeAccountService = Effect.gen(function*() {
+  const client = yield* Instance.AccountClientInstance;
 
-  return Record.toEntries(commands).reduce((acc, [command]) => {
-    const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options?: HttpHandlerOptions) =>
-      Effect.tryPromise({
-        try: (abortSignal) =>
-          client.send(new CommandCtor(args), {
-            ...(options ?? {}),
-            abortSignal,
-          }),
-        catch: (e) => {
-          if (e instanceof AccountServiceException && AllServiceErrors.includes(e.name)) {
-            const ServiceException = Data.tagged<
-              TaggedException<AccountServiceException>
-            >(e.name);
-
-            return ServiceException({
-              ...e,
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          if (e instanceof Error) {
-            return SdkError({
-              ...e,
-              name: "SdkError",
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          throw e;
-        },
-      });
-    const methodName = (command[0].toLowerCase() + command.slice(1)).replace(
-      /Command$/,
-      "",
-    );
-    return { ...acc, [methodName]: methodImpl };
-  }, {}) as AccountService$;
+  return Service.fromClientAndCommands<AccountService$>(client, commands, AllServiceErrors);
 });
 
 /**
@@ -289,21 +237,11 @@ export class AccountService extends Effect.Tag("@effect-aws/client-account/Accou
   AccountService,
   AccountService$
 >() {
-  static readonly defaultLayer = Layer.effect(this, makeAccountService).pipe(
-    Layer.provide(AccountClientInstanceLayer),
-    Layer.provide(DefaultAccountClientConfigLayer),
-  );
-  static readonly layer = (config: AccountClientConfig) =>
+  static readonly defaultLayer = Layer.effect(this, makeAccountService).pipe(Layer.provide(Instance.layer));
+  static readonly layer = (config: AccountService.Config) =>
     Layer.effect(this, makeAccountService).pipe(
-      Layer.provide(AccountClientInstanceLayer),
-      Layer.provide(
-        Layer.effect(
-          AccountClientInstanceConfig,
-          makeDefaultAccountClientInstanceConfig.pipe(
-            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
-          ),
-        ),
-      ),
+      Layer.provide(Instance.layer),
+      Layer.provide(AccountServiceConfig.setAccountServiceConfig(config)),
     );
   static readonly baseLayer = (
     evaluate: (defaultConfig: AccountClientConfig) => AccountClient,
@@ -311,8 +249,8 @@ export class AccountService extends Effect.Tag("@effect-aws/client-account/Accou
     Layer.effect(this, makeAccountService).pipe(
       Layer.provide(
         Layer.effect(
-          AccountClientInstance,
-          Effect.map(makeDefaultAccountClientInstanceConfig, evaluate),
+          Instance.AccountClientInstance,
+          Effect.map(AccountServiceConfig.toAccountClientConfig, evaluate),
         ),
       ),
     );
@@ -320,33 +258,12 @@ export class AccountService extends Effect.Tag("@effect-aws/client-account/Accou
 
 /**
  * @since 1.0.0
- * @category models
- * @alias AccountService
  */
-export const Account = AccountService;
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use Account.baseLayer instead
- */
-export const BaseAccountServiceLayer = Layer.effect(
-  AccountService,
-  makeAccountService,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use Account.layer instead
- */
-export const AccountServiceLayer = BaseAccountServiceLayer.pipe(
-  Layer.provide(AccountClientInstanceLayer),
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use Account.defaultLayer instead
- */
-export const DefaultAccountServiceLayer = AccountService.defaultLayer;
+export declare namespace AccountService {
+  /**
+   * @since 1.0.0
+   */
+  export interface Config extends Omit<AccountClientConfig, "logger"> {
+    readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
+  }
+}

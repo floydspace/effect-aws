@@ -187,7 +187,6 @@ import {
   type ListVpcEndpointsForDomainCommandOutput,
   type OpenSearchClient,
   type OpenSearchClientConfig,
-  OpenSearchServiceException,
   PurchaseReservedInstanceOfferingCommand,
   type PurchaseReservedInstanceOfferingCommandInput,
   type PurchaseReservedInstanceOfferingCommandOutput,
@@ -234,7 +233,9 @@ import {
   type UpgradeDomainCommandInput,
   type UpgradeDomainCommandOutput,
 } from "@aws-sdk/client-opensearch";
-import { Data, Effect, Layer, Record } from "effect";
+import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import { Service } from "@effect-aws/commons";
+import { Effect, Layer } from "effect";
 import type {
   AccessDeniedError,
   BaseError,
@@ -248,27 +249,11 @@ import type {
   ResourceAlreadyExistsError,
   ResourceNotFoundError,
   SlotNotAvailableError,
-  TaggedException,
   ValidationError,
 } from "./Errors.js";
-import { AllServiceErrors, SdkError } from "./Errors.js";
-import { OpenSearchClientInstance, OpenSearchClientInstanceLayer } from "./OpenSearchClientInstance.js";
-import {
-  DefaultOpenSearchClientConfigLayer,
-  makeDefaultOpenSearchClientInstanceConfig,
-  OpenSearchClientInstanceConfig,
-} from "./OpenSearchClientInstanceConfig.js";
-
-/**
- * @since 1.0.0
- */
-export interface HttpHandlerOptions {
-  /**
-   * The maximum time in milliseconds that the connection phase of a request
-   * may take before the connection attempt is abandoned.
-   */
-  requestTimeout?: number;
-}
+import { AllServiceErrors } from "./Errors.js";
+import * as Instance from "./OpenSearchClientInstance.js";
+import * as OpenSearchServiceConfig from "./OpenSearchServiceConfig.js";
 
 const commands = {
   AcceptInboundConnectionCommand,
@@ -1337,47 +1322,10 @@ interface OpenSearchService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeOpenSearchService = Effect.gen(function*(_) {
-  const client = yield* _(OpenSearchClientInstance);
+export const makeOpenSearchService = Effect.gen(function*() {
+  const client = yield* Instance.OpenSearchClientInstance;
 
-  return Record.toEntries(commands).reduce((acc, [command]) => {
-    const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options?: HttpHandlerOptions) =>
-      Effect.tryPromise({
-        try: (abortSignal) =>
-          client.send(new CommandCtor(args), {
-            ...(options ?? {}),
-            abortSignal,
-          }),
-        catch: (e) => {
-          if (e instanceof OpenSearchServiceException && AllServiceErrors.includes(e.name)) {
-            const ServiceException = Data.tagged<
-              TaggedException<OpenSearchServiceException>
-            >(e.name);
-
-            return ServiceException({
-              ...e,
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          if (e instanceof Error) {
-            return SdkError({
-              ...e,
-              name: "SdkError",
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          throw e;
-        },
-      });
-    const methodName = (command[0].toLowerCase() + command.slice(1)).replace(
-      /Command$/,
-      "",
-    );
-    return { ...acc, [methodName]: methodImpl };
-  }, {}) as OpenSearchService$;
+  return Service.fromClientAndCommands<OpenSearchService$>(client, commands, AllServiceErrors);
 });
 
 /**
@@ -1388,21 +1336,11 @@ export class OpenSearchService extends Effect.Tag("@effect-aws/client-opensearch
   OpenSearchService,
   OpenSearchService$
 >() {
-  static readonly defaultLayer = Layer.effect(this, makeOpenSearchService).pipe(
-    Layer.provide(OpenSearchClientInstanceLayer),
-    Layer.provide(DefaultOpenSearchClientConfigLayer),
-  );
-  static readonly layer = (config: OpenSearchClientConfig) =>
+  static readonly defaultLayer = Layer.effect(this, makeOpenSearchService).pipe(Layer.provide(Instance.layer));
+  static readonly layer = (config: OpenSearchService.Config) =>
     Layer.effect(this, makeOpenSearchService).pipe(
-      Layer.provide(OpenSearchClientInstanceLayer),
-      Layer.provide(
-        Layer.effect(
-          OpenSearchClientInstanceConfig,
-          makeDefaultOpenSearchClientInstanceConfig.pipe(
-            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
-          ),
-        ),
-      ),
+      Layer.provide(Instance.layer),
+      Layer.provide(OpenSearchServiceConfig.setOpenSearchServiceConfig(config)),
     );
   static readonly baseLayer = (
     evaluate: (defaultConfig: OpenSearchClientConfig) => OpenSearchClient,
@@ -1410,8 +1348,8 @@ export class OpenSearchService extends Effect.Tag("@effect-aws/client-opensearch
     Layer.effect(this, makeOpenSearchService).pipe(
       Layer.provide(
         Layer.effect(
-          OpenSearchClientInstance,
-          Effect.map(makeDefaultOpenSearchClientInstanceConfig, evaluate),
+          Instance.OpenSearchClientInstance,
+          Effect.map(OpenSearchServiceConfig.toOpenSearchClientConfig, evaluate),
         ),
       ),
     );
@@ -1419,33 +1357,12 @@ export class OpenSearchService extends Effect.Tag("@effect-aws/client-opensearch
 
 /**
  * @since 1.0.0
- * @category models
- * @alias OpenSearchService
  */
-export const OpenSearch = OpenSearchService;
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use OpenSearch.baseLayer instead
- */
-export const BaseOpenSearchServiceLayer = Layer.effect(
-  OpenSearchService,
-  makeOpenSearchService,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use OpenSearch.layer instead
- */
-export const OpenSearchServiceLayer = BaseOpenSearchServiceLayer.pipe(
-  Layer.provide(OpenSearchClientInstanceLayer),
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use OpenSearch.defaultLayer instead
- */
-export const DefaultOpenSearchServiceLayer = OpenSearchService.defaultLayer;
+export declare namespace OpenSearchService {
+  /**
+   * @since 1.0.0
+   */
+  export interface Config extends Omit<OpenSearchClientConfig, "logger"> {
+    readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
+  }
+}

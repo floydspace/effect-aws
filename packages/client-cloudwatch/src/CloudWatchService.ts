@@ -4,7 +4,6 @@
 import {
   type CloudWatchClient,
   type CloudWatchClientConfig,
-  CloudWatchServiceException,
   DeleteAlarmsCommand,
   type DeleteAlarmsCommandInput,
   type DeleteAlarmsCommandOutput,
@@ -120,13 +119,11 @@ import {
   type UntagResourceCommandInput,
   type UntagResourceCommandOutput,
 } from "@aws-sdk/client-cloudwatch";
-import { Data, Effect, Layer, Record } from "effect";
-import { CloudWatchClientInstance, CloudWatchClientInstanceLayer } from "./CloudWatchClientInstance.js";
-import {
-  CloudWatchClientInstanceConfig,
-  DefaultCloudWatchClientConfigLayer,
-  makeDefaultCloudWatchClientInstanceConfig,
-} from "./CloudWatchClientInstanceConfig.js";
+import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import { Service } from "@effect-aws/commons";
+import { Effect, Layer } from "effect";
+import * as Instance from "./CloudWatchClientInstance.js";
+import * as CloudWatchServiceConfig from "./CloudWatchServiceConfig.js";
 import type {
   ConcurrentModificationError,
   DashboardInvalidInputError,
@@ -141,20 +138,8 @@ import type {
   MissingRequiredParameterError,
   ResourceNotFoundError,
   ResourceNotFoundExceptionError,
-  TaggedException,
 } from "./Errors.js";
-import { AllServiceErrors, SdkError } from "./Errors.js";
-
-/**
- * @since 1.0.0
- */
-export interface HttpHandlerOptions {
-  /**
-   * The maximum time in milliseconds that the connection phase of a request
-   * may take before the connection attempt is abandoned.
-   */
-  requestTimeout?: number;
-}
+import { AllServiceErrors } from "./Errors.js";
 
 const commands = {
   DeleteAlarmsCommand,
@@ -206,7 +191,10 @@ interface CloudWatchService$ {
   deleteAlarms(
     args: DeleteAlarmsCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DeleteAlarmsCommandOutput, SdkError | ResourceNotFoundError>;
+  ): Effect.Effect<
+    DeleteAlarmsCommandOutput,
+    SdkError | ResourceNotFoundError
+  >;
 
   /**
    * @see {@link DeleteAnomalyDetectorCommand}
@@ -232,10 +220,7 @@ interface CloudWatchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDashboardsCommandOutput,
-    | SdkError
-    | DashboardNotFoundError
-    | InternalServiceFaultError
-    | InvalidParameterValueError
+    SdkError | DashboardNotFoundError | InternalServiceFaultError | InvalidParameterValueError
   >;
 
   /**
@@ -257,10 +242,7 @@ interface CloudWatchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteMetricStreamCommandOutput,
-    | SdkError
-    | InternalServiceFaultError
-    | InvalidParameterValueError
-    | MissingRequiredParameterError
+    SdkError | InternalServiceFaultError | InvalidParameterValueError | MissingRequiredParameterError
   >;
 
   /**
@@ -291,7 +273,10 @@ interface CloudWatchService$ {
   describeAlarmsForMetric(
     args: DescribeAlarmsForMetricCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DescribeAlarmsForMetricCommandOutput, SdkError>;
+  ): Effect.Effect<
+    DescribeAlarmsForMetricCommandOutput,
+    SdkError
+  >;
 
   /**
    * @see {@link DescribeAnomalyDetectorsCommand}
@@ -325,7 +310,10 @@ interface CloudWatchService$ {
   disableAlarmActions(
     args: DisableAlarmActionsCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DisableAlarmActionsCommandOutput, SdkError>;
+  ): Effect.Effect<
+    DisableAlarmActionsCommandOutput,
+    SdkError
+  >;
 
   /**
    * @see {@link DisableInsightRulesCommand}
@@ -344,7 +332,10 @@ interface CloudWatchService$ {
   enableAlarmActions(
     args: EnableAlarmActionsCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<EnableAlarmActionsCommandOutput, SdkError>;
+  ): Effect.Effect<
+    EnableAlarmActionsCommandOutput,
+    SdkError
+  >;
 
   /**
    * @see {@link EnableInsightRulesCommand}
@@ -354,10 +345,7 @@ interface CloudWatchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     EnableInsightRulesCommandOutput,
-    | SdkError
-    | InvalidParameterValueError
-    | LimitExceededError
-    | MissingRequiredParameterError
+    SdkError | InvalidParameterValueError | LimitExceededError | MissingRequiredParameterError
   >;
 
   /**
@@ -368,10 +356,7 @@ interface CloudWatchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDashboardCommandOutput,
-    | SdkError
-    | DashboardNotFoundError
-    | InternalServiceFaultError
-    | InvalidParameterValueError
+    SdkError | DashboardNotFoundError | InternalServiceFaultError | InvalidParameterValueError
   >;
 
   /**
@@ -382,10 +367,7 @@ interface CloudWatchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetInsightRuleReportCommandOutput,
-    | SdkError
-    | InvalidParameterValueError
-    | MissingRequiredParameterError
-    | ResourceNotFoundExceptionError
+    SdkError | InvalidParameterValueError | MissingRequiredParameterError | ResourceNotFoundExceptionError
   >;
 
   /**
@@ -436,7 +418,10 @@ interface CloudWatchService$ {
   getMetricWidgetImage(
     args: GetMetricWidgetImageCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<GetMetricWidgetImageCommandOutput, SdkError>;
+  ): Effect.Effect<
+    GetMetricWidgetImageCommandOutput,
+    SdkError
+  >;
 
   /**
    * @see {@link ListDashboardsCommand}
@@ -457,10 +442,7 @@ interface CloudWatchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListManagedInsightRulesCommandOutput,
-    | SdkError
-    | InvalidNextTokenError
-    | InvalidParameterValueError
-    | MissingRequiredParameterError
+    SdkError | InvalidNextTokenError | InvalidParameterValueError | MissingRequiredParameterError
   >;
 
   /**
@@ -497,10 +479,7 @@ interface CloudWatchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsForResourceCommandOutput,
-    | SdkError
-    | InternalServiceFaultError
-    | InvalidParameterValueError
-    | ResourceNotFoundExceptionError
+    SdkError | InternalServiceFaultError | InvalidParameterValueError | ResourceNotFoundExceptionError
   >;
 
   /**
@@ -549,10 +528,7 @@ interface CloudWatchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutInsightRuleCommandOutput,
-    | SdkError
-    | InvalidParameterValueError
-    | LimitExceededError
-    | MissingRequiredParameterError
+    SdkError | InvalidParameterValueError | LimitExceededError | MissingRequiredParameterError
   >;
 
   /**
@@ -627,10 +603,7 @@ interface CloudWatchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartMetricStreamsCommandOutput,
-    | SdkError
-    | InternalServiceFaultError
-    | InvalidParameterValueError
-    | MissingRequiredParameterError
+    SdkError | InternalServiceFaultError | InvalidParameterValueError | MissingRequiredParameterError
   >;
 
   /**
@@ -641,10 +614,7 @@ interface CloudWatchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StopMetricStreamsCommandOutput,
-    | SdkError
-    | InternalServiceFaultError
-    | InvalidParameterValueError
-    | MissingRequiredParameterError
+    SdkError | InternalServiceFaultError | InvalidParameterValueError | MissingRequiredParameterError
   >;
 
   /**
@@ -682,74 +652,25 @@ interface CloudWatchService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeCloudWatchService = Effect.gen(function*(_) {
-  const client = yield* _(CloudWatchClientInstance);
+export const makeCloudWatchService = Effect.gen(function*() {
+  const client = yield* Instance.CloudWatchClientInstance;
 
-  return Record.toEntries(commands).reduce((acc, [command]) => {
-    const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options?: HttpHandlerOptions) =>
-      Effect.tryPromise({
-        try: (abortSignal) =>
-          client.send(new CommandCtor(args), {
-            ...(options ?? {}),
-            abortSignal,
-          }),
-        catch: (e) => {
-          if (
-            e instanceof CloudWatchServiceException &&
-            AllServiceErrors.includes(e.name)
-          ) {
-            const ServiceException = Data.tagged<
-              TaggedException<CloudWatchServiceException>
-            >(e.name);
-
-            return ServiceException({
-              ...e,
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          if (e instanceof Error) {
-            return SdkError({
-              ...e,
-              name: "SdkError",
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          throw e;
-        },
-      });
-    const methodName = (command[0].toLowerCase() + command.slice(1)).replace(
-      /Command$/,
-      "",
-    );
-    return { ...acc, [methodName]: methodImpl };
-  }, {}) as CloudWatchService$;
+  return Service.fromClientAndCommands<CloudWatchService$>(client, commands, AllServiceErrors);
 });
 
 /**
  * @since 1.0.0
  * @category models
  */
-export class CloudWatchService extends Effect.Tag(
-  "@effect-aws/client-cloudwatch/CloudWatchService",
-)<CloudWatchService, CloudWatchService$>() {
-  static readonly defaultLayer = Layer.effect(this, makeCloudWatchService).pipe(
-    Layer.provide(CloudWatchClientInstanceLayer),
-    Layer.provide(DefaultCloudWatchClientConfigLayer),
-  );
-  static readonly layer = (config: CloudWatchClientConfig) =>
+export class CloudWatchService extends Effect.Tag("@effect-aws/client-cloudwatch/CloudWatchService")<
+  CloudWatchService,
+  CloudWatchService$
+>() {
+  static readonly defaultLayer = Layer.effect(this, makeCloudWatchService).pipe(Layer.provide(Instance.layer));
+  static readonly layer = (config: CloudWatchService.Config) =>
     Layer.effect(this, makeCloudWatchService).pipe(
-      Layer.provide(CloudWatchClientInstanceLayer),
-      Layer.provide(
-        Layer.effect(
-          CloudWatchClientInstanceConfig,
-          makeDefaultCloudWatchClientInstanceConfig.pipe(
-            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
-          ),
-        ),
-      ),
+      Layer.provide(Instance.layer),
+      Layer.provide(CloudWatchServiceConfig.setCloudWatchServiceConfig(config)),
     );
   static readonly baseLayer = (
     evaluate: (defaultConfig: CloudWatchClientConfig) => CloudWatchClient,
@@ -757,8 +678,8 @@ export class CloudWatchService extends Effect.Tag(
     Layer.effect(this, makeCloudWatchService).pipe(
       Layer.provide(
         Layer.effect(
-          CloudWatchClientInstance,
-          Effect.map(makeDefaultCloudWatchClientInstanceConfig, evaluate),
+          Instance.CloudWatchClientInstance,
+          Effect.map(CloudWatchServiceConfig.toCloudWatchClientConfig, evaluate),
         ),
       ),
     );
@@ -766,33 +687,12 @@ export class CloudWatchService extends Effect.Tag(
 
 /**
  * @since 1.0.0
- * @category models
- * @alias CloudWatchService
  */
-export const CloudWatch = CloudWatchService;
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use CloudWatch.baseLayer instead
- */
-export const BaseCloudWatchServiceLayer = Layer.effect(
-  CloudWatchService,
-  makeCloudWatchService,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use CloudWatch.layer instead
- */
-export const CloudWatchServiceLayer = BaseCloudWatchServiceLayer.pipe(
-  Layer.provide(CloudWatchClientInstanceLayer),
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use CloudWatch.defaultLayer instead
- */
-export const DefaultCloudWatchServiceLayer = CloudWatchService.defaultLayer;
+export declare namespace CloudWatchService {
+  /**
+   * @since 1.0.0
+   */
+  export interface Config extends Omit<CloudWatchClientConfig, "logger"> {
+    readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
+  }
+}

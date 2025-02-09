@@ -1,7 +1,7 @@
 /**
  * @since 1.0.0
  */
-import { DefaultSecretsManagerServiceLayer, SecretsManagerService } from "@effect-aws/client-secrets-manager";
+import { SecretsManagerService } from "@effect-aws/client-secrets-manager";
 import type { Config, Layer } from "effect";
 import {
   Array,
@@ -27,7 +27,7 @@ export const fromSecretsManager = (config?: {
 }): ConfigProvider.ConfigProvider => {
   const { pathDelim, serviceLayer } = Object.assign(
     {},
-    { pathDelim: "_", serviceLayer: DefaultSecretsManagerServiceLayer },
+    { pathDelim: "_", serviceLayer: SecretsManagerService.defaultLayer },
     config,
   );
   const makePathString = (path: ReadonlyArray<string>): string => pipe(path, Array.join(pathDelim));

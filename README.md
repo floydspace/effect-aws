@@ -4,21 +4,6 @@ Effect Docs: https://www.effect.website<br>
 
 `@effect-aws` is a collection of libraries for working with AWS services wrapped in the Effect type, to make them easier to use with the Effect ecosystem.
 
-# Roadmap
-
-- [x] PowerTools Logger
-- [x] S3 Client
-- [x] IAM Client
-- [x] DynamoDB Client
-- [x] DynamoDB Document Client (lib-dynamodb)
-- [x] SQS Client
-- [x] SNS Client
-- [x] EventBridge Client
-- [x] Lambda Client
-- [x] Step Functions Client
-- [x] CodeDeploy Client
-- [ ] Other AWS Clients (By Request)
-
 # Contributing Guidelines
 
 Thank you for considering contributing to our project! Here are some guidelines to help you get started:

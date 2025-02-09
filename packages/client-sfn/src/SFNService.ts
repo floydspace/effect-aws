@@ -85,7 +85,6 @@ import {
   type SendTaskSuccessCommandOutput,
   type SFNClient,
   type SFNClientConfig,
-  SFNServiceException,
   StartExecutionCommand,
   type StartExecutionCommandInput,
   type StartExecutionCommandOutput,
@@ -117,7 +116,9 @@ import {
   type ValidateStateMachineDefinitionCommandInput,
   type ValidateStateMachineDefinitionCommandOutput,
 } from "@aws-sdk/client-sfn";
-import { Data, Effect, Layer, Record } from "effect";
+import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import { Service } from "@effect-aws/commons";
+import { Effect, Layer } from "effect";
 import type {
   ActivityAlreadyExistsError,
   ActivityDoesNotExistError,
@@ -148,30 +149,14 @@ import type {
   StateMachineDoesNotExistError,
   StateMachineLimitExceededError,
   StateMachineTypeNotSupportedError,
-  TaggedException,
   TaskDoesNotExistError,
   TaskTimedOutError,
   TooManyTagsError,
   ValidationError,
 } from "./Errors.js";
-import { AllServiceErrors, SdkError } from "./Errors.js";
-import { SFNClientInstance, SFNClientInstanceLayer } from "./SFNClientInstance.js";
-import {
-  DefaultSFNClientConfigLayer,
-  makeDefaultSFNClientInstanceConfig,
-  SFNClientInstanceConfig,
-} from "./SFNClientInstanceConfig.js";
-
-/**
- * @since 1.0.0
- */
-export interface HttpHandlerOptions {
-  /**
-   * The maximum time in milliseconds that the connection phase of a request
-   * may take before the connection attempt is abandoned.
-   */
-  requestTimeout?: number;
-}
+import { AllServiceErrors } from "./Errors.js";
+import * as Instance from "./SFNClientInstance.js";
+import * as SFNServiceConfig from "./SFNServiceConfig.js";
 
 const commands = {
   CreateActivityCommand,
@@ -758,47 +743,10 @@ interface SFNService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeSFNService = Effect.gen(function*(_) {
-  const client = yield* _(SFNClientInstance);
+export const makeSFNService = Effect.gen(function*() {
+  const client = yield* Instance.SFNClientInstance;
 
-  return Record.toEntries(commands).reduce((acc, [command]) => {
-    const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options?: HttpHandlerOptions) =>
-      Effect.tryPromise({
-        try: (abortSignal) =>
-          client.send(new CommandCtor(args), {
-            ...(options ?? {}),
-            abortSignal,
-          }),
-        catch: (e) => {
-          if (e instanceof SFNServiceException && AllServiceErrors.includes(e.name)) {
-            const ServiceException = Data.tagged<
-              TaggedException<SFNServiceException>
-            >(e.name);
-
-            return ServiceException({
-              ...e,
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          if (e instanceof Error) {
-            return SdkError({
-              ...e,
-              name: "SdkError",
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          throw e;
-        },
-      });
-    const methodName = (command[0].toLowerCase() + command.slice(1)).replace(
-      /Command$/,
-      "",
-    );
-    return { ...acc, [methodName]: methodImpl };
-  }, {}) as SFNService$;
+  return Service.fromClientAndCommands<SFNService$>(client, commands, AllServiceErrors);
 });
 
 /**
@@ -809,21 +757,11 @@ export class SFNService extends Effect.Tag("@effect-aws/client-sfn/SFNService")<
   SFNService,
   SFNService$
 >() {
-  static readonly defaultLayer = Layer.effect(this, makeSFNService).pipe(
-    Layer.provide(SFNClientInstanceLayer),
-    Layer.provide(DefaultSFNClientConfigLayer),
-  );
-  static readonly layer = (config: SFNClientConfig) =>
+  static readonly defaultLayer = Layer.effect(this, makeSFNService).pipe(Layer.provide(Instance.layer));
+  static readonly layer = (config: SFNService.Config) =>
     Layer.effect(this, makeSFNService).pipe(
-      Layer.provide(SFNClientInstanceLayer),
-      Layer.provide(
-        Layer.effect(
-          SFNClientInstanceConfig,
-          makeDefaultSFNClientInstanceConfig.pipe(
-            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
-          ),
-        ),
-      ),
+      Layer.provide(Instance.layer),
+      Layer.provide(SFNServiceConfig.setSFNServiceConfig(config)),
     );
   static readonly baseLayer = (
     evaluate: (defaultConfig: SFNClientConfig) => SFNClient,
@@ -831,8 +769,8 @@ export class SFNService extends Effect.Tag("@effect-aws/client-sfn/SFNService")<
     Layer.effect(this, makeSFNService).pipe(
       Layer.provide(
         Layer.effect(
-          SFNClientInstance,
-          Effect.map(makeDefaultSFNClientInstanceConfig, evaluate),
+          Instance.SFNClientInstance,
+          Effect.map(SFNServiceConfig.toSFNClientConfig, evaluate),
         ),
       ),
     );
@@ -840,33 +778,12 @@ export class SFNService extends Effect.Tag("@effect-aws/client-sfn/SFNService")<
 
 /**
  * @since 1.0.0
- * @category models
- * @alias SFNService
  */
-export const SFN = SFNService;
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use SFN.baseLayer instead
- */
-export const BaseSFNServiceLayer = Layer.effect(
-  SFNService,
-  makeSFNService,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use SFN.layer instead
- */
-export const SFNServiceLayer = BaseSFNServiceLayer.pipe(
-  Layer.provide(SFNClientInstanceLayer),
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use SFN.defaultLayer instead
- */
-export const DefaultSFNServiceLayer = SFNService.defaultLayer;
+export declare namespace SFNService {
+  /**
+   * @since 1.0.0
+   */
+  export interface Config extends Omit<SFNClientConfig, "logger"> {
+    readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
+  }
+}

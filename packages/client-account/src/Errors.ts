@@ -6,7 +6,8 @@ import type {
   TooManyRequestsException,
   ValidationException,
 } from "@aws-sdk/client-account";
-import { Data } from "effect";
+import type { TaggedException } from "@effect-aws/commons";
+import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "AccessDeniedException",
@@ -15,11 +16,7 @@ export const AllServiceErrors = [
   "ResourceNotFoundException",
   "TooManyRequestsException",
   "ValidationException",
-];
-
-export type TaggedException<T extends { name: string }> = T & {
-  readonly _tag: T["name"];
-};
+] as const;
 
 export type AccessDeniedError = TaggedException<AccessDeniedException>;
 export type ConflictError = TaggedException<ConflictException>;
@@ -28,5 +25,5 @@ export type ResourceNotFoundError = TaggedException<ResourceNotFoundException>;
 export type TooManyRequestsError = TaggedException<TooManyRequestsException>;
 export type ValidationError = TaggedException<ValidationException>;
 
-export type SdkError = TaggedException<Error & { name: "SdkError" }>;
-export const SdkError = Data.tagged<SdkError>("SdkError");
+export type SdkError = CommonSdkError;
+export const SdkError = CommonSdkError;

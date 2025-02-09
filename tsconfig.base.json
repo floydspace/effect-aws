@@ -7,8 +7,6 @@
     "declaration": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
-    "inlineSourceMap": true,
-    "inlineSources": true,
     "lib": [
       "ES2022",
       "DOM",
@@ -28,12 +26,10 @@
     "strictPropertyInitialization": true,
     "stripInternal": true,
     "target": "ES2022",
-    "types": [
-      "vitest/globals"
-    ],
     "baseUrl": ".",
     "checkJs": false,
     "composite": true,
+    "sourceMap": true,
     "declarationMap": true,
     "downlevelIteration": true,
     "emitDecoratorMetadata": true,
@@ -52,6 +48,15 @@
       }
     ],
     "paths": {
+      "@effect-aws/commons": [
+        "./packages/commons/src/index.js"
+      ],
+      "@effect-aws/commons/*": [
+        "./packages/commons/src/*.js"
+      ],
+      "@effect-aws/commons/test/*": [
+        "./packages/commons/test/*.js"
+      ],
       "@effect-aws/powertools-logger": [
         "./packages/powertools-logger/src/index.js"
       ],

@@ -6,7 +6,7 @@ import {
 } from "@aws-sdk/client-secrets-manager";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-secrets-manager/dist-cjs/runtimeConfig";
-import { SdkError, SecretsManager } from "@effect-aws/client-secrets-manager";
+import { SdkError, SecretsManager, SecretsManagerServiceConfig } from "@effect-aws/client-secrets-manager";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
@@ -35,9 +35,7 @@ describe("SecretsManagerClientImpl", () => {
 
     expect(result).toEqual(Exit.succeed({}));
     expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
-    expect(getRuntimeConfig).toHaveBeenCalledWith({
-      logger: expect.any(Object),
-    });
+    expect(getRuntimeConfig).toHaveBeenCalledWith({});
     expect(clientMock).toHaveReceivedCommandTimes(GetSecretValueCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(GetSecretValueCommand, args);
   });
@@ -51,7 +49,7 @@ describe("SecretsManagerClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provide(SecretsManager.layer({ region: "eu-central-1" })),
+      Effect.provide(SecretsManager.layer({ region: "eu-central-1", logger: true })),
       Effect.runPromiseExit,
     );
 
@@ -103,6 +101,7 @@ describe("SecretsManagerClientImpl", () => {
           (config) => new SecretsManagerClient({ ...config, region: "eu-central-1" }),
         ),
       ),
+      SecretsManagerServiceConfig.withSecretsManagerServiceConfig({ logger: true }),
       Effect.runPromiseExit,
     );
 

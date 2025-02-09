@@ -145,7 +145,8 @@ import type {
   TenantDatabaseQuotaExceededFault,
   UnsupportedDBEngineVersionFault,
 } from "@aws-sdk/client-rds";
-import { Data } from "effect";
+import type { TaggedException } from "@effect-aws/commons";
+import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "AuthorizationAlreadyExistsFault",
@@ -293,11 +294,7 @@ export const AllServiceErrors = [
   "TenantDatabaseNotFoundFault",
   "TenantDatabaseQuotaExceededFault",
   "UnsupportedDBEngineVersionFault",
-];
-
-export type TaggedException<T extends { name: string }> = T & {
-  readonly _tag: T["name"];
-};
+] as const;
 
 export type AuthorizationAlreadyExistsFaultError = TaggedException<AuthorizationAlreadyExistsFault>;
 export type AuthorizationNotFoundFaultError = TaggedException<AuthorizationNotFoundFault>;
@@ -451,5 +448,5 @@ export type TenantDatabaseNotFoundFaultError = TaggedException<TenantDatabaseNot
 export type TenantDatabaseQuotaExceededFaultError = TaggedException<TenantDatabaseQuotaExceededFault>;
 export type UnsupportedDBEngineVersionFaultError = TaggedException<UnsupportedDBEngineVersionFault>;
 
-export type SdkError = TaggedException<Error & { name: "SdkError" }>;
-export const SdkError = Data.tagged<SdkError>("SdkError");
+export type SdkError = CommonSdkError;
+export const SdkError = CommonSdkError;

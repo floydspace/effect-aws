@@ -64,7 +64,6 @@ import {
   type SetQueueAttributesCommandOutput,
   type SQSClient,
   type SQSClientConfig,
-  SQSServiceException,
   StartMessageMoveTaskCommand,
   type StartMessageMoveTaskCommandInput,
   type StartMessageMoveTaskCommandOutput,
@@ -75,7 +74,9 @@ import {
   type UntagQueueCommandInput,
   type UntagQueueCommandOutput,
 } from "@aws-sdk/client-sqs";
-import { Data, Effect, Layer, Record } from "effect";
+import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import { Service } from "@effect-aws/commons";
+import { Effect, Layer } from "effect";
 import type {
   BatchEntryIdsNotDistinctError,
   BatchRequestTooLongError,
@@ -103,28 +104,12 @@ import type {
   ReceiptHandleIsInvalidError,
   RequestThrottledError,
   ResourceNotFoundError,
-  TaggedException,
   TooManyEntriesInBatchRequestError,
   UnsupportedOperationError,
 } from "./Errors.js";
-import { AllServiceErrors, SdkError } from "./Errors.js";
-import { SQSClientInstance, SQSClientInstanceLayer } from "./SQSClientInstance.js";
-import {
-  DefaultSQSClientConfigLayer,
-  makeDefaultSQSClientInstanceConfig,
-  SQSClientInstanceConfig,
-} from "./SQSClientInstanceConfig.js";
-
-/**
- * @since 1.0.0
- */
-export interface HttpHandlerOptions {
-  /**
-   * The maximum time in milliseconds that the connection phase of a request
-   * may take before the connection attempt is abandoned.
-   */
-  requestTimeout?: number;
-}
+import { AllServiceErrors } from "./Errors.js";
+import * as Instance from "./SQSClientInstance.js";
+import * as SQSServiceConfig from "./SQSServiceConfig.js";
 
 const commands = {
   AddPermissionCommand,
@@ -572,47 +557,10 @@ interface SQSService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeSQSService = Effect.gen(function*(_) {
-  const client = yield* _(SQSClientInstance);
+export const makeSQSService = Effect.gen(function*() {
+  const client = yield* Instance.SQSClientInstance;
 
-  return Record.toEntries(commands).reduce((acc, [command]) => {
-    const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options?: HttpHandlerOptions) =>
-      Effect.tryPromise({
-        try: (abortSignal) =>
-          client.send(new CommandCtor(args), {
-            ...(options ?? {}),
-            abortSignal,
-          }),
-        catch: (e) => {
-          if (e instanceof SQSServiceException && AllServiceErrors.includes(e.name)) {
-            const ServiceException = Data.tagged<
-              TaggedException<SQSServiceException>
-            >(e.name);
-
-            return ServiceException({
-              ...e,
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          if (e instanceof Error) {
-            return SdkError({
-              ...e,
-              name: "SdkError",
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          throw e;
-        },
-      });
-    const methodName = (command[0].toLowerCase() + command.slice(1)).replace(
-      /Command$/,
-      "",
-    );
-    return { ...acc, [methodName]: methodImpl };
-  }, {}) as SQSService$;
+  return Service.fromClientAndCommands<SQSService$>(client, commands, AllServiceErrors);
 });
 
 /**
@@ -623,21 +571,11 @@ export class SQSService extends Effect.Tag("@effect-aws/client-sqs/SQSService")<
   SQSService,
   SQSService$
 >() {
-  static readonly defaultLayer = Layer.effect(this, makeSQSService).pipe(
-    Layer.provide(SQSClientInstanceLayer),
-    Layer.provide(DefaultSQSClientConfigLayer),
-  );
-  static readonly layer = (config: SQSClientConfig) =>
+  static readonly defaultLayer = Layer.effect(this, makeSQSService).pipe(Layer.provide(Instance.layer));
+  static readonly layer = (config: SQSService.Config) =>
     Layer.effect(this, makeSQSService).pipe(
-      Layer.provide(SQSClientInstanceLayer),
-      Layer.provide(
-        Layer.effect(
-          SQSClientInstanceConfig,
-          makeDefaultSQSClientInstanceConfig.pipe(
-            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
-          ),
-        ),
-      ),
+      Layer.provide(Instance.layer),
+      Layer.provide(SQSServiceConfig.setSQSServiceConfig(config)),
     );
   static readonly baseLayer = (
     evaluate: (defaultConfig: SQSClientConfig) => SQSClient,
@@ -645,8 +583,8 @@ export class SQSService extends Effect.Tag("@effect-aws/client-sqs/SQSService")<
     Layer.effect(this, makeSQSService).pipe(
       Layer.provide(
         Layer.effect(
-          SQSClientInstance,
-          Effect.map(makeDefaultSQSClientInstanceConfig, evaluate),
+          Instance.SQSClientInstance,
+          Effect.map(SQSServiceConfig.toSQSClientConfig, evaluate),
         ),
       ),
     );
@@ -654,33 +592,12 @@ export class SQSService extends Effect.Tag("@effect-aws/client-sqs/SQSService")<
 
 /**
  * @since 1.0.0
- * @category models
- * @alias SQSService
  */
-export const SQS = SQSService;
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use SQS.baseLayer instead
- */
-export const BaseSQSServiceLayer = Layer.effect(
-  SQSService,
-  makeSQSService,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use SQS.layer instead
- */
-export const SQSServiceLayer = BaseSQSServiceLayer.pipe(
-  Layer.provide(SQSClientInstanceLayer),
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use SQS.defaultLayer instead
- */
-export const DefaultSQSServiceLayer = SQSService.defaultLayer;
+export declare namespace SQSService {
+  /**
+   * @since 1.0.0
+   */
+  export interface Config extends Omit<SQSClientConfig, "logger"> {
+    readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
+  }
+}

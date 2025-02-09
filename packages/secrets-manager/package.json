@@ -29,12 +29,12 @@
     "@effect-aws/client-secrets-manager": "workspace:^",
     "@fluffy-spoon/substitute": "^1.208.0",
     "@types/node": "ts5.4",
-    "effect": "3.0.0",
+    "effect": "3.0.4",
     "typescript": "^5.4.2"
   },
   "peerDependencies": {
-    "@effect-aws/client-secrets-manager": "^1.1.0",
-    "effect": ">=3.0.0 <4.0.0"
+    "@effect-aws/client-secrets-manager": "workspace:^",
+    "effect": ">=3.0.4 <4.0.0"
   },
   "main": "build/cjs/index.js",
   "license": "MIT",

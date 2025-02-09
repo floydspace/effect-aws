@@ -3,10 +3,7 @@
  */
 import { CloudTrailClient } from "@aws-sdk/client-cloudtrail";
 import { Context, Effect, Layer } from "effect";
-import {
-  CloudTrailClientInstanceConfig,
-  DefaultCloudTrailClientConfigLayer,
-} from "./CloudTrailClientInstanceConfig.js";
+import * as CloudTrailServiceConfig from "./CloudTrailServiceConfig.js";
 
 /**
  * @since 1.0.0
@@ -20,8 +17,8 @@ export class CloudTrailClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeCloudTrailClientInstance = Effect.flatMap(
-  CloudTrailClientInstanceConfig,
+export const make = Effect.flatMap(
+  CloudTrailServiceConfig.toCloudTrailClientConfig,
   (config) =>
     Effect.acquireRelease(
       Effect.sync(() => new CloudTrailClient(config)),
@@ -33,15 +30,4 @@ export const makeCloudTrailClientInstance = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const CloudTrailClientInstanceLayer = Layer.scoped(
-  CloudTrailClientInstance,
-  makeCloudTrailClientInstance,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- */
-export const DefaultCloudTrailClientInstanceLayer = CloudTrailClientInstanceLayer.pipe(
-  Layer.provide(DefaultCloudTrailClientConfigLayer),
-);
+export const layer = Layer.scoped(CloudTrailClientInstance, make);

@@ -88,7 +88,6 @@ import {
   type ListVpcEndpointsCommandOutput,
   type OpenSearchServerlessClient,
   type OpenSearchServerlessClientConfig,
-  OpenSearchServerlessServiceException,
   TagResourceCommand,
   type TagResourceCommandInput,
   type TagResourceCommandOutput,
@@ -117,37 +116,20 @@ import {
   type UpdateVpcEndpointCommandInput,
   type UpdateVpcEndpointCommandOutput,
 } from "@aws-sdk/client-opensearchserverless";
-import { Data, Effect, Layer, Record } from "effect";
-import { AllServiceErrors, SdkError } from "./Errors.js";
+import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import { Service } from "@effect-aws/commons";
+import { Effect, Layer } from "effect";
 import type {
   ConflictError,
   InternalServerError,
   OcuLimitExceededError,
   ResourceNotFoundError,
   ServiceQuotaExceededError,
-  TaggedException,
   ValidationError,
 } from "./Errors.js";
-import {
-  OpenSearchServerlessClientInstance,
-  OpenSearchServerlessClientInstanceLayer,
-} from "./OpenSearchServerlessClientInstance.js";
-import {
-  DefaultOpenSearchServerlessClientConfigLayer,
-  makeDefaultOpenSearchServerlessClientInstanceConfig,
-  OpenSearchServerlessClientInstanceConfig,
-} from "./OpenSearchServerlessClientInstanceConfig.js";
-
-/**
- * @since 1.0.0
- */
-export interface HttpHandlerOptions {
-  /**
-   * The maximum time in milliseconds that the connection phase of a request
-   * may take before the connection attempt is abandoned.
-   */
-  requestTimeout?: number;
-}
+import { AllServiceErrors } from "./Errors.js";
+import * as Instance from "./OpenSearchServerlessClientInstance.js";
+import * as OpenSearchServerlessServiceConfig from "./OpenSearchServerlessServiceConfig.js";
 
 const commands = {
   BatchGetCollectionCommand,
@@ -604,47 +586,10 @@ interface OpenSearchServerlessService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeOpenSearchServerlessService = Effect.gen(function*(_) {
-  const client = yield* _(OpenSearchServerlessClientInstance);
+export const makeOpenSearchServerlessService = Effect.gen(function*() {
+  const client = yield* Instance.OpenSearchServerlessClientInstance;
 
-  return Record.toEntries(commands).reduce((acc, [command]) => {
-    const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options?: HttpHandlerOptions) =>
-      Effect.tryPromise({
-        try: (abortSignal) =>
-          client.send(new CommandCtor(args), {
-            ...(options ?? {}),
-            abortSignal,
-          }),
-        catch: (e) => {
-          if (e instanceof OpenSearchServerlessServiceException && AllServiceErrors.includes(e.name)) {
-            const ServiceException = Data.tagged<
-              TaggedException<OpenSearchServerlessServiceException>
-            >(e.name);
-
-            return ServiceException({
-              ...e,
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          if (e instanceof Error) {
-            return SdkError({
-              ...e,
-              name: "SdkError",
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          throw e;
-        },
-      });
-    const methodName = (command[0].toLowerCase() + command.slice(1)).replace(
-      /Command$/,
-      "",
-    );
-    return { ...acc, [methodName]: methodImpl };
-  }, {}) as OpenSearchServerlessService$;
+  return Service.fromClientAndCommands<OpenSearchServerlessService$>(client, commands, AllServiceErrors);
 });
 
 /**
@@ -658,20 +603,12 @@ export class OpenSearchServerlessService
   >()
 {
   static readonly defaultLayer = Layer.effect(this, makeOpenSearchServerlessService).pipe(
-    Layer.provide(OpenSearchServerlessClientInstanceLayer),
-    Layer.provide(DefaultOpenSearchServerlessClientConfigLayer),
+    Layer.provide(Instance.layer),
   );
-  static readonly layer = (config: OpenSearchServerlessClientConfig) =>
+  static readonly layer = (config: OpenSearchServerlessService.Config) =>
     Layer.effect(this, makeOpenSearchServerlessService).pipe(
-      Layer.provide(OpenSearchServerlessClientInstanceLayer),
-      Layer.provide(
-        Layer.effect(
-          OpenSearchServerlessClientInstanceConfig,
-          makeDefaultOpenSearchServerlessClientInstanceConfig.pipe(
-            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
-          ),
-        ),
-      ),
+      Layer.provide(Instance.layer),
+      Layer.provide(OpenSearchServerlessServiceConfig.setOpenSearchServerlessServiceConfig(config)),
     );
   static readonly baseLayer = (
     evaluate: (defaultConfig: OpenSearchServerlessClientConfig) => OpenSearchServerlessClient,
@@ -679,8 +616,8 @@ export class OpenSearchServerlessService
     Layer.effect(this, makeOpenSearchServerlessService).pipe(
       Layer.provide(
         Layer.effect(
-          OpenSearchServerlessClientInstance,
-          Effect.map(makeDefaultOpenSearchServerlessClientInstanceConfig, evaluate),
+          Instance.OpenSearchServerlessClientInstance,
+          Effect.map(OpenSearchServerlessServiceConfig.toOpenSearchServerlessClientConfig, evaluate),
         ),
       ),
     );
@@ -688,33 +625,12 @@ export class OpenSearchServerlessService
 
 /**
  * @since 1.0.0
- * @category models
- * @alias OpenSearchServerlessService
  */
-export const OpenSearchServerless = OpenSearchServerlessService;
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use OpenSearchServerless.baseLayer instead
- */
-export const BaseOpenSearchServerlessServiceLayer = Layer.effect(
-  OpenSearchServerlessService,
-  makeOpenSearchServerlessService,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use OpenSearchServerless.layer instead
- */
-export const OpenSearchServerlessServiceLayer = BaseOpenSearchServerlessServiceLayer.pipe(
-  Layer.provide(OpenSearchServerlessClientInstanceLayer),
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use OpenSearchServerless.defaultLayer instead
- */
-export const DefaultOpenSearchServerlessServiceLayer = OpenSearchServerlessService.defaultLayer;
+export declare namespace OpenSearchServerlessService {
+  /**
+   * @since 1.0.0
+   */
+  export interface Config extends Omit<OpenSearchServerlessClientConfig, "logger"> {
+    readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
+  }
+}

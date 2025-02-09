@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       effect:
-        specifier: ^3.0.0
-        version: 3.0.0
+        specifier: 3.0.4
+        version: 3.0.4
       enquirer:
         specifier: ^2.4.1
         version: 2.4.1
@@ -33,6 +33,9 @@ importers:
       '@effect/language-service':
         specifier: ^0.2.0
         version: 0.2.0
+      '@effect/vitest':
+        specifier: 0.3.4
+        version: 0.3.4(effect@3.0.4)(vitest@2.0.5(@types/node@22.10.10))
       '@eslint/compat':
         specifier: ^1.2.5
         version: 1.2.5(eslint@9.19.0)
@@ -105,6 +108,9 @@ importers:
       '@aws-sdk/client-account':
         specifier: ^3
         version: 3.731.1
+      '@effect-aws/commons':
+        specifier: workspace:^
+        version: link:../commons/dist
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -116,8 +122,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.0.4
+        version: 3.0.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -128,6 +134,9 @@ importers:
       '@aws-sdk/client-apigatewaymanagementapi':
         specifier: ^3
         version: 3.731.1
+      '@effect-aws/commons':
+        specifier: workspace:^
+        version: link:../commons/dist
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -139,8 +148,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.0.4
+        version: 3.0.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -151,6 +160,9 @@ importers:
       '@aws-sdk/client-auto-scaling':
         specifier: ^3
         version: 3.731.1
+      '@effect-aws/commons':
+        specifier: workspace:^
+        version: link:../commons/dist
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -162,8 +174,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.0.4
+        version: 3.0.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -174,6 +186,9 @@ importers:
       '@aws-sdk/client-bedrock':
         specifier: ^3
         version: 3.731.1
+      '@effect-aws/commons':
+        specifier: workspace:^
+        version: link:../commons/dist
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -185,8 +200,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.0.4
+        version: 3.0.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -197,6 +212,9 @@ importers:
       '@aws-sdk/client-cloudsearch':
         specifier: ^3
         version: 3.731.1
+      '@effect-aws/commons':
+        specifier: workspace:^
+        version: link:../commons/dist
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -208,8 +226,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.0.4
+        version: 3.0.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -220,6 +238,9 @@ importers:
       '@aws-sdk/client-cloudtrail':
         specifier: ^3
         version: 3.731.1
+      '@effect-aws/commons':
+        specifier: workspace:^
+        version: link:../commons/dist
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -231,8 +252,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.0.4
+        version: 3.0.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -243,6 +264,9 @@ importers:
       '@aws-sdk/client-cloudwatch':
         specifier: ^3
         version: 3.731.1
+      '@effect-aws/commons':
+        specifier: workspace:^
+        version: link:../commons/dist
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -254,8 +278,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.0.4
+        version: 3.0.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -266,6 +290,9 @@ importers:
       '@aws-sdk/client-cloudwatch-events':
         specifier: ^3
         version: 3.731.1
+      '@effect-aws/commons':
+        specifier: workspace:^
+        version: link:../commons/dist
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -277,8 +304,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.0.4
+        version: 3.0.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -289,6 +316,9 @@ importers:
       '@aws-sdk/client-cloudwatch-logs':
         specifier: ^3
         version: 3.731.1
+      '@effect-aws/commons':
+        specifier: workspace:^
+        version: link:../commons/dist
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -300,8 +330,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.0.4
+        version: 3.0.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -312,6 +342,9 @@ importers:
       '@aws-sdk/client-codedeploy':
         specifier: ^3
         version: 3.731.1
+      '@effect-aws/commons':
+        specifier: workspace:^
+        version: link:../commons/dist
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -323,8 +356,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.0.4
+        version: 3.0.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -335,6 +368,9 @@ importers:
       '@aws-sdk/client-cognito-identity-provider':
         specifier: ^3
         version: 3.731.1
+      '@effect-aws/commons':
+        specifier: workspace:^
+        version: link:../commons/dist
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -346,8 +382,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.0.4
+        version: 3.0.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -358,6 +394,9 @@ importers:
       '@aws-sdk/client-dynamodb':
         specifier: ^3
         version: 3.731.1
+      '@effect-aws/commons':
+        specifier: workspace:^
+        version: link:../commons/dist
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -369,8 +408,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.0.4
+        version: 3.0.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -381,6 +420,9 @@ importers:
       '@aws-sdk/client-ec2':
         specifier: ^3
         version: 3.731.1
+      '@effect-aws/commons':
+        specifier: workspace:^
+        version: link:../commons/dist
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -392,8 +434,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.0.4
+        version: 3.0.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -404,6 +446,9 @@ importers:
       '@aws-sdk/client-ecr':
         specifier: ^3
         version: 3.731.1
+      '@effect-aws/commons':
+        specifier: workspace:^
+        version: link:../commons/dist
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -415,8 +460,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.0.4
+        version: 3.0.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -427,6 +472,9 @@ importers:
       '@aws-sdk/client-ecs':
         specifier: ^3
         version: 3.731.1
+      '@effect-aws/commons':
+        specifier: workspace:^
+        version: link:../commons/dist
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -438,8 +486,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.0.4
+        version: 3.0.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -450,6 +498,9 @@ importers:
       '@aws-sdk/client-elasticache':
         specifier: ^3
         version: 3.731.1
+      '@effect-aws/commons':
+        specifier: workspace:^
+        version: link:../commons/dist
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -461,8 +512,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.0.4
+        version: 3.0.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -473,6 +524,9 @@ importers:
       '@aws-sdk/client-eventbridge':
         specifier: ^3
         version: 3.731.1
+      '@effect-aws/commons':
+        specifier: workspace:^
+        version: link:../commons/dist
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -484,8 +538,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.0.4
+        version: 3.0.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -496,6 +550,9 @@ importers:
       '@aws-sdk/client-iam':
         specifier: ^3
         version: 3.731.1
+      '@effect-aws/commons':
+        specifier: workspace:^
+        version: link:../commons/dist
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -507,8 +564,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.0.4
+        version: 3.0.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -519,6 +576,9 @@ importers:
       '@aws-sdk/client-iot':
         specifier: ^3
         version: 3.731.1
+      '@effect-aws/commons':
+        specifier: workspace:^
+        version: link:../commons/dist
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -530,8 +590,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.0.4
+        version: 3.0.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -542,6 +602,9 @@ importers:
       '@aws-sdk/client-iot-data-plane':
         specifier: ^3
         version: 3.731.1
+      '@effect-aws/commons':
+        specifier: workspace:^
+        version: link:../commons/dist
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -553,8 +616,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.0.4
+        version: 3.0.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -565,6 +628,9 @@ importers:
       '@aws-sdk/client-iot-events':
         specifier: ^3
         version: 3.731.1
+      '@effect-aws/commons':
+        specifier: workspace:^
+        version: link:../commons/dist
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -576,8 +642,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.0.4
+        version: 3.0.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -588,6 +654,9 @@ importers:
       '@aws-sdk/client-iot-events-data':
         specifier: ^3
         version: 3.731.1
+      '@effect-aws/commons':
+        specifier: workspace:^
+        version: link:../commons/dist
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -599,8 +668,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.0.4
+        version: 3.0.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -611,6 +680,9 @@ importers:
       '@aws-sdk/client-iot-jobs-data-plane':
         specifier: ^3
         version: 3.731.1
+      '@effect-aws/commons':
+        specifier: workspace:^
+        version: link:../commons/dist
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -622,8 +694,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.0.4
+        version: 3.0.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -634,6 +706,9 @@ importers:
       '@aws-sdk/client-iot-wireless':
         specifier: ^3
         version: 3.731.1
+      '@effect-aws/commons':
+        specifier: workspace:^
+        version: link:../commons/dist
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -645,8 +720,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.0.4
+        version: 3.0.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -657,6 +732,9 @@ importers:
       '@aws-sdk/client-kinesis':
         specifier: ^3
         version: 3.731.1
+      '@effect-aws/commons':
+        specifier: workspace:^
+        version: link:../commons/dist
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -668,8 +746,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.0.4
+        version: 3.0.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -680,6 +758,9 @@ importers:
       '@aws-sdk/client-kms':
         specifier: ^3
         version: 3.731.1
+      '@effect-aws/commons':
+        specifier: workspace:^
+        version: link:../commons/dist
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -691,8 +772,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.0.4
+        version: 3.0.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -703,6 +784,9 @@ importers:
       '@aws-sdk/client-lambda':
         specifier: ^3
         version: 3.731.1
+      '@effect-aws/commons':
+        specifier: workspace:^
+        version: link:../commons/dist
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -714,8 +798,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.0.4
+        version: 3.0.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -726,6 +810,9 @@ importers:
       '@aws-sdk/client-mq':
         specifier: ^3
         version: 3.731.1
+      '@effect-aws/commons':
+        specifier: workspace:^
+        version: link:../commons/dist
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -737,8 +824,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.0.4
+        version: 3.0.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -749,6 +836,9 @@ importers:
       '@aws-sdk/client-opensearch':
         specifier: ^3
         version: 3.731.1
+      '@effect-aws/commons':
+        specifier: workspace:^
+        version: link:../commons/dist
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -760,8 +850,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.0.4
+        version: 3.0.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -772,6 +862,9 @@ importers:
       '@aws-sdk/client-opensearchserverless':
         specifier: ^3
         version: 3.731.1
+      '@effect-aws/commons':
+        specifier: workspace:^
+        version: link:../commons/dist
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -783,8 +876,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.0.4
+        version: 3.0.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -795,6 +888,9 @@ importers:
       '@aws-sdk/client-organizations':
         specifier: ^3
         version: 3.731.1
+      '@effect-aws/commons':
+        specifier: workspace:^
+        version: link:../commons/dist
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -806,8 +902,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.0.4
+        version: 3.0.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -818,6 +914,9 @@ importers:
       '@aws-sdk/client-rds':
         specifier: ^3
         version: 3.731.1
+      '@effect-aws/commons':
+        specifier: workspace:^
+        version: link:../commons/dist
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -829,8 +928,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.0.4
+        version: 3.0.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -847,6 +946,9 @@ importers:
       '@aws-sdk/types':
         specifier: ^3
         version: 3.731.0
+      '@effect-aws/commons':
+        specifier: workspace:^
+        version: link:../commons/dist
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -858,8 +960,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.0.4
+        version: 3.0.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -870,6 +972,9 @@ importers:
       '@aws-sdk/client-scheduler':
         specifier: ^3
         version: 3.731.1
+      '@effect-aws/commons':
+        specifier: workspace:^
+        version: link:../commons/dist
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -881,8 +986,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.0.4
+        version: 3.0.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -893,6 +998,9 @@ importers:
       '@aws-sdk/client-secrets-manager':
         specifier: ^3
         version: 3.731.1
+      '@effect-aws/commons':
+        specifier: workspace:^
+        version: link:../commons/dist
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -904,8 +1012,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.0.4
+        version: 3.0.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -916,6 +1024,9 @@ importers:
       '@aws-sdk/client-ses':
         specifier: ^3
         version: 3.731.1
+      '@effect-aws/commons':
+        specifier: workspace:^
+        version: link:../commons/dist
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -927,8 +1038,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.0.4
+        version: 3.0.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -939,6 +1050,9 @@ importers:
       '@aws-sdk/client-sfn':
         specifier: ^3
         version: 3.731.1
+      '@effect-aws/commons':
+        specifier: workspace:^
+        version: link:../commons/dist
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -950,8 +1064,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.0.4
+        version: 3.0.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -962,6 +1076,9 @@ importers:
       '@aws-sdk/client-sns':
         specifier: ^3
         version: 3.731.1
+      '@effect-aws/commons':
+        specifier: workspace:^
+        version: link:../commons/dist
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -973,8 +1090,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.0.4
+        version: 3.0.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -985,6 +1102,9 @@ importers:
       '@aws-sdk/client-sqs':
         specifier: ^3
         version: 3.731.1
+      '@effect-aws/commons':
+        specifier: workspace:^
+        version: link:../commons/dist
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -996,8 +1116,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.0.4
+        version: 3.0.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -1008,6 +1128,9 @@ importers:
       '@aws-sdk/client-ssm':
         specifier: ^3
         version: 3.731.1
+      '@effect-aws/commons':
+        specifier: workspace:^
+        version: link:../commons/dist
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -1019,8 +1142,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.0.4
+        version: 3.0.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -1031,6 +1154,9 @@ importers:
       '@aws-sdk/client-sts':
         specifier: ^3
         version: 3.731.1
+      '@effect-aws/commons':
+        specifier: workspace:^
+        version: link:../commons/dist
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -1042,8 +1168,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.0.4
+        version: 3.0.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -1054,6 +1180,9 @@ importers:
       '@aws-sdk/client-textract':
         specifier: ^3
         version: 3.731.1
+      '@effect-aws/commons':
+        specifier: workspace:^
+        version: link:../commons/dist
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -1065,8 +1194,28 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.0.4
+        version: 3.0.4
+      typescript:
+        specifier: ^5.4.2
+        version: 5.4.5
+    publishDirectory: dist
+
+  packages/commons:
+    dependencies:
+      '@smithy/smithy-client':
+        specifier: ^4.1.2
+        version: 4.1.2
+      '@smithy/types':
+        specifier: ^4.1.0
+        version: 4.1.0
+    devDependencies:
+      '@types/node':
+        specifier: ts5.4
+        version: 22.13.1
+      effect:
+        specifier: 3.0.4
+        version: 3.0.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -1081,8 +1230,8 @@ importers:
         specifier: ts5.4
         version: 22.10.10
       effect:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.0.4
+        version: 3.0.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -1096,6 +1245,9 @@ importers:
       '@aws-sdk/lib-dynamodb':
         specifier: ^3
         version: 3.731.1(@aws-sdk/client-dynamodb@3.731.1)
+      '@effect-aws/commons':
+        specifier: workspace:^
+        version: link:../commons/dist
     devDependencies:
       '@effect-aws/client-dynamodb':
         specifier: workspace:^
@@ -1110,8 +1262,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.0.4
+        version: 3.0.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -1129,8 +1281,8 @@ importers:
         specifier: ts5.4
         version: 22.10.10
       effect:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.0.4
+        version: 3.0.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -1151,8 +1303,8 @@ importers:
         specifier: ts5.4
         version: 22.10.10
       effect:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.0.4
+        version: 3.0.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -1173,8 +1325,8 @@ importers:
         specifier: ts5.4
         version: 22.10.10
       effect:
-        specifier: 3.0.0
-        version: 3.0.0
+        specifier: 3.0.4
+        version: 3.0.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -1736,6 +1888,12 @@ packages:
     resolution: {integrity: sha512-IRfvvwqQLabVTIw9hhIj4scOGIYPfa13QuEFv+dBWE6p47R+RR0J8jQvfDINFf0Vn80XXVjNRtZxkZpkKXLx2A==}
     engines: {node: '>=0.10.0'}
     hasBin: true
+
+  '@effect/vitest@0.3.4':
+    resolution: {integrity: sha512-VBEEomRIVFilTDPR+bPEXIjzONDUpq9z8I3ih9rmzO0rnSw6/3u46lAHIoBX99KgpYVlOKedP+EsJsoLNKW9VA==}
+    peerDependencies:
+      effect: ^3.0.4
+      vitest: ^1.4.0
 
   '@esbuild/aix-ppc64@0.21.5':
     resolution: {integrity: sha512-1SDgH6ZSPTlggy1yI6+Dbkiz8xzpHJEVAlF/AM1tHPLsf5STom9rwtjE4hKAF20FfXXNTFqEYXyJNWh1GiZedQ==}
@@ -2413,6 +2571,9 @@ packages:
   '@types/node@22.10.10':
     resolution: {integrity: sha512-X47y/mPNzxviAGY5TcYPtYL8JsY3kAq2n8fMmKoRCxq/c4v4pyGNCzM2R6+M5/umG4ZfHuT+sgqDYqWc9rJ6ww==}
 
+  '@types/node@22.13.1':
+    resolution: {integrity: sha512-jK8uzQlrvXqEU91UxiK5J7pKHyzgnI1Qnl0QDHIgVGuolJhRb9EEl28Cj9b3rGR8B2lhFCtvIm5os8lFnO/1Ew==}
+
   '@types/normalize-package-data@2.4.4':
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
 
@@ -2834,8 +2995,8 @@ packages:
   eastasianwidth@0.2.0:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
 
-  effect@3.0.0:
-    resolution: {integrity: sha512-8yVxuahojpD8Y6ynrvIlSWD2xsea/PyGnjA4V5c7v0fOMJafgsKUNUHErBAr6YoPikmtOfR9zqNWRd9u5QaWEQ==}
+  effect@3.0.4:
+    resolution: {integrity: sha512-KxkTPwNP2A2wUQ5CVLcp0gCpBSajHIL9XQwqpruKNdkMCvCVpLg8b3dx71ADwlzeB+LfUFe+cj4MgvrYQutXVQ==}
 
   electron-to-chromium@1.5.88:
     resolution: {integrity: sha512-K3C2qf1o+bGzbilTDCTBhTQcMS9KW60yTAaTeeXsfvQuTDDwlokLam/AdqlqcSy9u4UainDgsHV23ksXAOgamw==}
@@ -7213,6 +7374,11 @@ snapshots:
       repeat-string: 1.6.1
       strip-color: 0.1.0
 
+  '@effect/vitest@0.3.4(effect@3.0.4)(vitest@2.0.5(@types/node@22.10.10))':
+    dependencies:
+      effect: 3.0.4
+      vitest: 2.0.5(@types/node@22.10.10)
+
   '@esbuild/aix-ppc64@0.21.5':
     optional: true
 
@@ -7371,7 +7537,7 @@ snapshots:
       '@jest/schemas': 29.6.3
       '@types/istanbul-lib-coverage': 2.0.6
       '@types/istanbul-reports': 3.0.4
-      '@types/node': 22.10.10
+      '@types/node': 22.13.1
       '@types/yargs': 17.0.33
       chalk: 4.1.2
 
@@ -7872,7 +8038,7 @@ snapshots:
   '@types/glob@7.1.3':
     dependencies:
       '@types/minimatch': 5.1.2
-      '@types/node': 22.10.10
+      '@types/node': 22.13.1
 
   '@types/istanbul-lib-coverage@2.0.6': {}
 
@@ -7905,6 +8071,10 @@ snapshots:
       undici-types: 6.19.8
 
   '@types/node@22.10.10':
+    dependencies:
+      undici-types: 6.20.0
+
+  '@types/node@22.13.1':
     dependencies:
       undici-types: 6.20.0
 
@@ -8366,7 +8536,7 @@ snapshots:
 
   eastasianwidth@0.2.0: {}
 
-  effect@3.0.0: {}
+  effect@3.0.4: {}
 
   electron-to-chromium@1.5.88: {}
 
@@ -9183,7 +9353,7 @@ snapshots:
   jest-util@29.7.0:
     dependencies:
       '@jest/types': 29.6.3
-      '@types/node': 22.10.10
+      '@types/node': 22.13.1
       chalk: 4.1.2
       ci-info: 3.9.0
       graceful-fs: 4.2.11

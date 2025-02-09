@@ -3,7 +3,7 @@
  */
 import { STSClient } from "@aws-sdk/client-sts";
 import { Context, Effect, Layer } from "effect";
-import { DefaultSTSClientConfigLayer, STSClientInstanceConfig } from "./STSClientInstanceConfig.js";
+import * as STSServiceConfig from "./STSServiceConfig.js";
 
 /**
  * @since 1.0.0
@@ -17,8 +17,8 @@ export class STSClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeSTSClientInstance = Effect.flatMap(
-  STSClientInstanceConfig,
+export const make = Effect.flatMap(
+  STSServiceConfig.toSTSClientConfig,
   (config) =>
     Effect.acquireRelease(
       Effect.sync(() => new STSClient(config)),
@@ -30,15 +30,4 @@ export const makeSTSClientInstance = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const STSClientInstanceLayer = Layer.scoped(
-  STSClientInstance,
-  makeSTSClientInstance,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- */
-export const DefaultSTSClientInstanceLayer = STSClientInstanceLayer.pipe(
-  Layer.provide(DefaultSTSClientConfigLayer),
-);
+export const layer = Layer.scoped(STSClientInstance, make);

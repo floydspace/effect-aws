@@ -6,7 +6,7 @@ import {
 } from "@aws-sdk/client-scheduler";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-scheduler/dist-cjs/runtimeConfig";
-import { Scheduler, SdkError } from "@effect-aws/client-scheduler";
+import { Scheduler, SchedulerServiceConfig, SdkError } from "@effect-aws/client-scheduler";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
@@ -35,9 +35,7 @@ describe("SchedulerClientImpl", () => {
 
     expect(result).toEqual(Exit.succeed({}));
     expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
-    expect(getRuntimeConfig).toHaveBeenCalledWith({
-      logger: expect.any(Object),
-    });
+    expect(getRuntimeConfig).toHaveBeenCalledWith({});
     expect(clientMock).toHaveReceivedCommandTimes(TagResourceCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(TagResourceCommand, args);
   });
@@ -51,7 +49,7 @@ describe("SchedulerClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provide(Scheduler.layer({ region: "eu-central-1" })),
+      Effect.provide(Scheduler.layer({ region: "eu-central-1", logger: true })),
       Effect.runPromiseExit,
     );
 
@@ -103,6 +101,7 @@ describe("SchedulerClientImpl", () => {
           (config) => new SchedulerClient({ ...config, region: "eu-central-1" }),
         ),
       ),
+      SchedulerServiceConfig.withSchedulerServiceConfig({ logger: true }),
       Effect.runPromiseExit,
     );
 

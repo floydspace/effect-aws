@@ -15,7 +15,7 @@
     },
     {
       "name": "effect",
-      "version": "3.0.0",
+      "version": "3.0.4",
       "type": "build"
     },
     {
@@ -25,12 +25,17 @@
     },
     {
       "name": "effect",
-      "version": ">=3.0.0 <4.0.0",
+      "version": ">=3.0.4 <4.0.0",
       "type": "peer"
     },
     {
       "name": "@aws-sdk/client-sfn",
       "version": "^3",
+      "type": "runtime"
+    },
+    {
+      "name": "@effect-aws/commons",
+      "version": "workspace:^",
       "type": "runtime"
     }
   ],

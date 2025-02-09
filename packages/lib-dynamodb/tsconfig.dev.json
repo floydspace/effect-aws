@@ -3,7 +3,7 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "types": [
-      "node"
+      "../../vitest.d.ts"
     ],
     "tsBuildInfoFile": ".tsbuildinfo/test.tsbuildinfo",
     "rootDir": "test",
@@ -15,6 +15,9 @@
   "references": [
     {
       "path": "tsconfig.src.json"
+    },
+    {
+      "path": "../commons"
     },
     {
       "path": "../client-dynamodb"

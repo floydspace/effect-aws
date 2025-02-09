@@ -76,7 +76,8 @@ import type {
   UserNotFoundFault,
   UserQuotaExceededFault,
 } from "@aws-sdk/client-elasticache";
-import { Data } from "effect";
+import type { TaggedException } from "@effect-aws/commons";
+import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "APICallRateForCustomerExceededFault",
@@ -155,11 +156,7 @@ export const AllServiceErrors = [
   "UserGroupQuotaExceededFault",
   "UserNotFoundFault",
   "UserQuotaExceededFault",
-];
-
-export type TaggedException<T extends { name: string }> = T & {
-  readonly _tag: T["name"];
-};
+] as const;
 
 export type APICallRateForCustomerExceededFaultError = TaggedException<APICallRateForCustomerExceededFault>;
 export type AuthorizationAlreadyExistsFaultError = TaggedException<AuthorizationAlreadyExistsFault>;
@@ -244,5 +241,5 @@ export type UserGroupQuotaExceededFaultError = TaggedException<UserGroupQuotaExc
 export type UserNotFoundFaultError = TaggedException<UserNotFoundFault>;
 export type UserQuotaExceededFaultError = TaggedException<UserQuotaExceededFault>;
 
-export type SdkError = TaggedException<Error & { name: "SdkError" }>;
-export const SdkError = Data.tagged<SdkError>("SdkError");
+export type SdkError = CommonSdkError;
+export const SdkError = CommonSdkError;

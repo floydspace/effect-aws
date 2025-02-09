@@ -6,7 +6,7 @@ import {
 } from "@aws-sdk/client-cloudwatch-events";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-cloudwatch-events/dist-cjs/runtimeConfig";
-import { CloudWatchEvents, SdkError } from "@effect-aws/client-cloudwatch-events";
+import { CloudWatchEvents, CloudWatchEventsServiceConfig, SdkError } from "@effect-aws/client-cloudwatch-events";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
@@ -35,9 +35,7 @@ describe("CloudWatchEventsClientImpl", () => {
 
     expect(result).toEqual(Exit.succeed({}));
     expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
-    expect(getRuntimeConfig).toHaveBeenCalledWith({
-      logger: expect.any(Object),
-    });
+    expect(getRuntimeConfig).toHaveBeenCalledWith({});
     expect(clientMock).toHaveReceivedCommandTimes(ListRulesCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(ListRulesCommand, args);
   });
@@ -51,7 +49,7 @@ describe("CloudWatchEventsClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provide(CloudWatchEvents.layer({ region: "eu-central-1" })),
+      Effect.provide(CloudWatchEvents.layer({ region: "eu-central-1", logger: true })),
       Effect.runPromiseExit,
     );
 
@@ -103,6 +101,7 @@ describe("CloudWatchEventsClientImpl", () => {
           (config) => new CloudWatchEventsClient({ ...config, region: "eu-central-1" }),
         ),
       ),
+      CloudWatchEventsServiceConfig.withCloudWatchEventsServiceConfig({ logger: true }),
       Effect.runPromiseExit,
     );
 

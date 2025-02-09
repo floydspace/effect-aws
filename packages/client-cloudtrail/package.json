@@ -28,14 +28,15 @@
     "@types/node": "ts5.4",
     "aws-sdk-client-mock": "^4.0.2",
     "aws-sdk-client-mock-vitest": "^4.0.0",
-    "effect": "3.0.0",
+    "effect": "3.0.4",
     "typescript": "^5.4.2"
   },
   "peerDependencies": {
-    "effect": ">=3.0.0 <4.0.0"
+    "effect": ">=3.0.4 <4.0.0"
   },
   "dependencies": {
-    "@aws-sdk/client-cloudtrail": "^3"
+    "@aws-sdk/client-cloudtrail": "^3",
+    "@effect-aws/commons": "workspace:^"
   },
   "main": "build/cjs/index.js",
   "license": "MIT",

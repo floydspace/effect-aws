@@ -157,7 +157,6 @@ import {
   type SendTemplatedEmailCommandOutput,
   type SESClient,
   type SESClientConfig,
-  SESServiceException,
   SetActiveReceiptRuleSetCommand,
   type SetActiveReceiptRuleSetCommandInput,
   type SetActiveReceiptRuleSetCommandOutput,
@@ -219,7 +218,9 @@ import {
   type VerifyEmailIdentityCommandInput,
   type VerifyEmailIdentityCommandOutput,
 } from "@aws-sdk/client-ses";
-import { Data, Effect, Layer, Record } from "effect";
+import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import { Service } from "@effect-aws/commons";
+import { Effect, Layer } from "effect";
 import type {
   AccountSendingPausedError,
   AlreadyExistsError,
@@ -252,29 +253,13 @@ import type {
   ProductionAccessNotGrantedError,
   RuleDoesNotExistError,
   RuleSetDoesNotExistError,
-  TaggedException,
   TemplateDoesNotExistError,
   TrackingOptionsAlreadyExistsError,
   TrackingOptionsDoesNotExistError,
 } from "./Errors.js";
-import { AllServiceErrors, SdkError } from "./Errors.js";
-import { SESClientInstance, SESClientInstanceLayer } from "./SESClientInstance.js";
-import {
-  DefaultSESClientConfigLayer,
-  makeDefaultSESClientInstanceConfig,
-  SESClientInstanceConfig,
-} from "./SESClientInstanceConfig.js";
-
-/**
- * @since 1.0.0
- */
-export interface HttpHandlerOptions {
-  /**
-   * The maximum time in milliseconds that the connection phase of a request
-   * may take before the connection attempt is abandoned.
-   */
-  requestTimeout?: number;
-}
+import { AllServiceErrors } from "./Errors.js";
+import * as Instance from "./SESClientInstance.js";
+import * as SESServiceConfig from "./SESServiceConfig.js";
 
 const commands = {
   CloneReceiptRuleSetCommand,
@@ -1197,47 +1182,10 @@ interface SESService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeSESService = Effect.gen(function*(_) {
-  const client = yield* _(SESClientInstance);
+export const makeSESService = Effect.gen(function*() {
+  const client = yield* Instance.SESClientInstance;
 
-  return Record.toEntries(commands).reduce((acc, [command]) => {
-    const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options?: HttpHandlerOptions) =>
-      Effect.tryPromise({
-        try: (abortSignal) =>
-          client.send(new CommandCtor(args), {
-            ...(options ?? {}),
-            abortSignal,
-          }),
-        catch: (e) => {
-          if (e instanceof SESServiceException && AllServiceErrors.includes(e.name)) {
-            const ServiceException = Data.tagged<
-              TaggedException<SESServiceException>
-            >(e.name);
-
-            return ServiceException({
-              ...e,
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          if (e instanceof Error) {
-            return SdkError({
-              ...e,
-              name: "SdkError",
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          throw e;
-        },
-      });
-    const methodName = (command[0].toLowerCase() + command.slice(1)).replace(
-      /Command$/,
-      "",
-    );
-    return { ...acc, [methodName]: methodImpl };
-  }, {}) as SESService$;
+  return Service.fromClientAndCommands<SESService$>(client, commands, AllServiceErrors);
 });
 
 /**
@@ -1248,21 +1196,11 @@ export class SESService extends Effect.Tag("@effect-aws/client-ses/SESService")<
   SESService,
   SESService$
 >() {
-  static readonly defaultLayer = Layer.effect(this, makeSESService).pipe(
-    Layer.provide(SESClientInstanceLayer),
-    Layer.provide(DefaultSESClientConfigLayer),
-  );
-  static readonly layer = (config: SESClientConfig) =>
+  static readonly defaultLayer = Layer.effect(this, makeSESService).pipe(Layer.provide(Instance.layer));
+  static readonly layer = (config: SESService.Config) =>
     Layer.effect(this, makeSESService).pipe(
-      Layer.provide(SESClientInstanceLayer),
-      Layer.provide(
-        Layer.effect(
-          SESClientInstanceConfig,
-          makeDefaultSESClientInstanceConfig.pipe(
-            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
-          ),
-        ),
-      ),
+      Layer.provide(Instance.layer),
+      Layer.provide(SESServiceConfig.setSESServiceConfig(config)),
     );
   static readonly baseLayer = (
     evaluate: (defaultConfig: SESClientConfig) => SESClient,
@@ -1270,8 +1208,8 @@ export class SESService extends Effect.Tag("@effect-aws/client-ses/SESService")<
     Layer.effect(this, makeSESService).pipe(
       Layer.provide(
         Layer.effect(
-          SESClientInstance,
-          Effect.map(makeDefaultSESClientInstanceConfig, evaluate),
+          Instance.SESClientInstance,
+          Effect.map(SESServiceConfig.toSESClientConfig, evaluate),
         ),
       ),
     );
@@ -1279,33 +1217,12 @@ export class SESService extends Effect.Tag("@effect-aws/client-ses/SESService")<
 
 /**
  * @since 1.0.0
- * @category models
- * @alias SESService
  */
-export const SES = SESService;
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use SES.baseLayer instead
- */
-export const BaseSESServiceLayer = Layer.effect(
-  SESService,
-  makeSESService,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use SES.layer instead
- */
-export const SESServiceLayer = BaseSESServiceLayer.pipe(
-  Layer.provide(SESClientInstanceLayer),
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use SES.defaultLayer instead
- */
-export const DefaultSESServiceLayer = SESService.defaultLayer;
+export declare namespace SESService {
+  /**
+   * @since 1.0.0
+   */
+  export interface Config extends Omit<SESClientConfig, "logger"> {
+    readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
+  }
+}

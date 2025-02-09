@@ -3,10 +3,7 @@
  */
 import { OrganizationsClient } from "@aws-sdk/client-organizations";
 import { Context, Effect, Layer } from "effect";
-import {
-  DefaultOrganizationsClientConfigLayer,
-  OrganizationsClientInstanceConfig,
-} from "./OrganizationsClientInstanceConfig.js";
+import * as OrganizationsServiceConfig from "./OrganizationsServiceConfig.js";
 
 /**
  * @since 1.0.0
@@ -20,8 +17,8 @@ export class OrganizationsClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeOrganizationsClientInstance = Effect.flatMap(
-  OrganizationsClientInstanceConfig,
+export const make = Effect.flatMap(
+  OrganizationsServiceConfig.toOrganizationsClientConfig,
   (config) =>
     Effect.acquireRelease(
       Effect.sync(() => new OrganizationsClient(config)),
@@ -33,15 +30,4 @@ export const makeOrganizationsClientInstance = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const OrganizationsClientInstanceLayer = Layer.scoped(
-  OrganizationsClientInstance,
-  makeOrganizationsClientInstance,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- */
-export const DefaultOrganizationsClientInstanceLayer = OrganizationsClientInstanceLayer.pipe(
-  Layer.provide(DefaultOrganizationsClientConfigLayer),
-);
+export const layer = Layer.scoped(OrganizationsClientInstance, make);

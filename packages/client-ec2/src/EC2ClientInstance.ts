@@ -3,7 +3,7 @@
  */
 import { EC2Client } from "@aws-sdk/client-ec2";
 import { Context, Effect, Layer } from "effect";
-import { DefaultEC2ClientConfigLayer, EC2ClientInstanceConfig } from "./EC2ClientInstanceConfig.js";
+import * as EC2ServiceConfig from "./EC2ServiceConfig.js";
 
 /**
  * @since 1.0.0
@@ -17,8 +17,8 @@ export class EC2ClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeEC2ClientInstance = Effect.flatMap(
-  EC2ClientInstanceConfig,
+export const make = Effect.flatMap(
+  EC2ServiceConfig.toEC2ClientConfig,
   (config) =>
     Effect.acquireRelease(
       Effect.sync(() => new EC2Client(config)),
@@ -30,15 +30,4 @@ export const makeEC2ClientInstance = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const EC2ClientInstanceLayer = Layer.scoped(
-  EC2ClientInstance,
-  makeEC2ClientInstance,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- */
-export const DefaultEC2ClientInstanceLayer = EC2ClientInstanceLayer.pipe(
-  Layer.provide(DefaultEC2ClientConfigLayer),
-);
+export const layer = Layer.scoped(EC2ClientInstance, make);

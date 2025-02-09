@@ -6,7 +6,11 @@ import {
 } from "@aws-sdk/client-apigatewaymanagementapi";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-apigatewaymanagementapi/dist-cjs/runtimeConfig";
-import { ApiGatewayManagementApi, SdkError } from "@effect-aws/client-api-gateway-management-api";
+import {
+  ApiGatewayManagementApi,
+  ApiGatewayManagementApiServiceConfig,
+  SdkError,
+} from "@effect-aws/client-api-gateway-management-api";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
@@ -35,9 +39,7 @@ describe("ApiGatewayManagementApiClientImpl", () => {
 
     expect(result).toEqual(Exit.succeed({}));
     expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
-    expect(getRuntimeConfig).toHaveBeenCalledWith({
-      logger: expect.any(Object),
-    });
+    expect(getRuntimeConfig).toHaveBeenCalledWith({});
     expect(clientMock).toHaveReceivedCommandTimes(PostToConnectionCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(PostToConnectionCommand, args);
   });
@@ -51,7 +53,7 @@ describe("ApiGatewayManagementApiClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provide(ApiGatewayManagementApi.layer({ region: "eu-central-1" })),
+      Effect.provide(ApiGatewayManagementApi.layer({ region: "eu-central-1", logger: true })),
       Effect.runPromiseExit,
     );
 
@@ -103,6 +105,7 @@ describe("ApiGatewayManagementApiClientImpl", () => {
           (config) => new ApiGatewayManagementApiClient({ ...config, region: "eu-central-1" }),
         ),
       ),
+      ApiGatewayManagementApiServiceConfig.withApiGatewayManagementApiServiceConfig({ logger: true }),
       Effect.runPromiseExit,
     );
 

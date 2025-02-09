@@ -157,7 +157,6 @@ import {
   type DisassociateGlobalReplicationGroupCommandOutput,
   type ElastiCacheClient,
   type ElastiCacheClientConfig,
-  ElastiCacheServiceException,
   ExportServerlessCacheSnapshotCommand,
   type ExportServerlessCacheSnapshotCommandInput,
   type ExportServerlessCacheSnapshotCommandOutput,
@@ -231,13 +230,11 @@ import {
   type TestMigrationCommandInput,
   type TestMigrationCommandOutput,
 } from "@aws-sdk/client-elasticache";
-import { Data, Effect, Layer, Record } from "effect";
-import { ElastiCacheClientInstance, ElastiCacheClientInstanceLayer } from "./ElastiCacheClientInstance.js";
-import {
-  DefaultElastiCacheClientConfigLayer,
-  ElastiCacheClientInstanceConfig,
-  makeDefaultElastiCacheClientInstanceConfig,
-} from "./ElastiCacheClientInstanceConfig.js";
+import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import { Service } from "@effect-aws/commons";
+import { Effect, Layer } from "effect";
+import * as Instance from "./ElastiCacheClientInstance.js";
+import * as ElastiCacheServiceConfig from "./ElastiCacheServiceConfig.js";
 import type {
   APICallRateForCustomerExceededFaultError,
   AuthorizationAlreadyExistsFaultError,
@@ -306,7 +303,6 @@ import type {
   SnapshotQuotaExceededFaultError,
   SubnetInUseError,
   SubnetNotAllowedFaultError,
-  TaggedException,
   TagNotFoundFaultError,
   TagQuotaPerResourceExceededError,
   TestFailoverNotAvailableFaultError,
@@ -317,18 +313,7 @@ import type {
   UserNotFoundFaultError,
   UserQuotaExceededFaultError,
 } from "./Errors.js";
-import { AllServiceErrors, SdkError } from "./Errors.js";
-
-/**
- * @since 1.0.0
- */
-export interface HttpHandlerOptions {
-  /**
-   * The maximum time in milliseconds that the connection phase of a request
-   * may take before the connection attempt is abandoned.
-   */
-  requestTimeout?: number;
-}
+import { AllServiceErrors } from "./Errors.js";
 
 const commands = {
   AddTagsToResourceCommand,
@@ -1624,47 +1609,10 @@ interface ElastiCacheService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeElastiCacheService = Effect.gen(function*(_) {
-  const client = yield* _(ElastiCacheClientInstance);
+export const makeElastiCacheService = Effect.gen(function*() {
+  const client = yield* Instance.ElastiCacheClientInstance;
 
-  return Record.toEntries(commands).reduce((acc, [command]) => {
-    const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options?: HttpHandlerOptions) =>
-      Effect.tryPromise({
-        try: (abortSignal) =>
-          client.send(new CommandCtor(args), {
-            ...(options ?? {}),
-            abortSignal,
-          }),
-        catch: (e) => {
-          if (e instanceof ElastiCacheServiceException && AllServiceErrors.includes(e.name)) {
-            const ServiceException = Data.tagged<
-              TaggedException<ElastiCacheServiceException>
-            >(e.name);
-
-            return ServiceException({
-              ...e,
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          if (e instanceof Error) {
-            return SdkError({
-              ...e,
-              name: "SdkError",
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          throw e;
-        },
-      });
-    const methodName = (command[0].toLowerCase() + command.slice(1)).replace(
-      /Command$/,
-      "",
-    );
-    return { ...acc, [methodName]: methodImpl };
-  }, {}) as ElastiCacheService$;
+  return Service.fromClientAndCommands<ElastiCacheService$>(client, commands, AllServiceErrors);
 });
 
 /**
@@ -1675,21 +1623,11 @@ export class ElastiCacheService extends Effect.Tag("@effect-aws/client-elasticac
   ElastiCacheService,
   ElastiCacheService$
 >() {
-  static readonly defaultLayer = Layer.effect(this, makeElastiCacheService).pipe(
-    Layer.provide(ElastiCacheClientInstanceLayer),
-    Layer.provide(DefaultElastiCacheClientConfigLayer),
-  );
-  static readonly layer = (config: ElastiCacheClientConfig) =>
+  static readonly defaultLayer = Layer.effect(this, makeElastiCacheService).pipe(Layer.provide(Instance.layer));
+  static readonly layer = (config: ElastiCacheService.Config) =>
     Layer.effect(this, makeElastiCacheService).pipe(
-      Layer.provide(ElastiCacheClientInstanceLayer),
-      Layer.provide(
-        Layer.effect(
-          ElastiCacheClientInstanceConfig,
-          makeDefaultElastiCacheClientInstanceConfig.pipe(
-            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
-          ),
-        ),
-      ),
+      Layer.provide(Instance.layer),
+      Layer.provide(ElastiCacheServiceConfig.setElastiCacheServiceConfig(config)),
     );
   static readonly baseLayer = (
     evaluate: (defaultConfig: ElastiCacheClientConfig) => ElastiCacheClient,
@@ -1697,8 +1635,8 @@ export class ElastiCacheService extends Effect.Tag("@effect-aws/client-elasticac
     Layer.effect(this, makeElastiCacheService).pipe(
       Layer.provide(
         Layer.effect(
-          ElastiCacheClientInstance,
-          Effect.map(makeDefaultElastiCacheClientInstanceConfig, evaluate),
+          Instance.ElastiCacheClientInstance,
+          Effect.map(ElastiCacheServiceConfig.toElastiCacheClientConfig, evaluate),
         ),
       ),
     );
@@ -1706,33 +1644,12 @@ export class ElastiCacheService extends Effect.Tag("@effect-aws/client-elasticac
 
 /**
  * @since 1.0.0
- * @category models
- * @alias ElastiCacheService
  */
-export const ElastiCache = ElastiCacheService;
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use ElastiCache.baseLayer instead
- */
-export const BaseElastiCacheServiceLayer = Layer.effect(
-  ElastiCacheService,
-  makeElastiCacheService,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use ElastiCache.layer instead
- */
-export const ElastiCacheServiceLayer = BaseElastiCacheServiceLayer.pipe(
-  Layer.provide(ElastiCacheClientInstanceLayer),
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use ElastiCache.defaultLayer instead
- */
-export const DefaultElastiCacheServiceLayer = ElastiCacheService.defaultLayer;
+export declare namespace ElastiCacheService {
+  /**
+   * @since 1.0.0
+   */
+  export interface Config extends Omit<ElastiCacheClientConfig, "logger"> {
+    readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
+  }
+}

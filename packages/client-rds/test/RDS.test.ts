@@ -6,7 +6,7 @@ import {
 } from "@aws-sdk/client-rds";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-rds/dist-cjs/runtimeConfig";
-import { RDS, SdkError } from "@effect-aws/client-rds";
+import { RDS, RDSServiceConfig, SdkError } from "@effect-aws/client-rds";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
@@ -35,9 +35,7 @@ describe("RDSClientImpl", () => {
 
     expect(result).toEqual(Exit.succeed({}));
     expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
-    expect(getRuntimeConfig).toHaveBeenCalledWith({
-      logger: expect.any(Object),
-    });
+    expect(getRuntimeConfig).toHaveBeenCalledWith({});
     expect(clientMock).toHaveReceivedCommandTimes(DescribeDBClustersCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(DescribeDBClustersCommand, args);
   });
@@ -51,7 +49,7 @@ describe("RDSClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provide(RDS.layer({ region: "eu-central-1" })),
+      Effect.provide(RDS.layer({ region: "eu-central-1", logger: true })),
       Effect.runPromiseExit,
     );
 
@@ -103,6 +101,7 @@ describe("RDSClientImpl", () => {
           (config) => new RDSClient({ ...config, region: "eu-central-1" }),
         ),
       ),
+      RDSServiceConfig.withRDSServiceConfig({ logger: true }),
       Effect.runPromiseExit,
     );
 

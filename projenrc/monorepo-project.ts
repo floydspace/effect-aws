@@ -46,6 +46,9 @@ export class MonorepoProject extends PnpmMonorepoProject {
       baseUrl: ".",
       checkJs: false,
       composite: true,
+      sourceMap: true,
+      inlineSourceMap: undefined,
+      inlineSources: undefined,
       declarationMap: true,
       downlevelIteration: true,
       emitDecoratorMetadata: true,
@@ -143,7 +146,6 @@ export class MonorepoProject extends PnpmMonorepoProject {
           fileName: "tsconfig.src.json",
           include: ["src"],
           compilerOptions: {
-            types: ["node"],
             outDir: "build/src",
             tsBuildInfoFile: ".tsbuildinfo/src.tsbuildinfo",
             rootDir: "src",
@@ -161,7 +163,7 @@ export class MonorepoProject extends PnpmMonorepoProject {
         subproject.tsconfigDev?.addExtends(this.tsconfigBase);
         subproject.tsconfigDev?.file.patch(
           JsonPatch.replace("/compilerOptions", {
-            types: ["node"],
+            types: ["../../vitest.d.ts"],
             tsBuildInfoFile: ".tsbuildinfo/test.tsbuildinfo",
             rootDir: "test",
             noEmit: true,
@@ -183,7 +185,6 @@ export class MonorepoProject extends PnpmMonorepoProject {
         const tsconfigEsm = new TypescriptConfig(subproject, {
           fileName: "tsconfig.esm.json",
           compilerOptions: {
-            types: ["node"],
             tsBuildInfoFile: ".tsbuildinfo/build.tsbuildinfo",
             outDir: "build/esm",
             declarationDir: "build/dts",

@@ -6,7 +6,8 @@ import type {
   ServiceQuotaExceededException,
   ValidationException,
 } from "@aws-sdk/client-opensearchserverless";
-import { Data } from "effect";
+import type { TaggedException } from "@effect-aws/commons";
+import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "ConflictException",
@@ -15,11 +16,7 @@ export const AllServiceErrors = [
   "ResourceNotFoundException",
   "ServiceQuotaExceededException",
   "ValidationException",
-];
-
-export type TaggedException<T extends { name: string }> = T & {
-  readonly _tag: T["name"];
-};
+] as const;
 
 export type ConflictError = TaggedException<ConflictException>;
 export type InternalServerError = TaggedException<InternalServerException>;
@@ -28,5 +25,5 @@ export type ResourceNotFoundError = TaggedException<ResourceNotFoundException>;
 export type ServiceQuotaExceededError = TaggedException<ServiceQuotaExceededException>;
 export type ValidationError = TaggedException<ValidationException>;
 
-export type SdkError = TaggedException<Error & { name: "SdkError" }>;
-export const SdkError = Data.tagged<SdkError>("SdkError");
+export type SdkError = CommonSdkError;
+export const SdkError = CommonSdkError;

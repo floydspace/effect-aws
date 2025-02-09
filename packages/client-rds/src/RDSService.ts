@@ -400,7 +400,6 @@ import {
   type PurchaseReservedDBInstancesOfferingCommandOutput,
   type RDSClient,
   type RDSClientConfig,
-  RDSServiceException,
   RebootDBClusterCommand,
   type RebootDBClusterCommandInput,
   type RebootDBClusterCommandOutput,
@@ -492,7 +491,9 @@ import {
   type SwitchoverReadReplicaCommandInput,
   type SwitchoverReadReplicaCommandOutput,
 } from "@aws-sdk/client-rds";
-import { Data, Effect, Layer, Record } from "effect";
+import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import { Service } from "@effect-aws/commons";
+import { Effect, Layer } from "effect";
 import type {
   AuthorizationAlreadyExistsFaultError,
   AuthorizationNotFoundFaultError,
@@ -635,30 +636,14 @@ import type {
   SubscriptionAlreadyExistFaultError,
   SubscriptionCategoryNotFoundFaultError,
   SubscriptionNotFoundFaultError,
-  TaggedException,
   TenantDatabaseAlreadyExistsFaultError,
   TenantDatabaseNotFoundFaultError,
   TenantDatabaseQuotaExceededFaultError,
   UnsupportedDBEngineVersionFaultError,
 } from "./Errors.js";
-import { AllServiceErrors, SdkError } from "./Errors.js";
-import { RDSClientInstance, RDSClientInstanceLayer } from "./RDSClientInstance.js";
-import {
-  DefaultRDSClientConfigLayer,
-  makeDefaultRDSClientInstanceConfig,
-  RDSClientInstanceConfig,
-} from "./RDSClientInstanceConfig.js";
-
-/**
- * @since 1.0.0
- */
-export interface HttpHandlerOptions {
-  /**
-   * The maximum time in milliseconds that the connection phase of a request
-   * may take before the connection attempt is abandoned.
-   */
-  requestTimeout?: number;
-}
+import { AllServiceErrors } from "./Errors.js";
+import * as Instance from "./RDSClientInstance.js";
+import * as RDSServiceConfig from "./RDSServiceConfig.js";
 
 const commands = {
   AddRoleToDBClusterCommand,
@@ -3096,47 +3081,10 @@ interface RDSService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeRDSService = Effect.gen(function*(_) {
-  const client = yield* _(RDSClientInstance);
+export const makeRDSService = Effect.gen(function*() {
+  const client = yield* Instance.RDSClientInstance;
 
-  return Record.toEntries(commands).reduce((acc, [command]) => {
-    const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options?: HttpHandlerOptions) =>
-      Effect.tryPromise({
-        try: (abortSignal) =>
-          client.send(new CommandCtor(args), {
-            ...(options ?? {}),
-            abortSignal,
-          }),
-        catch: (e) => {
-          if (e instanceof RDSServiceException && AllServiceErrors.includes(e.name)) {
-            const ServiceException = Data.tagged<
-              TaggedException<RDSServiceException>
-            >(e.name);
-
-            return ServiceException({
-              ...e,
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          if (e instanceof Error) {
-            return SdkError({
-              ...e,
-              name: "SdkError",
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          throw e;
-        },
-      });
-    const methodName = (command[0].toLowerCase() + command.slice(1)).replace(
-      /Command$/,
-      "",
-    );
-    return { ...acc, [methodName]: methodImpl };
-  }, {}) as RDSService$;
+  return Service.fromClientAndCommands<RDSService$>(client, commands, AllServiceErrors);
 });
 
 /**
@@ -3147,21 +3095,11 @@ export class RDSService extends Effect.Tag("@effect-aws/client-rds/RDSService")<
   RDSService,
   RDSService$
 >() {
-  static readonly defaultLayer = Layer.effect(this, makeRDSService).pipe(
-    Layer.provide(RDSClientInstanceLayer),
-    Layer.provide(DefaultRDSClientConfigLayer),
-  );
-  static readonly layer = (config: RDSClientConfig) =>
+  static readonly defaultLayer = Layer.effect(this, makeRDSService).pipe(Layer.provide(Instance.layer));
+  static readonly layer = (config: RDSService.Config) =>
     Layer.effect(this, makeRDSService).pipe(
-      Layer.provide(RDSClientInstanceLayer),
-      Layer.provide(
-        Layer.effect(
-          RDSClientInstanceConfig,
-          makeDefaultRDSClientInstanceConfig.pipe(
-            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
-          ),
-        ),
-      ),
+      Layer.provide(Instance.layer),
+      Layer.provide(RDSServiceConfig.setRDSServiceConfig(config)),
     );
   static readonly baseLayer = (
     evaluate: (defaultConfig: RDSClientConfig) => RDSClient,
@@ -3169,8 +3107,8 @@ export class RDSService extends Effect.Tag("@effect-aws/client-rds/RDSService")<
     Layer.effect(this, makeRDSService).pipe(
       Layer.provide(
         Layer.effect(
-          RDSClientInstance,
-          Effect.map(makeDefaultRDSClientInstanceConfig, evaluate),
+          Instance.RDSClientInstance,
+          Effect.map(RDSServiceConfig.toRDSClientConfig, evaluate),
         ),
       ),
     );
@@ -3178,33 +3116,12 @@ export class RDSService extends Effect.Tag("@effect-aws/client-rds/RDSService")<
 
 /**
  * @since 1.0.0
- * @category models
- * @alias RDSService
  */
-export const RDS = RDSService;
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use RDS.baseLayer instead
- */
-export const BaseRDSServiceLayer = Layer.effect(
-  RDSService,
-  makeRDSService,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use RDS.layer instead
- */
-export const RDSServiceLayer = BaseRDSServiceLayer.pipe(
-  Layer.provide(RDSClientInstanceLayer),
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use RDS.defaultLayer instead
- */
-export const DefaultRDSServiceLayer = RDSService.defaultLayer;
+export declare namespace RDSService {
+  /**
+   * @since 1.0.0
+   */
+  export interface Config extends Omit<RDSClientConfig, "logger"> {
+    readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
+  }
+}

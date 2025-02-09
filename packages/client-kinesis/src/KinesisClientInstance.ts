@@ -3,7 +3,7 @@
  */
 import { KinesisClient } from "@aws-sdk/client-kinesis";
 import { Context, Effect, Layer } from "effect";
-import { DefaultKinesisClientConfigLayer, KinesisClientInstanceConfig } from "./KinesisClientInstanceConfig.js";
+import * as KinesisServiceConfig from "./KinesisServiceConfig.js";
 
 /**
  * @since 1.0.0
@@ -17,8 +17,8 @@ export class KinesisClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeKinesisClientInstance = Effect.flatMap(
-  KinesisClientInstanceConfig,
+export const make = Effect.flatMap(
+  KinesisServiceConfig.toKinesisClientConfig,
   (config) =>
     Effect.acquireRelease(
       Effect.sync(() => new KinesisClient(config)),
@@ -30,15 +30,4 @@ export const makeKinesisClientInstance = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const KinesisClientInstanceLayer = Layer.scoped(
-  KinesisClientInstance,
-  makeKinesisClientInstance,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- */
-export const DefaultKinesisClientInstanceLayer = KinesisClientInstanceLayer.pipe(
-  Layer.provide(DefaultKinesisClientConfigLayer),
-);
+export const layer = Layer.scoped(KinesisClientInstance, make);

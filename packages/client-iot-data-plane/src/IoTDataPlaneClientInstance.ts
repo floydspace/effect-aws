@@ -3,10 +3,7 @@
  */
 import { IoTDataPlaneClient } from "@aws-sdk/client-iot-data-plane";
 import { Context, Effect, Layer } from "effect";
-import {
-  DefaultIoTDataPlaneClientConfigLayer,
-  IoTDataPlaneClientInstanceConfig,
-} from "./IoTDataPlaneClientInstanceConfig.js";
+import * as IoTDataPlaneServiceConfig from "./IoTDataPlaneServiceConfig.js";
 
 /**
  * @since 1.0.0
@@ -20,8 +17,8 @@ export class IoTDataPlaneClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeIoTDataPlaneClientInstance = Effect.flatMap(
-  IoTDataPlaneClientInstanceConfig,
+export const make = Effect.flatMap(
+  IoTDataPlaneServiceConfig.toIoTDataPlaneClientConfig,
   (config) =>
     Effect.acquireRelease(
       Effect.sync(() => new IoTDataPlaneClient(config)),
@@ -33,15 +30,4 @@ export const makeIoTDataPlaneClientInstance = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const IoTDataPlaneClientInstanceLayer = Layer.scoped(
-  IoTDataPlaneClientInstance,
-  makeIoTDataPlaneClientInstance,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- */
-export const DefaultIoTDataPlaneClientInstanceLayer = IoTDataPlaneClientInstanceLayer.pipe(
-  Layer.provide(DefaultIoTDataPlaneClientConfigLayer),
-);
+export const layer = Layer.scoped(IoTDataPlaneClientInstance, make);

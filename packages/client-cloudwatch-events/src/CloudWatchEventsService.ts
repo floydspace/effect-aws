@@ -10,7 +10,6 @@ import {
   type CancelReplayCommandOutput,
   type CloudWatchEventsClient,
   type CloudWatchEventsClientConfig,
-  CloudWatchEventsServiceException,
   CreateApiDestinationCommand,
   type CreateApiDestinationCommandInput,
   type CreateApiDestinationCommandOutput,
@@ -159,16 +158,11 @@ import {
   type UpdateConnectionCommandInput,
   type UpdateConnectionCommandOutput,
 } from "@aws-sdk/client-cloudwatch-events";
-import { Data, Effect, Layer, Record } from "effect";
-import {
-  CloudWatchEventsClientInstance,
-  CloudWatchEventsClientInstanceLayer,
-} from "./CloudWatchEventsClientInstance.js";
-import {
-  CloudWatchEventsClientInstanceConfig,
-  DefaultCloudWatchEventsClientConfigLayer,
-  makeDefaultCloudWatchEventsClientInstanceConfig,
-} from "./CloudWatchEventsClientInstanceConfig.js";
+import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import { Service } from "@effect-aws/commons";
+import { Effect, Layer } from "effect";
+import * as Instance from "./CloudWatchEventsClientInstance.js";
+import * as CloudWatchEventsServiceConfig from "./CloudWatchEventsServiceConfig.js";
 import type {
   ConcurrentModificationError,
   IllegalStatusError,
@@ -181,20 +175,8 @@ import type {
   PolicyLengthExceededError,
   ResourceAlreadyExistsError,
   ResourceNotFoundError,
-  TaggedException,
 } from "./Errors.js";
-import { AllServiceErrors, SdkError } from "./Errors.js";
-
-/**
- * @since 1.0.0
- */
-export interface HttpHandlerOptions {
-  /**
-   * The maximum time in milliseconds that the connection phase of a request
-   * may take before the connection attempt is abandoned.
-   */
-  requestTimeout?: number;
-}
+import { AllServiceErrors } from "./Errors.js";
 
 const commands = {
   ActivateEventSourceCommand,
@@ -873,47 +855,10 @@ interface CloudWatchEventsService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeCloudWatchEventsService = Effect.gen(function*(_) {
-  const client = yield* _(CloudWatchEventsClientInstance);
+export const makeCloudWatchEventsService = Effect.gen(function*() {
+  const client = yield* Instance.CloudWatchEventsClientInstance;
 
-  return Record.toEntries(commands).reduce((acc, [command]) => {
-    const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options?: HttpHandlerOptions) =>
-      Effect.tryPromise({
-        try: (abortSignal) =>
-          client.send(new CommandCtor(args), {
-            ...(options ?? {}),
-            abortSignal,
-          }),
-        catch: (e) => {
-          if (e instanceof CloudWatchEventsServiceException && AllServiceErrors.includes(e.name)) {
-            const ServiceException = Data.tagged<
-              TaggedException<CloudWatchEventsServiceException>
-            >(e.name);
-
-            return ServiceException({
-              ...e,
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          if (e instanceof Error) {
-            return SdkError({
-              ...e,
-              name: "SdkError",
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          throw e;
-        },
-      });
-    const methodName = (command[0].toLowerCase() + command.slice(1)).replace(
-      /Command$/,
-      "",
-    );
-    return { ...acc, [methodName]: methodImpl };
-  }, {}) as CloudWatchEventsService$;
+  return Service.fromClientAndCommands<CloudWatchEventsService$>(client, commands, AllServiceErrors);
 });
 
 /**
@@ -924,21 +869,11 @@ export class CloudWatchEventsService extends Effect.Tag("@effect-aws/client-clou
   CloudWatchEventsService,
   CloudWatchEventsService$
 >() {
-  static readonly defaultLayer = Layer.effect(this, makeCloudWatchEventsService).pipe(
-    Layer.provide(CloudWatchEventsClientInstanceLayer),
-    Layer.provide(DefaultCloudWatchEventsClientConfigLayer),
-  );
-  static readonly layer = (config: CloudWatchEventsClientConfig) =>
+  static readonly defaultLayer = Layer.effect(this, makeCloudWatchEventsService).pipe(Layer.provide(Instance.layer));
+  static readonly layer = (config: CloudWatchEventsService.Config) =>
     Layer.effect(this, makeCloudWatchEventsService).pipe(
-      Layer.provide(CloudWatchEventsClientInstanceLayer),
-      Layer.provide(
-        Layer.effect(
-          CloudWatchEventsClientInstanceConfig,
-          makeDefaultCloudWatchEventsClientInstanceConfig.pipe(
-            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
-          ),
-        ),
-      ),
+      Layer.provide(Instance.layer),
+      Layer.provide(CloudWatchEventsServiceConfig.setCloudWatchEventsServiceConfig(config)),
     );
   static readonly baseLayer = (
     evaluate: (defaultConfig: CloudWatchEventsClientConfig) => CloudWatchEventsClient,
@@ -946,8 +881,8 @@ export class CloudWatchEventsService extends Effect.Tag("@effect-aws/client-clou
     Layer.effect(this, makeCloudWatchEventsService).pipe(
       Layer.provide(
         Layer.effect(
-          CloudWatchEventsClientInstance,
-          Effect.map(makeDefaultCloudWatchEventsClientInstanceConfig, evaluate),
+          Instance.CloudWatchEventsClientInstance,
+          Effect.map(CloudWatchEventsServiceConfig.toCloudWatchEventsClientConfig, evaluate),
         ),
       ),
     );
@@ -955,33 +890,12 @@ export class CloudWatchEventsService extends Effect.Tag("@effect-aws/client-clou
 
 /**
  * @since 1.0.0
- * @category models
- * @alias CloudWatchEventsService
  */
-export const CloudWatchEvents = CloudWatchEventsService;
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use CloudWatchEvents.baseLayer instead
- */
-export const BaseCloudWatchEventsServiceLayer = Layer.effect(
-  CloudWatchEventsService,
-  makeCloudWatchEventsService,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use CloudWatchEvents.layer instead
- */
-export const CloudWatchEventsServiceLayer = BaseCloudWatchEventsServiceLayer.pipe(
-  Layer.provide(CloudWatchEventsClientInstanceLayer),
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use CloudWatchEvents.defaultLayer instead
- */
-export const DefaultCloudWatchEventsServiceLayer = CloudWatchEventsService.defaultLayer;
+export declare namespace CloudWatchEventsService {
+  /**
+   * @since 1.0.0
+   */
+  export interface Config extends Omit<CloudWatchEventsClientConfig, "logger"> {
+    readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
+  }
+}

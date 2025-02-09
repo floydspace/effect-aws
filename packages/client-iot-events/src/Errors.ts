@@ -9,7 +9,8 @@ import type {
   ThrottlingException,
   UnsupportedOperationException,
 } from "@aws-sdk/client-iot-events";
-import { Data } from "effect";
+import type { TaggedException } from "@effect-aws/commons";
+import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "InternalFailureException",
@@ -21,11 +22,7 @@ export const AllServiceErrors = [
   "ServiceUnavailableException",
   "ThrottlingException",
   "UnsupportedOperationException",
-];
-
-export type TaggedException<T extends { name: string }> = T & {
-  readonly _tag: T["name"];
-};
+] as const;
 
 export type InternalFailureError = TaggedException<InternalFailureException>;
 export type InvalidRequestError = TaggedException<InvalidRequestException>;
@@ -37,5 +34,5 @@ export type ServiceUnavailableError = TaggedException<ServiceUnavailableExceptio
 export type ThrottlingError = TaggedException<ThrottlingException>;
 export type UnsupportedOperationError = TaggedException<UnsupportedOperationException>;
 
-export type SdkError = TaggedException<Error & { name: "SdkError" }>;
-export const SdkError = Data.tagged<SdkError>("SdkError");
+export type SdkError = CommonSdkError;
+export const SdkError = CommonSdkError;

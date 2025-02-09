@@ -3,7 +3,7 @@
  */
 import { SFNClient } from "@aws-sdk/client-sfn";
 import { Context, Effect, Layer } from "effect";
-import { DefaultSFNClientConfigLayer, SFNClientInstanceConfig } from "./SFNClientInstanceConfig.js";
+import * as SFNServiceConfig from "./SFNServiceConfig.js";
 
 /**
  * @since 1.0.0
@@ -17,8 +17,8 @@ export class SFNClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeSFNClientInstance = Effect.flatMap(
-  SFNClientInstanceConfig,
+export const make = Effect.flatMap(
+  SFNServiceConfig.toSFNClientConfig,
   (config) =>
     Effect.acquireRelease(
       Effect.sync(() => new SFNClient(config)),
@@ -30,15 +30,4 @@ export const makeSFNClientInstance = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const SFNClientInstanceLayer = Layer.scoped(
-  SFNClientInstance,
-  makeSFNClientInstance,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- */
-export const DefaultSFNClientInstanceLayer = SFNClientInstanceLayer.pipe(
-  Layer.provide(DefaultSFNClientConfigLayer),
-);
+export const layer = Layer.scoped(SFNClientInstance, make);

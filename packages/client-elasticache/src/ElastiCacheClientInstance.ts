@@ -3,10 +3,7 @@
  */
 import { ElastiCacheClient } from "@aws-sdk/client-elasticache";
 import { Context, Effect, Layer } from "effect";
-import {
-  DefaultElastiCacheClientConfigLayer,
-  ElastiCacheClientInstanceConfig,
-} from "./ElastiCacheClientInstanceConfig.js";
+import * as ElastiCacheServiceConfig from "./ElastiCacheServiceConfig.js";
 
 /**
  * @since 1.0.0
@@ -20,8 +17,8 @@ export class ElastiCacheClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeElastiCacheClientInstance = Effect.flatMap(
-  ElastiCacheClientInstanceConfig,
+export const make = Effect.flatMap(
+  ElastiCacheServiceConfig.toElastiCacheClientConfig,
   (config) =>
     Effect.acquireRelease(
       Effect.sync(() => new ElastiCacheClient(config)),
@@ -33,15 +30,4 @@ export const makeElastiCacheClientInstance = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const ElastiCacheClientInstanceLayer = Layer.scoped(
-  ElastiCacheClientInstance,
-  makeElastiCacheClientInstance,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- */
-export const DefaultElastiCacheClientInstanceLayer = ElastiCacheClientInstanceLayer.pipe(
-  Layer.provide(DefaultElastiCacheClientConfigLayer),
-);
+export const layer = Layer.scoped(ElastiCacheClientInstance, make);

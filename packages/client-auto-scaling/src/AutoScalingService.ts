@@ -16,7 +16,6 @@ import {
   type AttachTrafficSourcesCommandOutput,
   type AutoScalingClient,
   type AutoScalingClientConfig,
-  AutoScalingServiceException,
   BatchDeleteScheduledActionCommand,
   type BatchDeleteScheduledActionCommandInput,
   type BatchDeleteScheduledActionCommandOutput,
@@ -201,13 +200,11 @@ import {
   type UpdateAutoScalingGroupCommandInput,
   type UpdateAutoScalingGroupCommandOutput,
 } from "@aws-sdk/client-auto-scaling";
-import { Data, Effect, Layer, Record } from "effect";
-import { AutoScalingClientInstance, AutoScalingClientInstanceLayer } from "./AutoScalingClientInstance.js";
-import {
-  AutoScalingClientInstanceConfig,
-  DefaultAutoScalingClientConfigLayer,
-  makeDefaultAutoScalingClientInstanceConfig,
-} from "./AutoScalingClientInstanceConfig.js";
+import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import { Service } from "@effect-aws/commons";
+import { Effect, Layer } from "effect";
+import * as Instance from "./AutoScalingClientInstance.js";
+import * as AutoScalingServiceConfig from "./AutoScalingServiceConfig.js";
 import type {
   ActiveInstanceRefreshNotFoundFaultError,
   AlreadyExistsFaultError,
@@ -219,20 +216,8 @@ import type {
   ResourceInUseFaultError,
   ScalingActivityInProgressFaultError,
   ServiceLinkedRoleError,
-  TaggedException,
 } from "./Errors.js";
-import { AllServiceErrors, SdkError } from "./Errors.js";
-
-/**
- * @since 1.0.0
- */
-export interface HttpHandlerOptions {
-  /**
-   * The maximum time in milliseconds that the connection phase of a request
-   * may take before the connection attempt is abandoned.
-   */
-  requestTimeout?: number;
-}
+import { AllServiceErrors } from "./Errors.js";
 
 const commands = {
   AttachInstancesCommand,
@@ -1037,47 +1022,10 @@ interface AutoScalingService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeAutoScalingService = Effect.gen(function*(_) {
-  const client = yield* _(AutoScalingClientInstance);
+export const makeAutoScalingService = Effect.gen(function*() {
+  const client = yield* Instance.AutoScalingClientInstance;
 
-  return Record.toEntries(commands).reduce((acc, [command]) => {
-    const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options?: HttpHandlerOptions) =>
-      Effect.tryPromise({
-        try: (abortSignal) =>
-          client.send(new CommandCtor(args), {
-            ...(options ?? {}),
-            abortSignal,
-          }),
-        catch: (e) => {
-          if (e instanceof AutoScalingServiceException && AllServiceErrors.includes(e.name)) {
-            const ServiceException = Data.tagged<
-              TaggedException<AutoScalingServiceException>
-            >(e.name);
-
-            return ServiceException({
-              ...e,
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          if (e instanceof Error) {
-            return SdkError({
-              ...e,
-              name: "SdkError",
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          throw e;
-        },
-      });
-    const methodName = (command[0].toLowerCase() + command.slice(1)).replace(
-      /Command$/,
-      "",
-    );
-    return { ...acc, [methodName]: methodImpl };
-  }, {}) as AutoScalingService$;
+  return Service.fromClientAndCommands<AutoScalingService$>(client, commands, AllServiceErrors);
 });
 
 /**
@@ -1088,21 +1036,11 @@ export class AutoScalingService extends Effect.Tag("@effect-aws/client-auto-scal
   AutoScalingService,
   AutoScalingService$
 >() {
-  static readonly defaultLayer = Layer.effect(this, makeAutoScalingService).pipe(
-    Layer.provide(AutoScalingClientInstanceLayer),
-    Layer.provide(DefaultAutoScalingClientConfigLayer),
-  );
-  static readonly layer = (config: AutoScalingClientConfig) =>
+  static readonly defaultLayer = Layer.effect(this, makeAutoScalingService).pipe(Layer.provide(Instance.layer));
+  static readonly layer = (config: AutoScalingService.Config) =>
     Layer.effect(this, makeAutoScalingService).pipe(
-      Layer.provide(AutoScalingClientInstanceLayer),
-      Layer.provide(
-        Layer.effect(
-          AutoScalingClientInstanceConfig,
-          makeDefaultAutoScalingClientInstanceConfig.pipe(
-            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
-          ),
-        ),
-      ),
+      Layer.provide(Instance.layer),
+      Layer.provide(AutoScalingServiceConfig.setAutoScalingServiceConfig(config)),
     );
   static readonly baseLayer = (
     evaluate: (defaultConfig: AutoScalingClientConfig) => AutoScalingClient,
@@ -1110,8 +1048,8 @@ export class AutoScalingService extends Effect.Tag("@effect-aws/client-auto-scal
     Layer.effect(this, makeAutoScalingService).pipe(
       Layer.provide(
         Layer.effect(
-          AutoScalingClientInstance,
-          Effect.map(makeDefaultAutoScalingClientInstanceConfig, evaluate),
+          Instance.AutoScalingClientInstance,
+          Effect.map(AutoScalingServiceConfig.toAutoScalingClientConfig, evaluate),
         ),
       ),
     );
@@ -1119,33 +1057,12 @@ export class AutoScalingService extends Effect.Tag("@effect-aws/client-auto-scal
 
 /**
  * @since 1.0.0
- * @category models
- * @alias AutoScalingService
  */
-export const AutoScaling = AutoScalingService;
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use AutoScaling.baseLayer instead
- */
-export const BaseAutoScalingServiceLayer = Layer.effect(
-  AutoScalingService,
-  makeAutoScalingService,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use AutoScaling.layer instead
- */
-export const AutoScalingServiceLayer = BaseAutoScalingServiceLayer.pipe(
-  Layer.provide(AutoScalingClientInstanceLayer),
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use AutoScaling.defaultLayer instead
- */
-export const DefaultAutoScalingServiceLayer = AutoScalingService.defaultLayer;
+export declare namespace AutoScalingService {
+  /**
+   * @since 1.0.0
+   */
+  export interface Config extends Omit<AutoScalingClientConfig, "logger"> {
+    readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
+  }
+}

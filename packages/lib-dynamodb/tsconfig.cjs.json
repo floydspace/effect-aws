@@ -8,6 +8,9 @@
   },
   "references": [
     {
+      "path": "../commons/tsconfig.cjs.json"
+    },
+    {
       "path": "../client-dynamodb/tsconfig.cjs.json"
     }
   ]

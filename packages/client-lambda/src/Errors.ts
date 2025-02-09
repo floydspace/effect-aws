@@ -38,7 +38,8 @@ import type {
   TooManyRequestsException,
   UnsupportedMediaTypeException,
 } from "@aws-sdk/client-lambda";
-import { Data } from "effect";
+import type { TaggedException } from "@effect-aws/commons";
+import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "CodeSigningConfigNotFoundException",
@@ -79,11 +80,7 @@ export const AllServiceErrors = [
   "SubnetIPAddressLimitReachedException",
   "TooManyRequestsException",
   "UnsupportedMediaTypeException",
-];
-
-export type TaggedException<T extends { name: string }> = T & {
-  readonly _tag: T["name"];
-};
+] as const;
 
 export type CodeSigningConfigNotFoundError = TaggedException<CodeSigningConfigNotFoundException>;
 export type CodeStorageExceededError = TaggedException<CodeStorageExceededException>;
@@ -124,5 +121,5 @@ export type SubnetIPAddressLimitReachedError = TaggedException<SubnetIPAddressLi
 export type TooManyRequestsError = TaggedException<TooManyRequestsException>;
 export type UnsupportedMediaTypeError = TaggedException<UnsupportedMediaTypeException>;
 
-export type SdkError = TaggedException<Error & { name: "SdkError" }>;
-export const SdkError = Data.tagged<SdkError>("SdkError");
+export type SdkError = CommonSdkError;
+export const SdkError = CommonSdkError;

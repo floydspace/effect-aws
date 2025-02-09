@@ -6,7 +6,7 @@ import {
 } from "@aws-sdk/client-iot-events";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-iot-events/dist-cjs/runtimeConfig";
-import { IoTEvents, SdkError } from "@effect-aws/client-iot-events";
+import { IoTEvents, IoTEventsServiceConfig, SdkError } from "@effect-aws/client-iot-events";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
@@ -35,9 +35,7 @@ describe("IoTEventsClientImpl", () => {
 
     expect(result).toEqual(Exit.succeed({}));
     expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
-    expect(getRuntimeConfig).toHaveBeenCalledWith({
-      logger: expect.any(Object),
-    });
+    expect(getRuntimeConfig).toHaveBeenCalledWith({});
     expect(clientMock).toHaveReceivedCommandTimes(ListInputsCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(ListInputsCommand, args);
   });
@@ -51,7 +49,7 @@ describe("IoTEventsClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provide(IoTEvents.layer({ region: "eu-central-1" })),
+      Effect.provide(IoTEvents.layer({ region: "eu-central-1", logger: true })),
       Effect.runPromiseExit,
     );
 
@@ -103,6 +101,7 @@ describe("IoTEventsClientImpl", () => {
           (config) => new IoTEventsClient({ ...config, region: "eu-central-1" }),
         ),
       ),
+      IoTEventsServiceConfig.withIoTEventsServiceConfig({ logger: true }),
       Effect.runPromiseExit,
     );
 

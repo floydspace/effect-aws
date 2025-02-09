@@ -6,7 +6,7 @@ import {
 } from "@aws-sdk/client-elasticache";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-elasticache/dist-cjs/runtimeConfig";
-import { ElastiCache, SdkError } from "@effect-aws/client-elasticache";
+import { ElastiCache, ElastiCacheServiceConfig, SdkError } from "@effect-aws/client-elasticache";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
@@ -35,9 +35,7 @@ describe("ElastiCacheClientImpl", () => {
 
     expect(result).toEqual(Exit.succeed({}));
     expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
-    expect(getRuntimeConfig).toHaveBeenCalledWith({
-      logger: expect.any(Object),
-    });
+    expect(getRuntimeConfig).toHaveBeenCalledWith({});
     expect(clientMock).toHaveReceivedCommandTimes(ListTagsForResourceCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(ListTagsForResourceCommand, args);
   });
@@ -51,7 +49,7 @@ describe("ElastiCacheClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provide(ElastiCache.layer({ region: "eu-central-1" })),
+      Effect.provide(ElastiCache.layer({ region: "eu-central-1", logger: true })),
       Effect.runPromiseExit,
     );
 
@@ -103,6 +101,7 @@ describe("ElastiCacheClientImpl", () => {
           (config) => new ElastiCacheClient({ ...config, region: "eu-central-1" }),
         ),
       ),
+      ElastiCacheServiceConfig.withElastiCacheServiceConfig({ logger: true }),
       Effect.runPromiseExit,
     );
 

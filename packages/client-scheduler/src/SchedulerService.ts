@@ -31,7 +31,6 @@ import {
   type ListTagsForResourceCommandOutput,
   type SchedulerClient,
   type SchedulerClientConfig,
-  SchedulerServiceException,
   TagResourceCommand,
   type TagResourceCommandInput,
   type TagResourceCommandOutput,
@@ -42,34 +41,20 @@ import {
   type UpdateScheduleCommandInput,
   type UpdateScheduleCommandOutput,
 } from "@aws-sdk/client-scheduler";
-import { Data, Effect, Layer, Record } from "effect";
-import { AllServiceErrors, SdkError } from "./Errors.js";
+import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import { Service } from "@effect-aws/commons";
+import { Effect, Layer } from "effect";
 import type {
   ConflictError,
   InternalServerError,
   ResourceNotFoundError,
   ServiceQuotaExceededError,
-  TaggedException,
   ThrottlingError,
   ValidationError,
 } from "./Errors.js";
-import { SchedulerClientInstance, SchedulerClientInstanceLayer } from "./SchedulerClientInstance.js";
-import {
-  DefaultSchedulerClientConfigLayer,
-  makeDefaultSchedulerClientInstanceConfig,
-  SchedulerClientInstanceConfig,
-} from "./SchedulerClientInstanceConfig.js";
-
-/**
- * @since 1.0.0
- */
-export interface HttpHandlerOptions {
-  /**
-   * The maximum time in milliseconds that the connection phase of a request
-   * may take before the connection attempt is abandoned.
-   */
-  requestTimeout?: number;
-}
+import { AllServiceErrors } from "./Errors.js";
+import * as Instance from "./SchedulerClientInstance.js";
+import * as SchedulerServiceConfig from "./SchedulerServiceConfig.js";
 
 const commands = {
   CreateScheduleCommand,
@@ -232,47 +217,10 @@ interface SchedulerService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeSchedulerService = Effect.gen(function*(_) {
-  const client = yield* _(SchedulerClientInstance);
+export const makeSchedulerService = Effect.gen(function*() {
+  const client = yield* Instance.SchedulerClientInstance;
 
-  return Record.toEntries(commands).reduce((acc, [command]) => {
-    const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options?: HttpHandlerOptions) =>
-      Effect.tryPromise({
-        try: (abortSignal) =>
-          client.send(new CommandCtor(args), {
-            ...(options ?? {}),
-            abortSignal,
-          }),
-        catch: (e) => {
-          if (e instanceof SchedulerServiceException && AllServiceErrors.includes(e.name)) {
-            const ServiceException = Data.tagged<
-              TaggedException<SchedulerServiceException>
-            >(e.name);
-
-            return ServiceException({
-              ...e,
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          if (e instanceof Error) {
-            return SdkError({
-              ...e,
-              name: "SdkError",
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          throw e;
-        },
-      });
-    const methodName = (command[0].toLowerCase() + command.slice(1)).replace(
-      /Command$/,
-      "",
-    );
-    return { ...acc, [methodName]: methodImpl };
-  }, {}) as SchedulerService$;
+  return Service.fromClientAndCommands<SchedulerService$>(client, commands, AllServiceErrors);
 });
 
 /**
@@ -283,21 +231,11 @@ export class SchedulerService extends Effect.Tag("@effect-aws/client-scheduler/S
   SchedulerService,
   SchedulerService$
 >() {
-  static readonly defaultLayer = Layer.effect(this, makeSchedulerService).pipe(
-    Layer.provide(SchedulerClientInstanceLayer),
-    Layer.provide(DefaultSchedulerClientConfigLayer),
-  );
-  static readonly layer = (config: SchedulerClientConfig) =>
+  static readonly defaultLayer = Layer.effect(this, makeSchedulerService).pipe(Layer.provide(Instance.layer));
+  static readonly layer = (config: SchedulerService.Config) =>
     Layer.effect(this, makeSchedulerService).pipe(
-      Layer.provide(SchedulerClientInstanceLayer),
-      Layer.provide(
-        Layer.effect(
-          SchedulerClientInstanceConfig,
-          makeDefaultSchedulerClientInstanceConfig.pipe(
-            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
-          ),
-        ),
-      ),
+      Layer.provide(Instance.layer),
+      Layer.provide(SchedulerServiceConfig.setSchedulerServiceConfig(config)),
     );
   static readonly baseLayer = (
     evaluate: (defaultConfig: SchedulerClientConfig) => SchedulerClient,
@@ -305,8 +243,8 @@ export class SchedulerService extends Effect.Tag("@effect-aws/client-scheduler/S
     Layer.effect(this, makeSchedulerService).pipe(
       Layer.provide(
         Layer.effect(
-          SchedulerClientInstance,
-          Effect.map(makeDefaultSchedulerClientInstanceConfig, evaluate),
+          Instance.SchedulerClientInstance,
+          Effect.map(SchedulerServiceConfig.toSchedulerClientConfig, evaluate),
         ),
       ),
     );
@@ -314,33 +252,12 @@ export class SchedulerService extends Effect.Tag("@effect-aws/client-scheduler/S
 
 /**
  * @since 1.0.0
- * @category models
- * @alias SchedulerService
  */
-export const Scheduler = SchedulerService;
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use Scheduler.baseLayer instead
- */
-export const BaseSchedulerServiceLayer = Layer.effect(
-  SchedulerService,
-  makeSchedulerService,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use Scheduler.layer instead
- */
-export const SchedulerServiceLayer = BaseSchedulerServiceLayer.pipe(
-  Layer.provide(SchedulerClientInstanceLayer),
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use Scheduler.defaultLayer instead
- */
-export const DefaultSchedulerServiceLayer = SchedulerService.defaultLayer;
+export declare namespace SchedulerService {
+  /**
+   * @since 1.0.0
+   */
+  export interface Config extends Omit<SchedulerClientConfig, "logger"> {
+    readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
+  }
+}

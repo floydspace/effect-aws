@@ -18,6 +18,7 @@ const config: UserConfig = {
     setupFiles: [path.join(__dirname, "vitest.setup.ts")],
     include: ["test/**/*.test.ts"],
     alias: {
+      ...alias("commons"),
       ...alias("powertools-logger"),
       ...alias("client-api-gateway-management-api"),
       ...alias("client-codedeploy"),

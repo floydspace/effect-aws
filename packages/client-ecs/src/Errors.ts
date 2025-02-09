@@ -26,7 +26,8 @@ import type {
   UnsupportedFeatureException,
   UpdateInProgressException,
 } from "@aws-sdk/client-ecs";
-import { Data } from "effect";
+import type { TaggedException } from "@effect-aws/commons";
+import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "AccessDeniedException",
@@ -55,11 +56,7 @@ export const AllServiceErrors = [
   "TaskSetNotFoundException",
   "UnsupportedFeatureException",
   "UpdateInProgressException",
-];
-
-export type TaggedException<T extends { name: string }> = T & {
-  readonly _tag: T["name"];
-};
+] as const;
 
 export type AccessDeniedError = TaggedException<AccessDeniedException>;
 export type AttributeLimitExceededError = TaggedException<AttributeLimitExceededException>;
@@ -90,5 +87,5 @@ export type TaskSetNotFoundError = TaggedException<TaskSetNotFoundException>;
 export type UnsupportedFeatureError = TaggedException<UnsupportedFeatureException>;
 export type UpdateInProgressError = TaggedException<UpdateInProgressException>;
 
-export type SdkError = TaggedException<Error & { name: "SdkError" }>;
-export const SdkError = Data.tagged<SdkError>("SdkError");
+export type SdkError = CommonSdkError;
+export const SdkError = CommonSdkError;
