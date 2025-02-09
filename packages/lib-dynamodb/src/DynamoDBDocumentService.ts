@@ -2,7 +2,6 @@
  * @since 1.0.0
  */
 import type { DynamoDBClientConfig } from "@aws-sdk/client-dynamodb";
-import { DynamoDBServiceException } from "@aws-sdk/client-dynamodb";
 import type {
   BatchExecuteStatementCommandInput,
   BatchExecuteStatementCommandOutput,
@@ -58,33 +57,16 @@ import type {
   ProvisionedThroughputExceededError,
   RequestLimitExceededError,
   ResourceNotFoundError,
+  SdkError,
   TransactionCanceledError,
   TransactionConflictError,
   TransactionInProgressError,
 } from "@effect-aws/client-dynamodb";
-import { DynamoDBServiceConfig, SdkError } from "@effect-aws/client-dynamodb";
-import type { TaggedException } from "@effect-aws/commons";
-import { Data, Effect, Layer, Record } from "effect";
-import {
-  DynamoDBDocumentClientInstance,
-  DynamoDBDocumentClientInstanceLayer,
-} from "./DynamoDBDocumentClientInstance.js";
-import {
-  DefaultDynamoDBDocumentClientConfigLayer,
-  DynamoDBDocumentClientInstanceConfig,
-  makeDefaultDynamoDBDocumentClientInstanceConfig,
-} from "./DynamoDBDocumentClientInstanceConfig.js";
-
-/**
- * @since 1.3.1
- */
-export interface HttpHandlerOptions {
-  /**
-   * The maximum time in milliseconds that the connection phase of a request
-   * may take before the connection attempt is abandoned.
-   */
-  requestTimeout?: number;
-}
+import { DynamoDBServiceConfig } from "@effect-aws/client-dynamodb";
+import { type HttpHandlerOptions, Service } from "@effect-aws/commons";
+import { Effect, Layer } from "effect";
+import * as Instance from "./DynamoDBDocumentClientInstance.js";
+import * as DynamoDBDocumentServiceConfig from "./DynamoDBDocumentServiceConfig.js";
 
 const commands = {
   BatchExecuteStatementCommand,
@@ -333,46 +315,9 @@ interface DynamoDBDocumentService$ {
  * @category constructors
  */
 export const makeDynamoDBDocumentService = Effect.gen(function*() {
-  const client = yield* DynamoDBDocumentClientInstance;
+  const client = yield* Instance.DynamoDBDocumentClientInstance;
 
-  return Record.toEntries(commands).reduce((acc, [command]) => {
-    const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options?: HttpHandlerOptions) =>
-      Effect.tryPromise({
-        try: (abortSignal) =>
-          client.send(new CommandCtor(args), {
-            ...(options ?? {}),
-            abortSignal,
-          }),
-        catch: (e) => {
-          if (e instanceof DynamoDBServiceException) {
-            const ServiceException = Data.tagged<
-              TaggedException<DynamoDBServiceException>
-            >(e.name);
-
-            return ServiceException({
-              ...e,
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          if (e instanceof Error) {
-            return SdkError({
-              ...e,
-              name: "SdkError",
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          throw e;
-        },
-      });
-    const methodName = (command[0].toLowerCase() + command.slice(1)).replace(
-      /Command$/,
-      "",
-    );
-    return { ...acc, [methodName]: methodImpl };
-  }, {}) as DynamoDBDocumentService$;
+  return Service.fromClientAndCommands<DynamoDBDocumentService$>(client, commands);
 });
 
 /**
@@ -382,24 +327,11 @@ export const makeDynamoDBDocumentService = Effect.gen(function*() {
 export class DynamoDBDocumentService extends Effect.Tag(
   "@effect-aws/lib-dynamodb/DynamoDBDocumentService",
 )<DynamoDBDocumentService, DynamoDBDocumentService$>() {
-  static readonly defaultLayer = Layer.effect(
-    this,
-    makeDynamoDBDocumentService,
-  ).pipe(
-    Layer.provide(DynamoDBDocumentClientInstanceLayer),
-    Layer.provide(DefaultDynamoDBDocumentClientConfigLayer),
-  );
-  static readonly layer = (config: TranslateConfig) =>
+  static readonly defaultLayer = Layer.effect(this, makeDynamoDBDocumentService).pipe(Layer.provide(Instance.layer));
+  static readonly layer = (config: DynamoDBDocumentService.Config) =>
     Layer.effect(this, makeDynamoDBDocumentService).pipe(
-      Layer.provide(DynamoDBDocumentClientInstanceLayer),
-      Layer.provide(
-        Layer.effect(
-          DynamoDBDocumentClientInstanceConfig,
-          makeDefaultDynamoDBDocumentClientInstanceConfig.pipe(
-            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
-          ),
-        ),
-      ),
+      Layer.provide(Instance.layer),
+      Layer.provide(DynamoDBDocumentServiceConfig.setDynamoDBDocumentServiceConfig(config)),
     );
   static readonly baseLayer = (
     evaluate: (defaultConfig: DynamoDBClientConfig) => DynamoDBDocumentClient,
@@ -407,7 +339,7 @@ export class DynamoDBDocumentService extends Effect.Tag(
     Layer.effect(this, makeDynamoDBDocumentService).pipe(
       Layer.provide(
         Layer.effect(
-          DynamoDBDocumentClientInstance,
+          Instance.DynamoDBDocumentClientInstance,
           Effect.map(DynamoDBServiceConfig.toDynamoDBClientConfig, evaluate),
         ),
       ),
@@ -416,33 +348,10 @@ export class DynamoDBDocumentService extends Effect.Tag(
 
 /**
  * @since 1.0.0
- * @category models
- * @alias DynamoDBDocumentService
  */
-export const DynamoDBDocument = DynamoDBDocumentService;
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use DynamoDBDocument.baseLayer instead
- */
-export const BaseDynamoDBDocumentServiceLayer = Layer.effect(
-  DynamoDBDocumentService,
-  makeDynamoDBDocumentService,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use DynamoDBDocument.layer instead
- */
-export const DynamoDBDocumentServiceLayer = BaseDynamoDBDocumentServiceLayer.pipe(
-  Layer.provide(DynamoDBDocumentClientInstanceLayer),
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use DynamoDBDocument.defaultLayer instead
- */
-export const DefaultDynamoDBDocumentServiceLayer = DynamoDBDocumentService.defaultLayer;
+export declare namespace DynamoDBDocumentService {
+  /**
+   * @since 1.0.0
+   */
+  export type Config = TranslateConfig;
+}

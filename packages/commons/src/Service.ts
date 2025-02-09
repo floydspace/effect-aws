@@ -9,7 +9,7 @@ import type { TaggedException } from "./Errors.js";
 import { SdkError } from "./Errors.js";
 import type { HttpHandlerOptions } from "./Types.js";
 
-type CommandCtor = new<I>(input: I) => CommandImpl<I, any, any>;
+type CommandCtor<I> = new(input: I) => CommandImpl<I, any, any>;
 
 /**
  * @since 0.1.0
@@ -33,7 +33,7 @@ export const catchServiceExceptions = (errorTags?: Array.NonEmptyReadonlyArray<s
  */
 export const makeServiceFn = (
   client: Client<any, any, any>,
-  CommandCtor: CommandCtor,
+  CommandCtor: CommandCtor<any>,
   errorTags?: Array.NonEmptyReadonlyArray<string>,
 ) => {
   return (args: any, options?: HttpHandlerOptions) =>
@@ -48,8 +48,8 @@ export const makeServiceFn = (
  * @category constructors
  */
 export const fromCommandsAndServiceFn = <Service>(
-  commands: Record<string, CommandCtor>,
-  serviceFnMaker: (CommandCtor: CommandCtor) => ReturnType<typeof makeServiceFn>,
+  commands: Record<string, CommandCtor<any>>,
+  serviceFnMaker: (CommandCtor: CommandCtor<any>) => ReturnType<typeof makeServiceFn>,
 ): Service =>
   Record.mapEntries(commands, (CommandCtor, command) => {
     const serviceFnName = String.uncapitalize(command).replace(/Command$/, "");
@@ -62,6 +62,6 @@ export const fromCommandsAndServiceFn = <Service>(
  */
 export const fromClientAndCommands = <Service>(
   client: Client<any, any, any>,
-  commands: Record<string, CommandCtor>,
+  commands: Record<string, CommandCtor<any>>,
   errorTags?: Array.NonEmptyReadonlyArray<string>,
 ): Service => fromCommandsAndServiceFn(commands, (CommandCtor) => makeServiceFn(client, CommandCtor, errorTags));

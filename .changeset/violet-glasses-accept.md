@@ -26,6 +26,7 @@
 "@effect-aws/client-bedrock": minor
 "@effect-aws/client-kinesis": minor
 "@effect-aws/client-lambda": minor
+"@effect-aws/lib-dynamodb": minor
 "@effect-aws/client-ec2": minor
 "@effect-aws/client-ecr": minor
 "@effect-aws/client-ecs": minor
