@@ -30,6 +30,7 @@
     },
     {
       "name": "@effect-aws/client-dynamodb",
+      "version": "workspace:^",
       "type": "peer"
     },
     {

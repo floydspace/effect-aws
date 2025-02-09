@@ -64,7 +64,7 @@ export class TypeScriptLibProject extends typescript.TypeScriptProject {
 
     if (workspacePeerDeps?.length) {
       LinkableProject.ensure(this).addImplicitDependency(...workspacePeerDeps);
-      this.addPeerDeps(...workspacePeerDeps.map((dep) => dep.package.packageName));
+      this.addPeerDeps(...workspacePeerDeps.map((dep) => `${dep.package.packageName}@workspace:^`));
       this.addDevDeps(...workspacePeerDeps.map((dep) => `${dep.package.packageName}@workspace:^`));
     }
 

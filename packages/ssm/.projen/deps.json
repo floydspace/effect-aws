@@ -31,6 +31,7 @@
     },
     {
       "name": "@effect-aws/client-ssm",
+      "version": "workspace:^",
       "type": "peer"
     },
     {

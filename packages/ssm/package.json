@@ -33,7 +33,7 @@
     "typescript": "^5.4.2"
   },
   "peerDependencies": {
-    "@effect-aws/client-ssm": "^1.0.0",
+    "@effect-aws/client-ssm": "workspace:^",
     "effect": ">=3.0.4 <4.0.0"
   },
   "main": "build/cjs/index.js",

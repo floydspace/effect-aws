@@ -33,7 +33,7 @@
     "typescript": "^5.4.2"
   },
   "peerDependencies": {
-    "@effect-aws/client-dynamodb": "^1.0.0",
+    "@effect-aws/client-dynamodb": "workspace:^",
     "effect": ">=3.0.4 <4.0.0"
   },
   "dependencies": {
