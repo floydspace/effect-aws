@@ -7,8 +7,6 @@
     "declaration": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
-    "inlineSourceMap": true,
-    "inlineSources": true,
     "lib": [
       "ES2022",
       "DOM",
@@ -31,6 +29,7 @@
     "baseUrl": ".",
     "checkJs": false,
     "composite": true,
+    "sourceMap": true,
     "declarationMap": true,
     "downlevelIteration": true,
     "emitDecoratorMetadata": true,
