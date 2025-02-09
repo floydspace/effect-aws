@@ -6,7 +6,7 @@ import {
 } from "@aws-sdk/client-iot-jobs-data-plane";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-iot-jobs-data-plane/dist-cjs/runtimeConfig";
-import { IoTJobsDataPlane, SdkError } from "@effect-aws/client-iot-jobs-data-plane";
+import { IoTJobsDataPlane, IoTJobsDataPlaneServiceConfig, SdkError } from "@effect-aws/client-iot-jobs-data-plane";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
@@ -35,9 +35,7 @@ describe("IoTJobsDataPlaneClientImpl", () => {
 
     expect(result).toEqual(Exit.succeed({}));
     expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
-    expect(getRuntimeConfig).toHaveBeenCalledWith({
-      logger: expect.any(Object),
-    });
+    expect(getRuntimeConfig).toHaveBeenCalledWith({});
     expect(clientMock).toHaveReceivedCommandTimes(StartCommandExecutionCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(StartCommandExecutionCommand, args);
   });
@@ -51,7 +49,7 @@ describe("IoTJobsDataPlaneClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provide(IoTJobsDataPlane.layer({ region: "eu-central-1" })),
+      Effect.provide(IoTJobsDataPlane.layer({ region: "eu-central-1", logger: true })),
       Effect.runPromiseExit,
     );
 
@@ -103,6 +101,7 @@ describe("IoTJobsDataPlaneClientImpl", () => {
           (config) => new IoTJobsDataPlaneClient({ ...config, region: "eu-central-1" }),
         ),
       ),
+      IoTJobsDataPlaneServiceConfig.withIoTJobsDataPlaneServiceConfig({ logger: true }),
       Effect.runPromiseExit,
     );
 

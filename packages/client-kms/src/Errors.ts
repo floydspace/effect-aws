@@ -48,7 +48,8 @@ import type {
   XksProxyVpcEndpointServiceInvalidConfigurationException,
   XksProxyVpcEndpointServiceNotFoundException,
 } from "@aws-sdk/client-kms";
-import { Data } from "effect";
+import type { TaggedException } from "@effect-aws/commons";
+import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "AlreadyExistsException",
@@ -99,11 +100,7 @@ export const AllServiceErrors = [
   "XksProxyVpcEndpointServiceInUseException",
   "XksProxyVpcEndpointServiceInvalidConfigurationException",
   "XksProxyVpcEndpointServiceNotFoundException",
-];
-
-export type TaggedException<T extends { name: string }> = T & {
-  readonly _tag: T["name"];
-};
+] as const;
 
 export type AlreadyExistsError = TaggedException<AlreadyExistsException>;
 export type CloudHsmClusterInUseError = TaggedException<CloudHsmClusterInUseException>;
@@ -158,5 +155,5 @@ export type XksProxyVpcEndpointServiceInvalidConfigurationError = TaggedExceptio
 >;
 export type XksProxyVpcEndpointServiceNotFoundError = TaggedException<XksProxyVpcEndpointServiceNotFoundException>;
 
-export type SdkError = TaggedException<Error & { name: "SdkError" }>;
-export const SdkError = Data.tagged<SdkError>("SdkError");
+export type SdkError = CommonSdkError;
+export const SdkError = CommonSdkError;

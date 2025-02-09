@@ -3,7 +3,7 @@
  */
 import { SQSClient } from "@aws-sdk/client-sqs";
 import { Context, Effect, Layer } from "effect";
-import { DefaultSQSClientConfigLayer, SQSClientInstanceConfig } from "./SQSClientInstanceConfig.js";
+import * as SQSServiceConfig from "./SQSServiceConfig.js";
 
 /**
  * @since 1.0.0
@@ -17,8 +17,8 @@ export class SQSClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeSQSClientInstance = Effect.flatMap(
-  SQSClientInstanceConfig,
+export const make = Effect.flatMap(
+  SQSServiceConfig.toSQSClientConfig,
   (config) =>
     Effect.acquireRelease(
       Effect.sync(() => new SQSClient(config)),
@@ -30,15 +30,4 @@ export const makeSQSClientInstance = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const SQSClientInstanceLayer = Layer.scoped(
-  SQSClientInstance,
-  makeSQSClientInstance,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- */
-export const DefaultSQSClientInstanceLayer = SQSClientInstanceLayer.pipe(
-  Layer.provide(DefaultSQSClientConfigLayer),
-);
+export const layer = Layer.scoped(SQSClientInstance, make);

@@ -16,7 +16,8 @@ import type {
   ResourceNotFoundException,
   ValidationException,
 } from "@aws-sdk/client-kinesis";
-import { Data } from "effect";
+import type { TaggedException } from "@effect-aws/commons";
+import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "AccessDeniedException",
@@ -35,11 +36,7 @@ export const AllServiceErrors = [
   "ResourceInUseException",
   "ResourceNotFoundException",
   "ValidationException",
-];
-
-export type TaggedException<T extends { name: string }> = T & {
-  readonly _tag: T["name"];
-};
+] as const;
 
 export type AccessDeniedError = TaggedException<AccessDeniedException>;
 export type ExpiredIteratorError = TaggedException<ExpiredIteratorException>;
@@ -58,5 +55,5 @@ export type ResourceInUseError = TaggedException<ResourceInUseException>;
 export type ResourceNotFoundError = TaggedException<ResourceNotFoundException>;
 export type ValidationError = TaggedException<ValidationException>;
 
-export type SdkError = TaggedException<Error & { name: "SdkError" }>;
-export const SdkError = Data.tagged<SdkError>("SdkError");
+export type SdkError = CommonSdkError;
+export const SdkError = CommonSdkError;

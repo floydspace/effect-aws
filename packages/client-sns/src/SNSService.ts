@@ -115,7 +115,6 @@ import {
   type SetTopicAttributesCommandOutput,
   type SNSClient,
   type SNSClientConfig,
-  SNSServiceException,
   SubscribeCommand,
   type SubscribeCommandInput,
   type SubscribeCommandOutput,
@@ -132,7 +131,9 @@ import {
   type VerifySMSSandboxPhoneNumberCommandInput,
   type VerifySMSSandboxPhoneNumberCommandOutput,
 } from "@aws-sdk/client-sns";
-import { Data, Effect, Layer, Record } from "effect";
+import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import { Service } from "@effect-aws/commons";
+import { Effect, Layer } from "effect";
 import type {
   AuthorizationError,
   BatchEntryIdsNotDistinctError,
@@ -160,7 +161,6 @@ import type {
   ResourceNotFoundError,
   StaleTagError,
   SubscriptionLimitExceededError,
-  TaggedException,
   TagLimitExceededError,
   TagPolicyError,
   ThrottledError,
@@ -170,24 +170,9 @@ import type {
   ValidationError,
   VerificationError,
 } from "./Errors.js";
-import { AllServiceErrors, SdkError } from "./Errors.js";
-import { SNSClientInstance, SNSClientInstanceLayer } from "./SNSClientInstance.js";
-import {
-  DefaultSNSClientConfigLayer,
-  makeDefaultSNSClientInstanceConfig,
-  SNSClientInstanceConfig,
-} from "./SNSClientInstanceConfig.js";
-
-/**
- * @since 1.0.0
- */
-export interface HttpHandlerOptions {
-  /**
-   * The maximum time in milliseconds that the connection phase of a request
-   * may take before the connection attempt is abandoned.
-   */
-  requestTimeout?: number;
-}
+import { AllServiceErrors } from "./Errors.js";
+import * as Instance from "./SNSClientInstance.js";
+import * as SNSServiceConfig from "./SNSServiceConfig.js";
 
 const commands = {
   AddPermissionCommand,
@@ -808,47 +793,10 @@ interface SNSService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeSNSService = Effect.gen(function*(_) {
-  const client = yield* _(SNSClientInstance);
+export const makeSNSService = Effect.gen(function*() {
+  const client = yield* Instance.SNSClientInstance;
 
-  return Record.toEntries(commands).reduce((acc, [command]) => {
-    const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options?: HttpHandlerOptions) =>
-      Effect.tryPromise({
-        try: (abortSignal) =>
-          client.send(new CommandCtor(args), {
-            ...(options ?? {}),
-            abortSignal,
-          }),
-        catch: (e) => {
-          if (e instanceof SNSServiceException && AllServiceErrors.includes(e.name)) {
-            const ServiceException = Data.tagged<
-              TaggedException<SNSServiceException>
-            >(e.name);
-
-            return ServiceException({
-              ...e,
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          if (e instanceof Error) {
-            return SdkError({
-              ...e,
-              name: "SdkError",
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          throw e;
-        },
-      });
-    const methodName = (command[0].toLowerCase() + command.slice(1)).replace(
-      /Command$/,
-      "",
-    );
-    return { ...acc, [methodName]: methodImpl };
-  }, {}) as SNSService$;
+  return Service.fromClientAndCommands<SNSService$>(client, commands, AllServiceErrors);
 });
 
 /**
@@ -859,21 +807,11 @@ export class SNSService extends Effect.Tag("@effect-aws/client-sns/SNSService")<
   SNSService,
   SNSService$
 >() {
-  static readonly defaultLayer = Layer.effect(this, makeSNSService).pipe(
-    Layer.provide(SNSClientInstanceLayer),
-    Layer.provide(DefaultSNSClientConfigLayer),
-  );
-  static readonly layer = (config: SNSClientConfig) =>
+  static readonly defaultLayer = Layer.effect(this, makeSNSService).pipe(Layer.provide(Instance.layer));
+  static readonly layer = (config: SNSService.Config) =>
     Layer.effect(this, makeSNSService).pipe(
-      Layer.provide(SNSClientInstanceLayer),
-      Layer.provide(
-        Layer.effect(
-          SNSClientInstanceConfig,
-          makeDefaultSNSClientInstanceConfig.pipe(
-            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
-          ),
-        ),
-      ),
+      Layer.provide(Instance.layer),
+      Layer.provide(SNSServiceConfig.setSNSServiceConfig(config)),
     );
   static readonly baseLayer = (
     evaluate: (defaultConfig: SNSClientConfig) => SNSClient,
@@ -881,8 +819,8 @@ export class SNSService extends Effect.Tag("@effect-aws/client-sns/SNSService")<
     Layer.effect(this, makeSNSService).pipe(
       Layer.provide(
         Layer.effect(
-          SNSClientInstance,
-          Effect.map(makeDefaultSNSClientInstanceConfig, evaluate),
+          Instance.SNSClientInstance,
+          Effect.map(SNSServiceConfig.toSNSClientConfig, evaluate),
         ),
       ),
     );
@@ -890,33 +828,12 @@ export class SNSService extends Effect.Tag("@effect-aws/client-sns/SNSService")<
 
 /**
  * @since 1.0.0
- * @category models
- * @alias SNSService
  */
-export const SNS = SNSService;
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use SNS.baseLayer instead
- */
-export const BaseSNSServiceLayer = Layer.effect(
-  SNSService,
-  makeSNSService,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use SNS.layer instead
- */
-export const SNSServiceLayer = BaseSNSServiceLayer.pipe(
-  Layer.provide(SNSClientInstanceLayer),
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use SNS.defaultLayer instead
- */
-export const DefaultSNSServiceLayer = SNSService.defaultLayer;
+export declare namespace SNSService {
+  /**
+   * @since 1.0.0
+   */
+  export interface Config extends Omit<SNSClientConfig, "logger"> {
+    readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
+  }
+}

@@ -6,7 +6,11 @@ import {
 } from "@aws-sdk/client-cognito-identity-provider";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-cognito-identity-provider/dist-cjs/runtimeConfig";
-import { CognitoIdentityProvider, SdkError } from "@effect-aws/client-cognito-identity-provider";
+import {
+  CognitoIdentityProvider,
+  CognitoIdentityProviderServiceConfig,
+  SdkError,
+} from "@effect-aws/client-cognito-identity-provider";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
@@ -35,9 +39,7 @@ describe("CognitoIdentityProviderClientImpl", () => {
 
     expect(result).toEqual(Exit.succeed({}));
     expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
-    expect(getRuntimeConfig).toHaveBeenCalledWith({
-      logger: expect.any(Object),
-    });
+    expect(getRuntimeConfig).toHaveBeenCalledWith({});
     expect(clientMock).toHaveReceivedCommandTimes(ListUserPoolsCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(ListUserPoolsCommand, args);
   });
@@ -51,7 +53,7 @@ describe("CognitoIdentityProviderClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provide(CognitoIdentityProvider.layer({ region: "eu-central-1" })),
+      Effect.provide(CognitoIdentityProvider.layer({ region: "eu-central-1", logger: true })),
       Effect.runPromiseExit,
     );
 
@@ -103,6 +105,7 @@ describe("CognitoIdentityProviderClientImpl", () => {
           (config) => new CognitoIdentityProviderClient({ ...config, region: "eu-central-1" }),
         ),
       ),
+      CognitoIdentityProviderServiceConfig.withCognitoIdentityProviderServiceConfig({ logger: true }),
       Effect.runPromiseExit,
     );
 

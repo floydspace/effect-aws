@@ -58,12 +58,12 @@ import type {
   ProvisionedThroughputExceededError,
   RequestLimitExceededError,
   ResourceNotFoundError,
-  TaggedException,
   TransactionCanceledError,
   TransactionConflictError,
   TransactionInProgressError,
 } from "@effect-aws/client-dynamodb";
-import { makeDefaultDynamoDBClientInstanceConfig, SdkError } from "@effect-aws/client-dynamodb";
+import { DynamoDBServiceConfig, SdkError } from "@effect-aws/client-dynamodb";
+import type { TaggedException } from "@effect-aws/commons";
 import { Data, Effect, Layer, Record } from "effect";
 import {
   DynamoDBDocumentClientInstance,
@@ -332,8 +332,8 @@ interface DynamoDBDocumentService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeDynamoDBDocumentService = Effect.gen(function*(_) {
-  const client = yield* _(DynamoDBDocumentClientInstance);
+export const makeDynamoDBDocumentService = Effect.gen(function*() {
+  const client = yield* DynamoDBDocumentClientInstance;
 
   return Record.toEntries(commands).reduce((acc, [command]) => {
     const CommandCtor = commands[command] as any;
@@ -408,7 +408,7 @@ export class DynamoDBDocumentService extends Effect.Tag(
       Layer.provide(
         Layer.effect(
           DynamoDBDocumentClientInstance,
-          Effect.map(makeDefaultDynamoDBClientInstanceConfig, evaluate),
+          Effect.map(DynamoDBServiceConfig.toDynamoDBClientConfig, evaluate),
         ),
       ),
     );

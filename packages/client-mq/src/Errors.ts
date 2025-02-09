@@ -6,7 +6,8 @@ import type {
   NotFoundException,
   UnauthorizedException,
 } from "@aws-sdk/client-mq";
-import { Data } from "effect";
+import type { TaggedException } from "@effect-aws/commons";
+import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "BadRequestException",
@@ -15,11 +16,7 @@ export const AllServiceErrors = [
   "InternalServerErrorException",
   "NotFoundException",
   "UnauthorizedException",
-];
-
-export type TaggedException<T extends { name: string }> = T & {
-  readonly _tag: T["name"];
-};
+] as const;
 
 export type BadRequestError = TaggedException<BadRequestException>;
 export type ConflictError = TaggedException<ConflictException>;
@@ -28,5 +25,5 @@ export type InternalServerError = TaggedException<InternalServerErrorException>;
 export type NotFoundError = TaggedException<NotFoundException>;
 export type UnauthorizedError = TaggedException<UnauthorizedException>;
 
-export type SdkError = TaggedException<Error & { name: "SdkError" }>;
-export const SdkError = Data.tagged<SdkError>("SdkError");
+export type SdkError = CommonSdkError;
+export const SdkError = CommonSdkError;

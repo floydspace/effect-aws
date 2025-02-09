@@ -58,7 +58,6 @@ import {
   type ListUsersCommandOutput,
   type MqClient,
   type MqClientConfig,
-  MqServiceException,
   PromoteCommand,
   type PromoteCommandInput,
   type PromoteCommandOutput,
@@ -75,34 +74,20 @@ import {
   type UpdateUserCommandInput,
   type UpdateUserCommandOutput,
 } from "@aws-sdk/client-mq";
-import { Data, Effect, Layer, Record } from "effect";
-import { AllServiceErrors, SdkError } from "./Errors.js";
+import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import { Service } from "@effect-aws/commons";
+import { Effect, Layer } from "effect";
 import type {
   BadRequestError,
   ConflictError,
   ForbiddenError,
   InternalServerError,
   NotFoundError,
-  TaggedException,
   UnauthorizedError,
 } from "./Errors.js";
-import { MqClientInstance, MqClientInstanceLayer } from "./MqClientInstance.js";
-import {
-  DefaultMqClientConfigLayer,
-  makeDefaultMqClientInstanceConfig,
-  MqClientInstanceConfig,
-} from "./MqClientInstanceConfig.js";
-
-/**
- * @since 1.0.0
- */
-export interface HttpHandlerOptions {
-  /**
-   * The maximum time in milliseconds that the connection phase of a request
-   * may take before the connection attempt is abandoned.
-   */
-  requestTimeout?: number;
-}
+import { AllServiceErrors } from "./Errors.js";
+import * as Instance from "./MqClientInstance.js";
+import * as MqServiceConfig from "./MqServiceConfig.js";
 
 const commands = {
   CreateBrokerCommand,
@@ -391,47 +376,10 @@ interface MqService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeMqService = Effect.gen(function*(_) {
-  const client = yield* _(MqClientInstance);
+export const makeMqService = Effect.gen(function*() {
+  const client = yield* Instance.MqClientInstance;
 
-  return Record.toEntries(commands).reduce((acc, [command]) => {
-    const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options?: HttpHandlerOptions) =>
-      Effect.tryPromise({
-        try: (abortSignal) =>
-          client.send(new CommandCtor(args), {
-            ...(options ?? {}),
-            abortSignal,
-          }),
-        catch: (e) => {
-          if (e instanceof MqServiceException && AllServiceErrors.includes(e.name)) {
-            const ServiceException = Data.tagged<
-              TaggedException<MqServiceException>
-            >(e.name);
-
-            return ServiceException({
-              ...e,
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          if (e instanceof Error) {
-            return SdkError({
-              ...e,
-              name: "SdkError",
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          throw e;
-        },
-      });
-    const methodName = (command[0].toLowerCase() + command.slice(1)).replace(
-      /Command$/,
-      "",
-    );
-    return { ...acc, [methodName]: methodImpl };
-  }, {}) as MqService$;
+  return Service.fromClientAndCommands<MqService$>(client, commands, AllServiceErrors);
 });
 
 /**
@@ -442,21 +390,11 @@ export class MqService extends Effect.Tag("@effect-aws/client-mq/MqService")<
   MqService,
   MqService$
 >() {
-  static readonly defaultLayer = Layer.effect(this, makeMqService).pipe(
-    Layer.provide(MqClientInstanceLayer),
-    Layer.provide(DefaultMqClientConfigLayer),
-  );
-  static readonly layer = (config: MqClientConfig) =>
+  static readonly defaultLayer = Layer.effect(this, makeMqService).pipe(Layer.provide(Instance.layer));
+  static readonly layer = (config: MqService.Config) =>
     Layer.effect(this, makeMqService).pipe(
-      Layer.provide(MqClientInstanceLayer),
-      Layer.provide(
-        Layer.effect(
-          MqClientInstanceConfig,
-          makeDefaultMqClientInstanceConfig.pipe(
-            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
-          ),
-        ),
-      ),
+      Layer.provide(Instance.layer),
+      Layer.provide(MqServiceConfig.setMqServiceConfig(config)),
     );
   static readonly baseLayer = (
     evaluate: (defaultConfig: MqClientConfig) => MqClient,
@@ -464,8 +402,8 @@ export class MqService extends Effect.Tag("@effect-aws/client-mq/MqService")<
     Layer.effect(this, makeMqService).pipe(
       Layer.provide(
         Layer.effect(
-          MqClientInstance,
-          Effect.map(makeDefaultMqClientInstanceConfig, evaluate),
+          Instance.MqClientInstance,
+          Effect.map(MqServiceConfig.toMqClientConfig, evaluate),
         ),
       ),
     );
@@ -473,33 +411,12 @@ export class MqService extends Effect.Tag("@effect-aws/client-mq/MqService")<
 
 /**
  * @since 1.0.0
- * @category models
- * @alias MqService
  */
-export const Mq = MqService;
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use Mq.baseLayer instead
- */
-export const BaseMqServiceLayer = Layer.effect(
-  MqService,
-  makeMqService,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use Mq.layer instead
- */
-export const MqServiceLayer = BaseMqServiceLayer.pipe(
-  Layer.provide(MqClientInstanceLayer),
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use Mq.defaultLayer instead
- */
-export const DefaultMqServiceLayer = MqService.defaultLayer;
+export declare namespace MqService {
+  /**
+   * @since 1.0.0
+   */
+  export interface Config extends Omit<MqClientConfig, "logger"> {
+    readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
+  }
+}

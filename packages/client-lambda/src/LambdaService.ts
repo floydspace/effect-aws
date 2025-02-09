@@ -115,7 +115,6 @@ import {
   type InvokeWithResponseStreamCommandOutput,
   type LambdaClient,
   type LambdaClientConfig,
-  LambdaServiceException,
   ListAliasesCommand,
   type ListAliasesCommandInput,
   type ListAliasesCommandOutput,
@@ -210,7 +209,9 @@ import {
   type UpdateFunctionUrlConfigCommandInput,
   type UpdateFunctionUrlConfigCommandOutput,
 } from "@aws-sdk/client-lambda";
-import { Data, Effect, Layer, Record } from "effect";
+import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import { Service } from "@effect-aws/commons";
+import { Effect, Layer } from "effect";
 import type {
   CodeSigningConfigNotFoundError,
   CodeStorageExceededError,
@@ -248,28 +249,12 @@ import type {
   SnapStartNotReadyError,
   SnapStartTimeoutError,
   SubnetIPAddressLimitReachedError,
-  TaggedException,
   TooManyRequestsError,
   UnsupportedMediaTypeError,
 } from "./Errors.js";
-import { AllServiceErrors, SdkError } from "./Errors.js";
-import { LambdaClientInstance, LambdaClientInstanceLayer } from "./LambdaClientInstance.js";
-import {
-  DefaultLambdaClientConfigLayer,
-  LambdaClientInstanceConfig,
-  makeDefaultLambdaClientInstanceConfig,
-} from "./LambdaClientInstanceConfig.js";
-
-/**
- * @since 1.0.0
- */
-export interface HttpHandlerOptions {
-  /**
-   * The maximum time in milliseconds that the connection phase of a request
-   * may take before the connection attempt is abandoned.
-   */
-  requestTimeout?: number;
-}
+import { AllServiceErrors } from "./Errors.js";
+import * as Instance from "./LambdaClientInstance.js";
+import * as LambdaServiceConfig from "./LambdaServiceConfig.js";
 
 const commands = {
   AddLayerVersionPermissionCommand,
@@ -1342,47 +1327,10 @@ interface LambdaService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeLambdaService = Effect.gen(function*(_) {
-  const client = yield* _(LambdaClientInstance);
+export const makeLambdaService = Effect.gen(function*() {
+  const client = yield* Instance.LambdaClientInstance;
 
-  return Record.toEntries(commands).reduce((acc, [command]) => {
-    const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options?: HttpHandlerOptions) =>
-      Effect.tryPromise({
-        try: (abortSignal) =>
-          client.send(new CommandCtor(args), {
-            ...(options ?? {}),
-            abortSignal,
-          }),
-        catch: (e) => {
-          if (e instanceof LambdaServiceException && AllServiceErrors.includes(e.name)) {
-            const ServiceException = Data.tagged<
-              TaggedException<LambdaServiceException>
-            >(e.name);
-
-            return ServiceException({
-              ...e,
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          if (e instanceof Error) {
-            return SdkError({
-              ...e,
-              name: "SdkError",
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          throw e;
-        },
-      });
-    const methodName = (command[0].toLowerCase() + command.slice(1)).replace(
-      /Command$/,
-      "",
-    );
-    return { ...acc, [methodName]: methodImpl };
-  }, {}) as LambdaService$;
+  return Service.fromClientAndCommands<LambdaService$>(client, commands, AllServiceErrors);
 });
 
 /**
@@ -1393,21 +1341,11 @@ export class LambdaService extends Effect.Tag("@effect-aws/client-lambda/LambdaS
   LambdaService,
   LambdaService$
 >() {
-  static readonly defaultLayer = Layer.effect(this, makeLambdaService).pipe(
-    Layer.provide(LambdaClientInstanceLayer),
-    Layer.provide(DefaultLambdaClientConfigLayer),
-  );
-  static readonly layer = (config: LambdaClientConfig) =>
+  static readonly defaultLayer = Layer.effect(this, makeLambdaService).pipe(Layer.provide(Instance.layer));
+  static readonly layer = (config: LambdaService.Config) =>
     Layer.effect(this, makeLambdaService).pipe(
-      Layer.provide(LambdaClientInstanceLayer),
-      Layer.provide(
-        Layer.effect(
-          LambdaClientInstanceConfig,
-          makeDefaultLambdaClientInstanceConfig.pipe(
-            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
-          ),
-        ),
-      ),
+      Layer.provide(Instance.layer),
+      Layer.provide(LambdaServiceConfig.setLambdaServiceConfig(config)),
     );
   static readonly baseLayer = (
     evaluate: (defaultConfig: LambdaClientConfig) => LambdaClient,
@@ -1415,8 +1353,8 @@ export class LambdaService extends Effect.Tag("@effect-aws/client-lambda/LambdaS
     Layer.effect(this, makeLambdaService).pipe(
       Layer.provide(
         Layer.effect(
-          LambdaClientInstance,
-          Effect.map(makeDefaultLambdaClientInstanceConfig, evaluate),
+          Instance.LambdaClientInstance,
+          Effect.map(LambdaServiceConfig.toLambdaClientConfig, evaluate),
         ),
       ),
     );
@@ -1424,33 +1362,12 @@ export class LambdaService extends Effect.Tag("@effect-aws/client-lambda/LambdaS
 
 /**
  * @since 1.0.0
- * @category models
- * @alias LambdaService
  */
-export const Lambda = LambdaService;
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use Lambda.baseLayer instead
- */
-export const BaseLambdaServiceLayer = Layer.effect(
-  LambdaService,
-  makeLambdaService,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use Lambda.layer instead
- */
-export const LambdaServiceLayer = BaseLambdaServiceLayer.pipe(
-  Layer.provide(LambdaClientInstanceLayer),
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use Lambda.defaultLayer instead
- */
-export const DefaultLambdaServiceLayer = LambdaService.defaultLayer;
+export declare namespace LambdaService {
+  /**
+   * @since 1.0.0
+   */
+  export interface Config extends Omit<LambdaClientConfig, "logger"> {
+    readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
+  }
+}

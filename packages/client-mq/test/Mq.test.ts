@@ -1,7 +1,7 @@
 import { ListBrokersCommand, type ListBrokersCommandInput, MqClient, MqServiceException } from "@aws-sdk/client-mq";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-mq/dist-cjs/runtimeConfig";
-import { Mq, SdkError } from "@effect-aws/client-mq";
+import { Mq, MqServiceConfig, SdkError } from "@effect-aws/client-mq";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
@@ -30,9 +30,7 @@ describe("MqClientImpl", () => {
 
     expect(result).toEqual(Exit.succeed({}));
     expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
-    expect(getRuntimeConfig).toHaveBeenCalledWith({
-      logger: expect.any(Object),
-    });
+    expect(getRuntimeConfig).toHaveBeenCalledWith({});
     expect(clientMock).toHaveReceivedCommandTimes(ListBrokersCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(ListBrokersCommand, args);
   });
@@ -46,7 +44,7 @@ describe("MqClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provide(Mq.layer({ region: "eu-central-1" })),
+      Effect.provide(Mq.layer({ region: "eu-central-1", logger: true })),
       Effect.runPromiseExit,
     );
 
@@ -98,6 +96,7 @@ describe("MqClientImpl", () => {
           (config) => new MqClient({ ...config, region: "eu-central-1" }),
         ),
       ),
+      MqServiceConfig.withMqServiceConfig({ logger: true }),
       Effect.runPromiseExit,
     );
 

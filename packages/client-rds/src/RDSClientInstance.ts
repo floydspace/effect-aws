@@ -3,7 +3,7 @@
  */
 import { RDSClient } from "@aws-sdk/client-rds";
 import { Context, Effect, Layer } from "effect";
-import { DefaultRDSClientConfigLayer, RDSClientInstanceConfig } from "./RDSClientInstanceConfig.js";
+import * as RDSServiceConfig from "./RDSServiceConfig.js";
 
 /**
  * @since 1.0.0
@@ -17,8 +17,8 @@ export class RDSClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeRDSClientInstance = Effect.flatMap(
-  RDSClientInstanceConfig,
+export const make = Effect.flatMap(
+  RDSServiceConfig.toRDSClientConfig,
   (config) =>
     Effect.acquireRelease(
       Effect.sync(() => new RDSClient(config)),
@@ -30,15 +30,4 @@ export const makeRDSClientInstance = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const RDSClientInstanceLayer = Layer.scoped(
-  RDSClientInstance,
-  makeRDSClientInstance,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- */
-export const DefaultRDSClientInstanceLayer = RDSClientInstanceLayer.pipe(
-  Layer.provide(DefaultRDSClientConfigLayer),
-);
+export const layer = Layer.scoped(RDSClientInstance, make);

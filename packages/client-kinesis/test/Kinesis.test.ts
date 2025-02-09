@@ -6,7 +6,7 @@ import {
 } from "@aws-sdk/client-kinesis";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-kinesis/dist-cjs/runtimeConfig";
-import { Kinesis, SdkError } from "@effect-aws/client-kinesis";
+import { Kinesis, KinesisServiceConfig, SdkError } from "@effect-aws/client-kinesis";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
@@ -35,9 +35,7 @@ describe("KinesisClientImpl", () => {
 
     expect(result).toEqual(Exit.succeed({}));
     expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
-    expect(getRuntimeConfig).toHaveBeenCalledWith({
-      logger: expect.any(Object),
-    });
+    expect(getRuntimeConfig).toHaveBeenCalledWith({});
     expect(clientMock).toHaveReceivedCommandTimes(PutRecordCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(PutRecordCommand, args);
   });
@@ -51,7 +49,7 @@ describe("KinesisClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provide(Kinesis.layer({ region: "eu-central-1" })),
+      Effect.provide(Kinesis.layer({ region: "eu-central-1", logger: true })),
       Effect.runPromiseExit,
     );
 
@@ -103,6 +101,7 @@ describe("KinesisClientImpl", () => {
           (config) => new KinesisClient({ ...config, region: "eu-central-1" }),
         ),
       ),
+      KinesisServiceConfig.withKinesisServiceConfig({ logger: true }),
       Effect.runPromiseExit,
     );
 

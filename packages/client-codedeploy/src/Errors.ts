@@ -110,7 +110,8 @@ import type {
   TriggerTargetsLimitExceededException,
   UnsupportedActionForDeploymentTypeException,
 } from "@aws-sdk/client-codedeploy";
-import { Data } from "effect";
+import type { TaggedException } from "@effect-aws/commons";
+import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "AlarmsLimitExceededException",
@@ -223,11 +224,7 @@ export const AllServiceErrors = [
   "ThrottlingException",
   "TriggerTargetsLimitExceededException",
   "UnsupportedActionForDeploymentTypeException",
-];
-
-export type TaggedException<T extends { name: string }> = T & {
-  readonly _tag: T["name"];
-};
+] as const;
 
 export type AlarmsLimitExceededError = TaggedException<AlarmsLimitExceededException>;
 export type ApplicationAlreadyExistsError = TaggedException<ApplicationAlreadyExistsException>;
@@ -348,5 +345,5 @@ export type ThrottlingError = TaggedException<ThrottlingException>;
 export type TriggerTargetsLimitExceededError = TaggedException<TriggerTargetsLimitExceededException>;
 export type UnsupportedActionForDeploymentTypeError = TaggedException<UnsupportedActionForDeploymentTypeException>;
 
-export type SdkError = TaggedException<Error & { name: "SdkError" }>;
-export const SdkError = Data.tagged<SdkError>("SdkError");
+export type SdkError = CommonSdkError;
+export const SdkError = CommonSdkError;

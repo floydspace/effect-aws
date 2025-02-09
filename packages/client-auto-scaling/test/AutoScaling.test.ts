@@ -6,7 +6,7 @@ import {
 } from "@aws-sdk/client-auto-scaling";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-auto-scaling/dist-cjs/runtimeConfig";
-import { AutoScaling, SdkError } from "@effect-aws/client-auto-scaling";
+import { AutoScaling, AutoScalingServiceConfig, SdkError } from "@effect-aws/client-auto-scaling";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
@@ -35,9 +35,7 @@ describe("AutoScalingClientImpl", () => {
 
     expect(result).toEqual(Exit.succeed({}));
     expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
-    expect(getRuntimeConfig).toHaveBeenCalledWith({
-      logger: expect.any(Object),
-    });
+    expect(getRuntimeConfig).toHaveBeenCalledWith({});
     expect(clientMock).toHaveReceivedCommandTimes(DescribeAutoScalingGroupsCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(DescribeAutoScalingGroupsCommand, args);
   });
@@ -51,7 +49,7 @@ describe("AutoScalingClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provide(AutoScaling.layer({ region: "eu-central-1" })),
+      Effect.provide(AutoScaling.layer({ region: "eu-central-1", logger: true })),
       Effect.runPromiseExit,
     );
 
@@ -103,6 +101,7 @@ describe("AutoScalingClientImpl", () => {
           (config) => new AutoScalingClient({ ...config, region: "eu-central-1" }),
         ),
       ),
+      AutoScalingServiceConfig.withAutoScalingServiceConfig({ logger: true }),
       Effect.runPromiseExit,
     );
 

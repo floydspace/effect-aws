@@ -34,7 +34,6 @@ import {
   type DescribeDetectorCommandOutput,
   type IoTEventsDataClient,
   type IoTEventsDataClientConfig,
-  IoTEventsDataServiceException,
   ListAlarmsCommand,
   type ListAlarmsCommandInput,
   type ListAlarmsCommandOutput,
@@ -42,33 +41,19 @@ import {
   type ListDetectorsCommandInput,
   type ListDetectorsCommandOutput,
 } from "@aws-sdk/client-iot-events-data";
-import { Data, Effect, Layer, Record } from "effect";
-import { AllServiceErrors, SdkError } from "./Errors.js";
+import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import { Service } from "@effect-aws/commons";
+import { Effect, Layer } from "effect";
 import type {
   InternalFailureError,
   InvalidRequestError,
   ResourceNotFoundError,
   ServiceUnavailableError,
-  TaggedException,
   ThrottlingError,
 } from "./Errors.js";
-import { IoTEventsDataClientInstance, IoTEventsDataClientInstanceLayer } from "./IoTEventsDataClientInstance.js";
-import {
-  DefaultIoTEventsDataClientConfigLayer,
-  IoTEventsDataClientInstanceConfig,
-  makeDefaultIoTEventsDataClientInstanceConfig,
-} from "./IoTEventsDataClientInstanceConfig.js";
-
-/**
- * @since 1.0.0
- */
-export interface HttpHandlerOptions {
-  /**
-   * The maximum time in milliseconds that the connection phase of a request
-   * may take before the connection attempt is abandoned.
-   */
-  requestTimeout?: number;
-}
+import { AllServiceErrors } from "./Errors.js";
+import * as Instance from "./IoTEventsDataClientInstance.js";
+import * as IoTEventsDataServiceConfig from "./IoTEventsDataServiceConfig.js";
 
 const commands = {
   BatchAcknowledgeAlarmCommand,
@@ -245,47 +230,10 @@ interface IoTEventsDataService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeIoTEventsDataService = Effect.gen(function*(_) {
-  const client = yield* _(IoTEventsDataClientInstance);
+export const makeIoTEventsDataService = Effect.gen(function*() {
+  const client = yield* Instance.IoTEventsDataClientInstance;
 
-  return Record.toEntries(commands).reduce((acc, [command]) => {
-    const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options?: HttpHandlerOptions) =>
-      Effect.tryPromise({
-        try: (abortSignal) =>
-          client.send(new CommandCtor(args), {
-            ...(options ?? {}),
-            abortSignal,
-          }),
-        catch: (e) => {
-          if (e instanceof IoTEventsDataServiceException && AllServiceErrors.includes(e.name)) {
-            const ServiceException = Data.tagged<
-              TaggedException<IoTEventsDataServiceException>
-            >(e.name);
-
-            return ServiceException({
-              ...e,
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          if (e instanceof Error) {
-            return SdkError({
-              ...e,
-              name: "SdkError",
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          throw e;
-        },
-      });
-    const methodName = (command[0].toLowerCase() + command.slice(1)).replace(
-      /Command$/,
-      "",
-    );
-    return { ...acc, [methodName]: methodImpl };
-  }, {}) as IoTEventsDataService$;
+  return Service.fromClientAndCommands<IoTEventsDataService$>(client, commands, AllServiceErrors);
 });
 
 /**
@@ -296,21 +244,11 @@ export class IoTEventsDataService extends Effect.Tag("@effect-aws/client-iot-eve
   IoTEventsDataService,
   IoTEventsDataService$
 >() {
-  static readonly defaultLayer = Layer.effect(this, makeIoTEventsDataService).pipe(
-    Layer.provide(IoTEventsDataClientInstanceLayer),
-    Layer.provide(DefaultIoTEventsDataClientConfigLayer),
-  );
-  static readonly layer = (config: IoTEventsDataClientConfig) =>
+  static readonly defaultLayer = Layer.effect(this, makeIoTEventsDataService).pipe(Layer.provide(Instance.layer));
+  static readonly layer = (config: IoTEventsDataService.Config) =>
     Layer.effect(this, makeIoTEventsDataService).pipe(
-      Layer.provide(IoTEventsDataClientInstanceLayer),
-      Layer.provide(
-        Layer.effect(
-          IoTEventsDataClientInstanceConfig,
-          makeDefaultIoTEventsDataClientInstanceConfig.pipe(
-            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
-          ),
-        ),
-      ),
+      Layer.provide(Instance.layer),
+      Layer.provide(IoTEventsDataServiceConfig.setIoTEventsDataServiceConfig(config)),
     );
   static readonly baseLayer = (
     evaluate: (defaultConfig: IoTEventsDataClientConfig) => IoTEventsDataClient,
@@ -318,8 +256,8 @@ export class IoTEventsDataService extends Effect.Tag("@effect-aws/client-iot-eve
     Layer.effect(this, makeIoTEventsDataService).pipe(
       Layer.provide(
         Layer.effect(
-          IoTEventsDataClientInstance,
-          Effect.map(makeDefaultIoTEventsDataClientInstanceConfig, evaluate),
+          Instance.IoTEventsDataClientInstance,
+          Effect.map(IoTEventsDataServiceConfig.toIoTEventsDataClientConfig, evaluate),
         ),
       ),
     );
@@ -327,33 +265,12 @@ export class IoTEventsDataService extends Effect.Tag("@effect-aws/client-iot-eve
 
 /**
  * @since 1.0.0
- * @category models
- * @alias IoTEventsDataService
  */
-export const IoTEventsData = IoTEventsDataService;
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use IoTEventsData.baseLayer instead
- */
-export const BaseIoTEventsDataServiceLayer = Layer.effect(
-  IoTEventsDataService,
-  makeIoTEventsDataService,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use IoTEventsData.layer instead
- */
-export const IoTEventsDataServiceLayer = BaseIoTEventsDataServiceLayer.pipe(
-  Layer.provide(IoTEventsDataClientInstanceLayer),
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use IoTEventsData.defaultLayer instead
- */
-export const DefaultIoTEventsDataServiceLayer = IoTEventsDataService.defaultLayer;
+export declare namespace IoTEventsDataService {
+  /**
+   * @since 1.0.0
+   */
+  export interface Config extends Omit<IoTEventsDataClientConfig, "logger"> {
+    readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
+  }
+}

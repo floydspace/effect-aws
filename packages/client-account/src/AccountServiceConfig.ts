@@ -41,12 +41,12 @@ export const setAccountServiceConfig = (config: AccountService.Config) =>
  * @since 1.0.0
  * @category adapters
  */
-export const toAccountClientConfig: Effect.Effect<AccountClientConfig> = Effect.gen(function*(_) {
-  const { logger: serviceLogger, ...config } = yield* _(FiberRef.get(currentAccountServiceConfig));
+export const toAccountClientConfig: Effect.Effect<AccountClientConfig> = Effect.gen(function*() {
+  const { logger: serviceLogger, ...config } = yield* FiberRef.get(currentAccountServiceConfig);
 
   const logger = serviceLogger === true
-    ? yield* _(ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger))
-    : (serviceLogger ? yield* _(ServiceLogger.toClientLogger(ServiceLogger.make(serviceLogger))) : undefined);
+    ? yield* ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger)
+    : (serviceLogger ? yield* ServiceLogger.toClientLogger(ServiceLogger.make(serviceLogger)) : undefined);
 
   return { logger, ...config };
 });

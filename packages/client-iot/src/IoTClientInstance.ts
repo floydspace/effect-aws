@@ -3,7 +3,7 @@
  */
 import { IoTClient } from "@aws-sdk/client-iot";
 import { Context, Effect, Layer } from "effect";
-import { DefaultIoTClientConfigLayer, IoTClientInstanceConfig } from "./IoTClientInstanceConfig.js";
+import * as IoTServiceConfig from "./IoTServiceConfig.js";
 
 /**
  * @since 1.0.0
@@ -17,8 +17,8 @@ export class IoTClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeIoTClientInstance = Effect.flatMap(
-  IoTClientInstanceConfig,
+export const make = Effect.flatMap(
+  IoTServiceConfig.toIoTClientConfig,
   (config) =>
     Effect.acquireRelease(
       Effect.sync(() => new IoTClient(config)),
@@ -30,15 +30,4 @@ export const makeIoTClientInstance = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const IoTClientInstanceLayer = Layer.scoped(
-  IoTClientInstance,
-  makeIoTClientInstance,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- */
-export const DefaultIoTClientInstanceLayer = IoTClientInstanceLayer.pipe(
-  Layer.provide(DefaultIoTClientConfigLayer),
-);
+export const layer = Layer.scoped(IoTClientInstance, make);

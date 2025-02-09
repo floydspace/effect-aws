@@ -47,7 +47,8 @@ import type {
   TooManyRequestsException,
   UnsupportedAPIEndpointException,
 } from "@aws-sdk/client-organizations";
-import { Data } from "effect";
+import type { TaggedException } from "@effect-aws/commons";
+import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "AWSOrganizationsNotInUseException",
@@ -97,11 +98,7 @@ export const AllServiceErrors = [
   "TargetNotFoundException",
   "TooManyRequestsException",
   "UnsupportedAPIEndpointException",
-];
-
-export type TaggedException<T extends { name: string }> = T & {
-  readonly _tag: T["name"];
-};
+] as const;
 
 export type AWSOrganizationsNotInUseError = TaggedException<AWSOrganizationsNotInUseException>;
 export type AccessDeniedError = TaggedException<AccessDeniedException>;
@@ -153,5 +150,5 @@ export type TargetNotFoundError = TaggedException<TargetNotFoundException>;
 export type TooManyRequestsError = TaggedException<TooManyRequestsException>;
 export type UnsupportedAPIEndpointError = TaggedException<UnsupportedAPIEndpointException>;
 
-export type SdkError = TaggedException<Error & { name: "SdkError" }>;
-export const SdkError = Data.tagged<SdkError>("SdkError");
+export type SdkError = CommonSdkError;
+export const SdkError = CommonSdkError;

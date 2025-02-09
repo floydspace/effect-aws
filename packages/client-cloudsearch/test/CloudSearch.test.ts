@@ -6,7 +6,7 @@ import {
 } from "@aws-sdk/client-cloudsearch";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-cloudsearch/dist-cjs/runtimeConfig";
-import { CloudSearch, SdkError } from "@effect-aws/client-cloudsearch";
+import { CloudSearch, CloudSearchServiceConfig, SdkError } from "@effect-aws/client-cloudsearch";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
@@ -35,9 +35,7 @@ describe("CloudSearchClientImpl", () => {
 
     expect(result).toEqual(Exit.succeed({}));
     expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
-    expect(getRuntimeConfig).toHaveBeenCalledWith({
-      logger: expect.any(Object),
-    });
+    expect(getRuntimeConfig).toHaveBeenCalledWith({});
     expect(clientMock).toHaveReceivedCommandTimes(DescribeDomainsCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(DescribeDomainsCommand, args);
   });
@@ -51,7 +49,7 @@ describe("CloudSearchClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provide(CloudSearch.layer({ region: "eu-central-1" })),
+      Effect.provide(CloudSearch.layer({ region: "eu-central-1", logger: true })),
       Effect.runPromiseExit,
     );
 
@@ -103,6 +101,7 @@ describe("CloudSearchClientImpl", () => {
           (config) => new CloudSearchClient({ ...config, region: "eu-central-1" }),
         ),
       ),
+      CloudSearchServiceConfig.withCloudSearchServiceConfig({ logger: true }),
       Effect.runPromiseExit,
     );
 

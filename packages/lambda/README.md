@@ -20,51 +20,51 @@ npm install --save @effect-aws/lambda
 Without dependencies:
 
 ```typescript
-import type { SNSEvent } from "aws-lambda";
-import { Effect } from "effect";
-import { EffectHandler, makeLambda } from "@effect-aws/lambda";
+import type { SNSEvent } from "aws-lambda"
+import { Effect } from "effect"
+import { EffectHandler, makeLambda } from "@effect-aws/lambda"
 
 // Define your effect handler
 const myEffectHandler: EffectHandler<SNSEvent, never> = (event, context) => {
   // Your effect logic here
-  return Effect.succeed("Hello, World!");
-};
+  return Effect.succeed("Hello, World!")
+}
 
 // Create the Lambda handler
-export const handler = makeLambda(myEffectHandler);
+export const handler = makeLambda(myEffectHandler)
 ```
 
 With dependencies:
 
 ```typescript
-import { EffectHandler, makeLambda } from "@effect-aws/lambda";
-import * as Logger from "@effect-aws/powertools-logger";
-import type { SNSEvent } from "aws-lambda";
-import { Context, Effect, Layer } from "effect";
+import { EffectHandler, makeLambda } from "@effect-aws/lambda"
+import * as Logger from "@effect-aws/powertools-logger"
+import type { SNSEvent } from "aws-lambda"
+import { Context, Effect, Layer } from "effect"
 
 interface FooService {
-  bar: () => Effect.Effect<never, never, void>;
+  bar: () => Effect.Effect<never, never, void>
 }
-const FooService = Context.Tag<FooService>();
+const FooService = Context.Tag<FooService>()
 const FooServiceLive = Layer.succeed(
   FooService,
-  FooService.of({ bar: () => Logger.logInfo("Not implemented") }),
-);
+  FooService.of({ bar: () => Logger.logInfo("Not implemented") })
+)
 
 // Define your effect handler with dependencies
 const myEffectHandler: EffectHandler<SNSEvent, FooService> = (event, context) =>
-  Effect.gen(function* (_) {
-    yield* _(Logger.logInfo("Received event", { event, context }));
-    const service = yield* _(FooService);
-    return yield* _(service.bar());
-  });
+  Effect.gen(function* () {
+    yield* Logger.logInfo("Received event", { event, context })
+    const service = yield* FooService
+    return yield* service.bar()
+  })
 
 // Create the global layer
 const LambdaLive = Layer.provideMerge(
   FooServiceLive,
-  Logger.DefaultPowerToolsLoggerLayer,
-);
+  Logger.DefaultPowerToolsLoggerLayer
+)
 
 // Create the Lambda handler
-export const handler = makeLambda(myEffectHandler, LambdaLive);
+export const handler = makeLambda(myEffectHandler, LambdaLive)
 ```

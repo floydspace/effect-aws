@@ -1291,7 +1291,6 @@ import {
   type DisassociateVpcCidrBlockCommandOutput,
   type EC2Client,
   type EC2ClientConfig,
-  EC2ServiceException,
   EnableAddressTransferCommand,
   type EnableAddressTransferCommandInput,
   type EnableAddressTransferCommandOutput,
@@ -1980,26 +1979,12 @@ import {
   type WithdrawByoipCidrCommandInput,
   type WithdrawByoipCidrCommandOutput,
 } from "@aws-sdk/client-ec2";
-import { Data, Effect, Layer, Record } from "effect";
-import { EC2ClientInstance, EC2ClientInstanceLayer } from "./EC2ClientInstance.js";
-import {
-  DefaultEC2ClientConfigLayer,
-  EC2ClientInstanceConfig,
-  makeDefaultEC2ClientInstanceConfig,
-} from "./EC2ClientInstanceConfig.js";
-import type { EC2ServiceError, TaggedException } from "./Errors.js";
-import { SdkError } from "./Errors.js";
-
-/**
- * @since 1.0.0
- */
-export interface HttpHandlerOptions {
-  /**
-   * The maximum time in milliseconds that the connection phase of a request
-   * may take before the connection attempt is abandoned.
-   */
-  requestTimeout?: number;
-}
+import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import { Service } from "@effect-aws/commons";
+import { Effect, Layer } from "effect";
+import * as Instance from "./EC2ClientInstance.js";
+import * as EC2ServiceConfig from "./EC2ServiceConfig.js";
+import type { EC2ServiceError } from "./Errors.js";
 
 const commands = {
   AcceptAddressTransferCommand,
@@ -2759,7 +2744,10 @@ interface EC2Service$ {
   advertiseByoipCidr(
     args: AdvertiseByoipCidrCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<AdvertiseByoipCidrCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    AdvertiseByoipCidrCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link AllocateAddressCommand}
@@ -2767,7 +2755,10 @@ interface EC2Service$ {
   allocateAddress(
     args: AllocateAddressCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<AllocateAddressCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    AllocateAddressCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link AllocateHostsCommand}
@@ -2775,7 +2766,10 @@ interface EC2Service$ {
   allocateHosts(
     args: AllocateHostsCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<AllocateHostsCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    AllocateHostsCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link AllocateIpamPoolCidrCommand}
@@ -2838,7 +2832,10 @@ interface EC2Service$ {
   associateAddress(
     args: AssociateAddressCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<AssociateAddressCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    AssociateAddressCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link AssociateCapacityReservationBillingOwnerCommand}
@@ -3077,7 +3074,10 @@ interface EC2Service$ {
   attachVolume(
     args: AttachVolumeCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<AttachVolumeCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    AttachVolumeCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link AttachVpnGatewayCommand}
@@ -3085,7 +3085,10 @@ interface EC2Service$ {
   attachVpnGateway(
     args: AttachVpnGatewayCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<AttachVpnGatewayCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    AttachVpnGatewayCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link AuthorizeClientVpnIngressCommand}
@@ -3126,7 +3129,10 @@ interface EC2Service$ {
   bundleInstance(
     args: BundleInstanceCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<BundleInstanceCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    BundleInstanceCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link CancelBundleTaskCommand}
@@ -3134,7 +3140,10 @@ interface EC2Service$ {
   cancelBundleTask(
     args: CancelBundleTaskCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<CancelBundleTaskCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    CancelBundleTaskCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link CancelCapacityReservationCommand}
@@ -3186,7 +3195,10 @@ interface EC2Service$ {
   cancelExportTask(
     args: CancelExportTaskCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<CancelExportTaskCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    CancelExportTaskCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link CancelImageLaunchPermissionCommand}
@@ -3205,7 +3217,10 @@ interface EC2Service$ {
   cancelImportTask(
     args: CancelImportTaskCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<CancelImportTaskCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    CancelImportTaskCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link CancelReservedInstancesListingCommand}
@@ -3257,7 +3272,10 @@ interface EC2Service$ {
   copyFpgaImage(
     args: CopyFpgaImageCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<CopyFpgaImageCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    CopyFpgaImageCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link CopyImageCommand}
@@ -3265,7 +3283,10 @@ interface EC2Service$ {
   copyImage(
     args: CopyImageCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<CopyImageCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    CopyImageCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link CopySnapshotCommand}
@@ -3273,7 +3294,10 @@ interface EC2Service$ {
   copySnapshot(
     args: CopySnapshotCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<CopySnapshotCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    CopySnapshotCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link CreateCapacityReservationCommand}
@@ -3347,7 +3371,10 @@ interface EC2Service$ {
   createCoipCidr(
     args: CreateCoipCidrCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<CreateCoipCidrCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    CreateCoipCidrCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link CreateCoipPoolCommand}
@@ -3355,7 +3382,10 @@ interface EC2Service$ {
   createCoipPool(
     args: CreateCoipPoolCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<CreateCoipPoolCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    CreateCoipPoolCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link CreateCustomerGatewayCommand}
@@ -3385,7 +3415,10 @@ interface EC2Service$ {
   createDefaultVpc(
     args: CreateDefaultVpcCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<CreateDefaultVpcCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    CreateDefaultVpcCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link CreateDhcpOptionsCommand}
@@ -3393,7 +3426,10 @@ interface EC2Service$ {
   createDhcpOptions(
     args: CreateDhcpOptionsCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<CreateDhcpOptionsCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    CreateDhcpOptionsCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link CreateEgressOnlyInternetGatewayCommand}
@@ -3412,7 +3448,10 @@ interface EC2Service$ {
   createFleet(
     args: CreateFleetCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<CreateFleetCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    CreateFleetCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link CreateFlowLogsCommand}
@@ -3420,7 +3459,10 @@ interface EC2Service$ {
   createFlowLogs(
     args: CreateFlowLogsCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<CreateFlowLogsCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    CreateFlowLogsCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link CreateFpgaImageCommand}
@@ -3428,7 +3470,10 @@ interface EC2Service$ {
   createFpgaImage(
     args: CreateFpgaImageCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<CreateFpgaImageCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    CreateFpgaImageCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link CreateImageCommand}
@@ -3436,7 +3481,10 @@ interface EC2Service$ {
   createImage(
     args: CreateImageCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<CreateImageCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    CreateImageCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link CreateInstanceConnectEndpointCommand}
@@ -3488,7 +3536,10 @@ interface EC2Service$ {
   createIpam(
     args: CreateIpamCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<CreateIpamCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    CreateIpamCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link CreateIpamExternalResourceVerificationTokenCommand}
@@ -3507,7 +3558,10 @@ interface EC2Service$ {
   createIpamPool(
     args: CreateIpamPoolCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<CreateIpamPoolCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    CreateIpamPoolCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link CreateIpamResourceDiscoveryCommand}
@@ -3526,7 +3580,10 @@ interface EC2Service$ {
   createIpamScope(
     args: CreateIpamScopeCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<CreateIpamScopeCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    CreateIpamScopeCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link CreateKeyPairCommand}
@@ -3534,7 +3591,10 @@ interface EC2Service$ {
   createKeyPair(
     args: CreateKeyPairCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<CreateKeyPairCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    CreateKeyPairCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link CreateLaunchTemplateCommand}
@@ -3619,7 +3679,10 @@ interface EC2Service$ {
   createNatGateway(
     args: CreateNatGatewayCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<CreateNatGatewayCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    CreateNatGatewayCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link CreateNetworkAclCommand}
@@ -3627,7 +3690,10 @@ interface EC2Service$ {
   createNetworkAcl(
     args: CreateNetworkAclCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<CreateNetworkAclCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    CreateNetworkAclCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link CreateNetworkAclEntryCommand}
@@ -3745,7 +3811,10 @@ interface EC2Service$ {
   createRoute(
     args: CreateRouteCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<CreateRouteCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    CreateRouteCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link CreateRouteTableCommand}
@@ -3753,7 +3822,10 @@ interface EC2Service$ {
   createRouteTable(
     args: CreateRouteTableCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<CreateRouteTableCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    CreateRouteTableCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link CreateSecurityGroupCommand}
@@ -3772,7 +3844,10 @@ interface EC2Service$ {
   createSnapshot(
     args: CreateSnapshotCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<CreateSnapshotCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    CreateSnapshotCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link CreateSnapshotsCommand}
@@ -3780,7 +3855,10 @@ interface EC2Service$ {
   createSnapshots(
     args: CreateSnapshotsCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<CreateSnapshotsCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    CreateSnapshotsCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link CreateSpotDatafeedSubscriptionCommand}
@@ -3810,7 +3888,10 @@ interface EC2Service$ {
   createSubnet(
     args: CreateSubnetCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<CreateSubnetCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    CreateSubnetCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link CreateSubnetCidrReservationCommand}
@@ -3829,7 +3910,10 @@ interface EC2Service$ {
   createTags(
     args: CreateTagsCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<CreateTagsCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    CreateTagsCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link CreateTrafficMirrorFilterCommand}
@@ -4046,7 +4130,10 @@ interface EC2Service$ {
   createVolume(
     args: CreateVolumeCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<CreateVolumeCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    CreateVolumeCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link CreateVpcCommand}
@@ -4054,7 +4141,10 @@ interface EC2Service$ {
   createVpc(
     args: CreateVpcCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<CreateVpcCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    CreateVpcCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link CreateVpcBlockPublicAccessExclusionCommand}
@@ -4073,7 +4163,10 @@ interface EC2Service$ {
   createVpcEndpoint(
     args: CreateVpcEndpointCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<CreateVpcEndpointCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    CreateVpcEndpointCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link CreateVpcEndpointConnectionNotificationCommand}
@@ -4136,7 +4229,10 @@ interface EC2Service$ {
   createVpnGateway(
     args: CreateVpnGatewayCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<CreateVpnGatewayCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    CreateVpnGatewayCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link DeleteCarrierGatewayCommand}
@@ -4177,7 +4273,10 @@ interface EC2Service$ {
   deleteCoipCidr(
     args: DeleteCoipCidrCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DeleteCoipCidrCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    DeleteCoipCidrCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link DeleteCoipPoolCommand}
@@ -4185,7 +4284,10 @@ interface EC2Service$ {
   deleteCoipPool(
     args: DeleteCoipPoolCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DeleteCoipPoolCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    DeleteCoipPoolCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link DeleteCustomerGatewayCommand}
@@ -4204,7 +4306,10 @@ interface EC2Service$ {
   deleteDhcpOptions(
     args: DeleteDhcpOptionsCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DeleteDhcpOptionsCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    DeleteDhcpOptionsCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link DeleteEgressOnlyInternetGatewayCommand}
@@ -4223,7 +4328,10 @@ interface EC2Service$ {
   deleteFleets(
     args: DeleteFleetsCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DeleteFleetsCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    DeleteFleetsCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link DeleteFlowLogsCommand}
@@ -4231,7 +4339,10 @@ interface EC2Service$ {
   deleteFlowLogs(
     args: DeleteFlowLogsCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DeleteFlowLogsCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    DeleteFlowLogsCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link DeleteFpgaImageCommand}
@@ -4239,7 +4350,10 @@ interface EC2Service$ {
   deleteFpgaImage(
     args: DeleteFpgaImageCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DeleteFpgaImageCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    DeleteFpgaImageCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link DeleteInstanceConnectEndpointCommand}
@@ -4280,7 +4394,10 @@ interface EC2Service$ {
   deleteIpam(
     args: DeleteIpamCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DeleteIpamCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    DeleteIpamCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link DeleteIpamExternalResourceVerificationTokenCommand}
@@ -4299,7 +4416,10 @@ interface EC2Service$ {
   deleteIpamPool(
     args: DeleteIpamPoolCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DeleteIpamPoolCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    DeleteIpamPoolCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link DeleteIpamResourceDiscoveryCommand}
@@ -4318,7 +4438,10 @@ interface EC2Service$ {
   deleteIpamScope(
     args: DeleteIpamScopeCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DeleteIpamScopeCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    DeleteIpamScopeCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link DeleteKeyPairCommand}
@@ -4326,7 +4449,10 @@ interface EC2Service$ {
   deleteKeyPair(
     args: DeleteKeyPairCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DeleteKeyPairCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    DeleteKeyPairCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link DeleteLaunchTemplateCommand}
@@ -4411,7 +4537,10 @@ interface EC2Service$ {
   deleteNatGateway(
     args: DeleteNatGatewayCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DeleteNatGatewayCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    DeleteNatGatewayCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link DeleteNetworkAclCommand}
@@ -4419,7 +4548,10 @@ interface EC2Service$ {
   deleteNetworkAcl(
     args: DeleteNetworkAclCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DeleteNetworkAclCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    DeleteNetworkAclCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link DeleteNetworkAclEntryCommand}
@@ -4537,7 +4669,10 @@ interface EC2Service$ {
   deleteRoute(
     args: DeleteRouteCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DeleteRouteCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    DeleteRouteCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link DeleteRouteTableCommand}
@@ -4545,7 +4680,10 @@ interface EC2Service$ {
   deleteRouteTable(
     args: DeleteRouteTableCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DeleteRouteTableCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    DeleteRouteTableCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link DeleteSecurityGroupCommand}
@@ -4564,7 +4702,10 @@ interface EC2Service$ {
   deleteSnapshot(
     args: DeleteSnapshotCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DeleteSnapshotCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    DeleteSnapshotCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link DeleteSpotDatafeedSubscriptionCommand}
@@ -4583,7 +4724,10 @@ interface EC2Service$ {
   deleteSubnet(
     args: DeleteSubnetCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DeleteSubnetCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    DeleteSubnetCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link DeleteSubnetCidrReservationCommand}
@@ -4602,7 +4746,10 @@ interface EC2Service$ {
   deleteTags(
     args: DeleteTagsCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DeleteTagsCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    DeleteTagsCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link DeleteTrafficMirrorFilterCommand}
@@ -4819,7 +4966,10 @@ interface EC2Service$ {
   deleteVolume(
     args: DeleteVolumeCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DeleteVolumeCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    DeleteVolumeCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link DeleteVpcCommand}
@@ -4827,7 +4977,10 @@ interface EC2Service$ {
   deleteVpc(
     args: DeleteVpcCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DeleteVpcCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    DeleteVpcCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link DeleteVpcBlockPublicAccessExclusionCommand}
@@ -4868,7 +5021,10 @@ interface EC2Service$ {
   deleteVpcEndpoints(
     args: DeleteVpcEndpointsCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DeleteVpcEndpointsCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    DeleteVpcEndpointsCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link DeleteVpcPeeringConnectionCommand}
@@ -4909,7 +5065,10 @@ interface EC2Service$ {
   deleteVpnGateway(
     args: DeleteVpnGatewayCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DeleteVpnGatewayCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    DeleteVpnGatewayCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link DeprovisionByoipCidrCommand}
@@ -4961,7 +5120,10 @@ interface EC2Service$ {
   deregisterImage(
     args: DeregisterImageCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DeregisterImageCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    DeregisterImageCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link DeregisterInstanceEventNotificationAttributesCommand}
@@ -5024,7 +5186,10 @@ interface EC2Service$ {
   describeAddresses(
     args: DescribeAddressesCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DescribeAddressesCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    DescribeAddressesCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link DescribeAddressesAttributeCommand}
@@ -5087,7 +5252,10 @@ interface EC2Service$ {
   describeByoipCidrs(
     args: DescribeByoipCidrsCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DescribeByoipCidrsCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    DescribeByoipCidrsCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link DescribeCapacityBlockExtensionHistoryCommand}
@@ -5238,7 +5406,10 @@ interface EC2Service$ {
   describeCoipPools(
     args: DescribeCoipPoolsCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DescribeCoipPoolsCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    DescribeCoipPoolsCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link DescribeConversionTasksCommand}
@@ -5378,7 +5549,10 @@ interface EC2Service$ {
   describeFleets(
     args: DescribeFleetsCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DescribeFleetsCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    DescribeFleetsCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link DescribeFlowLogsCommand}
@@ -5386,7 +5560,10 @@ interface EC2Service$ {
   describeFlowLogs(
     args: DescribeFlowLogsCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DescribeFlowLogsCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    DescribeFlowLogsCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link DescribeFpgaImageAttributeCommand}
@@ -5405,7 +5582,10 @@ interface EC2Service$ {
   describeFpgaImages(
     args: DescribeFpgaImagesCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DescribeFpgaImagesCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    DescribeFpgaImagesCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link DescribeHostReservationOfferingsCommand}
@@ -5435,7 +5615,10 @@ interface EC2Service$ {
   describeHosts(
     args: DescribeHostsCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DescribeHostsCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    DescribeHostsCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link DescribeIamInstanceProfileAssociationsCommand}
@@ -5454,7 +5637,10 @@ interface EC2Service$ {
   describeIdFormat(
     args: DescribeIdFormatCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DescribeIdFormatCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    DescribeIdFormatCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link DescribeIdentityIdFormatCommand}
@@ -5484,7 +5670,10 @@ interface EC2Service$ {
   describeImages(
     args: DescribeImagesCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DescribeImagesCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    DescribeImagesCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link DescribeImportImageTasksCommand}
@@ -5624,7 +5813,10 @@ interface EC2Service$ {
   describeInstances(
     args: DescribeInstancesCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DescribeInstancesCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    DescribeInstancesCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link DescribeInternetGatewaysCommand}
@@ -5643,7 +5835,10 @@ interface EC2Service$ {
   describeIpamByoasn(
     args: DescribeIpamByoasnCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DescribeIpamByoasnCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    DescribeIpamByoasnCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link DescribeIpamExternalResourceVerificationTokensCommand}
@@ -5662,7 +5857,10 @@ interface EC2Service$ {
   describeIpamPools(
     args: DescribeIpamPoolsCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DescribeIpamPoolsCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    DescribeIpamPoolsCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link DescribeIpamResourceDiscoveriesCommand}
@@ -5692,7 +5890,10 @@ interface EC2Service$ {
   describeIpamScopes(
     args: DescribeIpamScopesCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DescribeIpamScopesCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    DescribeIpamScopesCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link DescribeIpamsCommand}
@@ -5700,7 +5901,10 @@ interface EC2Service$ {
   describeIpams(
     args: DescribeIpamsCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DescribeIpamsCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    DescribeIpamsCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link DescribeIpv6PoolsCommand}
@@ -5708,7 +5912,10 @@ interface EC2Service$ {
   describeIpv6Pools(
     args: DescribeIpv6PoolsCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DescribeIpv6PoolsCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    DescribeIpv6PoolsCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link DescribeKeyPairsCommand}
@@ -5716,7 +5923,10 @@ interface EC2Service$ {
   describeKeyPairs(
     args: DescribeKeyPairsCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DescribeKeyPairsCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    DescribeKeyPairsCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link DescribeLaunchTemplateVersionsCommand}
@@ -5823,7 +6033,10 @@ interface EC2Service$ {
   describeMacHosts(
     args: DescribeMacHostsCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DescribeMacHostsCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    DescribeMacHostsCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link DescribeManagedPrefixListsCommand}
@@ -5996,7 +6209,10 @@ interface EC2Service$ {
   describeRegions(
     args: DescribeRegionsCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DescribeRegionsCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    DescribeRegionsCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link DescribeReplaceRootVolumeTasksCommand}
@@ -6158,7 +6374,10 @@ interface EC2Service$ {
   describeSnapshots(
     args: DescribeSnapshotsCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DescribeSnapshotsCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    DescribeSnapshotsCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link DescribeSpotDatafeedSubscriptionCommand}
@@ -6254,7 +6473,10 @@ interface EC2Service$ {
   describeSubnets(
     args: DescribeSubnetsCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DescribeSubnetsCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    DescribeSubnetsCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link DescribeTagsCommand}
@@ -6262,7 +6484,10 @@ interface EC2Service$ {
   describeTags(
     args: DescribeTagsCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DescribeTagsCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    DescribeTagsCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link DescribeTrafficMirrorFilterRulesCommand}
@@ -6512,7 +6737,10 @@ interface EC2Service$ {
   describeVolumes(
     args: DescribeVolumesCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DescribeVolumesCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    DescribeVolumesCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link DescribeVolumesModificationsCommand}
@@ -6674,7 +6902,10 @@ interface EC2Service$ {
   describeVpcs(
     args: DescribeVpcsCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DescribeVpcsCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    DescribeVpcsCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link DescribeVpnConnectionsCommand}
@@ -6748,7 +6979,10 @@ interface EC2Service$ {
   detachVolume(
     args: DetachVolumeCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DetachVolumeCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    DetachVolumeCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link DetachVpnGatewayCommand}
@@ -6756,7 +6990,10 @@ interface EC2Service$ {
   detachVpnGateway(
     args: DetachVpnGatewayCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DetachVpnGatewayCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    DetachVpnGatewayCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link DisableAddressTransferCommand}
@@ -6808,7 +7045,10 @@ interface EC2Service$ {
   disableFastLaunch(
     args: DisableFastLaunchCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DisableFastLaunchCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    DisableFastLaunchCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link DisableFastSnapshotRestoresCommand}
@@ -6827,7 +7067,10 @@ interface EC2Service$ {
   disableImage(
     args: DisableImageCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<DisableImageCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    DisableImageCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link DisableImageBlockPublicAccessCommand}
@@ -7176,7 +7419,10 @@ interface EC2Service$ {
   enableFastLaunch(
     args: EnableFastLaunchCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<EnableFastLaunchCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    EnableFastLaunchCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link EnableFastSnapshotRestoresCommand}
@@ -7195,7 +7441,10 @@ interface EC2Service$ {
   enableImage(
     args: EnableImageCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<EnableImageCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    EnableImageCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link EnableImageBlockPublicAccessCommand}
@@ -7302,7 +7551,10 @@ interface EC2Service$ {
   enableVolumeIO(
     args: EnableVolumeIOCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<EnableVolumeIOCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    EnableVolumeIOCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link EnableVpcClassicLinkCommand}
@@ -7354,7 +7606,10 @@ interface EC2Service$ {
   exportImage(
     args: ExportImageCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<ExportImageCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    ExportImageCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link ExportTransitGatewayRoutesCommand}
@@ -7439,7 +7694,10 @@ interface EC2Service$ {
   getCoipPoolUsage(
     args: GetCoipPoolUsageCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<GetCoipPoolUsageCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    GetCoipPoolUsageCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link GetConsoleOutputCommand}
@@ -7447,7 +7705,10 @@ interface EC2Service$ {
   getConsoleOutput(
     args: GetConsoleOutputCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<GetConsoleOutputCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    GetConsoleOutputCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link GetConsoleScreenshotCommand}
@@ -7653,7 +7914,10 @@ interface EC2Service$ {
   getIpamPoolCidrs(
     args: GetIpamPoolCidrsCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<GetIpamPoolCidrsCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    GetIpamPoolCidrsCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link GetIpamResourceCidrsCommand}
@@ -7727,7 +7991,10 @@ interface EC2Service$ {
   getPasswordData(
     args: GetPasswordDataCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<GetPasswordDataCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    GetPasswordDataCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link GetReservedInstancesExchangeQuoteCommand}
@@ -7955,7 +8222,10 @@ interface EC2Service$ {
   importImage(
     args: ImportImageCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<ImportImageCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    ImportImageCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link ImportInstanceCommand}
@@ -7963,7 +8233,10 @@ interface EC2Service$ {
   importInstance(
     args: ImportInstanceCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<ImportInstanceCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    ImportInstanceCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link ImportKeyPairCommand}
@@ -7971,7 +8244,10 @@ interface EC2Service$ {
   importKeyPair(
     args: ImportKeyPairCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<ImportKeyPairCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    ImportKeyPairCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link ImportSnapshotCommand}
@@ -7979,7 +8255,10 @@ interface EC2Service$ {
   importSnapshot(
     args: ImportSnapshotCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<ImportSnapshotCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    ImportSnapshotCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link ImportVolumeCommand}
@@ -7987,7 +8266,10 @@ interface EC2Service$ {
   importVolume(
     args: ImportVolumeCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<ImportVolumeCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    ImportVolumeCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link ListImagesInRecycleBinCommand}
@@ -8017,7 +8299,10 @@ interface EC2Service$ {
   lockSnapshot(
     args: LockSnapshotCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<LockSnapshotCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    LockSnapshotCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link ModifyAddressAttributeCommand}
@@ -8102,7 +8387,10 @@ interface EC2Service$ {
   modifyFleet(
     args: ModifyFleetCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<ModifyFleetCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    ModifyFleetCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link ModifyFpgaImageAttributeCommand}
@@ -8121,7 +8409,10 @@ interface EC2Service$ {
   modifyHosts(
     args: ModifyHostsCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<ModifyHostsCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    ModifyHostsCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link ModifyIdFormatCommand}
@@ -8129,7 +8420,10 @@ interface EC2Service$ {
   modifyIdFormat(
     args: ModifyIdFormatCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<ModifyIdFormatCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    ModifyIdFormatCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link ModifyIdentityIdFormatCommand}
@@ -8280,7 +8574,10 @@ interface EC2Service$ {
   modifyIpam(
     args: ModifyIpamCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<ModifyIpamCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    ModifyIpamCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link ModifyIpamPoolCommand}
@@ -8288,7 +8585,10 @@ interface EC2Service$ {
   modifyIpamPool(
     args: ModifyIpamPoolCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<ModifyIpamPoolCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    ModifyIpamPoolCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link ModifyIpamResourceCidrCommand}
@@ -8318,7 +8618,10 @@ interface EC2Service$ {
   modifyIpamScope(
     args: ModifyIpamScopeCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<ModifyIpamScopeCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    ModifyIpamScopeCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link ModifyLaunchTemplateCommand}
@@ -8414,7 +8717,10 @@ interface EC2Service$ {
   modifySnapshotTier(
     args: ModifySnapshotTierCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<ModifySnapshotTierCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    ModifySnapshotTierCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link ModifySpotFleetRequestCommand}
@@ -8587,7 +8893,10 @@ interface EC2Service$ {
   modifyVolume(
     args: ModifyVolumeCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<ModifyVolumeCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    ModifyVolumeCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link ModifyVolumeAttributeCommand}
@@ -8606,7 +8915,10 @@ interface EC2Service$ {
   modifyVpcAttribute(
     args: ModifyVpcAttributeCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<ModifyVpcAttributeCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    ModifyVpcAttributeCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link ModifyVpcBlockPublicAccessExclusionCommand}
@@ -8636,7 +8948,10 @@ interface EC2Service$ {
   modifyVpcEndpoint(
     args: ModifyVpcEndpointCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<ModifyVpcEndpointCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    ModifyVpcEndpointCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link ModifyVpcEndpointConnectionNotificationCommand}
@@ -8699,7 +9014,10 @@ interface EC2Service$ {
   modifyVpcTenancy(
     args: ModifyVpcTenancyCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<ModifyVpcTenancyCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    ModifyVpcTenancyCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link ModifyVpnConnectionCommand}
@@ -8751,7 +9069,10 @@ interface EC2Service$ {
   monitorInstances(
     args: MonitorInstancesCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<MonitorInstancesCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    MonitorInstancesCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link MoveAddressToVpcCommand}
@@ -8759,7 +9080,10 @@ interface EC2Service$ {
   moveAddressToVpc(
     args: MoveAddressToVpcCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<MoveAddressToVpcCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    MoveAddressToVpcCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link MoveByoipCidrToIpamCommand}
@@ -8789,7 +9113,10 @@ interface EC2Service$ {
   provisionByoipCidr(
     args: ProvisionByoipCidrCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<ProvisionByoipCidrCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    ProvisionByoipCidrCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link ProvisionIpamByoasnCommand}
@@ -8885,7 +9212,10 @@ interface EC2Service$ {
   rebootInstances(
     args: RebootInstancesCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<RebootInstancesCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    RebootInstancesCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link RegisterImageCommand}
@@ -8893,7 +9223,10 @@ interface EC2Service$ {
   registerImage(
     args: RegisterImageCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<RegisterImageCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    RegisterImageCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link RegisterInstanceEventNotificationAttributesCommand}
@@ -9000,7 +9333,10 @@ interface EC2Service$ {
   releaseAddress(
     args: ReleaseAddressCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<ReleaseAddressCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    ReleaseAddressCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link ReleaseHostsCommand}
@@ -9008,7 +9344,10 @@ interface EC2Service$ {
   releaseHosts(
     args: ReleaseHostsCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<ReleaseHostsCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    ReleaseHostsCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link ReleaseIpamPoolAllocationCommand}
@@ -9071,7 +9410,10 @@ interface EC2Service$ {
   replaceRoute(
     args: ReplaceRouteCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<ReplaceRouteCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    ReplaceRouteCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link ReplaceRouteTableAssociationCommand}
@@ -9101,7 +9443,10 @@ interface EC2Service$ {
   replaceVpnTunnel(
     args: ReplaceVpnTunnelCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<ReplaceVpnTunnelCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    ReplaceVpnTunnelCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link ReportInstanceStatusCommand}
@@ -9120,7 +9465,10 @@ interface EC2Service$ {
   requestSpotFleet(
     args: RequestSpotFleetCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<RequestSpotFleetCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    RequestSpotFleetCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link RequestSpotInstancesCommand}
@@ -9304,7 +9652,10 @@ interface EC2Service$ {
   runInstances(
     args: RunInstancesCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<RunInstancesCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    RunInstancesCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link RunScheduledInstancesCommand}
@@ -9378,7 +9729,10 @@ interface EC2Service$ {
   startInstances(
     args: StartInstancesCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<StartInstancesCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    StartInstancesCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link StartNetworkInsightsAccessScopeAnalysisCommand}
@@ -9419,7 +9773,10 @@ interface EC2Service$ {
   stopInstances(
     args: StopInstancesCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<StopInstancesCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    StopInstancesCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link TerminateClientVpnConnectionsCommand}
@@ -9438,7 +9795,10 @@ interface EC2Service$ {
   terminateInstances(
     args: TerminateInstancesCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<TerminateInstancesCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    TerminateInstancesCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link UnassignIpv6AddressesCommand}
@@ -9479,7 +9839,10 @@ interface EC2Service$ {
   unlockSnapshot(
     args: UnlockSnapshotCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<UnlockSnapshotCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    UnlockSnapshotCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link UnmonitorInstancesCommand}
@@ -9487,7 +9850,10 @@ interface EC2Service$ {
   unmonitorInstances(
     args: UnmonitorInstancesCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<UnmonitorInstancesCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    UnmonitorInstancesCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link UpdateSecurityGroupRuleDescriptionsEgressCommand}
@@ -9517,54 +9883,20 @@ interface EC2Service$ {
   withdrawByoipCidr(
     args: WithdrawByoipCidrCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<WithdrawByoipCidrCommandOutput, SdkError | EC2ServiceError>;
+  ): Effect.Effect<
+    WithdrawByoipCidrCommandOutput,
+    SdkError | EC2ServiceError
+  >;
 }
 
 /**
  * @since 1.0.0
  * @category constructors
  */
-export const makeEC2Service = Effect.gen(function*(_) {
-  const client = yield* _(EC2ClientInstance);
+export const makeEC2Service = Effect.gen(function*() {
+  const client = yield* Instance.EC2ClientInstance;
 
-  return Record.toEntries(commands).reduce((acc, [command]) => {
-    const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options?: HttpHandlerOptions) =>
-      Effect.tryPromise({
-        try: (abortSignal) =>
-          client.send(new CommandCtor(args), {
-            ...(options ?? {}),
-            abortSignal,
-          }),
-        catch: (e) => {
-          if (e instanceof EC2ServiceException) {
-            const ServiceException = Data.tagged<
-              TaggedException<EC2ServiceException>
-            >(e.name);
-
-            return ServiceException({
-              ...e,
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          if (e instanceof Error) {
-            return SdkError({
-              ...e,
-              name: "SdkError",
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          throw e;
-        },
-      });
-    const methodName = (command[0].toLowerCase() + command.slice(1)).replace(
-      /Command$/,
-      "",
-    );
-    return { ...acc, [methodName]: methodImpl };
-  }, {}) as EC2Service$;
+  return Service.fromClientAndCommands<EC2Service$>(client, commands);
 });
 
 /**
@@ -9575,21 +9907,11 @@ export class EC2Service extends Effect.Tag("@effect-aws/client-ec2/EC2Service")<
   EC2Service,
   EC2Service$
 >() {
-  static readonly defaultLayer = Layer.effect(this, makeEC2Service).pipe(
-    Layer.provide(EC2ClientInstanceLayer),
-    Layer.provide(DefaultEC2ClientConfigLayer),
-  );
-  static readonly layer = (config: EC2ClientConfig) =>
+  static readonly defaultLayer = Layer.effect(this, makeEC2Service).pipe(Layer.provide(Instance.layer));
+  static readonly layer = (config: EC2Service.Config) =>
     Layer.effect(this, makeEC2Service).pipe(
-      Layer.provide(EC2ClientInstanceLayer),
-      Layer.provide(
-        Layer.effect(
-          EC2ClientInstanceConfig,
-          makeDefaultEC2ClientInstanceConfig.pipe(
-            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
-          ),
-        ),
-      ),
+      Layer.provide(Instance.layer),
+      Layer.provide(EC2ServiceConfig.setEC2ServiceConfig(config)),
     );
   static readonly baseLayer = (
     evaluate: (defaultConfig: EC2ClientConfig) => EC2Client,
@@ -9597,8 +9919,8 @@ export class EC2Service extends Effect.Tag("@effect-aws/client-ec2/EC2Service")<
     Layer.effect(this, makeEC2Service).pipe(
       Layer.provide(
         Layer.effect(
-          EC2ClientInstance,
-          Effect.map(makeDefaultEC2ClientInstanceConfig, evaluate),
+          Instance.EC2ClientInstance,
+          Effect.map(EC2ServiceConfig.toEC2ClientConfig, evaluate),
         ),
       ),
     );
@@ -9606,30 +9928,12 @@ export class EC2Service extends Effect.Tag("@effect-aws/client-ec2/EC2Service")<
 
 /**
  * @since 1.0.0
- * @category models
- * @alias EC2Service
  */
-export const EC2 = EC2Service;
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use EC2.baseLayer instead
- */
-export const BaseEC2ServiceLayer = Layer.effect(EC2Service, makeEC2Service);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use EC2.layer instead
- */
-export const EC2ServiceLayer = BaseEC2ServiceLayer.pipe(
-  Layer.provide(EC2ClientInstanceLayer),
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use EC2.defaultLayer instead
- */
-export const DefaultEC2ServiceLayer = EC2Service.defaultLayer;
+export declare namespace EC2Service {
+  /**
+   * @since 1.0.0
+   */
+  export interface Config extends Omit<EC2ClientConfig, "logger"> {
+    readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
+  }
+}

@@ -6,7 +6,7 @@ import {
 } from "@aws-sdk/client-dynamodb";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-dynamodb/dist-cjs/runtimeConfig";
-import { DynamoDB, SdkError } from "@effect-aws/client-dynamodb";
+import { DynamoDB, DynamoDBServiceConfig, SdkError } from "@effect-aws/client-dynamodb";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
@@ -35,9 +35,7 @@ describe("DynamoDBClientImpl", () => {
 
     expect(result).toEqual(Exit.succeed({}));
     expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
-    expect(getRuntimeConfig).toHaveBeenCalledWith({
-      logger: expect.any(Object),
-    });
+    expect(getRuntimeConfig).toHaveBeenCalledWith({});
     expect(clientMock).toHaveReceivedCommandTimes(PutItemCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(PutItemCommand, args);
   });
@@ -51,7 +49,7 @@ describe("DynamoDBClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provide(DynamoDB.layer({ region: "eu-central-1" })),
+      Effect.provide(DynamoDB.layer({ region: "eu-central-1", logger: true })),
       Effect.runPromiseExit,
     );
 
@@ -103,6 +101,7 @@ describe("DynamoDBClientImpl", () => {
           (config) => new DynamoDBClient({ ...config, region: "eu-central-1" }),
         ),
       ),
+      DynamoDBServiceConfig.withDynamoDBServiceConfig({ logger: true }),
       Effect.runPromiseExit,
     );
 
@@ -121,7 +120,7 @@ describe("DynamoDBClientImpl", () => {
 
     const args: PutItemCommandInput = { TableName: "test", Item: { testAttr: { S: "test" } } };
 
-    const program = DynamoDB.putItem(args, { requestTimeout: 1000 });
+    const program = DynamoDB.putItem(args);
 
     const result = await pipe(
       program,

@@ -3,10 +3,7 @@
  */
 import { ApiGatewayManagementApiClient } from "@aws-sdk/client-apigatewaymanagementapi";
 import { Context, Effect, Layer } from "effect";
-import {
-  ApiGatewayManagementApiClientInstanceConfig,
-  DefaultApiGatewayManagementApiClientConfigLayer,
-} from "./ApiGatewayManagementApiClientInstanceConfig.js";
+import * as ApiGatewayManagementApiServiceConfig from "./ApiGatewayManagementApiServiceConfig.js";
 
 /**
  * @since 1.0.0
@@ -20,8 +17,8 @@ export class ApiGatewayManagementApiClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeApiGatewayManagementApiClientInstance = Effect.flatMap(
-  ApiGatewayManagementApiClientInstanceConfig,
+export const make = Effect.flatMap(
+  ApiGatewayManagementApiServiceConfig.toApiGatewayManagementApiClientConfig,
   (config) =>
     Effect.acquireRelease(
       Effect.sync(() => new ApiGatewayManagementApiClient(config)),
@@ -33,15 +30,4 @@ export const makeApiGatewayManagementApiClientInstance = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const ApiGatewayManagementApiClientInstanceLayer = Layer.scoped(
-  ApiGatewayManagementApiClientInstance,
-  makeApiGatewayManagementApiClientInstance,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- */
-export const DefaultApiGatewayManagementApiClientInstanceLayer = ApiGatewayManagementApiClientInstanceLayer.pipe(
-  Layer.provide(DefaultApiGatewayManagementApiClientConfigLayer),
-);
+export const layer = Layer.scoped(ApiGatewayManagementApiClientInstance, make);

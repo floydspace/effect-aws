@@ -148,7 +148,6 @@ import {
   type MoveAccountCommandOutput,
   type OrganizationsClient,
   type OrganizationsClientConfig,
-  OrganizationsServiceException,
   PutResourcePolicyCommand,
   type PutResourcePolicyCommandInput,
   type PutResourcePolicyCommandOutput,
@@ -171,7 +170,9 @@ import {
   type UpdatePolicyCommandInput,
   type UpdatePolicyCommandOutput,
 } from "@aws-sdk/client-organizations";
-import { Data, Effect, Layer, Record } from "effect";
+import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import { Service } from "@effect-aws/commons";
+import { Effect, Layer } from "effect";
 import type {
   AccessDeniedError,
   AccessDeniedForDependencyError,
@@ -217,29 +218,13 @@ import type {
   RootNotFoundError,
   ServiceError,
   SourceParentNotFoundError,
-  TaggedException,
   TargetNotFoundError,
   TooManyRequestsError,
   UnsupportedAPIEndpointError,
 } from "./Errors.js";
-import { AllServiceErrors, SdkError } from "./Errors.js";
-import { OrganizationsClientInstance, OrganizationsClientInstanceLayer } from "./OrganizationsClientInstance.js";
-import {
-  DefaultOrganizationsClientConfigLayer,
-  makeDefaultOrganizationsClientInstanceConfig,
-  OrganizationsClientInstanceConfig,
-} from "./OrganizationsClientInstanceConfig.js";
-
-/**
- * @since 1.0.0
- */
-export interface HttpHandlerOptions {
-  /**
-   * The maximum time in milliseconds that the connection phase of a request
-   * may take before the connection attempt is abandoned.
-   */
-  requestTimeout?: number;
-}
+import { AllServiceErrors } from "./Errors.js";
+import * as Instance from "./OrganizationsClientInstance.js";
+import * as OrganizationsServiceConfig from "./OrganizationsServiceConfig.js";
 
 const commands = {
   AcceptHandshakeCommand,
@@ -1351,47 +1336,10 @@ interface OrganizationsService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeOrganizationsService = Effect.gen(function*(_) {
-  const client = yield* _(OrganizationsClientInstance);
+export const makeOrganizationsService = Effect.gen(function*() {
+  const client = yield* Instance.OrganizationsClientInstance;
 
-  return Record.toEntries(commands).reduce((acc, [command]) => {
-    const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options?: HttpHandlerOptions) =>
-      Effect.tryPromise({
-        try: (abortSignal) =>
-          client.send(new CommandCtor(args), {
-            ...(options ?? {}),
-            abortSignal,
-          }),
-        catch: (e) => {
-          if (e instanceof OrganizationsServiceException && AllServiceErrors.includes(e.name)) {
-            const ServiceException = Data.tagged<
-              TaggedException<OrganizationsServiceException>
-            >(e.name);
-
-            return ServiceException({
-              ...e,
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          if (e instanceof Error) {
-            return SdkError({
-              ...e,
-              name: "SdkError",
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          throw e;
-        },
-      });
-    const methodName = (command[0].toLowerCase() + command.slice(1)).replace(
-      /Command$/,
-      "",
-    );
-    return { ...acc, [methodName]: methodImpl };
-  }, {}) as OrganizationsService$;
+  return Service.fromClientAndCommands<OrganizationsService$>(client, commands, AllServiceErrors);
 });
 
 /**
@@ -1402,21 +1350,11 @@ export class OrganizationsService extends Effect.Tag("@effect-aws/client-organiz
   OrganizationsService,
   OrganizationsService$
 >() {
-  static readonly defaultLayer = Layer.effect(this, makeOrganizationsService).pipe(
-    Layer.provide(OrganizationsClientInstanceLayer),
-    Layer.provide(DefaultOrganizationsClientConfigLayer),
-  );
-  static readonly layer = (config: OrganizationsClientConfig) =>
+  static readonly defaultLayer = Layer.effect(this, makeOrganizationsService).pipe(Layer.provide(Instance.layer));
+  static readonly layer = (config: OrganizationsService.Config) =>
     Layer.effect(this, makeOrganizationsService).pipe(
-      Layer.provide(OrganizationsClientInstanceLayer),
-      Layer.provide(
-        Layer.effect(
-          OrganizationsClientInstanceConfig,
-          makeDefaultOrganizationsClientInstanceConfig.pipe(
-            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
-          ),
-        ),
-      ),
+      Layer.provide(Instance.layer),
+      Layer.provide(OrganizationsServiceConfig.setOrganizationsServiceConfig(config)),
     );
   static readonly baseLayer = (
     evaluate: (defaultConfig: OrganizationsClientConfig) => OrganizationsClient,
@@ -1424,8 +1362,8 @@ export class OrganizationsService extends Effect.Tag("@effect-aws/client-organiz
     Layer.effect(this, makeOrganizationsService).pipe(
       Layer.provide(
         Layer.effect(
-          OrganizationsClientInstance,
-          Effect.map(makeDefaultOrganizationsClientInstanceConfig, evaluate),
+          Instance.OrganizationsClientInstance,
+          Effect.map(OrganizationsServiceConfig.toOrganizationsClientConfig, evaluate),
         ),
       ),
     );
@@ -1433,33 +1371,12 @@ export class OrganizationsService extends Effect.Tag("@effect-aws/client-organiz
 
 /**
  * @since 1.0.0
- * @category models
- * @alias OrganizationsService
  */
-export const Organizations = OrganizationsService;
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use Organizations.baseLayer instead
- */
-export const BaseOrganizationsServiceLayer = Layer.effect(
-  OrganizationsService,
-  makeOrganizationsService,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use Organizations.layer instead
- */
-export const OrganizationsServiceLayer = BaseOrganizationsServiceLayer.pipe(
-  Layer.provide(OrganizationsClientInstanceLayer),
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use Organizations.defaultLayer instead
- */
-export const DefaultOrganizationsServiceLayer = OrganizationsService.defaultLayer;
+export declare namespace OrganizationsService {
+  /**
+   * @since 1.0.0
+   */
+  export interface Config extends Omit<OrganizationsClientConfig, "logger"> {
+    readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
+  }
+}

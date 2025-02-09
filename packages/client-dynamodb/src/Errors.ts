@@ -34,7 +34,8 @@ import type {
   TransactionConflictException,
   TransactionInProgressException,
 } from "@aws-sdk/client-dynamodb";
-import { Data } from "effect";
+import type { TaggedException } from "@effect-aws/commons";
+import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "BackupInUseException",
@@ -71,11 +72,7 @@ export const AllServiceErrors = [
   "TransactionCanceledException",
   "TransactionConflictException",
   "TransactionInProgressException",
-];
-
-export type TaggedException<T extends { name: string }> = T & {
-  readonly _tag: T["name"];
-};
+] as const;
 
 export type BackupInUseError = TaggedException<BackupInUseException>;
 export type BackupNotFoundError = TaggedException<BackupNotFoundException>;
@@ -112,5 +109,5 @@ export type TransactionCanceledError = TaggedException<TransactionCanceledExcept
 export type TransactionConflictError = TaggedException<TransactionConflictException>;
 export type TransactionInProgressError = TaggedException<TransactionInProgressException>;
 
-export type SdkError = TaggedException<Error & { name: "SdkError" }>;
-export const SdkError = Data.tagged<SdkError>("SdkError");
+export type SdkError = CommonSdkError;
+export const SdkError = CommonSdkError;

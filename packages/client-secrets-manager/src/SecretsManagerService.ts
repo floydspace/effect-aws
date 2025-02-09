@@ -55,7 +55,6 @@ import {
   type RotateSecretCommandOutput,
   type SecretsManagerClient,
   type SecretsManagerClientConfig,
-  SecretsManagerServiceException,
   StopReplicationToReplicaCommand,
   type StopReplicationToReplicaCommandInput,
   type StopReplicationToReplicaCommandOutput,
@@ -75,7 +74,9 @@ import {
   type ValidateResourcePolicyCommandInput,
   type ValidateResourcePolicyCommandOutput,
 } from "@aws-sdk/client-secrets-manager";
-import { Data, Effect, Layer, Record } from "effect";
+import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import { Service } from "@effect-aws/commons";
+import { Effect, Layer } from "effect";
 import type {
   DecryptionError,
   EncryptionError,
@@ -89,26 +90,10 @@ import type {
   PublicPolicyError,
   ResourceExistsError,
   ResourceNotFoundError,
-  TaggedException,
 } from "./Errors.js";
-import { AllServiceErrors, SdkError } from "./Errors.js";
-import { SecretsManagerClientInstance, SecretsManagerClientInstanceLayer } from "./SecretsManagerClientInstance.js";
-import {
-  DefaultSecretsManagerClientConfigLayer,
-  makeDefaultSecretsManagerClientInstanceConfig,
-  SecretsManagerClientInstanceConfig,
-} from "./SecretsManagerClientInstanceConfig.js";
-
-/**
- * @since 1.0.0
- */
-export interface HttpHandlerOptions {
-  /**
-   * The maximum time in milliseconds that the connection phase of a request
-   * may take before the connection attempt is abandoned.
-   */
-  requestTimeout?: number;
-}
+import { AllServiceErrors } from "./Errors.js";
+import * as Instance from "./SecretsManagerClientInstance.js";
+import * as SecretsManagerServiceConfig from "./SecretsManagerServiceConfig.js";
 
 const commands = {
   BatchGetSecretValueCommand,
@@ -452,47 +437,10 @@ interface SecretsManagerService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeSecretsManagerService = Effect.gen(function*(_) {
-  const client = yield* _(SecretsManagerClientInstance);
+export const makeSecretsManagerService = Effect.gen(function*() {
+  const client = yield* Instance.SecretsManagerClientInstance;
 
-  return Record.toEntries(commands).reduce((acc, [command]) => {
-    const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options?: HttpHandlerOptions) =>
-      Effect.tryPromise({
-        try: (abortSignal) =>
-          client.send(new CommandCtor(args), {
-            ...(options ?? {}),
-            abortSignal,
-          }),
-        catch: (e) => {
-          if (e instanceof SecretsManagerServiceException && AllServiceErrors.includes(e.name)) {
-            const ServiceException = Data.tagged<
-              TaggedException<SecretsManagerServiceException>
-            >(e.name);
-
-            return ServiceException({
-              ...e,
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          if (e instanceof Error) {
-            return SdkError({
-              ...e,
-              name: "SdkError",
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          throw e;
-        },
-      });
-    const methodName = (command[0].toLowerCase() + command.slice(1)).replace(
-      /Command$/,
-      "",
-    );
-    return { ...acc, [methodName]: methodImpl };
-  }, {}) as SecretsManagerService$;
+  return Service.fromClientAndCommands<SecretsManagerService$>(client, commands, AllServiceErrors);
 });
 
 /**
@@ -503,21 +451,11 @@ export class SecretsManagerService extends Effect.Tag("@effect-aws/client-secret
   SecretsManagerService,
   SecretsManagerService$
 >() {
-  static readonly defaultLayer = Layer.effect(this, makeSecretsManagerService).pipe(
-    Layer.provide(SecretsManagerClientInstanceLayer),
-    Layer.provide(DefaultSecretsManagerClientConfigLayer),
-  );
-  static readonly layer = (config: SecretsManagerClientConfig) =>
+  static readonly defaultLayer = Layer.effect(this, makeSecretsManagerService).pipe(Layer.provide(Instance.layer));
+  static readonly layer = (config: SecretsManagerService.Config) =>
     Layer.effect(this, makeSecretsManagerService).pipe(
-      Layer.provide(SecretsManagerClientInstanceLayer),
-      Layer.provide(
-        Layer.effect(
-          SecretsManagerClientInstanceConfig,
-          makeDefaultSecretsManagerClientInstanceConfig.pipe(
-            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
-          ),
-        ),
-      ),
+      Layer.provide(Instance.layer),
+      Layer.provide(SecretsManagerServiceConfig.setSecretsManagerServiceConfig(config)),
     );
   static readonly baseLayer = (
     evaluate: (defaultConfig: SecretsManagerClientConfig) => SecretsManagerClient,
@@ -525,8 +463,8 @@ export class SecretsManagerService extends Effect.Tag("@effect-aws/client-secret
     Layer.effect(this, makeSecretsManagerService).pipe(
       Layer.provide(
         Layer.effect(
-          SecretsManagerClientInstance,
-          Effect.map(makeDefaultSecretsManagerClientInstanceConfig, evaluate),
+          Instance.SecretsManagerClientInstance,
+          Effect.map(SecretsManagerServiceConfig.toSecretsManagerClientConfig, evaluate),
         ),
       ),
     );
@@ -534,33 +472,12 @@ export class SecretsManagerService extends Effect.Tag("@effect-aws/client-secret
 
 /**
  * @since 1.0.0
- * @category models
- * @alias SecretsManagerService
  */
-export const SecretsManager = SecretsManagerService;
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use SecretsManager.baseLayer instead
- */
-export const BaseSecretsManagerServiceLayer = Layer.effect(
-  SecretsManagerService,
-  makeSecretsManagerService,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use SecretsManager.layer instead
- */
-export const SecretsManagerServiceLayer = BaseSecretsManagerServiceLayer.pipe(
-  Layer.provide(SecretsManagerClientInstanceLayer),
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use SecretsManager.defaultLayer instead
- */
-export const DefaultSecretsManagerServiceLayer = SecretsManagerService.defaultLayer;
+export declare namespace SecretsManagerService {
+  /**
+   * @since 1.0.0
+   */
+  export interface Config extends Omit<SecretsManagerClientConfig, "logger"> {
+    readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
+  }
+}

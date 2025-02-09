@@ -6,7 +6,7 @@ import {
 } from "@aws-sdk/client-ecr";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-ecr/dist-cjs/runtimeConfig";
-import { ECR, SdkError } from "@effect-aws/client-ecr";
+import { ECR, ECRServiceConfig, SdkError } from "@effect-aws/client-ecr";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
@@ -35,9 +35,7 @@ describe("ECRClientImpl", () => {
 
     expect(result).toEqual(Exit.succeed({}));
     expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
-    expect(getRuntimeConfig).toHaveBeenCalledWith({
-      logger: expect.any(Object),
-    });
+    expect(getRuntimeConfig).toHaveBeenCalledWith({});
     expect(clientMock).toHaveReceivedCommandTimes(DescribeRepositoriesCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(DescribeRepositoriesCommand, args);
   });
@@ -51,7 +49,7 @@ describe("ECRClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provide(ECR.layer({ region: "eu-central-1" })),
+      Effect.provide(ECR.layer({ region: "eu-central-1", logger: true })),
       Effect.runPromiseExit,
     );
 
@@ -103,6 +101,7 @@ describe("ECRClientImpl", () => {
           (config) => new ECRClient({ ...config, region: "eu-central-1" }),
         ),
       ),
+      ECRServiceConfig.withECRServiceConfig({ logger: true }),
       Effect.runPromiseExit,
     );
 

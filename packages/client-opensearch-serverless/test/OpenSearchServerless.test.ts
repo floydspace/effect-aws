@@ -6,7 +6,11 @@ import {
 } from "@aws-sdk/client-opensearchserverless";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-opensearchserverless/dist-cjs/runtimeConfig";
-import { OpenSearchServerless, SdkError } from "@effect-aws/client-opensearch-serverless";
+import {
+  OpenSearchServerless,
+  OpenSearchServerlessServiceConfig,
+  SdkError,
+} from "@effect-aws/client-opensearch-serverless";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
@@ -35,9 +39,7 @@ describe("OpenSearchServerlessClientImpl", () => {
 
     expect(result).toEqual(Exit.succeed({}));
     expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
-    expect(getRuntimeConfig).toHaveBeenCalledWith({
-      logger: expect.any(Object),
-    });
+    expect(getRuntimeConfig).toHaveBeenCalledWith({});
     expect(clientMock).toHaveReceivedCommandTimes(ListCollectionsCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(ListCollectionsCommand, args);
   });
@@ -51,7 +53,7 @@ describe("OpenSearchServerlessClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provide(OpenSearchServerless.layer({ region: "eu-central-1" })),
+      Effect.provide(OpenSearchServerless.layer({ region: "eu-central-1", logger: true })),
       Effect.runPromiseExit,
     );
 
@@ -103,6 +105,7 @@ describe("OpenSearchServerlessClientImpl", () => {
           (config) => new OpenSearchServerlessClient({ ...config, region: "eu-central-1" }),
         ),
       ),
+      OpenSearchServerlessServiceConfig.withOpenSearchServerlessServiceConfig({ logger: true }),
       Effect.runPromiseExit,
     );
 

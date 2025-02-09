@@ -13,7 +13,6 @@ import {
   type GetThingShadowCommandOutput,
   type IoTDataPlaneClient,
   type IoTDataPlaneClientConfig,
-  IoTDataPlaneServiceException,
   ListNamedShadowsForThingCommand,
   type ListNamedShadowsForThingCommandInput,
   type ListNamedShadowsForThingCommandOutput,
@@ -27,7 +26,9 @@ import {
   type UpdateThingShadowCommandInput,
   type UpdateThingShadowCommandOutput,
 } from "@aws-sdk/client-iot-data-plane";
-import { Data, Effect, Layer, Record } from "effect";
+import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import { Service } from "@effect-aws/commons";
+import { Effect, Layer } from "effect";
 import type {
   ConflictError,
   InternalFailureError,
@@ -36,29 +37,13 @@ import type {
   RequestEntityTooLargeError,
   ResourceNotFoundError,
   ServiceUnavailableError,
-  TaggedException,
   ThrottlingError,
   UnauthorizedError,
   UnsupportedDocumentEncodingError,
 } from "./Errors.js";
-import { AllServiceErrors, SdkError } from "./Errors.js";
-import { IoTDataPlaneClientInstance, IoTDataPlaneClientInstanceLayer } from "./IoTDataPlaneClientInstance.js";
-import {
-  DefaultIoTDataPlaneClientConfigLayer,
-  IoTDataPlaneClientInstanceConfig,
-  makeDefaultIoTDataPlaneClientInstanceConfig,
-} from "./IoTDataPlaneClientInstanceConfig.js";
-
-/**
- * @since 1.0.0
- */
-export interface HttpHandlerOptions {
-  /**
-   * The maximum time in milliseconds that the connection phase of a request
-   * may take before the connection attempt is abandoned.
-   */
-  requestTimeout?: number;
-}
+import { AllServiceErrors } from "./Errors.js";
+import * as Instance from "./IoTDataPlaneClientInstance.js";
+import * as IoTDataPlaneServiceConfig from "./IoTDataPlaneServiceConfig.js";
 
 const commands = {
   DeleteThingShadowCommand,
@@ -200,47 +185,10 @@ interface IoTDataPlaneService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeIoTDataPlaneService = Effect.gen(function*(_) {
-  const client = yield* _(IoTDataPlaneClientInstance);
+export const makeIoTDataPlaneService = Effect.gen(function*() {
+  const client = yield* Instance.IoTDataPlaneClientInstance;
 
-  return Record.toEntries(commands).reduce((acc, [command]) => {
-    const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options?: HttpHandlerOptions) =>
-      Effect.tryPromise({
-        try: (abortSignal) =>
-          client.send(new CommandCtor(args), {
-            ...(options ?? {}),
-            abortSignal,
-          }),
-        catch: (e) => {
-          if (e instanceof IoTDataPlaneServiceException && AllServiceErrors.includes(e.name)) {
-            const ServiceException = Data.tagged<
-              TaggedException<IoTDataPlaneServiceException>
-            >(e.name);
-
-            return ServiceException({
-              ...e,
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          if (e instanceof Error) {
-            return SdkError({
-              ...e,
-              name: "SdkError",
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          throw e;
-        },
-      });
-    const methodName = (command[0].toLowerCase() + command.slice(1)).replace(
-      /Command$/,
-      "",
-    );
-    return { ...acc, [methodName]: methodImpl };
-  }, {}) as IoTDataPlaneService$;
+  return Service.fromClientAndCommands<IoTDataPlaneService$>(client, commands, AllServiceErrors);
 });
 
 /**
@@ -251,21 +199,11 @@ export class IoTDataPlaneService extends Effect.Tag("@effect-aws/client-iot-data
   IoTDataPlaneService,
   IoTDataPlaneService$
 >() {
-  static readonly defaultLayer = Layer.effect(this, makeIoTDataPlaneService).pipe(
-    Layer.provide(IoTDataPlaneClientInstanceLayer),
-    Layer.provide(DefaultIoTDataPlaneClientConfigLayer),
-  );
-  static readonly layer = (config: IoTDataPlaneClientConfig) =>
+  static readonly defaultLayer = Layer.effect(this, makeIoTDataPlaneService).pipe(Layer.provide(Instance.layer));
+  static readonly layer = (config: IoTDataPlaneService.Config) =>
     Layer.effect(this, makeIoTDataPlaneService).pipe(
-      Layer.provide(IoTDataPlaneClientInstanceLayer),
-      Layer.provide(
-        Layer.effect(
-          IoTDataPlaneClientInstanceConfig,
-          makeDefaultIoTDataPlaneClientInstanceConfig.pipe(
-            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
-          ),
-        ),
-      ),
+      Layer.provide(Instance.layer),
+      Layer.provide(IoTDataPlaneServiceConfig.setIoTDataPlaneServiceConfig(config)),
     );
   static readonly baseLayer = (
     evaluate: (defaultConfig: IoTDataPlaneClientConfig) => IoTDataPlaneClient,
@@ -273,8 +211,8 @@ export class IoTDataPlaneService extends Effect.Tag("@effect-aws/client-iot-data
     Layer.effect(this, makeIoTDataPlaneService).pipe(
       Layer.provide(
         Layer.effect(
-          IoTDataPlaneClientInstance,
-          Effect.map(makeDefaultIoTDataPlaneClientInstanceConfig, evaluate),
+          Instance.IoTDataPlaneClientInstance,
+          Effect.map(IoTDataPlaneServiceConfig.toIoTDataPlaneClientConfig, evaluate),
         ),
       ),
     );
@@ -282,33 +220,12 @@ export class IoTDataPlaneService extends Effect.Tag("@effect-aws/client-iot-data
 
 /**
  * @since 1.0.0
- * @category models
- * @alias IoTDataPlaneService
  */
-export const IoTDataPlane = IoTDataPlaneService;
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use IoTDataPlane.baseLayer instead
- */
-export const BaseIoTDataPlaneServiceLayer = Layer.effect(
-  IoTDataPlaneService,
-  makeIoTDataPlaneService,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use IoTDataPlane.layer instead
- */
-export const IoTDataPlaneServiceLayer = BaseIoTDataPlaneServiceLayer.pipe(
-  Layer.provide(IoTDataPlaneClientInstanceLayer),
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use IoTDataPlane.defaultLayer instead
- */
-export const DefaultIoTDataPlaneServiceLayer = IoTDataPlaneService.defaultLayer;
+export declare namespace IoTDataPlaneService {
+  /**
+   * @since 1.0.0
+   */
+  export interface Config extends Omit<IoTDataPlaneClientConfig, "logger"> {
+    readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
+  }
+}

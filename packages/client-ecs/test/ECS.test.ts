@@ -6,7 +6,7 @@ import {
 } from "@aws-sdk/client-ecs";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-ecs/dist-cjs/runtimeConfig";
-import { ECS, SdkError } from "@effect-aws/client-ecs";
+import { ECS, ECSServiceConfig, SdkError } from "@effect-aws/client-ecs";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
@@ -35,9 +35,7 @@ describe("ECSClientImpl", () => {
 
     expect(result).toEqual(Exit.succeed({}));
     expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
-    expect(getRuntimeConfig).toHaveBeenCalledWith({
-      logger: expect.any(Object),
-    });
+    expect(getRuntimeConfig).toHaveBeenCalledWith({});
     expect(clientMock).toHaveReceivedCommandTimes(ListClustersCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(ListClustersCommand, args);
   });
@@ -51,7 +49,7 @@ describe("ECSClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provide(ECS.layer({ region: "eu-central-1" })),
+      Effect.provide(ECS.layer({ region: "eu-central-1", logger: true })),
       Effect.runPromiseExit,
     );
 
@@ -103,6 +101,7 @@ describe("ECSClientImpl", () => {
           (config) => new ECSClient({ ...config, region: "eu-central-1" }),
         ),
       ),
+      ECSServiceConfig.withECSServiceConfig({ logger: true }),
       Effect.runPromiseExit,
     );
 

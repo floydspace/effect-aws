@@ -34,7 +34,8 @@ import type {
   TrackingOptionsAlreadyExistsException,
   TrackingOptionsDoesNotExistException,
 } from "@aws-sdk/client-ses";
-import { Data } from "effect";
+import type { TaggedException } from "@effect-aws/commons";
+import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "AccountSendingPausedException",
@@ -71,11 +72,7 @@ export const AllServiceErrors = [
   "TemplateDoesNotExistException",
   "TrackingOptionsAlreadyExistsException",
   "TrackingOptionsDoesNotExistException",
-];
-
-export type TaggedException<T extends { name: string }> = T & {
-  readonly _tag: T["name"];
-};
+] as const;
 
 export type AccountSendingPausedError = TaggedException<AccountSendingPausedException>;
 export type AlreadyExistsError = TaggedException<AlreadyExistsException>;
@@ -118,5 +115,5 @@ export type TemplateDoesNotExistError = TaggedException<TemplateDoesNotExistExce
 export type TrackingOptionsAlreadyExistsError = TaggedException<TrackingOptionsAlreadyExistsException>;
 export type TrackingOptionsDoesNotExistError = TaggedException<TrackingOptionsDoesNotExistException>;
 
-export type SdkError = TaggedException<Error & { name: "SdkError" }>;
-export const SdkError = Data.tagged<SdkError>("SdkError");
+export type SdkError = CommonSdkError;
+export const SdkError = CommonSdkError;

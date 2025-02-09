@@ -13,7 +13,8 @@ import type {
   ResourceNotFoundException,
   ThrottlingException,
 } from "@aws-sdk/client-eventbridge";
-import { Data } from "effect";
+import type { TaggedException } from "@effect-aws/commons";
+import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "AccessDeniedException",
@@ -29,11 +30,7 @@ export const AllServiceErrors = [
   "ResourceAlreadyExistsException",
   "ResourceNotFoundException",
   "ThrottlingException",
-];
-
-export type TaggedException<T extends { name: string }> = T & {
-  readonly _tag: T["name"];
-};
+] as const;
 
 export type AccessDeniedError = TaggedException<AccessDeniedException>;
 export type ConcurrentModificationError = TaggedException<ConcurrentModificationException>;
@@ -49,5 +46,5 @@ export type ResourceAlreadyExistsError = TaggedException<ResourceAlreadyExistsEx
 export type ResourceNotFoundError = TaggedException<ResourceNotFoundException>;
 export type ThrottlingError = TaggedException<ThrottlingException>;
 
-export type SdkError = TaggedException<Error & { name: "SdkError" }>;
-export const SdkError = Data.tagged<SdkError>("SdkError");
+export type SdkError = CommonSdkError;
+export const SdkError = CommonSdkError;

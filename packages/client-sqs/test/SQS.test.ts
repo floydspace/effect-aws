@@ -1,7 +1,7 @@
 import { SendMessageCommand, type SendMessageCommandInput, SQSClient, SQSServiceException } from "@aws-sdk/client-sqs";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-sqs/dist-cjs/runtimeConfig";
-import { SdkError, SQS } from "@effect-aws/client-sqs";
+import { SdkError, SQS, SQSServiceConfig } from "@effect-aws/client-sqs";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
@@ -33,9 +33,7 @@ describe("SQSClientImpl", () => {
 
     expect(result).toEqual(Exit.succeed({}));
     expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
-    expect(getRuntimeConfig).toHaveBeenCalledWith({
-      logger: expect.any(Object),
-    });
+    expect(getRuntimeConfig).toHaveBeenCalledWith({});
     expect(clientMock).toHaveReceivedCommandTimes(SendMessageCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(SendMessageCommand, args);
   });
@@ -52,7 +50,7 @@ describe("SQSClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provide(SQS.layer({ region: "eu-central-1" })),
+      Effect.provide(SQS.layer({ region: "eu-central-1", logger: true })),
       Effect.runPromiseExit,
     );
 
@@ -110,6 +108,7 @@ describe("SQSClientImpl", () => {
           (config) => new SQSClient({ ...config, region: "eu-central-1" }),
         ),
       ),
+      SQSServiceConfig.withSQSServiceConfig({ logger: true }),
       Effect.runPromiseExit,
     );
 

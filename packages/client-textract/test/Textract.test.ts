@@ -6,7 +6,7 @@ import {
 } from "@aws-sdk/client-textract";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-textract/dist-cjs/runtimeConfig";
-import { SdkError, Textract } from "@effect-aws/client-textract";
+import { SdkError, Textract, TextractServiceConfig } from "@effect-aws/client-textract";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
@@ -35,9 +35,7 @@ describe("TextractClientImpl", () => {
 
     expect(result).toEqual(Exit.succeed({}));
     expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
-    expect(getRuntimeConfig).toHaveBeenCalledWith({
-      logger: expect.any(Object),
-    });
+    expect(getRuntimeConfig).toHaveBeenCalledWith({});
     expect(clientMock).toHaveReceivedCommandTimes(ListAdaptersCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(ListAdaptersCommand, args);
   });
@@ -51,7 +49,7 @@ describe("TextractClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provide(Textract.layer({ region: "eu-central-1" })),
+      Effect.provide(Textract.layer({ region: "eu-central-1", logger: true })),
       Effect.runPromiseExit,
     );
 
@@ -103,6 +101,7 @@ describe("TextractClientImpl", () => {
           (config) => new TextractClient({ ...config, region: "eu-central-1" }),
         ),
       ),
+      TextractServiceConfig.withTextractServiceConfig({ logger: true }),
       Effect.runPromiseExit,
     );
 

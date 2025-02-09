@@ -2,7 +2,7 @@ import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-dynamodb/dist-cjs/runtimeConfig";
 import { DynamoDBDocumentClient, PutCommand, type PutCommandInput } from "@aws-sdk/lib-dynamodb";
-import { SdkError } from "@effect-aws/client-dynamodb";
+import { DynamoDBServiceConfig, SdkError } from "@effect-aws/client-dynamodb";
 import { DynamoDBDocument } from "@effect-aws/lib-dynamodb";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
@@ -36,9 +36,7 @@ describe("DynamoDBDocumentClientImpl", () => {
 
     expect(result).toEqual(Exit.succeed({}));
     expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
-    expect(getRuntimeConfig).toHaveBeenCalledWith({
-      logger: expect.any(Object),
-    });
+    expect(getRuntimeConfig).toHaveBeenCalledWith({});
     expect(clientMock).toHaveReceivedCommandTimes(PutCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(PutCommand, args);
   });
@@ -60,6 +58,7 @@ describe("DynamoDBDocumentClientImpl", () => {
           marshallOptions: { removeUndefinedValues: true },
         }),
       ),
+      DynamoDBServiceConfig.withDynamoDBServiceConfig({ logger: true }),
       Effect.runPromiseExit,
     );
 
@@ -124,6 +123,7 @@ describe("DynamoDBDocumentClientImpl", () => {
           )
         ),
       ),
+      DynamoDBServiceConfig.withDynamoDBServiceConfig({ logger: true }),
       Effect.runPromiseExit,
     );
 

@@ -6,7 +6,7 @@ import {
 } from "@aws-sdk/client-ssm";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-ssm/dist-cjs/runtimeConfig";
-import { SdkError, SSM } from "@effect-aws/client-ssm";
+import { SdkError, SSM, SSMServiceConfig } from "@effect-aws/client-ssm";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
@@ -35,9 +35,7 @@ describe("SSMClientImpl", () => {
 
     expect(result).toEqual(Exit.succeed({}));
     expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
-    expect(getRuntimeConfig).toHaveBeenCalledWith({
-      logger: expect.any(Object),
-    });
+    expect(getRuntimeConfig).toHaveBeenCalledWith({});
     expect(clientMock).toHaveReceivedCommandTimes(DescribeParametersCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(DescribeParametersCommand, args);
   });
@@ -51,7 +49,7 @@ describe("SSMClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provide(SSM.layer({ region: "eu-central-1" })),
+      Effect.provide(SSM.layer({ region: "eu-central-1", logger: true })),
       Effect.runPromiseExit,
     );
 
@@ -103,6 +101,7 @@ describe("SSMClientImpl", () => {
           (config) => new SSMClient({ ...config, region: "eu-central-1" }),
         ),
       ),
+      SSMServiceConfig.withSSMServiceConfig({ logger: true }),
       Effect.runPromiseExit,
     );
 

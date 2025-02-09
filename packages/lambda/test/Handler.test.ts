@@ -34,9 +34,9 @@ describe("makeLambda", () => {
     );
 
     const myEffectHandler: EffectHandler<SNSEvent, FooService> = () =>
-      Effect.gen(function*(_) {
-        const service = yield* _(FooService);
-        return yield* _(service.bar());
+      Effect.gen(function*() {
+        const service = yield* FooService;
+        return yield* service.bar();
       });
 
     const handler = makeLambda(myEffectHandler, FooServiceLive);

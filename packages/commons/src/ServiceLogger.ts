@@ -63,8 +63,8 @@ export const defaultServiceLogger = make({
  * @category adapters
  */
 export const toClientLogger: (logger: ServiceLogger) => Effect.Effect<Logger> = (logger) =>
-  Effect.gen(function*(_) {
-    const runtime = yield* _(Effect.runtime<never>());
+  Effect.gen(function*() {
+    const runtime = yield* Effect.runtime<never>();
     const runSync = Runtime.runSync(runtime);
 
     return {

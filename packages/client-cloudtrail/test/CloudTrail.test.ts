@@ -6,7 +6,7 @@ import {
 } from "@aws-sdk/client-cloudtrail";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-cloudtrail/dist-cjs/runtimeConfig";
-import { CloudTrail, SdkError } from "@effect-aws/client-cloudtrail";
+import { CloudTrail, CloudTrailServiceConfig, SdkError } from "@effect-aws/client-cloudtrail";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
@@ -35,9 +35,7 @@ describe("CloudTrailClientImpl", () => {
 
     expect(result).toEqual(Exit.succeed({}));
     expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
-    expect(getRuntimeConfig).toHaveBeenCalledWith({
-      logger: expect.any(Object),
-    });
+    expect(getRuntimeConfig).toHaveBeenCalledWith({});
     expect(clientMock).toHaveReceivedCommandTimes(ListTrailsCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(ListTrailsCommand, args);
   });
@@ -51,7 +49,7 @@ describe("CloudTrailClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provide(CloudTrail.layer({ region: "eu-central-1" })),
+      Effect.provide(CloudTrail.layer({ region: "eu-central-1", logger: true })),
       Effect.runPromiseExit,
     );
 
@@ -103,6 +101,7 @@ describe("CloudTrailClientImpl", () => {
           (config) => new CloudTrailClient({ ...config, region: "eu-central-1" }),
         ),
       ),
+      CloudTrailServiceConfig.withCloudTrailServiceConfig({ logger: true }),
       Effect.runPromiseExit,
     );
 

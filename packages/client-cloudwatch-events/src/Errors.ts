@@ -11,7 +11,8 @@ import type {
   ResourceAlreadyExistsException,
   ResourceNotFoundException,
 } from "@aws-sdk/client-cloudwatch-events";
-import { Data } from "effect";
+import type { TaggedException } from "@effect-aws/commons";
+import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "ConcurrentModificationException",
@@ -25,11 +26,7 @@ export const AllServiceErrors = [
   "PolicyLengthExceededException",
   "ResourceAlreadyExistsException",
   "ResourceNotFoundException",
-];
-
-export type TaggedException<T extends { name: string }> = T & {
-  readonly _tag: T["name"];
-};
+] as const;
 
 export type ConcurrentModificationError = TaggedException<ConcurrentModificationException>;
 export type IllegalStatusError = TaggedException<IllegalStatusException>;
@@ -43,5 +40,5 @@ export type PolicyLengthExceededError = TaggedException<PolicyLengthExceededExce
 export type ResourceAlreadyExistsError = TaggedException<ResourceAlreadyExistsException>;
 export type ResourceNotFoundError = TaggedException<ResourceNotFoundException>;
 
-export type SdkError = TaggedException<Error & { name: "SdkError" }>;
-export const SdkError = Data.tagged<SdkError>("SdkError");
+export type SdkError = CommonSdkError;
+export const SdkError = CommonSdkError;

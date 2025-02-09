@@ -3,7 +3,7 @@
  */
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { Context, Effect, Layer } from "effect";
-import { DefaultDynamoDBClientConfigLayer, DynamoDBClientInstanceConfig } from "./DynamoDBClientInstanceConfig.js";
+import * as DynamoDBServiceConfig from "./DynamoDBServiceConfig.js";
 
 /**
  * @since 1.0.0
@@ -17,8 +17,8 @@ export class DynamoDBClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeDynamoDBClientInstance = Effect.flatMap(
-  DynamoDBClientInstanceConfig,
+export const make = Effect.flatMap(
+  DynamoDBServiceConfig.toDynamoDBClientConfig,
   (config) =>
     Effect.acquireRelease(
       Effect.sync(() => new DynamoDBClient(config)),
@@ -30,15 +30,4 @@ export const makeDynamoDBClientInstance = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const DynamoDBClientInstanceLayer = Layer.scoped(
-  DynamoDBClientInstance,
-  makeDynamoDBClientInstance,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- */
-export const DefaultDynamoDBClientInstanceLayer = DynamoDBClientInstanceLayer.pipe(
-  Layer.provide(DefaultDynamoDBClientConfigLayer),
-);
+export const layer = Layer.scoped(DynamoDBClientInstance, make);

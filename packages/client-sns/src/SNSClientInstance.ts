@@ -3,7 +3,7 @@
  */
 import { SNSClient } from "@aws-sdk/client-sns";
 import { Context, Effect, Layer } from "effect";
-import { DefaultSNSClientConfigLayer, SNSClientInstanceConfig } from "./SNSClientInstanceConfig.js";
+import * as SNSServiceConfig from "./SNSServiceConfig.js";
 
 /**
  * @since 1.0.0
@@ -17,8 +17,8 @@ export class SNSClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeSNSClientInstance = Effect.flatMap(
-  SNSClientInstanceConfig,
+export const make = Effect.flatMap(
+  SNSServiceConfig.toSNSClientConfig,
   (config) =>
     Effect.acquireRelease(
       Effect.sync(() => new SNSClient(config)),
@@ -30,15 +30,4 @@ export const makeSNSClientInstance = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const SNSClientInstanceLayer = Layer.scoped(
-  SNSClientInstance,
-  makeSNSClientInstance,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- */
-export const DefaultSNSClientInstanceLayer = SNSClientInstanceLayer.pipe(
-  Layer.provide(DefaultSNSClientConfigLayer),
-);
+export const layer = Layer.scoped(SNSClientInstance, make);

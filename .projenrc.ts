@@ -33,24 +33,27 @@ new Vitest(project, {
   sharedSetupFiles: ["vitest.setup.ts"],
 });
 
+const effectDeps = ["effect@3.0.4"];
+
 project.addScripts({
   "codegen-client": "tsx ./scripts/codegen-cli.ts",
 });
-project.addDeps("effect@^3.0.0", "enquirer@^2.4.1");
-project.addDevDeps("@effect/language-service");
+project.addDeps(...effectDeps, "enquirer@^2.4.1");
+project.addDevDeps("@effect/language-service", "@effect/vitest@0.3.4");
 project.tsconfigBase?.file.addOverride("compilerOptions.plugins", [
   { name: "@effect/language-service" },
 ]);
 
 const commonDeps: Array<string> = [];
-const commonDevDeps = ["effect@3.0.0", "aws-sdk-client-mock", "aws-sdk-client-mock-vitest"];
-const commonPeerDeps = ["effect@>=3.0.0 <4.0.0"];
+const commonDevDeps = [...effectDeps, "aws-sdk-client-mock", "aws-sdk-client-mock-vitest"];
+const commonPeerDeps = ["effect@>=3.0.4 <4.0.0"];
 
 const commons = new TypeScriptLibProject({
   parent: project,
   name: "commons",
   description: "Effectful AWS common library",
   deps: ["@smithy/types", "@smithy/smithy-client"],
+  devDeps: effectDeps,
   peerDeps: commonPeerDeps,
 });
 
@@ -58,7 +61,7 @@ new TypeScriptLibProject({
   parent: project,
   name: "powertools-logger",
   description: "Effectful AWS Lambda Powertools Logger",
-  devDeps: ["@aws-lambda-powertools/commons@2.0.0", "@aws-lambda-powertools/logger@2.0.0", "effect@3.0.0"],
+  devDeps: [...effectDeps, "@aws-lambda-powertools/commons@2.0.0", "@aws-lambda-powertools/logger@2.0.0"],
   peerDeps: [...commonPeerDeps, "@aws-lambda-powertools/logger@>=2.0.0"],
 });
 
@@ -382,7 +385,7 @@ new TypeScriptLibProject({
   parent: project,
   name: "lambda",
   description: "Effectful AWS Lambda handler",
-  devDeps: ["@types/aws-lambda", "effect@3.0.0"],
+  devDeps: [...effectDeps, "@types/aws-lambda"],
   peerDeps: commonPeerDeps,
 });
 
@@ -390,11 +393,7 @@ new TypeScriptLibProject({
   parent: project,
   name: "secrets-manager",
   description: "Effectful AWS Secrets Manager functions",
-  devDeps: [
-    "@aws-sdk/client-secrets-manager@^3",
-    "@fluffy-spoon/substitute",
-    "effect@3.0.0",
-  ],
+  devDeps: [...effectDeps, "@aws-sdk/client-secrets-manager@^3", "@fluffy-spoon/substitute"],
   peerDeps: commonPeerDeps,
   workspacePeerDeps: [secretsManagerClient],
 });
@@ -403,11 +402,7 @@ new TypeScriptLibProject({
   parent: project,
   name: "ssm",
   description: "Effectful AWS SSM functions",
-  devDeps: [
-    "@aws-sdk/client-ssm@^3",
-    "@fluffy-spoon/substitute",
-    "effect@3.0.0",
-  ],
+  devDeps: [...effectDeps, "@aws-sdk/client-ssm@^3", "@fluffy-spoon/substitute"],
   peerDeps: commonPeerDeps,
   workspacePeerDeps: [ssmClient],
 });

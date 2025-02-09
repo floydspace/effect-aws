@@ -3,10 +3,7 @@
  */
 import { CloudWatchEventsClient } from "@aws-sdk/client-cloudwatch-events";
 import { Context, Effect, Layer } from "effect";
-import {
-  CloudWatchEventsClientInstanceConfig,
-  DefaultCloudWatchEventsClientConfigLayer,
-} from "./CloudWatchEventsClientInstanceConfig.js";
+import * as CloudWatchEventsServiceConfig from "./CloudWatchEventsServiceConfig.js";
 
 /**
  * @since 1.0.0
@@ -20,8 +17,8 @@ export class CloudWatchEventsClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeCloudWatchEventsClientInstance = Effect.flatMap(
-  CloudWatchEventsClientInstanceConfig,
+export const make = Effect.flatMap(
+  CloudWatchEventsServiceConfig.toCloudWatchEventsClientConfig,
   (config) =>
     Effect.acquireRelease(
       Effect.sync(() => new CloudWatchEventsClient(config)),
@@ -33,15 +30,4 @@ export const makeCloudWatchEventsClientInstance = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const CloudWatchEventsClientInstanceLayer = Layer.scoped(
-  CloudWatchEventsClientInstance,
-  makeCloudWatchEventsClientInstance,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- */
-export const DefaultCloudWatchEventsClientInstanceLayer = CloudWatchEventsClientInstanceLayer.pipe(
-  Layer.provide(DefaultCloudWatchEventsClientConfigLayer),
-);
+export const layer = Layer.scoped(CloudWatchEventsClientInstance, make);

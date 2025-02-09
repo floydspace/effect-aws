@@ -6,7 +6,7 @@ import {
 } from "@aws-sdk/client-opensearch";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-opensearch/dist-cjs/runtimeConfig";
-import { OpenSearch, SdkError } from "@effect-aws/client-opensearch";
+import { OpenSearch, OpenSearchServiceConfig, SdkError } from "@effect-aws/client-opensearch";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
@@ -35,9 +35,7 @@ describe("OpenSearchClientImpl", () => {
 
     expect(result).toEqual(Exit.succeed({}));
     expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
-    expect(getRuntimeConfig).toHaveBeenCalledWith({
-      logger: expect.any(Object),
-    });
+    expect(getRuntimeConfig).toHaveBeenCalledWith({});
     expect(clientMock).toHaveReceivedCommandTimes(DescribeDomainsCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(DescribeDomainsCommand, args);
   });
@@ -51,7 +49,7 @@ describe("OpenSearchClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provide(OpenSearch.layer({ region: "eu-central-1" })),
+      Effect.provide(OpenSearch.layer({ region: "eu-central-1", logger: true })),
       Effect.runPromiseExit,
     );
 
@@ -103,6 +101,7 @@ describe("OpenSearchClientImpl", () => {
           (config) => new OpenSearchClient({ ...config, region: "eu-central-1" }),
         ),
       ),
+      OpenSearchServiceConfig.withOpenSearchServiceConfig({ logger: true }),
       Effect.runPromiseExit,
     );
 

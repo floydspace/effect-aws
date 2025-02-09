@@ -6,7 +6,7 @@ import {
 } from "@aws-sdk/client-iot-wireless";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-iot-wireless/dist-cjs/runtimeConfig";
-import { IoTWireless, SdkError } from "@effect-aws/client-iot-wireless";
+import { IoTWireless, IoTWirelessServiceConfig, SdkError } from "@effect-aws/client-iot-wireless";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
@@ -35,9 +35,7 @@ describe("IoTWirelessClientImpl", () => {
 
     expect(result).toEqual(Exit.succeed({}));
     expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
-    expect(getRuntimeConfig).toHaveBeenCalledWith({
-      logger: expect.any(Object),
-    });
+    expect(getRuntimeConfig).toHaveBeenCalledWith({});
     expect(clientMock).toHaveReceivedCommandTimes(ListDestinationsCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(ListDestinationsCommand, args);
   });
@@ -51,7 +49,7 @@ describe("IoTWirelessClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provide(IoTWireless.layer({ region: "eu-central-1" })),
+      Effect.provide(IoTWireless.layer({ region: "eu-central-1", logger: true })),
       Effect.runPromiseExit,
     );
 
@@ -103,6 +101,7 @@ describe("IoTWirelessClientImpl", () => {
           (config) => new IoTWirelessClient({ ...config, region: "eu-central-1" }),
         ),
       ),
+      IoTWirelessServiceConfig.withIoTWirelessServiceConfig({ logger: true }),
       Effect.runPromiseExit,
     );
 

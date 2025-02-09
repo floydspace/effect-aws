@@ -1,7 +1,7 @@
 import { InvokeCommand, type InvokeCommandInput, LambdaClient, LambdaServiceException } from "@aws-sdk/client-lambda";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-lambda/dist-cjs/runtimeConfig";
-import { Lambda, SdkError } from "@effect-aws/client-lambda";
+import { Lambda, LambdaServiceConfig, SdkError } from "@effect-aws/client-lambda";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
@@ -30,9 +30,7 @@ describe("LambdaClientImpl", () => {
 
     expect(result).toEqual(Exit.succeed({}));
     expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
-    expect(getRuntimeConfig).toHaveBeenCalledWith({
-      logger: expect.any(Object),
-    });
+    expect(getRuntimeConfig).toHaveBeenCalledWith({});
     expect(clientMock).toHaveReceivedCommandTimes(InvokeCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(InvokeCommand, args);
   });
@@ -46,7 +44,7 @@ describe("LambdaClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provide(Lambda.layer({ region: "eu-central-1" })),
+      Effect.provide(Lambda.layer({ region: "eu-central-1", logger: true })),
       Effect.runPromiseExit,
     );
 
@@ -98,6 +96,7 @@ describe("LambdaClientImpl", () => {
           (config) => new LambdaClient({ ...config, region: "eu-central-1" }),
         ),
       ),
+      LambdaServiceConfig.withLambdaServiceConfig({ logger: true }),
       Effect.runPromiseExit,
     );
 

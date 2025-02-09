@@ -14,6 +14,8 @@ import type {
   S3ServiceException,
   TooManyParts,
 } from "@aws-sdk/client-s3";
+import type { TaggedException } from "@effect-aws/commons";
+import { SdkError as CommonSdkError } from "@effect-aws/commons";
 import { Data } from "effect";
 
 export const AllServiceErrors = [
@@ -30,11 +32,7 @@ export const AllServiceErrors = [
   "ObjectAlreadyInActiveTierError",
   "ObjectNotInActiveTierError",
   "TooManyParts",
-];
-
-export type TaggedException<T extends { name: string }> = T & {
-  readonly _tag: T["name"];
-};
+] as const;
 
 export type BucketAlreadyExistsError = TaggedException<BucketAlreadyExists>;
 export type BucketAlreadyOwnedByYouError = TaggedException<BucketAlreadyOwnedByYou>;
@@ -54,5 +52,5 @@ export type S3ServiceError = TaggedException<
   S3ServiceException & { name: "S3ServiceError" }
 >;
 export const S3ServiceError = Data.tagged<S3ServiceError>("S3ServiceError");
-export type SdkError = TaggedException<Error & { name: "SdkError" }>;
-export const SdkError = Data.tagged<SdkError>("SdkError");
+export type SdkError = CommonSdkError;
+export const SdkError = CommonSdkError;

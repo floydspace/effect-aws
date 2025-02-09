@@ -94,7 +94,6 @@ import {
   type ImportKeyMaterialCommandOutput,
   type KMSClient,
   type KMSClientConfig,
-  KMSServiceException,
   ListAliasesCommand,
   type ListAliasesCommandInput,
   type ListAliasesCommandOutput,
@@ -165,7 +164,9 @@ import {
   type VerifyMacCommandInput,
   type VerifyMacCommandOutput,
 } from "@aws-sdk/client-kms";
-import { Data, Effect, Layer, Record } from "effect";
+import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import { Service } from "@effect-aws/commons";
+import { Effect, Layer } from "effect";
 import type {
   AlreadyExistsError,
   CloudHsmClusterInUseError,
@@ -202,7 +203,6 @@ import type {
   MalformedPolicyDocumentError,
   NotFoundError,
   TagError,
-  TaggedException,
   UnsupportedOperationError,
   XksKeyAlreadyInUseError,
   XksKeyInvalidConfigurationError,
@@ -217,24 +217,9 @@ import type {
   XksProxyVpcEndpointServiceInvalidConfigurationError,
   XksProxyVpcEndpointServiceNotFoundError,
 } from "./Errors.js";
-import { AllServiceErrors, SdkError } from "./Errors.js";
-import { KMSClientInstance, KMSClientInstanceLayer } from "./KMSClientInstance.js";
-import {
-  DefaultKMSClientConfigLayer,
-  KMSClientInstanceConfig,
-  makeDefaultKMSClientInstanceConfig,
-} from "./KMSClientInstanceConfig.js";
-
-/**
- * @since 1.0.0
- */
-export interface HttpHandlerOptions {
-  /**
-   * The maximum time in milliseconds that the connection phase of a request
-   * may take before the connection attempt is abandoned.
-   */
-  requestTimeout?: number;
-}
+import { AllServiceErrors } from "./Errors.js";
+import * as Instance from "./KMSClientInstance.js";
+import * as KMSServiceConfig from "./KMSServiceConfig.js";
 
 const commands = {
   CancelKeyDeletionCommand,
@@ -1193,47 +1178,10 @@ interface KMSService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeKMSService = Effect.gen(function*(_) {
-  const client = yield* _(KMSClientInstance);
+export const makeKMSService = Effect.gen(function*() {
+  const client = yield* Instance.KMSClientInstance;
 
-  return Record.toEntries(commands).reduce((acc, [command]) => {
-    const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options?: HttpHandlerOptions) =>
-      Effect.tryPromise({
-        try: (abortSignal) =>
-          client.send(new CommandCtor(args), {
-            ...(options ?? {}),
-            abortSignal,
-          }),
-        catch: (e) => {
-          if (e instanceof KMSServiceException && AllServiceErrors.includes(e.name)) {
-            const ServiceException = Data.tagged<
-              TaggedException<KMSServiceException>
-            >(e.name);
-
-            return ServiceException({
-              ...e,
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          if (e instanceof Error) {
-            return SdkError({
-              ...e,
-              name: "SdkError",
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          throw e;
-        },
-      });
-    const methodName = (command[0].toLowerCase() + command.slice(1)).replace(
-      /Command$/,
-      "",
-    );
-    return { ...acc, [methodName]: methodImpl };
-  }, {}) as KMSService$;
+  return Service.fromClientAndCommands<KMSService$>(client, commands, AllServiceErrors);
 });
 
 /**
@@ -1244,21 +1192,11 @@ export class KMSService extends Effect.Tag("@effect-aws/client-kms/KMSService")<
   KMSService,
   KMSService$
 >() {
-  static readonly defaultLayer = Layer.effect(this, makeKMSService).pipe(
-    Layer.provide(KMSClientInstanceLayer),
-    Layer.provide(DefaultKMSClientConfigLayer),
-  );
-  static readonly layer = (config: KMSClientConfig) =>
+  static readonly defaultLayer = Layer.effect(this, makeKMSService).pipe(Layer.provide(Instance.layer));
+  static readonly layer = (config: KMSService.Config) =>
     Layer.effect(this, makeKMSService).pipe(
-      Layer.provide(KMSClientInstanceLayer),
-      Layer.provide(
-        Layer.effect(
-          KMSClientInstanceConfig,
-          makeDefaultKMSClientInstanceConfig.pipe(
-            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
-          ),
-        ),
-      ),
+      Layer.provide(Instance.layer),
+      Layer.provide(KMSServiceConfig.setKMSServiceConfig(config)),
     );
   static readonly baseLayer = (
     evaluate: (defaultConfig: KMSClientConfig) => KMSClient,
@@ -1266,8 +1204,8 @@ export class KMSService extends Effect.Tag("@effect-aws/client-kms/KMSService")<
     Layer.effect(this, makeKMSService).pipe(
       Layer.provide(
         Layer.effect(
-          KMSClientInstance,
-          Effect.map(makeDefaultKMSClientInstanceConfig, evaluate),
+          Instance.KMSClientInstance,
+          Effect.map(KMSServiceConfig.toKMSClientConfig, evaluate),
         ),
       ),
     );
@@ -1275,33 +1213,12 @@ export class KMSService extends Effect.Tag("@effect-aws/client-kms/KMSService")<
 
 /**
  * @since 1.0.0
- * @category models
- * @alias KMSService
  */
-export const KMS = KMSService;
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use KMS.baseLayer instead
- */
-export const BaseKMSServiceLayer = Layer.effect(
-  KMSService,
-  makeKMSService,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use KMS.layer instead
- */
-export const KMSServiceLayer = BaseKMSServiceLayer.pipe(
-  Layer.provide(KMSClientInstanceLayer),
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use KMS.defaultLayer instead
- */
-export const DefaultKMSServiceLayer = KMSService.defaultLayer;
+export declare namespace KMSService {
+  /**
+   * @since 1.0.0
+   */
+  export interface Config extends Omit<KMSClientConfig, "logger"> {
+    readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
+  }
+}

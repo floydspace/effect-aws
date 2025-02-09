@@ -1,5 +1,5 @@
 import { exec } from "node:child_process";
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, rm, writeFile } from "node:fs/promises";
 
 import { Array, Option, Predicate, Record, String, Struct, Tuple } from "effect";
 import { flow, pipe } from "effect/Function";
@@ -66,7 +66,8 @@ export async function generateClient([
     `../packages/client-${serviceName}/node_modules/@aws-sdk/client-${originalServiceName}/dist-cjs/index.js`
   );
 
-  const serviceException = `${sdkName}ServiceException`;
+  await rm(`./packages/client-${serviceName}/src`, { recursive: true });
+  await mkdir(`./packages/client-${serviceName}/src`, { recursive: true });
 
   const exportedErrors = pipe(
     awsClient,
@@ -74,7 +75,7 @@ export async function generateClient([
       (value) =>
         typeof value === "function" &&
         value.prototype &&
-        value.prototype instanceof awsClient[serviceException],
+        value.prototype instanceof awsClient[`${sdkName}ServiceException`],
     ),
     Record.keys,
   );
@@ -252,12 +253,12 @@ export const set${sdkName}ServiceConfig = (config: ${sdkName}Service.Config) =>
  * @since 1.0.0
  * @category adapters
  */
-export const to${sdkName}ClientConfig: Effect.Effect<${sdkName}ClientConfig> = Effect.gen(function*(_) {
-  const { logger: serviceLogger, ...config } = yield* _(FiberRef.get(current${sdkName}ServiceConfig));
+export const to${sdkName}ClientConfig: Effect.Effect<${sdkName}ClientConfig> = Effect.gen(function*() {
+  const { logger: serviceLogger, ...config } = yield* FiberRef.get(current${sdkName}ServiceConfig);
 
   const logger = serviceLogger === true
-    ? yield* _(ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger))
-    : (serviceLogger ? yield* _(ServiceLogger.toClientLogger(ServiceLogger.make(serviceLogger))) : undefined);
+    ? yield* ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger)
+    : (serviceLogger ? yield* ServiceLogger.toClientLogger(ServiceLogger.make(serviceLogger)) : undefined);
 
   return { logger, ...config };
 });
@@ -447,8 +448,8 @@ ${
  * @since 1.0.0
  * @category constructors
  */
-export const make${sdkName}Service = Effect.gen(function* (_) {
-  const client = yield* _(Instance.${sdkName}ClientInstance);
+export const make${sdkName}Service = Effect.gen(function* () {
+  const client = yield* Instance.${sdkName}ClientInstance;
 
   return Service.fromClientAndCommands<${sdkName}Service$>(client, commands, AllServiceErrors);
 });

@@ -3,7 +3,7 @@
  */
 import { SESClient } from "@aws-sdk/client-ses";
 import { Context, Effect, Layer } from "effect";
-import { DefaultSESClientConfigLayer, SESClientInstanceConfig } from "./SESClientInstanceConfig.js";
+import * as SESServiceConfig from "./SESServiceConfig.js";
 
 /**
  * @since 1.0.0
@@ -17,8 +17,8 @@ export class SESClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeSESClientInstance = Effect.flatMap(
-  SESClientInstanceConfig,
+export const make = Effect.flatMap(
+  SESServiceConfig.toSESClientConfig,
   (config) =>
     Effect.acquireRelease(
       Effect.sync(() => new SESClient(config)),
@@ -30,15 +30,4 @@ export const makeSESClientInstance = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const SESClientInstanceLayer = Layer.scoped(
-  SESClientInstance,
-  makeSESClientInstance,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- */
-export const DefaultSESClientInstanceLayer = SESClientInstanceLayer.pipe(
-  Layer.provide(DefaultSESClientConfigLayer),
-);
+export const layer = Layer.scoped(SESClientInstance, make);

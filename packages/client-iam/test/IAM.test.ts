@@ -1,7 +1,7 @@
 import { CreateRoleCommand, type CreateRoleCommandInput, IAMClient, IAMServiceException } from "@aws-sdk/client-iam";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-iam/dist-cjs/runtimeConfig";
-import { IAM, SdkError } from "@effect-aws/client-iam";
+import { IAM, IAMServiceConfig, SdkError } from "@effect-aws/client-iam";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
@@ -30,9 +30,7 @@ describe("IAMClientImpl", () => {
 
     expect(result).toEqual(Exit.succeed({}));
     expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
-    expect(getRuntimeConfig).toHaveBeenCalledWith({
-      logger: expect.any(Object),
-    });
+    expect(getRuntimeConfig).toHaveBeenCalledWith({});
     expect(clientMock).toHaveReceivedCommandTimes(CreateRoleCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(CreateRoleCommand, args);
   });
@@ -46,7 +44,7 @@ describe("IAMClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provide(IAM.layer({ region: "eu-central-1" })),
+      Effect.provide(IAM.layer({ region: "eu-central-1", logger: true })),
       Effect.runPromiseExit,
     );
 
@@ -98,6 +96,7 @@ describe("IAMClientImpl", () => {
           (config) => new IAMClient({ ...config, region: "eu-central-1" }),
         ),
       ),
+      IAMServiceConfig.withIAMServiceConfig({ logger: true }),
       Effect.runPromiseExit,
     );
 

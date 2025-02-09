@@ -3,7 +3,7 @@
  */
 import { BedrockClient } from "@aws-sdk/client-bedrock";
 import { Context, Effect, Layer } from "effect";
-import { BedrockClientInstanceConfig, DefaultBedrockClientConfigLayer } from "./BedrockClientInstanceConfig.js";
+import * as BedrockServiceConfig from "./BedrockServiceConfig.js";
 
 /**
  * @since 1.0.0
@@ -17,8 +17,8 @@ export class BedrockClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeBedrockClientInstance = Effect.flatMap(
-  BedrockClientInstanceConfig,
+export const make = Effect.flatMap(
+  BedrockServiceConfig.toBedrockClientConfig,
   (config) =>
     Effect.acquireRelease(
       Effect.sync(() => new BedrockClient(config)),
@@ -30,15 +30,4 @@ export const makeBedrockClientInstance = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const BedrockClientInstanceLayer = Layer.scoped(
-  BedrockClientInstance,
-  makeBedrockClientInstance,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- */
-export const DefaultBedrockClientInstanceLayer = BedrockClientInstanceLayer.pipe(
-  Layer.provide(DefaultBedrockClientConfigLayer),
-);
+export const layer = Layer.scoped(BedrockClientInstance, make);

@@ -8,7 +8,8 @@ import type {
   PackedPolicyTooLargeException,
   RegionDisabledException,
 } from "@aws-sdk/client-sts";
-import { Data } from "effect";
+import type { TaggedException } from "@effect-aws/commons";
+import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "ExpiredTokenException",
@@ -19,11 +20,7 @@ export const AllServiceErrors = [
   "MalformedPolicyDocumentException",
   "PackedPolicyTooLargeException",
   "RegionDisabledException",
-];
-
-export type TaggedException<T extends { name: string }> = T & {
-  readonly _tag: T["name"];
-};
+] as const;
 
 export type ExpiredTokenError = TaggedException<ExpiredTokenException>;
 export type IDPCommunicationError = TaggedException<IDPCommunicationErrorException>;
@@ -34,5 +31,5 @@ export type MalformedPolicyDocumentError = TaggedException<MalformedPolicyDocume
 export type PackedPolicyTooLargeError = TaggedException<PackedPolicyTooLargeException>;
 export type RegionDisabledError = TaggedException<RegionDisabledException>;
 
-export type SdkError = TaggedException<Error & { name: "SdkError" }>;
-export const SdkError = Data.tagged<SdkError>("SdkError");
+export type SdkError = CommonSdkError;
+export const SdkError = CommonSdkError;

@@ -1,7 +1,7 @@
 import { PublishCommand, type PublishCommandInput, SNSClient, SNSServiceException } from "@aws-sdk/client-sns";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-sns/dist-cjs/runtimeConfig";
-import { SdkError, SNS } from "@effect-aws/client-sns";
+import { SdkError, SNS, SNSServiceConfig } from "@effect-aws/client-sns";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
@@ -30,9 +30,7 @@ describe("SNSClientImpl", () => {
 
     expect(result).toEqual(Exit.succeed({}));
     expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
-    expect(getRuntimeConfig).toHaveBeenCalledWith({
-      logger: expect.any(Object),
-    });
+    expect(getRuntimeConfig).toHaveBeenCalledWith({});
     expect(clientMock).toHaveReceivedCommandTimes(PublishCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(PublishCommand, args);
   });
@@ -46,7 +44,7 @@ describe("SNSClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provide(SNS.layer({ region: "eu-central-1" })),
+      Effect.provide(SNS.layer({ region: "eu-central-1", logger: true })),
       Effect.runPromiseExit,
     );
 
@@ -98,6 +96,7 @@ describe("SNSClientImpl", () => {
           (config) => new SNSClient({ ...config, region: "eu-central-1" }),
         ),
       ),
+      SNSServiceConfig.withSNSServiceConfig({ logger: true }),
       Effect.runPromiseExit,
     );
 

@@ -223,8 +223,8 @@ interface AccountService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeAccountService = Effect.gen(function*(_) {
-  const client = yield* _(Instance.AccountClientInstance);
+export const makeAccountService = Effect.gen(function*() {
+  const client = yield* Instance.AccountClientInstance;
 
   return Service.fromClientAndCommands<AccountService$>(client, commands, AllServiceErrors);
 });

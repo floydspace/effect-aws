@@ -1,7 +1,7 @@
 /**
  * @since 1.0.0
  */
-import { DefaultSSMServiceLayer, SSMService } from "@effect-aws/client-ssm";
+import { SSMService } from "@effect-aws/client-ssm";
 import type { Config, Layer } from "effect";
 import {
   Array,
@@ -27,7 +27,7 @@ export const fromParameterStore = (config?: {
 }): ConfigProvider.ConfigProvider => {
   const { pathDelim, serviceLayer } = Object.assign(
     {},
-    { pathDelim: "_", serviceLayer: DefaultSSMServiceLayer },
+    { pathDelim: "_", serviceLayer: SSMService.defaultLayer },
     config,
   );
   const makePathString = (path: ReadonlyArray<string>): string => pipe(path, Array.join(pathDelim));

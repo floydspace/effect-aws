@@ -7,7 +7,7 @@ import {
 } from "@aws-sdk/client-s3";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-s3/dist-cjs/runtimeConfig";
-import { S3, SdkError } from "@effect-aws/client-s3";
+import { S3, S3ServiceConfig, SdkError } from "@effect-aws/client-s3";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
@@ -45,9 +45,7 @@ describe("S3ClientImpl", () => {
 
     expect(result).toEqual(Exit.succeed({}));
     expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
-    expect(getRuntimeConfig).toHaveBeenCalledWith({
-      logger: expect.any(Object),
-    });
+    expect(getRuntimeConfig).toHaveBeenCalledWith({});
     expect(clientMock).toHaveReceivedCommandTimes(HeadObjectCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(HeadObjectCommand, args);
   });
@@ -61,7 +59,7 @@ describe("S3ClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provide(S3.layer({ region: "eu-central-1" })),
+      Effect.provide(S3.layer({ region: "eu-central-1", logger: true })),
       Effect.runPromiseExit,
     );
 
@@ -113,6 +111,7 @@ describe("S3ClientImpl", () => {
           (config) => new S3Client({ ...config, region: "eu-central-1" }),
         ),
       ),
+      S3ServiceConfig.withS3ServiceConfig({ logger: true }),
       Effect.runPromiseExit,
     );
 
@@ -167,6 +166,8 @@ describe("S3ClientImpl", () => {
     expect(result).toMatch(
       /^https:\/\/test\.s3\.eu-central-1\.amazonaws\.com\/test\?/,
     );
+    expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
+    expect(getRuntimeConfig).toHaveBeenCalledWith({});
     expect(getSignedUrl).toHaveBeenCalledTimes(1);
     expect(getSignedUrl).toHaveBeenCalledWith(
       expect.any(S3Client),

@@ -202,7 +202,6 @@ import {
   type GetWirelessGatewayTaskDefinitionCommandOutput,
   type IoTWirelessClient,
   type IoTWirelessClientConfig,
-  IoTWirelessServiceException,
   ListDestinationsCommand,
   type ListDestinationsCommandInput,
   type ListDestinationsCommandOutput,
@@ -342,35 +341,21 @@ import {
   type UpdateWirelessGatewayCommandInput,
   type UpdateWirelessGatewayCommandOutput,
 } from "@aws-sdk/client-iot-wireless";
-import { Data, Effect, Layer, Record } from "effect";
-import { AllServiceErrors, SdkError } from "./Errors.js";
+import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import { Service } from "@effect-aws/commons";
+import { Effect, Layer } from "effect";
 import type {
   AccessDeniedError,
   ConflictError,
   InternalServerError,
   ResourceNotFoundError,
-  TaggedException,
   ThrottlingError,
   TooManyTagsError,
   ValidationError,
 } from "./Errors.js";
-import { IoTWirelessClientInstance, IoTWirelessClientInstanceLayer } from "./IoTWirelessClientInstance.js";
-import {
-  DefaultIoTWirelessClientConfigLayer,
-  IoTWirelessClientInstanceConfig,
-  makeDefaultIoTWirelessClientInstanceConfig,
-} from "./IoTWirelessClientInstanceConfig.js";
-
-/**
- * @since 1.0.0
- */
-export interface HttpHandlerOptions {
-  /**
-   * The maximum time in milliseconds that the connection phase of a request
-   * may take before the connection attempt is abandoned.
-   */
-  requestTimeout?: number;
-}
+import { AllServiceErrors } from "./Errors.js";
+import * as Instance from "./IoTWirelessClientInstance.js";
+import * as IoTWirelessServiceConfig from "./IoTWirelessServiceConfig.js";
 
 const commands = {
   AssociateAwsAccountWithPartnerAccountCommand,
@@ -1973,47 +1958,10 @@ interface IoTWirelessService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeIoTWirelessService = Effect.gen(function*(_) {
-  const client = yield* _(IoTWirelessClientInstance);
+export const makeIoTWirelessService = Effect.gen(function*() {
+  const client = yield* Instance.IoTWirelessClientInstance;
 
-  return Record.toEntries(commands).reduce((acc, [command]) => {
-    const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options?: HttpHandlerOptions) =>
-      Effect.tryPromise({
-        try: (abortSignal) =>
-          client.send(new CommandCtor(args), {
-            ...(options ?? {}),
-            abortSignal,
-          }),
-        catch: (e) => {
-          if (e instanceof IoTWirelessServiceException && AllServiceErrors.includes(e.name)) {
-            const ServiceException = Data.tagged<
-              TaggedException<IoTWirelessServiceException>
-            >(e.name);
-
-            return ServiceException({
-              ...e,
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          if (e instanceof Error) {
-            return SdkError({
-              ...e,
-              name: "SdkError",
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          throw e;
-        },
-      });
-    const methodName = (command[0].toLowerCase() + command.slice(1)).replace(
-      /Command$/,
-      "",
-    );
-    return { ...acc, [methodName]: methodImpl };
-  }, {}) as IoTWirelessService$;
+  return Service.fromClientAndCommands<IoTWirelessService$>(client, commands, AllServiceErrors);
 });
 
 /**
@@ -2024,21 +1972,11 @@ export class IoTWirelessService extends Effect.Tag("@effect-aws/client-iot-wirel
   IoTWirelessService,
   IoTWirelessService$
 >() {
-  static readonly defaultLayer = Layer.effect(this, makeIoTWirelessService).pipe(
-    Layer.provide(IoTWirelessClientInstanceLayer),
-    Layer.provide(DefaultIoTWirelessClientConfigLayer),
-  );
-  static readonly layer = (config: IoTWirelessClientConfig) =>
+  static readonly defaultLayer = Layer.effect(this, makeIoTWirelessService).pipe(Layer.provide(Instance.layer));
+  static readonly layer = (config: IoTWirelessService.Config) =>
     Layer.effect(this, makeIoTWirelessService).pipe(
-      Layer.provide(IoTWirelessClientInstanceLayer),
-      Layer.provide(
-        Layer.effect(
-          IoTWirelessClientInstanceConfig,
-          makeDefaultIoTWirelessClientInstanceConfig.pipe(
-            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
-          ),
-        ),
-      ),
+      Layer.provide(Instance.layer),
+      Layer.provide(IoTWirelessServiceConfig.setIoTWirelessServiceConfig(config)),
     );
   static readonly baseLayer = (
     evaluate: (defaultConfig: IoTWirelessClientConfig) => IoTWirelessClient,
@@ -2046,8 +1984,8 @@ export class IoTWirelessService extends Effect.Tag("@effect-aws/client-iot-wirel
     Layer.effect(this, makeIoTWirelessService).pipe(
       Layer.provide(
         Layer.effect(
-          IoTWirelessClientInstance,
-          Effect.map(makeDefaultIoTWirelessClientInstanceConfig, evaluate),
+          Instance.IoTWirelessClientInstance,
+          Effect.map(IoTWirelessServiceConfig.toIoTWirelessClientConfig, evaluate),
         ),
       ),
     );
@@ -2055,33 +1993,12 @@ export class IoTWirelessService extends Effect.Tag("@effect-aws/client-iot-wirel
 
 /**
  * @since 1.0.0
- * @category models
- * @alias IoTWirelessService
  */
-export const IoTWireless = IoTWirelessService;
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use IoTWireless.baseLayer instead
- */
-export const BaseIoTWirelessServiceLayer = Layer.effect(
-  IoTWirelessService,
-  makeIoTWirelessService,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use IoTWireless.layer instead
- */
-export const IoTWirelessServiceLayer = BaseIoTWirelessServiceLayer.pipe(
-  Layer.provide(IoTWirelessClientInstanceLayer),
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use IoTWireless.defaultLayer instead
- */
-export const DefaultIoTWirelessServiceLayer = IoTWirelessService.defaultLayer;
+export declare namespace IoTWirelessService {
+  /**
+   * @since 1.0.0
+   */
+  export interface Config extends Omit<IoTWirelessClientConfig, "logger"> {
+    readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
+  }
+}

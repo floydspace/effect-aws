@@ -28,7 +28,6 @@ import {
   type BatchGetOnPremisesInstancesCommandOutput,
   type CodeDeployClient,
   type CodeDeployClientConfig,
-  CodeDeployServiceException,
   ContinueDeploymentCommand,
   type ContinueDeploymentCommandInput,
   type ContinueDeploymentCommandOutput,
@@ -147,13 +146,11 @@ import {
   type UpdateDeploymentGroupCommandInput,
   type UpdateDeploymentGroupCommandOutput,
 } from "@aws-sdk/client-codedeploy";
-import { Data, Effect, Layer, Record } from "effect";
-import { CodeDeployClientInstance, CodeDeployClientInstanceLayer } from "./CodeDeployClientInstance.js";
-import {
-  CodeDeployClientInstanceConfig,
-  DefaultCodeDeployClientConfigLayer,
-  makeDefaultCodeDeployClientInstanceConfig,
-} from "./CodeDeployClientInstanceConfig.js";
+import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import { Service } from "@effect-aws/commons";
+import { Effect, Layer } from "effect";
+import * as Instance from "./CodeDeployClientInstance.js";
+import * as CodeDeployServiceConfig from "./CodeDeployServiceConfig.js";
 import type {
   AlarmsLimitExceededError,
   ApplicationAlreadyExistsError,
@@ -259,7 +256,6 @@ import type {
   RevisionDoesNotExistError,
   RevisionRequiredError,
   RoleRequiredError,
-  TaggedException,
   TagLimitExceededError,
   TagRequiredError,
   TagSetListLimitExceededError,
@@ -267,18 +263,7 @@ import type {
   TriggerTargetsLimitExceededError,
   UnsupportedActionForDeploymentTypeError,
 } from "./Errors.js";
-import { AllServiceErrors, SdkError } from "./Errors.js";
-
-/**
- * @since 1.0.0
- */
-export interface HttpHandlerOptions {
-  /**
-   * The maximum time in milliseconds that the connection phase of a request
-   * may take before the connection attempt is abandoned.
-   */
-  requestTimeout?: number;
-}
+import { AllServiceErrors } from "./Errors.js";
 
 const commands = {
   AddTagsToOnPremisesInstancesCommand,
@@ -1159,47 +1144,10 @@ interface CodeDeployService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeCodeDeployService = Effect.gen(function*(_) {
-  const client = yield* _(CodeDeployClientInstance);
+export const makeCodeDeployService = Effect.gen(function*() {
+  const client = yield* Instance.CodeDeployClientInstance;
 
-  return Record.toEntries(commands).reduce((acc, [command]) => {
-    const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options?: HttpHandlerOptions) =>
-      Effect.tryPromise({
-        try: (abortSignal) =>
-          client.send(new CommandCtor(args), {
-            ...(options ?? {}),
-            abortSignal,
-          }),
-        catch: (e) => {
-          if (e instanceof CodeDeployServiceException && AllServiceErrors.includes(e.name)) {
-            const ServiceException = Data.tagged<
-              TaggedException<CodeDeployServiceException>
-            >(e.name);
-
-            return ServiceException({
-              ...e,
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          if (e instanceof Error) {
-            return SdkError({
-              ...e,
-              name: "SdkError",
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          throw e;
-        },
-      });
-    const methodName = (command[0].toLowerCase() + command.slice(1)).replace(
-      /Command$/,
-      "",
-    );
-    return { ...acc, [methodName]: methodImpl };
-  }, {}) as CodeDeployService$;
+  return Service.fromClientAndCommands<CodeDeployService$>(client, commands, AllServiceErrors);
 });
 
 /**
@@ -1210,21 +1158,11 @@ export class CodeDeployService extends Effect.Tag("@effect-aws/client-codedeploy
   CodeDeployService,
   CodeDeployService$
 >() {
-  static readonly defaultLayer = Layer.effect(this, makeCodeDeployService).pipe(
-    Layer.provide(CodeDeployClientInstanceLayer),
-    Layer.provide(DefaultCodeDeployClientConfigLayer),
-  );
-  static readonly layer = (config: CodeDeployClientConfig) =>
+  static readonly defaultLayer = Layer.effect(this, makeCodeDeployService).pipe(Layer.provide(Instance.layer));
+  static readonly layer = (config: CodeDeployService.Config) =>
     Layer.effect(this, makeCodeDeployService).pipe(
-      Layer.provide(CodeDeployClientInstanceLayer),
-      Layer.provide(
-        Layer.effect(
-          CodeDeployClientInstanceConfig,
-          makeDefaultCodeDeployClientInstanceConfig.pipe(
-            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
-          ),
-        ),
-      ),
+      Layer.provide(Instance.layer),
+      Layer.provide(CodeDeployServiceConfig.setCodeDeployServiceConfig(config)),
     );
   static readonly baseLayer = (
     evaluate: (defaultConfig: CodeDeployClientConfig) => CodeDeployClient,
@@ -1232,8 +1170,8 @@ export class CodeDeployService extends Effect.Tag("@effect-aws/client-codedeploy
     Layer.effect(this, makeCodeDeployService).pipe(
       Layer.provide(
         Layer.effect(
-          CodeDeployClientInstance,
-          Effect.map(makeDefaultCodeDeployClientInstanceConfig, evaluate),
+          Instance.CodeDeployClientInstance,
+          Effect.map(CodeDeployServiceConfig.toCodeDeployClientConfig, evaluate),
         ),
       ),
     );
@@ -1241,33 +1179,12 @@ export class CodeDeployService extends Effect.Tag("@effect-aws/client-codedeploy
 
 /**
  * @since 1.0.0
- * @category models
- * @alias CodeDeployService
  */
-export const CodeDeploy = CodeDeployService;
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use CodeDeploy.baseLayer instead
- */
-export const BaseCodeDeployServiceLayer = Layer.effect(
-  CodeDeployService,
-  makeCodeDeployService,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use CodeDeploy.layer instead
- */
-export const CodeDeployServiceLayer = BaseCodeDeployServiceLayer.pipe(
-  Layer.provide(CodeDeployClientInstanceLayer),
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use CodeDeploy.defaultLayer instead
- */
-export const DefaultCodeDeployServiceLayer = CodeDeployService.defaultLayer;
+export declare namespace CodeDeployService {
+  /**
+   * @since 1.0.0
+   */
+  export interface Config extends Omit<CodeDeployClientConfig, "logger"> {
+    readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
+  }
+}

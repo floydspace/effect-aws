@@ -6,7 +6,7 @@ import {
 } from "@aws-sdk/client-codedeploy";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-codedeploy/dist-cjs/runtimeConfig";
-import { CodeDeploy, SdkError } from "@effect-aws/client-codedeploy";
+import { CodeDeploy, CodeDeployServiceConfig, SdkError } from "@effect-aws/client-codedeploy";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
@@ -35,9 +35,7 @@ describe("CodeDeployClientImpl", () => {
 
     expect(result).toEqual(Exit.succeed({}));
     expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
-    expect(getRuntimeConfig).toHaveBeenCalledWith({
-      logger: expect.any(Object),
-    });
+    expect(getRuntimeConfig).toHaveBeenCalledWith({});
     expect(clientMock).toHaveReceivedCommandTimes(ListApplicationsCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(ListApplicationsCommand, args);
   });
@@ -51,7 +49,7 @@ describe("CodeDeployClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provide(CodeDeploy.layer({ region: "eu-central-1" })),
+      Effect.provide(CodeDeploy.layer({ region: "eu-central-1", logger: true })),
       Effect.runPromiseExit,
     );
 
@@ -103,6 +101,7 @@ describe("CodeDeployClientImpl", () => {
           (config) => new CodeDeployClient({ ...config, region: "eu-central-1" }),
         ),
       ),
+      CodeDeployServiceConfig.withCodeDeployServiceConfig({ logger: true }),
       Effect.runPromiseExit,
     );
 

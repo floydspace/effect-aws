@@ -6,7 +6,7 @@ import {
 } from "@aws-sdk/client-eventbridge";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-eventbridge/dist-cjs/runtimeConfig";
-import { EventBridge, SdkError } from "@effect-aws/client-eventbridge";
+import { EventBridge, EventBridgeServiceConfig, SdkError } from "@effect-aws/client-eventbridge";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
@@ -35,9 +35,7 @@ describe("EventBridgeClientImpl", () => {
 
     expect(result).toEqual(Exit.succeed({}));
     expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
-    expect(getRuntimeConfig).toHaveBeenCalledWith({
-      logger: expect.any(Object),
-    });
+    expect(getRuntimeConfig).toHaveBeenCalledWith({});
     expect(clientMock).toHaveReceivedCommandTimes(PutEventsCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(PutEventsCommand, args);
   });
@@ -51,7 +49,7 @@ describe("EventBridgeClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provide(EventBridge.layer({ region: "eu-central-1" })),
+      Effect.provide(EventBridge.layer({ region: "eu-central-1", logger: true })),
       Effect.runPromiseExit,
     );
 
@@ -103,6 +101,7 @@ describe("EventBridgeClientImpl", () => {
           (config) => new EventBridgeClient({ ...config, region: "eu-central-1" }),
         ),
       ),
+      EventBridgeServiceConfig.withEventBridgeServiceConfig({ logger: true }),
       Effect.runPromiseExit,
     );
 

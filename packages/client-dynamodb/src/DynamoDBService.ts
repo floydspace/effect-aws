@@ -76,7 +76,6 @@ import {
   type DisableKinesisStreamingDestinationCommandOutput,
   type DynamoDBClient,
   type DynamoDBClientConfig,
-  DynamoDBServiceException,
   EnableKinesisStreamingDestinationCommand,
   type EnableKinesisStreamingDestinationCommandInput,
   type EnableKinesisStreamingDestinationCommandOutput,
@@ -177,13 +176,11 @@ import {
   type UpdateTimeToLiveCommandInput,
   type UpdateTimeToLiveCommandOutput,
 } from "@aws-sdk/client-dynamodb";
-import { Data, Effect, Layer, Record } from "effect";
-import { DynamoDBClientInstance, DynamoDBClientInstanceLayer } from "./DynamoDBClientInstance.js";
-import {
-  DefaultDynamoDBClientConfigLayer,
-  DynamoDBClientInstanceConfig,
-  makeDefaultDynamoDBClientInstanceConfig,
-} from "./DynamoDBClientInstanceConfig.js";
+import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import { Service } from "@effect-aws/commons";
+import { Effect, Layer } from "effect";
+import * as Instance from "./DynamoDBClientInstance.js";
+import * as DynamoDBServiceConfig from "./DynamoDBServiceConfig.js";
 import type {
   BackupInUseError,
   BackupNotFoundError,
@@ -216,23 +213,11 @@ import type {
   TableAlreadyExistsError,
   TableInUseError,
   TableNotFoundError,
-  TaggedException,
   TransactionCanceledError,
   TransactionConflictError,
   TransactionInProgressError,
 } from "./Errors.js";
-import { AllServiceErrors, SdkError } from "./Errors.js";
-
-/**
- * @since 1.0.0
- */
-export interface HttpHandlerOptions {
-  /**
-   * The maximum time in milliseconds that the connection phase of a request
-   * may take before the connection attempt is abandoned.
-   */
-  requestTimeout?: number;
-}
+import { AllServiceErrors } from "./Errors.js";
 
 const commands = {
   BatchExecuteStatementCommand,
@@ -1109,47 +1094,10 @@ interface DynamoDBService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeDynamoDBService = Effect.gen(function*(_) {
-  const client = yield* _(DynamoDBClientInstance);
+export const makeDynamoDBService = Effect.gen(function*() {
+  const client = yield* Instance.DynamoDBClientInstance;
 
-  return Record.toEntries(commands).reduce((acc, [command]) => {
-    const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options?: HttpHandlerOptions) =>
-      Effect.tryPromise({
-        try: (abortSignal) =>
-          client.send(new CommandCtor(args), {
-            ...(options ?? {}),
-            abortSignal,
-          }),
-        catch: (e) => {
-          if (e instanceof DynamoDBServiceException && AllServiceErrors.includes(e.name)) {
-            const ServiceException = Data.tagged<
-              TaggedException<DynamoDBServiceException>
-            >(e.name);
-
-            return ServiceException({
-              ...e,
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          if (e instanceof Error) {
-            return SdkError({
-              ...e,
-              name: "SdkError",
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          throw e;
-        },
-      });
-    const methodName = (command[0].toLowerCase() + command.slice(1)).replace(
-      /Command$/,
-      "",
-    );
-    return { ...acc, [methodName]: methodImpl };
-  }, {}) as DynamoDBService$;
+  return Service.fromClientAndCommands<DynamoDBService$>(client, commands, AllServiceErrors);
 });
 
 /**
@@ -1160,21 +1108,11 @@ export class DynamoDBService extends Effect.Tag("@effect-aws/client-dynamodb/Dyn
   DynamoDBService,
   DynamoDBService$
 >() {
-  static readonly defaultLayer = Layer.effect(this, makeDynamoDBService).pipe(
-    Layer.provide(DynamoDBClientInstanceLayer),
-    Layer.provide(DefaultDynamoDBClientConfigLayer),
-  );
-  static readonly layer = (config: DynamoDBClientConfig) =>
+  static readonly defaultLayer = Layer.effect(this, makeDynamoDBService).pipe(Layer.provide(Instance.layer));
+  static readonly layer = (config: DynamoDBService.Config) =>
     Layer.effect(this, makeDynamoDBService).pipe(
-      Layer.provide(DynamoDBClientInstanceLayer),
-      Layer.provide(
-        Layer.effect(
-          DynamoDBClientInstanceConfig,
-          makeDefaultDynamoDBClientInstanceConfig.pipe(
-            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
-          ),
-        ),
-      ),
+      Layer.provide(Instance.layer),
+      Layer.provide(DynamoDBServiceConfig.setDynamoDBServiceConfig(config)),
     );
   static readonly baseLayer = (
     evaluate: (defaultConfig: DynamoDBClientConfig) => DynamoDBClient,
@@ -1182,8 +1120,8 @@ export class DynamoDBService extends Effect.Tag("@effect-aws/client-dynamodb/Dyn
     Layer.effect(this, makeDynamoDBService).pipe(
       Layer.provide(
         Layer.effect(
-          DynamoDBClientInstance,
-          Effect.map(makeDefaultDynamoDBClientInstanceConfig, evaluate),
+          Instance.DynamoDBClientInstance,
+          Effect.map(DynamoDBServiceConfig.toDynamoDBClientConfig, evaluate),
         ),
       ),
     );
@@ -1191,33 +1129,12 @@ export class DynamoDBService extends Effect.Tag("@effect-aws/client-dynamodb/Dyn
 
 /**
  * @since 1.0.0
- * @category models
- * @alias DynamoDBService
  */
-export const DynamoDB = DynamoDBService;
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use DynamoDB.baseLayer instead
- */
-export const BaseDynamoDBServiceLayer = Layer.effect(
-  DynamoDBService,
-  makeDynamoDBService,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use DynamoDB.layer instead
- */
-export const DynamoDBServiceLayer = BaseDynamoDBServiceLayer.pipe(
-  Layer.provide(DynamoDBClientInstanceLayer),
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use DynamoDB.defaultLayer instead
- */
-export const DefaultDynamoDBServiceLayer = DynamoDBService.defaultLayer;
+export declare namespace DynamoDBService {
+  /**
+   * @since 1.0.0
+   */
+  export interface Config extends Omit<DynamoDBClientConfig, "logger"> {
+    readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
+  }
+}

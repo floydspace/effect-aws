@@ -7,7 +7,6 @@ import {
   type BatchDeleteEvaluationJobCommandOutput,
   type BedrockClient,
   type BedrockClientConfig,
-  BedrockServiceException,
   CreateEvaluationJobCommand,
   type CreateEvaluationJobCommandInput,
   type CreateEvaluationJobCommandOutput,
@@ -177,13 +176,11 @@ import {
   type UpdateProvisionedModelThroughputCommandInput,
   type UpdateProvisionedModelThroughputCommandOutput,
 } from "@aws-sdk/client-bedrock";
-import { Data, Effect, Layer, Record } from "effect";
-import { BedrockClientInstance, BedrockClientInstanceLayer } from "./BedrockClientInstance.js";
-import {
-  BedrockClientInstanceConfig,
-  DefaultBedrockClientConfigLayer,
-  makeDefaultBedrockClientInstanceConfig,
-} from "./BedrockClientInstanceConfig.js";
+import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import { Service } from "@effect-aws/commons";
+import { Effect, Layer } from "effect";
+import * as Instance from "./BedrockClientInstance.js";
+import * as BedrockServiceConfig from "./BedrockServiceConfig.js";
 import type {
   AccessDeniedError,
   ConflictError,
@@ -191,23 +188,11 @@ import type {
   ResourceNotFoundError,
   ServiceQuotaExceededError,
   ServiceUnavailableError,
-  TaggedException,
   ThrottlingError,
   TooManyTagsError,
   ValidationError,
 } from "./Errors.js";
-import { AllServiceErrors, SdkError } from "./Errors.js";
-
-/**
- * @since 1.0.0
- */
-export interface HttpHandlerOptions {
-  /**
-   * The maximum time in milliseconds that the connection phase of a request
-   * may take before the connection attempt is abandoned.
-   */
-  requestTimeout?: number;
-}
+import { AllServiceErrors } from "./Errors.js";
 
 const commands = {
   BatchDeleteEvaluationJobCommand,
@@ -1057,47 +1042,10 @@ interface BedrockService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeBedrockService = Effect.gen(function*(_) {
-  const client = yield* _(BedrockClientInstance);
+export const makeBedrockService = Effect.gen(function*() {
+  const client = yield* Instance.BedrockClientInstance;
 
-  return Record.toEntries(commands).reduce((acc, [command]) => {
-    const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options?: HttpHandlerOptions) =>
-      Effect.tryPromise({
-        try: (abortSignal) =>
-          client.send(new CommandCtor(args), {
-            ...(options ?? {}),
-            abortSignal,
-          }),
-        catch: (e) => {
-          if (e instanceof BedrockServiceException && AllServiceErrors.includes(e.name)) {
-            const ServiceException = Data.tagged<
-              TaggedException<BedrockServiceException>
-            >(e.name);
-
-            return ServiceException({
-              ...e,
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          if (e instanceof Error) {
-            return SdkError({
-              ...e,
-              name: "SdkError",
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          throw e;
-        },
-      });
-    const methodName = (command[0].toLowerCase() + command.slice(1)).replace(
-      /Command$/,
-      "",
-    );
-    return { ...acc, [methodName]: methodImpl };
-  }, {}) as BedrockService$;
+  return Service.fromClientAndCommands<BedrockService$>(client, commands, AllServiceErrors);
 });
 
 /**
@@ -1108,21 +1056,11 @@ export class BedrockService extends Effect.Tag("@effect-aws/client-bedrock/Bedro
   BedrockService,
   BedrockService$
 >() {
-  static readonly defaultLayer = Layer.effect(this, makeBedrockService).pipe(
-    Layer.provide(BedrockClientInstanceLayer),
-    Layer.provide(DefaultBedrockClientConfigLayer),
-  );
-  static readonly layer = (config: BedrockClientConfig) =>
+  static readonly defaultLayer = Layer.effect(this, makeBedrockService).pipe(Layer.provide(Instance.layer));
+  static readonly layer = (config: BedrockService.Config) =>
     Layer.effect(this, makeBedrockService).pipe(
-      Layer.provide(BedrockClientInstanceLayer),
-      Layer.provide(
-        Layer.effect(
-          BedrockClientInstanceConfig,
-          makeDefaultBedrockClientInstanceConfig.pipe(
-            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
-          ),
-        ),
-      ),
+      Layer.provide(Instance.layer),
+      Layer.provide(BedrockServiceConfig.setBedrockServiceConfig(config)),
     );
   static readonly baseLayer = (
     evaluate: (defaultConfig: BedrockClientConfig) => BedrockClient,
@@ -1130,8 +1068,8 @@ export class BedrockService extends Effect.Tag("@effect-aws/client-bedrock/Bedro
     Layer.effect(this, makeBedrockService).pipe(
       Layer.provide(
         Layer.effect(
-          BedrockClientInstance,
-          Effect.map(makeDefaultBedrockClientInstanceConfig, evaluate),
+          Instance.BedrockClientInstance,
+          Effect.map(BedrockServiceConfig.toBedrockClientConfig, evaluate),
         ),
       ),
     );
@@ -1139,33 +1077,12 @@ export class BedrockService extends Effect.Tag("@effect-aws/client-bedrock/Bedro
 
 /**
  * @since 1.0.0
- * @category models
- * @alias BedrockService
  */
-export const Bedrock = BedrockService;
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use Bedrock.baseLayer instead
- */
-export const BaseBedrockServiceLayer = Layer.effect(
-  BedrockService,
-  makeBedrockService,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use Bedrock.layer instead
- */
-export const BedrockServiceLayer = BaseBedrockServiceLayer.pipe(
-  Layer.provide(BedrockClientInstanceLayer),
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use Bedrock.defaultLayer instead
- */
-export const DefaultBedrockServiceLayer = BedrockService.defaultLayer;
+export declare namespace BedrockService {
+  /**
+   * @since 1.0.0
+   */
+  export interface Config extends Omit<BedrockClientConfig, "logger"> {
+    readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
+  }
+}

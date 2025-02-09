@@ -88,7 +88,6 @@ import {
   type EnableRuleCommandOutput,
   type EventBridgeClient,
   type EventBridgeClientConfig,
-  EventBridgeServiceException,
   ListApiDestinationsCommand,
   type ListApiDestinationsCommandInput,
   type ListApiDestinationsCommandOutput,
@@ -177,7 +176,9 @@ import {
   type UpdateEventBusCommandInput,
   type UpdateEventBusCommandOutput,
 } from "@aws-sdk/client-eventbridge";
-import { Data, Effect, Layer, Record } from "effect";
+import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import { Service } from "@effect-aws/commons";
+import { Effect, Layer } from "effect";
 import type {
   AccessDeniedError,
   ConcurrentModificationError,
@@ -191,27 +192,11 @@ import type {
   PolicyLengthExceededError,
   ResourceAlreadyExistsError,
   ResourceNotFoundError,
-  TaggedException,
   ThrottlingError,
 } from "./Errors.js";
-import { AllServiceErrors, SdkError } from "./Errors.js";
-import { EventBridgeClientInstance, EventBridgeClientInstanceLayer } from "./EventBridgeClientInstance.js";
-import {
-  DefaultEventBridgeClientConfigLayer,
-  EventBridgeClientInstanceConfig,
-  makeDefaultEventBridgeClientInstanceConfig,
-} from "./EventBridgeClientInstanceConfig.js";
-
-/**
- * @since 1.0.0
- */
-export interface HttpHandlerOptions {
-  /**
-   * The maximum time in milliseconds that the connection phase of a request
-   * may take before the connection attempt is abandoned.
-   */
-  requestTimeout?: number;
-}
+import { AllServiceErrors } from "./Errors.js";
+import * as Instance from "./EventBridgeClientInstance.js";
+import * as EventBridgeServiceConfig from "./EventBridgeServiceConfig.js";
 
 const commands = {
   ActivateEventSourceCommand,
@@ -974,47 +959,10 @@ interface EventBridgeService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeEventBridgeService = Effect.gen(function*(_) {
-  const client = yield* _(EventBridgeClientInstance);
+export const makeEventBridgeService = Effect.gen(function*() {
+  const client = yield* Instance.EventBridgeClientInstance;
 
-  return Record.toEntries(commands).reduce((acc, [command]) => {
-    const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options?: HttpHandlerOptions) =>
-      Effect.tryPromise({
-        try: (abortSignal) =>
-          client.send(new CommandCtor(args), {
-            ...(options ?? {}),
-            abortSignal,
-          }),
-        catch: (e) => {
-          if (e instanceof EventBridgeServiceException && AllServiceErrors.includes(e.name)) {
-            const ServiceException = Data.tagged<
-              TaggedException<EventBridgeServiceException>
-            >(e.name);
-
-            return ServiceException({
-              ...e,
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          if (e instanceof Error) {
-            return SdkError({
-              ...e,
-              name: "SdkError",
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          throw e;
-        },
-      });
-    const methodName = (command[0].toLowerCase() + command.slice(1)).replace(
-      /Command$/,
-      "",
-    );
-    return { ...acc, [methodName]: methodImpl };
-  }, {}) as EventBridgeService$;
+  return Service.fromClientAndCommands<EventBridgeService$>(client, commands, AllServiceErrors);
 });
 
 /**
@@ -1025,21 +973,11 @@ export class EventBridgeService extends Effect.Tag("@effect-aws/client-eventbrid
   EventBridgeService,
   EventBridgeService$
 >() {
-  static readonly defaultLayer = Layer.effect(this, makeEventBridgeService).pipe(
-    Layer.provide(EventBridgeClientInstanceLayer),
-    Layer.provide(DefaultEventBridgeClientConfigLayer),
-  );
-  static readonly layer = (config: EventBridgeClientConfig) =>
+  static readonly defaultLayer = Layer.effect(this, makeEventBridgeService).pipe(Layer.provide(Instance.layer));
+  static readonly layer = (config: EventBridgeService.Config) =>
     Layer.effect(this, makeEventBridgeService).pipe(
-      Layer.provide(EventBridgeClientInstanceLayer),
-      Layer.provide(
-        Layer.effect(
-          EventBridgeClientInstanceConfig,
-          makeDefaultEventBridgeClientInstanceConfig.pipe(
-            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
-          ),
-        ),
-      ),
+      Layer.provide(Instance.layer),
+      Layer.provide(EventBridgeServiceConfig.setEventBridgeServiceConfig(config)),
     );
   static readonly baseLayer = (
     evaluate: (defaultConfig: EventBridgeClientConfig) => EventBridgeClient,
@@ -1047,8 +985,8 @@ export class EventBridgeService extends Effect.Tag("@effect-aws/client-eventbrid
     Layer.effect(this, makeEventBridgeService).pipe(
       Layer.provide(
         Layer.effect(
-          EventBridgeClientInstance,
-          Effect.map(makeDefaultEventBridgeClientInstanceConfig, evaluate),
+          Instance.EventBridgeClientInstance,
+          Effect.map(EventBridgeServiceConfig.toEventBridgeClientConfig, evaluate),
         ),
       ),
     );
@@ -1056,33 +994,12 @@ export class EventBridgeService extends Effect.Tag("@effect-aws/client-eventbrid
 
 /**
  * @since 1.0.0
- * @category models
- * @alias EventBridgeService
  */
-export const EventBridge = EventBridgeService;
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use EventBridge.baseLayer instead
- */
-export const BaseEventBridgeServiceLayer = Layer.effect(
-  EventBridgeService,
-  makeEventBridgeService,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use EventBridge.layer instead
- */
-export const EventBridgeServiceLayer = BaseEventBridgeServiceLayer.pipe(
-  Layer.provide(EventBridgeClientInstanceLayer),
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use EventBridge.defaultLayer instead
- */
-export const DefaultEventBridgeServiceLayer = EventBridgeService.defaultLayer;
+export declare namespace EventBridgeService {
+  /**
+   * @since 1.0.0
+   */
+  export interface Config extends Omit<EventBridgeClientConfig, "logger"> {
+    readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
+  }
+}

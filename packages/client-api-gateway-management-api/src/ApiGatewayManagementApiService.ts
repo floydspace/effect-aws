@@ -4,7 +4,6 @@
 import {
   type ApiGatewayManagementApiClient,
   type ApiGatewayManagementApiClientConfig,
-  ApiGatewayManagementApiServiceException,
   DeleteConnectionCommand,
   type DeleteConnectionCommandInput,
   type DeleteConnectionCommandOutput,
@@ -15,29 +14,13 @@ import {
   type PostToConnectionCommandInput,
   type PostToConnectionCommandOutput,
 } from "@aws-sdk/client-apigatewaymanagementapi";
-import { Data, Effect, Layer, Record } from "effect";
-import {
-  ApiGatewayManagementApiClientInstance,
-  ApiGatewayManagementApiClientInstanceLayer,
-} from "./ApiGatewayManagementApiClientInstance.js";
-import {
-  ApiGatewayManagementApiClientInstanceConfig,
-  DefaultApiGatewayManagementApiClientConfigLayer,
-  makeDefaultApiGatewayManagementApiClientInstanceConfig,
-} from "./ApiGatewayManagementApiClientInstanceConfig.js";
-import type { ForbiddenError, GoneError, LimitExceededError, PayloadTooLargeError, TaggedException } from "./Errors.js";
-import { AllServiceErrors, SdkError } from "./Errors.js";
-
-/**
- * @since 1.0.0
- */
-export interface HttpHandlerOptions {
-  /**
-   * The maximum time in milliseconds that the connection phase of a request
-   * may take before the connection attempt is abandoned.
-   */
-  requestTimeout?: number;
-}
+import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import { Service } from "@effect-aws/commons";
+import { Effect, Layer } from "effect";
+import * as Instance from "./ApiGatewayManagementApiClientInstance.js";
+import * as ApiGatewayManagementApiServiceConfig from "./ApiGatewayManagementApiServiceConfig.js";
+import type { ForbiddenError, GoneError, LimitExceededError, PayloadTooLargeError } from "./Errors.js";
+import { AllServiceErrors } from "./Errors.js";
 
 const commands = {
   DeleteConnectionCommand,
@@ -86,47 +69,10 @@ interface ApiGatewayManagementApiService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeApiGatewayManagementApiService = Effect.gen(function*(_) {
-  const client = yield* _(ApiGatewayManagementApiClientInstance);
+export const makeApiGatewayManagementApiService = Effect.gen(function*() {
+  const client = yield* Instance.ApiGatewayManagementApiClientInstance;
 
-  return Record.toEntries(commands).reduce((acc, [command]) => {
-    const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options?: HttpHandlerOptions) =>
-      Effect.tryPromise({
-        try: (abortSignal) =>
-          client.send(new CommandCtor(args), {
-            ...(options ?? {}),
-            abortSignal,
-          }),
-        catch: (e) => {
-          if (e instanceof ApiGatewayManagementApiServiceException && AllServiceErrors.includes(e.name)) {
-            const ServiceException = Data.tagged<
-              TaggedException<ApiGatewayManagementApiServiceException>
-            >(e.name);
-
-            return ServiceException({
-              ...e,
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          if (e instanceof Error) {
-            return SdkError({
-              ...e,
-              name: "SdkError",
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          throw e;
-        },
-      });
-    const methodName = (command[0].toLowerCase() + command.slice(1)).replace(
-      /Command$/,
-      "",
-    );
-    return { ...acc, [methodName]: methodImpl };
-  }, {}) as ApiGatewayManagementApiService$;
+  return Service.fromClientAndCommands<ApiGatewayManagementApiService$>(client, commands, AllServiceErrors);
 });
 
 /**
@@ -140,20 +86,12 @@ export class ApiGatewayManagementApiService
   >()
 {
   static readonly defaultLayer = Layer.effect(this, makeApiGatewayManagementApiService).pipe(
-    Layer.provide(ApiGatewayManagementApiClientInstanceLayer),
-    Layer.provide(DefaultApiGatewayManagementApiClientConfigLayer),
+    Layer.provide(Instance.layer),
   );
-  static readonly layer = (config: ApiGatewayManagementApiClientConfig) =>
+  static readonly layer = (config: ApiGatewayManagementApiService.Config) =>
     Layer.effect(this, makeApiGatewayManagementApiService).pipe(
-      Layer.provide(ApiGatewayManagementApiClientInstanceLayer),
-      Layer.provide(
-        Layer.effect(
-          ApiGatewayManagementApiClientInstanceConfig,
-          makeDefaultApiGatewayManagementApiClientInstanceConfig.pipe(
-            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
-          ),
-        ),
-      ),
+      Layer.provide(Instance.layer),
+      Layer.provide(ApiGatewayManagementApiServiceConfig.setApiGatewayManagementApiServiceConfig(config)),
     );
   static readonly baseLayer = (
     evaluate: (defaultConfig: ApiGatewayManagementApiClientConfig) => ApiGatewayManagementApiClient,
@@ -161,8 +99,8 @@ export class ApiGatewayManagementApiService
     Layer.effect(this, makeApiGatewayManagementApiService).pipe(
       Layer.provide(
         Layer.effect(
-          ApiGatewayManagementApiClientInstance,
-          Effect.map(makeDefaultApiGatewayManagementApiClientInstanceConfig, evaluate),
+          Instance.ApiGatewayManagementApiClientInstance,
+          Effect.map(ApiGatewayManagementApiServiceConfig.toApiGatewayManagementApiClientConfig, evaluate),
         ),
       ),
     );
@@ -170,33 +108,12 @@ export class ApiGatewayManagementApiService
 
 /**
  * @since 1.0.0
- * @category models
- * @alias ApiGatewayManagementApiService
  */
-export const ApiGatewayManagementApi = ApiGatewayManagementApiService;
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use ApiGatewayManagementApi.baseLayer instead
- */
-export const BaseApiGatewayManagementApiServiceLayer = Layer.effect(
-  ApiGatewayManagementApiService,
-  makeApiGatewayManagementApiService,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use ApiGatewayManagementApi.layer instead
- */
-export const ApiGatewayManagementApiServiceLayer = BaseApiGatewayManagementApiServiceLayer.pipe(
-  Layer.provide(ApiGatewayManagementApiClientInstanceLayer),
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use ApiGatewayManagementApi.defaultLayer instead
- */
-export const DefaultApiGatewayManagementApiServiceLayer = ApiGatewayManagementApiService.defaultLayer;
+export declare namespace ApiGatewayManagementApiService {
+  /**
+   * @since 1.0.0
+   */
+  export interface Config extends Omit<ApiGatewayManagementApiClientConfig, "logger"> {
+    readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
+  }
+}

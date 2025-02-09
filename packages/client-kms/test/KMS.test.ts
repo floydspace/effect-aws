@@ -1,7 +1,7 @@
 import { KMSClient, KMSServiceException, ListKeysCommand, type ListKeysCommandInput } from "@aws-sdk/client-kms";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-kms/dist-cjs/runtimeConfig";
-import { KMS, SdkError } from "@effect-aws/client-kms";
+import { KMS, KMSServiceConfig, SdkError } from "@effect-aws/client-kms";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
@@ -30,9 +30,7 @@ describe("KMSClientImpl", () => {
 
     expect(result).toEqual(Exit.succeed({}));
     expect(getRuntimeConfig).toHaveBeenCalledTimes(1);
-    expect(getRuntimeConfig).toHaveBeenCalledWith({
-      logger: expect.any(Object),
-    });
+    expect(getRuntimeConfig).toHaveBeenCalledWith({});
     expect(clientMock).toHaveReceivedCommandTimes(ListKeysCommand, 1);
     expect(clientMock).toHaveReceivedCommandWith(ListKeysCommand, args);
   });
@@ -46,7 +44,7 @@ describe("KMSClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provide(KMS.layer({ region: "eu-central-1" })),
+      Effect.provide(KMS.layer({ region: "eu-central-1", logger: true })),
       Effect.runPromiseExit,
     );
 
@@ -98,6 +96,7 @@ describe("KMSClientImpl", () => {
           (config) => new KMSClient({ ...config, region: "eu-central-1" }),
         ),
       ),
+      KMSServiceConfig.withKMSServiceConfig({ logger: true }),
       Effect.runPromiseExit,
     );
 

@@ -28,7 +28,8 @@ import type {
   TooManyEntriesInBatchRequest,
   UnsupportedOperation,
 } from "@aws-sdk/client-sqs";
-import { Data } from "effect";
+import type { TaggedException } from "@effect-aws/commons";
+import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "BatchEntryIdsNotDistinct",
@@ -59,11 +60,7 @@ export const AllServiceErrors = [
   "ResourceNotFoundException",
   "TooManyEntriesInBatchRequest",
   "UnsupportedOperation",
-];
-
-export type TaggedException<T extends { name: string }> = T & {
-  readonly _tag: T["name"];
-};
+] as const;
 
 export type BatchEntryIdsNotDistinctError = TaggedException<BatchEntryIdsNotDistinct>;
 export type BatchRequestTooLongError = TaggedException<BatchRequestTooLong>;
@@ -94,5 +91,5 @@ export type ResourceNotFoundError = TaggedException<ResourceNotFoundException>;
 export type TooManyEntriesInBatchRequestError = TaggedException<TooManyEntriesInBatchRequest>;
 export type UnsupportedOperationError = TaggedException<UnsupportedOperation>;
 
-export type SdkError = TaggedException<Error & { name: "SdkError" }>;
-export const SdkError = Data.tagged<SdkError>("SdkError");
+export type SdkError = CommonSdkError;
+export const SdkError = CommonSdkError;

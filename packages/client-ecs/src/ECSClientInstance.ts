@@ -3,7 +3,7 @@
  */
 import { ECSClient } from "@aws-sdk/client-ecs";
 import { Context, Effect, Layer } from "effect";
-import { DefaultECSClientConfigLayer, ECSClientInstanceConfig } from "./ECSClientInstanceConfig.js";
+import * as ECSServiceConfig from "./ECSServiceConfig.js";
 
 /**
  * @since 1.0.0
@@ -17,8 +17,8 @@ export class ECSClientInstance extends Context.Tag(
  * @since 1.0.0
  * @category constructors
  */
-export const makeECSClientInstance = Effect.flatMap(
-  ECSClientInstanceConfig,
+export const make = Effect.flatMap(
+  ECSServiceConfig.toECSClientConfig,
   (config) =>
     Effect.acquireRelease(
       Effect.sync(() => new ECSClient(config)),
@@ -30,15 +30,4 @@ export const makeECSClientInstance = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const ECSClientInstanceLayer = Layer.scoped(
-  ECSClientInstance,
-  makeECSClientInstance,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- */
-export const DefaultECSClientInstanceLayer = ECSClientInstanceLayer.pipe(
-  Layer.provide(DefaultECSClientConfigLayer),
-);
+export const layer = Layer.scoped(ECSClientInstance, make);

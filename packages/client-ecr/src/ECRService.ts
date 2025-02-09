@@ -67,7 +67,6 @@ import {
   type DescribeRepositoryCreationTemplatesCommandOutput,
   type ECRClient,
   type ECRClientConfig,
-  ECRServiceException,
   GetAccountSettingCommand,
   type GetAccountSettingCommandInput,
   type GetAccountSettingCommandOutput,
@@ -153,13 +152,11 @@ import {
   type ValidatePullThroughCacheRuleCommandInput,
   type ValidatePullThroughCacheRuleCommandOutput,
 } from "@aws-sdk/client-ecr";
-import { Data, Effect, Layer, Record } from "effect";
-import { ECRClientInstance, ECRClientInstanceLayer } from "./ECRClientInstance.js";
-import {
-  DefaultECRClientConfigLayer,
-  ECRClientInstanceConfig,
-  makeDefaultECRClientInstanceConfig,
-} from "./ECRClientInstanceConfig.js";
+import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import { Service } from "@effect-aws/commons";
+import { Effect, Layer } from "effect";
+import * as Instance from "./ECRClientInstance.js";
+import * as ECRServiceConfig from "./ECRServiceConfig.js";
 import type {
   EmptyUploadError,
   ImageAlreadyExistsError,
@@ -190,7 +187,6 @@ import type {
   ScanNotFoundError,
   SecretNotFoundError,
   ServerError,
-  TaggedException,
   TemplateAlreadyExistsError,
   TemplateNotFoundError,
   TooManyTagsError,
@@ -203,18 +199,7 @@ import type {
   UploadNotFoundError,
   ValidationError,
 } from "./Errors.js";
-import { AllServiceErrors, SdkError } from "./Errors.js";
-
-/**
- * @since 1.0.0
- */
-export interface HttpHandlerOptions {
-  /**
-   * The maximum time in milliseconds that the connection phase of a request
-   * may take before the connection attempt is abandoned.
-   */
-  requestTimeout?: number;
-}
+import { AllServiceErrors } from "./Errors.js";
 
 const commands = {
   BatchCheckLayerAvailabilityCommand,
@@ -919,47 +904,10 @@ interface ECRService$ {
  * @since 1.0.0
  * @category constructors
  */
-export const makeECRService = Effect.gen(function*(_) {
-  const client = yield* _(ECRClientInstance);
+export const makeECRService = Effect.gen(function*() {
+  const client = yield* Instance.ECRClientInstance;
 
-  return Record.toEntries(commands).reduce((acc, [command]) => {
-    const CommandCtor = commands[command] as any;
-    const methodImpl = (args: any, options?: HttpHandlerOptions) =>
-      Effect.tryPromise({
-        try: (abortSignal) =>
-          client.send(new CommandCtor(args), {
-            ...(options ?? {}),
-            abortSignal,
-          }),
-        catch: (e) => {
-          if (e instanceof ECRServiceException && AllServiceErrors.includes(e.name)) {
-            const ServiceException = Data.tagged<
-              TaggedException<ECRServiceException>
-            >(e.name);
-
-            return ServiceException({
-              ...e,
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          if (e instanceof Error) {
-            return SdkError({
-              ...e,
-              name: "SdkError",
-              message: e.message,
-              stack: e.stack,
-            });
-          }
-          throw e;
-        },
-      });
-    const methodName = (command[0].toLowerCase() + command.slice(1)).replace(
-      /Command$/,
-      "",
-    );
-    return { ...acc, [methodName]: methodImpl };
-  }, {}) as ECRService$;
+  return Service.fromClientAndCommands<ECRService$>(client, commands, AllServiceErrors);
 });
 
 /**
@@ -970,21 +918,11 @@ export class ECRService extends Effect.Tag("@effect-aws/client-ecr/ECRService")<
   ECRService,
   ECRService$
 >() {
-  static readonly defaultLayer = Layer.effect(this, makeECRService).pipe(
-    Layer.provide(ECRClientInstanceLayer),
-    Layer.provide(DefaultECRClientConfigLayer),
-  );
-  static readonly layer = (config: ECRClientConfig) =>
+  static readonly defaultLayer = Layer.effect(this, makeECRService).pipe(Layer.provide(Instance.layer));
+  static readonly layer = (config: ECRService.Config) =>
     Layer.effect(this, makeECRService).pipe(
-      Layer.provide(ECRClientInstanceLayer),
-      Layer.provide(
-        Layer.effect(
-          ECRClientInstanceConfig,
-          makeDefaultECRClientInstanceConfig.pipe(
-            Effect.map((defaultConfig) => ({ ...defaultConfig, ...config })),
-          ),
-        ),
-      ),
+      Layer.provide(Instance.layer),
+      Layer.provide(ECRServiceConfig.setECRServiceConfig(config)),
     );
   static readonly baseLayer = (
     evaluate: (defaultConfig: ECRClientConfig) => ECRClient,
@@ -992,8 +930,8 @@ export class ECRService extends Effect.Tag("@effect-aws/client-ecr/ECRService")<
     Layer.effect(this, makeECRService).pipe(
       Layer.provide(
         Layer.effect(
-          ECRClientInstance,
-          Effect.map(makeDefaultECRClientInstanceConfig, evaluate),
+          Instance.ECRClientInstance,
+          Effect.map(ECRServiceConfig.toECRClientConfig, evaluate),
         ),
       ),
     );
@@ -1001,33 +939,12 @@ export class ECRService extends Effect.Tag("@effect-aws/client-ecr/ECRService")<
 
 /**
  * @since 1.0.0
- * @category models
- * @alias ECRService
  */
-export const ECR = ECRService;
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use ECR.baseLayer instead
- */
-export const BaseECRServiceLayer = Layer.effect(
-  ECRService,
-  makeECRService,
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use ECR.layer instead
- */
-export const ECRServiceLayer = BaseECRServiceLayer.pipe(
-  Layer.provide(ECRClientInstanceLayer),
-);
-
-/**
- * @since 1.0.0
- * @category layers
- * @deprecated use ECR.defaultLayer instead
- */
-export const DefaultECRServiceLayer = ECRService.defaultLayer;
+export declare namespace ECRService {
+  /**
+   * @since 1.0.0
+   */
+  export interface Config extends Omit<ECRClientConfig, "logger"> {
+    readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
+  }
+}
