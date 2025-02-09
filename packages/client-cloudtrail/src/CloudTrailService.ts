@@ -136,6 +136,9 @@ import {
   RestoreEventDataStoreCommand,
   type RestoreEventDataStoreCommandInput,
   type RestoreEventDataStoreCommandOutput,
+  SearchSampleQueriesCommand,
+  type SearchSampleQueriesCommandInput,
+  type SearchSampleQueriesCommandOutput,
   StartDashboardRefreshCommand,
   type StartDashboardRefreshCommandInput,
   type StartDashboardRefreshCommandOutput,
@@ -312,6 +315,7 @@ const commands = {
   RegisterOrganizationDelegatedAdminCommand,
   RemoveTagsCommand,
   RestoreEventDataStoreCommand,
+  SearchSampleQueriesCommand,
   StartDashboardRefreshCommand,
   StartEventDataStoreIngestionCommand,
   StartImportCommand,
@@ -1166,6 +1170,17 @@ interface CloudTrailService$ {
     | OrganizationNotInAllFeaturesModeError
     | OrganizationsNotInUseError
     | UnsupportedOperationError
+  >;
+
+  /**
+   * @see {@link SearchSampleQueriesCommand}
+   */
+  searchSampleQueries(
+    args: SearchSampleQueriesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    SearchSampleQueriesCommandOutput,
+    SdkError | InvalidParameterError | OperationNotPermittedError | UnsupportedOperationError
   >;
 
   /**
