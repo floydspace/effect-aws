@@ -134,15 +134,6 @@
         }
       ]
     },
-    "preinstall": {
-      "name": "preinstall",
-      "description": "asserts the correct package manager is used",
-      "steps": [
-        {
-          "exec": "npx only-allow pnpm"
-        }
-      ]
-    },
     "release": {
       "name": "release",
       "description": "Release with changesets",

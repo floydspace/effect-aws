@@ -97,10 +97,6 @@
       "type": "build"
     },
     {
-      "name": "only-allow",
-      "type": "build"
-    },
-    {
       "name": "projen",
       "type": "build"
     },

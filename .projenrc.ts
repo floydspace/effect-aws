@@ -24,7 +24,14 @@ new BuildUtils(project);
 new Changesets(project, {
   repo,
   onlyUpdatePeerDependentsWhenOutOfRange: true,
+  linked: [
+    "@effect-aws/client-*",
+    "@effect-aws/lib-*",
+  ],
 });
+project.package.manifest.pnpm.patchedDependencies = {
+  "@changesets/assemble-release-plan": "patches/@changesets__assemble-release-plan.patch",
+};
 
 new Docgen(project);
 

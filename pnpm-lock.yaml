@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  '@changesets/assemble-release-plan':
+    hash: b6mxrfurhwddyqyla4dgni7mfm
+    path: patches/@changesets__assemble-release-plan.patch
+
 importers:
 
   .:
@@ -47,7 +52,7 @@ importers:
         version: 9.19.0
       '@floydspace/projen-components':
         specifier: next
-        version: 1.0.0-next.14(projen@0.91.6(constructs@10.4.2))
+        version: 1.0.0-next.16(projen@0.91.6(constructs@10.4.2))
       '@types/node':
         specifier: ts5.4
         version: 22.10.10
@@ -84,9 +89,6 @@ importers:
       eslint-plugin-sort-destructure-keys:
         specifier: ^2.0.0
         version: 2.0.0(eslint@9.19.0)
-      only-allow:
-        specifier: ^1.2.1
-        version: 1.2.1
       projen:
         specifier: 0.91.6
         version: 0.91.6(constructs@10.4.2)
@@ -2076,8 +2078,8 @@ packages:
     resolution: {integrity: sha512-lB05FkqEdUg2AA0xEbUz0SnkXT1LcCTa438W4IWTUh4hdOnVbQyOJ81OrDXsJk/LSiJHubgGEFoR5EHq1NsH1A==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@floydspace/projen-components@1.0.0-next.14':
-    resolution: {integrity: sha512-a2N3DV4mD+m8pqocCXAB4q7Odcxnp1V8XhDTXRDIG2BK80ZC2GH3xoBMH2PqHVzqxxfM4yIzvPdZHyy/tzwiZw==}
+  '@floydspace/projen-components@1.0.0-next.16':
+    resolution: {integrity: sha512-0+xU2hdQMSv1HKdpV+iLQwzAw3ffcIoHP5CinlTPqdj1oP3BHMI8neoFpQht78/Da2WbK51O1Nv4pS7rk/6FvQ==}
     engines: {pnpm: '>=9 <10'}
     peerDependencies:
       projen: '>0.58.15'
@@ -3909,10 +3911,6 @@ packages:
     resolution: {integrity: sha512-1FlR+gjXK7X+AsAHso35MnyN5KqGwJRi/31ft6x0M194ht7S+rWAvd7PHss9xSKMzE0asv1pyIHaJYq+BbacAQ==}
     engines: {node: '>=12'}
 
-  only-allow@1.2.1:
-    resolution: {integrity: sha512-M7CJbmv7UCopc0neRKdzfoGWaVZC+xC1925GitKH9EAqYFzX9//25Q7oX4+jw0tiCCj+t5l6VZh8UPH23NZkMA==}
-    hasBin: true
-
   optionator@0.9.4:
     resolution: {integrity: sha512-6IpQ7mKUxRcZNLIObR0hz7lxsapSSIYNZJwXPGeF0mTVqGKFIXj1DQcMoT22S3ROcLyY/rz0PWaWZ9ayWmad9g==}
     engines: {node: '>= 0.8.0'}
@@ -4587,10 +4585,6 @@ packages:
   which-collection@1.0.2:
     resolution: {integrity: sha512-K4jVyjnBdgvc86Y6BkaLZEN933SwYOuBFkdmBu9ZfkcAbdVbpITnDmjvZ/aQjRXQrv5EPkTnD1s39GiiqbngCw==}
     engines: {node: '>= 0.4'}
-
-  which-pm-runs@1.1.0:
-    resolution: {integrity: sha512-n1brCuqClxfFfq/Rb0ICg9giSZqCS+pLtccdag6C2HyufBrh3fBOiy9nb6ggRMvWOVH5GrdJskj5iGTZNxd7SA==}
-    engines: {node: '>=4'}
 
   which-typed-array@1.1.18:
     resolution: {integrity: sha512-qEcY+KJYlWyLH9vNbsr6/5j59AXk5ni5aakf8ldzBvGde6Iz4sxZGkJyWSAueTG7QhOvNRYb1lDdFmL5Td0QKA==}
@@ -7191,7 +7185,7 @@ snapshots:
       resolve-from: 5.0.0
       semver: 7.6.3
 
-  '@changesets/assemble-release-plan@6.0.5':
+  '@changesets/assemble-release-plan@6.0.5(patch_hash=b6mxrfurhwddyqyla4dgni7mfm)':
     dependencies:
       '@changesets/errors': 0.2.0
       '@changesets/get-dependents-graph': 2.1.2
@@ -7215,7 +7209,7 @@ snapshots:
   '@changesets/cli@2.27.12':
     dependencies:
       '@changesets/apply-release-plan': 7.0.8
-      '@changesets/assemble-release-plan': 6.0.5
+      '@changesets/assemble-release-plan': 6.0.5(patch_hash=b6mxrfurhwddyqyla4dgni7mfm)
       '@changesets/changelog-git': 0.2.0
       '@changesets/config': 3.0.5
       '@changesets/errors': 0.2.0
@@ -7273,7 +7267,7 @@ snapshots:
 
   '@changesets/get-release-plan@4.0.6':
     dependencies:
-      '@changesets/assemble-release-plan': 6.0.5
+      '@changesets/assemble-release-plan': 6.0.5(patch_hash=b6mxrfurhwddyqyla4dgni7mfm)
       '@changesets/config': 3.0.5
       '@changesets/pre': 2.0.1
       '@changesets/read': 0.6.2
@@ -7494,7 +7488,7 @@ snapshots:
       '@eslint/core': 0.10.0
       levn: 0.4.1
 
-  '@floydspace/projen-components@1.0.0-next.14(projen@0.91.6(constructs@10.4.2))':
+  '@floydspace/projen-components@1.0.0-next.16(projen@0.91.6(constructs@10.4.2))':
     dependencies:
       projen: 0.91.6(constructs@10.4.2)
 
@@ -9614,10 +9608,6 @@ snapshots:
     dependencies:
       mimic-fn: 4.0.0
 
-  only-allow@1.2.1:
-    dependencies:
-      which-pm-runs: 1.1.0
-
   optionator@0.9.4:
     dependencies:
       deep-is: 0.1.4
@@ -10324,8 +10314,6 @@ snapshots:
       is-set: 2.0.3
       is-weakmap: 2.0.2
       is-weakset: 2.0.4
-
-  which-pm-runs@1.1.0: {}
 
   which-typed-array@1.1.18:
     dependencies:

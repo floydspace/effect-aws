@@ -17,7 +17,6 @@
     "package": "pnpm exec projen package",
     "post-compile": "pnpm exec projen post-compile",
     "pre-compile": "pnpm exec projen pre-compile",
-    "preinstall": "pnpm exec projen preinstall",
     "release": "pnpm exec projen release",
     "test": "pnpm exec projen test",
     "watch": "pnpm exec projen watch",
@@ -54,7 +53,6 @@
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "eslint-plugin-sort-destructure-keys": "^2.0.0",
-    "only-allow": "^1.2.1",
     "projen": "0.91.6",
     "ts-node": "^10.9.1",
     "tsx": "^4.16.5",
@@ -65,7 +63,11 @@
     "effect": "3.0.4",
     "enquirer": "^2.4.1"
   },
-  "pnpm": {},
+  "pnpm": {
+    "patchedDependencies": {
+      "@changesets/assemble-release-plan": "patches/@changesets__assemble-release-plan.patch"
+    }
+  },
   "engines": {
     "node": ">=18",
     "pnpm": ">=9 <10"
