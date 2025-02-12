@@ -57,14 +57,23 @@
       "@effect-aws/commons/test/*": [
         "./packages/commons/test/*.js"
       ],
-      "@effect-aws/powertools-logger": [
-        "./packages/powertools-logger/src/index.js"
+      "@effect-aws/client-s3": [
+        "./packages/client-s3/src/index.js"
       ],
-      "@effect-aws/powertools-logger/*": [
-        "./packages/powertools-logger/src/*.js"
+      "@effect-aws/client-s3/*": [
+        "./packages/client-s3/src/*.js"
       ],
-      "@effect-aws/powertools-logger/test/*": [
-        "./packages/powertools-logger/test/*.js"
+      "@effect-aws/client-s3/test/*": [
+        "./packages/client-s3/test/*.js"
+      ],
+      "@effect-aws/client-account": [
+        "./packages/client-account/src/index.js"
+      ],
+      "@effect-aws/client-account/*": [
+        "./packages/client-account/src/*.js"
+      ],
+      "@effect-aws/client-account/test/*": [
+        "./packages/client-account/test/*.js"
       ],
       "@effect-aws/client-api-gateway-management-api": [
         "./packages/client-api-gateway-management-api/src/index.js"
@@ -75,167 +84,23 @@
       "@effect-aws/client-api-gateway-management-api/test/*": [
         "./packages/client-api-gateway-management-api/test/*.js"
       ],
-      "@effect-aws/client-codedeploy": [
-        "./packages/client-codedeploy/src/index.js"
+      "@effect-aws/client-auto-scaling": [
+        "./packages/client-auto-scaling/src/index.js"
       ],
-      "@effect-aws/client-codedeploy/*": [
-        "./packages/client-codedeploy/src/*.js"
+      "@effect-aws/client-auto-scaling/*": [
+        "./packages/client-auto-scaling/src/*.js"
       ],
-      "@effect-aws/client-codedeploy/test/*": [
-        "./packages/client-codedeploy/test/*.js"
+      "@effect-aws/client-auto-scaling/test/*": [
+        "./packages/client-auto-scaling/test/*.js"
       ],
-      "@effect-aws/client-dynamodb": [
-        "./packages/client-dynamodb/src/index.js"
+      "@effect-aws/client-bedrock": [
+        "./packages/client-bedrock/src/index.js"
       ],
-      "@effect-aws/client-dynamodb/*": [
-        "./packages/client-dynamodb/src/*.js"
+      "@effect-aws/client-bedrock/*": [
+        "./packages/client-bedrock/src/*.js"
       ],
-      "@effect-aws/client-dynamodb/test/*": [
-        "./packages/client-dynamodb/test/*.js"
-      ],
-      "@effect-aws/lib-dynamodb": [
-        "./packages/lib-dynamodb/src/index.js"
-      ],
-      "@effect-aws/lib-dynamodb/*": [
-        "./packages/lib-dynamodb/src/*.js"
-      ],
-      "@effect-aws/lib-dynamodb/test/*": [
-        "./packages/lib-dynamodb/test/*.js"
-      ],
-      "@effect-aws/client-eventbridge": [
-        "./packages/client-eventbridge/src/index.js"
-      ],
-      "@effect-aws/client-eventbridge/*": [
-        "./packages/client-eventbridge/src/*.js"
-      ],
-      "@effect-aws/client-eventbridge/test/*": [
-        "./packages/client-eventbridge/test/*.js"
-      ],
-      "@effect-aws/client-lambda": [
-        "./packages/client-lambda/src/index.js"
-      ],
-      "@effect-aws/client-lambda/*": [
-        "./packages/client-lambda/src/*.js"
-      ],
-      "@effect-aws/client-lambda/test/*": [
-        "./packages/client-lambda/test/*.js"
-      ],
-      "@effect-aws/client-s3": [
-        "./packages/client-s3/src/index.js"
-      ],
-      "@effect-aws/client-s3/*": [
-        "./packages/client-s3/src/*.js"
-      ],
-      "@effect-aws/client-s3/test/*": [
-        "./packages/client-s3/test/*.js"
-      ],
-      "@effect-aws/client-sns": [
-        "./packages/client-sns/src/index.js"
-      ],
-      "@effect-aws/client-sns/*": [
-        "./packages/client-sns/src/*.js"
-      ],
-      "@effect-aws/client-sns/test/*": [
-        "./packages/client-sns/test/*.js"
-      ],
-      "@effect-aws/client-sqs": [
-        "./packages/client-sqs/src/index.js"
-      ],
-      "@effect-aws/client-sqs/*": [
-        "./packages/client-sqs/src/*.js"
-      ],
-      "@effect-aws/client-sqs/test/*": [
-        "./packages/client-sqs/test/*.js"
-      ],
-      "@effect-aws/client-sfn": [
-        "./packages/client-sfn/src/index.js"
-      ],
-      "@effect-aws/client-sfn/*": [
-        "./packages/client-sfn/src/*.js"
-      ],
-      "@effect-aws/client-sfn/test/*": [
-        "./packages/client-sfn/test/*.js"
-      ],
-      "@effect-aws/client-ssm": [
-        "./packages/client-ssm/src/index.js"
-      ],
-      "@effect-aws/client-ssm/*": [
-        "./packages/client-ssm/src/*.js"
-      ],
-      "@effect-aws/client-ssm/test/*": [
-        "./packages/client-ssm/test/*.js"
-      ],
-      "@effect-aws/client-iam": [
-        "./packages/client-iam/src/index.js"
-      ],
-      "@effect-aws/client-iam/*": [
-        "./packages/client-iam/src/*.js"
-      ],
-      "@effect-aws/client-iam/test/*": [
-        "./packages/client-iam/test/*.js"
-      ],
-      "@effect-aws/client-elasticache": [
-        "./packages/client-elasticache/src/index.js"
-      ],
-      "@effect-aws/client-elasticache/*": [
-        "./packages/client-elasticache/src/*.js"
-      ],
-      "@effect-aws/client-elasticache/test/*": [
-        "./packages/client-elasticache/test/*.js"
-      ],
-      "@effect-aws/client-ec2": [
-        "./packages/client-ec2/src/index.js"
-      ],
-      "@effect-aws/client-ec2/*": [
-        "./packages/client-ec2/src/*.js"
-      ],
-      "@effect-aws/client-ec2/test/*": [
-        "./packages/client-ec2/test/*.js"
-      ],
-      "@effect-aws/client-ecs": [
-        "./packages/client-ecs/src/index.js"
-      ],
-      "@effect-aws/client-ecs/*": [
-        "./packages/client-ecs/src/*.js"
-      ],
-      "@effect-aws/client-ecs/test/*": [
-        "./packages/client-ecs/test/*.js"
-      ],
-      "@effect-aws/client-secrets-manager": [
-        "./packages/client-secrets-manager/src/index.js"
-      ],
-      "@effect-aws/client-secrets-manager/*": [
-        "./packages/client-secrets-manager/src/*.js"
-      ],
-      "@effect-aws/client-secrets-manager/test/*": [
-        "./packages/client-secrets-manager/test/*.js"
-      ],
-      "@effect-aws/client-scheduler": [
-        "./packages/client-scheduler/src/index.js"
-      ],
-      "@effect-aws/client-scheduler/*": [
-        "./packages/client-scheduler/src/*.js"
-      ],
-      "@effect-aws/client-scheduler/test/*": [
-        "./packages/client-scheduler/test/*.js"
-      ],
-      "@effect-aws/client-kinesis": [
-        "./packages/client-kinesis/src/index.js"
-      ],
-      "@effect-aws/client-kinesis/*": [
-        "./packages/client-kinesis/src/*.js"
-      ],
-      "@effect-aws/client-kinesis/test/*": [
-        "./packages/client-kinesis/test/*.js"
-      ],
-      "@effect-aws/client-account": [
-        "./packages/client-account/src/index.js"
-      ],
-      "@effect-aws/client-account/*": [
-        "./packages/client-account/src/*.js"
-      ],
-      "@effect-aws/client-account/test/*": [
-        "./packages/client-account/test/*.js"
+      "@effect-aws/client-bedrock/test/*": [
+        "./packages/client-bedrock/test/*.js"
       ],
       "@effect-aws/client-cloudsearch": [
         "./packages/client-cloudsearch/src/index.js"
@@ -282,6 +147,15 @@
       "@effect-aws/client-cloudwatch-logs/test/*": [
         "./packages/client-cloudwatch-logs/test/*.js"
       ],
+      "@effect-aws/client-codedeploy": [
+        "./packages/client-codedeploy/src/index.js"
+      ],
+      "@effect-aws/client-codedeploy/*": [
+        "./packages/client-codedeploy/src/*.js"
+      ],
+      "@effect-aws/client-codedeploy/test/*": [
+        "./packages/client-codedeploy/test/*.js"
+      ],
       "@effect-aws/client-cognito-identity-provider": [
         "./packages/client-cognito-identity-provider/src/index.js"
       ],
@@ -290,6 +164,132 @@
       ],
       "@effect-aws/client-cognito-identity-provider/test/*": [
         "./packages/client-cognito-identity-provider/test/*.js"
+      ],
+      "@effect-aws/client-dynamodb": [
+        "./packages/client-dynamodb/src/index.js"
+      ],
+      "@effect-aws/client-dynamodb/*": [
+        "./packages/client-dynamodb/src/*.js"
+      ],
+      "@effect-aws/client-dynamodb/test/*": [
+        "./packages/client-dynamodb/test/*.js"
+      ],
+      "@effect-aws/client-ec2": [
+        "./packages/client-ec2/src/index.js"
+      ],
+      "@effect-aws/client-ec2/*": [
+        "./packages/client-ec2/src/*.js"
+      ],
+      "@effect-aws/client-ec2/test/*": [
+        "./packages/client-ec2/test/*.js"
+      ],
+      "@effect-aws/client-ecr": [
+        "./packages/client-ecr/src/index.js"
+      ],
+      "@effect-aws/client-ecr/*": [
+        "./packages/client-ecr/src/*.js"
+      ],
+      "@effect-aws/client-ecr/test/*": [
+        "./packages/client-ecr/test/*.js"
+      ],
+      "@effect-aws/client-ecs": [
+        "./packages/client-ecs/src/index.js"
+      ],
+      "@effect-aws/client-ecs/*": [
+        "./packages/client-ecs/src/*.js"
+      ],
+      "@effect-aws/client-ecs/test/*": [
+        "./packages/client-ecs/test/*.js"
+      ],
+      "@effect-aws/client-elasticache": [
+        "./packages/client-elasticache/src/index.js"
+      ],
+      "@effect-aws/client-elasticache/*": [
+        "./packages/client-elasticache/src/*.js"
+      ],
+      "@effect-aws/client-elasticache/test/*": [
+        "./packages/client-elasticache/test/*.js"
+      ],
+      "@effect-aws/client-eventbridge": [
+        "./packages/client-eventbridge/src/index.js"
+      ],
+      "@effect-aws/client-eventbridge/*": [
+        "./packages/client-eventbridge/src/*.js"
+      ],
+      "@effect-aws/client-eventbridge/test/*": [
+        "./packages/client-eventbridge/test/*.js"
+      ],
+      "@effect-aws/client-iam": [
+        "./packages/client-iam/src/index.js"
+      ],
+      "@effect-aws/client-iam/*": [
+        "./packages/client-iam/src/*.js"
+      ],
+      "@effect-aws/client-iam/test/*": [
+        "./packages/client-iam/test/*.js"
+      ],
+      "@effect-aws/client-iot": [
+        "./packages/client-iot/src/index.js"
+      ],
+      "@effect-aws/client-iot/*": [
+        "./packages/client-iot/src/*.js"
+      ],
+      "@effect-aws/client-iot/test/*": [
+        "./packages/client-iot/test/*.js"
+      ],
+      "@effect-aws/client-iot-data-plane": [
+        "./packages/client-iot-data-plane/src/index.js"
+      ],
+      "@effect-aws/client-iot-data-plane/*": [
+        "./packages/client-iot-data-plane/src/*.js"
+      ],
+      "@effect-aws/client-iot-data-plane/test/*": [
+        "./packages/client-iot-data-plane/test/*.js"
+      ],
+      "@effect-aws/client-iot-events": [
+        "./packages/client-iot-events/src/index.js"
+      ],
+      "@effect-aws/client-iot-events/*": [
+        "./packages/client-iot-events/src/*.js"
+      ],
+      "@effect-aws/client-iot-events/test/*": [
+        "./packages/client-iot-events/test/*.js"
+      ],
+      "@effect-aws/client-iot-events-data": [
+        "./packages/client-iot-events-data/src/index.js"
+      ],
+      "@effect-aws/client-iot-events-data/*": [
+        "./packages/client-iot-events-data/src/*.js"
+      ],
+      "@effect-aws/client-iot-events-data/test/*": [
+        "./packages/client-iot-events-data/test/*.js"
+      ],
+      "@effect-aws/client-iot-jobs-data-plane": [
+        "./packages/client-iot-jobs-data-plane/src/index.js"
+      ],
+      "@effect-aws/client-iot-jobs-data-plane/*": [
+        "./packages/client-iot-jobs-data-plane/src/*.js"
+      ],
+      "@effect-aws/client-iot-jobs-data-plane/test/*": [
+        "./packages/client-iot-jobs-data-plane/test/*.js"
+      ],
+      "@effect-aws/client-iot-wireless": [
+        "./packages/client-iot-wireless/src/index.js"
+      ],
+      "@effect-aws/client-iot-wireless/*": [
+        "./packages/client-iot-wireless/src/*.js"
+      ],
+      "@effect-aws/client-iot-wireless/test/*": [
+        "./packages/client-iot-wireless/test/*.js"
+      ],
+      "@effect-aws/client-kinesis": [
+        "./packages/client-kinesis/src/index.js"
+      ],
+      "@effect-aws/client-kinesis/*": [
+        "./packages/client-kinesis/src/*.js"
+      ],
+      "@effect-aws/client-kinesis/test/*": [
+        "./packages/client-kinesis/test/*.js"
       ],
       "@effect-aws/client-kms": [
         "./packages/client-kms/src/index.js"
@@ -300,6 +300,15 @@
       "@effect-aws/client-kms/test/*": [
         "./packages/client-kms/test/*.js"
       ],
+      "@effect-aws/client-lambda": [
+        "./packages/client-lambda/src/index.js"
+      ],
+      "@effect-aws/client-lambda/*": [
+        "./packages/client-lambda/src/*.js"
+      ],
+      "@effect-aws/client-lambda/test/*": [
+        "./packages/client-lambda/test/*.js"
+      ],
       "@effect-aws/client-mq": [
         "./packages/client-mq/src/index.js"
       ],
@@ -308,24 +317,6 @@
       ],
       "@effect-aws/client-mq/test/*": [
         "./packages/client-mq/test/*.js"
-      ],
-      "@effect-aws/client-rds": [
-        "./packages/client-rds/src/index.js"
-      ],
-      "@effect-aws/client-rds/*": [
-        "./packages/client-rds/src/*.js"
-      ],
-      "@effect-aws/client-rds/test/*": [
-        "./packages/client-rds/test/*.js"
-      ],
-      "@effect-aws/client-sts": [
-        "./packages/client-sts/src/index.js"
-      ],
-      "@effect-aws/client-sts/*": [
-        "./packages/client-sts/src/*.js"
-      ],
-      "@effect-aws/client-sts/test/*": [
-        "./packages/client-sts/test/*.js"
       ],
       "@effect-aws/client-opensearch": [
         "./packages/client-opensearch/src/index.js"
@@ -345,6 +336,114 @@
       "@effect-aws/client-opensearch-serverless/test/*": [
         "./packages/client-opensearch-serverless/test/*.js"
       ],
+      "@effect-aws/client-organizations": [
+        "./packages/client-organizations/src/index.js"
+      ],
+      "@effect-aws/client-organizations/*": [
+        "./packages/client-organizations/src/*.js"
+      ],
+      "@effect-aws/client-organizations/test/*": [
+        "./packages/client-organizations/test/*.js"
+      ],
+      "@effect-aws/client-rds": [
+        "./packages/client-rds/src/index.js"
+      ],
+      "@effect-aws/client-rds/*": [
+        "./packages/client-rds/src/*.js"
+      ],
+      "@effect-aws/client-rds/test/*": [
+        "./packages/client-rds/test/*.js"
+      ],
+      "@effect-aws/client-scheduler": [
+        "./packages/client-scheduler/src/index.js"
+      ],
+      "@effect-aws/client-scheduler/*": [
+        "./packages/client-scheduler/src/*.js"
+      ],
+      "@effect-aws/client-scheduler/test/*": [
+        "./packages/client-scheduler/test/*.js"
+      ],
+      "@effect-aws/client-secrets-manager": [
+        "./packages/client-secrets-manager/src/index.js"
+      ],
+      "@effect-aws/client-secrets-manager/*": [
+        "./packages/client-secrets-manager/src/*.js"
+      ],
+      "@effect-aws/client-secrets-manager/test/*": [
+        "./packages/client-secrets-manager/test/*.js"
+      ],
+      "@effect-aws/client-ses": [
+        "./packages/client-ses/src/index.js"
+      ],
+      "@effect-aws/client-ses/*": [
+        "./packages/client-ses/src/*.js"
+      ],
+      "@effect-aws/client-ses/test/*": [
+        "./packages/client-ses/test/*.js"
+      ],
+      "@effect-aws/client-sfn": [
+        "./packages/client-sfn/src/index.js"
+      ],
+      "@effect-aws/client-sfn/*": [
+        "./packages/client-sfn/src/*.js"
+      ],
+      "@effect-aws/client-sfn/test/*": [
+        "./packages/client-sfn/test/*.js"
+      ],
+      "@effect-aws/client-sns": [
+        "./packages/client-sns/src/index.js"
+      ],
+      "@effect-aws/client-sns/*": [
+        "./packages/client-sns/src/*.js"
+      ],
+      "@effect-aws/client-sns/test/*": [
+        "./packages/client-sns/test/*.js"
+      ],
+      "@effect-aws/client-sqs": [
+        "./packages/client-sqs/src/index.js"
+      ],
+      "@effect-aws/client-sqs/*": [
+        "./packages/client-sqs/src/*.js"
+      ],
+      "@effect-aws/client-sqs/test/*": [
+        "./packages/client-sqs/test/*.js"
+      ],
+      "@effect-aws/client-ssm": [
+        "./packages/client-ssm/src/index.js"
+      ],
+      "@effect-aws/client-ssm/*": [
+        "./packages/client-ssm/src/*.js"
+      ],
+      "@effect-aws/client-ssm/test/*": [
+        "./packages/client-ssm/test/*.js"
+      ],
+      "@effect-aws/client-sts": [
+        "./packages/client-sts/src/index.js"
+      ],
+      "@effect-aws/client-sts/*": [
+        "./packages/client-sts/src/*.js"
+      ],
+      "@effect-aws/client-sts/test/*": [
+        "./packages/client-sts/test/*.js"
+      ],
+      "@effect-aws/client-textract": [
+        "./packages/client-textract/src/index.js"
+      ],
+      "@effect-aws/client-textract/*": [
+        "./packages/client-textract/src/*.js"
+      ],
+      "@effect-aws/client-textract/test/*": [
+        "./packages/client-textract/test/*.js"
+      ],
+      "@effect-aws/lib-dynamodb": [
+        "./packages/lib-dynamodb/src/index.js"
+      ],
+      "@effect-aws/lib-dynamodb/*": [
+        "./packages/lib-dynamodb/src/*.js"
+      ],
+      "@effect-aws/lib-dynamodb/test/*": [
+        "./packages/lib-dynamodb/test/*.js"
+      ],
       "@effect-aws/lambda": [
         "./packages/lambda/src/index.js"
       ],
@@ -353,6 +452,15 @@
       ],
       "@effect-aws/lambda/test/*": [
         "./packages/lambda/test/*.js"
+      ],
+      "@effect-aws/powertools-logger": [
+        "./packages/powertools-logger/src/index.js"
+      ],
+      "@effect-aws/powertools-logger/*": [
+        "./packages/powertools-logger/src/*.js"
+      ],
+      "@effect-aws/powertools-logger/test/*": [
+        "./packages/powertools-logger/test/*.js"
       ],
       "@effect-aws/secrets-manager": [
         "./packages/secrets-manager/src/index.js"
@@ -371,114 +479,6 @@
       ],
       "@effect-aws/ssm/test/*": [
         "./packages/ssm/test/*.js"
-      ],
-      "@effect-aws/client-bedrock": [
-        "./packages/client-bedrock/src/index.js"
-      ],
-      "@effect-aws/client-bedrock/*": [
-        "./packages/client-bedrock/src/*.js"
-      ],
-      "@effect-aws/client-bedrock/test/*": [
-        "./packages/client-bedrock/test/*.js"
-      ],
-      "@effect-aws/client-textract": [
-        "./packages/client-textract/src/index.js"
-      ],
-      "@effect-aws/client-textract/*": [
-        "./packages/client-textract/src/*.js"
-      ],
-      "@effect-aws/client-textract/test/*": [
-        "./packages/client-textract/test/*.js"
-      ],
-      "@effect-aws/client-ses": [
-        "./packages/client-ses/src/index.js"
-      ],
-      "@effect-aws/client-ses/*": [
-        "./packages/client-ses/src/*.js"
-      ],
-      "@effect-aws/client-ses/test/*": [
-        "./packages/client-ses/test/*.js"
-      ],
-      "@effect-aws/client-organizations": [
-        "./packages/client-organizations/src/index.js"
-      ],
-      "@effect-aws/client-organizations/*": [
-        "./packages/client-organizations/src/*.js"
-      ],
-      "@effect-aws/client-organizations/test/*": [
-        "./packages/client-organizations/test/*.js"
-      ],
-      "@effect-aws/client-ecr": [
-        "./packages/client-ecr/src/index.js"
-      ],
-      "@effect-aws/client-ecr/*": [
-        "./packages/client-ecr/src/*.js"
-      ],
-      "@effect-aws/client-ecr/test/*": [
-        "./packages/client-ecr/test/*.js"
-      ],
-      "@effect-aws/client-auto-scaling": [
-        "./packages/client-auto-scaling/src/index.js"
-      ],
-      "@effect-aws/client-auto-scaling/*": [
-        "./packages/client-auto-scaling/src/*.js"
-      ],
-      "@effect-aws/client-auto-scaling/test/*": [
-        "./packages/client-auto-scaling/test/*.js"
-      ],
-      "@effect-aws/client-iot": [
-        "./packages/client-iot/src/index.js"
-      ],
-      "@effect-aws/client-iot/*": [
-        "./packages/client-iot/src/*.js"
-      ],
-      "@effect-aws/client-iot/test/*": [
-        "./packages/client-iot/test/*.js"
-      ],
-      "@effect-aws/client-iot-wireless": [
-        "./packages/client-iot-wireless/src/index.js"
-      ],
-      "@effect-aws/client-iot-wireless/*": [
-        "./packages/client-iot-wireless/src/*.js"
-      ],
-      "@effect-aws/client-iot-wireless/test/*": [
-        "./packages/client-iot-wireless/test/*.js"
-      ],
-      "@effect-aws/client-iot-data-plane": [
-        "./packages/client-iot-data-plane/src/index.js"
-      ],
-      "@effect-aws/client-iot-data-plane/*": [
-        "./packages/client-iot-data-plane/src/*.js"
-      ],
-      "@effect-aws/client-iot-data-plane/test/*": [
-        "./packages/client-iot-data-plane/test/*.js"
-      ],
-      "@effect-aws/client-iot-jobs-data-plane": [
-        "./packages/client-iot-jobs-data-plane/src/index.js"
-      ],
-      "@effect-aws/client-iot-jobs-data-plane/*": [
-        "./packages/client-iot-jobs-data-plane/src/*.js"
-      ],
-      "@effect-aws/client-iot-jobs-data-plane/test/*": [
-        "./packages/client-iot-jobs-data-plane/test/*.js"
-      ],
-      "@effect-aws/client-iot-events": [
-        "./packages/client-iot-events/src/index.js"
-      ],
-      "@effect-aws/client-iot-events/*": [
-        "./packages/client-iot-events/src/*.js"
-      ],
-      "@effect-aws/client-iot-events/test/*": [
-        "./packages/client-iot-events/test/*.js"
-      ],
-      "@effect-aws/client-iot-events-data": [
-        "./packages/client-iot-events-data/src/index.js"
-      ],
-      "@effect-aws/client-iot-events-data/*": [
-        "./packages/client-iot-events-data/src/*.js"
-      ],
-      "@effect-aws/client-iot-events-data/test/*": [
-        "./packages/client-iot-events-data/test/*.js"
       ]
     }
   }

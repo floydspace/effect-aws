@@ -1,4 +1,8 @@
+import assert from "node:assert";
+
 import { LinkableProject } from "@floydspace/projen-components";
+import type { Construct } from "constructs";
+import type { Project } from "projen";
 import { javascript, typescript } from "projen";
 
 type PredefinedProps = "defaultReleaseBranch" | "authorName" | "authorEmail";
@@ -12,6 +16,19 @@ export type TypeScriptLibProjectOptions =
   };
 
 export class TypeScriptLibProject extends typescript.TypeScriptProject {
+  public static childOf(project: Project, projectName: string): TypeScriptLibProject {
+    const assertTypeScriptLibProject: (o: Construct) => asserts o is TypeScriptLibProject = (o) => {
+      assert(o instanceof TypeScriptLibProject);
+    };
+    const construct = project.node.findChild(
+      `TypeScriptLibProject#@${project.name}--${projectName}@packages--${projectName}`,
+    );
+
+    assertTypeScriptLibProject(construct);
+
+    return construct;
+  }
+
   constructor({
     jestOptions: { jestConfig: _, ...jestOptions } = {},
     workspaceDeps,

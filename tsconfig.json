@@ -12,64 +12,19 @@
       "path": "packages/commons"
     },
     {
-      "path": "packages/powertools-logger"
+      "path": "packages/client-s3"
+    },
+    {
+      "path": "packages/client-account"
     },
     {
       "path": "packages/client-api-gateway-management-api"
     },
     {
-      "path": "packages/client-codedeploy"
+      "path": "packages/client-auto-scaling"
     },
     {
-      "path": "packages/client-dynamodb"
-    },
-    {
-      "path": "packages/lib-dynamodb"
-    },
-    {
-      "path": "packages/client-eventbridge"
-    },
-    {
-      "path": "packages/client-lambda"
-    },
-    {
-      "path": "packages/client-s3"
-    },
-    {
-      "path": "packages/client-sns"
-    },
-    {
-      "path": "packages/client-sqs"
-    },
-    {
-      "path": "packages/client-sfn"
-    },
-    {
-      "path": "packages/client-ssm"
-    },
-    {
-      "path": "packages/client-iam"
-    },
-    {
-      "path": "packages/client-elasticache"
-    },
-    {
-      "path": "packages/client-ec2"
-    },
-    {
-      "path": "packages/client-ecs"
-    },
-    {
-      "path": "packages/client-secrets-manager"
-    },
-    {
-      "path": "packages/client-scheduler"
-    },
-    {
-      "path": "packages/client-kinesis"
-    },
-    {
-      "path": "packages/client-account"
+      "path": "packages/client-bedrock"
     },
     {
       "path": "packages/client-cloudsearch"
@@ -87,19 +42,61 @@
       "path": "packages/client-cloudwatch-logs"
     },
     {
+      "path": "packages/client-codedeploy"
+    },
+    {
       "path": "packages/client-cognito-identity-provider"
+    },
+    {
+      "path": "packages/client-dynamodb"
+    },
+    {
+      "path": "packages/client-ec2"
+    },
+    {
+      "path": "packages/client-ecr"
+    },
+    {
+      "path": "packages/client-ecs"
+    },
+    {
+      "path": "packages/client-elasticache"
+    },
+    {
+      "path": "packages/client-eventbridge"
+    },
+    {
+      "path": "packages/client-iam"
+    },
+    {
+      "path": "packages/client-iot"
+    },
+    {
+      "path": "packages/client-iot-data-plane"
+    },
+    {
+      "path": "packages/client-iot-events"
+    },
+    {
+      "path": "packages/client-iot-events-data"
+    },
+    {
+      "path": "packages/client-iot-jobs-data-plane"
+    },
+    {
+      "path": "packages/client-iot-wireless"
+    },
+    {
+      "path": "packages/client-kinesis"
     },
     {
       "path": "packages/client-kms"
     },
     {
+      "path": "packages/client-lambda"
+    },
+    {
       "path": "packages/client-mq"
-    },
-    {
-      "path": "packages/client-rds"
-    },
-    {
-      "path": "packages/client-sts"
     },
     {
       "path": "packages/client-opensearch"
@@ -108,49 +105,52 @@
       "path": "packages/client-opensearch-serverless"
     },
     {
+      "path": "packages/client-organizations"
+    },
+    {
+      "path": "packages/client-rds"
+    },
+    {
+      "path": "packages/client-scheduler"
+    },
+    {
+      "path": "packages/client-secrets-manager"
+    },
+    {
+      "path": "packages/client-ses"
+    },
+    {
+      "path": "packages/client-sfn"
+    },
+    {
+      "path": "packages/client-sns"
+    },
+    {
+      "path": "packages/client-sqs"
+    },
+    {
+      "path": "packages/client-ssm"
+    },
+    {
+      "path": "packages/client-sts"
+    },
+    {
+      "path": "packages/client-textract"
+    },
+    {
+      "path": "packages/lib-dynamodb"
+    },
+    {
       "path": "packages/lambda"
+    },
+    {
+      "path": "packages/powertools-logger"
     },
     {
       "path": "packages/secrets-manager"
     },
     {
       "path": "packages/ssm"
-    },
-    {
-      "path": "packages/client-bedrock"
-    },
-    {
-      "path": "packages/client-textract"
-    },
-    {
-      "path": "packages/client-ses"
-    },
-    {
-      "path": "packages/client-organizations"
-    },
-    {
-      "path": "packages/client-ecr"
-    },
-    {
-      "path": "packages/client-auto-scaling"
-    },
-    {
-      "path": "packages/client-iot"
-    },
-    {
-      "path": "packages/client-iot-wireless"
-    },
-    {
-      "path": "packages/client-iot-data-plane"
-    },
-    {
-      "path": "packages/client-iot-jobs-data-plane"
-    },
-    {
-      "path": "packages/client-iot-events"
-    },
-    {
-      "path": "packages/client-iot-events-data"
     }
   ]
 }

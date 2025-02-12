@@ -11,22 +11,12 @@ import { readdir } from "node:fs/promises";
 import { Array, Effect, Exit, Option, Predicate, Record, String } from "effect";
 import { constVoid, flow, pipe } from "effect/Function";
 import Enquirer from "enquirer";
-import singularities from "./client-singularities.json";
+import singularities from "./client-singularities.js";
 import type { Manifest } from "./generate-client.js";
 import { generateClient } from "./generate-client.js";
+import { normalizeServiceName } from "./utils.js";
 
 main().catch(console.error);
-
-function normalizeServiceName(serviceName: string) {
-  let originalServiceName = serviceName;
-  if (serviceName === "api-gateway-management-api") {
-    originalServiceName = "apigatewaymanagementapi";
-  }
-  if (serviceName === "opensearch-serverless") {
-    originalServiceName = "opensearchserverless";
-  }
-  return originalServiceName;
-}
 
 async function main() {
   const enquirer = new Enquirer<{
@@ -70,7 +60,7 @@ async function main() {
         )),
       );
 
-      const { commandToTest } = (singularities as any)[packageName] ??
+      const { commandToTest } = singularities[packageName] ??
         (await enquirer.prompt({
           type: "autocomplete",
           name: "commandToTest",
@@ -79,12 +69,10 @@ async function main() {
           choices: operationNames,
         }));
 
-      const { inputToTest } = (singularities as any)[packageName]?.inputToTest !== undefined
+      const { inputToTest } = singularities[packageName]?.inputToTest !== undefined
         ? {
-          inputToTest: (singularities as any)[packageName].inputToTest
-            ? JSON.stringify(
-              (singularities as any)[packageName].inputToTest,
-            )
+          inputToTest: singularities[packageName].inputToTest
+            ? JSON.stringify(singularities[packageName].inputToTest)
             : "",
         }
         : await enquirer.prompt({
