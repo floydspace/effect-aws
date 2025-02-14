@@ -26,7 +26,7 @@
   },
   "devDependencies": {
     "@types/node": "ts5.4",
-    "effect": "3.0.4",
+    "effect": "3.10.16",
     "typescript": "^5.4.2"
   },
   "peerDependencies": {

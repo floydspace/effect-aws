@@ -36,7 +36,7 @@
     "@effect/docgen": "^0.4.3",
     "@effect/eslint-plugin": "^0.2.0",
     "@effect/language-service": "^0.2.0",
-    "@effect/vitest": "0.3.4",
+    "@effect/vitest": "0.13.16",
     "@eslint/compat": "^1.2.5",
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.19.0",
@@ -60,8 +60,10 @@
     "vitest": "^2.0.5"
   },
   "dependencies": {
-    "effect": "3.0.4",
-    "enquirer": "^2.4.1"
+    "@effect/cli": "0.48.25",
+    "@effect/platform": "0.69.25",
+    "@effect/platform-node": "0.64.27",
+    "effect": "3.10.16"
   },
   "pnpm": {
     "patchedDependencies": {

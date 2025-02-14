@@ -22,7 +22,7 @@ describe("ServiceLogger.toClientLogger", () => {
 
       expect(mockLogFn).toHaveBeenCalledOnce();
       expect(mockLogFn).toHaveBeenCalledWith(
-        expect.objectContaining({ message: "test message", logLevel: LogLevel.Info }),
+        expect.objectContaining({ message: ["test message"], logLevel: LogLevel.Info }),
       );
     }));
 
@@ -35,7 +35,7 @@ describe("ServiceLogger.toClientLogger", () => {
 
       expect(mockLogFn).toHaveBeenCalledOnce();
       expect(mockLogFn).toHaveBeenCalledWith(
-        expect.objectContaining({ message: "error message", logLevel: LogLevel.Error }),
+        expect.objectContaining({ message: ["error message"], logLevel: LogLevel.Error }),
       );
     }));
 
@@ -53,7 +53,7 @@ describe("ServiceLogger.toClientLogger", () => {
 
       expect(mockLogFn).toHaveBeenCalledOnce();
       expect(mockLogFn).toHaveBeenCalledWith(
-        expect.objectContaining({ message: "debug message", logLevel: LogLevel.Debug }),
+        expect.objectContaining({ message: ["debug message"], logLevel: LogLevel.Debug }),
       );
     }));
 });

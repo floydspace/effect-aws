@@ -37,11 +37,11 @@ new Docgen(project);
 new Eslint(project);
 new Vitest(project, { sharedSetupFiles: ["vitest.setup.ts"] });
 
-const effectDeps = ["effect@3.0.4"];
+const effectDeps = ["effect@3.10.16"];
 
 project.addScripts({ "codegen-client": "tsx ./scripts/codegen-cli.ts" });
-project.addDeps(...effectDeps, "enquirer@^2.4.1");
-project.addDevDeps("@effect/language-service", "@effect/vitest@0.3.4");
+project.addDeps(...effectDeps, "@effect/cli@0.48.25", "@effect/platform@0.69.25", "@effect/platform-node@0.64.27");
+project.addDevDeps("@effect/language-service", "@effect/vitest@0.13.16");
 project.tsconfigBase?.file.addOverride("compilerOptions.plugins", [
   { name: "@effect/language-service" },
 ]);

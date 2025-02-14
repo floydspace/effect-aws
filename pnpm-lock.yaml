@@ -13,12 +13,18 @@ importers:
 
   .:
     dependencies:
+      '@effect/cli':
+        specifier: 0.48.25
+        version: 0.48.25(@effect/platform@0.69.25(effect@3.10.16))(@effect/printer-ansi@0.38.16(@effect/typeclass@0.29.16(effect@3.10.16))(effect@3.10.16))(@effect/printer@0.38.16(@effect/typeclass@0.29.16(effect@3.10.16))(effect@3.10.16))(effect@3.10.16)
+      '@effect/platform':
+        specifier: 0.69.25
+        version: 0.69.25(effect@3.10.16)
+      '@effect/platform-node':
+        specifier: 0.64.27
+        version: 0.64.27(@effect/platform@0.69.25(effect@3.10.16))(effect@3.10.16)
       effect:
-        specifier: 3.0.4
-        version: 3.0.4
-      enquirer:
-        specifier: ^2.4.1
-        version: 2.4.1
+        specifier: 3.10.16
+        version: 3.10.16
     devDependencies:
       '@changesets/changelog-github':
         specifier: ^0.5.0
@@ -39,8 +45,8 @@ importers:
         specifier: ^0.2.0
         version: 0.2.0
       '@effect/vitest':
-        specifier: 0.3.4
-        version: 0.3.4(effect@3.0.4)(vitest@2.0.5(@types/node@22.13.1))
+        specifier: 0.13.16
+        version: 0.13.16(effect@3.10.16)(vitest@2.0.5(@types/node@22.13.4))
       '@eslint/compat':
         specifier: ^1.2.5
         version: 1.2.5(eslint@9.19.0)
@@ -55,7 +61,7 @@ importers:
         version: 1.0.0-next.16(projen@0.91.6(constructs@10.4.2))
       '@types/node':
         specifier: ts5.4
-        version: 22.13.1
+        version: 22.13.4
       '@typescript-eslint/eslint-plugin':
         specifier: ^8.21.0
         version: 8.21.0(@typescript-eslint/parser@8.21.0(eslint@9.19.0)(typescript@5.4.5))(eslint@9.19.0)(typescript@5.4.5)
@@ -64,7 +70,7 @@ importers:
         version: 8.21.0(eslint@9.19.0)(typescript@5.4.5)
       '@vitest/coverage-v8':
         specifier: ^2.0.5
-        version: 2.0.5(vitest@2.0.5(@types/node@22.13.1))
+        version: 2.0.5(vitest@2.0.5(@types/node@22.13.4))
       aws-sdk-client-mock-vitest:
         specifier: ^4.0.0
         version: 4.0.0
@@ -94,7 +100,7 @@ importers:
         version: 0.91.6(constructs@10.4.2)
       ts-node:
         specifier: ^10.9.1
-        version: 10.9.1(@types/node@22.13.1)(typescript@5.4.5)
+        version: 10.9.1(@types/node@22.13.4)(typescript@5.4.5)
       tsx:
         specifier: ^4.16.5
         version: 4.16.5
@@ -103,7 +109,7 @@ importers:
         version: 5.4.5
       vitest:
         specifier: ^2.0.5
-        version: 2.0.5(@types/node@22.13.1)
+        version: 2.0.5(@types/node@22.13.4)
 
   packages/client-account:
     dependencies:
@@ -116,7 +122,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.1
+        version: 22.13.4
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -124,8 +130,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.4
-        version: 3.0.4
+        specifier: 3.10.16
+        version: 3.10.16
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -142,7 +148,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.1
+        version: 22.13.4
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -150,8 +156,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.4
-        version: 3.0.4
+        specifier: 3.10.16
+        version: 3.10.16
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -168,7 +174,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.1
+        version: 22.13.4
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -176,8 +182,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.4
-        version: 3.0.4
+        specifier: 3.10.16
+        version: 3.10.16
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -194,7 +200,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.1
+        version: 22.13.4
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -202,8 +208,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.4
-        version: 3.0.4
+        specifier: 3.10.16
+        version: 3.10.16
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -220,7 +226,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.1
+        version: 22.13.4
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -228,8 +234,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.4
-        version: 3.0.4
+        specifier: 3.10.16
+        version: 3.10.16
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -246,7 +252,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.1
+        version: 22.13.4
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -254,8 +260,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.4
-        version: 3.0.4
+        specifier: 3.10.16
+        version: 3.10.16
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -272,7 +278,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.1
+        version: 22.13.4
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -280,8 +286,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.4
-        version: 3.0.4
+        specifier: 3.10.16
+        version: 3.10.16
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -298,7 +304,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.1
+        version: 22.13.4
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -306,8 +312,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.4
-        version: 3.0.4
+        specifier: 3.10.16
+        version: 3.10.16
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -324,7 +330,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.1
+        version: 22.13.4
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -332,8 +338,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.4
-        version: 3.0.4
+        specifier: 3.10.16
+        version: 3.10.16
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -350,7 +356,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.1
+        version: 22.13.4
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -358,8 +364,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.4
-        version: 3.0.4
+        specifier: 3.10.16
+        version: 3.10.16
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -376,7 +382,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.1
+        version: 22.13.4
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -384,8 +390,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.4
-        version: 3.0.4
+        specifier: 3.10.16
+        version: 3.10.16
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -402,7 +408,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.1
+        version: 22.13.4
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -410,8 +416,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.4
-        version: 3.0.4
+        specifier: 3.10.16
+        version: 3.10.16
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -428,7 +434,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.1
+        version: 22.13.4
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -436,8 +442,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.4
-        version: 3.0.4
+        specifier: 3.10.16
+        version: 3.10.16
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -454,7 +460,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.1
+        version: 22.13.4
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -462,8 +468,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.4
-        version: 3.0.4
+        specifier: 3.10.16
+        version: 3.10.16
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -480,7 +486,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.1
+        version: 22.13.4
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -488,8 +494,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.4
-        version: 3.0.4
+        specifier: 3.10.16
+        version: 3.10.16
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -506,7 +512,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.1
+        version: 22.13.4
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -514,8 +520,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.4
-        version: 3.0.4
+        specifier: 3.10.16
+        version: 3.10.16
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -532,7 +538,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.1
+        version: 22.13.4
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -540,8 +546,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.4
-        version: 3.0.4
+        specifier: 3.10.16
+        version: 3.10.16
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -558,7 +564,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.1
+        version: 22.13.4
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -566,8 +572,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.4
-        version: 3.0.4
+        specifier: 3.10.16
+        version: 3.10.16
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -584,7 +590,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.1
+        version: 22.13.4
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -592,8 +598,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.4
-        version: 3.0.4
+        specifier: 3.10.16
+        version: 3.10.16
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -610,7 +616,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.1
+        version: 22.13.4
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -618,8 +624,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.4
-        version: 3.0.4
+        specifier: 3.10.16
+        version: 3.10.16
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -636,7 +642,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.1
+        version: 22.13.4
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -644,8 +650,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.4
-        version: 3.0.4
+        specifier: 3.10.16
+        version: 3.10.16
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -662,7 +668,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.1
+        version: 22.13.4
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -670,8 +676,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.4
-        version: 3.0.4
+        specifier: 3.10.16
+        version: 3.10.16
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -688,7 +694,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.1
+        version: 22.13.4
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -696,8 +702,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.4
-        version: 3.0.4
+        specifier: 3.10.16
+        version: 3.10.16
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -714,7 +720,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.1
+        version: 22.13.4
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -722,8 +728,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.4
-        version: 3.0.4
+        specifier: 3.10.16
+        version: 3.10.16
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -740,7 +746,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.1
+        version: 22.13.4
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -748,8 +754,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.4
-        version: 3.0.4
+        specifier: 3.10.16
+        version: 3.10.16
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -766,7 +772,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.1
+        version: 22.13.4
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -774,8 +780,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.4
-        version: 3.0.4
+        specifier: 3.10.16
+        version: 3.10.16
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -792,7 +798,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.1
+        version: 22.13.4
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -800,8 +806,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.4
-        version: 3.0.4
+        specifier: 3.10.16
+        version: 3.10.16
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -818,7 +824,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.1
+        version: 22.13.4
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -826,8 +832,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.4
-        version: 3.0.4
+        specifier: 3.10.16
+        version: 3.10.16
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -844,7 +850,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.1
+        version: 22.13.4
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -852,8 +858,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.4
-        version: 3.0.4
+        specifier: 3.10.16
+        version: 3.10.16
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -870,7 +876,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.1
+        version: 22.13.4
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -878,8 +884,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.4
-        version: 3.0.4
+        specifier: 3.10.16
+        version: 3.10.16
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -896,7 +902,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.1
+        version: 22.13.4
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -904,8 +910,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.4
-        version: 3.0.4
+        specifier: 3.10.16
+        version: 3.10.16
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -922,7 +928,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.1
+        version: 22.13.4
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -930,8 +936,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.4
-        version: 3.0.4
+        specifier: 3.10.16
+        version: 3.10.16
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -954,7 +960,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.1
+        version: 22.13.4
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -962,8 +968,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.4
-        version: 3.0.4
+        specifier: 3.10.16
+        version: 3.10.16
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -980,7 +986,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.1
+        version: 22.13.4
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -988,8 +994,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.4
-        version: 3.0.4
+        specifier: 3.10.16
+        version: 3.10.16
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -1006,7 +1012,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.1
+        version: 22.13.4
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -1014,8 +1020,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.4
-        version: 3.0.4
+        specifier: 3.10.16
+        version: 3.10.16
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -1032,7 +1038,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.1
+        version: 22.13.4
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -1040,8 +1046,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.4
-        version: 3.0.4
+        specifier: 3.10.16
+        version: 3.10.16
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -1058,7 +1064,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.1
+        version: 22.13.4
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -1066,8 +1072,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.4
-        version: 3.0.4
+        specifier: 3.10.16
+        version: 3.10.16
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -1084,7 +1090,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.1
+        version: 22.13.4
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -1092,8 +1098,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.4
-        version: 3.0.4
+        specifier: 3.10.16
+        version: 3.10.16
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -1110,7 +1116,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.1
+        version: 22.13.4
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -1118,8 +1124,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.4
-        version: 3.0.4
+        specifier: 3.10.16
+        version: 3.10.16
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -1136,7 +1142,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.1
+        version: 22.13.4
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -1144,8 +1150,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.4
-        version: 3.0.4
+        specifier: 3.10.16
+        version: 3.10.16
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -1162,7 +1168,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.1
+        version: 22.13.4
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -1170,8 +1176,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.4
-        version: 3.0.4
+        specifier: 3.10.16
+        version: 3.10.16
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -1188,7 +1194,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.1
+        version: 22.13.4
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -1196,8 +1202,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.4
-        version: 3.0.4
+        specifier: 3.10.16
+        version: 3.10.16
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -1214,10 +1220,10 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.1
+        version: 22.13.4
       effect:
-        specifier: 3.0.4
-        version: 3.0.4
+        specifier: 3.10.16
+        version: 3.10.16
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -1230,10 +1236,10 @@ importers:
         version: 8.10.125
       '@types/node':
         specifier: ts5.4
-        version: 22.13.1
+        version: 22.13.4
       effect:
-        specifier: 3.0.4
-        version: 3.0.4
+        specifier: 3.10.16
+        version: 3.10.16
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -1256,7 +1262,7 @@ importers:
         version: link:../client-dynamodb/dist
       '@types/node':
         specifier: ts5.4
-        version: 22.13.1
+        version: 22.13.4
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -1264,8 +1270,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       effect:
-        specifier: 3.0.4
-        version: 3.0.4
+        specifier: 3.10.16
+        version: 3.10.16
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -1281,10 +1287,10 @@ importers:
         version: 2.0.0
       '@types/node':
         specifier: ts5.4
-        version: 22.13.1
+        version: 22.13.4
       effect:
-        specifier: 3.0.4
-        version: 3.0.4
+        specifier: 3.10.16
+        version: 3.10.16
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -1303,10 +1309,10 @@ importers:
         version: 1.208.0
       '@types/node':
         specifier: ts5.4
-        version: 22.13.1
+        version: 22.13.4
       effect:
-        specifier: 3.0.4
-        version: 3.0.4
+        specifier: 3.10.16
+        version: 3.10.16
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -1325,10 +1331,10 @@ importers:
         version: 1.208.0
       '@types/node':
         specifier: ts5.4
-        version: 22.13.1
+        version: 22.13.4
       effect:
-        specifier: 3.0.4
-        version: 3.0.4
+        specifier: 3.10.16
+        version: 3.10.16
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -1855,6 +1861,14 @@ packages:
     engines: {node: '>=16.17.1'}
     hasBin: true
 
+  '@effect/cli@0.48.25':
+    resolution: {integrity: sha512-EeLC7l0HadLF+rcXrMV5MyTLO47L63dUY07zZniOa1u1ZdB6O2Nfc3sJduUhwRgDYPBycBzKq6oZDiga979xBw==}
+    peerDependencies:
+      '@effect/platform': ^0.69.25
+      '@effect/printer': ^0.38.16
+      '@effect/printer-ansi': ^0.38.16
+      effect: ^3.10.16
+
   '@effect/docgen@0.4.3':
     resolution: {integrity: sha512-qR7uSUPpY53ljWLiftQ2N5TaGpYJn1j3yXtJcWs2ndo1K3TqM9ZajtpB4WbiCfIpAXsCKfqpoUBn/qb8RpiGWg==}
     engines: {node: '>=18.0.0'}
@@ -1874,11 +1888,45 @@ packages:
     engines: {node: '>=0.10.0'}
     hasBin: true
 
-  '@effect/vitest@0.3.4':
-    resolution: {integrity: sha512-VBEEomRIVFilTDPR+bPEXIjzONDUpq9z8I3ih9rmzO0rnSw6/3u46lAHIoBX99KgpYVlOKedP+EsJsoLNKW9VA==}
+  '@effect/platform-node-shared@0.19.26':
+    resolution: {integrity: sha512-K73Xqr60Ia7WKAp47Ums7j3V1NlVkyzwqNLl4sHqPkiC00J+laLnH/VQm7QopPiS9UPLqv/SMJzMxKXBY86Djw==}
     peerDependencies:
-      effect: ^3.0.4
-      vitest: ^1.4.0
+      '@effect/platform': ^0.69.25
+      effect: ^3.10.16
+
+  '@effect/platform-node@0.64.27':
+    resolution: {integrity: sha512-sn+LwvDwqlLDfvUT4zGI3bPRLWEFOhFrPr6DNbI4WoYg1DIii0pUOK7qf+InNKjTSrYqBxLG3SuxReO/tSIhSg==}
+    peerDependencies:
+      '@effect/platform': ^0.69.25
+      effect: ^3.10.16
+
+  '@effect/platform@0.69.25':
+    resolution: {integrity: sha512-95INMcJbmA0Mj3muf15lgpYKbkvXb9TZM0RM79lonPlnq0BlGurxVWAPwYt3iwVStbHsrcTznQkjc6WP+aMX1A==}
+    peerDependencies:
+      effect: ^3.10.16
+
+  '@effect/printer-ansi@0.38.16':
+    resolution: {integrity: sha512-oWVi8v0sXjdWWJm7OurKp7mZVnDsCyi0g3d62TRKc+IzQrPZB2iGEZHNlhnSUbqMdcVyjhPVPqRFs1qfVA4zGw==}
+    peerDependencies:
+      '@effect/typeclass': ^0.29.16
+      effect: ^3.10.16
+
+  '@effect/printer@0.38.16':
+    resolution: {integrity: sha512-GKU8B7GXyxBLi+xTNTgbnSeJpu5jXtOKBhp6RAiwvWpV2/OX2vUkzTHbxq5Uio0XwOeM0LDBQU7T0uDafjUj5w==}
+    peerDependencies:
+      '@effect/typeclass': ^0.29.16
+      effect: ^3.10.16
+
+  '@effect/typeclass@0.29.16':
+    resolution: {integrity: sha512-Gi0Y8LJzFQ0B/boXqTd5FvLOgIT4GpYEG4GsGD1VENBn8Y9S+rgjhcv8D8kTvE6LDOi4dHUvBJenBoPVhCOLsQ==}
+    peerDependencies:
+      effect: ^3.10.16
+
+  '@effect/vitest@0.13.16':
+    resolution: {integrity: sha512-hZpSLj+FuV3R4dEyTNYQkkjZ9guP1XuNLcb/Xm0LV01vFpRN7EViQ/GTNa4wfyWyb66guQ41vwdDOKuDLLze7w==}
+    peerDependencies:
+      effect: ^3.10.16
+      vitest: ^2.0.5
 
   '@esbuild/aix-ppc64@0.21.5':
     resolution: {integrity: sha512-1SDgH6ZSPTlggy1yI6+Dbkiz8xzpHJEVAlF/AM1tHPLsf5STom9rwtjE4hKAF20FfXXNTFqEYXyJNWh1GiZedQ==}
@@ -2164,6 +2212,88 @@ packages:
   '@nolyfill/is-core-module@1.0.39':
     resolution: {integrity: sha512-nn5ozdjYQpUCZlWGuxcJY/KpxkWQs4DcbMCmKojjyrYDEAGy4Ce19NN4v5MduafTwJlbKc99UA8YhSVqq9yPZA==}
     engines: {node: '>=12.4.0'}
+
+  '@parcel/watcher-android-arm64@2.5.1':
+    resolution: {integrity: sha512-KF8+j9nNbUN8vzOFDpRMsaKBHZ/mcjEjMToVMJOhTozkDonQFFrRcfdLWn6yWKCmJKmdVxSgHiYvTCef4/qcBA==}
+    engines: {node: '>= 10.0.0'}
+    cpu: [arm64]
+    os: [android]
+
+  '@parcel/watcher-darwin-arm64@2.5.1':
+    resolution: {integrity: sha512-eAzPv5osDmZyBhou8PoF4i6RQXAfeKL9tjb3QzYuccXFMQU0ruIc/POh30ePnaOyD1UXdlKguHBmsTs53tVoPw==}
+    engines: {node: '>= 10.0.0'}
+    cpu: [arm64]
+    os: [darwin]
+
+  '@parcel/watcher-darwin-x64@2.5.1':
+    resolution: {integrity: sha512-1ZXDthrnNmwv10A0/3AJNZ9JGlzrF82i3gNQcWOzd7nJ8aj+ILyW1MTxVk35Db0u91oD5Nlk9MBiujMlwmeXZg==}
+    engines: {node: '>= 10.0.0'}
+    cpu: [x64]
+    os: [darwin]
+
+  '@parcel/watcher-freebsd-x64@2.5.1':
+    resolution: {integrity: sha512-SI4eljM7Flp9yPuKi8W0ird8TI/JK6CSxju3NojVI6BjHsTyK7zxA9urjVjEKJ5MBYC+bLmMcbAWlZ+rFkLpJQ==}
+    engines: {node: '>= 10.0.0'}
+    cpu: [x64]
+    os: [freebsd]
+
+  '@parcel/watcher-linux-arm-glibc@2.5.1':
+    resolution: {integrity: sha512-RCdZlEyTs8geyBkkcnPWvtXLY44BCeZKmGYRtSgtwwnHR4dxfHRG3gR99XdMEdQ7KeiDdasJwwvNSF5jKtDwdA==}
+    engines: {node: '>= 10.0.0'}
+    cpu: [arm]
+    os: [linux]
+
+  '@parcel/watcher-linux-arm-musl@2.5.1':
+    resolution: {integrity: sha512-6E+m/Mm1t1yhB8X412stiKFG3XykmgdIOqhjWj+VL8oHkKABfu/gjFj8DvLrYVHSBNC+/u5PeNrujiSQ1zwd1Q==}
+    engines: {node: '>= 10.0.0'}
+    cpu: [arm]
+    os: [linux]
+
+  '@parcel/watcher-linux-arm64-glibc@2.5.1':
+    resolution: {integrity: sha512-LrGp+f02yU3BN9A+DGuY3v3bmnFUggAITBGriZHUREfNEzZh/GO06FF5u2kx8x+GBEUYfyTGamol4j3m9ANe8w==}
+    engines: {node: '>= 10.0.0'}
+    cpu: [arm64]
+    os: [linux]
+
+  '@parcel/watcher-linux-arm64-musl@2.5.1':
+    resolution: {integrity: sha512-cFOjABi92pMYRXS7AcQv9/M1YuKRw8SZniCDw0ssQb/noPkRzA+HBDkwmyOJYp5wXcsTrhxO0zq1U11cK9jsFg==}
+    engines: {node: '>= 10.0.0'}
+    cpu: [arm64]
+    os: [linux]
+
+  '@parcel/watcher-linux-x64-glibc@2.5.1':
+    resolution: {integrity: sha512-GcESn8NZySmfwlTsIur+49yDqSny2IhPeZfXunQi48DMugKeZ7uy1FX83pO0X22sHntJ4Ub+9k34XQCX+oHt2A==}
+    engines: {node: '>= 10.0.0'}
+    cpu: [x64]
+    os: [linux]
+
+  '@parcel/watcher-linux-x64-musl@2.5.1':
+    resolution: {integrity: sha512-n0E2EQbatQ3bXhcH2D1XIAANAcTZkQICBPVaxMeaCVBtOpBZpWJuf7LwyWPSBDITb7In8mqQgJ7gH8CILCURXg==}
+    engines: {node: '>= 10.0.0'}
+    cpu: [x64]
+    os: [linux]
+
+  '@parcel/watcher-win32-arm64@2.5.1':
+    resolution: {integrity: sha512-RFzklRvmc3PkjKjry3hLF9wD7ppR4AKcWNzH7kXR7GUe0Igb3Nz8fyPwtZCSquGrhU5HhUNDr/mKBqj7tqA2Vw==}
+    engines: {node: '>= 10.0.0'}
+    cpu: [arm64]
+    os: [win32]
+
+  '@parcel/watcher-win32-ia32@2.5.1':
+    resolution: {integrity: sha512-c2KkcVN+NJmuA7CGlaGD1qJh1cLfDnQsHjE89E60vUEMlqduHGCdCLJCID5geFVM0dOtA3ZiIO8BoEQmzQVfpQ==}
+    engines: {node: '>= 10.0.0'}
+    cpu: [ia32]
+    os: [win32]
+
+  '@parcel/watcher-win32-x64@2.5.1':
+    resolution: {integrity: sha512-9lHBdJITeNR++EvSQVUcaZoWupyHfXe1jZvGZ06O/5MflPcuPLtEphScIBL+AiCWBO46tDSHzWyD0uDmmZqsgA==}
+    engines: {node: '>= 10.0.0'}
+    cpu: [x64]
+    os: [win32]
+
+  '@parcel/watcher@2.5.1':
+    resolution: {integrity: sha512-dfUnCxiN9H4ap84DvD2ubjw+3vUNpstxa0TneY/Paat8a3R4uQZDLSvWjmznAY/DoahqTHl9V46HF/Zs3F29pg==}
+    engines: {node: '>= 10.0.0'}
 
   '@pkgjs/parseargs@0.11.0':
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
@@ -2553,8 +2683,8 @@ packages:
   '@types/node@20.17.16':
     resolution: {integrity: sha512-vOTpLduLkZXePLxHiHsBLp98mHGnl8RptV4YAO3HfKO5UHjDvySGbxKtpYfy8Sx5+WKcgc45qNreJJRVM3L6mw==}
 
-  '@types/node@22.13.1':
-    resolution: {integrity: sha512-jK8uzQlrvXqEU91UxiK5J7pKHyzgnI1Qnl0QDHIgVGuolJhRb9EEl28Cj9b3rGR8B2lhFCtvIm5os8lFnO/1Ew==}
+  '@types/node@22.13.4':
+    resolution: {integrity: sha512-ywP2X0DYtX3y08eFVx5fNIw7/uIv8hYUKgXoK8oayJlLnKcRfEYCxWMVE1XagUdVtCJlZT1AU4LXEABW+L1Peg==}
 
   '@types/normalize-package-data@2.4.4':
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
@@ -2920,6 +3050,11 @@ packages:
     resolution: {integrity: sha512-reYkTUJAZb9gUuZ2RvVCNhVHdg62RHnJ7WJl8ftMi4diZ6NWlciOzQN88pUhSELEwflJht4oQDv0F0BMlwaYtA==}
     engines: {node: '>=8'}
 
+  detect-libc@1.0.3:
+    resolution: {integrity: sha512-pGjwhsmsp4kL2RTz08wcOlGN83otlqHeD/Z5T8GXZB+/YcpQ/dgo+lbU8ZsGxV0HIvqqxo9l7mqYwyYMD9bKDg==}
+    engines: {node: '>=0.10'}
+    hasBin: true
+
   diacritics-map@0.1.0:
     resolution: {integrity: sha512-3omnDTYrGigU0i4cJjvaKwD52B8aoqyX/NEIkukFFkogBemsIbhSa1O414fpTp5nuszJG6lvQ5vBvDVNCbSsaQ==}
     engines: {node: '>=0.8.0'}
@@ -2959,8 +3094,8 @@ packages:
   eastasianwidth@0.2.0:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
 
-  effect@3.0.4:
-    resolution: {integrity: sha512-KxkTPwNP2A2wUQ5CVLcp0gCpBSajHIL9XQwqpruKNdkMCvCVpLg8b3dx71ADwlzeB+LfUFe+cj4MgvrYQutXVQ==}
+  effect@3.10.16:
+    resolution: {integrity: sha512-7d69IMsIgnJKzopBMHdZR7d3JWwdHgzaIyIXif5jpu8gtQujIrIpgABXXMe+47KNSuS5k12s9dMRL3B8Y9s+Sw==}
 
   electron-to-chromium@1.5.88:
     resolution: {integrity: sha512-K3C2qf1o+bGzbilTDCTBhTQcMS9KW60yTAaTeeXsfvQuTDDwlokLam/AdqlqcSy9u4UainDgsHV23ksXAOgamw==}
@@ -3167,6 +3302,10 @@ packages:
     resolution: {integrity: sha512-hMQ4CX1p1izmuLYyZqLMO/qGNw10wSv9QDCPfzXfyFrOaCSSoRfqE1Kf1s5an66J5JZC62NewG+mK49jOCtQew==}
     engines: {node: '>=4'}
 
+  fast-check@3.23.2:
+    resolution: {integrity: sha512-h5+1OzzfCC3Ef7VbtKdcv7zsstUQwUDlYpUTvjeUsJAssPgLn7QzbboPtL5ro04Mq0rPOsMzl7q5hIbRs2wD1A==}
+    engines: {node: '>=8.0.0'}
+
   fast-deep-equal@3.1.3:
     resolution: {integrity: sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q==}
 
@@ -3204,6 +3343,9 @@ packages:
   fill-range@7.1.1:
     resolution: {integrity: sha512-YsGpe3WHLK8ZYi4tWDg2Jy3ebRz2rXowDxnld4bkQB00cc/1Zw9AWnC0i9ztDJitivtQvaI9KaLyKrc+hBW0yg==}
     engines: {node: '>=8'}
+
+  find-my-way-ts@0.1.5:
+    resolution: {integrity: sha512-4GOTMrpGQVzsCH2ruUn2vmwzV/02zF4q+ybhCIrw/Rkt3L8KWcycdC6aJMctJzwN4fXD4SD5F/4B9Sksh5rE0A==}
 
   find-up@4.1.0:
     resolution: {integrity: sha512-PpOwAdQ/YlXQ2vj8a3h8IipDuYRi3wceVQQGYWxNINccq40Anw7BlsEXCMbt1Zt+OLA6Fq9suIpIWD0OsnISlw==}
@@ -3388,6 +3530,10 @@ packages:
 
   inherits@2.0.4:
     resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
+
+  ini@4.1.3:
+    resolution: {integrity: sha512-X7rqawQBvfdjS10YU1y1YVreA3SsLrW9dX2CewP2EbBJM4ypVNLDkO5y04gejPwKIY9lR+7r9gn3rFPt/kmWFg==}
+    engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
 
   internal-slot@1.1.0:
     resolution: {integrity: sha512-4gd7VpWNQNB4UKKCFFVcp1AVv+FMOgs9NKzjHKusc8jTMhd5eL1NqQqOpE0KzMds804/yHlglp3uxgluOqAPLw==}
@@ -3772,6 +3918,11 @@ packages:
     resolution: {integrity: sha512-PXwfBhYu0hBCPw8Dn0E+WDYb7af3dSLVWKi3HGv84IdF4TyFoC0ysxFd0Goxw7nSv4T/PzEJQxsYsEiFCKo2BA==}
     engines: {node: '>=8.6'}
 
+  mime@3.0.0:
+    resolution: {integrity: sha512-jSCU7/VB1loIWBZe14aEYHU/+1UMEHoaO7qxCOVJOw9GgH72VAWppxNcjU+x9a2k3GSIBXNKxXQFqRvvZ7vr3A==}
+    engines: {node: '>=10.0.0'}
+    hasBin: true
+
   mimic-fn@4.0.0:
     resolution: {integrity: sha512-vqiC06CuhBTUdZH+RYl8sFrL096vA45Ok5ISO6sE/Mr1jRbGH4Csnhi8f3wKVl7x8mO4Au7Ir9D3Oyv1VYMFJw==}
     engines: {node: '>=12'}
@@ -3804,6 +3955,9 @@ packages:
   ms@2.1.3:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
 
+  multipasta@0.2.5:
+    resolution: {integrity: sha512-c8eMDb1WwZcE02WVjHoOmUVk7fnKU/RmUcosHACglrWAuPQsEJv+E8430sXj6jNc1jHw0zrS16aCjQh4BcEb4A==}
+
   nanoid@3.3.7:
     resolution: {integrity: sha512-eSRppjcPIatRIMC1U6UngP8XFcz8MQWGQdt1MTBQ7NaAmvXDfvNxbvWV3x2y6CdEUciCSsDHDQZbhYaB8QEo2g==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
@@ -3817,6 +3971,9 @@ packages:
 
   nise@6.1.1:
     resolution: {integrity: sha512-aMSAzLVY7LyeM60gvBS423nBmIPP+Wy7St7hsb+8/fc1HmeoHJfLO8CKse4u3BtOZvQLJghYPI2i/1WZrEj5/g==}
+
+  node-addon-api@7.1.1:
+    resolution: {integrity: sha512-5m3bsyrjFWE1xf7nz7YXdN4udnVtXK6/Yfgn5qnahL6bCkf2yKt4k3nuTKAtT4r3IG8JNR2ncsIMdZuAzJjHQQ==}
 
   node-fetch@2.7.0:
     resolution: {integrity: sha512-c4FRfUm/dbcWZ7U+1Wq0AwCyFL+3nt2bEw05wfxSz+DWpWsitgmSgYmy2dQdWyKC1694ELPqMs/YzUSNozLt8A==}
@@ -4034,6 +4191,9 @@ packages:
   punycode@2.3.1:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
     engines: {node: '>=6'}
+
+  pure-rand@6.1.0:
+    resolution: {integrity: sha512-bVWawvoZoBYpp6yIoQtQXHZjmz35RSVHnUOTefl8Vcjr8snTPY1wnpSPMWekcFwbxI6gtmT7rSYPFvz71ldiOA==}
 
   queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
@@ -4344,6 +4504,9 @@ packages:
     resolution: {integrity: sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==}
     engines: {node: '>=8.0'}
 
+  toml@3.0.0:
+    resolution: {integrity: sha512-y/mWCZinnvxjTKYhJ+pYxwD0mRLVvOtdS2Awbgxln6iEnt4rk0yBxeSBHkGJcPucRiG0e55mwWp+g/05rsrd6w==}
+
   tr46@0.0.3:
     resolution: {integrity: sha512-N3WMsuqV66lT30CrXNbEjx4GEwlow3v6rr4mCcv6prnfwhS01rkgyFdjPNBYd9br7LpXV1+Emh01fHnq2Gdgrw==}
 
@@ -4431,6 +4594,10 @@ packages:
 
   undici-types@6.20.0:
     resolution: {integrity: sha512-Ny6QZ2Nju20vw1SRHe3d9jVu6gJ+4e3+MMpqu7pqE5HT6WsTSlce++GQmK5UXS8mzV8DSYHrQH+Xrf2jVcuKNg==}
+
+  undici@6.21.1:
+    resolution: {integrity: sha512-q/1rj5D0/zayJB2FraXdaWxbhWiNKDvu8naDT2dl1yTlvJp4BLtOcp2a5BvgGNQpYYJzau7tf1WgKv3b+7mqpQ==}
+    engines: {node: '>=18.17'}
 
   unist-util-stringify-position@2.0.3:
     resolution: {integrity: sha512-3faScn5I+hy9VleOq/qNbAd6pAx7iH5jYBMS9I1HgQVijz/4mv5Bvw5iw1sC/90CODiKo81G/ps8AJrISn687g==}
@@ -4566,12 +4733,29 @@ packages:
     resolution: {integrity: sha512-si7QWI6zUMq56bESFvagtmzMdGOtoxfR+Sez11Mobfc7tm+VkUckk9bW2UeffTGVUbOksxmSw0AA2gs8g71NCQ==}
     engines: {node: '>=12'}
 
+  ws@8.18.0:
+    resolution: {integrity: sha512-8VbfWfHLbbwu3+N6OKsOMpBdT4kXPDDB9cJk2bJ6mh9ucxdlnNvH1e+roYkKmN9Nxw2yjz7VzeO9oOz2zJ04Pw==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: '>=5.0.2'
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
+
   xtend@4.0.2:
     resolution: {integrity: sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ==}
     engines: {node: '>=0.4'}
 
   yallist@3.1.1:
     resolution: {integrity: sha512-a4UGQaWPH59mOXUYnAG2ewncQS4i4F43Tv3JoAM+s2VDAmS9NsK8GpDMLrCHPksFT7h3K6TOoUNn2pb7RoXx4g==}
+
+  yaml@2.7.0:
+    resolution: {integrity: sha512-+hSoy/QHluxmC9kCIJyL/uyFmLmc+e5CFR5Wa+bpIhIj85LVb9ZH2nVnqrHoSvKogwODv0ClqZkmiSSaIH5LTA==}
+    engines: {node: '>= 14'}
+    hasBin: true
 
   yn@3.1.1:
     resolution: {integrity: sha512-Ux4ygGWsu2c7isFWe8Yu1YluJmqVhxqK2cLXNQA5AcC3QfbGNpM7fu0Y8b/z16pXLnFxZYvWhd3fhBY9DLmC6Q==}
@@ -7276,6 +7460,16 @@ snapshots:
 
   '@effect/build-utils@0.7.9': {}
 
+  '@effect/cli@0.48.25(@effect/platform@0.69.25(effect@3.10.16))(@effect/printer-ansi@0.38.16(@effect/typeclass@0.29.16(effect@3.10.16))(effect@3.10.16))(@effect/printer@0.38.16(@effect/typeclass@0.29.16(effect@3.10.16))(effect@3.10.16))(effect@3.10.16)':
+    dependencies:
+      '@effect/platform': 0.69.25(effect@3.10.16)
+      '@effect/printer': 0.38.16(@effect/typeclass@0.29.16(effect@3.10.16))(effect@3.10.16)
+      '@effect/printer-ansi': 0.38.16(@effect/typeclass@0.29.16(effect@3.10.16))(effect@3.10.16)
+      effect: 3.10.16
+      ini: 4.1.3
+      toml: 3.0.0
+      yaml: 2.7.0
+
   '@effect/docgen@0.4.3(tsx@4.16.5)(typescript@5.4.5)':
     dependencies:
       '@effect/markdown-toc': 0.1.0
@@ -7308,10 +7502,50 @@ snapshots:
       repeat-string: 1.6.1
       strip-color: 0.1.0
 
-  '@effect/vitest@0.3.4(effect@3.0.4)(vitest@2.0.5(@types/node@22.13.1))':
+  '@effect/platform-node-shared@0.19.26(@effect/platform@0.69.25(effect@3.10.16))(effect@3.10.16)':
     dependencies:
-      effect: 3.0.4
-      vitest: 2.0.5(@types/node@22.13.1)
+      '@effect/platform': 0.69.25(effect@3.10.16)
+      '@parcel/watcher': 2.5.1
+      effect: 3.10.16
+      multipasta: 0.2.5
+
+  '@effect/platform-node@0.64.27(@effect/platform@0.69.25(effect@3.10.16))(effect@3.10.16)':
+    dependencies:
+      '@effect/platform': 0.69.25(effect@3.10.16)
+      '@effect/platform-node-shared': 0.19.26(@effect/platform@0.69.25(effect@3.10.16))(effect@3.10.16)
+      effect: 3.10.16
+      mime: 3.0.0
+      undici: 6.21.1
+      ws: 8.18.0
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
+
+  '@effect/platform@0.69.25(effect@3.10.16)':
+    dependencies:
+      effect: 3.10.16
+      find-my-way-ts: 0.1.5
+      multipasta: 0.2.5
+
+  '@effect/printer-ansi@0.38.16(@effect/typeclass@0.29.16(effect@3.10.16))(effect@3.10.16)':
+    dependencies:
+      '@effect/printer': 0.38.16(@effect/typeclass@0.29.16(effect@3.10.16))(effect@3.10.16)
+      '@effect/typeclass': 0.29.16(effect@3.10.16)
+      effect: 3.10.16
+
+  '@effect/printer@0.38.16(@effect/typeclass@0.29.16(effect@3.10.16))(effect@3.10.16)':
+    dependencies:
+      '@effect/typeclass': 0.29.16(effect@3.10.16)
+      effect: 3.10.16
+
+  '@effect/typeclass@0.29.16(effect@3.10.16)':
+    dependencies:
+      effect: 3.10.16
+
+  '@effect/vitest@0.13.16(effect@3.10.16)(vitest@2.0.5(@types/node@22.13.4))':
+    dependencies:
+      effect: 3.10.16
+      vitest: 2.0.5(@types/node@22.13.4)
 
   '@esbuild/aix-ppc64@0.21.5':
     optional: true
@@ -7471,7 +7705,7 @@ snapshots:
       '@jest/schemas': 29.6.3
       '@types/istanbul-lib-coverage': 2.0.6
       '@types/istanbul-reports': 3.0.4
-      '@types/node': 22.13.1
+      '@types/node': 22.13.4
       '@types/yargs': 17.0.33
       chalk: 4.1.2
 
@@ -7526,6 +7760,66 @@ snapshots:
       fastq: 1.15.0
 
   '@nolyfill/is-core-module@1.0.39': {}
+
+  '@parcel/watcher-android-arm64@2.5.1':
+    optional: true
+
+  '@parcel/watcher-darwin-arm64@2.5.1':
+    optional: true
+
+  '@parcel/watcher-darwin-x64@2.5.1':
+    optional: true
+
+  '@parcel/watcher-freebsd-x64@2.5.1':
+    optional: true
+
+  '@parcel/watcher-linux-arm-glibc@2.5.1':
+    optional: true
+
+  '@parcel/watcher-linux-arm-musl@2.5.1':
+    optional: true
+
+  '@parcel/watcher-linux-arm64-glibc@2.5.1':
+    optional: true
+
+  '@parcel/watcher-linux-arm64-musl@2.5.1':
+    optional: true
+
+  '@parcel/watcher-linux-x64-glibc@2.5.1':
+    optional: true
+
+  '@parcel/watcher-linux-x64-musl@2.5.1':
+    optional: true
+
+  '@parcel/watcher-win32-arm64@2.5.1':
+    optional: true
+
+  '@parcel/watcher-win32-ia32@2.5.1':
+    optional: true
+
+  '@parcel/watcher-win32-x64@2.5.1':
+    optional: true
+
+  '@parcel/watcher@2.5.1':
+    dependencies:
+      detect-libc: 1.0.3
+      is-glob: 4.0.3
+      micromatch: 4.0.8
+      node-addon-api: 7.1.1
+    optionalDependencies:
+      '@parcel/watcher-android-arm64': 2.5.1
+      '@parcel/watcher-darwin-arm64': 2.5.1
+      '@parcel/watcher-darwin-x64': 2.5.1
+      '@parcel/watcher-freebsd-x64': 2.5.1
+      '@parcel/watcher-linux-arm-glibc': 2.5.1
+      '@parcel/watcher-linux-arm-musl': 2.5.1
+      '@parcel/watcher-linux-arm64-glibc': 2.5.1
+      '@parcel/watcher-linux-arm64-musl': 2.5.1
+      '@parcel/watcher-linux-x64-glibc': 2.5.1
+      '@parcel/watcher-linux-x64-musl': 2.5.1
+      '@parcel/watcher-win32-arm64': 2.5.1
+      '@parcel/watcher-win32-ia32': 2.5.1
+      '@parcel/watcher-win32-x64': 2.5.1
 
   '@pkgjs/parseargs@0.11.0':
     optional: true
@@ -7972,7 +8266,7 @@ snapshots:
   '@types/glob@7.1.3':
     dependencies:
       '@types/minimatch': 5.1.2
-      '@types/node': 22.13.1
+      '@types/node': 22.13.4
 
   '@types/istanbul-lib-coverage@2.0.6': {}
 
@@ -8004,7 +8298,7 @@ snapshots:
     dependencies:
       undici-types: 6.19.8
 
-  '@types/node@22.13.1':
+  '@types/node@22.13.4':
     dependencies:
       undici-types: 6.20.0
 
@@ -8105,7 +8399,7 @@ snapshots:
       '@typescript-eslint/types': 8.21.0
       eslint-visitor-keys: 4.2.0
 
-  '@vitest/coverage-v8@2.0.5(vitest@2.0.5(@types/node@22.13.1))':
+  '@vitest/coverage-v8@2.0.5(vitest@2.0.5(@types/node@22.13.4))':
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@bcoe/v8-coverage': 0.2.3
@@ -8119,7 +8413,7 @@ snapshots:
       std-env: 3.7.0
       test-exclude: 7.0.1
       tinyrainbow: 1.2.0
-      vitest: 2.0.5(@types/node@22.13.1)
+      vitest: 2.0.5(@types/node@22.13.4)
     transitivePeerDependencies:
       - supports-color
 
@@ -8424,6 +8718,8 @@ snapshots:
 
   detect-indent@6.1.0: {}
 
+  detect-libc@1.0.3: {}
+
   diacritics-map@0.1.0: {}
 
   diff-sequences@29.6.3: {}
@@ -8454,7 +8750,9 @@ snapshots:
 
   eastasianwidth@0.2.0: {}
 
-  effect@3.0.4: {}
+  effect@3.10.16:
+    dependencies:
+      fast-check: 3.23.2
 
   electron-to-chromium@1.5.88: {}
 
@@ -8803,6 +9101,10 @@ snapshots:
       iconv-lite: 0.4.24
       tmp: 0.0.33
 
+  fast-check@3.23.2:
+    dependencies:
+      pure-rand: 6.1.0
+
   fast-deep-equal@3.1.3: {}
 
   fast-diff@1.3.0: {}
@@ -8844,6 +9146,8 @@ snapshots:
   fill-range@7.1.1:
     dependencies:
       to-regex-range: 5.0.1
+
+  find-my-way-ts@0.1.5: {}
 
   find-up@4.1.0:
     dependencies:
@@ -9035,6 +9339,8 @@ snapshots:
   imurmurhash@0.1.4: {}
 
   inherits@2.0.4: {}
+
+  ini@4.1.3: {}
 
   internal-slot@1.1.0:
     dependencies:
@@ -9271,7 +9577,7 @@ snapshots:
   jest-util@29.7.0:
     dependencies:
       '@jest/types': 29.6.3
-      '@types/node': 22.13.1
+      '@types/node': 22.13.4
       chalk: 4.1.2
       ci-info: 3.9.0
       graceful-fs: 4.2.11
@@ -9429,6 +9735,8 @@ snapshots:
       braces: 3.0.3
       picomatch: 2.3.1
 
+  mime@3.0.0: {}
+
   mimic-fn@4.0.0: {}
 
   minimatch@3.1.2:
@@ -9456,6 +9764,8 @@ snapshots:
 
   ms@2.1.3: {}
 
+  multipasta@0.2.5: {}
+
   nanoid@3.3.7: {}
 
   natural-compare-lite@1.4.0: {}
@@ -9469,6 +9779,8 @@ snapshots:
       '@sinonjs/text-encoding': 0.7.3
       just-extend: 6.2.0
       path-to-regexp: 8.2.0
+
+  node-addon-api@7.1.1: {}
 
   node-fetch@2.7.0:
     dependencies:
@@ -9655,6 +9967,8 @@ snapshots:
       constructs: 10.4.2
 
   punycode@2.3.1: {}
+
+  pure-rand@6.1.0: {}
 
   queue-microtask@1.2.3: {}
 
@@ -10008,20 +10322,22 @@ snapshots:
     dependencies:
       is-number: 7.0.0
 
+  toml@3.0.0: {}
+
   tr46@0.0.3: {}
 
   ts-api-utils@2.0.0(typescript@5.4.5):
     dependencies:
       typescript: 5.4.5
 
-  ts-node@10.9.1(@types/node@22.13.1)(typescript@5.4.5):
+  ts-node@10.9.1(@types/node@22.13.4)(typescript@5.4.5):
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
       '@tsconfig/node10': 1.0.9
       '@tsconfig/node12': 1.0.11
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.4
-      '@types/node': 22.13.1
+      '@types/node': 22.13.4
       acorn: 8.14.0
       acorn-walk: 8.3.2
       arg: 4.1.3
@@ -10108,6 +10424,8 @@ snapshots:
 
   undici-types@6.20.0: {}
 
+  undici@6.21.1: {}
+
   unist-util-stringify-position@2.0.3:
     dependencies:
       '@types/unist': 2.0.11
@@ -10135,13 +10453,13 @@ snapshots:
       spdx-correct: 3.2.0
       spdx-expression-parse: 3.0.1
 
-  vite-node@2.0.5(@types/node@22.13.1):
+  vite-node@2.0.5(@types/node@22.13.4):
     dependencies:
       cac: 6.7.14
       debug: 4.4.0
       pathe: 1.1.2
       tinyrainbow: 1.2.0
-      vite: 5.4.1(@types/node@22.13.1)
+      vite: 5.4.1(@types/node@22.13.4)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -10153,16 +10471,16 @@ snapshots:
       - supports-color
       - terser
 
-  vite@5.4.1(@types/node@22.13.1):
+  vite@5.4.1(@types/node@22.13.4):
     dependencies:
       esbuild: 0.21.5
       postcss: 8.4.41
       rollup: 4.20.0
     optionalDependencies:
-      '@types/node': 22.13.1
+      '@types/node': 22.13.4
       fsevents: 2.3.3
 
-  vitest@2.0.5(@types/node@22.13.1):
+  vitest@2.0.5(@types/node@22.13.4):
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@vitest/expect': 2.0.5
@@ -10180,11 +10498,11 @@ snapshots:
       tinybench: 2.9.0
       tinypool: 1.0.0
       tinyrainbow: 1.2.0
-      vite: 5.4.1(@types/node@22.13.1)
-      vite-node: 2.0.5(@types/node@22.13.1)
+      vite: 5.4.1(@types/node@22.13.4)
+      vite-node: 2.0.5(@types/node@22.13.4)
       why-is-node-running: 2.3.0
     optionalDependencies:
-      '@types/node': 22.13.1
+      '@types/node': 22.13.4
     transitivePeerDependencies:
       - less
       - lightningcss
@@ -10265,9 +10583,13 @@ snapshots:
       string-width: 5.1.2
       strip-ansi: 7.1.0
 
+  ws@8.18.0: {}
+
   xtend@4.0.2: {}
 
   yallist@3.1.1: {}
+
+  yaml@2.7.0: {}
 
   yn@3.1.1: {}
 

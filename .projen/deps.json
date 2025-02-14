@@ -26,7 +26,7 @@
     },
     {
       "name": "@effect/vitest",
-      "version": "0.3.4",
+      "version": "0.13.16",
       "type": "build"
     },
     {
@@ -118,13 +118,23 @@
       "type": "build"
     },
     {
-      "name": "effect",
-      "version": "3.0.4",
+      "name": "@effect/cli",
+      "version": "0.48.25",
       "type": "runtime"
     },
     {
-      "name": "enquirer",
-      "version": "^2.4.1",
+      "name": "@effect/platform-node",
+      "version": "0.64.27",
+      "type": "runtime"
+    },
+    {
+      "name": "@effect/platform",
+      "version": "0.69.25",
+      "type": "runtime"
+    },
+    {
+      "name": "effect",
+      "version": "3.10.16",
       "type": "runtime"
     }
   ],

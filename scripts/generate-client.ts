@@ -1,47 +1,14 @@
-import { exec } from "node:child_process";
-import { mkdir, rm, writeFile } from "node:fs/promises";
-
 import { Array, Option, Predicate, Record, String, Struct, Tuple } from "effect";
 import { flow, pipe } from "effect/Function";
-
-type Shape =
-  | { type: "boolean" }
-  | { type: "integer" }
-  | { type: "double" }
-  | { type: "string" }
-  | { type: "timestamp" }
-  | { type: "enum" }
-  | { type: "list" }
-  | {
-    type: "operation";
-    input: { target: string };
-    errors: Array<{ target: string }>;
-  }
-  | {
-    type: "service";
-    operations: Array<{ target: string }>;
-    traits: {
-      "aws.api#service": {
-        sdkId: string;
-        cloudFormationName: string;
-      };
-    };
-  }
-  | { type: "structure" };
-
-export interface Manifest {
-  shapes: Record<string, Shape>;
-}
+import { exec } from "node:child_process";
+import { mkdir, rm, writeFile } from "node:fs/promises";
+import type { Manifest, Shape } from "./manifest.js";
 
 const getNameFromTarget = flow(
   String.split("#"),
   Array.get(1),
   Option.getOrThrow,
 );
-
-const lowerFirst = flow(Array.modify(0, String.toLowerCase), Array.join(""));
-
-const upperFirst = flow(Array.modify(0, String.toUpperCase), Array.join(""));
 
 export async function generateClient([
   serviceName,
@@ -60,7 +27,7 @@ export async function generateClient([
   );
 
   const { sdkId } = serviceShape.traits["aws.api#service"];
-  const sdkName = upperFirst(String.replaceAll(" ", "")(sdkId));
+  const sdkName = String.capitalize(String.replaceAll(" ", "")(sdkId));
 
   const awsClient = await import(
     `../packages/client-${serviceName}/node_modules/@aws-sdk/client-${originalServiceName}/dist-cjs/index.js`
@@ -341,13 +308,7 @@ async function generateServiceFile(
     Record.filter(Predicate.isNotUndefined),
     Record.mapKeys(getNameFromTarget),
     Record.toEntries,
-  ) as Array<[
-    string,
-    {
-      type: "operation";
-      errors: Array<{ target: string }>;
-    },
-  ]>;
+  );
 
   const operationNames = pipe(operationTargets, Array.map(getNameFromTarget));
 
@@ -431,7 +392,7 @@ ${
           return `  /**
    * @see {@link ${operationName}Command}
    */
-  ${pipe(operationName, lowerFirst)}(
+  ${String.uncapitalize(operationName)}(
     args: ${operationName}CommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
@@ -537,7 +498,7 @@ describe("${sdkName}ClientImpl", () => {
         : `const args = {} as unknown as ${commandToTest}CommandInput`
     }
 
-    const program = ${sdkName}.${pipe(commandToTest, lowerFirst)}(args);
+    const program = ${sdkName}.${String.uncapitalize(commandToTest)}(args);
 
     const result = await pipe(
       program,
@@ -561,7 +522,7 @@ describe("${sdkName}ClientImpl", () => {
         : `const args = {} as unknown as ${commandToTest}CommandInput`
     }
 
-    const program = ${sdkName}.${pipe(commandToTest, lowerFirst)}(args);
+    const program = ${sdkName}.${String.uncapitalize(commandToTest)}(args);
 
     const result = await pipe(
       program,
@@ -588,7 +549,7 @@ describe("${sdkName}ClientImpl", () => {
         : `const args = {} as unknown as ${commandToTest}CommandInput`
     }
 
-    const program = ${sdkName}.${pipe(commandToTest, lowerFirst)}(args);
+    const program = ${sdkName}.${String.uncapitalize(commandToTest)}(args);
 
     const result = await pipe(
       program,
@@ -616,7 +577,7 @@ describe("${sdkName}ClientImpl", () => {
         : `const args = {} as unknown as ${commandToTest}CommandInput`
     }
 
-    const program = ${sdkName}.${pipe(commandToTest, lowerFirst)}(args);
+    const program = ${sdkName}.${String.uncapitalize(commandToTest)}(args);
 
     const result = await pipe(
       program,
@@ -648,7 +609,7 @@ describe("${sdkName}ClientImpl", () => {
         : `const args = {} as unknown as ${commandToTest}CommandInput`
     }
 
-    const program = ${sdkName}.${pipe(commandToTest, lowerFirst)}(args);
+    const program = ${sdkName}.${String.uncapitalize(commandToTest)}(args);
 
     const result = await pipe(
       program,
@@ -687,7 +648,7 @@ describe("${sdkName}ClientImpl", () => {
         : `const args = {} as unknown as ${commandToTest}CommandInput`
     }
 
-    const program = ${sdkName}.${pipe(commandToTest, lowerFirst)}(args).pipe(
+    const program = ${sdkName}.${String.uncapitalize(commandToTest)}(args).pipe(
       Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 
@@ -736,7 +697,7 @@ With default ${sdkName}Client instance:
 \`\`\`typescript
 import { ${sdkName} } from "@effect-aws/client-${serviceName}";
 
-const program = ${sdkName}.${pipe(commandToTest, lowerFirst)}(args);
+const program = ${sdkName}.${String.uncapitalize(commandToTest)}(args);
 
 const result = pipe(
   program,
@@ -750,7 +711,7 @@ With custom ${sdkName}Client instance:
 \`\`\`typescript
 import { ${sdkName} } from "@effect-aws/client-${serviceName}";
 
-const program = ${sdkName}.${pipe(commandToTest, lowerFirst)}(args);
+const program = ${sdkName}.${String.uncapitalize(commandToTest)}(args);
 
 const result = await pipe(
   program,
@@ -766,7 +727,7 @@ With custom ${sdkName}Client configuration:
 \`\`\`typescript
 import { ${sdkName} } from "@effect-aws/client-${serviceName}";
 
-const program = ${sdkName}.${pipe(commandToTest, lowerFirst)}(args);
+const program = ${sdkName}.${String.uncapitalize(commandToTest)}(args);
 
 const result = await pipe(
   program,
