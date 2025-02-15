@@ -32,11 +32,11 @@ jspm_packages/
 !/.npmrc
 !/test/
 !/tsconfig.json
-!/tsconfig.dev.json
 !/src/
 /build
 /dist/
 !/tsconfig.src.json
+!/tsconfig.dev.json
 !/tsconfig.esm.json
 !/tsconfig.cjs.json
 !/docgen.json

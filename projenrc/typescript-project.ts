@@ -29,8 +29,12 @@ export class TypeScriptLibProject extends typescript.TypeScriptProject {
     return construct;
   }
 
+  public readonly tsconfigSrc: javascript.TypescriptConfig;
+  public readonly tsconfigTst: javascript.TypescriptConfig;
+  public readonly tsconfigEsm: javascript.TypescriptConfig;
+  public readonly tsconfigCjs: javascript.TypescriptConfig;
+
   constructor({
-    jestOptions: { jestConfig: _, ...jestOptions } = {},
     workspaceDeps,
     workspacePeerDeps,
     ...options
@@ -53,34 +57,20 @@ export class TypeScriptLibProject extends typescript.TypeScriptProject {
       depsUpgrade: false, // Updates are handled by monorepo task
       eslint: false,
       jest: false,
-      jestOptions: {
-        ...jestOptions,
-        configFilePath: "jest.config.json",
-        junitReporting: false,
-      },
       libdir: "build",
-      tsconfig: {
-        compilerOptions: {
-          moduleResolution: javascript.TypeScriptModuleResolution.NODE_NEXT,
-          module: javascript.TypeScriptModuleResolution.NODE_NEXT,
-          lib: ["es2019", "dom"],
-          outDir: "build/cjs",
-          declaration: false, // Declaration is set in esm tsconfig
-        },
-      },
-      tsconfigDev: { compilerOptions: { outDir: undefined } },
+      disableTsconfigDev: true, // no dev ts files
       ...options,
       name: `@${parent?.name}/${options.name}`,
       peerDependencyOptions: { pinnedDevDependency: false },
     });
 
     if (workspaceDeps?.length) {
-      LinkableProject.ensure(this).addImplicitDependency(...workspaceDeps);
+      LinkableProject.ensure(this).addImplicitDependency(...workspaceDeps.map((dep) => dep.outdir));
       this.addDeps(...workspaceDeps.map((dep) => `${dep.package.packageName}@workspace:^`));
     }
 
     if (workspacePeerDeps?.length) {
-      LinkableProject.ensure(this).addImplicitDependency(...workspacePeerDeps);
+      LinkableProject.ensure(this).addImplicitDependency(...workspacePeerDeps.map((dep) => dep.outdir));
       this.addPeerDeps(...workspacePeerDeps.map((dep) => `${dep.package.packageName}@workspace:^`));
       this.addDevDeps(...workspacePeerDeps.map((dep) => `${dep.package.packageName}@workspace:^`));
     }
@@ -89,10 +79,36 @@ export class TypeScriptLibProject extends typescript.TypeScriptProject {
     this.package.addField("types", `${this.libdir}/dts/index.d.ts`);
     this.package.addField("type", "module");
 
+    this.tsconfigSrc = this.makeTsconfig("tsconfig.src.json", this.srcdir);
+    this.tsconfigTst = this.makeTsconfig("tsconfig.dev.json", this.testdir, {
+      noEmit: true,
+    });
+    this.tsconfigTst.file.addToArray("references", { path: this.tsconfigSrc.fileName });
+
+    // Add references in main tsconfig to both src and test
     this.tsconfig?.file.addOverride("references", [
-      { path: "tsconfig.src.json" },
-      { path: this.tsconfigDev.fileName },
+      { path: this.tsconfigSrc.fileName },
+      { path: this.tsconfigTst.fileName },
     ]);
+
+    // Add tsconfig for building esm
+    this.tsconfigEsm = this.makeBaseTsconfig("tsconfig.esm.json", "esm", {
+      declarationDir: `${this.libdir}/dts`,
+      stripInternal: true,
+    });
+    this.tsconfigEsm.addExtends(this.tsconfigSrc);
+
+    // Add tsconfig for building cjs
+    this.tsconfigCjs = this.makeBaseTsconfig("tsconfig.cjs.json", "cjs", {
+      moduleResolution: javascript.TypeScriptModuleResolution.NODE,
+      module: "CommonJS",
+    });
+    this.tsconfigCjs.addExtends(this.tsconfigSrc);
+
+    // Build both cjs and esm
+    this.compileTask.reset(
+      `tsc -b ./${this.tsconfigCjs.fileName} ./${this.tsconfigEsm.fileName}`,
+    );
 
     this.addFields({
       // Reference to esm index for root imports
@@ -100,5 +116,38 @@ export class TypeScriptLibProject extends typescript.TypeScriptProject {
       publishConfig: { access: "public" },
       sideEffects: [],
     });
+  }
+
+  private makeBaseTsconfig(
+    fileName: string,
+    srcdir: string,
+    { noEmit, ...extraCompilerOptions }: javascript.TypeScriptCompilerOptions = {},
+  ): javascript.TypescriptConfig {
+    const tsconfig = new javascript.TypescriptConfig(this, {
+      fileName,
+      compilerOptions: {
+        tsBuildInfoFile: `.tsbuildinfo/${srcdir}.tsbuildinfo`,
+        ...(noEmit ? { noEmit } : { outDir: `${this.libdir}/${srcdir}` }),
+        ...extraCompilerOptions,
+      },
+    });
+    tsconfig.file.addDeletionOverride("include");
+    tsconfig.file.addDeletionOverride("exclude");
+
+    return tsconfig;
+  }
+
+  private makeTsconfig(
+    fileName: string,
+    srcdir: string,
+    extraCompilerOptions?: javascript.TypeScriptCompilerOptions,
+  ): javascript.TypescriptConfig {
+    const tsconfig = this.makeBaseTsconfig(fileName, srcdir, {
+      rootDir: srcdir,
+      ...extraCompilerOptions,
+    });
+    tsconfig.file.addOverride("include", [srcdir]);
+
+    return tsconfig;
   }
 }

@@ -2,12 +2,12 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "tsBuildInfoFile": ".tsbuildinfo/test.tsbuildinfo",
+    "noEmit": true,
+    "rootDir": "test",
     "types": [
       "../../vitest.d.ts"
-    ],
-    "tsBuildInfoFile": ".tsbuildinfo/test.tsbuildinfo",
-    "rootDir": "test",
-    "noEmit": true
+    ]
   },
   "include": [
     "test"
