@@ -41,6 +41,7 @@ jspm_packages/
 !/.github/FUNDING.yml
 !/.changeset/config.json
 !/.github/workflows/release.yml
+!/README.md
 !/vitest.workspace.json
 .direnv/
 docs/

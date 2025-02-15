@@ -1,6 +1,7 @@
 import { Changesets } from "@floydspace/projen-components";
 import { YamlFile } from "projen";
 import { BuildUtils, Docgen, Eslint, MonorepoProject, TypeScriptLibProject, Vitest } from "./projenrc/index.js";
+import { Readme } from "./projenrc/readme.js";
 import singularities from "./scripts/client-singularities.js";
 import { normalizePackageName } from "./scripts/utils.js";
 
@@ -33,6 +34,7 @@ project.package.manifest.pnpm.patchedDependencies = {
 };
 
 new Docgen(project);
+new Readme(project, { org });
 
 new Eslint(project);
 new Vitest(project, { sharedSetupFiles: ["vitest.setup.ts"] });

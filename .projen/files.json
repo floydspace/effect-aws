@@ -12,6 +12,7 @@
     ".projen/tasks.json",
     "LICENSE",
     "pnpm-workspace.yaml",
+    "README.md",
     "tsconfig.base.json",
     "tsconfig.build.json",
     "tsconfig.json",
