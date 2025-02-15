@@ -2,8 +2,8 @@ import type { PnpmMonorepoProjectOptions } from "@floydspace/projen-components";
 import { GitIdentityFixer, LinkableProject, PnpmMonorepoProject } from "@floydspace/projen-components";
 import path from "node:path";
 import type { TypescriptConfig } from "projen/lib/javascript";
-import { BaseTypescriptConfig } from "./BaseTypescriptConfig.js";
-import { BuildTypescriptConfig } from "./BuildTypescriptConfig.js";
+import { BaseTypescriptConfig } from "./base-typescript-config.js";
+import { BuildTypescriptConfig } from "./build-typescript-config.js";
 import { TypeScriptLibProject } from "./typescript-project.js";
 
 type PredefinedProps = "packageManager" | "clobber" | "depsUpgrade";
