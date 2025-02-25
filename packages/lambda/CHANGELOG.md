@@ -1,5 +1,11 @@
 # @effect-aws/lambda
 
+## 1.3.1
+
+### Patch Changes
+
+- [`79243fb`](https://github.com/floydspace/effect-aws/commit/79243fbf4ec548c6f77b092a60560c3f2418e74f) Thanks [@floydspace](https://github.com/floydspace)! - Properly prioritize `makeLambda` overloads
+
 ## 1.3.0
 
 ### Minor Changes
