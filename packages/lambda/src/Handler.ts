@@ -76,39 +76,40 @@ export type EffectHandlerWithLayer<T, R, E1 = never, E2 = never, A = void> = {
  * @since 1.0.0
  * @category constructors
  */
-export function makeLambda<T, E, A>(
-  handler: EffectHandler<T, never, E, A>,
-): Handler<T, A>;
-export function makeLambda<T, R, E1, E2, A>(
-  handler: EffectHandlerWithLayer<T, R, E1, E2, A>,
-): Handler<T, A>;
-/**
- * @deprecated Prefer using the `EffectHandlerWithLayer` type to provide a global layer.
- * @example
- * ```ts
- * export const handler = makeLambda({
- *  handler: effectHandler,
- *  layer: LambdaLayer,
- * });
- * ```
- */
-export function makeLambda<T, R, E1, E2, A>(
-  handler: EffectHandler<T, R, E1, A>,
-  globalLayer: Layer.Layer<R, E2>,
-): Handler<T, A>;
-export function makeLambda<T, R, E1, E2, A>(
-  _handler: EffectHandler<T, R, E1, A> | EffectHandlerWithLayer<T, R, E1, E2, A>,
+export const makeLambda: {
+  <T, R, E1, E2, A>(
+    options: EffectHandlerWithLayer<T, R, E1, E2, A>,
+  ): Handler<T, A>;
+  <T, E, A>(
+    handler: EffectHandler<T, never, E, A>,
+  ): Handler<T, A>;
+  /**
+   * @deprecated Prefer using the `EffectHandlerWithLayer` type to provide a global layer.
+   * @example
+   * ```ts
+   * export const handler = makeLambda({
+   *  handler: effectHandler,
+   *  layer: LambdaLayer,
+   * });
+   * ```
+   */
+  <T, R, E1, E2, A>(
+    handler: EffectHandler<T, R, E1, A>,
+    globalLayer: Layer.Layer<R, E2>,
+  ): Handler<T, A>;
+} = <T, R, E1, E2, A>(
+  handlerOrOptions: EffectHandler<T, R, E1, A> | EffectHandlerWithLayer<T, R, E1, E2, A>,
   globalLayer?: Layer.Layer<R, E2>,
-): Handler<T, A> {
-  const handler = Function.isFunction(_handler) ? _handler : _handler.handler;
+): Handler<T, A> => {
+  const handler = Function.isFunction(handlerOrOptions) ? handlerOrOptions : handlerOrOptions.handler;
 
   const runPromise = globalLayer ?
     fromLayer(globalLayer).runPromise :
     (
-      !Function.isFunction(_handler)
-        ? fromLayer(_handler.layer).runPromise
+      !Function.isFunction(handlerOrOptions)
+        ? fromLayer(handlerOrOptions.layer).runPromise
         : Effect.runPromise as <A, E>(effect: Effect.Effect<A, E, R>) => Promise<A>
     );
 
   return async (event: T, context: Context) => handler(event, context).pipe(runPromise);
-}
+};
