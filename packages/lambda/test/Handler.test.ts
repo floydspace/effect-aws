@@ -2,7 +2,7 @@ import type { EffectHandler } from "@effect-aws/lambda";
 import { makeLambda } from "@effect-aws/lambda";
 import type { Context as LambdaContext, SNSEvent } from "aws-lambda";
 import { Context, Effect, Layer } from "effect";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 describe("makeLambda", () => {
   it("should call the handler function without dependencies", async () => {
@@ -44,5 +44,54 @@ describe("makeLambda", () => {
     const result = await handler(event, context);
 
     expect(result).toBe("Not implemented");
+  });
+
+  it("should gracefully shutdown the runtime", async () => {
+    const event: SNSEvent = { Records: [] };
+    const context = {} as LambdaContext;
+
+    const releaseFn = vi.fn();
+
+    const resource = Effect.acquireRelease(
+      Effect.succeed("resource acquired"),
+      () => {
+        releaseFn();
+        return Effect.void;
+      },
+    );
+
+    interface FooService {
+      bar: () => Effect.Effect<string>;
+    }
+    const FooService = Context.GenericTag<FooService>("@services/FooService");
+    const FooServiceLive = Layer.scoped(
+      FooService,
+      Effect.gen(function*() {
+        yield* resource;
+
+        return FooService.of({ bar: () => Effect.succeed("Not implemented") });
+      }),
+    );
+
+    const myEffectHandler: EffectHandler<SNSEvent, FooService> = () =>
+      Effect.gen(function*() {
+        const service = yield* FooService;
+        return yield* service.bar();
+      });
+
+    const handler = makeLambda({
+      handler: myEffectHandler,
+      layer: FooServiceLive,
+    });
+
+    const result = await handler(event, context);
+
+    expect(result).toBe("Not implemented");
+
+    expect(releaseFn).toHaveBeenCalledTimes(0);
+
+    process.emit("SIGTERM", "SIGTERM");
+
+    expect(releaseFn).toHaveBeenCalledTimes(1);
   });
 });
