@@ -1,5 +1,11 @@
 # @effect-aws/client-cloudtrail
 
+## 1.9.1
+
+### Patch Changes
+
+- [`a6fb9ba`](https://github.com/floydspace/effect-aws/commit/a6fb9badaeb377b3db633a4002fb594c2b084a4e) Thanks [@floydspace](https://github.com/floydspace)! - new method added
+
 ## 1.9.0
 
 ### Minor Changes
