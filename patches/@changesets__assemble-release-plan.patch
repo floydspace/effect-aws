@@ -1,8 +1,24 @@
 diff --git a/dist/changesets-assemble-release-plan.cjs.js b/dist/changesets-assemble-release-plan.cjs.js
-index e32a5e5d39c3bd920201b5694632d2b44c92d486..009b24b11165fca5f210e82fa2ab6dd879e2d5a2 100644
+index e32a5e5d39c3bd920201b5694632d2b44c92d486..7a71b816f8e2c4b2c12b4824b1520aae28c4be7a 100644
 --- a/dist/changesets-assemble-release-plan.cjs.js
 +++ b/dist/changesets-assemble-release-plan.cjs.js
-@@ -237,7 +237,7 @@ function determineDependents({
+@@ -143,10 +143,14 @@ function applyLinks(releases, packagesByName, linked) {
+         linkedPackage.type = highestReleaseType;
+       }
+ 
+-      if (linkedPackage.oldVersion !== highestVersion) {
++      if (linkedPackage.oldVersion !== highestVersion && linkedPackage.oldVersion !== '0.0.0') {
+         updated = true;
+         linkedPackage.oldVersion = highestVersion;
+       }
++
++      if (linkedPackage.oldVersion === '0.0.0') {
++        linkedPackage.newVersion = highestVersion;
++      }
+     }
+   }
+ 
+@@ -237,7 +241,7 @@ function determineDependents({
              preInfo,
              onlyUpdatePeerDependentsWhenOutOfRange: config.___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH.onlyUpdatePeerDependentsWhenOutOfRange
            })) {
@@ -11,11 +27,37 @@ index e32a5e5d39c3bd920201b5694632d2b44c92d486..009b24b11165fca5f210e82fa2ab6dd8
            } else if ((!releases.has(dependent) || releases.get(dependent).type === "none") && (config.___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH.updateInternalDependents === "always" || !semverSatisfies__default["default"](incrementVersion(nextRelease, preInfo), versionRange))) {
              switch (depType) {
                case "dependencies":
+@@ -507,6 +511,9 @@ function getSnapshotVersion(release, preInfo, useCalculatedVersion, snapshotSuff
+ }
+ 
+ function getNewVersion(release, preInfo) {
++  if (release.oldVersion === "0.0.0" && 'newVersion' in release) {
++    return release.newVersion;
++  }
+   if (release.type === "none") {
+     return release.oldVersion;
+   }
 diff --git a/dist/changesets-assemble-release-plan.esm.js b/dist/changesets-assemble-release-plan.esm.js
-index 221822a2e3ac86431b8aadeaf5f01eaee72a5c8e..b6a66643e171760b9624edeaa033097d8f6cd091 100644
+index 221822a2e3ac86431b8aadeaf5f01eaee72a5c8e..4fadfae06be91d7e4fa7f041c800cd031f3b696e 100644
 --- a/dist/changesets-assemble-release-plan.esm.js
 +++ b/dist/changesets-assemble-release-plan.esm.js
-@@ -226,7 +226,7 @@ function determineDependents({
+@@ -132,10 +132,14 @@ function applyLinks(releases, packagesByName, linked) {
+         linkedPackage.type = highestReleaseType;
+       }
+ 
+-      if (linkedPackage.oldVersion !== highestVersion) {
++      if (linkedPackage.oldVersion !== highestVersion && linkedPackage.oldVersion !== '0.0.0') {
+         updated = true;
+         linkedPackage.oldVersion = highestVersion;
+       }
++
++      if (linkedPackage.oldVersion === '0.0.0') {
++        linkedPackage.newVersion = highestVersion;
++      }
+     }
+   }
+ 
+@@ -226,7 +230,7 @@ function determineDependents({
              preInfo,
              onlyUpdatePeerDependentsWhenOutOfRange: config.___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH.onlyUpdatePeerDependentsWhenOutOfRange
            })) {
@@ -24,6 +66,37 @@ index 221822a2e3ac86431b8aadeaf5f01eaee72a5c8e..b6a66643e171760b9624edeaa033097d
            } else if ((!releases.has(dependent) || releases.get(dependent).type === "none") && (config.___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH.updateInternalDependents === "always" || !semverSatisfies(incrementVersion(nextRelease, preInfo), versionRange))) {
              switch (depType) {
                case "dependencies":
+@@ -496,6 +500,9 @@ function getSnapshotVersion(release, preInfo, useCalculatedVersion, snapshotSuff
+ }
+ 
+ function getNewVersion(release, preInfo) {
++  if (release.oldVersion === "0.0.0" && 'newVersion' in release) {
++    return release.newVersion;
++  }
+   if (release.type === "none") {
+     return release.oldVersion;
+   }
+diff --git a/src/apply-links.ts b/src/apply-links.ts
+index e954f65ee308e9ee752ba1508081750af39a8685..c02ef9215a2393adbffd5bbbe90f8c00ffec38a0 100644
+--- a/src/apply-links.ts
++++ b/src/apply-links.ts
+@@ -46,10 +46,15 @@ export default function applyLinks(
+         updated = true;
+         linkedPackage.type = highestReleaseType;
+       }
+-      if (linkedPackage.oldVersion !== highestVersion) {
++      if (linkedPackage.oldVersion !== highestVersion && linkedPackage.oldVersion !== '0.0.0') {
+         updated = true;
+         linkedPackage.oldVersion = highestVersion;
+       }
++
++      if (linkedPackage.oldVersion === '0.0.0') {
++        // @ts-ignore
++        linkedPackage.newVersion = highestVersion;
++      }
+     }
+   }
+ 
 diff --git a/src/determine-dependents.ts b/src/determine-dependents.ts
 index 4fc6508482d1a6e3ac1af875e1ac1c15f7555fbc..e9c1eea0972ea5db4dee0eabb8118e621b81b9fa 100644
 --- a/src/determine-dependents.ts
@@ -37,3 +110,18 @@ index 4fc6508482d1a6e3ac1af875e1ac1c15f7555fbc..e9c1eea0972ea5db4dee0eabb8118e62
              } else if (
                (!releases.has(dependent) ||
                  releases.get(dependent)!.type === "none") &&
+diff --git a/src/index.ts b/src/index.ts
+index 33dca862a2402768e3f2d0b533b744cd10dd4ff9..97b98d1bbaef991a13c119ee16151c41992af5e0 100644
+--- a/src/index.ts
++++ b/src/index.ts
+@@ -111,6 +111,10 @@ function getNewVersion(
+   release: InternalRelease,
+   preInfo: PreInfo | undefined
+ ): string {
++  if (release.oldVersion === "0.0.0" && 'newVersion' in release) {
++    // @ts-ignore
++    return release.newVersion;
++  }
+   if (release.type === "none") {
+     return release.oldVersion;
+   }
