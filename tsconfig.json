@@ -27,6 +27,9 @@
       "path": "packages/client-bedrock"
     },
     {
+      "path": "packages/client-bedrock-runtime"
+    },
+    {
       "path": "packages/client-cloudsearch"
     },
     {

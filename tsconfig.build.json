@@ -22,6 +22,9 @@
       "path": "packages/client-bedrock/tsconfig.esm.json"
     },
     {
+      "path": "packages/client-bedrock-runtime/tsconfig.esm.json"
+    },
+    {
       "path": "packages/client-cloudsearch/tsconfig.esm.json"
     },
     {

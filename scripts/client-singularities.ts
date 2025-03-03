@@ -28,6 +28,11 @@ export default {
     commandToTest: "ListCustomModels",
     inputToTest: null,
   },
+  "client-bedrock-runtime": {
+    description: "Effectful AWS Bedrock Runtime client",
+    commandToTest: "InvokeModel",
+    inputToTest: null,
+  },
   "client-cloudsearch": {
     description: "Effectful AWS CloudSearch client",
     commandToTest: "DescribeDomains",
