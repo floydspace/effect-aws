@@ -24,6 +24,7 @@ const config: UserConfig = {
       ...alias("client-api-gateway-management-api"),
       ...alias("client-auto-scaling"),
       ...alias("client-bedrock"),
+      ...alias("client-bedrock-runtime"),
       ...alias("client-cloudsearch"),
       ...alias("client-cloudtrail"),
       ...alias("client-cloudwatch"),

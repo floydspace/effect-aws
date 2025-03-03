@@ -102,6 +102,15 @@
       "@effect-aws/client-bedrock/test/*": [
         "./packages/client-bedrock/test/*.js"
       ],
+      "@effect-aws/client-bedrock-runtime": [
+        "./packages/client-bedrock-runtime/src/index.js"
+      ],
+      "@effect-aws/client-bedrock-runtime/*": [
+        "./packages/client-bedrock-runtime/src/*.js"
+      ],
+      "@effect-aws/client-bedrock-runtime/test/*": [
+        "./packages/client-bedrock-runtime/test/*.js"
+      ],
       "@effect-aws/client-cloudsearch": [
         "./packages/client-cloudsearch/src/index.js"
       ],
