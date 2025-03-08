@@ -126,6 +126,14 @@ new TypeScriptLibProject({
 
 new TypeScriptLibProject({
   parent: project,
+  name: "signature-v4",
+  description: "AWS Signature V4 for Effect HttpClientRequest",
+  devDeps: [...effectDeps, "@smithy/signature-v4@^5", "aws4fetch@^1"],
+  peerDeps: [...commonPeerDeps, "@smithy/signature-v4@^5", "aws4fetch@^1"],
+});
+
+new TypeScriptLibProject({
+  parent: project,
   name: "ssm",
   description: "Effectful AWS SSM functions",
   devDeps: [...effectDeps, "@aws-sdk/client-ssm@^3", "@fluffy-spoon/substitute"],
