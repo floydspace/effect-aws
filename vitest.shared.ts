@@ -66,6 +66,7 @@ const config: UserConfig = {
       ...alias("lambda"),
       ...alias("powertools-logger"),
       ...alias("secrets-manager"),
+      ...alias("signature-v4"),
       ...alias("ssm"),
     }
   }

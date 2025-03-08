@@ -49,4 +49,5 @@ packages:
   - packages/lib-dynamodb
   - packages/powertools-logger
   - packages/secrets-manager
+  - packages/signature-v4
   - packages/ssm

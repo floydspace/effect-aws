@@ -480,6 +480,15 @@
       "@effect-aws/secrets-manager/test/*": [
         "./packages/secrets-manager/test/*.js"
       ],
+      "@effect-aws/signature-v4": [
+        "./packages/signature-v4/src/index.js"
+      ],
+      "@effect-aws/signature-v4/*": [
+        "./packages/signature-v4/src/*.js"
+      ],
+      "@effect-aws/signature-v4/test/*": [
+        "./packages/signature-v4/test/*.js"
+      ],
       "@effect-aws/ssm": [
         "./packages/ssm/src/index.js"
       ],
