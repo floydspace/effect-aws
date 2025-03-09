@@ -48,8 +48,9 @@
     "directory": "dist"
   },
   "exports": {
-    "./Smithy": "./Smithy.ts",
-    "./Aws4Fetch": "./Aws4Fetch.ts"
+    "./Smithy": "./Smithy.js",
+    "./Credentials": "./Credentials.js",
+    "./Aws4Fetch": "./Aws4Fetch.js"
   },
   "version": "0.0.0",
   "types": "build/dts/index.d.ts",

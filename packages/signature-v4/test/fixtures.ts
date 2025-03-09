@@ -1,7 +1,4 @@
 import * as Effect from 'effect/Effect'
-import * as Layer from 'effect/Layer'
-import * as Ref from 'effect/Ref'
-import * as Option from 'effect/Option'
 import { HttpBody, HttpClientRequest } from '@effect/platform'
 import { AWSCredentials, Credentials } from '../src/Credentials.js' 
 
@@ -11,7 +8,7 @@ export const credentials: AWSCredentials = {
   sessionToken: `AQoEXAMPLEH4aoAH0gNCAPyJxz4BlCFFxWNE1OPTgk5TthT+FvwqnKwRcOIfrRh3c/LTo6UDdyJwOOvEVPvLXCrrrUtdnniCEXAMPLE/IvU1dYUg2RVAJBanLiHb4IgRmpRV3zrkuWJOgQs8IZZaIv2BXIa2R4Olgk`
 }
 
-export const credentialsLayer = Layer.succeed(Credentials, Ref.unsafeMake(Option.some(credentials)))
+export const credentialsLayer = Credentials.layer(credentials)
 
 export const request = HttpBody.json(JSON.stringify({ searchText: `needle` })).pipe(
   Effect.andThen((body) => HttpClientRequest.make(`POST`)(`https://api-id1276237.execute-api.eu-west-1.amazonaws.com/search`, { acceptJson: true, body }))

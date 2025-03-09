@@ -4,6 +4,7 @@ import * as HttpClientRequest from '@effect/platform/HttpClientRequest'
 import { Sha256 } from "@aws-crypto/sha256-js"
 import { SignatureV4 as AwsSignatureV4 } from '@smithy/signature-v4'
 import * as Effect from 'effect/Effect'
+import * as Redacted from 'effect/Redacted'
 import * as Option from 'effect/Option'
 import * as Ref from 'effect/Ref'
 import { Credentials } from './Credentials.js'
@@ -15,6 +16,7 @@ import { HttpRequest } from '@smithy/types'
  * AWS Signature v4 implementation @smithy/signature-4
  */
 export class SignatureV4 extends Effect.Service<SignatureV4>()(`@effect-aws/signature-v4/SignatureV4`, {
+  accessors: true,
   scoped: Effect.gen(function* () {
     const signRequest = (request: HttpClientRequest.HttpClientRequest, options?: SignerOptions) => {
       return Credentials.pipe(Effect.flatMap(Ref.get)).pipe(
@@ -28,7 +30,11 @@ export class SignatureV4 extends Effect.Service<SignatureV4>()(`@effect-aws/sign
                 : guessServiceRegion(url, request.headers)
 
               const signer = new AwsSignatureV4({
-                credentials,
+                credentials: {
+                  ...credentials,
+                  secretAccessKey: credentials.secretAccessKey.pipe(Redacted.value),
+                  sessionToken: credentials.sessionToken?.pipe(Redacted.value)
+                },
                 service,
                 region,
                 sha256: Sha256,
