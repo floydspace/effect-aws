@@ -37,7 +37,7 @@ Effect.gen(function* () {
   )
 
   // or via handy API
-  const credentials = yield* Credentials.get
+  const credentials = yield* Credentials.current
   yield* Credentials.update(newCredentials)
 }).pipe(
   Effect.provide(CredentialsLayer)
