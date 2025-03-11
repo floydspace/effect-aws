@@ -18,7 +18,7 @@ it.layer(credsLayer)(({ effect }) =>
     )
 
     expect(req.headers[`authorization`]).toEqual(
-      expect.stringContaining(`AWS4-HMAC-SHA256 Credential=AKIAIOSFODNN7EXAMPLE/20250309/eu-west-1/execute-api/aws4_request, SignedHeaders=accept;content-length;content-type;x-amz-content-sha256;x-amz-date;x-amz-security-token`)
+      expect.stringMatching(`AWS4-HMAC-SHA256 Credential=AKIAIOSFODNN7EXAMPLE/\\d{8}/eu-west-1/execute-api/aws4_request, SignedHeaders=accept;content-length;content-type;x-amz-content-sha256;x-amz-date;x-amz-security-token, Signature=\\w+`)
     )
   }))
 )
