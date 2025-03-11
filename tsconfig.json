@@ -141,6 +141,15 @@
       "path": "packages/client-textract"
     },
     {
+      "path": "packages/client-timestream-write"
+    },
+    {
+      "path": "packages/client-timestream-query"
+    },
+    {
+      "path": "packages/client-timestream-influxdb"
+    },
+    {
       "path": "packages/lib-dynamodb"
     },
     {

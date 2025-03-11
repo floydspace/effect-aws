@@ -245,4 +245,21 @@ export default {
     commandToTest: "ListAdapters",
     inputToTest: null,
   },
+  "client-timestream-write": {
+    description: "Effectful AWS Timestream Write client",
+    commandToTest: "ListTables",
+    inputToTest: {
+      DatabaseName: "test",
+    },
+  },
+  "client-timestream-query": {
+    description: "Effectful AWS Timestream Query client",
+    commandToTest: "ListScheduledQueries",
+    inputToTest: null,
+  },
+  "client-timestream-influxdb": {
+    description: "Effectful AWS Timestream InfluxDB client",
+    commandToTest: "ListDbClusters",
+    inputToTest: null,
+  },
 } as Record<string, Singularities>;
