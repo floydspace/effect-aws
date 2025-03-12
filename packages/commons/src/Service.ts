@@ -59,20 +59,6 @@ export const fromCommandsAndServiceFn = <Service>(
   serviceFnMaker: (CommandCtor: CommandCtor<any>) => ReturnType<typeof makeServiceFn>,
 ): Service =>
   Record.mapEntries(commands, (CommandCtor, command) => {
-    const serviceFnName = String.uncapitalize(command).replace(/Command$/, "");
-    return [serviceFnName, serviceFnMaker(CommandCtor)];
-  }) as Service;
-
-/**
- * @since 0.1.0
- * @category constructors
- */
-export const fromClientAndCommands = <Service>(
-  client: Client<any, any, BaseResolvedConfig>,
-  commands: Record<string, CommandCtor<any>>,
-  options: ServiceFnOptions,
-): Service =>
-  fromCommandsAndServiceFn(commands, (CommandCtor) => {
     const ExtendedCommand = class extends CommandCtor {
       constructor(args: any, private config?: LoggerResolvedConfig) {
         super(args);
@@ -89,5 +75,16 @@ export const fromClientAndCommands = <Service>(
       }
     };
 
-    return makeServiceFn(client, ExtendedCommand, options);
-  });
+    const serviceFnName = String.uncapitalize(command).replace(/Command$/, "");
+    return [serviceFnName, serviceFnMaker(ExtendedCommand)];
+  }) as Service;
+
+/**
+ * @since 0.1.0
+ * @category constructors
+ */
+export const fromClientAndCommands = <Service>(
+  client: Client<any, any, BaseResolvedConfig>,
+  commands: Record<string, CommandCtor<any>>,
+  options: ServiceFnOptions,
+): Service => fromCommandsAndServiceFn(commands, (CommandCtor) => makeServiceFn(client, CommandCtor, options));
