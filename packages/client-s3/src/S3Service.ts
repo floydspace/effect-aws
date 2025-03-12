@@ -1529,11 +1529,16 @@ export const makeS3Service = Effect.gen(function*() {
       | ({ readonly presigned: true } & RequestPresigningArguments),
   ) =>
     options?.presigned
-      ? Effect.tryPromise({
-        try: () => getSignedUrl(client as any, new CommandCtor(args), options),
-        catch: Service.catchServiceExceptions(),
+      ? Effect.gen(function*() {
+        const config = yield* S3ServiceConfig.toS3ClientConfig;
+        return yield* Effect.tryPromise({
+          try: () => getSignedUrl(client as any, new CommandCtor(args, config), options),
+          catch: Service.catchServiceExceptions(),
+        });
       })
-      : Service.makeServiceFn(client, CommandCtor)(args, options));
+      : Service.makeServiceFn(client, CommandCtor, {
+        resolveClientConfig: S3ServiceConfig.toS3ClientConfig,
+      })(args, options));
 });
 
 /**

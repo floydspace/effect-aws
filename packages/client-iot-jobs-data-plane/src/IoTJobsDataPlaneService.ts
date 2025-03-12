@@ -142,7 +142,14 @@ interface IoTJobsDataPlaneService$ {
 export const makeIoTJobsDataPlaneService = Effect.gen(function*() {
   const client = yield* Instance.IoTJobsDataPlaneClientInstance;
 
-  return Service.fromClientAndCommands<IoTJobsDataPlaneService$>(client, commands, AllServiceErrors);
+  return Service.fromClientAndCommands<IoTJobsDataPlaneService$>(
+    client,
+    commands,
+    {
+      errorTags: AllServiceErrors,
+      resolveClientConfig: IoTJobsDataPlaneServiceConfig.toIoTJobsDataPlaneClientConfig,
+    },
+  );
 });
 
 /**

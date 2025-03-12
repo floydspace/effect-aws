@@ -1322,6 +1322,9 @@ importers:
         specifier: ^4.1.0
         version: 4.1.0
     devDependencies:
+      '@aws-sdk/middleware-logger':
+        specifier: ^3.734.0
+        version: 3.734.0
       '@types/node':
         specifier: ts5.4
         version: 22.13.9
@@ -1331,6 +1334,9 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
+      vitest-mock-extended:
+        specifier: ^2.0.2
+        version: 2.0.2(typescript@5.4.5)(vitest@2.0.5(@types/node@22.13.9))
     publishDirectory: dist
 
   packages/lambda:
@@ -4639,6 +4645,14 @@ packages:
     peerDependencies:
       typescript: '>=4.8.4'
 
+  ts-essentials@10.0.4:
+    resolution: {integrity: sha512-lwYdz28+S4nicm+jFi6V58LaAIpxzhg9rLdgNC1VsdP/xiFBseGhF1M/shwCk6zMmwahBZdXcl34LVHrEang3A==}
+    peerDependencies:
+      typescript: '>=4.5.0'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+
   ts-node@10.9.1:
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
     hasBin: true
@@ -4786,6 +4800,12 @@ packages:
         optional: true
       terser:
         optional: true
+
+  vitest-mock-extended@2.0.2:
+    resolution: {integrity: sha512-n3MBqVITKyclZ0n0y66hkT4UiiEYFQn9tteAnIxT0MPz1Z8nFcPUG3Cf0cZOyoPOj/cq6Ab1XFw2lM/qM5EDWQ==}
+    peerDependencies:
+      typescript: 3.x || 4.x || 5.x
+      vitest: '>=2.0.0'
 
   vitest@2.0.5:
     resolution: {integrity: sha512-8GUxONfauuIdeSl5f9GTgVEpg5BTOlplET4WEDaeY2QBiN8wSm68vxN/tb5z405OwppfoCavnwXafiaYBC/xOA==}
@@ -10645,6 +10665,10 @@ snapshots:
     dependencies:
       typescript: 5.4.5
 
+  ts-essentials@10.0.4(typescript@5.4.5):
+    optionalDependencies:
+      typescript: 5.4.5
+
   ts-node@10.9.1(@types/node@22.13.9)(typescript@5.4.5):
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
@@ -10794,6 +10818,12 @@ snapshots:
     optionalDependencies:
       '@types/node': 22.13.9
       fsevents: 2.3.3
+
+  vitest-mock-extended@2.0.2(typescript@5.4.5)(vitest@2.0.5(@types/node@22.13.9)):
+    dependencies:
+      ts-essentials: 10.0.4(typescript@5.4.5)
+      typescript: 5.4.5
+      vitest: 2.0.5(@types/node@22.13.9)
 
   vitest@2.0.5(@types/node@22.13.9):
     dependencies:

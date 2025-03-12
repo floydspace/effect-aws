@@ -1045,7 +1045,14 @@ interface BedrockService$ {
 export const makeBedrockService = Effect.gen(function*() {
   const client = yield* Instance.BedrockClientInstance;
 
-  return Service.fromClientAndCommands<BedrockService$>(client, commands, AllServiceErrors);
+  return Service.fromClientAndCommands<BedrockService$>(
+    client,
+    commands,
+    {
+      errorTags: AllServiceErrors,
+      resolveClientConfig: BedrockServiceConfig.toBedrockClientConfig,
+    },
+  );
 });
 
 /**

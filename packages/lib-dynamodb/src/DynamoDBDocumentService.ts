@@ -317,7 +317,9 @@ interface DynamoDBDocumentService$ {
 export const makeDynamoDBDocumentService = Effect.gen(function*() {
   const client = yield* Instance.DynamoDBDocumentClientInstance;
 
-  return Service.fromClientAndCommands<DynamoDBDocumentService$>(client, commands);
+  return Service.fromClientAndCommands<DynamoDBDocumentService$>(client, commands, {
+    resolveClientConfig: DynamoDBServiceConfig.toDynamoDBClientConfig,
+  });
 });
 
 /**

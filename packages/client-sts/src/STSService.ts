@@ -184,7 +184,14 @@ interface STSService$ {
 export const makeSTSService = Effect.gen(function*() {
   const client = yield* Instance.STSClientInstance;
 
-  return Service.fromClientAndCommands<STSService$>(client, commands, AllServiceErrors);
+  return Service.fromClientAndCommands<STSService$>(
+    client,
+    commands,
+    {
+      errorTags: AllServiceErrors,
+      resolveClientConfig: STSServiceConfig.toSTSClientConfig,
+    },
+  );
 });
 
 /**
