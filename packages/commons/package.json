@@ -28,14 +28,13 @@
     "@aws-sdk/middleware-logger": "^3.734.0",
     "@types/node": "ts5.4",
     "effect": "3.10.16",
-    "typescript": "^5.4.2",
-    "vitest-mock-extended": "^2.0.2"
+    "typescript": "^5.4.2"
   },
   "peerDependencies": {
     "effect": ">=3.0.4 <4.0.0"
   },
   "dependencies": {
-    "@smithy/smithy-client": "^4.1.2",
+    "@smithy/smithy-client": "^4.1.6",
     "@smithy/types": "^4.1.0"
   },
   "main": "build/cjs/index.js",
