@@ -1185,7 +1185,14 @@ interface SESService$ {
 export const makeSESService = Effect.gen(function*() {
   const client = yield* Instance.SESClientInstance;
 
-  return Service.fromClientAndCommands<SESService$>(client, commands, AllServiceErrors);
+  return Service.fromClientAndCommands<SESService$>(
+    client,
+    commands,
+    {
+      errorTags: AllServiceErrors,
+      resolveClientConfig: SESServiceConfig.toSESClientConfig,
+    },
+  );
 });
 
 /**

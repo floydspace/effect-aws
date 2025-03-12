@@ -560,7 +560,14 @@ interface SQSService$ {
 export const makeSQSService = Effect.gen(function*() {
   const client = yield* Instance.SQSClientInstance;
 
-  return Service.fromClientAndCommands<SQSService$>(client, commands, AllServiceErrors);
+  return Service.fromClientAndCommands<SQSService$>(
+    client,
+    commands,
+    {
+      errorTags: AllServiceErrors,
+      resolveClientConfig: SQSServiceConfig.toSQSClientConfig,
+    },
+  );
 });
 
 /**

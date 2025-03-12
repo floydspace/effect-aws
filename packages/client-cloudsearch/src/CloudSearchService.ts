@@ -482,7 +482,14 @@ interface CloudSearchService$ {
 export const makeCloudSearchService = Effect.gen(function*() {
   const client = yield* Instance.CloudSearchClientInstance;
 
-  return Service.fromClientAndCommands<CloudSearchService$>(client, commands, AllServiceErrors);
+  return Service.fromClientAndCommands<CloudSearchService$>(
+    client,
+    commands,
+    {
+      errorTags: AllServiceErrors,
+      resolveClientConfig: CloudSearchServiceConfig.toCloudSearchClientConfig,
+    },
+  );
 });
 
 /**

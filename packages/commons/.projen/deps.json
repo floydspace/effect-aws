@@ -1,6 +1,10 @@
 {
   "dependencies": [
     {
+      "name": "@aws-sdk/middleware-logger",
+      "type": "build"
+    },
+    {
       "name": "@types/node",
       "version": "ts5.4",
       "type": "build"
@@ -13,6 +17,10 @@
     {
       "name": "typescript",
       "version": "^5.4.2",
+      "type": "build"
+    },
+    {
+      "name": "vitest-mock-extended",
       "type": "build"
     },
     {

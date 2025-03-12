@@ -213,7 +213,14 @@ interface BedrockRuntimeService$ {
 export const makeBedrockRuntimeService = Effect.gen(function*() {
   const client = yield* Instance.BedrockRuntimeClientInstance;
 
-  return Service.fromClientAndCommands<BedrockRuntimeService$>(client, commands, AllServiceErrors);
+  return Service.fromClientAndCommands<BedrockRuntimeService$>(
+    client,
+    commands,
+    {
+      errorTags: AllServiceErrors,
+      resolveClientConfig: BedrockRuntimeServiceConfig.toBedrockRuntimeClientConfig,
+    },
+  );
 });
 
 /**

@@ -1181,7 +1181,14 @@ interface KMSService$ {
 export const makeKMSService = Effect.gen(function*() {
   const client = yield* Instance.KMSClientInstance;
 
-  return Service.fromClientAndCommands<KMSService$>(client, commands, AllServiceErrors);
+  return Service.fromClientAndCommands<KMSService$>(
+    client,
+    commands,
+    {
+      errorTags: AllServiceErrors,
+      resolveClientConfig: KMSServiceConfig.toKMSClientConfig,
+    },
+  );
 });
 
 /**

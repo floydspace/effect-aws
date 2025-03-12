@@ -1339,7 +1339,14 @@ interface OrganizationsService$ {
 export const makeOrganizationsService = Effect.gen(function*() {
   const client = yield* Instance.OrganizationsClientInstance;
 
-  return Service.fromClientAndCommands<OrganizationsService$>(client, commands, AllServiceErrors);
+  return Service.fromClientAndCommands<OrganizationsService$>(
+    client,
+    commands,
+    {
+      errorTags: AllServiceErrors,
+      resolveClientConfig: OrganizationsServiceConfig.toOrganizationsClientConfig,
+    },
+  );
 });
 
 /**

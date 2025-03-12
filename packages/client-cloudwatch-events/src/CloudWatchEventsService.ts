@@ -858,7 +858,14 @@ interface CloudWatchEventsService$ {
 export const makeCloudWatchEventsService = Effect.gen(function*() {
   const client = yield* Instance.CloudWatchEventsClientInstance;
 
-  return Service.fromClientAndCommands<CloudWatchEventsService$>(client, commands, AllServiceErrors);
+  return Service.fromClientAndCommands<CloudWatchEventsService$>(
+    client,
+    commands,
+    {
+      errorTags: AllServiceErrors,
+      resolveClientConfig: CloudWatchEventsServiceConfig.toCloudWatchEventsClientConfig,
+    },
+  );
 });
 
 /**

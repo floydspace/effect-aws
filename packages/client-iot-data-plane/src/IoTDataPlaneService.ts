@@ -188,7 +188,14 @@ interface IoTDataPlaneService$ {
 export const makeIoTDataPlaneService = Effect.gen(function*() {
   const client = yield* Instance.IoTDataPlaneClientInstance;
 
-  return Service.fromClientAndCommands<IoTDataPlaneService$>(client, commands, AllServiceErrors);
+  return Service.fromClientAndCommands<IoTDataPlaneService$>(
+    client,
+    commands,
+    {
+      errorTags: AllServiceErrors,
+      resolveClientConfig: IoTDataPlaneServiceConfig.toIoTDataPlaneClientConfig,
+    },
+  );
 });
 
 /**

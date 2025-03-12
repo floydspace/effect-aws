@@ -379,7 +379,14 @@ interface MqService$ {
 export const makeMqService = Effect.gen(function*() {
   const client = yield* Instance.MqClientInstance;
 
-  return Service.fromClientAndCommands<MqService$>(client, commands, AllServiceErrors);
+  return Service.fromClientAndCommands<MqService$>(
+    client,
+    commands,
+    {
+      errorTags: AllServiceErrors,
+      resolveClientConfig: MqServiceConfig.toMqClientConfig,
+    },
+  );
 });
 
 /**
