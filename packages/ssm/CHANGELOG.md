@@ -1,5 +1,12 @@
 # @effect-aws/ssm
 
+## 1.1.1
+
+### Patch Changes
+
+- Updated dependencies [[`6989a08`](https://github.com/floydspace/effect-aws/commit/6989a08df041108ad3a2b08272647a20f1a5d662)]:
+  - @effect-aws/client-ssm@1.9.3
+
 ## 1.1.0
 
 ### Patch Changes
