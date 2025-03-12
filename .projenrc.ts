@@ -38,6 +38,7 @@ new Readme(project, { org });
 
 new Eslint(project);
 new Vitest(project, { sharedSetupFiles: ["vitest.setup.ts"] });
+project.addDevDeps("vitest-mock-extended@^2.0.2");
 
 const effectDeps = ["effect@3.10.16"];
 
@@ -56,7 +57,7 @@ const commons = new TypeScriptLibProject({
   name: "commons",
   description: "Effectful AWS common library",
   deps: ["@smithy/types", "@smithy/smithy-client"],
-  devDeps: [...effectDeps, "vitest-mock-extended", "@aws-sdk/middleware-logger"],
+  devDeps: [...effectDeps, "@aws-sdk/middleware-logger"],
   peerDeps: commonPeerDeps,
 });
 

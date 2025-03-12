@@ -46,7 +46,7 @@ importers:
         version: 0.2.0
       '@effect/vitest':
         specifier: 0.13.16
-        version: 0.13.16(effect@3.10.16)(vitest@2.0.5(@types/node@22.13.9))
+        version: 0.13.16(effect@3.10.16)(vitest@2.0.5(@types/node@22.13.10))
       '@eslint/compat':
         specifier: ^1.2.5
         version: 1.2.5(eslint@9.19.0)
@@ -61,7 +61,7 @@ importers:
         version: 1.0.0-next.17(projen@0.91.6(constructs@10.4.2))
       '@types/node':
         specifier: ts5.4
-        version: 22.13.9
+        version: 22.13.10
       '@typescript-eslint/eslint-plugin':
         specifier: ^8.21.0
         version: 8.21.0(@typescript-eslint/parser@8.21.0(eslint@9.19.0)(typescript@5.4.5))(eslint@9.19.0)(typescript@5.4.5)
@@ -70,7 +70,7 @@ importers:
         version: 8.21.0(eslint@9.19.0)(typescript@5.4.5)
       '@vitest/coverage-v8':
         specifier: ^2.0.5
-        version: 2.0.5(vitest@2.0.5(@types/node@22.13.9))
+        version: 2.0.5(vitest@2.0.5(@types/node@22.13.10))
       aws-sdk-client-mock-vitest:
         specifier: ^4.0.0
         version: 4.0.0
@@ -100,7 +100,7 @@ importers:
         version: 0.91.6(constructs@10.4.2)
       ts-node:
         specifier: ^10.9.1
-        version: 10.9.1(@types/node@22.13.9)(typescript@5.4.5)
+        version: 10.9.1(@types/node@22.13.10)(typescript@5.4.5)
       tsx:
         specifier: ^4.16.5
         version: 4.16.5
@@ -109,7 +109,10 @@ importers:
         version: 5.4.5
       vitest:
         specifier: ^2.0.5
-        version: 2.0.5(@types/node@22.13.9)
+        version: 2.0.5(@types/node@22.13.10)
+      vitest-mock-extended:
+        specifier: ^2.0.2
+        version: 2.0.2(typescript@5.4.5)(vitest@2.0.5(@types/node@22.13.10))
 
   packages/client-account:
     dependencies:
@@ -122,7 +125,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.9
+        version: 22.13.10
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -148,7 +151,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.9
+        version: 22.13.10
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -174,7 +177,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.9
+        version: 22.13.10
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -193,14 +196,14 @@ importers:
     dependencies:
       '@aws-sdk/client-bedrock':
         specifier: ^3
-        version: 3.758.0
+        version: 3.763.0
       '@effect-aws/commons':
         specifier: workspace:^
         version: link:../commons/dist
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.9
+        version: 22.13.10
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -226,7 +229,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.9
+        version: 22.13.10
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -252,7 +255,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.9
+        version: 22.13.10
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -271,14 +274,14 @@ importers:
     dependencies:
       '@aws-sdk/client-cloudtrail':
         specifier: ^3
-        version: 3.758.0
+        version: 3.763.0
       '@effect-aws/commons':
         specifier: workspace:^
         version: link:../commons/dist
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.9
+        version: 22.13.10
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -304,7 +307,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.9
+        version: 22.13.10
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -330,7 +333,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.9
+        version: 22.13.10
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -356,7 +359,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.9
+        version: 22.13.10
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -382,7 +385,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.9
+        version: 22.13.10
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -401,14 +404,14 @@ importers:
     dependencies:
       '@aws-sdk/client-cognito-identity-provider':
         specifier: ^3
-        version: 3.758.0
+        version: 3.760.0
       '@effect-aws/commons':
         specifier: workspace:^
         version: link:../commons/dist
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.9
+        version: 22.13.10
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -434,7 +437,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.9
+        version: 22.13.10
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -453,14 +456,14 @@ importers:
     dependencies:
       '@aws-sdk/client-ec2':
         specifier: ^3
-        version: 3.758.0
+        version: 3.766.0
       '@effect-aws/commons':
         specifier: workspace:^
         version: link:../commons/dist
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.9
+        version: 22.13.10
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -479,14 +482,14 @@ importers:
     dependencies:
       '@aws-sdk/client-ecr':
         specifier: ^3
-        version: 3.758.0
+        version: 3.766.0
       '@effect-aws/commons':
         specifier: workspace:^
         version: link:../commons/dist
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.9
+        version: 22.13.10
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -505,14 +508,14 @@ importers:
     dependencies:
       '@aws-sdk/client-ecs':
         specifier: ^3
-        version: 3.758.0
+        version: 3.766.0
       '@effect-aws/commons':
         specifier: workspace:^
         version: link:../commons/dist
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.9
+        version: 22.13.10
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -531,14 +534,14 @@ importers:
     dependencies:
       '@aws-sdk/client-elasticache':
         specifier: ^3
-        version: 3.758.0
+        version: 3.761.0
       '@effect-aws/commons':
         specifier: workspace:^
         version: link:../commons/dist
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.9
+        version: 22.13.10
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -564,7 +567,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.9
+        version: 22.13.10
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -590,7 +593,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.9
+        version: 22.13.10
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -616,7 +619,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.9
+        version: 22.13.10
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -642,7 +645,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.9
+        version: 22.13.10
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -668,7 +671,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.9
+        version: 22.13.10
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -694,7 +697,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.9
+        version: 22.13.10
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -720,7 +723,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.9
+        version: 22.13.10
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -746,7 +749,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.9
+        version: 22.13.10
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -772,7 +775,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.9
+        version: 22.13.10
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -798,7 +801,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.9
+        version: 22.13.10
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -824,7 +827,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.9
+        version: 22.13.10
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -850,7 +853,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.9
+        version: 22.13.10
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -876,7 +879,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.9
+        version: 22.13.10
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -902,7 +905,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.9
+        version: 22.13.10
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -928,7 +931,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.9
+        version: 22.13.10
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -947,14 +950,14 @@ importers:
     dependencies:
       '@aws-sdk/client-rds':
         specifier: ^3
-        version: 3.758.0
+        version: 3.761.0
       '@effect-aws/commons':
         specifier: workspace:^
         version: link:../commons/dist
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.9
+        version: 22.13.10
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -986,7 +989,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.9
+        version: 22.13.10
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -1012,7 +1015,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.9
+        version: 22.13.10
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -1038,7 +1041,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.9
+        version: 22.13.10
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -1064,7 +1067,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.9
+        version: 22.13.10
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -1090,7 +1093,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.9
+        version: 22.13.10
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -1116,7 +1119,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.9
+        version: 22.13.10
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -1142,7 +1145,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.9
+        version: 22.13.10
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -1168,7 +1171,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.9
+        version: 22.13.10
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -1194,7 +1197,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.9
+        version: 22.13.10
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -1220,7 +1223,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.13.9
+        version: 22.13.10
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -1316,7 +1319,7 @@ importers:
   packages/commons:
     dependencies:
       '@smithy/smithy-client':
-        specifier: ^4.1.2
+        specifier: ^4.1.6
         version: 4.1.6
       '@smithy/types':
         specifier: ^4.1.0
@@ -1327,16 +1330,13 @@ importers:
         version: 3.734.0
       '@types/node':
         specifier: ts5.4
-        version: 22.13.9
+        version: 22.13.10
       effect:
         specifier: 3.10.16
         version: 3.10.16
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
-      vitest-mock-extended:
-        specifier: ^2.0.2
-        version: 2.0.2(typescript@5.4.5)(vitest@2.0.5(@types/node@22.13.9))
     publishDirectory: dist
 
   packages/lambda:
@@ -1346,7 +1346,7 @@ importers:
         version: 8.10.125
       '@types/node':
         specifier: ts5.4
-        version: 22.13.9
+        version: 22.13.10
       effect:
         specifier: 3.10.16
         version: 3.10.16
@@ -1372,7 +1372,7 @@ importers:
         version: link:../client-dynamodb/dist
       '@types/node':
         specifier: ts5.4
-        version: 22.13.9
+        version: 22.13.10
       aws-sdk-client-mock:
         specifier: ^4.0.2
         version: 4.0.2
@@ -1397,7 +1397,7 @@ importers:
         version: 2.0.0
       '@types/node':
         specifier: ts5.4
-        version: 22.13.9
+        version: 22.13.10
       effect:
         specifier: 3.10.16
         version: 3.10.16
@@ -1419,7 +1419,7 @@ importers:
         version: 1.208.0
       '@types/node':
         specifier: ts5.4
-        version: 22.13.9
+        version: 22.13.10
       effect:
         specifier: 3.10.16
         version: 3.10.16
@@ -1441,7 +1441,7 @@ importers:
         version: 1.208.0
       '@types/node':
         specifier: ts5.4
-        version: 22.13.9
+        version: 22.13.10
       effect:
         specifier: 3.10.16
         version: 3.10.16
@@ -1506,16 +1506,16 @@ packages:
     resolution: {integrity: sha512-T7s+fULUxN3AcJP+lgoUKLawzVEtyCTi+5Ga+wrHnqEPwAsM/wg7VctsZfow1fCgARLT/lzmP2LTCi8ycRnQWg==}
     engines: {node: '>=18.0.0'}
 
-  '@aws-sdk/client-bedrock@3.758.0':
-    resolution: {integrity: sha512-aduuo/xGT3dA65un4Rv6XB+YG0P4FloL6hM4DHjlq3bXKiKJmXiXe/j87VMmzZtdaoZcPRhxyWKXJl6BGKX2xA==}
+  '@aws-sdk/client-bedrock@3.763.0':
+    resolution: {integrity: sha512-o02L7Mf9vnvuQDERGNmRLoVARAJYhFM5LPmFJWlO/OcBOSlT+9sJOsVabAzA10OezAdO/6H8JbklGBpSk+s1hQ==}
     engines: {node: '>=18.0.0'}
 
   '@aws-sdk/client-cloudsearch@3.758.0':
     resolution: {integrity: sha512-zuWgF4kFhVQ1kRLJVp1B8dO8s3Z+G/Cp/omq136v+x4xc27av4rV2L5CnTmFpn8WVJsTsFZVggdPFXWQs9J1jg==}
     engines: {node: '>=18.0.0'}
 
-  '@aws-sdk/client-cloudtrail@3.758.0':
-    resolution: {integrity: sha512-cFW3HSJFNMFExR5IshyEkJpau9aDq/KvL2kbnkN96OoHhYw+H0tn9/++N5olTi7GxC5+3YW/M7t227t5OhAijQ==}
+  '@aws-sdk/client-cloudtrail@3.763.0':
+    resolution: {integrity: sha512-IQmjTArRYuk/dUtXc9KT86rCGFHPGtKmtrLbHayXMrMm062hqQ64HbDH6Tl0gOGdAsdKvYZcTF0W5WkSg4U/bA==}
     engines: {node: '>=18.0.0'}
 
   '@aws-sdk/client-cloudwatch-events@3.758.0':
@@ -1534,28 +1534,28 @@ packages:
     resolution: {integrity: sha512-+j/qKywtPG27RLr0Q14KEv2zeiAVDHuGBdXni2i7Z4aVEmPR21MWy5/9iRmWVFbQcYNbhE6dj50aWpmVcCwMbw==}
     engines: {node: '>=18.0.0'}
 
-  '@aws-sdk/client-cognito-identity-provider@3.758.0':
-    resolution: {integrity: sha512-GDX21MB8wkmUZ4A4gbuTcFXnGqlHs4/sO0F+LC/cstijgZheFQ3zrcC+CQNONE+IAj75kK1/84ESr71E6gKP5Q==}
+  '@aws-sdk/client-cognito-identity-provider@3.760.0':
+    resolution: {integrity: sha512-nDhdT5N2l+kpq4Y1P7UEP/FB6XP5TnwTLYNNlAocKHmFyryI8YqGpCgUE/01z+/wcebQgveuP80NoidV8th2IA==}
     engines: {node: '>=18.0.0'}
 
   '@aws-sdk/client-dynamodb@3.758.0':
     resolution: {integrity: sha512-ZdVVCvmQ4wlV22HgYZKndIYNKkFfTLi8PIOF5rOkqthgYRTfVzKajrVbYebCs5jMDTk73LPLl2Ze/EYBEHKlBA==}
     engines: {node: '>=18.0.0'}
 
-  '@aws-sdk/client-ec2@3.758.0':
-    resolution: {integrity: sha512-bMH9s7/zebK92LvuLQshQEJ1Ar8016Ip/Aw0lRYf/+KSPNCAENX8fVwFt/O4o+UdYFLGqmPGGRwcO2JnL6nRMg==}
+  '@aws-sdk/client-ec2@3.766.0':
+    resolution: {integrity: sha512-reyuspiY7kEuwbYRon6NPFYESLjWORfDqtSus2YLqMd7VbZIb1nXsiIaEG0UV2oHApyrDeWl34X5PfvDd+0LlA==}
     engines: {node: '>=18.0.0'}
 
-  '@aws-sdk/client-ecr@3.758.0':
-    resolution: {integrity: sha512-9nTE01CuK5Vq0kPkmw3xdE6lrPDZSXOlX4wRc194GhnhxdppRla5dG6+gvZWTmpkC9a2mGqjXYsbvoSg6kZPHg==}
+  '@aws-sdk/client-ecr@3.766.0':
+    resolution: {integrity: sha512-hW4CtlS22Wu6hs2BlkqtZdpzMtwCyb5k4VetSrchLLmiq+jPopPh0NGqp42OgqUYDJGqPJZF2LJaL/k/UtacPg==}
     engines: {node: '>=18.0.0'}
 
-  '@aws-sdk/client-ecs@3.758.0':
-    resolution: {integrity: sha512-FYf7cOVV4UQpHsY072yqJbi28FPFYy50DDhtdFUdKxVtsGaHTZ7+DP+5PQJY9E56lpNpfG0ytrOrSidTXINKVQ==}
+  '@aws-sdk/client-ecs@3.766.0':
+    resolution: {integrity: sha512-KotXcu+QNlnWkkbi7Yr1gszaAoxGFBGHinP7yJ2pi6Oowzekp4CIcpxVkcvg0867x+Oxuih6SUsCmW1amRfsTw==}
     engines: {node: '>=18.0.0'}
 
-  '@aws-sdk/client-elasticache@3.758.0':
-    resolution: {integrity: sha512-qmDOTHhB0hUm/Ifypi6+zjUR4dl7H576oM4/p2RUgkjyz2RgJaLJhyX32TDDzcX2maevNHJ3TijXOkGxoGDeog==}
+  '@aws-sdk/client-elasticache@3.761.0':
+    resolution: {integrity: sha512-ZMoT1+wLT85sus8jCP4gRmsmHukmZm2GqOQOY1i+OOHTN0sXzSVneVXYmLA5c63ykoXmFyn1Oytbf/BmQUeX4w==}
     engines: {node: '>=18.0.0'}
 
   '@aws-sdk/client-eventbridge@3.758.0':
@@ -1618,8 +1618,8 @@ packages:
     resolution: {integrity: sha512-0sHh8NeXFeivBABCTlniSc/4umbWF30A0+AjYz7yO9CkRcdTeCzm7x+KIrE4IeNKCHkvYtuzw7RzLiKkU4kmzw==}
     engines: {node: '>=18.0.0'}
 
-  '@aws-sdk/client-rds@3.758.0':
-    resolution: {integrity: sha512-Kw6ozc5klvFJufYfVZw1Fqzruwyd+90KQKXG/RgTF6bWqC3vW0FxxcOJPmwbnJRPkeY8gpTEyYveuXsLDHWcQg==}
+  '@aws-sdk/client-rds@3.761.0':
+    resolution: {integrity: sha512-wVlOiX8oKakGqW0p9phWhdSHM3I1jjmA/6dy2OWlOmE/lJc4zCwlE7JGcH0pP/J9Om+M8OVJVg8oh+mnoNfJlQ==}
     engines: {node: '>=18.0.0'}
 
   '@aws-sdk/client-s3@3.758.0':
@@ -2811,9 +2811,6 @@ packages:
 
   '@types/node@22.13.10':
     resolution: {integrity: sha512-I6LPUvlRH+O6VRUqYOcMudhaIdUVWfsjnZavnsraHvpBwaEyMN29ry+0UVJhImYL16xsscu0aske3yA+uPOWfw==}
-
-  '@types/node@22.13.9':
-    resolution: {integrity: sha512-acBjXdRJ3A6Pb3tqnw9HZmyR3Fiol3aGxRCK1x3d+6CDAMjl7I649wpSd+yNURCjbOUGu9tqtLKnTGxmK6CyGw==}
 
   '@types/normalize-package-data@2.4.4':
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
@@ -5152,7 +5149,7 @@ snapshots:
     transitivePeerDependencies:
       - aws-crt
 
-  '@aws-sdk/client-bedrock@3.758.0':
+  '@aws-sdk/client-bedrock@3.763.0':
     dependencies:
       '@aws-crypto/sha256-browser': 5.2.0
       '@aws-crypto/sha256-js': 5.2.0
@@ -5242,7 +5239,7 @@ snapshots:
     transitivePeerDependencies:
       - aws-crt
 
-  '@aws-sdk/client-cloudtrail@3.758.0':
+  '@aws-sdk/client-cloudtrail@3.763.0':
     dependencies:
       '@aws-crypto/sha256-browser': 5.2.0
       '@aws-crypto/sha256-js': 5.2.0
@@ -5470,7 +5467,7 @@ snapshots:
     transitivePeerDependencies:
       - aws-crt
 
-  '@aws-sdk/client-cognito-identity-provider@3.758.0':
+  '@aws-sdk/client-cognito-identity-provider@3.760.0':
     dependencies:
       '@aws-crypto/sha256-browser': 5.2.0
       '@aws-crypto/sha256-js': 5.2.0
@@ -5562,7 +5559,7 @@ snapshots:
     transitivePeerDependencies:
       - aws-crt
 
-  '@aws-sdk/client-ec2@3.758.0':
+  '@aws-sdk/client-ec2@3.766.0':
     dependencies:
       '@aws-crypto/sha256-browser': 5.2.0
       '@aws-crypto/sha256-js': 5.2.0
@@ -5610,7 +5607,7 @@ snapshots:
     transitivePeerDependencies:
       - aws-crt
 
-  '@aws-sdk/client-ecr@3.758.0':
+  '@aws-sdk/client-ecr@3.766.0':
     dependencies:
       '@aws-crypto/sha256-browser': 5.2.0
       '@aws-crypto/sha256-js': 5.2.0
@@ -5655,7 +5652,7 @@ snapshots:
     transitivePeerDependencies:
       - aws-crt
 
-  '@aws-sdk/client-ecs@3.758.0':
+  '@aws-sdk/client-ecs@3.766.0':
     dependencies:
       '@aws-crypto/sha256-browser': 5.2.0
       '@aws-crypto/sha256-js': 5.2.0
@@ -5702,7 +5699,7 @@ snapshots:
     transitivePeerDependencies:
       - aws-crt
 
-  '@aws-sdk/client-elasticache@3.758.0':
+  '@aws-sdk/client-elasticache@3.761.0':
     dependencies:
       '@aws-crypto/sha256-browser': 5.2.0
       '@aws-crypto/sha256-js': 5.2.0
@@ -6432,7 +6429,7 @@ snapshots:
     transitivePeerDependencies:
       - aws-crt
 
-  '@aws-sdk/client-rds@3.758.0':
+  '@aws-sdk/client-rds@3.761.0':
     dependencies:
       '@aws-crypto/sha256-browser': 5.2.0
       '@aws-crypto/sha256-js': 5.2.0
@@ -7873,10 +7870,10 @@ snapshots:
     dependencies:
       effect: 3.10.16
 
-  '@effect/vitest@0.13.16(effect@3.10.16)(vitest@2.0.5(@types/node@22.13.9))':
+  '@effect/vitest@0.13.16(effect@3.10.16)(vitest@2.0.5(@types/node@22.13.10))':
     dependencies:
       effect: 3.10.16
-      vitest: 2.0.5(@types/node@22.13.9)
+      vitest: 2.0.5(@types/node@22.13.10)
 
   '@esbuild/aix-ppc64@0.21.5':
     optional: true
@@ -8633,10 +8630,6 @@ snapshots:
     dependencies:
       undici-types: 6.20.0
 
-  '@types/node@22.13.9':
-    dependencies:
-      undici-types: 6.20.0
-
   '@types/normalize-package-data@2.4.4': {}
 
   '@types/sinon@17.0.3':
@@ -8734,7 +8727,7 @@ snapshots:
       '@typescript-eslint/types': 8.21.0
       eslint-visitor-keys: 4.2.0
 
-  '@vitest/coverage-v8@2.0.5(vitest@2.0.5(@types/node@22.13.9))':
+  '@vitest/coverage-v8@2.0.5(vitest@2.0.5(@types/node@22.13.10))':
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@bcoe/v8-coverage': 0.2.3
@@ -8748,7 +8741,7 @@ snapshots:
       std-env: 3.7.0
       test-exclude: 7.0.1
       tinyrainbow: 1.2.0
-      vitest: 2.0.5(@types/node@22.13.9)
+      vitest: 2.0.5(@types/node@22.13.10)
     transitivePeerDependencies:
       - supports-color
 
@@ -10669,14 +10662,14 @@ snapshots:
     optionalDependencies:
       typescript: 5.4.5
 
-  ts-node@10.9.1(@types/node@22.13.9)(typescript@5.4.5):
+  ts-node@10.9.1(@types/node@22.13.10)(typescript@5.4.5):
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
       '@tsconfig/node10': 1.0.9
       '@tsconfig/node12': 1.0.11
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.4
-      '@types/node': 22.13.9
+      '@types/node': 22.13.10
       acorn: 8.14.0
       acorn-walk: 8.3.2
       arg: 4.1.3
@@ -10792,13 +10785,13 @@ snapshots:
       spdx-correct: 3.2.0
       spdx-expression-parse: 3.0.1
 
-  vite-node@2.0.5(@types/node@22.13.9):
+  vite-node@2.0.5(@types/node@22.13.10):
     dependencies:
       cac: 6.7.14
       debug: 4.4.0
       pathe: 1.1.2
       tinyrainbow: 1.2.0
-      vite: 5.4.1(@types/node@22.13.9)
+      vite: 5.4.1(@types/node@22.13.10)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -10810,22 +10803,22 @@ snapshots:
       - supports-color
       - terser
 
-  vite@5.4.1(@types/node@22.13.9):
+  vite@5.4.1(@types/node@22.13.10):
     dependencies:
       esbuild: 0.21.5
       postcss: 8.4.41
       rollup: 4.20.0
     optionalDependencies:
-      '@types/node': 22.13.9
+      '@types/node': 22.13.10
       fsevents: 2.3.3
 
-  vitest-mock-extended@2.0.2(typescript@5.4.5)(vitest@2.0.5(@types/node@22.13.9)):
+  vitest-mock-extended@2.0.2(typescript@5.4.5)(vitest@2.0.5(@types/node@22.13.10)):
     dependencies:
       ts-essentials: 10.0.4(typescript@5.4.5)
       typescript: 5.4.5
-      vitest: 2.0.5(@types/node@22.13.9)
+      vitest: 2.0.5(@types/node@22.13.10)
 
-  vitest@2.0.5(@types/node@22.13.9):
+  vitest@2.0.5(@types/node@22.13.10):
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@vitest/expect': 2.0.5
@@ -10843,11 +10836,11 @@ snapshots:
       tinybench: 2.9.0
       tinypool: 1.0.0
       tinyrainbow: 1.2.0
-      vite: 5.4.1(@types/node@22.13.9)
-      vite-node: 2.0.5(@types/node@22.13.9)
+      vite: 5.4.1(@types/node@22.13.10)
+      vite-node: 2.0.5(@types/node@22.13.10)
       why-is-node-running: 2.3.0
     optionalDependencies:
-      '@types/node': 22.13.9
+      '@types/node': 22.13.10
     transitivePeerDependencies:
       - less
       - lightningcss

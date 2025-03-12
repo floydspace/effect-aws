@@ -20,10 +20,6 @@
       "type": "build"
     },
     {
-      "name": "vitest-mock-extended",
-      "type": "build"
-    },
-    {
       "name": "effect",
       "version": ">=3.0.4 <4.0.0",
       "type": "peer"
