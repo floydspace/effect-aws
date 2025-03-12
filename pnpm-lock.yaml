@@ -1238,6 +1238,84 @@ importers:
         version: 5.4.5
     publishDirectory: dist
 
+  packages/client-timestream-influxdb:
+    dependencies:
+      '@aws-sdk/client-timestream-influxdb':
+        specifier: ^3
+        version: 3.765.0
+      '@effect-aws/commons':
+        specifier: workspace:^
+        version: link:../commons/dist
+    devDependencies:
+      '@types/node':
+        specifier: ts5.4
+        version: 22.13.10
+      aws-sdk-client-mock:
+        specifier: ^4.0.2
+        version: 4.0.2
+      aws-sdk-client-mock-vitest:
+        specifier: ^4.0.0
+        version: 4.0.0
+      effect:
+        specifier: 3.10.16
+        version: 3.10.16
+      typescript:
+        specifier: ^5.4.2
+        version: 5.4.5
+    publishDirectory: dist
+
+  packages/client-timestream-query:
+    dependencies:
+      '@aws-sdk/client-timestream-query':
+        specifier: ^3
+        version: 3.758.0
+      '@effect-aws/commons':
+        specifier: workspace:^
+        version: link:../commons/dist
+    devDependencies:
+      '@types/node':
+        specifier: ts5.4
+        version: 22.13.10
+      aws-sdk-client-mock:
+        specifier: ^4.0.2
+        version: 4.0.2
+      aws-sdk-client-mock-vitest:
+        specifier: ^4.0.0
+        version: 4.0.0
+      effect:
+        specifier: 3.10.16
+        version: 3.10.16
+      typescript:
+        specifier: ^5.4.2
+        version: 5.4.5
+    publishDirectory: dist
+
+  packages/client-timestream-write:
+    dependencies:
+      '@aws-sdk/client-timestream-write':
+        specifier: ^3
+        version: 3.758.0
+      '@effect-aws/commons':
+        specifier: workspace:^
+        version: link:../commons/dist
+    devDependencies:
+      '@types/node':
+        specifier: ts5.4
+        version: 22.13.10
+      aws-sdk-client-mock:
+        specifier: ^4.0.2
+        version: 4.0.2
+      aws-sdk-client-mock-vitest:
+        specifier: ^4.0.0
+        version: 4.0.0
+      effect:
+        specifier: 3.10.16
+        version: 3.10.16
+      typescript:
+        specifier: ^5.4.2
+        version: 5.4.5
+    publishDirectory: dist
+
   packages/commons:
     dependencies:
       '@smithy/smithy-client':
@@ -1586,6 +1664,18 @@ packages:
 
   '@aws-sdk/client-textract@3.758.0':
     resolution: {integrity: sha512-0MgIbMXILMhpGVvwmEX5ltFfN8UHPkGiXxWtugYt+XVoPOOUFTnwJZfjKGPlpSUC8VkmbkP74g8yDd1GzfIQWg==}
+    engines: {node: '>=18.0.0'}
+
+  '@aws-sdk/client-timestream-influxdb@3.765.0':
+    resolution: {integrity: sha512-lb7JaZI/I4u9QyTt0cdw6pMdXSNGo6DtfGds6vG0RPkDd8DcXbRW7GrAIjkhHHtquvTr1of7IplHkjDVx7noOA==}
+    engines: {node: '>=18.0.0'}
+
+  '@aws-sdk/client-timestream-query@3.758.0':
+    resolution: {integrity: sha512-ZhjoseJsXEZt4lMyoOAbIUCmyV7aJaDDSoItVnFh+DmrmVnwV/VCmYHsVmaf/0bmallDNgzHDy8tFVPf/MBicw==}
+    engines: {node: '>=18.0.0'}
+
+  '@aws-sdk/client-timestream-write@3.758.0':
+    resolution: {integrity: sha512-GJfiLZc07+RsCvkVynG9fUcWGkICPVpG3diwDHeawVekwBK1QhAOw61eBd42fkC2kLyHoJPetD1bd/i4juOLXg==}
     engines: {node: '>=18.0.0'}
 
   '@aws-sdk/core@3.758.0':
@@ -6859,6 +6949,144 @@ snapshots:
       '@aws-crypto/sha256-js': 5.2.0
       '@aws-sdk/core': 3.758.0
       '@aws-sdk/credential-provider-node': 3.758.0
+      '@aws-sdk/middleware-host-header': 3.734.0
+      '@aws-sdk/middleware-logger': 3.734.0
+      '@aws-sdk/middleware-recursion-detection': 3.734.0
+      '@aws-sdk/middleware-user-agent': 3.758.0
+      '@aws-sdk/region-config-resolver': 3.734.0
+      '@aws-sdk/types': 3.734.0
+      '@aws-sdk/util-endpoints': 3.743.0
+      '@aws-sdk/util-user-agent-browser': 3.734.0
+      '@aws-sdk/util-user-agent-node': 3.758.0
+      '@smithy/config-resolver': 4.0.1
+      '@smithy/core': 3.1.5
+      '@smithy/fetch-http-handler': 5.0.1
+      '@smithy/hash-node': 4.0.1
+      '@smithy/invalid-dependency': 4.0.1
+      '@smithy/middleware-content-length': 4.0.1
+      '@smithy/middleware-endpoint': 4.0.6
+      '@smithy/middleware-retry': 4.0.7
+      '@smithy/middleware-serde': 4.0.2
+      '@smithy/middleware-stack': 4.0.1
+      '@smithy/node-config-provider': 4.0.1
+      '@smithy/node-http-handler': 4.0.3
+      '@smithy/protocol-http': 5.0.1
+      '@smithy/smithy-client': 4.1.6
+      '@smithy/types': 4.1.0
+      '@smithy/url-parser': 4.0.1
+      '@smithy/util-base64': 4.0.0
+      '@smithy/util-body-length-browser': 4.0.0
+      '@smithy/util-body-length-node': 4.0.0
+      '@smithy/util-defaults-mode-browser': 4.0.7
+      '@smithy/util-defaults-mode-node': 4.0.7
+      '@smithy/util-endpoints': 3.0.1
+      '@smithy/util-middleware': 4.0.1
+      '@smithy/util-retry': 4.0.1
+      '@smithy/util-utf8': 4.0.0
+      '@types/uuid': 9.0.8
+      tslib: 2.7.0
+      uuid: 9.0.1
+    transitivePeerDependencies:
+      - aws-crt
+
+  '@aws-sdk/client-timestream-influxdb@3.765.0':
+    dependencies:
+      '@aws-crypto/sha256-browser': 5.2.0
+      '@aws-crypto/sha256-js': 5.2.0
+      '@aws-sdk/core': 3.758.0
+      '@aws-sdk/credential-provider-node': 3.758.0
+      '@aws-sdk/middleware-host-header': 3.734.0
+      '@aws-sdk/middleware-logger': 3.734.0
+      '@aws-sdk/middleware-recursion-detection': 3.734.0
+      '@aws-sdk/middleware-user-agent': 3.758.0
+      '@aws-sdk/region-config-resolver': 3.734.0
+      '@aws-sdk/types': 3.734.0
+      '@aws-sdk/util-endpoints': 3.743.0
+      '@aws-sdk/util-user-agent-browser': 3.734.0
+      '@aws-sdk/util-user-agent-node': 3.758.0
+      '@smithy/config-resolver': 4.0.1
+      '@smithy/core': 3.1.5
+      '@smithy/fetch-http-handler': 5.0.1
+      '@smithy/hash-node': 4.0.1
+      '@smithy/invalid-dependency': 4.0.1
+      '@smithy/middleware-content-length': 4.0.1
+      '@smithy/middleware-endpoint': 4.0.6
+      '@smithy/middleware-retry': 4.0.7
+      '@smithy/middleware-serde': 4.0.2
+      '@smithy/middleware-stack': 4.0.1
+      '@smithy/node-config-provider': 4.0.1
+      '@smithy/node-http-handler': 4.0.3
+      '@smithy/protocol-http': 5.0.1
+      '@smithy/smithy-client': 4.1.6
+      '@smithy/types': 4.1.0
+      '@smithy/url-parser': 4.0.1
+      '@smithy/util-base64': 4.0.0
+      '@smithy/util-body-length-browser': 4.0.0
+      '@smithy/util-body-length-node': 4.0.0
+      '@smithy/util-defaults-mode-browser': 4.0.7
+      '@smithy/util-defaults-mode-node': 4.0.7
+      '@smithy/util-endpoints': 3.0.1
+      '@smithy/util-middleware': 4.0.1
+      '@smithy/util-retry': 4.0.1
+      '@smithy/util-utf8': 4.0.0
+      tslib: 2.7.0
+    transitivePeerDependencies:
+      - aws-crt
+
+  '@aws-sdk/client-timestream-query@3.758.0':
+    dependencies:
+      '@aws-crypto/sha256-browser': 5.2.0
+      '@aws-crypto/sha256-js': 5.2.0
+      '@aws-sdk/core': 3.758.0
+      '@aws-sdk/credential-provider-node': 3.758.0
+      '@aws-sdk/middleware-endpoint-discovery': 3.734.0
+      '@aws-sdk/middleware-host-header': 3.734.0
+      '@aws-sdk/middleware-logger': 3.734.0
+      '@aws-sdk/middleware-recursion-detection': 3.734.0
+      '@aws-sdk/middleware-user-agent': 3.758.0
+      '@aws-sdk/region-config-resolver': 3.734.0
+      '@aws-sdk/types': 3.734.0
+      '@aws-sdk/util-endpoints': 3.743.0
+      '@aws-sdk/util-user-agent-browser': 3.734.0
+      '@aws-sdk/util-user-agent-node': 3.758.0
+      '@smithy/config-resolver': 4.0.1
+      '@smithy/core': 3.1.5
+      '@smithy/fetch-http-handler': 5.0.1
+      '@smithy/hash-node': 4.0.1
+      '@smithy/invalid-dependency': 4.0.1
+      '@smithy/middleware-content-length': 4.0.1
+      '@smithy/middleware-endpoint': 4.0.6
+      '@smithy/middleware-retry': 4.0.7
+      '@smithy/middleware-serde': 4.0.2
+      '@smithy/middleware-stack': 4.0.1
+      '@smithy/node-config-provider': 4.0.1
+      '@smithy/node-http-handler': 4.0.3
+      '@smithy/protocol-http': 5.0.1
+      '@smithy/smithy-client': 4.1.6
+      '@smithy/types': 4.1.0
+      '@smithy/url-parser': 4.0.1
+      '@smithy/util-base64': 4.0.0
+      '@smithy/util-body-length-browser': 4.0.0
+      '@smithy/util-body-length-node': 4.0.0
+      '@smithy/util-defaults-mode-browser': 4.0.7
+      '@smithy/util-defaults-mode-node': 4.0.7
+      '@smithy/util-endpoints': 3.0.1
+      '@smithy/util-middleware': 4.0.1
+      '@smithy/util-retry': 4.0.1
+      '@smithy/util-utf8': 4.0.0
+      '@types/uuid': 9.0.8
+      tslib: 2.7.0
+      uuid: 9.0.1
+    transitivePeerDependencies:
+      - aws-crt
+
+  '@aws-sdk/client-timestream-write@3.758.0':
+    dependencies:
+      '@aws-crypto/sha256-browser': 5.2.0
+      '@aws-crypto/sha256-js': 5.2.0
+      '@aws-sdk/core': 3.758.0
+      '@aws-sdk/credential-provider-node': 3.758.0
+      '@aws-sdk/middleware-endpoint-discovery': 3.734.0
       '@aws-sdk/middleware-host-header': 3.734.0
       '@aws-sdk/middleware-logger': 3.734.0
       '@aws-sdk/middleware-recursion-detection': 3.734.0

@@ -44,6 +44,9 @@ packages:
   - packages/client-ssm
   - packages/client-sts
   - packages/client-textract
+  - packages/client-timestream-influxdb
+  - packages/client-timestream-query
+  - packages/client-timestream-write
   - packages/commons
   - packages/lambda
   - packages/lib-dynamodb
