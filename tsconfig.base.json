@@ -444,6 +444,33 @@
       "@effect-aws/client-textract/test/*": [
         "./packages/client-textract/test/*.js"
       ],
+      "@effect-aws/client-timestream-write": [
+        "./packages/client-timestream-write/src/index.js"
+      ],
+      "@effect-aws/client-timestream-write/*": [
+        "./packages/client-timestream-write/src/*.js"
+      ],
+      "@effect-aws/client-timestream-write/test/*": [
+        "./packages/client-timestream-write/test/*.js"
+      ],
+      "@effect-aws/client-timestream-query": [
+        "./packages/client-timestream-query/src/index.js"
+      ],
+      "@effect-aws/client-timestream-query/*": [
+        "./packages/client-timestream-query/src/*.js"
+      ],
+      "@effect-aws/client-timestream-query/test/*": [
+        "./packages/client-timestream-query/test/*.js"
+      ],
+      "@effect-aws/client-timestream-influxdb": [
+        "./packages/client-timestream-influxdb/src/index.js"
+      ],
+      "@effect-aws/client-timestream-influxdb/*": [
+        "./packages/client-timestream-influxdb/src/*.js"
+      ],
+      "@effect-aws/client-timestream-influxdb/test/*": [
+        "./packages/client-timestream-influxdb/test/*.js"
+      ],
       "@effect-aws/lib-dynamodb": [
         "./packages/lib-dynamodb/src/index.js"
       ],

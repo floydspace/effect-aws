@@ -136,6 +136,15 @@
       "path": "packages/client-textract/tsconfig.esm.json"
     },
     {
+      "path": "packages/client-timestream-write/tsconfig.esm.json"
+    },
+    {
+      "path": "packages/client-timestream-query/tsconfig.esm.json"
+    },
+    {
+      "path": "packages/client-timestream-influxdb/tsconfig.esm.json"
+    },
+    {
       "path": "packages/lib-dynamodb/tsconfig.esm.json"
     },
     {
