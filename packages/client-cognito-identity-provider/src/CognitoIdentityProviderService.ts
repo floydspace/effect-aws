@@ -2513,7 +2513,14 @@ interface CognitoIdentityProviderService$ {
 export const makeCognitoIdentityProviderService = Effect.gen(function*() {
   const client = yield* Instance.CognitoIdentityProviderClientInstance;
 
-  return Service.fromClientAndCommands<CognitoIdentityProviderService$>(client, commands, AllServiceErrors);
+  return Service.fromClientAndCommands<CognitoIdentityProviderService$>(
+    client,
+    commands,
+    {
+      errorTags: AllServiceErrors,
+      resolveClientConfig: CognitoIdentityProviderServiceConfig.toCognitoIdentityProviderClientConfig,
+    },
+  );
 });
 
 /**

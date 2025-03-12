@@ -3084,7 +3084,14 @@ interface RDSService$ {
 export const makeRDSService = Effect.gen(function*() {
   const client = yield* Instance.RDSClientInstance;
 
-  return Service.fromClientAndCommands<RDSService$>(client, commands, AllServiceErrors);
+  return Service.fromClientAndCommands<RDSService$>(
+    client,
+    commands,
+    {
+      errorTags: AllServiceErrors,
+      resolveClientConfig: RDSServiceConfig.toRDSClientConfig,
+    },
+  );
 });
 
 /**

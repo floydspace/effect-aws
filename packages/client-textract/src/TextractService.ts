@@ -642,7 +642,14 @@ interface TextractService$ {
 export const makeTextractService = Effect.gen(function*() {
   const client = yield* Instance.TextractClientInstance;
 
-  return Service.fromClientAndCommands<TextractService$>(client, commands, AllServiceErrors);
+  return Service.fromClientAndCommands<TextractService$>(
+    client,
+    commands,
+    {
+      errorTags: AllServiceErrors,
+      resolveClientConfig: TextractServiceConfig.toTextractClientConfig,
+    },
+  );
 });
 
 /**

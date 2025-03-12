@@ -1147,7 +1147,14 @@ interface CodeDeployService$ {
 export const makeCodeDeployService = Effect.gen(function*() {
   const client = yield* Instance.CodeDeployClientInstance;
 
-  return Service.fromClientAndCommands<CodeDeployService$>(client, commands, AllServiceErrors);
+  return Service.fromClientAndCommands<CodeDeployService$>(
+    client,
+    commands,
+    {
+      errorTags: AllServiceErrors,
+      resolveClientConfig: CodeDeployServiceConfig.toCodeDeployClientConfig,
+    },
+  );
 });
 
 /**

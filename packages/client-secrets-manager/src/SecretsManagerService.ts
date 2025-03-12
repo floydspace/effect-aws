@@ -440,7 +440,14 @@ interface SecretsManagerService$ {
 export const makeSecretsManagerService = Effect.gen(function*() {
   const client = yield* Instance.SecretsManagerClientInstance;
 
-  return Service.fromClientAndCommands<SecretsManagerService$>(client, commands, AllServiceErrors);
+  return Service.fromClientAndCommands<SecretsManagerService$>(
+    client,
+    commands,
+    {
+      errorTags: AllServiceErrors,
+      resolveClientConfig: SecretsManagerServiceConfig.toSecretsManagerClientConfig,
+    },
+  );
 });
 
 /**

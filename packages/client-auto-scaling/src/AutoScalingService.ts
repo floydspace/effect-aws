@@ -1025,7 +1025,14 @@ interface AutoScalingService$ {
 export const makeAutoScalingService = Effect.gen(function*() {
   const client = yield* Instance.AutoScalingClientInstance;
 
-  return Service.fromClientAndCommands<AutoScalingService$>(client, commands, AllServiceErrors);
+  return Service.fromClientAndCommands<AutoScalingService$>(
+    client,
+    commands,
+    {
+      errorTags: AllServiceErrors,
+      resolveClientConfig: AutoScalingServiceConfig.toAutoScalingClientConfig,
+    },
+  );
 });
 
 /**

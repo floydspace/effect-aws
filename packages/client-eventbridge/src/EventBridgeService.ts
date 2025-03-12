@@ -962,7 +962,14 @@ interface EventBridgeService$ {
 export const makeEventBridgeService = Effect.gen(function*() {
   const client = yield* Instance.EventBridgeClientInstance;
 
-  return Service.fromClientAndCommands<EventBridgeService$>(client, commands, AllServiceErrors);
+  return Service.fromClientAndCommands<EventBridgeService$>(
+    client,
+    commands,
+    {
+      errorTags: AllServiceErrors,
+      resolveClientConfig: EventBridgeServiceConfig.toEventBridgeClientConfig,
+    },
+  );
 });
 
 /**

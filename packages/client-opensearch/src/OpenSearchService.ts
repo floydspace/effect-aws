@@ -1325,7 +1325,14 @@ interface OpenSearchService$ {
 export const makeOpenSearchService = Effect.gen(function*() {
   const client = yield* Instance.OpenSearchClientInstance;
 
-  return Service.fromClientAndCommands<OpenSearchService$>(client, commands, AllServiceErrors);
+  return Service.fromClientAndCommands<OpenSearchService$>(
+    client,
+    commands,
+    {
+      errorTags: AllServiceErrors,
+      resolveClientConfig: OpenSearchServiceConfig.toOpenSearchClientConfig,
+    },
+  );
 });
 
 /**
