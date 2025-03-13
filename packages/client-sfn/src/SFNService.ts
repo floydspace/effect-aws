@@ -746,7 +746,14 @@ interface SFNService$ {
 export const makeSFNService = Effect.gen(function*() {
   const client = yield* Instance.SFNClientInstance;
 
-  return Service.fromClientAndCommands<SFNService$>(client, commands, AllServiceErrors);
+  return Service.fromClientAndCommands<SFNService$>(
+    client,
+    commands,
+    {
+      errorTags: AllServiceErrors,
+      resolveClientConfig: SFNServiceConfig.toSFNClientConfig,
+    },
+  );
 });
 
 /**

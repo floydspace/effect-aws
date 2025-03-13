@@ -233,7 +233,14 @@ interface IoTEventsDataService$ {
 export const makeIoTEventsDataService = Effect.gen(function*() {
   const client = yield* Instance.IoTEventsDataClientInstance;
 
-  return Service.fromClientAndCommands<IoTEventsDataService$>(client, commands, AllServiceErrors);
+  return Service.fromClientAndCommands<IoTEventsDataService$>(
+    client,
+    commands,
+    {
+      errorTags: AllServiceErrors,
+      resolveClientConfig: IoTEventsDataServiceConfig.toIoTEventsDataClientConfig,
+    },
+  );
 });
 
 /**

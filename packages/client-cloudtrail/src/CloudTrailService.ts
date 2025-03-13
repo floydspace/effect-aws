@@ -1467,7 +1467,14 @@ interface CloudTrailService$ {
 export const makeCloudTrailService = Effect.gen(function*() {
   const client = yield* Instance.CloudTrailClientInstance;
 
-  return Service.fromClientAndCommands<CloudTrailService$>(client, commands, AllServiceErrors);
+  return Service.fromClientAndCommands<CloudTrailService$>(
+    client,
+    commands,
+    {
+      errorTags: AllServiceErrors,
+      resolveClientConfig: CloudTrailServiceConfig.toCloudTrailClientConfig,
+    },
+  );
 });
 
 /**

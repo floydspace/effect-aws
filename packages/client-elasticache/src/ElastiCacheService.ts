@@ -1612,7 +1612,14 @@ interface ElastiCacheService$ {
 export const makeElastiCacheService = Effect.gen(function*() {
   const client = yield* Instance.ElastiCacheClientInstance;
 
-  return Service.fromClientAndCommands<ElastiCacheService$>(client, commands, AllServiceErrors);
+  return Service.fromClientAndCommands<ElastiCacheService$>(
+    client,
+    commands,
+    {
+      errorTags: AllServiceErrors,
+      resolveClientConfig: ElastiCacheServiceConfig.toElastiCacheClientConfig,
+    },
+  );
 });
 
 /**

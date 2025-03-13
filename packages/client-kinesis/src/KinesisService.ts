@@ -654,7 +654,14 @@ interface KinesisService$ {
 export const makeKinesisService = Effect.gen(function*() {
   const client = yield* Instance.KinesisClientInstance;
 
-  return Service.fromClientAndCommands<KinesisService$>(client, commands, AllServiceErrors);
+  return Service.fromClientAndCommands<KinesisService$>(
+    client,
+    commands,
+    {
+      errorTags: AllServiceErrors,
+      resolveClientConfig: KinesisServiceConfig.toKinesisClientConfig,
+    },
+  );
 });
 
 /**

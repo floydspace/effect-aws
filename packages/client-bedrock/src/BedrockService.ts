@@ -34,6 +34,9 @@ import {
   CreateModelInvocationJobCommand,
   type CreateModelInvocationJobCommandInput,
   type CreateModelInvocationJobCommandOutput,
+  CreatePromptRouterCommand,
+  type CreatePromptRouterCommandInput,
+  type CreatePromptRouterCommandOutput,
   CreateProvisionedModelThroughputCommand,
   type CreateProvisionedModelThroughputCommandInput,
   type CreateProvisionedModelThroughputCommandOutput,
@@ -55,6 +58,9 @@ import {
   DeleteModelInvocationLoggingConfigurationCommand,
   type DeleteModelInvocationLoggingConfigurationCommandInput,
   type DeleteModelInvocationLoggingConfigurationCommandOutput,
+  DeletePromptRouterCommand,
+  type DeletePromptRouterCommandInput,
+  type DeletePromptRouterCommandOutput,
   DeleteProvisionedModelThroughputCommand,
   type DeleteProvisionedModelThroughputCommandInput,
   type DeleteProvisionedModelThroughputCommandOutput,
@@ -205,6 +211,7 @@ const commands = {
   CreateModelCustomizationJobCommand,
   CreateModelImportJobCommand,
   CreateModelInvocationJobCommand,
+  CreatePromptRouterCommand,
   CreateProvisionedModelThroughputCommand,
   DeleteCustomModelCommand,
   DeleteGuardrailCommand,
@@ -212,6 +219,7 @@ const commands = {
   DeleteInferenceProfileCommand,
   DeleteMarketplaceModelEndpointCommand,
   DeleteModelInvocationLoggingConfigurationCommand,
+  DeletePromptRouterCommand,
   DeleteProvisionedModelThroughputCommand,
   DeregisterMarketplaceModelEndpointCommand,
   GetCustomModelCommand,
@@ -434,6 +442,25 @@ interface BedrockService$ {
   >;
 
   /**
+   * @see {@link CreatePromptRouterCommand}
+   */
+  createPromptRouter(
+    args: CreatePromptRouterCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreatePromptRouterCommandOutput,
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ServiceQuotaExceededError
+    | ThrottlingError
+    | TooManyTagsError
+    | ValidationError
+  >;
+
+  /**
    * @see {@link CreateProvisionedModelThroughputCommand}
    */
   createProvisionedModelThroughput(
@@ -539,6 +566,17 @@ interface BedrockService$ {
   ): Effect.Effect<
     DeleteModelInvocationLoggingConfigurationCommandOutput,
     SdkError | AccessDeniedError | InternalServerError | ThrottlingError
+  >;
+
+  /**
+   * @see {@link DeletePromptRouterCommand}
+   */
+  deletePromptRouter(
+    args: DeletePromptRouterCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeletePromptRouterCommandOutput,
+    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1045,7 +1083,14 @@ interface BedrockService$ {
 export const makeBedrockService = Effect.gen(function*() {
   const client = yield* Instance.BedrockClientInstance;
 
-  return Service.fromClientAndCommands<BedrockService$>(client, commands, AllServiceErrors);
+  return Service.fromClientAndCommands<BedrockService$>(
+    client,
+    commands,
+    {
+      errorTags: AllServiceErrors,
+      resolveClientConfig: BedrockServiceConfig.toBedrockClientConfig,
+    },
+  );
 });
 
 /**

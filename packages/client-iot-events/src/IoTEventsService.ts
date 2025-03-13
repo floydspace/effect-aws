@@ -545,7 +545,14 @@ interface IoTEventsService$ {
 export const makeIoTEventsService = Effect.gen(function*() {
   const client = yield* Instance.IoTEventsClientInstance;
 
-  return Service.fromClientAndCommands<IoTEventsService$>(client, commands, AllServiceErrors);
+  return Service.fromClientAndCommands<IoTEventsService$>(
+    client,
+    commands,
+    {
+      errorTags: AllServiceErrors,
+      resolveClientConfig: IoTEventsServiceConfig.toIoTEventsClientConfig,
+    },
+  );
 });
 
 /**

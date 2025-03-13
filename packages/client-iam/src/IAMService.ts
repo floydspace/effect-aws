@@ -2747,7 +2747,14 @@ interface IAMService$ {
 export const makeIAMService = Effect.gen(function*() {
   const client = yield* Instance.IAMClientInstance;
 
-  return Service.fromClientAndCommands<IAMService$>(client, commands, AllServiceErrors);
+  return Service.fromClientAndCommands<IAMService$>(
+    client,
+    commands,
+    {
+      errorTags: AllServiceErrors,
+      resolveClientConfig: IAMServiceConfig.toIAMClientConfig,
+    },
+  );
 });
 
 /**

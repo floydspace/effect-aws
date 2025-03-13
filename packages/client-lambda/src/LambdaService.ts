@@ -1330,7 +1330,14 @@ interface LambdaService$ {
 export const makeLambdaService = Effect.gen(function*() {
   const client = yield* Instance.LambdaClientInstance;
 
-  return Service.fromClientAndCommands<LambdaService$>(client, commands, AllServiceErrors);
+  return Service.fromClientAndCommands<LambdaService$>(
+    client,
+    commands,
+    {
+      errorTags: AllServiceErrors,
+      resolveClientConfig: LambdaServiceConfig.toLambdaClientConfig,
+    },
+  );
 });
 
 /**

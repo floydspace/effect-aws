@@ -25,6 +25,7 @@
     "organization": false
   },
   "devDependencies": {
+    "@aws-sdk/middleware-logger": "^3.734.0",
     "@types/node": "ts5.4",
     "effect": "3.10.16",
     "typescript": "^5.4.2"
@@ -33,7 +34,7 @@
     "effect": ">=3.0.4 <4.0.0"
   },
   "dependencies": {
-    "@smithy/smithy-client": "^4.1.2",
+    "@smithy/smithy-client": "^4.1.6",
     "@smithy/types": "^4.1.0"
   },
   "main": "build/cjs/index.js",
@@ -43,7 +44,7 @@
     "access": "public",
     "directory": "dist"
   },
-  "version": "0.1.0",
+  "version": "0.2.0",
   "types": "build/dts/index.d.ts",
   "type": "module",
   "module": "build/esm/index.js",

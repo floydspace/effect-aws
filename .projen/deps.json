@@ -118,6 +118,11 @@
       "type": "build"
     },
     {
+      "name": "vitest-mock-extended",
+      "version": "^2.0.2",
+      "type": "build"
+    },
+    {
       "name": "@effect/cli",
       "version": "0.48.25",
       "type": "runtime"

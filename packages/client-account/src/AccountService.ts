@@ -226,7 +226,14 @@ interface AccountService$ {
 export const makeAccountService = Effect.gen(function*() {
   const client = yield* Instance.AccountClientInstance;
 
-  return Service.fromClientAndCommands<AccountService$>(client, commands, AllServiceErrors);
+  return Service.fromClientAndCommands<AccountService$>(
+    client,
+    commands,
+    {
+      errorTags: AllServiceErrors,
+      resolveClientConfig: AccountServiceConfig.toAccountClientConfig,
+    },
+  );
 });
 
 /**

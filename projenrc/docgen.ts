@@ -27,7 +27,10 @@ export class Docgen extends Component {
         new JsonFile(subproject, "docgen.json", {
           obj: {
             $schema: "../../node_modules/@effect/docgen/schema.json",
-            exclude: ["src/Errors.ts"],
+            exclude: [
+              "src/internal/**/*.ts",
+              "src/Errors.ts",
+            ],
           },
           omitEmpty: true,
         });
