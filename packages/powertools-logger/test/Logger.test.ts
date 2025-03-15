@@ -18,7 +18,7 @@ describe("Logger", () => {
   it("default", async () => {
     const program = pipe(
       Logger.logInfo("Info message with log meta", { foo: "bar" }),
-      Effect.tap(() => Effect.logInfo("Native effect info message")),
+      Effect.tap(() => Effect.logInfo("Native effect info message", { baz: "qux" })),
     );
 
     await pipe(
@@ -41,14 +41,17 @@ describe("Logger", () => {
       2,
       12, // INFO
       "Native effect info message",
-      [{ fiber: expect.any(String), timestamp: expect.any(String) }],
+      [
+        { baz: "qux" },
+        { fiber: expect.any(String), timestamp: expect.any(String) },
+      ],
     );
   });
 
   it("configurable", async () => {
     const program = pipe(
       Logger.logDebug("Debug message with log meta", { foo: "bar" }),
-      Effect.tap(() => Effect.logDebug("Native effect debug message")),
+      Effect.tap(() => Effect.logDebug("Native effect debug message", { baz: "qux" })),
     );
 
     await pipe(
@@ -72,14 +75,17 @@ describe("Logger", () => {
       2,
       8, // DEBUG
       "Native effect debug message",
-      [{ fiber: expect.any(String), timestamp: expect.any(String) }],
+      [
+        { baz: "qux" },
+        { fiber: expect.any(String), timestamp: expect.any(String) },
+      ],
     );
   });
 
   it("base", async () => {
     const program = pipe(
       Logger.logError("Error message with log meta", { foo: "bar" }),
-      Effect.tap(() => Effect.logError("Native effect error message")),
+      Effect.tap(() => Effect.logError("Native effect error message", { baz: "qux" })),
     );
 
     await pipe(
@@ -106,7 +112,10 @@ describe("Logger", () => {
       2,
       20, // ERROR
       "Native effect error message",
-      [{ fiber: expect.any(String), timestamp: expect.any(String) }],
+      [
+        { baz: "qux" },
+        { fiber: expect.any(String), timestamp: expect.any(String) },
+      ],
     );
   });
 });

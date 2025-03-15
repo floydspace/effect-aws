@@ -94,6 +94,14 @@ const makeLoggerInstance = (logger: Logger) => {
       ...FiberRefs.getOrDefault(options.context, logExtraInput),
     ];
 
+    let message = options.message;
+    if (Array.isArray(options.message)) {
+      const [first, ...rest] = options.message;
+      message = first;
+      // eslint-disable-next-line no-restricted-syntax
+      extraInputs.push(...rest);
+    }
+
     const nowMillis = options.date.getTime();
 
     extraInputs.push({
@@ -122,11 +130,7 @@ const makeLoggerInstance = (logger: Logger) => {
 
     unsafeLogger.processLogItem(
       MappedLogLevel[options.logLevel.label],
-      !Array.isArray(options.message)
-        ? options.message
-        : options.message.length === 1 // since v3.5 the message is always an array
-        ? options.message[0]
-        : options.message,
+      message as LogItemMessage,
       extraInputs as LogItemExtraInput,
     );
   });
