@@ -1,5 +1,5 @@
 import { Logger as LoggerCtor } from "@aws-lambda-powertools/logger";
-import * as Logger from "@effect-aws/powertools-logger";
+import { Logger } from "@effect-aws/powertools-logger";
 import * as Effect from "effect/Effect";
 import { pipe } from "effect/Function";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
@@ -23,7 +23,7 @@ describe("Logger", () => {
 
     await pipe(
       program,
-      Effect.provide(Logger.DefaultPowerToolsLoggerLayer),
+      Effect.provide(Logger.defaultLayer),
       Effect.runPromise,
     );
 
@@ -34,7 +34,7 @@ describe("Logger", () => {
       "Info message with log meta",
       [
         { foo: "bar" },
-        { fiber: expect.any(String), timestamp: expect.any(String) },
+        { fiber: expect.any(String), date: expect.any(String) },
       ],
     );
     expect(log).toHaveBeenNthCalledWith(
@@ -43,7 +43,7 @@ describe("Logger", () => {
       "Native effect info message",
       [
         { baz: "qux" },
-        { fiber: expect.any(String), timestamp: expect.any(String) },
+        { fiber: expect.any(String), date: expect.any(String) },
       ],
     );
   });
@@ -56,8 +56,7 @@ describe("Logger", () => {
 
     await pipe(
       program,
-      Effect.provide(Logger.PowerToolsLoggerLayer),
-      Effect.provideService(Logger.LoggerOptions, { logLevel: "DEBUG" }),
+      Effect.provide(Logger.layer({ logLevel: "DEBUG" })),
       Effect.runPromise,
     );
 
@@ -68,7 +67,7 @@ describe("Logger", () => {
       "Debug message with log meta",
       [
         { foo: "bar" },
-        { fiber: expect.any(String), timestamp: expect.any(String) },
+        { fiber: expect.any(String), date: expect.any(String) },
       ],
     );
     expect(log).toHaveBeenNthCalledWith(
@@ -77,7 +76,7 @@ describe("Logger", () => {
       "Native effect debug message",
       [
         { baz: "qux" },
-        { fiber: expect.any(String), timestamp: expect.any(String) },
+        { fiber: expect.any(String), date: expect.any(String) },
       ],
     );
   });
@@ -90,11 +89,7 @@ describe("Logger", () => {
 
     await pipe(
       program,
-      Effect.provide(Logger.BasePowerToolsLoggerLayer),
-      Effect.provideService(
-        Logger.LoggerInstance,
-        new LoggerCtor({ logLevel: "ERROR" }),
-      ),
+      Effect.provide(Logger.baseLayer(() => new LoggerCtor({ logLevel: "ERROR" }))),
       Effect.runPromise,
     );
 
@@ -105,7 +100,7 @@ describe("Logger", () => {
       "Error message with log meta",
       [
         { foo: "bar" },
-        { fiber: expect.any(String), timestamp: expect.any(String) },
+        { fiber: expect.any(String), date: expect.any(String) },
       ],
     );
     expect(log).toHaveBeenNthCalledWith(
@@ -114,7 +109,7 @@ describe("Logger", () => {
       "Native effect error message",
       [
         { baz: "qux" },
-        { fiber: expect.any(String), timestamp: expect.any(String) },
+        { fiber: expect.any(String), date: expect.any(String) },
       ],
     );
   });
