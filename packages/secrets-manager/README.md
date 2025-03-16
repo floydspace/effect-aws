@@ -38,13 +38,9 @@ program.pipe(
 With custom service layer:
 
 ```typescript
-import { Effect, Config, Console, Layer } from "effect";
-import { SecretsManagerClient } from "@aws-sdk/client-secrets-manager";
-import {
-  BaseSecretsManagerServiceLayer,
-  SecretsManagerClientInstance,
-} from "@effect-aws/client-secrets-manager";
+import { SecretsManager } from "@effect-aws/client-secrets-manager";
 import { fromSecretsManager } from "@effect-aws/secrets-manager";
+import { Config, Console, Effect, Layer } from "effect";
 
 const program = Effect.gen(function* () {
   const secret: string = yield* Config.string("my_secret_name");
@@ -52,18 +48,10 @@ const program = Effect.gen(function* () {
   yield* Console.log("Secret from Secrets Manager: ", secret);
 });
 
-const SecretsManagerClientInstanceLayer = Layer.succeed(
-  SecretsManagerClientInstance,
-  new SecretsManagerClient({ region: "eu-central-1" }),
-);
-
-const serviceLayer = Layer.provide(
-  BaseSecretsManagerServiceLayer,
-  SecretsManagerClientInstanceLayer,
-);
+const serviceLayer = SecretsManager.layer({ region: "eu-central-1" });
 
 program.pipe(
   Effect.provide(Layer.setConfigProvider(fromSecretsManager({ serviceLayer }))),
-  Effect.runPromise,
+  Effect.runPromise
 );
 ```
