@@ -38,10 +38,9 @@ program.pipe(
 With custom service layer:
 
 ```typescript
-import { Effect, Config, Console, Layer } from "effect";
-import { SSMClient } from "@aws-sdk/client-ssm";
-import { BaseSSMServiceLayer, SSMClientInstance } from "@effect-aws/client-ssm";
+import { SSM } from "@effect-aws/client-ssm";
 import { fromParameterStore } from "@effect-aws/ssm";
+import { Config, Console, Effect } from "effect";
 
 const program = Effect.gen(function* () {
   const param: string = yield* Config.string("my_parameter_name");
@@ -49,15 +48,10 @@ const program = Effect.gen(function* () {
   yield* Console.log("Parameter from Parameter Store: ", param);
 });
 
-const SSMClientInstanceLayer = Layer.succeed(
-  SSMClientInstance,
-  new SSMClient({ region: "eu-central-1" }),
-);
-
-const serviceLayer = Layer.provide(BaseSSMServiceLayer, SSMClientInstanceLayer);
+const serviceLayer = SSM.layer({ region: "eu-central-1" });
 
 program.pipe(
   Effect.withConfigProvider(fromParameterStore({ serviceLayer })),
-  Effect.runPromise,
+  Effect.runPromise
 );
 ```
