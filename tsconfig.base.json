@@ -228,6 +228,15 @@
       "@effect-aws/client-eventbridge/test/*": [
         "./packages/client-eventbridge/test/*.js"
       ],
+      "@effect-aws/client-firehose": [
+        "./packages/client-firehose/src/index.js"
+      ],
+      "@effect-aws/client-firehose/*": [
+        "./packages/client-firehose/src/*.js"
+      ],
+      "@effect-aws/client-firehose/test/*": [
+        "./packages/client-firehose/test/*.js"
+      ],
       "@effect-aws/client-iam": [
         "./packages/client-iam/src/index.js"
       ],

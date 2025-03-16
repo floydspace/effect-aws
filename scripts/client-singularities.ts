@@ -103,6 +103,11 @@ export default {
     commandToTest: "PutEvents",
     inputToTest: { Entries: [{ Detail: "test" }] },
   },
+  "client-firehose": {
+    description: "Effectful AWS Firehose client",
+    commandToTest: "PutRecord",
+    inputToTest: { Record: { Data: Buffer.from("") } },
+  },
   "client-iam": {
     description: "Effectful AWS IAM client",
     commandToTest: "CreateRole",
