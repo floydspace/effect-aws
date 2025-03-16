@@ -148,7 +148,7 @@ const PowerToolsLoggerLayer = Layer.merge(
 );
 
 /**
- * Creates a logger layer implementation that uses the AWS Lambda Powertools Logger instance provided by implementation layer.
+ * Creates a logger layer implementation that uses the default AWS Lambda Powertools Logger instance.
  *
  * @since 1.0.0
  * @category layers
@@ -156,7 +156,7 @@ const PowerToolsLoggerLayer = Layer.merge(
 export const defaultLayer = PowerToolsLoggerLayer.pipe(Layer.provide(Instance.layer));
 
 /**
- * Creates a logger layer implementation that uses the AWS Lambda Powertools Logger instance configured by logger options layer.
+ * Creates a logger layer implementation that uses the AWS Lambda Powertools Logger instance configured with provided options.
  *
  * @since 1.0.0
  * @category layers
@@ -168,7 +168,7 @@ export const layer = (options: ConstructorOptions) =>
   );
 
 /**
- * Creates a logger layer implementation that uses the default AWS Lambda Powertools Logger instance.
+ * Creates a logger layer implementation that uses a provided AWS Lambda Powertools Logger instance.
  *
  * @since 1.0.0
  * @category layers
