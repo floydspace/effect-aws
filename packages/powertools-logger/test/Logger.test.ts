@@ -1,5 +1,5 @@
 import { Logger as LoggerCtor } from "@aws-lambda-powertools/logger";
-import * as Logger from "@effect-aws/powertools-logger";
+import { Logger } from "@effect-aws/powertools-logger";
 import * as Effect from "effect/Effect";
 import { pipe } from "effect/Function";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
@@ -18,12 +18,12 @@ describe("Logger", () => {
   it("default", async () => {
     const program = pipe(
       Logger.logInfo("Info message with log meta", { foo: "bar" }),
-      Effect.tap(() => Effect.logInfo("Native effect info message")),
+      Effect.tap(() => Effect.logInfo("Native effect info message", { baz: "qux" })),
     );
 
     await pipe(
       program,
-      Effect.provide(Logger.DefaultPowerToolsLoggerLayer),
+      Effect.provide(Logger.defaultLayer),
       Effect.runPromise,
     );
 
@@ -34,27 +34,29 @@ describe("Logger", () => {
       "Info message with log meta",
       [
         { foo: "bar" },
-        { fiber: expect.any(String), timestamp: expect.any(String) },
+        { fiber: expect.any(String), date: expect.any(String) },
       ],
     );
     expect(log).toHaveBeenNthCalledWith(
       2,
       12, // INFO
       "Native effect info message",
-      [{ fiber: expect.any(String), timestamp: expect.any(String) }],
+      [
+        { baz: "qux" },
+        { fiber: expect.any(String), date: expect.any(String) },
+      ],
     );
   });
 
   it("configurable", async () => {
     const program = pipe(
       Logger.logDebug("Debug message with log meta", { foo: "bar" }),
-      Effect.tap(() => Effect.logDebug("Native effect debug message")),
+      Effect.tap(() => Effect.logDebug("Native effect debug message", { baz: "qux" })),
     );
 
     await pipe(
       program,
-      Effect.provide(Logger.PowerToolsLoggerLayer),
-      Effect.provideService(Logger.LoggerOptions, { logLevel: "DEBUG" }),
+      Effect.provide(Logger.layer({ logLevel: "DEBUG" })),
       Effect.runPromise,
     );
 
@@ -65,30 +67,29 @@ describe("Logger", () => {
       "Debug message with log meta",
       [
         { foo: "bar" },
-        { fiber: expect.any(String), timestamp: expect.any(String) },
+        { fiber: expect.any(String), date: expect.any(String) },
       ],
     );
     expect(log).toHaveBeenNthCalledWith(
       2,
       8, // DEBUG
       "Native effect debug message",
-      [{ fiber: expect.any(String), timestamp: expect.any(String) }],
+      [
+        { baz: "qux" },
+        { fiber: expect.any(String), date: expect.any(String) },
+      ],
     );
   });
 
   it("base", async () => {
     const program = pipe(
       Logger.logError("Error message with log meta", { foo: "bar" }),
-      Effect.tap(() => Effect.logError("Native effect error message")),
+      Effect.tap(() => Effect.logError("Native effect error message", { baz: "qux" })),
     );
 
     await pipe(
       program,
-      Effect.provide(Logger.BasePowerToolsLoggerLayer),
-      Effect.provideService(
-        Logger.LoggerInstance,
-        new LoggerCtor({ logLevel: "ERROR" }),
-      ),
+      Effect.provide(Logger.baseLayer(() => new LoggerCtor({ logLevel: "ERROR" }))),
       Effect.runPromise,
     );
 
@@ -99,14 +100,17 @@ describe("Logger", () => {
       "Error message with log meta",
       [
         { foo: "bar" },
-        { fiber: expect.any(String), timestamp: expect.any(String) },
+        { fiber: expect.any(String), date: expect.any(String) },
       ],
     );
     expect(log).toHaveBeenNthCalledWith(
       2,
       20, // ERROR
       "Native effect error message",
-      [{ fiber: expect.any(String), timestamp: expect.any(String) }],
+      [
+        { baz: "qux" },
+        { fiber: expect.any(String), date: expect.any(String) },
+      ],
     );
   });
 });

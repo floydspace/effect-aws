@@ -6,9 +6,14 @@ export * from "./Logger.js";
 /**
  * @since 1.0.0
  */
-export * from "./LoggerInstance.js";
+export * as LoggerInstance from "./LoggerInstance.js";
 
 /**
  * @since 1.0.0
  */
-export * from "./LoggerOptions.js";
+export * as LoggerOptions from "./LoggerOptions.js";
+
+/**
+ * @since 1.0.0
+ */
+export * as Logger from "./Logger.js";

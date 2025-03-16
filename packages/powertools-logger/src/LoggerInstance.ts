@@ -3,7 +3,7 @@
  */
 import { Logger } from "@aws-lambda-powertools/logger";
 import { Context, Effect, Layer } from "effect";
-import { DefaultLoggerOptionsLayer, LoggerOptions } from "./LoggerOptions.js";
+import * as LoggerOptions from "./LoggerOptions.js";
 
 /**
  * @since 1.0.0
@@ -17,16 +17,7 @@ export class LoggerInstance extends Context.Tag(
  * @since 1.0.0
  * @category layers
  */
-export const LoggerInstanceLayer = Layer.effect(
+export const layer = Layer.effect(
   LoggerInstance,
-  Effect.map(LoggerOptions, (options) => new Logger(options)),
-);
-
-/**
- * @since 1.0.0
- * @category layers
- */
-export const DefaultLoggerInstanceLayer = Layer.provide(
-  DefaultLoggerOptionsLayer,
-  LoggerInstanceLayer,
+  Effect.map(LoggerOptions.getLoggerOptions, (options) => new Logger(options)),
 );
