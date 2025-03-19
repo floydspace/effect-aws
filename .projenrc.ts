@@ -61,7 +61,7 @@ const commons = new TypeScriptLibProject({
   peerDeps: commonPeerDeps,
 });
 
-new TypeScriptLibProject({
+const s3Client = new TypeScriptLibProject({
   parent: project,
   name: "client-s3",
   description: singularities["client-s3"].description,
@@ -132,6 +132,16 @@ new TypeScriptLibProject({
   devDeps: [...effectDeps, "@aws-sdk/client-ssm@^3", "@fluffy-spoon/substitute"],
   peerDeps: commonPeerDeps,
   workspacePeerDeps: [ssmClient],
+});
+
+new TypeScriptLibProject({
+  parent: project,
+  name: "s3",
+  description: "Effectful AWS S3 functions",
+  deps: ["@effect/platform@0.69.25"],
+  devDeps: [...effectDeps, "@aws-sdk/client-s3@^3", "@fluffy-spoon/substitute"],
+  peerDeps: commonPeerDeps,
+  workspacePeerDeps: [s3Client],
 });
 
 project.addGitIgnore(".direnv/"); // flake environment creates .direnv folder
