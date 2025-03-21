@@ -18,6 +18,13 @@ export default {
       Data: "test",
     },
   },
+  "client-athena": {
+    description: "Effectful AWS Athena client",
+    commandToTest: "StartQueryExecution",
+    inputToTest: {
+      QueryString: "test",
+    },
+  },
   "client-auto-scaling": {
     description: "Effectful AWS Auto Scaling client",
     commandToTest: "DescribeAutoScalingGroups",
