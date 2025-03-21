@@ -22,6 +22,7 @@ const config: UserConfig = {
       ...alias("client-s3"),
       ...alias("client-account"),
       ...alias("client-api-gateway-management-api"),
+      ...alias("client-athena"),
       ...alias("client-auto-scaling"),
       ...alias("client-bedrock"),
       ...alias("client-bedrock-runtime"),

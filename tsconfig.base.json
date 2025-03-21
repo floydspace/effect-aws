@@ -84,6 +84,15 @@
       "@effect-aws/client-api-gateway-management-api/test/*": [
         "./packages/client-api-gateway-management-api/test/*.js"
       ],
+      "@effect-aws/client-athena": [
+        "./packages/client-athena/src/index.js"
+      ],
+      "@effect-aws/client-athena/*": [
+        "./packages/client-athena/src/*.js"
+      ],
+      "@effect-aws/client-athena/test/*": [
+        "./packages/client-athena/test/*.js"
+      ],
       "@effect-aws/client-auto-scaling": [
         "./packages/client-auto-scaling/src/index.js"
       ],

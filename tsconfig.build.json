@@ -16,6 +16,9 @@
       "path": "packages/client-api-gateway-management-api/tsconfig.esm.json"
     },
     {
+      "path": "packages/client-athena/tsconfig.esm.json"
+    },
+    {
       "path": "packages/client-auto-scaling/tsconfig.esm.json"
     },
     {
