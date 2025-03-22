@@ -1466,7 +1466,7 @@ importers:
     devDependencies:
       '@aws-sdk/client-s3':
         specifier: ^3
-        version: 3.758.0
+        version: 3.772.0
       '@effect-aws/client-s3':
         specifier: workspace:^
         version: link:../client-s3/dist
@@ -1475,7 +1475,7 @@ importers:
         version: 1.208.0
       '@types/node':
         specifier: ts5.4
-        version: 22.13.10
+        version: 22.13.11
       effect:
         specifier: 3.10.16
         version: 3.10.16
