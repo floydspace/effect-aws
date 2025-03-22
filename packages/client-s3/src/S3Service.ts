@@ -320,6 +320,7 @@ import type {
   S3ServiceError,
   TooManyPartsError,
 } from "./Errors.js";
+import { AllServiceErrors } from "./Errors.js";
 import * as Instance from "./S3ClientInstance.js";
 import * as S3ServiceConfig from "./S3ServiceConfig.js";
 
@@ -1532,11 +1533,12 @@ export const makeS3Service = Effect.gen(function*() {
       ? Effect.gen(function*() {
         const config = yield* S3ServiceConfig.toS3ClientConfig;
         return yield* Effect.tryPromise({
-          try: () => getSignedUrl(client as any, new CommandCtor(args, config), options),
-          catch: Service.catchServiceExceptions(),
+          try: () => getSignedUrl(client, new CommandCtor(args, config), options),
+          catch: Service.catchServiceExceptions(AllServiceErrors),
         });
       })
       : Service.makeServiceFn(client, CommandCtor, {
+        errorTags: AllServiceErrors,
         resolveClientConfig: S3ServiceConfig.toS3ClientConfig,
       })(args, options));
 });

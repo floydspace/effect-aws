@@ -4,6 +4,7 @@ import {
   HeadObjectCommand,
   type HeadObjectCommandInput,
   S3Client,
+  S3ServiceException,
 } from "@aws-sdk/client-s3";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-s3/dist-cjs/runtimeConfig";
@@ -131,6 +132,43 @@ describe("S3ClientImpl", () => {
     const args: HeadObjectCommandInput = { Key: "test", Bucket: "test" };
 
     const program = S3.headObject(args, { requestTimeout: 1000 });
+
+    const result = await pipe(
+      program,
+      Effect.provide(S3.defaultLayer),
+      Effect.runPromiseExit,
+    );
+
+    expect(result).toEqual(
+      Exit.fail(
+        SdkError({
+          ...new Error("test"),
+          name: "SdkError",
+          message: "test",
+          stack: expect.any(String),
+        }),
+      ),
+    );
+    expect(clientMock).toHaveReceivedCommandTimes(HeadObjectCommand, 1);
+    expect(clientMock).toHaveReceivedCommandWith(HeadObjectCommand, args);
+  });
+
+  it("should not catch unexpected error as expected", async () => {
+    clientMock
+      .reset()
+      .on(HeadObjectCommand)
+      .rejects(
+        new S3ServiceException({
+          name: "NotHandledException",
+          message: "test",
+        } as any),
+      );
+
+    const args: HeadObjectCommandInput = { Key: "test", Bucket: "test" };
+
+    const program = S3.headObject(args).pipe(
+      Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
+    );
 
     const result = await pipe(
       program,
