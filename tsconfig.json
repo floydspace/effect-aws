@@ -166,6 +166,9 @@
     },
     {
       "path": "packages/ssm"
+    },
+    {
+      "path": "packages/s3"
     }
   ]
 }
