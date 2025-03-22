@@ -1551,8 +1551,35 @@ export class S3Service extends Effect.Tag("@effect-aws/client-s3/S3Service")<
   S3Service,
   S3Service$
 >() {
-  declare static readonly getObject: S3Service$["getObject"];
-  declare static readonly putObject: S3Service$["putObject"];
+  // Explicitly declare the methods which have overloads, Effect Service can't infer them as service accessors currently
+  declare static readonly getObject: {
+    (
+      args: GetObjectCommandInput,
+      options?: { readonly presigned?: false } & HttpHandlerOptions,
+    ): Effect.Effect<
+      GetObjectCommandOutput,
+      SdkError | InvalidObjectStateError | NoSuchKeyError,
+      S3Service
+    >;
+    (
+      args: GetObjectCommandInput,
+      options?: { readonly presigned: true } & RequestPresigningArguments,
+    ): Effect.Effect<string, SdkError | S3ServiceError, S3Service>;
+  };
+  declare static readonly putObject: {
+    (
+      args: PutObjectCommandInput,
+      options?: { readonly presigned?: false } & HttpHandlerOptions,
+    ): Effect.Effect<
+      PutObjectCommandOutput,
+      SdkError | EncryptionTypeMismatchError | InvalidRequestError | InvalidWriteOffsetError | TooManyPartsError,
+      S3Service
+    >;
+    (
+      args: PutObjectCommandInput,
+      options?: { readonly presigned: true } & RequestPresigningArguments,
+    ): Effect.Effect<string, SdkError | S3ServiceError, S3Service>;
+  };
 
   static readonly defaultLayer = Layer.effect(this, makeS3Service).pipe(Layer.provide(Instance.layer));
   static readonly layer = (config: S3Service.Config) =>
