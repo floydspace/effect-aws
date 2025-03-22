@@ -21,6 +21,9 @@
       "path": "packages/client-api-gateway-management-api"
     },
     {
+      "path": "packages/client-athena"
+    },
+    {
       "path": "packages/client-auto-scaling"
     },
     {

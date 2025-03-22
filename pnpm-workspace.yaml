@@ -3,6 +3,7 @@
 packages:
   - packages/client-account
   - packages/client-api-gateway-management-api
+  - packages/client-athena
   - packages/client-auto-scaling
   - packages/client-bedrock
   - packages/client-bedrock-runtime
