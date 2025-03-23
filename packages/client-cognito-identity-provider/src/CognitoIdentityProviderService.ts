@@ -354,6 +354,7 @@ import type {
   CodeDeliveryFailureError,
   CodeMismatchError,
   ConcurrentModificationError,
+  DeviceKeyExistsError,
   DuplicateProviderError,
   EnableSoftwareTokenMFAError,
   ExpiredCodeError,
@@ -1115,6 +1116,7 @@ interface CognitoIdentityProviderService$ {
   ): Effect.Effect<
     ConfirmDeviceCommandOutput,
     | SdkError
+    | DeviceKeyExistsError
     | ForbiddenError
     | InternalError
     | InvalidLambdaResponseError

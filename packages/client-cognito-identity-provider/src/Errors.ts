@@ -3,6 +3,7 @@ import type {
   CodeDeliveryFailureException,
   CodeMismatchException,
   ConcurrentModificationException,
+  DeviceKeyExistsException,
   DuplicateProviderException,
   EnableSoftwareTokenMFAException,
   ExpiredCodeException,
@@ -60,6 +61,7 @@ export const AllServiceErrors = [
   "CodeDeliveryFailureException",
   "CodeMismatchException",
   "ConcurrentModificationException",
+  "DeviceKeyExistsException",
   "DuplicateProviderException",
   "EnableSoftwareTokenMFAException",
   "ExpiredCodeException",
@@ -114,6 +116,7 @@ export type AliasExistsError = TaggedException<AliasExistsException>;
 export type CodeDeliveryFailureError = TaggedException<CodeDeliveryFailureException>;
 export type CodeMismatchError = TaggedException<CodeMismatchException>;
 export type ConcurrentModificationError = TaggedException<ConcurrentModificationException>;
+export type DeviceKeyExistsError = TaggedException<DeviceKeyExistsException>;
 export type DuplicateProviderError = TaggedException<DuplicateProviderException>;
 export type EnableSoftwareTokenMFAError = TaggedException<EnableSoftwareTokenMFAException>;
 export type ExpiredCodeError = TaggedException<ExpiredCodeException>;
