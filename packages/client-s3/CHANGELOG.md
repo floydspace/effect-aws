@@ -1,5 +1,11 @@
 # @effect-aws/client-s3
 
+## 1.9.4
+
+### Patch Changes
+
+- [#129](https://github.com/floydspace/effect-aws/pull/129) [`1b198d8`](https://github.com/floydspace/effect-aws/commit/1b198d8776b15ced769e2bddaaec86150e63a352) Thanks [@floydspace](https://github.com/floydspace)! - handle only known errors, fix explicit service accessors types
+
 ## 1.9.3
 
 ### Patch Changes

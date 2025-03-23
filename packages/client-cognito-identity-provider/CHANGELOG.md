@@ -1,5 +1,11 @@
 # @effect-aws/client-cognito-identity-provider
 
+## 1.9.4
+
+### Patch Changes
+
+- [`81ae2c3`](https://github.com/floydspace/effect-aws/commit/81ae2c399c03871bcf4b9bc3f2cc6d0c6733dace) Thanks [@floydspace](https://github.com/floydspace)! - added new error for the confirmDevice method
+
 ## 1.9.3
 
 ### Patch Changes
