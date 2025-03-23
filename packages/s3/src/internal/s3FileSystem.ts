@@ -7,6 +7,7 @@ import type {
   NotFoundError,
   ObjectNotInActiveTierError,
   S3Service,
+  S3ServiceError,
   SdkError,
   TooManyPartsError,
 } from "@effect-aws/client-s3";
@@ -30,6 +31,7 @@ const handleBadArgument = (err: unknown, method: string) =>
 const handleS3Error = (
   err:
     | SdkError
+    | S3ServiceError
     | NotFoundError
     | Cause.UnknownException
     | NoSuchKeyError
@@ -79,7 +81,8 @@ const access = (s3: Context.Tag.Service<S3Service>, config: S3FileSystemConfig) 
     );
   });
 
-const copy = (s3: Context.Tag.Service<S3Service>, config: S3FileSystemConfig) =>
+const copyFileFactory = (method: string) =>
+(s3: Context.Tag.Service<S3Service>, config: S3FileSystemConfig) =>
 (
   fromPath: string,
   toPath: string,
@@ -87,10 +90,29 @@ const copy = (s3: Context.Tag.Service<S3Service>, config: S3FileSystemConfig) =>
 ) =>
   Effect.gen(function*() {
     yield* Effect.all([checkPath(fromPath), checkPath(toPath)]).pipe(
-      Effect.catchAll((error) => Effect.fail(handleBadArgument(error, "copy"))),
+      Effect.catchAll((error) => Effect.fail(handleBadArgument(error, method))),
     );
-    yield* s3.copyObject({ Bucket: config.bucketName, CopySource: fromPath, Key: toPath }).pipe(
-      Effect.catchAll((error) => Effect.fail(handleS3Error(error, "copy", fromPath))),
+    yield* s3.copyObject({ Bucket: config.bucketName, CopySource: `${config.bucketName}/${fromPath}`, Key: toPath })
+      .pipe(
+        Effect.catchAll((error) => Effect.fail(handleS3Error(error, method, fromPath))),
+      );
+  });
+
+const copyFile = copyFileFactory("copyFile");
+
+const makeDirectory = (s3: Context.Tag.Service<S3Service>, config: S3FileSystemConfig) =>
+(
+  path: string,
+  // options?: FileSystem.MakeDirectoryOptions,
+) =>
+  Effect.gen(function*() {
+    yield* checkPath(path).pipe(
+      Effect.catchAll((error) => Effect.fail(handleBadArgument(error, "makeDirectory"))),
+    );
+    // ensure trailing slash
+    const key = `${path.endsWith("/") ? path : `${path}/`}`;
+    yield* s3.putObject({ Bucket: config.bucketName, Key: key }).pipe(
+      Effect.catchAll((error) => Effect.fail(handleS3Error(error, "makeDirectory", path))),
     );
   });
 
@@ -104,6 +126,33 @@ const readFile = (s3: Context.Tag.Service<S3Service>, config: S3FileSystemConfig
       Effect.andThen((blob) => blob.transformToByteArray()),
       Effect.catchAll((error) => Effect.fail(handleS3Error(error, "readFile", path))),
     );
+  });
+
+const renameFactory = (method: string) =>
+(s3: Context.Tag.Service<S3Service>, config: S3FileSystemConfig) =>
+(
+  path: string,
+  // options?: FileSystem.RemoveOptions,
+) =>
+  Effect.gen(function*() {
+    yield* checkPath(path).pipe(
+      Effect.catchAll((error) => Effect.fail(handleBadArgument(error, method))),
+    );
+    return yield* s3.deleteObject({ Bucket: config.bucketName, Key: path }).pipe(
+      Effect.catchAll((error) => Effect.fail(handleS3Error(error, method, path))),
+    );
+  });
+
+const remove = renameFactory("remove");
+
+const rename = (s3: Context.Tag.Service<S3Service>, config: S3FileSystemConfig) =>
+(
+  oldPath: string,
+  newPath: string,
+) =>
+  Effect.gen(function*() {
+    yield* copyFileFactory("rename")(s3, config)(oldPath, newPath);
+    yield* renameFactory("rename")(s3, config)(oldPath);
   });
 
 const writeFile = (s3: Context.Tag.Service<S3Service>, config: S3FileSystemConfig) =>
@@ -128,8 +177,11 @@ const makeFileSystem = (config: S3FileSystemConfig) =>
     return FileSystem.make({
       ...FileSystem.makeNoop({
         access: access(s3, config),
-        copy: copy(s3, config),
+        copyFile: copyFile(s3, config),
+        makeDirectory: makeDirectory(s3, config),
         readFile: readFile(s3, config),
+        remove: remove(s3, config),
+        rename: rename(s3, config),
         writeFile: writeFile(s3, config),
       }),
     });
