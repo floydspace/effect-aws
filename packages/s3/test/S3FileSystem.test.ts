@@ -16,7 +16,7 @@ describe("S3FileSystem", () => {
   beforeEach(() => {
     builder = SubstituteBuilder.forS3();
     mainLayer = Layer.provide(
-      S3FileSystem.layer,
+      S3FileSystem.layer({ bucketName: "test-bucket" }),
       S3.baseLayer(() => builder.substitute),
     );
   });
@@ -31,7 +31,7 @@ describe("S3FileSystem", () => {
 
       const fs = yield* FileSystem.FileSystem;
 
-      const exists = yield* fs.exists("s3://test-bucket/path-to-file.ext");
+      const exists = yield* fs.exists("path-to-file.ext");
 
       expect(exists).toBe(true);
     }).pipe(Effect.provide(mainLayer)));
@@ -47,7 +47,7 @@ describe("S3FileSystem", () => {
 
       const fs = yield* FileSystem.FileSystem;
 
-      const content = yield* fs.readFileString("s3://test-bucket/path-to-file.ext");
+      const content = yield* fs.readFileString("path-to-file.ext");
 
       expect(content).toStrictEqual("mocked-body");
       builder.substitute.received(1).send(
@@ -70,10 +70,10 @@ describe("S3FileSystem", () => {
 
       const fs = yield* FileSystem.FileSystem;
 
-      yield* fs.exists("s3://test-bucket").pipe(
+      yield* fs.exists("").pipe(
         Effect.catchAll((error) => {
           expect(error._tag).toBe("BadArgument");
-          expect(error.message).toBe("Invalid S3 path");
+          expect(error.message).toBe("Path is empty");
           return Effect.void;
         }),
       );
@@ -89,7 +89,7 @@ describe("S3FileSystem", () => {
 
       const fs = yield* FileSystem.FileSystem;
 
-      yield* fs.exists("s3://test-bucket/path-to-file.ext").pipe(
+      yield* fs.exists("path-to-file.ext").pipe(
         Effect.catchAll((error) => {
           expect(error._tag).toBe("SystemError");
           expect(error.message).toBe("Invalid S3 path");
@@ -108,7 +108,7 @@ describe("S3FileSystem", () => {
 
       const fs = yield* FileSystem.FileSystem;
 
-      const result = yield* fs.exists("s3://test-bucket/path-to-file.ext");
+      const result = yield* fs.exists("path-to-file.ext");
 
       expect(result).toBe(false);
     }).pipe(Effect.provide(mainLayer)));
