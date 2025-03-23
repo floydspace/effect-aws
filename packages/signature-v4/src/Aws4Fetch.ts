@@ -19,7 +19,7 @@ export class SignatureV4 extends Effect.Service<SignatureV4>()(`@effect-aws/sign
     const signRequest = (request: HttpClientRequest.HttpClientRequest, options?: SignerOptions) => {
       const body: BodyInit = getBody(request.body)
 
-      return Credentials.pipe(Effect.flatMap(Ref.get)).pipe(
+      return Credentials.current.pipe(
         Effect.andThen(
           Option.match({
             onNone: () => Effect.succeed(request),

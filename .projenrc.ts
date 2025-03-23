@@ -125,13 +125,22 @@ new TypeScriptLibProject({
   workspacePeerDeps: [secretsManagerClient],
 });
 
-new TypeScriptLibProject({
+const proj = new TypeScriptLibProject({
   parent: project,
   name: "signature-v4",
   description: "AWS Signature V4 for Effect HttpClientRequest",
-  devDeps: [...effectDeps, "@smithy/signature-v4@^5", "@smithy/types@^4", "aws4fetch@^1", "@aws-crypto/sha256-js@^5"],
-  peerDeps: [...commonPeerDeps, "@smithy/signature-v4@^5", "@smithy/types@^4", "aws4fetch@^1", "@aws-crypto/sha256-js@^5"],
+  peerDeps: [...commonPeerDeps, "@smithy/signature-v4@^5", "@smithy/types@^4", "aws4fetch@^1", "@aws-crypto/sha256-js@^5"]
 });
+
+
+proj.addFields({
+  peerDependenciesMeta: {
+    '@smithy/signature-v4': { optional: true },
+    '@smithy/types': { optional: true },
+    'aws4fetch': { optional: true },
+    '@aws-crypto/sha256-js': { optional: true },
+  }
+})
 
 new TypeScriptLibProject({
   parent: project,

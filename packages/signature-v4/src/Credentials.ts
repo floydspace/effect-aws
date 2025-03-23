@@ -31,16 +31,23 @@ const redactCredentials = (creds?: AWSCredentials): Option.Option<AWSCredentials
   }))
 )
 
-export class Credentials extends Context.Tag(`@effect-aws/signature-v4/Credentials`)<Credentials, Ref.Ref<Option.Option<AWSCredentialsRedacted>>>() {
-  static layer = (credentials?: AWSCredentials) => Layer.effect(Credentials, Ref.make(redactCredentials(credentials)))
+export interface CredentialsType {
+  current: Effect.Effect<Option.Option<AWSCredentialsRedacted>>
+  update: (credentials?: AWSCredentials) => Effect.Effect<void>
+}
 
-  static current = Credentials.pipe(
-    Effect.flatMap(Ref.get)
-  )
 
-  static update = (credentials?: AWSCredentials) => 
-    Credentials.pipe(
-      Effect.flatMap(Ref.set(redactCredentials(credentials)))
-    )
+export class Credentials extends Context.Tag(`@effect-aws/signature-v4/Credentials`)<Credentials, CredentialsType>() {
+  static layer = (credentials?: AWSCredentials) => {
+    const ref = Ref.unsafeMake(redactCredentials(credentials))
+    const service = {
+      current: Ref.get(ref),
+      update: (credentials) => Ref.set(ref, redactCredentials(credentials))
+    } satisfies CredentialsType
 
+    return Layer.succeed(Credentials, service)
+  }
+
+  static current = Credentials.pipe(Effect.flatMap((a) => a.current))
+  static update = (credentials?: AWSCredentials) => Credentials.pipe(Effect.flatMap((a) => a.update(credentials)))
 }

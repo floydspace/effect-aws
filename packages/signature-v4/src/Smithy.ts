@@ -6,7 +6,6 @@ import { SignatureV4 as AwsSignatureV4 } from '@smithy/signature-v4'
 import * as Effect from 'effect/Effect'
 import * as Redacted from 'effect/Redacted'
 import * as Option from 'effect/Option'
-import * as Ref from 'effect/Ref'
 import { Credentials } from './Credentials.js'
 import { Signer, SignerOptions } from './Signer.js'
 import { getBody, guessServiceRegion } from './helpers.js'
@@ -19,7 +18,7 @@ export class SignatureV4 extends Effect.Service<SignatureV4>()(`@effect-aws/sign
   accessors: true,
   scoped: Effect.gen(function* () {
     const signRequest = (request: HttpClientRequest.HttpClientRequest, options?: SignerOptions) => {
-      return Credentials.pipe(Effect.flatMap(Ref.get)).pipe(
+      return Credentials.current.pipe(
         Effect.andThen(
           Option.match({
             onNone: () => Effect.succeed(request),
