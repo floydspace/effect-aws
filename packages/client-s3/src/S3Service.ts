@@ -320,6 +320,7 @@ import type {
   S3ServiceError,
   TooManyPartsError,
 } from "./Errors.js";
+import { AllServiceErrors } from "./Errors.js";
 import * as Instance from "./S3ClientInstance.js";
 import * as S3ServiceConfig from "./S3ServiceConfig.js";
 
@@ -1532,11 +1533,12 @@ export const makeS3Service = Effect.gen(function*() {
       ? Effect.gen(function*() {
         const config = yield* S3ServiceConfig.toS3ClientConfig;
         return yield* Effect.tryPromise({
-          try: () => getSignedUrl(client as any, new CommandCtor(args, config), options),
-          catch: Service.catchServiceExceptions(),
+          try: () => getSignedUrl(client, new CommandCtor(args, config), options),
+          catch: Service.catchServiceExceptions(AllServiceErrors),
         });
       })
       : Service.makeServiceFn(client, CommandCtor, {
+        errorTags: AllServiceErrors,
         resolveClientConfig: S3ServiceConfig.toS3ClientConfig,
       })(args, options));
 });
@@ -1549,8 +1551,35 @@ export class S3Service extends Effect.Tag("@effect-aws/client-s3/S3Service")<
   S3Service,
   S3Service$
 >() {
-  declare static readonly getObject: S3Service$["getObject"];
-  declare static readonly putObject: S3Service$["putObject"];
+  // Explicitly declare the methods which have overloads, Effect Service can't infer them as service accessors currently
+  declare static readonly getObject: {
+    (
+      args: GetObjectCommandInput,
+      options?: { readonly presigned?: false } & HttpHandlerOptions,
+    ): Effect.Effect<
+      GetObjectCommandOutput,
+      SdkError | InvalidObjectStateError | NoSuchKeyError,
+      S3Service
+    >;
+    (
+      args: GetObjectCommandInput,
+      options?: { readonly presigned: true } & RequestPresigningArguments,
+    ): Effect.Effect<string, SdkError | S3ServiceError, S3Service>;
+  };
+  declare static readonly putObject: {
+    (
+      args: PutObjectCommandInput,
+      options?: { readonly presigned?: false } & HttpHandlerOptions,
+    ): Effect.Effect<
+      PutObjectCommandOutput,
+      SdkError | EncryptionTypeMismatchError | InvalidRequestError | InvalidWriteOffsetError | TooManyPartsError,
+      S3Service
+    >;
+    (
+      args: PutObjectCommandInput,
+      options?: { readonly presigned: true } & RequestPresigningArguments,
+    ): Effect.Effect<string, SdkError | S3ServiceError, S3Service>;
+  };
 
   static readonly defaultLayer = Layer.effect(this, makeS3Service).pipe(Layer.provide(Instance.layer));
   static readonly layer = (config: S3Service.Config) =>
