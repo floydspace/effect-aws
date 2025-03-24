@@ -7,7 +7,7 @@ import type { Array } from "effect";
 import { Data, Effect, Record, String } from "effect";
 import type { TaggedException } from "./Errors.js";
 import { SdkError } from "./Errors.js";
-import type { BaseResolvedConfig, CommandCtor, LoggerResolvedConfig } from "./internal/types.js";
+import type { BaseResolvedConfig, CommandCtor, LoggerResolvedConfig } from "./internal/service.js";
 import type { HttpHandlerOptions } from "./Types.js";
 
 type ServiceFnOptions = {

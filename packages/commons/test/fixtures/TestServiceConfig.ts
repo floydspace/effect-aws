@@ -3,7 +3,7 @@ import type { SmithyConfiguration } from "@smithy/smithy-client";
 import type { HandlerOptions } from "@smithy/types";
 import { Effect, FiberRef, Layer } from "effect";
 import { globalValue } from "effect/GlobalValue";
-import type { LoggerResolvedConfig } from "../../src/internal/types.js";
+import type { LoggerResolvedConfig } from "../../src/internal/service.js";
 import type { TestService } from "./TestService.js";
 
 export interface TestClientConfig extends Partial<SmithyConfiguration<HandlerOptions>>, LoggerResolvedConfig {}

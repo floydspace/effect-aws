@@ -4,7 +4,7 @@ import { Client, NoOpLogger } from "@smithy/smithy-client";
 import type { CheckOptionalClientConfig, InitializeHandlerOutput, RequestHandler } from "@smithy/types";
 import { Context, Effect, Layer } from "effect";
 import { mock } from "vitest-mock-extended";
-import type { BaseResolvedConfig } from "../../src/internal/types.js";
+import type { BaseResolvedConfig } from "../../src/internal/service.js";
 import * as TestServiceConfig from "./TestServiceConfig.js";
 
 export const mockHandlerOutput = mock<InitializeHandlerOutput<any>>({ output: {} });
