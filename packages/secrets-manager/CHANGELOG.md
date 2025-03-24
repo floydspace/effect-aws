@@ -1,5 +1,12 @@
 # @effect-aws/secrets-manager
 
+## 1.1.2
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @effect-aws/client-secrets-manager@1.9.5
+
 ## 1.1.1
 
 ### Patch Changes
