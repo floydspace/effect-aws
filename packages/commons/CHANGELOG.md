@@ -1,5 +1,11 @@
 # @effect-aws/commons
 
+## 0.2.1
+
+### Patch Changes
+
+- [`2bc82e9`](https://github.com/floydspace/effect-aws/commit/2bc82e9ae2e5b0ca423d0adce578b16ca4ea024a) Thanks [@floydspace](https://github.com/floydspace)! - do not strip types when compiling
+
 ## 0.2.0
 
 ### Minor Changes
