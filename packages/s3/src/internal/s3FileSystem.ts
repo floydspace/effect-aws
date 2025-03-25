@@ -1,26 +1,14 @@
-import type {
-  EncryptionTypeMismatchError,
-  InvalidObjectStateError,
-  InvalidRequestError,
-  InvalidWriteOffsetError,
-  NoSuchKeyError,
-  NotFoundError,
-  ObjectNotInActiveTierError,
-  S3Service,
-  S3ServiceError,
-  SdkError,
-  TooManyPartsError,
-} from "@effect-aws/client-s3";
+import type { S3Service } from "@effect-aws/client-s3";
 import { S3 } from "@effect-aws/client-s3";
 import { FileSystem } from "@effect/platform";
-import type { PlatformError, SystemErrorReason } from "@effect/platform/Error";
+import type { SystemErrorReason } from "@effect/platform/Error";
 import { BadArgument, SystemError } from "@effect/platform/Error";
-import type { Cause, Context } from "effect";
-import { Config, Effect, Layer, String as Str } from "effect";
+import type { Context } from "effect";
+import { Config, Effect, Layer, Match, String as Str } from "effect";
 import type { S3FileSystemConfig } from "../S3FileSystem.js";
 
 /** @internal */
-const handleBadArgument = (err: unknown, method: string) =>
+const handleBadArgument = (method: string) => (err: unknown) =>
   BadArgument({
     module: "FileSystem",
     method,
@@ -28,37 +16,14 @@ const handleBadArgument = (err: unknown, method: string) =>
   });
 
 /** @internal */
-const handleS3Error = (
-  err:
-    | SdkError
-    | S3ServiceError
-    | NotFoundError
-    | Cause.UnknownException
-    | NoSuchKeyError
-    | InvalidObjectStateError
-    | Cause.NoSuchElementException
-    | EncryptionTypeMismatchError
-    | InvalidRequestError
-    | InvalidWriteOffsetError
-    | TooManyPartsError
-    | ObjectNotInActiveTierError,
-  method: string,
-  path: string,
-): PlatformError => {
-  let reason: SystemErrorReason = "Unknown";
-
-  if (err._tag === "NotFound") {
-    reason = "NotFound";
-  }
-
-  return SystemError({
+const handleSystemError = (method: string, reason: SystemErrorReason, path: string) => (err: unknown) =>
+  SystemError({
     module: "FileSystem",
     method,
     reason,
-    message: err.message,
+    message: (err as Error).message ?? String(err),
     pathOrDescriptor: path,
   });
-};
 
 const checkPath = (path: string) =>
   Effect.gen(function*() {
@@ -73,11 +38,14 @@ const access = (s3: Context.Tag.Service<S3Service>, config: S3FileSystemConfig) 
   // options?: FileSystem.AccessFileOptions,
 ) =>
   Effect.gen(function*() {
-    yield* checkPath(path).pipe(
-      Effect.catchAll((error) => Effect.fail(handleBadArgument(error, "access"))),
-    );
+    yield* checkPath(path).pipe(Effect.mapError(handleBadArgument("access")));
     yield* s3.headObject({ Bucket: config.bucketName, Key: path }).pipe(
-      Effect.catchAll((error) => Effect.fail(handleS3Error(error, "access", path))),
+      Effect.mapError((error) =>
+        Match.value(error).pipe(
+          Match.tag("NotFound", handleSystemError("access", "NotFound", path)),
+          Match.orElse(handleSystemError("access", "Unknown", path)),
+        )
+      ),
     );
   });
 
@@ -89,13 +57,9 @@ const copyFileFactory = (method: string) =>
   // options?: CopyOptions,
 ) =>
   Effect.gen(function*() {
-    yield* Effect.all([checkPath(fromPath), checkPath(toPath)]).pipe(
-      Effect.catchAll((error) => Effect.fail(handleBadArgument(error, method))),
-    );
+    yield* Effect.all([checkPath(fromPath), checkPath(toPath)]).pipe(Effect.mapError(handleBadArgument(method)));
     yield* s3.copyObject({ Bucket: config.bucketName, CopySource: `${config.bucketName}/${fromPath}`, Key: toPath })
-      .pipe(
-        Effect.catchAll((error) => Effect.fail(handleS3Error(error, method, fromPath))),
-      );
+      .pipe(Effect.mapError(handleSystemError(method, "Unknown", fromPath)));
   });
 
 const copyFile = copyFileFactory("copyFile");
@@ -106,25 +70,26 @@ const makeDirectory = (s3: Context.Tag.Service<S3Service>, config: S3FileSystemC
   // options?: FileSystem.MakeDirectoryOptions,
 ) =>
   Effect.gen(function*() {
-    yield* checkPath(path).pipe(
-      Effect.catchAll((error) => Effect.fail(handleBadArgument(error, "makeDirectory"))),
-    );
+    yield* checkPath(path).pipe(Effect.mapError(handleBadArgument("makeDirectory")));
     // ensure trailing slash
     const key = `${path.endsWith("/") ? path : `${path}/`}`;
     yield* s3.putObject({ Bucket: config.bucketName, Key: key }).pipe(
-      Effect.catchAll((error) => Effect.fail(handleS3Error(error, "makeDirectory", path))),
+      Effect.mapError(handleSystemError("makeDirectory", "Unknown", path)),
     );
   });
 
 const readFile = (s3: Context.Tag.Service<S3Service>, config: S3FileSystemConfig) => (path: string) =>
   Effect.gen(function*() {
-    yield* checkPath(path).pipe(
-      Effect.catchAll((error) => Effect.fail(handleBadArgument(error, "readFile"))),
-    );
+    yield* checkPath(path).pipe(Effect.mapError(handleBadArgument("readFile")));
     return yield* s3.getObject({ Bucket: config.bucketName, Key: path }).pipe(
       Effect.flatMap((response) => Effect.fromNullable(response.Body)),
       Effect.andThen((blob) => blob.transformToByteArray()),
-      Effect.catchAll((error) => Effect.fail(handleS3Error(error, "readFile", path))),
+      Effect.mapError((error) =>
+        Match.value(error).pipe(
+          Match.tag("NoSuchKey", handleSystemError("readFile", "NotFound", path)),
+          Match.orElse(handleSystemError("readFile", "Unknown", path)),
+        )
+      ),
     );
   });
 
@@ -135,11 +100,9 @@ const renameFactory = (method: string) =>
   // options?: FileSystem.RemoveOptions,
 ) =>
   Effect.gen(function*() {
-    yield* checkPath(path).pipe(
-      Effect.catchAll((error) => Effect.fail(handleBadArgument(error, method))),
-    );
+    yield* checkPath(path).pipe(Effect.mapError(handleBadArgument(method)));
     return yield* s3.deleteObject({ Bucket: config.bucketName, Key: path }).pipe(
-      Effect.catchAll((error) => Effect.fail(handleS3Error(error, method, path))),
+      Effect.mapError(handleSystemError(method, "Unknown", path)),
     );
   });
 
@@ -162,11 +125,9 @@ const writeFile = (s3: Context.Tag.Service<S3Service>, config: S3FileSystemConfi
   // options?: FileSystem.WriteFileOptions,
 ) =>
   Effect.gen(function*() {
-    yield* checkPath(path).pipe(
-      Effect.catchAll((error) => Effect.fail(handleBadArgument(error, "writeFile"))),
-    );
+    yield* checkPath(path).pipe(Effect.mapError(handleBadArgument("writeFile")));
     yield* s3.putObject({ Bucket: config.bucketName, Key: path, Body: data }).pipe(
-      Effect.catchAll((error) => Effect.fail(handleS3Error(error, "writeFile", path))),
+      Effect.mapError(handleSystemError("writeFile", "Unknown", path)),
     );
   });
 
