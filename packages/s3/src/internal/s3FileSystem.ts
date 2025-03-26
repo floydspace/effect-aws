@@ -1,10 +1,10 @@
 import type { S3Service } from "@effect-aws/client-s3";
 import { S3 } from "@effect-aws/client-s3";
 import { FileSystem } from "@effect/platform";
-import type { SystemErrorReason } from "@effect/platform/Error";
+import type { PlatformError, SystemErrorReason } from "@effect/platform/Error";
 import { BadArgument, SystemError } from "@effect/platform/Error";
 import type { Context } from "effect";
-import { Config, Effect, Layer, Match, String as Str } from "effect";
+import { Array, Config, Effect, Layer, Match, Option, String as Str } from "effect";
 import type { S3FileSystemConfig } from "../S3FileSystem.js";
 
 /** @internal */
@@ -16,14 +16,16 @@ const handleBadArgument = (method: string) => (err: unknown) =>
   });
 
 /** @internal */
-const handleSystemError = (method: string, reason: SystemErrorReason, path: string) => (err: unknown) =>
-  SystemError({
-    module: "FileSystem",
-    method,
-    reason,
-    message: (err as Error).message ?? String(err),
-    pathOrDescriptor: path,
-  });
+const handleSystemError =
+  (method: string, reason: SystemErrorReason, path: string, syscall?: string) => (err: unknown) =>
+    SystemError({
+      module: "FileSystem",
+      method,
+      reason,
+      message: (err as Error).message ?? String(err),
+      pathOrDescriptor: path,
+      syscall,
+    });
 
 const checkPath = (path: string) =>
   Effect.gen(function*() {
@@ -75,6 +77,34 @@ const makeDirectory = (s3: Context.Tag.Service<S3Service>, config: S3FileSystemC
     const key = `${path.endsWith("/") ? path : `${path}/`}`;
     yield* s3.putObject({ Bucket: config.bucketName, Key: key }).pipe(
       Effect.mapError(handleSystemError("makeDirectory", "Unknown", path)),
+    );
+  });
+
+const readDirectory = (s3: Context.Tag.Service<S3Service>, config: S3FileSystemConfig) =>
+(
+  path: string,
+  options?: FileSystem.ReadDirectoryOptions,
+): Effect.Effect<Array<string>, PlatformError> =>
+  Effect.gen(function*() {
+    yield* checkPath(path).pipe(Effect.mapError(handleBadArgument("readDirectory")));
+    let key = path.startsWith(".") ? path.slice(1) : path;
+    key = key.startsWith("/") ? key.slice(1) : key;
+    key = key ? key.endsWith("/") ? key : `${key}/` : "";
+    return yield* s3.listObjects({ Bucket: config.bucketName, Prefix: key }).pipe(
+      Effect.flatMap((response) => Effect.fromNullable(response.Contents)),
+      Effect.map(Array.filterMap((content) =>
+        options?.recursive
+          ? Option.fromNullable(content.Key?.replace(new RegExp(`^${key}`), "") || null)
+          : Option.fromNullable(content.Key?.replace(new RegExp(`^${key}`), "").replace(/\/.*$/, "") || null)
+      )),
+      Effect.map(Array.dedupe),
+      Effect.mapError((error) =>
+        Match.value(error).pipe(
+          Match.tag("NoSuchElementException", handleSystemError("readDirectory", "NotFound", path, "listObjects")),
+          Match.tag("NoSuchBucket", handleSystemError("readDirectory", "NotFound", path, "listObjects")),
+          Match.orElse(handleSystemError("readDirectory", "Unknown", path, "listObjects")),
+        )
+      ),
     );
   });
 
@@ -140,6 +170,7 @@ const makeFileSystem = (config: S3FileSystemConfig) =>
         access: access(s3, config),
         copyFile: copyFile(s3, config),
         makeDirectory: makeDirectory(s3, config),
+        readDirectory: readDirectory(s3, config),
         readFile: readFile(s3, config),
         remove: remove(s3, config),
         rename: rename(s3, config),
