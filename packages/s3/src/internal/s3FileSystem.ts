@@ -34,11 +34,7 @@ const checkPath = (path: string) =>
     }
   });
 
-const access = (s3: Context.Tag.Service<S3Service>, config: S3FileSystemConfig) =>
-(
-  path: string,
-  // options?: FileSystem.AccessFileOptions,
-) =>
+const access = (s3: Context.Tag.Service<S3Service>, config: S3FileSystemConfig) => (path: string) =>
   Effect.gen(function*() {
     yield* checkPath(path).pipe(Effect.mapError(handleBadArgument("access")));
     yield* s3.headObject({ Bucket: config.bucketName, Key: path }).pipe(
@@ -56,7 +52,7 @@ const copyFileFactory = (method: string) =>
 (
   fromPath: string,
   toPath: string,
-  // options?: CopyOptions,
+  // options?: FileSystem.CopyOptions,
 ) =>
   Effect.gen(function*() {
     yield* Effect.all([checkPath(fromPath), checkPath(toPath)]).pipe(Effect.mapError(handleBadArgument(method)));
@@ -69,14 +65,32 @@ const copyFile = copyFileFactory("copyFile");
 const makeDirectory = (s3: Context.Tag.Service<S3Service>, config: S3FileSystemConfig) =>
 (
   path: string,
-  // options?: FileSystem.MakeDirectoryOptions,
-) =>
+  options?: FileSystem.MakeDirectoryOptions,
+): Effect.Effect<void, PlatformError> =>
   Effect.gen(function*() {
     yield* checkPath(path).pipe(Effect.mapError(handleBadArgument("makeDirectory")));
     // ensure trailing slash
-    const key = `${path.endsWith("/") ? path : `${path}/`}`;
+    let key = path.startsWith(".") ? path.slice(1) : path;
+    key = key.startsWith("/") ? key.slice(1) : key;
+    key = key ? key.endsWith("/") ? key : `${key}/` : "";
+    yield* Effect.all([
+      s3.headObject({ Bucket: config.bucketName, Key: key }).pipe(
+        Effect.flip,
+        Effect.mapError(handleSystemError("makeDirectory", "AlreadyExists", key, "headObject")),
+      ),
+      !options?.recursive ?
+        s3.headObject({ Bucket: config.bucketName, Key: key.replace(/[^/]+\/$/, "") }).pipe(
+          Effect.mapError((error) =>
+            Match.value(error).pipe(
+              Match.tag("NotFound", handleSystemError("makeDirectory", "NotFound", key, "headObject")),
+              Match.orElse(handleSystemError("makeDirectory", "Unknown", key, "headObject")),
+            )
+          ),
+        ) :
+        Effect.void,
+    ], { concurrency: "unbounded", discard: true });
     yield* s3.putObject({ Bucket: config.bucketName, Key: key }).pipe(
-      Effect.mapError(handleSystemError("makeDirectory", "Unknown", path)),
+      Effect.mapError(handleSystemError("makeDirectory", "Unknown", key, "putObject")),
     );
   });
 
@@ -100,9 +114,9 @@ const readDirectory = (s3: Context.Tag.Service<S3Service>, config: S3FileSystemC
       Effect.map(Array.dedupe),
       Effect.mapError((error) =>
         Match.value(error).pipe(
-          Match.tag("NoSuchElementException", handleSystemError("readDirectory", "NotFound", path, "listObjects")),
-          Match.tag("NoSuchBucket", handleSystemError("readDirectory", "NotFound", path, "listObjects")),
-          Match.orElse(handleSystemError("readDirectory", "Unknown", path, "listObjects")),
+          Match.tag("NoSuchElementException", handleSystemError("readDirectory", "NotFound", key, "listObjects")),
+          Match.tag("NoSuchBucket", handleSystemError("readDirectory", "NotFound", key, "listObjects")),
+          Match.orElse(handleSystemError("readDirectory", "Unknown", key, "listObjects")),
         )
       ),
     );
