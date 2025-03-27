@@ -1,11 +1,12 @@
 import { Buffer } from "node:buffer";
 import { Readable } from "node:stream";
 
-import type { CompletedPart, PutObjectCommandInput } from "@aws-sdk/client-s3";
+import type { CompletedPart, CompleteMultipartUploadCommandOutput, PutObjectCommandInput } from "@aws-sdk/client-s3";
 import type { S3Service, S3ServiceError, SdkError } from "@effect-aws/client-s3";
 import { S3 } from "@effect-aws/client-s3";
 import { Error as PlatformError } from "@effect/platform";
-import { Chunk, Effect, Exit, Stream } from "effect";
+import type { Cause } from "effect";
+import { Chunk, Effect, Exit, Ref, Stream } from "effect";
 
 async function* getChunkStream<T>(
   data: T,
@@ -189,7 +190,20 @@ const uploadPart = (
     };
   });
 
-export const uploadObject = (args: PutObjectCommandInput, options?: UploadObjectOptions) =>
+/**
+ * Upload an object to S3 using multipart upload.
+ *
+ * @since 0.1.0
+ * @category execution
+ */
+export const uploadObject = (
+  args: PutObjectCommandInput,
+  options?: UploadObjectOptions,
+): Effect.Effect<
+  CompleteMultipartUploadCommandOutput,
+  SdkError | S3ServiceError | PlatformError.BadArgument | Cause.NoSuchElementException,
+  S3Service
+> =>
   Effect.gen(function*() {
     const partSize = options?.partSize || MIN_PART_SIZE;
     const queueSize = options?.queueSize || 4;
@@ -224,7 +238,9 @@ export const uploadObject = (args: PutObjectCommandInput, options?: UploadObject
         message: (err as Error).message,
       }));
 
-    return yield* Effect.acquireUseRelease(
+    const completeRef = yield* Ref.make<CompleteMultipartUploadCommandOutput | null>(null);
+
+    yield* Effect.acquireUseRelease(
       S3.createMultipartUpload(params),
       ({ UploadId }) =>
         dataStream.pipe(
@@ -238,14 +254,19 @@ export const uploadObject = (args: PutObjectCommandInput, options?: UploadObject
         Exit.matchEffect(exit, {
           onSuccess: (parts) =>
             S3.completeMultipartUpload({ ...params, UploadId, MultipartUpload: { Parts: Chunk.toArray(parts) } }).pipe(
-              Effect.map(({ Location, ...result }) => ({
-                ...result,
-                Location: typeof Location === "string" && Location.includes("%2F")
-                  ? Location.replace(/%2F/g, "/")
-                  : Location,
-              })),
+              Effect.flatMap((result) => Ref.set(completeRef, result)),
             ),
           onFailure: () => S3.abortMultipartUpload({ Bucket: params.Bucket, Key: params.Key, UploadId }),
         }).pipe(Effect.orDie),
+    );
+
+    return yield* completeRef.pipe(
+      Effect.flatMap(Effect.fromNullable),
+      Effect.map(({ Location, ...result }) => ({
+        ...result,
+        Location: typeof Location === "string" && Location.includes("%2F")
+          ? Location.replace(/%2F/g, "/")
+          : Location,
+      })),
     );
   });
