@@ -1,12 +1,12 @@
 import type { GetObjectCommandOutput } from "@aws-sdk/client-s3";
-import { GetObjectCommand, HeadObjectCommand, NotFound, S3Client } from "@aws-sdk/client-s3";
+import { GetObjectCommand, HeadObjectCommand, NotFound, PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { S3 } from "@effect-aws/client-s3";
 import { S3FileSystem } from "@effect-aws/s3";
-import { FileSystem } from "@effect/platform";
+import { Error as PlatformError, FileSystem } from "@effect/platform";
 import { it } from "@effect/vitest";
 import { mockClient } from "aws-sdk-client-mock";
-import { Effect, Layer } from "effect";
-import { describe, expect } from "vitest";
+import { Effect, Exit, Layer } from "effect";
+import { afterEach, describe, expect } from "vitest";
 import { mock } from "vitest-mock-extended";
 
 const clientMock = mockClient(S3Client);
@@ -16,12 +16,16 @@ const mainLayer = Layer.provide(
 );
 
 describe("S3FileSystem", () => {
+  afterEach(() => {
+    clientMock.reset();
+  });
+
   describe("exists", () => {
     it.effect("should file exist", () =>
       Effect.gen(function*() {
         expect.assertions(3);
 
-        clientMock.reset().on(HeadObjectCommand).resolves({});
+        clientMock.on(HeadObjectCommand).resolves({});
 
         const fs = yield* FileSystem.FileSystem;
 
@@ -39,7 +43,7 @@ describe("S3FileSystem", () => {
       Effect.gen(function*() {
         expect.assertions(3);
 
-        clientMock.reset().on(HeadObjectCommand).rejects(new NotFound({ $metadata: {}, message: "File not found" }));
+        clientMock.on(HeadObjectCommand).rejects(new NotFound({ $metadata: {}, message: "File not found" }));
 
         const fs = yield* FileSystem.FileSystem;
 
@@ -55,54 +59,170 @@ describe("S3FileSystem", () => {
 
     it.effect("should fail with BadArgument", () =>
       Effect.gen(function*() {
-        expect.assertions(2);
+        expect.assertions(1);
 
         const fs = yield* FileSystem.FileSystem;
 
-        yield* fs.exists("").pipe(
-          Effect.catchAll((error) => {
-            expect(error._tag).toBe("BadArgument");
-            expect(error.message).toBe("Path is empty");
-            return Effect.void;
-          }),
-        );
+        const result = yield* fs.exists("").pipe(Effect.exit);
+
+        expect(result).toStrictEqual(Exit.fail(PlatformError.BadArgument({
+          module: "FileSystem",
+          method: "access",
+          message: "Path is empty",
+        })));
       }).pipe(Effect.provide(mainLayer)));
 
     it.effect("should fail with SystemError", () =>
       Effect.gen(function*() {
-        expect.assertions(2);
+        expect.assertions(1);
 
-        clientMock.reset().on(HeadObjectCommand).rejects(new Error("Invalid S3 path"));
+        clientMock.on(HeadObjectCommand).rejects(new Error("Invalid S3 path"));
 
         const fs = yield* FileSystem.FileSystem;
 
-        yield* fs.exists("path-to-file.ext").pipe(
-          Effect.catchAll((error) => {
-            expect(error._tag).toBe("SystemError");
-            expect(error.message).toBe("Invalid S3 path");
-            return Effect.void;
-          }),
-        );
+        const result = yield* fs.exists("path-to-file.ext").pipe(Effect.exit);
+
+        expect(result).toStrictEqual(Exit.fail(PlatformError.SystemError({
+          module: "FileSystem",
+          method: "access",
+          reason: "Unknown",
+          message: "Invalid S3 path",
+          pathOrDescriptor: "path-to-file.ext",
+        })));
       }).pipe(Effect.provide(mainLayer)));
   });
 
-  it.effect("should read file", () =>
-    Effect.gen(function*() {
-      expect.assertions(3);
+  describe("readFile", () => {
+    it.effect("should read file", () =>
+      Effect.gen(function*() {
+        expect.assertions(3);
 
-      const blob = mock<NonNullable<GetObjectCommandOutput["Body"]>>();
-      blob.transformToByteArray.mockResolvedValue(Buffer.from("mocked-body"));
-      clientMock.reset().on(GetObjectCommand).resolves({ Body: blob });
+        const blob = mock<NonNullable<GetObjectCommandOutput["Body"]>>();
+        blob.transformToByteArray.mockResolvedValue(Buffer.from("mocked-body"));
+        clientMock.on(GetObjectCommand).resolves({ Body: blob });
 
-      const fs = yield* FileSystem.FileSystem;
+        const fs = yield* FileSystem.FileSystem;
 
-      const content = yield* fs.readFileString("path-to-file.ext");
+        const content = yield* fs.readFileString("path-to-file.ext");
 
-      expect(content).toStrictEqual("mocked-body");
-      expect(clientMock).toHaveReceivedCommandOnce(GetObjectCommand);
-      expect(clientMock).toHaveReceivedCommandWith(GetObjectCommand, {
-        Bucket: "test-bucket",
-        Key: "path-to-file.ext",
-      });
-    }).pipe(Effect.provide(mainLayer)));
+        expect(content).toStrictEqual("mocked-body");
+        expect(clientMock).toHaveReceivedCommandOnce(GetObjectCommand);
+        expect(clientMock).toHaveReceivedCommandWith(GetObjectCommand, {
+          Bucket: "test-bucket",
+          Key: "path-to-file.ext",
+        });
+      }).pipe(Effect.provide(mainLayer)));
+  });
+
+  describe("makeDirectory", () => {
+    it.effect("should fail with AlreadyExists system error", () =>
+      Effect.gen(function*() {
+        expect.assertions(3);
+
+        // Mock directory already exists which is negative
+        clientMock.on(HeadObjectCommand, { Bucket: "test-bucket", Key: "aaa/bbb/ccc/" }).resolves({});
+        // Mock parent directory exists which is positive
+        clientMock.on(HeadObjectCommand, { Bucket: "test-bucket", Key: "aaa/bbb/" }).resolves({});
+
+        const fs = yield* FileSystem.FileSystem;
+
+        const result = yield* fs.makeDirectory("./aaa/bbb/ccc").pipe(Effect.exit);
+
+        expect(result).toStrictEqual(
+          Exit.fail(PlatformError.SystemError({
+            module: "FileSystem",
+            method: "makeDirectory",
+            reason: "AlreadyExists",
+            message: "[object Object]", // TODO: Fix this
+            pathOrDescriptor: "aaa/bbb/ccc/",
+            syscall: "headObject",
+          })),
+        );
+        expect(clientMock).toHaveReceivedCommandTimes(HeadObjectCommand, 2);
+        expect(clientMock).not.toHaveReceivedCommand(PutObjectCommand);
+      }).pipe(Effect.provide(mainLayer)));
+
+    it.effect("should fail with NotFound system error", () =>
+      Effect.gen(function*() {
+        expect.assertions(3);
+
+        // Mock directory does not exist which is positive
+        clientMock.on(HeadObjectCommand, { Bucket: "test-bucket", Key: "aaa/bbb/ccc/" }).rejects(
+          new NotFound({ $metadata: {}, message: "Directory not found" }),
+        );
+        // Mock parent directory does not exist which is negative
+        clientMock.on(HeadObjectCommand, { Bucket: "test-bucket", Key: "aaa/bbb/" }).rejects(
+          new NotFound({ $metadata: {}, message: "Parent directory not found" }),
+        );
+
+        const fs = yield* FileSystem.FileSystem;
+
+        const result = yield* fs.makeDirectory("./aaa/bbb/ccc").pipe(Effect.exit);
+
+        expect(result).toStrictEqual(
+          Exit.fail(PlatformError.SystemError({
+            module: "FileSystem",
+            method: "makeDirectory",
+            reason: "NotFound",
+            message: "Parent directory not found",
+            pathOrDescriptor: "aaa/bbb/ccc/",
+            syscall: "headObject",
+          })),
+        );
+        expect(clientMock).toHaveReceivedCommandTimes(HeadObjectCommand, 2);
+        expect(clientMock).not.toHaveReceivedCommand(PutObjectCommand);
+      }).pipe(Effect.provide(mainLayer)));
+
+    it.effect("should make directory", () =>
+      Effect.gen(function*() {
+        expect.assertions(4);
+
+        // Mock directory does not exist which is positive
+        clientMock.on(HeadObjectCommand, { Bucket: "test-bucket", Key: "aaa/bbb/ccc/" }).rejects(
+          new NotFound({ $metadata: {}, message: "Directory not found" }),
+        );
+        // Mock parent directory exists which is positive
+        clientMock.on(HeadObjectCommand, { Bucket: "test-bucket", Key: "aaa/bbb/" }).resolves({});
+        clientMock.on(PutObjectCommand).resolves({});
+
+        const fs = yield* FileSystem.FileSystem;
+
+        const result = yield* fs.makeDirectory("./aaa/bbb/ccc");
+
+        expect(result).toStrictEqual(void 0);
+        expect(clientMock).toHaveReceivedCommandTimes(HeadObjectCommand, 2);
+        expect(clientMock).toHaveReceivedCommandOnce(PutObjectCommand);
+        expect(clientMock).toHaveReceivedCommandWith(PutObjectCommand, {
+          Bucket: "test-bucket",
+          Key: "aaa/bbb/ccc/",
+        });
+      }).pipe(Effect.provide(mainLayer)));
+
+    it.effect("should make directory recursively", () =>
+      Effect.gen(function*() {
+        expect.assertions(5);
+
+        // Mock directory does not exist which is positive
+        clientMock.on(HeadObjectCommand, { Bucket: "test-bucket", Key: "aaa/bbb/ccc/" }).rejects(
+          new NotFound({ $metadata: {}, message: "Directory not found" }),
+        );
+        clientMock.on(PutObjectCommand).resolves({});
+
+        const fs = yield* FileSystem.FileSystem;
+
+        const result = yield* fs.makeDirectory("./aaa/bbb/ccc", { recursive: true });
+
+        expect(result).toStrictEqual(void 0);
+        expect(clientMock).toHaveReceivedCommandOnce(HeadObjectCommand);
+        expect(clientMock).toHaveReceivedCommandWith(HeadObjectCommand, {
+          Bucket: "test-bucket",
+          Key: "aaa/bbb/ccc/",
+        });
+        expect(clientMock).toHaveReceivedCommandOnce(PutObjectCommand);
+        expect(clientMock).toHaveReceivedCommandWith(PutObjectCommand, {
+          Bucket: "test-bucket",
+          Key: "aaa/bbb/ccc/",
+        });
+      }).pipe(Effect.provide(mainLayer)));
+  });
 });
