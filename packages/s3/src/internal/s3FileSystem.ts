@@ -1,15 +1,13 @@
 import type { S3Service } from "@effect-aws/client-s3";
 import { S3 } from "@effect-aws/client-s3";
-import { FileSystem } from "@effect/platform";
-import type { PlatformError, SystemErrorReason } from "@effect/platform/Error";
-import { BadArgument, SystemError } from "@effect/platform/Error";
+import { Error as PlatformError, FileSystem } from "@effect/platform";
 import type { Context } from "effect";
 import { Array, Config, Effect, Layer, Match, Option, String as Str } from "effect";
 import type { S3FileSystemConfig } from "../S3FileSystem.js";
 
 /** @internal */
 const handleBadArgument = (method: string) => (err: unknown) =>
-  BadArgument({
+  PlatformError.BadArgument({
     module: "FileSystem",
     method,
     message: (err as Error).message ?? String(err),
@@ -17,8 +15,8 @@ const handleBadArgument = (method: string) => (err: unknown) =>
 
 /** @internal */
 const handleSystemError =
-  (method: string, reason: SystemErrorReason, path: string, syscall?: string) => (err: unknown) =>
-    SystemError({
+  (method: string, reason: PlatformError.SystemErrorReason, path: string, syscall?: string) => (err: unknown) =>
+    PlatformError.SystemError({
       module: "FileSystem",
       method,
       reason,
@@ -66,7 +64,7 @@ const makeDirectory = (s3: Context.Tag.Service<S3Service>, config: S3FileSystemC
 (
   path: string,
   options?: FileSystem.MakeDirectoryOptions,
-): Effect.Effect<void, PlatformError> =>
+): Effect.Effect<void, PlatformError.PlatformError> =>
   Effect.gen(function*() {
     yield* checkPath(path).pipe(Effect.mapError(handleBadArgument("makeDirectory")));
     // ensure trailing slash
@@ -98,7 +96,7 @@ const readDirectory = (s3: Context.Tag.Service<S3Service>, config: S3FileSystemC
 (
   path: string,
   options?: FileSystem.ReadDirectoryOptions,
-): Effect.Effect<Array<string>, PlatformError> =>
+): Effect.Effect<Array<string>, PlatformError.PlatformError> =>
   Effect.gen(function*() {
     yield* checkPath(path).pipe(Effect.mapError(handleBadArgument("readDirectory")));
     let key = path.startsWith(".") ? path.slice(1) : path;
@@ -137,7 +135,7 @@ const readFile = (s3: Context.Tag.Service<S3Service>, config: S3FileSystemConfig
     );
   });
 
-const renameFactory = (method: string) =>
+const removeFactory = (method: string) =>
 (s3: Context.Tag.Service<S3Service>, config: S3FileSystemConfig) =>
 (
   path: string,
@@ -150,7 +148,7 @@ const renameFactory = (method: string) =>
     );
   });
 
-const remove = renameFactory("remove");
+const remove = removeFactory("remove");
 
 const rename = (s3: Context.Tag.Service<S3Service>, config: S3FileSystemConfig) =>
 (
@@ -159,7 +157,7 @@ const rename = (s3: Context.Tag.Service<S3Service>, config: S3FileSystemConfig) 
 ) =>
   Effect.gen(function*() {
     yield* copyFileFactory("rename")(s3, config)(oldPath, newPath);
-    yield* renameFactory("rename")(s3, config)(oldPath);
+    yield* removeFactory("rename")(s3, config)(oldPath);
   });
 
 const writeFile = (s3: Context.Tag.Service<S3Service>, config: S3FileSystemConfig) =>
