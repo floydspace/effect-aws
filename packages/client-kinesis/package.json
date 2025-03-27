@@ -26,8 +26,6 @@
   },
   "devDependencies": {
     "@types/node": "ts5.4",
-    "aws-sdk-client-mock": "^4.0.2",
-    "aws-sdk-client-mock-vitest": "^4.0.0",
     "effect": "3.10.16",
     "typescript": "^5.4.2"
   },

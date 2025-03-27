@@ -72,6 +72,7 @@ const config: UserConfig = {
       ...alias("powertools-logger"),
       ...alias("secrets-manager"),
       ...alias("ssm"),
+      ...alias("s3"),
     }
   }
 }

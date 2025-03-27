@@ -533,6 +533,15 @@
       ],
       "@effect-aws/ssm/test/*": [
         "./packages/ssm/test/*.js"
+      ],
+      "@effect-aws/s3": [
+        "./packages/s3/src/index.js"
+      ],
+      "@effect-aws/s3/*": [
+        "./packages/s3/src/*.js"
+      ],
+      "@effect-aws/s3/test/*": [
+        "./packages/s3/test/*.js"
       ]
     }
   }

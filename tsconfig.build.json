@@ -164,6 +164,9 @@
     },
     {
       "path": "packages/ssm/tsconfig.esm.json"
+    },
+    {
+      "path": "packages/s3/tsconfig.esm.json"
     }
   ]
 }
