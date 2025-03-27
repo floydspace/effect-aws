@@ -6,14 +6,6 @@
       "type": "build"
     },
     {
-      "name": "aws-sdk-client-mock",
-      "type": "build"
-    },
-    {
-      "name": "aws-sdk-client-mock-vitest",
-      "type": "build"
-    },
-    {
       "name": "effect",
       "version": "3.10.16",
       "type": "build"

@@ -17,7 +17,7 @@ const project = new MonorepoProject({
   authorEmail: "ifloydrose@gmail.com",
   authorName: "Victor Korzunin",
   typescriptVersion: "^5.4.2",
-  devDeps: ["@floydspace/projen-components@next", "aws-sdk-client-mock-vitest"],
+  devDeps: ["@floydspace/projen-components@next"],
 });
 
 new YamlFile(project, ".github/FUNDING.yml", { obj: { github: org } });
@@ -39,6 +39,7 @@ new Readme(project, { org });
 new Eslint(project);
 new Vitest(project, { sharedSetupFiles: ["vitest.setup.ts"] });
 project.addDevDeps("vitest-mock-extended@^2.0.2");
+project.addDevDeps("aws-sdk-client-mock", "aws-sdk-client-mock-vitest@4.0.0");
 
 const effectDeps = ["effect@3.10.16"];
 
@@ -49,7 +50,7 @@ project.tsconfigBase?.file.addOverride("compilerOptions.plugins", [
   { name: "@effect/language-service" },
 ]);
 
-const commonDevDeps = [...effectDeps, "aws-sdk-client-mock", "aws-sdk-client-mock-vitest"];
+const commonDevDeps = [...effectDeps];
 const commonPeerDeps = ["effect@>=3.0.4 <4.0.0"];
 
 const commons = new TypeScriptLibProject({
@@ -139,7 +140,7 @@ new TypeScriptLibProject({
   name: "s3",
   description: "Effectful AWS S3 functions",
   deps: ["@effect/platform@0.69.25"],
-  devDeps: [...effectDeps, "@aws-sdk/client-s3@^3", "@fluffy-spoon/substitute"],
+  devDeps: [...effectDeps, "@aws-sdk/client-s3@^3"],
   peerDeps: commonPeerDeps,
   workspacePeerDeps: [s3Client],
 });

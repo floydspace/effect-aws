@@ -64,7 +64,12 @@
       "type": "build"
     },
     {
+      "name": "aws-sdk-client-mock",
+      "type": "build"
+    },
+    {
       "name": "aws-sdk-client-mock-vitest",
+      "version": "4.0.0",
       "type": "build"
     },
     {

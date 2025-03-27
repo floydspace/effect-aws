@@ -11,10 +11,6 @@
       "type": "build"
     },
     {
-      "name": "@fluffy-spoon/substitute",
-      "type": "build"
-    },
-    {
       "name": "@types/node",
       "version": "ts5.4",
       "type": "build"
