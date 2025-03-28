@@ -3,7 +3,7 @@ import assert from "node:assert";
 import { LinkableProject } from "@floydspace/projen-components";
 import type { Construct } from "constructs";
 import type { Project } from "projen";
-import { javascript, typescript } from "projen";
+import { javascript, SampleDir, typescript } from "projen";
 
 type PredefinedProps = "defaultReleaseBranch" | "authorName" | "authorEmail";
 
@@ -13,6 +13,7 @@ export type TypeScriptLibProjectOptions =
   & {
     workspaceDeps?: Array<javascript.NodeProject>;
     workspacePeerDeps?: Array<javascript.NodeProject>;
+    addExamples?: boolean;
   };
 
 export class TypeScriptLibProject extends typescript.TypeScriptProject {
@@ -33,8 +34,10 @@ export class TypeScriptLibProject extends typescript.TypeScriptProject {
   public readonly tsconfigTst: javascript.TypescriptConfig;
   public readonly tsconfigEsm: javascript.TypescriptConfig;
   public readonly tsconfigCjs: javascript.TypescriptConfig;
+  public readonly tsconfigExamples?: javascript.TypescriptConfig;
 
   constructor({
+    addExamples,
     workspaceDeps,
     workspacePeerDeps,
     ...options
@@ -90,6 +93,17 @@ export class TypeScriptLibProject extends typescript.TypeScriptProject {
       { path: this.tsconfigSrc.fileName },
       { path: this.tsconfigTst.fileName },
     ]);
+
+    if (addExamples) {
+      this.tsconfigExamples = this.makeTsconfig("tsconfig.examples.json", "examples", {
+        noEmit: true,
+      });
+      this.tsconfigExamples.file.addToArray("references", { path: this.tsconfigSrc.fileName });
+      this.tsconfig?.file.addToArray("references", { path: this.tsconfigExamples.fileName });
+      new SampleDir(this, "examples", {
+        files: { "example.ts": "console.log('Hello, World!');" },
+      });
+    }
 
     // Add tsconfig for building esm
     this.tsconfigEsm = this.makeBaseTsconfig("tsconfig.esm.json", "esm", {

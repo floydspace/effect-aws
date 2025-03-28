@@ -252,7 +252,7 @@ export const uploadObject = (
     const completeRef = yield* Ref.make<CompleteMultipartUploadCommandOutput | null>(null);
 
     yield* Effect.acquireUseRelease(
-      S3.createMultipartUpload(params),
+      S3.createMultipartUpload({ ...params, ChecksumAlgorithm: "CRC32" }),
       ({ UploadId }) =>
         multiStream.pipe(
           Stream.mapEffect(

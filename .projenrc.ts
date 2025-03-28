@@ -143,6 +143,7 @@ new TypeScriptLibProject({
   devDeps: [...effectDeps, "@aws-sdk/client-s3@^3"],
   peerDeps: commonPeerDeps,
   workspacePeerDeps: [s3Client],
+  addExamples: true,
 });
 
 project.addGitIgnore(".direnv/"); // flake environment creates .direnv folder
