@@ -2,15 +2,31 @@ import { Buffer } from "node:buffer";
 import { Readable } from "node:stream";
 
 import type { CompletedPart, CompleteMultipartUploadCommandOutput, PutObjectCommandInput } from "@aws-sdk/client-s3";
-import type { S3Service, S3ServiceError, SdkError } from "@effect-aws/client-s3";
+import type {
+  EncryptionTypeMismatchError,
+  InvalidRequestError,
+  InvalidWriteOffsetError,
+  S3Service,
+  S3ServiceError,
+  SdkError,
+  TooManyPartsError,
+} from "@effect-aws/client-s3";
 import { S3 } from "@effect-aws/client-s3";
-import { Error as PlatformError } from "@effect/platform";
+import { Error as PlatformError, FileSystem } from "@effect/platform";
 import type { Cause } from "effect";
-import { Chunk, Effect, Exit, Ref, Stream } from "effect";
+import { Chunk, Effect, Exit, Option, Ref, Sink, Stream } from "effect";
+
+/** @internal */
+const handleBadArgument = (method: string) => (err: unknown) =>
+  PlatformError.BadArgument({
+    module: "MulipartUpload" as any,
+    method,
+    message: (err as Error).message ?? String(err),
+  });
 
 async function* getChunkStream<T>(
   data: T,
-  partSize: number,
+  partSize: FileSystem.Size,
   getNextData: (data: T) => AsyncGenerator<Uint8Array>,
 ): AsyncGenerator<RawDataPart, void, undefined> {
   let partNumber = 1;
@@ -29,11 +45,11 @@ async function* getChunkStream<T>(
 
       yield {
         partNumber,
-        data: dataChunk.subarray(0, partSize),
+        data: dataChunk.subarray(0, Number(partSize)),
       };
 
       // Reset the buffer.
-      currentBuffer.chunks = [dataChunk.subarray(partSize)];
+      currentBuffer.chunks = [dataChunk.subarray(Number(partSize))];
       currentBuffer.length = currentBuffer.chunks[0].byteLength;
       partNumber += 1;
     }
@@ -48,20 +64,20 @@ async function* getChunkStream<T>(
 
 async function* getChunkUint8Array(
   data: Uint8Array,
-  partSize: number,
+  partSize: FileSystem.Size,
 ): AsyncGenerator<RawDataPart, void, undefined> {
   let partNumber = 1;
   let startByte = 0;
-  let endByte = partSize;
+  let endByte = Number(partSize);
 
   while (endByte < data.byteLength) {
     yield {
       partNumber,
-      data: data.subarray(startByte, endByte),
+      data: data.subarray(startByte, Number(endByte)),
     };
     partNumber += 1;
-    startByte = endByte;
-    endByte = startByte + partSize;
+    startByte = Number(endByte);
+    endByte = startByte + Number(partSize);
   }
 
   yield {
@@ -106,7 +122,7 @@ async function* getDataReadableStream(data: ReadableStream): AsyncGenerator<Uint
   }
 }
 
-const getChunk = (data: BodyDataTypes, partSize: number): AsyncGenerator<RawDataPart, void, undefined> => {
+const getChunk = (data: BodyDataTypes, partSize: FileSystem.Size): AsyncGenerator<RawDataPart, void, undefined> => {
   if (data instanceof Uint8Array) {
     // includes Buffer (extends Uint8Array)
     return getChunkUint8Array(data, partSize);
@@ -143,20 +159,20 @@ interface RawDataPart {
   lastPart?: boolean;
 }
 
-const MIN_PART_SIZE = 1024 * 1024 * 5;
+const MIN_PART_SIZE = FileSystem.MiB(5); // 5mb
 
 interface UploadObjectOptions {
   /**
    * The size of the concurrent queue manager to upload parts in parallel. Set to 1 for synchronous uploading of parts. Note that the uploader will buffer at most queueSize * partSize bytes into memory at any given time.
    * default: 4
    */
-  queueSize: number;
+  readonly queueSize?: number;
 
   /**
    * Default: 5 mb
    * The size in bytes for each individual part to be uploaded. Adjust the part size to ensure the number of parts does not exceed maxTotalParts. See 5mb is the minimum allowed part size.
    */
-  partSize: number;
+  readonly partSize?: FileSystem.Size;
 }
 
 const uploadPart = (
@@ -201,7 +217,14 @@ export const uploadObject = (
   options?: UploadObjectOptions,
 ): Effect.Effect<
   CompleteMultipartUploadCommandOutput,
-  SdkError | S3ServiceError | PlatformError.BadArgument | Cause.NoSuchElementException,
+  | SdkError
+  | S3ServiceError
+  | PlatformError.BadArgument
+  | Cause.NoSuchElementException
+  | EncryptionTypeMismatchError
+  | InvalidRequestError
+  | InvalidWriteOffsetError
+  | TooManyPartsError,
   S3Service
 > =>
   Effect.gen(function*() {
@@ -210,40 +233,40 @@ export const uploadObject = (
 
     if (partSize < MIN_PART_SIZE) {
       return yield* Effect.fail(
-        PlatformError.BadArgument({
-          module: "MulipartUpload" as any,
-          method: "uploadObject",
-          message:
-            `EntityTooSmall: Your proposed upload partsize [${partSize}] is smaller than the minimum allowed size [${MIN_PART_SIZE}] (5MB)`,
-        }),
+        handleBadArgument("uploadObject")(
+          `EntityTooSmall: Your proposed upload partsize [${partSize}] is smaller than the minimum allowed size [${MIN_PART_SIZE}] (5MB)`,
+        ),
       );
     }
 
     if (queueSize < 1) {
       return yield* Effect.fail(
-        PlatformError.BadArgument({
-          module: "MulipartUpload" as any,
-          method: "uploadObject",
-          message: `Queue size: Must have at least one uploading queue.`,
-        }),
+        handleBadArgument("uploadObject")(`Queue size: Must have at least one uploading queue.`),
       );
     }
 
     const { Body, ...params } = args;
-    const dataFeeder = getChunk(Body, partSize);
-    const dataStream = Stream.fromAsyncIterable(dataFeeder, (err) =>
-      PlatformError.BadArgument({
-        module: "MulipartUpload" as any,
-        method: "uploadObject",
-        message: (err as Error).message,
-      }));
+
+    const dataStream = Stream.fromAsyncIterable(getChunk(Body, partSize), handleBadArgument("uploadObject"));
+
+    const [doublet, tailStream] = yield* dataStream.pipe(Stream.peel(Sink.take(2)));
+    const firstPart = yield* Chunk.head(doublet);
+    const secondPart = Chunk.get(doublet, 1);
+
+    if (Option.isNone(secondPart)) {
+      return yield* S3.putObject({ ...params, Body: firstPart.data }).pipe(
+        Effect.map((result) => ({ ...result, Bucket: params.Bucket, Key: params.Key })),
+      );
+    }
+
+    const multiStream = Stream.merge(Stream.make(firstPart, secondPart.value), tailStream);
 
     const completeRef = yield* Ref.make<CompleteMultipartUploadCommandOutput | null>(null);
 
     yield* Effect.acquireUseRelease(
       S3.createMultipartUpload(params),
       ({ UploadId }) =>
-        dataStream.pipe(
+        multiStream.pipe(
           Stream.mapEffect(
             (dataPart) => uploadPart(dataPart.partNumber, UploadId, { ...params, Body: dataPart.data }),
             { concurrency: queueSize },
@@ -262,11 +285,11 @@ export const uploadObject = (
 
     return yield* completeRef.pipe(
       Effect.flatMap(Effect.fromNullable),
-      Effect.map(({ Location, ...result }) => ({
+      Effect.map((result) => ({
         ...result,
-        Location: typeof Location === "string" && Location.includes("%2F")
-          ? Location.replace(/%2F/g, "/")
-          : Location,
+        ...(typeof result.Location === "string" && result.Location.includes("%2F")
+          ? { Location: result.Location.replace(/%2F/g, "/") }
+          : {}),
       })),
     );
-  });
+  }).pipe(Effect.scoped);
