@@ -1,7 +1,7 @@
 /**
  * @since 0.1.0
  */
-export * as MulipartUpload from "./MulipartUpload.js";
+export * as MultipartUpload from "./MultipartUpload.js";
 
 /**
  * @since 0.1.0

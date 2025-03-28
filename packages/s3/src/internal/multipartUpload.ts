@@ -15,15 +15,17 @@ import { S3 } from "@effect-aws/client-s3";
 import { Error as PlatformError, FileSystem } from "@effect/platform";
 import type { Cause } from "effect";
 import { Chunk, Effect, Exit, Option, Ref, Sink, Stream } from "effect";
+import type { UploadObjectOptions } from "../MultipartUpload.js";
 
 /** @internal */
 const handleBadArgument = (method: string) => (err: unknown) =>
   PlatformError.BadArgument({
-    module: "MulipartUpload" as any,
+    module: "MultipartUpload" as any,
     method,
     message: (err as Error).message ?? String(err),
   });
 
+/** @internal */
 async function* getChunkStream<T>(
   data: T,
   partSize: FileSystem.Size,
@@ -62,6 +64,7 @@ async function* getChunkStream<T>(
   };
 }
 
+/** @internal */
 async function* getChunkUint8Array(
   data: Uint8Array,
   partSize: FileSystem.Size,
@@ -87,6 +90,7 @@ async function* getChunkUint8Array(
   };
 }
 
+/** @internal */
 async function* getDataReadable(data: Readable): AsyncGenerator<Uint8Array> {
   for await (const chunk of data) {
     if (Buffer.isBuffer(chunk) || chunk instanceof Uint8Array) {
@@ -97,6 +101,7 @@ async function* getDataReadable(data: Readable): AsyncGenerator<Uint8Array> {
   }
 }
 
+/** @internal */
 async function* getDataReadableStream(data: ReadableStream): AsyncGenerator<Uint8Array> {
   // Get a lock on the stream.
   const reader = data.getReader();
@@ -122,6 +127,7 @@ async function* getDataReadableStream(data: ReadableStream): AsyncGenerator<Uint
   }
 }
 
+/** @internal */
 const getChunk = (data: BodyDataTypes, partSize: FileSystem.Size): AsyncGenerator<RawDataPart, void, undefined> => {
   if (data instanceof Uint8Array) {
     // includes Buffer (extends Uint8Array)
@@ -159,22 +165,9 @@ interface RawDataPart {
   lastPart?: boolean;
 }
 
-const MIN_PART_SIZE = FileSystem.MiB(5); // 5mb
+const MIN_PART_SIZE = FileSystem.MiB(5);
 
-interface UploadObjectOptions {
-  /**
-   * The size of the concurrent queue manager to upload parts in parallel. Set to 1 for synchronous uploading of parts. Note that the uploader will buffer at most queueSize * partSize bytes into memory at any given time.
-   * default: 4
-   */
-  readonly queueSize?: number;
-
-  /**
-   * Default: 5 mb
-   * The size in bytes for each individual part to be uploaded. Adjust the part size to ensure the number of parts does not exceed maxTotalParts. See 5mb is the minimum allowed part size.
-   */
-  readonly partSize?: FileSystem.Size;
-}
-
+/** @internal */
 const uploadPart = (
   partNumber: number,
   uploadId: string | undefined,
@@ -206,12 +199,7 @@ const uploadPart = (
     };
   });
 
-/**
- * Upload an object to S3 using multipart upload.
- *
- * @since 0.1.0
- * @category execution
- */
+/** @internal */
 export const uploadObject = (
   args: PutObjectCommandInput,
   options?: UploadObjectOptions,

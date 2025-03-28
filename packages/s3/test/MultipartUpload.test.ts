@@ -7,7 +7,7 @@ import {
   UploadPartCommand,
 } from "@aws-sdk/client-s3";
 import { S3 } from "@effect-aws/client-s3";
-import { MulipartUpload } from "@effect-aws/s3";
+import { MultipartUpload } from "@effect-aws/s3";
 import { layer } from "@effect/vitest";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect } from "effect";
@@ -15,7 +15,7 @@ import { afterEach, expect } from "vitest";
 
 const clientMock = mockClient(S3Client);
 
-layer(S3.defaultLayer)("MulipartUpload", (it) => {
+layer(S3.defaultLayer)("MultipartUpload", (it) => {
   afterEach(() => {
     clientMock.reset();
   });
@@ -30,7 +30,7 @@ layer(S3.defaultLayer)("MulipartUpload", (it) => {
       clientMock.on(CompleteMultipartUploadCommand).resolves({});
       clientMock.on(AbortMultipartUploadCommand).resolves({});
 
-      const result = yield* MulipartUpload.uploadObject({
+      const result = yield* MultipartUpload.uploadObject({
         Bucket: "test-bucket",
         Key: "path-to-file.ext",
         Body: new Uint8Array(1024 * 1024 * 5), // 5 MB
@@ -60,7 +60,7 @@ layer(S3.defaultLayer)("MulipartUpload", (it) => {
       clientMock.on(CompleteMultipartUploadCommand).resolves({});
       clientMock.on(AbortMultipartUploadCommand).resolves({});
 
-      const result = yield* MulipartUpload.uploadObject({
+      const result = yield* MultipartUpload.uploadObject({
         Bucket: "test-bucket",
         Key: "path-to-file.ext",
         Body: new Uint8Array(1024 * 1024 * 10), // 10 MB
