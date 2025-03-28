@@ -10,19 +10,19 @@ import {
 import { S3 } from "@effect-aws/client-s3";
 import { S3FileSystem } from "@effect-aws/s3";
 import { Error as PlatformError, FileSystem } from "@effect/platform";
-import { it } from "@effect/vitest";
+import { layer } from "@effect/vitest";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit, Layer } from "effect";
 import { afterEach, describe, expect } from "vitest";
 import { mock } from "vitest-mock-extended";
 
 const clientMock = mockClient(S3Client);
-const mainLayer = Layer.provide(
+const TestLayer = Layer.provide(
   S3FileSystem.layer({ bucketName: "test-bucket" }),
   S3.defaultLayer,
 );
 
-describe("S3FileSystem", () => {
+layer(TestLayer)("S3FileSystem", (it) => {
   afterEach(() => {
     clientMock.reset();
   });
@@ -44,7 +44,7 @@ describe("S3FileSystem", () => {
           Bucket: "test-bucket",
           Key: "path-to-file.ext",
         });
-      }).pipe(Effect.provide(mainLayer)));
+      }));
 
     it.effect("should file NOT exist", () =>
       Effect.gen(function*() {
@@ -62,7 +62,7 @@ describe("S3FileSystem", () => {
           Bucket: "test-bucket",
           Key: "path-to-file.ext",
         });
-      }).pipe(Effect.provide(mainLayer)));
+      }));
 
     it.effect("should fail with BadArgument", () =>
       Effect.gen(function*() {
@@ -77,7 +77,7 @@ describe("S3FileSystem", () => {
           method: "access",
           message: "Path is empty",
         })));
-      }).pipe(Effect.provide(mainLayer)));
+      }));
 
     it.effect("should fail with SystemError", () =>
       Effect.gen(function*() {
@@ -96,7 +96,7 @@ describe("S3FileSystem", () => {
           message: "Invalid S3 path",
           pathOrDescriptor: "path-to-file.ext",
         })));
-      }).pipe(Effect.provide(mainLayer)));
+      }));
   });
 
   describe("readFile", () => {
@@ -118,7 +118,7 @@ describe("S3FileSystem", () => {
           Bucket: "test-bucket",
           Key: "path-to-file.ext",
         });
-      }).pipe(Effect.provide(mainLayer)));
+      }));
   });
 
   describe("makeDirectory", () => {
@@ -147,7 +147,7 @@ describe("S3FileSystem", () => {
         );
         expect(clientMock).toHaveReceivedCommandTimes(HeadObjectCommand, 2);
         expect(clientMock).not.toHaveReceivedCommand(PutObjectCommand);
-      }).pipe(Effect.provide(mainLayer)));
+      }));
 
     it.effect("should fail with NotFound system error", () =>
       Effect.gen(function*() {
@@ -178,7 +178,7 @@ describe("S3FileSystem", () => {
         );
         expect(clientMock).toHaveReceivedCommandTimes(HeadObjectCommand, 2);
         expect(clientMock).not.toHaveReceivedCommand(PutObjectCommand);
-      }).pipe(Effect.provide(mainLayer)));
+      }));
 
     it.effect("should make directory", () =>
       Effect.gen(function*() {
@@ -203,7 +203,7 @@ describe("S3FileSystem", () => {
           Bucket: "test-bucket",
           Key: "aaa/bbb/ccc/",
         });
-      }).pipe(Effect.provide(mainLayer)));
+      }));
 
     it.effect("should make directory recursively", () =>
       Effect.gen(function*() {
@@ -230,7 +230,7 @@ describe("S3FileSystem", () => {
           Bucket: "test-bucket",
           Key: "aaa/bbb/ccc/",
         });
-      }).pipe(Effect.provide(mainLayer)));
+      }));
   });
 
   describe("readDirectory", () => {
@@ -252,7 +252,7 @@ describe("S3FileSystem", () => {
           Bucket: "test-bucket",
           Prefix: "path-to-dir/",
         });
-      }).pipe(Effect.provide(mainLayer)));
+      }));
 
     it.effect("should read directory recursively", () =>
       Effect.gen(function*() {
@@ -272,7 +272,7 @@ describe("S3FileSystem", () => {
           Bucket: "test-bucket",
           Prefix: "path-to-dir/",
         });
-      }).pipe(Effect.provide(mainLayer)));
+      }));
 
     it.effect("should fail with NotFound system error", () =>
       Effect.gen(function*() {
@@ -294,6 +294,6 @@ describe("S3FileSystem", () => {
         })));
 
         expect(clientMock).toHaveReceivedCommandOnce(ListObjectsCommand);
-      }).pipe(Effect.provide(mainLayer)));
+      }));
   });
 });

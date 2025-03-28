@@ -35,7 +35,7 @@
     "@effect/build-utils": "^0.7.9",
     "@effect/docgen": "^0.4.3",
     "@effect/eslint-plugin": "^0.2.0",
-    "@effect/language-service": "^0.2.0",
+    "@effect/language-service": "^0.4.0",
     "@effect/vitest": "0.13.16",
     "@eslint/compat": "^1.2.5",
     "@eslint/eslintrc": "^3.2.0",

@@ -59,6 +59,7 @@ export class MonorepoProject extends PnpmMonorepoProject {
 
         subproject.tsconfigSrc.addExtends(this.tsconfigBase);
         subproject.tsconfigTst.addExtends(this.tsconfigBase);
+        subproject.tsconfigExamples?.addExtends(this.tsconfigBase);
         subproject.tsconfigTst.file.addOverride("compilerOptions.types", ["../../vitest.d.ts"]);
 
         if (implDeps.length) {

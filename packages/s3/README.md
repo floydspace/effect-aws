@@ -3,8 +3,7 @@
 [![npm version](https://img.shields.io/npm/v/%40effect-aws%2Fs3?color=brightgreen&label=npm%20package)](https://www.npmjs.com/package/@effect-aws/s3)
 [![npm downloads](https://img.shields.io/npm/dm/%40effect-aws%2Fs3)](https://www.npmjs.com/package/@effect-aws/s3)
 
-This package provides the `S3FileSystem` implementation for platform [FileSystem](https://effect.website/docs/platform/file-system) tag.
-You can use it to operate on files in an S3 bucket as if they were local files.
+This package provides the `S3` service specific effectful utilities and implementations.
 
 ## Installation
 
@@ -13,6 +12,40 @@ npm install --save @effect-aws/s3 @effect-aws/client-s3
 ```
 
 ## Usage
+
+### Using `MultipartUpload`
+
+The `MultipartUpload` is a effectful port of the `Upload` class from the [`@aws-sdk/lib-storage`](https://github.com/aws/aws-sdk-js-v3/tree/main/lib/lib-storage) package.
+
+**Example**
+
+```ts
+import { S3 } from "@effect-aws/client-s3"
+import { MultipartUpload } from "@effect-aws/s3"
+import { FileSystem } from "@effect/platform"
+import { Effect } from "effect"
+
+const program = MultipartUpload.uploadObject(
+  {
+    Bucket: "my-bucket",
+    Key: "my-object",
+    Body: new Uint8Array(1024 * 1024 * 10) // 10 MB
+  },
+  {
+    // (optional) concurrency configuration
+    queueSize: 4,
+    // (optional) size of each part, in bytes, at least 5MB
+    partSize: FileSystem.MiB(5)
+  }
+)
+
+program.pipe(Effect.provide(S3.defaultLayer), Effect.runPromise)
+```
+
+### Using `S3FileSystem`
+
+The `S3FileSystem` is an implementation for platform [FileSystem](https://effect.website/docs/platform/file-system) tag.
+You can use it to operate on files in an S3 bucket as if they were local files.
 
 **Example** (Reading a File as a String)
 

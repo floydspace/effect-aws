@@ -7,8 +7,8 @@ import type { Config, ConfigError, Layer } from "effect";
 import * as internal from "./internal/s3FileSystem.js";
 
 /**
- * @category models
  * @since 0.1.0
+ * @category models
  */
 export interface S3FileSystemConfig {
   readonly bucketName: string;
