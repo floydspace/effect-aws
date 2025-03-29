@@ -1212,6 +1212,32 @@ importers:
         version: 5.4.5
     publishDirectory: dist
 
+  packages/signature-v4:
+    dependencies:
+      '@aws-crypto/sha256-js':
+        specifier: ^5
+        version: 5.2.0
+      '@smithy/signature-v4':
+        specifier: ^5
+        version: 5.0.1
+      '@smithy/types':
+        specifier: ^4
+        version: 4.1.0
+      aws4fetch:
+        specifier: ^1
+        version: 1.0.20
+      effect:
+        specifier: '>=3.0.4 <4.0.0'
+        version: 3.10.16
+    devDependencies:
+      '@types/node':
+        specifier: ts5.4
+        version: 22.13.10
+      typescript:
+        specifier: ^5.4.2
+        version: 5.4.5
+    publishDirectory: dist
+
   packages/ssm:
     devDependencies:
       '@aws-sdk/client-ssm':
@@ -2796,6 +2822,9 @@ packages:
 
   aws-sdk-client-mock@4.1.0:
     resolution: {integrity: sha512-h/tOYTkXEsAcV3//6C1/7U4ifSpKyJvb6auveAepqqNJl6TdZaPFEtKjBQNf8UxQdDP850knB2i/whq4zlsxJw==}
+
+  aws4fetch@1.0.20:
+    resolution: {integrity: sha512-/djoAN709iY65ETD6LKCtyyEI04XIBP5xVvfmNxsEP0uJB5tyaGBztSryRr4HqMStr9R06PisQE7m9zDTXKu6g==}
 
   balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
@@ -8765,6 +8794,8 @@ snapshots:
       '@types/sinon': 17.0.4
       sinon: 18.0.1
       tslib: 2.8.1
+
+  aws4fetch@1.0.20: {}
 
   balanced-match@1.0.2: {}
 
