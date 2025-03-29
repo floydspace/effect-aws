@@ -6,7 +6,6 @@ import type {
   EncryptionTypeMismatchError,
   InvalidRequestError,
   InvalidWriteOffsetError,
-  S3Service,
   S3ServiceError,
   SdkError,
   TooManyPartsError,
@@ -168,116 +167,121 @@ interface RawDataPart {
 const MIN_PART_SIZE = FileSystem.MiB(5);
 
 /** @internal */
-const uploadPart = (
-  partNumber: number,
-  uploadId: string | undefined,
-  params: PutObjectCommandInput,
-): Effect.Effect<CompletedPart, SdkError | S3ServiceError, S3Service> =>
-  Effect.gen(function*() {
-    const partResult = yield* S3.uploadPart({
-      ...params,
-      // dataPart.data is chunked into a non-streaming buffer
-      // so the ContentLength from the input should not be used for MPU.
-      ContentLength: undefined,
-      UploadId: uploadId,
-      PartNumber: partNumber,
+export const make = Effect.gen(function*() {
+  const s3 = yield* S3;
+
+  const uploadPart = (
+    partNumber: number,
+    uploadId: string | undefined,
+    params: PutObjectCommandInput,
+  ): Effect.Effect<CompletedPart, SdkError | S3ServiceError> =>
+    Effect.gen(function*() {
+      const partResult = yield* s3.uploadPart({
+        ...params,
+        // dataPart.data is chunked into a non-streaming buffer
+        // so the ContentLength from the input should not be used for MPU.
+        ContentLength: undefined,
+        UploadId: uploadId,
+        PartNumber: partNumber,
+      });
+
+      if (!partResult.ETag) {
+        yield* Effect.dieMessage(
+          `Part ${partNumber} is missing ETag in UploadPart response. Missing Bucket CORS configuration for ETag header?`,
+        );
+      }
+
+      return {
+        PartNumber: partNumber,
+        ETag: partResult.ETag,
+        ...(partResult.ChecksumCRC32 && { ChecksumCRC32: partResult.ChecksumCRC32 }),
+        ...(partResult.ChecksumCRC32C && { ChecksumCRC32C: partResult.ChecksumCRC32C }),
+        ...(partResult.ChecksumSHA1 && { ChecksumSHA1: partResult.ChecksumSHA1 }),
+        ...(partResult.ChecksumSHA256 && { ChecksumSHA256: partResult.ChecksumSHA256 }),
+      };
     });
 
-    if (!partResult.ETag) {
-      yield* Effect.dieMessage(
-        `Part ${partNumber} is missing ETag in UploadPart response. Missing Bucket CORS configuration for ETag header?`,
-      );
-    }
+  const uploadObject = (
+    args: PutObjectCommandInput,
+    options?: UploadObjectOptions,
+  ): Effect.Effect<
+    CompleteMultipartUploadCommandOutput,
+    | SdkError
+    | S3ServiceError
+    | PlatformError.BadArgument
+    | Cause.NoSuchElementException
+    | EncryptionTypeMismatchError
+    | InvalidRequestError
+    | InvalidWriteOffsetError
+    | TooManyPartsError
+  > =>
+    Effect.gen(function*() {
+      const partSize = options?.partSize || MIN_PART_SIZE;
+      const queueSize = options?.queueSize || 4;
 
-    return {
-      PartNumber: partNumber,
-      ETag: partResult.ETag,
-      ...(partResult.ChecksumCRC32 && { ChecksumCRC32: partResult.ChecksumCRC32 }),
-      ...(partResult.ChecksumCRC32C && { ChecksumCRC32C: partResult.ChecksumCRC32C }),
-      ...(partResult.ChecksumSHA1 && { ChecksumSHA1: partResult.ChecksumSHA1 }),
-      ...(partResult.ChecksumSHA256 && { ChecksumSHA256: partResult.ChecksumSHA256 }),
-    };
-  });
-
-/** @internal */
-export const uploadObject = (
-  args: PutObjectCommandInput,
-  options?: UploadObjectOptions,
-): Effect.Effect<
-  CompleteMultipartUploadCommandOutput,
-  | SdkError
-  | S3ServiceError
-  | PlatformError.BadArgument
-  | Cause.NoSuchElementException
-  | EncryptionTypeMismatchError
-  | InvalidRequestError
-  | InvalidWriteOffsetError
-  | TooManyPartsError,
-  S3Service
-> =>
-  Effect.gen(function*() {
-    const partSize = options?.partSize || MIN_PART_SIZE;
-    const queueSize = options?.queueSize || 4;
-
-    if (partSize < MIN_PART_SIZE) {
-      return yield* Effect.fail(
-        handleBadArgument("uploadObject")(
-          `EntityTooSmall: Your proposed upload partsize [${partSize}] is smaller than the minimum allowed size [${MIN_PART_SIZE}] (5MB)`,
-        ),
-      );
-    }
-
-    if (queueSize < 1) {
-      return yield* Effect.fail(
-        handleBadArgument("uploadObject")(`Queue size: Must have at least one uploading queue.`),
-      );
-    }
-
-    const { Body, ...params } = args;
-
-    const dataStream = Stream.fromAsyncIterable(getChunk(Body, partSize), handleBadArgument("uploadObject"));
-
-    const [doublet, tailStream] = yield* dataStream.pipe(Stream.peel(Sink.take(2)));
-    const firstPart = yield* Chunk.head(doublet);
-    const secondPart = Chunk.get(doublet, 1);
-
-    if (Option.isNone(secondPart)) {
-      return yield* S3.putObject({ ...params, Body: firstPart.data }).pipe(
-        Effect.map((result) => ({ ...result, Bucket: params.Bucket, Key: params.Key })),
-      );
-    }
-
-    const multiStream = Stream.merge(Stream.make(firstPart, secondPart.value), tailStream);
-
-    const completeRef = yield* Ref.make<CompleteMultipartUploadCommandOutput | null>(null);
-
-    yield* Effect.acquireUseRelease(
-      S3.createMultipartUpload({ ...params, ChecksumAlgorithm: "CRC32" }),
-      ({ UploadId }) =>
-        multiStream.pipe(
-          Stream.mapEffect(
-            (dataPart) => uploadPart(dataPart.partNumber, UploadId, { ...params, Body: dataPart.data }),
-            { concurrency: queueSize },
+      if (partSize < MIN_PART_SIZE) {
+        return yield* Effect.fail(
+          handleBadArgument("uploadObject")(
+            `EntityTooSmall: Your proposed upload partsize [${partSize}] is smaller than the minimum allowed size [${MIN_PART_SIZE}] (5MB)`,
           ),
-          Stream.runCollect,
-        ),
-      ({ UploadId }, exit) =>
-        Exit.matchEffect(exit, {
-          onSuccess: (parts) =>
-            S3.completeMultipartUpload({ ...params, UploadId, MultipartUpload: { Parts: Chunk.toArray(parts) } }).pipe(
-              Effect.flatMap((result) => Ref.set(completeRef, result)),
-            ),
-          onFailure: () => S3.abortMultipartUpload({ Bucket: params.Bucket, Key: params.Key, UploadId }),
-        }).pipe(Effect.orDie),
-    );
+        );
+      }
 
-    return yield* completeRef.pipe(
-      Effect.flatMap(Effect.fromNullable),
-      Effect.map((result) => ({
-        ...result,
-        ...(typeof result.Location === "string" && result.Location.includes("%2F")
-          ? { Location: result.Location.replace(/%2F/g, "/") }
-          : {}),
-      })),
-    );
-  }).pipe(Effect.scoped);
+      if (queueSize < 1) {
+        return yield* Effect.fail(
+          handleBadArgument("uploadObject")(`Queue size: Must have at least one uploading queue.`),
+        );
+      }
+
+      const { Body, ...params } = args;
+
+      const dataStream = Stream.fromAsyncIterable(getChunk(Body, partSize), handleBadArgument("uploadObject"));
+
+      const [doublet, tailStream] = yield* dataStream.pipe(Stream.peel(Sink.take(2)));
+      const firstPart = yield* Chunk.head(doublet);
+      const secondPart = Chunk.get(doublet, 1);
+
+      if (Option.isNone(secondPart)) {
+        return yield* s3.putObject({ ...params, Body: firstPart.data }).pipe(
+          Effect.map((result) => ({ ...result, Bucket: params.Bucket, Key: params.Key })),
+        );
+      }
+
+      const multiStream = Stream.merge(Stream.make(firstPart, secondPart.value), tailStream);
+
+      const completeRef = yield* Ref.make<CompleteMultipartUploadCommandOutput | null>(null);
+
+      yield* Effect.acquireUseRelease(
+        s3.createMultipartUpload({ ...params, ChecksumAlgorithm: "CRC32" }),
+        ({ UploadId }) =>
+          multiStream.pipe(
+            Stream.mapEffect(
+              (dataPart) => uploadPart(dataPart.partNumber, UploadId, { ...params, Body: dataPart.data }),
+              { concurrency: queueSize },
+            ),
+            Stream.runCollect,
+          ),
+        ({ UploadId }, exit) =>
+          Exit.matchEffect(exit, {
+            onSuccess: (parts) =>
+              s3.completeMultipartUpload({ ...params, UploadId, MultipartUpload: { Parts: Chunk.toArray(parts) } })
+                .pipe(
+                  Effect.flatMap((result) => Ref.set(completeRef, result)),
+                ),
+            onFailure: () => s3.abortMultipartUpload({ Bucket: params.Bucket, Key: params.Key, UploadId }),
+          }).pipe(Effect.orDie),
+      );
+
+      return yield* completeRef.pipe(
+        Effect.flatMap(Effect.fromNullable),
+        Effect.map((result) => ({
+          ...result,
+          ...(typeof result.Location === "string" && result.Location.includes("%2F")
+            ? { Location: result.Location.replace(/%2F/g, "/") }
+            : {}),
+        })),
+      );
+    }).pipe(Effect.scoped);
+
+  return { uploadObject };
+});

@@ -1,18 +1,9 @@
 /**
  * @since 0.1.0
  */
-import type { CompleteMultipartUploadCommandOutput, PutObjectCommandInput } from "@aws-sdk/client-s3";
-import type {
-  EncryptionTypeMismatchError,
-  InvalidRequestError,
-  InvalidWriteOffsetError,
-  S3Service,
-  S3ServiceError,
-  SdkError,
-  TooManyPartsError,
-} from "@effect-aws/client-s3";
-import type { Error as PlatformError, FileSystem } from "@effect/platform";
-import type { Cause, Effect } from "effect";
+import { S3 } from "@effect-aws/client-s3";
+import type { FileSystem } from "@effect/platform";
+import { Effect } from "effect";
 import * as internal from "./internal/multipartUpload.js";
 
 /**
@@ -39,18 +30,8 @@ export interface UploadObjectOptions {
  * @since 0.1.0
  * @category execution
  */
-export const uploadObject: (
-  args: PutObjectCommandInput,
-  options?: UploadObjectOptions,
-) => Effect.Effect<
-  CompleteMultipartUploadCommandOutput,
-  | SdkError
-  | S3ServiceError
-  | PlatformError.BadArgument
-  | Cause.NoSuchElementException
-  | EncryptionTypeMismatchError
-  | InvalidRequestError
-  | InvalidWriteOffsetError
-  | TooManyPartsError,
-  S3Service
-> = internal.uploadObject;
+export class MultipartUpload extends Effect.Service<MultipartUpload>()("AWSMultipartUpload", {
+  effect: internal.make,
+  accessors: true,
+  dependencies: [S3.defaultLayer],
+}) {}
