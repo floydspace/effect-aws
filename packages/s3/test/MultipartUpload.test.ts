@@ -6,7 +6,6 @@ import {
   S3Client,
   UploadPartCommand,
 } from "@aws-sdk/client-s3";
-import { S3 } from "@effect-aws/client-s3";
 import { MultipartUpload } from "@effect-aws/s3";
 import { layer } from "@effect/vitest";
 import { mockClient } from "aws-sdk-client-mock";
@@ -15,7 +14,7 @@ import { afterEach, expect } from "vitest";
 
 const clientMock = mockClient(S3Client);
 
-layer(S3.defaultLayer)("MultipartUpload", (it) => {
+layer(MultipartUpload.defaultLayer)("MultipartUpload", (it) => {
   afterEach(() => {
     clientMock.reset();
   });

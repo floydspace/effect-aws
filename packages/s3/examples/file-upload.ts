@@ -5,9 +5,9 @@ import { Effect, Layer } from "effect";
 
 const program = Effect.gen(function*() {
   const fs = yield* FileSystem.FileSystem;
-  const mp = yield* MultipartUpload.MultipartUpload;
+  const mu = yield* MultipartUpload.MultipartUpload;
 
-  yield* mp.uploadObject({
+  yield* mu.uploadObject({
     Bucket: "my-bucket",
     Key: "my-object",
     Body: yield* fs.readFile(__dirname + "/big.file"),
@@ -15,8 +15,6 @@ const program = Effect.gen(function*() {
 });
 
 program.pipe(
-  Effect.provide(
-    Layer.merge(MultipartUpload.MultipartUpload.Default, NodeFileSystem.layer),
-  ),
+  Effect.provide(Layer.merge(MultipartUpload.defaultLayer, NodeFileSystem.layer)),
   Effect.runPromise,
 );

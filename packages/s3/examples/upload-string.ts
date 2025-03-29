@@ -1,4 +1,4 @@
-import { MultipartUpload } from "@effect-aws/s3/MultipartUpload";
+import { MultipartUpload } from "@effect-aws/s3";
 import { Effect } from "effect";
 
 const Body =
@@ -11,6 +11,6 @@ const program = MultipartUpload.uploadObject({
 });
 
 program.pipe(
-  Effect.provide(MultipartUpload.Default),
+  Effect.provide(MultipartUpload.defaultLayer),
   Effect.runPromise,
 );

@@ -10,11 +10,14 @@ import type {
   SdkError,
   TooManyPartsError,
 } from "@effect-aws/client-s3";
-import { S3 } from "@effect-aws/client-s3";
+import { S3Service } from "@effect-aws/client-s3";
 import { Error as PlatformError, FileSystem } from "@effect/platform";
 import type { Cause } from "effect";
-import { Chunk, Effect, Exit, Option, Ref, Sink, Stream } from "effect";
-import type { UploadObjectOptions } from "../MultipartUpload.js";
+import { Chunk, Context, Effect, Exit, Option, Ref, Sink, Stream } from "effect";
+import type { MultipartUpload, UploadObjectOptions } from "../MultipartUpload.js";
+
+/** @internal */
+export const tag = Context.GenericTag<MultipartUpload>("@effect-aws/s3/MultipartUpload");
 
 /** @internal */
 const handleBadArgument = (method: string) => (err: unknown) =>
@@ -164,11 +167,20 @@ interface RawDataPart {
   lastPart?: boolean;
 }
 
+type PutObjectError =
+  | SdkError
+  | EncryptionTypeMismatchError
+  | InvalidRequestError
+  | InvalidWriteOffsetError
+  | TooManyPartsError;
+
+export type S3ServiceErrors = PutObjectError | S3ServiceError;
+
 const MIN_PART_SIZE = FileSystem.MiB(5);
 
 /** @internal */
-export const make = Effect.gen(function*() {
-  const s3 = yield* S3;
+export const make: Effect.Effect<MultipartUpload, never, S3Service> = Effect.gen(function*() {
+  const s3 = yield* S3Service;
 
   const uploadPart = (
     partNumber: number,
@@ -206,14 +218,7 @@ export const make = Effect.gen(function*() {
     options?: UploadObjectOptions,
   ): Effect.Effect<
     CompleteMultipartUploadCommandOutput,
-    | SdkError
-    | S3ServiceError
-    | PlatformError.BadArgument
-    | Cause.NoSuchElementException
-    | EncryptionTypeMismatchError
-    | InvalidRequestError
-    | InvalidWriteOffsetError
-    | TooManyPartsError
+    S3ServiceErrors | PlatformError.BadArgument | Cause.NoSuchElementException
   > =>
     Effect.gen(function*() {
       const partSize = options?.partSize || MIN_PART_SIZE;
@@ -283,5 +288,15 @@ export const make = Effect.gen(function*() {
       );
     }).pipe(Effect.scoped);
 
-  return { uploadObject };
+  return tag.of({ uploadObject });
 });
+
+/** @internal */
+export const uploadObject: (
+  args: PutObjectCommandInput,
+  options?: UploadObjectOptions,
+) => Effect.Effect<
+  CompleteMultipartUploadCommandOutput,
+  S3ServiceErrors | PlatformError.BadArgument | Cause.NoSuchElementException,
+  MultipartUpload
+> = (args, options) => Effect.flatMap(tag, (_) => _.uploadObject(args, options));
