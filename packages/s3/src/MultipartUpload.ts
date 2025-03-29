@@ -1,18 +1,16 @@
 /**
  * @since 0.1.0
  */
-import type { CompleteMultipartUploadCommandOutput, PutObjectCommandInput } from "@aws-sdk/client-s3";
 import type {
-  EncryptionTypeMismatchError,
-  InvalidRequestError,
-  InvalidWriteOffsetError,
-  S3Service,
-  S3ServiceError,
-  SdkError,
-  TooManyPartsError,
-} from "@effect-aws/client-s3";
+  CompleteMultipartUploadCommandOutput,
+  PutObjectCommandInput,
+  S3Client,
+  S3ClientConfig,
+} from "@aws-sdk/client-s3";
+import { S3Service } from "@effect-aws/client-s3";
 import type { Error as PlatformError, FileSystem } from "@effect/platform";
-import type { Cause, Effect } from "effect";
+import type { Cause, Context, Effect } from "effect";
+import { Layer } from "effect";
 import * as internal from "./internal/multipartUpload.js";
 
 /**
@@ -34,6 +32,29 @@ export interface UploadObjectOptions {
 }
 
 /**
+ * @since 0.1.0
+ * @category model
+ */
+export interface MultipartUpload {
+  /**
+   * Upload an object to S3 using multipart upload.
+   */
+  readonly uploadObject: (
+    args: PutObjectCommandInput,
+    options?: UploadObjectOptions,
+  ) => Effect.Effect<
+    CompleteMultipartUploadCommandOutput,
+    internal.S3ServiceErrors | PlatformError.BadArgument | Cause.NoSuchElementException
+  >;
+}
+
+/**
+ * @since 0.1.0
+ * @category tag
+ */
+export const MultipartUpload: Context.Tag<MultipartUpload, MultipartUpload> = internal.tag;
+
+/**
  * Upload an object to S3 using multipart upload.
  *
  * @since 0.1.0
@@ -44,13 +65,35 @@ export const uploadObject: (
   options?: UploadObjectOptions,
 ) => Effect.Effect<
   CompleteMultipartUploadCommandOutput,
-  | SdkError
-  | S3ServiceError
-  | PlatformError.BadArgument
-  | Cause.NoSuchElementException
-  | EncryptionTypeMismatchError
-  | InvalidRequestError
-  | InvalidWriteOffsetError
-  | TooManyPartsError,
-  S3Service
+  internal.S3ServiceErrors | PlatformError.BadArgument | Cause.NoSuchElementException,
+  MultipartUpload
 > = internal.uploadObject;
+
+/**
+ * @since 0.1.0
+ * @category layers
+ */
+export const layerWithoutS3Service: Layer.Layer<MultipartUpload, never, S3Service> = Layer.effect(
+  MultipartUpload,
+  internal.make,
+);
+
+/**
+ * @since 0.1.0
+ * @category layers
+ */
+export const defaultLayer: Layer.Layer<MultipartUpload> = Layer.provide(layerWithoutS3Service, S3Service.defaultLayer);
+
+/**
+ * @since 0.1.0
+ * @category layers
+ */
+export const layer = (config: S3Service.Config): Layer.Layer<MultipartUpload> =>
+  Layer.provide(layerWithoutS3Service, S3Service.layer(config));
+
+/**
+ * @since 0.1.0
+ * @category layers
+ */
+export const baseLayer = (evaluate: (defaultConfig: S3ClientConfig) => S3Client): Layer.Layer<MultipartUpload> =>
+  Layer.provide(layerWithoutS3Service, S3Service.baseLayer(evaluate));

@@ -1,4 +1,3 @@
-import { S3 } from "@effect-aws/client-s3";
 import { MultipartUpload } from "@effect-aws/s3";
 import { FileSystem } from "@effect/platform";
 import { NodeFileSystem } from "@effect/platform-node";
@@ -6,8 +5,9 @@ import { Effect, Layer } from "effect";
 
 const program = Effect.gen(function*() {
   const fs = yield* FileSystem.FileSystem;
+  const mu = yield* MultipartUpload.MultipartUpload;
 
-  yield* MultipartUpload.uploadObject({
+  yield* mu.uploadObject({
     Bucket: "my-bucket",
     Key: "my-object",
     Body: yield* fs.readFile(__dirname + "/big.file"),
@@ -15,6 +15,6 @@ const program = Effect.gen(function*() {
 });
 
 program.pipe(
-  Effect.provide(Layer.merge(S3.defaultLayer, NodeFileSystem.layer)),
+  Effect.provide(Layer.merge(MultipartUpload.defaultLayer, NodeFileSystem.layer)),
   Effect.runPromise,
 );
