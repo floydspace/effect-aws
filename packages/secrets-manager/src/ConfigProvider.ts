@@ -2,7 +2,7 @@
  * @since 1.0.0
  */
 import { SecretsManagerService } from "@effect-aws/client-secrets-manager";
-import type { Config, Layer } from "effect";
+import type { Config } from "effect";
 import {
   Array,
   Cause,
@@ -11,6 +11,7 @@ import {
   ConfigProviderPathPatch,
   Effect,
   HashSet,
+  Layer,
   Option,
   pipe,
 } from "effect";
@@ -20,10 +21,12 @@ import {
  *
  * @since 1.0.0
  * @category constructors
+ *
+ * @deprecated Use `ConfigProvider.withSecretsManagerConfigProvider` instead.
  */
 export const fromSecretsManager = (config?: {
   pathDelim?: string;
-  serviceLayer?: Layer.Layer<SecretsManagerService, never, never>;
+  serviceLayer?: Layer.Layer<SecretsManagerService>;
 }): ConfigProvider.ConfigProvider => {
   const { pathDelim, serviceLayer } = Object.assign(
     {},
@@ -130,3 +133,30 @@ export const fromSecretsManager = (config?: {
     }),
   );
 };
+
+/**
+ * Sets the current `ConfigProvider` that loads configuration from AWS Secrets Manager.
+ *
+ * @since 1.2.0
+ * @category config
+ */
+export const setSecretsManagerConfigProvider = (config?: { pathDelim?: string }) =>
+  Effect.gen(function*() {
+    const service = yield* SecretsManagerService;
+
+    const provider = fromSecretsManager({
+      ...config,
+      serviceLayer: Layer.succeed(SecretsManagerService, service),
+    });
+
+    return Layer.setConfigProvider(provider);
+  }).pipe(Layer.unwrapEffect);
+
+/**
+ * Executes the specified workflow with the secrets manager configuration provider.
+ *
+ * @since 1.2.0
+ * @category config
+ */
+export const withSecretsManagerConfigProvider = (config?: { pathDelim?: string }) =>
+  Effect.provide(setSecretsManagerConfigProvider(config));

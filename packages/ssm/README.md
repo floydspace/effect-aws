@@ -20,38 +20,41 @@ npm install --save @effect-aws/ssm @effect-aws/client-ssm
 With default service layer:
 
 ```typescript
-import { Effect, Config, Console } from "effect";
-import { fromParameterStore } from "@effect-aws/ssm";
+import { SSM } from "@effect-aws/client-ssm"
+import { ConfigProvider } from "@effect-aws/ssm"
+import { Effect, Config, Console } from "effect"
 
 const program = Effect.gen(function* () {
-  const param: string = yield* Config.string("my_parameter_name");
+  const param: string = yield* Config.string("my_parameter_name")
 
-  yield* Console.log("Parameter from Parameter Store: ", param);
-});
+  yield* Console.log("Parameter from Parameter Store: ", param)
+})
 
 program.pipe(
-  Effect.provide(Layer.setConfigProvider(fromParameterStore())),
-  Effect.runPromise,
-);
+  ConfigProvider.withParameterStoreConfigProvider(),
+  Effect.provide(SSM.defaultLayer),
+  Effect.runPromise
+)
 ```
 
 With custom service layer:
 
 ```typescript
-import { SSM } from "@effect-aws/client-ssm";
-import { fromParameterStore } from "@effect-aws/ssm";
-import { Config, Console, Effect } from "effect";
+import { SSM } from "@effect-aws/client-ssm"
+import { ConfigProvider } from "@effect-aws/ssm"
+import { Config, Console, Effect } from "effect"
 
 const program = Effect.gen(function* () {
-  const param: string = yield* Config.string("my_parameter_name");
+  const param: string = yield* Config.string("my_parameter_name")
 
-  yield* Console.log("Parameter from Parameter Store: ", param);
-});
+  yield* Console.log("Parameter from Parameter Store: ", param)
+})
 
-const serviceLayer = SSM.layer({ region: "eu-central-1" });
+const serviceLayer = SSM.layer({ region: "eu-central-1" })
 
 program.pipe(
-  Effect.withConfigProvider(fromParameterStore({ serviceLayer })),
+  Effect.provide(ConfigProvider.setParameterStoreConfigProvider()),
+  Effect.provide(serviceLayer),
   Effect.runPromise
-);
+)
 ```

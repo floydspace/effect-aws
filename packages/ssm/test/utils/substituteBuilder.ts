@@ -1,4 +1,5 @@
 import type { Parameter, SSMClient } from "@aws-sdk/client-ssm";
+import { GetParameterCommand } from "@aws-sdk/client-ssm";
 import type { SubstituteOf } from "@fluffy-spoon/substitute";
 import { Arg, Substitute } from "@fluffy-spoon/substitute";
 
@@ -31,7 +32,7 @@ class GetParameterSubstituteBuilder {
   }
 
   failsWith(error: Error) {
-    this.substitute.send(Arg.all()).rejects(error);
+    this.substitute.send(Arg.is((a) => a instanceof GetParameterCommand), Arg.any()).rejects(error);
     return this.substitute;
   }
 
@@ -39,7 +40,7 @@ class GetParameterSubstituteBuilder {
     const substituteResponse = Substitute.for<Parameter>();
     substituteResponse.Value?.returns?.(this.paramValue);
 
-    this.substitute.send(Arg.all()).resolves({
+    this.substitute.send(Arg.is((a) => a instanceof GetParameterCommand), Arg.any()).resolves({
       $metadata: {},
       Parameter: substituteResponse,
     });
