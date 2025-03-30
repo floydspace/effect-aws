@@ -9,7 +9,7 @@ import {
 import { MultipartUpload } from "@effect-aws/s3";
 import { layer } from "@effect/vitest";
 import { mockClient } from "aws-sdk-client-mock";
-import { Effect } from "effect";
+import { Effect, Stream } from "effect";
 import { afterEach, expect } from "vitest";
 
 const clientMock = mockClient(S3Client);
@@ -62,7 +62,7 @@ layer(MultipartUpload.defaultLayer)("MultipartUpload", (it) => {
       const result = yield* MultipartUpload.uploadObject({
         Bucket: "test-bucket",
         Key: "path-to-file.ext",
-        Body: new Uint8Array(1024 * 1024 * 10), // 10 MB
+        Body: Stream.repeatValue(new Uint8Array(1024 * 64)).pipe(Stream.take(150)), // 9.6 MB
       });
 
       expect(result).toStrictEqual({});

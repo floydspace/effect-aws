@@ -13,8 +13,11 @@ import type {
 import { S3Service } from "@effect-aws/client-s3";
 import { Error as PlatformError, FileSystem } from "@effect/platform";
 import type { Cause } from "effect";
-import { Chunk, Context, Effect, Exit, Option, Ref, Sink, Stream } from "effect";
-import type { MultipartUpload, UploadObjectOptions } from "../MultipartUpload.js";
+import { Chunk, Context, Effect, Exit, Option, Predicate, Ref, Sink, Stream } from "effect";
+import type { MultipartUpload, UploadObjectCommandInput, UploadObjectOptions } from "../MultipartUpload.js";
+
+/** @internal */
+const isStream = (u: unknown): u is Stream.Stream<unknown, unknown> => Predicate.hasProperty(u, Stream.StreamTypeId);
 
 /** @internal */
 export const tag = Context.GenericTag<MultipartUpload>("@effect-aws/s3/MultipartUpload");
@@ -130,7 +133,14 @@ async function* getDataReadableStream(data: ReadableStream): AsyncGenerator<Uint
 }
 
 /** @internal */
-const getChunk = (data: BodyDataTypes, partSize: FileSystem.Size): AsyncGenerator<RawDataPart, void, undefined> => {
+const getChunk = <E>(
+  data: UploadObjectCommandInput<E>["Body"],
+  partSize: FileSystem.Size,
+): AsyncGenerator<RawDataPart, void, undefined> => {
+  if (isStream(data)) {
+    return getChunkStream(Stream.toReadableStream(data), partSize, getDataReadableStream);
+  }
+
   if (data instanceof Uint8Array) {
     // includes Buffer (extends Uint8Array)
     return getChunkUint8Array(data, partSize);
@@ -188,6 +198,11 @@ export const make: Effect.Effect<MultipartUpload, never, S3Service> = Effect.gen
     params: PutObjectCommandInput,
   ): Effect.Effect<CompletedPart, SdkError | S3ServiceError> =>
     Effect.gen(function*() {
+      yield* Effect.annotateLogsScoped({
+        partNumber,
+        partSize: `${(params.Body as Buffer).length / 1024 / 1024} MiB`,
+      });
+
       const partResult = yield* s3.uploadPart({
         ...params,
         // dataPart.data is chunked into a non-streaming buffer
@@ -203,6 +218,8 @@ export const make: Effect.Effect<MultipartUpload, never, S3Service> = Effect.gen
         );
       }
 
+      yield* Effect.logTrace("Part uploaded");
+
       return {
         PartNumber: partNumber,
         ETag: partResult.ETag,
@@ -211,10 +228,10 @@ export const make: Effect.Effect<MultipartUpload, never, S3Service> = Effect.gen
         ...(partResult.ChecksumSHA1 && { ChecksumSHA1: partResult.ChecksumSHA1 }),
         ...(partResult.ChecksumSHA256 && { ChecksumSHA256: partResult.ChecksumSHA256 }),
       };
-    });
+    }).pipe(Effect.scoped);
 
-  const uploadObject = (
-    args: PutObjectCommandInput,
+  const uploadObject = <E>(
+    args: UploadObjectCommandInput<E>,
     options?: UploadObjectOptions,
   ): Effect.Effect<
     CompleteMultipartUploadCommandOutput,
@@ -292,8 +309,8 @@ export const make: Effect.Effect<MultipartUpload, never, S3Service> = Effect.gen
 });
 
 /** @internal */
-export const uploadObject: (
-  args: PutObjectCommandInput,
+export const uploadObject: <E>(
+  args: UploadObjectCommandInput<E>,
   options?: UploadObjectOptions,
 ) => Effect.Effect<
   CompleteMultipartUploadCommandOutput,
