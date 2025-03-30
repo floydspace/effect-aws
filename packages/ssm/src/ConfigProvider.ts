@@ -17,17 +17,24 @@ import {
 } from "effect";
 
 /**
+ * @since 1.2.0
+ * @category models
+ */
+export interface FromParameterStoreConfig {
+  readonly pathDelim: string;
+}
+
+/**
  * A config provider that loads configuration from AWS Systems Manager Parameter Store.
  *
  * @since 1.0.0
  * @category constructors
  *
- * @deprecated Use `ConfigProvider.withParameterStoreConfigProvider` instead.
+ * @deprecated Use `ConfigProvider.withParameterStoreConfigProvider` or `ConfigProvider.setParameterStoreConfigProvider` instead.
  */
-export const fromParameterStore = (config?: {
-  pathDelim?: string;
-  serviceLayer?: Layer.Layer<SSMService>;
-}): ConfigProvider.ConfigProvider => {
+export const fromParameterStore = (
+  config?: Partial<FromParameterStoreConfig> & { serviceLayer?: Layer.Layer<SSMService> },
+): ConfigProvider.ConfigProvider => {
   const { pathDelim, serviceLayer } = Object.assign(
     {},
     { pathDelim: "_", serviceLayer: SSMService.defaultLayer },
@@ -143,7 +150,7 @@ export const fromParameterStore = (config?: {
  * @since 1.2.0
  * @category config
  */
-export const setParameterStoreConfigProvider = (config?: { pathDelim?: string }) =>
+export const setParameterStoreConfigProvider = (config?: Partial<FromParameterStoreConfig>) =>
   Effect.gen(function*() {
     const service = yield* SSMService;
 
@@ -161,5 +168,5 @@ export const setParameterStoreConfigProvider = (config?: { pathDelim?: string })
  * @since 1.2.0
  * @category config
  */
-export const withParameterStoreConfigProvider = (config?: { pathDelim?: string }) =>
+export const withParameterStoreConfigProvider = (config?: Partial<FromParameterStoreConfig>) =>
   Effect.provide(setParameterStoreConfigProvider(config));

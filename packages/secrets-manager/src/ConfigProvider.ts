@@ -17,17 +17,24 @@ import {
 } from "effect";
 
 /**
+ * @since 1.2.0
+ * @category models
+ */
+export interface FromSecretsManagerConfig {
+  readonly pathDelim: string;
+}
+
+/**
  * A config provider that loads configuration from AWS Secrets Manager.
  *
  * @since 1.0.0
  * @category constructors
  *
- * @deprecated Use `ConfigProvider.withSecretsManagerConfigProvider` instead.
+ * @deprecated Use `ConfigProvider.withSecretsManagerConfigProvider` or `ConfigProvider.setSecretsManagerConfigProvider` instead.
  */
-export const fromSecretsManager = (config?: {
-  pathDelim?: string;
-  serviceLayer?: Layer.Layer<SecretsManagerService>;
-}): ConfigProvider.ConfigProvider => {
+export const fromSecretsManager = (
+  config?: Partial<FromSecretsManagerConfig> & { serviceLayer?: Layer.Layer<SecretsManagerService> },
+): ConfigProvider.ConfigProvider => {
   const { pathDelim, serviceLayer } = Object.assign(
     {},
     { pathDelim: "_", serviceLayer: SecretsManagerService.defaultLayer },
@@ -140,7 +147,7 @@ export const fromSecretsManager = (config?: {
  * @since 1.2.0
  * @category config
  */
-export const setSecretsManagerConfigProvider = (config?: { pathDelim?: string }) =>
+export const setSecretsManagerConfigProvider = (config?: Partial<FromSecretsManagerConfig>) =>
   Effect.gen(function*() {
     const service = yield* SecretsManagerService;
 
@@ -158,5 +165,5 @@ export const setSecretsManagerConfigProvider = (config?: { pathDelim?: string })
  * @since 1.2.0
  * @category config
  */
-export const withSecretsManagerConfigProvider = (config?: { pathDelim?: string }) =>
+export const withSecretsManagerConfigProvider = (config?: Partial<FromSecretsManagerConfig>) =>
   Effect.provide(setSecretsManagerConfigProvider(config));
