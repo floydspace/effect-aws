@@ -2,7 +2,7 @@
  * @since 1.0.0
  */
 import { SecretsManagerService } from "@effect-aws/client-secrets-manager";
-import type { Config, Layer } from "effect";
+import type { Config } from "effect";
 import {
   Array,
   Cause,
@@ -11,20 +11,30 @@ import {
   ConfigProviderPathPatch,
   Effect,
   HashSet,
+  Layer,
   Option,
   pipe,
 } from "effect";
+
+/**
+ * @since 1.2.0
+ * @category models
+ */
+export interface FromSecretsManagerConfig {
+  readonly pathDelim: string;
+}
 
 /**
  * A config provider that loads configuration from AWS Secrets Manager.
  *
  * @since 1.0.0
  * @category constructors
+ *
+ * @deprecated Use `ConfigProvider.withSecretsManagerConfigProvider` or `ConfigProvider.setSecretsManagerConfigProvider` instead.
  */
-export const fromSecretsManager = (config?: {
-  pathDelim?: string;
-  serviceLayer?: Layer.Layer<SecretsManagerService, never, never>;
-}): ConfigProvider.ConfigProvider => {
+export const fromSecretsManager = (
+  config?: Partial<FromSecretsManagerConfig> & { serviceLayer?: Layer.Layer<SecretsManagerService> },
+): ConfigProvider.ConfigProvider => {
   const { pathDelim, serviceLayer } = Object.assign(
     {},
     { pathDelim: "_", serviceLayer: SecretsManagerService.defaultLayer },
@@ -130,3 +140,30 @@ export const fromSecretsManager = (config?: {
     }),
   );
 };
+
+/**
+ * Sets the current `ConfigProvider` that loads configuration from AWS Secrets Manager.
+ *
+ * @since 1.2.0
+ * @category config
+ */
+export const setSecretsManagerConfigProvider = (config?: Partial<FromSecretsManagerConfig>) =>
+  Effect.gen(function*() {
+    const service = yield* SecretsManagerService;
+
+    const provider = fromSecretsManager({
+      ...config,
+      serviceLayer: Layer.succeed(SecretsManagerService, service),
+    });
+
+    return Layer.setConfigProvider(provider);
+  }).pipe(Layer.unwrapEffect);
+
+/**
+ * Executes the specified workflow with the secrets manager configuration provider.
+ *
+ * @since 1.2.0
+ * @category config
+ */
+export const withSecretsManagerConfigProvider = (config?: Partial<FromSecretsManagerConfig>) =>
+  Effect.provide(setSecretsManagerConfigProvider(config));

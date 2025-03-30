@@ -1,8 +1,8 @@
 import { InvalidKeyId, ParameterNotFound } from "@aws-sdk/client-ssm";
 import { SSM } from "@effect-aws/client-ssm";
-import { fromParameterStore } from "@effect-aws/ssm";
+import { ConfigProvider } from "@effect-aws/ssm";
 import { Arg } from "@fluffy-spoon/substitute";
-import { Config, ConfigError, Effect, Exit, Secret } from "effect";
+import { Config, ConfigError, Effect, Exit, Layer, Redacted } from "effect";
 import { describe, expect, it } from "vitest";
 import { SubstituteBuilder } from "./utils/index.js";
 
@@ -16,7 +16,8 @@ describe("fromParameterStore", () => {
     const serviceLayer = SSM.baseLayer(() => clientSubstitute);
 
     const result = await Config.string("test").pipe(
-      Effect.withConfigProvider(fromParameterStore({ serviceLayer })),
+      ConfigProvider.withParameterStoreConfigProvider(),
+      Effect.provide(serviceLayer),
       Effect.runPromiseExit,
     );
 
@@ -35,11 +36,12 @@ describe("fromParameterStore", () => {
       );
 
     const serviceLayer = SSM.baseLayer(() => clientSubstitute);
+    const configProviderLayer = Layer.provide(ConfigProvider.setParameterStoreConfigProvider(), serviceLayer);
 
-    const result = await Config.secret("my-param-that-doesnt-exist").pipe(
-      Config.withDefault(Secret.fromString("mocked-default-value")),
-      Effect.withConfigProvider(fromParameterStore({ serviceLayer })),
-      Effect.map(Secret.value),
+    const result = await Config.redacted("my-param-that-doesnt-exist").pipe(
+      Config.withDefault(Redacted.make("mocked-default-value")),
+      Effect.provide(configProviderLayer),
+      Effect.map(Redacted.value),
       Effect.runPromiseExit,
     );
 
@@ -59,10 +61,11 @@ describe("fromParameterStore", () => {
 
     const serviceLayer = SSM.baseLayer(() => clientSubstitute);
 
-    const result = await Config.secret("test").pipe(
-      Config.withDefault(Secret.fromString("mocked-default-value")),
-      Effect.withConfigProvider(fromParameterStore({ serviceLayer })),
-      Effect.map(Secret.value),
+    const result = await Config.redacted("test").pipe(
+      Config.withDefault(Redacted.make("mocked-default-value")),
+      ConfigProvider.withParameterStoreConfigProvider(),
+      Effect.provide(serviceLayer),
+      Effect.map(Redacted.value),
       Effect.runPromiseExit,
     );
 
@@ -90,7 +93,8 @@ describe("fromParameterStore", () => {
     const serviceLayer = SSM.baseLayer(() => clientSubstitute);
 
     const result = await Config.string("test").pipe(
-      Effect.withConfigProvider(fromParameterStore({ serviceLayer })),
+      ConfigProvider.withParameterStoreConfigProvider(),
+      Effect.provide(serviceLayer),
       Effect.runPromiseExit,
     );
 
@@ -113,7 +117,8 @@ describe("fromParameterStore", () => {
     const serviceLayer = SSM.baseLayer(() => clientSubstitute);
 
     const result = await Config.string("test").pipe(
-      Effect.withConfigProvider(fromParameterStore({ serviceLayer })),
+      ConfigProvider.withParameterStoreConfigProvider(),
+      Effect.provide(serviceLayer),
       Effect.runPromiseExit,
     );
 

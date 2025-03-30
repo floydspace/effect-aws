@@ -1,4 +1,5 @@
 import type { GetSecretValueCommandOutput, SecretsManagerClient } from "@aws-sdk/client-secrets-manager";
+import { GetSecretValueCommand } from "@aws-sdk/client-secrets-manager";
 import type { SubstituteOf } from "@fluffy-spoon/substitute";
 import { Arg, Substitute } from "@fluffy-spoon/substitute";
 
@@ -33,7 +34,7 @@ class GetSecretValueSubstituteBuilder {
   }
 
   failsWith(error: Error) {
-    this.substitute.send(Arg.all()).rejects(error);
+    this.substitute.send(Arg.is((a) => a instanceof GetSecretValueCommand), Arg.any()).rejects(error);
     return this.substitute;
   }
 
@@ -41,7 +42,7 @@ class GetSecretValueSubstituteBuilder {
     const substituteResponse = Substitute.for<GetSecretValueCommandOutput>();
     substituteResponse.SecretString?.returns?.(this.secretString);
 
-    this.substitute.send(Arg.all()).resolves(substituteResponse);
+    this.substitute.send(Arg.is((a) => a instanceof GetSecretValueCommand), Arg.any()).resolves(substituteResponse);
 
     return this.substitute;
   }

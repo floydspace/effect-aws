@@ -1,4 +1,16 @@
 /**
  * @since 1.0.0
  */
-export * from "./ConfigProvider.js";
+import { fromSecretsManager } from "./ConfigProvider.js";
+
+export {
+  /**
+   * @since 1.0.0
+   */
+  fromSecretsManager,
+};
+
+/**
+ * @since 1.2.0
+ */
+export * as ConfigProvider from "./ConfigProvider.js";

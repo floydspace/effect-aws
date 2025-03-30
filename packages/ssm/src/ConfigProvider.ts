@@ -2,7 +2,7 @@
  * @since 1.0.0
  */
 import { SSMService } from "@effect-aws/client-ssm";
-import type { Config, Layer } from "effect";
+import type { Config } from "effect";
 import {
   Array,
   Cause,
@@ -11,20 +11,30 @@ import {
   ConfigProviderPathPatch,
   Effect,
   HashSet,
+  Layer,
   Option,
   pipe,
 } from "effect";
+
+/**
+ * @since 1.2.0
+ * @category models
+ */
+export interface FromParameterStoreConfig {
+  readonly pathDelim: string;
+}
 
 /**
  * A config provider that loads configuration from AWS Systems Manager Parameter Store.
  *
  * @since 1.0.0
  * @category constructors
+ *
+ * @deprecated Use `ConfigProvider.withParameterStoreConfigProvider` or `ConfigProvider.setParameterStoreConfigProvider` instead.
  */
-export const fromParameterStore = (config?: {
-  pathDelim?: string;
-  serviceLayer?: Layer.Layer<SSMService, never, never>;
-}): ConfigProvider.ConfigProvider => {
+export const fromParameterStore = (
+  config?: Partial<FromParameterStoreConfig> & { serviceLayer?: Layer.Layer<SSMService> },
+): ConfigProvider.ConfigProvider => {
   const { pathDelim, serviceLayer } = Object.assign(
     {},
     { pathDelim: "_", serviceLayer: SSMService.defaultLayer },
@@ -133,3 +143,30 @@ export const fromParameterStore = (config?: {
     }),
   );
 };
+
+/**
+ * Sets the current `ConfigProvider` that loads configuration from AWS Systems Manager Parameter Store.
+ *
+ * @since 1.2.0
+ * @category config
+ */
+export const setParameterStoreConfigProvider = (config?: Partial<FromParameterStoreConfig>) =>
+  Effect.gen(function*() {
+    const service = yield* SSMService;
+
+    const provider = fromParameterStore({
+      ...config,
+      serviceLayer: Layer.succeed(SSMService, service),
+    });
+
+    return Layer.setConfigProvider(provider);
+  }).pipe(Layer.unwrapEffect);
+
+/**
+ * Executes the specified workflow with the parameter store configuration provider.
+ *
+ * @since 1.2.0
+ * @category config
+ */
+export const withParameterStoreConfigProvider = (config?: Partial<FromParameterStoreConfig>) =>
+  Effect.provide(setParameterStoreConfigProvider(config));
