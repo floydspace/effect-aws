@@ -1,5 +1,36 @@
 # @effect-aws/s3
 
+## 0.1.2
+
+### Patch Changes
+
+- [#143](https://github.com/floydspace/effect-aws/pull/143) [`17036d5`](https://github.com/floydspace/effect-aws/commit/17036d54b51e2509ed3245ba45f5d8e72c080a93) Thanks [@floydspace](https://github.com/floydspace)! - Allow effect's Stream as Body param in `MultipartUpload.uploadObject`
+
+  ```ts
+  import { MultipartUpload } from "@effect-aws/s3";
+  import { FileSystem } from "@effect/platform";
+  import { NodeFileSystem } from "@effect/platform-node";
+  import { Effect, Layer } from "effect";
+
+  const program = Effect.gen(function* () {
+    const fs = yield* FileSystem.FileSystem;
+    const mu = yield* MultipartUpload.MultipartUpload;
+
+    yield* mu.uploadObject({
+      Bucket: "my-bucket",
+      Key: "my-object",
+      Body: fs.stream(__dirname + "/big.file"),
+    });
+  });
+
+  program.pipe(
+    Effect.provide(
+      Layer.merge(MultipartUpload.defaultLayer, NodeFileSystem.layer),
+    ),
+    Effect.runPromise,
+  );
+  ```
+
 ## 0.1.1
 
 ### Patch Changes
