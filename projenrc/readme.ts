@@ -52,6 +52,9 @@ export class Readme extends Component {
         `| \`@${project.name}/powertools-logger\`       | Effectful [Powertools Logger for AWS Lambda](https://docs.powertools.aws.dev/lambda/typescript/latest) | ${
           genBadges("powertools-logger")
         } | [README](https://github.com/${repo}/blob/main/packages/powertools-logger/README.md) |`,
+        `| \`@${project.name}/s3\`         | Effectful AWS S3 functions                                                       | ${
+          genBadges("s3")
+        } | [README](https://github.com/${repo}/blob/main/packages/s3/README.md) |`,
         `| \`@${project.name}/secrets-manager\`         | Effectful AWS Secrets Manager functions                                                       | ${
           genBadges("secrets-manager")
         } | [README](https://github.com/${repo}/blob/main/packages/secrets-manager/README.md) |`,

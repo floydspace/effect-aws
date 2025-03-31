@@ -10,7 +10,7 @@ const program = Effect.gen(function*() {
   yield* mu.uploadObject({
     Bucket: "my-bucket",
     Key: "my-object",
-    Body: yield* fs.readFile(__dirname + "/big.file"),
+    Body: fs.stream(__dirname + "/big.file"),
   }, { queueSize: 3 });
 });
 

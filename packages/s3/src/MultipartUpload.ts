@@ -9,9 +9,17 @@ import type {
 } from "@aws-sdk/client-s3";
 import { S3Service } from "@effect-aws/client-s3";
 import type { Error as PlatformError, FileSystem } from "@effect/platform";
-import type { Cause, Context, Effect } from "effect";
+import type { Cause, Context, Effect, Stream } from "effect";
 import { Layer } from "effect";
 import * as internal from "./internal/multipartUpload.js";
+
+/**
+ * @since 0.1.0
+ * @category models
+ */
+export interface UploadObjectCommandInput<E = never> extends Omit<PutObjectCommandInput, "Body"> {
+  Body: PutObjectCommandInput["Body"] | Stream.Stream<Uint8Array, E>;
+}
 
 /**
  * @since 0.1.0
@@ -39,8 +47,8 @@ export interface MultipartUpload {
   /**
    * Upload an object to S3 using multipart upload.
    */
-  readonly uploadObject: (
-    args: PutObjectCommandInput,
+  readonly uploadObject: <E>(
+    args: UploadObjectCommandInput<E>,
     options?: UploadObjectOptions,
   ) => Effect.Effect<
     CompleteMultipartUploadCommandOutput,
@@ -60,12 +68,12 @@ export const MultipartUpload: Context.Tag<MultipartUpload, MultipartUpload> = in
  * @since 0.1.0
  * @category execution
  */
-export const uploadObject: (
-  args: PutObjectCommandInput,
+export const uploadObject: <E>(
+  args: UploadObjectCommandInput<E>,
   options?: UploadObjectOptions,
 ) => Effect.Effect<
   CompleteMultipartUploadCommandOutput,
-  internal.S3ServiceErrors | PlatformError.BadArgument | Cause.NoSuchElementException,
+  internal.S3ServiceErrors | PlatformError.BadArgument | Cause.NoSuchElementException | E,
   MultipartUpload
 > = internal.uploadObject;
 

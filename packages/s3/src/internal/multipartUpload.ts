@@ -13,8 +13,11 @@ import type {
 import { S3Service } from "@effect-aws/client-s3";
 import { Error as PlatformError, FileSystem } from "@effect/platform";
 import type { Cause } from "effect";
-import { Chunk, Context, Effect, Exit, Option, Ref, Sink, Stream } from "effect";
-import type { MultipartUpload, UploadObjectOptions } from "../MultipartUpload.js";
+import { Chunk, Context, Effect, Exit, Option, Predicate, Ref, Sink, Stream } from "effect";
+import type { MultipartUpload, UploadObjectCommandInput, UploadObjectOptions } from "../MultipartUpload.js";
+
+/** @internal */
+const isStream = (u: unknown): u is Stream.Stream<unknown, unknown> => Predicate.hasProperty(u, Stream.StreamTypeId);
 
 /** @internal */
 export const tag = Context.GenericTag<MultipartUpload>("@effect-aws/s3/MultipartUpload");
@@ -130,7 +133,14 @@ async function* getDataReadableStream(data: ReadableStream): AsyncGenerator<Uint
 }
 
 /** @internal */
-const getChunk = (data: BodyDataTypes, partSize: FileSystem.Size): AsyncGenerator<RawDataPart, void, undefined> => {
+const getChunk = <E>(
+  data: UploadObjectCommandInput<E>["Body"],
+  partSize: FileSystem.Size,
+): AsyncGenerator<RawDataPart, void, undefined> => {
+  if (isStream(data)) {
+    return getChunkStream(Stream.toReadableStream(data), partSize, getDataReadableStream);
+  }
+
   if (data instanceof Uint8Array) {
     // includes Buffer (extends Uint8Array)
     return getChunkUint8Array(data, partSize);
@@ -154,7 +164,7 @@ const getChunk = (data: BodyDataTypes, partSize: FileSystem.Size): AsyncGenerato
   }
 
   throw new Error(
-    "Body Data is unsupported format, expected data to be one of: string | Uint8Array | Buffer | Readable | ReadableStream | Blob;.",
+    "Body Data is unsupported format, expected data to be one of: string | Uint8Array | Buffer | Readable | ReadableStream | Blob | Stream.Stream<Uint8Array>;.",
   );
 };
 
@@ -188,6 +198,12 @@ export const make: Effect.Effect<MultipartUpload, never, S3Service> = Effect.gen
     params: PutObjectCommandInput,
   ): Effect.Effect<CompletedPart, SdkError | S3ServiceError> =>
     Effect.gen(function*() {
+      yield* Effect.annotateLogsScoped({
+        partSize: `${(params.Body as Buffer).length / 1024 / 1024} MiB`,
+      });
+
+      yield* Effect.logTrace(`[MultipartUpload] uploading part ${partNumber}`);
+
       const partResult = yield* s3.uploadPart({
         ...params,
         // dataPart.data is chunked into a non-streaming buffer
@@ -203,6 +219,8 @@ export const make: Effect.Effect<MultipartUpload, never, S3Service> = Effect.gen
         );
       }
 
+      yield* Effect.logTrace(`[MultipartUpload] part ${partNumber} uploaded`);
+
       return {
         PartNumber: partNumber,
         ETag: partResult.ETag,
@@ -211,10 +229,42 @@ export const make: Effect.Effect<MultipartUpload, never, S3Service> = Effect.gen
         ...(partResult.ChecksumSHA1 && { ChecksumSHA1: partResult.ChecksumSHA1 }),
         ...(partResult.ChecksumSHA256 && { ChecksumSHA256: partResult.ChecksumSHA256 }),
       };
+    }).pipe(Effect.scoped);
+
+  const multipartUpload = (
+    params: Omit<UploadObjectCommandInput, "Body">,
+    stream: Stream.Stream<RawDataPart, PlatformError.BadArgument>,
+    options?: { readonly concurrency?: number | "unbounded" },
+  ) =>
+    Effect.gen(function*() {
+      const completeRef = yield* Ref.make<CompleteMultipartUploadCommandOutput | null>(null);
+
+      yield* Effect.acquireUseRelease(
+        s3.createMultipartUpload({ ...params, ChecksumAlgorithm: "CRC32" }),
+        ({ UploadId }) =>
+          stream.pipe(
+            Stream.mapEffect(
+              (dataPart) => uploadPart(dataPart.partNumber, UploadId, { ...params, Body: dataPart.data }),
+              options,
+            ),
+            Stream.runCollect,
+          ),
+        ({ UploadId }, exit) =>
+          Exit.matchEffect(exit, {
+            onSuccess: (parts) =>
+              s3.completeMultipartUpload({ ...params, UploadId, MultipartUpload: { Parts: Chunk.toArray(parts) } })
+                .pipe(
+                  Effect.flatMap((result) => Ref.set(completeRef, result)),
+                ),
+            onFailure: () => s3.abortMultipartUpload({ Bucket: params.Bucket, Key: params.Key, UploadId }),
+          }).pipe(Effect.orDie),
+      );
+
+      return yield* completeRef.pipe(Effect.flatMap(Effect.fromNullable));
     });
 
-  const uploadObject = (
-    args: PutObjectCommandInput,
+  const uploadObject = <E>(
+    args: UploadObjectCommandInput<E>,
     options?: UploadObjectOptions,
   ): Effect.Effect<
     CompleteMultipartUploadCommandOutput,
@@ -247,56 +297,32 @@ export const make: Effect.Effect<MultipartUpload, never, S3Service> = Effect.gen
       const secondPart = Chunk.get(doublet, 1);
 
       if (Option.isNone(secondPart)) {
-        return yield* s3.putObject({ ...params, Body: firstPart.data }).pipe(
-          Effect.map((result) => ({ ...result, Bucket: params.Bucket, Key: params.Key })),
-        );
+        const result = yield* s3.putObject({ ...params, Body: firstPart.data });
+
+        return { ...result, Bucket: params.Bucket, Key: params.Key };
       }
 
       const multiStream = Stream.merge(Stream.make(firstPart, secondPart.value), tailStream);
 
-      const completeRef = yield* Ref.make<CompleteMultipartUploadCommandOutput | null>(null);
+      const result = yield* multipartUpload(params, multiStream, { concurrency: queueSize });
 
-      yield* Effect.acquireUseRelease(
-        s3.createMultipartUpload({ ...params, ChecksumAlgorithm: "CRC32" }),
-        ({ UploadId }) =>
-          multiStream.pipe(
-            Stream.mapEffect(
-              (dataPart) => uploadPart(dataPart.partNumber, UploadId, { ...params, Body: dataPart.data }),
-              { concurrency: queueSize },
-            ),
-            Stream.runCollect,
-          ),
-        ({ UploadId }, exit) =>
-          Exit.matchEffect(exit, {
-            onSuccess: (parts) =>
-              s3.completeMultipartUpload({ ...params, UploadId, MultipartUpload: { Parts: Chunk.toArray(parts) } })
-                .pipe(
-                  Effect.flatMap((result) => Ref.set(completeRef, result)),
-                ),
-            onFailure: () => s3.abortMultipartUpload({ Bucket: params.Bucket, Key: params.Key, UploadId }),
-          }).pipe(Effect.orDie),
-      );
-
-      return yield* completeRef.pipe(
-        Effect.flatMap(Effect.fromNullable),
-        Effect.map((result) => ({
-          ...result,
-          ...(typeof result.Location === "string" && result.Location.includes("%2F")
-            ? { Location: result.Location.replace(/%2F/g, "/") }
-            : {}),
-        })),
-      );
+      return {
+        ...result,
+        ...(typeof result.Location === "string" && result.Location.includes("%2F")
+          ? { Location: result.Location.replace(/%2F/g, "/") }
+          : {}),
+      };
     }).pipe(Effect.scoped);
 
   return tag.of({ uploadObject });
 });
 
 /** @internal */
-export const uploadObject: (
-  args: PutObjectCommandInput,
+export const uploadObject: <E>(
+  args: UploadObjectCommandInput<E>,
   options?: UploadObjectOptions,
 ) => Effect.Effect<
   CompleteMultipartUploadCommandOutput,
   S3ServiceErrors | PlatformError.BadArgument | Cause.NoSuchElementException,
   MultipartUpload
-> = (args, options) => Effect.flatMap(tag, (_) => _.uploadObject(args, options));
+> = Effect.serviceFunctionEffect(tag, (_) => _.uploadObject);
