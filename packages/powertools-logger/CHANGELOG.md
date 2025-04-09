@@ -1,5 +1,11 @@
 # @effect-aws/powertools-logger
 
+## 1.5.1
+
+### Patch Changes
+
+- [`c151291`](https://github.com/floydspace/effect-aws/commit/c151291b961b96d4e22c80598cbf97fbf702ca0c) Thanks [@floydspace](https://github.com/floydspace)! - avoid failing when log message is undefined, closes #146
+
 ## 1.5.0
 
 ### Minor Changes
