@@ -135,7 +135,7 @@ const makeLoggerInstance = (logger: Logger) => {
 
     unsafeLogger.processLogItem(
       MappedLogLevel[options.logLevel.label],
-      message as LogItemMessage,
+      (message ?? {}) as LogItemMessage,
       extraInputs as LogItemExtraInput,
     );
   });
