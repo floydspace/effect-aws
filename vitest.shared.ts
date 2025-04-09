@@ -70,6 +70,7 @@ const config: UserConfig = {
       ...alias("lib-dynamodb"),
       ...alias("lambda"),
       ...alias("powertools-logger"),
+      ...alias("powertools-tracer"),
       ...alias("secrets-manager"),
       ...alias("ssm"),
       ...alias("s3"),

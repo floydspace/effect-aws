@@ -119,6 +119,14 @@ new TypeScriptLibProject({
 
 new TypeScriptLibProject({
   parent: project,
+  name: "powertools-tracer",
+  description: "Effectful AWS Lambda Powertools Tracer",
+  devDeps: [...effectDeps, "@aws-lambda-powertools/commons@2.0.0", "@aws-lambda-powertools/tracer@2.0.0"],
+  peerDeps: [...commonPeerDeps, "@aws-lambda-powertools/tracer@>=2.0.0"],
+});
+
+new TypeScriptLibProject({
+  parent: project,
   name: "secrets-manager",
   description: "Effectful AWS Secrets Manager functions",
   devDeps: [...effectDeps, "@aws-sdk/client-secrets-manager@^3", "@fluffy-spoon/substitute"],

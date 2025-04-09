@@ -53,6 +53,7 @@ packages:
   - packages/lambda
   - packages/lib-dynamodb
   - packages/powertools-logger
+  - packages/powertools-tracer
   - packages/s3
   - packages/secrets-manager
   - packages/ssm

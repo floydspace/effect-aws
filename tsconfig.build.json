@@ -160,6 +160,9 @@
       "path": "packages/powertools-logger/tsconfig.esm.json"
     },
     {
+      "path": "packages/powertools-tracer/tsconfig.esm.json"
+    },
+    {
       "path": "packages/secrets-manager/tsconfig.esm.json"
     },
     {
