@@ -49,9 +49,12 @@ export class Readme extends Component {
         `| \`@${project.name}/lambda\`                 | Effectful AWS Lambda handler                                                                 | ${
           genBadges("lambda")
         } | [README](https://github.com/${repo}/blob/main/packages/lambda/README.md) |`,
-        `| \`@${project.name}/powertools-logger\`       | Effectful [Powertools Logger for AWS Lambda](https://docs.powertools.aws.dev/lambda/typescript/latest) | ${
+        `| \`@${project.name}/powertools-logger\`       | Effectful [Powertools Logger for AWS Lambda](https://docs.powertools.aws.dev/lambda/typescript/latest/core/logger/) | ${
           genBadges("powertools-logger")
         } | [README](https://github.com/${repo}/blob/main/packages/powertools-logger/README.md) |`,
+        `| \`@${project.name}/powertools-tracer\`       | Effectful [Powertools Tracer for AWS Lambda](https://docs.powertools.aws.dev/lambda/typescript/latest/core/tracer/) | ${
+          genBadges("powertools-tracer")
+        } | [README](https://github.com/${repo}/blob/main/packages/powertools-tracer/README.md) |`,
         `| \`@${project.name}/s3\`         | Effectful AWS S3 functions                                                       | ${
           genBadges("s3")
         } | [README](https://github.com/${repo}/blob/main/packages/s3/README.md) |`,
