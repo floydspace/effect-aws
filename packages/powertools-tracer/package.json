@@ -35,6 +35,9 @@
     "@aws-lambda-powertools/tracer": ">=2.0.0",
     "effect": ">=3.0.4 <4.0.0"
   },
+  "dependencies": {
+    "aws-xray-sdk-core": "^3.5.3"
+  },
   "main": "build/cjs/index.js",
   "license": "MIT",
   "homepage": "https://floydspace.github.io/effect-aws/docs/powertools-tracer",

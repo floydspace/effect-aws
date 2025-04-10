@@ -121,6 +121,7 @@ new TypeScriptLibProject({
   parent: project,
   name: "powertools-tracer",
   description: "Effectful AWS Lambda Powertools Tracer",
+  deps: ["aws-xray-sdk-core@^3.5.3"],
   devDeps: [...effectDeps, "@aws-lambda-powertools/commons@2.0.0", "@aws-lambda-powertools/tracer@2.0.0"],
   peerDeps: [...commonPeerDeps, "@aws-lambda-powertools/tracer@>=2.0.0"],
 });
