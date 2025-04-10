@@ -16,6 +16,7 @@
 /tsconfig.cjs.json linguist-generated
 /tsconfig.dev.json linguist-generated
 /tsconfig.esm.json linguist-generated
+/tsconfig.examples.json linguist-generated
 /tsconfig.json linguist-generated
 /tsconfig.src.json linguist-generated
 /vitest.config.ts linguist-generated

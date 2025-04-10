@@ -32,7 +32,7 @@ export const XrayTracer: Tag<XrayTracer, TracerInterface> = internal.Tracer;
  * @since 1.0.0
  * @category layers
  */
-export const layer: Layer<never> = internal.layer;
+export const layerTracer: (options?: TracerOptions) => Layer<XrayTracer> = internal.layerTracer;
 
 /**
  * @since 1.0.0
@@ -44,10 +44,4 @@ export const layerWithoutOtelTracer: Layer<never, never, XrayTracer> = internal.
  * @since 1.0.0
  * @category layers
  */
-export const defaultLayerTracer: Layer<XrayTracer> = internal.defaultLayerTracer;
-
-/**
- * @since 1.0.0
- * @category layers
- */
-export const layerTracer: (options?: TracerOptions) => Layer<XrayTracer> = internal.layerTracer;
+export const layer: (options?: TracerOptions) => Layer<never> = internal.layer;

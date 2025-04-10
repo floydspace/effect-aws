@@ -123,10 +123,7 @@ export const make = Effect.map(Tracer, (tracer) =>
 export const layerTracer = (options?: TracerOptions) => Layer.sync(Tracer, () => new PowerTools.Tracer(options));
 
 /** @internal */
-export const defaultLayerTracer = layerTracer();
-
-/** @internal */
 export const layerWithoutXrayTracer = Layer.unwrapEffect(Effect.map(make, Layer.setTracer));
 
 /** @internal */
-export const layer = layerWithoutXrayTracer.pipe(Layer.provide(defaultLayerTracer));
+export const layer = (options?: TracerOptions) => layerWithoutXrayTracer.pipe(Layer.provide(layerTracer(options)));
