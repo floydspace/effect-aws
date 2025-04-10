@@ -38,7 +38,7 @@ export const layerTracer: (options?: TracerOptions) => Layer<XrayTracer> = inter
  * @since 1.0.0
  * @category layers
  */
-export const layerWithoutOtelTracer: Layer<never, never, XrayTracer> = internal.layerWithoutXrayTracer;
+export const layerWithoutXrayTracer: Layer<never, never, XrayTracer> = internal.layerWithoutXrayTracer;
 
 /**
  * @since 1.0.0
