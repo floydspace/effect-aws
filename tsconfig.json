@@ -165,6 +165,9 @@
       "path": "packages/powertools-logger"
     },
     {
+      "path": "packages/powertools-tracer"
+    },
+    {
       "path": "packages/secrets-manager"
     },
     {

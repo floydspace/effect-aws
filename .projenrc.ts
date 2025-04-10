@@ -1,4 +1,5 @@
 import { Changesets } from "@floydspace/projen-components";
+import path from "node:path";
 import { YamlFile } from "projen";
 import { BuildUtils, Docgen, Eslint, MonorepoProject, TypeScriptLibProject, Vitest } from "./projenrc/index.js";
 import { Readme } from "./projenrc/readme.js";
@@ -101,7 +102,7 @@ new TypeScriptLibProject({
   workspacePeerDeps: [dynamodbClient],
 });
 
-new TypeScriptLibProject({
+const lambda = new TypeScriptLibProject({
   parent: project,
   name: "lambda",
   description: "Effectful AWS Lambda handler",
@@ -116,6 +117,27 @@ new TypeScriptLibProject({
   devDeps: [...effectDeps, "@aws-lambda-powertools/commons@2.0.0", "@aws-lambda-powertools/logger@2.0.0"],
   peerDeps: [...commonPeerDeps, "@aws-lambda-powertools/logger@>=2.0.0"],
 });
+
+const tracer = new TypeScriptLibProject({
+  parent: project,
+  name: "powertools-tracer",
+  description: "Effectful AWS Lambda Powertools Tracer",
+  deps: ["aws-xray-sdk-core@^3.5.3"],
+  devDeps: [
+    ...effectDeps,
+    `${lambda.package.packageName}@workspace:^`,
+    "@aws-lambda-powertools/commons@2.0.0",
+    "@aws-lambda-powertools/tracer@2.0.0",
+    "@types/aws-lambda",
+  ],
+  peerDeps: [...commonPeerDeps, "@aws-lambda-powertools/tracer@>=2.0.0"],
+  addExamples: true,
+});
+
+tracer.tsconfigExamples?.file.addToArray(
+  "references",
+  { path: path.relative(tracer.outdir, lambda.outdir) },
+);
 
 new TypeScriptLibProject({
   parent: project,
