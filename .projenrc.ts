@@ -58,7 +58,7 @@ const commons = new TypeScriptLibProject({
   parent: project,
   name: "commons",
   description: "Effectful AWS common library",
-  deps: ["@smithy/types", "@smithy/smithy-client"],
+  deps: ["@smithy/types", "@smithy/smithy-client", "@smithy/protocol-http", "@smithy/querystring-builder"],
   devDeps: [...effectDeps, "@aws-sdk/middleware-logger"],
   peerDeps: commonPeerDeps,
 });

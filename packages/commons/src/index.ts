@@ -17,3 +17,8 @@ export * from "./Errors.js";
  * @since 0.1.0
  */
 export * from "./Types.js";
+
+/**
+ * @since 0.3.0
+ */
+export * from "./HttpHandler.js";

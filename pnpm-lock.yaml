@@ -1085,6 +1085,12 @@ importers:
 
   packages/commons:
     dependencies:
+      '@smithy/protocol-http':
+        specifier: ^5.0.1
+        version: 5.0.1
+      '@smithy/querystring-builder':
+        specifier: ^4.0.1
+        version: 4.0.1
       '@smithy/smithy-client':
         specifier: ^4.1.6
         version: 4.1.6

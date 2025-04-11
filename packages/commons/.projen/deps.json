@@ -25,6 +25,14 @@
       "type": "peer"
     },
     {
+      "name": "@smithy/protocol-http",
+      "type": "runtime"
+    },
+    {
+      "name": "@smithy/querystring-builder",
+      "type": "runtime"
+    },
+    {
       "name": "@smithy/smithy-client",
       "type": "runtime"
     },
