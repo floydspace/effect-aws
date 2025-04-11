@@ -43,8 +43,9 @@ export const makeServiceFn = (
   return (args: any, options?: HttpHandlerOptions) =>
     Effect.gen(function*() {
       const config = yield* fnOptions.resolveClientConfig;
+      const runtime = yield* Effect.runtime();
       return yield* Effect.tryPromise({
-        try: (abortSignal) => client.send(new CommandCtor(args, config), { ...(options ?? {}), abortSignal }),
+        try: (abortSignal) => client.send(new CommandCtor(args, config), { ...(options ?? {}), abortSignal, runtime }),
         catch: catchServiceExceptions(fnOptions.errorTags),
       });
     });
