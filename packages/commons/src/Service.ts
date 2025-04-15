@@ -1,10 +1,11 @@
 /**
  * @since 0.1.0
  */
+import { HttpClient } from "@effect/platform";
 import { ServiceException } from "@smithy/smithy-client";
 import type { Client, MiddlewareStack } from "@smithy/types";
 import type { Array } from "effect";
-import { Data, Effect, Record, String } from "effect";
+import { Data, Effect, Layer, ManagedRuntime, Record, String } from "effect";
 import type { TaggedException } from "./Errors.js";
 import { SdkError } from "./Errors.js";
 import type { BaseResolvedConfig, CommandCtor, LoggerResolvedConfig } from "./internal/service.js";
@@ -38,16 +39,16 @@ export const catchServiceExceptions = (errorTags?: Array.NonEmptyReadonlyArray<s
 export const makeServiceFn = (
   client: Client<any, any, BaseResolvedConfig>,
   CommandCtor: CommandCtor<any>,
-  fnOptions: ServiceFnOptions,
+  fnOptions: ServiceFnOptions & { httpClient: HttpClient.HttpClient },
 ) => {
   return (args: any, options?: HttpHandlerOptions) =>
     Effect.gen(function*() {
       const config = yield* fnOptions.resolveClientConfig;
-      const runtime = yield* Effect.runtime();
+      const runtime = ManagedRuntime.make(Layer.succeed(HttpClient.HttpClient, fnOptions.httpClient));
       return yield* Effect.tryPromise({
         try: (abortSignal) => client.send(new CommandCtor(args, config), { ...(options ?? {}), abortSignal, runtime }),
         catch: catchServiceExceptions(fnOptions.errorTags),
-      });
+      }).pipe(Effect.tap(() => runtime.disposeEffect));
     });
 };
 
@@ -57,28 +58,33 @@ export const makeServiceFn = (
  */
 export const fromCommandsAndServiceFn = <Service>(
   commands: Record<string, CommandCtor<any>>,
-  serviceFnMaker: (CommandCtor: CommandCtor<any>) => ReturnType<typeof makeServiceFn>,
-): Service =>
-  Record.mapEntries(commands, (CommandCtor, command) => {
-    const ExtendedCommand = class extends CommandCtor {
-      constructor(args: any, private config?: LoggerResolvedConfig) {
-        super(args);
-      }
+  serviceFnMaker: (
+    CommandCtor: CommandCtor<any>,
+    options: { httpClient: HttpClient.HttpClient },
+  ) => ReturnType<typeof makeServiceFn>,
+): Effect.Effect<Service, never, HttpClient.HttpClient> =>
+  HttpClient.HttpClient.pipe(Effect.map((httpClient) =>
+    Record.mapEntries(commands, (CommandCtor, command) => {
+      const ExtendedCommand = class extends CommandCtor {
+        constructor(args: any, private config?: LoggerResolvedConfig) {
+          super(args);
+        }
 
-      resolveMiddleware(
-        stack: MiddlewareStack<any, any>,
-        configuration: BaseResolvedConfig,
-        options: any,
-      ) {
-        return this.config?.logger
-          ? super.resolveMiddleware(stack, { ...configuration, logger: this.config.logger }, options)
-          : super.resolveMiddleware(stack, configuration, options);
-      }
-    };
+        resolveMiddleware(
+          stack: MiddlewareStack<any, any>,
+          configuration: BaseResolvedConfig,
+          options: any,
+        ) {
+          return this.config?.logger
+            ? super.resolveMiddleware(stack, { ...configuration, logger: this.config.logger }, options)
+            : super.resolveMiddleware(stack, configuration, options);
+        }
+      };
 
-    const serviceFnName = String.uncapitalize(command).replace(/Command$/, "");
-    return [serviceFnName, serviceFnMaker(ExtendedCommand)];
-  }) as Service;
+      const serviceFnName = String.uncapitalize(command).replace(/Command$/, "");
+      return [serviceFnName, serviceFnMaker(ExtendedCommand, { httpClient })];
+    }) as Service
+  ));
 
 /**
  * @since 0.1.0
@@ -88,4 +94,8 @@ export const fromClientAndCommands = <Service>(
   client: Client<any, any, BaseResolvedConfig>,
   commands: Record<string, CommandCtor<any>>,
   options: ServiceFnOptions,
-): Service => fromCommandsAndServiceFn(commands, (CommandCtor) => makeServiceFn(client, CommandCtor, options));
+): Effect.Effect<Service, never, HttpClient.HttpClient> =>
+  fromCommandsAndServiceFn(
+    commands,
+    (CommandCtor, opts) => makeServiceFn(client, CommandCtor, { ...options, ...opts }),
+  );
