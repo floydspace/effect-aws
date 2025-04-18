@@ -72,7 +72,7 @@ interface ApiGatewayManagementApiService$ {
 export const makeApiGatewayManagementApiService = Effect.gen(function*() {
   const client = yield* Instance.ApiGatewayManagementApiClientInstance;
 
-  return Service.fromClientAndCommands<ApiGatewayManagementApiService$>(
+  return yield* Service.fromClientAndCommands<ApiGatewayManagementApiService$>(
     client,
     commands,
     {

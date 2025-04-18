@@ -220,7 +220,7 @@ interface SchedulerService$ {
 export const makeSchedulerService = Effect.gen(function*() {
   const client = yield* Instance.SchedulerClientInstance;
 
-  return Service.fromClientAndCommands<SchedulerService$>(
+  return yield* Service.fromClientAndCommands<SchedulerService$>(
     client,
     commands,
     {

@@ -142,7 +142,7 @@ interface IoTJobsDataPlaneService$ {
 export const makeIoTJobsDataPlaneService = Effect.gen(function*() {
   const client = yield* Instance.IoTJobsDataPlaneClientInstance;
 
-  return Service.fromClientAndCommands<IoTJobsDataPlaneService$>(
+  return yield* Service.fromClientAndCommands<IoTJobsDataPlaneService$>(
     client,
     commands,
     {

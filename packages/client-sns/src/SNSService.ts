@@ -796,7 +796,7 @@ interface SNSService$ {
 export const makeSNSService = Effect.gen(function*() {
   const client = yield* Instance.SNSClientInstance;
 
-  return Service.fromClientAndCommands<SNSService$>(
+  return yield* Service.fromClientAndCommands<SNSService$>(
     client,
     commands,
     {

@@ -440,7 +440,7 @@ interface SecretsManagerService$ {
 export const makeSecretsManagerService = Effect.gen(function*() {
   const client = yield* Instance.SecretsManagerClientInstance;
 
-  return Service.fromClientAndCommands<SecretsManagerService$>(
+  return yield* Service.fromClientAndCommands<SecretsManagerService$>(
     client,
     commands,
     {

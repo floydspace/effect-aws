@@ -9896,7 +9896,7 @@ interface EC2Service$ {
 export const makeEC2Service = Effect.gen(function*() {
   const client = yield* Instance.EC2ClientInstance;
 
-  return Service.fromClientAndCommands<EC2Service$>(
+  return yield* Service.fromClientAndCommands<EC2Service$>(
     client,
     commands,
     {

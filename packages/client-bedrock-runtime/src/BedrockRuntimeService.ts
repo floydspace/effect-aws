@@ -19,6 +19,9 @@ import {
   InvokeModelCommand,
   type InvokeModelCommandInput,
   type InvokeModelCommandOutput,
+  InvokeModelWithBidirectionalStreamCommand,
+  type InvokeModelWithBidirectionalStreamCommandInput,
+  type InvokeModelWithBidirectionalStreamCommandOutput,
   InvokeModelWithResponseStreamCommand,
   type InvokeModelWithResponseStreamCommandInput,
   type InvokeModelWithResponseStreamCommandOutput,
@@ -56,6 +59,7 @@ const commands = {
   ConverseStreamCommand,
   GetAsyncInvokeCommand,
   InvokeModelCommand,
+  InvokeModelWithBidirectionalStreamCommand,
   InvokeModelWithResponseStreamCommand,
   ListAsyncInvokesCommand,
   StartAsyncInvokeCommand,
@@ -154,6 +158,28 @@ interface BedrockRuntimeService$ {
   >;
 
   /**
+   * @see {@link InvokeModelWithBidirectionalStreamCommand}
+   */
+  invokeModelWithBidirectionalStream(
+    args: InvokeModelWithBidirectionalStreamCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    InvokeModelWithBidirectionalStreamCommandOutput,
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ModelError
+    | ModelNotReadyError
+    | ModelStreamError
+    | ModelTimeoutError
+    | ResourceNotFoundError
+    | ServiceQuotaExceededError
+    | ServiceUnavailableError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
    * @see {@link InvokeModelWithResponseStreamCommand}
    */
   invokeModelWithResponseStream(
@@ -213,7 +239,7 @@ interface BedrockRuntimeService$ {
 export const makeBedrockRuntimeService = Effect.gen(function*() {
   const client = yield* Instance.BedrockRuntimeClientInstance;
 
-  return Service.fromClientAndCommands<BedrockRuntimeService$>(
+  return yield* Service.fromClientAndCommands<BedrockRuntimeService$>(
     client,
     commands,
     {

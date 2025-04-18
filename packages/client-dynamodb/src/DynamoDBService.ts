@@ -1097,7 +1097,7 @@ interface DynamoDBService$ {
 export const makeDynamoDBService = Effect.gen(function*() {
   const client = yield* Instance.DynamoDBClientInstance;
 
-  return Service.fromClientAndCommands<DynamoDBService$>(
+  return yield* Service.fromClientAndCommands<DynamoDBService$>(
     client,
     commands,
     {

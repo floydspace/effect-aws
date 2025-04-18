@@ -1961,7 +1961,7 @@ interface IoTWirelessService$ {
 export const makeIoTWirelessService = Effect.gen(function*() {
   const client = yield* Instance.IoTWirelessClientInstance;
 
-  return Service.fromClientAndCommands<IoTWirelessService$>(
+  return yield* Service.fromClientAndCommands<IoTWirelessService$>(
     client,
     commands,
     {

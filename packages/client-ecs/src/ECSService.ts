@@ -1076,7 +1076,7 @@ interface ECSService$ {
 export const makeECSService = Effect.gen(function*() {
   const client = yield* Instance.ECSClientInstance;
 
-  return Service.fromClientAndCommands<ECSService$>(
+  return yield* Service.fromClientAndCommands<ECSService$>(
     client,
     commands,
     {

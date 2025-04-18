@@ -231,7 +231,7 @@ interface FirehoseService$ {
 export const makeFirehoseService = Effect.gen(function*() {
   const client = yield* Instance.FirehoseClientInstance;
 
-  return Service.fromClientAndCommands<FirehoseService$>(
+  return yield* Service.fromClientAndCommands<FirehoseService$>(
     client,
     commands,
     {

@@ -233,7 +233,7 @@ interface IoTEventsDataService$ {
 export const makeIoTEventsDataService = Effect.gen(function*() {
   const client = yield* Instance.IoTEventsDataClientInstance;
 
-  return Service.fromClientAndCommands<IoTEventsDataService$>(
+  return yield* Service.fromClientAndCommands<IoTEventsDataService$>(
     client,
     commands,
     {

@@ -1059,7 +1059,7 @@ interface AthenaService$ {
 export const makeAthenaService = Effect.gen(function*() {
   const client = yield* Instance.AthenaClientInstance;
 
-  return Service.fromClientAndCommands<AthenaService$>(
+  return yield* Service.fromClientAndCommands<AthenaService$>(
     client,
     commands,
     {

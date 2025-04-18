@@ -589,7 +589,7 @@ interface OpenSearchServerlessService$ {
 export const makeOpenSearchServerlessService = Effect.gen(function*() {
   const client = yield* Instance.OpenSearchServerlessClientInstance;
 
-  return Service.fromClientAndCommands<OpenSearchServerlessService$>(
+  return yield* Service.fromClientAndCommands<OpenSearchServerlessService$>(
     client,
     commands,
     {

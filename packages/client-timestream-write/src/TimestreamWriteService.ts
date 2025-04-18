@@ -411,7 +411,7 @@ interface TimestreamWriteService$ {
 export const makeTimestreamWriteService = Effect.gen(function*() {
   const client = yield* Instance.TimestreamWriteClientInstance;
 
-  return Service.fromClientAndCommands<TimestreamWriteService$>(
+  return yield* Service.fromClientAndCommands<TimestreamWriteService$>(
     client,
     commands,
     {

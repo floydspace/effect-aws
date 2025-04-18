@@ -907,7 +907,7 @@ interface ECRService$ {
 export const makeECRService = Effect.gen(function*() {
   const client = yield* Instance.ECRClientInstance;
 
-  return Service.fromClientAndCommands<ECRService$>(
+  return yield* Service.fromClientAndCommands<ECRService$>(
     client,
     commands,
     {

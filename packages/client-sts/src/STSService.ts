@@ -184,7 +184,7 @@ interface STSService$ {
 export const makeSTSService = Effect.gen(function*() {
   const client = yield* Instance.STSClientInstance;
 
-  return Service.fromClientAndCommands<STSService$>(
+  return yield* Service.fromClientAndCommands<STSService$>(
     client,
     commands,
     {

@@ -1025,7 +1025,7 @@ interface AutoScalingService$ {
 export const makeAutoScalingService = Effect.gen(function*() {
   const client = yield* Instance.AutoScalingClientInstance;
 
-  return Service.fromClientAndCommands<AutoScalingService$>(
+  return yield* Service.fromClientAndCommands<AutoScalingService$>(
     client,
     commands,
     {

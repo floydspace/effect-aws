@@ -335,7 +335,7 @@ interface TimestreamInfluxDBService$ {
 export const makeTimestreamInfluxDBService = Effect.gen(function*() {
   const client = yield* Instance.TimestreamInfluxDBClientInstance;
 
-  return Service.fromClientAndCommands<TimestreamInfluxDBService$>(
+  return yield* Service.fromClientAndCommands<TimestreamInfluxDBService$>(
     client,
     commands,
     {

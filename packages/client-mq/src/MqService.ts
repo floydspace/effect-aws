@@ -379,7 +379,7 @@ interface MqService$ {
 export const makeMqService = Effect.gen(function*() {
   const client = yield* Instance.MqClientInstance;
 
-  return Service.fromClientAndCommands<MqService$>(
+  return yield* Service.fromClientAndCommands<MqService$>(
     client,
     commands,
     {

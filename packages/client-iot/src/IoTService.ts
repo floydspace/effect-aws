@@ -5001,7 +5001,7 @@ interface IoTService$ {
 export const makeIoTService = Effect.gen(function*() {
   const client = yield* Instance.IoTClientInstance;
 
-  return Service.fromClientAndCommands<IoTService$>(
+  return yield* Service.fromClientAndCommands<IoTService$>(
     client,
     commands,
     {

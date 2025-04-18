@@ -1330,7 +1330,7 @@ interface LambdaService$ {
 export const makeLambdaService = Effect.gen(function*() {
   const client = yield* Instance.LambdaClientInstance;
 
-  return Service.fromClientAndCommands<LambdaService$>(
+  return yield* Service.fromClientAndCommands<LambdaService$>(
     client,
     commands,
     {

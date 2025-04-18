@@ -545,7 +545,7 @@ interface IoTEventsService$ {
 export const makeIoTEventsService = Effect.gen(function*() {
   const client = yield* Instance.IoTEventsClientInstance;
 
-  return Service.fromClientAndCommands<IoTEventsService$>(
+  return yield* Service.fromClientAndCommands<IoTEventsService$>(
     client,
     commands,
     {

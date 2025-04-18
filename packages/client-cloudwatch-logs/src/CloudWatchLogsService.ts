@@ -1518,7 +1518,7 @@ interface CloudWatchLogsService$ {
 export const makeCloudWatchLogsService = Effect.gen(function*() {
   const client = yield* Instance.CloudWatchLogsClientInstance;
 
-  return Service.fromClientAndCommands<CloudWatchLogsService$>(
+  return yield* Service.fromClientAndCommands<CloudWatchLogsService$>(
     client,
     commands,
     {

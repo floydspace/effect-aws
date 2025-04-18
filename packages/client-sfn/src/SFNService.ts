@@ -746,7 +746,7 @@ interface SFNService$ {
 export const makeSFNService = Effect.gen(function*() {
   const client = yield* Instance.SFNClientInstance;
 
-  return Service.fromClientAndCommands<SFNService$>(
+  return yield* Service.fromClientAndCommands<SFNService$>(
     client,
     commands,
     {

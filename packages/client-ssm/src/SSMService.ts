@@ -2630,7 +2630,7 @@ interface SSMService$ {
 export const makeSSMService = Effect.gen(function*() {
   const client = yield* Instance.SSMClientInstance;
 
-  return Service.fromClientAndCommands<SSMService$>(
+  return yield* Service.fromClientAndCommands<SSMService$>(
     client,
     commands,
     {

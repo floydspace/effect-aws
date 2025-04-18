@@ -305,7 +305,7 @@ interface TimestreamQueryService$ {
 export const makeTimestreamQueryService = Effect.gen(function*() {
   const client = yield* Instance.TimestreamQueryClientInstance;
 
-  return Service.fromClientAndCommands<TimestreamQueryService$>(
+  return yield* Service.fromClientAndCommands<TimestreamQueryService$>(
     client,
     commands,
     {

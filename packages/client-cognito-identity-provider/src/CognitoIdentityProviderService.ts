@@ -2515,7 +2515,7 @@ interface CognitoIdentityProviderService$ {
 export const makeCognitoIdentityProviderService = Effect.gen(function*() {
   const client = yield* Instance.CognitoIdentityProviderClientInstance;
 
-  return Service.fromClientAndCommands<CognitoIdentityProviderService$>(
+  return yield* Service.fromClientAndCommands<CognitoIdentityProviderService$>(
     client,
     commands,
     {

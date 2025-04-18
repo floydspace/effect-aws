@@ -412,7 +412,7 @@ ${
 export const make${sdkName}Service = Effect.gen(function* () {
   const client = yield* Instance.${sdkName}ClientInstance;
 
-  return Service.fromClientAndCommands<${sdkName}Service$>(
+  return yield* Service.fromClientAndCommands<${sdkName}Service$>(
     client,
     commands,
     {

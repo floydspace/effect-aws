@@ -1181,7 +1181,7 @@ interface KMSService$ {
 export const makeKMSService = Effect.gen(function*() {
   const client = yield* Instance.KMSClientInstance;
 
-  return Service.fromClientAndCommands<KMSService$>(
+  return yield* Service.fromClientAndCommands<KMSService$>(
     client,
     commands,
     {
