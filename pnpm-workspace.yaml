@@ -50,6 +50,7 @@ packages:
   - packages/client-timestream-query
   - packages/client-timestream-write
   - packages/commons
+  - packages/http-handler
   - packages/lambda
   - packages/lib-dynamodb
   - packages/powertools-logger

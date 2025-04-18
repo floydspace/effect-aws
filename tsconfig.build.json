@@ -170,6 +170,9 @@
     },
     {
       "path": "packages/s3/tsconfig.esm.json"
+    },
+    {
+      "path": "packages/http-handler/tsconfig.esm.json"
     }
   ]
 }

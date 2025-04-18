@@ -58,8 +58,8 @@ const commons = new TypeScriptLibProject({
   parent: project,
   name: "commons",
   description: "Effectful AWS common library",
-  deps: ["@smithy/types", "@smithy/smithy-client", "@smithy/protocol-http", "@smithy/querystring-builder"],
-  devDeps: [...effectDeps, "@aws-sdk/middleware-logger"],
+  deps: ["@smithy/types", "@smithy/smithy-client"],
+  devDeps: [...effectDeps, "@aws-sdk/middleware-logger", "@smithy/protocol-http"],
   peerDeps: commonPeerDeps,
 });
 
@@ -166,6 +166,16 @@ new TypeScriptLibProject({
   peerDeps: commonPeerDeps,
   workspacePeerDeps: [s3Client],
   addExamples: true,
+});
+
+new TypeScriptLibProject({
+  parent: project,
+  name: "http-handler",
+  description: "Effectful AWS HTTP handler",
+  deps: ["@effect/platform@0.69.25", "@smithy/types", "@smithy/protocol-http", "@smithy/querystring-builder"],
+  devDeps: commonDevDeps,
+  peerDeps: commonPeerDeps,
+  workspacePeerDeps: [commons],
 });
 
 project.addGitIgnore(".direnv/"); // flake environment creates .direnv folder

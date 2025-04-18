@@ -551,6 +551,15 @@
       ],
       "@effect-aws/s3/test/*": [
         "./packages/s3/test/*.js"
+      ],
+      "@effect-aws/http-handler": [
+        "./packages/http-handler/src/index.js"
+      ],
+      "@effect-aws/http-handler/*": [
+        "./packages/http-handler/src/*.js"
+      ],
+      "@effect-aws/http-handler/test/*": [
+        "./packages/http-handler/test/*.js"
       ]
     }
   }

@@ -74,6 +74,7 @@ const config: UserConfig = {
       ...alias("secrets-manager"),
       ...alias("ssm"),
       ...alias("s3"),
+      ...alias("http-handler"),
     }
   }
 }
