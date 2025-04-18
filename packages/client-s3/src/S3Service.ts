@@ -1522,7 +1522,7 @@ interface S3Service$ {
 export const makeS3Service = Effect.gen(function*() {
   const client = yield* Instance.S3ClientInstance;
 
-  return Service.fromCommandsAndServiceFn<S3Service$>(commands, (CommandCtor) =>
+  return yield* Service.fromCommandsAndServiceFn<S3Service$>(commands, (CommandCtor) =>
   (
     args: any,
     options?:

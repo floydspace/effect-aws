@@ -1,13 +1,13 @@
 /**
  * @since 0.1.0
  */
-import { HttpClient } from "@effect/platform";
 import { ServiceException } from "@smithy/smithy-client";
 import type { Client, MiddlewareStack } from "@smithy/types";
-import type { Array } from "effect";
-import { Data, Effect, Layer, ManagedRuntime, Record, String } from "effect";
+import type { Array, Runtime } from "effect";
+import { Data, Effect, Option, Record, Scope, String } from "effect";
 import type { TaggedException } from "./Errors.js";
 import { SdkError } from "./Errors.js";
+import * as HttpHandler from "./HttpHandler.js";
 import type { BaseResolvedConfig, CommandCtor, LoggerResolvedConfig } from "./internal/service.js";
 import type { HttpHandlerOptions } from "./Types.js";
 
@@ -39,16 +39,23 @@ export const catchServiceExceptions = (errorTags?: Array.NonEmptyReadonlyArray<s
 export const makeServiceFn = (
   client: Client<any, any, BaseResolvedConfig>,
   CommandCtor: CommandCtor<any>,
-  fnOptions: ServiceFnOptions & { httpClient: HttpClient.HttpClient },
+  fnOptions: ServiceFnOptions,
 ) => {
   return (args: any, options?: HttpHandlerOptions) =>
     Effect.gen(function*() {
       const config = yield* fnOptions.resolveClientConfig;
-      const runtime = ManagedRuntime.make(Layer.succeed(HttpClient.HttpClient, fnOptions.httpClient));
-      return yield* Effect.tryPromise({
-        try: (abortSignal) => client.send(new CommandCtor(args, config), { ...(options ?? {}), abortSignal, runtime }),
-        catch: catchServiceExceptions(fnOptions.errorTags),
-      }).pipe(Effect.tap(() => runtime.disposeEffect));
+      const runtime = yield* Effect.runtime();
+
+      return yield* Effect.acquireUseRelease(
+        Scope.make(),
+        (scope) =>
+          Effect.tryPromise({
+            try: (abortSignal) =>
+              client.send(new CommandCtor(args, config, { runtime, scope }), { ...(options ?? {}), abortSignal }),
+            catch: catchServiceExceptions(fnOptions.errorTags),
+          }),
+        Scope.close,
+      );
     });
 };
 
@@ -58,15 +65,18 @@ export const makeServiceFn = (
  */
 export const fromCommandsAndServiceFn = <Service>(
   commands: Record<string, CommandCtor<any>>,
-  serviceFnMaker: (
-    CommandCtor: CommandCtor<any>,
-    options: { httpClient: HttpClient.HttpClient },
-  ) => ReturnType<typeof makeServiceFn>,
-): Effect.Effect<Service, never, HttpClient.HttpClient> =>
-  HttpClient.HttpClient.pipe(Effect.map((httpClient) =>
-    Record.mapEntries(commands, (CommandCtor, command) => {
+  serviceFnMaker: (CommandCtor: CommandCtor<any>) => ReturnType<typeof makeServiceFn>,
+): Effect.Effect<Service> =>
+  Effect.gen(function*() {
+    const maybeRequestHandler = yield* Effect.serviceOption(HttpHandler.RequestHandler);
+
+    return Record.mapEntries(commands, (CommandCtor, command) => {
       const ExtendedCommand = class extends CommandCtor {
-        constructor(args: any, private config?: LoggerResolvedConfig) {
+        constructor(
+          args: any,
+          private config: LoggerResolvedConfig,
+          private runtimeOptions: { runtime: Runtime.Runtime<never>; scope: Scope.Scope },
+        ) {
           super(args);
         }
 
@@ -75,16 +85,20 @@ export const fromCommandsAndServiceFn = <Service>(
           configuration: BaseResolvedConfig,
           options: any,
         ) {
-          return this.config?.logger
-            ? super.resolveMiddleware(stack, { ...configuration, logger: this.config.logger }, options)
-            : super.resolveMiddleware(stack, configuration, options);
+          return super.resolveMiddleware(stack, {
+            ...configuration,
+            ...(this.config.logger ? { logger: this.config.logger } : {}),
+            ...(Option.isSome(maybeRequestHandler)
+              ? { requestHandler: HttpHandler.toClientRequestHandler(maybeRequestHandler.value, this.runtimeOptions) }
+              : {}),
+          }, options);
         }
       };
 
       const serviceFnName = String.uncapitalize(command).replace(/Command$/, "");
-      return [serviceFnName, serviceFnMaker(ExtendedCommand, { httpClient })];
-    }) as Service
-  ));
+      return [serviceFnName, serviceFnMaker(ExtendedCommand)];
+    }) as Service;
+  });
 
 /**
  * @since 0.1.0
@@ -94,8 +108,5 @@ export const fromClientAndCommands = <Service>(
   client: Client<any, any, BaseResolvedConfig>,
   commands: Record<string, CommandCtor<any>>,
   options: ServiceFnOptions,
-): Effect.Effect<Service, never, HttpClient.HttpClient> =>
-  fromCommandsAndServiceFn(
-    commands,
-    (CommandCtor, opts) => makeServiceFn(client, CommandCtor, { ...options, ...opts }),
-  );
+): Effect.Effect<Service> =>
+  fromCommandsAndServiceFn(commands, (CommandCtor) => makeServiceFn(client, CommandCtor, options));

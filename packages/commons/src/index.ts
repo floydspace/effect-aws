@@ -21,4 +21,4 @@ export * from "./Types.js";
 /**
  * @since 0.3.0
  */
-export * from "./HttpHandler.js";
+export * as HttpHandler from "./HttpHandler.js";
