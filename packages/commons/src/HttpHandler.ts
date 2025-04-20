@@ -6,6 +6,7 @@ import type { HttpRequest, HttpResponse } from "@smithy/protocol-http";
 import type { HttpHandlerOptions, RequestHandler as ClientRequestHandler, RequestHandlerOutput } from "@smithy/types";
 import type { Cause, Effect } from "effect";
 import { Context, Runtime, Scope } from "effect";
+import type { RuntimeOptions } from "./internal/httpHandler.js";
 
 const TypeId = Symbol.for("@effect-aws/commons/RequestHandler");
 
@@ -51,19 +52,19 @@ export const make = (options: RequestHandlerConstructorProps): RequestHandler =>
  */
 export const toClientRequestHandler = (
   requestHandler: RequestHandler,
-  config: {
-    runtime: Runtime.Runtime<never>;
-    scope: Scope.Scope;
-  },
+  config: RuntimeOptions,
 ): ClientRequestHandler<HttpRequest, HttpResponse, HttpHandlerOptions> => {
-  const HttpHandler = class implements ClientRequestHandler<HttpRequest, HttpResponse, HttpHandlerOptions> {
-    async handle(request: HttpRequest, options: HttpHandlerOptions = {}) {
-      return await Runtime.runPromise(config.runtime)(
-        requestHandler.handle(request, options).pipe(Scope.extend(config.scope)),
+  const runPromise = Runtime.runPromise(config.runtime);
+  const scoped = Scope.extend(config.scope);
+
+  class HttpHandler implements ClientRequestHandler<HttpRequest, HttpResponse, HttpHandlerOptions> {
+    handle(request: HttpRequest, options: HttpHandlerOptions = {}) {
+      return runPromise(
+        requestHandler.handle(request, options).pipe(scoped),
         { signal: options.abortSignal as AbortSignal },
       );
     }
-  };
+  }
 
   return new HttpHandler();
 };

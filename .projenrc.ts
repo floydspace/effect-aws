@@ -39,14 +39,14 @@ new Readme(project, { org });
 
 new Eslint(project);
 new Vitest(project, { sharedSetupFiles: ["vitest.setup.ts"] });
-project.addDevDeps("vitest-mock-extended@^2.0.2");
-project.addDevDeps("aws-sdk-client-mock", "aws-sdk-client-mock-vitest@4.0.0");
+project.addDevDeps("vitest-mock-extended");
+project.addDevDeps("aws-sdk-client-mock", "aws-sdk-client-mock-vitest");
 
-const effectDeps = ["effect@3.10.16"];
+const effectDeps = ["effect@3.14.11"];
 
 project.addScripts({ "codegen-client": "tsx ./scripts/codegen-cli.ts" });
-project.addDeps(...effectDeps, "@effect/cli@0.48.25", "@effect/platform@0.69.25", "@effect/platform-node@0.64.27");
-project.addDevDeps("@effect/language-service", "@effect/vitest@0.13.16");
+project.addDeps(...effectDeps, "@effect/cli@0.59.11", "@effect/platform@0.80.11", "@effect/platform-node@0.76.21");
+project.addDevDeps("@effect/language-service", "@effect/vitest@0.20.11");
 project.tsconfigBase?.file.addOverride("compilerOptions.plugins", [
   { name: "@effect/language-service" },
 ]);
@@ -161,9 +161,8 @@ new TypeScriptLibProject({
   parent: project,
   name: "s3",
   description: "Effectful AWS S3 functions",
-  deps: ["@effect/platform@0.69.25"],
-  devDeps: [...effectDeps, "@aws-sdk/client-s3@^3"],
-  peerDeps: commonPeerDeps,
+  devDeps: [...effectDeps, "@effect/platform@0.80.11", "@aws-sdk/client-s3@^3"],
+  peerDeps: [...commonPeerDeps, "@effect/platform@>=0.69.25"],
   workspacePeerDeps: [s3Client],
   addExamples: true,
 });
@@ -172,9 +171,9 @@ new TypeScriptLibProject({
   parent: project,
   name: "http-handler",
   description: "Effectful AWS HTTP handler",
-  deps: ["@effect/platform@0.69.25", "@smithy/types", "@smithy/protocol-http", "@smithy/querystring-builder"],
-  devDeps: commonDevDeps,
-  peerDeps: commonPeerDeps,
+  deps: ["@smithy/types", "@smithy/protocol-http", "@smithy/querystring-builder"],
+  devDeps: [...effectDeps, "@effect/platform@0.80.11"],
+  peerDeps: [...commonPeerDeps, "@effect/platform@>=0.69.25"],
   workspacePeerDeps: [commons],
 });
 

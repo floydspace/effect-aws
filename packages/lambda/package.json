@@ -27,7 +27,7 @@
   "devDependencies": {
     "@types/aws-lambda": "^8.10.125",
     "@types/node": "ts5.4",
-    "effect": "3.10.16",
+    "effect": "3.14.11",
     "typescript": "^5.4.2"
   },
   "peerDependencies": {

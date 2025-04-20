@@ -15,6 +15,12 @@ declare module "@effect/platform/HttpClientResponse" {
      * @private
      */
     source: globalThis.Response;
+
+    /**
+     * @private
+     * @since 0.79.0
+     */
+    original?: HttpClientResponse;
   }
 }
 
@@ -86,7 +92,7 @@ export const makeHttpClientRequestHandler = (config: HttpHandlerOptions) =>
                 Effect.map((body) =>
                   new HttpResponse({
                     headers: res.headers,
-                    reason: res.source.statusText,
+                    reason: (res.original ?? res).source.statusText, // changed since @effect/platform@0.79.0
                     statusCode: res.status,
                     body,
                   })

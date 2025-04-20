@@ -6,13 +6,18 @@
       "type": "build"
     },
     {
+      "name": "@effect/platform",
+      "version": "0.80.11",
+      "type": "build"
+    },
+    {
       "name": "@types/node",
       "version": "ts5.4",
       "type": "build"
     },
     {
       "name": "effect",
-      "version": "3.10.16",
+      "version": "3.14.11",
       "type": "build"
     },
     {
@@ -26,14 +31,14 @@
       "type": "peer"
     },
     {
-      "name": "effect",
-      "version": ">=3.0.4 <4.0.0",
+      "name": "@effect/platform",
+      "version": ">=0.69.25",
       "type": "peer"
     },
     {
-      "name": "@effect/platform",
-      "version": "0.69.25",
-      "type": "runtime"
+      "name": "effect",
+      "version": ">=3.0.4 <4.0.0",
+      "type": "peer"
     },
     {
       "name": "@smithy/protocol-http",

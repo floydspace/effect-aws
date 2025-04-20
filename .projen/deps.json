@@ -26,7 +26,7 @@
     },
     {
       "name": "@effect/vitest",
-      "version": "0.13.16",
+      "version": "0.20.11",
       "type": "build"
     },
     {
@@ -69,7 +69,6 @@
     },
     {
       "name": "aws-sdk-client-mock-vitest",
-      "version": "4.0.0",
       "type": "build"
     },
     {
@@ -124,27 +123,26 @@
     },
     {
       "name": "vitest-mock-extended",
-      "version": "^2.0.2",
       "type": "build"
     },
     {
       "name": "@effect/cli",
-      "version": "0.48.25",
+      "version": "0.59.11",
       "type": "runtime"
     },
     {
       "name": "@effect/platform-node",
-      "version": "0.64.27",
+      "version": "0.76.21",
       "type": "runtime"
     },
     {
       "name": "@effect/platform",
-      "version": "0.69.25",
+      "version": "0.80.11",
       "type": "runtime"
     },
     {
       "name": "effect",
-      "version": "3.10.16",
+      "version": "3.14.11",
       "type": "runtime"
     }
   ],

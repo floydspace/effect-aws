@@ -3,11 +3,12 @@
  */
 import { ServiceException } from "@smithy/smithy-client";
 import type { Client, MiddlewareStack } from "@smithy/types";
-import type { Array, Runtime } from "effect";
+import type { Array } from "effect";
 import { Data, Effect, Option, Record, Scope, String } from "effect";
 import type { TaggedException } from "./Errors.js";
 import { SdkError } from "./Errors.js";
 import * as HttpHandler from "./HttpHandler.js";
+import type { RuntimeOptions } from "./internal/httpHandler.js";
 import type { BaseResolvedConfig, CommandCtor, LoggerResolvedConfig } from "./internal/service.js";
 import type { HttpHandlerOptions } from "./Types.js";
 
@@ -75,7 +76,7 @@ export const fromCommandsAndServiceFn = <Service>(
         constructor(
           args: any,
           private config: LoggerResolvedConfig,
-          private runtimeOptions: { runtime: Runtime.Runtime<never>; scope: Scope.Scope },
+          private runtimeOptions: RuntimeOptions,
         ) {
           super(args);
         }

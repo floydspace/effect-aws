@@ -27,16 +27,15 @@
   "devDependencies": {
     "@aws-sdk/client-s3": "^3",
     "@effect-aws/client-s3": "workspace:^",
+    "@effect/platform": "0.80.11",
     "@types/node": "ts5.4",
-    "effect": "3.10.16",
+    "effect": "3.14.11",
     "typescript": "^5.4.2"
   },
   "peerDependencies": {
     "@effect-aws/client-s3": "workspace:^",
+    "@effect/platform": ">=0.69.25",
     "effect": ">=3.0.4 <4.0.0"
-  },
-  "dependencies": {
-    "@effect/platform": "0.69.25"
   },
   "main": "build/cjs/index.js",
   "license": "MIT",
