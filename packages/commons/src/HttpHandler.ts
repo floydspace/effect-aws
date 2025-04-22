@@ -1,7 +1,6 @@
 /**
  * @since 0.3.0
  */
-import type { HttpClientError } from "@effect/platform";
 import type { HttpRequest, HttpResponse } from "@smithy/protocol-http";
 import type { HttpHandlerOptions, RequestHandler as ClientRequestHandler, RequestHandlerOutput } from "@smithy/types";
 import type { Cause, Effect } from "effect";
@@ -16,7 +15,7 @@ type RequestHandlerConstructorProps = {
     handlerOptions?: HttpHandlerOptions,
   ) => Effect.Effect<
     RequestHandlerOutput<HttpResponse>,
-    HttpClientError.HttpClientError | Cause.TimeoutException,
+    Cause.TimeoutException,
     Scope.Scope
   >;
 };

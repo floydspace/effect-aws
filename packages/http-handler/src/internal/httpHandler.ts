@@ -1,6 +1,6 @@
 import type { HttpHandlerOptions } from "@effect-aws/commons";
 import { HttpHandler } from "@effect-aws/commons";
-import type { HttpClientError, HttpMethod } from "@effect/platform";
+import type { HttpMethod } from "@effect/platform";
 import { HttpBody, HttpClient, HttpClientRequest } from "@effect/platform";
 import type { HttpRequest } from "@smithy/protocol-http";
 import { HttpResponse } from "@smithy/protocol-http";
@@ -63,7 +63,7 @@ export const makeHttpClientRequestHandler = (config: HttpHandlerOptions) =>
         handlerOptions?: HttpHandlerOptions,
       ): Effect.Effect<
         RequestHandlerOutput<HttpResponse>,
-        HttpClientError.HttpClientError | Cause.TimeoutException,
+        Cause.TimeoutException,
         Scope.Scope
       > =>
         Effect.gen(function*() {
@@ -99,6 +99,7 @@ export const makeHttpClientRequestHandler = (config: HttpHandlerOptions) =>
                 ),
               )
             ),
+            Effect.orDie,
             Effect.timeout(requestTimeoutInMs),
           );
 

@@ -26,7 +26,6 @@
   },
   "devDependencies": {
     "@aws-sdk/middleware-logger": "^3.775.0",
-    "@smithy/protocol-http": "^5.1.0",
     "@types/node": "ts5.4",
     "effect": "3.14.11",
     "typescript": "^5.4.2"
@@ -35,6 +34,7 @@
     "effect": ">=3.0.4 <4.0.0"
   },
   "dependencies": {
+    "@smithy/protocol-http": "^5.1.0",
     "@smithy/smithy-client": "^4.2.0",
     "@smithy/types": "^4.1.0"
   },
