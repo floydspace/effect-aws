@@ -232,6 +232,7 @@ import {
 } from "@aws-sdk/client-elasticache";
 import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
+import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
 import * as Instance from "./ElastiCacheClientInstance.js";
 import * as ElastiCacheServiceConfig from "./ElastiCacheServiceConfig.js";
@@ -404,6 +405,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AddTagsToResourceCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | CacheClusterNotFoundFaultError
     | CacheParameterGroupNotFoundFaultError
@@ -431,6 +433,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AuthorizeCacheSecurityGroupIngressCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AuthorizationAlreadyExistsFaultError
     | CacheSecurityGroupNotFoundFaultError
@@ -447,7 +450,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchApplyUpdateActionCommandOutput,
-    SdkError | InvalidParameterValueError | ServiceUpdateNotFoundFaultError
+    Cause.TimeoutException | SdkError | InvalidParameterValueError | ServiceUpdateNotFoundFaultError
   >;
 
   /**
@@ -458,7 +461,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchStopUpdateActionCommandOutput,
-    SdkError | InvalidParameterValueError | ServiceUpdateNotFoundFaultError
+    Cause.TimeoutException | SdkError | InvalidParameterValueError | ServiceUpdateNotFoundFaultError
   >;
 
   /**
@@ -469,6 +472,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CompleteMigrationCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InvalidReplicationGroupStateFaultError
     | ReplicationGroupNotFoundFaultError
@@ -483,6 +487,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CopyServerlessCacheSnapshotCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
@@ -502,6 +507,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CopySnapshotCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
@@ -520,6 +526,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateCacheClusterCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | CacheClusterAlreadyExistsFaultError
     | CacheParameterGroupNotFoundFaultError
@@ -545,6 +552,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateCacheParameterGroupCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | CacheParameterGroupAlreadyExistsFaultError
     | CacheParameterGroupQuotaExceededFaultError
@@ -562,6 +570,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateCacheSecurityGroupCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | CacheSecurityGroupAlreadyExistsFaultError
     | CacheSecurityGroupQuotaExceededFaultError
@@ -578,6 +587,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateCacheSubnetGroupCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | CacheSubnetGroupAlreadyExistsFaultError
     | CacheSubnetGroupQuotaExceededFaultError
@@ -595,6 +605,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateGlobalReplicationGroupCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | GlobalReplicationGroupAlreadyExistsFaultError
     | InvalidParameterValueError
@@ -611,6 +622,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateReplicationGroupCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | CacheClusterNotFoundFaultError
     | CacheParameterGroupNotFoundFaultError
@@ -641,6 +653,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateServerlessCacheCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InvalidCredentialsError
     | InvalidParameterCombinationError
@@ -663,6 +676,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateServerlessCacheSnapshotCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
@@ -682,6 +696,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateSnapshotCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | CacheClusterNotFoundFaultError
     | InvalidCacheClusterStateFaultError
@@ -703,6 +718,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateUserCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | DuplicateUserNameFaultError
     | InvalidParameterCombinationError
@@ -721,6 +737,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateUserGroupCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | DefaultUserRequiredError
     | DuplicateUserNameFaultError
@@ -740,6 +757,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DecreaseNodeGroupsInGlobalReplicationGroupCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | GlobalReplicationGroupNotFoundFaultError
     | InvalidGlobalReplicationGroupStateFaultError
@@ -755,6 +773,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DecreaseReplicaCountCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | ClusterQuotaForCustomerExceededFaultError
     | InsufficientCacheClusterCapacityFaultError
@@ -778,6 +797,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteCacheClusterCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | CacheClusterNotFoundFaultError
     | InvalidCacheClusterStateFaultError
@@ -796,6 +816,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteCacheParameterGroupCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | CacheParameterGroupNotFoundFaultError
     | InvalidCacheParameterGroupStateFaultError
@@ -811,6 +832,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteCacheSecurityGroupCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | CacheSecurityGroupNotFoundFaultError
     | InvalidCacheSecurityGroupStateFaultError
@@ -826,7 +848,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteCacheSubnetGroupCommandOutput,
-    SdkError | CacheSubnetGroupInUseError | CacheSubnetGroupNotFoundFaultError
+    Cause.TimeoutException | SdkError | CacheSubnetGroupInUseError | CacheSubnetGroupNotFoundFaultError
   >;
 
   /**
@@ -837,6 +859,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteGlobalReplicationGroupCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | GlobalReplicationGroupNotFoundFaultError
     | InvalidGlobalReplicationGroupStateFaultError
@@ -851,6 +874,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteReplicationGroupCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
@@ -869,6 +893,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteServerlessCacheCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InvalidCredentialsError
     | InvalidParameterCombinationError
@@ -887,6 +912,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteServerlessCacheSnapshotCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InvalidParameterValueError
     | InvalidServerlessCacheSnapshotStateFaultError
@@ -902,6 +928,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteSnapshotCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
@@ -917,6 +944,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteUserCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | DefaultUserAssociatedToUserGroupFaultError
     | InvalidParameterValueError
@@ -933,6 +961,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteUserGroupCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InvalidParameterValueError
     | InvalidUserGroupStateFaultError
@@ -948,7 +977,11 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeCacheClustersCommandOutput,
-    SdkError | CacheClusterNotFoundFaultError | InvalidParameterCombinationError | InvalidParameterValueError
+    | Cause.TimeoutException
+    | SdkError
+    | CacheClusterNotFoundFaultError
+    | InvalidParameterCombinationError
+    | InvalidParameterValueError
   >;
 
   /**
@@ -959,7 +992,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeCacheEngineVersionsCommandOutput,
-    SdkError
+    Cause.TimeoutException | SdkError
   >;
 
   /**
@@ -970,7 +1003,11 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeCacheParameterGroupsCommandOutput,
-    SdkError | CacheParameterGroupNotFoundFaultError | InvalidParameterCombinationError | InvalidParameterValueError
+    | Cause.TimeoutException
+    | SdkError
+    | CacheParameterGroupNotFoundFaultError
+    | InvalidParameterCombinationError
+    | InvalidParameterValueError
   >;
 
   /**
@@ -981,7 +1018,11 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeCacheParametersCommandOutput,
-    SdkError | CacheParameterGroupNotFoundFaultError | InvalidParameterCombinationError | InvalidParameterValueError
+    | Cause.TimeoutException
+    | SdkError
+    | CacheParameterGroupNotFoundFaultError
+    | InvalidParameterCombinationError
+    | InvalidParameterValueError
   >;
 
   /**
@@ -992,7 +1033,11 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeCacheSecurityGroupsCommandOutput,
-    SdkError | CacheSecurityGroupNotFoundFaultError | InvalidParameterCombinationError | InvalidParameterValueError
+    | Cause.TimeoutException
+    | SdkError
+    | CacheSecurityGroupNotFoundFaultError
+    | InvalidParameterCombinationError
+    | InvalidParameterValueError
   >;
 
   /**
@@ -1003,7 +1048,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeCacheSubnetGroupsCommandOutput,
-    SdkError | CacheSubnetGroupNotFoundFaultError
+    Cause.TimeoutException | SdkError | CacheSubnetGroupNotFoundFaultError
   >;
 
   /**
@@ -1014,7 +1059,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeEngineDefaultParametersCommandOutput,
-    SdkError | InvalidParameterCombinationError | InvalidParameterValueError
+    Cause.TimeoutException | SdkError | InvalidParameterCombinationError | InvalidParameterValueError
   >;
 
   /**
@@ -1025,7 +1070,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeEventsCommandOutput,
-    SdkError | InvalidParameterCombinationError | InvalidParameterValueError
+    Cause.TimeoutException | SdkError | InvalidParameterCombinationError | InvalidParameterValueError
   >;
 
   /**
@@ -1036,7 +1081,11 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeGlobalReplicationGroupsCommandOutput,
-    SdkError | GlobalReplicationGroupNotFoundFaultError | InvalidParameterCombinationError | InvalidParameterValueError
+    | Cause.TimeoutException
+    | SdkError
+    | GlobalReplicationGroupNotFoundFaultError
+    | InvalidParameterCombinationError
+    | InvalidParameterValueError
   >;
 
   /**
@@ -1047,7 +1096,11 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeReplicationGroupsCommandOutput,
-    SdkError | InvalidParameterCombinationError | InvalidParameterValueError | ReplicationGroupNotFoundFaultError
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidParameterCombinationError
+    | InvalidParameterValueError
+    | ReplicationGroupNotFoundFaultError
   >;
 
   /**
@@ -1058,7 +1111,11 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeReservedCacheNodesCommandOutput,
-    SdkError | InvalidParameterCombinationError | InvalidParameterValueError | ReservedCacheNodeNotFoundFaultError
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidParameterCombinationError
+    | InvalidParameterValueError
+    | ReservedCacheNodeNotFoundFaultError
   >;
 
   /**
@@ -1069,6 +1126,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeReservedCacheNodesOfferingsCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
@@ -1083,6 +1141,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeServerlessCacheSnapshotsCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
@@ -1098,7 +1157,11 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeServerlessCachesCommandOutput,
-    SdkError | InvalidParameterCombinationError | InvalidParameterValueError | ServerlessCacheNotFoundFaultError
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidParameterCombinationError
+    | InvalidParameterValueError
+    | ServerlessCacheNotFoundFaultError
   >;
 
   /**
@@ -1109,7 +1172,11 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeServiceUpdatesCommandOutput,
-    SdkError | InvalidParameterCombinationError | InvalidParameterValueError | ServiceUpdateNotFoundFaultError
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidParameterCombinationError
+    | InvalidParameterValueError
+    | ServiceUpdateNotFoundFaultError
   >;
 
   /**
@@ -1120,6 +1187,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeSnapshotsCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | CacheClusterNotFoundFaultError
     | InvalidParameterCombinationError
@@ -1135,7 +1203,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeUpdateActionsCommandOutput,
-    SdkError | InvalidParameterCombinationError | InvalidParameterValueError
+    Cause.TimeoutException | SdkError | InvalidParameterCombinationError | InvalidParameterValueError
   >;
 
   /**
@@ -1146,7 +1214,11 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeUserGroupsCommandOutput,
-    SdkError | InvalidParameterCombinationError | ServiceLinkedRoleNotFoundFaultError | UserGroupNotFoundFaultError
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidParameterCombinationError
+    | ServiceLinkedRoleNotFoundFaultError
+    | UserGroupNotFoundFaultError
   >;
 
   /**
@@ -1157,7 +1229,11 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeUsersCommandOutput,
-    SdkError | InvalidParameterCombinationError | ServiceLinkedRoleNotFoundFaultError | UserNotFoundFaultError
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidParameterCombinationError
+    | ServiceLinkedRoleNotFoundFaultError
+    | UserNotFoundFaultError
   >;
 
   /**
@@ -1168,6 +1244,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisassociateGlobalReplicationGroupCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | GlobalReplicationGroupNotFoundFaultError
     | InvalidGlobalReplicationGroupStateFaultError
@@ -1183,6 +1260,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ExportServerlessCacheSnapshotCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InvalidParameterValueError
     | InvalidServerlessCacheSnapshotStateFaultError
@@ -1198,6 +1276,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     FailoverGlobalReplicationGroupCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | GlobalReplicationGroupNotFoundFaultError
     | InvalidGlobalReplicationGroupStateFaultError
@@ -1213,6 +1292,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     IncreaseNodeGroupsInGlobalReplicationGroupCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | GlobalReplicationGroupNotFoundFaultError
     | InvalidGlobalReplicationGroupStateFaultError
@@ -1227,6 +1307,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     IncreaseReplicaCountCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | ClusterQuotaForCustomerExceededFaultError
     | InsufficientCacheClusterCapacityFaultError
@@ -1250,6 +1331,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAllowedNodeTypeModificationsCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | CacheClusterNotFoundFaultError
     | InvalidParameterCombinationError
@@ -1265,6 +1347,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsForResourceCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | CacheClusterNotFoundFaultError
     | CacheParameterGroupNotFoundFaultError
@@ -1291,6 +1374,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyCacheClusterCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | CacheClusterNotFoundFaultError
     | CacheParameterGroupNotFoundFaultError
@@ -1313,6 +1397,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyCacheParameterGroupCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | CacheParameterGroupNotFoundFaultError
     | InvalidCacheParameterGroupStateFaultError
@@ -1329,6 +1414,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyCacheSubnetGroupCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | CacheSubnetGroupNotFoundFaultError
     | CacheSubnetQuotaExceededFaultError
@@ -1345,6 +1431,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyGlobalReplicationGroupCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | GlobalReplicationGroupNotFoundFaultError
     | InvalidGlobalReplicationGroupStateFaultError
@@ -1359,6 +1446,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyReplicationGroupCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | CacheClusterNotFoundFaultError
     | CacheParameterGroupNotFoundFaultError
@@ -1386,6 +1474,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyReplicationGroupShardConfigurationCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InsufficientCacheClusterCapacityFaultError
     | InvalidCacheClusterStateFaultError
@@ -1407,6 +1496,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyServerlessCacheCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InvalidCredentialsError
     | InvalidParameterCombinationError
@@ -1426,6 +1516,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyUserCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
@@ -1442,6 +1533,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyUserGroupCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | DefaultUserRequiredError
     | DuplicateUserNameFaultError
@@ -1461,6 +1553,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PurchaseReservedCacheNodesOfferingCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InvalidParameterCombinationError
     | InvalidParameterValueError
@@ -1478,6 +1571,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RebalanceSlotsInGlobalReplicationGroupCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | GlobalReplicationGroupNotFoundFaultError
     | InvalidGlobalReplicationGroupStateFaultError
@@ -1492,7 +1586,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RebootCacheClusterCommandOutput,
-    SdkError | CacheClusterNotFoundFaultError | InvalidCacheClusterStateFaultError
+    Cause.TimeoutException | SdkError | CacheClusterNotFoundFaultError | InvalidCacheClusterStateFaultError
   >;
 
   /**
@@ -1503,6 +1597,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RemoveTagsFromResourceCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | CacheClusterNotFoundFaultError
     | CacheParameterGroupNotFoundFaultError
@@ -1530,6 +1625,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ResetCacheParameterGroupCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | CacheParameterGroupNotFoundFaultError
     | InvalidCacheParameterGroupStateFaultError
@@ -1546,6 +1642,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RevokeCacheSecurityGroupIngressCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AuthorizationNotFoundFaultError
     | CacheSecurityGroupNotFoundFaultError
@@ -1562,6 +1659,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartMigrationCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InvalidParameterValueError
     | InvalidReplicationGroupStateFaultError
@@ -1577,6 +1675,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TestFailoverCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | APICallRateForCustomerExceededFaultError
     | InvalidCacheClusterStateFaultError
@@ -1597,6 +1696,7 @@ interface ElastiCacheService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TestMigrationCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InvalidParameterValueError
     | InvalidReplicationGroupStateFaultError

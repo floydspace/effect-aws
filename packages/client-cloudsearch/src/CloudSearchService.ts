@@ -85,6 +85,7 @@ import {
 } from "@aws-sdk/client-cloudsearch";
 import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
+import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
 import * as Instance from "./CloudSearchClientInstance.js";
 import * as CloudSearchServiceConfig from "./CloudSearchServiceConfig.js";
@@ -140,7 +141,7 @@ interface CloudSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BuildSuggestersCommandOutput,
-    SdkError | BaseError | InternalError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutException | SdkError | BaseError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -151,7 +152,13 @@ interface CloudSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateDomainCommandOutput,
-    SdkError | BaseError | InternalError | LimitExceededError | ResourceAlreadyExistsError | ValidationError
+    | Cause.TimeoutException
+    | SdkError
+    | BaseError
+    | InternalError
+    | LimitExceededError
+    | ResourceAlreadyExistsError
+    | ValidationError
   >;
 
   /**
@@ -162,6 +169,7 @@ interface CloudSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DefineAnalysisSchemeCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | BaseError
     | InternalError
@@ -179,6 +187,7 @@ interface CloudSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DefineExpressionCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | BaseError
     | InternalError
@@ -196,6 +205,7 @@ interface CloudSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DefineIndexFieldCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | BaseError
     | InternalError
@@ -213,6 +223,7 @@ interface CloudSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DefineSuggesterCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | BaseError
     | InternalError
@@ -230,7 +241,13 @@ interface CloudSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteAnalysisSchemeCommandOutput,
-    SdkError | BaseError | InternalError | InvalidTypeError | ResourceNotFoundError | ValidationError
+    | Cause.TimeoutException
+    | SdkError
+    | BaseError
+    | InternalError
+    | InvalidTypeError
+    | ResourceNotFoundError
+    | ValidationError
   >;
 
   /**
@@ -241,7 +258,7 @@ interface CloudSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDomainCommandOutput,
-    SdkError | BaseError | InternalError
+    Cause.TimeoutException | SdkError | BaseError | InternalError
   >;
 
   /**
@@ -252,7 +269,13 @@ interface CloudSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteExpressionCommandOutput,
-    SdkError | BaseError | InternalError | InvalidTypeError | ResourceNotFoundError | ValidationError
+    | Cause.TimeoutException
+    | SdkError
+    | BaseError
+    | InternalError
+    | InvalidTypeError
+    | ResourceNotFoundError
+    | ValidationError
   >;
 
   /**
@@ -263,7 +286,13 @@ interface CloudSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteIndexFieldCommandOutput,
-    SdkError | BaseError | InternalError | InvalidTypeError | ResourceNotFoundError | ValidationError
+    | Cause.TimeoutException
+    | SdkError
+    | BaseError
+    | InternalError
+    | InvalidTypeError
+    | ResourceNotFoundError
+    | ValidationError
   >;
 
   /**
@@ -274,7 +303,13 @@ interface CloudSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteSuggesterCommandOutput,
-    SdkError | BaseError | InternalError | InvalidTypeError | ResourceNotFoundError | ValidationError
+    | Cause.TimeoutException
+    | SdkError
+    | BaseError
+    | InternalError
+    | InvalidTypeError
+    | ResourceNotFoundError
+    | ValidationError
   >;
 
   /**
@@ -285,7 +320,7 @@ interface CloudSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeAnalysisSchemesCommandOutput,
-    SdkError | BaseError | InternalError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | BaseError | InternalError | ResourceNotFoundError
   >;
 
   /**
@@ -296,6 +331,7 @@ interface CloudSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeAvailabilityOptionsCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | BaseError
     | DisabledOperationError
@@ -313,7 +349,13 @@ interface CloudSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeDomainEndpointOptionsCommandOutput,
-    SdkError | BaseError | DisabledOperationError | InternalError | LimitExceededError | ResourceNotFoundError
+    | Cause.TimeoutException
+    | SdkError
+    | BaseError
+    | DisabledOperationError
+    | InternalError
+    | LimitExceededError
+    | ResourceNotFoundError
   >;
 
   /**
@@ -324,7 +366,7 @@ interface CloudSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeDomainsCommandOutput,
-    SdkError | BaseError | InternalError
+    Cause.TimeoutException | SdkError | BaseError | InternalError
   >;
 
   /**
@@ -335,7 +377,7 @@ interface CloudSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeExpressionsCommandOutput,
-    SdkError | BaseError | InternalError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | BaseError | InternalError | ResourceNotFoundError
   >;
 
   /**
@@ -346,7 +388,7 @@ interface CloudSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeIndexFieldsCommandOutput,
-    SdkError | BaseError | InternalError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | BaseError | InternalError | ResourceNotFoundError
   >;
 
   /**
@@ -357,7 +399,7 @@ interface CloudSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeScalingParametersCommandOutput,
-    SdkError | BaseError | InternalError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | BaseError | InternalError | ResourceNotFoundError
   >;
 
   /**
@@ -368,7 +410,7 @@ interface CloudSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeServiceAccessPoliciesCommandOutput,
-    SdkError | BaseError | InternalError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | BaseError | InternalError | ResourceNotFoundError
   >;
 
   /**
@@ -379,7 +421,7 @@ interface CloudSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeSuggestersCommandOutput,
-    SdkError | BaseError | InternalError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | BaseError | InternalError | ResourceNotFoundError
   >;
 
   /**
@@ -390,7 +432,7 @@ interface CloudSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     IndexDocumentsCommandOutput,
-    SdkError | BaseError | InternalError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutException | SdkError | BaseError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -401,7 +443,7 @@ interface CloudSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDomainNamesCommandOutput,
-    SdkError | BaseError
+    Cause.TimeoutException | SdkError | BaseError
   >;
 
   /**
@@ -412,6 +454,7 @@ interface CloudSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateAvailabilityOptionsCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | BaseError
     | DisabledOperationError
@@ -430,6 +473,7 @@ interface CloudSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateDomainEndpointOptionsCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | BaseError
     | DisabledOperationError
@@ -448,6 +492,7 @@ interface CloudSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateScalingParametersCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | BaseError
     | InternalError
@@ -465,6 +510,7 @@ interface CloudSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateServiceAccessPoliciesCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | BaseError
     | InternalError

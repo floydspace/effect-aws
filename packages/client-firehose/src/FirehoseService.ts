@@ -43,6 +43,7 @@ import {
 } from "@aws-sdk/client-firehose";
 import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
+import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
 import type {
   ConcurrentModificationError,
@@ -84,7 +85,12 @@ interface FirehoseService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateDeliveryStreamCommandOutput,
-    SdkError | InvalidArgumentError | InvalidKMSResourceError | LimitExceededError | ResourceInUseError
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidArgumentError
+    | InvalidKMSResourceError
+    | LimitExceededError
+    | ResourceInUseError
   >;
 
   /**
@@ -95,7 +101,7 @@ interface FirehoseService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDeliveryStreamCommandOutput,
-    SdkError | ResourceInUseError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | ResourceInUseError | ResourceNotFoundError
   >;
 
   /**
@@ -106,7 +112,7 @@ interface FirehoseService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeDeliveryStreamCommandOutput,
-    SdkError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | ResourceNotFoundError
   >;
 
   /**
@@ -117,7 +123,7 @@ interface FirehoseService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDeliveryStreamsCommandOutput,
-    SdkError
+    Cause.TimeoutException | SdkError
   >;
 
   /**
@@ -128,7 +134,7 @@ interface FirehoseService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsForDeliveryStreamCommandOutput,
-    SdkError | InvalidArgumentError | LimitExceededError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | InvalidArgumentError | LimitExceededError | ResourceNotFoundError
   >;
 
   /**
@@ -139,6 +145,7 @@ interface FirehoseService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutRecordCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InvalidArgumentError
     | InvalidKMSResourceError
@@ -155,6 +162,7 @@ interface FirehoseService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutRecordBatchCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InvalidArgumentError
     | InvalidKMSResourceError
@@ -171,6 +179,7 @@ interface FirehoseService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartDeliveryStreamEncryptionCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InvalidArgumentError
     | InvalidKMSResourceError
@@ -187,7 +196,12 @@ interface FirehoseService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StopDeliveryStreamEncryptionCommandOutput,
-    SdkError | InvalidArgumentError | LimitExceededError | ResourceInUseError | ResourceNotFoundError
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidArgumentError
+    | LimitExceededError
+    | ResourceInUseError
+    | ResourceNotFoundError
   >;
 
   /**
@@ -198,7 +212,12 @@ interface FirehoseService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagDeliveryStreamCommandOutput,
-    SdkError | InvalidArgumentError | LimitExceededError | ResourceInUseError | ResourceNotFoundError
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidArgumentError
+    | LimitExceededError
+    | ResourceInUseError
+    | ResourceNotFoundError
   >;
 
   /**
@@ -209,7 +228,12 @@ interface FirehoseService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagDeliveryStreamCommandOutput,
-    SdkError | InvalidArgumentError | LimitExceededError | ResourceInUseError | ResourceNotFoundError
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidArgumentError
+    | LimitExceededError
+    | ResourceInUseError
+    | ResourceNotFoundError
   >;
 
   /**
@@ -220,7 +244,12 @@ interface FirehoseService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateDestinationCommandOutput,
-    SdkError | ConcurrentModificationError | InvalidArgumentError | ResourceInUseError | ResourceNotFoundError
+    | Cause.TimeoutException
+    | SdkError
+    | ConcurrentModificationError
+    | InvalidArgumentError
+    | ResourceInUseError
+    | ResourceNotFoundError
   >;
 }
 

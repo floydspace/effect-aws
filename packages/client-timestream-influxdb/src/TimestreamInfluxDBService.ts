@@ -58,6 +58,7 @@ import {
 } from "@aws-sdk/client-timestream-influxdb";
 import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
+import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
 import type {
   AccessDeniedError,
@@ -103,6 +104,7 @@ interface TimestreamInfluxDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateDbClusterCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -121,6 +123,7 @@ interface TimestreamInfluxDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateDbInstanceCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -139,6 +142,7 @@ interface TimestreamInfluxDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateDbParameterGroupCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -157,6 +161,7 @@ interface TimestreamInfluxDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDbClusterCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -174,6 +179,7 @@ interface TimestreamInfluxDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDbInstanceCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -191,7 +197,13 @@ interface TimestreamInfluxDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDbClusterCommandOutput,
-    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
   >;
 
   /**
@@ -202,7 +214,13 @@ interface TimestreamInfluxDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDbInstanceCommandOutput,
-    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
   >;
 
   /**
@@ -213,7 +231,13 @@ interface TimestreamInfluxDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDbParameterGroupCommandOutput,
-    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
   >;
 
   /**
@@ -224,7 +248,13 @@ interface TimestreamInfluxDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDbClustersCommandOutput,
-    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
   >;
 
   /**
@@ -235,7 +265,13 @@ interface TimestreamInfluxDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDbInstancesCommandOutput,
-    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
   >;
 
   /**
@@ -246,7 +282,13 @@ interface TimestreamInfluxDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDbInstancesForClusterCommandOutput,
-    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
   >;
 
   /**
@@ -257,7 +299,13 @@ interface TimestreamInfluxDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDbParameterGroupsCommandOutput,
-    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
   >;
 
   /**
@@ -268,7 +316,7 @@ interface TimestreamInfluxDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsForResourceCommandOutput,
-    SdkError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | ResourceNotFoundError
   >;
 
   /**
@@ -279,7 +327,7 @@ interface TimestreamInfluxDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagResourceCommandOutput,
-    SdkError | ResourceNotFoundError | ServiceQuotaExceededError
+    Cause.TimeoutException | SdkError | ResourceNotFoundError | ServiceQuotaExceededError
   >;
 
   /**
@@ -290,7 +338,7 @@ interface TimestreamInfluxDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
-    SdkError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | ResourceNotFoundError
   >;
 
   /**
@@ -301,6 +349,7 @@ interface TimestreamInfluxDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateDbClusterCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -318,6 +367,7 @@ interface TimestreamInfluxDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateDbInstanceCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | ConflictError

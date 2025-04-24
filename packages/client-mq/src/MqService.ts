@@ -17,6 +17,9 @@ import {
   DeleteBrokerCommand,
   type DeleteBrokerCommandInput,
   type DeleteBrokerCommandOutput,
+  DeleteConfigurationCommand,
+  type DeleteConfigurationCommandInput,
+  type DeleteConfigurationCommandOutput,
   DeleteTagsCommand,
   type DeleteTagsCommandInput,
   type DeleteTagsCommandOutput,
@@ -76,6 +79,7 @@ import {
 } from "@aws-sdk/client-mq";
 import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
+import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
 import type {
   BadRequestError,
@@ -95,6 +99,7 @@ const commands = {
   CreateTagsCommand,
   CreateUserCommand,
   DeleteBrokerCommand,
+  DeleteConfigurationCommand,
   DeleteTagsCommand,
   DeleteUserCommand,
   DescribeBrokerCommand,
@@ -126,7 +131,13 @@ interface MqService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateBrokerCommandOutput,
-    SdkError | BadRequestError | ConflictError | ForbiddenError | InternalServerError | UnauthorizedError
+    | Cause.TimeoutException
+    | SdkError
+    | BadRequestError
+    | ConflictError
+    | ForbiddenError
+    | InternalServerError
+    | UnauthorizedError
   >;
 
   /**
@@ -137,7 +148,7 @@ interface MqService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateConfigurationCommandOutput,
-    SdkError | BadRequestError | ConflictError | ForbiddenError | InternalServerError
+    Cause.TimeoutException | SdkError | BadRequestError | ConflictError | ForbiddenError | InternalServerError
   >;
 
   /**
@@ -148,7 +159,7 @@ interface MqService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateTagsCommandOutput,
-    SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
+    Cause.TimeoutException | SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
   >;
 
   /**
@@ -159,7 +170,13 @@ interface MqService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateUserCommandOutput,
-    SdkError | BadRequestError | ConflictError | ForbiddenError | InternalServerError | NotFoundError
+    | Cause.TimeoutException
+    | SdkError
+    | BadRequestError
+    | ConflictError
+    | ForbiddenError
+    | InternalServerError
+    | NotFoundError
   >;
 
   /**
@@ -170,7 +187,24 @@ interface MqService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteBrokerCommandOutput,
-    SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
+    Cause.TimeoutException | SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
+  >;
+
+  /**
+   * @see {@link DeleteConfigurationCommand}
+   */
+  deleteConfiguration(
+    args: DeleteConfigurationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteConfigurationCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | BadRequestError
+    | ConflictError
+    | ForbiddenError
+    | InternalServerError
+    | NotFoundError
   >;
 
   /**
@@ -181,7 +215,7 @@ interface MqService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteTagsCommandOutput,
-    SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
+    Cause.TimeoutException | SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
   >;
 
   /**
@@ -192,7 +226,7 @@ interface MqService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteUserCommandOutput,
-    SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
+    Cause.TimeoutException | SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
   >;
 
   /**
@@ -203,7 +237,7 @@ interface MqService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeBrokerCommandOutput,
-    SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
+    Cause.TimeoutException | SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
   >;
 
   /**
@@ -214,7 +248,7 @@ interface MqService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeBrokerEngineTypesCommandOutput,
-    SdkError | BadRequestError | ForbiddenError | InternalServerError
+    Cause.TimeoutException | SdkError | BadRequestError | ForbiddenError | InternalServerError
   >;
 
   /**
@@ -225,7 +259,7 @@ interface MqService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeBrokerInstanceOptionsCommandOutput,
-    SdkError | BadRequestError | ForbiddenError | InternalServerError
+    Cause.TimeoutException | SdkError | BadRequestError | ForbiddenError | InternalServerError
   >;
 
   /**
@@ -236,7 +270,7 @@ interface MqService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeConfigurationCommandOutput,
-    SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
+    Cause.TimeoutException | SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
   >;
 
   /**
@@ -247,7 +281,7 @@ interface MqService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeConfigurationRevisionCommandOutput,
-    SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
+    Cause.TimeoutException | SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
   >;
 
   /**
@@ -258,7 +292,7 @@ interface MqService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeUserCommandOutput,
-    SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
+    Cause.TimeoutException | SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
   >;
 
   /**
@@ -269,7 +303,7 @@ interface MqService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListBrokersCommandOutput,
-    SdkError | BadRequestError | ForbiddenError | InternalServerError
+    Cause.TimeoutException | SdkError | BadRequestError | ForbiddenError | InternalServerError
   >;
 
   /**
@@ -280,7 +314,7 @@ interface MqService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListConfigurationRevisionsCommandOutput,
-    SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
+    Cause.TimeoutException | SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
   >;
 
   /**
@@ -291,7 +325,7 @@ interface MqService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListConfigurationsCommandOutput,
-    SdkError | BadRequestError | ForbiddenError | InternalServerError
+    Cause.TimeoutException | SdkError | BadRequestError | ForbiddenError | InternalServerError
   >;
 
   /**
@@ -302,7 +336,7 @@ interface MqService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsCommandOutput,
-    SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
+    Cause.TimeoutException | SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
   >;
 
   /**
@@ -313,7 +347,7 @@ interface MqService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListUsersCommandOutput,
-    SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
+    Cause.TimeoutException | SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
   >;
 
   /**
@@ -324,7 +358,7 @@ interface MqService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PromoteCommandOutput,
-    SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
+    Cause.TimeoutException | SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
   >;
 
   /**
@@ -335,7 +369,7 @@ interface MqService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RebootBrokerCommandOutput,
-    SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
+    Cause.TimeoutException | SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
   >;
 
   /**
@@ -346,7 +380,13 @@ interface MqService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateBrokerCommandOutput,
-    SdkError | BadRequestError | ConflictError | ForbiddenError | InternalServerError | NotFoundError
+    | Cause.TimeoutException
+    | SdkError
+    | BadRequestError
+    | ConflictError
+    | ForbiddenError
+    | InternalServerError
+    | NotFoundError
   >;
 
   /**
@@ -357,7 +397,13 @@ interface MqService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateConfigurationCommandOutput,
-    SdkError | BadRequestError | ConflictError | ForbiddenError | InternalServerError | NotFoundError
+    | Cause.TimeoutException
+    | SdkError
+    | BadRequestError
+    | ConflictError
+    | ForbiddenError
+    | InternalServerError
+    | NotFoundError
   >;
 
   /**
@@ -368,7 +414,13 @@ interface MqService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateUserCommandOutput,
-    SdkError | BadRequestError | ConflictError | ForbiddenError | InternalServerError | NotFoundError
+    | Cause.TimeoutException
+    | SdkError
+    | BadRequestError
+    | ConflictError
+    | ForbiddenError
+    | InternalServerError
+    | NotFoundError
   >;
 }
 

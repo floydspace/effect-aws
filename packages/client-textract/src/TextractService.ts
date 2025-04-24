@@ -82,6 +82,7 @@ import {
 } from "@aws-sdk/client-textract";
 import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
+import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
 import type {
   AccessDeniedError,
@@ -146,6 +147,7 @@ interface TextractService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AnalyzeDocumentCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | BadDocumentError
@@ -167,6 +169,7 @@ interface TextractService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AnalyzeExpenseCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | BadDocumentError
@@ -187,6 +190,7 @@ interface TextractService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AnalyzeIDCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | BadDocumentError
@@ -207,6 +211,7 @@ interface TextractService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateAdapterCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -228,6 +233,7 @@ interface TextractService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateAdapterVersionCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -252,6 +258,7 @@ interface TextractService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteAdapterCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -271,6 +278,7 @@ interface TextractService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteAdapterVersionCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -290,6 +298,7 @@ interface TextractService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DetectDocumentTextCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | BadDocumentError
@@ -310,6 +319,7 @@ interface TextractService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAdapterCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -328,6 +338,7 @@ interface TextractService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAdapterVersionCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -346,6 +357,7 @@ interface TextractService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDocumentAnalysisCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -365,6 +377,7 @@ interface TextractService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDocumentTextDetectionCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -384,6 +397,7 @@ interface TextractService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetExpenseAnalysisCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -403,6 +417,7 @@ interface TextractService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetLendingAnalysisCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -422,6 +437,7 @@ interface TextractService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetLendingAnalysisSummaryCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -441,6 +457,7 @@ interface TextractService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAdapterVersionsCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -459,6 +476,7 @@ interface TextractService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAdaptersCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -476,6 +494,7 @@ interface TextractService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsForResourceCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -494,6 +513,7 @@ interface TextractService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartDocumentAnalysisCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | BadDocumentError
@@ -517,6 +537,7 @@ interface TextractService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartDocumentTextDetectionCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | BadDocumentError
@@ -540,6 +561,7 @@ interface TextractService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartExpenseAnalysisCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | BadDocumentError
@@ -563,6 +585,7 @@ interface TextractService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartLendingAnalysisCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | BadDocumentError
@@ -586,6 +609,7 @@ interface TextractService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagResourceCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -605,6 +629,7 @@ interface TextractService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -623,6 +648,7 @@ interface TextractService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateAdapterCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | ConflictError

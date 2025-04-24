@@ -136,6 +136,9 @@ import {
   StartTaskCommand,
   type StartTaskCommandInput,
   type StartTaskCommandOutput,
+  StopServiceDeploymentCommand,
+  type StopServiceDeploymentCommandInput,
+  type StopServiceDeploymentCommandOutput,
   StopTaskCommand,
   type StopTaskCommandInput,
   type StopTaskCommandOutput,
@@ -184,6 +187,7 @@ import {
 } from "@aws-sdk/client-ecs";
 import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
+import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
 import * as Instance from "./ECSClientInstance.js";
 import * as ECSServiceConfig from "./ECSServiceConfig.js";
@@ -262,6 +266,7 @@ const commands = {
   RegisterTaskDefinitionCommand,
   RunTaskCommand,
   StartTaskCommand,
+  StopServiceDeploymentCommand,
   StopTaskCommand,
   SubmitAttachmentStateChangesCommand,
   SubmitContainerStateChangeCommand,
@@ -290,7 +295,13 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateCapacityProviderCommandOutput,
-    SdkError | ClientError | InvalidParameterError | LimitExceededError | ServerError | UpdateInProgressError
+    | Cause.TimeoutException
+    | SdkError
+    | ClientError
+    | InvalidParameterError
+    | LimitExceededError
+    | ServerError
+    | UpdateInProgressError
   >;
 
   /**
@@ -301,7 +312,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateClusterCommandOutput,
-    SdkError | ClientError | InvalidParameterError | NamespaceNotFoundError | ServerError
+    Cause.TimeoutException | SdkError | ClientError | InvalidParameterError | NamespaceNotFoundError | ServerError
   >;
 
   /**
@@ -312,6 +323,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateServiceCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -332,6 +344,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateTaskSetCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -354,7 +367,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteAccountSettingCommandOutput,
-    SdkError | ClientError | InvalidParameterError | ServerError
+    Cause.TimeoutException | SdkError | ClientError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -365,7 +378,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteAttributesCommandOutput,
-    SdkError | ClusterNotFoundError | InvalidParameterError | TargetNotFoundError
+    Cause.TimeoutException | SdkError | ClusterNotFoundError | InvalidParameterError | TargetNotFoundError
   >;
 
   /**
@@ -376,7 +389,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteCapacityProviderCommandOutput,
-    SdkError | ClientError | InvalidParameterError | ServerError
+    Cause.TimeoutException | SdkError | ClientError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -387,6 +400,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteClusterCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | ClientError
     | ClusterContainsContainerInstancesError
@@ -406,7 +420,13 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteServiceCommandOutput,
-    SdkError | ClientError | ClusterNotFoundError | InvalidParameterError | ServerError | ServiceNotFoundError
+    | Cause.TimeoutException
+    | SdkError
+    | ClientError
+    | ClusterNotFoundError
+    | InvalidParameterError
+    | ServerError
+    | ServiceNotFoundError
   >;
 
   /**
@@ -417,7 +437,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteTaskDefinitionsCommandOutput,
-    SdkError | AccessDeniedError | ClientError | InvalidParameterError | ServerError
+    Cause.TimeoutException | SdkError | AccessDeniedError | ClientError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -428,6 +448,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteTaskSetCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -448,7 +469,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeregisterContainerInstanceCommandOutput,
-    SdkError | ClientError | ClusterNotFoundError | InvalidParameterError | ServerError
+    Cause.TimeoutException | SdkError | ClientError | ClusterNotFoundError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -459,7 +480,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeregisterTaskDefinitionCommandOutput,
-    SdkError | ClientError | InvalidParameterError | ServerError
+    Cause.TimeoutException | SdkError | ClientError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -470,7 +491,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeCapacityProvidersCommandOutput,
-    SdkError | ClientError | InvalidParameterError | ServerError
+    Cause.TimeoutException | SdkError | ClientError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -481,7 +502,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeClustersCommandOutput,
-    SdkError | ClientError | InvalidParameterError | ServerError
+    Cause.TimeoutException | SdkError | ClientError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -492,7 +513,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeContainerInstancesCommandOutput,
-    SdkError | ClientError | ClusterNotFoundError | InvalidParameterError | ServerError
+    Cause.TimeoutException | SdkError | ClientError | ClusterNotFoundError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -503,6 +524,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeServiceDeploymentsCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -521,6 +543,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeServiceRevisionsCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -539,7 +562,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeServicesCommandOutput,
-    SdkError | ClientError | ClusterNotFoundError | InvalidParameterError | ServerError
+    Cause.TimeoutException | SdkError | ClientError | ClusterNotFoundError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -550,7 +573,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeTaskDefinitionCommandOutput,
-    SdkError | ClientError | InvalidParameterError | ServerError
+    Cause.TimeoutException | SdkError | ClientError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -561,6 +584,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeTaskSetsCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -580,7 +604,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeTasksCommandOutput,
-    SdkError | ClientError | ClusterNotFoundError | InvalidParameterError | ServerError
+    Cause.TimeoutException | SdkError | ClientError | ClusterNotFoundError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -591,7 +615,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DiscoverPollEndpointCommandOutput,
-    SdkError | ClientError | ServerError
+    Cause.TimeoutException | SdkError | ClientError | ServerError
   >;
 
   /**
@@ -602,6 +626,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ExecuteCommandCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -619,6 +644,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetTaskProtectionCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -637,7 +663,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAccountSettingsCommandOutput,
-    SdkError | ClientError | InvalidParameterError | ServerError
+    Cause.TimeoutException | SdkError | ClientError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -648,7 +674,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAttributesCommandOutput,
-    SdkError | ClusterNotFoundError | InvalidParameterError
+    Cause.TimeoutException | SdkError | ClusterNotFoundError | InvalidParameterError
   >;
 
   /**
@@ -659,7 +685,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListClustersCommandOutput,
-    SdkError | ClientError | InvalidParameterError | ServerError
+    Cause.TimeoutException | SdkError | ClientError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -670,7 +696,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListContainerInstancesCommandOutput,
-    SdkError | ClientError | ClusterNotFoundError | InvalidParameterError | ServerError
+    Cause.TimeoutException | SdkError | ClientError | ClusterNotFoundError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -681,6 +707,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListServiceDeploymentsCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -698,7 +725,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListServicesCommandOutput,
-    SdkError | ClientError | ClusterNotFoundError | InvalidParameterError | ServerError
+    Cause.TimeoutException | SdkError | ClientError | ClusterNotFoundError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -709,7 +736,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListServicesByNamespaceCommandOutput,
-    SdkError | ClientError | InvalidParameterError | NamespaceNotFoundError | ServerError
+    Cause.TimeoutException | SdkError | ClientError | InvalidParameterError | NamespaceNotFoundError | ServerError
   >;
 
   /**
@@ -720,7 +747,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsForResourceCommandOutput,
-    SdkError | ClientError | ClusterNotFoundError | InvalidParameterError | ServerError
+    Cause.TimeoutException | SdkError | ClientError | ClusterNotFoundError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -731,7 +758,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTaskDefinitionFamiliesCommandOutput,
-    SdkError | ClientError | InvalidParameterError | ServerError
+    Cause.TimeoutException | SdkError | ClientError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -742,7 +769,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTaskDefinitionsCommandOutput,
-    SdkError | ClientError | InvalidParameterError | ServerError
+    Cause.TimeoutException | SdkError | ClientError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -753,7 +780,13 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTasksCommandOutput,
-    SdkError | ClientError | ClusterNotFoundError | InvalidParameterError | ServerError | ServiceNotFoundError
+    | Cause.TimeoutException
+    | SdkError
+    | ClientError
+    | ClusterNotFoundError
+    | InvalidParameterError
+    | ServerError
+    | ServiceNotFoundError
   >;
 
   /**
@@ -764,7 +797,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutAccountSettingCommandOutput,
-    SdkError | ClientError | InvalidParameterError | ServerError
+    Cause.TimeoutException | SdkError | ClientError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -775,7 +808,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutAccountSettingDefaultCommandOutput,
-    SdkError | ClientError | InvalidParameterError | ServerError
+    Cause.TimeoutException | SdkError | ClientError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -786,7 +819,12 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutAttributesCommandOutput,
-    SdkError | AttributeLimitExceededError | ClusterNotFoundError | InvalidParameterError | TargetNotFoundError
+    | Cause.TimeoutException
+    | SdkError
+    | AttributeLimitExceededError
+    | ClusterNotFoundError
+    | InvalidParameterError
+    | TargetNotFoundError
   >;
 
   /**
@@ -797,6 +835,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutClusterCapacityProvidersCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | ClientError
     | ClusterNotFoundError
@@ -814,7 +853,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RegisterContainerInstanceCommandOutput,
-    SdkError | ClientError | InvalidParameterError | ServerError
+    Cause.TimeoutException | SdkError | ClientError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -825,7 +864,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RegisterTaskDefinitionCommandOutput,
-    SdkError | ClientError | InvalidParameterError | ServerError
+    Cause.TimeoutException | SdkError | ClientError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -836,6 +875,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RunTaskCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | BlockedError
@@ -857,7 +897,31 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartTaskCommandOutput,
-    SdkError | ClientError | ClusterNotFoundError | InvalidParameterError | ServerError | UnsupportedFeatureError
+    | Cause.TimeoutException
+    | SdkError
+    | ClientError
+    | ClusterNotFoundError
+    | InvalidParameterError
+    | ServerError
+    | UnsupportedFeatureError
+  >;
+
+  /**
+   * @see {@link StopServiceDeploymentCommand}
+   */
+  stopServiceDeployment(
+    args: StopServiceDeploymentCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    StopServiceDeploymentCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | ClientError
+    | ConflictError
+    | InvalidParameterError
+    | ServerError
+    | UnsupportedFeatureError
   >;
 
   /**
@@ -868,7 +932,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StopTaskCommandOutput,
-    SdkError | ClientError | ClusterNotFoundError | InvalidParameterError | ServerError
+    Cause.TimeoutException | SdkError | ClientError | ClusterNotFoundError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -879,7 +943,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SubmitAttachmentStateChangesCommandOutput,
-    SdkError | AccessDeniedError | ClientError | InvalidParameterError | ServerError
+    Cause.TimeoutException | SdkError | AccessDeniedError | ClientError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -890,7 +954,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SubmitContainerStateChangeCommandOutput,
-    SdkError | AccessDeniedError | ClientError | ServerError
+    Cause.TimeoutException | SdkError | AccessDeniedError | ClientError | ServerError
   >;
 
   /**
@@ -901,7 +965,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SubmitTaskStateChangeCommandOutput,
-    SdkError | AccessDeniedError | ClientError | InvalidParameterError | ServerError
+    Cause.TimeoutException | SdkError | AccessDeniedError | ClientError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -912,7 +976,13 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagResourceCommandOutput,
-    SdkError | ClientError | ClusterNotFoundError | InvalidParameterError | ResourceNotFoundError | ServerError
+    | Cause.TimeoutException
+    | SdkError
+    | ClientError
+    | ClusterNotFoundError
+    | InvalidParameterError
+    | ResourceNotFoundError
+    | ServerError
   >;
 
   /**
@@ -923,7 +993,13 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
-    SdkError | ClientError | ClusterNotFoundError | InvalidParameterError | ResourceNotFoundError | ServerError
+    | Cause.TimeoutException
+    | SdkError
+    | ClientError
+    | ClusterNotFoundError
+    | InvalidParameterError
+    | ResourceNotFoundError
+    | ServerError
   >;
 
   /**
@@ -934,7 +1010,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateCapacityProviderCommandOutput,
-    SdkError | ClientError | InvalidParameterError | ServerError
+    Cause.TimeoutException | SdkError | ClientError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -945,7 +1021,13 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateClusterCommandOutput,
-    SdkError | ClientError | ClusterNotFoundError | InvalidParameterError | NamespaceNotFoundError | ServerError
+    | Cause.TimeoutException
+    | SdkError
+    | ClientError
+    | ClusterNotFoundError
+    | InvalidParameterError
+    | NamespaceNotFoundError
+    | ServerError
   >;
 
   /**
@@ -956,7 +1038,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateClusterSettingsCommandOutput,
-    SdkError | ClientError | ClusterNotFoundError | InvalidParameterError | ServerError
+    Cause.TimeoutException | SdkError | ClientError | ClusterNotFoundError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -967,6 +1049,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateContainerAgentCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | ClientError
     | ClusterNotFoundError
@@ -985,7 +1068,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateContainerInstancesStateCommandOutput,
-    SdkError | ClientError | ClusterNotFoundError | InvalidParameterError | ServerError
+    Cause.TimeoutException | SdkError | ClientError | ClusterNotFoundError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -996,6 +1079,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateServiceCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -1018,6 +1102,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateServicePrimaryTaskSetCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -1038,6 +1123,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateTaskProtectionCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -1056,6 +1142,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateTaskSetCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | ClientError

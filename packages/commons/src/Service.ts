@@ -4,7 +4,7 @@
 import { ServiceException } from "@smithy/smithy-client";
 import type { Client, MiddlewareStack } from "@smithy/types";
 import type { Array } from "effect";
-import { Data, Effect, Option, Record, Scope, String } from "effect";
+import { Cause, Data, Effect, Option, Record, Runtime, Scope, String } from "effect";
 import type { TaggedException } from "./Errors.js";
 import { SdkError } from "./Errors.js";
 import * as HttpHandler from "./HttpHandler.js";
@@ -28,6 +28,12 @@ export const catchServiceExceptions = (errorTags?: Array.NonEmptyReadonlyArray<s
     return ServiceException({ ...e, message: e.message, stack: e.stack });
   }
   if (e instanceof Error) {
+    if (Runtime.isFiberFailure(e) && Cause.isFailType(e[Runtime.FiberFailureCauseId])) {
+      return e[Runtime.FiberFailureCauseId].error;
+    }
+    if (e.name === "TimeoutError") {
+      return new Cause.TimeoutException(e.message);
+    }
     return SdkError({ ...e, name: "SdkError", message: e.message, stack: e.stack });
   }
   throw e;

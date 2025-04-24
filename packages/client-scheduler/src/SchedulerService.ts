@@ -43,6 +43,7 @@ import {
 } from "@aws-sdk/client-scheduler";
 import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
+import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
 import type {
   ConflictError,
@@ -82,6 +83,7 @@ interface SchedulerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateScheduleCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | ConflictError
     | InternalServerError
@@ -99,7 +101,13 @@ interface SchedulerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateScheduleGroupCommandOutput,
-    SdkError | ConflictError | InternalServerError | ServiceQuotaExceededError | ThrottlingError | ValidationError
+    | Cause.TimeoutException
+    | SdkError
+    | ConflictError
+    | InternalServerError
+    | ServiceQuotaExceededError
+    | ThrottlingError
+    | ValidationError
   >;
 
   /**
@@ -110,7 +118,13 @@ interface SchedulerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteScheduleCommandOutput,
-    SdkError | ConflictError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
+    | Cause.TimeoutException
+    | SdkError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
   >;
 
   /**
@@ -121,7 +135,13 @@ interface SchedulerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteScheduleGroupCommandOutput,
-    SdkError | ConflictError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
+    | Cause.TimeoutException
+    | SdkError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
   >;
 
   /**
@@ -132,7 +152,7 @@ interface SchedulerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetScheduleCommandOutput,
-    SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
+    Cause.TimeoutException | SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -143,7 +163,7 @@ interface SchedulerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetScheduleGroupCommandOutput,
-    SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
+    Cause.TimeoutException | SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -154,7 +174,7 @@ interface SchedulerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListScheduleGroupsCommandOutput,
-    SdkError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutException | SdkError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -165,7 +185,7 @@ interface SchedulerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListSchedulesCommandOutput,
-    SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
+    Cause.TimeoutException | SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -176,7 +196,7 @@ interface SchedulerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsForResourceCommandOutput,
-    SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
+    Cause.TimeoutException | SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -187,7 +207,13 @@ interface SchedulerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagResourceCommandOutput,
-    SdkError | ConflictError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
+    | Cause.TimeoutException
+    | SdkError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
   >;
 
   /**
@@ -198,7 +224,13 @@ interface SchedulerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
-    SdkError | ConflictError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
+    | Cause.TimeoutException
+    | SdkError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
   >;
 
   /**
@@ -209,7 +241,13 @@ interface SchedulerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateScheduleCommandOutput,
-    SdkError | ConflictError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
+    | Cause.TimeoutException
+    | SdkError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
   >;
 }
 

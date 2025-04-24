@@ -103,6 +103,7 @@ import {
 } from "@aws-sdk/client-kinesis";
 import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
+import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
 import type {
   AccessDeniedError,
@@ -171,6 +172,7 @@ interface KinesisService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AddTagsToStreamCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | InvalidArgumentError
@@ -187,7 +189,7 @@ interface KinesisService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateStreamCommandOutput,
-    SdkError | InvalidArgumentError | LimitExceededError | ResourceInUseError
+    Cause.TimeoutException | SdkError | InvalidArgumentError | LimitExceededError | ResourceInUseError
   >;
 
   /**
@@ -198,6 +200,7 @@ interface KinesisService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DecreaseStreamRetentionPeriodCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | InvalidArgumentError
@@ -214,6 +217,7 @@ interface KinesisService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteResourcePolicyCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | InvalidArgumentError
@@ -230,6 +234,7 @@ interface KinesisService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteStreamCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | InvalidArgumentError
@@ -246,7 +251,7 @@ interface KinesisService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeregisterStreamConsumerCommandOutput,
-    SdkError | InvalidArgumentError | LimitExceededError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | InvalidArgumentError | LimitExceededError | ResourceNotFoundError
   >;
 
   /**
@@ -257,7 +262,7 @@ interface KinesisService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeLimitsCommandOutput,
-    SdkError | LimitExceededError
+    Cause.TimeoutException | SdkError | LimitExceededError
   >;
 
   /**
@@ -268,7 +273,12 @@ interface KinesisService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeStreamCommandOutput,
-    SdkError | AccessDeniedError | InvalidArgumentError | LimitExceededError | ResourceNotFoundError
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InvalidArgumentError
+    | LimitExceededError
+    | ResourceNotFoundError
   >;
 
   /**
@@ -279,7 +289,7 @@ interface KinesisService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeStreamConsumerCommandOutput,
-    SdkError | InvalidArgumentError | LimitExceededError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | InvalidArgumentError | LimitExceededError | ResourceNotFoundError
   >;
 
   /**
@@ -290,7 +300,12 @@ interface KinesisService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeStreamSummaryCommandOutput,
-    SdkError | AccessDeniedError | InvalidArgumentError | LimitExceededError | ResourceNotFoundError
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InvalidArgumentError
+    | LimitExceededError
+    | ResourceNotFoundError
   >;
 
   /**
@@ -301,6 +316,7 @@ interface KinesisService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisableEnhancedMonitoringCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | InvalidArgumentError
@@ -317,6 +333,7 @@ interface KinesisService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     EnableEnhancedMonitoringCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | InvalidArgumentError
@@ -333,6 +350,7 @@ interface KinesisService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetRecordsCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | ExpiredIteratorError
@@ -355,6 +373,7 @@ interface KinesisService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetResourcePolicyCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | InvalidArgumentError
@@ -371,7 +390,12 @@ interface KinesisService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetShardIteratorCommandOutput,
-    SdkError | AccessDeniedError | InvalidArgumentError | ProvisionedThroughputExceededError | ResourceNotFoundError
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InvalidArgumentError
+    | ProvisionedThroughputExceededError
+    | ResourceNotFoundError
   >;
 
   /**
@@ -382,6 +406,7 @@ interface KinesisService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     IncreaseStreamRetentionPeriodCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | InvalidArgumentError
@@ -398,6 +423,7 @@ interface KinesisService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListShardsCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | ExpiredNextTokenError
@@ -415,6 +441,7 @@ interface KinesisService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListStreamConsumersCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | ExpiredNextTokenError
     | InvalidArgumentError
@@ -431,7 +458,7 @@ interface KinesisService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListStreamsCommandOutput,
-    SdkError | ExpiredNextTokenError | InvalidArgumentError | LimitExceededError
+    Cause.TimeoutException | SdkError | ExpiredNextTokenError | InvalidArgumentError | LimitExceededError
   >;
 
   /**
@@ -442,7 +469,12 @@ interface KinesisService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsForStreamCommandOutput,
-    SdkError | AccessDeniedError | InvalidArgumentError | LimitExceededError | ResourceNotFoundError
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InvalidArgumentError
+    | LimitExceededError
+    | ResourceNotFoundError
   >;
 
   /**
@@ -453,6 +485,7 @@ interface KinesisService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     MergeShardsCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | InvalidArgumentError
@@ -470,6 +503,7 @@ interface KinesisService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutRecordCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | InvalidArgumentError
@@ -491,6 +525,7 @@ interface KinesisService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutRecordsCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | InvalidArgumentError
@@ -512,6 +547,7 @@ interface KinesisService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutResourcePolicyCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | InvalidArgumentError
@@ -528,7 +564,12 @@ interface KinesisService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RegisterStreamConsumerCommandOutput,
-    SdkError | InvalidArgumentError | LimitExceededError | ResourceInUseError | ResourceNotFoundError
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidArgumentError
+    | LimitExceededError
+    | ResourceInUseError
+    | ResourceNotFoundError
   >;
 
   /**
@@ -539,6 +580,7 @@ interface KinesisService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RemoveTagsFromStreamCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | InvalidArgumentError
@@ -555,6 +597,7 @@ interface KinesisService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SplitShardCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | InvalidArgumentError
@@ -572,6 +615,7 @@ interface KinesisService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartStreamEncryptionCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | InvalidArgumentError
@@ -594,6 +638,7 @@ interface KinesisService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StopStreamEncryptionCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | InvalidArgumentError
@@ -610,6 +655,7 @@ interface KinesisService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SubscribeToShardCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | InvalidArgumentError
@@ -626,6 +672,7 @@ interface KinesisService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateShardCountCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | InvalidArgumentError
@@ -643,7 +690,12 @@ interface KinesisService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateStreamModeCommandOutput,
-    SdkError | InvalidArgumentError | LimitExceededError | ResourceInUseError | ResourceNotFoundError
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidArgumentError
+    | LimitExceededError
+    | ResourceInUseError
+    | ResourceNotFoundError
   >;
 }
 

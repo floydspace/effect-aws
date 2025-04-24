@@ -121,6 +121,7 @@ import {
 } from "@aws-sdk/client-cloudwatch";
 import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
+import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
 import * as Instance from "./CloudWatchClientInstance.js";
 import * as CloudWatchServiceConfig from "./CloudWatchServiceConfig.js";
@@ -193,7 +194,7 @@ interface CloudWatchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteAlarmsCommandOutput,
-    SdkError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | ResourceNotFoundError
   >;
 
   /**
@@ -204,6 +205,7 @@ interface CloudWatchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteAnomalyDetectorCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServiceFaultError
     | InvalidParameterCombinationError
@@ -220,7 +222,7 @@ interface CloudWatchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDashboardsCommandOutput,
-    SdkError | DashboardNotFoundError | InternalServiceFaultError | InvalidParameterValueError
+    Cause.TimeoutException | SdkError | DashboardNotFoundError | InternalServiceFaultError | InvalidParameterValueError
   >;
 
   /**
@@ -231,7 +233,7 @@ interface CloudWatchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteInsightRulesCommandOutput,
-    SdkError | InvalidParameterValueError | MissingRequiredParameterError
+    Cause.TimeoutException | SdkError | InvalidParameterValueError | MissingRequiredParameterError
   >;
 
   /**
@@ -242,7 +244,11 @@ interface CloudWatchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteMetricStreamCommandOutput,
-    SdkError | InternalServiceFaultError | InvalidParameterValueError | MissingRequiredParameterError
+    | Cause.TimeoutException
+    | SdkError
+    | InternalServiceFaultError
+    | InvalidParameterValueError
+    | MissingRequiredParameterError
   >;
 
   /**
@@ -253,7 +259,7 @@ interface CloudWatchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeAlarmHistoryCommandOutput,
-    SdkError | InvalidNextTokenError
+    Cause.TimeoutException | SdkError | InvalidNextTokenError
   >;
 
   /**
@@ -264,7 +270,7 @@ interface CloudWatchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeAlarmsCommandOutput,
-    SdkError | InvalidNextTokenError
+    Cause.TimeoutException | SdkError | InvalidNextTokenError
   >;
 
   /**
@@ -275,7 +281,7 @@ interface CloudWatchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeAlarmsForMetricCommandOutput,
-    SdkError
+    Cause.TimeoutException | SdkError
   >;
 
   /**
@@ -286,6 +292,7 @@ interface CloudWatchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeAnomalyDetectorsCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServiceFaultError
     | InvalidNextTokenError
@@ -301,7 +308,7 @@ interface CloudWatchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeInsightRulesCommandOutput,
-    SdkError | InvalidNextTokenError
+    Cause.TimeoutException | SdkError | InvalidNextTokenError
   >;
 
   /**
@@ -312,7 +319,7 @@ interface CloudWatchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisableAlarmActionsCommandOutput,
-    SdkError
+    Cause.TimeoutException | SdkError
   >;
 
   /**
@@ -323,7 +330,7 @@ interface CloudWatchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisableInsightRulesCommandOutput,
-    SdkError | InvalidParameterValueError | MissingRequiredParameterError
+    Cause.TimeoutException | SdkError | InvalidParameterValueError | MissingRequiredParameterError
   >;
 
   /**
@@ -334,7 +341,7 @@ interface CloudWatchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     EnableAlarmActionsCommandOutput,
-    SdkError
+    Cause.TimeoutException | SdkError
   >;
 
   /**
@@ -345,7 +352,7 @@ interface CloudWatchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     EnableInsightRulesCommandOutput,
-    SdkError | InvalidParameterValueError | LimitExceededError | MissingRequiredParameterError
+    Cause.TimeoutException | SdkError | InvalidParameterValueError | LimitExceededError | MissingRequiredParameterError
   >;
 
   /**
@@ -356,7 +363,7 @@ interface CloudWatchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDashboardCommandOutput,
-    SdkError | DashboardNotFoundError | InternalServiceFaultError | InvalidParameterValueError
+    Cause.TimeoutException | SdkError | DashboardNotFoundError | InternalServiceFaultError | InvalidParameterValueError
   >;
 
   /**
@@ -367,7 +374,11 @@ interface CloudWatchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetInsightRuleReportCommandOutput,
-    SdkError | InvalidParameterValueError | MissingRequiredParameterError | ResourceNotFoundExceptionError
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidParameterValueError
+    | MissingRequiredParameterError
+    | ResourceNotFoundExceptionError
   >;
 
   /**
@@ -378,7 +389,7 @@ interface CloudWatchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetMetricDataCommandOutput,
-    SdkError | InvalidNextTokenError
+    Cause.TimeoutException | SdkError | InvalidNextTokenError
   >;
 
   /**
@@ -389,6 +400,7 @@ interface CloudWatchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetMetricStatisticsCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServiceFaultError
     | InvalidParameterCombinationError
@@ -404,6 +416,7 @@ interface CloudWatchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetMetricStreamCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServiceFaultError
     | InvalidParameterCombinationError
@@ -420,7 +433,7 @@ interface CloudWatchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetMetricWidgetImageCommandOutput,
-    SdkError
+    Cause.TimeoutException | SdkError
   >;
 
   /**
@@ -431,7 +444,7 @@ interface CloudWatchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDashboardsCommandOutput,
-    SdkError | InternalServiceFaultError | InvalidParameterValueError
+    Cause.TimeoutException | SdkError | InternalServiceFaultError | InvalidParameterValueError
   >;
 
   /**
@@ -442,7 +455,11 @@ interface CloudWatchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListManagedInsightRulesCommandOutput,
-    SdkError | InvalidNextTokenError | InvalidParameterValueError | MissingRequiredParameterError
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidNextTokenError
+    | InvalidParameterValueError
+    | MissingRequiredParameterError
   >;
 
   /**
@@ -453,6 +470,7 @@ interface CloudWatchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListMetricStreamsCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServiceFaultError
     | InvalidNextTokenError
@@ -468,7 +486,7 @@ interface CloudWatchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListMetricsCommandOutput,
-    SdkError | InternalServiceFaultError | InvalidParameterValueError
+    Cause.TimeoutException | SdkError | InternalServiceFaultError | InvalidParameterValueError
   >;
 
   /**
@@ -479,7 +497,11 @@ interface CloudWatchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsForResourceCommandOutput,
-    SdkError | InternalServiceFaultError | InvalidParameterValueError | ResourceNotFoundExceptionError
+    | Cause.TimeoutException
+    | SdkError
+    | InternalServiceFaultError
+    | InvalidParameterValueError
+    | ResourceNotFoundExceptionError
   >;
 
   /**
@@ -490,6 +512,7 @@ interface CloudWatchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutAnomalyDetectorCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServiceFaultError
     | InvalidParameterCombinationError
@@ -506,7 +529,7 @@ interface CloudWatchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutCompositeAlarmCommandOutput,
-    SdkError | LimitExceededFaultError
+    Cause.TimeoutException | SdkError | LimitExceededFaultError
   >;
 
   /**
@@ -517,7 +540,7 @@ interface CloudWatchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutDashboardCommandOutput,
-    SdkError | DashboardInvalidInputError | InternalServiceFaultError
+    Cause.TimeoutException | SdkError | DashboardInvalidInputError | InternalServiceFaultError
   >;
 
   /**
@@ -528,7 +551,7 @@ interface CloudWatchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutInsightRuleCommandOutput,
-    SdkError | InvalidParameterValueError | LimitExceededError | MissingRequiredParameterError
+    Cause.TimeoutException | SdkError | InvalidParameterValueError | LimitExceededError | MissingRequiredParameterError
   >;
 
   /**
@@ -539,7 +562,7 @@ interface CloudWatchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutManagedInsightRulesCommandOutput,
-    SdkError | InvalidParameterValueError | MissingRequiredParameterError
+    Cause.TimeoutException | SdkError | InvalidParameterValueError | MissingRequiredParameterError
   >;
 
   /**
@@ -550,7 +573,7 @@ interface CloudWatchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutMetricAlarmCommandOutput,
-    SdkError | LimitExceededFaultError
+    Cause.TimeoutException | SdkError | LimitExceededFaultError
   >;
 
   /**
@@ -561,6 +584,7 @@ interface CloudWatchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutMetricDataCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServiceFaultError
     | InvalidParameterCombinationError
@@ -576,6 +600,7 @@ interface CloudWatchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutMetricStreamCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | ConcurrentModificationError
     | InternalServiceFaultError
@@ -592,7 +617,7 @@ interface CloudWatchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SetAlarmStateCommandOutput,
-    SdkError | InvalidFormatFaultError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | InvalidFormatFaultError | ResourceNotFoundError
   >;
 
   /**
@@ -603,7 +628,11 @@ interface CloudWatchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartMetricStreamsCommandOutput,
-    SdkError | InternalServiceFaultError | InvalidParameterValueError | MissingRequiredParameterError
+    | Cause.TimeoutException
+    | SdkError
+    | InternalServiceFaultError
+    | InvalidParameterValueError
+    | MissingRequiredParameterError
   >;
 
   /**
@@ -614,7 +643,11 @@ interface CloudWatchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StopMetricStreamsCommandOutput,
-    SdkError | InternalServiceFaultError | InvalidParameterValueError | MissingRequiredParameterError
+    | Cause.TimeoutException
+    | SdkError
+    | InternalServiceFaultError
+    | InvalidParameterValueError
+    | MissingRequiredParameterError
   >;
 
   /**
@@ -625,6 +658,7 @@ interface CloudWatchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagResourceCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | ConcurrentModificationError
     | InternalServiceFaultError
@@ -640,6 +674,7 @@ interface CloudWatchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | ConcurrentModificationError
     | InternalServiceFaultError

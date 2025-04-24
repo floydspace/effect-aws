@@ -16,6 +16,7 @@ import {
 } from "@aws-sdk/client-apigatewaymanagementapi";
 import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
+import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
 import * as Instance from "./ApiGatewayManagementApiClientInstance.js";
 import * as ApiGatewayManagementApiServiceConfig from "./ApiGatewayManagementApiServiceConfig.js";
@@ -39,7 +40,7 @@ interface ApiGatewayManagementApiService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteConnectionCommandOutput,
-    SdkError | ForbiddenError | GoneError | LimitExceededError
+    Cause.TimeoutException | SdkError | ForbiddenError | GoneError | LimitExceededError
   >;
 
   /**
@@ -50,7 +51,7 @@ interface ApiGatewayManagementApiService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetConnectionCommandOutput,
-    SdkError | ForbiddenError | GoneError | LimitExceededError
+    Cause.TimeoutException | SdkError | ForbiddenError | GoneError | LimitExceededError
   >;
 
   /**
@@ -61,7 +62,7 @@ interface ApiGatewayManagementApiService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PostToConnectionCommandOutput,
-    SdkError | ForbiddenError | GoneError | LimitExceededError | PayloadTooLargeError
+    Cause.TimeoutException | SdkError | ForbiddenError | GoneError | LimitExceededError | PayloadTooLargeError
   >;
 }
 

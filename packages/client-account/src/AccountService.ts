@@ -16,6 +16,9 @@ import {
   EnableRegionCommand,
   type EnableRegionCommandInput,
   type EnableRegionCommandOutput,
+  GetAccountInformationCommand,
+  type GetAccountInformationCommandInput,
+  type GetAccountInformationCommandOutput,
   GetAlternateContactCommand,
   type GetAlternateContactCommandInput,
   type GetAlternateContactCommandOutput,
@@ -31,6 +34,9 @@ import {
   ListRegionsCommand,
   type ListRegionsCommandInput,
   type ListRegionsCommandOutput,
+  PutAccountNameCommand,
+  type PutAccountNameCommandInput,
+  type PutAccountNameCommandOutput,
   PutAlternateContactCommand,
   type PutAlternateContactCommandInput,
   type PutAlternateContactCommandOutput,
@@ -43,6 +49,7 @@ import {
 } from "@aws-sdk/client-account";
 import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
+import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
 import * as Instance from "./AccountClientInstance.js";
 import * as AccountServiceConfig from "./AccountServiceConfig.js";
@@ -61,11 +68,13 @@ const commands = {
   DeleteAlternateContactCommand,
   DisableRegionCommand,
   EnableRegionCommand,
+  GetAccountInformationCommand,
   GetAlternateContactCommand,
   GetContactInformationCommand,
   GetPrimaryEmailCommand,
   GetRegionOptStatusCommand,
   ListRegionsCommand,
+  PutAccountNameCommand,
   PutAlternateContactCommand,
   PutContactInformationCommand,
   StartPrimaryEmailUpdateCommand,
@@ -82,6 +91,7 @@ interface AccountService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AcceptPrimaryEmailUpdateCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -99,7 +109,13 @@ interface AccountService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteAlternateContactCommandOutput,
-    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | TooManyRequestsError | ValidationError
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | TooManyRequestsError
+    | ValidationError
   >;
 
   /**
@@ -110,7 +126,13 @@ interface AccountService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisableRegionCommandOutput,
-    SdkError | AccessDeniedError | ConflictError | InternalServerError | TooManyRequestsError | ValidationError
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | TooManyRequestsError
+    | ValidationError
   >;
 
   /**
@@ -121,7 +143,24 @@ interface AccountService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     EnableRegionCommandOutput,
-    SdkError | AccessDeniedError | ConflictError | InternalServerError | TooManyRequestsError | ValidationError
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | TooManyRequestsError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link GetAccountInformationCommand}
+   */
+  getAccountInformation(
+    args: GetAccountInformationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetAccountInformationCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | TooManyRequestsError | ValidationError
   >;
 
   /**
@@ -132,7 +171,13 @@ interface AccountService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAlternateContactCommandOutput,
-    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | TooManyRequestsError | ValidationError
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | TooManyRequestsError
+    | ValidationError
   >;
 
   /**
@@ -143,7 +188,13 @@ interface AccountService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetContactInformationCommandOutput,
-    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | TooManyRequestsError | ValidationError
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | TooManyRequestsError
+    | ValidationError
   >;
 
   /**
@@ -154,7 +205,13 @@ interface AccountService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPrimaryEmailCommandOutput,
-    SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | TooManyRequestsError | ValidationError
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | TooManyRequestsError
+    | ValidationError
   >;
 
   /**
@@ -165,7 +222,7 @@ interface AccountService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetRegionOptStatusCommandOutput,
-    SdkError | AccessDeniedError | InternalServerError | TooManyRequestsError | ValidationError
+    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | TooManyRequestsError | ValidationError
   >;
 
   /**
@@ -176,7 +233,18 @@ interface AccountService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListRegionsCommandOutput,
-    SdkError | AccessDeniedError | InternalServerError | TooManyRequestsError | ValidationError
+    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | TooManyRequestsError | ValidationError
+  >;
+
+  /**
+   * @see {@link PutAccountNameCommand}
+   */
+  putAccountName(
+    args: PutAccountNameCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    PutAccountNameCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | TooManyRequestsError | ValidationError
   >;
 
   /**
@@ -187,7 +255,7 @@ interface AccountService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutAlternateContactCommandOutput,
-    SdkError | AccessDeniedError | InternalServerError | TooManyRequestsError | ValidationError
+    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | TooManyRequestsError | ValidationError
   >;
 
   /**
@@ -198,7 +266,7 @@ interface AccountService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutContactInformationCommandOutput,
-    SdkError | AccessDeniedError | InternalServerError | TooManyRequestsError | ValidationError
+    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | TooManyRequestsError | ValidationError
   >;
 
   /**
@@ -209,6 +277,7 @@ interface AccountService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartPrimaryEmailUpdateCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | ConflictError

@@ -52,7 +52,7 @@ export interface MultipartUpload {
     options?: UploadObjectOptions,
   ) => Effect.Effect<
     CompleteMultipartUploadCommandOutput,
-    internal.S3ServiceErrors | PlatformError.BadArgument | Cause.NoSuchElementException
+    Cause.TimeoutException | internal.S3ServiceErrors | PlatformError.BadArgument | Cause.NoSuchElementException
   >;
 }
 
@@ -73,7 +73,7 @@ export const uploadObject: <E>(
   options?: UploadObjectOptions,
 ) => Effect.Effect<
   CompleteMultipartUploadCommandOutput,
-  internal.S3ServiceErrors | PlatformError.BadArgument | Cause.NoSuchElementException | E,
+  Cause.TimeoutException | internal.S3ServiceErrors | PlatformError.BadArgument | Cause.NoSuchElementException | E,
   MultipartUpload
 > = internal.uploadObject;
 

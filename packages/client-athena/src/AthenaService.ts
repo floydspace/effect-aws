@@ -211,6 +211,7 @@ import {
 } from "@aws-sdk/client-athena";
 import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
+import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
 import * as Instance from "./AthenaClientInstance.js";
 import * as AthenaServiceConfig from "./AthenaServiceConfig.js";
@@ -306,7 +307,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchGetNamedQueryCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError
   >;
 
   /**
@@ -317,7 +318,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchGetPreparedStatementCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError
   >;
 
   /**
@@ -328,7 +329,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchGetQueryExecutionCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError
   >;
 
   /**
@@ -339,7 +340,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelCapacityReservationCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError
   >;
 
   /**
@@ -350,7 +351,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateCapacityReservationCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError
   >;
 
   /**
@@ -361,7 +362,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateDataCatalogCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError
   >;
 
   /**
@@ -372,7 +373,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateNamedQueryCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError
   >;
 
   /**
@@ -383,7 +384,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateNotebookCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError | TooManyRequestsError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError | TooManyRequestsError
   >;
 
   /**
@@ -394,7 +395,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreatePreparedStatementCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError
   >;
 
   /**
@@ -405,7 +406,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreatePresignedNotebookUrlCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError | ResourceNotFoundError
   >;
 
   /**
@@ -416,7 +417,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateWorkGroupCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError
   >;
 
   /**
@@ -427,7 +428,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteCapacityReservationCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError
   >;
 
   /**
@@ -438,7 +439,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDataCatalogCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError
   >;
 
   /**
@@ -449,7 +450,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteNamedQueryCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError
   >;
 
   /**
@@ -460,7 +461,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteNotebookCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError | TooManyRequestsError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError | TooManyRequestsError
   >;
 
   /**
@@ -471,7 +472,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeletePreparedStatementCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError | ResourceNotFoundError
   >;
 
   /**
@@ -482,7 +483,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteWorkGroupCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError
   >;
 
   /**
@@ -493,7 +494,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ExportNotebookCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError | TooManyRequestsError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError | TooManyRequestsError
   >;
 
   /**
@@ -504,7 +505,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetCalculationExecutionCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError | ResourceNotFoundError
   >;
 
   /**
@@ -515,7 +516,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetCalculationExecutionCodeCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError | ResourceNotFoundError
   >;
 
   /**
@@ -526,7 +527,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetCalculationExecutionStatusCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError | ResourceNotFoundError
   >;
 
   /**
@@ -537,7 +538,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetCapacityAssignmentConfigurationCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError
   >;
 
   /**
@@ -548,7 +549,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetCapacityReservationCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError
   >;
 
   /**
@@ -559,7 +560,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDataCatalogCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError
   >;
 
   /**
@@ -570,7 +571,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDatabaseCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError | MetadataError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError | MetadataError
   >;
 
   /**
@@ -581,7 +582,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetNamedQueryCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError
   >;
 
   /**
@@ -592,7 +593,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetNotebookMetadataCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError | TooManyRequestsError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError | TooManyRequestsError
   >;
 
   /**
@@ -603,7 +604,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPreparedStatementCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError | ResourceNotFoundError
   >;
 
   /**
@@ -614,7 +615,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetQueryExecutionCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError
   >;
 
   /**
@@ -625,7 +626,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetQueryResultsCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError | TooManyRequestsError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError | TooManyRequestsError
   >;
 
   /**
@@ -636,7 +637,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetQueryRuntimeStatisticsCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError
   >;
 
   /**
@@ -647,7 +648,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetSessionCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError | ResourceNotFoundError
   >;
 
   /**
@@ -658,7 +659,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetSessionStatusCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError | ResourceNotFoundError
   >;
 
   /**
@@ -669,7 +670,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetTableMetadataCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError | MetadataError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError | MetadataError
   >;
 
   /**
@@ -680,7 +681,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetWorkGroupCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError
   >;
 
   /**
@@ -691,7 +692,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ImportNotebookCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError | TooManyRequestsError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError | TooManyRequestsError
   >;
 
   /**
@@ -702,7 +703,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListApplicationDPUSizesCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError | TooManyRequestsError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError | TooManyRequestsError
   >;
 
   /**
@@ -713,7 +714,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListCalculationExecutionsCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError | ResourceNotFoundError
   >;
 
   /**
@@ -724,7 +725,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListCapacityReservationsCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError
   >;
 
   /**
@@ -735,7 +736,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDataCatalogsCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError
   >;
 
   /**
@@ -746,7 +747,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDatabasesCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError | MetadataError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError | MetadataError
   >;
 
   /**
@@ -757,7 +758,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListEngineVersionsCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError
   >;
 
   /**
@@ -768,7 +769,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListExecutorsCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError | ResourceNotFoundError
   >;
 
   /**
@@ -779,7 +780,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListNamedQueriesCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError
   >;
 
   /**
@@ -790,7 +791,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListNotebookMetadataCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError | TooManyRequestsError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError | TooManyRequestsError
   >;
 
   /**
@@ -801,7 +802,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListNotebookSessionsCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError | ResourceNotFoundError
   >;
 
   /**
@@ -812,7 +813,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListPreparedStatementsCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError
   >;
 
   /**
@@ -823,7 +824,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListQueryExecutionsCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError
   >;
 
   /**
@@ -834,7 +835,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListSessionsCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError | ResourceNotFoundError
   >;
 
   /**
@@ -845,7 +846,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTableMetadataCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError | MetadataError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError | MetadataError
   >;
 
   /**
@@ -856,7 +857,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsForResourceCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError | ResourceNotFoundError
   >;
 
   /**
@@ -867,7 +868,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListWorkGroupsCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError
   >;
 
   /**
@@ -878,7 +879,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutCapacityAssignmentConfigurationCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError
   >;
 
   /**
@@ -889,7 +890,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartCalculationExecutionCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError | ResourceNotFoundError
   >;
 
   /**
@@ -900,7 +901,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartQueryExecutionCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError | TooManyRequestsError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError | TooManyRequestsError
   >;
 
   /**
@@ -911,6 +912,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartSessionCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServerError
     | InvalidRequestError
@@ -927,7 +929,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StopCalculationExecutionCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError | ResourceNotFoundError
   >;
 
   /**
@@ -938,7 +940,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StopQueryExecutionCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError
   >;
 
   /**
@@ -949,7 +951,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagResourceCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError | ResourceNotFoundError
   >;
 
   /**
@@ -960,7 +962,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TerminateSessionCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError | ResourceNotFoundError
   >;
 
   /**
@@ -971,7 +973,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError | ResourceNotFoundError
   >;
 
   /**
@@ -982,7 +984,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateCapacityReservationCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError
   >;
 
   /**
@@ -993,7 +995,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateDataCatalogCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError
   >;
 
   /**
@@ -1004,7 +1006,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateNamedQueryCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError
   >;
 
   /**
@@ -1015,7 +1017,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateNotebookCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError | TooManyRequestsError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError | TooManyRequestsError
   >;
 
   /**
@@ -1026,7 +1028,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateNotebookMetadataCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError | TooManyRequestsError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError | TooManyRequestsError
   >;
 
   /**
@@ -1037,7 +1039,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdatePreparedStatementCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError | ResourceNotFoundError
   >;
 
   /**
@@ -1048,7 +1050,7 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateWorkGroupCommandOutput,
-    SdkError | InternalServerError | InvalidRequestError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError
   >;
 }
 

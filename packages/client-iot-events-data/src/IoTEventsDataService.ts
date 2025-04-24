@@ -43,6 +43,7 @@ import {
 } from "@aws-sdk/client-iot-events-data";
 import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
+import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
 import type {
   InternalFailureError,
@@ -81,7 +82,12 @@ interface IoTEventsDataService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchAcknowledgeAlarmCommandOutput,
-    SdkError | InternalFailureError | InvalidRequestError | ServiceUnavailableError | ThrottlingError
+    | Cause.TimeoutException
+    | SdkError
+    | InternalFailureError
+    | InvalidRequestError
+    | ServiceUnavailableError
+    | ThrottlingError
   >;
 
   /**
@@ -92,7 +98,12 @@ interface IoTEventsDataService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchDeleteDetectorCommandOutput,
-    SdkError | InternalFailureError | InvalidRequestError | ServiceUnavailableError | ThrottlingError
+    | Cause.TimeoutException
+    | SdkError
+    | InternalFailureError
+    | InvalidRequestError
+    | ServiceUnavailableError
+    | ThrottlingError
   >;
 
   /**
@@ -103,7 +114,12 @@ interface IoTEventsDataService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchDisableAlarmCommandOutput,
-    SdkError | InternalFailureError | InvalidRequestError | ServiceUnavailableError | ThrottlingError
+    | Cause.TimeoutException
+    | SdkError
+    | InternalFailureError
+    | InvalidRequestError
+    | ServiceUnavailableError
+    | ThrottlingError
   >;
 
   /**
@@ -114,7 +130,12 @@ interface IoTEventsDataService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchEnableAlarmCommandOutput,
-    SdkError | InternalFailureError | InvalidRequestError | ServiceUnavailableError | ThrottlingError
+    | Cause.TimeoutException
+    | SdkError
+    | InternalFailureError
+    | InvalidRequestError
+    | ServiceUnavailableError
+    | ThrottlingError
   >;
 
   /**
@@ -125,7 +146,12 @@ interface IoTEventsDataService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchPutMessageCommandOutput,
-    SdkError | InternalFailureError | InvalidRequestError | ServiceUnavailableError | ThrottlingError
+    | Cause.TimeoutException
+    | SdkError
+    | InternalFailureError
+    | InvalidRequestError
+    | ServiceUnavailableError
+    | ThrottlingError
   >;
 
   /**
@@ -136,7 +162,12 @@ interface IoTEventsDataService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchResetAlarmCommandOutput,
-    SdkError | InternalFailureError | InvalidRequestError | ServiceUnavailableError | ThrottlingError
+    | Cause.TimeoutException
+    | SdkError
+    | InternalFailureError
+    | InvalidRequestError
+    | ServiceUnavailableError
+    | ThrottlingError
   >;
 
   /**
@@ -147,7 +178,12 @@ interface IoTEventsDataService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchSnoozeAlarmCommandOutput,
-    SdkError | InternalFailureError | InvalidRequestError | ServiceUnavailableError | ThrottlingError
+    | Cause.TimeoutException
+    | SdkError
+    | InternalFailureError
+    | InvalidRequestError
+    | ServiceUnavailableError
+    | ThrottlingError
   >;
 
   /**
@@ -158,7 +194,12 @@ interface IoTEventsDataService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchUpdateDetectorCommandOutput,
-    SdkError | InternalFailureError | InvalidRequestError | ServiceUnavailableError | ThrottlingError
+    | Cause.TimeoutException
+    | SdkError
+    | InternalFailureError
+    | InvalidRequestError
+    | ServiceUnavailableError
+    | ThrottlingError
   >;
 
   /**
@@ -169,6 +210,7 @@ interface IoTEventsDataService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeAlarmCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -185,6 +227,7 @@ interface IoTEventsDataService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeDetectorCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -201,6 +244,7 @@ interface IoTEventsDataService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAlarmsCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -217,6 +261,7 @@ interface IoTEventsDataService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDetectorsCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalFailureError
     | InvalidRequestError

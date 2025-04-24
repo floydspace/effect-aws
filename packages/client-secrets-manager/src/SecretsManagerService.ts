@@ -76,6 +76,7 @@ import {
 } from "@aws-sdk/client-secrets-manager";
 import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
+import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
 import type {
   DecryptionError,
@@ -132,6 +133,7 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchGetSecretValueCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | DecryptionError
     | InternalServiceError
@@ -149,7 +151,12 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelRotateSecretCommandOutput,
-    SdkError | InternalServiceError | InvalidParameterError | InvalidRequestError | ResourceNotFoundError
+    | Cause.TimeoutException
+    | SdkError
+    | InternalServiceError
+    | InvalidParameterError
+    | InvalidRequestError
+    | ResourceNotFoundError
   >;
 
   /**
@@ -160,6 +167,7 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateSecretCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | DecryptionError
     | EncryptionError
@@ -181,7 +189,12 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteResourcePolicyCommandOutput,
-    SdkError | InternalServiceError | InvalidParameterError | InvalidRequestError | ResourceNotFoundError
+    | Cause.TimeoutException
+    | SdkError
+    | InternalServiceError
+    | InvalidParameterError
+    | InvalidRequestError
+    | ResourceNotFoundError
   >;
 
   /**
@@ -192,7 +205,12 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteSecretCommandOutput,
-    SdkError | InternalServiceError | InvalidParameterError | InvalidRequestError | ResourceNotFoundError
+    | Cause.TimeoutException
+    | SdkError
+    | InternalServiceError
+    | InvalidParameterError
+    | InvalidRequestError
+    | ResourceNotFoundError
   >;
 
   /**
@@ -203,7 +221,7 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeSecretCommandOutput,
-    SdkError | InternalServiceError | InvalidParameterError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | InternalServiceError | InvalidParameterError | ResourceNotFoundError
   >;
 
   /**
@@ -214,7 +232,7 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetRandomPasswordCommandOutput,
-    SdkError | InternalServiceError | InvalidParameterError | InvalidRequestError
+    Cause.TimeoutException | SdkError | InternalServiceError | InvalidParameterError | InvalidRequestError
   >;
 
   /**
@@ -225,7 +243,12 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetResourcePolicyCommandOutput,
-    SdkError | InternalServiceError | InvalidParameterError | InvalidRequestError | ResourceNotFoundError
+    | Cause.TimeoutException
+    | SdkError
+    | InternalServiceError
+    | InvalidParameterError
+    | InvalidRequestError
+    | ResourceNotFoundError
   >;
 
   /**
@@ -236,6 +259,7 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetSecretValueCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | DecryptionError
     | InternalServiceError
@@ -252,7 +276,12 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListSecretVersionIdsCommandOutput,
-    SdkError | InternalServiceError | InvalidNextTokenError | InvalidParameterError | ResourceNotFoundError
+    | Cause.TimeoutException
+    | SdkError
+    | InternalServiceError
+    | InvalidNextTokenError
+    | InvalidParameterError
+    | ResourceNotFoundError
   >;
 
   /**
@@ -263,7 +292,12 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListSecretsCommandOutput,
-    SdkError | InternalServiceError | InvalidNextTokenError | InvalidParameterError | InvalidRequestError
+    | Cause.TimeoutException
+    | SdkError
+    | InternalServiceError
+    | InvalidNextTokenError
+    | InvalidParameterError
+    | InvalidRequestError
   >;
 
   /**
@@ -274,6 +308,7 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutResourcePolicyCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServiceError
     | InvalidParameterError
@@ -291,6 +326,7 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutSecretValueCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | DecryptionError
     | EncryptionError
@@ -310,7 +346,12 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RemoveRegionsFromReplicationCommandOutput,
-    SdkError | InternalServiceError | InvalidParameterError | InvalidRequestError | ResourceNotFoundError
+    | Cause.TimeoutException
+    | SdkError
+    | InternalServiceError
+    | InvalidParameterError
+    | InvalidRequestError
+    | ResourceNotFoundError
   >;
 
   /**
@@ -321,7 +362,12 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ReplicateSecretToRegionsCommandOutput,
-    SdkError | InternalServiceError | InvalidParameterError | InvalidRequestError | ResourceNotFoundError
+    | Cause.TimeoutException
+    | SdkError
+    | InternalServiceError
+    | InvalidParameterError
+    | InvalidRequestError
+    | ResourceNotFoundError
   >;
 
   /**
@@ -332,7 +378,12 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RestoreSecretCommandOutput,
-    SdkError | InternalServiceError | InvalidParameterError | InvalidRequestError | ResourceNotFoundError
+    | Cause.TimeoutException
+    | SdkError
+    | InternalServiceError
+    | InvalidParameterError
+    | InvalidRequestError
+    | ResourceNotFoundError
   >;
 
   /**
@@ -343,7 +394,12 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RotateSecretCommandOutput,
-    SdkError | InternalServiceError | InvalidParameterError | InvalidRequestError | ResourceNotFoundError
+    | Cause.TimeoutException
+    | SdkError
+    | InternalServiceError
+    | InvalidParameterError
+    | InvalidRequestError
+    | ResourceNotFoundError
   >;
 
   /**
@@ -354,7 +410,12 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StopReplicationToReplicaCommandOutput,
-    SdkError | InternalServiceError | InvalidParameterError | InvalidRequestError | ResourceNotFoundError
+    | Cause.TimeoutException
+    | SdkError
+    | InternalServiceError
+    | InvalidParameterError
+    | InvalidRequestError
+    | ResourceNotFoundError
   >;
 
   /**
@@ -365,7 +426,12 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagResourceCommandOutput,
-    SdkError | InternalServiceError | InvalidParameterError | InvalidRequestError | ResourceNotFoundError
+    | Cause.TimeoutException
+    | SdkError
+    | InternalServiceError
+    | InvalidParameterError
+    | InvalidRequestError
+    | ResourceNotFoundError
   >;
 
   /**
@@ -376,7 +442,12 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
-    SdkError | InternalServiceError | InvalidParameterError | InvalidRequestError | ResourceNotFoundError
+    | Cause.TimeoutException
+    | SdkError
+    | InternalServiceError
+    | InvalidParameterError
+    | InvalidRequestError
+    | ResourceNotFoundError
   >;
 
   /**
@@ -387,6 +458,7 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateSecretCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | DecryptionError
     | EncryptionError
@@ -408,6 +480,7 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateSecretVersionStageCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServiceError
     | InvalidParameterError
@@ -424,6 +497,7 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ValidateResourcePolicyCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServiceError
     | InvalidParameterError

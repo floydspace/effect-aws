@@ -439,6 +439,7 @@ import {
 } from "@aws-sdk/client-ssm";
 import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
+import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
 import type {
   AlreadyExistsError,
@@ -739,6 +740,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AddTagsToResourceCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServerError
     | InvalidResourceIdError
@@ -755,6 +757,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AssociateOpsItemRelatedItemCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServerError
     | OpsItemConflictError
@@ -772,7 +775,12 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelCommandCommandOutput,
-    SdkError | DuplicateInstanceIdError | InternalServerError | InvalidCommandIdError | InvalidInstanceIdError
+    | Cause.TimeoutException
+    | SdkError
+    | DuplicateInstanceIdError
+    | InternalServerError
+    | InvalidCommandIdError
+    | InvalidInstanceIdError
   >;
 
   /**
@@ -783,7 +791,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelMaintenanceWindowExecutionCommandOutput,
-    SdkError | DoesNotExistError | InternalServerError
+    Cause.TimeoutException | SdkError | DoesNotExistError | InternalServerError
   >;
 
   /**
@@ -794,7 +802,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateActivationCommandOutput,
-    SdkError | InternalServerError | InvalidParametersError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidParametersError
   >;
 
   /**
@@ -805,6 +813,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateAssociationCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AssociationAlreadyExistsError
     | AssociationLimitExceededError
@@ -829,6 +838,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateAssociationBatchCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AssociationLimitExceededError
     | DuplicateInstanceIdError
@@ -852,6 +862,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateDocumentCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | DocumentAlreadyExistsError
     | DocumentLimitExceededError
@@ -869,7 +880,11 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateMaintenanceWindowCommandOutput,
-    SdkError | IdempotentParameterMismatchError | InternalServerError | ResourceLimitExceededError
+    | Cause.TimeoutException
+    | SdkError
+    | IdempotentParameterMismatchError
+    | InternalServerError
+    | ResourceLimitExceededError
   >;
 
   /**
@@ -880,6 +895,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateOpsItemCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServerError
     | OpsItemAccessDeniedError
@@ -896,6 +912,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateOpsMetadataCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServerError
     | OpsMetadataAlreadyExistsError
@@ -912,7 +929,11 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreatePatchBaselineCommandOutput,
-    SdkError | IdempotentParameterMismatchError | InternalServerError | ResourceLimitExceededError
+    | Cause.TimeoutException
+    | SdkError
+    | IdempotentParameterMismatchError
+    | InternalServerError
+    | ResourceLimitExceededError
   >;
 
   /**
@@ -923,6 +944,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateResourceDataSyncCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServerError
     | ResourceDataSyncAlreadyExistsError
@@ -938,7 +960,12 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteActivationCommandOutput,
-    SdkError | InternalServerError | InvalidActivationError | InvalidActivationIdError | TooManyUpdatesError
+    | Cause.TimeoutException
+    | SdkError
+    | InternalServerError
+    | InvalidActivationError
+    | InvalidActivationIdError
+    | TooManyUpdatesError
   >;
 
   /**
@@ -949,6 +976,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteAssociationCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AssociationDoesNotExistError
     | InternalServerError
@@ -965,7 +993,12 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDocumentCommandOutput,
-    SdkError | AssociatedInstancesError | InternalServerError | InvalidDocumentError | InvalidDocumentOperationError
+    | Cause.TimeoutException
+    | SdkError
+    | AssociatedInstancesError
+    | InternalServerError
+    | InvalidDocumentError
+    | InvalidDocumentOperationError
   >;
 
   /**
@@ -976,6 +1009,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteInventoryCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServerError
     | InvalidDeleteInventoryParametersError
@@ -992,7 +1026,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteMaintenanceWindowCommandOutput,
-    SdkError | InternalServerError
+    Cause.TimeoutException | SdkError | InternalServerError
   >;
 
   /**
@@ -1003,7 +1037,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteOpsItemCommandOutput,
-    SdkError | InternalServerError | OpsItemInvalidParameterError
+    Cause.TimeoutException | SdkError | InternalServerError | OpsItemInvalidParameterError
   >;
 
   /**
@@ -1014,7 +1048,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteOpsMetadataCommandOutput,
-    SdkError | InternalServerError | OpsMetadataInvalidArgumentError | OpsMetadataNotFoundError
+    Cause.TimeoutException | SdkError | InternalServerError | OpsMetadataInvalidArgumentError | OpsMetadataNotFoundError
   >;
 
   /**
@@ -1025,7 +1059,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteParameterCommandOutput,
-    SdkError | InternalServerError | ParameterNotFoundError
+    Cause.TimeoutException | SdkError | InternalServerError | ParameterNotFoundError
   >;
 
   /**
@@ -1036,7 +1070,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteParametersCommandOutput,
-    SdkError | InternalServerError
+    Cause.TimeoutException | SdkError | InternalServerError
   >;
 
   /**
@@ -1047,7 +1081,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeletePatchBaselineCommandOutput,
-    SdkError | InternalServerError | ResourceInUseError
+    Cause.TimeoutException | SdkError | InternalServerError | ResourceInUseError
   >;
 
   /**
@@ -1058,7 +1092,11 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteResourceDataSyncCommandOutput,
-    SdkError | InternalServerError | ResourceDataSyncInvalidConfigurationError | ResourceDataSyncNotFoundError
+    | Cause.TimeoutException
+    | SdkError
+    | InternalServerError
+    | ResourceDataSyncInvalidConfigurationError
+    | ResourceDataSyncNotFoundError
   >;
 
   /**
@@ -1069,6 +1107,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteResourcePolicyCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServerError
     | MalformedResourcePolicyDocumentError
@@ -1086,7 +1125,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeregisterManagedInstanceCommandOutput,
-    SdkError | InternalServerError | InvalidInstanceIdError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidInstanceIdError
   >;
 
   /**
@@ -1097,7 +1136,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeregisterPatchBaselineForPatchGroupCommandOutput,
-    SdkError | InternalServerError | InvalidResourceIdError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidResourceIdError
   >;
 
   /**
@@ -1108,7 +1147,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeregisterTargetFromMaintenanceWindowCommandOutput,
-    SdkError | DoesNotExistError | InternalServerError | TargetInUseError
+    Cause.TimeoutException | SdkError | DoesNotExistError | InternalServerError | TargetInUseError
   >;
 
   /**
@@ -1119,7 +1158,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeregisterTaskFromMaintenanceWindowCommandOutput,
-    SdkError | DoesNotExistError | InternalServerError
+    Cause.TimeoutException | SdkError | DoesNotExistError | InternalServerError
   >;
 
   /**
@@ -1130,7 +1169,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeActivationsCommandOutput,
-    SdkError | InternalServerError | InvalidFilterError | InvalidNextTokenError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidFilterError | InvalidNextTokenError
   >;
 
   /**
@@ -1141,6 +1180,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeAssociationCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AssociationDoesNotExistError
     | InternalServerError
@@ -1157,6 +1197,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeAssociationExecutionTargetsCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AssociationDoesNotExistError
     | AssociationExecutionDoesNotExistError
@@ -1172,7 +1213,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeAssociationExecutionsCommandOutput,
-    SdkError | AssociationDoesNotExistError | InternalServerError | InvalidNextTokenError
+    Cause.TimeoutException | SdkError | AssociationDoesNotExistError | InternalServerError | InvalidNextTokenError
   >;
 
   /**
@@ -1183,7 +1224,12 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeAutomationExecutionsCommandOutput,
-    SdkError | InternalServerError | InvalidFilterKeyError | InvalidFilterValueError | InvalidNextTokenError
+    | Cause.TimeoutException
+    | SdkError
+    | InternalServerError
+    | InvalidFilterKeyError
+    | InvalidFilterValueError
+    | InvalidNextTokenError
   >;
 
   /**
@@ -1194,6 +1240,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeAutomationStepExecutionsCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AutomationExecutionNotFoundError
     | InternalServerError
@@ -1210,7 +1257,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeAvailablePatchesCommandOutput,
-    SdkError | InternalServerError
+    Cause.TimeoutException | SdkError | InternalServerError
   >;
 
   /**
@@ -1221,7 +1268,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeDocumentCommandOutput,
-    SdkError | InternalServerError | InvalidDocumentError | InvalidDocumentVersionError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidDocumentError | InvalidDocumentVersionError
   >;
 
   /**
@@ -1232,6 +1279,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeDocumentPermissionCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServerError
     | InvalidDocumentError
@@ -1248,7 +1296,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeEffectiveInstanceAssociationsCommandOutput,
-    SdkError | InternalServerError | InvalidInstanceIdError | InvalidNextTokenError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidInstanceIdError | InvalidNextTokenError
   >;
 
   /**
@@ -1259,7 +1307,12 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeEffectivePatchesForPatchBaselineCommandOutput,
-    SdkError | DoesNotExistError | InternalServerError | InvalidResourceIdError | UnsupportedOperatingSystemError
+    | Cause.TimeoutException
+    | SdkError
+    | DoesNotExistError
+    | InternalServerError
+    | InvalidResourceIdError
+    | UnsupportedOperatingSystemError
   >;
 
   /**
@@ -1270,7 +1323,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeInstanceAssociationsStatusCommandOutput,
-    SdkError | InternalServerError | InvalidInstanceIdError | InvalidNextTokenError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidInstanceIdError | InvalidNextTokenError
   >;
 
   /**
@@ -1281,6 +1334,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeInstanceInformationCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServerError
     | InvalidFilterKeyError
@@ -1297,7 +1351,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeInstancePatchStatesCommandOutput,
-    SdkError | InternalServerError | InvalidNextTokenError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidNextTokenError
   >;
 
   /**
@@ -1308,7 +1362,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeInstancePatchStatesForPatchGroupCommandOutput,
-    SdkError | InternalServerError | InvalidFilterError | InvalidNextTokenError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidFilterError | InvalidNextTokenError
   >;
 
   /**
@@ -1319,7 +1373,12 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeInstancePatchesCommandOutput,
-    SdkError | InternalServerError | InvalidFilterError | InvalidInstanceIdError | InvalidNextTokenError
+    | Cause.TimeoutException
+    | SdkError
+    | InternalServerError
+    | InvalidFilterError
+    | InvalidInstanceIdError
+    | InvalidNextTokenError
   >;
 
   /**
@@ -1330,6 +1389,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeInstancePropertiesCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServerError
     | InvalidActivationIdError
@@ -1348,7 +1408,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeInventoryDeletionsCommandOutput,
-    SdkError | InternalServerError | InvalidDeletionIdError | InvalidNextTokenError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidDeletionIdError | InvalidNextTokenError
   >;
 
   /**
@@ -1359,7 +1419,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeMaintenanceWindowExecutionTaskInvocationsCommandOutput,
-    SdkError | DoesNotExistError | InternalServerError
+    Cause.TimeoutException | SdkError | DoesNotExistError | InternalServerError
   >;
 
   /**
@@ -1370,7 +1430,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeMaintenanceWindowExecutionTasksCommandOutput,
-    SdkError | DoesNotExistError | InternalServerError
+    Cause.TimeoutException | SdkError | DoesNotExistError | InternalServerError
   >;
 
   /**
@@ -1381,7 +1441,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeMaintenanceWindowExecutionsCommandOutput,
-    SdkError | InternalServerError
+    Cause.TimeoutException | SdkError | InternalServerError
   >;
 
   /**
@@ -1392,7 +1452,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeMaintenanceWindowScheduleCommandOutput,
-    SdkError | DoesNotExistError | InternalServerError
+    Cause.TimeoutException | SdkError | DoesNotExistError | InternalServerError
   >;
 
   /**
@@ -1403,7 +1463,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeMaintenanceWindowTargetsCommandOutput,
-    SdkError | DoesNotExistError | InternalServerError
+    Cause.TimeoutException | SdkError | DoesNotExistError | InternalServerError
   >;
 
   /**
@@ -1414,7 +1474,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeMaintenanceWindowTasksCommandOutput,
-    SdkError | DoesNotExistError | InternalServerError
+    Cause.TimeoutException | SdkError | DoesNotExistError | InternalServerError
   >;
 
   /**
@@ -1425,7 +1485,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeMaintenanceWindowsCommandOutput,
-    SdkError | InternalServerError
+    Cause.TimeoutException | SdkError | InternalServerError
   >;
 
   /**
@@ -1436,7 +1496,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeMaintenanceWindowsForTargetCommandOutput,
-    SdkError | InternalServerError
+    Cause.TimeoutException | SdkError | InternalServerError
   >;
 
   /**
@@ -1447,7 +1507,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeOpsItemsCommandOutput,
-    SdkError | InternalServerError
+    Cause.TimeoutException | SdkError | InternalServerError
   >;
 
   /**
@@ -1458,6 +1518,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeParametersCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServerError
     | InvalidFilterKeyError
@@ -1474,7 +1535,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribePatchBaselinesCommandOutput,
-    SdkError | InternalServerError
+    Cause.TimeoutException | SdkError | InternalServerError
   >;
 
   /**
@@ -1485,7 +1546,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribePatchGroupStateCommandOutput,
-    SdkError | InternalServerError | InvalidNextTokenError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidNextTokenError
   >;
 
   /**
@@ -1496,7 +1557,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribePatchGroupsCommandOutput,
-    SdkError | InternalServerError
+    Cause.TimeoutException | SdkError | InternalServerError
   >;
 
   /**
@@ -1507,7 +1568,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribePatchPropertiesCommandOutput,
-    SdkError | InternalServerError
+    Cause.TimeoutException | SdkError | InternalServerError
   >;
 
   /**
@@ -1518,7 +1579,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeSessionsCommandOutput,
-    SdkError | InternalServerError | InvalidFilterKeyError | InvalidNextTokenError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidFilterKeyError | InvalidNextTokenError
   >;
 
   /**
@@ -1529,6 +1590,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisassociateOpsItemRelatedItemCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServerError
     | OpsItemConflictError
@@ -1545,7 +1607,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAutomationExecutionCommandOutput,
-    SdkError | AutomationExecutionNotFoundError | InternalServerError
+    Cause.TimeoutException | SdkError | AutomationExecutionNotFoundError | InternalServerError
   >;
 
   /**
@@ -1556,7 +1618,12 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetCalendarStateCommandOutput,
-    SdkError | InternalServerError | InvalidDocumentError | InvalidDocumentTypeError | UnsupportedCalendarError
+    | Cause.TimeoutException
+    | SdkError
+    | InternalServerError
+    | InvalidDocumentError
+    | InvalidDocumentTypeError
+    | UnsupportedCalendarError
   >;
 
   /**
@@ -1567,6 +1634,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetCommandInvocationCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServerError
     | InvalidCommandIdError
@@ -1583,7 +1651,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetConnectionStatusCommandOutput,
-    SdkError | InternalServerError
+    Cause.TimeoutException | SdkError | InternalServerError
   >;
 
   /**
@@ -1594,7 +1662,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDefaultPatchBaselineCommandOutput,
-    SdkError | InternalServerError
+    Cause.TimeoutException | SdkError | InternalServerError
   >;
 
   /**
@@ -1605,7 +1673,11 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDeployablePatchSnapshotForInstanceCommandOutput,
-    SdkError | InternalServerError | UnsupportedFeatureRequiredError | UnsupportedOperatingSystemError
+    | Cause.TimeoutException
+    | SdkError
+    | InternalServerError
+    | UnsupportedFeatureRequiredError
+    | UnsupportedOperatingSystemError
   >;
 
   /**
@@ -1616,7 +1688,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDocumentCommandOutput,
-    SdkError | InternalServerError | InvalidDocumentError | InvalidDocumentVersionError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidDocumentError | InvalidDocumentVersionError
   >;
 
   /**
@@ -1627,7 +1699,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetExecutionPreviewCommandOutput,
-    SdkError | InternalServerError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | InternalServerError | ResourceNotFoundError
   >;
 
   /**
@@ -1638,6 +1710,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetInventoryCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServerError
     | InvalidAggregatorError
@@ -1656,7 +1729,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetInventorySchemaCommandOutput,
-    SdkError | InternalServerError | InvalidNextTokenError | InvalidTypeNameError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidNextTokenError | InvalidTypeNameError
   >;
 
   /**
@@ -1667,7 +1740,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetMaintenanceWindowCommandOutput,
-    SdkError | DoesNotExistError | InternalServerError
+    Cause.TimeoutException | SdkError | DoesNotExistError | InternalServerError
   >;
 
   /**
@@ -1678,7 +1751,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetMaintenanceWindowExecutionCommandOutput,
-    SdkError | DoesNotExistError | InternalServerError
+    Cause.TimeoutException | SdkError | DoesNotExistError | InternalServerError
   >;
 
   /**
@@ -1689,7 +1762,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetMaintenanceWindowExecutionTaskCommandOutput,
-    SdkError | DoesNotExistError | InternalServerError
+    Cause.TimeoutException | SdkError | DoesNotExistError | InternalServerError
   >;
 
   /**
@@ -1700,7 +1773,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetMaintenanceWindowExecutionTaskInvocationCommandOutput,
-    SdkError | DoesNotExistError | InternalServerError
+    Cause.TimeoutException | SdkError | DoesNotExistError | InternalServerError
   >;
 
   /**
@@ -1711,7 +1784,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetMaintenanceWindowTaskCommandOutput,
-    SdkError | DoesNotExistError | InternalServerError
+    Cause.TimeoutException | SdkError | DoesNotExistError | InternalServerError
   >;
 
   /**
@@ -1722,7 +1795,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetOpsItemCommandOutput,
-    SdkError | InternalServerError | OpsItemAccessDeniedError | OpsItemNotFoundError
+    Cause.TimeoutException | SdkError | InternalServerError | OpsItemAccessDeniedError | OpsItemNotFoundError
   >;
 
   /**
@@ -1733,7 +1806,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetOpsMetadataCommandOutput,
-    SdkError | InternalServerError | OpsMetadataInvalidArgumentError | OpsMetadataNotFoundError
+    Cause.TimeoutException | SdkError | InternalServerError | OpsMetadataInvalidArgumentError | OpsMetadataNotFoundError
   >;
 
   /**
@@ -1744,6 +1817,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetOpsSummaryCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServerError
     | InvalidAggregatorError
@@ -1761,7 +1835,12 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetParameterCommandOutput,
-    SdkError | InternalServerError | InvalidKeyIdError | ParameterNotFoundError | ParameterVersionNotFoundError
+    | Cause.TimeoutException
+    | SdkError
+    | InternalServerError
+    | InvalidKeyIdError
+    | ParameterNotFoundError
+    | ParameterVersionNotFoundError
   >;
 
   /**
@@ -1772,7 +1851,12 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetParameterHistoryCommandOutput,
-    SdkError | InternalServerError | InvalidKeyIdError | InvalidNextTokenError | ParameterNotFoundError
+    | Cause.TimeoutException
+    | SdkError
+    | InternalServerError
+    | InvalidKeyIdError
+    | InvalidNextTokenError
+    | ParameterNotFoundError
   >;
 
   /**
@@ -1783,7 +1867,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetParametersCommandOutput,
-    SdkError | InternalServerError | InvalidKeyIdError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidKeyIdError
   >;
 
   /**
@@ -1794,6 +1878,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetParametersByPathCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServerError
     | InvalidFilterKeyError
@@ -1811,7 +1896,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPatchBaselineCommandOutput,
-    SdkError | DoesNotExistError | InternalServerError | InvalidResourceIdError
+    Cause.TimeoutException | SdkError | DoesNotExistError | InternalServerError | InvalidResourceIdError
   >;
 
   /**
@@ -1822,7 +1907,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPatchBaselineForPatchGroupCommandOutput,
-    SdkError | InternalServerError
+    Cause.TimeoutException | SdkError | InternalServerError
   >;
 
   /**
@@ -1833,7 +1918,11 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetResourcePoliciesCommandOutput,
-    SdkError | InternalServerError | ResourceNotFoundError | ResourcePolicyInvalidParameterError
+    | Cause.TimeoutException
+    | SdkError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ResourcePolicyInvalidParameterError
   >;
 
   /**
@@ -1844,7 +1933,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetServiceSettingCommandOutput,
-    SdkError | InternalServerError | ServiceSettingNotFoundError
+    Cause.TimeoutException | SdkError | InternalServerError | ServiceSettingNotFoundError
   >;
 
   /**
@@ -1855,6 +1944,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     LabelParameterVersionCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServerError
     | ParameterNotFoundError
@@ -1871,7 +1961,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAssociationVersionsCommandOutput,
-    SdkError | AssociationDoesNotExistError | InternalServerError | InvalidNextTokenError
+    Cause.TimeoutException | SdkError | AssociationDoesNotExistError | InternalServerError | InvalidNextTokenError
   >;
 
   /**
@@ -1882,7 +1972,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAssociationsCommandOutput,
-    SdkError | InternalServerError | InvalidNextTokenError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidNextTokenError
   >;
 
   /**
@@ -1893,6 +1983,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListCommandInvocationsCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServerError
     | InvalidCommandIdError
@@ -1909,6 +2000,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListCommandsCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServerError
     | InvalidCommandIdError
@@ -1925,6 +2017,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListComplianceItemsCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServerError
     | InvalidFilterError
@@ -1941,7 +2034,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListComplianceSummariesCommandOutput,
-    SdkError | InternalServerError | InvalidFilterError | InvalidNextTokenError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidFilterError | InvalidNextTokenError
   >;
 
   /**
@@ -1952,7 +2045,12 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDocumentMetadataHistoryCommandOutput,
-    SdkError | InternalServerError | InvalidDocumentError | InvalidDocumentVersionError | InvalidNextTokenError
+    | Cause.TimeoutException
+    | SdkError
+    | InternalServerError
+    | InvalidDocumentError
+    | InvalidDocumentVersionError
+    | InvalidNextTokenError
   >;
 
   /**
@@ -1963,7 +2061,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDocumentVersionsCommandOutput,
-    SdkError | InternalServerError | InvalidDocumentError | InvalidNextTokenError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidDocumentError | InvalidNextTokenError
   >;
 
   /**
@@ -1974,7 +2072,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDocumentsCommandOutput,
-    SdkError | InternalServerError | InvalidFilterKeyError | InvalidNextTokenError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidFilterKeyError | InvalidNextTokenError
   >;
 
   /**
@@ -1985,6 +2083,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListInventoryEntriesCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServerError
     | InvalidFilterError
@@ -2001,6 +2100,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListNodesCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServerError
     | InvalidFilterError
@@ -2017,6 +2117,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListNodesSummaryCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServerError
     | InvalidAggregatorError
@@ -2034,7 +2135,12 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListOpsItemEventsCommandOutput,
-    SdkError | InternalServerError | OpsItemInvalidParameterError | OpsItemLimitExceededError | OpsItemNotFoundError
+    | Cause.TimeoutException
+    | SdkError
+    | InternalServerError
+    | OpsItemInvalidParameterError
+    | OpsItemLimitExceededError
+    | OpsItemNotFoundError
   >;
 
   /**
@@ -2045,7 +2151,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListOpsItemRelatedItemsCommandOutput,
-    SdkError | InternalServerError | OpsItemInvalidParameterError
+    Cause.TimeoutException | SdkError | InternalServerError | OpsItemInvalidParameterError
   >;
 
   /**
@@ -2056,7 +2162,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListOpsMetadataCommandOutput,
-    SdkError | InternalServerError | OpsMetadataInvalidArgumentError
+    Cause.TimeoutException | SdkError | InternalServerError | OpsMetadataInvalidArgumentError
   >;
 
   /**
@@ -2067,7 +2173,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListResourceComplianceSummariesCommandOutput,
-    SdkError | InternalServerError | InvalidFilterError | InvalidNextTokenError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidFilterError | InvalidNextTokenError
   >;
 
   /**
@@ -2078,7 +2184,11 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListResourceDataSyncCommandOutput,
-    SdkError | InternalServerError | InvalidNextTokenError | ResourceDataSyncInvalidConfigurationError
+    | Cause.TimeoutException
+    | SdkError
+    | InternalServerError
+    | InvalidNextTokenError
+    | ResourceDataSyncInvalidConfigurationError
   >;
 
   /**
@@ -2089,7 +2199,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsForResourceCommandOutput,
-    SdkError | InternalServerError | InvalidResourceIdError | InvalidResourceTypeError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidResourceIdError | InvalidResourceTypeError
   >;
 
   /**
@@ -2100,6 +2210,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyDocumentPermissionCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | DocumentLimitExceededError
     | DocumentPermissionLimitError
@@ -2116,6 +2227,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutComplianceItemsCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | ComplianceTypeCountLimitExceededError
     | InternalServerError
@@ -2134,6 +2246,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutInventoryCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | CustomSchemaCountLimitExceededError
     | InternalServerError
@@ -2157,6 +2270,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutParameterCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | HierarchyLevelLimitExceededError
     | HierarchyTypeMismatchError
@@ -2183,6 +2297,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutResourcePolicyCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServerError
     | MalformedResourcePolicyDocumentError
@@ -2201,7 +2316,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RegisterDefaultPatchBaselineCommandOutput,
-    SdkError | DoesNotExistError | InternalServerError | InvalidResourceIdError
+    Cause.TimeoutException | SdkError | DoesNotExistError | InternalServerError | InvalidResourceIdError
   >;
 
   /**
@@ -2212,6 +2327,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RegisterPatchBaselineForPatchGroupCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AlreadyExistsError
     | DoesNotExistError
@@ -2228,7 +2344,12 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RegisterTargetWithMaintenanceWindowCommandOutput,
-    SdkError | DoesNotExistError | IdempotentParameterMismatchError | InternalServerError | ResourceLimitExceededError
+    | Cause.TimeoutException
+    | SdkError
+    | DoesNotExistError
+    | IdempotentParameterMismatchError
+    | InternalServerError
+    | ResourceLimitExceededError
   >;
 
   /**
@@ -2239,6 +2360,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RegisterTaskWithMaintenanceWindowCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | DoesNotExistError
     | FeatureNotAvailableError
@@ -2255,7 +2377,12 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RemoveTagsFromResourceCommandOutput,
-    SdkError | InternalServerError | InvalidResourceIdError | InvalidResourceTypeError | TooManyUpdatesError
+    | Cause.TimeoutException
+    | SdkError
+    | InternalServerError
+    | InvalidResourceIdError
+    | InvalidResourceTypeError
+    | TooManyUpdatesError
   >;
 
   /**
@@ -2266,7 +2393,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ResetServiceSettingCommandOutput,
-    SdkError | InternalServerError | ServiceSettingNotFoundError | TooManyUpdatesError
+    Cause.TimeoutException | SdkError | InternalServerError | ServiceSettingNotFoundError | TooManyUpdatesError
   >;
 
   /**
@@ -2277,7 +2404,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ResumeSessionCommandOutput,
-    SdkError | DoesNotExistError | InternalServerError
+    Cause.TimeoutException | SdkError | DoesNotExistError | InternalServerError
   >;
 
   /**
@@ -2288,6 +2415,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SendAutomationSignalCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AutomationExecutionNotFoundError
     | AutomationStepNotFoundError
@@ -2303,6 +2431,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SendCommandCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | DuplicateInstanceIdError
     | InternalServerError
@@ -2325,7 +2454,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartAssociationsOnceCommandOutput,
-    SdkError | AssociationDoesNotExistError | InvalidAssociationError
+    Cause.TimeoutException | SdkError | AssociationDoesNotExistError | InvalidAssociationError
   >;
 
   /**
@@ -2336,6 +2465,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartAutomationExecutionCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AutomationDefinitionNotFoundError
     | AutomationDefinitionVersionNotFoundError
@@ -2354,6 +2484,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartChangeRequestExecutionCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AutomationDefinitionNotApprovedError
     | AutomationDefinitionNotFoundError
@@ -2372,7 +2503,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartExecutionPreviewCommandOutput,
-    SdkError | InternalServerError | ValidationError
+    Cause.TimeoutException | SdkError | InternalServerError | ValidationError
   >;
 
   /**
@@ -2383,7 +2514,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartSessionCommandOutput,
-    SdkError | InternalServerError | InvalidDocumentError | TargetNotConnectedError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidDocumentError | TargetNotConnectedError
   >;
 
   /**
@@ -2394,7 +2525,11 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StopAutomationExecutionCommandOutput,
-    SdkError | AutomationExecutionNotFoundError | InternalServerError | InvalidAutomationStatusUpdateError
+    | Cause.TimeoutException
+    | SdkError
+    | AutomationExecutionNotFoundError
+    | InternalServerError
+    | InvalidAutomationStatusUpdateError
   >;
 
   /**
@@ -2405,7 +2540,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TerminateSessionCommandOutput,
-    SdkError | InternalServerError
+    Cause.TimeoutException | SdkError | InternalServerError
   >;
 
   /**
@@ -2416,7 +2551,12 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UnlabelParameterVersionCommandOutput,
-    SdkError | InternalServerError | ParameterNotFoundError | ParameterVersionNotFoundError | TooManyUpdatesError
+    | Cause.TimeoutException
+    | SdkError
+    | InternalServerError
+    | ParameterNotFoundError
+    | ParameterVersionNotFoundError
+    | TooManyUpdatesError
   >;
 
   /**
@@ -2427,6 +2567,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateAssociationCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AssociationDoesNotExistError
     | AssociationVersionLimitExceededError
@@ -2451,6 +2592,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateAssociationStatusCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AssociationDoesNotExistError
     | InternalServerError
@@ -2468,6 +2610,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateDocumentCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | DocumentVersionLimitExceededError
     | DuplicateDocumentContentError
@@ -2489,6 +2632,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateDocumentDefaultVersionCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServerError
     | InvalidDocumentError
@@ -2504,7 +2648,12 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateDocumentMetadataCommandOutput,
-    SdkError | InternalServerError | InvalidDocumentError | InvalidDocumentOperationError | InvalidDocumentVersionError
+    | Cause.TimeoutException
+    | SdkError
+    | InternalServerError
+    | InvalidDocumentError
+    | InvalidDocumentOperationError
+    | InvalidDocumentVersionError
   >;
 
   /**
@@ -2515,7 +2664,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateMaintenanceWindowCommandOutput,
-    SdkError | DoesNotExistError | InternalServerError
+    Cause.TimeoutException | SdkError | DoesNotExistError | InternalServerError
   >;
 
   /**
@@ -2526,7 +2675,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateMaintenanceWindowTargetCommandOutput,
-    SdkError | DoesNotExistError | InternalServerError
+    Cause.TimeoutException | SdkError | DoesNotExistError | InternalServerError
   >;
 
   /**
@@ -2537,7 +2686,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateMaintenanceWindowTaskCommandOutput,
-    SdkError | DoesNotExistError | InternalServerError
+    Cause.TimeoutException | SdkError | DoesNotExistError | InternalServerError
   >;
 
   /**
@@ -2548,7 +2697,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateManagedInstanceRoleCommandOutput,
-    SdkError | InternalServerError | InvalidInstanceIdError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidInstanceIdError
   >;
 
   /**
@@ -2559,6 +2708,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateOpsItemCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServerError
     | OpsItemAccessDeniedError
@@ -2577,6 +2727,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateOpsMetadataCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServerError
     | OpsMetadataInvalidArgumentError
@@ -2593,7 +2744,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdatePatchBaselineCommandOutput,
-    SdkError | DoesNotExistError | InternalServerError
+    Cause.TimeoutException | SdkError | DoesNotExistError | InternalServerError
   >;
 
   /**
@@ -2604,6 +2755,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateResourceDataSyncCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServerError
     | ResourceDataSyncConflictError
@@ -2619,7 +2771,7 @@ interface SSMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateServiceSettingCommandOutput,
-    SdkError | InternalServerError | ServiceSettingNotFoundError | TooManyUpdatesError
+    Cause.TimeoutException | SdkError | InternalServerError | ServiceSettingNotFoundError | TooManyUpdatesError
   >;
 }
 
