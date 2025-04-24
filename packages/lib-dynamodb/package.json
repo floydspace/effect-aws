@@ -46,7 +46,7 @@
     "access": "public",
     "directory": "dist"
   },
-  "version": "1.9.5",
+  "version": "1.10.0",
   "types": "build/dts/index.d.ts",
   "type": "module",
   "module": "build/esm/index.js",
