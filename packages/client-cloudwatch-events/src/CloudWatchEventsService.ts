@@ -160,6 +160,7 @@ import {
 } from "@aws-sdk/client-cloudwatch-events";
 import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
+import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
 import * as Instance from "./CloudWatchEventsClientInstance.js";
 import * as CloudWatchEventsServiceConfig from "./CloudWatchEventsServiceConfig.js";
@@ -243,6 +244,7 @@ interface CloudWatchEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ActivateEventSourceCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | ConcurrentModificationError
     | InternalError
@@ -259,7 +261,12 @@ interface CloudWatchEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelReplayCommandOutput,
-    SdkError | ConcurrentModificationError | IllegalStatusError | InternalError | ResourceNotFoundError
+    | Cause.TimeoutException
+    | SdkError
+    | ConcurrentModificationError
+    | IllegalStatusError
+    | InternalError
+    | ResourceNotFoundError
   >;
 
   /**
@@ -270,7 +277,12 @@ interface CloudWatchEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateApiDestinationCommandOutput,
-    SdkError | InternalError | LimitExceededError | ResourceAlreadyExistsError | ResourceNotFoundError
+    | Cause.TimeoutException
+    | SdkError
+    | InternalError
+    | LimitExceededError
+    | ResourceAlreadyExistsError
+    | ResourceNotFoundError
   >;
 
   /**
@@ -281,6 +293,7 @@ interface CloudWatchEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateArchiveCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | ConcurrentModificationError
     | InternalError
@@ -298,7 +311,7 @@ interface CloudWatchEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateConnectionCommandOutput,
-    SdkError | InternalError | LimitExceededError | ResourceAlreadyExistsError
+    Cause.TimeoutException | SdkError | InternalError | LimitExceededError | ResourceAlreadyExistsError
   >;
 
   /**
@@ -309,6 +322,7 @@ interface CloudWatchEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateEventBusCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | ConcurrentModificationError
     | InternalError
@@ -327,6 +341,7 @@ interface CloudWatchEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreatePartnerEventSourceCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | ConcurrentModificationError
     | InternalError
@@ -343,6 +358,7 @@ interface CloudWatchEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeactivateEventSourceCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | ConcurrentModificationError
     | InternalError
@@ -359,7 +375,7 @@ interface CloudWatchEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeauthorizeConnectionCommandOutput,
-    SdkError | ConcurrentModificationError | InternalError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | ConcurrentModificationError | InternalError | ResourceNotFoundError
   >;
 
   /**
@@ -370,7 +386,7 @@ interface CloudWatchEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteApiDestinationCommandOutput,
-    SdkError | ConcurrentModificationError | InternalError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | ConcurrentModificationError | InternalError | ResourceNotFoundError
   >;
 
   /**
@@ -381,7 +397,7 @@ interface CloudWatchEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteArchiveCommandOutput,
-    SdkError | ConcurrentModificationError | InternalError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | ConcurrentModificationError | InternalError | ResourceNotFoundError
   >;
 
   /**
@@ -392,7 +408,7 @@ interface CloudWatchEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteConnectionCommandOutput,
-    SdkError | ConcurrentModificationError | InternalError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | ConcurrentModificationError | InternalError | ResourceNotFoundError
   >;
 
   /**
@@ -403,7 +419,7 @@ interface CloudWatchEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteEventBusCommandOutput,
-    SdkError | ConcurrentModificationError | InternalError
+    Cause.TimeoutException | SdkError | ConcurrentModificationError | InternalError
   >;
 
   /**
@@ -414,7 +430,7 @@ interface CloudWatchEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeletePartnerEventSourceCommandOutput,
-    SdkError | ConcurrentModificationError | InternalError | OperationDisabledError
+    Cause.TimeoutException | SdkError | ConcurrentModificationError | InternalError | OperationDisabledError
   >;
 
   /**
@@ -425,7 +441,12 @@ interface CloudWatchEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteRuleCommandOutput,
-    SdkError | ConcurrentModificationError | InternalError | ManagedRuleError | ResourceNotFoundError
+    | Cause.TimeoutException
+    | SdkError
+    | ConcurrentModificationError
+    | InternalError
+    | ManagedRuleError
+    | ResourceNotFoundError
   >;
 
   /**
@@ -436,7 +457,7 @@ interface CloudWatchEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeApiDestinationCommandOutput,
-    SdkError | InternalError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | InternalError | ResourceNotFoundError
   >;
 
   /**
@@ -447,7 +468,7 @@ interface CloudWatchEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeArchiveCommandOutput,
-    SdkError | InternalError | ResourceAlreadyExistsError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | InternalError | ResourceAlreadyExistsError | ResourceNotFoundError
   >;
 
   /**
@@ -458,7 +479,7 @@ interface CloudWatchEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeConnectionCommandOutput,
-    SdkError | InternalError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | InternalError | ResourceNotFoundError
   >;
 
   /**
@@ -469,7 +490,7 @@ interface CloudWatchEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeEventBusCommandOutput,
-    SdkError | InternalError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | InternalError | ResourceNotFoundError
   >;
 
   /**
@@ -480,7 +501,7 @@ interface CloudWatchEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeEventSourceCommandOutput,
-    SdkError | InternalError | OperationDisabledError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | InternalError | OperationDisabledError | ResourceNotFoundError
   >;
 
   /**
@@ -491,7 +512,7 @@ interface CloudWatchEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribePartnerEventSourceCommandOutput,
-    SdkError | InternalError | OperationDisabledError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | InternalError | OperationDisabledError | ResourceNotFoundError
   >;
 
   /**
@@ -502,7 +523,7 @@ interface CloudWatchEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeReplayCommandOutput,
-    SdkError | InternalError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | InternalError | ResourceNotFoundError
   >;
 
   /**
@@ -513,7 +534,7 @@ interface CloudWatchEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeRuleCommandOutput,
-    SdkError | InternalError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | InternalError | ResourceNotFoundError
   >;
 
   /**
@@ -524,7 +545,12 @@ interface CloudWatchEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisableRuleCommandOutput,
-    SdkError | ConcurrentModificationError | InternalError | ManagedRuleError | ResourceNotFoundError
+    | Cause.TimeoutException
+    | SdkError
+    | ConcurrentModificationError
+    | InternalError
+    | ManagedRuleError
+    | ResourceNotFoundError
   >;
 
   /**
@@ -535,7 +561,12 @@ interface CloudWatchEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     EnableRuleCommandOutput,
-    SdkError | ConcurrentModificationError | InternalError | ManagedRuleError | ResourceNotFoundError
+    | Cause.TimeoutException
+    | SdkError
+    | ConcurrentModificationError
+    | InternalError
+    | ManagedRuleError
+    | ResourceNotFoundError
   >;
 
   /**
@@ -546,7 +577,7 @@ interface CloudWatchEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListApiDestinationsCommandOutput,
-    SdkError | InternalError
+    Cause.TimeoutException | SdkError | InternalError
   >;
 
   /**
@@ -557,7 +588,7 @@ interface CloudWatchEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListArchivesCommandOutput,
-    SdkError | InternalError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | InternalError | ResourceNotFoundError
   >;
 
   /**
@@ -568,7 +599,7 @@ interface CloudWatchEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListConnectionsCommandOutput,
-    SdkError | InternalError
+    Cause.TimeoutException | SdkError | InternalError
   >;
 
   /**
@@ -579,7 +610,7 @@ interface CloudWatchEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListEventBusesCommandOutput,
-    SdkError | InternalError
+    Cause.TimeoutException | SdkError | InternalError
   >;
 
   /**
@@ -590,7 +621,7 @@ interface CloudWatchEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListEventSourcesCommandOutput,
-    SdkError | InternalError | OperationDisabledError
+    Cause.TimeoutException | SdkError | InternalError | OperationDisabledError
   >;
 
   /**
@@ -601,7 +632,7 @@ interface CloudWatchEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListPartnerEventSourceAccountsCommandOutput,
-    SdkError | InternalError | OperationDisabledError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | InternalError | OperationDisabledError | ResourceNotFoundError
   >;
 
   /**
@@ -612,7 +643,7 @@ interface CloudWatchEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListPartnerEventSourcesCommandOutput,
-    SdkError | InternalError | OperationDisabledError
+    Cause.TimeoutException | SdkError | InternalError | OperationDisabledError
   >;
 
   /**
@@ -623,7 +654,7 @@ interface CloudWatchEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListReplaysCommandOutput,
-    SdkError | InternalError
+    Cause.TimeoutException | SdkError | InternalError
   >;
 
   /**
@@ -634,7 +665,7 @@ interface CloudWatchEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListRuleNamesByTargetCommandOutput,
-    SdkError | InternalError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | InternalError | ResourceNotFoundError
   >;
 
   /**
@@ -645,7 +676,7 @@ interface CloudWatchEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListRulesCommandOutput,
-    SdkError | InternalError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | InternalError | ResourceNotFoundError
   >;
 
   /**
@@ -656,7 +687,7 @@ interface CloudWatchEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsForResourceCommandOutput,
-    SdkError | InternalError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | InternalError | ResourceNotFoundError
   >;
 
   /**
@@ -667,7 +698,7 @@ interface CloudWatchEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTargetsByRuleCommandOutput,
-    SdkError | InternalError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | InternalError | ResourceNotFoundError
   >;
 
   /**
@@ -678,7 +709,7 @@ interface CloudWatchEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutEventsCommandOutput,
-    SdkError | InternalError
+    Cause.TimeoutException | SdkError | InternalError
   >;
 
   /**
@@ -689,7 +720,7 @@ interface CloudWatchEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutPartnerEventsCommandOutput,
-    SdkError | InternalError | OperationDisabledError
+    Cause.TimeoutException | SdkError | InternalError | OperationDisabledError
   >;
 
   /**
@@ -700,6 +731,7 @@ interface CloudWatchEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutPermissionCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | ConcurrentModificationError
     | InternalError
@@ -716,6 +748,7 @@ interface CloudWatchEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutRuleCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | ConcurrentModificationError
     | InternalError
@@ -733,6 +766,7 @@ interface CloudWatchEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutTargetsCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | ConcurrentModificationError
     | InternalError
@@ -749,7 +783,12 @@ interface CloudWatchEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RemovePermissionCommandOutput,
-    SdkError | ConcurrentModificationError | InternalError | OperationDisabledError | ResourceNotFoundError
+    | Cause.TimeoutException
+    | SdkError
+    | ConcurrentModificationError
+    | InternalError
+    | OperationDisabledError
+    | ResourceNotFoundError
   >;
 
   /**
@@ -760,7 +799,12 @@ interface CloudWatchEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RemoveTargetsCommandOutput,
-    SdkError | ConcurrentModificationError | InternalError | ManagedRuleError | ResourceNotFoundError
+    | Cause.TimeoutException
+    | SdkError
+    | ConcurrentModificationError
+    | InternalError
+    | ManagedRuleError
+    | ResourceNotFoundError
   >;
 
   /**
@@ -771,6 +815,7 @@ interface CloudWatchEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartReplayCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalError
     | InvalidEventPatternError
@@ -787,7 +832,12 @@ interface CloudWatchEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagResourceCommandOutput,
-    SdkError | ConcurrentModificationError | InternalError | ManagedRuleError | ResourceNotFoundError
+    | Cause.TimeoutException
+    | SdkError
+    | ConcurrentModificationError
+    | InternalError
+    | ManagedRuleError
+    | ResourceNotFoundError
   >;
 
   /**
@@ -798,7 +848,7 @@ interface CloudWatchEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TestEventPatternCommandOutput,
-    SdkError | InternalError | InvalidEventPatternError
+    Cause.TimeoutException | SdkError | InternalError | InvalidEventPatternError
   >;
 
   /**
@@ -809,7 +859,12 @@ interface CloudWatchEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
-    SdkError | ConcurrentModificationError | InternalError | ManagedRuleError | ResourceNotFoundError
+    | Cause.TimeoutException
+    | SdkError
+    | ConcurrentModificationError
+    | InternalError
+    | ManagedRuleError
+    | ResourceNotFoundError
   >;
 
   /**
@@ -820,7 +875,12 @@ interface CloudWatchEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateApiDestinationCommandOutput,
-    SdkError | ConcurrentModificationError | InternalError | LimitExceededError | ResourceNotFoundError
+    | Cause.TimeoutException
+    | SdkError
+    | ConcurrentModificationError
+    | InternalError
+    | LimitExceededError
+    | ResourceNotFoundError
   >;
 
   /**
@@ -831,6 +891,7 @@ interface CloudWatchEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateArchiveCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | ConcurrentModificationError
     | InternalError
@@ -847,7 +908,12 @@ interface CloudWatchEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateConnectionCommandOutput,
-    SdkError | ConcurrentModificationError | InternalError | LimitExceededError | ResourceNotFoundError
+    | Cause.TimeoutException
+    | SdkError
+    | ConcurrentModificationError
+    | InternalError
+    | LimitExceededError
+    | ResourceNotFoundError
   >;
 }
 
@@ -858,7 +924,7 @@ interface CloudWatchEventsService$ {
 export const makeCloudWatchEventsService = Effect.gen(function*() {
   const client = yield* Instance.CloudWatchEventsClientInstance;
 
-  return Service.fromClientAndCommands<CloudWatchEventsService$>(
+  return yield* Service.fromClientAndCommands<CloudWatchEventsService$>(
     client,
     commands,
     {

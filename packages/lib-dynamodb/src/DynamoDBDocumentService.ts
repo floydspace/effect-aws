@@ -64,6 +64,7 @@ import type {
 } from "@effect-aws/client-dynamodb";
 import { DynamoDBServiceConfig } from "@effect-aws/client-dynamodb";
 import { type HttpHandlerOptions, Service } from "@effect-aws/commons";
+import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
 import * as Instance from "./DynamoDBDocumentClientInstance.js";
 import * as DynamoDBDocumentServiceConfig from "./DynamoDBDocumentServiceConfig.js";
@@ -95,7 +96,7 @@ interface DynamoDBDocumentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchExecuteStatementCommandOutput,
-    SdkError | InternalServerError | RequestLimitExceededError
+    Cause.TimeoutException | SdkError | InternalServerError | RequestLimitExceededError
   >;
 
   /**
@@ -106,6 +107,7 @@ interface DynamoDBDocumentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchGetCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServerError
     | InvalidEndpointError
@@ -122,6 +124,7 @@ interface DynamoDBDocumentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchWriteCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServerError
     | InvalidEndpointError
@@ -139,6 +142,7 @@ interface DynamoDBDocumentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | ConditionalCheckFailedError
     | InternalServerError
@@ -158,6 +162,7 @@ interface DynamoDBDocumentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ExecuteStatementCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | ConditionalCheckFailedError
     | DuplicateItemError
@@ -177,6 +182,7 @@ interface DynamoDBDocumentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ExecuteTransactionCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | IdempotentParameterMismatchError
     | InternalServerError
@@ -195,6 +201,7 @@ interface DynamoDBDocumentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServerError
     | InvalidEndpointError
@@ -211,6 +218,7 @@ interface DynamoDBDocumentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | ConditionalCheckFailedError
     | InternalServerError
@@ -230,6 +238,7 @@ interface DynamoDBDocumentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     QueryCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServerError
     | InvalidEndpointError
@@ -246,6 +255,7 @@ interface DynamoDBDocumentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ScanCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServerError
     | InvalidEndpointError
@@ -262,6 +272,7 @@ interface DynamoDBDocumentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TransactGetCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServerError
     | InvalidEndpointError
@@ -279,6 +290,7 @@ interface DynamoDBDocumentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TransactWriteCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | IdempotentParameterMismatchError
     | InternalServerError
@@ -298,6 +310,7 @@ interface DynamoDBDocumentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | ConditionalCheckFailedError
     | InternalServerError
@@ -317,7 +330,7 @@ interface DynamoDBDocumentService$ {
 export const makeDynamoDBDocumentService = Effect.gen(function*() {
   const client = yield* Instance.DynamoDBDocumentClientInstance;
 
-  return Service.fromClientAndCommands<DynamoDBDocumentService$>(client, commands, {
+  return yield* Service.fromClientAndCommands<DynamoDBDocumentService$>(client, commands, {
     resolveClientConfig: DynamoDBServiceConfig.toDynamoDBClientConfig,
   });
 });

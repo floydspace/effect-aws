@@ -19,6 +19,9 @@ import {
   InvokeModelCommand,
   type InvokeModelCommandInput,
   type InvokeModelCommandOutput,
+  InvokeModelWithBidirectionalStreamCommand,
+  type InvokeModelWithBidirectionalStreamCommandInput,
+  type InvokeModelWithBidirectionalStreamCommandOutput,
   InvokeModelWithResponseStreamCommand,
   type InvokeModelWithResponseStreamCommandInput,
   type InvokeModelWithResponseStreamCommandOutput,
@@ -31,6 +34,7 @@ import {
 } from "@aws-sdk/client-bedrock-runtime";
 import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
+import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
 import * as Instance from "./BedrockRuntimeClientInstance.js";
 import * as BedrockRuntimeServiceConfig from "./BedrockRuntimeServiceConfig.js";
@@ -56,6 +60,7 @@ const commands = {
   ConverseStreamCommand,
   GetAsyncInvokeCommand,
   InvokeModelCommand,
+  InvokeModelWithBidirectionalStreamCommand,
   InvokeModelWithResponseStreamCommand,
   ListAsyncInvokesCommand,
   StartAsyncInvokeCommand,
@@ -72,6 +77,7 @@ interface BedrockRuntimeService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ApplyGuardrailCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -89,6 +95,7 @@ interface BedrockRuntimeService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ConverseCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -109,6 +116,7 @@ interface BedrockRuntimeService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ConverseStreamCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -129,7 +137,7 @@ interface BedrockRuntimeService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAsyncInvokeCommandOutput,
-    SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -140,11 +148,35 @@ interface BedrockRuntimeService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     InvokeModelCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | InternalServerError
     | ModelError
     | ModelNotReadyError
+    | ModelTimeoutError
+    | ResourceNotFoundError
+    | ServiceQuotaExceededError
+    | ServiceUnavailableError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link InvokeModelWithBidirectionalStreamCommand}
+   */
+  invokeModelWithBidirectionalStream(
+    args: InvokeModelWithBidirectionalStreamCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    InvokeModelWithBidirectionalStreamCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ModelError
+    | ModelNotReadyError
+    | ModelStreamError
     | ModelTimeoutError
     | ResourceNotFoundError
     | ServiceQuotaExceededError
@@ -161,6 +193,7 @@ interface BedrockRuntimeService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     InvokeModelWithResponseStreamCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -183,7 +216,7 @@ interface BedrockRuntimeService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAsyncInvokesCommandOutput,
-    SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -194,6 +227,7 @@ interface BedrockRuntimeService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartAsyncInvokeCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -213,7 +247,7 @@ interface BedrockRuntimeService$ {
 export const makeBedrockRuntimeService = Effect.gen(function*() {
   const client = yield* Instance.BedrockRuntimeClientInstance;
 
-  return Service.fromClientAndCommands<BedrockRuntimeService$>(
+  return yield* Service.fromClientAndCommands<BedrockRuntimeService$>(
     client,
     commands,
     {

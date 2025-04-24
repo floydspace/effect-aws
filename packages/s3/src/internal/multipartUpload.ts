@@ -196,7 +196,7 @@ export const make: Effect.Effect<MultipartUpload, never, S3Service> = Effect.gen
     partNumber: number,
     uploadId: string | undefined,
     params: PutObjectCommandInput,
-  ): Effect.Effect<CompletedPart, SdkError | S3ServiceError> =>
+  ): Effect.Effect<CompletedPart, Cause.TimeoutException | SdkError | S3ServiceError> =>
     Effect.gen(function*() {
       yield* Effect.annotateLogsScoped({
         partSize: `${(params.Body as Buffer).length / 1024 / 1024} MiB`,
@@ -268,7 +268,7 @@ export const make: Effect.Effect<MultipartUpload, never, S3Service> = Effect.gen
     options?: UploadObjectOptions,
   ): Effect.Effect<
     CompleteMultipartUploadCommandOutput,
-    S3ServiceErrors | PlatformError.BadArgument | Cause.NoSuchElementException
+    Cause.TimeoutException | S3ServiceErrors | PlatformError.BadArgument | Cause.NoSuchElementException
   > =>
     Effect.gen(function*() {
       const partSize = options?.partSize || MIN_PART_SIZE;
@@ -323,6 +323,6 @@ export const uploadObject: <E>(
   options?: UploadObjectOptions,
 ) => Effect.Effect<
   CompleteMultipartUploadCommandOutput,
-  S3ServiceErrors | PlatformError.BadArgument | Cause.NoSuchElementException,
+  Cause.TimeoutException | S3ServiceErrors | PlatformError.BadArgument | Cause.NoSuchElementException,
   MultipartUpload
 > = Effect.serviceFunctionEffect(tag, (_) => _.uploadObject);

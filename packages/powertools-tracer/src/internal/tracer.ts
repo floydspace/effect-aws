@@ -28,7 +28,7 @@ export class XraySpan implements EffectTracer.Span {
     readonly name: string,
     readonly parent: Option.Option<EffectTracer.AnySpan>,
     readonly context: Context.Context<never>,
-    readonly links: ReadonlyArray<EffectTracer.SpanLink>,
+    readonly links: Array<EffectTracer.SpanLink>,
     startTime: bigint,
     readonly kind: EffectTracer.SpanKind,
   ) {
@@ -48,6 +48,11 @@ export class XraySpan implements EffectTracer.Span {
       startTime,
     };
     this.sampled = false;
+  }
+
+  addLinks(links: ReadonlyArray<EffectTracer.SpanLink>): void {
+    // eslint-disable-next-line no-restricted-syntax
+    this.links.push(...links);
   }
 
   attribute(key: string, value: unknown) {
@@ -109,7 +114,7 @@ export const make = Effect.map(Tracer, (tracer) =>
         name,
         parent,
         context,
-        links,
+        links.slice(),
         startTime,
         kind,
       );

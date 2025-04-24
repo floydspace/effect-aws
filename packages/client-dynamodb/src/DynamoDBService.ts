@@ -178,6 +178,7 @@ import {
 } from "@aws-sdk/client-dynamodb";
 import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
+import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
 import * as Instance from "./DynamoDBClientInstance.js";
 import * as DynamoDBServiceConfig from "./DynamoDBServiceConfig.js";
@@ -290,7 +291,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchExecuteStatementCommandOutput,
-    SdkError | InternalServerError | RequestLimitExceededError
+    Cause.TimeoutException | SdkError | InternalServerError | RequestLimitExceededError
   >;
 
   /**
@@ -301,6 +302,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchGetItemCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServerError
     | InvalidEndpointError
@@ -317,6 +319,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchWriteItemCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServerError
     | InvalidEndpointError
@@ -334,6 +337,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateBackupCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | BackupInUseError
     | ContinuousBackupsUnavailableError
@@ -352,6 +356,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateGlobalTableCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | GlobalTableAlreadyExistsError
     | InternalServerError
@@ -368,7 +373,12 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateTableCommandOutput,
-    SdkError | InternalServerError | InvalidEndpointError | LimitExceededError | ResourceInUseError
+    | Cause.TimeoutException
+    | SdkError
+    | InternalServerError
+    | InvalidEndpointError
+    | LimitExceededError
+    | ResourceInUseError
   >;
 
   /**
@@ -379,7 +389,13 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteBackupCommandOutput,
-    SdkError | BackupInUseError | BackupNotFoundError | InternalServerError | InvalidEndpointError | LimitExceededError
+    | Cause.TimeoutException
+    | SdkError
+    | BackupInUseError
+    | BackupNotFoundError
+    | InternalServerError
+    | InvalidEndpointError
+    | LimitExceededError
   >;
 
   /**
@@ -390,6 +406,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteItemCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | ConditionalCheckFailedError
     | InternalServerError
@@ -410,6 +427,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteResourcePolicyCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServerError
     | InvalidEndpointError
@@ -427,6 +445,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteTableCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServerError
     | InvalidEndpointError
@@ -443,7 +462,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeBackupCommandOutput,
-    SdkError | BackupNotFoundError | InternalServerError | InvalidEndpointError
+    Cause.TimeoutException | SdkError | BackupNotFoundError | InternalServerError | InvalidEndpointError
   >;
 
   /**
@@ -454,7 +473,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeContinuousBackupsCommandOutput,
-    SdkError | InternalServerError | InvalidEndpointError | TableNotFoundError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidEndpointError | TableNotFoundError
   >;
 
   /**
@@ -465,7 +484,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeContributorInsightsCommandOutput,
-    SdkError | InternalServerError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | InternalServerError | ResourceNotFoundError
   >;
 
   /**
@@ -476,7 +495,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeEndpointsCommandOutput,
-    SdkError
+    Cause.TimeoutException | SdkError
   >;
 
   /**
@@ -487,7 +506,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeExportCommandOutput,
-    SdkError | ExportNotFoundError | InternalServerError | LimitExceededError
+    Cause.TimeoutException | SdkError | ExportNotFoundError | InternalServerError | LimitExceededError
   >;
 
   /**
@@ -498,7 +517,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeGlobalTableCommandOutput,
-    SdkError | GlobalTableNotFoundError | InternalServerError | InvalidEndpointError
+    Cause.TimeoutException | SdkError | GlobalTableNotFoundError | InternalServerError | InvalidEndpointError
   >;
 
   /**
@@ -509,7 +528,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeGlobalTableSettingsCommandOutput,
-    SdkError | GlobalTableNotFoundError | InternalServerError | InvalidEndpointError
+    Cause.TimeoutException | SdkError | GlobalTableNotFoundError | InternalServerError | InvalidEndpointError
   >;
 
   /**
@@ -520,7 +539,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeImportCommandOutput,
-    SdkError | ImportNotFoundError
+    Cause.TimeoutException | SdkError | ImportNotFoundError
   >;
 
   /**
@@ -531,7 +550,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeKinesisStreamingDestinationCommandOutput,
-    SdkError | InternalServerError | InvalidEndpointError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidEndpointError | ResourceNotFoundError
   >;
 
   /**
@@ -542,7 +561,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeLimitsCommandOutput,
-    SdkError | InternalServerError | InvalidEndpointError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidEndpointError
   >;
 
   /**
@@ -553,7 +572,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeTableCommandOutput,
-    SdkError | InternalServerError | InvalidEndpointError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidEndpointError | ResourceNotFoundError
   >;
 
   /**
@@ -564,7 +583,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeTableReplicaAutoScalingCommandOutput,
-    SdkError | InternalServerError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | InternalServerError | ResourceNotFoundError
   >;
 
   /**
@@ -575,7 +594,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeTimeToLiveCommandOutput,
-    SdkError | InternalServerError | InvalidEndpointError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidEndpointError | ResourceNotFoundError
   >;
 
   /**
@@ -586,6 +605,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisableKinesisStreamingDestinationCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServerError
     | InvalidEndpointError
@@ -602,6 +622,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     EnableKinesisStreamingDestinationCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServerError
     | InvalidEndpointError
@@ -618,6 +639,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ExecuteStatementCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | ConditionalCheckFailedError
     | DuplicateItemError
@@ -637,6 +659,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ExecuteTransactionCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | IdempotentParameterMismatchError
     | InternalServerError
@@ -655,6 +678,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ExportTableToPointInTimeCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | ExportConflictError
     | InternalServerError
@@ -672,6 +696,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetItemCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServerError
     | InvalidEndpointError
@@ -688,7 +713,12 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetResourcePolicyCommandOutput,
-    SdkError | InternalServerError | InvalidEndpointError | PolicyNotFoundError | ResourceNotFoundError
+    | Cause.TimeoutException
+    | SdkError
+    | InternalServerError
+    | InvalidEndpointError
+    | PolicyNotFoundError
+    | ResourceNotFoundError
   >;
 
   /**
@@ -699,7 +729,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ImportTableCommandOutput,
-    SdkError | ImportConflictError | LimitExceededError | ResourceInUseError
+    Cause.TimeoutException | SdkError | ImportConflictError | LimitExceededError | ResourceInUseError
   >;
 
   /**
@@ -710,7 +740,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListBackupsCommandOutput,
-    SdkError | InternalServerError | InvalidEndpointError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidEndpointError
   >;
 
   /**
@@ -721,7 +751,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListContributorInsightsCommandOutput,
-    SdkError | InternalServerError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | InternalServerError | ResourceNotFoundError
   >;
 
   /**
@@ -732,7 +762,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListExportsCommandOutput,
-    SdkError | InternalServerError | LimitExceededError
+    Cause.TimeoutException | SdkError | InternalServerError | LimitExceededError
   >;
 
   /**
@@ -743,7 +773,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListGlobalTablesCommandOutput,
-    SdkError | InternalServerError | InvalidEndpointError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidEndpointError
   >;
 
   /**
@@ -754,7 +784,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListImportsCommandOutput,
-    SdkError | LimitExceededError
+    Cause.TimeoutException | SdkError | LimitExceededError
   >;
 
   /**
@@ -765,7 +795,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTablesCommandOutput,
-    SdkError | InternalServerError | InvalidEndpointError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidEndpointError
   >;
 
   /**
@@ -776,7 +806,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsOfResourceCommandOutput,
-    SdkError | InternalServerError | InvalidEndpointError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidEndpointError | ResourceNotFoundError
   >;
 
   /**
@@ -787,6 +817,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutItemCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | ConditionalCheckFailedError
     | InternalServerError
@@ -807,6 +838,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutResourcePolicyCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServerError
     | InvalidEndpointError
@@ -824,6 +856,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     QueryCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServerError
     | InvalidEndpointError
@@ -840,6 +873,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RestoreTableFromBackupCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | BackupInUseError
     | BackupNotFoundError
@@ -858,6 +892,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RestoreTableToPointInTimeCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServerError
     | InvalidEndpointError
@@ -877,6 +912,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ScanCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServerError
     | InvalidEndpointError
@@ -893,6 +929,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagResourceCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServerError
     | InvalidEndpointError
@@ -909,6 +946,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TransactGetItemsCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServerError
     | InvalidEndpointError
@@ -926,6 +964,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TransactWriteItemsCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | IdempotentParameterMismatchError
     | InternalServerError
@@ -945,6 +984,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServerError
     | InvalidEndpointError
@@ -961,7 +1001,12 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateContinuousBackupsCommandOutput,
-    SdkError | ContinuousBackupsUnavailableError | InternalServerError | InvalidEndpointError | TableNotFoundError
+    | Cause.TimeoutException
+    | SdkError
+    | ContinuousBackupsUnavailableError
+    | InternalServerError
+    | InvalidEndpointError
+    | TableNotFoundError
   >;
 
   /**
@@ -972,7 +1017,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateContributorInsightsCommandOutput,
-    SdkError | InternalServerError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | InternalServerError | ResourceNotFoundError
   >;
 
   /**
@@ -983,6 +1028,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateGlobalTableCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | GlobalTableNotFoundError
     | InternalServerError
@@ -1000,6 +1046,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateGlobalTableSettingsCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | GlobalTableNotFoundError
     | IndexNotFoundError
@@ -1018,6 +1065,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateItemCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | ConditionalCheckFailedError
     | InternalServerError
@@ -1038,6 +1086,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateKinesisStreamingDestinationCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServerError
     | InvalidEndpointError
@@ -1054,6 +1103,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateTableCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServerError
     | InvalidEndpointError
@@ -1070,7 +1120,12 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateTableReplicaAutoScalingCommandOutput,
-    SdkError | InternalServerError | LimitExceededError | ResourceInUseError | ResourceNotFoundError
+    | Cause.TimeoutException
+    | SdkError
+    | InternalServerError
+    | LimitExceededError
+    | ResourceInUseError
+    | ResourceNotFoundError
   >;
 
   /**
@@ -1081,6 +1136,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateTimeToLiveCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalServerError
     | InvalidEndpointError
@@ -1097,7 +1153,7 @@ interface DynamoDBService$ {
 export const makeDynamoDBService = Effect.gen(function*() {
   const client = yield* Instance.DynamoDBClientInstance;
 
-  return Service.fromClientAndCommands<DynamoDBService$>(
+  return yield* Service.fromClientAndCommands<DynamoDBService$>(
     client,
     commands,
     {

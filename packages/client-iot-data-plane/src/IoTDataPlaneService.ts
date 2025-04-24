@@ -28,6 +28,7 @@ import {
 } from "@aws-sdk/client-iot-data-plane";
 import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
+import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
 import type {
   ConflictError,
@@ -66,6 +67,7 @@ interface IoTDataPlaneService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteThingShadowCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -85,6 +87,7 @@ interface IoTDataPlaneService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetRetainedMessageCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -103,6 +106,7 @@ interface IoTDataPlaneService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetThingShadowCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -122,6 +126,7 @@ interface IoTDataPlaneService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListNamedShadowsForThingCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -140,6 +145,7 @@ interface IoTDataPlaneService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListRetainedMessagesCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -157,7 +163,13 @@ interface IoTDataPlaneService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PublishCommandOutput,
-    SdkError | InternalFailureError | InvalidRequestError | MethodNotAllowedError | ThrottlingError | UnauthorizedError
+    | Cause.TimeoutException
+    | SdkError
+    | InternalFailureError
+    | InvalidRequestError
+    | MethodNotAllowedError
+    | ThrottlingError
+    | UnauthorizedError
   >;
 
   /**
@@ -168,6 +180,7 @@ interface IoTDataPlaneService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateThingShadowCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | ConflictError
     | InternalFailureError
@@ -188,7 +201,7 @@ interface IoTDataPlaneService$ {
 export const makeIoTDataPlaneService = Effect.gen(function*() {
   const client = yield* Instance.IoTDataPlaneClientInstance;
 
-  return Service.fromClientAndCommands<IoTDataPlaneService$>(
+  return yield* Service.fromClientAndCommands<IoTDataPlaneService$>(
     client,
     commands,
     {

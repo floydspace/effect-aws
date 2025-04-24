@@ -76,6 +76,7 @@ import {
 } from "@aws-sdk/client-sqs";
 import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
+import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
 import type {
   BatchEntryIdsNotDistinctError,
@@ -148,6 +149,7 @@ interface SQSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AddPermissionCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InvalidAddressError
     | InvalidSecurityError
@@ -165,6 +167,7 @@ interface SQSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelMessageMoveTaskCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InvalidAddressError
     | InvalidSecurityError
@@ -181,6 +184,7 @@ interface SQSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ChangeMessageVisibilityCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InvalidAddressError
     | InvalidSecurityError
@@ -199,6 +203,7 @@ interface SQSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ChangeMessageVisibilityBatchCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | BatchEntryIdsNotDistinctError
     | EmptyBatchRequestError
@@ -219,6 +224,7 @@ interface SQSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateQueueCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InvalidAddressError
     | InvalidAttributeNameError
@@ -238,6 +244,7 @@ interface SQSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteMessageCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InvalidAddressError
     | InvalidIdFormatError
@@ -256,6 +263,7 @@ interface SQSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteMessageBatchCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | BatchEntryIdsNotDistinctError
     | EmptyBatchRequestError
@@ -276,6 +284,7 @@ interface SQSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteQueueCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InvalidAddressError
     | InvalidSecurityError
@@ -292,6 +301,7 @@ interface SQSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetQueueAttributesCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InvalidAddressError
     | InvalidAttributeNameError
@@ -309,6 +319,7 @@ interface SQSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetQueueUrlCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InvalidAddressError
     | InvalidSecurityError
@@ -325,6 +336,7 @@ interface SQSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDeadLetterSourceQueuesCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InvalidAddressError
     | InvalidSecurityError
@@ -341,6 +353,7 @@ interface SQSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListMessageMoveTasksCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InvalidAddressError
     | InvalidSecurityError
@@ -357,6 +370,7 @@ interface SQSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListQueueTagsCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InvalidAddressError
     | InvalidSecurityError
@@ -373,7 +387,12 @@ interface SQSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListQueuesCommandOutput,
-    SdkError | InvalidAddressError | InvalidSecurityError | RequestThrottledError | UnsupportedOperationError
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidAddressError
+    | InvalidSecurityError
+    | RequestThrottledError
+    | UnsupportedOperationError
   >;
 
   /**
@@ -384,6 +403,7 @@ interface SQSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PurgeQueueCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InvalidAddressError
     | InvalidSecurityError
@@ -401,6 +421,7 @@ interface SQSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ReceiveMessageCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InvalidAddressError
     | InvalidSecurityError
@@ -425,6 +446,7 @@ interface SQSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RemovePermissionCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InvalidAddressError
     | InvalidSecurityError
@@ -441,6 +463,7 @@ interface SQSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SendMessageCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InvalidAddressError
     | InvalidMessageContentsError
@@ -465,6 +488,7 @@ interface SQSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SendMessageBatchCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | BatchEntryIdsNotDistinctError
     | BatchRequestTooLongError
@@ -493,6 +517,7 @@ interface SQSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SetQueueAttributesCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InvalidAddressError
     | InvalidAttributeNameError
@@ -512,6 +537,7 @@ interface SQSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartMessageMoveTaskCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InvalidAddressError
     | InvalidSecurityError
@@ -528,6 +554,7 @@ interface SQSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagQueueCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InvalidAddressError
     | InvalidSecurityError
@@ -544,6 +571,7 @@ interface SQSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagQueueCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InvalidAddressError
     | InvalidSecurityError
@@ -560,7 +588,7 @@ interface SQSService$ {
 export const makeSQSService = Effect.gen(function*() {
   const client = yield* Instance.SQSClientInstance;
 
-  return Service.fromClientAndCommands<SQSService$>(
+  return yield* Service.fromClientAndCommands<SQSService$>(
     client,
     commands,
     {

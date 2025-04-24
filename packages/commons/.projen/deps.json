@@ -11,7 +11,7 @@
     },
     {
       "name": "effect",
-      "version": "3.10.16",
+      "version": "3.14.11",
       "type": "build"
     },
     {
@@ -23,6 +23,10 @@
       "name": "effect",
       "version": ">=3.0.4 <4.0.0",
       "type": "peer"
+    },
+    {
+      "name": "@smithy/protocol-http",
+      "type": "runtime"
     },
     {
       "name": "@smithy/smithy-client",

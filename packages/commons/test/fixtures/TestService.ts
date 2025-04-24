@@ -17,7 +17,7 @@ export interface TestService$ {
 export const makeTestService = Effect.gen(function*() {
   const client = yield* Instance.TestClientInstance;
 
-  return Service.fromClientAndCommands<TestService$>(
+  return yield* Service.fromClientAndCommands<TestService$>(
     client,
     commands,
     { resolveClientConfig: TestServiceConfig.toTestClientConfig },

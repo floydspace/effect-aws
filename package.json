@@ -36,7 +36,7 @@
     "@effect/docgen": "^0.4.3",
     "@effect/eslint-plugin": "^0.2.0",
     "@effect/language-service": "^0.4.0",
-    "@effect/vitest": "0.13.16",
+    "@effect/vitest": "0.20.11",
     "@eslint/compat": "^1.2.5",
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.19.0",
@@ -44,9 +44,9 @@
     "@types/node": "ts5.4",
     "@typescript-eslint/eslint-plugin": "^8.21.0",
     "@typescript-eslint/parser": "^8.21.0",
-    "@vitest/coverage-v8": "^2.0.5",
+    "@vitest/coverage-v8": "^3.1.1",
     "aws-sdk-client-mock": "^4.1.0",
-    "aws-sdk-client-mock-vitest": "4.0.0",
+    "aws-sdk-client-mock-vitest": "^6.1.1",
     "constructs": "^10.0.0",
     "eslint": "^9.19.0",
     "eslint-import-resolver-typescript": "^3.7.0",
@@ -58,14 +58,14 @@
     "ts-node": "^10.9.1",
     "tsx": "^4.16.5",
     "typescript": "^5.4.2",
-    "vitest": "^2.0.5",
-    "vitest-mock-extended": "^2.0.2"
+    "vitest": "^3.1.1",
+    "vitest-mock-extended": "^3.1.0"
   },
   "dependencies": {
-    "@effect/cli": "0.48.25",
-    "@effect/platform": "0.69.25",
-    "@effect/platform-node": "0.64.27",
-    "effect": "3.10.16"
+    "@effect/cli": "0.59.11",
+    "@effect/platform": "0.80.11",
+    "@effect/platform-node": "0.76.21",
+    "effect": "3.14.11"
   },
   "pnpm": {
     "patchedDependencies": {

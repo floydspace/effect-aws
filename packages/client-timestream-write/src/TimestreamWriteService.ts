@@ -64,6 +64,7 @@ import {
 } from "@aws-sdk/client-timestream-write";
 import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
+import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
 import type {
   AccessDeniedError,
@@ -113,6 +114,7 @@ interface TimestreamWriteService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateBatchLoadTaskCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -132,6 +134,7 @@ interface TimestreamWriteService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateDatabaseCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -150,6 +153,7 @@ interface TimestreamWriteService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateTableCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -169,6 +173,7 @@ interface TimestreamWriteService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDatabaseCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -186,6 +191,7 @@ interface TimestreamWriteService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteTableCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -203,7 +209,13 @@ interface TimestreamWriteService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeBatchLoadTaskCommandOutput,
-    SdkError | AccessDeniedError | InternalServerError | InvalidEndpointError | ResourceNotFoundError | ThrottlingError
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | InvalidEndpointError
+    | ResourceNotFoundError
+    | ThrottlingError
   >;
 
   /**
@@ -214,6 +226,7 @@ interface TimestreamWriteService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeDatabaseCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -231,7 +244,7 @@ interface TimestreamWriteService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeEndpointsCommandOutput,
-    SdkError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutException | SdkError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -242,6 +255,7 @@ interface TimestreamWriteService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeTableCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -259,7 +273,13 @@ interface TimestreamWriteService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListBatchLoadTasksCommandOutput,
-    SdkError | AccessDeniedError | InternalServerError | InvalidEndpointError | ThrottlingError | ValidationError
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | InvalidEndpointError
+    | ThrottlingError
+    | ValidationError
   >;
 
   /**
@@ -270,7 +290,13 @@ interface TimestreamWriteService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDatabasesCommandOutput,
-    SdkError | AccessDeniedError | InternalServerError | InvalidEndpointError | ThrottlingError | ValidationError
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | InvalidEndpointError
+    | ThrottlingError
+    | ValidationError
   >;
 
   /**
@@ -281,6 +307,7 @@ interface TimestreamWriteService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTablesCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -298,7 +325,7 @@ interface TimestreamWriteService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsForResourceCommandOutput,
-    SdkError | InvalidEndpointError | ResourceNotFoundError | ThrottlingError | ValidationError
+    Cause.TimeoutException | SdkError | InvalidEndpointError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -309,6 +336,7 @@ interface TimestreamWriteService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ResumeBatchLoadTaskCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -326,6 +354,7 @@ interface TimestreamWriteService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagResourceCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InvalidEndpointError
     | ResourceNotFoundError
@@ -342,6 +371,7 @@ interface TimestreamWriteService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InvalidEndpointError
     | ResourceNotFoundError
@@ -358,6 +388,7 @@ interface TimestreamWriteService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateDatabaseCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -376,6 +407,7 @@ interface TimestreamWriteService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateTableCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -393,6 +425,7 @@ interface TimestreamWriteService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     WriteRecordsCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -411,7 +444,7 @@ interface TimestreamWriteService$ {
 export const makeTimestreamWriteService = Effect.gen(function*() {
   const client = yield* Instance.TimestreamWriteClientInstance;
 
-  return Service.fromClientAndCommands<TimestreamWriteService$>(
+  return yield* Service.fromClientAndCommands<TimestreamWriteService$>(
     client,
     commands,
     {

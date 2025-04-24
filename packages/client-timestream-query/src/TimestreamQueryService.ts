@@ -52,6 +52,7 @@ import {
 } from "@aws-sdk/client-timestream-query";
 import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
+import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
 import type {
   AccessDeniedError,
@@ -97,7 +98,13 @@ interface TimestreamQueryService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelQueryCommandOutput,
-    SdkError | AccessDeniedError | InternalServerError | InvalidEndpointError | ThrottlingError | ValidationError
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | InvalidEndpointError
+    | ThrottlingError
+    | ValidationError
   >;
 
   /**
@@ -108,6 +115,7 @@ interface TimestreamQueryService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateScheduledQueryCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -126,6 +134,7 @@ interface TimestreamQueryService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteScheduledQueryCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -143,7 +152,7 @@ interface TimestreamQueryService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeAccountSettingsCommandOutput,
-    SdkError | AccessDeniedError | InternalServerError | InvalidEndpointError | ThrottlingError
+    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | InvalidEndpointError | ThrottlingError
   >;
 
   /**
@@ -154,7 +163,7 @@ interface TimestreamQueryService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeEndpointsCommandOutput,
-    SdkError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutException | SdkError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -165,6 +174,7 @@ interface TimestreamQueryService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeScheduledQueryCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -182,6 +192,7 @@ interface TimestreamQueryService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ExecuteScheduledQueryCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -199,7 +210,13 @@ interface TimestreamQueryService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListScheduledQueriesCommandOutput,
-    SdkError | AccessDeniedError | InternalServerError | InvalidEndpointError | ThrottlingError | ValidationError
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | InvalidEndpointError
+    | ThrottlingError
+    | ValidationError
   >;
 
   /**
@@ -210,7 +227,7 @@ interface TimestreamQueryService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsForResourceCommandOutput,
-    SdkError | InvalidEndpointError | ResourceNotFoundError | ThrottlingError | ValidationError
+    Cause.TimeoutException | SdkError | InvalidEndpointError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -221,7 +238,13 @@ interface TimestreamQueryService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PrepareQueryCommandOutput,
-    SdkError | AccessDeniedError | InternalServerError | InvalidEndpointError | ThrottlingError | ValidationError
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | InvalidEndpointError
+    | ThrottlingError
+    | ValidationError
   >;
 
   /**
@@ -232,6 +255,7 @@ interface TimestreamQueryService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     QueryCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -250,6 +274,7 @@ interface TimestreamQueryService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagResourceCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InvalidEndpointError
     | ResourceNotFoundError
@@ -266,7 +291,7 @@ interface TimestreamQueryService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
-    SdkError | InvalidEndpointError | ResourceNotFoundError | ThrottlingError | ValidationError
+    Cause.TimeoutException | SdkError | InvalidEndpointError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -277,7 +302,13 @@ interface TimestreamQueryService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateAccountSettingsCommandOutput,
-    SdkError | AccessDeniedError | InternalServerError | InvalidEndpointError | ThrottlingError | ValidationError
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | InvalidEndpointError
+    | ThrottlingError
+    | ValidationError
   >;
 
   /**
@@ -288,6 +319,7 @@ interface TimestreamQueryService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateScheduledQueryCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -305,7 +337,7 @@ interface TimestreamQueryService$ {
 export const makeTimestreamQueryService = Effect.gen(function*() {
   const client = yield* Instance.TimestreamQueryClientInstance;
 
-  return Service.fromClientAndCommands<TimestreamQueryService$>(
+  return yield* Service.fromClientAndCommands<TimestreamQueryService$>(
     client,
     commands,
     {

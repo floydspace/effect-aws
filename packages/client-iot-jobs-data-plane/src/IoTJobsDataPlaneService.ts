@@ -22,6 +22,7 @@ import {
 } from "@aws-sdk/client-iot-jobs-data-plane";
 import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
+import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
 import type {
   CertificateValidationError,
@@ -59,6 +60,7 @@ interface IoTJobsDataPlaneService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeJobExecutionCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | CertificateValidationError
     | InvalidRequestError
@@ -76,6 +78,7 @@ interface IoTJobsDataPlaneService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPendingJobExecutionsCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | CertificateValidationError
     | InvalidRequestError
@@ -92,6 +95,7 @@ interface IoTJobsDataPlaneService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartCommandExecutionCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | ConflictError
     | InternalServerError
@@ -109,6 +113,7 @@ interface IoTJobsDataPlaneService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartNextPendingJobExecutionCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | CertificateValidationError
     | InvalidRequestError
@@ -125,6 +130,7 @@ interface IoTJobsDataPlaneService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateJobExecutionCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | CertificateValidationError
     | InvalidRequestError
@@ -142,7 +148,7 @@ interface IoTJobsDataPlaneService$ {
 export const makeIoTJobsDataPlaneService = Effect.gen(function*() {
   const client = yield* Instance.IoTJobsDataPlaneClientInstance;
 
-  return Service.fromClientAndCommands<IoTJobsDataPlaneService$>(
+  return yield* Service.fromClientAndCommands<IoTJobsDataPlaneService$>(
     client,
     commands,
     {

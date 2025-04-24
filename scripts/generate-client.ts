@@ -348,6 +348,7 @@ import {
 } from "@aws-sdk/client-${originalServiceName}";
 import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
+import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
 import * as Instance from "./${sdkName}ClientInstance.js";
 import * as ${sdkName}ServiceConfig from "./${sdkName}ServiceConfig.js";
@@ -397,7 +398,7 @@ ${
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ${operationName}CommandOutput,
-    ${pipe(["SdkError", ...errors], Array.join(" | "))}
+    ${pipe(["Cause.TimeoutException", "SdkError", ...errors], Array.join(" | "))}
   >`;
         }),
         Array.join("\n\n"),
@@ -412,7 +413,7 @@ ${
 export const make${sdkName}Service = Effect.gen(function* () {
   const client = yield* Instance.${sdkName}ClientInstance;
 
-  return Service.fromClientAndCommands<${sdkName}Service$>(
+  return yield* Service.fromClientAndCommands<${sdkName}Service$>(
     client,
     commands,
     {

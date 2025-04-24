@@ -220,6 +220,7 @@ import {
 } from "@aws-sdk/client-ses";
 import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
+import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
 import type {
   AccountSendingPausedError,
@@ -346,7 +347,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CloneReceiptRuleSetCommandOutput,
-    SdkError | AlreadyExistsError | LimitExceededError | RuleSetDoesNotExistError
+    Cause.TimeoutException | SdkError | AlreadyExistsError | LimitExceededError | RuleSetDoesNotExistError
   >;
 
   /**
@@ -357,7 +358,11 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateConfigurationSetCommandOutput,
-    SdkError | ConfigurationSetAlreadyExistsError | InvalidConfigurationSetError | LimitExceededError
+    | Cause.TimeoutException
+    | SdkError
+    | ConfigurationSetAlreadyExistsError
+    | InvalidConfigurationSetError
+    | LimitExceededError
   >;
 
   /**
@@ -368,6 +373,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateConfigurationSetEventDestinationCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | ConfigurationSetDoesNotExistError
     | EventDestinationAlreadyExistsError
@@ -385,7 +391,11 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateConfigurationSetTrackingOptionsCommandOutput,
-    SdkError | ConfigurationSetDoesNotExistError | InvalidTrackingOptionsError | TrackingOptionsAlreadyExistsError
+    | Cause.TimeoutException
+    | SdkError
+    | ConfigurationSetDoesNotExistError
+    | InvalidTrackingOptionsError
+    | TrackingOptionsAlreadyExistsError
   >;
 
   /**
@@ -396,6 +406,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateCustomVerificationEmailTemplateCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | CustomVerificationEmailInvalidContentError
     | CustomVerificationEmailTemplateAlreadyExistsError
@@ -411,7 +422,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateReceiptFilterCommandOutput,
-    SdkError | AlreadyExistsError | LimitExceededError
+    Cause.TimeoutException | SdkError | AlreadyExistsError | LimitExceededError
   >;
 
   /**
@@ -422,6 +433,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateReceiptRuleCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AlreadyExistsError
     | InvalidLambdaFunctionError
@@ -440,7 +452,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateReceiptRuleSetCommandOutput,
-    SdkError | AlreadyExistsError | LimitExceededError
+    Cause.TimeoutException | SdkError | AlreadyExistsError | LimitExceededError
   >;
 
   /**
@@ -451,7 +463,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateTemplateCommandOutput,
-    SdkError | AlreadyExistsError | InvalidTemplateError | LimitExceededError
+    Cause.TimeoutException | SdkError | AlreadyExistsError | InvalidTemplateError | LimitExceededError
   >;
 
   /**
@@ -462,7 +474,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteConfigurationSetCommandOutput,
-    SdkError | ConfigurationSetDoesNotExistError
+    Cause.TimeoutException | SdkError | ConfigurationSetDoesNotExistError
   >;
 
   /**
@@ -473,7 +485,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteConfigurationSetEventDestinationCommandOutput,
-    SdkError | ConfigurationSetDoesNotExistError | EventDestinationDoesNotExistError
+    Cause.TimeoutException | SdkError | ConfigurationSetDoesNotExistError | EventDestinationDoesNotExistError
   >;
 
   /**
@@ -484,7 +496,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteConfigurationSetTrackingOptionsCommandOutput,
-    SdkError | ConfigurationSetDoesNotExistError | TrackingOptionsDoesNotExistError
+    Cause.TimeoutException | SdkError | ConfigurationSetDoesNotExistError | TrackingOptionsDoesNotExistError
   >;
 
   /**
@@ -495,7 +507,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteCustomVerificationEmailTemplateCommandOutput,
-    SdkError
+    Cause.TimeoutException | SdkError
   >;
 
   /**
@@ -506,7 +518,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteIdentityCommandOutput,
-    SdkError
+    Cause.TimeoutException | SdkError
   >;
 
   /**
@@ -517,7 +529,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteIdentityPolicyCommandOutput,
-    SdkError
+    Cause.TimeoutException | SdkError
   >;
 
   /**
@@ -528,7 +540,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteReceiptFilterCommandOutput,
-    SdkError
+    Cause.TimeoutException | SdkError
   >;
 
   /**
@@ -539,7 +551,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteReceiptRuleCommandOutput,
-    SdkError | RuleSetDoesNotExistError
+    Cause.TimeoutException | SdkError | RuleSetDoesNotExistError
   >;
 
   /**
@@ -550,7 +562,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteReceiptRuleSetCommandOutput,
-    SdkError | CannotDeleteError
+    Cause.TimeoutException | SdkError | CannotDeleteError
   >;
 
   /**
@@ -561,7 +573,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteTemplateCommandOutput,
-    SdkError
+    Cause.TimeoutException | SdkError
   >;
 
   /**
@@ -572,7 +584,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteVerifiedEmailAddressCommandOutput,
-    SdkError
+    Cause.TimeoutException | SdkError
   >;
 
   /**
@@ -583,7 +595,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeActiveReceiptRuleSetCommandOutput,
-    SdkError
+    Cause.TimeoutException | SdkError
   >;
 
   /**
@@ -594,7 +606,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeConfigurationSetCommandOutput,
-    SdkError | ConfigurationSetDoesNotExistError
+    Cause.TimeoutException | SdkError | ConfigurationSetDoesNotExistError
   >;
 
   /**
@@ -605,7 +617,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeReceiptRuleCommandOutput,
-    SdkError | RuleDoesNotExistError | RuleSetDoesNotExistError
+    Cause.TimeoutException | SdkError | RuleDoesNotExistError | RuleSetDoesNotExistError
   >;
 
   /**
@@ -616,7 +628,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeReceiptRuleSetCommandOutput,
-    SdkError | RuleSetDoesNotExistError
+    Cause.TimeoutException | SdkError | RuleSetDoesNotExistError
   >;
 
   /**
@@ -627,7 +639,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAccountSendingEnabledCommandOutput,
-    SdkError
+    Cause.TimeoutException | SdkError
   >;
 
   /**
@@ -638,7 +650,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetCustomVerificationEmailTemplateCommandOutput,
-    SdkError | CustomVerificationEmailTemplateDoesNotExistError
+    Cause.TimeoutException | SdkError | CustomVerificationEmailTemplateDoesNotExistError
   >;
 
   /**
@@ -649,7 +661,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetIdentityDkimAttributesCommandOutput,
-    SdkError
+    Cause.TimeoutException | SdkError
   >;
 
   /**
@@ -660,7 +672,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetIdentityMailFromDomainAttributesCommandOutput,
-    SdkError
+    Cause.TimeoutException | SdkError
   >;
 
   /**
@@ -671,7 +683,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetIdentityNotificationAttributesCommandOutput,
-    SdkError
+    Cause.TimeoutException | SdkError
   >;
 
   /**
@@ -682,7 +694,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetIdentityPoliciesCommandOutput,
-    SdkError
+    Cause.TimeoutException | SdkError
   >;
 
   /**
@@ -693,7 +705,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetIdentityVerificationAttributesCommandOutput,
-    SdkError
+    Cause.TimeoutException | SdkError
   >;
 
   /**
@@ -704,7 +716,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetSendQuotaCommandOutput,
-    SdkError
+    Cause.TimeoutException | SdkError
   >;
 
   /**
@@ -715,7 +727,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetSendStatisticsCommandOutput,
-    SdkError
+    Cause.TimeoutException | SdkError
   >;
 
   /**
@@ -726,7 +738,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetTemplateCommandOutput,
-    SdkError | TemplateDoesNotExistError
+    Cause.TimeoutException | SdkError | TemplateDoesNotExistError
   >;
 
   /**
@@ -737,7 +749,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListConfigurationSetsCommandOutput,
-    SdkError
+    Cause.TimeoutException | SdkError
   >;
 
   /**
@@ -748,7 +760,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListCustomVerificationEmailTemplatesCommandOutput,
-    SdkError
+    Cause.TimeoutException | SdkError
   >;
 
   /**
@@ -759,7 +771,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListIdentitiesCommandOutput,
-    SdkError
+    Cause.TimeoutException | SdkError
   >;
 
   /**
@@ -770,7 +782,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListIdentityPoliciesCommandOutput,
-    SdkError
+    Cause.TimeoutException | SdkError
   >;
 
   /**
@@ -781,7 +793,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListReceiptFiltersCommandOutput,
-    SdkError
+    Cause.TimeoutException | SdkError
   >;
 
   /**
@@ -792,7 +804,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListReceiptRuleSetsCommandOutput,
-    SdkError
+    Cause.TimeoutException | SdkError
   >;
 
   /**
@@ -803,7 +815,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTemplatesCommandOutput,
-    SdkError
+    Cause.TimeoutException | SdkError
   >;
 
   /**
@@ -814,7 +826,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListVerifiedEmailAddressesCommandOutput,
-    SdkError
+    Cause.TimeoutException | SdkError
   >;
 
   /**
@@ -825,7 +837,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutConfigurationSetDeliveryOptionsCommandOutput,
-    SdkError | ConfigurationSetDoesNotExistError | InvalidDeliveryOptionsError
+    Cause.TimeoutException | SdkError | ConfigurationSetDoesNotExistError | InvalidDeliveryOptionsError
   >;
 
   /**
@@ -836,7 +848,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutIdentityPolicyCommandOutput,
-    SdkError | InvalidPolicyError
+    Cause.TimeoutException | SdkError | InvalidPolicyError
   >;
 
   /**
@@ -847,7 +859,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ReorderReceiptRuleSetCommandOutput,
-    SdkError | RuleDoesNotExistError | RuleSetDoesNotExistError
+    Cause.TimeoutException | SdkError | RuleDoesNotExistError | RuleSetDoesNotExistError
   >;
 
   /**
@@ -858,7 +870,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SendBounceCommandOutput,
-    SdkError | MessageRejectedError
+    Cause.TimeoutException | SdkError | MessageRejectedError
   >;
 
   /**
@@ -869,6 +881,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SendBulkTemplatedEmailCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccountSendingPausedError
     | ConfigurationSetDoesNotExistError
@@ -886,6 +899,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SendCustomVerificationEmailCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | ConfigurationSetDoesNotExistError
     | CustomVerificationEmailTemplateDoesNotExistError
@@ -902,6 +916,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SendEmailCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccountSendingPausedError
     | ConfigurationSetDoesNotExistError
@@ -918,6 +933,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SendRawEmailCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccountSendingPausedError
     | ConfigurationSetDoesNotExistError
@@ -934,6 +950,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SendTemplatedEmailCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | AccountSendingPausedError
     | ConfigurationSetDoesNotExistError
@@ -951,7 +968,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SetActiveReceiptRuleSetCommandOutput,
-    SdkError | RuleSetDoesNotExistError
+    Cause.TimeoutException | SdkError | RuleSetDoesNotExistError
   >;
 
   /**
@@ -962,7 +979,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SetIdentityDkimEnabledCommandOutput,
-    SdkError
+    Cause.TimeoutException | SdkError
   >;
 
   /**
@@ -973,7 +990,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SetIdentityFeedbackForwardingEnabledCommandOutput,
-    SdkError
+    Cause.TimeoutException | SdkError
   >;
 
   /**
@@ -984,7 +1001,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SetIdentityHeadersInNotificationsEnabledCommandOutput,
-    SdkError
+    Cause.TimeoutException | SdkError
   >;
 
   /**
@@ -995,7 +1012,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SetIdentityMailFromDomainCommandOutput,
-    SdkError
+    Cause.TimeoutException | SdkError
   >;
 
   /**
@@ -1006,7 +1023,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SetIdentityNotificationTopicCommandOutput,
-    SdkError
+    Cause.TimeoutException | SdkError
   >;
 
   /**
@@ -1017,7 +1034,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SetReceiptRulePositionCommandOutput,
-    SdkError | RuleDoesNotExistError | RuleSetDoesNotExistError
+    Cause.TimeoutException | SdkError | RuleDoesNotExistError | RuleSetDoesNotExistError
   >;
 
   /**
@@ -1028,7 +1045,11 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TestRenderTemplateCommandOutput,
-    SdkError | InvalidRenderingParameterError | MissingRenderingAttributeError | TemplateDoesNotExistError
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidRenderingParameterError
+    | MissingRenderingAttributeError
+    | TemplateDoesNotExistError
   >;
 
   /**
@@ -1039,7 +1060,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateAccountSendingEnabledCommandOutput,
-    SdkError
+    Cause.TimeoutException | SdkError
   >;
 
   /**
@@ -1050,6 +1071,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateConfigurationSetEventDestinationCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | ConfigurationSetDoesNotExistError
     | EventDestinationDoesNotExistError
@@ -1066,7 +1088,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateConfigurationSetReputationMetricsEnabledCommandOutput,
-    SdkError | ConfigurationSetDoesNotExistError
+    Cause.TimeoutException | SdkError | ConfigurationSetDoesNotExistError
   >;
 
   /**
@@ -1077,7 +1099,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateConfigurationSetSendingEnabledCommandOutput,
-    SdkError | ConfigurationSetDoesNotExistError
+    Cause.TimeoutException | SdkError | ConfigurationSetDoesNotExistError
   >;
 
   /**
@@ -1088,7 +1110,11 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateConfigurationSetTrackingOptionsCommandOutput,
-    SdkError | ConfigurationSetDoesNotExistError | InvalidTrackingOptionsError | TrackingOptionsDoesNotExistError
+    | Cause.TimeoutException
+    | SdkError
+    | ConfigurationSetDoesNotExistError
+    | InvalidTrackingOptionsError
+    | TrackingOptionsDoesNotExistError
   >;
 
   /**
@@ -1099,6 +1125,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateCustomVerificationEmailTemplateCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | CustomVerificationEmailInvalidContentError
     | CustomVerificationEmailTemplateDoesNotExistError
@@ -1113,6 +1140,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateReceiptRuleCommandOutput,
+    | Cause.TimeoutException
     | SdkError
     | InvalidLambdaFunctionError
     | InvalidS3ConfigurationError
@@ -1130,7 +1158,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateTemplateCommandOutput,
-    SdkError | InvalidTemplateError | TemplateDoesNotExistError
+    Cause.TimeoutException | SdkError | InvalidTemplateError | TemplateDoesNotExistError
   >;
 
   /**
@@ -1141,7 +1169,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     VerifyDomainDkimCommandOutput,
-    SdkError
+    Cause.TimeoutException | SdkError
   >;
 
   /**
@@ -1152,7 +1180,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     VerifyDomainIdentityCommandOutput,
-    SdkError
+    Cause.TimeoutException | SdkError
   >;
 
   /**
@@ -1163,7 +1191,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     VerifyEmailAddressCommandOutput,
-    SdkError
+    Cause.TimeoutException | SdkError
   >;
 
   /**
@@ -1174,7 +1202,7 @@ interface SESService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     VerifyEmailIdentityCommandOutput,
-    SdkError
+    Cause.TimeoutException | SdkError
   >;
 }
 
@@ -1185,7 +1213,7 @@ interface SESService$ {
 export const makeSESService = Effect.gen(function*() {
   const client = yield* Instance.SESClientInstance;
 
-  return Service.fromClientAndCommands<SESService$>(
+  return yield* Service.fromClientAndCommands<SESService$>(
     client,
     commands,
     {
