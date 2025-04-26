@@ -1141,8 +1141,8 @@ importers:
   packages/lambda:
     devDependencies:
       '@types/aws-lambda':
-        specifier: ^8.10.125
-        version: 8.10.125
+        specifier: ^8.10.149
+        version: 8.10.149
       '@types/node':
         specifier: ts5.4
         version: 22.14.1
@@ -1215,8 +1215,8 @@ importers:
         specifier: workspace:^
         version: link:../lambda/dist
       '@types/aws-lambda':
-        specifier: ^8.10.125
-        version: 8.10.125
+        specifier: ^8.10.149
+        version: 8.10.149
       '@types/node':
         specifier: ts5.4
         version: 22.14.1
@@ -2744,8 +2744,8 @@ packages:
   '@tsconfig/node16@1.0.4':
     resolution: {integrity: sha512-vxhUy4J8lyeyinH7Azl1pdd43GJhZH/tP2weN8TntQblOY+A0XbT8DJk1/oCPuOOyg/Ja757rG0CgHcWC8OfMA==}
 
-  '@types/aws-lambda@8.10.125':
-    resolution: {integrity: sha512-Vqw/WMlV4O1fJT6capim01v7VLDZkcX1n6Yhb52E7IfnMqYbNfwHfyDV8rRN42NLBtdDvfaqcCqs2K0fr5ljZw==}
+  '@types/aws-lambda@8.10.149':
+    resolution: {integrity: sha512-NXSZIhfJjnXqJgtS7IwutqIF/SOy1Wz5Px4gUY1RWITp3AYTyuJS4xaXr/bIJY1v15XMzrJ5soGnPM+7uigZjA==}
 
   '@types/cls-hooked@4.3.9':
     resolution: {integrity: sha512-CMtHMz6Q/dkfcHarq9nioXH8BDPP+v5xvd+N90lBQ2bdmu06UvnLDqxTKoOJzz4SzIwb/x9i4UXGAAcnUDuIvg==}
@@ -8817,7 +8817,7 @@ snapshots:
 
   '@tsconfig/node16@1.0.4': {}
 
-  '@types/aws-lambda@8.10.125': {}
+  '@types/aws-lambda@8.10.149': {}
 
   '@types/cls-hooked@4.3.9':
     dependencies:

@@ -101,15 +101,17 @@ export const makeLambda: {
   handlerOrOptions: EffectHandler<T, R, E1, A> | EffectHandlerWithLayer<T, R, E1, E2, A>,
   globalLayer?: Layer.Layer<R, E2>,
 ): Handler<T, A> => {
-  const handler = Function.isFunction(handlerOrOptions) ? handlerOrOptions : handlerOrOptions.handler;
+  if (Function.isFunction(handlerOrOptions)) {
+    // Deprecated case
+    if (globalLayer) {
+      const runtime = fromLayer(globalLayer);
+      return async (event: T, context: Context) => handlerOrOptions(event, context).pipe(runtime.runPromise);
+    }
 
-  const runPromise = globalLayer ?
-    fromLayer(globalLayer).runPromise :
-    (
-      !Function.isFunction(handlerOrOptions)
-        ? fromLayer(handlerOrOptions.layer).runPromise
-        : Effect.runPromise as <A, E>(effect: Effect.Effect<A, E, R>) => Promise<A>
-    );
+    return async (event: T, context: Context) =>
+      handlerOrOptions(event, context).pipe(Effect.runPromise as <A, E>(effect: Effect.Effect<A, E, R>) => Promise<A>);
+  }
 
-  return async (event: T, context: Context) => handler(event, context).pipe(runPromise);
+  const runtime = fromLayer(handlerOrOptions.layer);
+  return async (event: T, context: Context) => handlerOrOptions.handler(event, context).pipe(runtime.runPromise);
 };

@@ -23,22 +23,22 @@ import awsSelfManagedKafkaEventSource from "./aws/self-managed-kafka.js";
 import awsSnsEventSource from "./aws/sns.js";
 import awsSqsEventSource from "./aws/sqs.js";
 import awsStepFunctionsEventSource from "./aws/step-functions.js";
-import type { BatchLikeEvent, EventSource, StepFunctionsLikeEvent } from "./types.js";
+import type { BatchLikeEvent, StepFunctionsLikeEvent } from "./types.js";
 
-export type AnyEvent =
-  & ALBEvent
-  & APIGatewayProxyEvent
-  & APIGatewayProxyEventV2
-  & BatchLikeEvent
-  & EventBridgeEvent<string, unknown>
-  & DynamoDBStreamEvent
-  & KinesisStreamEvent
-  & S3Event
-  & SelfManagedKafkaEvent
-  & SNSEvent
-  & SQSEvent
-  & CloudFrontRequestEvent
-  & StepFunctionsLikeEvent;
+export type LambdaEvent =
+  | ALBEvent
+  | APIGatewayProxyEvent
+  | APIGatewayProxyEventV2
+  | BatchLikeEvent
+  | EventBridgeEvent<string, unknown>
+  | DynamoDBStreamEvent
+  | KinesisStreamEvent
+  | S3Event
+  | SelfManagedKafkaEvent
+  | SNSEvent
+  | SQSEvent
+  | CloudFrontRequestEvent
+  | StepFunctionsLikeEvent;
 
 const isBatchLikeEvent = (event: unknown): event is BatchLikeEvent => !!(event as BatchLikeEvent).Records;
 
@@ -95,38 +95,34 @@ const isKinesisEvent = (event: BatchLikeEvent): event is KinesisStreamEvent =>
 
 const isS3Event = (event: BatchLikeEvent): event is S3Event => (event as S3Event).Records[0].eventSource === "aws:s3";
 
-export function getEventSource<TEvent extends AnyEvent>(
-  event: TEvent,
-): EventSource<TEvent> {
-  if (isAlbEvent(event)) return awsAlbEventSource as EventSource<TEvent>;
+export function getEventSource(event: unknown) {
+  if (isAlbEvent(event)) return awsAlbEventSource;
   if (isSelfManagedKafkaEvent(event)) {
-    return awsSelfManagedKafkaEventSource as EventSource<SelfManagedKafkaEvent>;
+    return awsSelfManagedKafkaEventSource;
   }
   if (isBatchLikeEvent(event)) {
-    if (isSnsEvent(event)) return awsSnsEventSource as EventSource<SNSEvent>;
+    if (isSnsEvent(event)) return awsSnsEventSource;
     if (isDynamoDBEvent(event)) {
-      return awsDynamoDbEventSource as EventSource<DynamoDBStreamEvent>;
+      return awsDynamoDbEventSource;
     }
-    if (isSqsEvent(event)) return awsSqsEventSource as EventSource<SQSEvent>;
+    if (isSqsEvent(event)) return awsSqsEventSource;
     if (isKinesisEvent(event)) {
-      return awsKinesisEventSource as EventSource<KinesisStreamEvent>;
+      return awsKinesisEventSource;
     }
-    if (isS3Event(event)) return awsS3 as EventSource<S3Event>;
-    return awsLambdaEdgeEventSource as EventSource<CloudFrontRequestEvent>;
+    if (isS3Event(event)) return awsS3;
+    return awsLambdaEdgeEventSource;
   }
   if (isApiGatewayV2Event(event)) {
-    return awsApiGatewayV2EventSource as EventSource<APIGatewayProxyEventV2>;
+    return awsApiGatewayV2EventSource;
   }
   if (isApiGatewayV1Event(event)) {
-    return awsApiGatewayV1EventSource as EventSource<APIGatewayProxyEvent>;
+    return awsApiGatewayV1EventSource;
   }
   if (isEventBridgeEvent(event)) {
-    return awsEventBridgeEventSource as EventSource<
-      EventBridgeEvent<string, unknown>
-    >;
+    return awsEventBridgeEventSource;
   }
   if (isStepFunctionsEvent(event)) {
-    return awsStepFunctionsEventSource as EventSource<StepFunctionsLikeEvent>;
+    return awsStepFunctionsEventSource;
   }
   throw new Error("Couldn't detect valid event source.");
 }

@@ -1,7 +1,7 @@
 /**
  * @since 1.4.0
  */
-export * from "./ApiHandler.js";
+export * as LambdaHandler from "./LambdaHandler.js";
 
 /**
  * @since 1.0.0

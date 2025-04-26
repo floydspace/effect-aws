@@ -91,3 +91,27 @@ export function getCommaDelimitedHeaders({
 }
 
 export const emptyResponseMapper = () => {};
+
+// This approach is written in MDN.
+// btoa does not support utf-8 characters. So we need a little bit hack.
+export const encodeBase64 = (buf: ArrayBufferLike): string => {
+  let binary = "";
+  const bytes = new Uint8Array(buf);
+  for (let i = 0, len = bytes.length; i < len; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return btoa(binary);
+};
+
+export const isContentTypeBinary = (contentType: string) => {
+  return !/^(text\/(plain|html|css|javascript|csv).*|application\/(.*json|.*xml).*|image\/svg\+xml.*)$/.test(
+    contentType,
+  );
+};
+
+export const isContentEncodingBinary = (contentEncoding: string | null) => {
+  if (contentEncoding === null) {
+    return false;
+  }
+  return /^(gzip|deflate|compress|br)/.test(contentEncoding);
+};

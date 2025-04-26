@@ -6,14 +6,15 @@ import { HttpApiBuilder, HttpServerRequest } from "@effect/platform";
 import { Effect, Layer } from "effect";
 import type { EffectHandler, Handler } from "./Handler.js";
 import { makeLambda } from "./Handler.js";
-import type { AnyEvent } from "./internal/index.js";
+import type { LambdaEvent } from "./internal/index.js";
 import { getEventSource } from "./internal/index.js";
+import type { EventSource } from "./internal/types.js";
 
 /**
  * @since 1.4.0
  */
 export const apiHandler: EffectHandler<
-  AnyEvent,
+  LambdaEvent,
   HttpApi.Api | HttpApiBuilder.Router | HttpApiBuilder.Middleware | HttpRouter.HttpRouter.DefaultServices,
   never,
   unknown
@@ -21,11 +22,11 @@ export const apiHandler: EffectHandler<
   Effect.gen(function*() {
     const app = yield* HttpApiBuilder.httpApp;
 
-    const eventSource = getEventSource(event);
+    const eventSource = getEventSource(event) as EventSource<LambdaEvent>;
     const requestValues = eventSource.getRequest(event);
 
     const request = new Request(
-      `http://${requestValues.remoteAddress}${requestValues.path}`,
+      `https://${requestValues.remoteAddress}${requestValues.path}`,
       {
         method: requestValues.method,
         headers: requestValues.headers,
@@ -80,4 +81,8 @@ export const makeApiLambda = <LA, LE>(
     LA | HttpApi.Api | HttpApiBuilder.Middleware | HttpRouter.HttpRouter.DefaultServices,
     LE
   >,
-): Handler<AnyEvent, unknown> => makeLambda(apiHandler, Layer.mergeAll(layer, HttpApiBuilder.Router.Live));
+): Handler<LambdaEvent, unknown> =>
+  makeLambda({
+    handler: apiHandler,
+    layer: Layer.mergeAll(layer, HttpApiBuilder.Router.Live),
+  });

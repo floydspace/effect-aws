@@ -108,6 +108,7 @@ const lambda = new TypeScriptLibProject({
   description: "Effectful AWS Lambda handler",
   devDeps: [...effectDeps, "@types/aws-lambda"],
   peerDeps: commonPeerDeps,
+  addExamples: true,
 });
 
 new TypeScriptLibProject({
