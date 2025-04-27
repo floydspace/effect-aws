@@ -39,10 +39,11 @@ export function getRequestValuesFromEvent<
   }
 
   const remoteAddress = (event &&
-    event.requestContext &&
-    (event as APIGatewayProxyEvent).requestContext.identity &&
-    (event as APIGatewayProxyEvent).requestContext.identity.sourceIp) ||
-    "";
+    event.requestContext && "identity" in event.requestContext &&
+    event.requestContext.identity?.sourceIp) ||
+    (event && event.requestContext && "domainName" in event.requestContext
+      && event.requestContext.domainName)
+    || (event.headers?.["host"] ?? event.multiValueHeaders?.["host"]?.[0]);
 
   return {
     method: event.httpMethod,

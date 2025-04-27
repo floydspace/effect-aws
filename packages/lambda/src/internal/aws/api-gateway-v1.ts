@@ -39,6 +39,7 @@ const getResponseToApiGateway: EventSource<APIGatewayProxyEvent, APIGatewayProxy
   return {
     statusCode,
     body,
+    headers,
     multiValueHeaders,
     isBase64Encoded,
   };
