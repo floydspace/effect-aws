@@ -1,6 +1,6 @@
 import url from "node:url";
 
-import type { APIGatewayProxyEvent } from "aws-lambda";
+import type { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 import type { EventSource } from "../types.js";
 import { getMultiValueHeaders, getRequestValuesFromEvent } from "../utils.js";
 
@@ -23,7 +23,7 @@ const getRequestValuesFromApiGatewayEvent = (event: APIGatewayProxyEvent) =>
     path: getPathWithQueryStringParams(event),
   });
 
-const getResponseToApiGateway: EventSource<APIGatewayProxyEvent>["getResponse"] = (
+const getResponseToApiGateway: EventSource<APIGatewayProxyEvent, APIGatewayProxyResult>["getResponse"] = (
   { body, headers, isBase64Encoded, statusCode },
 ) => {
   const multiValueHeaders = getMultiValueHeaders(headers);
@@ -47,4 +47,4 @@ const getResponseToApiGateway: EventSource<APIGatewayProxyEvent>["getResponse"] 
 export default {
   getRequest: getRequestValuesFromApiGatewayEvent,
   getResponse: getResponseToApiGateway,
-} as EventSource<APIGatewayProxyEvent>;
+} as EventSource<APIGatewayProxyEvent, APIGatewayProxyResult>;

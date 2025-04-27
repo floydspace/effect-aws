@@ -1,3 +1,41 @@
+import type {
+  ALBEvent,
+  ALBResult,
+  APIGatewayProxyEvent,
+  APIGatewayProxyEventV2,
+  APIGatewayProxyResult,
+  APIGatewayProxyResultV2,
+  CloudFrontRequestEvent,
+  DynamoDBStreamEvent,
+  EventBridgeEvent,
+  KinesisStreamEvent,
+  S3Event,
+  SelfManagedKafkaEvent,
+  SNSEvent,
+  SQSEvent,
+} from "aws-lambda";
+
+export type LambdaEvent =
+  | ALBEvent
+  | APIGatewayProxyEvent
+  | APIGatewayProxyEventV2
+  | BatchLikeEvent
+  | EventBridgeEvent<string, unknown>
+  | DynamoDBStreamEvent
+  | KinesisStreamEvent
+  | S3Event
+  | SelfManagedKafkaEvent
+  | SNSEvent
+  | SQSEvent
+  | CloudFrontRequestEvent
+  | StepFunctionsLikeEvent;
+
+export type LambdaResult =
+  | ALBResult
+  | APIGatewayProxyResult
+  | APIGatewayProxyResultV2
+  | void;
+
 export type BatchLikeEvent<R = unknown> = { Records: Array<R> };
 export type StepFunctionsLikeEvent = {
   context: { Execution: unknown; State: unknown; StateMachine: unknown };
@@ -11,23 +49,16 @@ export type RequestValues = {
   path?: string;
 };
 
-export type ResponseValues = {
-  statusCode?: number;
+export type ResponseValues<TEvent> = {
+  event: TEvent;
+  statusCode: number;
   body: string;
-  headers?: Record<string, any>;
-  multiValueHeaders?: Record<string, Array<string>>;
-  cookies?: Array<string>;
-  isBase64Encoded?: boolean;
+  headers: Record<string, string>;
+  isBase64Encoded: boolean;
+  response?: any;
 };
 
-export type EventSource<TEvent> = {
+export type EventSource<TEvent extends LambdaEvent, TResult extends LambdaResult = void> = {
   getRequest: (event: TEvent) => RequestValues;
-  getResponse: (response: {
-    event: TEvent;
-    statusCode: number;
-    body: string;
-    headers: Record<string, string>;
-    isBase64Encoded: boolean;
-    response?: any;
-  }) => ResponseValues | void;
+  getResponse: (response: ResponseValues<TEvent>) => TResult;
 };

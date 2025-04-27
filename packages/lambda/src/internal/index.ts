@@ -2,7 +2,6 @@ import type {
   ALBEvent,
   APIGatewayProxyEvent,
   APIGatewayProxyEventV2,
-  CloudFrontRequestEvent,
   DynamoDBStreamEvent,
   EventBridgeEvent,
   KinesisStreamEvent,
@@ -24,21 +23,6 @@ import awsSnsEventSource from "./aws/sns.js";
 import awsSqsEventSource from "./aws/sqs.js";
 import awsStepFunctionsEventSource from "./aws/step-functions.js";
 import type { BatchLikeEvent, StepFunctionsLikeEvent } from "./types.js";
-
-export type LambdaEvent =
-  | ALBEvent
-  | APIGatewayProxyEvent
-  | APIGatewayProxyEventV2
-  | BatchLikeEvent
-  | EventBridgeEvent<string, unknown>
-  | DynamoDBStreamEvent
-  | KinesisStreamEvent
-  | S3Event
-  | SelfManagedKafkaEvent
-  | SNSEvent
-  | SQSEvent
-  | CloudFrontRequestEvent
-  | StepFunctionsLikeEvent;
 
 const isBatchLikeEvent = (event: unknown): event is BatchLikeEvent => !!(event as BatchLikeEvent).Records;
 

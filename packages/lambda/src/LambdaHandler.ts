@@ -3,20 +3,94 @@
  */
 import type { HttpApi, HttpRouter } from "@effect/platform";
 import { HttpApiBuilder, HttpApp } from "@effect/platform";
+import type { Context as LambdaContext } from "aws-lambda";
 import type { Context } from "effect";
-import { Effect, Layer } from "effect";
-import type { Handler } from "./Handler.js";
-import type { LambdaEvent } from "./internal/index.js";
+import { Effect, Function, Layer } from "effect";
 import { getEventSource } from "./internal/index.js";
-import type { EventSource, ResponseValues } from "./internal/types.js";
+import type { EventSource, LambdaEvent, LambdaResult } from "./internal/types.js";
 import { encodeBase64, isContentEncodingBinary, isContentTypeBinary } from "./internal/utils.js";
-import * as Runtime from "./Runtime.js";
+import * as LambdaRuntime from "./LambdaRuntime.js";
+import { fromLayer } from "./LambdaRuntime.js";
+import type { EffectHandler, EffectHandlerWithLayer, Handler } from "./Types.js";
+
+/**
+ * Makes a lambda handler from the given EffectHandler and optional global layer.
+ * The global layer is used to provide a runtime which will gracefully handle lambda termination during down-scaling.
+ *
+ * @example
+ * import { LambdaHandler } from "@effect-aws/lambda"
+ * import { Context } from "aws-lambda";
+ * import { Effect } from "effect";
+ *
+ * const effectHandler = (event: unknown, context: LambdaContext) => {
+ *  return Effect.logInfo("Hello, world!");
+ * };
+ *
+ * export const handler = LambdaHandler.make(effectHandler);
+ *
+ * @example
+ * import { LambdaHandler } from "@effect-aws/lambda"
+ * import { Context } from "aws-lambda";
+ * import { Effect, Logger } from "effect";
+ *
+ * const effectHandler = (event: unknown, context: LambdaContext) => {
+ *  return Effect.logInfo("Hello, world!");
+ * };
+ *
+ * const LambdaLayer = Logger.replace(Logger.defaultLogger, Logger.logfmtLogger);
+ *
+ * export const handler = LambdaHandler.make({
+ *  handler: effectHandler,
+ *  layer: LambdaLayer,
+ * });
+ *
+ * @since 1.0.0
+ * @category constructors
+ */
+export const make: {
+  <T, R, E1, E2, A>(
+    options: EffectHandlerWithLayer<T, R, E1, E2, A>,
+  ): Handler<T, A>;
+  <T, E, A>(
+    handler: EffectHandler<T, never, E, A>,
+  ): Handler<T, A>;
+  /**
+   * @deprecated Prefer using the `EffectHandlerWithLayer` type to provide a global layer.
+   * @example
+   * ```ts
+   * export const handler = makeLambda({
+   *  handler: effectHandler,
+   *  layer: LambdaLayer,
+   * });
+   * ```
+   */
+  <T, R, E1, E2, A>(
+    handler: EffectHandler<T, R, E1, A>,
+    globalLayer: Layer.Layer<R, E2>,
+  ): Handler<T, A>;
+} = <T, R, E1, E2, A>(
+  handlerOrOptions: EffectHandler<T, R, E1, A> | EffectHandlerWithLayer<T, R, E1, E2, A>,
+  globalLayer?: Layer.Layer<R, E2>,
+): Handler<T, A> => {
+  if (Function.isFunction(handlerOrOptions)) {
+    // Deprecated case
+    if (globalLayer) {
+      const runtime = fromLayer(globalLayer);
+      return async (event: T, context: LambdaContext) => handlerOrOptions(event, context).pipe(runtime.runPromise);
+    }
+
+    return async (event: T, context: LambdaContext) =>
+      handlerOrOptions(event, context).pipe(Effect.runPromise as <A, E>(effect: Effect.Effect<A, E, R>) => Promise<A>);
+  }
+
+  const runtime = fromLayer(handlerOrOptions.layer);
+  return async (event: T, context: LambdaContext) => handlerOrOptions.handler(event, context).pipe(runtime.runPromise);
+};
 
 /**
  * Construct a lambda handler from an `HttpApi` instance.
  *
- * **Example**
- *
+ * @example
  * ```ts
  * import { LambdaHandler } from "@effect-aws/lambda"
  * import { HttpApi, HttpApiBuilder, HttpServer } from "@effect/platform"
@@ -50,8 +124,8 @@ export const fromHttpApi = <LA, LE>(
     >;
     readonly memoMap?: Layer.MemoMap;
   },
-): Handler<LambdaEvent, void | ResponseValues> => {
-  const runtime = Runtime.fromLayer(
+): Handler<LambdaEvent, LambdaResult> => {
+  const runtime = LambdaRuntime.fromLayer(
     Layer.mergeAll(layer, HttpApiBuilder.Router.Live, HttpApiBuilder.Middleware.layer),
     options,
   );
@@ -70,7 +144,7 @@ export const fromHttpApi = <LA, LE>(
   }).pipe(runtime.runPromise);
 
   async function handler(event: LambdaEvent) {
-    const eventSource = getEventSource(event) as EventSource<LambdaEvent>;
+    const eventSource = getEventSource(event) as EventSource<LambdaEvent, LambdaResult>;
     const requestValues = eventSource.getRequest(event);
 
     const request = new Request(

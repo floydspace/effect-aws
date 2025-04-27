@@ -1,7 +1,7 @@
 import url from "node:url";
 
-import type { APIGatewayProxyEventV2 } from "aws-lambda";
-import type { EventSource, ResponseValues } from "../types.js";
+import type { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from "aws-lambda";
+import type { EventSource } from "../types.js";
 import { getCommaDelimitedHeaders, getEventBody } from "../utils.js";
 
 function getRequestValuesFromApiGatewayEvent(
@@ -49,7 +49,7 @@ function getRequestValuesFromApiGatewayEvent(
   };
 }
 
-const getResponseToApiGateway: EventSource<APIGatewayProxyEventV2>["getResponse"] = ({
+const getResponseToApiGateway: EventSource<APIGatewayProxyEventV2, APIGatewayProxyResultV2>["getResponse"] = ({
   body,
   headers = {},
   isBase64Encoded = false,
@@ -63,7 +63,7 @@ const getResponseToApiGateway: EventSource<APIGatewayProxyEventV2>["getResponse"
     throw new Error("chunked encoding is not supported by API Gateway");
   }
 
-  const responseToApiGateway: ResponseValues = {
+  const responseToApiGateway: APIGatewayProxyResultV2 = {
     statusCode,
     body,
     isBase64Encoded,
@@ -87,4 +87,4 @@ const getResponseToApiGateway: EventSource<APIGatewayProxyEventV2>["getResponse"
 export default {
   getRequest: getRequestValuesFromApiGatewayEvent,
   getResponse: getResponseToApiGateway,
-} as EventSource<APIGatewayProxyEventV2>;
+} as EventSource<APIGatewayProxyEventV2, APIGatewayProxyResultV2>;

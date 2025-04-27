@@ -1,10 +1,10 @@
 import type { EffectHandler } from "@effect-aws/lambda";
-import { makeLambda } from "@effect-aws/lambda";
+import { LambdaHandler } from "@effect-aws/lambda";
 import type { Context as LambdaContext, SNSEvent } from "aws-lambda";
 import { Context, Effect, Layer } from "effect";
 import { describe, expect, it, vi } from "vitest";
 
-describe("makeLambda", () => {
+describe("LambdaHandler.make", () => {
   it("should call the handler function without dependencies", async () => {
     const event: SNSEvent = { Records: [] };
     const context = {} as LambdaContext;
@@ -13,7 +13,7 @@ describe("makeLambda", () => {
       return Effect.succeed("Hello, World!");
     };
 
-    const handler = makeLambda(myEffectHandler);
+    const handler = LambdaHandler.make(myEffectHandler);
 
     const result = await handler(event, context);
 
@@ -39,7 +39,7 @@ describe("makeLambda", () => {
         return yield* service.bar();
       });
 
-    const handler = makeLambda(myEffectHandler, FooServiceLive);
+    const handler = LambdaHandler.make(myEffectHandler, FooServiceLive);
 
     const result = await handler(event, context);
 
@@ -79,7 +79,7 @@ describe("makeLambda", () => {
         return yield* service.bar();
       });
 
-    const handler = makeLambda({
+    const handler = LambdaHandler.make({
       handler: myEffectHandler,
       layer: FooServiceLive,
     });

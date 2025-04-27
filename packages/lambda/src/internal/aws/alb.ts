@@ -1,6 +1,6 @@
 import url from "node:url";
 
-import type { ALBEvent } from "aws-lambda";
+import type { ALBEvent, ALBResult } from "aws-lambda";
 import type { EventSource } from "../types.js";
 import { getMultiValueHeaders, getRequestValuesFromEvent } from "../utils.js";
 
@@ -55,7 +55,7 @@ const getRequestValuesFromAlbEvent = (event: ALBEvent) => {
   return values;
 };
 
-const getResponseToAlb: EventSource<ALBEvent>["getResponse"] = ({
+const getResponseToAlb: EventSource<ALBEvent, ALBResult>["getResponse"] = ({
   body,
   event,
   headers: responseHeaders,
@@ -87,4 +87,4 @@ const getResponseToAlb: EventSource<ALBEvent>["getResponse"] = ({
 export default {
   getRequest: getRequestValuesFromAlbEvent,
   getResponse: getResponseToAlb,
-} as EventSource<ALBEvent>;
+} as EventSource<ALBEvent, ALBResult>;
