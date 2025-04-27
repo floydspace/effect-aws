@@ -1,3 +1,6 @@
+/**
+ * @since 1.4.0
+ */
 import * as LambdaHandler from "./LambdaHandler.js";
 import * as LambdaRuntime from "./LambdaRuntime.js";
 
