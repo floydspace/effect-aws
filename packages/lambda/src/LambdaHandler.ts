@@ -22,7 +22,7 @@ import type { EffectHandler, EffectHandlerWithLayer, Handler } from "./Types.js"
  * import { Context } from "aws-lambda";
  * import { Effect } from "effect";
  *
- * const effectHandler = (event: unknown, context: LambdaContext) => {
+ * const effectHandler = (event: unknown, context: Context) => {
  *  return Effect.logInfo("Hello, world!");
  * };
  *
@@ -33,7 +33,7 @@ import type { EffectHandler, EffectHandlerWithLayer, Handler } from "./Types.js"
  * import { Context } from "aws-lambda";
  * import { Effect, Logger } from "effect";
  *
- * const effectHandler = (event: unknown, context: LambdaContext) => {
+ * const effectHandler = (event: unknown, context: Context) => {
  *  return Effect.logInfo("Hello, world!");
  * };
  *
@@ -175,9 +175,9 @@ export const fromHttpApi = <LA, LE>(
     if (res.headers.has("set-cookie")) {
       const cookies = res.headers.getSetCookie
         ? res.headers.getSetCookie()
-        : Array.from(res.headers.entries())
-          .filter(([k]) => k === "set-cookie")
-          .map(([, v]) => v);
+        : Array.from((res.headers as any).entries())
+          .filter(([k]: any) => k === "set-cookie")
+          .map(([, v]: any) => v);
 
       if (Array.isArray(cookies)) {
         headers["set-cookie"] = cookies.join(", ");

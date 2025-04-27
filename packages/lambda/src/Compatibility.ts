@@ -13,7 +13,7 @@ import * as LambdaRuntime from "./LambdaRuntime.js";
  * import { Context } from "aws-lambda";
  * import { Effect } from "effect";
  *
- * const effectHandler = (event: unknown, context: LambdaContext) => {
+ * const effectHandler = (event: unknown, context: Context) => {
  *  return Effect.logInfo("Hello, world!");
  * };
  *
@@ -24,7 +24,7 @@ import * as LambdaRuntime from "./LambdaRuntime.js";
  * import { Context } from "aws-lambda";
  * import { Effect, Logger } from "effect";
  *
- * const effectHandler = (event: unknown, context: LambdaContext) => {
+ * const effectHandler = (event: unknown, context: Context) => {
  *  return Effect.logInfo("Hello, world!");
  * };
  *
