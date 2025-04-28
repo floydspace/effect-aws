@@ -277,5 +277,42 @@ describe("LambdaHandler", () => {
         } satisfies ALBResult,
       );
     });
+
+    it("should handle as 404", async () => {
+      const context = {
+        functionVersion: "$LATEST",
+        functionName: "demo-effect-app-dev-api",
+        invokedFunctionArn: "arn:aws:lambda:eu-fake-1:000000000000:function:demo-effect-app-dev-api",
+        awsRequestId: "8ad41330-f092-4037-bc7c-63ffb7d6d4e7",
+      } as LambdaContext;
+
+      const hello = HttpApiEndpoint.get("hello")`/no-route`.addSuccess(HttpApiSchema.Text());
+
+      const quotesGroup = HttpApiGroup.make("hello").add(hello);
+
+      const MyApi = HttpApi.make("MyApi").add(quotesGroup);
+
+      const HelloLive = HttpApiBuilder.group(
+        MyApi,
+        "hello",
+        (handlers) => handlers.handle("hello", () => Effect.succeed("Hello, World!")),
+      );
+
+      const MyApiLive = HttpApiBuilder.api(MyApi).pipe(Layer.provide(HelloLive));
+
+      const handler = LambdaHandler.fromHttpApi(Layer.mergeAll(MyApiLive, HttpServer.layerContext));
+
+      const result = await handler(albEvent, context);
+
+      expect(result).toStrictEqual(
+        {
+          body: "",
+          statusCode: 404,
+          headers: undefined,
+          multiValueHeaders: {},
+          isBase64Encoded: false,
+        } satisfies ALBResult,
+      );
+    });
   });
 });
