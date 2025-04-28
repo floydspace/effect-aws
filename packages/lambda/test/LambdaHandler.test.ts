@@ -1,7 +1,22 @@
 import type { EffectHandler } from "@effect-aws/lambda";
 import { LambdaHandler } from "@effect-aws/lambda";
-import { HttpApi, HttpApiBuilder, HttpApiEndpoint, HttpApiGroup, HttpApiSchema, HttpServer } from "@effect/platform";
-import type { Context as LambdaContext, SNSEvent } from "aws-lambda";
+import {
+  HttpApi,
+  HttpApiBuilder,
+  HttpApiEndpoint,
+  HttpApiGroup,
+  HttpApiSchema,
+  HttpApp,
+  HttpServer,
+  HttpServerResponse,
+} from "@effect/platform";
+import type {
+  ALBResult,
+  APIGatewayProxyResult,
+  APIGatewayProxyResultV2,
+  Context as LambdaContext,
+  SNSEvent,
+} from "aws-lambda";
 import { Context, Effect, Layer } from "effect";
 import { describe, expect, it, vi } from "vitest";
 import { albEvent } from "./fixtures/alb-event.js";
@@ -119,7 +134,18 @@ describe("LambdaHandler", () => {
       const HelloLive = HttpApiBuilder.group(
         MyApi,
         "hello",
-        (handlers) => handlers.handle("hello", () => Effect.succeed("Hello, World!")),
+        (handlers) =>
+          handlers.handle(
+            "hello",
+            () =>
+              HttpApp.appendPreResponseHandler((_req, response) =>
+                Effect.orDie(
+                  HttpServerResponse.setCookie(response, "cookie key", "cookie value"),
+                )
+              ).pipe(
+                Effect.flatMap(() => Effect.succeed("Hello, World!")),
+              ),
+          ),
       );
 
       const MyApiLive = HttpApiBuilder.api(MyApi).pipe(Layer.provide(HelloLive));
@@ -128,19 +154,23 @@ describe("LambdaHandler", () => {
 
       const result = await handler(apiGatewayV1Event, context);
 
-      expect(result).toStrictEqual({
-        body: "Hello, World!",
-        statusCode: 200,
-        headers: {
-          "content-length": "13",
-          "content-type": "text/plain",
-        },
-        multiValueHeaders: {
-          "content-length": ["13"],
-          "content-type": ["text/plain"],
-        },
-        isBase64Encoded: false,
-      });
+      expect(result).toStrictEqual(
+        {
+          body: "Hello, World!",
+          statusCode: 200,
+          headers: {
+            "content-length": "13",
+            "content-type": "text/plain",
+            "set-cookie": "cookie key=cookie%20value",
+          },
+          multiValueHeaders: {
+            "content-length": ["13"],
+            "content-type": ["text/plain"],
+            "set-cookie": ["cookie key=cookie%20value"],
+          },
+          isBase64Encoded: false,
+        } satisfies APIGatewayProxyResult,
+      );
     });
 
     it("should handle APIGatewayProxyEventV2", async () => {
@@ -160,7 +190,18 @@ describe("LambdaHandler", () => {
       const HelloLive = HttpApiBuilder.group(
         MyApi,
         "hello",
-        (handlers) => handlers.handle("hello", () => Effect.succeed("Hello, World!")),
+        (handlers) =>
+          handlers.handle(
+            "hello",
+            () =>
+              HttpApp.appendPreResponseHandler((_req, response) =>
+                Effect.orDie(
+                  HttpServerResponse.setCookie(response, "cookie key", "cookie value"),
+                )
+              ).pipe(
+                Effect.flatMap(() => Effect.succeed("Hello, World!")),
+              ),
+          ),
       );
 
       const MyApiLive = HttpApiBuilder.api(MyApi).pipe(Layer.provide(HelloLive));
@@ -169,15 +210,20 @@ describe("LambdaHandler", () => {
 
       const result = await handler(apiGatewayV2Event, context);
 
-      expect(result).toStrictEqual({
-        body: "Hello, World!",
-        statusCode: 200,
-        headers: {
-          "content-length": "13",
-          "content-type": "text/plain",
-        },
-        isBase64Encoded: false,
-      });
+      expect(result).toStrictEqual(
+        {
+          body: "Hello, World!",
+          statusCode: 200,
+          headers: {
+            "content-length": "13",
+            "content-type": "text/plain",
+          },
+          cookies: [
+            "cookie key=cookie%20value",
+          ],
+          isBase64Encoded: false,
+        } satisfies APIGatewayProxyResultV2,
+      );
     });
 
     it("should handle ALBEvent", async () => {
@@ -197,7 +243,18 @@ describe("LambdaHandler", () => {
       const HelloLive = HttpApiBuilder.group(
         MyApi,
         "hello",
-        (handlers) => handlers.handle("hello", () => Effect.succeed("Hello, World!")),
+        (handlers) =>
+          handlers.handle(
+            "hello",
+            () =>
+              HttpApp.appendPreResponseHandler((_req, response) =>
+                Effect.orDie(
+                  HttpServerResponse.setCookie(response, "cookie key", "cookie value"),
+                )
+              ).pipe(
+                Effect.flatMap(() => Effect.succeed("Hello, World!")),
+              ),
+          ),
       );
 
       const MyApiLive = HttpApiBuilder.api(MyApi).pipe(Layer.provide(HelloLive));
@@ -206,16 +263,19 @@ describe("LambdaHandler", () => {
 
       const result = await handler(albEvent, context);
 
-      expect(result).toStrictEqual({
-        body: "Hello, World!",
-        statusCode: 200,
-        headers: undefined,
-        multiValueHeaders: {
-          "content-length": ["13"],
-          "content-type": ["text/plain"],
-        },
-        isBase64Encoded: false,
-      });
+      expect(result).toStrictEqual(
+        {
+          body: "Hello, World!",
+          statusCode: 200,
+          headers: undefined,
+          multiValueHeaders: {
+            "content-length": ["13"],
+            "content-type": ["text/plain"],
+            "set-cookie": ["cookie key=cookie%20value"],
+          },
+          isBase64Encoded: false,
+        } satisfies ALBResult,
+      );
     });
   });
 });
