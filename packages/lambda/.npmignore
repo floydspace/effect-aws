@@ -14,6 +14,7 @@ dist
 tsconfig.tsbuildinfo
 /tsconfig.src.json
 /tsconfig.dev.json
+/tsconfig.examples.json
 /tsconfig.esm.json
 /tsconfig.cjs.json
 /.gitattributes

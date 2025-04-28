@@ -36,8 +36,8 @@ importers:
         specifier: ^0.7.9
         version: 0.7.9
       '@effect/docgen':
-        specifier: ^0.4.3
-        version: 0.4.3(tsx@4.19.3)(typescript@5.4.5)
+        specifier: ^0.5.2
+        version: 0.5.2(tsx@4.19.3)(typescript@5.4.5)
       '@effect/eslint-plugin':
         specifier: ^0.2.0
         version: 0.2.0
@@ -1141,8 +1141,8 @@ importers:
   packages/lambda:
     devDependencies:
       '@types/aws-lambda':
-        specifier: ^8.10.125
-        version: 8.10.125
+        specifier: ^8.10.149
+        version: 8.10.149
       '@types/node':
         specifier: ts5.4
         version: 22.14.1
@@ -1215,8 +1215,8 @@ importers:
         specifier: workspace:^
         version: link:../lambda/dist
       '@types/aws-lambda':
-        specifier: ^8.10.125
-        version: 8.10.125
+        specifier: ^8.10.149
+        version: 8.10.149
       '@types/node':
         specifier: ts5.4
         version: 22.14.1
@@ -1872,8 +1872,8 @@ packages:
       '@effect/sql': ^0.33.11
       effect: ^3.14.11
 
-  '@effect/docgen@0.4.3':
-    resolution: {integrity: sha512-qR7uSUPpY53ljWLiftQ2N5TaGpYJn1j3yXtJcWs2ndo1K3TqM9ZajtpB4WbiCfIpAXsCKfqpoUBn/qb8RpiGWg==}
+  '@effect/docgen@0.5.2':
+    resolution: {integrity: sha512-gqBxAhp58R18vT5+ORobWRQ/2MaF5vH0k1zggSct54J41k8TKF5mYIW1qG5tkOVCejet+8K5MKsWK3gzIkaoMw==}
     engines: {node: '>=18.0.0'}
     hasBin: true
     peerDependencies:
@@ -2744,8 +2744,8 @@ packages:
   '@tsconfig/node16@1.0.4':
     resolution: {integrity: sha512-vxhUy4J8lyeyinH7Azl1pdd43GJhZH/tP2weN8TntQblOY+A0XbT8DJk1/oCPuOOyg/Ja757rG0CgHcWC8OfMA==}
 
-  '@types/aws-lambda@8.10.125':
-    resolution: {integrity: sha512-Vqw/WMlV4O1fJT6capim01v7VLDZkcX1n6Yhb52E7IfnMqYbNfwHfyDV8rRN42NLBtdDvfaqcCqs2K0fr5ljZw==}
+  '@types/aws-lambda@8.10.149':
+    resolution: {integrity: sha512-NXSZIhfJjnXqJgtS7IwutqIF/SOy1Wz5Px4gUY1RWITp3AYTyuJS4xaXr/bIJY1v15XMzrJ5soGnPM+7uigZjA==}
 
   '@types/cls-hooked@4.3.9':
     resolution: {integrity: sha512-CMtHMz6Q/dkfcHarq9nioXH8BDPP+v5xvd+N90lBQ2bdmu06UvnLDqxTKoOJzz4SzIwb/x9i4UXGAAcnUDuIvg==}
@@ -4299,8 +4299,8 @@ packages:
     engines: {node: '>=10.13.0'}
     hasBin: true
 
-  prettier@3.2.5:
-    resolution: {integrity: sha512-3/GWa9aOC0YeD7LUfvOG2NiDyhOWRvt1k+rcKhOuYnMY24iiCphgneUfJDyFXd6rZCAnuLBv6UeAULtrhT/F4A==}
+  prettier@3.5.3:
+    resolution: {integrity: sha512-QQtaxnoDJeAkDvDKWCLiwIXkTgRhwYDEQCghU9Z6q03iyek/rxRh/2lC3HB7P8sWT2xC/y5JDctPLBIGzHKbhw==}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -7959,12 +7959,12 @@ snapshots:
       '@effect/sql': 0.33.11(@effect/experimental@0.44.11(@effect/platform@0.80.11(effect@3.14.11))(effect@3.14.11))(@effect/platform@0.80.11(effect@3.14.11))(effect@3.14.11)
       effect: 3.14.11
 
-  '@effect/docgen@0.4.3(tsx@4.19.3)(typescript@5.4.5)':
+  '@effect/docgen@0.5.2(tsx@4.19.3)(typescript@5.4.5)':
     dependencies:
       '@effect/markdown-toc': 0.1.0
       doctrine: 3.0.0
       glob: 10.4.5
-      prettier: 3.2.5
+      prettier: 3.5.3
       tsx: 4.19.3
       typescript: 5.4.5
 
@@ -8817,7 +8817,7 @@ snapshots:
 
   '@tsconfig/node16@1.0.4': {}
 
-  '@types/aws-lambda@8.10.125': {}
+  '@types/aws-lambda@8.10.149': {}
 
   '@types/cls-hooked@4.3.9':
     dependencies:
@@ -10556,7 +10556,7 @@ snapshots:
 
   prettier@2.8.8: {}
 
-  prettier@3.2.5: {}
+  prettier@3.5.3: {}
 
   pretty-format@29.7.0:
     dependencies:

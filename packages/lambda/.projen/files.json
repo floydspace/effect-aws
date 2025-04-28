@@ -11,6 +11,7 @@
     "tsconfig.cjs.json",
     "tsconfig.dev.json",
     "tsconfig.esm.json",
+    "tsconfig.examples.json",
     "tsconfig.json",
     "tsconfig.src.json",
     "vitest.config.ts"

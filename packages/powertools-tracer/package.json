@@ -28,7 +28,7 @@
     "@aws-lambda-powertools/commons": "2.0.0",
     "@aws-lambda-powertools/tracer": "2.0.0",
     "@effect-aws/lambda": "workspace:^",
-    "@types/aws-lambda": "^8.10.125",
+    "@types/aws-lambda": "^8.10.149",
     "@types/node": "ts5.4",
     "effect": "3.14.11",
     "typescript": "^5.4.2"

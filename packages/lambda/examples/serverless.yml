@@ -1,0 +1,23 @@
+service: example-app
+frameworkVersion: "3"
+
+plugins: [serverless-esbuild]
+
+provider:
+  name: aws
+  runtime: nodejs22.x
+  region: eu-west-1
+
+custom:
+  esbuild:
+    packager: pnpm
+
+functions:
+  api:
+    handler: fromHttpApi.handler
+    layers:
+      - arn:aws:lambda:eu-west-1:580247275435:layer:LambdaInsightsExtension:53 # Needed for graceful shutdown
+    events:
+      - http:
+          path: /{proxy+} # This will match all paths on the API Gateway level, so routing is handled by Effect HttpApi
+          method: ANY
