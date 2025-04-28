@@ -1,5 +1,32 @@
 # @effect-aws/lambda
 
+## 1.4.0
+
+### Minor Changes
+
+- [#86](https://github.com/floydspace/effect-aws/pull/86) [`f3c17c8`](https://github.com/floydspace/effect-aws/commit/f3c17c81982fe4fc88a88a390b62b08285249ee5) Thanks [@floydspace](https://github.com/floydspace)! - add an option to make lambda handler from platform httpApi, for instance
+
+  ```ts
+  import { LambdaHandler } from "@effect-aws/lambda";
+  import { HttpApi, HttpApiBuilder, HttpServer } from "@effect/platform";
+  import { Layer } from "effect";
+
+  class MyApi extends HttpApi.make("api") {}
+
+  const MyApiLive = HttpApiBuilder.api(MyApi);
+
+  //              ┌─── Handler<LambdaEvent, LambdaResult>
+  //              ▼
+  export const handler = LambdaHandler.fromHttpApi(
+    Layer.mergeAll(
+      MyApiLive,
+      // you could also use NodeHttpServer.layerContext, depending on your
+      // server's platform
+      HttpServer.layerContext,
+    ),
+  );
+  ```
+
 ## 1.3.1
 
 ### Patch Changes
