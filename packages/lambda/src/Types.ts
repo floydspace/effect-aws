@@ -37,6 +37,7 @@ export type EffectHandler<T, R, E = never, A = void> = (
  * @category model
  */
 export type EffectHandlerWithLayer<T, R, E1 = never, E2 = never, A = void> = {
-  handler: EffectHandler<T, R, E1, A>;
-  layer: Layer.Layer<R, E2>;
+  readonly handler: EffectHandler<T, R, E1, A>;
+  readonly layer: Layer.Layer<R, E2>;
+  readonly memoMap?: Layer.MemoMap;
 };
