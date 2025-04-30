@@ -1,5 +1,11 @@
 # @effect-aws/lambda
 
+## 1.4.1
+
+### Patch Changes
+
+- [#153](https://github.com/floydspace/effect-aws/pull/153) [`2229139`](https://github.com/floydspace/effect-aws/commit/22291392f8fea1d2643107e289fcc2320c79f7e1) Thanks [@floydspace](https://github.com/floydspace)! - Refactor `fromHttpApi` function in more effectful way
+
 ## 1.4.0
 
 ### Minor Changes
