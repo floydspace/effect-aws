@@ -1,11 +1,10 @@
 /**
  * @since 1.4.0
  */
-import type { HttpApi, HttpRouter } from "@effect/platform";
+import type { HttpApi, HttpRouter, HttpServerError } from "@effect/platform";
 import { HttpApiBuilder, HttpApp } from "@effect/platform";
-import type { Context as LambdaContext } from "aws-lambda";
-import type { Context } from "effect";
-import { Effect, Function, Layer } from "effect";
+import type { Cause } from "effect";
+import { Context, Effect, Function, Layer } from "effect";
 import { getEventSource } from "./internal/index.js";
 import type { EventSource, LambdaEvent, LambdaResult } from "./internal/types.js";
 import { encodeBase64, isContentEncodingBinary, isContentTypeBinary } from "./internal/utils.js";
@@ -75,98 +74,115 @@ export const make: {
     // Deprecated case
     if (globalLayer) {
       const runtime = LambdaRuntime.fromLayer(globalLayer);
-      return async (event: T, context: LambdaContext) => handlerOrOptions(event, context).pipe(runtime.runPromise);
+      return async (event, context) => handlerOrOptions(event, context).pipe(runtime.runPromise);
     }
 
-    return async (event: T, context: LambdaContext) =>
+    return async (event, context) =>
       handlerOrOptions(event, context).pipe(Effect.runPromise as <A, E>(effect: Effect.Effect<A, E, R>) => Promise<A>);
   }
 
-  const runtime = LambdaRuntime.fromLayer(handlerOrOptions.layer);
-  return async (event: T, context: LambdaContext) => handlerOrOptions.handler(event, context).pipe(runtime.runPromise);
+  const runtime = LambdaRuntime.fromLayer(handlerOrOptions.layer, { memoMap: handlerOrOptions.memoMap });
+  return async (event, context) => handlerOrOptions.handler(event, context).pipe(runtime.runPromise);
 };
 
-// const apiHandler = (options?: {
-//   readonly middleware?: (
-//     httpApp: HttpApp.Default,
-//   ) => HttpApp.Default<
-//     never,
-//     HttpApi.Api | HttpApiBuilder.Router | HttpRouter.HttpRouter.DefaultServices
-//   >;
-// }): EffectHandler<
-//   LambdaEvent,
-//   HttpApi.Api | HttpApiBuilder.Router | HttpApiBuilder.Middleware | HttpRouter.HttpRouter.DefaultServices,
-//   HttpServerError.ResponseError,
-//   LambdaResult
-// > =>
-// (event) =>
-//   Effect.gen(function*() {
-//     const eventSource = getEventSource(event) as EventSource<LambdaEvent, LambdaResult>;
-//     const requestValues = eventSource.getRequest(event);
+interface HttpApiOptions {
+  readonly middleware?: (
+    httpApp: HttpApp.Default,
+  ) => HttpApp.Default<
+    never,
+    HttpApi.Api | HttpApiBuilder.Router | HttpRouter.HttpRouter.DefaultServices
+  >;
+  readonly memoMap?: Layer.MemoMap;
+}
 
-//     const req = new Request(
-//       `https://${requestValues.remoteAddress}${requestValues.path}`,
-//       {
-//         method: requestValues.method,
-//         headers: requestValues.headers,
-//         body: requestValues.body,
-//       },
-//     );
+type WebHandler = ReturnType<typeof HttpApp.toWebHandler>;
+const WebHandler = Context.GenericTag<WebHandler>("@effect-aws/lambda/WebHandler");
 
-//     const app = yield* HttpApiBuilder.httpApp;
+/**
+ * Construct an `WebHandler` from an `HttpApi` instance.
+ *
+ * @since 1.4.0
+ * @category constructors
+ */
+export const makeWebHandler = (options?: Pick<HttpApiOptions, "middleware">): Effect.Effect<
+  WebHandler,
+  never,
+  HttpApiBuilder.Router | HttpApi.Api | HttpRouter.HttpRouter.DefaultServices | HttpApiBuilder.Middleware
+> =>
+  Effect.gen(function*() {
+    const app = yield* HttpApiBuilder.httpApp;
+    const rt = yield* Effect.runtime<HttpRouter.HttpRouter.DefaultServices>();
+    return HttpApp.toWebHandlerRuntime(rt)(
+      options?.middleware ? options.middleware(app as any) as any : app,
+    );
+  });
 
-//     const appWithMiddleware = options?.middleware ? options.middleware(app as any) : app;
+/**
+ * Construct an `EffectHandler` from an `HttpApi` instance.
+ *
+ * @since 1.4.0
+ * @category constructors
+ */
+export const httpApiHandler: EffectHandler<
+  LambdaEvent,
+  WebHandler,
+  HttpServerError.ResponseError | Cause.UnknownException,
+  LambdaResult
+> = (event) =>
+  Effect.gen(function*() {
+    const eventSource = getEventSource(event) as EventSource<LambdaEvent, LambdaResult>;
+    const requestValues = eventSource.getRequest(event);
 
-//     const request = HttpServerRequest.fromWeb(req);
-//     const response = yield* appWithMiddleware.pipe(
-//       Effect.provideService(HttpServerRequest.HttpServerRequest, request),
-//     );
+    const req = new Request(
+      `https://${requestValues.remoteAddress}${requestValues.path}`,
+      {
+        method: requestValues.method,
+        headers: requestValues.headers,
+        body: requestValues.body,
+      },
+    );
 
-//     const handler = yield* FiberRef.get(HttpApp.currentPreResponseHandlers);
+    const res = yield* WebHandler.pipe(Effect.andThen((handler) => handler(req)));
 
-//     const resp = Option.isSome(handler) ? yield* handler.value(request, response) : response;
+    const contentType = res.headers.get("content-type");
+    let isBase64Encoded = contentType && isContentTypeBinary(contentType) ? true : false;
 
-//     const res = HttpServerResponse.toWeb(resp, { runtime: yield* Effect.runtime() });
+    if (!isBase64Encoded) {
+      const contentEncoding = res.headers.get("content-encoding");
+      isBase64Encoded = isContentEncodingBinary(contentEncoding);
+    }
 
-//     const contentType = res.headers.get("content-type");
-//     let isBase64Encoded = contentType && isContentTypeBinary(contentType) ? true : false;
+    const body = isBase64Encoded
+      ? encodeBase64(yield* Effect.promise(() => res.arrayBuffer()))
+      : yield* Effect.promise(() => res.text());
 
-//     if (!isBase64Encoded) {
-//       const contentEncoding = res.headers.get("content-encoding");
-//       isBase64Encoded = isContentEncodingBinary(contentEncoding);
-//     }
+    const headers: Record<string, string> = {};
 
-//     const body = isBase64Encoded
-//       ? encodeBase64(yield* Effect.promise(() => res.arrayBuffer()))
-//       : yield* Effect.promise(() => res.text());
+    if (res.headers.has("set-cookie")) {
+      const cookies = res.headers.getSetCookie
+        ? res.headers.getSetCookie()
+        : Array.from((res.headers as any).entries())
+          .filter(([k]: any) => k === "set-cookie")
+          .map(([, v]: any) => v);
 
-//     const headers: Record<string, string> = {};
+      if (Array.isArray(cookies)) {
+        headers["set-cookie"] = cookies.join(", ");
+        res.headers.delete("set-cookie");
+      }
+    }
 
-//     if (res.headers.has("set-cookie")) {
-//       const cookies = res.headers.getSetCookie
-//         ? res.headers.getSetCookie()
-//         : Array.from((res.headers as any).entries())
-//           .filter(([k]: any) => k === "set-cookie")
-//           .map(([, v]: any) => v);
+    res.headers.forEach((value, key) => {
+      headers[key] = value;
+    });
 
-//       if (Array.isArray(cookies)) {
-//         headers["set-cookie"] = cookies.join(", ");
-//         res.headers.delete("set-cookie");
-//       }
-//     }
-
-//     res.headers.forEach((value, key) => {
-//       headers[key] = value;
-//     });
-
-//     return eventSource.getResponse({
-//       event,
-//       statusCode: res.status,
-//       body,
-//       headers,
-//       isBase64Encoded,
-//     });
-//   });
+    return eventSource.getResponse({
+      event,
+      statusCode: res.status,
+      body,
+      headers,
+      isBase64Encoded,
+    });
+  });
 
 /**
  * Construct a lambda handler from an `HttpApi` instance.
@@ -196,91 +212,10 @@ export const make: {
  */
 export const fromHttpApi = <LA, LE>(
   layer: Layer.Layer<LA | HttpApi.Api | HttpRouter.HttpRouter.DefaultServices, LE>,
-  options?: {
-    readonly middleware?: (
-      httpApp: HttpApp.Default,
-    ) => HttpApp.Default<
-      never,
-      HttpApi.Api | HttpApiBuilder.Router | HttpRouter.HttpRouter.DefaultServices
-    >;
-    readonly memoMap?: Layer.MemoMap;
-  },
+  options?: HttpApiOptions,
 ): Handler<LambdaEvent, LambdaResult> => {
-  const runtime = LambdaRuntime.fromLayer(
-    Layer.mergeAll(layer, HttpApiBuilder.Router.Live, HttpApiBuilder.Middleware.layer),
-    options,
+  const httpApiLayer = Layer.effect(WebHandler, makeWebHandler(options)).pipe(
+    Layer.provide(Layer.mergeAll(layer, HttpApiBuilder.Router.Live, HttpApiBuilder.Middleware.layer)),
   );
-  // // Alternative implementation (I keep it commented here to understand the differences)
-  // const handler = apiHandler(options);
-  // return async (event: LambdaEvent, context: LambdaContext) => handler(event, context).pipe(runtime.runPromise);
-  let handlerCached:
-    | ((request: Request, context?: Context.Context<never> | undefined) => Promise<Response>)
-    | undefined;
-
-  const handlerPromise = Effect.gen(function*() {
-    const app = yield* HttpApiBuilder.httpApp;
-    const rt = yield* runtime.runtimeEffect;
-    const handler = HttpApp.toWebHandlerRuntime(rt)(
-      options?.middleware ? options.middleware(app as any) as any : app,
-    );
-    handlerCached = handler;
-    return handler;
-  }).pipe(runtime.runPromise);
-
-  async function handler(event: LambdaEvent) {
-    const eventSource = getEventSource(event) as EventSource<LambdaEvent, LambdaResult>;
-    const requestValues = eventSource.getRequest(event);
-
-    const request = new Request(
-      `http://${requestValues.remoteAddress}${requestValues.path}`,
-      {
-        method: requestValues.method,
-        headers: requestValues.headers,
-        body: requestValues.body,
-      },
-    );
-
-    const res = handlerCached !== undefined
-      ? await handlerCached(request)
-      : await handlerPromise.then((handler) => handler(request));
-
-    const contentType = res.headers.get("content-type");
-    let isBase64Encoded = contentType && isContentTypeBinary(contentType) ? true : false;
-
-    if (!isBase64Encoded) {
-      const contentEncoding = res.headers.get("content-encoding");
-      isBase64Encoded = isContentEncodingBinary(contentEncoding);
-    }
-
-    const body = isBase64Encoded ? encodeBase64(await res.arrayBuffer()) : await res.text();
-
-    const headers: Record<string, string> = {};
-
-    if (res.headers.has("set-cookie")) {
-      const cookies = res.headers.getSetCookie
-        ? res.headers.getSetCookie()
-        : Array.from((res.headers as any).entries())
-          .filter(([k]: any) => k === "set-cookie")
-          .map(([, v]: any) => v);
-
-      if (Array.isArray(cookies)) {
-        headers["set-cookie"] = cookies.join(", ");
-        res.headers.delete("set-cookie");
-      }
-    }
-
-    res.headers.forEach((value, key) => {
-      headers[key] = value;
-    });
-
-    return eventSource.getResponse({
-      event,
-      statusCode: res.status,
-      body,
-      headers,
-      isBase64Encoded,
-    });
-  }
-
-  return handler;
+  return make({ handler: httpApiHandler, layer: httpApiLayer, memoMap: options?.memoMap });
 };
