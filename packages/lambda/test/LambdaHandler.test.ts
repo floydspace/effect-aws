@@ -138,13 +138,20 @@ describe("LambdaHandler", () => {
           handlers.handle(
             "hello",
             () =>
-              HttpApp.appendPreResponseHandler((_req, response) =>
-                Effect.orDie(
-                  HttpServerResponse.setCookie(response, "cookie key", "cookie value"),
-                )
-              ).pipe(
-                Effect.flatMap(() => Effect.succeed("Hello, World!")),
-              ),
+              Effect.gen(function*() {
+                yield* HttpApp.appendPreResponseHandler((_req, response) =>
+                  Effect.orDie(
+                    HttpServerResponse.setCookie(response, "cookie key", "cookie value"),
+                  )
+                );
+
+                const { context, event } = yield* LambdaHandler.LambdaHandlerArgs;
+
+                expect(event).toBeDefined();
+                expect(context).toBeDefined();
+
+                return yield* Effect.succeed("Hello, World!");
+              }),
           ),
       );
 
