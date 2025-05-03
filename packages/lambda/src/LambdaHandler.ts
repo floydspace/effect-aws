@@ -74,11 +74,29 @@ export declare namespace LambdaHandler {
     | void;
 }
 
+export type LambdaHandler =
+  | Handler<APIGatewayProxyEvent, APIGatewayProxyResult>
+  | Handler<APIGatewayProxyEventV2, APIGatewayProxyResultV2>
+  | Handler<ALBEvent, ALBResult>
+  | Handler<CloudFrontRequestEvent, void>
+  | Handler<S3Event, void>
+  | Handler<KinesisStreamEvent, void>
+  | Handler<DynamoDBStreamEvent, void>
+  | Handler<SQSEvent, void>
+  | Handler<SNSEvent, void>
+  | Handler<EventBridgeEvent<string, unknown>, void>
+  | Handler<SelfManagedKafkaEvent, void>;
+
 /**
  * @since 1.4.0
  * @category context
  */
 export const LambdaEvent: Context.Tag<LambdaHandler.Event, LambdaHandler.Event> = internal.lambdaEventTag;
+
+export const APIGatewayProxyEventTag = LambdaEvent as Context.Tag<
+  APIGatewayProxyEvent,
+  APIGatewayProxyEvent
+>;
 
 /**
  * @since 1.4.0
@@ -194,10 +212,10 @@ const WebHandler = Context.GenericTag<WebHandler>("@effect-aws/lambda/WebHandler
 export const makeWebHandler = (options?: Pick<HttpApiOptions, "middleware">): Effect.Effect<
   WebHandler,
   never,
-  | HttpApiBuilder.Router
   | HttpApi.Api
-  | HttpRouter.HttpRouter.DefaultServices
+  | HttpApiBuilder.Router
   | HttpApiBuilder.Middleware
+  | HttpRouter.HttpRouter.DefaultServices
   | LambdaHandler.Event
   | LambdaHandler.Context
 > =>
@@ -309,10 +327,46 @@ export const httpApiHandler = (options?: Pick<HttpApiOptions, "middleware">): Ef
  * @since 1.4.0
  * @category constructors
  */
-export const fromHttpApi = <LA, LE>(
-  layer: Layer.Layer<LA | HttpApi.Api | HttpRouter.HttpRouter.DefaultServices, LE>,
+export const fromHttpApi: {
+  /**
+   * Overload when Event or Context are not used.
+   */
+  <LA, LE>(
+    layer: Layer.Layer<LA | HttpApi.Api | HttpRouter.HttpRouter.DefaultServices, LE>,
+    options?: HttpApiOptions,
+  ): Handler<LambdaHandler.Event, LambdaHandler.Result>;
+  /**
+   * Overload when Event is used.
+   */
+  <THandler extends LambdaHandler, LA, LE, LR extends Parameters<THandler>[0]>(
+    layer: Layer.Layer<LA | HttpApi.Api | HttpRouter.HttpRouter.DefaultServices, LE, LR>,
+    options?: HttpApiOptions,
+  ): LR extends LambdaHandler.Event ? THandler extends Handler<LR, infer TResult> ? Handler<LR, TResult> : never
+    : never;
+  /**
+   * Overload when Context is used.
+   */
+  <THandler extends LambdaHandler, LA, LE, LR extends Parameters<THandler>[1]>(
+    layer: Layer.Layer<LA | HttpApi.Api | HttpRouter.HttpRouter.DefaultServices, LE, LR>,
+    options?: HttpApiOptions,
+  ): LR extends LambdaHandler.Context ? Handler<LambdaHandler.Event, LambdaHandler.Result> : never;
+  /**
+   * Overload when Event and Context are used.
+   */
+  <THandler extends LambdaHandler, LA, LE, LR extends Parameters<THandler>[0] | Parameters<THandler>[1]>(
+    layer: Layer.Layer<LA | HttpApi.Api | HttpRouter.HttpRouter.DefaultServices, LE, LR>,
+    options?: HttpApiOptions,
+  ): LR extends LambdaHandler.Context | LambdaHandler.Event
+    ? THandler extends Handler<LR, infer TResult> ? Handler<LR, TResult> : never
+    : never;
+} = <LA, LE, LR>(
+  layer: Layer.Layer<LA | HttpApi.Api | HttpRouter.HttpRouter.DefaultServices, LE, LR>,
   options?: HttpApiOptions,
 ): Handler<LambdaHandler.Event, LambdaHandler.Result> => {
-  const httpApiLayer = Layer.mergeAll(layer, HttpApiBuilder.Router.Live, HttpApiBuilder.Middleware.layer);
+  const httpApiLayer = Layer.mergeAll(
+    layer as Layer.Layer<LA | HttpApi.Api | HttpRouter.HttpRouter.DefaultServices, LE, never>,
+    HttpApiBuilder.Router.Live,
+    HttpApiBuilder.Middleware.layer,
+  );
   return make({ handler: httpApiHandler(options), layer: httpApiLayer, memoMap: options?.memoMap });
 };
