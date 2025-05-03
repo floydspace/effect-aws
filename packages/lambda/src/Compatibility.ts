@@ -39,7 +39,7 @@ import * as LambdaRuntime from "./LambdaRuntime.js";
  * @category constructors
  * @deprecated Use `LambdaHandler.make` instead.
  */
-export const makeLambda = LambdaHandler.make;
+export const makeLambda = LambdaHandler.makeLambda;
 
 /**
  * Makes a managed runtime from a layer asynchronously, designed for AWS Lambda.

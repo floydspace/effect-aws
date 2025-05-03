@@ -33,7 +33,7 @@ describe("LambdaHandler", () => {
         return Effect.succeed("Hello, World!");
       };
 
-      const handler = LambdaHandler.make(myEffectHandler);
+      const handler = LambdaHandler.make(myEffectHandler).pipe(LambdaHandler.toHandler);
 
       const result = await handler(event, context);
 
@@ -59,7 +59,10 @@ describe("LambdaHandler", () => {
           return yield* service.bar();
         });
 
-      const handler = LambdaHandler.make(myEffectHandler, FooServiceLive);
+      const handler = LambdaHandler.make(myEffectHandler).pipe(
+        LambdaHandler.withGlobalLayer(FooServiceLive),
+        LambdaHandler.toHandler,
+      );
 
       const result = await handler(event, context);
 
@@ -99,10 +102,10 @@ describe("LambdaHandler", () => {
           return yield* service.bar();
         });
 
-      const handler = LambdaHandler.make({
-        handler: myEffectHandler,
-        layer: FooServiceLive,
-      });
+      const handler = LambdaHandler.make(myEffectHandler).pipe(
+        LambdaHandler.withGlobalLayer(FooServiceLive),
+        LambdaHandler.toHandler,
+      );
 
       const result = await handler(event, context);
 
@@ -145,7 +148,8 @@ describe("LambdaHandler", () => {
                   )
                 );
 
-                const { context, event } = yield* LambdaHandler.LambdaHandlerArgs;
+                const event = yield* LambdaHandler.LambdaEvent;
+                const context = yield* LambdaHandler.LambdaContext;
 
                 expect(event).toBeDefined();
                 expect(context).toBeDefined();
@@ -157,7 +161,9 @@ describe("LambdaHandler", () => {
 
       const MyApiLive = HttpApiBuilder.api(MyApi).pipe(Layer.provide(HelloLive));
 
-      const handler = LambdaHandler.fromHttpApi(Layer.mergeAll(MyApiLive, HttpServer.layerContext));
+      const handler = LambdaHandler.fromHttpApi(Layer.mergeAll(MyApiLive, HttpServer.layerContext)).pipe(
+        LambdaHandler.toHandler,
+      );
 
       const result = await handler(apiGatewayV1Event, context);
 

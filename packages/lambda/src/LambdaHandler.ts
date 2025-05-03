@@ -20,14 +20,68 @@ import type {
   SNSEvent,
   SQSEvent,
 } from "aws-lambda";
-import type { Cause } from "effect";
+import type { Cause, Pipeable } from "effect";
 import { Context, Effect, Function, Layer } from "effect";
+import { dual } from "effect/Function";
+import { hasProperty } from "effect/Predicate";
 import { getEventSource } from "./internal/index.js";
 import * as internal from "./internal/lambdaHandler.js";
 import type { EventSource } from "./internal/types.js";
 import { encodeBase64, isContentEncodingBinary, isContentTypeBinary } from "./internal/utils.js";
 import * as LambdaRuntime from "./LambdaRuntime.js";
 import type { EffectHandler, EffectHandlerWithLayer, Handler } from "./Types.js";
+
+/**
+ * @since 0.1.0
+ * @category type ids
+ */
+export const TypeId: unique symbol = internal.TypeId;
+
+/**
+ * @since 0.1.0
+ * @category type ids
+ */
+export type TypeId = typeof TypeId;
+
+/**
+ * @since 0.1.0
+ * @category models
+ */
+export interface LambdaHandler<in T, out A, out E = never, R = never, RE = never> extends Pipeable.Pipeable {
+  readonly [TypeId]: TypeId;
+  readonly handler: EffectHandler<T, R, E, A>;
+  layer?: Layer.Layer<R, RE>;
+}
+
+export const isLambdaHandler = (u: unknown): u is LambdaHandler<unknown, unknown, unknown, unknown> =>
+  hasProperty(u, TypeId);
+
+/**
+ * @since 0.2.0
+ * @category constructors
+ */
+export const make: <T, A, E = never, R = never>(
+  handler: EffectHandler<T, R, E, A>,
+) => LambdaHandler<T, A, E, R, never> = internal.make;
+
+export const withGlobalLayer = dual<
+  <LR, LE>(
+    globalLayer: Layer.Layer<LR, LE>,
+  ) => <T, A, E, R>(self: LambdaHandler<T, A, E, R>) => LambdaHandler<T, A, E, Exclude<R, LR>, LE>,
+  <T, A, E, R, LR, LE>(
+    self: LambdaHandler<T, A, E, R>,
+    globalLayer: Layer.Layer<LR, LE>,
+  ) => LambdaHandler<T, A, E, Exclude<R, LR>, LE>
+>(
+  (args) => isLambdaHandler(args[0]),
+  (self, globalLayer) => {
+    (self as any).layer = globalLayer;
+    return self as any;
+  },
+);
+
+export const toHandler: <T, A, E>(self: LambdaHandler<T, A, E, never>) => Handler<T, A> = (self) =>
+  makeLambda(self.handler, self.layer as any);
 
 export declare namespace LambdaHandler {
   /**
@@ -74,7 +128,7 @@ export declare namespace LambdaHandler {
     | void;
 }
 
-export type LambdaHandler =
+export type LambdaHandler1 =
   | Handler<APIGatewayProxyEvent, APIGatewayProxyResult>
   | Handler<APIGatewayProxyEventV2, APIGatewayProxyResultV2>
   | Handler<ALBEvent, ALBResult>
@@ -150,7 +204,7 @@ export const LambdaHandlerArgs: Effect.Effect<LambdaHandler.Args> = Effect.map(
  * @since 1.0.0
  * @category constructors
  */
-export const make: {
+export const makeLambda: {
   <T, R, E1, E2, A>(
     options: EffectHandlerWithLayer<T, R, E1, E2, A>,
   ): Handler<T, A>;
@@ -327,46 +381,16 @@ export const httpApiHandler = (options?: Pick<HttpApiOptions, "middleware">): Ef
  * @since 1.4.0
  * @category constructors
  */
-export const fromHttpApi: {
-  /**
-   * Overload when Event or Context are not used.
-   */
-  <LA, LE>(
-    layer: Layer.Layer<LA | HttpApi.Api | HttpRouter.HttpRouter.DefaultServices, LE>,
-    options?: HttpApiOptions,
-  ): Handler<LambdaHandler.Event, LambdaHandler.Result>;
-  /**
-   * Overload when Event is used.
-   */
-  <THandler extends LambdaHandler, LA, LE, LR extends Parameters<THandler>[0]>(
-    layer: Layer.Layer<LA | HttpApi.Api | HttpRouter.HttpRouter.DefaultServices, LE, LR>,
-    options?: HttpApiOptions,
-  ): LR extends LambdaHandler.Event ? THandler extends Handler<LR, infer TResult> ? Handler<LR, TResult> : never
-    : never;
-  /**
-   * Overload when Context is used.
-   */
-  <THandler extends LambdaHandler, LA, LE, LR extends Parameters<THandler>[1]>(
-    layer: Layer.Layer<LA | HttpApi.Api | HttpRouter.HttpRouter.DefaultServices, LE, LR>,
-    options?: HttpApiOptions,
-  ): LR extends LambdaHandler.Context ? Handler<LambdaHandler.Event, LambdaHandler.Result> : never;
-  /**
-   * Overload when Event and Context are used.
-   */
-  <THandler extends LambdaHandler, LA, LE, LR extends Parameters<THandler>[0] | Parameters<THandler>[1]>(
-    layer: Layer.Layer<LA | HttpApi.Api | HttpRouter.HttpRouter.DefaultServices, LE, LR>,
-    options?: HttpApiOptions,
-  ): LR extends LambdaHandler.Context | LambdaHandler.Event
-    ? THandler extends Handler<LR, infer TResult> ? Handler<LR, TResult> : never
-    : never;
-} = <LA, LE, LR>(
-  layer: Layer.Layer<LA | HttpApi.Api | HttpRouter.HttpRouter.DefaultServices, LE, LR>,
+export const fromHttpApi = <LA, LE>(
+  layer: Layer.Layer<LA | HttpApi.Api | HttpRouter.HttpRouter.DefaultServices, LE>,
   options?: HttpApiOptions,
-): Handler<LambdaHandler.Event, LambdaHandler.Result> => {
+): LambdaHandler<LambdaHandler.Event, LambdaHandler.Result, Cause.UnknownException, never, LE> => {
   const httpApiLayer = Layer.mergeAll(
-    layer as Layer.Layer<LA | HttpApi.Api | HttpRouter.HttpRouter.DefaultServices, LE, never>,
+    layer,
     HttpApiBuilder.Router.Live,
     HttpApiBuilder.Middleware.layer,
   );
-  return make({ handler: httpApiHandler(options), layer: httpApiLayer, memoMap: options?.memoMap });
+  return make(httpApiHandler(options)).pipe(
+    withGlobalLayer(httpApiLayer),
+  );
 };
