@@ -21,7 +21,7 @@
       "path": "packages/client-api-gateway"
     },
     {
-      "path": "packages/client-apigatewayv2"
+      "path": "packages/client-api-gateway-v2"
     },
     {
       "path": "packages/client-api-gateway-management-api"

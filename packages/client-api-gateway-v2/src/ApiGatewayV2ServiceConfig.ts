@@ -10,16 +10,16 @@ import type { ApiGatewayV2Service } from "./ApiGatewayV2Service.js";
 
 /**
  * @since 1.0.0
- * @category apigatewayv2 service config
+ * @category api-gateway-v2 service config
  */
 const currentApiGatewayV2ServiceConfig = globalValue(
-  "@effect-aws/client-apigatewayv2/currentApiGatewayV2ServiceConfig",
+  "@effect-aws/client-api-gateway-v2/currentApiGatewayV2ServiceConfig",
   () => FiberRef.unsafeMake<ApiGatewayV2Service.Config>({}),
 );
 
 /**
  * @since 1.0.0
- * @category apigatewayv2 service config
+ * @category api-gateway-v2 service config
  */
 export const withApiGatewayV2ServiceConfig: {
   (config: ApiGatewayV2Service.Config): <A, E, R>(effect: Effect.Effect<A, E, R>) => Effect.Effect<A, E, R>;
@@ -32,7 +32,7 @@ export const withApiGatewayV2ServiceConfig: {
 
 /**
  * @since 1.0.0
- * @category apigatewayv2 service config
+ * @category api-gateway-v2 service config
  */
 export const setApiGatewayV2ServiceConfig = (config: ApiGatewayV2Service.Config) =>
   Layer.locallyScoped(currentApiGatewayV2ServiceConfig, config);

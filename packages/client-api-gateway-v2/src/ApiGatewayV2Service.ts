@@ -1134,7 +1134,7 @@ export const makeApiGatewayV2Service = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class ApiGatewayV2Service extends Effect.Tag("@effect-aws/client-apigatewayv2/ApiGatewayV2Service")<
+export class ApiGatewayV2Service extends Effect.Tag("@effect-aws/client-api-gateway-v2/ApiGatewayV2Service")<
   ApiGatewayV2Service,
   ApiGatewayV2Service$
 >() {

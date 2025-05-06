@@ -10,7 +10,7 @@ import * as ApiGatewayV2ServiceConfig from "./ApiGatewayV2ServiceConfig.js";
  * @category tags
  */
 export class ApiGatewayV2ClientInstance extends Context.Tag(
-  "@effect-aws/client-apigatewayv2/ApiGatewayV2ClientInstance",
+  "@effect-aws/client-api-gateway-v2/ApiGatewayV2ClientInstance",
 )<ApiGatewayV2ClientInstance, ApiGatewayV2Client>() {}
 
 /**

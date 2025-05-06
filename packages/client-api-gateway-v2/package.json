@@ -1,10 +1,10 @@
 {
-  "name": "@effect-aws/client-apigatewayv2",
+  "name": "@effect-aws/client-api-gateway-v2",
   "description": "Effectful AWS API Gateway V2 client",
   "repository": {
     "type": "git",
     "url": "github:floydspace/effect-aws",
-    "directory": "packages/client-apigatewayv2"
+    "directory": "packages/client-api-gateway-v2"
   },
   "scripts": {
     "build": "npx projen build",
@@ -38,7 +38,7 @@
   },
   "main": "build/cjs/index.js",
   "license": "MIT",
-  "homepage": "https://floydspace.github.io/effect-aws/docs/client-apigatewayv2",
+  "homepage": "https://floydspace.github.io/effect-aws/docs/client-api-gateway-v2",
   "publishConfig": {
     "access": "public",
     "directory": "dist"

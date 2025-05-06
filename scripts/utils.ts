@@ -1,5 +1,8 @@
 export function normalizeServiceName(serviceName: string) {
   let originalServiceName = serviceName;
+  if (serviceName === "api-gateway-v2") {
+    originalServiceName = "apigatewayv2";
+  }
   if (serviceName === "api-gateway-management-api") {
     originalServiceName = "apigatewaymanagementapi";
   }

@@ -17,7 +17,7 @@ export default {
       apiKey: "test",
     },
   },
-  "client-apigatewayv2": {
+  "client-api-gateway-v2": {
     description: "Effectful AWS API Gateway V2 client",
     commandToTest: "GetApi",
     inputToTest: {
