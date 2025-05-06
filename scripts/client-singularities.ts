@@ -10,6 +10,20 @@ export default {
     commandToTest: "ListRegions",
     inputToTest: null,
   },
+  "client-api-gateway": {
+    description: "Effectful AWS API Gateway client",
+    commandToTest: "GetApiKey",
+    inputToTest: {
+      apiKey: "test",
+    },
+  },
+  "client-api-gateway-v2": {
+    description: "Effectful AWS API Gateway V2 client",
+    commandToTest: "GetApi",
+    inputToTest: {
+      ApiId: "test",
+    },
+  },
   "client-api-gateway-management-api": {
     description: "Effectful AWS API Gateway Management API client",
     commandToTest: "PostToConnection",
