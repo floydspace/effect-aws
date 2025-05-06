@@ -80,8 +80,10 @@ export const withGlobalLayer = dual<
   },
 );
 
-export const toHandler: <T, A, E>(self: LambdaHandler<T, A, E, never>) => Handler<T, A> = (self) =>
-  makeLambda(self.handler, self.layer as any);
+export const toHandler = dual<
+  <T>() => <A, E>(self: LambdaHandler<T, A, E, never>) => Handler<T, A>,
+  <T, A, E>(self: LambdaHandler<T, A, E, never>) => Handler<T, A>
+>((args) => isLambdaHandler(args[0]), (self) => makeLambda(self.handler, self.layer as any));
 
 export declare namespace LambdaHandler {
   /**
@@ -381,12 +383,48 @@ export const httpApiHandler = (options?: Pick<HttpApiOptions, "middleware">): Ef
  * @since 1.4.0
  * @category constructors
  */
-export const fromHttpApi = <LA, LE>(
-  layer: Layer.Layer<LA | HttpApi.Api | HttpRouter.HttpRouter.DefaultServices, LE>,
+export const fromHttpApi: {
+  /**
+   * Overload when Event or Context are not used.
+   */
+  <LA, LE>(
+    layer: Layer.Layer<LA | HttpApi.Api | HttpRouter.HttpRouter.DefaultServices, LE>,
+    options?: HttpApiOptions,
+  ): LambdaHandler<LambdaHandler.Event, LambdaHandler.Result, Cause.UnknownException, never, LE>;
+  /**
+   * Overload when Event is used.
+   */
+  <THandler extends LambdaHandler1, LA, LE, LR extends Parameters<THandler>[0]>(
+    layer: Layer.Layer<LA | HttpApi.Api | HttpRouter.HttpRouter.DefaultServices, LE, LR>,
+    options?: HttpApiOptions,
+  ): LR extends LambdaHandler.Event ?
+    THandler extends Handler<LR, infer TResult> ? LambdaHandler<LR, TResult, Cause.UnknownException, never, LE> : never
+    : never;
+  /**
+   * Overload when Context is used.
+   */
+  <THandler extends LambdaHandler1, LA, LE, LR extends Parameters<THandler>[1]>(
+    layer: Layer.Layer<LA | HttpApi.Api | HttpRouter.HttpRouter.DefaultServices, LE, LR>,
+    options?: HttpApiOptions,
+  ): LR extends LambdaHandler.Context
+    ? LambdaHandler<LambdaHandler.Event, LambdaHandler.Result, Cause.UnknownException, never, LE>
+    : never;
+  /**
+   * Overload when Event and Context are used.
+   */
+  <THandler extends LambdaHandler1, LA, LE, LR extends Parameters<THandler>[0] | Parameters<THandler>[1]>(
+    layer: Layer.Layer<LA | HttpApi.Api | HttpRouter.HttpRouter.DefaultServices, LE, LR>,
+    options?: HttpApiOptions,
+  ): LR extends LambdaHandler.Context | LambdaHandler.Event
+    ? THandler extends Handler<LR, infer TResult> ? LambdaHandler<LR, TResult, Cause.UnknownException, never, LE>
+    : never
+    : never;
+} = <LA, LE, LR>(
+  layer: Layer.Layer<LA | HttpApi.Api | HttpRouter.HttpRouter.DefaultServices, LE, LR>,
   options?: HttpApiOptions,
 ): LambdaHandler<LambdaHandler.Event, LambdaHandler.Result, Cause.UnknownException, never, LE> => {
   const httpApiLayer = Layer.mergeAll(
-    layer,
+    layer as Layer.Layer<HttpApi.Api | HttpRouter.HttpRouter.DefaultServices | LA, LE>,
     HttpApiBuilder.Router.Live,
     HttpApiBuilder.Middleware.layer,
   );

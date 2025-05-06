@@ -33,7 +33,7 @@ describe("LambdaHandler", () => {
         return Effect.succeed("Hello, World!");
       };
 
-      const handler = LambdaHandler.make(myEffectHandler).pipe(LambdaHandler.toHandler);
+      const handler = LambdaHandler.make(myEffectHandler).pipe(LambdaHandler.toHandler());
 
       const result = await handler(event, context);
 
@@ -61,7 +61,7 @@ describe("LambdaHandler", () => {
 
       const handler = LambdaHandler.make(myEffectHandler).pipe(
         LambdaHandler.withGlobalLayer(FooServiceLive),
-        LambdaHandler.toHandler,
+        LambdaHandler.toHandler(),
       );
 
       const result = await handler(event, context);
@@ -104,7 +104,7 @@ describe("LambdaHandler", () => {
 
       const handler = LambdaHandler.make(myEffectHandler).pipe(
         LambdaHandler.withGlobalLayer(FooServiceLive),
-        LambdaHandler.toHandler,
+        LambdaHandler.toHandler(),
       );
 
       const result = await handler(event, context);
@@ -162,7 +162,7 @@ describe("LambdaHandler", () => {
       const MyApiLive = HttpApiBuilder.api(MyApi).pipe(Layer.provide(HelloLive));
 
       const handler = LambdaHandler.fromHttpApi(Layer.mergeAll(MyApiLive, HttpServer.layerContext)).pipe(
-        LambdaHandler.toHandler,
+        LambdaHandler.toHandler(),
       );
 
       const result = await handler(apiGatewayV1Event, context);
