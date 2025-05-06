@@ -1,5 +1,11 @@
 # @effect-aws/client-ecs
 
+## 1.10.1
+
+### Patch Changes
+
+- [`ca6d01b`](https://github.com/floydspace/effect-aws/commit/ca6d01b92bcf6781e2a28ccc5d2adc73cbd6be77) Thanks [@floydspace](https://github.com/floydspace)! - update client with the new methods and errors
+
 ## 1.10.0
 
 ### Minor Changes
