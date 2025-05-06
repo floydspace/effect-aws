@@ -1,4 +1,5 @@
 import type {
+  AccessDeniedException,
   AlreadyExistsException,
   AssociatedInstances,
   AssociationAlreadyExists,
@@ -117,11 +118,13 @@ import type {
   ResourcePolicyInvalidParameterException,
   ResourcePolicyLimitExceededException,
   ResourcePolicyNotFoundException,
+  ServiceQuotaExceededException,
   ServiceSettingNotFound,
   StatusUnchanged,
   SubTypeCountLimitExceededException,
   TargetInUseException,
   TargetNotConnected,
+  ThrottlingException,
   TooManyTagsError as TooManyTagsException,
   TooManyUpdates,
   TotalSizeLimitExceededException,
@@ -139,6 +142,7 @@ import type { TaggedException } from "@effect-aws/commons";
 import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
+  "AccessDeniedException",
   "AlreadyExistsException",
   "AssociatedInstances",
   "AssociationAlreadyExists",
@@ -257,11 +261,13 @@ export const AllServiceErrors = [
   "ResourcePolicyInvalidParameterException",
   "ResourcePolicyLimitExceededException",
   "ResourcePolicyNotFoundException",
+  "ServiceQuotaExceededException",
   "ServiceSettingNotFound",
   "StatusUnchanged",
   "SubTypeCountLimitExceededException",
   "TargetInUseException",
   "TargetNotConnected",
+  "ThrottlingException",
   "TooManyTagsError",
   "TooManyUpdates",
   "TotalSizeLimitExceededException",
@@ -276,6 +282,7 @@ export const AllServiceErrors = [
   "ValidationException",
 ] as const;
 
+export type AccessDeniedError = TaggedException<AccessDeniedException>;
 export type AlreadyExistsError = TaggedException<AlreadyExistsException>;
 export type AssociatedInstancesError = TaggedException<AssociatedInstances>;
 export type AssociationAlreadyExistsError = TaggedException<AssociationAlreadyExists>;
@@ -396,11 +403,13 @@ export type ResourcePolicyConflictError = TaggedException<ResourcePolicyConflict
 export type ResourcePolicyInvalidParameterError = TaggedException<ResourcePolicyInvalidParameterException>;
 export type ResourcePolicyLimitExceededError = TaggedException<ResourcePolicyLimitExceededException>;
 export type ResourcePolicyNotFoundError = TaggedException<ResourcePolicyNotFoundException>;
+export type ServiceQuotaExceededError = TaggedException<ServiceQuotaExceededException>;
 export type ServiceSettingNotFoundError = TaggedException<ServiceSettingNotFound>;
 export type StatusUnchangedError = TaggedException<StatusUnchanged>;
 export type SubTypeCountLimitExceededError = TaggedException<SubTypeCountLimitExceededException>;
 export type TargetInUseError = TaggedException<TargetInUseException>;
 export type TargetNotConnectedError = TaggedException<TargetNotConnected>;
+export type ThrottlingError = TaggedException<ThrottlingException>;
 export type TooManyTagsError = TaggedException<TooManyTagsException>;
 export type TooManyUpdatesError = TaggedException<TooManyUpdates>;
 export type TotalSizeLimitExceededError = TaggedException<TotalSizeLimitExceededException>;

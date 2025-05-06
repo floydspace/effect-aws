@@ -18,6 +18,7 @@ import type {
   ResourceInUseException,
   ResourceNotFoundException,
   ServerException,
+  ServiceDeploymentNotFoundException,
   ServiceNotActiveException,
   ServiceNotFoundException,
   TargetNotConnectedException,
@@ -49,6 +50,7 @@ export const AllServiceErrors = [
   "ResourceInUseException",
   "ResourceNotFoundException",
   "ServerException",
+  "ServiceDeploymentNotFoundException",
   "ServiceNotActiveException",
   "ServiceNotFoundException",
   "TargetNotConnectedException",
@@ -79,6 +81,7 @@ export type PlatformUnknownError = TaggedException<PlatformUnknownException>;
 export type ResourceInUseError = TaggedException<ResourceInUseException>;
 export type ResourceNotFoundError = TaggedException<ResourceNotFoundException>;
 export type ServerError = TaggedException<ServerException>;
+export type ServiceDeploymentNotFoundError = TaggedException<ServiceDeploymentNotFoundException>;
 export type ServiceNotActiveError = TaggedException<ServiceNotActiveException>;
 export type ServiceNotFoundError = TaggedException<ServiceNotFoundException>;
 export type TargetNotConnectedError = TaggedException<TargetNotConnectedException>;

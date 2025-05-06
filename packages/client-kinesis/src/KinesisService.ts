@@ -61,6 +61,9 @@ import {
   ListStreamsCommand,
   type ListStreamsCommandInput,
   type ListStreamsCommandOutput,
+  ListTagsForResourceCommand,
+  type ListTagsForResourceCommandInput,
+  type ListTagsForResourceCommandOutput,
   ListTagsForStreamCommand,
   type ListTagsForStreamCommandInput,
   type ListTagsForStreamCommandOutput,
@@ -94,6 +97,12 @@ import {
   SubscribeToShardCommand,
   type SubscribeToShardCommandInput,
   type SubscribeToShardCommandOutput,
+  TagResourceCommand,
+  type TagResourceCommandInput,
+  type TagResourceCommandOutput,
+  UntagResourceCommand,
+  type UntagResourceCommandInput,
+  type UntagResourceCommandOutput,
   UpdateShardCountCommand,
   type UpdateShardCountCommandInput,
   type UpdateShardCountCommandOutput,
@@ -109,6 +118,7 @@ import type {
   AccessDeniedError,
   ExpiredIteratorError,
   ExpiredNextTokenError,
+  InternalFailureError,
   InvalidArgumentError,
   KMSAccessDeniedError,
   KMSDisabledError,
@@ -146,6 +156,7 @@ const commands = {
   ListShardsCommand,
   ListStreamConsumersCommand,
   ListStreamsCommand,
+  ListTagsForResourceCommand,
   ListTagsForStreamCommand,
   MergeShardsCommand,
   PutRecordCommand,
@@ -157,6 +168,8 @@ const commands = {
   StartStreamEncryptionCommand,
   StopStreamEncryptionCommand,
   SubscribeToShardCommand,
+  TagResourceCommand,
+  UntagResourceCommand,
   UpdateShardCountCommand,
   UpdateStreamModeCommand,
 };
@@ -354,6 +367,7 @@ interface KinesisService$ {
     | SdkError
     | AccessDeniedError
     | ExpiredIteratorError
+    | InternalFailureError
     | InvalidArgumentError
     | KMSAccessDeniedError
     | KMSDisabledError
@@ -393,6 +407,7 @@ interface KinesisService$ {
     | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
+    | InternalFailureError
     | InvalidArgumentError
     | ProvisionedThroughputExceededError
     | ResourceNotFoundError
@@ -462,6 +477,23 @@ interface KinesisService$ {
   >;
 
   /**
+   * @see {@link ListTagsForResourceCommand}
+   */
+  listTagsForResource(
+    args: ListTagsForResourceCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListTagsForResourceCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InvalidArgumentError
+    | LimitExceededError
+    | ResourceInUseError
+    | ResourceNotFoundError
+  >;
+
+  /**
    * @see {@link ListTagsForStreamCommand}
    */
   listTagsForStream(
@@ -506,6 +538,7 @@ interface KinesisService$ {
     | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
+    | InternalFailureError
     | InvalidArgumentError
     | KMSAccessDeniedError
     | KMSDisabledError
@@ -528,6 +561,7 @@ interface KinesisService$ {
     | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
+    | InternalFailureError
     | InvalidArgumentError
     | KMSAccessDeniedError
     | KMSDisabledError
@@ -655,6 +689,40 @@ interface KinesisService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SubscribeToShardCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InvalidArgumentError
+    | LimitExceededError
+    | ResourceInUseError
+    | ResourceNotFoundError
+  >;
+
+  /**
+   * @see {@link TagResourceCommand}
+   */
+  tagResource(
+    args: TagResourceCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    TagResourceCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InvalidArgumentError
+    | LimitExceededError
+    | ResourceInUseError
+    | ResourceNotFoundError
+  >;
+
+  /**
+   * @see {@link UntagResourceCommand}
+   */
+  untagResource(
+    args: UntagResourceCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UntagResourceCommandOutput,
     | Cause.TimeoutException
     | SdkError
     | AccessDeniedError

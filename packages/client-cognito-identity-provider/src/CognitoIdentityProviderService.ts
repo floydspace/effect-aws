@@ -381,6 +381,7 @@ import type {
   PasswordHistoryPolicyViolationError,
   PasswordResetRequiredError,
   PreconditionNotMetError,
+  RefreshTokenReuseError,
   ResourceNotFoundError,
   ScopeDoesNotExistError,
   SoftwareTokenMFANotFoundError,
@@ -1890,6 +1891,7 @@ interface CognitoIdentityProviderService$ {
     | InvalidLambdaResponseError
     | InvalidParameterError
     | NotAuthorizedError
+    | RefreshTokenReuseError
     | ResourceNotFoundError
     | TooManyRequestsError
     | UnexpectedLambdaError

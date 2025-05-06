@@ -191,6 +191,9 @@ import {
   DisassociateOpsItemRelatedItemCommand,
   type DisassociateOpsItemRelatedItemCommandInput,
   type DisassociateOpsItemRelatedItemCommandOutput,
+  GetAccessTokenCommand,
+  type GetAccessTokenCommandInput,
+  type GetAccessTokenCommandOutput,
   GetAutomationExecutionCommand,
   type GetAutomationExecutionCommandInput,
   type GetAutomationExecutionCommandOutput,
@@ -370,6 +373,9 @@ import {
   type SendCommandCommandOutput,
   type SSMClient,
   type SSMClientConfig,
+  StartAccessRequestCommand,
+  type StartAccessRequestCommandInput,
+  type StartAccessRequestCommandOutput,
   StartAssociationsOnceCommand,
   type StartAssociationsOnceCommandInput,
   type StartAssociationsOnceCommandOutput,
@@ -442,6 +448,7 @@ import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
 import type {
+  AccessDeniedError,
   AlreadyExistsError,
   AssociatedInstancesError,
   AssociationAlreadyExistsError,
@@ -560,11 +567,13 @@ import type {
   ResourcePolicyInvalidParameterError,
   ResourcePolicyLimitExceededError,
   ResourcePolicyNotFoundError,
+  ServiceQuotaExceededError,
   ServiceSettingNotFoundError,
   StatusUnchangedError,
   SubTypeCountLimitExceededError,
   TargetInUseError,
   TargetNotConnectedError,
+  ThrottlingError,
   TooManyTagsError,
   TooManyUpdatesError,
   TotalSizeLimitExceededError,
@@ -646,6 +655,7 @@ const commands = {
   DescribePatchPropertiesCommand,
   DescribeSessionsCommand,
   DisassociateOpsItemRelatedItemCommand,
+  GetAccessTokenCommand,
   GetAutomationExecutionCommand,
   GetCalendarStateCommand,
   GetCommandInvocationCommand,
@@ -705,6 +715,7 @@ const commands = {
   ResumeSessionCommand,
   SendAutomationSignalCommand,
   SendCommandCommand,
+  StartAccessRequestCommand,
   StartAssociationsOnceCommand,
   StartAutomationExecutionCommand,
   StartChangeRequestExecutionCommand,
@@ -1600,6 +1611,23 @@ interface SSMService$ {
   >;
 
   /**
+   * @see {@link GetAccessTokenCommand}
+   */
+  getAccessToken(
+    args: GetAccessTokenCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetAccessTokenCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
    * @see {@link GetAutomationExecutionCommand}
    */
   getAutomationExecution(
@@ -2444,6 +2472,24 @@ interface SSMService$ {
     | InvalidRoleError
     | MaxDocumentSizeExceededError
     | UnsupportedPlatformTypeError
+  >;
+
+  /**
+   * @see {@link StartAccessRequestCommand}
+   */
+  startAccessRequest(
+    args: StartAccessRequestCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    StartAccessRequestCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ServiceQuotaExceededError
+    | ThrottlingError
+    | ValidationError
   >;
 
   /**

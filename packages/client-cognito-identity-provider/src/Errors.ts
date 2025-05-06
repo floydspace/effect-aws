@@ -26,6 +26,7 @@ import type {
   PasswordHistoryPolicyViolationException,
   PasswordResetRequiredException,
   PreconditionNotMetException,
+  RefreshTokenReuseException,
   ResourceNotFoundException,
   ScopeDoesNotExistException,
   SoftwareTokenMFANotFoundException,
@@ -84,6 +85,7 @@ export const AllServiceErrors = [
   "PasswordHistoryPolicyViolationException",
   "PasswordResetRequiredException",
   "PreconditionNotMetException",
+  "RefreshTokenReuseException",
   "ResourceNotFoundException",
   "ScopeDoesNotExistException",
   "SoftwareTokenMFANotFoundException",
@@ -139,6 +141,7 @@ export type NotAuthorizedError = TaggedException<NotAuthorizedException>;
 export type PasswordHistoryPolicyViolationError = TaggedException<PasswordHistoryPolicyViolationException>;
 export type PasswordResetRequiredError = TaggedException<PasswordResetRequiredException>;
 export type PreconditionNotMetError = TaggedException<PreconditionNotMetException>;
+export type RefreshTokenReuseError = TaggedException<RefreshTokenReuseException>;
 export type ResourceNotFoundError = TaggedException<ResourceNotFoundException>;
 export type ScopeDoesNotExistError = TaggedException<ScopeDoesNotExistException>;
 export type SoftwareTokenMFANotFoundError = TaggedException<SoftwareTokenMFANotFoundException>;

@@ -211,6 +211,7 @@ import type {
   ResourceInUseError,
   ResourceNotFoundError,
   ServerError,
+  ServiceDeploymentNotFoundError,
   ServiceNotActiveError,
   ServiceNotFoundError,
   TargetNotConnectedError,
@@ -921,6 +922,7 @@ interface ECSService$ {
     | ConflictError
     | InvalidParameterError
     | ServerError
+    | ServiceDeploymentNotFoundError
     | UnsupportedFeatureError
   >;
 

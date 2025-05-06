@@ -1393,6 +1393,7 @@ interface RDSService$ {
     | SdkError
     | DBInstanceNotFoundFaultError
     | InvalidDBInstanceStateFaultError
+    | KMSKeyNotAccessibleFaultError
     | TenantDatabaseAlreadyExistsFaultError
     | TenantDatabaseQuotaExceededFaultError
   >;
@@ -2640,6 +2641,7 @@ interface RDSService$ {
     | SdkError
     | DBInstanceNotFoundFaultError
     | InvalidDBInstanceStateFaultError
+    | KMSKeyNotAccessibleFaultError
     | TenantDatabaseAlreadyExistsFaultError
     | TenantDatabaseNotFoundFaultError
   >;
