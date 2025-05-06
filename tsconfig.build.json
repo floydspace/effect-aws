@@ -13,6 +13,12 @@
       "path": "packages/client-account/tsconfig.esm.json"
     },
     {
+      "path": "packages/client-api-gateway/tsconfig.esm.json"
+    },
+    {
+      "path": "packages/client-apigatewayv2/tsconfig.esm.json"
+    },
+    {
       "path": "packages/client-api-gateway-management-api/tsconfig.esm.json"
     },
     {

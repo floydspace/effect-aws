@@ -75,6 +75,24 @@
       "@effect-aws/client-account/test/*": [
         "./packages/client-account/test/*.js"
       ],
+      "@effect-aws/client-api-gateway": [
+        "./packages/client-api-gateway/src/index.js"
+      ],
+      "@effect-aws/client-api-gateway/*": [
+        "./packages/client-api-gateway/src/*.js"
+      ],
+      "@effect-aws/client-api-gateway/test/*": [
+        "./packages/client-api-gateway/test/*.js"
+      ],
+      "@effect-aws/client-apigatewayv2": [
+        "./packages/client-apigatewayv2/src/index.js"
+      ],
+      "@effect-aws/client-apigatewayv2/*": [
+        "./packages/client-apigatewayv2/src/*.js"
+      ],
+      "@effect-aws/client-apigatewayv2/test/*": [
+        "./packages/client-apigatewayv2/test/*.js"
+      ],
       "@effect-aws/client-api-gateway-management-api": [
         "./packages/client-api-gateway-management-api/src/index.js"
       ],
