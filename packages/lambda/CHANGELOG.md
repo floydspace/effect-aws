@@ -1,5 +1,32 @@
 # @effect-aws/lambda
 
+## 1.4.2
+
+### Patch Changes
+
+- [#157](https://github.com/floydspace/effect-aws/pull/157) [`6dc0b02`](https://github.com/floydspace/effect-aws/commit/6dc0b021cb0e091586135a80c504c90f6a954eb4) Thanks [@floydspace](https://github.com/floydspace)! - Implement `LambdaHandler.event()` and `LambdaHandler.context()` to access raw lambda event and context
+
+  Just yield them within api handler:
+
+  ```ts
+  //...
+  import { type APIGatewayProxyEvent, LambdaHandler } from "@effect-aws/lambda";
+  //...
+  const HelloLive = HttpApiBuilder.group(MyApi, "hello", (handlers) =>
+    handlers.handle("hello", () =>
+      Effect.gen(function* () {
+        const event = yield* LambdaHandler.event<APIGatewayProxyEvent>();
+        const context = yield* LambdaHandler.context();
+
+        yield* Effect.logInfo("Lambda event", { event, context });
+
+        return yield* Effect.succeed("Hello, World!");
+      }),
+    ),
+  );
+  //...
+  ```
+
 ## 1.4.1
 
 ### Patch Changes
