@@ -1,4 +1,4 @@
-import type { ALBEvent } from "aws-lambda";
+import type { ALBEvent } from "@effect-aws/lambda";
 
 export const albEvent: ALBEvent = {
   requestContext: {

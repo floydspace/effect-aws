@@ -1,4 +1,4 @@
-import type { KinesisStreamEvent } from "aws-lambda";
+import type { KinesisStreamEvent } from "../../Types.js";
 import type { EventSource } from "../types.js";
 import { emptyResponseMapper } from "../utils.js";
 

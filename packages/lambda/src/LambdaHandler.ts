@@ -1,37 +1,107 @@
 /**
  * @since 1.4.0
  */
-import type { HttpApi, HttpRouter, HttpServerError } from "@effect/platform";
+import type { HttpApi, HttpRouter } from "@effect/platform";
 import { HttpApiBuilder, HttpApp } from "@effect/platform";
 import type { Cause } from "effect";
 import { Context, Effect, Function, Layer } from "effect";
 import { getEventSource } from "./internal/index.js";
-import type { EventSource, LambdaEvent, LambdaResult } from "./internal/types.js";
+import * as internal from "./internal/lambdaHandler.js";
+import type { EventSource } from "./internal/types.js";
 import { encodeBase64, isContentEncodingBinary, isContentTypeBinary } from "./internal/utils.js";
 import * as LambdaRuntime from "./LambdaRuntime.js";
-import type { EffectHandler, EffectHandlerWithLayer, Handler } from "./Types.js";
+import type {
+  ALBEvent,
+  ALBResult,
+  APIGatewayProxyEvent,
+  APIGatewayProxyEventV2,
+  APIGatewayProxyResult,
+  APIGatewayProxyResultV2,
+  CloudFrontRequestEvent,
+  DynamoDBStreamEvent,
+  EffectHandler,
+  EffectHandlerWithLayer,
+  EventBridgeEvent,
+  Handler,
+  KinesisStreamEvent,
+  LambdaContext,
+  S3Event,
+  SelfManagedKafkaEvent,
+  SNSEvent,
+  SQSEvent,
+} from "./Types.js";
+
+/**
+ * @since 1.4.0
+ */
+export declare namespace LambdaHandler {
+  /**
+   * @since 1.4.0
+   * @category model
+   */
+  export type Event =
+    | ALBEvent
+    | APIGatewayProxyEvent
+    | APIGatewayProxyEventV2
+    | EventBridgeEvent<string, unknown>
+    | DynamoDBStreamEvent
+    | KinesisStreamEvent
+    | S3Event
+    | SelfManagedKafkaEvent
+    | SNSEvent
+    | SQSEvent
+    | CloudFrontRequestEvent;
+
+  /**
+   * @since 1.4.0
+   * @category model
+   */
+  export type Result =
+    | ALBResult
+    | APIGatewayProxyResult
+    | APIGatewayProxyResultV2
+    | void;
+}
+
+/**
+ * @since 1.4.0
+ * @category context
+ */
+export const event = <T extends LambdaHandler.Event>(): Effect.Effect<T> =>
+  Effect.map(
+    Effect.context<never>(),
+    (context) => Context.unsafeGet(context, internal.lambdaEventTag),
+  ) as Effect.Effect<T>;
+
+/**
+ * @since 1.4.0
+ * @category context
+ */
+export const context = (): Effect.Effect<LambdaContext> =>
+  Effect.map(
+    Effect.context<never>(),
+    (context) => Context.unsafeGet(context, internal.lambdaContextTag),
+  );
 
 /**
  * Makes a lambda handler from the given EffectHandler and optional global layer.
  * The global layer is used to provide a runtime which will gracefully handle lambda termination during down-scaling.
  *
  * @example
- * import { LambdaHandler } from "@effect-aws/lambda"
- * import { Context } from "aws-lambda";
+ * import { LambdaHandler, LambdaContext } from "@effect-aws/lambda"
  * import { Effect } from "effect";
  *
- * const effectHandler = (event: unknown, context: Context) => {
+ * const effectHandler = (event: unknown, context: LambdaContext) => {
  *  return Effect.logInfo("Hello, world!");
  * };
  *
  * export const handler = LambdaHandler.make(effectHandler);
  *
  * @example
- * import { LambdaHandler } from "@effect-aws/lambda"
- * import { Context } from "aws-lambda";
+ * import { LambdaHandler, LambdaContext } from "@effect-aws/lambda"
  * import { Effect, Logger } from "effect";
  *
- * const effectHandler = (event: unknown, context: Context) => {
+ * const effectHandler = (event: unknown, context: LambdaContext) => {
  *  return Effect.logInfo("Hello, world!");
  * };
  *
@@ -107,11 +177,18 @@ const WebHandler = Context.GenericTag<WebHandler>("@effect-aws/lambda/WebHandler
 export const makeWebHandler = (options?: Pick<HttpApiOptions, "middleware">): Effect.Effect<
   WebHandler,
   never,
-  HttpApiBuilder.Router | HttpApi.Api | HttpRouter.HttpRouter.DefaultServices | HttpApiBuilder.Middleware
+  | HttpApiBuilder.Router
+  | HttpApi.Api
+  | HttpRouter.HttpRouter.DefaultServices
+  | HttpApiBuilder.Middleware
+  | LambdaHandler.Event
+  | LambdaContext
 > =>
   Effect.gen(function*() {
     const app = yield* HttpApiBuilder.httpApp;
-    const rt = yield* Effect.runtime<HttpRouter.HttpRouter.DefaultServices>();
+    const rt = yield* Effect.runtime<
+      HttpRouter.HttpRouter.DefaultServices | LambdaHandler.Event | LambdaContext
+    >();
     return HttpApp.toWebHandlerRuntime(rt)(
       options?.middleware ? options.middleware(app as any) as any : app,
     );
@@ -123,14 +200,15 @@ export const makeWebHandler = (options?: Pick<HttpApiOptions, "middleware">): Ef
  * @since 1.4.0
  * @category constructors
  */
-export const httpApiHandler: EffectHandler<
-  LambdaEvent,
-  WebHandler,
-  HttpServerError.ResponseError | Cause.UnknownException,
-  LambdaResult
-> = (event) =>
+export const httpApiHandler = (options?: Pick<HttpApiOptions, "middleware">): EffectHandler<
+  LambdaHandler.Event,
+  HttpApi.Api | HttpApiBuilder.Router | HttpRouter.HttpRouter.DefaultServices | HttpApiBuilder.Middleware,
+  Cause.UnknownException,
+  LambdaHandler.Result
+> =>
+(event, context) =>
   Effect.gen(function*() {
-    const eventSource = getEventSource(event) as EventSource<LambdaEvent, LambdaResult>;
+    const eventSource = getEventSource(event) as EventSource<LambdaHandler.Event, LambdaHandler.Result>;
     const requestValues = eventSource.getRequest(event);
 
     const req = new Request(
@@ -142,7 +220,11 @@ export const httpApiHandler: EffectHandler<
       },
     );
 
-    const res = yield* WebHandler.pipe(Effect.andThen((handler) => handler(req)));
+    const res = yield* makeWebHandler(options).pipe(
+      Effect.provideService(internal.lambdaEventTag, event),
+      Effect.provideService(internal.lambdaContextTag, context),
+      Effect.andThen((handler) => handler(req)),
+    );
 
     const contentType = res.headers.get("content-type");
     let isBase64Encoded = contentType && isContentTypeBinary(contentType) ? true : false;
@@ -213,9 +295,7 @@ export const httpApiHandler: EffectHandler<
 export const fromHttpApi = <LA, LE>(
   layer: Layer.Layer<LA | HttpApi.Api | HttpRouter.HttpRouter.DefaultServices, LE>,
   options?: HttpApiOptions,
-): Handler<LambdaEvent, LambdaResult> => {
-  const httpApiLayer = Layer.effect(WebHandler, makeWebHandler(options)).pipe(
-    Layer.provide(Layer.mergeAll(layer, HttpApiBuilder.Router.Live, HttpApiBuilder.Middleware.layer)),
-  );
-  return make({ handler: httpApiHandler, layer: httpApiLayer, memoMap: options?.memoMap });
+): Handler<LambdaHandler.Event, LambdaHandler.Result> => {
+  const httpApiLayer = Layer.mergeAll(layer, HttpApiBuilder.Router.Live, HttpApiBuilder.Middleware.layer);
+  return make({ handler: httpApiHandler(options), layer: httpApiLayer, memoMap: options?.memoMap });
 };

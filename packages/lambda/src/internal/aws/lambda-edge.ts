@@ -1,6 +1,6 @@
 import url from "node:url";
 
-import type { CloudFrontRequestEvent } from "aws-lambda";
+import type { CloudFrontRequestEvent } from "../../Types.js";
 import type { EventSource } from "../types.js";
 import { getEventBody } from "../utils.js";
 

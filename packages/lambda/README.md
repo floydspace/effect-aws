@@ -20,9 +20,8 @@ npm install --save @effect-aws/lambda
 Without dependencies:
 
 ```typescript
-import type { SNSEvent } from "aws-lambda"
 import { Effect } from "effect"
-import { EffectHandler, makeLambda } from "@effect-aws/lambda"
+import { EffectHandler, makeLambda, SNSEvent } from "@effect-aws/lambda"
 
 // Define your effect handler
 const myEffectHandler: EffectHandler<SNSEvent, never> = (event, context) => {
@@ -37,9 +36,8 @@ export const handler = makeLambda(myEffectHandler)
 With dependencies:
 
 ```typescript
-import { EffectHandler, makeLambda } from "@effect-aws/lambda"
+import { EffectHandler, makeLambda, SNSEvent } from "@effect-aws/lambda"
 import * as Logger from "@effect-aws/powertools-logger"
-import type { SNSEvent } from "aws-lambda"
 import { Context, Effect, Layer } from "effect"
 
 interface FooService {

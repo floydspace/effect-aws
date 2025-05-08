@@ -1,4 +1,4 @@
-import type { S3Event } from "aws-lambda";
+import type { S3Event } from "../../Types.js";
 import type { EventSource } from "../types.js";
 
 const getRequestValuesFromS3 = (event: S3Event) => {

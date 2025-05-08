@@ -1,4 +1,4 @@
-import type { SQSEvent } from "aws-lambda";
+import type { SQSEvent } from "../../Types.js";
 import type { EventSource } from "../types.js";
 
 const getRequestValuesFromSqs = (event: SQSEvent) => {

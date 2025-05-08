@@ -1,4 +1,4 @@
-import type { EventBridgeEvent } from "aws-lambda";
+import type { EventBridgeEvent } from "../../Types.js";
 import type { EventSource } from "../types.js";
 import { emptyResponseMapper } from "../utils.js";
 

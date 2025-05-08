@@ -1,4 +1,12 @@
-import type { EffectHandler } from "@effect-aws/lambda";
+import type {
+  ALBResult,
+  APIGatewayProxyEvent,
+  APIGatewayProxyResult,
+  APIGatewayProxyResultV2,
+  EffectHandler,
+  LambdaContext,
+  SNSEvent,
+} from "@effect-aws/lambda";
 import { LambdaHandler } from "@effect-aws/lambda";
 import {
   HttpApi,
@@ -10,13 +18,6 @@ import {
   HttpServer,
   HttpServerResponse,
 } from "@effect/platform";
-import type {
-  ALBResult,
-  APIGatewayProxyResult,
-  APIGatewayProxyResultV2,
-  Context as LambdaContext,
-  SNSEvent,
-} from "aws-lambda";
 import { Context, Effect, Layer } from "effect";
 import { describe, expect, it, vi } from "vitest";
 import { albEvent } from "./fixtures/alb-event.js";
@@ -138,13 +139,21 @@ describe("LambdaHandler", () => {
           handlers.handle(
             "hello",
             () =>
-              HttpApp.appendPreResponseHandler((_req, response) =>
-                Effect.orDie(
-                  HttpServerResponse.setCookie(response, "cookie key", "cookie value"),
-                )
-              ).pipe(
-                Effect.flatMap(() => Effect.succeed("Hello, World!")),
-              ),
+              Effect.gen(function*() {
+                yield* HttpApp.appendPreResponseHandler((_req, response) =>
+                  Effect.orDie(
+                    HttpServerResponse.setCookie(response, "cookie key", "cookie value"),
+                  )
+                );
+
+                const event = yield* LambdaHandler.event<APIGatewayProxyEvent>();
+                const context = yield* LambdaHandler.context();
+
+                expect(event).toBeDefined();
+                expect(context).toBeDefined();
+
+                return yield* Effect.succeed("Hello, World!");
+              }),
           ),
       );
 

@@ -9,7 +9,7 @@ import type {
   SelfManagedKafkaEvent,
   SNSEvent,
   SQSEvent,
-} from "aws-lambda";
+} from "../Types.js";
 import awsAlbEventSource from "./aws/alb.js";
 import awsApiGatewayV1EventSource from "./aws/api-gateway-v1.js";
 import awsApiGatewayV2EventSource from "./aws/api-gateway-v2.js";
@@ -21,8 +21,7 @@ import awsS3 from "./aws/s3.js";
 import awsSelfManagedKafkaEventSource from "./aws/self-managed-kafka.js";
 import awsSnsEventSource from "./aws/sns.js";
 import awsSqsEventSource from "./aws/sqs.js";
-import awsStepFunctionsEventSource from "./aws/step-functions.js";
-import type { BatchLikeEvent, StepFunctionsLikeEvent } from "./types.js";
+import type { BatchLikeEvent } from "./types.js";
 
 const isBatchLikeEvent = (event: unknown): event is BatchLikeEvent => !!(event as BatchLikeEvent).Records;
 
@@ -50,15 +49,6 @@ const isEventBridgeEvent = (
     Array.isArray((event as EventBridgeEvent<string, unknown>).resources) &&
     typeof (event as EventBridgeEvent<string, unknown>).detail === "object" &&
     !Array.isArray((event as EventBridgeEvent<string, unknown>).detail)
-  );
-
-const isStepFunctionsEvent = (
-  event: unknown,
-): event is StepFunctionsLikeEvent =>
-  !!(
-    (event as StepFunctionsLikeEvent).context?.Execution &&
-    (event as StepFunctionsLikeEvent).context?.State &&
-    (event as StepFunctionsLikeEvent).context?.StateMachine
   );
 
 const isSelfManagedKafkaEvent = (
@@ -104,9 +94,6 @@ export function getEventSource(event: unknown) {
   }
   if (isEventBridgeEvent(event)) {
     return awsEventBridgeEventSource;
-  }
-  if (isStepFunctionsEvent(event)) {
-    return awsStepFunctionsEventSource;
   }
   throw new Error("Couldn't detect valid event source.");
 }

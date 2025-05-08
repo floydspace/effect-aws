@@ -9,22 +9,20 @@ import * as LambdaRuntime from "./LambdaRuntime.js";
  * The global layer is used to provide a runtime which will gracefully handle lambda termination during down-scaling.
  *
  * @example
- * import { makeLambda } from "@effect-aws/lambda";
- * import { Context } from "aws-lambda";
+ * import { makeLambda, LambdaContext } from "@effect-aws/lambda";
  * import { Effect } from "effect";
  *
- * const effectHandler = (event: unknown, context: Context) => {
+ * const effectHandler = (event: unknown, context: LambdaContext) => {
  *  return Effect.logInfo("Hello, world!");
  * };
  *
  * export const handler = makeLambda(effectHandler);
  *
  * @example
- * import { makeLambda } from "@effect-aws/lambda";
- * import { Context } from "aws-lambda";
+ * import { makeLambda, LambdaContext } from "@effect-aws/lambda";
  * import { Effect, Logger } from "effect";
  *
- * const effectHandler = (event: unknown, context: Context) => {
+ * const effectHandler = (event: unknown, context: LambdaContext) => {
  *  return Effect.logInfo("Hello, world!");
  * };
  *
@@ -46,15 +44,14 @@ export const makeLambda = LambdaHandler.make;
  * All finalizers will be executed on process termination or interruption.
  *
  * @example
- * import { fromLayer } from "@effect-aws/lambda";
- * import { Context } from "aws-lambda";
+ * import { fromLayer, LambdaContext } from "@effect-aws/lambda";
  * import { Effect, Logger } from "effect";
  *
  * const LambdaLayer = Logger.replace(Logger.defaultLogger, Logger.logfmtLogger);
  *
  * const lambdaRuntime = fromLayer(LambdaLayer);
  *
- * export const handler = async (event: unknown, context: Context) => {
+ * export const handler = async (event: unknown, context: LambdaContext) => {
  *  return Effect.logInfo("Hello, world!").pipe(lambdaRuntime.runPromise);
  * };
  *
