@@ -1,4 +1,4 @@
-import type { SelfManagedKafkaEvent } from "aws-lambda";
+import type { SelfManagedKafkaEvent } from "../../Types.js";
 import type { EventSource } from "../types.js";
 import { emptyResponseMapper } from "../utils.js";
 

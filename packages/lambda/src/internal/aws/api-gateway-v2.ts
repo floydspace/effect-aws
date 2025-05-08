@@ -1,6 +1,6 @@
 import url from "node:url";
 
-import type { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from "aws-lambda";
+import type { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from "../../Types.js";
 import type { EventSource } from "../types.js";
 import { getCommaDelimitedHeaders, getEventBody } from "../utils.js";
 

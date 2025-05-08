@@ -1,4 +1,4 @@
-import type { APIGatewayProxyEvent } from "aws-lambda";
+import type { APIGatewayProxyEvent } from "@effect-aws/lambda";
 
 export const apiGatewayV1Event: APIGatewayProxyEvent = {
   resource: "/{proxy+}",

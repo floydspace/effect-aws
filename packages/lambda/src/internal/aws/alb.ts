@@ -1,6 +1,6 @@
 import url from "node:url";
 
-import type { ALBEvent, ALBResult } from "aws-lambda";
+import type { ALBEvent, ALBResult } from "../../Types.js";
 import type { EventSource } from "../types.js";
 import { getMultiValueHeaders, getRequestValuesFromEvent } from "../utils.js";
 

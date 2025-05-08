@@ -1,4 +1,4 @@
-import type { SNSEvent } from "aws-lambda";
+import type { SNSEvent } from "../../Types.js";
 import type { EventSource } from "../types.js";
 import { emptyResponseMapper } from "../utils.js";
 

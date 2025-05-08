@@ -9,15 +9,14 @@ import { Console, Effect, ManagedRuntime } from "effect";
  * All finalizers will be executed on process termination or interruption.
  *
  * @example
- * import { LambdaRuntime } from "@effect-aws/lambda";
- * import { Context } from "aws-lambda";
+ * import { LambdaRuntime, LambdaContext } from "@effect-aws/lambda";
  * import { Effect, Logger } from "effect";
  *
  * const LambdaLayer = Logger.replace(Logger.defaultLogger, Logger.logfmtLogger);
  *
  * const lambdaRuntime = LambdaRuntime.fromLayer(LambdaLayer);
  *
- * export const handler = async (event: unknown, context: Context) => {
+ * export const handler = async (event: unknown, context: LambdaContext) => {
  *  return Effect.logInfo("Hello, world!").pipe(lambdaRuntime.runPromise);
  * };
  *

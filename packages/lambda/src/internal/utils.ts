@@ -1,4 +1,4 @@
-import type { ALBEvent, APIGatewayProxyEvent } from "aws-lambda";
+import type { ALBEvent, APIGatewayProxyEvent } from "../Types.js";
 
 export function getEventBody({
   body,

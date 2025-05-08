@@ -1,4 +1,4 @@
-import type { APIGatewayProxyEventV2 } from "aws-lambda";
+import type { APIGatewayProxyEventV2 } from "@effect-aws/lambda";
 
 export const apiGatewayV2Event: APIGatewayProxyEventV2 = {
   version: "2.0",

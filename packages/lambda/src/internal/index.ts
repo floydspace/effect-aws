@@ -9,7 +9,7 @@ import type {
   SelfManagedKafkaEvent,
   SNSEvent,
   SQSEvent,
-} from "aws-lambda";
+} from "../Types.js";
 import awsAlbEventSource from "./aws/alb.js";
 import awsApiGatewayV1EventSource from "./aws/api-gateway-v1.js";
 import awsApiGatewayV2EventSource from "./aws/api-gateway-v2.js";

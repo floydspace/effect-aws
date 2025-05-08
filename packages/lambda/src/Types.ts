@@ -1,7 +1,23 @@
 /**
  * @since 1.0.0
  */
-import type { Context } from "aws-lambda";
+import type {
+  ALBEvent,
+  ALBResult,
+  APIGatewayProxyEvent,
+  APIGatewayProxyEventV2,
+  APIGatewayProxyResult,
+  APIGatewayProxyResultV2,
+  CloudFrontRequestEvent,
+  Context,
+  DynamoDBStreamEvent,
+  EventBridgeEvent,
+  KinesisStreamEvent,
+  S3Event,
+  SelfManagedKafkaEvent,
+  SNSEvent,
+  SQSEvent,
+} from "aws-lambda";
 import { type Layer } from "effect";
 import type * as Effect from "effect/Effect";
 
@@ -40,4 +56,67 @@ export type EffectHandlerWithLayer<T, R, E1 = never, E2 = never, A = void> = {
   readonly handler: EffectHandler<T, R, E1, A>;
   readonly layer: Layer.Layer<R, E2>;
   readonly memoMap?: Layer.MemoMap;
+};
+
+export {
+  /**
+   * @since 1.4.0
+   */
+  ALBEvent,
+  /**
+   * @since 1.4.0
+   */
+  ALBResult,
+  /**
+   * @since 1.4.0
+   */
+  APIGatewayProxyEvent,
+  /**
+   * @since 1.4.0
+   */
+  APIGatewayProxyEventV2,
+  /**
+   * @since 1.4.0
+   */
+  APIGatewayProxyResult,
+  /**
+   * @since 1.4.0
+   */
+  APIGatewayProxyResultV2,
+  /**
+   * @since 1.4.0
+   */
+  CloudFrontRequestEvent,
+  /**
+   * @since 1.4.0
+   */
+  Context as LambdaContext,
+  /**
+   * @since 1.4.0
+   */
+  DynamoDBStreamEvent,
+  /**
+   * @since 1.4.0
+   */
+  EventBridgeEvent,
+  /**
+   * @since 1.4.0
+   */
+  KinesisStreamEvent,
+  /**
+   * @since 1.4.0
+   */
+  S3Event,
+  /**
+   * @since 1.4.0
+   */
+  SelfManagedKafkaEvent,
+  /**
+   * @since 1.4.0
+   */
+  SNSEvent,
+  /**
+   * @since 1.4.0
+   */
+  SQSEvent,
 };
