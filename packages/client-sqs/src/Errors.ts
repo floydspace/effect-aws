@@ -29,7 +29,6 @@ import type {
   UnsupportedOperation,
 } from "@aws-sdk/client-sqs";
 import type { TaggedException } from "@effect-aws/commons";
-import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "BatchEntryIdsNotDistinct",
@@ -90,6 +89,4 @@ export type RequestThrottledError = TaggedException<RequestThrottled>;
 export type ResourceNotFoundError = TaggedException<ResourceNotFoundException>;
 export type TooManyEntriesInBatchRequestError = TaggedException<TooManyEntriesInBatchRequest>;
 export type UnsupportedOperationError = TaggedException<UnsupportedOperation>;
-
-export type SdkError = CommonSdkError;
-export const SdkError = CommonSdkError;
+export type SdkError = TaggedException<Error & { name: "SdkError" }>;

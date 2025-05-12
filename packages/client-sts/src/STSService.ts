@@ -32,7 +32,7 @@ import {
   type STSClient,
   type STSClientConfig,
 } from "@aws-sdk/client-sts";
-import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
@@ -45,6 +45,7 @@ import type {
   MalformedPolicyDocumentError,
   PackedPolicyTooLargeError,
   RegionDisabledError,
+  SdkError,
 } from "./Errors.js";
 import { AllServiceErrors } from "./Errors.js";
 import * as Instance from "./STSClientInstance.js";

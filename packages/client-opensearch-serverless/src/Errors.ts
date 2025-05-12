@@ -7,7 +7,6 @@ import type {
   ValidationException,
 } from "@aws-sdk/client-opensearchserverless";
 import type { TaggedException } from "@effect-aws/commons";
-import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "ConflictException",
@@ -24,6 +23,4 @@ export type OcuLimitExceededError = TaggedException<OcuLimitExceededException>;
 export type ResourceNotFoundError = TaggedException<ResourceNotFoundException>;
 export type ServiceQuotaExceededError = TaggedException<ServiceQuotaExceededException>;
 export type ValidationError = TaggedException<ValidationException>;
-
-export type SdkError = CommonSdkError;
-export const SdkError = CommonSdkError;
+export type SdkError = TaggedException<Error & { name: "SdkError" }>;

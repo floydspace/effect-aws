@@ -111,7 +111,6 @@ import type {
   UnsupportedActionForDeploymentTypeException,
 } from "@aws-sdk/client-codedeploy";
 import type { TaggedException } from "@effect-aws/commons";
-import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "AlarmsLimitExceededException",
@@ -344,6 +343,4 @@ export type TagSetListLimitExceededError = TaggedException<TagSetListLimitExceed
 export type ThrottlingError = TaggedException<ThrottlingException>;
 export type TriggerTargetsLimitExceededError = TaggedException<TriggerTargetsLimitExceededException>;
 export type UnsupportedActionForDeploymentTypeError = TaggedException<UnsupportedActionForDeploymentTypeException>;
-
-export type SdkError = CommonSdkError;
-export const SdkError = CommonSdkError;
+export type SdkError = TaggedException<Error & { name: "SdkError" }>;

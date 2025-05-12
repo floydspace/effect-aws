@@ -77,7 +77,7 @@ import {
   type UpdateUserCommandInput,
   type UpdateUserCommandOutput,
 } from "@aws-sdk/client-mq";
-import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
@@ -87,6 +87,7 @@ import type {
   ForbiddenError,
   InternalServerError,
   NotFoundError,
+  SdkError,
   UnauthorizedError,
 } from "./Errors.js";
 import { AllServiceErrors } from "./Errors.js";

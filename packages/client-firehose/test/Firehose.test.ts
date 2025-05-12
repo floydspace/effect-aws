@@ -6,7 +6,8 @@ import {
 } from "@aws-sdk/client-firehose";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-firehose/dist-cjs/runtimeConfig";
-import { Firehose, FirehoseServiceConfig, SdkError } from "@effect-aws/client-firehose";
+import { Firehose, FirehoseServiceConfig } from "@effect-aws/client-firehose";
+import { SdkError } from "@effect-aws/commons";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";

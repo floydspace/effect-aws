@@ -6,7 +6,8 @@ import {
 } from "@aws-sdk/client-secrets-manager";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-secrets-manager/dist-cjs/runtimeConfig";
-import { SdkError, SecretsManager, SecretsManagerServiceConfig } from "@effect-aws/client-secrets-manager";
+import { SecretsManager, SecretsManagerServiceConfig } from "@effect-aws/client-secrets-manager";
+import { SdkError } from "@effect-aws/commons";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";

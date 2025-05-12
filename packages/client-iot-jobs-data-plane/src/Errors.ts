@@ -12,7 +12,6 @@ import type {
   ValidationException,
 } from "@aws-sdk/client-iot-jobs-data-plane";
 import type { TaggedException } from "@effect-aws/commons";
-import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "CertificateValidationException",
@@ -39,6 +38,4 @@ export type ServiceUnavailableError = TaggedException<ServiceUnavailableExceptio
 export type TerminalStateError = TaggedException<TerminalStateException>;
 export type ThrottlingError = TaggedException<ThrottlingException>;
 export type ValidationError = TaggedException<ValidationException>;
-
-export type SdkError = CommonSdkError;
-export const SdkError = CommonSdkError;
+export type SdkError = TaggedException<Error & { name: "SdkError" }>;

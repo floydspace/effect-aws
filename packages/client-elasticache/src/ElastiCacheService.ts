@@ -230,7 +230,7 @@ import {
   type TestMigrationCommandInput,
   type TestMigrationCommandOutput,
 } from "@aws-sdk/client-elasticache";
-import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
@@ -290,6 +290,7 @@ import type {
   ReservedCacheNodeNotFoundFaultError,
   ReservedCacheNodeQuotaExceededFaultError,
   ReservedCacheNodesOfferingNotFoundFaultError,
+  SdkError,
   ServerlessCacheAlreadyExistsFaultError,
   ServerlessCacheNotFoundFaultError,
   ServerlessCacheQuotaForCustomerExceededFaultError,

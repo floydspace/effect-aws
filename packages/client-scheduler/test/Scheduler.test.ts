@@ -6,7 +6,8 @@ import {
 } from "@aws-sdk/client-scheduler";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-scheduler/dist-cjs/runtimeConfig";
-import { Scheduler, SchedulerServiceConfig, SdkError } from "@effect-aws/client-scheduler";
+import { Scheduler, SchedulerServiceConfig } from "@effect-aws/client-scheduler";
+import { SdkError } from "@effect-aws/commons";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";

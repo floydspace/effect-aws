@@ -74,7 +74,7 @@ import {
   type ValidateResourcePolicyCommandInput,
   type ValidateResourcePolicyCommandOutput,
 } from "@aws-sdk/client-secrets-manager";
-import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
@@ -91,6 +91,7 @@ import type {
   PublicPolicyError,
   ResourceExistsError,
   ResourceNotFoundError,
+  SdkError,
 } from "./Errors.js";
 import { AllServiceErrors } from "./Errors.js";
 import * as Instance from "./SecretsManagerClientInstance.js";

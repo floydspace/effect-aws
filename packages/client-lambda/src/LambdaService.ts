@@ -209,7 +209,7 @@ import {
   type UpdateFunctionUrlConfigCommandInput,
   type UpdateFunctionUrlConfigCommandOutput,
 } from "@aws-sdk/client-lambda";
-import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
@@ -245,6 +245,7 @@ import type {
   ResourceInUseError,
   ResourceNotFoundError,
   ResourceNotReadyError,
+  SdkError,
   ServiceError,
   SnapStartError,
   SnapStartNotReadyError,

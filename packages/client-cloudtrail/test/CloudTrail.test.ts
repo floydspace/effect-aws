@@ -6,7 +6,8 @@ import {
 } from "@aws-sdk/client-cloudtrail";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-cloudtrail/dist-cjs/runtimeConfig";
-import { CloudTrail, CloudTrailServiceConfig, SdkError } from "@effect-aws/client-cloudtrail";
+import { CloudTrail, CloudTrailServiceConfig } from "@effect-aws/client-cloudtrail";
+import { SdkError } from "@effect-aws/commons";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";

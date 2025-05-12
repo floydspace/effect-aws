@@ -146,7 +146,6 @@ import type {
   UnsupportedDBEngineVersionFault,
 } from "@aws-sdk/client-rds";
 import type { TaggedException } from "@effect-aws/commons";
-import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "AuthorizationAlreadyExistsFault",
@@ -447,6 +446,4 @@ export type TenantDatabaseAlreadyExistsFaultError = TaggedException<TenantDataba
 export type TenantDatabaseNotFoundFaultError = TaggedException<TenantDatabaseNotFoundFault>;
 export type TenantDatabaseQuotaExceededFaultError = TaggedException<TenantDatabaseQuotaExceededFault>;
 export type UnsupportedDBEngineVersionFaultError = TaggedException<UnsupportedDBEngineVersionFault>;
-
-export type SdkError = CommonSdkError;
-export const SdkError = CommonSdkError;
+export type SdkError = TaggedException<Error & { name: "SdkError" }>;

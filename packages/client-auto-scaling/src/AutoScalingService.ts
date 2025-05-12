@@ -200,7 +200,7 @@ import {
   type UpdateAutoScalingGroupCommandInput,
   type UpdateAutoScalingGroupCommandOutput,
 } from "@aws-sdk/client-auto-scaling";
-import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
@@ -216,6 +216,7 @@ import type {
   ResourceContentionFaultError,
   ResourceInUseFaultError,
   ScalingActivityInProgressFaultError,
+  SdkError,
   ServiceLinkedRoleError,
 } from "./Errors.js";
 import { AllServiceErrors } from "./Errors.js";

@@ -86,7 +86,6 @@ import type {
   UnsupportedOperationException,
 } from "@aws-sdk/client-cloudtrail";
 import type { TaggedException } from "@effect-aws/commons";
-import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "AccessDeniedException",
@@ -263,6 +262,4 @@ export type TrailAlreadyExistsError = TaggedException<TrailAlreadyExistsExceptio
 export type TrailNotFoundError = TaggedException<TrailNotFoundException>;
 export type TrailNotProvidedError = TaggedException<TrailNotProvidedException>;
 export type UnsupportedOperationError = TaggedException<UnsupportedOperationException>;
-
-export type SdkError = CommonSdkError;
-export const SdkError = CommonSdkError;
+export type SdkError = TaggedException<Error & { name: "SdkError" }>;

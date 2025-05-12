@@ -281,6 +281,12 @@ import {
   CreateLocalGatewayRouteTableVpcAssociationCommand,
   type CreateLocalGatewayRouteTableVpcAssociationCommandInput,
   type CreateLocalGatewayRouteTableVpcAssociationCommandOutput,
+  CreateLocalGatewayVirtualInterfaceCommand,
+  type CreateLocalGatewayVirtualInterfaceCommandInput,
+  type CreateLocalGatewayVirtualInterfaceCommandOutput,
+  CreateLocalGatewayVirtualInterfaceGroupCommand,
+  type CreateLocalGatewayVirtualInterfaceGroupCommandInput,
+  type CreateLocalGatewayVirtualInterfaceGroupCommandOutput,
   CreateManagedPrefixListCommand,
   type CreateManagedPrefixListCommandInput,
   type CreateManagedPrefixListCommandOutput,
@@ -524,6 +530,12 @@ import {
   DeleteLocalGatewayRouteTableVpcAssociationCommand,
   type DeleteLocalGatewayRouteTableVpcAssociationCommandInput,
   type DeleteLocalGatewayRouteTableVpcAssociationCommandOutput,
+  DeleteLocalGatewayVirtualInterfaceCommand,
+  type DeleteLocalGatewayVirtualInterfaceCommandInput,
+  type DeleteLocalGatewayVirtualInterfaceCommandOutput,
+  DeleteLocalGatewayVirtualInterfaceGroupCommand,
+  type DeleteLocalGatewayVirtualInterfaceGroupCommandInput,
+  type DeleteLocalGatewayVirtualInterfaceGroupCommandOutput,
   DeleteManagedPrefixListCommand,
   type DeleteManagedPrefixListCommandInput,
   type DeleteManagedPrefixListCommandOutput,
@@ -980,6 +992,9 @@ import {
   DescribeNetworkInterfacesCommand,
   type DescribeNetworkInterfacesCommandInput,
   type DescribeNetworkInterfacesCommandOutput,
+  DescribeOutpostLagsCommand,
+  type DescribeOutpostLagsCommandInput,
+  type DescribeOutpostLagsCommandOutput,
   DescribePlacementGroupsCommand,
   type DescribePlacementGroupsCommandInput,
   type DescribePlacementGroupsCommandOutput,
@@ -1040,6 +1055,9 @@ import {
   DescribeSecurityGroupVpcAssociationsCommand,
   type DescribeSecurityGroupVpcAssociationsCommandInput,
   type DescribeSecurityGroupVpcAssociationsCommandOutput,
+  DescribeServiceLinkVirtualInterfacesCommand,
+  type DescribeServiceLinkVirtualInterfacesCommandInput,
+  type DescribeServiceLinkVirtualInterfacesCommandOutput,
   DescribeSnapshotAttributeCommand,
   type DescribeSnapshotAttributeCommandInput,
   type DescribeSnapshotAttributeCommandOutput,
@@ -2030,13 +2048,13 @@ import {
   type WithdrawByoipCidrCommandInput,
   type WithdrawByoipCidrCommandOutput,
 } from "@aws-sdk/client-ec2";
-import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
 import * as Instance from "./EC2ClientInstance.js";
 import * as EC2ServiceConfig from "./EC2ServiceConfig.js";
-import type { EC2ServiceError } from "./Errors.js";
+import type { EC2ServiceError, SdkError } from "./Errors.js";
 
 const commands = {
   AcceptAddressTransferCommand,
@@ -2132,6 +2150,8 @@ const commands = {
   CreateLocalGatewayRouteTableCommand,
   CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationCommand,
   CreateLocalGatewayRouteTableVpcAssociationCommand,
+  CreateLocalGatewayVirtualInterfaceCommand,
+  CreateLocalGatewayVirtualInterfaceGroupCommand,
   CreateManagedPrefixListCommand,
   CreateNatGatewayCommand,
   CreateNetworkAclCommand,
@@ -2213,6 +2233,8 @@ const commands = {
   DeleteLocalGatewayRouteTableCommand,
   DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationCommand,
   DeleteLocalGatewayRouteTableVpcAssociationCommand,
+  DeleteLocalGatewayVirtualInterfaceCommand,
+  DeleteLocalGatewayVirtualInterfaceGroupCommand,
   DeleteManagedPrefixListCommand,
   DeleteNatGatewayCommand,
   DeleteNetworkAclCommand,
@@ -2365,6 +2387,7 @@ const commands = {
   DescribeNetworkInterfaceAttributeCommand,
   DescribeNetworkInterfacePermissionsCommand,
   DescribeNetworkInterfacesCommand,
+  DescribeOutpostLagsCommand,
   DescribePlacementGroupsCommand,
   DescribePrefixListsCommand,
   DescribePrincipalIdFormatCommand,
@@ -2385,6 +2408,7 @@ const commands = {
   DescribeSecurityGroupRulesCommand,
   DescribeSecurityGroupVpcAssociationsCommand,
   DescribeSecurityGroupsCommand,
+  DescribeServiceLinkVirtualInterfacesCommand,
   DescribeSnapshotAttributeCommand,
   DescribeSnapshotTierStatusCommand,
   DescribeSnapshotsCommand,
@@ -3743,6 +3767,28 @@ interface EC2Service$ {
   >;
 
   /**
+   * @see {@link CreateLocalGatewayVirtualInterfaceCommand}
+   */
+  createLocalGatewayVirtualInterface(
+    args: CreateLocalGatewayVirtualInterfaceCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateLocalGatewayVirtualInterfaceCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link CreateLocalGatewayVirtualInterfaceGroupCommand}
+   */
+  createLocalGatewayVirtualInterfaceGroup(
+    args: CreateLocalGatewayVirtualInterfaceGroupCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateLocalGatewayVirtualInterfaceGroupCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link CreateManagedPrefixListCommand}
    */
   createManagedPrefixList(
@@ -4630,6 +4676,28 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteLocalGatewayRouteTableVpcAssociationCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link DeleteLocalGatewayVirtualInterfaceCommand}
+   */
+  deleteLocalGatewayVirtualInterface(
+    args: DeleteLocalGatewayVirtualInterfaceCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteLocalGatewayVirtualInterfaceCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link DeleteLocalGatewayVirtualInterfaceGroupCommand}
+   */
+  deleteLocalGatewayVirtualInterfaceGroup(
+    args: DeleteLocalGatewayVirtualInterfaceGroupCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteLocalGatewayVirtualInterfaceGroupCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
@@ -6306,6 +6374,17 @@ interface EC2Service$ {
   >;
 
   /**
+   * @see {@link DescribeOutpostLagsCommand}
+   */
+  describeOutpostLags(
+    args: DescribeOutpostLagsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeOutpostLagsCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link DescribePlacementGroupsCommand}
    */
   describePlacementGroups(
@@ -6522,6 +6601,17 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeSecurityGroupsCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link DescribeServiceLinkVirtualInterfacesCommand}
+   */
+  describeServiceLinkVirtualInterfaces(
+    args: DescribeServiceLinkVirtualInterfacesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeServiceLinkVirtualInterfacesCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 

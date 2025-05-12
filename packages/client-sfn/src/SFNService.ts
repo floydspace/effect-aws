@@ -116,7 +116,7 @@ import {
   type ValidateStateMachineDefinitionCommandInput,
   type ValidateStateMachineDefinitionCommandOutput,
 } from "@aws-sdk/client-sfn";
-import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
@@ -144,6 +144,7 @@ import type {
   KmsThrottlingError,
   MissingRequiredParameterError,
   ResourceNotFoundError,
+  SdkError,
   ServiceQuotaExceededError,
   StateMachineAlreadyExistsError,
   StateMachineDeletingError,

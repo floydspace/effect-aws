@@ -6,7 +6,8 @@ import {
 } from "@aws-sdk/client-auto-scaling";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-auto-scaling/dist-cjs/runtimeConfig";
-import { AutoScaling, AutoScalingServiceConfig, SdkError } from "@effect-aws/client-auto-scaling";
+import { AutoScaling, AutoScalingServiceConfig } from "@effect-aws/client-auto-scaling";
+import { SdkError } from "@effect-aws/commons";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";

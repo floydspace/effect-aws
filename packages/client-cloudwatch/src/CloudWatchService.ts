@@ -119,7 +119,7 @@ import {
   type UntagResourceCommandInput,
   type UntagResourceCommandOutput,
 } from "@aws-sdk/client-cloudwatch";
-import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
@@ -139,6 +139,7 @@ import type {
   MissingRequiredParameterError,
   ResourceNotFoundError,
   ResourceNotFoundExceptionError,
+  SdkError,
 } from "./Errors.js";
 import { AllServiceErrors } from "./Errors.js";
 

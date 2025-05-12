@@ -6,7 +6,8 @@ import {
 } from "@aws-sdk/client-timestream-influxdb";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-timestream-influxdb/dist-cjs/runtimeConfig";
-import { SdkError, TimestreamInfluxDB, TimestreamInfluxDBServiceConfig } from "@effect-aws/client-timestream-influxdb";
+import { TimestreamInfluxDB, TimestreamInfluxDBServiceConfig } from "@effect-aws/client-timestream-influxdb";
+import { SdkError } from "@effect-aws/commons";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";

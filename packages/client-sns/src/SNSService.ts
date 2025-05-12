@@ -131,7 +131,7 @@ import {
   type VerifySMSSandboxPhoneNumberCommandInput,
   type VerifySMSSandboxPhoneNumberCommandOutput,
 } from "@aws-sdk/client-sns";
-import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
@@ -160,6 +160,7 @@ import type {
   PlatformApplicationDisabledError,
   ReplayLimitExceededError,
   ResourceNotFoundError,
+  SdkError,
   StaleTagError,
   SubscriptionLimitExceededError,
   TagLimitExceededError,

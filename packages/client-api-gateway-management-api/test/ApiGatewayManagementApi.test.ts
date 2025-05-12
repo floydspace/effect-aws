@@ -9,8 +9,8 @@ import * as runtimeConfig from "@aws-sdk/client-apigatewaymanagementapi/dist-cjs
 import {
   ApiGatewayManagementApi,
   ApiGatewayManagementApiServiceConfig,
-  SdkError,
 } from "@effect-aws/client-api-gateway-management-api";
+import { SdkError } from "@effect-aws/commons";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";

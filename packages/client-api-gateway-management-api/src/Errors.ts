@@ -5,7 +5,6 @@ import type {
   PayloadTooLargeException,
 } from "@aws-sdk/client-apigatewaymanagementapi";
 import type { TaggedException } from "@effect-aws/commons";
-import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "ForbiddenException",
@@ -18,6 +17,4 @@ export type ForbiddenError = TaggedException<ForbiddenException>;
 export type GoneError = TaggedException<GoneException>;
 export type LimitExceededError = TaggedException<LimitExceededException>;
 export type PayloadTooLargeError = TaggedException<PayloadTooLargeException>;
-
-export type SdkError = CommonSdkError;
-export const SdkError = CommonSdkError;
+export type SdkError = TaggedException<Error & { name: "SdkError" }>;

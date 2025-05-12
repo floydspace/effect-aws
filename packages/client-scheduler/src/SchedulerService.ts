@@ -41,7 +41,7 @@ import {
   type UpdateScheduleCommandInput,
   type UpdateScheduleCommandOutput,
 } from "@aws-sdk/client-scheduler";
-import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
@@ -49,6 +49,7 @@ import type {
   ConflictError,
   InternalServerError,
   ResourceNotFoundError,
+  SdkError,
   ServiceQuotaExceededError,
   ThrottlingError,
   ValidationError,

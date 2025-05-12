@@ -47,7 +47,12 @@ export async function generateClient([
     Record.keys,
   );
 
-  await generateErrorsFile(`./packages/client-${serviceName}/src/Errors.ts`, exportedErrors, originalServiceName);
+  await generateErrorsFile(
+    `./packages/client-${serviceName}/src/Errors.ts`,
+    sdkName,
+    exportedErrors,
+    originalServiceName,
+  );
 
   await generateClientInstanceFile(
     `./packages/client-${serviceName}/src/${sdkName}ClientInstance.ts`,
@@ -90,36 +95,60 @@ export async function generateClient([
   exec(`pnpm --filter @effect-aws/client-${serviceName} run eslint --fix`);
 }
 
-async function generateErrorsFile(filePath: string, exportedErrors: Array<string>, originalServiceName: string) {
+async function generateErrorsFile(
+  filePath: string,
+  sdkName: string,
+  exportedErrors: Array<string>,
+  originalServiceName: string,
+) {
+  const allServiceErrors = exportedErrors.map((e) => `"${e}"`).join(", ");
   await writeFile(
     filePath,
     `import type { ${
-      exportedErrors.map((e) => (e.endsWith("Error") ? `${e} as ${String.replace(/Error$/, "")(e)}Exception` : e)).join(
-        ", ",
-      )
+      exportedErrors.length > 0 ?
+        exportedErrors.map((e) => (e.endsWith("Error") ? `${e} as ${String.replace(/Error$/, "")(e)}Exception` : e))
+          .join(
+            ", ",
+          ) :
+        `${sdkName}ServiceException`
     } } from "@aws-sdk/client-${originalServiceName}";
 import type { TaggedException } from "@effect-aws/commons";
-import { SdkError as CommonSdkError } from "@effect-aws/commons";
+${
+      allServiceErrors.length > 0 ?
+        `
+export const AllServiceErrors = [${allServiceErrors}] as const;` :
+        `import { Data } from "effect";
 
-export const AllServiceErrors = [${exportedErrors.map((e) => `"${e}"`).join(", ")}] as const;
+export type ${sdkName}ServiceError = TaggedException<
+  ${sdkName}ServiceException & { name: "${sdkName}ServiceError" }
+>;
+export const ${sdkName}ServiceError = Data.tagged<${sdkName}ServiceError>("${sdkName}ServiceError");`
+    }
 
 ${
       pipe(
         exportedErrors,
-        Array.map(
-          (taggedError) =>
-            `export type ${
-              pipe(taggedError, String.replace(/(Failure|Exception|Error|ErrorException)$/, ""))
-            }Error = TaggedException<${
-              taggedError.endsWith("Error") ? `${String.replace(/Error$/, "")(taggedError)}Exception` : taggedError
-            }>;`,
+        Array.reduce(
+          [] as Array<[string, string]>,
+          (
+            acc,
+            taggedError,
+          ) => {
+            const errorName = pipe(taggedError, String.replace(/(Failure|Exception|Error|ErrorException)$/, ""));
+            return [
+              ...acc,
+              [
+                acc.map(([e]) => e).includes(`${errorName}Error`) ? `${taggedError}Error` : `${errorName}Error`,
+                taggedError.endsWith("Error") ? `${String.replace(/Error$/, "")(taggedError)}Exception` : taggedError,
+              ] as [string, string],
+            ];
+          },
         ),
+        Array.map(([errorName, errorType]) => `export type ${errorName} = TaggedException<${errorType}>;`),
         Array.join("\n"),
       )
     }
-
-export type SdkError = CommonSdkError;
-export const SdkError = CommonSdkError;
+export type SdkError = TaggedException<Error & { name: "SdkError" }>;
 `,
   );
 }
@@ -346,24 +375,38 @@ import {
       )
     }
 } from "@aws-sdk/client-${originalServiceName}";
-import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
 import * as Instance from "./${sdkName}ClientInstance.js";
 import * as ${sdkName}ServiceConfig from "./${sdkName}ServiceConfig.js";
-import type {
+${
+      exportedErrors.length > 0 ?
+        `import type {
+  SdkError,
   ${
-      pipe(
-        importedErrors.map(
-          String.replace(/(Failure|Exception|Error|ErrorException)$/, ""),
-        ),
-        Array.map((error) => `${error}Error`),
-        Array.join(","),
-      )
-    },
+          pipe(
+            importedErrors.reduce(
+              (
+                acc,
+                taggedError,
+              ) => {
+                const errorName = pipe(taggedError, String.replace(/(Failure|Exception|Error|ErrorException)$/, ""));
+                return [
+                  ...acc,
+                  acc.includes(`${errorName}Error`) ? `${taggedError}Error` : `${errorName}Error`,
+                ];
+              },
+              [] as Array<string>,
+            ),
+            Array.join(","),
+          )
+        },
 } from "./Errors.js";
-import { AllServiceErrors } from "./Errors.js";
+import { AllServiceErrors } from "./Errors.js";` :
+        `import type { ${sdkName}ServiceError, SdkError } from "./Errors.js";`
+    }
 
 const commands = {
   ${
@@ -398,7 +441,12 @@ ${
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ${operationName}CommandOutput,
-    ${pipe(["Cause.TimeoutException", "SdkError", ...errors], Array.join(" | "))}
+    ${
+            pipe(
+              ["Cause.TimeoutException", "SdkError", ...(exportedErrors.length ? errors : [`${sdkName}ServiceError`])],
+              Array.join(" | "),
+            )
+          }
   >`;
         }),
         Array.join("\n\n"),
@@ -417,7 +465,7 @@ export const make${sdkName}Service = Effect.gen(function* () {
     client,
     commands,
     {
-      errorTags: AllServiceErrors,
+      ${exportedErrors.length ? "errorTags: AllServiceErrors," : ""}
       resolveClientConfig: ${sdkName}ServiceConfig.to${sdkName}ClientConfig,
     },
   );
@@ -483,7 +531,8 @@ async function generateTestFile(
 } from "@aws-sdk/client-${originalServiceName}";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-${originalServiceName}/dist-cjs/runtimeConfig";
-import { ${sdkName}, ${sdkName}ServiceConfig, SdkError } from "@effect-aws/client-${serviceName}";
+import { ${sdkName}, ${sdkName}ServiceConfig } from "@effect-aws/client-${serviceName}";
+import { SdkError } from "@effect-aws/commons";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";

@@ -15,7 +15,6 @@ import type {
   TooManyParts,
 } from "@aws-sdk/client-s3";
 import type { TaggedException } from "@effect-aws/commons";
-import { SdkError as CommonSdkError } from "@effect-aws/commons";
 import { Data } from "effect";
 
 export const AllServiceErrors = [
@@ -52,5 +51,4 @@ export type S3ServiceError = TaggedException<
   S3ServiceException & { name: "S3ServiceError" }
 >;
 export const S3ServiceError = Data.tagged<S3ServiceError>("S3ServiceError");
-export type SdkError = CommonSdkError;
-export const SdkError = CommonSdkError;
+export type SdkError = TaggedException<Error & { name: "SdkError" }>;

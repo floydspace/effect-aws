@@ -6,7 +6,8 @@ import {
 } from "@aws-sdk/client-cloudsearch";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-cloudsearch/dist-cjs/runtimeConfig";
-import { CloudSearch, CloudSearchServiceConfig, SdkError } from "@effect-aws/client-cloudsearch";
+import { CloudSearch, CloudSearchServiceConfig } from "@effect-aws/client-cloudsearch";
+import { SdkError } from "@effect-aws/commons";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";

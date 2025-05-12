@@ -158,7 +158,7 @@ import {
   type UpdateConnectionCommandInput,
   type UpdateConnectionCommandOutput,
 } from "@aws-sdk/client-cloudwatch-events";
-import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
@@ -176,6 +176,7 @@ import type {
   PolicyLengthExceededError,
   ResourceAlreadyExistsError,
   ResourceNotFoundError,
+  SdkError,
 } from "./Errors.js";
 import { AllServiceErrors } from "./Errors.js";
 

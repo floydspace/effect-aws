@@ -176,7 +176,7 @@ import {
   type UpdateTrailCommandInput,
   type UpdateTrailCommandOutput,
 } from "@aws-sdk/client-cloudtrail";
-import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
@@ -261,6 +261,7 @@ import type {
   ResourcePolicyNotValidError,
   ResourceTypeNotSupportedError,
   S3BucketDoesNotExistError,
+  SdkError,
   ServiceQuotaExceededError,
   TagsLimitExceededError,
   ThrottlingError,

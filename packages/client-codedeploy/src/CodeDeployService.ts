@@ -146,7 +146,7 @@ import {
   type UpdateDeploymentGroupCommandInput,
   type UpdateDeploymentGroupCommandOutput,
 } from "@aws-sdk/client-codedeploy";
-import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
@@ -257,6 +257,7 @@ import type {
   RevisionDoesNotExistError,
   RevisionRequiredError,
   RoleRequiredError,
+  SdkError,
   TagLimitExceededError,
   TagRequiredError,
   TagSetListLimitExceededError,

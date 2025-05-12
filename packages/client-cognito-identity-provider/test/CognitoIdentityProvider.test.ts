@@ -9,8 +9,8 @@ import * as runtimeConfig from "@aws-sdk/client-cognito-identity-provider/dist-c
 import {
   CognitoIdentityProvider,
   CognitoIdentityProviderServiceConfig,
-  SdkError,
 } from "@effect-aws/client-cognito-identity-provider";
+import { SdkError } from "@effect-aws/commons";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";

@@ -1,7 +1,8 @@
 import { CreateRoleCommand, type CreateRoleCommandInput, IAMClient, IAMServiceException } from "@aws-sdk/client-iam";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-iam/dist-cjs/runtimeConfig";
-import { IAM, IAMServiceConfig, SdkError } from "@effect-aws/client-iam";
+import { IAM, IAMServiceConfig } from "@effect-aws/client-iam";
+import { SdkError } from "@effect-aws/commons";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";

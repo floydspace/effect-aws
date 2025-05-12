@@ -48,7 +48,6 @@ import type {
   UnsupportedAPIEndpointException,
 } from "@aws-sdk/client-organizations";
 import type { TaggedException } from "@effect-aws/commons";
-import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "AWSOrganizationsNotInUseException",
@@ -149,6 +148,4 @@ export type SourceParentNotFoundError = TaggedException<SourceParentNotFoundExce
 export type TargetNotFoundError = TaggedException<TargetNotFoundException>;
 export type TooManyRequestsError = TaggedException<TooManyRequestsException>;
 export type UnsupportedAPIEndpointError = TaggedException<UnsupportedAPIEndpointException>;
-
-export type SdkError = CommonSdkError;
-export const SdkError = CommonSdkError;
+export type SdkError = TaggedException<Error & { name: "SdkError" }>;

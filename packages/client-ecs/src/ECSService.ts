@@ -185,7 +185,7 @@ import {
   type UpdateTaskSetCommandInput,
   type UpdateTaskSetCommandOutput,
 } from "@aws-sdk/client-ecs";
-import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
@@ -210,6 +210,7 @@ import type {
   PlatformUnknownError,
   ResourceInUseError,
   ResourceNotFoundError,
+  SdkError,
   ServerError,
   ServiceDeploymentNotFoundError,
   ServiceNotActiveError,

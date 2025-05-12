@@ -218,7 +218,7 @@ import {
   type VerifyEmailIdentityCommandInput,
   type VerifyEmailIdentityCommandOutput,
 } from "@aws-sdk/client-ses";
-import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
@@ -254,6 +254,7 @@ import type {
   ProductionAccessNotGrantedError,
   RuleDoesNotExistError,
   RuleSetDoesNotExistError,
+  SdkError,
   TemplateDoesNotExistError,
   TrackingOptionsAlreadyExistsError,
   TrackingOptionsDoesNotExistError,

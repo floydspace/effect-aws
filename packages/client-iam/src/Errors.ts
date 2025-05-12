@@ -34,7 +34,6 @@ import type {
   UnrecognizedPublicKeyEncodingException,
 } from "@aws-sdk/client-iam";
 import type { TaggedException } from "@effect-aws/commons";
-import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "AccountNotManagementOrDelegatedAdministratorException",
@@ -107,6 +106,4 @@ export type ServiceFailureError = TaggedException<ServiceFailureException>;
 export type ServiceNotSupportedError = TaggedException<ServiceNotSupportedException>;
 export type UnmodifiableEntityError = TaggedException<UnmodifiableEntityException>;
 export type UnrecognizedPublicKeyEncodingError = TaggedException<UnrecognizedPublicKeyEncodingException>;
-
-export type SdkError = CommonSdkError;
-export const SdkError = CommonSdkError;
+export type SdkError = TaggedException<Error & { name: "SdkError" }>;

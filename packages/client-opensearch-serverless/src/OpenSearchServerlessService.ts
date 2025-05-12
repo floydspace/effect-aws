@@ -116,7 +116,7 @@ import {
   type UpdateVpcEndpointCommandInput,
   type UpdateVpcEndpointCommandOutput,
 } from "@aws-sdk/client-opensearchserverless";
-import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
@@ -125,6 +125,7 @@ import type {
   InternalServerError,
   OcuLimitExceededError,
   ResourceNotFoundError,
+  SdkError,
   ServiceQuotaExceededError,
   ValidationError,
 } from "./Errors.js";
