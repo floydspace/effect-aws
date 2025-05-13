@@ -1,5 +1,14 @@
 # @effect-aws/lib-dynamodb
 
+## 1.10.2
+
+### Patch Changes
+
+- [#162](https://github.com/floydspace/effect-aws/pull/162) [`bccec21`](https://github.com/floydspace/effect-aws/commit/bccec2132338db2c04444baf249c48efbb42e80e) Thanks [@floydspace](https://github.com/floydspace)! - Fix "cannot be named without a reference" error
+
+- Updated dependencies [[`bccec21`](https://github.com/floydspace/effect-aws/commit/bccec2132338db2c04444baf249c48efbb42e80e)]:
+  - @effect-aws/client-dynamodb@1.10.2
+
 ## 1.10.0
 
 ### Minor Changes
