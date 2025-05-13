@@ -1,5 +1,11 @@
 # @effect-aws/client-bedrock-runtime
 
+## 1.10.2
+
+### Patch Changes
+
+- [#162](https://github.com/floydspace/effect-aws/pull/162) [`bccec21`](https://github.com/floydspace/effect-aws/commit/bccec2132338db2c04444baf249c48efbb42e80e) Thanks [@floydspace](https://github.com/floydspace)! - Fix "cannot be named without a reference" error
+
 ## 1.10.0
 
 ### Minor Changes
