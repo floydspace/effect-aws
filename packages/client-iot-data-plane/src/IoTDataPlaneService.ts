@@ -26,7 +26,7 @@ import {
   type UpdateThingShadowCommandInput,
   type UpdateThingShadowCommandOutput,
 } from "@aws-sdk/client-iot-data-plane";
-import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
@@ -37,6 +37,7 @@ import type {
   MethodNotAllowedError,
   RequestEntityTooLargeError,
   ResourceNotFoundError,
+  SdkError,
   ServiceUnavailableError,
   ThrottlingError,
   UnauthorizedError,

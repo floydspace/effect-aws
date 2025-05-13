@@ -110,7 +110,7 @@ import {
   type UpdateStreamModeCommandInput,
   type UpdateStreamModeCommandOutput,
 } from "@aws-sdk/client-kinesis";
-import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
@@ -130,6 +130,7 @@ import type {
   ProvisionedThroughputExceededError,
   ResourceInUseError,
   ResourceNotFoundError,
+  SdkError,
   ValidationError,
 } from "./Errors.js";
 import { AllServiceErrors } from "./Errors.js";

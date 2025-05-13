@@ -6,7 +6,8 @@ import {
 } from "@aws-sdk/client-timestream-write";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-timestream-write/dist-cjs/runtimeConfig";
-import { SdkError, TimestreamWrite, TimestreamWriteServiceConfig } from "@effect-aws/client-timestream-write";
+import { TimestreamWrite, TimestreamWriteServiceConfig } from "@effect-aws/client-timestream-write";
+import { SdkError } from "@effect-aws/commons";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";

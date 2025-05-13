@@ -13,7 +13,6 @@ import type {
   ValidationException,
 } from "@aws-sdk/client-bedrock-runtime";
 import type { TaggedException } from "@effect-aws/commons";
-import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "AccessDeniedException",
@@ -42,6 +41,4 @@ export type ServiceQuotaExceededError = TaggedException<ServiceQuotaExceededExce
 export type ServiceUnavailableError = TaggedException<ServiceUnavailableException>;
 export type ThrottlingError = TaggedException<ThrottlingException>;
 export type ValidationError = TaggedException<ValidationException>;
-
-export type SdkError = CommonSdkError;
-export const SdkError = CommonSdkError;
+export type SdkError = TaggedException<Error & { name: "SdkError" }>;

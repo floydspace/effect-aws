@@ -272,7 +272,7 @@ import {
   type UpdateLogAnomalyDetectorCommandInput,
   type UpdateLogAnomalyDetectorCommandOutput,
 } from "@aws-sdk/client-cloudwatch-logs";
-import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
@@ -290,6 +290,7 @@ import type {
   OperationAbortedError,
   ResourceAlreadyExistsError,
   ResourceNotFoundError,
+  SdkError,
   ServiceQuotaExceededError,
   ServiceUnavailableError,
   ThrottlingError,

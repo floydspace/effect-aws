@@ -11,7 +11,6 @@ import type {
   ServiceLinkedRoleFailure,
 } from "@aws-sdk/client-auto-scaling";
 import type { TaggedException } from "@effect-aws/commons";
-import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "ActiveInstanceRefreshNotFoundFault",
@@ -36,6 +35,4 @@ export type ResourceContentionFaultError = TaggedException<ResourceContentionFau
 export type ResourceInUseFaultError = TaggedException<ResourceInUseFault>;
 export type ScalingActivityInProgressFaultError = TaggedException<ScalingActivityInProgressFault>;
 export type ServiceLinkedRoleError = TaggedException<ServiceLinkedRoleFailure>;
-
-export type SdkError = CommonSdkError;
-export const SdkError = CommonSdkError;
+export type SdkError = TaggedException<Error & { name: "SdkError" }>;

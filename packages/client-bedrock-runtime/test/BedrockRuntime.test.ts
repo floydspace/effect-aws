@@ -6,7 +6,8 @@ import {
 } from "@aws-sdk/client-bedrock-runtime";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-bedrock-runtime/dist-cjs/runtimeConfig";
-import { BedrockRuntime, BedrockRuntimeServiceConfig, SdkError } from "@effect-aws/client-bedrock-runtime";
+import { BedrockRuntime, BedrockRuntimeServiceConfig } from "@effect-aws/client-bedrock-runtime";
+import { SdkError } from "@effect-aws/commons";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";

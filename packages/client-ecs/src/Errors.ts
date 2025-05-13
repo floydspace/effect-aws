@@ -28,7 +28,6 @@ import type {
   UpdateInProgressException,
 } from "@aws-sdk/client-ecs";
 import type { TaggedException } from "@effect-aws/commons";
-import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "AccessDeniedException",
@@ -89,6 +88,4 @@ export type TargetNotFoundError = TaggedException<TargetNotFoundException>;
 export type TaskSetNotFoundError = TaggedException<TaskSetNotFoundException>;
 export type UnsupportedFeatureError = TaggedException<UnsupportedFeatureException>;
 export type UpdateInProgressError = TaggedException<UpdateInProgressException>;
-
-export type SdkError = CommonSdkError;
-export const SdkError = CommonSdkError;
+export type SdkError = TaggedException<Error & { name: "SdkError" }>;

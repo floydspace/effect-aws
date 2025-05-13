@@ -6,7 +6,8 @@ import {
 } from "@aws-sdk/client-api-gateway";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-api-gateway/dist-cjs/runtimeConfig";
-import { APIGateway, APIGatewayServiceConfig, SdkError } from "@effect-aws/client-api-gateway";
+import { APIGateway, APIGatewayServiceConfig } from "@effect-aws/client-api-gateway";
+import { SdkError } from "@effect-aws/commons";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";

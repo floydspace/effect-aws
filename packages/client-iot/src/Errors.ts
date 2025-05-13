@@ -34,7 +34,6 @@ import type {
   VersionsLimitExceededException,
 } from "@aws-sdk/client-iot";
 import type { TaggedException } from "@effect-aws/commons";
-import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "CertificateConflictException",
@@ -105,6 +104,4 @@ export type UnauthorizedError = TaggedException<UnauthorizedException>;
 export type ValidationError = TaggedException<ValidationException>;
 export type VersionConflictError = TaggedException<VersionConflictException>;
 export type VersionsLimitExceededError = TaggedException<VersionsLimitExceededException>;
-
-export type SdkError = CommonSdkError;
-export const SdkError = CommonSdkError;
+export type SdkError = TaggedException<Error & { name: "SdkError" }>;

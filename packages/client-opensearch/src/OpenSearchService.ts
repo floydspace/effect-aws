@@ -233,7 +233,7 @@ import {
   type UpgradeDomainCommandInput,
   type UpgradeDomainCommandOutput,
 } from "@aws-sdk/client-opensearch";
-import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
@@ -249,6 +249,7 @@ import type {
   LimitExceededError,
   ResourceAlreadyExistsError,
   ResourceNotFoundError,
+  SdkError,
   SlotNotAvailableError,
   ValidationError,
 } from "./Errors.js";

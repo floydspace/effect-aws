@@ -83,7 +83,7 @@ import {
   type UpdateInputCommandInput,
   type UpdateInputCommandOutput,
 } from "@aws-sdk/client-iot-events";
-import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
@@ -94,6 +94,7 @@ import type {
   ResourceAlreadyExistsError,
   ResourceInUseError,
   ResourceNotFoundError,
+  SdkError,
   ServiceUnavailableError,
   ThrottlingError,
   UnsupportedOperationError,

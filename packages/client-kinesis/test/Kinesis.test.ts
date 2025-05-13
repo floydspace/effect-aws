@@ -6,7 +6,8 @@ import {
 } from "@aws-sdk/client-kinesis";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-kinesis/dist-cjs/runtimeConfig";
-import { Kinesis, KinesisServiceConfig, SdkError } from "@effect-aws/client-kinesis";
+import { Kinesis, KinesisServiceConfig } from "@effect-aws/client-kinesis";
+import { SdkError } from "@effect-aws/commons";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";

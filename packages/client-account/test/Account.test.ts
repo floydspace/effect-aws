@@ -6,7 +6,8 @@ import {
 } from "@aws-sdk/client-account";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-account/dist-cjs/runtimeConfig";
-import { Account, AccountServiceConfig, SdkError } from "@effect-aws/client-account";
+import { Account, AccountServiceConfig } from "@effect-aws/client-account";
+import { SdkError } from "@effect-aws/commons";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";

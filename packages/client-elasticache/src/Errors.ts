@@ -77,7 +77,6 @@ import type {
   UserQuotaExceededFault,
 } from "@aws-sdk/client-elasticache";
 import type { TaggedException } from "@effect-aws/commons";
-import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "APICallRateForCustomerExceededFault",
@@ -240,6 +239,4 @@ export type UserGroupNotFoundFaultError = TaggedException<UserGroupNotFoundFault
 export type UserGroupQuotaExceededFaultError = TaggedException<UserGroupQuotaExceededFault>;
 export type UserNotFoundFaultError = TaggedException<UserNotFoundFault>;
 export type UserQuotaExceededFaultError = TaggedException<UserQuotaExceededFault>;
-
-export type SdkError = CommonSdkError;
-export const SdkError = CommonSdkError;
+export type SdkError = TaggedException<Error & { name: "SdkError" }>;

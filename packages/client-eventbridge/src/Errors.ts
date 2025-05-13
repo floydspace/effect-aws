@@ -14,7 +14,6 @@ import type {
   ThrottlingException,
 } from "@aws-sdk/client-eventbridge";
 import type { TaggedException } from "@effect-aws/commons";
-import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "AccessDeniedException",
@@ -45,6 +44,4 @@ export type PolicyLengthExceededError = TaggedException<PolicyLengthExceededExce
 export type ResourceAlreadyExistsError = TaggedException<ResourceAlreadyExistsException>;
 export type ResourceNotFoundError = TaggedException<ResourceNotFoundException>;
 export type ThrottlingError = TaggedException<ThrottlingException>;
-
-export type SdkError = CommonSdkError;
-export const SdkError = CommonSdkError;
+export type SdkError = TaggedException<Error & { name: "SdkError" }>;

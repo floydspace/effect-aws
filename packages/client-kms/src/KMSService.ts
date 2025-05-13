@@ -164,7 +164,7 @@ import {
   type VerifyMacCommandInput,
   type VerifyMacCommandOutput,
 } from "@aws-sdk/client-kms";
-import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
@@ -203,6 +203,7 @@ import type {
   LimitExceededError,
   MalformedPolicyDocumentError,
   NotFoundError,
+  SdkError,
   TagError,
   UnsupportedOperationError,
   XksKeyAlreadyInUseError,

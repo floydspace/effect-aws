@@ -74,7 +74,7 @@ import {
   type UntagQueueCommandInput,
   type UntagQueueCommandOutput,
 } from "@aws-sdk/client-sqs";
-import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
@@ -105,6 +105,7 @@ import type {
   ReceiptHandleIsInvalidError,
   RequestThrottledError,
   ResourceNotFoundError,
+  SdkError,
   TooManyEntriesInBatchRequestError,
   UnsupportedOperationError,
 } from "./Errors.js";

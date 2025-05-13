@@ -39,7 +39,6 @@ import type {
   UnsupportedMediaTypeException,
 } from "@aws-sdk/client-lambda";
 import type { TaggedException } from "@effect-aws/commons";
-import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "CodeSigningConfigNotFoundException",
@@ -120,6 +119,4 @@ export type SnapStartTimeoutError = TaggedException<SnapStartTimeoutException>;
 export type SubnetIPAddressLimitReachedError = TaggedException<SubnetIPAddressLimitReachedException>;
 export type TooManyRequestsError = TaggedException<TooManyRequestsException>;
 export type UnsupportedMediaTypeError = TaggedException<UnsupportedMediaTypeException>;
-
-export type SdkError = CommonSdkError;
-export const SdkError = CommonSdkError;
+export type SdkError = TaggedException<Error & { name: "SdkError" }>;

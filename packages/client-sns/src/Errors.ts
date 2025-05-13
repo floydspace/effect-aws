@@ -35,7 +35,6 @@ import type {
   VerificationException,
 } from "@aws-sdk/client-sns";
 import type { TaggedException } from "@effect-aws/commons";
-import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "AuthorizationErrorException",
@@ -108,6 +107,4 @@ export type TopicLimitExceededError = TaggedException<TopicLimitExceededExceptio
 export type UserError = TaggedException<UserErrorException>;
 export type ValidationError = TaggedException<ValidationException>;
 export type VerificationError = TaggedException<VerificationException>;
-
-export type SdkError = CommonSdkError;
-export const SdkError = CommonSdkError;
+export type SdkError = TaggedException<Error & { name: "SdkError" }>;

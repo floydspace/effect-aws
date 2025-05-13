@@ -6,7 +6,8 @@ import {
 } from "@aws-sdk/client-iot-wireless";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-iot-wireless/dist-cjs/runtimeConfig";
-import { IoTWireless, IoTWirelessServiceConfig, SdkError } from "@effect-aws/client-iot-wireless";
+import { IoTWireless, IoTWirelessServiceConfig } from "@effect-aws/client-iot-wireless";
+import { SdkError } from "@effect-aws/commons";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";

@@ -8,7 +8,6 @@ import type {
   ValidationException,
 } from "@aws-sdk/client-iot-wireless";
 import type { TaggedException } from "@effect-aws/commons";
-import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "AccessDeniedException",
@@ -27,6 +26,4 @@ export type ResourceNotFoundError = TaggedException<ResourceNotFoundException>;
 export type ThrottlingError = TaggedException<ThrottlingException>;
 export type TooManyTagsError = TaggedException<TooManyTagsException>;
 export type ValidationError = TaggedException<ValidationException>;
-
-export type SdkError = CommonSdkError;
-export const SdkError = CommonSdkError;
+export type SdkError = TaggedException<Error & { name: "SdkError" }>;

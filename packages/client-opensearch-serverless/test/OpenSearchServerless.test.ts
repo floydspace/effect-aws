@@ -6,11 +6,8 @@ import {
 } from "@aws-sdk/client-opensearchserverless";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-opensearchserverless/dist-cjs/runtimeConfig";
-import {
-  OpenSearchServerless,
-  OpenSearchServerlessServiceConfig,
-  SdkError,
-} from "@effect-aws/client-opensearch-serverless";
+import { OpenSearchServerless, OpenSearchServerlessServiceConfig } from "@effect-aws/client-opensearch-serverless";
+import { SdkError } from "@effect-aws/commons";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";

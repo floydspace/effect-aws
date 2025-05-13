@@ -19,7 +19,6 @@ import type {
   ValidationException,
 } from "@aws-sdk/client-textract";
 import type { TaggedException } from "@effect-aws/commons";
-import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "AccessDeniedException",
@@ -60,6 +59,4 @@ export type ServiceQuotaExceededError = TaggedException<ServiceQuotaExceededExce
 export type ThrottlingError = TaggedException<ThrottlingException>;
 export type UnsupportedDocumentError = TaggedException<UnsupportedDocumentException>;
 export type ValidationError = TaggedException<ValidationException>;
-
-export type SdkError = CommonSdkError;
-export const SdkError = CommonSdkError;
+export type SdkError = TaggedException<Error & { name: "SdkError" }>;

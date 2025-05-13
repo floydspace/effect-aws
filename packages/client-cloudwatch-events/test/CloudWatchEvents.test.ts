@@ -6,7 +6,8 @@ import {
 } from "@aws-sdk/client-cloudwatch-events";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-cloudwatch-events/dist-cjs/runtimeConfig";
-import { CloudWatchEvents, CloudWatchEventsServiceConfig, SdkError } from "@effect-aws/client-cloudwatch-events";
+import { CloudWatchEvents, CloudWatchEventsServiceConfig } from "@effect-aws/client-cloudwatch-events";
+import { SdkError } from "@effect-aws/commons";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";

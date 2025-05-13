@@ -10,7 +10,6 @@ import type {
   UnsupportedOperationException,
 } from "@aws-sdk/client-iot-events";
 import type { TaggedException } from "@effect-aws/commons";
-import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "InternalFailureException",
@@ -33,6 +32,4 @@ export type ResourceNotFoundError = TaggedException<ResourceNotFoundException>;
 export type ServiceUnavailableError = TaggedException<ServiceUnavailableException>;
 export type ThrottlingError = TaggedException<ThrottlingException>;
 export type UnsupportedOperationError = TaggedException<UnsupportedOperationException>;
-
-export type SdkError = CommonSdkError;
-export const SdkError = CommonSdkError;
+export type SdkError = TaggedException<Error & { name: "SdkError" }>;

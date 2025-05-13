@@ -176,7 +176,7 @@ import {
   type UpdateEventBusCommandInput,
   type UpdateEventBusCommandOutput,
 } from "@aws-sdk/client-eventbridge";
-import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
@@ -193,6 +193,7 @@ import type {
   PolicyLengthExceededError,
   ResourceAlreadyExistsError,
   ResourceNotFoundError,
+  SdkError,
   ThrottlingError,
 } from "./Errors.js";
 import { AllServiceErrors } from "./Errors.js";

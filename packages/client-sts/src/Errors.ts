@@ -9,7 +9,6 @@ import type {
   RegionDisabledException,
 } from "@aws-sdk/client-sts";
 import type { TaggedException } from "@effect-aws/commons";
-import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "ExpiredTokenException",
@@ -30,6 +29,4 @@ export type InvalidIdentityTokenError = TaggedException<InvalidIdentityTokenExce
 export type MalformedPolicyDocumentError = TaggedException<MalformedPolicyDocumentException>;
 export type PackedPolicyTooLargeError = TaggedException<PackedPolicyTooLargeException>;
 export type RegionDisabledError = TaggedException<RegionDisabledException>;
-
-export type SdkError = CommonSdkError;
-export const SdkError = CommonSdkError;
+export type SdkError = TaggedException<Error & { name: "SdkError" }>;

@@ -2,7 +2,8 @@ import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-dynamodb/dist-cjs/runtimeConfig";
 import { DynamoDBDocumentClient, PutCommand, type PutCommandInput } from "@aws-sdk/lib-dynamodb";
-import { DynamoDBServiceConfig, SdkError } from "@effect-aws/client-dynamodb";
+import { DynamoDBServiceConfig } from "@effect-aws/client-dynamodb";
+import { SdkError } from "@effect-aws/commons";
 import { DynamoDBDocument } from "@effect-aws/lib-dynamodb";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";

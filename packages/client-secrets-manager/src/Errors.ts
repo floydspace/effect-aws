@@ -13,7 +13,6 @@ import type {
   ResourceNotFoundException,
 } from "@aws-sdk/client-secrets-manager";
 import type { TaggedException } from "@effect-aws/commons";
-import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "DecryptionFailure",
@@ -42,6 +41,4 @@ export type PreconditionNotMetError = TaggedException<PreconditionNotMetExceptio
 export type PublicPolicyError = TaggedException<PublicPolicyException>;
 export type ResourceExistsError = TaggedException<ResourceExistsException>;
 export type ResourceNotFoundError = TaggedException<ResourceNotFoundException>;
-
-export type SdkError = CommonSdkError;
-export const SdkError = CommonSdkError;
+export type SdkError = TaggedException<Error & { name: "SdkError" }>;

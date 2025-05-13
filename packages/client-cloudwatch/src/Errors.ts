@@ -14,7 +14,6 @@ import type {
   ResourceNotFoundException,
 } from "@aws-sdk/client-cloudwatch";
 import type { TaggedException } from "@effect-aws/commons";
-import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "ConcurrentModificationException",
@@ -45,6 +44,4 @@ export type LimitExceededFaultError = TaggedException<LimitExceededFault>;
 export type MissingRequiredParameterError = TaggedException<MissingRequiredParameterException>;
 export type ResourceNotFoundError = TaggedException<ResourceNotFound>;
 export type ResourceNotFoundExceptionError = TaggedException<ResourceNotFoundException>;
-
-export type SdkError = CommonSdkError;
-export const SdkError = CommonSdkError;
+export type SdkError = TaggedException<Error & { name: "SdkError" }>;

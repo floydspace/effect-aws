@@ -170,7 +170,7 @@ import {
   type UpdatePolicyCommandInput,
   type UpdatePolicyCommandOutput,
 } from "@aws-sdk/client-organizations";
-import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
@@ -217,6 +217,7 @@ import type {
   PolicyTypeNotEnabledError,
   ResourcePolicyNotFoundError,
   RootNotFoundError,
+  SdkError,
   ServiceError,
   SourceParentNotFoundError,
   TargetNotFoundError,

@@ -80,7 +80,7 @@ import {
   type UpdateAdapterCommandInput,
   type UpdateAdapterCommandOutput,
 } from "@aws-sdk/client-textract";
-import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
@@ -99,6 +99,7 @@ import type {
   LimitExceededError,
   ProvisionedThroughputExceededError,
   ResourceNotFoundError,
+  SdkError,
   ServiceQuotaExceededError,
   ThrottlingError,
   UnsupportedDocumentError,

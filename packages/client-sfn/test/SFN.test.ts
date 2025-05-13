@@ -6,7 +6,8 @@ import {
 } from "@aws-sdk/client-sfn";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-sfn/dist-cjs/runtimeConfig";
-import { SdkError, SFN, SFNServiceConfig } from "@effect-aws/client-sfn";
+import { SFN, SFNServiceConfig } from "@effect-aws/client-sfn";
+import { SdkError } from "@effect-aws/commons";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";

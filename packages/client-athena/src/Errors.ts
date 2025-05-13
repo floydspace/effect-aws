@@ -7,7 +7,6 @@ import type {
   TooManyRequestsException,
 } from "@aws-sdk/client-athena";
 import type { TaggedException } from "@effect-aws/commons";
-import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "InternalServerException",
@@ -24,6 +23,4 @@ export type MetadataError = TaggedException<MetadataException>;
 export type ResourceNotFoundError = TaggedException<ResourceNotFoundException>;
 export type SessionAlreadyExistsError = TaggedException<SessionAlreadyExistsException>;
 export type TooManyRequestsError = TaggedException<TooManyRequestsException>;
-
-export type SdkError = CommonSdkError;
-export const SdkError = CommonSdkError;
+export type SdkError = TaggedException<Error & { name: "SdkError" }>;

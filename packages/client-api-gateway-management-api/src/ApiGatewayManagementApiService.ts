@@ -14,13 +14,13 @@ import {
   type PostToConnectionCommandInput,
   type PostToConnectionCommandOutput,
 } from "@aws-sdk/client-apigatewaymanagementapi";
-import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
 import * as Instance from "./ApiGatewayManagementApiClientInstance.js";
 import * as ApiGatewayManagementApiServiceConfig from "./ApiGatewayManagementApiServiceConfig.js";
-import type { ForbiddenError, GoneError, LimitExceededError, PayloadTooLargeError } from "./Errors.js";
+import type { ForbiddenError, GoneError, LimitExceededError, PayloadTooLargeError, SdkError } from "./Errors.js";
 import { AllServiceErrors } from "./Errors.js";
 
 const commands = {

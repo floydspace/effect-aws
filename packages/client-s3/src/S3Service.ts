@@ -301,7 +301,7 @@ import {
 } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import type { RequestPresigningArguments } from "@aws-sdk/types";
-import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
@@ -319,6 +319,7 @@ import type {
   ObjectAlreadyInActiveTierError,
   ObjectNotInActiveTierError,
   S3ServiceError,
+  SdkError,
   TooManyPartsError,
 } from "./Errors.js";
 import { AllServiceErrors } from "./Errors.js";

@@ -35,7 +35,6 @@ import type {
   TransactionInProgressException,
 } from "@aws-sdk/client-dynamodb";
 import type { TaggedException } from "@effect-aws/commons";
-import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "BackupInUseException",
@@ -108,6 +107,4 @@ export type TableNotFoundError = TaggedException<TableNotFoundException>;
 export type TransactionCanceledError = TaggedException<TransactionCanceledException>;
 export type TransactionConflictError = TaggedException<TransactionConflictException>;
 export type TransactionInProgressError = TaggedException<TransactionInProgressException>;
-
-export type SdkError = CommonSdkError;
-export const SdkError = CommonSdkError;
+export type SdkError = TaggedException<Error & { name: "SdkError" }>;

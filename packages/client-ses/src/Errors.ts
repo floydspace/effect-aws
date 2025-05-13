@@ -35,7 +35,6 @@ import type {
   TrackingOptionsDoesNotExistException,
 } from "@aws-sdk/client-ses";
 import type { TaggedException } from "@effect-aws/commons";
-import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "AccountSendingPausedException",
@@ -114,6 +113,4 @@ export type RuleSetDoesNotExistError = TaggedException<RuleSetDoesNotExistExcept
 export type TemplateDoesNotExistError = TaggedException<TemplateDoesNotExistException>;
 export type TrackingOptionsAlreadyExistsError = TaggedException<TrackingOptionsAlreadyExistsException>;
 export type TrackingOptionsDoesNotExistError = TaggedException<TrackingOptionsDoesNotExistException>;
-
-export type SdkError = CommonSdkError;
-export const SdkError = CommonSdkError;
+export type SdkError = TaggedException<Error & { name: "SdkError" }>;

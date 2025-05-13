@@ -49,7 +49,6 @@ import type {
   XksProxyVpcEndpointServiceNotFoundException,
 } from "@aws-sdk/client-kms";
 import type { TaggedException } from "@effect-aws/commons";
-import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "AlreadyExistsException",
@@ -154,6 +153,4 @@ export type XksProxyVpcEndpointServiceInvalidConfigurationError = TaggedExceptio
   XksProxyVpcEndpointServiceInvalidConfigurationException
 >;
 export type XksProxyVpcEndpointServiceNotFoundError = TaggedException<XksProxyVpcEndpointServiceNotFoundException>;
-
-export type SdkError = CommonSdkError;
-export const SdkError = CommonSdkError;
+export type SdkError = TaggedException<Error & { name: "SdkError" }>;

@@ -6,7 +6,8 @@ import {
 } from "@aws-sdk/client-iot-jobs-data-plane";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-iot-jobs-data-plane/dist-cjs/runtimeConfig";
-import { IoTJobsDataPlane, IoTJobsDataPlaneServiceConfig, SdkError } from "@effect-aws/client-iot-jobs-data-plane";
+import { IoTJobsDataPlane, IoTJobsDataPlaneServiceConfig } from "@effect-aws/client-iot-jobs-data-plane";
+import { SdkError } from "@effect-aws/commons";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";

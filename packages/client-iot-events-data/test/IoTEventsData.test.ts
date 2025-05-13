@@ -6,7 +6,8 @@ import {
 } from "@aws-sdk/client-iot-events-data";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-iot-events-data/dist-cjs/runtimeConfig";
-import { IoTEventsData, IoTEventsDataServiceConfig, SdkError } from "@effect-aws/client-iot-events-data";
+import { IoTEventsData, IoTEventsDataServiceConfig } from "@effect-aws/client-iot-events-data";
+import { SdkError } from "@effect-aws/commons";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";

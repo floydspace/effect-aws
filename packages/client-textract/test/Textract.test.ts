@@ -6,7 +6,8 @@ import {
 } from "@aws-sdk/client-textract";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-textract/dist-cjs/runtimeConfig";
-import { SdkError, Textract, TextractServiceConfig } from "@effect-aws/client-textract";
+import { Textract, TextractServiceConfig } from "@effect-aws/client-textract";
+import { SdkError } from "@effect-aws/commons";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";

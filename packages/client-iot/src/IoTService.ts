@@ -815,7 +815,7 @@ import {
   type ValidateSecurityProfileBehaviorsCommandInput,
   type ValidateSecurityProfileBehaviorsCommandOutput,
 } from "@aws-sdk/client-iot";
-import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
@@ -842,6 +842,7 @@ import type {
   ResourceAlreadyExistsError,
   ResourceNotFoundError,
   ResourceRegistrationFailureError,
+  SdkError,
   ServiceQuotaExceededError,
   ServiceUnavailableError,
   SqlParseError,

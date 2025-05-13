@@ -209,7 +209,7 @@ import {
   type UpdateWorkGroupCommandInput,
   type UpdateWorkGroupCommandOutput,
 } from "@aws-sdk/client-athena";
-import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
@@ -220,6 +220,7 @@ import type {
   InvalidRequestError,
   MetadataError,
   ResourceNotFoundError,
+  SdkError,
   SessionAlreadyExistsError,
   TooManyRequestsError,
 } from "./Errors.js";

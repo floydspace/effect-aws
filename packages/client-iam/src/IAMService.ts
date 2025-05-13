@@ -497,7 +497,7 @@ import {
   type UploadSSHPublicKeyCommandInput,
   type UploadSSHPublicKeyCommandOutput,
 } from "@aws-sdk/client-iam";
-import type { HttpHandlerOptions, SdkError, ServiceLogger } from "@effect-aws/commons";
+import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
@@ -530,6 +530,7 @@ import type {
   PolicyEvaluationError,
   PolicyNotAttachableError,
   ReportGenerationLimitExceededError,
+  SdkError,
   ServiceAccessNotEnabledError,
   ServiceFailureError,
   ServiceNotSupportedError,

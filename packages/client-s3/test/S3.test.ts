@@ -8,7 +8,8 @@ import {
 } from "@aws-sdk/client-s3";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-s3/dist-cjs/runtimeConfig";
-import { S3, S3ServiceConfig, SdkError } from "@effect-aws/client-s3";
+import { S3, S3ServiceConfig } from "@effect-aws/client-s3";
+import { SdkError } from "@effect-aws/commons";
 import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit } from "effect";
 import { pipe } from "effect/Function";

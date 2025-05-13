@@ -11,7 +11,6 @@ import type {
   UnsupportedDocumentEncodingException,
 } from "@aws-sdk/client-iot-data-plane";
 import type { TaggedException } from "@effect-aws/commons";
-import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "ConflictException",
@@ -36,6 +35,4 @@ export type ServiceUnavailableError = TaggedException<ServiceUnavailableExceptio
 export type ThrottlingError = TaggedException<ThrottlingException>;
 export type UnauthorizedError = TaggedException<UnauthorizedException>;
 export type UnsupportedDocumentEncodingError = TaggedException<UnsupportedDocumentEncodingException>;
-
-export type SdkError = CommonSdkError;
-export const SdkError = CommonSdkError;
+export type SdkError = TaggedException<Error & { name: "SdkError" }>;

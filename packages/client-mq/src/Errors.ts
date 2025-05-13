@@ -7,7 +7,6 @@ import type {
   UnauthorizedException,
 } from "@aws-sdk/client-mq";
 import type { TaggedException } from "@effect-aws/commons";
-import { SdkError as CommonSdkError } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "BadRequestException",
@@ -24,6 +23,4 @@ export type ForbiddenError = TaggedException<ForbiddenException>;
 export type InternalServerError = TaggedException<InternalServerErrorException>;
 export type NotFoundError = TaggedException<NotFoundException>;
 export type UnauthorizedError = TaggedException<UnauthorizedException>;
-
-export type SdkError = CommonSdkError;
-export const SdkError = CommonSdkError;
+export type SdkError = TaggedException<Error & { name: "SdkError" }>;
