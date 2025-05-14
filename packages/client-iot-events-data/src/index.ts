@@ -34,6 +34,12 @@ export declare namespace IoTEventsData {
    * @alias IoTEventsDataService.Config
    */
   export type Config = IoTEventsDataService.Config;
+
+  /**
+   * @since 1.0.0
+   * @alias IoTEventsDataService.Type
+   */
+  export type Type = IoTEventsDataService.Type;
 }
 
 /**

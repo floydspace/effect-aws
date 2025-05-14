@@ -301,6 +301,12 @@ export declare namespace ${sdkName} {
    * @alias ${sdkName}Service.Config
    */
   export type Config = ${sdkName}Service.Config;
+
+  /**
+   * @since 1.0.0
+   * @alias ${sdkName}Service.Type
+   */
+  export type Type = ${sdkName}Service.Type;
 }
 
 /**
@@ -508,6 +514,11 @@ export declare namespace ${sdkName}Service {
   export interface Config extends Omit<${sdkName}ClientConfig, "logger"> {
     readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
   }
+
+  /**
+   * @since 1.0.0
+   */
+  export type Type = ${sdkName}Service$;
 }
 `,
   );

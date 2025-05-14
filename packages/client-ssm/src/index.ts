@@ -34,6 +34,12 @@ export declare namespace SSM {
    * @alias SSMService.Config
    */
   export type Config = SSMService.Config;
+
+  /**
+   * @since 1.0.0
+   * @alias SSMService.Type
+   */
+  export type Type = SSMService.Type;
 }
 
 /**

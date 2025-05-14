@@ -34,6 +34,12 @@ export declare namespace Account {
    * @alias AccountService.Config
    */
   export type Config = AccountService.Config;
+
+  /**
+   * @since 1.0.0
+   * @alias AccountService.Type
+   */
+  export type Type = AccountService.Type;
 }
 
 /**

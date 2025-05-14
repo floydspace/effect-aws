@@ -34,6 +34,12 @@ export declare namespace Organizations {
    * @alias OrganizationsService.Config
    */
   export type Config = OrganizationsService.Config;
+
+  /**
+   * @since 1.0.0
+   * @alias OrganizationsService.Type
+   */
+  export type Type = OrganizationsService.Type;
 }
 
 /**

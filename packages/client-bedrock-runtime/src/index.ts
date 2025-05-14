@@ -34,6 +34,12 @@ export declare namespace BedrockRuntime {
    * @alias BedrockRuntimeService.Config
    */
   export type Config = BedrockRuntimeService.Config;
+
+  /**
+   * @since 1.0.0
+   * @alias BedrockRuntimeService.Type
+   */
+  export type Type = BedrockRuntimeService.Type;
 }
 
 /**

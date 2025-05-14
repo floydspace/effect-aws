@@ -34,6 +34,12 @@ export declare namespace CloudWatch {
    * @alias CloudWatchService.Config
    */
   export type Config = CloudWatchService.Config;
+
+  /**
+   * @since 1.0.0
+   * @alias CloudWatchService.Type
+   */
+  export type Type = CloudWatchService.Type;
 }
 
 /**

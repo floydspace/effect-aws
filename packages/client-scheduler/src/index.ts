@@ -34,6 +34,12 @@ export declare namespace Scheduler {
    * @alias SchedulerService.Config
    */
   export type Config = SchedulerService.Config;
+
+  /**
+   * @since 1.0.0
+   * @alias SchedulerService.Type
+   */
+  export type Type = SchedulerService.Type;
 }
 
 /**

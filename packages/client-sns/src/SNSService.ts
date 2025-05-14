@@ -906,4 +906,9 @@ export declare namespace SNSService {
   export interface Config extends Omit<SNSClientConfig, "logger"> {
     readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
   }
+
+  /**
+   * @since 1.0.0
+   */
+  export type Type = SNSService$;
 }

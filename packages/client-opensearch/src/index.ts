@@ -34,6 +34,12 @@ export declare namespace OpenSearch {
    * @alias OpenSearchService.Config
    */
   export type Config = OpenSearchService.Config;
+
+  /**
+   * @since 1.0.0
+   * @alias OpenSearchService.Type
+   */
+  export type Type = OpenSearchService.Type;
 }
 
 /**

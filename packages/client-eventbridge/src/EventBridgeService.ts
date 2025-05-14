@@ -1078,4 +1078,9 @@ export declare namespace EventBridgeService {
   export interface Config extends Omit<EventBridgeClientConfig, "logger"> {
     readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
   }
+
+  /**
+   * @since 1.0.0
+   */
+  export type Type = EventBridgeService$;
 }

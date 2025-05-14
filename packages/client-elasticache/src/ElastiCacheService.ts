@@ -1760,4 +1760,9 @@ export declare namespace ElastiCacheService {
   export interface Config extends Omit<ElastiCacheClientConfig, "logger"> {
     readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
   }
+
+  /**
+   * @since 1.0.0
+   */
+  export type Type = ElastiCacheService$;
 }

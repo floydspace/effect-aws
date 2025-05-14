@@ -34,6 +34,12 @@ export declare namespace ECR {
    * @alias ECRService.Config
    */
   export type Config = ECRService.Config;
+
+  /**
+   * @since 1.0.0
+   * @alias ECRService.Type
+   */
+  export type Type = ECRService.Type;
 }
 
 /**

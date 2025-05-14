@@ -1590,4 +1590,9 @@ export declare namespace CloudTrailService {
   export interface Config extends Omit<CloudTrailClientConfig, "logger"> {
     readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
   }
+
+  /**
+   * @since 1.0.0
+   */
+  export type Type = CloudTrailService$;
 }

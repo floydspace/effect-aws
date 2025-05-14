@@ -562,4 +562,9 @@ export declare namespace SecretsManagerService {
   export interface Config extends Omit<SecretsManagerClientConfig, "logger"> {
     readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
   }
+
+  /**
+   * @since 1.0.0
+   */
+  export type Type = SecretsManagerService$;
 }

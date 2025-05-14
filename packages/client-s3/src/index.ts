@@ -34,6 +34,12 @@ export declare namespace S3 {
    * @alias S3Service.Config
    */
   export type Config = S3Service.Config;
+
+  /**
+   * @since 1.0.0
+   * @alias S3Service.Type
+   */
+  export type Type = S3Service.Type;
 }
 
 /**

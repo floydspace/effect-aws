@@ -2351,4 +2351,9 @@ export declare namespace IoTWirelessService {
   export interface Config extends Omit<IoTWirelessClientConfig, "logger"> {
     readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
   }
+
+  /**
+   * @since 1.0.0
+   */
+  export type Type = IoTWirelessService$;
 }

@@ -369,4 +369,9 @@ export declare namespace DynamoDBDocumentService {
    * @since 1.0.0
    */
   export type Config = TranslateConfig;
+
+  /**
+   * @since 1.0.0
+   */
+  export type Type = DynamoDBDocumentService$;
 }

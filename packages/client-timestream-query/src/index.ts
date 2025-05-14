@@ -34,6 +34,12 @@ export declare namespace TimestreamQuery {
    * @alias TimestreamQueryService.Config
    */
   export type Config = TimestreamQueryService.Config;
+
+  /**
+   * @since 1.0.0
+   * @alias TimestreamQueryService.Type
+   */
+  export type Type = TimestreamQueryService.Type;
 }
 
 /**

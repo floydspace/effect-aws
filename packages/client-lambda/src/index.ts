@@ -34,6 +34,12 @@ export declare namespace Lambda {
    * @alias LambdaService.Config
    */
   export type Config = LambdaService.Config;
+
+  /**
+   * @since 1.0.0
+   * @alias LambdaService.Type
+   */
+  export type Type = LambdaService.Type;
 }
 
 /**

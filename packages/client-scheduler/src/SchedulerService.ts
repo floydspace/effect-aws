@@ -306,4 +306,9 @@ export declare namespace SchedulerService {
   export interface Config extends Omit<SchedulerClientConfig, "logger"> {
     readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
   }
+
+  /**
+   * @since 1.0.0
+   */
+  export type Type = SchedulerService$;
 }

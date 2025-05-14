@@ -34,6 +34,12 @@ export declare namespace CognitoIdentityProvider {
    * @alias CognitoIdentityProviderService.Config
    */
   export type Config = CognitoIdentityProviderService.Config;
+
+  /**
+   * @since 1.0.0
+   * @alias CognitoIdentityProviderService.Type
+   */
+  export type Type = CognitoIdentityProviderService.Type;
 }
 
 /**

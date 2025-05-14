@@ -198,4 +198,9 @@ export declare namespace IoTJobsDataPlaneService {
   export interface Config extends Omit<IoTJobsDataPlaneClientConfig, "logger"> {
     readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
   }
+
+  /**
+   * @since 1.0.0
+   */
+  export type Type = IoTJobsDataPlaneService$;
 }

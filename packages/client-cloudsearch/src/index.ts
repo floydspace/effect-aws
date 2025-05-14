@@ -34,6 +34,12 @@ export declare namespace CloudSearch {
    * @alias CloudSearchService.Config
    */
   export type Config = CloudSearchService.Config;
+
+  /**
+   * @since 1.0.0
+   * @alias CloudSearchService.Type
+   */
+  export type Type = CloudSearchService.Type;
 }
 
 /**

@@ -1617,4 +1617,9 @@ export declare namespace S3Service {
   export interface Config extends Omit<S3ClientConfig, "logger"> {
     readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
   }
+
+  /**
+   * @since 1.0.0
+   */
+  export type Type = S3Service$;
 }

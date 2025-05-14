@@ -435,4 +435,9 @@ export declare namespace TimestreamInfluxDBService {
   export interface Config extends Omit<TimestreamInfluxDBClientConfig, "logger"> {
     readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
   }
+
+  /**
+   * @since 1.0.0
+   */
+  export type Type = TimestreamInfluxDBService$;
 }

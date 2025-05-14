@@ -34,6 +34,12 @@ export declare namespace TimestreamWrite {
    * @alias TimestreamWriteService.Config
    */
   export type Config = TimestreamWriteService.Config;
+
+  /**
+   * @since 1.0.0
+   * @alias TimestreamWriteService.Type
+   */
+  export type Type = TimestreamWriteService.Type;
 }
 
 /**

@@ -716,4 +716,9 @@ export declare namespace TextractService {
   export interface Config extends Omit<TextractClientConfig, "logger"> {
     readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
   }
+
+  /**
+   * @since 1.0.0
+   */
+  export type Type = TextractService$;
 }

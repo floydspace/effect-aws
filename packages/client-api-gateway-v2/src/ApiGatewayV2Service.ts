@@ -1168,4 +1168,9 @@ export declare namespace ApiGatewayV2Service {
   export interface Config extends Omit<ApiGatewayV2ClientConfig, "logger"> {
     readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
   }
+
+  /**
+   * @since 1.0.0
+   */
+  export type Type = ApiGatewayV2Service$;
 }

@@ -1242,4 +1242,9 @@ export declare namespace CodeDeployService {
   export interface Config extends Omit<CodeDeployClientConfig, "logger"> {
     readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
   }
+
+  /**
+   * @since 1.0.0
+   */
+  export type Type = CodeDeployService$;
 }

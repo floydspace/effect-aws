@@ -1098,4 +1098,9 @@ export declare namespace AutoScalingService {
   export interface Config extends Omit<AutoScalingClientConfig, "logger"> {
     readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
   }
+
+  /**
+   * @since 1.0.0
+   */
+  export type Type = AutoScalingService$;
 }

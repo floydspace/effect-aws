@@ -34,6 +34,12 @@ export declare namespace Bedrock {
    * @alias BedrockService.Config
    */
   export type Config = BedrockService.Config;
+
+  /**
+   * @since 1.0.0
+   * @alias BedrockService.Type
+   */
+  export type Type = BedrockService.Type;
 }
 
 /**

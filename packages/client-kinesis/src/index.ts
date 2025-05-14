@@ -34,6 +34,12 @@ export declare namespace Kinesis {
    * @alias KinesisService.Config
    */
   export type Config = KinesisService.Config;
+
+  /**
+   * @since 1.0.0
+   * @alias KinesisService.Type
+   */
+  export type Type = KinesisService.Type;
 }
 
 /**

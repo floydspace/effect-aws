@@ -326,4 +326,9 @@ export declare namespace IoTEventsDataService {
   export interface Config extends Omit<IoTEventsDataClientConfig, "logger"> {
     readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
   }
+
+  /**
+   * @since 1.0.0
+   */
+  export type Type = IoTEventsDataService$;
 }

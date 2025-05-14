@@ -240,4 +240,9 @@ export declare namespace STSService {
   export interface Config extends Omit<STSClientConfig, "logger"> {
     readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
   }
+
+  /**
+   * @since 1.0.0
+   */
+  export type Type = STSService$;
 }

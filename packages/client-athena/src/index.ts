@@ -34,6 +34,12 @@ export declare namespace Athena {
    * @alias AthenaService.Config
    */
   export type Config = AthenaService.Config;
+
+  /**
+   * @since 1.0.0
+   * @alias AthenaService.Type
+   */
+  export type Type = AthenaService.Type;
 }
 
 /**

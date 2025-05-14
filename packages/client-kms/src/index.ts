@@ -34,6 +34,12 @@ export declare namespace KMS {
    * @alias KMSService.Config
    */
   export type Config = KMSService.Config;
+
+  /**
+   * @since 1.0.0
+   * @alias KMSService.Type
+   */
+  export type Type = KMSService.Type;
 }
 
 /**

@@ -1030,4 +1030,9 @@ export declare namespace ECRService {
   export interface Config extends Omit<ECRClientConfig, "logger"> {
     readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
   }
+
+  /**
+   * @since 1.0.0
+   */
+  export type Type = ECRService$;
 }

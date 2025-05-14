@@ -34,6 +34,12 @@ export declare namespace SNS {
    * @alias SNSService.Config
    */
   export type Config = SNSService.Config;
+
+  /**
+   * @since 1.0.0
+   * @alias SNSService.Type
+   */
+  export type Type = SNSService.Type;
 }
 
 /**

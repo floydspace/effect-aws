@@ -34,6 +34,12 @@ export declare namespace TimestreamInfluxDB {
    * @alias TimestreamInfluxDBService.Config
    */
   export type Config = TimestreamInfluxDBService.Config;
+
+  /**
+   * @since 1.0.0
+   * @alias TimestreamInfluxDBService.Type
+   */
+  export type Type = TimestreamInfluxDBService.Type;
 }
 
 /**

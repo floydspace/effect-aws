@@ -34,6 +34,12 @@ export declare namespace ApiGatewayManagementApi {
    * @alias ApiGatewayManagementApiService.Config
    */
   export type Config = ApiGatewayManagementApiService.Config;
+
+  /**
+   * @since 1.0.0
+   * @alias ApiGatewayManagementApiService.Type
+   */
+  export type Type = ApiGatewayManagementApiService.Type;
 }
 
 /**

@@ -34,6 +34,12 @@ export declare namespace SQS {
    * @alias SQSService.Config
    */
   export type Config = SQSService.Config;
+
+  /**
+   * @since 1.0.0
+   * @alias SQSService.Type
+   */
+  export type Type = SQSService.Type;
 }
 
 /**

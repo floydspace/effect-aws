@@ -1201,4 +1201,9 @@ export declare namespace DynamoDBService {
   export interface Config extends Omit<DynamoDBClientConfig, "logger"> {
     readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
   }
+
+  /**
+   * @since 1.0.0
+   */
+  export type Type = DynamoDBService$;
 }
