@@ -4,7 +4,8 @@
 import type { HttpApi, HttpRouter } from "@effect/platform";
 import { HttpApiBuilder, HttpApp } from "@effect/platform";
 import type { Cause } from "effect";
-import { Context, Effect, Function, Layer } from "effect";
+import { Context, Effect, Function, Layer, Runtime, Stream } from "effect";
+import { pipeline } from "stream/promises";
 import { getEventSource } from "./internal/index.js";
 import * as internal from "./internal/lambdaHandler.js";
 import type { EventSource } from "./internal/types.js";
@@ -29,6 +30,7 @@ import type {
   SelfManagedKafkaEvent,
   SNSEvent,
   SQSEvent,
+  StreamHandler,
 } from "./Types.js";
 
 /**
@@ -153,6 +155,76 @@ export const make: {
 
   const runtime = LambdaRuntime.fromLayer(handlerOrOptions.layer, { memoMap: handlerOrOptions.memoMap });
   return async (event, context) => handlerOrOptions.handler(event, context).pipe(runtime.runPromise);
+};
+
+/**
+ * Makes a streamify lambda handler from the given StreamHandler and optional global layer.
+ * The global layer is used to provide a runtime which will gracefully handle lambda termination during down-scaling.
+ *
+ * @example
+ * import { LambdaHandler, LambdaContext } from "@effect-aws/lambda"
+ * import { Stream } from "effect";
+ *
+ * const streamHandler = (event: unknown, context: LambdaContext) => {
+ *  return Stream.make(1, 2, 3);
+ * };
+ *
+ * export const handler = LambdaHandler.stream(streamHandler);
+ *
+ * @example
+ * import { LambdaHandler, LambdaContext } from "@effect-aws/lambda"
+ * import { Stream, Logger } from "effect";
+ *
+ * const streamHandler = (event: unknown, context: LambdaContext) => {
+ *  return Stream.make(1, 2, 3);
+ * };
+ *
+ * const LambdaLayer = Logger.replace(Logger.defaultLogger, Logger.logfmtLogger);
+ *
+ * export const handler = LambdaHandler.stream({
+ *  handler: streamHandler,
+ *  layer: LambdaLayer,
+ * });
+ *
+ * @since 1.5.0
+ * @category constructors
+ */
+export const stream: {
+  <T, R, E1, E2, A>(
+    options: {
+      readonly handler: StreamHandler<T, R, E1, A>;
+      readonly layer: Layer.Layer<R, E2>;
+      readonly memoMap?: Layer.MemoMap;
+    },
+  ): Handler<T, A>;
+  <T, E, A>(
+    handler: StreamHandler<T, never, E, A>,
+  ): Handler<T, A>;
+} = <T, R, E1, E2, A>(
+  handlerOrOptions: StreamHandler<T, R, E1, A> | {
+    readonly handler: StreamHandler<T, R, E1, A>;
+    readonly layer: Layer.Layer<R, E2>;
+    readonly memoMap?: Layer.MemoMap;
+  },
+): Handler<T, A> => {
+  if (Function.isFunction(handlerOrOptions)) {
+    return awslambda.streamifyResponse((event, responseStream, context) => {
+      const iterable = handlerOrOptions(event, context).pipe(
+        Stream.toAsyncIterableRuntime(Runtime.defaultRuntime as Runtime.Runtime<R>),
+      );
+
+      return pipeline(iterable, responseStream, { end: true });
+    });
+  }
+
+  const runtime = LambdaRuntime.fromLayer(handlerOrOptions.layer, { memoMap: handlerOrOptions.memoMap });
+  return awslambda.streamifyResponse(async (event, responseStream, context) => {
+    const iterable = handlerOrOptions.handler(event, context).pipe(
+      Stream.toAsyncIterableRuntime(await runtime.runtime()),
+    );
+
+    return pipeline(iterable, responseStream, { end: true });
+  });
 };
 
 interface HttpApiOptions {

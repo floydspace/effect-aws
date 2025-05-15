@@ -18,8 +18,14 @@ import type {
   SNSEvent,
   SQSEvent,
 } from "aws-lambda";
-import { type Layer } from "effect";
+import type { Layer, Stream } from "effect";
 import type * as Effect from "effect/Effect";
+
+declare global {
+  namespace awslambda {
+    function streamifyResponse<T, A>(f: StreamifyHandler<T>): Handler<T, A>;
+  }
+}
 
 /**
  * AWS Lambda native handler type.
@@ -33,6 +39,18 @@ export type Handler<TEvent = unknown, TResult = any> = (
 ) => Promise<TResult>;
 
 /**
+ * AWS Lambda native streamify handler type.
+ *
+ * @since 1.5.0
+ * @category model
+ */
+export type StreamifyHandler<TEvent = unknown> = (
+  event: TEvent,
+  responseStream: awslambda.HttpResponseStream,
+  context: Context,
+) => Promise<void>;
+
+/**
  * Effectful AWS Lambda handler type.
  *
  * @since 1.0.0
@@ -42,6 +60,17 @@ export type EffectHandler<T, R, E = never, A = void> = (
   event: T,
   context: Context,
 ) => Effect.Effect<A, E, R>;
+
+/**
+ * Effectful streamed AWS Lambda handler type.
+ *
+ * @since 1.5.0
+ * @category model
+ */
+export type StreamHandler<T, R, E = never, A = void> = (
+  event: T,
+  context: Context,
+) => Stream.Stream<A, E, R>;
 
 /**
  * Combined object of an EffectHandler and a global layer.

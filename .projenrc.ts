@@ -42,11 +42,11 @@ new Vitest(project, { sharedSetupFiles: ["vitest.setup.ts"] });
 project.addDevDeps("vitest-mock-extended");
 project.addDevDeps("aws-sdk-client-mock", "aws-sdk-client-mock-vitest");
 
-const effectDeps = ["effect@3.14.11"];
+const effectDeps = ["effect"];
 
 project.addScripts({ "codegen-client": "tsx ./scripts/codegen-cli.ts" });
-project.addDeps(...effectDeps, "@effect/cli@0.59.11", "@effect/platform@0.80.11", "@effect/platform-node@0.76.21");
-project.addDevDeps("@effect/language-service", "@effect/vitest@0.20.11");
+project.addDeps(...effectDeps, "@effect/cli", "@effect/platform", "@effect/platform-node");
+project.addDevDeps("@effect/language-service", "@effect/vitest");
 project.tsconfigBase?.file.addOverride("compilerOptions.plugins", [
   { name: "@effect/language-service" },
 ]);
@@ -107,7 +107,7 @@ const lambda = new TypeScriptLibProject({
   name: "lambda",
   description: "Effectful AWS Lambda handler",
   devDeps: [...effectDeps, "@types/aws-lambda"],
-  peerDeps: commonPeerDeps,
+  peerDeps: ["effect@>=3.15.0 <4.0.0"],
   addExamples: true,
 });
 
@@ -162,7 +162,7 @@ new TypeScriptLibProject({
   parent: project,
   name: "s3",
   description: "Effectful AWS S3 functions",
-  devDeps: [...effectDeps, "@effect/platform@0.80.11", "@aws-sdk/client-s3@^3"],
+  devDeps: [...effectDeps, "@effect/platform", "@aws-sdk/client-s3@^3"],
   peerDeps: [...commonPeerDeps, "@effect/platform@>=0.69.25"],
   workspacePeerDeps: [s3Client],
   addExamples: true,
@@ -173,7 +173,7 @@ new TypeScriptLibProject({
   name: "http-handler",
   description: "Effectful AWS HTTP handler",
   deps: ["@smithy/types", "@smithy/protocol-http", "@smithy/querystring-builder"],
-  devDeps: [...effectDeps, "@effect/platform@0.80.11"],
+  devDeps: [...effectDeps, "@effect/platform"],
   peerDeps: [...commonPeerDeps, "@effect/platform@>=0.69.25"],
   workspacePeerDeps: [commons],
 });
