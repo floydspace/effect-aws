@@ -2477,4 +2477,9 @@ export declare namespace APIGatewayService {
   export interface Config extends Omit<APIGatewayClientConfig, "logger"> {
     readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
   }
+
+  /**
+   * @since 1.0.0
+   */
+  export type Type = APIGatewayService$;
 }

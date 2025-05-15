@@ -3302,4 +3302,9 @@ export declare namespace RDSService {
   export interface Config extends Omit<RDSClientConfig, "logger"> {
     readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
   }
+
+  /**
+   * @since 1.0.0
+   */
+  export type Type = RDSService$;
 }

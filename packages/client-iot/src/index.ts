@@ -34,6 +34,12 @@ export declare namespace IoT {
    * @alias IoTService.Config
    */
   export type Config = IoTService.Config;
+
+  /**
+   * @since 1.0.0
+   * @alias IoTService.Type
+   */
+  export type Type = IoTService.Type;
 }
 
 /**

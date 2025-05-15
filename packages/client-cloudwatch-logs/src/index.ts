@@ -34,6 +34,12 @@ export declare namespace CloudWatchLogs {
    * @alias CloudWatchLogsService.Config
    */
   export type Config = CloudWatchLogsService.Config;
+
+  /**
+   * @since 1.0.0
+   * @alias CloudWatchLogsService.Type
+   */
+  export type Type = CloudWatchLogsService.Type;
 }
 
 /**

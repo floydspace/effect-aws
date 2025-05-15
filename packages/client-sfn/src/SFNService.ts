@@ -824,4 +824,9 @@ export declare namespace SFNService {
   export interface Config extends Omit<SFNClientConfig, "logger"> {
     readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
   }
+
+  /**
+   * @since 1.0.0
+   */
+  export type Type = SFNService$;
 }

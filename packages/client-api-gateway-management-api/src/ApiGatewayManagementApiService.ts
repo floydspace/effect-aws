@@ -124,4 +124,9 @@ export declare namespace ApiGatewayManagementApiService {
   export interface Config extends Omit<ApiGatewayManagementApiClientConfig, "logger"> {
     readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
   }
+
+  /**
+   * @since 1.0.0
+   */
+  export type Type = ApiGatewayManagementApiService$;
 }

@@ -34,6 +34,12 @@ export declare namespace EC2 {
    * @alias EC2Service.Config
    */
   export type Config = EC2Service.Config;
+
+  /**
+   * @since 1.0.0
+   * @alias EC2Service.Type
+   */
+  export type Type = EC2Service.Type;
 }
 
 /**

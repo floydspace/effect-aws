@@ -738,4 +738,9 @@ export declare namespace CloudWatchService {
   export interface Config extends Omit<CloudWatchClientConfig, "logger"> {
     readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
   }
+
+  /**
+   * @since 1.0.0
+   */
+  export type Type = CloudWatchService$;
 }

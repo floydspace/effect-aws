@@ -34,6 +34,12 @@ export declare namespace SFN {
    * @alias SFNService.Config
    */
   export type Config = SFNService.Config;
+
+  /**
+   * @since 1.0.0
+   * @alias SFNService.Type
+   */
+  export type Type = SFNService.Type;
 }
 
 /**

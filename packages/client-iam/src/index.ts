@@ -34,6 +34,12 @@ export declare namespace IAM {
    * @alias IAMService.Config
    */
   export type Config = IAMService.Config;
+
+  /**
+   * @since 1.0.0
+   * @alias IAMService.Type
+   */
+  export type Type = IAMService.Type;
 }
 
 /**

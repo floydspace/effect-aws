@@ -34,6 +34,12 @@ export declare namespace RDS {
    * @alias RDSService.Config
    */
   export type Config = RDSService.Config;
+
+  /**
+   * @since 1.0.0
+   * @alias RDSService.Type
+   */
+  export type Type = RDSService.Type;
 }
 
 /**

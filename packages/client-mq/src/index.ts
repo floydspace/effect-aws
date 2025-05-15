@@ -34,6 +34,12 @@ export declare namespace Mq {
    * @alias MqService.Config
    */
   export type Config = MqService.Config;
+
+  /**
+   * @since 1.0.0
+   * @alias MqService.Type
+   */
+  export type Type = MqService.Type;
 }
 
 /**

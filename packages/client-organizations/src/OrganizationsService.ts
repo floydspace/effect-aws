@@ -1448,4 +1448,9 @@ export declare namespace OrganizationsService {
   export interface Config extends Omit<OrganizationsClientConfig, "logger"> {
     readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
   }
+
+  /**
+   * @since 1.0.0
+   */
+  export type Type = OrganizationsService$;
 }

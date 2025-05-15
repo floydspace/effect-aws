@@ -492,4 +492,9 @@ export declare namespace TimestreamWriteService {
   export interface Config extends Omit<TimestreamWriteClientConfig, "logger"> {
     readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
   }
+
+  /**
+   * @since 1.0.0
+   */
+  export type Type = TimestreamWriteService$;
 }

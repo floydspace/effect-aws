@@ -479,4 +479,9 @@ export declare namespace MqService {
   export interface Config extends Omit<MqClientConfig, "logger"> {
     readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
   }
+
+  /**
+   * @since 1.0.0
+   */
+  export type Type = MqService$;
 }

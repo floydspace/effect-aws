@@ -1538,4 +1538,9 @@ export declare namespace LambdaService {
   export interface Config extends Omit<LambdaClientConfig, "logger"> {
     readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
   }
+
+  /**
+   * @since 1.0.0
+   */
+  export type Type = LambdaService$;
 }

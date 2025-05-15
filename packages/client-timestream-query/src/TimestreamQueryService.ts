@@ -385,4 +385,9 @@ export declare namespace TimestreamQueryService {
   export interface Config extends Omit<TimestreamQueryClientConfig, "logger"> {
     readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
   }
+
+  /**
+   * @since 1.0.0
+   */
+  export type Type = TimestreamQueryService$;
 }

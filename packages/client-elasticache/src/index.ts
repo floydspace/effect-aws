@@ -34,6 +34,12 @@ export declare namespace ElastiCache {
    * @alias ElastiCacheService.Config
    */
   export type Config = ElastiCacheService.Config;
+
+  /**
+   * @since 1.0.0
+   * @alias ElastiCacheService.Type
+   */
+  export type Type = ElastiCacheService.Type;
 }
 
 /**

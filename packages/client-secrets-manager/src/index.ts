@@ -34,6 +34,12 @@ export declare namespace SecretsManager {
    * @alias SecretsManagerService.Config
    */
   export type Config = SecretsManagerService.Config;
+
+  /**
+   * @since 1.0.0
+   * @alias SecretsManagerService.Type
+   */
+  export type Type = SecretsManagerService.Type;
 }
 
 /**

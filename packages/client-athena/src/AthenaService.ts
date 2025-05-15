@@ -1109,4 +1109,9 @@ export declare namespace AthenaService {
   export interface Config extends Omit<AthenaClientConfig, "logger"> {
     readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
   }
+
+  /**
+   * @since 1.0.0
+   */
+  export type Type = AthenaService$;
 }

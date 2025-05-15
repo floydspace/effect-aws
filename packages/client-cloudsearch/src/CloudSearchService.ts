@@ -576,4 +576,9 @@ export declare namespace CloudSearchService {
   export interface Config extends Omit<CloudSearchClientConfig, "logger"> {
     readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
   }
+
+  /**
+   * @since 1.0.0
+   */
+  export type Type = CloudSearchService$;
 }

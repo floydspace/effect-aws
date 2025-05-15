@@ -636,4 +636,9 @@ export declare namespace SQSService {
   export interface Config extends Omit<SQSClientConfig, "logger"> {
     readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
   }
+
+  /**
+   * @since 1.0.0
+   */
+  export type Type = SQSService$;
 }

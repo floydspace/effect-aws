@@ -1557,4 +1557,9 @@ export declare namespace OpenSearchService {
   export interface Config extends Omit<OpenSearchClientConfig, "logger"> {
     readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
   }
+
+  /**
+   * @since 1.0.0
+   */
+  export type Type = OpenSearchService$;
 }

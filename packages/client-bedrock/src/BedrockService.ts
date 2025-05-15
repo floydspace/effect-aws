@@ -1287,4 +1287,9 @@ export declare namespace BedrockService {
   export interface Config extends Omit<BedrockClientConfig, "logger"> {
     readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
   }
+
+  /**
+   * @since 1.0.0
+   */
+  export type Type = BedrockService$;
 }

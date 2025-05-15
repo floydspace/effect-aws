@@ -2876,4 +2876,9 @@ export declare namespace SSMService {
   export interface Config extends Omit<SSMClientConfig, "logger"> {
     readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
   }
+
+  /**
+   * @since 1.0.0
+   */
+  export type Type = SSMService$;
 }

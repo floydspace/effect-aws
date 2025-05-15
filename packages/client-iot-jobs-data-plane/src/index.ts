@@ -34,6 +34,12 @@ export declare namespace IoTJobsDataPlane {
    * @alias IoTJobsDataPlaneService.Config
    */
   export type Config = IoTJobsDataPlaneService.Config;
+
+  /**
+   * @since 1.0.0
+   * @alias IoTJobsDataPlaneService.Type
+   */
+  export type Type = IoTJobsDataPlaneService.Type;
 }
 
 /**

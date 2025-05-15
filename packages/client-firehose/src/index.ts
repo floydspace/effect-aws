@@ -34,6 +34,12 @@ export declare namespace Firehose {
    * @alias FirehoseService.Config
    */
   export type Config = FirehoseService.Config;
+
+  /**
+   * @since 1.0.0
+   * @alias FirehoseService.Type
+   */
+  export type Type = FirehoseService.Type;
 }
 
 /**

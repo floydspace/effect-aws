@@ -34,6 +34,12 @@ export declare namespace OpenSearchServerless {
    * @alias OpenSearchServerlessService.Config
    */
   export type Config = OpenSearchServerlessService.Config;
+
+  /**
+   * @since 1.0.0
+   * @alias OpenSearchServerlessService.Type
+   */
+  export type Type = OpenSearchServerlessService.Type;
 }
 
 /**

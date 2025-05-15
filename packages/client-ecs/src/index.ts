@@ -34,6 +34,12 @@ export declare namespace ECS {
    * @alias ECSService.Config
    */
   export type Config = ECSService.Config;
+
+  /**
+   * @since 1.0.0
+   * @alias ECSService.Type
+   */
+  export type Type = ECSService.Type;
 }
 
 /**

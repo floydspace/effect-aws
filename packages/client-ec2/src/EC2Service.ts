@@ -10288,4 +10288,9 @@ export declare namespace EC2Service {
   export interface Config extends Omit<EC2ClientConfig, "logger"> {
     readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
   }
+
+  /**
+   * @since 1.0.0
+   */
+  export type Type = EC2Service$;
 }

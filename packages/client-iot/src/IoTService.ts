@@ -5601,4 +5601,9 @@ export declare namespace IoTService {
   export interface Config extends Omit<IoTClientConfig, "logger"> {
     readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
   }
+
+  /**
+   * @since 1.0.0
+   */
+  export type Type = IoTService$;
 }

@@ -34,6 +34,12 @@ export declare namespace IoTWireless {
    * @alias IoTWirelessService.Config
    */
   export type Config = IoTWirelessService.Config;
+
+  /**
+   * @since 1.0.0
+   * @alias IoTWirelessService.Type
+   */
+  export type Type = IoTWirelessService.Type;
 }
 
 /**

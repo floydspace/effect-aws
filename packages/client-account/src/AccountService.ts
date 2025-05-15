@@ -343,4 +343,9 @@ export declare namespace AccountService {
   export interface Config extends Omit<AccountClientConfig, "logger"> {
     readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
   }
+
+  /**
+   * @since 1.0.0
+   */
+  export type Type = AccountService$;
 }

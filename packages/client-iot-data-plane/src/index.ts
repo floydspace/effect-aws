@@ -34,6 +34,12 @@ export declare namespace IoTDataPlane {
    * @alias IoTDataPlaneService.Config
    */
   export type Config = IoTDataPlaneService.Config;
+
+  /**
+   * @since 1.0.0
+   * @alias IoTDataPlaneService.Type
+   */
+  export type Type = IoTDataPlaneService.Type;
 }
 
 /**

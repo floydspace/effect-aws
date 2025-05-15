@@ -295,4 +295,9 @@ export declare namespace BedrockRuntimeService {
   export interface Config extends Omit<BedrockRuntimeClientConfig, "logger"> {
     readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
   }
+
+  /**
+   * @since 1.0.0
+   */
+  export type Type = BedrockRuntimeService$;
 }

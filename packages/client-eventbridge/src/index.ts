@@ -34,6 +34,12 @@ export declare namespace EventBridge {
    * @alias EventBridgeService.Config
    */
   export type Config = EventBridgeService.Config;
+
+  /**
+   * @since 1.0.0
+   * @alias EventBridgeService.Type
+   */
+  export type Type = EventBridgeService.Type;
 }
 
 /**

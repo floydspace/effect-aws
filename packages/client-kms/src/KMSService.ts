@@ -1333,4 +1333,9 @@ export declare namespace KMSService {
   export interface Config extends Omit<KMSClientConfig, "logger"> {
     readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
   }
+
+  /**
+   * @since 1.0.0
+   */
+  export type Type = KMSService$;
 }

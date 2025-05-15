@@ -34,6 +34,12 @@ export declare namespace CodeDeploy {
    * @alias CodeDeployService.Config
    */
   export type Config = CodeDeployService.Config;
+
+  /**
+   * @since 1.0.0
+   * @alias CodeDeployService.Type
+   */
+  export type Type = CodeDeployService.Type;
 }
 
 /**

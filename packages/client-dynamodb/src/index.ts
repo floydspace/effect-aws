@@ -34,6 +34,12 @@ export declare namespace DynamoDB {
    * @alias DynamoDBService.Config
    */
   export type Config = DynamoDBService.Config;
+
+  /**
+   * @since 1.0.0
+   * @alias DynamoDBService.Type
+   */
+  export type Type = DynamoDBService.Type;
 }
 
 /**

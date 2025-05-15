@@ -1213,4 +1213,9 @@ export declare namespace ECSService {
   export interface Config extends Omit<ECSClientConfig, "logger"> {
     readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
   }
+
+  /**
+   * @since 1.0.0
+   */
+  export type Type = ECSService$;
 }

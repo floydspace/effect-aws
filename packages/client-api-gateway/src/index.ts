@@ -34,6 +34,12 @@ export declare namespace APIGateway {
    * @alias APIGatewayService.Config
    */
   export type Config = APIGatewayService.Config;
+
+  /**
+   * @since 1.0.0
+   * @alias APIGatewayService.Type
+   */
+  export type Type = APIGatewayService.Type;
 }
 
 /**

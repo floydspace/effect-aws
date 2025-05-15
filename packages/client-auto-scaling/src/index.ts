@@ -34,6 +34,12 @@ export declare namespace AutoScaling {
    * @alias AutoScalingService.Config
    */
   export type Config = AutoScalingService.Config;
+
+  /**
+   * @since 1.0.0
+   * @alias AutoScalingService.Type
+   */
+  export type Type = AutoScalingService.Type;
 }
 
 /**

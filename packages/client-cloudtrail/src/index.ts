@@ -34,6 +34,12 @@ export declare namespace CloudTrail {
    * @alias CloudTrailService.Config
    */
   export type Config = CloudTrailService.Config;
+
+  /**
+   * @since 1.0.0
+   * @alias CloudTrailService.Type
+   */
+  export type Type = CloudTrailService.Type;
 }
 
 /**

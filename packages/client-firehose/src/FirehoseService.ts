@@ -308,4 +308,9 @@ export declare namespace FirehoseService {
   export interface Config extends Omit<FirehoseClientConfig, "logger"> {
     readonly logger?: ServiceLogger.ServiceLoggerConstructorProps | true;
   }
+
+  /**
+   * @since 1.0.0
+   */
+  export type Type = FirehoseService$;
 }

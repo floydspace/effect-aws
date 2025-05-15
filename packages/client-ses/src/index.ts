@@ -34,6 +34,12 @@ export declare namespace SES {
    * @alias SESService.Config
    */
   export type Config = SESService.Config;
+
+  /**
+   * @since 1.0.0
+   * @alias SESService.Type
+   */
+  export type Type = SESService.Type;
 }
 
 /**

@@ -34,6 +34,12 @@ export declare namespace STS {
    * @alias STSService.Config
    */
   export type Config = STSService.Config;
+
+  /**
+   * @since 1.0.0
+   * @alias STSService.Type
+   */
+  export type Type = STSService.Type;
 }
 
 /**

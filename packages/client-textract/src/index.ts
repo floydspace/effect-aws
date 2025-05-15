@@ -34,6 +34,12 @@ export declare namespace Textract {
    * @alias TextractService.Config
    */
   export type Config = TextractService.Config;
+
+  /**
+   * @since 1.0.0
+   * @alias TextractService.Type
+   */
+  export type Type = TextractService.Type;
 }
 
 /**
