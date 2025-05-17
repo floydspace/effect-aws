@@ -18,8 +18,14 @@ import type {
   SNSEvent,
   SQSEvent,
 } from "aws-lambda";
-import { type Layer } from "effect";
+import type { Layer, Stream } from "effect";
 import type * as Effect from "effect/Effect";
+
+declare global {
+  namespace awslambda {
+    function streamifyResponse<T, A>(f: StreamifyHandler<T>): Handler<T, A>;
+  }
+}
 
 /**
  * AWS Lambda native handler type.
@@ -31,6 +37,18 @@ export type Handler<TEvent = unknown, TResult = any> = (
   event: TEvent,
   context: Context,
 ) => Promise<TResult>;
+
+/**
+ * AWS Lambda native streamify handler type.
+ *
+ * @since 1.5.0
+ * @category model
+ */
+export type StreamifyHandler<TEvent = unknown> = (
+  event: TEvent,
+  responseStream: awslambda.HttpResponseStream,
+  context: Context,
+) => Promise<void>;
 
 /**
  * Effectful AWS Lambda handler type.
@@ -54,6 +72,32 @@ export type EffectHandler<T, R, E = never, A = void> = (
  */
 export type EffectHandlerWithLayer<T, R, E1 = never, E2 = never, A = void> = {
   readonly handler: EffectHandler<T, R, E1, A>;
+  readonly layer: Layer.Layer<R, E2>;
+  readonly memoMap?: Layer.MemoMap;
+};
+
+/**
+ * Effectful streamed AWS Lambda handler type.
+ *
+ * @since 1.5.0
+ * @category model
+ */
+export type StreamHandler<T, R, E = never, A = string | Uint8Array> = (
+  event: T,
+  context: Context,
+) => Stream.Stream<A, E, R>;
+
+/**
+ * Combined object of an StreamHandler and a global layer.
+ *
+ * @param {StreamHandler<T, R, E1, A>} handler - The effectful streamed handler function.
+ * @param {Layer.Layer<R, E2>} layer - The global layer to provide to the handler.
+ *
+ * @since 1.5.0
+ * @category model
+ */
+export type StreamHandlerWithLayer<T, R, E1 = never, E2 = never, A = string | Uint8Array> = {
+  readonly handler: StreamHandler<T, R, E1, A>;
   readonly layer: Layer.Layer<R, E2>;
   readonly memoMap?: Layer.MemoMap;
 };

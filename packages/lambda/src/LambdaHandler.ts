@@ -7,6 +7,7 @@ import type { Cause } from "effect";
 import { Context, Effect, Function, Layer } from "effect";
 import { getEventSource } from "./internal/index.js";
 import * as internal from "./internal/lambdaHandler.js";
+import { pipeTo } from "./internal/stream.js";
 import type { EventSource } from "./internal/types.js";
 import { encodeBase64, isContentEncodingBinary, isContentTypeBinary } from "./internal/utils.js";
 import * as LambdaRuntime from "./LambdaRuntime.js";
@@ -29,6 +30,8 @@ import type {
   SelfManagedKafkaEvent,
   SNSEvent,
   SQSEvent,
+  StreamHandler,
+  StreamHandlerWithLayer,
 } from "./Types.js";
 
 /**
@@ -116,12 +119,8 @@ export const context = (): Effect.Effect<LambdaContext> =>
  * @category constructors
  */
 export const make: {
-  <T, R, E1, E2, A>(
-    options: EffectHandlerWithLayer<T, R, E1, E2, A>,
-  ): Handler<T, A>;
-  <T, E, A>(
-    handler: EffectHandler<T, never, E, A>,
-  ): Handler<T, A>;
+  <T, R, E1, E2, A>(options: EffectHandlerWithLayer<T, R, E1, E2, A>): Handler<T, A>;
+  <T, E, A>(handler: EffectHandler<T, never, E, A>): Handler<T, A>;
   /**
    * @deprecated Prefer using the `EffectHandlerWithLayer` type to provide a global layer.
    * @example
@@ -132,10 +131,7 @@ export const make: {
    * });
    * ```
    */
-  <T, R, E1, E2, A>(
-    handler: EffectHandler<T, R, E1, A>,
-    globalLayer: Layer.Layer<R, E2>,
-  ): Handler<T, A>;
+  <T, R, E1, E2, A>(handler: EffectHandler<T, R, E1, A>, globalLayer: Layer.Layer<R, E2>): Handler<T, A>;
 } = <T, R, E1, E2, A>(
   handlerOrOptions: EffectHandler<T, R, E1, A> | EffectHandlerWithLayer<T, R, E1, E2, A>,
   globalLayer?: Layer.Layer<R, E2>,
@@ -148,17 +144,75 @@ export const make: {
     }
 
     return async (event, context) =>
-      handlerOrOptions(event, context).pipe(Effect.runPromise as <A, E>(effect: Effect.Effect<A, E, R>) => Promise<A>);
+      handlerOrOptions(event, context).pipe(Effect.runPromise as <E>(effect: Effect.Effect<A, E, R>) => Promise<A>);
   }
 
   const runtime = LambdaRuntime.fromLayer(handlerOrOptions.layer, { memoMap: handlerOrOptions.memoMap });
-  return async (event, context) => handlerOrOptions.handler(event, context).pipe(runtime.runPromise);
+  return async (event, context) => {
+    context.callbackWaitsForEmptyEventLoop = false;
+    return handlerOrOptions.handler(event, context).pipe(runtime.runPromise);
+  };
+};
+
+/**
+ * Makes a streamify lambda handler from the given StreamHandler and optional global layer.
+ * The global layer is used to provide a runtime which will gracefully handle lambda termination during down-scaling.
+ *
+ * @example
+ * import { LambdaHandler, LambdaContext } from "@effect-aws/lambda"
+ * import { Stream } from "effect";
+ *
+ * const streamHandler = (event: unknown, context: LambdaContext) => {
+ *  return Stream.make("1", "2", "3");
+ * };
+ *
+ * export const handler = LambdaHandler.stream(streamHandler);
+ *
+ * @example
+ * import { LambdaHandler, LambdaContext } from "@effect-aws/lambda"
+ * import { Stream, Logger } from "effect";
+ *
+ * const streamHandler = (event: unknown, context: LambdaContext) => {
+ *  return Stream.make("1", "2", "3");
+ * };
+ *
+ * const LambdaLayer = Logger.replace(Logger.defaultLogger, Logger.logfmtLogger);
+ *
+ * export const handler = LambdaHandler.stream({
+ *  handler: streamHandler,
+ *  layer: LambdaLayer,
+ * });
+ *
+ * @since 1.5.0
+ * @category constructors
+ */
+export const stream: {
+  <T, R, E1, E2>(options: StreamHandlerWithLayer<T, R, E1, E2>): Handler<T, void>;
+  <T, E>(handler: StreamHandler<T, never, E>): Handler<T, void>;
+} = <T, R, E1, E2>(
+  handlerOrOptions: StreamHandler<T, R, E1> | StreamHandlerWithLayer<T, R, E1, E2>,
+): Handler<T, void> => {
+  if (Function.isFunction(handlerOrOptions)) {
+    return global.awslambda?.streamifyResponse(async (event, responseStream, context) =>
+      handlerOrOptions(event, context).pipe(
+        pipeTo(responseStream, { end: true }),
+        Effect.runPromise as <E>(effect: Effect.Effect<void, E, R>) => Promise<void>,
+      )
+    );
+  }
+
+  const runtime = LambdaRuntime.fromLayer(handlerOrOptions.layer, { memoMap: handlerOrOptions.memoMap });
+  return global.awslambda?.streamifyResponse(async (event, responseStream, context) => {
+    context.callbackWaitsForEmptyEventLoop = false;
+    return handlerOrOptions.handler(event, context).pipe(
+      pipeTo(responseStream, { end: true }),
+      runtime.runPromise,
+    );
+  });
 };
 
 interface HttpApiOptions {
-  readonly middleware?: (
-    httpApp: HttpApp.Default,
-  ) => HttpApp.Default<
+  readonly middleware?: (httpApp: HttpApp.Default) => HttpApp.Default<
     never,
     HttpApi.Api | HttpApiBuilder.Router | HttpRouter.HttpRouter.DefaultServices
   >;

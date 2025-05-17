@@ -1,6 +1,14 @@
 {
   "dependencies": [
     {
+      "name": "@effect/platform",
+      "type": "build"
+    },
+    {
+      "name": "@effect/platform-node-shared",
+      "type": "build"
+    },
+    {
       "name": "@types/aws-lambda",
       "type": "build"
     },
@@ -11,13 +19,22 @@
     },
     {
       "name": "effect",
-      "version": "3.14.11",
       "type": "build"
     },
     {
       "name": "typescript",
       "version": "^5.4.2",
       "type": "build"
+    },
+    {
+      "name": "@effect/platform-node-shared",
+      "version": ">=0.19.26",
+      "type": "peer"
+    },
+    {
+      "name": "@effect/platform",
+      "version": ">=0.69.25",
+      "type": "peer"
     },
     {
       "name": "effect",
