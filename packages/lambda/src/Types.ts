@@ -62,17 +62,6 @@ export type EffectHandler<T, R, E = never, A = void> = (
 ) => Effect.Effect<A, E, R>;
 
 /**
- * Effectful streamed AWS Lambda handler type.
- *
- * @since 1.5.0
- * @category model
- */
-export type StreamHandler<T, R, E = never, A = void> = (
-  event: T,
-  context: Context,
-) => Stream.Stream<A, E, R>;
-
-/**
  * Combined object of an EffectHandler and a global layer.
  *
  * @param {EffectHandler<T, R, E1, A>} handler - The effectful handler function.
@@ -83,6 +72,32 @@ export type StreamHandler<T, R, E = never, A = void> = (
  */
 export type EffectHandlerWithLayer<T, R, E1 = never, E2 = never, A = void> = {
   readonly handler: EffectHandler<T, R, E1, A>;
+  readonly layer: Layer.Layer<R, E2>;
+  readonly memoMap?: Layer.MemoMap;
+};
+
+/**
+ * Effectful streamed AWS Lambda handler type.
+ *
+ * @since 1.5.0
+ * @category model
+ */
+export type StreamHandler<T, R, E = never, A = string | Uint8Array> = (
+  event: T,
+  context: Context,
+) => Stream.Stream<A, E, R>;
+
+/**
+ * Combined object of an StreamHandler and a global layer.
+ *
+ * @param {StreamHandler<T, R, E1, A>} handler - The effectful streamed handler function.
+ * @param {Layer.Layer<R, E2>} layer - The global layer to provide to the handler.
+ *
+ * @since 1.5.0
+ * @category model
+ */
+export type StreamHandlerWithLayer<T, R, E1 = never, E2 = never, A = string | Uint8Array> = {
+  readonly handler: StreamHandler<T, R, E1, A>;
   readonly layer: Layer.Layer<R, E2>;
   readonly memoMap?: Layer.MemoMap;
 };

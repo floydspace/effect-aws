@@ -3,9 +3,11 @@
  */
 import type { HttpApi, HttpRouter } from "@effect/platform";
 import { HttpApiBuilder, HttpApp } from "@effect/platform";
+import { NodeStream } from "@effect/platform-node";
 import type { Cause } from "effect";
-import { Context, Effect, Function, Layer, Runtime, Stream } from "effect";
-import { pipeline } from "stream/promises";
+import { Context, Effect, Function, Layer } from "effect";
+import type { Readable } from "node:stream";
+import { pipeline } from "node:stream/promises";
 import { getEventSource } from "./internal/index.js";
 import * as internal from "./internal/lambdaHandler.js";
 import type { EventSource } from "./internal/types.js";
@@ -31,6 +33,7 @@ import type {
   SNSEvent,
   SQSEvent,
   StreamHandler,
+  StreamHandlerWithLayer,
 } from "./Types.js";
 
 /**
@@ -118,12 +121,8 @@ export const context = (): Effect.Effect<LambdaContext> =>
  * @category constructors
  */
 export const make: {
-  <T, R, E1, E2, A>(
-    options: EffectHandlerWithLayer<T, R, E1, E2, A>,
-  ): Handler<T, A>;
-  <T, E, A>(
-    handler: EffectHandler<T, never, E, A>,
-  ): Handler<T, A>;
+  <T, R, E1, E2, A>(options: EffectHandlerWithLayer<T, R, E1, E2, A>): Handler<T, A>;
+  <T, E, A>(handler: EffectHandler<T, never, E, A>): Handler<T, A>;
   /**
    * @deprecated Prefer using the `EffectHandlerWithLayer` type to provide a global layer.
    * @example
@@ -134,10 +133,7 @@ export const make: {
    * });
    * ```
    */
-  <T, R, E1, E2, A>(
-    handler: EffectHandler<T, R, E1, A>,
-    globalLayer: Layer.Layer<R, E2>,
-  ): Handler<T, A>;
+  <T, R, E1, E2, A>(handler: EffectHandler<T, R, E1, A>, globalLayer: Layer.Layer<R, E2>): Handler<T, A>;
 } = <T, R, E1, E2, A>(
   handlerOrOptions: EffectHandler<T, R, E1, A> | EffectHandlerWithLayer<T, R, E1, E2, A>,
   globalLayer?: Layer.Layer<R, E2>,
@@ -150,7 +146,7 @@ export const make: {
     }
 
     return async (event, context) =>
-      handlerOrOptions(event, context).pipe(Effect.runPromise as <A, E>(effect: Effect.Effect<A, E, R>) => Promise<A>);
+      handlerOrOptions(event, context).pipe(Effect.runPromise as <E>(effect: Effect.Effect<A, E, R>) => Promise<A>);
   }
 
   const runtime = LambdaRuntime.fromLayer(handlerOrOptions.layer, { memoMap: handlerOrOptions.memoMap });
@@ -190,40 +186,30 @@ export const make: {
  * @category constructors
  */
 export const stream: {
-  <T, R, E1, E2, A>(
-    options: {
-      readonly handler: StreamHandler<T, R, E1, A>;
-      readonly layer: Layer.Layer<R, E2>;
-      readonly memoMap?: Layer.MemoMap;
-    },
-  ): Handler<T, A>;
-  <T, E, A>(
-    handler: StreamHandler<T, never, E, A>,
-  ): Handler<T, A>;
-} = <T, R, E1, E2, A>(
-  handlerOrOptions: StreamHandler<T, R, E1, A> | {
-    readonly handler: StreamHandler<T, R, E1, A>;
-    readonly layer: Layer.Layer<R, E2>;
-    readonly memoMap?: Layer.MemoMap;
-  },
-): Handler<T, A> => {
+  <T, R, E1, E2>(options: StreamHandlerWithLayer<T, R, E1, E2>): Handler<T, void>;
+  <T, E>(handler: StreamHandler<T, never, E>): Handler<T, void>;
+} = <T, R, E1, E2>(
+  handlerOrOptions: StreamHandler<T, R, E1> | StreamHandlerWithLayer<T, R, E1, E2>,
+): Handler<T, void> => {
   if (Function.isFunction(handlerOrOptions)) {
-    return awslambda.streamifyResponse((event, responseStream, context) => {
-      const iterable = handlerOrOptions(event, context).pipe(
-        Stream.toAsyncIterableRuntime(Runtime.defaultRuntime as Runtime.Runtime<R>),
+    return awslambda.streamifyResponse(async (event, responseStream, context) => {
+      const readable = await handlerOrOptions(event, context).pipe(
+        NodeStream.toReadable,
+        Effect.runPromise as <E>(effect: Effect.Effect<Readable, E, R>) => Promise<Readable>,
       );
 
-      return pipeline(iterable, responseStream, { end: true });
+      return pipeline(readable, responseStream, { end: true });
     });
   }
 
   const runtime = LambdaRuntime.fromLayer(handlerOrOptions.layer, { memoMap: handlerOrOptions.memoMap });
   return awslambda.streamifyResponse(async (event, responseStream, context) => {
-    const iterable = handlerOrOptions.handler(event, context).pipe(
-      Stream.toAsyncIterableRuntime(await runtime.runtime()),
+    const readable = await handlerOrOptions.handler(event, context).pipe(
+      NodeStream.toReadable,
+      runtime.runPromise,
     );
 
-    return pipeline(iterable, responseStream, { end: true });
+    return pipeline(readable, responseStream, { end: true });
   });
 };
 
