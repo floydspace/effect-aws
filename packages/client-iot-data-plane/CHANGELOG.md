@@ -1,5 +1,11 @@
 # @effect-aws/client-iot-data-plane
 
+## 1.10.3
+
+### Patch Changes
+
+- [#165](https://github.com/floydspace/effect-aws/pull/165) [`192aad7`](https://github.com/floydspace/effect-aws/commit/192aad72a154951e5814f12cae90cc3d1b63621c) Thanks [@floydspace](https://github.com/floydspace)! - expose service shape type as alternative of inferring it with Context.Tag.Service
+
 ## 1.10.2
 
 ### Patch Changes
