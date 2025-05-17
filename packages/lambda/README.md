@@ -66,3 +66,47 @@ const LambdaLive = Layer.provideMerge(
 // Create the Lambda handler
 export const handler = makeLambda(myEffectHandler, LambdaLive)
 ```
+
+Streaming:
+
+```ts
+import { S3 } from "@effect-aws/client-s3"
+import { Handler, LambdaHandler } from "@effect-aws/lambda"
+import { NodeStream } from "@effect/platform-node"
+import { Cause, Effect, Stream } from "effect"
+import { Readable } from "node:stream"
+import { createGzip } from "node:zlib"
+
+/**
+ * Streaming handler that reads a file from S3, compresses it using gzip, and
+ * returns the compressed data as a stream.
+ */
+const streamHandler = () => {
+  const stream = S3.getObject({
+    Bucket: "example-bucket",
+    Key: "file.txt"
+  }).pipe(
+    Effect.map((result) =>
+      NodeStream.fromReadable(
+        () => result.Body as Readable,
+        (e) => new Cause.UnknownException(e)
+      )
+    ),
+    Stream.unwrap
+  )
+
+  return stream.pipe(
+    Stream.pipeThroughChannelOrFail(
+      NodeStream.fromDuplex(
+        () => createGzip(),
+        (e) => new Cause.UnknownException(e)
+      )
+    )
+  )
+}
+
+export const handler: Handler = LambdaHandler.stream({
+  handler: streamHandler,
+  layer: S3.defaultLayer
+})
+```
