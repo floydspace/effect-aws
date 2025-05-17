@@ -3,13 +3,11 @@
  */
 import type { HttpApi, HttpRouter } from "@effect/platform";
 import { HttpApiBuilder, HttpApp } from "@effect/platform";
-import { NodeStream } from "@effect/platform-node";
 import type { Cause } from "effect";
 import { Context, Effect, Function, Layer } from "effect";
-import type { Readable } from "node:stream";
-import { pipeline } from "node:stream/promises";
 import { getEventSource } from "./internal/index.js";
 import * as internal from "./internal/lambdaHandler.js";
+import { pipeTo } from "./internal/stream.js";
 import type { EventSource } from "./internal/types.js";
 import { encodeBase64, isContentEncodingBinary, isContentTypeBinary } from "./internal/utils.js";
 import * as LambdaRuntime from "./LambdaRuntime.js";
@@ -192,31 +190,25 @@ export const stream: {
   handlerOrOptions: StreamHandler<T, R, E1> | StreamHandlerWithLayer<T, R, E1, E2>,
 ): Handler<T, void> => {
   if (Function.isFunction(handlerOrOptions)) {
-    return awslambda.streamifyResponse(async (event, responseStream, context) => {
-      const readable = await handlerOrOptions(event, context).pipe(
-        NodeStream.toReadable,
-        Effect.runPromise as <E>(effect: Effect.Effect<Readable, E, R>) => Promise<Readable>,
-      );
-
-      return pipeline(readable, responseStream, { end: true });
-    });
+    return awslambda.streamifyResponse(async (event, responseStream, context) =>
+      handlerOrOptions(event, context).pipe(
+        pipeTo(responseStream, { end: true }),
+        Effect.runPromise as <E>(effect: Effect.Effect<void, E, R>) => Promise<void>,
+      )
+    );
   }
 
   const runtime = LambdaRuntime.fromLayer(handlerOrOptions.layer, { memoMap: handlerOrOptions.memoMap });
-  return awslambda.streamifyResponse(async (event, responseStream, context) => {
-    const readable = await handlerOrOptions.handler(event, context).pipe(
-      NodeStream.toReadable,
+  return awslambda.streamifyResponse(async (event, responseStream, context) =>
+    handlerOrOptions.handler(event, context).pipe(
+      pipeTo(responseStream, { end: true }),
       runtime.runPromise,
-    );
-
-    return pipeline(readable, responseStream, { end: true });
-  });
+    )
+  );
 };
 
 interface HttpApiOptions {
-  readonly middleware?: (
-    httpApp: HttpApp.Default,
-  ) => HttpApp.Default<
+  readonly middleware?: (httpApp: HttpApp.Default) => HttpApp.Default<
     never,
     HttpApi.Api | HttpApiBuilder.Router | HttpRouter.HttpRouter.DefaultServices
   >;
