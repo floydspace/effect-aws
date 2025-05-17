@@ -148,7 +148,10 @@ export const make: {
   }
 
   const runtime = LambdaRuntime.fromLayer(handlerOrOptions.layer, { memoMap: handlerOrOptions.memoMap });
-  return async (event, context) => handlerOrOptions.handler(event, context).pipe(runtime.runPromise);
+  return async (event, context) => {
+    context.callbackWaitsForEmptyEventLoop = false;
+    return handlerOrOptions.handler(event, context).pipe(runtime.runPromise);
+  };
 };
 
 /**
@@ -199,12 +202,13 @@ export const stream: {
   }
 
   const runtime = LambdaRuntime.fromLayer(handlerOrOptions.layer, { memoMap: handlerOrOptions.memoMap });
-  return awslambda.streamifyResponse(async (event, responseStream, context) =>
-    handlerOrOptions.handler(event, context).pipe(
+  return awslambda.streamifyResponse(async (event, responseStream, context) => {
+    context.callbackWaitsForEmptyEventLoop = false;
+    return handlerOrOptions.handler(event, context).pipe(
       pipeTo(responseStream, { end: true }),
       runtime.runPromise,
-    )
-  );
+    );
+  });
 };
 
 interface HttpApiOptions {
