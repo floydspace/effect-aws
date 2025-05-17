@@ -1180,6 +1180,12 @@ importers:
 
   packages/lambda:
     devDependencies:
+      '@effect/platform':
+        specifier: ^0.82.2
+        version: 0.82.2(effect@3.15.1)
+      '@effect/platform-node-shared':
+        specifier: ^0.34.3
+        version: 0.34.3(@effect/cluster@0.33.3(@effect/platform@0.82.2(effect@3.15.1))(@effect/rpc@0.59.3(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1))(@effect/sql@0.35.2(@effect/experimental@0.46.2(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1))(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1))(effect@3.15.1))(@effect/platform@0.82.2(effect@3.15.1))(@effect/rpc@0.59.3(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1))(@effect/sql@0.35.2(@effect/experimental@0.46.2(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1))(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1))(effect@3.15.1)
       '@types/aws-lambda':
         specifier: ^8.10.149
         version: 8.10.149

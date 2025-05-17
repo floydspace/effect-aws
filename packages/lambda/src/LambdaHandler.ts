@@ -163,7 +163,7 @@ export const make: {
  * import { Stream } from "effect";
  *
  * const streamHandler = (event: unknown, context: LambdaContext) => {
- *  return Stream.make(1, 2, 3);
+ *  return Stream.make("1", "2", "3");
  * };
  *
  * export const handler = LambdaHandler.stream(streamHandler);
@@ -173,7 +173,7 @@ export const make: {
  * import { Stream, Logger } from "effect";
  *
  * const streamHandler = (event: unknown, context: LambdaContext) => {
- *  return Stream.make(1, 2, 3);
+ *  return Stream.make("1", "2", "3");
  * };
  *
  * const LambdaLayer = Logger.replace(Logger.defaultLogger, Logger.logfmtLogger);
@@ -193,7 +193,7 @@ export const stream: {
   handlerOrOptions: StreamHandler<T, R, E1> | StreamHandlerWithLayer<T, R, E1, E2>,
 ): Handler<T, void> => {
   if (Function.isFunction(handlerOrOptions)) {
-    return awslambda.streamifyResponse(async (event, responseStream, context) =>
+    return global.awslambda?.streamifyResponse(async (event, responseStream, context) =>
       handlerOrOptions(event, context).pipe(
         pipeTo(responseStream, { end: true }),
         Effect.runPromise as <E>(effect: Effect.Effect<void, E, R>) => Promise<void>,
@@ -202,7 +202,7 @@ export const stream: {
   }
 
   const runtime = LambdaRuntime.fromLayer(handlerOrOptions.layer, { memoMap: handlerOrOptions.memoMap });
-  return awslambda.streamifyResponse(async (event, responseStream, context) => {
+  return global.awslambda?.streamifyResponse(async (event, responseStream, context) => {
     context.callbackWaitsForEmptyEventLoop = false;
     return handlerOrOptions.handler(event, context).pipe(
       pipeTo(responseStream, { end: true }),

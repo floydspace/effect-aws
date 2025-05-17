@@ -1,5 +1,5 @@
 import { Error } from "@effect/platform";
-import { NodeStream } from "@effect/platform-node";
+import * as NodeStream from "@effect/platform-node-shared/NodeStream";
 import { Effect, Predicate, Stream } from "effect";
 import { dual } from "effect/Function";
 import type { PipelineDestination, PipelineOptions, PipelineSource } from "node:stream";

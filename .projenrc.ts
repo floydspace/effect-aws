@@ -106,8 +106,8 @@ const lambda = new TypeScriptLibProject({
   parent: project,
   name: "lambda",
   description: "Effectful AWS Lambda handler",
-  devDeps: [...effectDeps, "@types/aws-lambda"],
-  peerDeps: ["effect@>=3.15.0 <4.0.0"],
+  devDeps: [...effectDeps, "@effect/platform", "@effect/platform-node-shared", "@types/aws-lambda"],
+  peerDeps: [...commonPeerDeps, "@effect/platform@>=0.69.25", "@effect/platform-node-shared@>=0.19.26"],
   addExamples: true,
 });
 
