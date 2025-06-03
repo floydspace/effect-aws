@@ -24,10 +24,10 @@ export const tag = Context.GenericTag<MultipartUpload>("@effect-aws/s3/Multipart
 
 /** @internal */
 const handleBadArgument = (method: string) => (err: unknown) =>
-  PlatformError.BadArgument({
+  new PlatformError.BadArgument({
     module: "MultipartUpload" as any,
     method,
-    message: (err as Error).message ?? String(err),
+    cause: err,
   });
 
 /** @internal */

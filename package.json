@@ -63,7 +63,7 @@
   },
   "dependencies": {
     "@effect/cli": "^0.61.2",
-    "@effect/platform": "^0.82.2",
+    "@effect/platform": "^0.83.0",
     "@effect/platform-node": "^0.80.3",
     "effect": "^3.15.1"
   },

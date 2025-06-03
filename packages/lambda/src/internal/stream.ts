@@ -12,13 +12,13 @@ const handleErrnoException =
   (module: Error.SystemError["module"], method: string) => (err: unknown): Error.PlatformError => {
     const reason: Error.SystemErrorReason = "Unknown";
 
-    return Error.SystemError({
+    return new Error.SystemError({
       reason,
       module,
       method,
       pathOrDescriptor: "",
       syscall: (err as NodeJS.ErrnoException).syscall,
-      message: (err as NodeJS.ErrnoException).message,
+      cause: err,
     });
   };
 
