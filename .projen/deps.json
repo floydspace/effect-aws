@@ -42,7 +42,6 @@
     },
     {
       "name": "@floydspace/projen-components",
-      "version": "next",
       "type": "build"
     },
     {

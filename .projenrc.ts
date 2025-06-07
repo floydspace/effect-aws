@@ -18,7 +18,7 @@ const project = new MonorepoProject({
   authorEmail: "ifloydrose@gmail.com",
   authorName: "Victor Korzunin",
   typescriptVersion: "^5.4.2",
-  devDeps: ["@floydspace/projen-components@next"],
+  devDeps: ["@floydspace/projen-components"],
 });
 
 new YamlFile(project, ".github/FUNDING.yml", { obj: { github: org } });
