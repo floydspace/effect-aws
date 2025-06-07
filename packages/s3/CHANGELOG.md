@@ -1,5 +1,11 @@
 # @effect-aws/s3
 
+## 0.2.3
+
+### Patch Changes
+
+- [#168](https://github.com/floydspace/effect-aws/pull/168) [`85b3bd0`](https://github.com/floydspace/effect-aws/commit/85b3bd001dc0b5dcbedf273483e4bbf81d17f0dc) Thanks [@godu](https://github.com/godu)! - update @effect/platform
+
 ## 0.2.2
 
 ### Patch Changes
