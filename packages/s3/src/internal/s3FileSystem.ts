@@ -7,20 +7,20 @@ import type { S3FileSystemConfig } from "../S3FileSystem.js";
 
 /** @internal */
 const handleBadArgument = (method: string) => (err: unknown) =>
-  PlatformError.BadArgument({
+  new PlatformError.BadArgument({
     module: "FileSystem",
     method,
-    message: (err as Error).message ?? String(err),
+    cause: err,
   });
 
 /** @internal */
 const handleSystemError =
   (method: string, reason: PlatformError.SystemErrorReason, path: string, syscall?: string) => (err: unknown) =>
-    PlatformError.SystemError({
+    new PlatformError.SystemError({
       module: "FileSystem",
       method,
       reason,
-      message: (err as Error).message ?? String(err),
+      cause: err,
       pathOrDescriptor: path,
       syscall,
     });

@@ -30,12 +30,12 @@
     },
     {
       "name": "@effect/platform",
-      "version": ">=0.69.25",
+      "version": ">=0.83.0",
       "type": "peer"
     },
     {
       "name": "effect",
-      "version": ">=3.0.4 <4.0.0",
+      "version": ">=3.15.5 <4.0.0",
       "type": "peer"
     },
     {

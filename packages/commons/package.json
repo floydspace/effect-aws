@@ -27,7 +27,7 @@
   "devDependencies": {
     "@aws-sdk/middleware-logger": "^3.804.0",
     "@types/node": "ts5.4",
-    "effect": "^3.15.1",
+    "effect": "^3.16.4",
     "typescript": "^5.4.2"
   },
   "peerDependencies": {

@@ -15,6 +15,7 @@ import { mockClient } from "aws-sdk-client-mock";
 import { Effect, Exit, Layer } from "effect";
 import { afterEach, describe, expect } from "vitest";
 import { mock } from "vitest-mock-extended";
+import { SdkError } from "../../commons/src/Errors.js";
 
 const clientMock = mockClient(S3Client);
 const TestLayer = Layer.provide(
@@ -72,30 +73,36 @@ layer(TestLayer)("S3FileSystem", (it) => {
 
         const result = yield* fs.exists("").pipe(Effect.exit);
 
-        expect(result).toStrictEqual(Exit.fail(PlatformError.BadArgument({
-          module: "FileSystem",
-          method: "access",
-          message: "Path is empty",
-        })));
+        expect(result).toStrictEqual(Exit.fail(
+          new PlatformError.BadArgument({
+            module: "FileSystem",
+            method: "access",
+            cause: new Error("Path is empty"),
+          }),
+        ));
       }));
 
     it.effect("should fail with SystemError", () =>
       Effect.gen(function*() {
         expect.assertions(1);
 
-        clientMock.on(HeadObjectCommand).rejects(new Error("Invalid S3 path"));
+        const err = new Error("Invalid S3 path");
+        clientMock.on(HeadObjectCommand).rejects(err);
 
         const fs = yield* FileSystem.FileSystem;
 
         const result = yield* fs.exists("path-to-file.ext").pipe(Effect.exit);
 
-        expect(result).toStrictEqual(Exit.fail(PlatformError.SystemError({
-          module: "FileSystem",
-          method: "access",
-          reason: "Unknown",
-          message: "Invalid S3 path",
-          pathOrDescriptor: "path-to-file.ext",
-        })));
+        expect(result).toStrictEqual(Exit.fail(
+          new PlatformError.SystemError({
+            module: "FileSystem",
+            method: "access",
+            reason: "Unknown",
+            pathOrDescriptor: "path-to-file.ext",
+            syscall: undefined,
+            cause: SdkError({ name: "SdkError", message: err.message, stack: err.stack }),
+          }),
+        ));
       }));
   });
 
@@ -136,14 +143,16 @@ layer(TestLayer)("S3FileSystem", (it) => {
         const result = yield* fs.makeDirectory("./aaa/bbb/ccc").pipe(Effect.exit);
 
         expect(result).toStrictEqual(
-          Exit.fail(PlatformError.SystemError({
-            module: "FileSystem",
-            method: "makeDirectory",
-            reason: "AlreadyExists",
-            message: "[object Object]", // TODO: Fix this
-            pathOrDescriptor: "aaa/bbb/ccc/",
-            syscall: "headObject",
-          })),
+          Exit.fail(
+            new PlatformError.SystemError({
+              module: "FileSystem",
+              method: "makeDirectory",
+              reason: "AlreadyExists",
+              pathOrDescriptor: "aaa/bbb/ccc/",
+              syscall: "headObject",
+              cause: {}, // TODO: Fix this
+            }),
+          ),
         );
         expect(clientMock).toHaveReceivedCommandTimes(HeadObjectCommand, 2);
         expect(clientMock).not.toHaveReceivedCommand(PutObjectCommand);
@@ -167,14 +176,15 @@ layer(TestLayer)("S3FileSystem", (it) => {
         const result = yield* fs.makeDirectory("./aaa/bbb/ccc").pipe(Effect.exit);
 
         expect(result).toStrictEqual(
-          Exit.fail(PlatformError.SystemError({
-            module: "FileSystem",
-            method: "makeDirectory",
-            reason: "NotFound",
-            message: "Parent directory not found",
-            pathOrDescriptor: "aaa/bbb/ccc/",
-            syscall: "headObject",
-          })),
+          Exit.fail(
+            new PlatformError.SystemError({
+              module: "FileSystem",
+              method: "makeDirectory",
+              reason: "NotFound",
+              pathOrDescriptor: "aaa/bbb/ccc/",
+              syscall: "headObject",
+            }),
+          ),
         );
         expect(clientMock).toHaveReceivedCommandTimes(HeadObjectCommand, 2);
         expect(clientMock).not.toHaveReceivedCommand(PutObjectCommand);
@@ -284,14 +294,15 @@ layer(TestLayer)("S3FileSystem", (it) => {
 
         const result = yield* fs.readDirectory("path-to-dir").pipe(Effect.exit);
 
-        expect(result).toStrictEqual(Exit.fail(PlatformError.SystemError({
-          module: "FileSystem",
-          method: "readDirectory",
-          reason: "NotFound",
-          message: "",
-          pathOrDescriptor: "path-to-dir/",
-          syscall: "listObjects",
-        })));
+        expect(result).toStrictEqual(Exit.fail(
+          new PlatformError.SystemError({
+            module: "FileSystem",
+            method: "readDirectory",
+            reason: "NotFound",
+            pathOrDescriptor: "path-to-dir/",
+            syscall: "listObjects",
+          }),
+        ));
 
         expect(clientMock).toHaveReceivedCommandOnce(ListObjectsCommand);
       }));

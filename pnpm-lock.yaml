@@ -14,17 +14,17 @@ importers:
   .:
     dependencies:
       '@effect/cli':
-        specifier: ^0.61.2
-        version: 0.61.2(@effect/platform@0.82.2(effect@3.15.1))(@effect/printer-ansi@0.43.1(@effect/typeclass@0.34.1(effect@3.15.1))(effect@3.15.1))(@effect/printer@0.43.1(@effect/typeclass@0.34.1(effect@3.15.1))(effect@3.15.1))(effect@3.15.1)
+        specifier: ^0.63.8
+        version: 0.63.8(@effect/platform@0.84.8(effect@3.16.4))(@effect/printer-ansi@0.44.4(@effect/typeclass@0.35.4(effect@3.16.4))(effect@3.16.4))(@effect/printer@0.44.4(@effect/typeclass@0.35.4(effect@3.16.4))(effect@3.16.4))(effect@3.16.4)
       '@effect/platform':
-        specifier: ^0.82.2
-        version: 0.82.2(effect@3.15.1)
+        specifier: ^0.84.8
+        version: 0.84.8(effect@3.16.4)
       '@effect/platform-node':
-        specifier: ^0.80.3
-        version: 0.80.3(@effect/cluster@0.33.3(@effect/platform@0.82.2(effect@3.15.1))(@effect/rpc@0.59.3(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1))(@effect/sql@0.35.2(@effect/experimental@0.46.2(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1))(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1))(effect@3.15.1))(@effect/platform@0.82.2(effect@3.15.1))(@effect/rpc@0.59.3(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1))(@effect/sql@0.35.2(@effect/experimental@0.46.2(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1))(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1))(effect@3.15.1)
+        specifier: ^0.85.7
+        version: 0.85.7(@effect/cluster@0.38.7(@effect/platform@0.84.8(effect@3.16.4))(@effect/rpc@0.61.8(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4))(@effect/sql@0.37.9(@effect/experimental@0.48.9(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4))(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4))(@effect/workflow@0.1.5(@effect/platform@0.84.8(effect@3.16.4))(@effect/rpc@0.61.8(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4))(effect@3.16.4))(effect@3.16.4))(@effect/platform@0.84.8(effect@3.16.4))(@effect/rpc@0.61.8(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4))(@effect/sql@0.37.9(@effect/experimental@0.48.9(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4))(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4))(effect@3.16.4)
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
     devDependencies:
       '@changesets/changelog-github':
         specifier: ^0.5.0
@@ -42,11 +42,11 @@ importers:
         specifier: ^0.3.2
         version: 0.3.2
       '@effect/language-service':
-        specifier: ^0.16.0
-        version: 0.16.0
+        specifier: ^0.19.0
+        version: 0.19.0
       '@effect/vitest':
-        specifier: ^0.22.1
-        version: 0.22.1(effect@3.15.1)(vitest@3.1.1(@types/node@22.15.18)(tsx@4.19.3)(yaml@2.7.0))
+        specifier: ^0.23.4
+        version: 0.23.4(effect@3.16.4)(vitest@3.1.1(@types/node@22.15.30)(tsx@4.19.3)(yaml@2.7.0))
       '@eslint/compat':
         specifier: ^1.2.5
         version: 1.2.5(eslint@9.19.0)
@@ -58,10 +58,10 @@ importers:
         version: 9.19.0
       '@floydspace/projen-components':
         specifier: next
-        version: 1.0.0-next.17(projen@0.91.6(constructs@10.4.2))
+        version: 1.0.0-next.18(projen@0.91.6(constructs@10.4.2))
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       '@typescript-eslint/eslint-plugin':
         specifier: ^8.21.0
         version: 8.21.0(@typescript-eslint/parser@8.21.0(eslint@9.19.0)(typescript@5.4.5))(eslint@9.19.0)(typescript@5.4.5)
@@ -70,7 +70,7 @@ importers:
         version: 8.21.0(eslint@9.19.0)(typescript@5.4.5)
       '@vitest/coverage-v8':
         specifier: ^3.1.1
-        version: 3.1.1(vitest@3.1.1(@types/node@22.15.18)(tsx@4.19.3)(yaml@2.7.0))
+        version: 3.1.1(vitest@3.1.1(@types/node@22.15.30)(tsx@4.19.3)(yaml@2.7.0))
       aws-sdk-client-mock:
         specifier: ^4.1.0
         version: 4.1.0
@@ -103,7 +103,7 @@ importers:
         version: 0.91.6(constructs@10.4.2)
       ts-node:
         specifier: ^10.9.1
-        version: 10.9.1(@types/node@22.15.18)(typescript@5.4.5)
+        version: 10.9.1(@types/node@22.15.30)(typescript@5.4.5)
       tsx:
         specifier: ^4.16.5
         version: 4.19.3
@@ -112,10 +112,10 @@ importers:
         version: 5.4.5
       vitest:
         specifier: ^3.1.1
-        version: 3.1.1(@types/node@22.15.18)(tsx@4.19.3)(yaml@2.7.0)
+        version: 3.1.1(@types/node@22.15.30)(tsx@4.19.3)(yaml@2.7.0)
       vitest-mock-extended:
         specifier: ^3.1.0
-        version: 3.1.0(typescript@5.4.5)(vitest@3.1.1(@types/node@22.15.18)(tsx@4.19.3)(yaml@2.7.0))
+        version: 3.1.0(typescript@5.4.5)(vitest@3.1.1(@types/node@22.15.30)(tsx@4.19.3)(yaml@2.7.0))
 
   packages/client-account:
     dependencies:
@@ -128,10 +128,10 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -148,10 +148,10 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -168,10 +168,10 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -188,10 +188,10 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -208,10 +208,10 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -228,10 +228,10 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -248,10 +248,10 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -268,10 +268,10 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -288,10 +288,10 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -308,10 +308,10 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -328,10 +328,10 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -348,10 +348,10 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -368,10 +368,10 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -388,10 +388,10 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -408,10 +408,10 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -428,10 +428,10 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -448,10 +448,10 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -468,10 +468,10 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -488,10 +488,10 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -508,10 +508,10 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -528,10 +528,10 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -548,10 +548,10 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -568,10 +568,10 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -588,10 +588,10 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -608,10 +608,10 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -628,10 +628,10 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -648,10 +648,10 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -668,10 +668,10 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -688,10 +688,10 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -708,10 +708,10 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -728,10 +728,10 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -748,10 +748,10 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -768,10 +768,10 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -788,10 +788,10 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -808,10 +808,10 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -828,10 +828,10 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -848,10 +848,10 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -874,10 +874,10 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -894,10 +894,10 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -914,10 +914,10 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -934,10 +934,10 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -954,10 +954,10 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -974,10 +974,10 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -994,10 +994,10 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -1014,10 +1014,10 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -1034,10 +1034,10 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -1054,10 +1054,10 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -1074,10 +1074,10 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -1094,10 +1094,10 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -1114,10 +1114,10 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -1140,10 +1140,10 @@ importers:
         version: 3.804.0
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -1165,14 +1165,14 @@ importers:
         specifier: workspace:^
         version: link:../commons/dist
       '@effect/platform':
-        specifier: ^0.82.2
-        version: 0.82.2(effect@3.15.1)
+        specifier: ^0.84.8
+        version: 0.84.8(effect@3.16.4)
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -1181,20 +1181,20 @@ importers:
   packages/lambda:
     devDependencies:
       '@effect/platform':
-        specifier: ^0.82.2
-        version: 0.82.2(effect@3.15.1)
+        specifier: ^0.84.8
+        version: 0.84.8(effect@3.16.4)
       '@effect/platform-node-shared':
-        specifier: ^0.34.3
-        version: 0.34.3(@effect/cluster@0.33.3(@effect/platform@0.82.2(effect@3.15.1))(@effect/rpc@0.59.3(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1))(@effect/sql@0.35.2(@effect/experimental@0.46.2(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1))(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1))(effect@3.15.1))(@effect/platform@0.82.2(effect@3.15.1))(@effect/rpc@0.59.3(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1))(@effect/sql@0.35.2(@effect/experimental@0.46.2(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1))(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1))(effect@3.15.1)
+        specifier: ^0.39.7
+        version: 0.39.7(@effect/cluster@0.38.7(@effect/platform@0.84.8(effect@3.16.4))(@effect/rpc@0.61.8(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4))(@effect/sql@0.37.9(@effect/experimental@0.48.9(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4))(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4))(@effect/workflow@0.1.5(@effect/platform@0.84.8(effect@3.16.4))(@effect/rpc@0.61.8(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4))(effect@3.16.4))(effect@3.16.4))(@effect/platform@0.84.8(effect@3.16.4))(@effect/rpc@0.61.8(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4))(@effect/sql@0.37.9(@effect/experimental@0.48.9(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4))(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4))(effect@3.16.4)
       '@types/aws-lambda':
         specifier: ^8.10.149
         version: 8.10.149
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -1217,10 +1217,10 @@ importers:
         version: link:../client-dynamodb/dist
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -1236,10 +1236,10 @@ importers:
         version: 2.0.0
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -1265,10 +1265,10 @@ importers:
         version: 8.10.149
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -1283,14 +1283,14 @@ importers:
         specifier: workspace:^
         version: link:../client-s3/dist
       '@effect/platform':
-        specifier: ^0.82.2
-        version: 0.82.2(effect@3.15.1)
+        specifier: ^0.84.8
+        version: 0.84.8(effect@3.16.4)
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -1309,10 +1309,10 @@ importers:
         version: 1.208.0
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -1331,10 +1331,10 @@ importers:
         version: 1.208.0
       '@types/node':
         specifier: ts5.4
-        version: 22.15.18
+        version: 22.15.30
       effect:
-        specifier: ^3.15.1
-        version: 3.15.1
+        specifier: ^3.16.4
+        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
@@ -1914,21 +1914,22 @@ packages:
     engines: {node: '>=16.17.1'}
     hasBin: true
 
-  '@effect/cli@0.61.2':
-    resolution: {integrity: sha512-abw7w6PcWtpatjkqfUfunjEN6ZQoj7beoeQfjbqxCC4r3bsHunIh7PJ48yGybxGHiSHVNfKPM0+twSlQ+muKVg==}
+  '@effect/cli@0.63.8':
+    resolution: {integrity: sha512-RpQzqKPpEaTExjlnsGW5r0oSWwQiDKg2mfjU0EseCbr0yNgL1XgJPMAFCkuy7T3xK2tv827o8RBOGNGIEx6LFg==}
     peerDependencies:
-      '@effect/platform': ^0.82.2
-      '@effect/printer': ^0.43.1
-      '@effect/printer-ansi': ^0.43.1
-      effect: ^3.15.1
+      '@effect/platform': ^0.84.8
+      '@effect/printer': ^0.44.4
+      '@effect/printer-ansi': ^0.44.4
+      effect: ^3.16.4
 
-  '@effect/cluster@0.33.3':
-    resolution: {integrity: sha512-jpKF0oJ1DxPaqN7W+FWmPIM4kn7cGC3aPfzDR2uHHt/LOyuXKDUCp8Nbt1X2RecAWolQM3wweHHvzNcobyJpMA==}
+  '@effect/cluster@0.38.7':
+    resolution: {integrity: sha512-eN3wOys9SVPqowAPGkNGQnH1uyYMcPRVTyFn3QxNL/PYkluWkF0BmQhuzzteSx5O6lLsLMwSykLA1zh8JGLdBw==}
     peerDependencies:
-      '@effect/platform': ^0.82.2
-      '@effect/rpc': ^0.59.3
-      '@effect/sql': ^0.35.2
-      effect: ^3.15.1
+      '@effect/platform': ^0.84.8
+      '@effect/rpc': ^0.61.8
+      '@effect/sql': ^0.37.9
+      '@effect/workflow': ^0.1.5
+      effect: ^3.16.4
 
   '@effect/docgen@0.5.2':
     resolution: {integrity: sha512-gqBxAhp58R18vT5+ORobWRQ/2MaF5vH0k1zggSct54J41k8TKF5mYIW1qG5tkOVCejet+8K5MKsWK3gzIkaoMw==}
@@ -1941,11 +1942,11 @@ packages:
   '@effect/eslint-plugin@0.3.2':
     resolution: {integrity: sha512-c4Vs9t3r54A4Zpl+wo8+PGzZz3JWYsip41H+UrebRLjQ2Hk/ap63IeCgN/HWcYtxtyhRopjp7gW9nOQ2Snbl+g==}
 
-  '@effect/experimental@0.46.2':
-    resolution: {integrity: sha512-3VUb41TERtyLddCusB+5GGpz6cyT/R8coXXAoLrvmf9qZYulpaVyFAddK5sZojF+2H39BvkqfxQ7VlU2eB3mBg==}
+  '@effect/experimental@0.48.9':
+    resolution: {integrity: sha512-YBK5vxMk51wKkmP/4SgyHV/y8pd76wg79kV3lDie6T9Vz5sI4vJmEuYuf8zzUQU0uPeBp/Sq94RBgjaykV97FA==}
     peerDependencies:
-      '@effect/platform': ^0.82.2
-      effect: ^3.15.1
+      '@effect/platform': ^0.84.8
+      effect: ^3.16.4
       ioredis: ^5
       lmdb: ^3
     peerDependenciesMeta:
@@ -1954,72 +1955,79 @@ packages:
       lmdb:
         optional: true
 
-  '@effect/language-service@0.16.0':
-    resolution: {integrity: sha512-PRFDcRQwvKXj2gn7v1kvmzxenmE3xUy3xCO0OKB49885/n1g5sIglRttN1LYOZB4DcSMqLbnWJnEVgJJrWXZTw==}
+  '@effect/language-service@0.19.0':
+    resolution: {integrity: sha512-DAnV0q0EPZtB6+opqMb1BsAkQ/7AoQj/Q84rUijM8dY2bevuI870DtZYn9kpB19Q3VN8yhPE9Kgtnpocj8ysTA==}
 
   '@effect/markdown-toc@0.1.0':
     resolution: {integrity: sha512-IRfvvwqQLabVTIw9hhIj4scOGIYPfa13QuEFv+dBWE6p47R+RR0J8jQvfDINFf0Vn80XXVjNRtZxkZpkKXLx2A==}
     engines: {node: '>=0.10.0'}
     hasBin: true
 
-  '@effect/platform-node-shared@0.34.3':
-    resolution: {integrity: sha512-8tC8SpAjdU8y7NDo2Rev7kUTlmYVCurMjHPi0pIiUw3kcLU7ChHCN0XNAVlf4k9IM24XD2993aTKGiKoriSp2Q==}
+  '@effect/platform-node-shared@0.39.7':
+    resolution: {integrity: sha512-SI/EmvYyW7owf8uS7c/qBp+6W7B/I1auXGKvoGYBJz3CIzQz4/77aZd/Ud7BozQNCQH58b+aimH0PC/3+uUTKA==}
     peerDependencies:
-      '@effect/cluster': ^0.33.3
-      '@effect/platform': ^0.82.2
-      '@effect/rpc': ^0.59.3
-      '@effect/sql': ^0.35.2
-      effect: ^3.15.1
+      '@effect/cluster': ^0.38.7
+      '@effect/platform': ^0.84.8
+      '@effect/rpc': ^0.61.8
+      '@effect/sql': ^0.37.9
+      effect: ^3.16.4
 
-  '@effect/platform-node@0.80.3':
-    resolution: {integrity: sha512-bhMiIo6RC6RAC0Lm30xKsdqKC2kgLkgbPQlJ/eFUCmnL1sOashuByEoPxSCKIzDMXOSQJLTbnRz0TG0Q40AbwQ==}
+  '@effect/platform-node@0.85.7':
+    resolution: {integrity: sha512-dTiPVSNCfGBn/u+yBD/0MdvorV+Oj5jlBW4RL9BYDBMKpslcC1T3RaVvW8D6mtPBPUrdgSCfMazPCGU43hO3OA==}
     peerDependencies:
-      '@effect/cluster': ^0.33.3
-      '@effect/platform': ^0.82.2
-      '@effect/rpc': ^0.59.3
-      '@effect/sql': ^0.35.2
-      effect: ^3.15.1
+      '@effect/cluster': ^0.38.7
+      '@effect/platform': ^0.84.8
+      '@effect/rpc': ^0.61.8
+      '@effect/sql': ^0.37.9
+      effect: ^3.16.4
 
-  '@effect/platform@0.82.2':
-    resolution: {integrity: sha512-gTiPIqPcyoQX8bAipfMxTk0jLvCB2PcHQIr4fFizOH87hriax1AnWtsh1vlQnbmgRalRclmKp+FOSnsEieSI/w==}
+  '@effect/platform@0.84.8':
+    resolution: {integrity: sha512-tH4e4FbOtGIzEAD0JFkW6I2ytXTFKG6Zr+iL3Cq2gXbrhhIwZuu8lmFMddrWwsQS83yKs0gToM/IGxhzkBNTOQ==}
     peerDependencies:
-      effect: ^3.15.1
+      effect: ^3.16.4
 
-  '@effect/printer-ansi@0.43.1':
-    resolution: {integrity: sha512-DOJBygYuNt7UtOXmg/v92E1OMC2GG0EU9RKEFhLHB+OskvfyDOFw8+oIR6dgErETknwAPGFM8TyXf/KpSrzhhg==}
+  '@effect/printer-ansi@0.44.4':
+    resolution: {integrity: sha512-W5HjYZtaX4ypCkqh+N5pQttb4n2a9KCiM8JMwHYqFcGq/eBC7uiKrUqvv4p52fA+NBbCSCaC6rrN533ifowv3Q==}
     peerDependencies:
-      '@effect/typeclass': ^0.34.1
-      effect: ^3.15.1
+      '@effect/typeclass': ^0.35.4
+      effect: ^3.16.4
 
-  '@effect/printer@0.43.1':
-    resolution: {integrity: sha512-YlYItaZJeUfVkYH3jVBM8dftsiiYYwv3ru2oGwOTURolJrw4ZEtqdadbGK3NEEONHpsj8OWgeP5PTxz1iVNwZQ==}
+  '@effect/printer@0.44.4':
+    resolution: {integrity: sha512-5CKmYxEM0Ogx64BvhFkrBMpP7Ys5us4klvhSSWhEuTGb5Tx/yiXxiTbesLi6rcCrMjGGTkNYGZRAtWBYSqV5SA==}
     peerDependencies:
-      '@effect/typeclass': ^0.34.1
-      effect: ^3.15.1
+      '@effect/typeclass': ^0.35.4
+      effect: ^3.16.4
 
-  '@effect/rpc@0.59.3':
-    resolution: {integrity: sha512-9YMclHs5dntIx635MhK58+vopy38YmVUfRjMIGUjZLKCBalXH6SwOQoWBcIztKoUxtys04NV/zKvSKivd+mEng==}
+  '@effect/rpc@0.61.8':
+    resolution: {integrity: sha512-OgRiPJY7LCqF1XenkHWRC/iC9o+ZduL0pamNtpXHcAh+1TdSQVYNrpF20dKj+BjM0/FvA3UE9ncU3UhJCNVfyA==}
     peerDependencies:
-      '@effect/platform': ^0.82.2
-      effect: ^3.15.1
+      '@effect/platform': ^0.84.8
+      effect: ^3.16.4
 
-  '@effect/sql@0.35.2':
-    resolution: {integrity: sha512-IO4VSF7+B1tcQ8ytCPKBsekKWiITOHKROPbLaxBMSdrixjarnY+C75+BEeC3c5Eg3Uc3yIC1dKN1YdxcG1aGbw==}
+  '@effect/sql@0.37.9':
+    resolution: {integrity: sha512-wI7MCyji9RoZ4Pgwa75644qtJ6wWYEknv7lxBdSdLWVmj5T5G+PgA9y3zp5aakqsvo0oRDVxWWSg8xovesfcBA==}
     peerDependencies:
-      '@effect/experimental': ^0.46.2
-      '@effect/platform': ^0.82.2
-      effect: ^3.15.1
+      '@effect/experimental': ^0.48.9
+      '@effect/platform': ^0.84.8
+      effect: ^3.16.4
 
-  '@effect/typeclass@0.34.1':
-    resolution: {integrity: sha512-bRJf7/D5vSzIgnfkRqiDpL5IQXlzw62OGWFoiVWTp4A8vDG9D7GDg67hZBHbOjPBkHKOPnGi0RtvxelioqLhSg==}
+  '@effect/typeclass@0.35.4':
+    resolution: {integrity: sha512-z6vKpU3RxG7Hehh9VhWnBrDBP4trp/OoVHYZRJ3VaxfhsxXg2/zAFft3+qJKMsHVhNS41I+BkWiVcOHbsugXzg==}
     peerDependencies:
-      effect: ^3.15.1
+      effect: ^3.16.4
 
-  '@effect/vitest@0.22.1':
-    resolution: {integrity: sha512-T2ITEBhl4UczbqVplcxMSlrRSDKui3+kHzT9ugqaVvACI8SXQK03fyuLWlSZ2Co6ND2p7+E1FZ4hLz7hQd4NmQ==}
+  '@effect/vitest@0.23.4':
+    resolution: {integrity: sha512-5JxTBv44EEJ1HeRKGt9kEslsRsc3jIYHLQqvKfkBQru6vfUdp+oi8fc9YGttTw71W8nZh8hiKWqNsLg+BVFiuA==}
     peerDependencies:
-      effect: ^3.15.1
+      effect: ^3.16.4
       vitest: ^3.0.0
+
+  '@effect/workflow@0.1.5':
+    resolution: {integrity: sha512-ezZyhzAafgihlCthOSHOHcROfkZU09uCPSrXeXIyNr0NwcPjK3D/z6KIQZCTmzv7FhSPcm1QSMFTPUtUG+9/vQ==}
+    peerDependencies:
+      '@effect/platform': ^0.84.8
+      '@effect/rpc': ^0.61.8
+      effect: ^3.16.4
 
   '@esbuild/aix-ppc64@0.25.2':
     resolution: {integrity: sha512-wCIboOL2yXZym2cgm6mlA742s9QeJ8DjGVaL39dLN4rRwrOgOyYSnOaFPhKZGLb2ngj4EyfAFjsNJwPXZvseag==}
@@ -2214,8 +2222,8 @@ packages:
     resolution: {integrity: sha512-lB05FkqEdUg2AA0xEbUz0SnkXT1LcCTa438W4IWTUh4hdOnVbQyOJ81OrDXsJk/LSiJHubgGEFoR5EHq1NsH1A==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@floydspace/projen-components@1.0.0-next.17':
-    resolution: {integrity: sha512-SS+0zXs01xqWxVOThLlBGNMxXBZogvUFijxs44szITJFPMMxSgZhWNe+buP5mpGAugiX1nnld4D3DX5qTEK+sg==}
+  '@floydspace/projen-components@1.0.0-next.18':
+    resolution: {integrity: sha512-g17f9G/PiLYHAhCQf+rpnMLfWCjWJlMNc6hR/hHuqxc+GAt+AAN/sNFDzRBIxAs6duXmo7us+rtx1/FPoTh9EA==}
     engines: {pnpm: '>=9 <10'}
     peerDependencies:
       projen: '>0.58.15'
@@ -2348,8 +2356,8 @@ packages:
     resolution: {integrity: sha512-nn5ozdjYQpUCZlWGuxcJY/KpxkWQs4DcbMCmKojjyrYDEAGy4Ce19NN4v5MduafTwJlbKc99UA8YhSVqq9yPZA==}
     engines: {node: '>=12.4.0'}
 
-  '@opentelemetry/semantic-conventions@1.33.0':
-    resolution: {integrity: sha512-TIpZvE8fiEILFfTlfPnltpBaD3d9/+uQHVCyC3vfdh6WfCXKhNFzoP5RyDDIndfvZC5GrA4pyEDNyjPloJud+w==}
+  '@opentelemetry/semantic-conventions@1.34.0':
+    resolution: {integrity: sha512-aKcOkyrorBGlajjRdVoJWHTxfxO1vCNHLJVlSDaRHDIdjU+pX8IYQPvPDkYiujKLbRnWU+1TBwEt0QRgSm4SGA==}
     engines: {node: '>=14'}
 
   '@parcel/watcher-android-arm64@2.5.1':
@@ -2853,8 +2861,8 @@ packages:
   '@types/node@20.17.16':
     resolution: {integrity: sha512-vOTpLduLkZXePLxHiHsBLp98mHGnl8RptV4YAO3HfKO5UHjDvySGbxKtpYfy8Sx5+WKcgc45qNreJJRVM3L6mw==}
 
-  '@types/node@22.15.18':
-    resolution: {integrity: sha512-v1DKRfUdyW+jJhZNEI1PYy29S2YRxMV5AOO/x/SjKmW0acCIOqmbj6Haf9eHAhsPmrhlHSxEhv/1WszcLWV4cg==}
+  '@types/node@22.15.30':
+    resolution: {integrity: sha512-6Q7lr06bEHdlfplU6YRbgG1SFBdlsfNC4/lX+SkhiTs0cpJkOElmWls8PxDFv4yY/xKb8Y6SO0OmSX4wgqTZbA==}
 
   '@types/normalize-package-data@2.4.4':
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
@@ -3301,8 +3309,8 @@ packages:
   eastasianwidth@0.2.0:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
 
-  effect@3.15.1:
-    resolution: {integrity: sha512-n3bDF6K3R+FSVuH+dSVU3ya2pI4Wt/tnKzum3DC/3b5e0E9HfhrhbkonOkYU3AVJJOzCA6zZE2/y6EUgQNAY4g==}
+  effect@3.16.4:
+    resolution: {integrity: sha512-zJo5MRPEMROLjTHyrOJs0PUeEnRLy0ABwum3+HWlP8Y9LNF+NjipIRldVAcjSVQpJ7vY/OEGBxzw0USPzTfWag==}
 
   electron-to-chromium@1.5.88:
     resolution: {integrity: sha512-K3C2qf1o+bGzbilTDCTBhTQcMS9KW60yTAaTeeXsfvQuTDDwlokLam/AdqlqcSy9u4UainDgsHV23ksXAOgamw==}
@@ -4158,8 +4166,8 @@ packages:
     resolution: {integrity: sha512-P0efT1C9jIdVRefqjzOQ9Xml57zpOXnIuS+csaB4MdZbTdmGDLo8XhzBG1N7aO11gKDDkJvBLULeFTo46wwreA==}
     hasBin: true
 
-  msgpackr@1.11.3:
-    resolution: {integrity: sha512-mNdO4s/W54QCghwGNSqO5ULVJ6QUimP/1hRlWVx5f7frTLaClg+4sBRjUTgP1OrBRgVtkH1tI9vi4Dqg/JX3Kg==}
+  msgpackr@1.11.4:
+    resolution: {integrity: sha512-uaff7RG9VIC4jacFW9xzL3jc0iM32DNHe4jYVycBcjUePT/Klnfj7pqtWJt9khvDFizmjN2TlYniYmSS2LIaZg==}
 
   multipasta@0.2.5:
     resolution: {integrity: sha512-c8eMDb1WwZcE02WVjHoOmUVk7fnKU/RmUcosHACglrWAuPQsEJv+E8430sXj6jNc1jHw0zrS16aCjQh4BcEb4A==}
@@ -4817,8 +4825,8 @@ packages:
   undici-types@6.21.0:
     resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
 
-  undici@7.9.0:
-    resolution: {integrity: sha512-e696y354tf5cFZPXsF26Yg+5M63+5H3oE6Vtkh2oqbvsE2Oe7s2nIbcQh5lmG7Lp/eS29vJtTpw9+p6PX0qNSg==}
+  undici@7.10.0:
+    resolution: {integrity: sha512-u5otvFBOBZvmdjWLVW+5DAc9Nkq8f24g0O9oY7qw2JVIF1VocIFoyz9JFkuVOS2j41AufeO0xnlweJ2RLT8nGw==}
     engines: {node: '>=20.18.1'}
 
   unist-util-stringify-position@2.0.3:
@@ -8104,22 +8112,23 @@ snapshots:
       micromatch: 4.0.8
       pkg-entry-points: 1.1.1
 
-  '@effect/cli@0.61.2(@effect/platform@0.82.2(effect@3.15.1))(@effect/printer-ansi@0.43.1(@effect/typeclass@0.34.1(effect@3.15.1))(effect@3.15.1))(@effect/printer@0.43.1(@effect/typeclass@0.34.1(effect@3.15.1))(effect@3.15.1))(effect@3.15.1)':
+  '@effect/cli@0.63.8(@effect/platform@0.84.8(effect@3.16.4))(@effect/printer-ansi@0.44.4(@effect/typeclass@0.35.4(effect@3.16.4))(effect@3.16.4))(@effect/printer@0.44.4(@effect/typeclass@0.35.4(effect@3.16.4))(effect@3.16.4))(effect@3.16.4)':
     dependencies:
-      '@effect/platform': 0.82.2(effect@3.15.1)
-      '@effect/printer': 0.43.1(@effect/typeclass@0.34.1(effect@3.15.1))(effect@3.15.1)
-      '@effect/printer-ansi': 0.43.1(@effect/typeclass@0.34.1(effect@3.15.1))(effect@3.15.1)
-      effect: 3.15.1
+      '@effect/platform': 0.84.8(effect@3.16.4)
+      '@effect/printer': 0.44.4(@effect/typeclass@0.35.4(effect@3.16.4))(effect@3.16.4)
+      '@effect/printer-ansi': 0.44.4(@effect/typeclass@0.35.4(effect@3.16.4))(effect@3.16.4)
+      effect: 3.16.4
       ini: 4.1.3
       toml: 3.0.0
       yaml: 2.7.0
 
-  '@effect/cluster@0.33.3(@effect/platform@0.82.2(effect@3.15.1))(@effect/rpc@0.59.3(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1))(@effect/sql@0.35.2(@effect/experimental@0.46.2(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1))(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1))(effect@3.15.1)':
+  '@effect/cluster@0.38.7(@effect/platform@0.84.8(effect@3.16.4))(@effect/rpc@0.61.8(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4))(@effect/sql@0.37.9(@effect/experimental@0.48.9(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4))(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4))(@effect/workflow@0.1.5(@effect/platform@0.84.8(effect@3.16.4))(@effect/rpc@0.61.8(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4))(effect@3.16.4))(effect@3.16.4)':
     dependencies:
-      '@effect/platform': 0.82.2(effect@3.15.1)
-      '@effect/rpc': 0.59.3(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1)
-      '@effect/sql': 0.35.2(@effect/experimental@0.46.2(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1))(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1)
-      effect: 3.15.1
+      '@effect/platform': 0.84.8(effect@3.16.4)
+      '@effect/rpc': 0.61.8(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4)
+      '@effect/sql': 0.37.9(@effect/experimental@0.48.9(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4))(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4)
+      '@effect/workflow': 0.1.5(@effect/platform@0.84.8(effect@3.16.4))(@effect/rpc@0.61.8(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4))(effect@3.16.4)
+      effect: 3.16.4
 
   '@effect/docgen@0.5.2(tsx@4.19.3)(typescript@5.4.5)':
     dependencies:
@@ -8136,13 +8145,13 @@ snapshots:
       '@dprint/typescript': 0.91.8
       prettier-linter-helpers: 1.0.0
 
-  '@effect/experimental@0.46.2(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1)':
+  '@effect/experimental@0.48.9(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4)':
     dependencies:
-      '@effect/platform': 0.82.2(effect@3.15.1)
-      effect: 3.15.1
+      '@effect/platform': 0.84.8(effect@3.16.4)
+      effect: 3.16.4
       uuid: 11.1.0
 
-  '@effect/language-service@0.16.0': {}
+  '@effect/language-service@0.19.0': {}
 
   '@effect/markdown-toc@0.1.0':
     dependencies:
@@ -8159,74 +8168,80 @@ snapshots:
       repeat-string: 1.6.1
       strip-color: 0.1.0
 
-  '@effect/platform-node-shared@0.34.3(@effect/cluster@0.33.3(@effect/platform@0.82.2(effect@3.15.1))(@effect/rpc@0.59.3(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1))(@effect/sql@0.35.2(@effect/experimental@0.46.2(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1))(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1))(effect@3.15.1))(@effect/platform@0.82.2(effect@3.15.1))(@effect/rpc@0.59.3(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1))(@effect/sql@0.35.2(@effect/experimental@0.46.2(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1))(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1))(effect@3.15.1)':
+  '@effect/platform-node-shared@0.39.7(@effect/cluster@0.38.7(@effect/platform@0.84.8(effect@3.16.4))(@effect/rpc@0.61.8(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4))(@effect/sql@0.37.9(@effect/experimental@0.48.9(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4))(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4))(@effect/workflow@0.1.5(@effect/platform@0.84.8(effect@3.16.4))(@effect/rpc@0.61.8(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4))(effect@3.16.4))(effect@3.16.4))(@effect/platform@0.84.8(effect@3.16.4))(@effect/rpc@0.61.8(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4))(@effect/sql@0.37.9(@effect/experimental@0.48.9(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4))(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4))(effect@3.16.4)':
     dependencies:
-      '@effect/cluster': 0.33.3(@effect/platform@0.82.2(effect@3.15.1))(@effect/rpc@0.59.3(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1))(@effect/sql@0.35.2(@effect/experimental@0.46.2(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1))(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1))(effect@3.15.1)
-      '@effect/platform': 0.82.2(effect@3.15.1)
-      '@effect/rpc': 0.59.3(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1)
-      '@effect/sql': 0.35.2(@effect/experimental@0.46.2(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1))(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1)
+      '@effect/cluster': 0.38.7(@effect/platform@0.84.8(effect@3.16.4))(@effect/rpc@0.61.8(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4))(@effect/sql@0.37.9(@effect/experimental@0.48.9(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4))(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4))(@effect/workflow@0.1.5(@effect/platform@0.84.8(effect@3.16.4))(@effect/rpc@0.61.8(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4))(effect@3.16.4))(effect@3.16.4)
+      '@effect/platform': 0.84.8(effect@3.16.4)
+      '@effect/rpc': 0.61.8(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4)
+      '@effect/sql': 0.37.9(@effect/experimental@0.48.9(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4))(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4)
       '@parcel/watcher': 2.5.1
-      effect: 3.15.1
+      effect: 3.16.4
       multipasta: 0.2.5
       ws: 8.18.2
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
 
-  '@effect/platform-node@0.80.3(@effect/cluster@0.33.3(@effect/platform@0.82.2(effect@3.15.1))(@effect/rpc@0.59.3(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1))(@effect/sql@0.35.2(@effect/experimental@0.46.2(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1))(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1))(effect@3.15.1))(@effect/platform@0.82.2(effect@3.15.1))(@effect/rpc@0.59.3(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1))(@effect/sql@0.35.2(@effect/experimental@0.46.2(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1))(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1))(effect@3.15.1)':
+  '@effect/platform-node@0.85.7(@effect/cluster@0.38.7(@effect/platform@0.84.8(effect@3.16.4))(@effect/rpc@0.61.8(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4))(@effect/sql@0.37.9(@effect/experimental@0.48.9(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4))(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4))(@effect/workflow@0.1.5(@effect/platform@0.84.8(effect@3.16.4))(@effect/rpc@0.61.8(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4))(effect@3.16.4))(effect@3.16.4))(@effect/platform@0.84.8(effect@3.16.4))(@effect/rpc@0.61.8(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4))(@effect/sql@0.37.9(@effect/experimental@0.48.9(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4))(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4))(effect@3.16.4)':
     dependencies:
-      '@effect/cluster': 0.33.3(@effect/platform@0.82.2(effect@3.15.1))(@effect/rpc@0.59.3(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1))(@effect/sql@0.35.2(@effect/experimental@0.46.2(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1))(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1))(effect@3.15.1)
-      '@effect/platform': 0.82.2(effect@3.15.1)
-      '@effect/platform-node-shared': 0.34.3(@effect/cluster@0.33.3(@effect/platform@0.82.2(effect@3.15.1))(@effect/rpc@0.59.3(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1))(@effect/sql@0.35.2(@effect/experimental@0.46.2(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1))(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1))(effect@3.15.1))(@effect/platform@0.82.2(effect@3.15.1))(@effect/rpc@0.59.3(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1))(@effect/sql@0.35.2(@effect/experimental@0.46.2(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1))(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1))(effect@3.15.1)
-      '@effect/rpc': 0.59.3(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1)
-      '@effect/sql': 0.35.2(@effect/experimental@0.46.2(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1))(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1)
-      effect: 3.15.1
+      '@effect/cluster': 0.38.7(@effect/platform@0.84.8(effect@3.16.4))(@effect/rpc@0.61.8(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4))(@effect/sql@0.37.9(@effect/experimental@0.48.9(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4))(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4))(@effect/workflow@0.1.5(@effect/platform@0.84.8(effect@3.16.4))(@effect/rpc@0.61.8(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4))(effect@3.16.4))(effect@3.16.4)
+      '@effect/platform': 0.84.8(effect@3.16.4)
+      '@effect/platform-node-shared': 0.39.7(@effect/cluster@0.38.7(@effect/platform@0.84.8(effect@3.16.4))(@effect/rpc@0.61.8(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4))(@effect/sql@0.37.9(@effect/experimental@0.48.9(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4))(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4))(@effect/workflow@0.1.5(@effect/platform@0.84.8(effect@3.16.4))(@effect/rpc@0.61.8(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4))(effect@3.16.4))(effect@3.16.4))(@effect/platform@0.84.8(effect@3.16.4))(@effect/rpc@0.61.8(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4))(@effect/sql@0.37.9(@effect/experimental@0.48.9(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4))(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4))(effect@3.16.4)
+      '@effect/rpc': 0.61.8(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4)
+      '@effect/sql': 0.37.9(@effect/experimental@0.48.9(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4))(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4)
+      effect: 3.16.4
       mime: 3.0.0
-      undici: 7.9.0
+      undici: 7.10.0
       ws: 8.18.2
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
 
-  '@effect/platform@0.82.2(effect@3.15.1)':
+  '@effect/platform@0.84.8(effect@3.16.4)':
     dependencies:
-      effect: 3.15.1
+      effect: 3.16.4
       find-my-way-ts: 0.1.5
-      msgpackr: 1.11.3
+      msgpackr: 1.11.4
       multipasta: 0.2.5
 
-  '@effect/printer-ansi@0.43.1(@effect/typeclass@0.34.1(effect@3.15.1))(effect@3.15.1)':
+  '@effect/printer-ansi@0.44.4(@effect/typeclass@0.35.4(effect@3.16.4))(effect@3.16.4)':
     dependencies:
-      '@effect/printer': 0.43.1(@effect/typeclass@0.34.1(effect@3.15.1))(effect@3.15.1)
-      '@effect/typeclass': 0.34.1(effect@3.15.1)
-      effect: 3.15.1
+      '@effect/printer': 0.44.4(@effect/typeclass@0.35.4(effect@3.16.4))(effect@3.16.4)
+      '@effect/typeclass': 0.35.4(effect@3.16.4)
+      effect: 3.16.4
 
-  '@effect/printer@0.43.1(@effect/typeclass@0.34.1(effect@3.15.1))(effect@3.15.1)':
+  '@effect/printer@0.44.4(@effect/typeclass@0.35.4(effect@3.16.4))(effect@3.16.4)':
     dependencies:
-      '@effect/typeclass': 0.34.1(effect@3.15.1)
-      effect: 3.15.1
+      '@effect/typeclass': 0.35.4(effect@3.16.4)
+      effect: 3.16.4
 
-  '@effect/rpc@0.59.3(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1)':
+  '@effect/rpc@0.61.8(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4)':
     dependencies:
-      '@effect/platform': 0.82.2(effect@3.15.1)
-      effect: 3.15.1
+      '@effect/platform': 0.84.8(effect@3.16.4)
+      effect: 3.16.4
 
-  '@effect/sql@0.35.2(@effect/experimental@0.46.2(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1))(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1)':
+  '@effect/sql@0.37.9(@effect/experimental@0.48.9(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4))(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4)':
     dependencies:
-      '@effect/experimental': 0.46.2(@effect/platform@0.82.2(effect@3.15.1))(effect@3.15.1)
-      '@effect/platform': 0.82.2(effect@3.15.1)
-      '@opentelemetry/semantic-conventions': 1.33.0
-      effect: 3.15.1
+      '@effect/experimental': 0.48.9(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4)
+      '@effect/platform': 0.84.8(effect@3.16.4)
+      '@opentelemetry/semantic-conventions': 1.34.0
+      effect: 3.16.4
       uuid: 11.1.0
 
-  '@effect/typeclass@0.34.1(effect@3.15.1)':
+  '@effect/typeclass@0.35.4(effect@3.16.4)':
     dependencies:
-      effect: 3.15.1
+      effect: 3.16.4
 
-  '@effect/vitest@0.22.1(effect@3.15.1)(vitest@3.1.1(@types/node@22.15.18)(tsx@4.19.3)(yaml@2.7.0))':
+  '@effect/vitest@0.23.4(effect@3.16.4)(vitest@3.1.1(@types/node@22.15.30)(tsx@4.19.3)(yaml@2.7.0))':
     dependencies:
-      effect: 3.15.1
-      vitest: 3.1.1(@types/node@22.15.18)(tsx@4.19.3)(yaml@2.7.0)
+      effect: 3.16.4
+      vitest: 3.1.1(@types/node@22.15.30)(tsx@4.19.3)(yaml@2.7.0)
+
+  '@effect/workflow@0.1.5(@effect/platform@0.84.8(effect@3.16.4))(@effect/rpc@0.61.8(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4))(effect@3.16.4)':
+    dependencies:
+      '@effect/platform': 0.84.8(effect@3.16.4)
+      '@effect/rpc': 0.61.8(@effect/platform@0.84.8(effect@3.16.4))(effect@3.16.4)
+      effect: 3.16.4
 
   '@esbuild/aix-ppc64@0.25.2':
     optional: true
@@ -8349,7 +8364,7 @@ snapshots:
       '@eslint/core': 0.10.0
       levn: 0.4.1
 
-  '@floydspace/projen-components@1.0.0-next.17(projen@0.91.6(constructs@10.4.2))':
+  '@floydspace/projen-components@1.0.0-next.18(projen@0.91.6(constructs@10.4.2))':
     dependencies:
       projen: 0.91.6(constructs@10.4.2)
 
@@ -8392,7 +8407,7 @@ snapshots:
       '@jest/schemas': 29.6.3
       '@types/istanbul-lib-coverage': 2.0.6
       '@types/istanbul-reports': 3.0.4
-      '@types/node': 22.15.18
+      '@types/node': 22.15.30
       '@types/yargs': 17.0.33
       chalk: 4.1.2
 
@@ -8466,7 +8481,7 @@ snapshots:
 
   '@nolyfill/is-core-module@1.0.39': {}
 
-  '@opentelemetry/semantic-conventions@1.33.0': {}
+  '@opentelemetry/semantic-conventions@1.34.0': {}
 
   '@parcel/watcher-android-arm64@2.5.1':
     optional: true
@@ -8983,7 +8998,7 @@ snapshots:
 
   '@types/cls-hooked@4.3.9':
     dependencies:
-      '@types/node': 22.15.18
+      '@types/node': 22.15.30
 
   '@types/dedent@0.7.0': {}
 
@@ -8997,7 +9012,7 @@ snapshots:
   '@types/glob@7.1.3':
     dependencies:
       '@types/minimatch': 5.1.2
-      '@types/node': 22.15.18
+      '@types/node': 22.15.30
 
   '@types/istanbul-lib-coverage@2.0.6': {}
 
@@ -9029,7 +9044,7 @@ snapshots:
     dependencies:
       undici-types: 6.19.8
 
-  '@types/node@22.15.18':
+  '@types/node@22.15.30':
     dependencies:
       undici-types: 6.21.0
 
@@ -9130,7 +9145,7 @@ snapshots:
       '@typescript-eslint/types': 8.21.0
       eslint-visitor-keys: 4.2.0
 
-  '@vitest/coverage-v8@3.1.1(vitest@3.1.1(@types/node@22.15.18)(tsx@4.19.3)(yaml@2.7.0))':
+  '@vitest/coverage-v8@3.1.1(vitest@3.1.1(@types/node@22.15.30)(tsx@4.19.3)(yaml@2.7.0))':
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@bcoe/v8-coverage': 1.0.2
@@ -9144,7 +9159,7 @@ snapshots:
       std-env: 3.9.0
       test-exclude: 7.0.1
       tinyrainbow: 2.0.0
-      vitest: 3.1.1(@types/node@22.15.18)(tsx@4.19.3)(yaml@2.7.0)
+      vitest: 3.1.1(@types/node@22.15.30)(tsx@4.19.3)(yaml@2.7.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -9155,13 +9170,13 @@ snapshots:
       chai: 5.2.0
       tinyrainbow: 2.0.0
 
-  '@vitest/mocker@3.1.1(vite@6.3.2(@types/node@22.15.18)(tsx@4.19.3)(yaml@2.7.0))':
+  '@vitest/mocker@3.1.1(vite@6.3.2(@types/node@22.15.30)(tsx@4.19.3)(yaml@2.7.0))':
     dependencies:
       '@vitest/spy': 3.1.1
       estree-walker: 3.0.3
       magic-string: 0.30.17
     optionalDependencies:
-      vite: 6.3.2(@types/node@22.15.18)(tsx@4.19.3)(yaml@2.7.0)
+      vite: 6.3.2(@types/node@22.15.30)(tsx@4.19.3)(yaml@2.7.0)
 
   '@vitest/pretty-format@3.1.1':
     dependencies:
@@ -9514,7 +9529,7 @@ snapshots:
 
   eastasianwidth@0.2.0: {}
 
-  effect@3.15.1:
+  effect@3.16.4:
     dependencies:
       '@standard-schema/spec': 1.0.0
       fast-check: 3.23.2
@@ -10336,7 +10351,7 @@ snapshots:
   jest-util@29.7.0:
     dependencies:
       '@jest/types': 29.6.3
-      '@types/node': 22.15.18
+      '@types/node': 22.15.30
       chalk: 4.1.2
       ci-info: 3.9.0
       graceful-fs: 4.2.11
@@ -10529,7 +10544,7 @@ snapshots:
       '@msgpackr-extract/msgpackr-extract-win32-x64': 3.0.3
     optional: true
 
-  msgpackr@1.11.3:
+  msgpackr@1.11.4:
     optionalDependencies:
       msgpackr-extract: 3.0.3
 
@@ -11115,14 +11130,14 @@ snapshots:
     optionalDependencies:
       typescript: 5.4.5
 
-  ts-node@10.9.1(@types/node@22.15.18)(typescript@5.4.5):
+  ts-node@10.9.1(@types/node@22.15.30)(typescript@5.4.5):
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
       '@tsconfig/node10': 1.0.9
       '@tsconfig/node12': 1.0.11
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.4
-      '@types/node': 22.15.18
+      '@types/node': 22.15.30
       acorn: 8.14.0
       acorn-walk: 8.3.2
       arg: 4.1.3
@@ -11209,7 +11224,7 @@ snapshots:
 
   undici-types@6.21.0: {}
 
-  undici@7.9.0: {}
+  undici@7.10.0: {}
 
   unist-util-stringify-position@2.0.3:
     dependencies:
@@ -11240,13 +11255,13 @@ snapshots:
       spdx-correct: 3.2.0
       spdx-expression-parse: 3.0.1
 
-  vite-node@3.1.1(@types/node@22.15.18)(tsx@4.19.3)(yaml@2.7.0):
+  vite-node@3.1.1(@types/node@22.15.30)(tsx@4.19.3)(yaml@2.7.0):
     dependencies:
       cac: 6.7.14
       debug: 4.4.0
       es-module-lexer: 1.6.0
       pathe: 2.0.3
-      vite: 6.3.2(@types/node@22.15.18)(tsx@4.19.3)(yaml@2.7.0)
+      vite: 6.3.2(@types/node@22.15.30)(tsx@4.19.3)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@types/node'
       - jiti
@@ -11261,7 +11276,7 @@ snapshots:
       - tsx
       - yaml
 
-  vite@6.3.2(@types/node@22.15.18)(tsx@4.19.3)(yaml@2.7.0):
+  vite@6.3.2(@types/node@22.15.30)(tsx@4.19.3)(yaml@2.7.0):
     dependencies:
       esbuild: 0.25.2
       fdir: 6.4.4(picomatch@4.0.2)
@@ -11270,21 +11285,21 @@ snapshots:
       rollup: 4.40.0
       tinyglobby: 0.2.13
     optionalDependencies:
-      '@types/node': 22.15.18
+      '@types/node': 22.15.30
       fsevents: 2.3.3
       tsx: 4.19.3
       yaml: 2.7.0
 
-  vitest-mock-extended@3.1.0(typescript@5.4.5)(vitest@3.1.1(@types/node@22.15.18)(tsx@4.19.3)(yaml@2.7.0)):
+  vitest-mock-extended@3.1.0(typescript@5.4.5)(vitest@3.1.1(@types/node@22.15.30)(tsx@4.19.3)(yaml@2.7.0)):
     dependencies:
       ts-essentials: 10.0.4(typescript@5.4.5)
       typescript: 5.4.5
-      vitest: 3.1.1(@types/node@22.15.18)(tsx@4.19.3)(yaml@2.7.0)
+      vitest: 3.1.1(@types/node@22.15.30)(tsx@4.19.3)(yaml@2.7.0)
 
-  vitest@3.1.1(@types/node@22.15.18)(tsx@4.19.3)(yaml@2.7.0):
+  vitest@3.1.1(@types/node@22.15.30)(tsx@4.19.3)(yaml@2.7.0):
     dependencies:
       '@vitest/expect': 3.1.1
-      '@vitest/mocker': 3.1.1(vite@6.3.2(@types/node@22.15.18)(tsx@4.19.3)(yaml@2.7.0))
+      '@vitest/mocker': 3.1.1(vite@6.3.2(@types/node@22.15.30)(tsx@4.19.3)(yaml@2.7.0))
       '@vitest/pretty-format': 3.1.1
       '@vitest/runner': 3.1.1
       '@vitest/snapshot': 3.1.1
@@ -11300,11 +11315,11 @@ snapshots:
       tinyexec: 0.3.2
       tinypool: 1.0.2
       tinyrainbow: 2.0.0
-      vite: 6.3.2(@types/node@22.15.18)(tsx@4.19.3)(yaml@2.7.0)
-      vite-node: 3.1.1(@types/node@22.15.18)(tsx@4.19.3)(yaml@2.7.0)
+      vite: 6.3.2(@types/node@22.15.30)(tsx@4.19.3)(yaml@2.7.0)
+      vite-node: 3.1.1(@types/node@22.15.30)(tsx@4.19.3)(yaml@2.7.0)
       why-is-node-running: 2.3.0
     optionalDependencies:
-      '@types/node': 22.15.18
+      '@types/node': 22.15.30
     transitivePeerDependencies:
       - jiti
       - less
