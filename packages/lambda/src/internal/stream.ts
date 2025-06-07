@@ -18,6 +18,7 @@ const handleErrnoException =
       method,
       pathOrDescriptor: "",
       syscall: (err as NodeJS.ErrnoException).syscall,
+      description: (err as NodeJS.ErrnoException).message,
       cause: err,
     });
   };
