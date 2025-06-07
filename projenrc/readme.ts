@@ -30,6 +30,8 @@ export class Readme extends Component {
         "",
         "> A collection of libraries simplifying AWS integrations within the Effect ecosystem",
         "",
+        "[![Watch the video](https://img.youtube.com/vi/Cg8Hv5nN1-A/0.jpg)](https://www.youtube.com/watch?v=Cg8Hv5nN1-A)",
+        "",
         "## Monorepo Structure",
         "",
         "The Effect AWS monorepo is organized into clients (having same name as native AWS clients) and helper packages. Below is an overview of the packages included:",
@@ -46,6 +48,9 @@ export class Readme extends Component {
             normalizeServiceName(pkgName.replace(/^client-/, ""))
           }) | ${genBadges(pkgName)} | [README](https://github.com/${repo}/blob/main/packages/${pkgName}/README.md) |`
         ),
+        `| \`@${project.name}/http-handler\`                 | Effectful HttpHandler for AWS SDK                                                                 | ${
+          genBadges("http-handler")
+        } | [README](https://github.com/${repo}/blob/main/packages/http-handler/README.md) |`,
         `| \`@${project.name}/lambda\`                 | Effectful AWS Lambda handler                                                                 | ${
           genBadges("lambda")
         } | [README](https://github.com/${repo}/blob/main/packages/lambda/README.md) |`,
