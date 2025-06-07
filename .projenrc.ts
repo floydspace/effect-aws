@@ -107,7 +107,7 @@ const lambda = new TypeScriptLibProject({
   name: "lambda",
   description: "Effectful AWS Lambda handler",
   devDeps: [...effectDeps, "@effect/platform", "@effect/platform-node-shared", "@types/aws-lambda"],
-  peerDeps: [...commonPeerDeps, "@effect/platform@>=0.69.25", "@effect/platform-node-shared@>=0.19.26"],
+  peerDeps: ["effect@>=3.15.5 <4.0.0", "@effect/platform@>=0.83.0", "@effect/platform-node-shared@>=0.36.0"],
   addExamples: true,
 });
 
@@ -163,7 +163,7 @@ new TypeScriptLibProject({
   name: "s3",
   description: "Effectful AWS S3 functions",
   devDeps: [...effectDeps, "@effect/platform", "@aws-sdk/client-s3@^3"],
-  peerDeps: [...commonPeerDeps, "@effect/platform@>=0.69.25"],
+  peerDeps: ["effect@>=3.15.5 <4.0.0", "@effect/platform@>=0.83.0"],
   workspacePeerDeps: [s3Client],
   addExamples: true,
 });
@@ -174,7 +174,7 @@ new TypeScriptLibProject({
   description: "Effectful AWS HTTP handler",
   deps: ["@smithy/types", "@smithy/protocol-http", "@smithy/querystring-builder"],
   devDeps: [...effectDeps, "@effect/platform"],
-  peerDeps: [...commonPeerDeps, "@effect/platform@>=0.69.25"],
+  peerDeps: ["effect@>=3.15.5 <4.0.0", "@effect/platform@>=0.83.0"],
   workspacePeerDeps: [commons],
 });
 
