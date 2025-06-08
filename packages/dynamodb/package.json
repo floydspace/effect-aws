@@ -1,10 +1,10 @@
 {
-  "name": "@effect-aws/lib-dynamodb",
-  "description": "DEPRECATED Effectful AWS DynamoDB library",
+  "name": "@effect-aws/dynamodb",
+  "description": "Effectful AWS DynamoDB library & functions",
   "repository": {
     "type": "git",
     "url": "github:floydspace/effect-aws",
-    "directory": "packages/lib-dynamodb"
+    "directory": "packages/dynamodb"
   },
   "scripts": {
     "build": "npx projen build",
@@ -25,22 +25,28 @@
     "organization": false
   },
   "devDependencies": {
-    "@aws-sdk/client-dynamodb": "^3",
-    "@aws-sdk/lib-dynamodb": "^3",
+    "@effect-aws/client-dynamodb": "workspace:^",
     "@types/node": "ts5.4",
+    "effect": "^3.16.4",
     "typescript": "^5.4.2"
   },
+  "peerDependencies": {
+    "@effect-aws/client-dynamodb": "workspace:^",
+    "effect": ">=3.0.4 <4.0.0"
+  },
   "dependencies": {
-    "@effect-aws/dynamodb": "workspace:^"
+    "@aws-sdk/client-dynamodb": "^3",
+    "@aws-sdk/lib-dynamodb": "^3",
+    "@effect-aws/commons": "workspace:^"
   },
   "main": "build/cjs/index.js",
   "license": "MIT",
-  "homepage": "https://floydspace.github.io/effect-aws/docs/lib-dynamodb",
+  "homepage": "https://floydspace.github.io/effect-aws/docs/dynamodb",
   "publishConfig": {
     "access": "public",
     "directory": "dist"
   },
-  "version": "1.10.3",
+  "version": "0.0.0",
   "types": "build/dts/index.d.ts",
   "type": "module",
   "module": "build/esm/index.js",

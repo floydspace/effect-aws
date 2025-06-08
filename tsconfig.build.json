@@ -157,6 +157,9 @@
       "path": "packages/client-timestream-influxdb/tsconfig.esm.json"
     },
     {
+      "path": "packages/dynamodb/tsconfig.esm.json"
+    },
+    {
       "path": "packages/lib-dynamodb/tsconfig.esm.json"
     },
     {

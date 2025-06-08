@@ -1,45 +1,28 @@
 /**
+ * Re-exporting everything except the `DynamoDBStore` from the `@effect-aws/dynamodb` package
+ * for backward compatibility.
+ *
  * @since 1.0.0
  */
-import { DynamoDBDocumentService } from "./DynamoDBDocumentService.js";
-
-/**
- * @since 1.0.0
- */
-export * as DynamoDBDocumentClientInstance from "./DynamoDBDocumentClientInstance.js";
-
-/**
- * @since 1.0.0
- */
-export * as DynamoDBDocumentServiceConfig from "./DynamoDBDocumentServiceConfig.js";
-
-/**
- * @since 1.0.0
- */
-export * from "./DynamoDBDocumentService.js";
-
-/**
- * @since 1.0.0
- * @category exports
- * @alias DynamoDBDocumentService
- */
-export declare namespace DynamoDBDocument {
+export {
   /**
    * @since 1.0.0
-   * @alias DynamoDBDocumentService.Config
    */
-  export type Config = DynamoDBDocumentService.Config;
-
+  DynamoDBDocument,
   /**
    * @since 1.0.0
-   * @alias DynamoDBDocumentService.Type
    */
-  export type Type = DynamoDBDocumentService.Type;
-}
-
-/**
- * @since 1.0.0
- * @category exports
- * @alias DynamoDBDocumentService
- */
-export const DynamoDBDocument = DynamoDBDocumentService;
+  DynamoDBDocumentClientInstance,
+  /**
+   * @since 1.0.0
+   */
+  DynamoDBDocumentService,
+  /**
+   * @since 1.0.0
+   */
+  DynamoDBDocumentServiceConfig,
+  /**
+   * @since 1.0.0
+   */
+  makeDynamoDBDocumentService,
+} from "@effect-aws/dynamodb";

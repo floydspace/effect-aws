@@ -69,6 +69,7 @@ const config: UserConfig = {
       ...alias("client-timestream-write"),
       ...alias("client-timestream-query"),
       ...alias("client-timestream-influxdb"),
+      ...alias("dynamodb"),
       ...alias("lib-dynamodb"),
       ...alias("lambda"),
       ...alias("powertools-logger"),
