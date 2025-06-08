@@ -40,7 +40,7 @@
     "access": "public",
     "directory": "dist"
   },
-  "version": "1.10.3",
+  "version": "1.10.4",
   "types": "build/dts/index.d.ts",
   "type": "module",
   "module": "build/esm/index.js",
