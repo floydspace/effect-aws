@@ -1,7 +1,7 @@
 # @effect-aws/dynamodb
 
-[![npm version](https://img.shields.io/npm/v/%40effect-aws%2Flib-dynamodb?color=brightgreen&label=npm%20package)](https://www.npmjs.com/package/@effect-aws/dynamodb)
-[![npm downloads](https://img.shields.io/npm/dm/%40effect-aws%2Flib-dynamodb)](https://www.npmjs.com/package/@effect-aws/dynamodb)
+[![npm version](https://img.shields.io/npm/v/%40effect-aws%2Fdynamodb?color=brightgreen&label=npm%20package)](https://www.npmjs.com/package/@effect-aws/dynamodb)
+[![npm downloads](https://img.shields.io/npm/dm/%40effect-aws%2Fdynamodb)](https://www.npmjs.com/package/@effect-aws/dynamodb)
 
 ## Installation
 
