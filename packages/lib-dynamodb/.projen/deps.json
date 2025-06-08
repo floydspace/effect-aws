@@ -1,8 +1,13 @@
 {
   "dependencies": [
     {
-      "name": "@effect-aws/client-dynamodb",
-      "version": "workspace:^",
+      "name": "@aws-sdk/client-dynamodb",
+      "version": "^3",
+      "type": "build"
+    },
+    {
+      "name": "@aws-sdk/lib-dynamodb",
+      "version": "^3",
       "type": "build"
     },
     {
@@ -11,36 +16,12 @@
       "type": "build"
     },
     {
-      "name": "effect",
-      "type": "build"
-    },
-    {
       "name": "typescript",
       "version": "^5.4.2",
       "type": "build"
     },
     {
-      "name": "@effect-aws/client-dynamodb",
-      "version": "workspace:^",
-      "type": "peer"
-    },
-    {
-      "name": "effect",
-      "version": ">=3.0.4 <4.0.0",
-      "type": "peer"
-    },
-    {
-      "name": "@aws-sdk/client-dynamodb",
-      "version": "^3",
-      "type": "runtime"
-    },
-    {
-      "name": "@aws-sdk/lib-dynamodb",
-      "version": "^3",
-      "type": "runtime"
-    },
-    {
-      "name": "@effect-aws/commons",
+      "name": "@effect-aws/dynamodb",
       "version": "workspace:^",
       "type": "runtime"
     }

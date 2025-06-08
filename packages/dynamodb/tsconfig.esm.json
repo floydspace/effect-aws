@@ -9,7 +9,10 @@
   },
   "references": [
     {
-      "path": "../dynamodb/tsconfig.esm.json"
+      "path": "../commons/tsconfig.esm.json"
+    },
+    {
+      "path": "../client-dynamodb/tsconfig.esm.json"
     }
   ]
 }

@@ -507,6 +507,15 @@
       "@effect-aws/client-timestream-influxdb/test/*": [
         "./packages/client-timestream-influxdb/test/*.js"
       ],
+      "@effect-aws/dynamodb": [
+        "./packages/dynamodb/src/index.js"
+      ],
+      "@effect-aws/dynamodb/*": [
+        "./packages/dynamodb/src/*.js"
+      ],
+      "@effect-aws/dynamodb/test/*": [
+        "./packages/dynamodb/test/*.js"
+      ],
       "@effect-aws/lib-dynamodb": [
         "./packages/lib-dynamodb/src/index.js"
       ],

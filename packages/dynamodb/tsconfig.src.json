@@ -11,7 +11,10 @@
   ],
   "references": [
     {
-      "path": "../dynamodb"
+      "path": "../commons"
+    },
+    {
+      "path": "../client-dynamodb"
     }
   ]
 }

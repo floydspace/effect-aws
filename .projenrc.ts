@@ -91,15 +91,23 @@ const dynamodbClient = TypeScriptLibProject.childOf(project, "client-dynamodb");
 const secretsManagerClient = TypeScriptLibProject.childOf(project, "client-secrets-manager");
 const ssmClient = TypeScriptLibProject.childOf(project, "client-ssm");
 
-new TypeScriptLibProject({
+const dynamodb = new TypeScriptLibProject({
   parent: project,
-  name: "lib-dynamodb",
-  description: "Effectful AWS DynamoDB library",
+  name: "dynamodb",
+  description: "Effectful AWS DynamoDB library & functions",
   deps: ["@aws-sdk/client-dynamodb@^3", "@aws-sdk/lib-dynamodb@^3"],
   devDeps: commonDevDeps,
   peerDeps: commonPeerDeps,
   workspaceDeps: [commons],
   workspacePeerDeps: [dynamodbClient],
+});
+
+new TypeScriptLibProject({
+  parent: project,
+  name: "lib-dynamodb",
+  description: "DEPRECATED Effectful AWS DynamoDB library",
+  devDeps: ["@aws-sdk/client-dynamodb@^3", "@aws-sdk/lib-dynamodb@^3"],
+  workspaceDeps: [dynamodb],
 });
 
 const lambda = new TypeScriptLibProject({

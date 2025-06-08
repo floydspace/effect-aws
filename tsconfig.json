@@ -162,6 +162,9 @@
       "path": "packages/client-timestream-influxdb"
     },
     {
+      "path": "packages/dynamodb"
+    },
+    {
       "path": "packages/lib-dynamodb"
     },
     {

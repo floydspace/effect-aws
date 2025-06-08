@@ -1149,6 +1149,32 @@ importers:
         version: 5.4.5
     publishDirectory: dist
 
+  packages/dynamodb:
+    dependencies:
+      '@aws-sdk/client-dynamodb':
+        specifier: ^3
+        version: 3.804.0
+      '@aws-sdk/lib-dynamodb':
+        specifier: ^3
+        version: 3.804.0(@aws-sdk/client-dynamodb@3.804.0)
+      '@effect-aws/commons':
+        specifier: workspace:^
+        version: link:../commons/dist
+    devDependencies:
+      '@effect-aws/client-dynamodb':
+        specifier: workspace:^
+        version: link:../client-dynamodb/dist
+      '@types/node':
+        specifier: ts5.4
+        version: 22.15.30
+      effect:
+        specifier: ^3.16.4
+        version: 3.16.4
+      typescript:
+        specifier: ^5.4.2
+        version: 5.4.5
+    publishDirectory: dist
+
   packages/http-handler:
     dependencies:
       '@smithy/protocol-http':
@@ -1202,25 +1228,19 @@ importers:
 
   packages/lib-dynamodb:
     dependencies:
+      '@effect-aws/dynamodb':
+        specifier: workspace:^
+        version: link:../dynamodb/dist
+    devDependencies:
       '@aws-sdk/client-dynamodb':
         specifier: ^3
         version: 3.804.0
       '@aws-sdk/lib-dynamodb':
         specifier: ^3
         version: 3.804.0(@aws-sdk/client-dynamodb@3.804.0)
-      '@effect-aws/commons':
-        specifier: workspace:^
-        version: link:../commons/dist
-    devDependencies:
-      '@effect-aws/client-dynamodb':
-        specifier: workspace:^
-        version: link:../client-dynamodb/dist
       '@types/node':
         specifier: ts5.4
         version: 22.15.30
-      effect:
-        specifier: ^3.16.4
-        version: 3.16.4
       typescript:
         specifier: ^5.4.2
         version: 5.4.5
