@@ -48,6 +48,9 @@ export class Readme extends Component {
             normalizeServiceName(pkgName.replace(/^client-/, ""))
           }) | ${genBadges(pkgName)} | [README](https://github.com/${repo}/blob/main/packages/${pkgName}/README.md) |`
         ),
+        `| \`@${project.name}/dynamodb\`                 | Effectful AWS DynamoDB library & functions                                                               | ${
+          genBadges("dynamodb")
+        } | [README](https://github.com/${repo}/blob/main/packages/dynamodb/README.md) |`,
         `| \`@${project.name}/http-handler\`                 | Effectful HttpHandler for AWS SDK                                                                 | ${
           genBadges("http-handler")
         } | [README](https://github.com/${repo}/blob/main/packages/http-handler/README.md) |`,
