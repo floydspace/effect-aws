@@ -1,5 +1,11 @@
 # @effect-aws/dynamodb
 
+## 1.0.1
+
+### Patch Changes
+
+- [`126967b`](https://github.com/floydspace/effect-aws/commit/126967b668fae2c109425ee66bf28b5145f42100) Thanks [@floydspace](https://github.com/floydspace)! - fix tag ids
+
 ## 1.0.0
 
 ### Major Changes
