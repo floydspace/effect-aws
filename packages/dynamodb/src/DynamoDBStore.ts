@@ -94,7 +94,7 @@ export const makeDynamoDBStore = Effect.fn(function*(props: DynamoDBStore.Config
  * @since 1.0.0
  * @category models
  */
-export class DynamoDBStore extends Effect.Tag("@pms/common/DynamoDBStore")<
+export class DynamoDBStore extends Effect.Tag("@effect-aws/dynamodb/DynamoDBStore")<
   DynamoDBStore,
   DynamoDBStore.Type
 >() {

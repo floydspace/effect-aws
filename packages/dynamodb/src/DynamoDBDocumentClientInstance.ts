@@ -11,7 +11,7 @@ import * as DynamoDBDocumentServiceConfig from "./DynamoDBDocumentServiceConfig.
  * @category tags
  */
 export class DynamoDBDocumentClientInstance extends Context.Tag(
-  "@effect-aws/lib-dynamodb/DynamoDBDocumentClientInstance",
+  "@effect-aws/dynamodb/DynamoDBDocumentClientInstance",
 )<DynamoDBDocumentClientInstance, DynamoDBDocumentClient>() {}
 
 /**

@@ -340,7 +340,7 @@ export const makeDynamoDBDocumentService = Effect.gen(function*() {
  * @category models
  */
 export class DynamoDBDocumentService extends Effect.Tag(
-  "@effect-aws/lib-dynamodb/DynamoDBDocumentService",
+  "@effect-aws/dynamodb/DynamoDBDocumentService",
 )<DynamoDBDocumentService, DynamoDBDocumentService$>() {
   static readonly defaultLayer = Layer.effect(this, makeDynamoDBDocumentService).pipe(Layer.provide(Instance.layer));
   static readonly layer = (config: DynamoDBDocumentService.Config) =>

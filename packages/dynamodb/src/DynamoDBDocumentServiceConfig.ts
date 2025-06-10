@@ -12,7 +12,7 @@ import type { DynamoDBDocumentService } from "./DynamoDBDocumentService.js";
  * @category dynamodb service config
  */
 const currentDynamoDBDocumentServiceConfig = globalValue(
-  "@effect-aws/lib-dynamodb/currentDynamoDBDocumentServiceConfig",
+  "@effect-aws/dynamodb/currentDynamoDBDocumentServiceConfig",
   () => FiberRef.unsafeMake<DynamoDBDocumentService.Config>({}),
 );
 
