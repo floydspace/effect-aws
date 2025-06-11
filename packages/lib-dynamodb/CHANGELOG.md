@@ -1,5 +1,12 @@
 # @effect-aws/lib-dynamodb
 
+## 1.10.5
+
+### Patch Changes
+
+- Updated dependencies [[`126967b`](https://github.com/floydspace/effect-aws/commit/126967b668fae2c109425ee66bf28b5145f42100)]:
+  - @effect-aws/dynamodb@1.0.1
+
 ## 1.10.4
 
 ### Patch Changes
