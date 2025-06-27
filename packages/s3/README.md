@@ -103,7 +103,9 @@ const program = Effect.gen(function* () {
   console.log(yield* kv.get("user1"))
 })
 
-const mainLayer = KeyValueStore.layerFileSystem("store").pipe(
+// Slash is important here, indicating a folder ──────┐
+//                                                    ▼
+const mainLayer = KeyValueStore.layerFileSystem("store/").pipe(
   Layer.provide(S3FileSystem.layer({ bucketName: "example-bucket" })),
   Layer.provide(S3.defaultLayer),
   Layer.provide(Path.layer)

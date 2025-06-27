@@ -8,6 +8,10 @@
     }
   ],
   "servers": {
+    "effect": {
+      "command": "npx",
+      "args": ["-y", "effect-mcp"]
+    },
     "github": {
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-github"],
