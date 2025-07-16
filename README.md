@@ -4,6 +4,11 @@
 
 [![Watch the video](https://img.youtube.com/vi/Cg8Hv5nN1-A/0.jpg)](https://www.youtube.com/watch?v=Cg8Hv5nN1-A)
 
+Effect Website: https://www.effect.website<br>
+Effect API Reference: https://effect-ts.github.io/effect<br>
+Effect AWS Website: https://effect-aws.website<br>
+Effect AWS API Reference: https://floydspace.github.io/effect-aws
+
 ## Monorepo Structure
 
 The Effect AWS monorepo is organized into clients (having same name as native AWS clients) and helper packages. Below is an overview of the packages included:

@@ -14,7 +14,7 @@ const project = new MonorepoProject({
   name,
   description: "Effectful AWS",
   repository: `github:${repo}`,
-  homepage: `https://${org}.github.io/${name}`,
+  homepage: `https://${name}.website`,
   authorEmail: "ifloydrose@gmail.com",
   authorName: "Victor Korzunin",
   typescriptVersion: "^5.4.2",

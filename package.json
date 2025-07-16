@@ -82,7 +82,7 @@
   },
   "main": "lib/index.js",
   "license": "MIT",
-  "homepage": "https://floydspace.github.io/effect-aws",
+  "homepage": "https://effect-aws.website",
   "version": "0.0.0",
   "types": "lib/index.d.ts",
   "packageManager": "pnpm@9.15.4",

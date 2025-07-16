@@ -49,7 +49,7 @@ export class TypeScriptLibProject extends typescript.TypeScriptProject {
       authorName: "Victor Korzunin",
       repository: parent?.package.manifest.repository.url,
       repositoryDirectory: `packages/${options.name}`,
-      homepage: `${parent?.package.manifest.homepage}/docs/${options.name}`,
+      homepage: `https://floydspace.github.io/${parent?.name}/docs/${options.name}`,
       license: "MIT",
       packageManager: javascript.NodePackageManager.PNPM,
       outdir: `packages/${options.name}`,
