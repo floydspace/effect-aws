@@ -114,6 +114,30 @@
         }
       ]
     },
+    "pages:build": {
+      "name": "pages:build",
+      "steps": [
+        {
+          "exec": "vitepress build pages"
+        }
+      ]
+    },
+    "pages:dev": {
+      "name": "pages:dev",
+      "steps": [
+        {
+          "exec": "vitepress dev pages"
+        }
+      ]
+    },
+    "pages:preview": {
+      "name": "pages:preview",
+      "steps": [
+        {
+          "exec": "vitepress preview pages"
+        }
+      ]
+    },
     "post-compile": {
       "name": "post-compile",
       "description": "Runs after successful compilation for all affected projects",

@@ -1,0 +1,19 @@
+:root {
+    --vp-c-brand-1: var(--vp-c-red-1);
+    --vp-c-brand-2: var(--vp-c-red-2);
+    --vp-c-brand-3: var(--vp-c-red-3);
+}
+
+.image-bg {
+    display: none;
+}
+
+.image-container iframe {
+    margin-top: 50px;
+}
+
+@media (min-width: 960px) {
+    .image-container iframe {
+        margin-top: 0;
+    }
+}

@@ -51,6 +51,12 @@ project.tsconfigBase?.file.addOverride("compilerOptions.plugins", [
   { name: "@effect/language-service" },
 ]);
 
+// Pages
+project.addDevDeps("vitepress");
+project.addTask("pages:dev", { exec: "vitepress dev pages" });
+project.addTask("pages:build", { exec: "vitepress build pages" });
+project.addTask("pages:preview", { exec: "vitepress preview pages" });
+
 const commonDevDeps = [...effectDeps];
 const commonPeerDeps = ["effect@>=3.0.4 <4.0.0"];
 
@@ -186,8 +192,8 @@ new TypeScriptLibProject({
   workspacePeerDeps: [commons],
 });
 
-project.addGitIgnore(".direnv/"); // flake environment creates .direnv folder
-project.addGitIgnore("docs/"); // docs are generated
+project.addGitIgnore("/.direnv"); // flake environment creates .direnv folder
+project.addGitIgnore("/docs"); // docs are generated
 project.addGitIgnore(".idea");
 project.addGitIgnore(".DS_Store");
 

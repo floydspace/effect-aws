@@ -15,6 +15,9 @@
     "eject": "pnpm exec projen eject",
     "eslint": "pnpm exec projen eslint",
     "package": "pnpm exec projen package",
+    "pages:build": "pnpm exec projen pages:build",
+    "pages:dev": "pnpm exec projen pages:dev",
+    "pages:preview": "pnpm exec projen pages:preview",
     "post-compile": "pnpm exec projen post-compile",
     "pre-compile": "pnpm exec projen pre-compile",
     "release": "pnpm exec projen release",
@@ -58,6 +61,7 @@
     "ts-node": "^10.9.1",
     "tsx": "^4.16.5",
     "typescript": "^5.4.2",
+    "vitepress": "^1.6.3",
     "vitest": "^3.1.1",
     "vitest-mock-extended": "^3.1.0"
   },

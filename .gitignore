@@ -43,8 +43,8 @@ jspm_packages/
 !/.github/workflows/release.yml
 !/README.md
 !/vitest.workspace.json
-.direnv/
-docs/
+/.direnv
+/docs
 .idea
 .DS_Store
 !/pnpm-workspace.yaml
