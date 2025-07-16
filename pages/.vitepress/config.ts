@@ -43,6 +43,8 @@ export default defineConfig({
       groupIconVitePlugin(),
     ],
   },
+
+  ignoreDeadLinks: true, // Included MD files contain links which designed for GitHub
 });
 
 function nav() {
