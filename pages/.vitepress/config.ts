@@ -20,7 +20,10 @@ export default defineConfig({
       text: "Edit this page on GitHub",
     },
 
-    socialLinks: [{ icon: "github", link: "https://github.com/floydspace/effect-aws" }],
+    socialLinks: [
+      { icon: "github", link: "https://github.com/floydspace/effect-aws" },
+      { icon: "discord", link: "https://discord.com/channels/795981131316985866/1334874780146339931" },
+    ],
 
     footer: {
       message: "Released under the MIT License.",
