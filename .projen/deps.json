@@ -120,6 +120,10 @@
       "type": "build"
     },
     {
+      "name": "vitepress-plugin-group-icons",
+      "type": "build"
+    },
+    {
       "name": "vitest",
       "type": "build"
     },

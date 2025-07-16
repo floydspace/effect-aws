@@ -1,4 +1,5 @@
 import { defineConfig } from "vitepress";
+import { groupIconMdPlugin, groupIconVitePlugin } from "vitepress-plugin-group-icons";
 
 export default defineConfig({
   lang: "en-US",
@@ -30,6 +31,18 @@ export default defineConfig({
       provider: "local",
     },
   },
+
+  markdown: {
+    config: (md) => {
+      md.use(groupIconMdPlugin);
+    },
+  },
+
+  vite: {
+    plugins: [
+      groupIconVitePlugin(),
+    ],
+  },
 });
 
 function nav() {
@@ -46,7 +59,34 @@ function sidebar() {
       collapsible: true,
       items: [
         { text: "What is Effect AWS?", link: "/docs/what-is" },
+      ],
+    },
+    {
+      text: "Services",
+      collapsible: true,
+      items: [
         { text: "Getting Started", link: "/docs/getting-started" },
+        { text: "Codegen", link: "/docs/codegen" },
+      ],
+    },
+    {
+      text: "Packages",
+      collapsible: true,
+      items: [
+        { text: "S3", link: "/docs/s3" },
+        { text: "Lambda", link: "/docs/lambda" },
+        { text: "DynamoDB", link: "/docs/dynamodb" },
+        { text: "Secrets Manager", link: "/docs/secrets-manager" },
+        { text: "Systems Manager", link: "/docs/ssm" },
+        { text: "Http Handler", link: "/docs/http-handler" },
+      ],
+    },
+    {
+      text: "Powertools",
+      collapsible: true,
+      items: [
+        { text: "Logger", link: "/docs/logger" },
+        { text: "Tracer", link: "/docs/tracer" },
       ],
     },
   ];

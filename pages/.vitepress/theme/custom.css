@@ -17,3 +17,9 @@
         margin-top: 0;
     }
 }
+
+/* Fix for Badges */
+.vp-doc[class*="_docs_"] p:has(a[href*="npmjs"] img) {
+    display: flex;
+    gap: 8px;
+}
