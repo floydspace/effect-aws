@@ -185,6 +185,9 @@
     },
     {
       "path": "packages/http-handler/tsconfig.esm.json"
+    },
+    {
+      "path": "packages/dsql-signer/tsconfig.esm.json"
     }
   ]
 }

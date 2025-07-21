@@ -190,6 +190,9 @@
     },
     {
       "path": "packages/http-handler"
+    },
+    {
+      "path": "packages/dsql-signer"
     }
   ]
 }

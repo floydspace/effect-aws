@@ -596,6 +596,15 @@
       ],
       "@effect-aws/http-handler/test/*": [
         "./packages/http-handler/test/*.js"
+      ],
+      "@effect-aws/dsql-signer": [
+        "./packages/dsql-signer/src/index.js"
+      ],
+      "@effect-aws/dsql-signer/*": [
+        "./packages/dsql-signer/src/*.js"
+      ],
+      "@effect-aws/dsql-signer/test/*": [
+        "./packages/dsql-signer/test/*.js"
       ]
     }
   }
