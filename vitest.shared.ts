@@ -35,6 +35,7 @@ const config: UserConfig = {
       ...alias("client-cloudwatch-logs"),
       ...alias("client-codedeploy"),
       ...alias("client-cognito-identity-provider"),
+      ...alias("client-dsql"),
       ...alias("client-dynamodb"),
       ...alias("client-ec2"),
       ...alias("client-ecr"),

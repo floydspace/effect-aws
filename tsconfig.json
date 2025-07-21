@@ -60,6 +60,9 @@
       "path": "packages/client-cognito-identity-provider"
     },
     {
+      "path": "packages/client-dsql"
+    },
+    {
       "path": "packages/client-dynamodb"
     },
     {
