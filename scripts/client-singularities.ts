@@ -89,6 +89,11 @@ export default {
     commandToTest: "ListUserPools",
     inputToTest: null,
   },
+  "client-dsql": {
+    description: "Effectful AWS DSQL client",
+    commandToTest: "ListClusters",
+    inputToTest: null,
+  },
   "client-dynamodb": {
     description: "Effectful AWS DynamoDB client",
     commandToTest: "PutItem",
