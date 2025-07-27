@@ -1152,17 +1152,17 @@ importers:
   packages/commons:
     dependencies:
       '@smithy/protocol-http':
-        specifier: ^5.1.2
+        specifier: ^5.1.0
         version: 5.1.2
       '@smithy/smithy-client':
-        specifier: ^4.4.9
+        specifier: ^4.2.2
         version: 4.4.9
       '@smithy/types':
-        specifier: ^4.3.1
+        specifier: ^4.2.0
         version: 4.3.1
     devDependencies:
       '@aws-sdk/middleware-logger':
-        specifier: ^3.840.0
+        specifier: ^3.804.0
         version: 3.840.0
       '@types/node':
         specifier: ts5.4
@@ -1221,13 +1221,13 @@ importers:
   packages/http-handler:
     dependencies:
       '@smithy/protocol-http':
-        specifier: ^5.1.2
+        specifier: ^5.1.0
         version: 5.1.2
       '@smithy/querystring-builder':
-        specifier: ^4.0.4
+        specifier: ^4.0.2
         version: 4.0.4
       '@smithy/types':
-        specifier: ^4.3.1
+        specifier: ^4.2.0
         version: 4.3.1
     devDependencies:
       '@effect-aws/commons':
