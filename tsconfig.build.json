@@ -55,6 +55,9 @@
       "path": "packages/client-cognito-identity-provider/tsconfig.esm.json"
     },
     {
+      "path": "packages/client-dsql/tsconfig.esm.json"
+    },
+    {
       "path": "packages/client-dynamodb/tsconfig.esm.json"
     },
     {
@@ -182,6 +185,9 @@
     },
     {
       "path": "packages/http-handler/tsconfig.esm.json"
+    },
+    {
+      "path": "packages/dsql/tsconfig.esm.json"
     }
   ]
 }

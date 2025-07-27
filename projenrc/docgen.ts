@@ -14,7 +14,7 @@ export class Docgen extends Component {
 
     project
       .addTask("docgen", {
-        exec: "pnpm --recursive --parallel run docgen",
+        exec: "pnpm --recursive run docgen",
       })
       .exec("node scripts/docs.mjs");
   }

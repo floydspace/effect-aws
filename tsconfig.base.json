@@ -201,6 +201,15 @@
       "@effect-aws/client-cognito-identity-provider/test/*": [
         "./packages/client-cognito-identity-provider/test/*.js"
       ],
+      "@effect-aws/client-dsql": [
+        "./packages/client-dsql/src/index.js"
+      ],
+      "@effect-aws/client-dsql/*": [
+        "./packages/client-dsql/src/*.js"
+      ],
+      "@effect-aws/client-dsql/test/*": [
+        "./packages/client-dsql/test/*.js"
+      ],
       "@effect-aws/client-dynamodb": [
         "./packages/client-dynamodb/src/index.js"
       ],
@@ -587,6 +596,15 @@
       ],
       "@effect-aws/http-handler/test/*": [
         "./packages/http-handler/test/*.js"
+      ],
+      "@effect-aws/dsql": [
+        "./packages/dsql/src/index.js"
+      ],
+      "@effect-aws/dsql/*": [
+        "./packages/dsql/src/*.js"
+      ],
+      "@effect-aws/dsql/test/*": [
+        "./packages/dsql/test/*.js"
       ]
     }
   }

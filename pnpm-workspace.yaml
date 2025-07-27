@@ -16,6 +16,7 @@ packages:
   - packages/client-cloudwatch-logs
   - packages/client-codedeploy
   - packages/client-cognito-identity-provider
+  - packages/client-dsql
   - packages/client-dynamodb
   - packages/client-ec2
   - packages/client-ecr
@@ -52,6 +53,7 @@ packages:
   - packages/client-timestream-query
   - packages/client-timestream-write
   - packages/commons
+  - packages/dsql
   - packages/dynamodb
   - packages/http-handler
   - packages/lambda
