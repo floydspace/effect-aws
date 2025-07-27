@@ -194,8 +194,8 @@ new TypeScriptLibProject({
 
 new TypeScriptLibProject({
   parent: project,
-  name: "dsql-signer",
-  description: "Effectful AWS Aurora DSQL signer",
+  name: "dsql",
+  description: "Effectful AWS Aurora DSQL modules",
   deps: ["@aws-sdk/dsql-signer@^3"],
   devDeps: [...effectDeps],
   peerDeps: ["effect@>=3.15.5 <4.0.0"],

@@ -79,7 +79,7 @@ const config: UserConfig = {
       ...alias("ssm"),
       ...alias("s3"),
       ...alias("http-handler"),
-      ...alias("dsql-signer"),
+      ...alias("dsql"),
     }
   }
 }

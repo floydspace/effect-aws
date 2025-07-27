@@ -1175,7 +1175,7 @@ importers:
         version: 5.4.5
     publishDirectory: dist
 
-  packages/dsql-signer:
+  packages/dsql:
     dependencies:
       '@aws-sdk/dsql-signer':
         specifier: ^3

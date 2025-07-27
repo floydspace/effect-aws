@@ -1,6 +1,6 @@
 ---
 "@effect-aws/client-dsql": major
-"@effect-aws/dsql-signer": major
+"@effect-aws/dsql": minor
 ---
 
-add client-dsql client and dsql-signer lib
+add client-dsql client and dsql lib

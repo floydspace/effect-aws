@@ -1,10 +1,10 @@
 {
-  "name": "@effect-aws/dsql-signer",
-  "description": "Effectful AWS Aurora DSQL signer",
+  "name": "@effect-aws/dsql",
+  "description": "Effectful AWS Aurora DSQL modules",
   "repository": {
     "type": "git",
     "url": "github:floydspace/effect-aws",
-    "directory": "packages/dsql-signer"
+    "directory": "packages/dsql"
   },
   "scripts": {
     "build": "npx projen build",
@@ -37,7 +37,7 @@
   },
   "main": "build/cjs/index.js",
   "license": "MIT",
-  "homepage": "https://floydspace.github.io/effect-aws/docs/dsql-signer",
+  "homepage": "https://floydspace.github.io/effect-aws/docs/dsql",
   "publishConfig": {
     "access": "public",
     "directory": "dist"

@@ -53,7 +53,7 @@ packages:
   - packages/client-timestream-query
   - packages/client-timestream-write
   - packages/commons
-  - packages/dsql-signer
+  - packages/dsql
   - packages/dynamodb
   - packages/http-handler
   - packages/lambda
