@@ -25,7 +25,7 @@
     "organization": false
   },
   "devDependencies": {
-    "@aws-sdk/middleware-logger": "^3.804.0",
+    "@aws-sdk/middleware-logger": "^3.840.0",
     "@types/node": "ts5.4",
     "effect": "^3.16.4",
     "typescript": "^5.4.2"
@@ -34,9 +34,9 @@
     "effect": ">=3.0.4 <4.0.0"
   },
   "dependencies": {
-    "@smithy/protocol-http": "^5.1.0",
-    "@smithy/smithy-client": "^4.2.2",
-    "@smithy/types": "^4.2.0"
+    "@smithy/protocol-http": "^5.1.2",
+    "@smithy/smithy-client": "^4.4.9",
+    "@smithy/types": "^4.3.1"
   },
   "main": "build/cjs/index.js",
   "license": "MIT",

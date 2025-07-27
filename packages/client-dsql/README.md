@@ -16,7 +16,7 @@ With default DSQLClient instance:
 ```typescript
 import { DSQL } from "@effect-aws/client-dsql";
 
-const program = DSQL.listClustersCommand(args);
+const program = DSQL.listClusters(args);
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom DSQLClient instance:
 ```typescript
 import { DSQL } from "@effect-aws/client-dsql";
 
-const program = DSQL.listClustersCommand(args);
+const program = DSQL.listClusters(args);
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom DSQLClient configuration:
 ```typescript
 import { DSQL } from "@effect-aws/client-dsql";
 
-const program = DSQL.listClustersCommand(args);
+const program = DSQL.listClusters(args);
 
 const result = await pipe(
   program,
