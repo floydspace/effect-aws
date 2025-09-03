@@ -149,6 +149,19 @@ const tracer = new TypeScriptLibProject({
   addExamples: true,
 });
 
+new TypeScriptLibProject({
+  parent: project,
+  name: "powertools-batch",
+  description: "Effectful AWS Lambda Powertools Batch Processing",
+  devDeps: [
+    ...effectDeps,
+    `${lambda.package.packageName}@workspace:^`,
+    "@types/aws-lambda",
+  ],
+  peerDeps: commonPeerDeps,
+  addExamples: true,
+});
+
 tracer.tsconfigExamples?.file.addToArray(
   "references",
   { path: path.relative(tracer.outdir, lambda.outdir) },

@@ -75,6 +75,7 @@ const config: UserConfig = {
       ...alias("lambda"),
       ...alias("powertools-logger"),
       ...alias("powertools-tracer"),
+      ...alias("powertools-batch"),
       ...alias("secrets-manager"),
       ...alias("ssm"),
       ...alias("s3"),
