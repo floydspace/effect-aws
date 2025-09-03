@@ -49,7 +49,7 @@ export const BatchProcessor = (options: BatchProcessorOptions) =>
             return Option.none();
           });
 
-          if (batchItemFailures.length === event.Records.length) {
+          if (batchItemFailures.length === event.Records.length && event.Records.length > 0) {
             return yield* Effect.fail(new FullBatchError());
           }
 
