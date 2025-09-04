@@ -1,3 +1,6 @@
+/**
+ * @since 1.0.0
+ */
 import type { DynamoDBRecord, KinesisStreamRecord, SQSRecord } from "aws-lambda";
 import { Array, Effect, Either, Layer, Option, Schema } from "effect";
 import type { BaseRecord } from "./constants.js";
@@ -20,10 +23,18 @@ const identifierMapper = (record: BaseRecord, eventType: EventType): string => {
   }
 };
 
+/**
+ * The options for the BatchProcessor.
+ * @since 1.0.0
+ */
 export interface BatchProcessorOptions {
   eventType: EventType;
 }
 
+/**
+ * The default BatchProcessor layer.
+ * @since 1.0.0
+ */
 export const BatchProcessor = (options: BatchProcessorOptions) =>
   Layer.succeed(
     Processor,
