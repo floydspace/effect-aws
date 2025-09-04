@@ -561,6 +561,15 @@
       "@effect-aws/powertools-tracer/test/*": [
         "./packages/powertools-tracer/test/*.js"
       ],
+      "@effect-aws/powertools-batch": [
+        "./packages/powertools-batch/src/index.js"
+      ],
+      "@effect-aws/powertools-batch/*": [
+        "./packages/powertools-batch/src/*.js"
+      ],
+      "@effect-aws/powertools-batch/test/*": [
+        "./packages/powertools-batch/test/*.js"
+      ],
       "@effect-aws/secrets-manager": [
         "./packages/secrets-manager/src/index.js"
       ],

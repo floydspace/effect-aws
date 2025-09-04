@@ -175,6 +175,9 @@
       "path": "packages/powertools-tracer/tsconfig.esm.json"
     },
     {
+      "path": "packages/powertools-batch/tsconfig.esm.json"
+    },
+    {
       "path": "packages/secrets-manager/tsconfig.esm.json"
     },
     {

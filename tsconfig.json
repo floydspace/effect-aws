@@ -180,6 +180,9 @@
       "path": "packages/powertools-tracer"
     },
     {
+      "path": "packages/powertools-batch"
+    },
+    {
       "path": "packages/secrets-manager"
     },
     {
