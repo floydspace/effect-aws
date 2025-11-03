@@ -336,6 +336,15 @@
       "@effect-aws/client-iot-wireless/test/*": [
         "./packages/client-iot-wireless/test/*.js"
       ],
+      "@effect-aws/client-ivs": [
+        "./packages/client-ivs/src/index.js"
+      ],
+      "@effect-aws/client-ivs/*": [
+        "./packages/client-ivs/src/*.js"
+      ],
+      "@effect-aws/client-ivs/test/*": [
+        "./packages/client-ivs/test/*.js"
+      ],
       "@effect-aws/client-kinesis": [
         "./packages/client-kinesis/src/index.js"
       ],

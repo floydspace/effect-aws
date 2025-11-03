@@ -169,6 +169,11 @@ export default {
     commandToTest: "ListDestinations",
     inputToTest: null,
   },
+  "client-ivs": {
+    description: "Effectful AWS IVS client",
+    commandToTest: "ListChannels",
+    inputToTest: null,
+  },
   "client-kinesis": {
     description: "Effectful AWS Kinesis client",
     commandToTest: "PutRecord",

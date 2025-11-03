@@ -31,6 +31,7 @@ packages:
   - packages/client-iot-events-data
   - packages/client-iot-jobs-data-plane
   - packages/client-iot-wireless
+  - packages/client-ivs
   - packages/client-kinesis
   - packages/client-kms
   - packages/client-lambda

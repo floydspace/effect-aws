@@ -1,10 +1,10 @@
 {
-  "name": "@effect-aws/commons",
-  "description": "Effectful AWS common library",
+  "name": "@effect-aws/client-ivs",
+  "description": "Effectful AWS IVS client",
   "repository": {
     "type": "git",
     "url": "github:floydspace/effect-aws",
-    "directory": "packages/commons"
+    "directory": "packages/client-ivs"
   },
   "scripts": {
     "build": "npx projen build",
@@ -25,7 +25,6 @@
     "organization": false
   },
   "devDependencies": {
-    "@aws-sdk/middleware-logger": "^3.922.0",
     "@types/node": "ts5.4",
     "effect": "^3.16.4",
     "typescript": "^5.4.2"
@@ -34,18 +33,17 @@
     "effect": ">=3.0.4 <4.0.0"
   },
   "dependencies": {
-    "@smithy/protocol-http": "^5.3.4",
-    "@smithy/smithy-client": "^4.9.2",
-    "@smithy/types": "^4.3.1"
+    "@aws-sdk/client-ivs": "^3",
+    "@effect-aws/commons": "workspace:^"
   },
   "main": "build/cjs/index.js",
   "license": "MIT",
-  "homepage": "https://floydspace.github.io/effect-aws/docs/commons",
+  "homepage": "https://floydspace.github.io/effect-aws/docs/client-ivs",
   "publishConfig": {
     "access": "public",
     "directory": "dist"
   },
-  "version": "0.3.0",
+  "version": "0.0.0",
   "types": "build/dts/index.d.ts",
   "type": "module",
   "module": "build/esm/index.js",

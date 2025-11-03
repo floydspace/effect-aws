@@ -50,6 +50,7 @@ const config: UserConfig = {
       ...alias("client-iot-events-data"),
       ...alias("client-iot-jobs-data-plane"),
       ...alias("client-iot-wireless"),
+      ...alias("client-ivs"),
       ...alias("client-kinesis"),
       ...alias("client-kms"),
       ...alias("client-lambda"),

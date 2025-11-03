@@ -105,6 +105,9 @@
       "path": "packages/client-iot-wireless"
     },
     {
+      "path": "packages/client-ivs"
+    },
+    {
       "path": "packages/client-kinesis"
     },
     {
