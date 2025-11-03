@@ -182,6 +182,12 @@ import {
   CopySnapshotCommand,
   type CopySnapshotCommandInput,
   type CopySnapshotCommandOutput,
+  CopyVolumesCommand,
+  type CopyVolumesCommandInput,
+  type CopyVolumesCommandOutput,
+  CreateCapacityManagerDataExportCommand,
+  type CreateCapacityManagerDataExportCommandInput,
+  type CreateCapacityManagerDataExportCommandOutput,
   CreateCapacityReservationBySplittingCommand,
   type CreateCapacityReservationBySplittingCommandInput,
   type CreateCapacityReservationBySplittingCommandOutput,
@@ -215,6 +221,9 @@ import {
   CreateDefaultVpcCommand,
   type CreateDefaultVpcCommandInput,
   type CreateDefaultVpcCommandOutput,
+  CreateDelegateMacVolumeOwnershipTaskCommand,
+  type CreateDelegateMacVolumeOwnershipTaskCommandInput,
+  type CreateDelegateMacVolumeOwnershipTaskCommandOutput,
   CreateDhcpOptionsCommand,
   type CreateDhcpOptionsCommandInput,
   type CreateDhcpOptionsCommandOutput,
@@ -233,6 +242,9 @@ import {
   CreateImageCommand,
   type CreateImageCommandInput,
   type CreateImageCommandOutput,
+  CreateImageUsageReportCommand,
+  type CreateImageUsageReportCommandInput,
+  type CreateImageUsageReportCommandOutput,
   CreateInstanceConnectEndpointCommand,
   type CreateInstanceConnectEndpointCommandInput,
   type CreateInstanceConnectEndpointCommandOutput,
@@ -254,6 +266,12 @@ import {
   CreateIpamPoolCommand,
   type CreateIpamPoolCommandInput,
   type CreateIpamPoolCommandOutput,
+  CreateIpamPrefixListResolverCommand,
+  type CreateIpamPrefixListResolverCommandInput,
+  type CreateIpamPrefixListResolverCommandOutput,
+  CreateIpamPrefixListResolverTargetCommand,
+  type CreateIpamPrefixListResolverTargetCommandInput,
+  type CreateIpamPrefixListResolverTargetCommandOutput,
   CreateIpamResourceDiscoveryCommand,
   type CreateIpamResourceDiscoveryCommandInput,
   type CreateIpamResourceDiscoveryCommandOutput,
@@ -287,6 +305,9 @@ import {
   CreateLocalGatewayVirtualInterfaceGroupCommand,
   type CreateLocalGatewayVirtualInterfaceGroupCommandInput,
   type CreateLocalGatewayVirtualInterfaceGroupCommandOutput,
+  CreateMacSystemIntegrityProtectionModificationTaskCommand,
+  type CreateMacSystemIntegrityProtectionModificationTaskCommandInput,
+  type CreateMacSystemIntegrityProtectionModificationTaskCommandOutput,
   CreateManagedPrefixListCommand,
   type CreateManagedPrefixListCommandInput,
   type CreateManagedPrefixListCommandOutput,
@@ -452,6 +473,9 @@ import {
   CreateVpnGatewayCommand,
   type CreateVpnGatewayCommandInput,
   type CreateVpnGatewayCommandOutput,
+  DeleteCapacityManagerDataExportCommand,
+  type DeleteCapacityManagerDataExportCommandInput,
+  type DeleteCapacityManagerDataExportCommandOutput,
   DeleteCarrierGatewayCommand,
   type DeleteCarrierGatewayCommandInput,
   type DeleteCarrierGatewayCommandOutput,
@@ -485,6 +509,9 @@ import {
   DeleteFpgaImageCommand,
   type DeleteFpgaImageCommandInput,
   type DeleteFpgaImageCommandOutput,
+  DeleteImageUsageReportCommand,
+  type DeleteImageUsageReportCommandInput,
+  type DeleteImageUsageReportCommandOutput,
   DeleteInstanceConnectEndpointCommand,
   type DeleteInstanceConnectEndpointCommandInput,
   type DeleteInstanceConnectEndpointCommandOutput,
@@ -503,6 +530,12 @@ import {
   DeleteIpamPoolCommand,
   type DeleteIpamPoolCommandInput,
   type DeleteIpamPoolCommandOutput,
+  DeleteIpamPrefixListResolverCommand,
+  type DeleteIpamPrefixListResolverCommandInput,
+  type DeleteIpamPrefixListResolverCommandOutput,
+  DeleteIpamPrefixListResolverTargetCommand,
+  type DeleteIpamPrefixListResolverTargetCommandInput,
+  type DeleteIpamPrefixListResolverTargetCommandOutput,
   DeleteIpamResourceDiscoveryCommand,
   type DeleteIpamResourceDiscoveryCommandInput,
   type DeleteIpamResourceDiscoveryCommandOutput,
@@ -755,6 +788,15 @@ import {
   DescribeCapacityBlockOfferingsCommand,
   type DescribeCapacityBlockOfferingsCommandInput,
   type DescribeCapacityBlockOfferingsCommandOutput,
+  DescribeCapacityBlocksCommand,
+  type DescribeCapacityBlocksCommandInput,
+  type DescribeCapacityBlocksCommandOutput,
+  DescribeCapacityBlockStatusCommand,
+  type DescribeCapacityBlockStatusCommandInput,
+  type DescribeCapacityBlockStatusCommandOutput,
+  DescribeCapacityManagerDataExportsCommand,
+  type DescribeCapacityManagerDataExportsCommandInput,
+  type DescribeCapacityManagerDataExportsCommandOutput,
   DescribeCapacityReservationBillingRequestsCommand,
   type DescribeCapacityReservationBillingRequestsCommandInput,
   type DescribeCapacityReservationBillingRequestsCommandOutput,
@@ -764,6 +806,9 @@ import {
   DescribeCapacityReservationsCommand,
   type DescribeCapacityReservationsCommandInput,
   type DescribeCapacityReservationsCommandOutput,
+  DescribeCapacityReservationTopologyCommand,
+  type DescribeCapacityReservationTopologyCommandInput,
+  type DescribeCapacityReservationTopologyCommandOutput,
   DescribeCarrierGatewaysCommand,
   type DescribeCarrierGatewaysCommandInput,
   type DescribeCarrierGatewaysCommandOutput,
@@ -857,9 +902,18 @@ import {
   DescribeImageAttributeCommand,
   type DescribeImageAttributeCommandInput,
   type DescribeImageAttributeCommandOutput,
+  DescribeImageReferencesCommand,
+  type DescribeImageReferencesCommandInput,
+  type DescribeImageReferencesCommandOutput,
   DescribeImagesCommand,
   type DescribeImagesCommandInput,
   type DescribeImagesCommandOutput,
+  DescribeImageUsageReportEntriesCommand,
+  type DescribeImageUsageReportEntriesCommandInput,
+  type DescribeImageUsageReportEntriesCommandOutput,
+  DescribeImageUsageReportsCommand,
+  type DescribeImageUsageReportsCommandInput,
+  type DescribeImageUsageReportsCommandOutput,
   DescribeImportImageTasksCommand,
   type DescribeImportImageTasksCommandInput,
   type DescribeImportImageTasksCommandOutput,
@@ -911,6 +965,12 @@ import {
   DescribeIpamPoolsCommand,
   type DescribeIpamPoolsCommandInput,
   type DescribeIpamPoolsCommandOutput,
+  DescribeIpamPrefixListResolversCommand,
+  type DescribeIpamPrefixListResolversCommandInput,
+  type DescribeIpamPrefixListResolversCommandOutput,
+  DescribeIpamPrefixListResolverTargetsCommand,
+  type DescribeIpamPrefixListResolverTargetsCommandInput,
+  type DescribeIpamPrefixListResolverTargetsCommandOutput,
   DescribeIpamResourceDiscoveriesCommand,
   type DescribeIpamResourceDiscoveriesCommandInput,
   type DescribeIpamResourceDiscoveriesCommandOutput,
@@ -959,6 +1019,9 @@ import {
   DescribeMacHostsCommand,
   type DescribeMacHostsCommandInput,
   type DescribeMacHostsCommandOutput,
+  DescribeMacModificationTasksCommand,
+  type DescribeMacModificationTasksCommandInput,
+  type DescribeMacModificationTasksCommandOutput,
   DescribeManagedPrefixListsCommand,
   type DescribeManagedPrefixListsCommandInput,
   type DescribeManagedPrefixListsCommandOutput,
@@ -1244,6 +1307,9 @@ import {
   DisableAwsNetworkPerformanceMetricSubscriptionCommand,
   type DisableAwsNetworkPerformanceMetricSubscriptionCommandInput,
   type DisableAwsNetworkPerformanceMetricSubscriptionCommandOutput,
+  DisableCapacityManagerCommand,
+  type DisableCapacityManagerCommandInput,
+  type DisableCapacityManagerCommandOutput,
   DisableEbsEncryptionByDefaultCommand,
   type DisableEbsEncryptionByDefaultCommandInput,
   type DisableEbsEncryptionByDefaultCommandOutput,
@@ -1354,6 +1420,9 @@ import {
   EnableAwsNetworkPerformanceMetricSubscriptionCommand,
   type EnableAwsNetworkPerformanceMetricSubscriptionCommandInput,
   type EnableAwsNetworkPerformanceMetricSubscriptionCommandOutput,
+  EnableCapacityManagerCommand,
+  type EnableCapacityManagerCommandInput,
+  type EnableCapacityManagerCommandOutput,
   EnableEbsEncryptionByDefaultCommand,
   type EnableEbsEncryptionByDefaultCommandInput,
   type EnableEbsEncryptionByDefaultCommandOutput,
@@ -1420,6 +1489,9 @@ import {
   ExportVerifiedAccessInstanceClientConfigurationCommand,
   type ExportVerifiedAccessInstanceClientConfigurationCommandInput,
   type ExportVerifiedAccessInstanceClientConfigurationCommandOutput,
+  GetActiveVpnTunnelStatusCommand,
+  type GetActiveVpnTunnelStatusCommandInput,
+  type GetActiveVpnTunnelStatusCommandOutput,
   GetAllowedImagesSettingsCommand,
   type GetAllowedImagesSettingsCommandInput,
   type GetAllowedImagesSettingsCommandOutput,
@@ -1432,6 +1504,15 @@ import {
   GetAwsNetworkPerformanceDataCommand,
   type GetAwsNetworkPerformanceDataCommandInput,
   type GetAwsNetworkPerformanceDataCommandOutput,
+  GetCapacityManagerAttributesCommand,
+  type GetCapacityManagerAttributesCommandInput,
+  type GetCapacityManagerAttributesCommandOutput,
+  GetCapacityManagerMetricDataCommand,
+  type GetCapacityManagerMetricDataCommandInput,
+  type GetCapacityManagerMetricDataCommandOutput,
+  GetCapacityManagerMetricDimensionsCommand,
+  type GetCapacityManagerMetricDimensionsCommandInput,
+  type GetCapacityManagerMetricDimensionsCommandOutput,
   GetCapacityReservationUsageCommand,
   type GetCapacityReservationUsageCommandInput,
   type GetCapacityReservationUsageCommandOutput,
@@ -1498,6 +1579,15 @@ import {
   GetIpamPoolCidrsCommand,
   type GetIpamPoolCidrsCommandInput,
   type GetIpamPoolCidrsCommandOutput,
+  GetIpamPrefixListResolverRulesCommand,
+  type GetIpamPrefixListResolverRulesCommandInput,
+  type GetIpamPrefixListResolverRulesCommandOutput,
+  GetIpamPrefixListResolverVersionEntriesCommand,
+  type GetIpamPrefixListResolverVersionEntriesCommandInput,
+  type GetIpamPrefixListResolverVersionEntriesCommandOutput,
+  GetIpamPrefixListResolverVersionsCommand,
+  type GetIpamPrefixListResolverVersionsCommandInput,
+  type GetIpamPrefixListResolverVersionsCommandOutput,
   GetIpamResourceCidrsCommand,
   type GetIpamResourceCidrsCommandInput,
   type GetIpamResourceCidrsCommandOutput,
@@ -1657,6 +1747,9 @@ import {
   ModifyInstanceCapacityReservationAttributesCommand,
   type ModifyInstanceCapacityReservationAttributesCommandInput,
   type ModifyInstanceCapacityReservationAttributesCommandOutput,
+  ModifyInstanceConnectEndpointCommand,
+  type ModifyInstanceConnectEndpointCommandInput,
+  type ModifyInstanceConnectEndpointCommandOutput,
   ModifyInstanceCpuOptionsCommand,
   type ModifyInstanceCpuOptionsCommandInput,
   type ModifyInstanceCpuOptionsCommandOutput,
@@ -1690,6 +1783,12 @@ import {
   ModifyIpamPoolCommand,
   type ModifyIpamPoolCommandInput,
   type ModifyIpamPoolCommandOutput,
+  ModifyIpamPrefixListResolverCommand,
+  type ModifyIpamPrefixListResolverCommandInput,
+  type ModifyIpamPrefixListResolverCommandOutput,
+  ModifyIpamPrefixListResolverTargetCommand,
+  type ModifyIpamPrefixListResolverTargetCommandInput,
+  type ModifyIpamPrefixListResolverTargetCommandOutput,
   ModifyIpamResourceCidrCommand,
   type ModifyIpamResourceCidrCommandInput,
   type ModifyIpamResourceCidrCommandOutput,
@@ -1714,6 +1813,9 @@ import {
   ModifyPrivateDnsNameOptionsCommand,
   type ModifyPrivateDnsNameOptionsCommandInput,
   type ModifyPrivateDnsNameOptionsCommandOutput,
+  ModifyPublicIpDnsNameOptionsCommand,
+  type ModifyPublicIpDnsNameOptionsCommandInput,
+  type ModifyPublicIpDnsNameOptionsCommandOutput,
   ModifyReservedInstancesCommand,
   type ModifyReservedInstancesCommandInput,
   type ModifyReservedInstancesCommandOutput,
@@ -2038,6 +2140,9 @@ import {
   UnmonitorInstancesCommand,
   type UnmonitorInstancesCommandInput,
   type UnmonitorInstancesCommandOutput,
+  UpdateCapacityManagerOrganizationsAccessCommand,
+  type UpdateCapacityManagerOrganizationsAccessCommandInput,
+  type UpdateCapacityManagerOrganizationsAccessCommandOutput,
   UpdateSecurityGroupRuleDescriptionsEgressCommand,
   type UpdateSecurityGroupRuleDescriptionsEgressCommandInput,
   type UpdateSecurityGroupRuleDescriptionsEgressCommandOutput,
@@ -2117,6 +2222,8 @@ const commands = {
   CopyFpgaImageCommand,
   CopyImageCommand,
   CopySnapshotCommand,
+  CopyVolumesCommand,
+  CreateCapacityManagerDataExportCommand,
   CreateCapacityReservationCommand,
   CreateCapacityReservationBySplittingCommand,
   CreateCapacityReservationFleetCommand,
@@ -2128,12 +2235,14 @@ const commands = {
   CreateCustomerGatewayCommand,
   CreateDefaultSubnetCommand,
   CreateDefaultVpcCommand,
+  CreateDelegateMacVolumeOwnershipTaskCommand,
   CreateDhcpOptionsCommand,
   CreateEgressOnlyInternetGatewayCommand,
   CreateFleetCommand,
   CreateFlowLogsCommand,
   CreateFpgaImageCommand,
   CreateImageCommand,
+  CreateImageUsageReportCommand,
   CreateInstanceConnectEndpointCommand,
   CreateInstanceEventWindowCommand,
   CreateInstanceExportTaskCommand,
@@ -2141,6 +2250,8 @@ const commands = {
   CreateIpamCommand,
   CreateIpamExternalResourceVerificationTokenCommand,
   CreateIpamPoolCommand,
+  CreateIpamPrefixListResolverCommand,
+  CreateIpamPrefixListResolverTargetCommand,
   CreateIpamResourceDiscoveryCommand,
   CreateIpamScopeCommand,
   CreateKeyPairCommand,
@@ -2152,6 +2263,7 @@ const commands = {
   CreateLocalGatewayRouteTableVpcAssociationCommand,
   CreateLocalGatewayVirtualInterfaceCommand,
   CreateLocalGatewayVirtualInterfaceGroupCommand,
+  CreateMacSystemIntegrityProtectionModificationTaskCommand,
   CreateManagedPrefixListCommand,
   CreateNatGatewayCommand,
   CreateNetworkAclCommand,
@@ -2207,6 +2319,7 @@ const commands = {
   CreateVpnConnectionCommand,
   CreateVpnConnectionRouteCommand,
   CreateVpnGatewayCommand,
+  DeleteCapacityManagerDataExportCommand,
   DeleteCarrierGatewayCommand,
   DeleteClientVpnEndpointCommand,
   DeleteClientVpnRouteCommand,
@@ -2218,12 +2331,15 @@ const commands = {
   DeleteFleetsCommand,
   DeleteFlowLogsCommand,
   DeleteFpgaImageCommand,
+  DeleteImageUsageReportCommand,
   DeleteInstanceConnectEndpointCommand,
   DeleteInstanceEventWindowCommand,
   DeleteInternetGatewayCommand,
   DeleteIpamCommand,
   DeleteIpamExternalResourceVerificationTokenCommand,
   DeleteIpamPoolCommand,
+  DeleteIpamPrefixListResolverCommand,
+  DeleteIpamPrefixListResolverTargetCommand,
   DeleteIpamResourceDiscoveryCommand,
   DeleteIpamScopeCommand,
   DeleteKeyPairCommand,
@@ -2308,8 +2424,12 @@ const commands = {
   DescribeCapacityBlockExtensionHistoryCommand,
   DescribeCapacityBlockExtensionOfferingsCommand,
   DescribeCapacityBlockOfferingsCommand,
+  DescribeCapacityBlockStatusCommand,
+  DescribeCapacityBlocksCommand,
+  DescribeCapacityManagerDataExportsCommand,
   DescribeCapacityReservationBillingRequestsCommand,
   DescribeCapacityReservationFleetsCommand,
+  DescribeCapacityReservationTopologyCommand,
   DescribeCapacityReservationsCommand,
   DescribeCarrierGatewaysCommand,
   DescribeClassicLinkInstancesCommand,
@@ -2342,6 +2462,9 @@ const commands = {
   DescribeIdFormatCommand,
   DescribeIdentityIdFormatCommand,
   DescribeImageAttributeCommand,
+  DescribeImageReferencesCommand,
+  DescribeImageUsageReportEntriesCommand,
+  DescribeImageUsageReportsCommand,
   DescribeImagesCommand,
   DescribeImportImageTasksCommand,
   DescribeImportSnapshotTasksCommand,
@@ -2360,6 +2483,8 @@ const commands = {
   DescribeIpamByoasnCommand,
   DescribeIpamExternalResourceVerificationTokensCommand,
   DescribeIpamPoolsCommand,
+  DescribeIpamPrefixListResolverTargetsCommand,
+  DescribeIpamPrefixListResolversCommand,
   DescribeIpamResourceDiscoveriesCommand,
   DescribeIpamResourceDiscoveryAssociationsCommand,
   DescribeIpamScopesCommand,
@@ -2376,6 +2501,7 @@ const commands = {
   DescribeLocalGatewaysCommand,
   DescribeLockedSnapshotsCommand,
   DescribeMacHostsCommand,
+  DescribeMacModificationTasksCommand,
   DescribeManagedPrefixListsCommand,
   DescribeMovingAddressesCommand,
   DescribeNatGatewaysCommand,
@@ -2471,6 +2597,7 @@ const commands = {
   DisableAddressTransferCommand,
   DisableAllowedImagesSettingsCommand,
   DisableAwsNetworkPerformanceMetricSubscriptionCommand,
+  DisableCapacityManagerCommand,
   DisableEbsEncryptionByDefaultCommand,
   DisableFastLaunchCommand,
   DisableFastSnapshotRestoresCommand,
@@ -2507,6 +2634,7 @@ const commands = {
   EnableAddressTransferCommand,
   EnableAllowedImagesSettingsCommand,
   EnableAwsNetworkPerformanceMetricSubscriptionCommand,
+  EnableCapacityManagerCommand,
   EnableEbsEncryptionByDefaultCommand,
   EnableFastLaunchCommand,
   EnableFastSnapshotRestoresCommand,
@@ -2529,10 +2657,14 @@ const commands = {
   ExportImageCommand,
   ExportTransitGatewayRoutesCommand,
   ExportVerifiedAccessInstanceClientConfigurationCommand,
+  GetActiveVpnTunnelStatusCommand,
   GetAllowedImagesSettingsCommand,
   GetAssociatedEnclaveCertificateIamRolesCommand,
   GetAssociatedIpv6PoolCidrsCommand,
   GetAwsNetworkPerformanceDataCommand,
+  GetCapacityManagerAttributesCommand,
+  GetCapacityManagerMetricDataCommand,
+  GetCapacityManagerMetricDimensionsCommand,
   GetCapacityReservationUsageCommand,
   GetCoipPoolUsageCommand,
   GetConsoleOutputCommand,
@@ -2555,6 +2687,9 @@ const commands = {
   GetIpamDiscoveredResourceCidrsCommand,
   GetIpamPoolAllocationsCommand,
   GetIpamPoolCidrsCommand,
+  GetIpamPrefixListResolverRulesCommand,
+  GetIpamPrefixListResolverVersionEntriesCommand,
+  GetIpamPrefixListResolverVersionsCommand,
   GetIpamResourceCidrsCommand,
   GetLaunchTemplateDataCommand,
   GetManagedPrefixListAssociationsCommand,
@@ -2608,6 +2743,7 @@ const commands = {
   ModifyImageAttributeCommand,
   ModifyInstanceAttributeCommand,
   ModifyInstanceCapacityReservationAttributesCommand,
+  ModifyInstanceConnectEndpointCommand,
   ModifyInstanceCpuOptionsCommand,
   ModifyInstanceCreditSpecificationCommand,
   ModifyInstanceEventStartTimeCommand,
@@ -2619,6 +2755,8 @@ const commands = {
   ModifyInstancePlacementCommand,
   ModifyIpamCommand,
   ModifyIpamPoolCommand,
+  ModifyIpamPrefixListResolverCommand,
+  ModifyIpamPrefixListResolverTargetCommand,
   ModifyIpamResourceCidrCommand,
   ModifyIpamResourceDiscoveryCommand,
   ModifyIpamScopeCommand,
@@ -2627,6 +2765,7 @@ const commands = {
   ModifyManagedPrefixListCommand,
   ModifyNetworkInterfaceAttributeCommand,
   ModifyPrivateDnsNameOptionsCommand,
+  ModifyPublicIpDnsNameOptionsCommand,
   ModifyReservedInstancesCommand,
   ModifyRouteServerCommand,
   ModifySecurityGroupRulesCommand,
@@ -2735,6 +2874,7 @@ const commands = {
   UnassignPrivateNatGatewayAddressCommand,
   UnlockSnapshotCommand,
   UnmonitorInstancesCommand,
+  UpdateCapacityManagerOrganizationsAccessCommand,
   UpdateSecurityGroupRuleDescriptionsEgressCommand,
   UpdateSecurityGroupRuleDescriptionsIngressCommand,
   WithdrawByoipCidrCommand,
@@ -3404,6 +3544,28 @@ interface EC2Service$ {
   >;
 
   /**
+   * @see {@link CopyVolumesCommand}
+   */
+  copyVolumes(
+    args: CopyVolumesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CopyVolumesCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link CreateCapacityManagerDataExportCommand}
+   */
+  createCapacityManagerDataExport(
+    args: CreateCapacityManagerDataExportCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateCapacityManagerDataExportCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link CreateCapacityReservationCommand}
    */
   createCapacityReservation(
@@ -3525,6 +3687,17 @@ interface EC2Service$ {
   >;
 
   /**
+   * @see {@link CreateDelegateMacVolumeOwnershipTaskCommand}
+   */
+  createDelegateMacVolumeOwnershipTask(
+    args: CreateDelegateMacVolumeOwnershipTaskCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateDelegateMacVolumeOwnershipTaskCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link CreateDhcpOptionsCommand}
    */
   createDhcpOptions(
@@ -3587,6 +3760,17 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateImageCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link CreateImageUsageReportCommand}
+   */
+  createImageUsageReport(
+    args: CreateImageUsageReportCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateImageUsageReportCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
@@ -3664,6 +3848,28 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateIpamPoolCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link CreateIpamPrefixListResolverCommand}
+   */
+  createIpamPrefixListResolver(
+    args: CreateIpamPrefixListResolverCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateIpamPrefixListResolverCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link CreateIpamPrefixListResolverTargetCommand}
+   */
+  createIpamPrefixListResolverTarget(
+    args: CreateIpamPrefixListResolverTargetCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateIpamPrefixListResolverTargetCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
@@ -3785,6 +3991,17 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateLocalGatewayVirtualInterfaceGroupCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link CreateMacSystemIntegrityProtectionModificationTaskCommand}
+   */
+  createMacSystemIntegrityProtectionModificationTask(
+    args: CreateMacSystemIntegrityProtectionModificationTaskCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateMacSystemIntegrityProtectionModificationTaskCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
@@ -4394,6 +4611,17 @@ interface EC2Service$ {
   >;
 
   /**
+   * @see {@link DeleteCapacityManagerDataExportCommand}
+   */
+  deleteCapacityManagerDataExport(
+    args: DeleteCapacityManagerDataExportCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteCapacityManagerDataExportCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link DeleteCarrierGatewayCommand}
    */
   deleteCarrierGateway(
@@ -4515,6 +4743,17 @@ interface EC2Service$ {
   >;
 
   /**
+   * @see {@link DeleteImageUsageReportCommand}
+   */
+  deleteImageUsageReport(
+    args: DeleteImageUsageReportCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteImageUsageReportCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link DeleteInstanceConnectEndpointCommand}
    */
   deleteInstanceConnectEndpoint(
@@ -4577,6 +4816,28 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteIpamPoolCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link DeleteIpamPrefixListResolverCommand}
+   */
+  deleteIpamPrefixListResolver(
+    args: DeleteIpamPrefixListResolverCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteIpamPrefixListResolverCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link DeleteIpamPrefixListResolverTargetCommand}
+   */
+  deleteIpamPrefixListResolverTarget(
+    args: DeleteIpamPrefixListResolverTargetCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteIpamPrefixListResolverTargetCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
@@ -5505,6 +5766,39 @@ interface EC2Service$ {
   >;
 
   /**
+   * @see {@link DescribeCapacityBlockStatusCommand}
+   */
+  describeCapacityBlockStatus(
+    args: DescribeCapacityBlockStatusCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeCapacityBlockStatusCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link DescribeCapacityBlocksCommand}
+   */
+  describeCapacityBlocks(
+    args: DescribeCapacityBlocksCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeCapacityBlocksCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link DescribeCapacityManagerDataExportsCommand}
+   */
+  describeCapacityManagerDataExports(
+    args: DescribeCapacityManagerDataExportsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeCapacityManagerDataExportsCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link DescribeCapacityReservationBillingRequestsCommand}
    */
   describeCapacityReservationBillingRequests(
@@ -5523,6 +5817,17 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeCapacityReservationFleetsCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link DescribeCapacityReservationTopologyCommand}
+   */
+  describeCapacityReservationTopology(
+    args: DescribeCapacityReservationTopologyCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeCapacityReservationTopologyCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
@@ -5879,6 +6184,39 @@ interface EC2Service$ {
   >;
 
   /**
+   * @see {@link DescribeImageReferencesCommand}
+   */
+  describeImageReferences(
+    args: DescribeImageReferencesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeImageReferencesCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link DescribeImageUsageReportEntriesCommand}
+   */
+  describeImageUsageReportEntries(
+    args: DescribeImageUsageReportEntriesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeImageUsageReportEntriesCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link DescribeImageUsageReportsCommand}
+   */
+  describeImageUsageReports(
+    args: DescribeImageUsageReportsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeImageUsageReportsCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link DescribeImagesCommand}
    */
   describeImages(
@@ -6077,6 +6415,28 @@ interface EC2Service$ {
   >;
 
   /**
+   * @see {@link DescribeIpamPrefixListResolverTargetsCommand}
+   */
+  describeIpamPrefixListResolverTargets(
+    args: DescribeIpamPrefixListResolverTargetsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeIpamPrefixListResolverTargetsCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link DescribeIpamPrefixListResolversCommand}
+   */
+  describeIpamPrefixListResolvers(
+    args: DescribeIpamPrefixListResolversCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeIpamPrefixListResolversCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link DescribeIpamResourceDiscoveriesCommand}
    */
   describeIpamResourceDiscoveries(
@@ -6249,6 +6609,17 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeMacHostsCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link DescribeMacModificationTasksCommand}
+   */
+  describeMacModificationTasks(
+    args: DescribeMacModificationTasksCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeMacModificationTasksCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
@@ -7298,6 +7669,17 @@ interface EC2Service$ {
   >;
 
   /**
+   * @see {@link DisableCapacityManagerCommand}
+   */
+  disableCapacityManager(
+    args: DisableCapacityManagerCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DisableCapacityManagerCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link DisableEbsEncryptionByDefaultCommand}
    */
   disableEbsEncryptionByDefault(
@@ -7694,6 +8076,17 @@ interface EC2Service$ {
   >;
 
   /**
+   * @see {@link EnableCapacityManagerCommand}
+   */
+  enableCapacityManager(
+    args: EnableCapacityManagerCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    EnableCapacityManagerCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link EnableEbsEncryptionByDefaultCommand}
    */
   enableEbsEncryptionByDefault(
@@ -7936,6 +8329,17 @@ interface EC2Service$ {
   >;
 
   /**
+   * @see {@link GetActiveVpnTunnelStatusCommand}
+   */
+  getActiveVpnTunnelStatus(
+    args: GetActiveVpnTunnelStatusCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetActiveVpnTunnelStatusCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link GetAllowedImagesSettingsCommand}
    */
   getAllowedImagesSettings(
@@ -7976,6 +8380,39 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAwsNetworkPerformanceDataCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link GetCapacityManagerAttributesCommand}
+   */
+  getCapacityManagerAttributes(
+    args: GetCapacityManagerAttributesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetCapacityManagerAttributesCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link GetCapacityManagerMetricDataCommand}
+   */
+  getCapacityManagerMetricData(
+    args: GetCapacityManagerMetricDataCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetCapacityManagerMetricDataCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link GetCapacityManagerMetricDimensionsCommand}
+   */
+  getCapacityManagerMetricDimensions(
+    args: GetCapacityManagerMetricDimensionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetCapacityManagerMetricDimensionsCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
@@ -8218,6 +8655,39 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetIpamPoolCidrsCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link GetIpamPrefixListResolverRulesCommand}
+   */
+  getIpamPrefixListResolverRules(
+    args: GetIpamPrefixListResolverRulesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetIpamPrefixListResolverRulesCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link GetIpamPrefixListResolverVersionEntriesCommand}
+   */
+  getIpamPrefixListResolverVersionEntries(
+    args: GetIpamPrefixListResolverVersionEntriesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetIpamPrefixListResolverVersionEntriesCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link GetIpamPrefixListResolverVersionsCommand}
+   */
+  getIpamPrefixListResolverVersions(
+    args: GetIpamPrefixListResolverVersionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetIpamPrefixListResolverVersionsCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
@@ -8805,6 +9275,17 @@ interface EC2Service$ {
   >;
 
   /**
+   * @see {@link ModifyInstanceConnectEndpointCommand}
+   */
+  modifyInstanceConnectEndpoint(
+    args: ModifyInstanceConnectEndpointCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ModifyInstanceConnectEndpointCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link ModifyInstanceCpuOptionsCommand}
    */
   modifyInstanceCpuOptions(
@@ -8926,6 +9407,28 @@ interface EC2Service$ {
   >;
 
   /**
+   * @see {@link ModifyIpamPrefixListResolverCommand}
+   */
+  modifyIpamPrefixListResolver(
+    args: ModifyIpamPrefixListResolverCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ModifyIpamPrefixListResolverCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link ModifyIpamPrefixListResolverTargetCommand}
+   */
+  modifyIpamPrefixListResolverTarget(
+    args: ModifyIpamPrefixListResolverTargetCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ModifyIpamPrefixListResolverTargetCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link ModifyIpamResourceCidrCommand}
    */
   modifyIpamResourceCidr(
@@ -9010,6 +9513,17 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyPrivateDnsNameOptionsCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link ModifyPublicIpDnsNameOptionsCommand}
+   */
+  modifyPublicIpDnsNameOptions(
+    args: ModifyPublicIpDnsNameOptionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ModifyPublicIpDnsNameOptionsCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
@@ -10198,6 +10712,17 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UnmonitorInstancesCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link UpdateCapacityManagerOrganizationsAccessCommand}
+   */
+  updateCapacityManagerOrganizationsAccess(
+    args: UpdateCapacityManagerOrganizationsAccessCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateCapacityManagerOrganizationsAccessCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 

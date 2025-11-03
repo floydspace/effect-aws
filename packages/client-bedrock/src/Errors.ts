@@ -2,6 +2,7 @@ import type {
   AccessDeniedException,
   ConflictException,
   InternalServerException,
+  ResourceInUseException,
   ResourceNotFoundException,
   ServiceQuotaExceededException,
   ServiceUnavailableException,
@@ -15,6 +16,7 @@ export const AllServiceErrors = [
   "AccessDeniedException",
   "ConflictException",
   "InternalServerException",
+  "ResourceInUseException",
   "ResourceNotFoundException",
   "ServiceQuotaExceededException",
   "ServiceUnavailableException",
@@ -26,6 +28,7 @@ export const AllServiceErrors = [
 export type AccessDeniedError = TaggedException<AccessDeniedException>;
 export type ConflictError = TaggedException<ConflictException>;
 export type InternalServerError = TaggedException<InternalServerException>;
+export type ResourceInUseError = TaggedException<ResourceInUseException>;
 export type ResourceNotFoundError = TaggedException<ResourceNotFoundException>;
 export type ServiceQuotaExceededError = TaggedException<ServiceQuotaExceededException>;
 export type ServiceUnavailableError = TaggedException<ServiceUnavailableException>;

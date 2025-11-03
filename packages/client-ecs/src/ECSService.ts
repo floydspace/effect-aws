@@ -196,6 +196,7 @@ import type {
   AttributeLimitExceededError,
   BlockedError,
   ClientError,
+  ClusterContainsCapacityProviderError,
   ClusterContainsContainerInstancesError,
   ClusterContainsServicesError,
   ClusterContainsTasksError,
@@ -300,9 +301,11 @@ interface ECSService$ {
     | Cause.TimeoutException
     | SdkError
     | ClientError
+    | ClusterNotFoundError
     | InvalidParameterError
     | LimitExceededError
     | ServerError
+    | UnsupportedFeatureError
     | UpdateInProgressError
   >;
 
@@ -391,7 +394,13 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteCapacityProviderCommandOutput,
-    Cause.TimeoutException | SdkError | ClientError | InvalidParameterError | ServerError
+    | Cause.TimeoutException
+    | SdkError
+    | ClientError
+    | ClusterNotFoundError
+    | InvalidParameterError
+    | ServerError
+    | UnsupportedFeatureError
   >;
 
   /**
@@ -405,6 +414,7 @@ interface ECSService$ {
     | Cause.TimeoutException
     | SdkError
     | ClientError
+    | ClusterContainsCapacityProviderError
     | ClusterContainsContainerInstancesError
     | ClusterContainsServicesError
     | ClusterContainsTasksError
@@ -493,7 +503,13 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeCapacityProvidersCommandOutput,
-    Cause.TimeoutException | SdkError | ClientError | InvalidParameterError | ServerError
+    | Cause.TimeoutException
+    | SdkError
+    | ClientError
+    | ClusterNotFoundError
+    | InvalidParameterError
+    | ServerError
+    | UnsupportedFeatureError
   >;
 
   /**
@@ -1013,7 +1029,13 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateCapacityProviderCommandOutput,
-    Cause.TimeoutException | SdkError | ClientError | InvalidParameterError | ServerError
+    | Cause.TimeoutException
+    | SdkError
+    | ClientError
+    | ClusterNotFoundError
+    | InvalidParameterError
+    | ServerError
+    | UnsupportedFeatureError
   >;
 
   /**

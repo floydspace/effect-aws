@@ -246,6 +246,7 @@ import type {
   ResourceNotFoundError,
   ResourceNotReadyError,
   SdkError,
+  SerializedRequestEntityTooLargeError,
   ServiceError,
   SnapStartError,
   SnapStartNotReadyError,
@@ -912,6 +913,7 @@ interface LambdaService$ {
     | ResourceConflictError
     | ResourceNotFoundError
     | ResourceNotReadyError
+    | SerializedRequestEntityTooLargeError
     | ServiceError
     | SnapStartError
     | SnapStartNotReadyError
@@ -971,6 +973,7 @@ interface LambdaService$ {
     | ResourceConflictError
     | ResourceNotFoundError
     | ResourceNotReadyError
+    | SerializedRequestEntityTooLargeError
     | ServiceError
     | SnapStartError
     | SnapStartNotReadyError

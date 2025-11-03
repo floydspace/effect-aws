@@ -30,6 +30,7 @@ import type {
   ResourceInUseException,
   ResourceNotFoundException,
   ResourceNotReadyException,
+  SerializedRequestEntityTooLargeException,
   ServiceException,
   SnapStartException,
   SnapStartNotReadyException,
@@ -72,6 +73,7 @@ export const AllServiceErrors = [
   "ResourceInUseException",
   "ResourceNotFoundException",
   "ResourceNotReadyException",
+  "SerializedRequestEntityTooLargeException",
   "ServiceException",
   "SnapStartException",
   "SnapStartNotReadyException",
@@ -112,6 +114,7 @@ export type ResourceConflictError = TaggedException<ResourceConflictException>;
 export type ResourceInUseError = TaggedException<ResourceInUseException>;
 export type ResourceNotFoundError = TaggedException<ResourceNotFoundException>;
 export type ResourceNotReadyError = TaggedException<ResourceNotReadyException>;
+export type SerializedRequestEntityTooLargeError = TaggedException<SerializedRequestEntityTooLargeException>;
 export type ServiceError = TaggedException<ServiceException>;
 export type SnapStartError = TaggedException<SnapStartException>;
 export type SnapStartNotReadyError = TaggedException<SnapStartNotReadyException>;

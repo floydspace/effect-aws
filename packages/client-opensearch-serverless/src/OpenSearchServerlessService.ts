@@ -20,6 +20,9 @@ import {
   CreateCollectionCommand,
   type CreateCollectionCommandInput,
   type CreateCollectionCommandOutput,
+  CreateIndexCommand,
+  type CreateIndexCommandInput,
+  type CreateIndexCommandOutput,
   CreateLifecyclePolicyCommand,
   type CreateLifecyclePolicyCommandInput,
   type CreateLifecyclePolicyCommandOutput,
@@ -38,6 +41,9 @@ import {
   DeleteCollectionCommand,
   type DeleteCollectionCommandInput,
   type DeleteCollectionCommandOutput,
+  DeleteIndexCommand,
+  type DeleteIndexCommandInput,
+  type DeleteIndexCommandOutput,
   DeleteLifecyclePolicyCommand,
   type DeleteLifecyclePolicyCommandInput,
   type DeleteLifecyclePolicyCommandOutput,
@@ -56,6 +62,9 @@ import {
   GetAccountSettingsCommand,
   type GetAccountSettingsCommandInput,
   type GetAccountSettingsCommandOutput,
+  GetIndexCommand,
+  type GetIndexCommandInput,
+  type GetIndexCommandOutput,
   GetPoliciesStatsCommand,
   type GetPoliciesStatsCommandInput,
   type GetPoliciesStatsCommandOutput,
@@ -103,6 +112,9 @@ import {
   UpdateCollectionCommand,
   type UpdateCollectionCommandInput,
   type UpdateCollectionCommandOutput,
+  UpdateIndexCommand,
+  type UpdateIndexCommandInput,
+  type UpdateIndexCommandOutput,
   UpdateLifecyclePolicyCommand,
   type UpdateLifecyclePolicyCommandInput,
   type UpdateLifecyclePolicyCommandOutput,
@@ -140,18 +152,21 @@ const commands = {
   BatchGetVpcEndpointCommand,
   CreateAccessPolicyCommand,
   CreateCollectionCommand,
+  CreateIndexCommand,
   CreateLifecyclePolicyCommand,
   CreateSecurityConfigCommand,
   CreateSecurityPolicyCommand,
   CreateVpcEndpointCommand,
   DeleteAccessPolicyCommand,
   DeleteCollectionCommand,
+  DeleteIndexCommand,
   DeleteLifecyclePolicyCommand,
   DeleteSecurityConfigCommand,
   DeleteSecurityPolicyCommand,
   DeleteVpcEndpointCommand,
   GetAccessPolicyCommand,
   GetAccountSettingsCommand,
+  GetIndexCommand,
   GetPoliciesStatsCommand,
   GetSecurityConfigCommand,
   GetSecurityPolicyCommand,
@@ -167,6 +182,7 @@ const commands = {
   UpdateAccessPolicyCommand,
   UpdateAccountSettingsCommand,
   UpdateCollectionCommand,
+  UpdateIndexCommand,
   UpdateLifecyclePolicyCommand,
   UpdateSecurityConfigCommand,
   UpdateSecurityPolicyCommand,
@@ -251,6 +267,17 @@ interface OpenSearchServerlessService$ {
     | OcuLimitExceededError
     | ServiceQuotaExceededError
     | ValidationError
+  >;
+
+  /**
+   * @see {@link CreateIndexCommand}
+   */
+  createIndex(
+    args: CreateIndexCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateIndexCommandOutput,
+    Cause.TimeoutException | SdkError | ConflictError | InternalServerError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -340,6 +367,17 @@ interface OpenSearchServerlessService$ {
   >;
 
   /**
+   * @see {@link DeleteIndexCommand}
+   */
+  deleteIndex(
+    args: DeleteIndexCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteIndexCommandOutput,
+    Cause.TimeoutException | SdkError | InternalServerError | ResourceNotFoundError | ValidationError
+  >;
+
+  /**
    * @see {@link DeleteLifecyclePolicyCommand}
    */
   deleteLifecyclePolicy(
@@ -403,6 +441,17 @@ interface OpenSearchServerlessService$ {
   ): Effect.Effect<
     GetAccountSettingsCommandOutput,
     Cause.TimeoutException | SdkError | InternalServerError | ValidationError
+  >;
+
+  /**
+   * @see {@link GetIndexCommand}
+   */
+  getIndex(
+    args: GetIndexCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetIndexCommandOutput,
+    Cause.TimeoutException | SdkError | InternalServerError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -574,6 +623,17 @@ interface OpenSearchServerlessService$ {
   ): Effect.Effect<
     UpdateCollectionCommandOutput,
     Cause.TimeoutException | SdkError | ConflictError | InternalServerError | ValidationError
+  >;
+
+  /**
+   * @see {@link UpdateIndexCommand}
+   */
+  updateIndex(
+    args: UpdateIndexCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateIndexCommandOutput,
+    Cause.TimeoutException | SdkError | InternalServerError | ResourceNotFoundError | ValidationError
   >;
 
   /**

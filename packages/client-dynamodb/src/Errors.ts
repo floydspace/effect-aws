@@ -30,6 +30,7 @@ import type {
   TableAlreadyExistsException,
   TableInUseException,
   TableNotFoundException,
+  ThrottlingException,
   TransactionCanceledException,
   TransactionConflictException,
   TransactionInProgressException,
@@ -68,6 +69,7 @@ export const AllServiceErrors = [
   "TableAlreadyExistsException",
   "TableInUseException",
   "TableNotFoundException",
+  "ThrottlingException",
   "TransactionCanceledException",
   "TransactionConflictException",
   "TransactionInProgressException",
@@ -104,6 +106,7 @@ export type ResourceNotFoundError = TaggedException<ResourceNotFoundException>;
 export type TableAlreadyExistsError = TaggedException<TableAlreadyExistsException>;
 export type TableInUseError = TaggedException<TableInUseException>;
 export type TableNotFoundError = TaggedException<TableNotFoundException>;
+export type ThrottlingError = TaggedException<ThrottlingException>;
 export type TransactionCanceledError = TaggedException<TransactionCanceledException>;
 export type TransactionConflictError = TaggedException<TransactionConflictException>;
 export type TransactionInProgressError = TaggedException<TransactionInProgressException>;

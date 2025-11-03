@@ -115,6 +115,9 @@ import {
   CreateResourceServerCommand,
   type CreateResourceServerCommandInput,
   type CreateResourceServerCommandOutput,
+  CreateTermsCommand,
+  type CreateTermsCommandInput,
+  type CreateTermsCommandOutput,
   CreateUserImportJobCommand,
   type CreateUserImportJobCommandInput,
   type CreateUserImportJobCommandOutput,
@@ -139,6 +142,9 @@ import {
   DeleteResourceServerCommand,
   type DeleteResourceServerCommandInput,
   type DeleteResourceServerCommandOutput,
+  DeleteTermsCommand,
+  type DeleteTermsCommandInput,
+  type DeleteTermsCommandOutput,
   DeleteUserAttributesCommand,
   type DeleteUserAttributesCommandInput,
   type DeleteUserAttributesCommandOutput,
@@ -172,6 +178,9 @@ import {
   DescribeRiskConfigurationCommand,
   type DescribeRiskConfigurationCommandInput,
   type DescribeRiskConfigurationCommandOutput,
+  DescribeTermsCommand,
+  type DescribeTermsCommandInput,
+  type DescribeTermsCommandOutput,
   DescribeUserImportJobCommand,
   type DescribeUserImportJobCommandInput,
   type DescribeUserImportJobCommandOutput,
@@ -247,6 +256,9 @@ import {
   ListTagsForResourceCommand,
   type ListTagsForResourceCommandInput,
   type ListTagsForResourceCommandOutput,
+  ListTermsCommand,
+  type ListTermsCommandInput,
+  type ListTermsCommandOutput,
   ListUserImportJobsCommand,
   type ListUserImportJobsCommandInput,
   type ListUserImportJobsCommandOutput,
@@ -328,6 +340,9 @@ import {
   UpdateResourceServerCommand,
   type UpdateResourceServerCommandInput,
   type UpdateResourceServerCommandOutput,
+  UpdateTermsCommand,
+  type UpdateTermsCommandInput,
+  type UpdateTermsCommandOutput,
   UpdateUserAttributesCommand,
   type UpdateUserAttributesCommandInput,
   type UpdateUserAttributesCommandOutput,
@@ -386,6 +401,7 @@ import type {
   ScopeDoesNotExistError,
   SdkError,
   SoftwareTokenMFANotFoundError,
+  TermsExistsError,
   TierChangeNotAllowedError,
   TooManyFailedAttemptsError,
   TooManyRequestsError,
@@ -450,6 +466,7 @@ const commands = {
   CreateIdentityProviderCommand,
   CreateManagedLoginBrandingCommand,
   CreateResourceServerCommand,
+  CreateTermsCommand,
   CreateUserImportJobCommand,
   CreateUserPoolCommand,
   CreateUserPoolClientCommand,
@@ -458,6 +475,7 @@ const commands = {
   DeleteIdentityProviderCommand,
   DeleteManagedLoginBrandingCommand,
   DeleteResourceServerCommand,
+  DeleteTermsCommand,
   DeleteUserCommand,
   DeleteUserAttributesCommand,
   DeleteUserPoolCommand,
@@ -469,6 +487,7 @@ const commands = {
   DescribeManagedLoginBrandingByClientCommand,
   DescribeResourceServerCommand,
   DescribeRiskConfigurationCommand,
+  DescribeTermsCommand,
   DescribeUserImportJobCommand,
   DescribeUserPoolCommand,
   DescribeUserPoolClientCommand,
@@ -494,6 +513,7 @@ const commands = {
   ListIdentityProvidersCommand,
   ListResourceServersCommand,
   ListTagsForResourceCommand,
+  ListTermsCommand,
   ListUserImportJobsCommand,
   ListUserPoolClientsCommand,
   ListUserPoolsCommand,
@@ -521,6 +541,7 @@ const commands = {
   UpdateIdentityProviderCommand,
   UpdateManagedLoginBrandingCommand,
   UpdateResourceServerCommand,
+  UpdateTermsCommand,
   UpdateUserAttributesCommand,
   UpdateUserPoolCommand,
   UpdateUserPoolClientCommand,
@@ -1309,6 +1330,26 @@ interface CognitoIdentityProviderService$ {
   >;
 
   /**
+   * @see {@link CreateTermsCommand}
+   */
+  createTerms(
+    args: CreateTermsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateTermsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | ConcurrentModificationError
+    | InternalError
+    | InvalidParameterError
+    | LimitExceededError
+    | NotAuthorizedError
+    | ResourceNotFoundError
+    | TermsExistsError
+    | TooManyRequestsError
+  >;
+
+  /**
    * @see {@link CreateUserImportJobCommand}
    */
   createUserImportJob(
@@ -1462,6 +1503,24 @@ interface CognitoIdentityProviderService$ {
   >;
 
   /**
+   * @see {@link DeleteTermsCommand}
+   */
+  deleteTerms(
+    args: DeleteTermsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteTermsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | ConcurrentModificationError
+    | InternalError
+    | InvalidParameterError
+    | NotAuthorizedError
+    | ResourceNotFoundError
+    | TooManyRequestsError
+  >;
+
+  /**
    * @see {@link DeleteUserCommand}
    */
   deleteUser(
@@ -1569,8 +1628,10 @@ interface CognitoIdentityProviderService$ {
     | ForbiddenError
     | InternalError
     | InvalidParameterError
+    | LimitExceededError
     | NotAuthorizedError
     | ResourceNotFoundError
+    | TooManyRequestsError
   >;
 
   /**
@@ -1657,6 +1718,23 @@ interface CognitoIdentityProviderService$ {
     | ResourceNotFoundError
     | TooManyRequestsError
     | UserPoolAddOnNotEnabledError
+  >;
+
+  /**
+   * @see {@link DescribeTermsCommand}
+   */
+  describeTerms(
+    args: DescribeTermsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeTermsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalError
+    | InvalidParameterError
+    | NotAuthorizedError
+    | ResourceNotFoundError
+    | TooManyRequestsError
   >;
 
   /**
@@ -2145,6 +2223,23 @@ interface CognitoIdentityProviderService$ {
   >;
 
   /**
+   * @see {@link ListTermsCommand}
+   */
+  listTerms(
+    args: ListTermsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListTermsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalError
+    | InvalidParameterError
+    | NotAuthorizedError
+    | ResourceNotFoundError
+    | TooManyRequestsError
+  >;
+
+  /**
    * @see {@link ListUserImportJobsCommand}
    */
   listUserImportJobs(
@@ -2236,7 +2331,14 @@ interface CognitoIdentityProviderService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListWebAuthnCredentialsCommandOutput,
-    Cause.TimeoutException | SdkError | ForbiddenError | InternalError | InvalidParameterError | NotAuthorizedError
+    | Cause.TimeoutException
+    | SdkError
+    | ForbiddenError
+    | InternalError
+    | InvalidParameterError
+    | LimitExceededError
+    | NotAuthorizedError
+    | TooManyRequestsError
   >;
 
   /**
@@ -2663,6 +2765,25 @@ interface CognitoIdentityProviderService$ {
     | InvalidParameterError
     | NotAuthorizedError
     | ResourceNotFoundError
+    | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link UpdateTermsCommand}
+   */
+  updateTerms(
+    args: UpdateTermsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateTermsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | ConcurrentModificationError
+    | InternalError
+    | InvalidParameterError
+    | NotAuthorizedError
+    | ResourceNotFoundError
+    | TermsExistsError
     | TooManyRequestsError
   >;
 

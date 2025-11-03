@@ -305,6 +305,9 @@ import {
   DescribeDomainConfigurationCommand,
   type DescribeDomainConfigurationCommandInput,
   type DescribeDomainConfigurationCommandOutput,
+  DescribeEncryptionConfigurationCommand,
+  type DescribeEncryptionConfigurationCommandInput,
+  type DescribeEncryptionConfigurationCommandOutput,
   DescribeEndpointCommand,
   type DescribeEndpointCommandInput,
   type DescribeEndpointCommandOutput,
@@ -757,6 +760,9 @@ import {
   UpdateDynamicThingGroupCommand,
   type UpdateDynamicThingGroupCommandInput,
   type UpdateDynamicThingGroupCommandOutput,
+  UpdateEncryptionConfigurationCommand,
+  type UpdateEncryptionConfigurationCommandInput,
+  type UpdateEncryptionConfigurationCommandOutput,
   UpdateEventConfigurationsCommand,
   type UpdateEventConfigurationsCommandInput,
   type UpdateEventConfigurationsCommandOutput,
@@ -961,6 +967,7 @@ const commands = {
   DescribeDetectMitigationActionsTaskCommand,
   DescribeDimensionCommand,
   DescribeDomainConfigurationCommand,
+  DescribeEncryptionConfigurationCommand,
   DescribeEndpointCommand,
   DescribeEventConfigurationsCommand,
   DescribeFleetMetricCommand,
@@ -1111,6 +1118,7 @@ const commands = {
   UpdateDimensionCommand,
   UpdateDomainConfigurationCommand,
   UpdateDynamicThingGroupCommand,
+  UpdateEncryptionConfigurationCommand,
   UpdateEventConfigurationsCommand,
   UpdateFleetMetricCommand,
   UpdateIndexingConfigurationCommand,
@@ -1992,6 +2000,7 @@ interface IoTService$ {
     | ResourceAlreadyExistsError
     | ServiceUnavailableError
     | SqlParseError
+    | UnauthorizedError
   >;
 
   /**
@@ -2009,6 +2018,7 @@ interface IoTService$ {
     | InvalidRequestError
     | ResourceAlreadyExistsError
     | ServiceUnavailableError
+    | UnauthorizedError
   >;
 
   /**
@@ -2851,6 +2861,23 @@ interface IoTService$ {
     | InternalFailureError
     | InvalidRequestError
     | ResourceNotFoundError
+    | ServiceUnavailableError
+    | ThrottlingError
+    | UnauthorizedError
+  >;
+
+  /**
+   * @see {@link DescribeEncryptionConfigurationCommand}
+   */
+  describeEncryptionConfiguration(
+    args: DescribeEncryptionConfigurationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeEncryptionConfigurationCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalFailureError
+    | InvalidRequestError
     | ServiceUnavailableError
     | ThrottlingError
     | UnauthorizedError
@@ -4573,7 +4600,12 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTopicRulesCommandOutput,
-    Cause.TimeoutException | SdkError | InternalError | InvalidRequestError | ServiceUnavailableError
+    | Cause.TimeoutException
+    | SdkError
+    | InternalError
+    | InvalidRequestError
+    | ServiceUnavailableError
+    | UnauthorizedError
   >;
 
   /**
@@ -5232,6 +5264,23 @@ interface IoTService$ {
     | ResourceNotFoundError
     | ThrottlingError
     | VersionConflictError
+  >;
+
+  /**
+   * @see {@link UpdateEncryptionConfigurationCommand}
+   */
+  updateEncryptionConfiguration(
+    args: UpdateEncryptionConfigurationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateEncryptionConfigurationCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalFailureError
+    | InvalidRequestError
+    | ServiceUnavailableError
+    | ThrottlingError
+    | UnauthorizedError
   >;
 
   /**

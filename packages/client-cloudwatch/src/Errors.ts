@@ -1,5 +1,6 @@
 import type {
   ConcurrentModificationException,
+  ConflictException,
   DashboardInvalidInputError as DashboardInvalidInputException,
   DashboardNotFoundError as DashboardNotFoundException,
   InternalServiceFault,
@@ -17,6 +18,7 @@ import type { TaggedException } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
   "ConcurrentModificationException",
+  "ConflictException",
   "DashboardInvalidInputError",
   "DashboardNotFoundError",
   "InternalServiceFault",
@@ -32,6 +34,7 @@ export const AllServiceErrors = [
 ] as const;
 
 export type ConcurrentModificationError = TaggedException<ConcurrentModificationException>;
+export type ConflictError = TaggedException<ConflictException>;
 export type DashboardInvalidInputError = TaggedException<DashboardInvalidInputException>;
 export type DashboardNotFoundError = TaggedException<DashboardNotFoundException>;
 export type InternalServiceFaultError = TaggedException<InternalServiceFault>;

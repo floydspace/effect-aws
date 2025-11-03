@@ -212,6 +212,9 @@ import {
   DescribeDBLogFilesCommand,
   type DescribeDBLogFilesCommandInput,
   type DescribeDBLogFilesCommandOutput,
+  DescribeDBMajorEngineVersionsCommand,
+  type DescribeDBMajorEngineVersionsCommandInput,
+  type DescribeDBMajorEngineVersionsCommandOutput,
   DescribeDBParameterGroupsCommand,
   type DescribeDBParameterGroupsCommandInput,
   type DescribeDBParameterGroupsCommandOutput,
@@ -718,6 +721,7 @@ const commands = {
   DescribeDBInstanceAutomatedBackupsCommand,
   DescribeDBInstancesCommand,
   DescribeDBLogFilesCommand,
+  DescribeDBMajorEngineVersionsCommand,
   DescribeDBParameterGroupsCommand,
   DescribeDBParametersCommand,
   DescribeDBProxiesCommand,
@@ -871,11 +875,16 @@ interface RDSService$ {
     | BlueGreenDeploymentNotFoundFaultError
     | DBClusterNotFoundFaultError
     | DBInstanceNotFoundFaultError
+    | DBProxyEndpointNotFoundFaultError
     | DBProxyNotFoundFaultError
     | DBProxyTargetGroupNotFoundFaultError
+    | DBShardGroupNotFoundFaultError
     | DBSnapshotNotFoundFaultError
     | DBSnapshotTenantDatabaseNotFoundFaultError
     | IntegrationNotFoundFaultError
+    | InvalidDBClusterEndpointStateFaultError
+    | InvalidDBClusterStateFaultError
+    | InvalidDBInstanceStateFaultError
     | TenantDatabaseNotFoundFaultError
   >;
 
@@ -1034,6 +1043,7 @@ interface RDSService$ {
     | InvalidDBInstanceStateFaultError
     | SourceClusterNotSupportedFaultError
     | SourceDatabaseNotSupportedFaultError
+    | StorageQuotaExceededFaultError
   >;
 
   /**
@@ -1048,8 +1058,10 @@ interface RDSService$ {
     | SdkError
     | CreateCustomDBEngineVersionFaultError
     | CustomDBEngineVersionAlreadyExistsFaultError
+    | CustomDBEngineVersionNotFoundFaultError
     | CustomDBEngineVersionQuotaExceededFaultError
     | Ec2ImagePropertiesNotSupportedFaultError
+    | InvalidCustomDBEngineVersionStateFaultError
     | KMSKeyNotAccessibleFaultError
   >;
 
@@ -1082,8 +1094,10 @@ interface RDSService$ {
     | InvalidSubnetError
     | InvalidVPCNetworkStateFaultError
     | KMSKeyNotAccessibleFaultError
+    | NetworkTypeNotSupportedError
     | OptionGroupNotFoundFaultError
     | StorageQuotaExceededFaultError
+    | StorageTypeNotSupportedFaultError
   >;
 
   /**
@@ -1351,6 +1365,8 @@ interface RDSService$ {
     | GlobalClusterAlreadyExistsFaultError
     | GlobalClusterQuotaExceededFaultError
     | InvalidDBClusterStateFaultError
+    | InvalidDBShardGroupStateFaultError
+    | ResourceNotFoundFaultError
   >;
 
   /**
@@ -1442,6 +1458,8 @@ interface RDSService$ {
     | DBClusterSnapshotAlreadyExistsFaultError
     | InvalidDBClusterSnapshotStateFaultError
     | InvalidDBClusterStateFaultError
+    | InvalidGlobalClusterStateFaultError
+    | KMSKeyNotAccessibleFaultError
     | SnapshotQuotaExceededFaultError
   >;
 
@@ -1511,6 +1529,7 @@ interface RDSService$ {
     | DBSnapshotAlreadyExistsFaultError
     | InvalidDBClusterStateFaultError
     | InvalidDBInstanceStateFaultError
+    | KMSKeyNotAccessibleFaultError
     | SnapshotQuotaExceededFaultError
   >;
 
@@ -1672,6 +1691,7 @@ interface RDSService$ {
     | Cause.TimeoutException
     | SdkError
     | DBInstanceNotFoundFaultError
+    | DBSnapshotAlreadyExistsFaultError
     | InvalidDBInstanceStateFaultError
     | TenantDatabaseNotFoundFaultError
   >;
@@ -1855,6 +1875,17 @@ interface RDSService$ {
   ): Effect.Effect<
     DescribeDBLogFilesCommandOutput,
     Cause.TimeoutException | SdkError | DBInstanceNotFoundFaultError | DBInstanceNotReadyFaultError
+  >;
+
+  /**
+   * @see {@link DescribeDBMajorEngineVersionsCommand}
+   */
+  describeDBMajorEngineVersions(
+    args: DescribeDBMajorEngineVersionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeDBMajorEngineVersionsCommandOutput,
+    Cause.TimeoutException | SdkError
   >;
 
   /**
@@ -2277,8 +2308,10 @@ interface RDSService$ {
     | BlueGreenDeploymentNotFoundFaultError
     | DBClusterNotFoundFaultError
     | DBInstanceNotFoundFaultError
+    | DBProxyEndpointNotFoundFaultError
     | DBProxyNotFoundFaultError
     | DBProxyTargetGroupNotFoundFaultError
+    | DBShardGroupNotFoundFaultError
     | DBSnapshotNotFoundFaultError
     | DBSnapshotTenantDatabaseNotFoundFaultError
     | IntegrationNotFoundFaultError
@@ -2354,17 +2387,22 @@ interface RDSService$ {
     | DBClusterNotFoundFaultError
     | DBClusterParameterGroupNotFoundFaultError
     | DBInstanceAlreadyExistsFaultError
+    | DBParameterGroupNotFoundFaultError
     | DBSubnetGroupNotFoundFaultError
     | DomainNotFoundFaultError
     | InvalidDBClusterStateFaultError
     | InvalidDBInstanceStateFaultError
     | InvalidDBSecurityGroupStateFaultError
     | InvalidDBSubnetGroupStateFaultError
+    | InvalidGlobalClusterStateFaultError
     | InvalidSubnetError
     | InvalidVPCNetworkStateFaultError
+    | KMSKeyNotAccessibleFaultError
+    | NetworkTypeNotSupportedError
     | OptionGroupNotFoundFaultError
     | StorageQuotaExceededFaultError
     | StorageTypeNotAvailableFaultError
+    | StorageTypeNotSupportedFaultError
   >;
 
   /**
@@ -2534,7 +2572,11 @@ interface RDSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyDBSnapshotCommandOutput,
-    Cause.TimeoutException | SdkError | DBSnapshotNotFoundFaultError
+    | Cause.TimeoutException
+    | SdkError
+    | DBSnapshotNotFoundFaultError
+    | InvalidDBSnapshotStateFaultError
+    | KMSKeyNotAccessibleFaultError
   >;
 
   /**
@@ -2565,6 +2607,7 @@ interface RDSService$ {
     | DBSubnetGroupDoesNotCoverEnoughAZsError
     | DBSubnetGroupNotFoundFaultError
     | DBSubnetQuotaExceededFaultError
+    | InvalidDBSubnetGroupStateFaultError
     | InvalidSubnetError
     | SubnetAlreadyInUseError
   >;
@@ -2707,7 +2750,11 @@ interface RDSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RebootDBInstanceCommandOutput,
-    Cause.TimeoutException | SdkError | DBInstanceNotFoundFaultError | InvalidDBInstanceStateFaultError
+    | Cause.TimeoutException
+    | SdkError
+    | DBInstanceNotFoundFaultError
+    | InvalidDBInstanceStateFaultError
+    | KMSKeyNotAccessibleFaultError
   >;
 
   /**
@@ -2754,6 +2801,7 @@ interface RDSService$ {
     | SdkError
     | DBClusterNotFoundFaultError
     | GlobalClusterNotFoundFaultError
+    | InvalidDBClusterStateFaultError
     | InvalidGlobalClusterStateFaultError
   >;
 
@@ -2811,11 +2859,16 @@ interface RDSService$ {
     | BlueGreenDeploymentNotFoundFaultError
     | DBClusterNotFoundFaultError
     | DBInstanceNotFoundFaultError
+    | DBProxyEndpointNotFoundFaultError
     | DBProxyNotFoundFaultError
     | DBProxyTargetGroupNotFoundFaultError
+    | DBShardGroupNotFoundFaultError
     | DBSnapshotNotFoundFaultError
     | DBSnapshotTenantDatabaseNotFoundFaultError
     | IntegrationNotFoundFaultError
+    | InvalidDBClusterEndpointStateFaultError
+    | InvalidDBClusterStateFaultError
+    | InvalidDBInstanceStateFaultError
     | TenantDatabaseNotFoundFaultError
   >;
 
@@ -2864,6 +2917,7 @@ interface RDSService$ {
     | InvalidSubnetError
     | InvalidVPCNetworkStateFaultError
     | KMSKeyNotAccessibleFaultError
+    | NetworkTypeNotSupportedError
     | StorageQuotaExceededFaultError
     | StorageTypeNotSupportedFaultError
   >;
@@ -2896,8 +2950,10 @@ interface RDSService$ {
     | InvalidSubnetError
     | InvalidVPCNetworkStateFaultError
     | KMSKeyNotAccessibleFaultError
+    | NetworkTypeNotSupportedError
     | OptionGroupNotFoundFaultError
     | StorageQuotaExceededFaultError
+    | StorageTypeNotSupportedFaultError
   >;
 
   /**
@@ -2928,8 +2984,10 @@ interface RDSService$ {
     | InvalidSubnetError
     | InvalidVPCNetworkStateFaultError
     | KMSKeyNotAccessibleFaultError
+    | NetworkTypeNotSupportedError
     | OptionGroupNotFoundFaultError
     | StorageQuotaExceededFaultError
+    | StorageTypeNotSupportedFaultError
   >;
 
   /**
@@ -3082,6 +3140,8 @@ interface RDSService$ {
     | DBClusterNotFoundFaultError
     | InvalidDBClusterStateFaultError
     | InvalidDBInstanceStateFaultError
+    | InvalidDBShardGroupStateFaultError
+    | KMSKeyNotAccessibleFaultError
   >;
 
   /**
@@ -3119,6 +3179,7 @@ interface RDSService$ {
     | SdkError
     | DBInstanceAutomatedBackupQuotaExceededFaultError
     | DBInstanceNotFoundFaultError
+    | InvalidDBInstanceAutomatedBackupStateFaultError
     | InvalidDBInstanceStateFaultError
     | KMSKeyNotAccessibleFaultError
     | StorageTypeNotSupportedFaultError
@@ -3176,6 +3237,7 @@ interface RDSService$ {
     | DBClusterNotFoundFaultError
     | InvalidDBClusterStateFaultError
     | InvalidDBInstanceStateFaultError
+    | InvalidDBShardGroupStateFaultError
   >;
 
   /**

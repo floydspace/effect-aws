@@ -14,6 +14,9 @@ import {
   CreateBucketCommand,
   type CreateBucketCommandInput,
   type CreateBucketCommandOutput,
+  CreateBucketMetadataConfigurationCommand,
+  type CreateBucketMetadataConfigurationCommandInput,
+  type CreateBucketMetadataConfigurationCommandOutput,
   CreateBucketMetadataTableConfigurationCommand,
   type CreateBucketMetadataTableConfigurationCommandInput,
   type CreateBucketMetadataTableConfigurationCommandOutput,
@@ -44,6 +47,9 @@ import {
   DeleteBucketLifecycleCommand,
   type DeleteBucketLifecycleCommandInput,
   type DeleteBucketLifecycleCommandOutput,
+  DeleteBucketMetadataConfigurationCommand,
+  type DeleteBucketMetadataConfigurationCommandInput,
+  type DeleteBucketMetadataConfigurationCommandOutput,
   DeleteBucketMetadataTableConfigurationCommand,
   type DeleteBucketMetadataTableConfigurationCommandInput,
   type DeleteBucketMetadataTableConfigurationCommandOutput,
@@ -107,6 +113,9 @@ import {
   GetBucketLoggingCommand,
   type GetBucketLoggingCommandInput,
   type GetBucketLoggingCommandOutput,
+  GetBucketMetadataConfigurationCommand,
+  type GetBucketMetadataConfigurationCommandInput,
+  type GetBucketMetadataConfigurationCommandOutput,
   GetBucketMetadataTableConfigurationCommand,
   type GetBucketMetadataTableConfigurationCommandInput,
   type GetBucketMetadataTableConfigurationCommandOutput,
@@ -281,6 +290,9 @@ import {
   PutPublicAccessBlockCommand,
   type PutPublicAccessBlockCommandInput,
   type PutPublicAccessBlockCommandOutput,
+  RenameObjectCommand,
+  type RenameObjectCommandInput,
+  type RenameObjectCommandOutput,
   RestoreObjectCommand,
   type RestoreObjectCommandInput,
   type RestoreObjectCommandOutput,
@@ -289,6 +301,12 @@ import {
   SelectObjectContentCommand,
   type SelectObjectContentCommandInput,
   type SelectObjectContentCommandOutput,
+  UpdateBucketMetadataInventoryTableConfigurationCommand,
+  type UpdateBucketMetadataInventoryTableConfigurationCommandInput,
+  type UpdateBucketMetadataInventoryTableConfigurationCommandOutput,
+  UpdateBucketMetadataJournalTableConfigurationCommand,
+  type UpdateBucketMetadataJournalTableConfigurationCommandInput,
+  type UpdateBucketMetadataJournalTableConfigurationCommandOutput,
   UploadPartCommand,
   type UploadPartCommandInput,
   type UploadPartCommandOutput,
@@ -309,6 +327,7 @@ import type {
   BucketAlreadyExistsError,
   BucketAlreadyOwnedByYouError,
   EncryptionTypeMismatchError,
+  IdempotencyParameterMismatchError,
   InvalidObjectStateError,
   InvalidRequestError,
   InvalidWriteOffsetError,
@@ -331,6 +350,7 @@ const commands = {
   CompleteMultipartUploadCommand,
   CopyObjectCommand,
   CreateBucketCommand,
+  CreateBucketMetadataConfigurationCommand,
   CreateBucketMetadataTableConfigurationCommand,
   CreateMultipartUploadCommand,
   CreateSessionCommand,
@@ -341,6 +361,7 @@ const commands = {
   DeleteBucketIntelligentTieringConfigurationCommand,
   DeleteBucketInventoryConfigurationCommand,
   DeleteBucketLifecycleCommand,
+  DeleteBucketMetadataConfigurationCommand,
   DeleteBucketMetadataTableConfigurationCommand,
   DeleteBucketMetricsConfigurationCommand,
   DeleteBucketOwnershipControlsCommand,
@@ -362,6 +383,7 @@ const commands = {
   GetBucketLifecycleConfigurationCommand,
   GetBucketLocationCommand,
   GetBucketLoggingCommand,
+  GetBucketMetadataConfigurationCommand,
   GetBucketMetadataTableConfigurationCommand,
   GetBucketMetricsConfigurationCommand,
   GetBucketNotificationConfigurationCommand,
@@ -420,8 +442,11 @@ const commands = {
   PutObjectRetentionCommand,
   PutObjectTaggingCommand,
   PutPublicAccessBlockCommand,
+  RenameObjectCommand,
   RestoreObjectCommand,
   SelectObjectContentCommand,
+  UpdateBucketMetadataInventoryTableConfigurationCommand,
+  UpdateBucketMetadataJournalTableConfigurationCommand,
   UploadPartCommand,
   UploadPartCopyCommand,
   WriteGetObjectResponseCommand,
@@ -472,6 +497,17 @@ interface S3Service$ {
   ): Effect.Effect<
     CreateBucketCommandOutput,
     Cause.TimeoutException | SdkError | BucketAlreadyExistsError | BucketAlreadyOwnedByYouError
+  >;
+
+  /**
+   * @see {@link CreateBucketMetadataConfigurationCommand}
+   */
+  createBucketMetadataConfiguration(
+    args: CreateBucketMetadataConfigurationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateBucketMetadataConfigurationCommandOutput,
+    Cause.TimeoutException | SdkError | S3ServiceError
   >;
 
   /**
@@ -581,6 +617,17 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteBucketLifecycleCommandOutput,
+    Cause.TimeoutException | SdkError | S3ServiceError
+  >;
+
+  /**
+   * @see {@link DeleteBucketMetadataConfigurationCommand}
+   */
+  deleteBucketMetadataConfiguration(
+    args: DeleteBucketMetadataConfigurationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteBucketMetadataConfigurationCommandOutput,
     Cause.TimeoutException | SdkError | S3ServiceError
   >;
 
@@ -812,6 +859,17 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetBucketLoggingCommandOutput,
+    Cause.TimeoutException | SdkError | S3ServiceError
+  >;
+
+  /**
+   * @see {@link GetBucketMetadataConfigurationCommand}
+   */
+  getBucketMetadataConfiguration(
+    args: GetBucketMetadataConfigurationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetBucketMetadataConfigurationCommandOutput,
     Cause.TimeoutException | SdkError | S3ServiceError
   >;
 
@@ -1467,6 +1525,17 @@ interface S3Service$ {
   >;
 
   /**
+   * @see {@link RenameObjectCommand}
+   */
+  renameObject(
+    args: RenameObjectCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    RenameObjectCommandOutput,
+    Cause.TimeoutException | SdkError | IdempotencyParameterMismatchError
+  >;
+
+  /**
    * @see {@link RestoreObjectCommand}
    */
   restoreObject(
@@ -1485,6 +1554,28 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SelectObjectContentCommandOutput,
+    Cause.TimeoutException | SdkError | S3ServiceError
+  >;
+
+  /**
+   * @see {@link UpdateBucketMetadataInventoryTableConfigurationCommand}
+   */
+  updateBucketMetadataInventoryTableConfiguration(
+    args: UpdateBucketMetadataInventoryTableConfigurationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateBucketMetadataInventoryTableConfigurationCommandOutput,
+    Cause.TimeoutException | SdkError | S3ServiceError
+  >;
+
+  /**
+   * @see {@link UpdateBucketMetadataJournalTableConfigurationCommand}
+   */
+  updateBucketMetadataJournalTableConfiguration(
+    args: UpdateBucketMetadataJournalTableConfigurationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateBucketMetadataJournalTableConfigurationCommandOutput,
     Cause.TimeoutException | SdkError | S3ServiceError
   >;
 

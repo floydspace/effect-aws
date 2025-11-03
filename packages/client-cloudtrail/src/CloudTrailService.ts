@@ -61,6 +61,9 @@ import {
   GetDashboardCommand,
   type GetDashboardCommandInput,
   type GetDashboardCommandOutput,
+  GetEventConfigurationCommand,
+  type GetEventConfigurationCommandInput,
+  type GetEventConfigurationCommandOutput,
   GetEventDataStoreCommand,
   type GetEventDataStoreCommandInput,
   type GetEventDataStoreCommandOutput,
@@ -118,6 +121,9 @@ import {
   LookupEventsCommand,
   type LookupEventsCommandInput,
   type LookupEventsCommandOutput,
+  PutEventConfigurationCommand,
+  type PutEventConfigurationCommandInput,
+  type PutEventConfigurationCommandOutput,
   PutEventSelectorsCommand,
   type PutEventSelectorsCommandInput,
   type PutEventSelectorsCommandOutput,
@@ -215,6 +221,7 @@ import type {
   InsightNotEnabledError,
   InsufficientDependencyServiceAccessPermissionError,
   InsufficientEncryptionPolicyError,
+  InsufficientIAMAccessPermissionError,
   InsufficientS3BucketPolicyError,
   InsufficientSnsTopicPolicyError,
   InvalidCloudWatchLogsLogGroupArnError,
@@ -292,6 +299,7 @@ const commands = {
   GenerateQueryCommand,
   GetChannelCommand,
   GetDashboardCommand,
+  GetEventConfigurationCommand,
   GetEventDataStoreCommand,
   GetEventSelectorsCommand,
   GetImportCommand,
@@ -311,6 +319,7 @@ const commands = {
   ListTagsCommand,
   ListTrailsCommand,
   LookupEventsCommand,
+  PutEventConfigurationCommand,
   PutEventSelectorsCommand,
   PutInsightSelectorsCommand,
   PutResourcePolicyCommand,
@@ -760,6 +769,28 @@ interface CloudTrailService$ {
   >;
 
   /**
+   * @see {@link GetEventConfigurationCommand}
+   */
+  getEventConfiguration(
+    args: GetEventConfigurationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetEventConfigurationCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | CloudTrailARNInvalidError
+    | EventDataStoreARNInvalidError
+    | EventDataStoreNotFoundError
+    | InvalidEventDataStoreCategoryError
+    | InvalidEventDataStoreStatusError
+    | InvalidParameterCombinationError
+    | InvalidParameterError
+    | NoManagementAccountSLRExistsError
+    | OperationNotPermittedError
+    | UnsupportedOperationError
+  >;
+
+  /**
    * @see {@link GetEventDataStoreCommand}
    */
   getEventDataStore(
@@ -1085,6 +1116,34 @@ interface CloudTrailService$ {
   >;
 
   /**
+   * @see {@link PutEventConfigurationCommand}
+   */
+  putEventConfiguration(
+    args: PutEventConfigurationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    PutEventConfigurationCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | CloudTrailARNInvalidError
+    | ConflictError
+    | EventDataStoreARNInvalidError
+    | EventDataStoreNotFoundError
+    | InactiveEventDataStoreError
+    | InsufficientDependencyServiceAccessPermissionError
+    | InsufficientIAMAccessPermissionError
+    | InvalidEventDataStoreCategoryError
+    | InvalidEventDataStoreStatusError
+    | InvalidParameterCombinationError
+    | InvalidParameterError
+    | NoManagementAccountSLRExistsError
+    | NotOrganizationMasterAccountError
+    | OperationNotPermittedError
+    | ThrottlingError
+    | UnsupportedOperationError
+  >;
+
+  /**
    * @see {@link PutEventSelectorsCommand}
    */
   putEventSelectors(
@@ -1172,6 +1231,7 @@ interface CloudTrailService$ {
     | ConflictError
     | DelegatedAdminAccountLimitExceededError
     | InsufficientDependencyServiceAccessPermissionError
+    | InsufficientIAMAccessPermissionError
     | InvalidParameterError
     | NotOrganizationManagementAccountError
     | OperationNotPermittedError
@@ -1270,6 +1330,7 @@ interface CloudTrailService$ {
     StartEventDataStoreIngestionCommandOutput,
     | Cause.TimeoutException
     | SdkError
+    | ConflictError
     | EventDataStoreARNInvalidError
     | EventDataStoreNotFoundError
     | InsufficientDependencyServiceAccessPermissionError
@@ -1365,6 +1426,7 @@ interface CloudTrailService$ {
     StopEventDataStoreIngestionCommandOutput,
     | Cause.TimeoutException
     | SdkError
+    | ConflictError
     | EventDataStoreARNInvalidError
     | EventDataStoreNotFoundError
     | InsufficientDependencyServiceAccessPermissionError

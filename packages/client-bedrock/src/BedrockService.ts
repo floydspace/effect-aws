@@ -7,9 +7,30 @@ import {
   type BatchDeleteEvaluationJobCommandOutput,
   type BedrockClient,
   type BedrockClientConfig,
+  CancelAutomatedReasoningPolicyBuildWorkflowCommand,
+  type CancelAutomatedReasoningPolicyBuildWorkflowCommandInput,
+  type CancelAutomatedReasoningPolicyBuildWorkflowCommandOutput,
+  CreateAutomatedReasoningPolicyCommand,
+  type CreateAutomatedReasoningPolicyCommandInput,
+  type CreateAutomatedReasoningPolicyCommandOutput,
+  CreateAutomatedReasoningPolicyTestCaseCommand,
+  type CreateAutomatedReasoningPolicyTestCaseCommandInput,
+  type CreateAutomatedReasoningPolicyTestCaseCommandOutput,
+  CreateAutomatedReasoningPolicyVersionCommand,
+  type CreateAutomatedReasoningPolicyVersionCommandInput,
+  type CreateAutomatedReasoningPolicyVersionCommandOutput,
+  CreateCustomModelCommand,
+  type CreateCustomModelCommandInput,
+  type CreateCustomModelCommandOutput,
+  CreateCustomModelDeploymentCommand,
+  type CreateCustomModelDeploymentCommandInput,
+  type CreateCustomModelDeploymentCommandOutput,
   CreateEvaluationJobCommand,
   type CreateEvaluationJobCommandInput,
   type CreateEvaluationJobCommandOutput,
+  CreateFoundationModelAgreementCommand,
+  type CreateFoundationModelAgreementCommandInput,
+  type CreateFoundationModelAgreementCommandOutput,
   CreateGuardrailCommand,
   type CreateGuardrailCommandInput,
   type CreateGuardrailCommandOutput,
@@ -40,9 +61,24 @@ import {
   CreateProvisionedModelThroughputCommand,
   type CreateProvisionedModelThroughputCommandInput,
   type CreateProvisionedModelThroughputCommandOutput,
+  DeleteAutomatedReasoningPolicyBuildWorkflowCommand,
+  type DeleteAutomatedReasoningPolicyBuildWorkflowCommandInput,
+  type DeleteAutomatedReasoningPolicyBuildWorkflowCommandOutput,
+  DeleteAutomatedReasoningPolicyCommand,
+  type DeleteAutomatedReasoningPolicyCommandInput,
+  type DeleteAutomatedReasoningPolicyCommandOutput,
+  DeleteAutomatedReasoningPolicyTestCaseCommand,
+  type DeleteAutomatedReasoningPolicyTestCaseCommandInput,
+  type DeleteAutomatedReasoningPolicyTestCaseCommandOutput,
   DeleteCustomModelCommand,
   type DeleteCustomModelCommandInput,
   type DeleteCustomModelCommandOutput,
+  DeleteCustomModelDeploymentCommand,
+  type DeleteCustomModelDeploymentCommandInput,
+  type DeleteCustomModelDeploymentCommandOutput,
+  DeleteFoundationModelAgreementCommand,
+  type DeleteFoundationModelAgreementCommandInput,
+  type DeleteFoundationModelAgreementCommandOutput,
   DeleteGuardrailCommand,
   type DeleteGuardrailCommandInput,
   type DeleteGuardrailCommandOutput,
@@ -67,12 +103,42 @@ import {
   DeregisterMarketplaceModelEndpointCommand,
   type DeregisterMarketplaceModelEndpointCommandInput,
   type DeregisterMarketplaceModelEndpointCommandOutput,
+  ExportAutomatedReasoningPolicyVersionCommand,
+  type ExportAutomatedReasoningPolicyVersionCommandInput,
+  type ExportAutomatedReasoningPolicyVersionCommandOutput,
+  GetAutomatedReasoningPolicyAnnotationsCommand,
+  type GetAutomatedReasoningPolicyAnnotationsCommandInput,
+  type GetAutomatedReasoningPolicyAnnotationsCommandOutput,
+  GetAutomatedReasoningPolicyBuildWorkflowCommand,
+  type GetAutomatedReasoningPolicyBuildWorkflowCommandInput,
+  type GetAutomatedReasoningPolicyBuildWorkflowCommandOutput,
+  GetAutomatedReasoningPolicyBuildWorkflowResultAssetsCommand,
+  type GetAutomatedReasoningPolicyBuildWorkflowResultAssetsCommandInput,
+  type GetAutomatedReasoningPolicyBuildWorkflowResultAssetsCommandOutput,
+  GetAutomatedReasoningPolicyCommand,
+  type GetAutomatedReasoningPolicyCommandInput,
+  type GetAutomatedReasoningPolicyCommandOutput,
+  GetAutomatedReasoningPolicyNextScenarioCommand,
+  type GetAutomatedReasoningPolicyNextScenarioCommandInput,
+  type GetAutomatedReasoningPolicyNextScenarioCommandOutput,
+  GetAutomatedReasoningPolicyTestCaseCommand,
+  type GetAutomatedReasoningPolicyTestCaseCommandInput,
+  type GetAutomatedReasoningPolicyTestCaseCommandOutput,
+  GetAutomatedReasoningPolicyTestResultCommand,
+  type GetAutomatedReasoningPolicyTestResultCommandInput,
+  type GetAutomatedReasoningPolicyTestResultCommandOutput,
   GetCustomModelCommand,
   type GetCustomModelCommandInput,
   type GetCustomModelCommandOutput,
+  GetCustomModelDeploymentCommand,
+  type GetCustomModelDeploymentCommandInput,
+  type GetCustomModelDeploymentCommandOutput,
   GetEvaluationJobCommand,
   type GetEvaluationJobCommandInput,
   type GetEvaluationJobCommandOutput,
+  GetFoundationModelAvailabilityCommand,
+  type GetFoundationModelAvailabilityCommandInput,
+  type GetFoundationModelAvailabilityCommandOutput,
   GetFoundationModelCommand,
   type GetFoundationModelCommandInput,
   type GetFoundationModelCommandOutput,
@@ -109,12 +175,33 @@ import {
   GetProvisionedModelThroughputCommand,
   type GetProvisionedModelThroughputCommandInput,
   type GetProvisionedModelThroughputCommandOutput,
+  GetUseCaseForModelAccessCommand,
+  type GetUseCaseForModelAccessCommandInput,
+  type GetUseCaseForModelAccessCommandOutput,
+  ListAutomatedReasoningPoliciesCommand,
+  type ListAutomatedReasoningPoliciesCommandInput,
+  type ListAutomatedReasoningPoliciesCommandOutput,
+  ListAutomatedReasoningPolicyBuildWorkflowsCommand,
+  type ListAutomatedReasoningPolicyBuildWorkflowsCommandInput,
+  type ListAutomatedReasoningPolicyBuildWorkflowsCommandOutput,
+  ListAutomatedReasoningPolicyTestCasesCommand,
+  type ListAutomatedReasoningPolicyTestCasesCommandInput,
+  type ListAutomatedReasoningPolicyTestCasesCommandOutput,
+  ListAutomatedReasoningPolicyTestResultsCommand,
+  type ListAutomatedReasoningPolicyTestResultsCommandInput,
+  type ListAutomatedReasoningPolicyTestResultsCommandOutput,
+  ListCustomModelDeploymentsCommand,
+  type ListCustomModelDeploymentsCommandInput,
+  type ListCustomModelDeploymentsCommandOutput,
   ListCustomModelsCommand,
   type ListCustomModelsCommandInput,
   type ListCustomModelsCommandOutput,
   ListEvaluationJobsCommand,
   type ListEvaluationJobsCommandInput,
   type ListEvaluationJobsCommandOutput,
+  ListFoundationModelAgreementOffersCommand,
+  type ListFoundationModelAgreementOffersCommandInput,
+  type ListFoundationModelAgreementOffersCommandOutput,
   ListFoundationModelsCommand,
   type ListFoundationModelsCommandInput,
   type ListFoundationModelsCommandOutput,
@@ -154,9 +241,18 @@ import {
   PutModelInvocationLoggingConfigurationCommand,
   type PutModelInvocationLoggingConfigurationCommandInput,
   type PutModelInvocationLoggingConfigurationCommandOutput,
+  PutUseCaseForModelAccessCommand,
+  type PutUseCaseForModelAccessCommandInput,
+  type PutUseCaseForModelAccessCommandOutput,
   RegisterMarketplaceModelEndpointCommand,
   type RegisterMarketplaceModelEndpointCommandInput,
   type RegisterMarketplaceModelEndpointCommandOutput,
+  StartAutomatedReasoningPolicyBuildWorkflowCommand,
+  type StartAutomatedReasoningPolicyBuildWorkflowCommandInput,
+  type StartAutomatedReasoningPolicyBuildWorkflowCommandOutput,
+  StartAutomatedReasoningPolicyTestWorkflowCommand,
+  type StartAutomatedReasoningPolicyTestWorkflowCommandInput,
+  type StartAutomatedReasoningPolicyTestWorkflowCommandOutput,
   StopEvaluationJobCommand,
   type StopEvaluationJobCommandInput,
   type StopEvaluationJobCommandOutput,
@@ -172,6 +268,15 @@ import {
   UntagResourceCommand,
   type UntagResourceCommandInput,
   type UntagResourceCommandOutput,
+  UpdateAutomatedReasoningPolicyAnnotationsCommand,
+  type UpdateAutomatedReasoningPolicyAnnotationsCommandInput,
+  type UpdateAutomatedReasoningPolicyAnnotationsCommandOutput,
+  UpdateAutomatedReasoningPolicyCommand,
+  type UpdateAutomatedReasoningPolicyCommandInput,
+  type UpdateAutomatedReasoningPolicyCommandOutput,
+  UpdateAutomatedReasoningPolicyTestCaseCommand,
+  type UpdateAutomatedReasoningPolicyTestCaseCommandInput,
+  type UpdateAutomatedReasoningPolicyTestCaseCommandOutput,
   UpdateGuardrailCommand,
   type UpdateGuardrailCommandInput,
   type UpdateGuardrailCommandOutput,
@@ -192,6 +297,7 @@ import type {
   AccessDeniedError,
   ConflictError,
   InternalServerError,
+  ResourceInUseError,
   ResourceNotFoundError,
   SdkError,
   ServiceQuotaExceededError,
@@ -204,7 +310,14 @@ import { AllServiceErrors } from "./Errors.js";
 
 const commands = {
   BatchDeleteEvaluationJobCommand,
+  CancelAutomatedReasoningPolicyBuildWorkflowCommand,
+  CreateAutomatedReasoningPolicyCommand,
+  CreateAutomatedReasoningPolicyTestCaseCommand,
+  CreateAutomatedReasoningPolicyVersionCommand,
+  CreateCustomModelCommand,
+  CreateCustomModelDeploymentCommand,
   CreateEvaluationJobCommand,
+  CreateFoundationModelAgreementCommand,
   CreateGuardrailCommand,
   CreateGuardrailVersionCommand,
   CreateInferenceProfileCommand,
@@ -215,7 +328,12 @@ const commands = {
   CreateModelInvocationJobCommand,
   CreatePromptRouterCommand,
   CreateProvisionedModelThroughputCommand,
+  DeleteAutomatedReasoningPolicyCommand,
+  DeleteAutomatedReasoningPolicyBuildWorkflowCommand,
+  DeleteAutomatedReasoningPolicyTestCaseCommand,
   DeleteCustomModelCommand,
+  DeleteCustomModelDeploymentCommand,
+  DeleteFoundationModelAgreementCommand,
   DeleteGuardrailCommand,
   DeleteImportedModelCommand,
   DeleteInferenceProfileCommand,
@@ -224,9 +342,19 @@ const commands = {
   DeletePromptRouterCommand,
   DeleteProvisionedModelThroughputCommand,
   DeregisterMarketplaceModelEndpointCommand,
+  ExportAutomatedReasoningPolicyVersionCommand,
+  GetAutomatedReasoningPolicyCommand,
+  GetAutomatedReasoningPolicyAnnotationsCommand,
+  GetAutomatedReasoningPolicyBuildWorkflowCommand,
+  GetAutomatedReasoningPolicyBuildWorkflowResultAssetsCommand,
+  GetAutomatedReasoningPolicyNextScenarioCommand,
+  GetAutomatedReasoningPolicyTestCaseCommand,
+  GetAutomatedReasoningPolicyTestResultCommand,
   GetCustomModelCommand,
+  GetCustomModelDeploymentCommand,
   GetEvaluationJobCommand,
   GetFoundationModelCommand,
+  GetFoundationModelAvailabilityCommand,
   GetGuardrailCommand,
   GetImportedModelCommand,
   GetInferenceProfileCommand,
@@ -238,8 +366,15 @@ const commands = {
   GetModelInvocationLoggingConfigurationCommand,
   GetPromptRouterCommand,
   GetProvisionedModelThroughputCommand,
+  GetUseCaseForModelAccessCommand,
+  ListAutomatedReasoningPoliciesCommand,
+  ListAutomatedReasoningPolicyBuildWorkflowsCommand,
+  ListAutomatedReasoningPolicyTestCasesCommand,
+  ListAutomatedReasoningPolicyTestResultsCommand,
+  ListCustomModelDeploymentsCommand,
   ListCustomModelsCommand,
   ListEvaluationJobsCommand,
+  ListFoundationModelAgreementOffersCommand,
   ListFoundationModelsCommand,
   ListGuardrailsCommand,
   ListImportedModelsCommand,
@@ -253,12 +388,18 @@ const commands = {
   ListProvisionedModelThroughputsCommand,
   ListTagsForResourceCommand,
   PutModelInvocationLoggingConfigurationCommand,
+  PutUseCaseForModelAccessCommand,
   RegisterMarketplaceModelEndpointCommand,
+  StartAutomatedReasoningPolicyBuildWorkflowCommand,
+  StartAutomatedReasoningPolicyTestWorkflowCommand,
   StopEvaluationJobCommand,
   StopModelCustomizationJobCommand,
   StopModelInvocationJobCommand,
   TagResourceCommand,
   UntagResourceCommand,
+  UpdateAutomatedReasoningPolicyCommand,
+  UpdateAutomatedReasoningPolicyAnnotationsCommand,
+  UpdateAutomatedReasoningPolicyTestCaseCommand,
   UpdateGuardrailCommand,
   UpdateMarketplaceModelEndpointCommand,
   UpdateProvisionedModelThroughputCommand,
@@ -286,6 +427,121 @@ interface BedrockService$ {
   >;
 
   /**
+   * @see {@link CancelAutomatedReasoningPolicyBuildWorkflowCommand}
+   */
+  cancelAutomatedReasoningPolicyBuildWorkflow(
+    args: CancelAutomatedReasoningPolicyBuildWorkflowCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CancelAutomatedReasoningPolicyBuildWorkflowCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link CreateAutomatedReasoningPolicyCommand}
+   */
+  createAutomatedReasoningPolicy(
+    args: CreateAutomatedReasoningPolicyCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateAutomatedReasoningPolicyCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ServiceQuotaExceededError
+    | ThrottlingError
+    | TooManyTagsError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link CreateAutomatedReasoningPolicyTestCaseCommand}
+   */
+  createAutomatedReasoningPolicyTestCase(
+    args: CreateAutomatedReasoningPolicyTestCaseCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateAutomatedReasoningPolicyTestCaseCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ServiceQuotaExceededError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link CreateAutomatedReasoningPolicyVersionCommand}
+   */
+  createAutomatedReasoningPolicyVersion(
+    args: CreateAutomatedReasoningPolicyVersionCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateAutomatedReasoningPolicyVersionCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ServiceQuotaExceededError
+    | ThrottlingError
+    | TooManyTagsError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link CreateCustomModelCommand}
+   */
+  createCustomModel(
+    args: CreateCustomModelCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateCustomModelCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ServiceQuotaExceededError
+    | ThrottlingError
+    | TooManyTagsError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link CreateCustomModelDeploymentCommand}
+   */
+  createCustomModelDeployment(
+    args: CreateCustomModelDeploymentCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateCustomModelDeploymentCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ServiceQuotaExceededError
+    | ThrottlingError
+    | TooManyTagsError
+    | ValidationError
+  >;
+
+  /**
    * @see {@link CreateEvaluationJobCommand}
    */
   createEvaluationJob(
@@ -300,6 +556,24 @@ interface BedrockService$ {
     | InternalServerError
     | ResourceNotFoundError
     | ServiceQuotaExceededError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link CreateFoundationModelAgreementCommand}
+   */
+  createFoundationModelAgreement(
+    args: CreateFoundationModelAgreementCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateFoundationModelAgreementCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
     | ThrottlingError
     | ValidationError
   >;
@@ -497,6 +771,63 @@ interface BedrockService$ {
   >;
 
   /**
+   * @see {@link DeleteAutomatedReasoningPolicyCommand}
+   */
+  deleteAutomatedReasoningPolicy(
+    args: DeleteAutomatedReasoningPolicyCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteAutomatedReasoningPolicyCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceInUseError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link DeleteAutomatedReasoningPolicyBuildWorkflowCommand}
+   */
+  deleteAutomatedReasoningPolicyBuildWorkflow(
+    args: DeleteAutomatedReasoningPolicyBuildWorkflowCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteAutomatedReasoningPolicyBuildWorkflowCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceInUseError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link DeleteAutomatedReasoningPolicyTestCaseCommand}
+   */
+  deleteAutomatedReasoningPolicyTestCase(
+    args: DeleteAutomatedReasoningPolicyTestCaseCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteAutomatedReasoningPolicyTestCaseCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceInUseError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
    * @see {@link DeleteCustomModelCommand}
    */
   deleteCustomModel(
@@ -504,6 +835,42 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteCustomModelCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link DeleteCustomModelDeploymentCommand}
+   */
+  deleteCustomModelDeployment(
+    args: DeleteCustomModelDeploymentCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteCustomModelDeploymentCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link DeleteFoundationModelAgreementCommand}
+   */
+  deleteFoundationModelAgreement(
+    args: DeleteFoundationModelAgreementCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteFoundationModelAgreementCommandOutput,
     | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
@@ -650,6 +1017,142 @@ interface BedrockService$ {
   >;
 
   /**
+   * @see {@link ExportAutomatedReasoningPolicyVersionCommand}
+   */
+  exportAutomatedReasoningPolicyVersion(
+    args: ExportAutomatedReasoningPolicyVersionCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ExportAutomatedReasoningPolicyVersionCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link GetAutomatedReasoningPolicyCommand}
+   */
+  getAutomatedReasoningPolicy(
+    args: GetAutomatedReasoningPolicyCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetAutomatedReasoningPolicyCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link GetAutomatedReasoningPolicyAnnotationsCommand}
+   */
+  getAutomatedReasoningPolicyAnnotations(
+    args: GetAutomatedReasoningPolicyAnnotationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetAutomatedReasoningPolicyAnnotationsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link GetAutomatedReasoningPolicyBuildWorkflowCommand}
+   */
+  getAutomatedReasoningPolicyBuildWorkflow(
+    args: GetAutomatedReasoningPolicyBuildWorkflowCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetAutomatedReasoningPolicyBuildWorkflowCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link GetAutomatedReasoningPolicyBuildWorkflowResultAssetsCommand}
+   */
+  getAutomatedReasoningPolicyBuildWorkflowResultAssets(
+    args: GetAutomatedReasoningPolicyBuildWorkflowResultAssetsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetAutomatedReasoningPolicyBuildWorkflowResultAssetsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link GetAutomatedReasoningPolicyNextScenarioCommand}
+   */
+  getAutomatedReasoningPolicyNextScenario(
+    args: GetAutomatedReasoningPolicyNextScenarioCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetAutomatedReasoningPolicyNextScenarioCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link GetAutomatedReasoningPolicyTestCaseCommand}
+   */
+  getAutomatedReasoningPolicyTestCase(
+    args: GetAutomatedReasoningPolicyTestCaseCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetAutomatedReasoningPolicyTestCaseCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link GetAutomatedReasoningPolicyTestResultCommand}
+   */
+  getAutomatedReasoningPolicyTestResult(
+    args: GetAutomatedReasoningPolicyTestResultCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetAutomatedReasoningPolicyTestResultCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
    * @see {@link GetCustomModelCommand}
    */
   getCustomModel(
@@ -657,6 +1160,23 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetCustomModelCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link GetCustomModelDeploymentCommand}
+   */
+  getCustomModelDeployment(
+    args: GetCustomModelDeploymentCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetCustomModelDeploymentCommandOutput,
     | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
@@ -691,6 +1211,23 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetFoundationModelCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link GetFoundationModelAvailabilityCommand}
+   */
+  getFoundationModelAvailability(
+    args: GetFoundationModelAvailabilityCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetFoundationModelAvailabilityCommandOutput,
     | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
@@ -882,6 +1419,97 @@ interface BedrockService$ {
   >;
 
   /**
+   * @see {@link GetUseCaseForModelAccessCommand}
+   */
+  getUseCaseForModelAccess(
+    args: GetUseCaseForModelAccessCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetUseCaseForModelAccessCommandOutput,
+    Cause.TimeoutException | SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
+  >;
+
+  /**
+   * @see {@link ListAutomatedReasoningPoliciesCommand}
+   */
+  listAutomatedReasoningPolicies(
+    args: ListAutomatedReasoningPoliciesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListAutomatedReasoningPoliciesCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link ListAutomatedReasoningPolicyBuildWorkflowsCommand}
+   */
+  listAutomatedReasoningPolicyBuildWorkflows(
+    args: ListAutomatedReasoningPolicyBuildWorkflowsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListAutomatedReasoningPolicyBuildWorkflowsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link ListAutomatedReasoningPolicyTestCasesCommand}
+   */
+  listAutomatedReasoningPolicyTestCases(
+    args: ListAutomatedReasoningPolicyTestCasesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListAutomatedReasoningPolicyTestCasesCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link ListAutomatedReasoningPolicyTestResultsCommand}
+   */
+  listAutomatedReasoningPolicyTestResults(
+    args: ListAutomatedReasoningPolicyTestResultsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListAutomatedReasoningPolicyTestResultsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ServiceQuotaExceededError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link ListCustomModelDeploymentsCommand}
+   */
+  listCustomModelDeployments(
+    args: ListCustomModelDeploymentsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListCustomModelDeploymentsCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+  >;
+
+  /**
    * @see {@link ListCustomModelsCommand}
    */
   listCustomModels(
@@ -901,6 +1529,23 @@ interface BedrockService$ {
   ): Effect.Effect<
     ListEvaluationJobsCommandOutput,
     Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+  >;
+
+  /**
+   * @see {@link ListFoundationModelAgreementOffersCommand}
+   */
+  listFoundationModelAgreementOffers(
+    args: ListFoundationModelAgreementOffersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListFoundationModelAgreementOffersCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
   >;
 
   /**
@@ -1071,6 +1716,17 @@ interface BedrockService$ {
   >;
 
   /**
+   * @see {@link PutUseCaseForModelAccessCommand}
+   */
+  putUseCaseForModelAccess(
+    args: PutUseCaseForModelAccessCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    PutUseCaseForModelAccessCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+  >;
+
+  /**
    * @see {@link RegisterMarketplaceModelEndpointCommand}
    */
   registerMarketplaceModelEndpoint(
@@ -1084,6 +1740,44 @@ interface BedrockService$ {
     | InternalServerError
     | ResourceNotFoundError
     | ServiceUnavailableError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link StartAutomatedReasoningPolicyBuildWorkflowCommand}
+   */
+  startAutomatedReasoningPolicyBuildWorkflow(
+    args: StartAutomatedReasoningPolicyBuildWorkflowCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    StartAutomatedReasoningPolicyBuildWorkflowCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceInUseError
+    | ResourceNotFoundError
+    | ServiceQuotaExceededError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link StartAutomatedReasoningPolicyTestWorkflowCommand}
+   */
+  startAutomatedReasoningPolicyTestWorkflow(
+    args: StartAutomatedReasoningPolicyTestWorkflowCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    StartAutomatedReasoningPolicyTestWorkflowCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceInUseError
+    | ResourceNotFoundError
     | ThrottlingError
     | ValidationError
   >;
@@ -1172,6 +1866,62 @@ interface BedrockService$ {
     | SdkError
     | AccessDeniedError
     | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link UpdateAutomatedReasoningPolicyCommand}
+   */
+  updateAutomatedReasoningPolicy(
+    args: UpdateAutomatedReasoningPolicyCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateAutomatedReasoningPolicyCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | TooManyTagsError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link UpdateAutomatedReasoningPolicyAnnotationsCommand}
+   */
+  updateAutomatedReasoningPolicyAnnotations(
+    args: UpdateAutomatedReasoningPolicyAnnotationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateAutomatedReasoningPolicyAnnotationsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link UpdateAutomatedReasoningPolicyTestCaseCommand}
+   */
+  updateAutomatedReasoningPolicyTestCase(
+    args: UpdateAutomatedReasoningPolicyTestCaseCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateAutomatedReasoningPolicyTestCaseCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceInUseError
     | ResourceNotFoundError
     | ThrottlingError
     | ValidationError

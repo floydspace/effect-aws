@@ -2,6 +2,7 @@ import type {
   BucketAlreadyExists,
   BucketAlreadyOwnedByYou,
   EncryptionTypeMismatch,
+  IdempotencyParameterMismatch,
   InvalidObjectState,
   InvalidRequest,
   InvalidWriteOffset,
@@ -21,6 +22,7 @@ export const AllServiceErrors = [
   "BucketAlreadyExists",
   "BucketAlreadyOwnedByYou",
   "EncryptionTypeMismatch",
+  "IdempotencyParameterMismatch",
   "InvalidObjectState",
   "InvalidRequest",
   "InvalidWriteOffset",
@@ -36,6 +38,7 @@ export const AllServiceErrors = [
 export type BucketAlreadyExistsError = TaggedException<BucketAlreadyExists>;
 export type BucketAlreadyOwnedByYouError = TaggedException<BucketAlreadyOwnedByYou>;
 export type EncryptionTypeMismatchError = TaggedException<EncryptionTypeMismatch>;
+export type IdempotencyParameterMismatchError = TaggedException<IdempotencyParameterMismatch>;
 export type InvalidObjectStateError = TaggedException<InvalidObjectState>;
 export type InvalidRequestError = TaggedException<InvalidRequest>;
 export type InvalidWriteOffsetError = TaggedException<InvalidWriteOffset>;

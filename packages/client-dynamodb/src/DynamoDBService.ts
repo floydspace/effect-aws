@@ -215,6 +215,7 @@ import type {
   TableAlreadyExistsError,
   TableInUseError,
   TableNotFoundError,
+  ThrottlingError,
   TransactionCanceledError,
   TransactionConflictError,
   TransactionInProgressError,
@@ -292,7 +293,7 @@ interface DynamoDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchExecuteStatementCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | RequestLimitExceededError
+    Cause.TimeoutException | SdkError | InternalServerError | RequestLimitExceededError | ThrottlingError
   >;
 
   /**
@@ -310,6 +311,7 @@ interface DynamoDBService$ {
     | ProvisionedThroughputExceededError
     | RequestLimitExceededError
     | ResourceNotFoundError
+    | ThrottlingError
   >;
 
   /**
@@ -326,8 +328,10 @@ interface DynamoDBService$ {
     | InvalidEndpointError
     | ItemCollectionSizeLimitExceededError
     | ProvisionedThroughputExceededError
+    | ReplicatedWriteConflictError
     | RequestLimitExceededError
     | ResourceNotFoundError
+    | ThrottlingError
   >;
 
   /**
@@ -417,6 +421,7 @@ interface DynamoDBService$ {
     | ReplicatedWriteConflictError
     | RequestLimitExceededError
     | ResourceNotFoundError
+    | ThrottlingError
     | TransactionConflictError
   >;
 
@@ -649,6 +654,7 @@ interface DynamoDBService$ {
     | ProvisionedThroughputExceededError
     | RequestLimitExceededError
     | ResourceNotFoundError
+    | ThrottlingError
     | TransactionConflictError
   >;
 
@@ -667,6 +673,7 @@ interface DynamoDBService$ {
     | ProvisionedThroughputExceededError
     | RequestLimitExceededError
     | ResourceNotFoundError
+    | ThrottlingError
     | TransactionCanceledError
     | TransactionInProgressError
   >;
@@ -704,6 +711,7 @@ interface DynamoDBService$ {
     | ProvisionedThroughputExceededError
     | RequestLimitExceededError
     | ResourceNotFoundError
+    | ThrottlingError
   >;
 
   /**
@@ -828,6 +836,7 @@ interface DynamoDBService$ {
     | ReplicatedWriteConflictError
     | RequestLimitExceededError
     | ResourceNotFoundError
+    | ThrottlingError
     | TransactionConflictError
   >;
 
@@ -864,6 +873,7 @@ interface DynamoDBService$ {
     | ProvisionedThroughputExceededError
     | RequestLimitExceededError
     | ResourceNotFoundError
+    | ThrottlingError
   >;
 
   /**
@@ -920,6 +930,7 @@ interface DynamoDBService$ {
     | ProvisionedThroughputExceededError
     | RequestLimitExceededError
     | ResourceNotFoundError
+    | ThrottlingError
   >;
 
   /**
@@ -954,6 +965,7 @@ interface DynamoDBService$ {
     | ProvisionedThroughputExceededError
     | RequestLimitExceededError
     | ResourceNotFoundError
+    | ThrottlingError
     | TransactionCanceledError
   >;
 
@@ -973,6 +985,7 @@ interface DynamoDBService$ {
     | ProvisionedThroughputExceededError
     | RequestLimitExceededError
     | ResourceNotFoundError
+    | ThrottlingError
     | TransactionCanceledError
     | TransactionInProgressError
   >;
@@ -1076,6 +1089,7 @@ interface DynamoDBService$ {
     | ReplicatedWriteConflictError
     | RequestLimitExceededError
     | ResourceNotFoundError
+    | ThrottlingError
     | TransactionConflictError
   >;
 
