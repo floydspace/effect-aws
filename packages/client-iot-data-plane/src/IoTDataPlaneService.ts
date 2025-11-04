@@ -2,6 +2,9 @@
  * @since 1.0.0
  */
 import {
+  DeleteConnectionCommand,
+  type DeleteConnectionCommandInput,
+  type DeleteConnectionCommandOutput,
   DeleteThingShadowCommand,
   type DeleteThingShadowCommandInput,
   type DeleteThingShadowCommandOutput,
@@ -32,6 +35,7 @@ import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
 import type {
   ConflictError,
+  ForbiddenError,
   InternalFailureError,
   InvalidRequestError,
   MethodNotAllowedError,
@@ -48,6 +52,7 @@ import * as Instance from "./IoTDataPlaneClientInstance.js";
 import * as IoTDataPlaneServiceConfig from "./IoTDataPlaneServiceConfig.js";
 
 const commands = {
+  DeleteConnectionCommand,
   DeleteThingShadowCommand,
   GetRetainedMessageCommand,
   GetThingShadowCommand,
@@ -59,6 +64,23 @@ const commands = {
 
 interface IoTDataPlaneService$ {
   readonly _: unique symbol;
+
+  /**
+   * @see {@link DeleteConnectionCommand}
+   */
+  deleteConnection(
+    args: DeleteConnectionCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteConnectionCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | ForbiddenError
+    | InternalFailureError
+    | InvalidRequestError
+    | ResourceNotFoundError
+    | ThrottlingError
+  >;
 
   /**
    * @see {@link DeleteThingShadowCommand}

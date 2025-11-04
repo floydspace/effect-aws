@@ -13,6 +13,9 @@ import {
   ConverseStreamCommand,
   type ConverseStreamCommandInput,
   type ConverseStreamCommandOutput,
+  CountTokensCommand,
+  type CountTokensCommandInput,
+  type CountTokensCommandOutput,
   GetAsyncInvokeCommand,
   type GetAsyncInvokeCommandInput,
   type GetAsyncInvokeCommandOutput,
@@ -59,6 +62,7 @@ const commands = {
   ApplyGuardrailCommand,
   ConverseCommand,
   ConverseStreamCommand,
+  CountTokensCommand,
   GetAsyncInvokeCommand,
   InvokeModelCommand,
   InvokeModelWithBidirectionalStreamCommand,
@@ -84,6 +88,7 @@ interface BedrockRuntimeService$ {
     | InternalServerError
     | ResourceNotFoundError
     | ServiceQuotaExceededError
+    | ServiceUnavailableError
     | ThrottlingError
     | ValidationError
   >;
@@ -124,6 +129,24 @@ interface BedrockRuntimeService$ {
     | ModelError
     | ModelNotReadyError
     | ModelTimeoutError
+    | ResourceNotFoundError
+    | ServiceUnavailableError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link CountTokensCommand}
+   */
+  countTokens(
+    args: CountTokensCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CountTokensCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
     | ResourceNotFoundError
     | ServiceUnavailableError
     | ThrottlingError

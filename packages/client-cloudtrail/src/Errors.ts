@@ -31,6 +31,7 @@ import type {
   InsightNotEnabledException,
   InsufficientDependencyServiceAccessPermissionException,
   InsufficientEncryptionPolicyException,
+  InsufficientIAMAccessPermissionException,
   InsufficientS3BucketPolicyException,
   InsufficientSnsTopicPolicyException,
   InvalidCloudWatchLogsLogGroupArnException,
@@ -120,6 +121,7 @@ export const AllServiceErrors = [
   "InsightNotEnabledException",
   "InsufficientDependencyServiceAccessPermissionException",
   "InsufficientEncryptionPolicyException",
+  "InsufficientIAMAccessPermissionException",
   "InsufficientS3BucketPolicyException",
   "InsufficientSnsTopicPolicyException",
   "InvalidCloudWatchLogsLogGroupArnException",
@@ -209,6 +211,7 @@ export type InsufficientDependencyServiceAccessPermissionError = TaggedException
   InsufficientDependencyServiceAccessPermissionException
 >;
 export type InsufficientEncryptionPolicyError = TaggedException<InsufficientEncryptionPolicyException>;
+export type InsufficientIAMAccessPermissionError = TaggedException<InsufficientIAMAccessPermissionException>;
 export type InsufficientS3BucketPolicyError = TaggedException<InsufficientS3BucketPolicyException>;
 export type InsufficientSnsTopicPolicyError = TaggedException<InsufficientSnsTopicPolicyException>;
 export type InvalidCloudWatchLogsLogGroupArnError = TaggedException<InvalidCloudWatchLogsLogGroupArnException>;

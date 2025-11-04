@@ -8,11 +8,17 @@ import {
   DeleteClusterCommand,
   type DeleteClusterCommandInput,
   type DeleteClusterCommandOutput,
+  DeleteClusterPolicyCommand,
+  type DeleteClusterPolicyCommandInput,
+  type DeleteClusterPolicyCommandOutput,
   type DSQLClient,
   type DSQLClientConfig,
   GetClusterCommand,
   type GetClusterCommandInput,
   type GetClusterCommandOutput,
+  GetClusterPolicyCommand,
+  type GetClusterPolicyCommandInput,
+  type GetClusterPolicyCommandOutput,
   GetVpcEndpointServiceNameCommand,
   type GetVpcEndpointServiceNameCommandInput,
   type GetVpcEndpointServiceNameCommandOutput,
@@ -22,6 +28,9 @@ import {
   ListTagsForResourceCommand,
   type ListTagsForResourceCommandInput,
   type ListTagsForResourceCommandOutput,
+  PutClusterPolicyCommand,
+  type PutClusterPolicyCommandInput,
+  type PutClusterPolicyCommandOutput,
   TagResourceCommand,
   type TagResourceCommandInput,
   type TagResourceCommandOutput,
@@ -52,10 +61,13 @@ import { AllServiceErrors } from "./Errors.js";
 const commands = {
   CreateClusterCommand,
   DeleteClusterCommand,
+  DeleteClusterPolicyCommand,
   GetClusterCommand,
+  GetClusterPolicyCommand,
   GetVpcEndpointServiceNameCommand,
   ListClustersCommand,
   ListTagsForResourceCommand,
+  PutClusterPolicyCommand,
   TagResourceCommand,
   UntagResourceCommand,
   UpdateClusterCommand,
@@ -87,6 +99,17 @@ interface DSQLService$ {
   >;
 
   /**
+   * @see {@link DeleteClusterPolicyCommand}
+   */
+  deleteClusterPolicy(
+    args: DeleteClusterPolicyCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteClusterPolicyCommandOutput,
+    Cause.TimeoutException | SdkError | ConflictError | ResourceNotFoundError | ValidationError
+  >;
+
+  /**
    * @see {@link GetClusterCommand}
    */
   getCluster(
@@ -95,6 +118,17 @@ interface DSQLService$ {
   ): Effect.Effect<
     GetClusterCommandOutput,
     Cause.TimeoutException | SdkError | ResourceNotFoundError
+  >;
+
+  /**
+   * @see {@link GetClusterPolicyCommand}
+   */
+  getClusterPolicy(
+    args: GetClusterPolicyCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetClusterPolicyCommandOutput,
+    Cause.TimeoutException | SdkError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -128,6 +162,17 @@ interface DSQLService$ {
   ): Effect.Effect<
     ListTagsForResourceCommandOutput,
     Cause.TimeoutException | SdkError | ResourceNotFoundError
+  >;
+
+  /**
+   * @see {@link PutClusterPolicyCommand}
+   */
+  putClusterPolicy(
+    args: PutClusterPolicyCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    PutClusterPolicyCommandOutput,
+    Cause.TimeoutException | SdkError | ConflictError | ResourceNotFoundError | ValidationError
   >;
 
   /**

@@ -3,6 +3,7 @@ import type {
   AttributeLimitExceededException,
   BlockedException,
   ClientException,
+  ClusterContainsCapacityProviderException,
   ClusterContainsContainerInstancesException,
   ClusterContainsServicesException,
   ClusterContainsTasksException,
@@ -34,6 +35,7 @@ export const AllServiceErrors = [
   "AttributeLimitExceededException",
   "BlockedException",
   "ClientException",
+  "ClusterContainsCapacityProviderException",
   "ClusterContainsContainerInstancesException",
   "ClusterContainsServicesException",
   "ClusterContainsTasksException",
@@ -63,6 +65,7 @@ export type AccessDeniedError = TaggedException<AccessDeniedException>;
 export type AttributeLimitExceededError = TaggedException<AttributeLimitExceededException>;
 export type BlockedError = TaggedException<BlockedException>;
 export type ClientError = TaggedException<ClientException>;
+export type ClusterContainsCapacityProviderError = TaggedException<ClusterContainsCapacityProviderException>;
 export type ClusterContainsContainerInstancesError = TaggedException<ClusterContainsContainerInstancesException>;
 export type ClusterContainsServicesError = TaggedException<ClusterContainsServicesException>;
 export type ClusterContainsTasksError = TaggedException<ClusterContainsTasksException>;

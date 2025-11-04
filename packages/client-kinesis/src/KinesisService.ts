@@ -20,6 +20,9 @@ import {
   DeregisterStreamConsumerCommand,
   type DeregisterStreamConsumerCommandInput,
   type DeregisterStreamConsumerCommandOutput,
+  DescribeAccountSettingsCommand,
+  type DescribeAccountSettingsCommandInput,
+  type DescribeAccountSettingsCommandOutput,
   DescribeLimitsCommand,
   type DescribeLimitsCommandInput,
   type DescribeLimitsCommandOutput,
@@ -103,12 +106,21 @@ import {
   UntagResourceCommand,
   type UntagResourceCommandInput,
   type UntagResourceCommandOutput,
+  UpdateAccountSettingsCommand,
+  type UpdateAccountSettingsCommandInput,
+  type UpdateAccountSettingsCommandOutput,
+  UpdateMaxRecordSizeCommand,
+  type UpdateMaxRecordSizeCommandInput,
+  type UpdateMaxRecordSizeCommandOutput,
   UpdateShardCountCommand,
   type UpdateShardCountCommandInput,
   type UpdateShardCountCommandOutput,
   UpdateStreamModeCommand,
   type UpdateStreamModeCommandInput,
   type UpdateStreamModeCommandOutput,
+  UpdateStreamWarmThroughputCommand,
+  type UpdateStreamWarmThroughputCommandInput,
+  type UpdateStreamWarmThroughputCommandOutput,
 } from "@aws-sdk/client-kinesis";
 import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
@@ -144,6 +156,7 @@ const commands = {
   DeleteResourcePolicyCommand,
   DeleteStreamCommand,
   DeregisterStreamConsumerCommand,
+  DescribeAccountSettingsCommand,
   DescribeLimitsCommand,
   DescribeStreamCommand,
   DescribeStreamConsumerCommand,
@@ -171,8 +184,11 @@ const commands = {
   SubscribeToShardCommand,
   TagResourceCommand,
   UntagResourceCommand,
+  UpdateAccountSettingsCommand,
+  UpdateMaxRecordSizeCommand,
   UpdateShardCountCommand,
   UpdateStreamModeCommand,
+  UpdateStreamWarmThroughputCommand,
 };
 
 interface KinesisService$ {
@@ -203,7 +219,7 @@ interface KinesisService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateStreamCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidArgumentError | LimitExceededError | ResourceInUseError
+    Cause.TimeoutException | SdkError | InvalidArgumentError | LimitExceededError | ResourceInUseError | ValidationError
   >;
 
   /**
@@ -266,6 +282,17 @@ interface KinesisService$ {
   ): Effect.Effect<
     DeregisterStreamConsumerCommandOutput,
     Cause.TimeoutException | SdkError | InvalidArgumentError | LimitExceededError | ResourceNotFoundError
+  >;
+
+  /**
+   * @see {@link DescribeAccountSettingsCommand}
+   */
+  describeAccountSettings(
+    args: DescribeAccountSettingsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeAccountSettingsCommandOutput,
+    Cause.TimeoutException | SdkError | LimitExceededError
   >;
 
   /**
@@ -734,6 +761,35 @@ interface KinesisService$ {
   >;
 
   /**
+   * @see {@link UpdateAccountSettingsCommand}
+   */
+  updateAccountSettings(
+    args: UpdateAccountSettingsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateAccountSettingsCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidArgumentError | LimitExceededError | ValidationError
+  >;
+
+  /**
+   * @see {@link UpdateMaxRecordSizeCommand}
+   */
+  updateMaxRecordSize(
+    args: UpdateMaxRecordSizeCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateMaxRecordSizeCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InvalidArgumentError
+    | LimitExceededError
+    | ResourceInUseError
+    | ResourceNotFoundError
+    | ValidationError
+  >;
+
+  /**
    * @see {@link UpdateShardCountCommand}
    */
   updateShardCount(
@@ -765,6 +821,25 @@ interface KinesisService$ {
     | LimitExceededError
     | ResourceInUseError
     | ResourceNotFoundError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link UpdateStreamWarmThroughputCommand}
+   */
+  updateStreamWarmThroughput(
+    args: UpdateStreamWarmThroughputCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateStreamWarmThroughputCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InvalidArgumentError
+    | LimitExceededError
+    | ResourceInUseError
+    | ResourceNotFoundError
+    | ValidationError
   >;
 }
 

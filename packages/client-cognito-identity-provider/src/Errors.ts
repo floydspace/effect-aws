@@ -30,6 +30,7 @@ import type {
   ResourceNotFoundException,
   ScopeDoesNotExistException,
   SoftwareTokenMFANotFoundException,
+  TermsExistsException,
   TierChangeNotAllowedException,
   TooManyFailedAttemptsException,
   TooManyRequestsException,
@@ -88,6 +89,7 @@ export const AllServiceErrors = [
   "ResourceNotFoundException",
   "ScopeDoesNotExistException",
   "SoftwareTokenMFANotFoundException",
+  "TermsExistsException",
   "TierChangeNotAllowedException",
   "TooManyFailedAttemptsException",
   "TooManyRequestsException",
@@ -144,6 +146,7 @@ export type RefreshTokenReuseError = TaggedException<RefreshTokenReuseException>
 export type ResourceNotFoundError = TaggedException<ResourceNotFoundException>;
 export type ScopeDoesNotExistError = TaggedException<ScopeDoesNotExistException>;
 export type SoftwareTokenMFANotFoundError = TaggedException<SoftwareTokenMFANotFoundException>;
+export type TermsExistsError = TaggedException<TermsExistsException>;
 export type TierChangeNotAllowedError = TaggedException<TierChangeNotAllowedException>;
 export type TooManyFailedAttemptsError = TaggedException<TooManyFailedAttemptsException>;
 export type TooManyRequestsError = TaggedException<TooManyRequestsException>;

@@ -101,6 +101,9 @@ import {
   ListAccountsForParentCommand,
   type ListAccountsForParentCommandInput,
   type ListAccountsForParentCommandOutput,
+  ListAccountsWithInvalidEffectivePolicyCommand,
+  type ListAccountsWithInvalidEffectivePolicyCommandInput,
+  type ListAccountsWithInvalidEffectivePolicyCommandOutput,
   ListAWSServiceAccessForOrganizationCommand,
   type ListAWSServiceAccessForOrganizationCommandInput,
   type ListAWSServiceAccessForOrganizationCommandOutput,
@@ -116,6 +119,9 @@ import {
   ListDelegatedServicesForAccountCommand,
   type ListDelegatedServicesForAccountCommandInput,
   type ListDelegatedServicesForAccountCommandOutput,
+  ListEffectivePolicyValidationErrorsCommand,
+  type ListEffectivePolicyValidationErrorsCommandInput,
+  type ListEffectivePolicyValidationErrorsCommandOutput,
   ListHandshakesForAccountCommand,
   type ListHandshakesForAccountCommandInput,
   type ListHandshakesForAccountCommandOutput,
@@ -263,10 +269,12 @@ const commands = {
   ListAWSServiceAccessForOrganizationCommand,
   ListAccountsCommand,
   ListAccountsForParentCommand,
+  ListAccountsWithInvalidEffectivePolicyCommand,
   ListChildrenCommand,
   ListCreateAccountStatusCommand,
   ListDelegatedAdministratorsCommand,
   ListDelegatedServicesForAccountCommand,
+  ListEffectivePolicyValidationErrorsCommand,
   ListHandshakesForAccountCommand,
   ListHandshakesForOrganizationCommand,
   ListOrganizationalUnitsForParentCommand,
@@ -987,6 +995,26 @@ interface OrganizationsService$ {
   >;
 
   /**
+   * @see {@link ListAccountsWithInvalidEffectivePolicyCommand}
+   */
+  listAccountsWithInvalidEffectivePolicy(
+    args: ListAccountsWithInvalidEffectivePolicyCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListAccountsWithInvalidEffectivePolicyCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | AWSOrganizationsNotInUseError
+    | ConstraintViolationError
+    | EffectivePolicyNotFoundError
+    | InvalidInputError
+    | ServiceError
+    | TooManyRequestsError
+    | UnsupportedAPIEndpointError
+  >;
+
+  /**
    * @see {@link ListChildrenCommand}
    */
   listChildren(
@@ -1056,6 +1084,27 @@ interface OrganizationsService$ {
     | AccountNotRegisteredError
     | AWSOrganizationsNotInUseError
     | ConstraintViolationError
+    | InvalidInputError
+    | ServiceError
+    | TooManyRequestsError
+    | UnsupportedAPIEndpointError
+  >;
+
+  /**
+   * @see {@link ListEffectivePolicyValidationErrorsCommand}
+   */
+  listEffectivePolicyValidationErrors(
+    args: ListEffectivePolicyValidationErrorsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListEffectivePolicyValidationErrorsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | AccountNotFoundError
+    | AWSOrganizationsNotInUseError
+    | ConstraintViolationError
+    | EffectivePolicyNotFoundError
     | InvalidInputError
     | ServiceError
     | TooManyRequestsError

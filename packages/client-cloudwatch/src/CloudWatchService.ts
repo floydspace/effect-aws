@@ -19,6 +19,9 @@ import {
   DeleteMetricStreamCommand,
   type DeleteMetricStreamCommandInput,
   type DeleteMetricStreamCommandOutput,
+  DescribeAlarmContributorsCommand,
+  type DescribeAlarmContributorsCommandInput,
+  type DescribeAlarmContributorsCommandOutput,
   DescribeAlarmHistoryCommand,
   type DescribeAlarmHistoryCommandInput,
   type DescribeAlarmHistoryCommandOutput,
@@ -127,6 +130,7 @@ import * as Instance from "./CloudWatchClientInstance.js";
 import * as CloudWatchServiceConfig from "./CloudWatchServiceConfig.js";
 import type {
   ConcurrentModificationError,
+  ConflictError,
   DashboardInvalidInputError,
   DashboardNotFoundError,
   InternalServiceFaultError,
@@ -149,6 +153,7 @@ const commands = {
   DeleteDashboardsCommand,
   DeleteInsightRulesCommand,
   DeleteMetricStreamCommand,
+  DescribeAlarmContributorsCommand,
   DescribeAlarmHistoryCommand,
   DescribeAlarmsCommand,
   DescribeAlarmsForMetricCommand,
@@ -223,7 +228,12 @@ interface CloudWatchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDashboardsCommandOutput,
-    Cause.TimeoutException | SdkError | DashboardNotFoundError | InternalServiceFaultError | InvalidParameterValueError
+    | Cause.TimeoutException
+    | SdkError
+    | ConflictError
+    | DashboardNotFoundError
+    | InternalServiceFaultError
+    | InvalidParameterValueError
   >;
 
   /**
@@ -250,6 +260,17 @@ interface CloudWatchService$ {
     | InternalServiceFaultError
     | InvalidParameterValueError
     | MissingRequiredParameterError
+  >;
+
+  /**
+   * @see {@link DescribeAlarmContributorsCommand}
+   */
+  describeAlarmContributors(
+    args: DescribeAlarmContributorsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeAlarmContributorsCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidNextTokenError | ResourceNotFoundError
   >;
 
   /**
@@ -541,7 +562,7 @@ interface CloudWatchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutDashboardCommandOutput,
-    Cause.TimeoutException | SdkError | DashboardInvalidInputError | InternalServiceFaultError
+    Cause.TimeoutException | SdkError | ConflictError | DashboardInvalidInputError | InternalServiceFaultError
   >;
 
   /**
@@ -662,6 +683,7 @@ interface CloudWatchService$ {
     | Cause.TimeoutException
     | SdkError
     | ConcurrentModificationError
+    | ConflictError
     | InternalServiceFaultError
     | InvalidParameterValueError
     | ResourceNotFoundExceptionError
@@ -678,6 +700,7 @@ interface CloudWatchService$ {
     | Cause.TimeoutException
     | SdkError
     | ConcurrentModificationError
+    | ConflictError
     | InternalServiceFaultError
     | InvalidParameterValueError
     | ResourceNotFoundExceptionError

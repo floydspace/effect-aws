@@ -34,6 +34,9 @@ import {
   CreateRouteResponseCommand,
   type CreateRouteResponseCommandInput,
   type CreateRouteResponseCommandOutput,
+  CreateRoutingRuleCommand,
+  type CreateRoutingRuleCommandInput,
+  type CreateRoutingRuleCommandOutput,
   CreateStageCommand,
   type CreateStageCommandInput,
   type CreateStageCommandOutput,
@@ -82,6 +85,9 @@ import {
   DeleteRouteSettingsCommand,
   type DeleteRouteSettingsCommandInput,
   type DeleteRouteSettingsCommandOutput,
+  DeleteRoutingRuleCommand,
+  type DeleteRoutingRuleCommandInput,
+  type DeleteRoutingRuleCommandOutput,
   DeleteStageCommand,
   type DeleteStageCommandInput,
   type DeleteStageCommandOutput,
@@ -154,6 +160,9 @@ import {
   GetRoutesCommand,
   type GetRoutesCommandInput,
   type GetRoutesCommandOutput,
+  GetRoutingRuleCommand,
+  type GetRoutingRuleCommandInput,
+  type GetRoutingRuleCommandOutput,
   GetStageCommand,
   type GetStageCommandInput,
   type GetStageCommandOutput,
@@ -172,6 +181,12 @@ import {
   ImportApiCommand,
   type ImportApiCommandInput,
   type ImportApiCommandOutput,
+  ListRoutingRulesCommand,
+  type ListRoutingRulesCommandInput,
+  type ListRoutingRulesCommandOutput,
+  PutRoutingRuleCommand,
+  type PutRoutingRuleCommandInput,
+  type PutRoutingRuleCommandOutput,
   ReimportApiCommand,
   type ReimportApiCommandInput,
   type ReimportApiCommandOutput,
@@ -248,6 +263,7 @@ const commands = {
   CreateModelCommand,
   CreateRouteCommand,
   CreateRouteResponseCommand,
+  CreateRoutingRuleCommand,
   CreateStageCommand,
   CreateVpcLinkCommand,
   DeleteAccessLogSettingsCommand,
@@ -264,6 +280,7 @@ const commands = {
   DeleteRouteRequestParameterCommand,
   DeleteRouteResponseCommand,
   DeleteRouteSettingsCommand,
+  DeleteRoutingRuleCommand,
   DeleteStageCommand,
   DeleteVpcLinkCommand,
   ExportApiCommand,
@@ -288,12 +305,15 @@ const commands = {
   GetRouteResponseCommand,
   GetRouteResponsesCommand,
   GetRoutesCommand,
+  GetRoutingRuleCommand,
   GetStageCommand,
   GetStagesCommand,
   GetTagsCommand,
   GetVpcLinkCommand,
   GetVpcLinksCommand,
   ImportApiCommand,
+  ListRoutingRulesCommand,
+  PutRoutingRuleCommand,
   ReimportApiCommand,
   ResetAuthorizersCacheCommand,
   TagResourceCommand,
@@ -428,6 +448,17 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateRouteResponseCommandOutput,
+    Cause.TimeoutException | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link CreateRoutingRuleCommand}
+   */
+  createRoutingRule(
+    args: CreateRoutingRuleCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateRoutingRuleCommandOutput,
     Cause.TimeoutException | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
   >;
 
@@ -605,6 +636,17 @@ interface ApiGatewayV2Service$ {
   ): Effect.Effect<
     DeleteRouteSettingsCommandOutput,
     Cause.TimeoutException | SdkError | NotFoundError | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link DeleteRoutingRuleCommand}
+   */
+  deleteRoutingRule(
+    args: DeleteRoutingRuleCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteRoutingRuleCommandOutput,
+    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -872,6 +914,17 @@ interface ApiGatewayV2Service$ {
   >;
 
   /**
+   * @see {@link GetRoutingRuleCommand}
+   */
+  getRoutingRule(
+    args: GetRoutingRuleCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetRoutingRuleCommandOutput,
+    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+  >;
+
+  /**
    * @see {@link GetStageCommand}
    */
   getStage(
@@ -934,6 +987,28 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ImportApiCommandOutput,
+    Cause.TimeoutException | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link ListRoutingRulesCommand}
+   */
+  listRoutingRules(
+    args: ListRoutingRulesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListRoutingRulesCommandOutput,
+    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link PutRoutingRuleCommand}
+   */
+  putRoutingRule(
+    args: PutRoutingRuleCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    PutRoutingRuleCommandOutput,
     Cause.TimeoutException | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
   >;
 

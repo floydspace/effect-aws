@@ -160,6 +160,9 @@ import {
   GetLogGroupFieldsCommand,
   type GetLogGroupFieldsCommandInput,
   type GetLogGroupFieldsCommandOutput,
+  GetLogObjectCommand,
+  type GetLogObjectCommandInput,
+  type GetLogObjectCommandOutput,
   GetLogRecordCommand,
   type GetLogRecordCommandInput,
   type GetLogRecordCommandOutput,
@@ -178,6 +181,9 @@ import {
   ListLogAnomalyDetectorsCommand,
   type ListLogAnomalyDetectorsCommandInput,
   type ListLogAnomalyDetectorsCommandOutput,
+  ListLogGroupsCommand,
+  type ListLogGroupsCommandInput,
+  type ListLogGroupsCommandOutput,
   ListLogGroupsForQueryCommand,
   type ListLogGroupsForQueryCommandInput,
   type ListLogGroupsForQueryCommandOutput,
@@ -353,12 +359,14 @@ const commands = {
   GetLogAnomalyDetectorCommand,
   GetLogEventsCommand,
   GetLogGroupFieldsCommand,
+  GetLogObjectCommand,
   GetLogRecordCommand,
   GetQueryResultsCommand,
   GetTransformerCommand,
   ListAnomaliesCommand,
   ListIntegrationsCommand,
   ListLogAnomalyDetectorsCommand,
+  ListLogGroupsCommand,
   ListLogGroupsForQueryCommand,
   ListTagsForResourceCommand,
   ListTagsLogGroupCommand,
@@ -748,7 +756,12 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteResourcePolicyCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | ResourceNotFoundError | ServiceUnavailableError
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidParameterError
+    | OperationAbortedError
+    | ResourceNotFoundError
+    | ServiceUnavailableError
   >;
 
   /**
@@ -1173,6 +1186,23 @@ interface CloudWatchLogsService$ {
   >;
 
   /**
+   * @see {@link GetLogObjectCommand}
+   */
+  getLogObject(
+    args: GetLogObjectCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetLogObjectCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InvalidOperationError
+    | InvalidParameterError
+    | LimitExceededError
+    | ResourceNotFoundError
+  >;
+
+  /**
    * @see {@link GetLogRecordCommand}
    */
   getLogRecord(
@@ -1256,6 +1286,17 @@ interface CloudWatchLogsService$ {
     | OperationAbortedError
     | ResourceNotFoundError
     | ServiceUnavailableError
+  >;
+
+  /**
+   * @see {@link ListLogGroupsCommand}
+   */
+  listLogGroups(
+    args: ListLogGroupsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListLogGroupsCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidParameterError | ServiceUnavailableError
   >;
 
   /**
@@ -1496,7 +1537,13 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutResourcePolicyCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | LimitExceededError | ServiceUnavailableError
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidParameterError
+    | LimitExceededError
+    | OperationAbortedError
+    | ResourceNotFoundError
+    | ServiceUnavailableError
   >;
 
   /**

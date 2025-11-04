@@ -882,6 +882,7 @@ interface SSMService$ {
     | InvalidDocumentContentError
     | InvalidDocumentSchemaVersionError
     | MaxDocumentSizeExceededError
+    | TooManyUpdatesError
   >;
 
   /**
@@ -1011,6 +1012,7 @@ interface SSMService$ {
     | InternalServerError
     | InvalidDocumentError
     | InvalidDocumentOperationError
+    | TooManyUpdatesError
   >;
 
   /**
@@ -2701,6 +2703,7 @@ interface SSMService$ {
     | InvalidDocumentError
     | InvalidDocumentOperationError
     | InvalidDocumentVersionError
+    | TooManyUpdatesError
   >;
 
   /**

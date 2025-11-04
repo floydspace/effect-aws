@@ -27,7 +27,7 @@
   "devDependencies": {
     "@effect/platform": "^0.84.8",
     "@effect/platform-node-shared": "^0.39.7",
-    "@types/aws-lambda": "^8.10.149",
+    "@types/aws-lambda": "^8.10.157",
     "@types/node": "ts5.4",
     "effect": "^3.16.4",
     "typescript": "^5.4.2"

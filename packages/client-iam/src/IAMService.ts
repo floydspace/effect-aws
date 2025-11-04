@@ -719,7 +719,13 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AddClientIDToOpenIDConnectProviderCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidInputError | LimitExceededError | NoSuchEntityError | ServiceFailureError
+    | Cause.TimeoutException
+    | SdkError
+    | ConcurrentModificationError
+    | InvalidInputError
+    | LimitExceededError
+    | NoSuchEntityError
+    | ServiceFailureError
   >;
 
   /**
@@ -2306,7 +2312,12 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RemoveClientIDFromOpenIDConnectProviderCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
+    | Cause.TimeoutException
+    | SdkError
+    | ConcurrentModificationError
+    | InvalidInputError
+    | NoSuchEntityError
+    | ServiceFailureError
   >;
 
   /**
@@ -2670,7 +2681,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateAccessKeyCommandOutput,
-    Cause.TimeoutException | SdkError | LimitExceededError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutException | SdkError | InvalidInputError | LimitExceededError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -2747,7 +2758,12 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateOpenIDConnectProviderThumbprintCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
+    | Cause.TimeoutException
+    | SdkError
+    | ConcurrentModificationError
+    | InvalidInputError
+    | NoSuchEntityError
+    | ServiceFailureError
   >;
 
   /**
@@ -2780,7 +2796,13 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateSAMLProviderCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidInputError | LimitExceededError | NoSuchEntityError | ServiceFailureError
+    | Cause.TimeoutException
+    | SdkError
+    | ConcurrentModificationError
+    | InvalidInputError
+    | LimitExceededError
+    | NoSuchEntityError
+    | ServiceFailureError
   >;
 
   /**
@@ -2791,7 +2813,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateSSHPublicKeyCommandOutput,
-    Cause.TimeoutException | SdkError | NoSuchEntityError
+    Cause.TimeoutException | SdkError | InvalidInputError | NoSuchEntityError
   >;
 
   /**
@@ -2829,7 +2851,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateSigningCertificateCommandOutput,
-    Cause.TimeoutException | SdkError | LimitExceededError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutException | SdkError | InvalidInputError | LimitExceededError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
