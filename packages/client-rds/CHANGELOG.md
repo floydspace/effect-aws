@@ -1,5 +1,11 @@
 # @effect-aws/client-rds
 
+## 1.10.6
+
+### Patch Changes
+
+- [`f1b4ec8`](https://github.com/floydspace/effect-aws/commit/f1b4ec8fed35a1074a17451a8a39ab39e13863ac) Thanks [@floydspace](https://github.com/floydspace)! - update clients with new methods
+
 ## 1.10.3
 
 ### Patch Changes
