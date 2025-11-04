@@ -57,8 +57,8 @@ importers:
         specifier: ^9.19.0
         version: 9.19.0
       '@floydspace/projen-components':
-        specifier: ^1.0.0
-        version: 1.0.0(projen@0.91.6(constructs@10.4.2))
+        specifier: ^1.0.1
+        version: 1.0.1(projen@0.91.6(constructs@10.4.2))
       '@types/node':
         specifier: ts5.4
         version: 24.10.0
@@ -2576,8 +2576,8 @@ packages:
     resolution: {integrity: sha512-lB05FkqEdUg2AA0xEbUz0SnkXT1LcCTa438W4IWTUh4hdOnVbQyOJ81OrDXsJk/LSiJHubgGEFoR5EHq1NsH1A==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@floydspace/projen-components@1.0.0':
-    resolution: {integrity: sha512-shgJFE2bA7CpgDfQlLv2h7yeV7usmX6Y/rSFXKuF/UMxMjyNKNcpIW6xPYoQugEE23fn2Pz7lmRySsZdO/kSLg==}
+  '@floydspace/projen-components@1.0.1':
+    resolution: {integrity: sha512-PZW1uGPvL2jqHu/j4PKUDXDLNFd1fPe+ohrCJf0/n+m91OPn7pPw03Bez+hhPa8Gb14TtDY09SGqe9tZ7XT6Pw==}
     engines: {pnpm: '>=9 <10'}
     peerDependencies:
       projen: '>0.58.15'
@@ -9523,7 +9523,7 @@ snapshots:
       '@eslint/core': 0.10.0
       levn: 0.4.1
 
-  '@floydspace/projen-components@1.0.0(projen@0.91.6(constructs@10.4.2))':
+  '@floydspace/projen-components@1.0.1(projen@0.91.6(constructs@10.4.2))':
     dependencies:
       projen: 0.91.6(constructs@10.4.2)
 

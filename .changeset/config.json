@@ -9,13 +9,15 @@
   "commit": false,
   "linked": [
     [
-      "@effect-aws/client-*",
-      "@effect-aws/lib-*"
+      "@effect-aws/client-*"
     ]
   ],
   "access": "restricted",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
+  "ignore": [
+    "@effect-aws/lib-*"
+  ],
   "___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH": {
     "onlyUpdatePeerDependentsWhenOutOfRange": true
   },

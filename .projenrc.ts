@@ -28,7 +28,8 @@ new BuildUtils(project);
 new Changesets(project, {
   repo,
   onlyUpdatePeerDependentsWhenOutOfRange: true,
-  linked: [`@${name}/client-*`, `@${name}/lib-*`],
+  linked: [`@${name}/client-*`],
+  ignore: [`@${name}/lib-*`],
 });
 project.package.manifest.pnpm.patchedDependencies = {
   "@changesets/assemble-release-plan": "patches/@changesets__assemble-release-plan.patch",
