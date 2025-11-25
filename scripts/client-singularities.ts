@@ -59,6 +59,11 @@ export default {
     commandToTest: "DescribeDomains",
     inputToTest: null,
   },
+  "client-cloudformation": {
+    description: "Effectful AWS CloudFormation client",
+    commandToTest: "ListStacks",
+    inputToTest: null,
+  },
   "client-cloudtrail": {
     description: "Effectful AWS CloudTrail client",
     commandToTest: "ListTrails",
