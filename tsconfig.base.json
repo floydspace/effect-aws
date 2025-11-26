@@ -273,6 +273,15 @@
       "@effect-aws/client-firehose/test/*": [
         "./packages/client-firehose/test/*.js"
       ],
+      "@effect-aws/client-glue": [
+        "./packages/client-glue/src/index.js"
+      ],
+      "@effect-aws/client-glue/*": [
+        "./packages/client-glue/src/*.js"
+      ],
+      "@effect-aws/client-glue/test/*": [
+        "./packages/client-glue/test/*.js"
+      ],
       "@effect-aws/client-iam": [
         "./packages/client-iam/src/index.js"
       ],
