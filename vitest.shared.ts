@@ -71,6 +71,8 @@ const config: UserConfig = {
       ...alias("client-timestream-write"),
       ...alias("client-timestream-query"),
       ...alias("client-timestream-influxdb"),
+      ...alias("client-kafka"),
+      ...alias("client-kafkaconnect"),
       ...alias("dynamodb"),
       ...alias("lib-dynamodb"),
       ...alias("lambda"),

@@ -168,6 +168,12 @@
       "path": "packages/client-timestream-influxdb"
     },
     {
+      "path": "packages/client-kafka"
+    },
+    {
+      "path": "packages/client-kafkaconnect"
+    },
+    {
       "path": "packages/dynamodb"
     },
     {

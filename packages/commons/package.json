@@ -36,7 +36,7 @@
   "dependencies": {
     "@smithy/protocol-http": "^5.3.4",
     "@smithy/smithy-client": "^4.9.2",
-    "@smithy/types": "^4.3.1"
+    "@smithy/types": "^4.9.0"
   },
   "main": "build/cjs/index.js",
   "license": "MIT",

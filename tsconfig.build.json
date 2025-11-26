@@ -163,6 +163,12 @@
       "path": "packages/client-timestream-influxdb/tsconfig.esm.json"
     },
     {
+      "path": "packages/client-kafka/tsconfig.esm.json"
+    },
+    {
+      "path": "packages/client-kafkaconnect/tsconfig.esm.json"
+    },
+    {
       "path": "packages/dynamodb/tsconfig.esm.json"
     },
     {
