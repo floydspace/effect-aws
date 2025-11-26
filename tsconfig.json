@@ -57,6 +57,9 @@
       "path": "packages/client-codedeploy"
     },
     {
+      "path": "packages/client-data-pipeline"
+    },
+    {
       "path": "packages/client-cognito-identity-provider"
     },
     {
