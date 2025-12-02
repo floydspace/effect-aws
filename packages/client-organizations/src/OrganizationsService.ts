@@ -71,6 +71,9 @@ import {
   DescribeResourcePolicyCommand,
   type DescribeResourcePolicyCommandInput,
   type DescribeResourcePolicyCommandOutput,
+  DescribeResponsibilityTransferCommand,
+  type DescribeResponsibilityTransferCommandInput,
+  type DescribeResponsibilityTransferCommandOutput,
   DetachPolicyCommand,
   type DetachPolicyCommandInput,
   type DetachPolicyCommandOutput,
@@ -92,6 +95,9 @@ import {
   InviteAccountToOrganizationCommand,
   type InviteAccountToOrganizationCommandInput,
   type InviteAccountToOrganizationCommandOutput,
+  InviteOrganizationToTransferResponsibilityCommand,
+  type InviteOrganizationToTransferResponsibilityCommandInput,
+  type InviteOrganizationToTransferResponsibilityCommandOutput,
   LeaveOrganizationCommand,
   type LeaveOrganizationCommandInput,
   type LeaveOrganizationCommandOutput,
@@ -128,9 +134,15 @@ import {
   ListHandshakesForOrganizationCommand,
   type ListHandshakesForOrganizationCommandInput,
   type ListHandshakesForOrganizationCommandOutput,
+  ListInboundResponsibilityTransfersCommand,
+  type ListInboundResponsibilityTransfersCommandInput,
+  type ListInboundResponsibilityTransfersCommandOutput,
   ListOrganizationalUnitsForParentCommand,
   type ListOrganizationalUnitsForParentCommandInput,
   type ListOrganizationalUnitsForParentCommandOutput,
+  ListOutboundResponsibilityTransfersCommand,
+  type ListOutboundResponsibilityTransfersCommandInput,
+  type ListOutboundResponsibilityTransfersCommandOutput,
   ListParentsCommand,
   type ListParentsCommandInput,
   type ListParentsCommandOutput,
@@ -166,6 +178,9 @@ import {
   TagResourceCommand,
   type TagResourceCommandInput,
   type TagResourceCommandOutput,
+  TerminateResponsibilityTransferCommand,
+  type TerminateResponsibilityTransferCommandInput,
+  type TerminateResponsibilityTransferCommandOutput,
   UntagResourceCommand,
   type UntagResourceCommandInput,
   type UntagResourceCommandOutput,
@@ -175,6 +190,9 @@ import {
   UpdatePolicyCommand,
   type UpdatePolicyCommandInput,
   type UpdatePolicyCommandOutput,
+  UpdateResponsibilityTransferCommand,
+  type UpdateResponsibilityTransferCommandInput,
+  type UpdateResponsibilityTransferCommandOutput,
 } from "@aws-sdk/client-organizations";
 import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
@@ -208,6 +226,7 @@ import type {
   HandshakeNotFoundError,
   InvalidHandshakeTransitionError,
   InvalidInputError,
+  InvalidResponsibilityTransferTransitionError,
   MalformedPolicyDocumentError,
   MasterCannotLeaveOrganizationError,
   OrganizationalUnitNotEmptyError,
@@ -222,6 +241,8 @@ import type {
   PolicyTypeNotAvailableForOrganizationError,
   PolicyTypeNotEnabledError,
   ResourcePolicyNotFoundError,
+  ResponsibilityTransferAlreadyInStatusError,
+  ResponsibilityTransferNotFoundError,
   RootNotFoundError,
   SdkError,
   ServiceError,
@@ -258,6 +279,7 @@ const commands = {
   DescribeOrganizationalUnitCommand,
   DescribePolicyCommand,
   DescribeResourcePolicyCommand,
+  DescribeResponsibilityTransferCommand,
   DetachPolicyCommand,
   DisableAWSServiceAccessCommand,
   DisablePolicyTypeCommand,
@@ -265,6 +287,7 @@ const commands = {
   EnableAllFeaturesCommand,
   EnablePolicyTypeCommand,
   InviteAccountToOrganizationCommand,
+  InviteOrganizationToTransferResponsibilityCommand,
   LeaveOrganizationCommand,
   ListAWSServiceAccessForOrganizationCommand,
   ListAccountsCommand,
@@ -277,7 +300,9 @@ const commands = {
   ListEffectivePolicyValidationErrorsCommand,
   ListHandshakesForAccountCommand,
   ListHandshakesForOrganizationCommand,
+  ListInboundResponsibilityTransfersCommand,
   ListOrganizationalUnitsForParentCommand,
+  ListOutboundResponsibilityTransfersCommand,
   ListParentsCommand,
   ListPoliciesCommand,
   ListPoliciesForTargetCommand,
@@ -289,9 +314,11 @@ const commands = {
   RegisterDelegatedAdministratorCommand,
   RemoveAccountFromOrganizationCommand,
   TagResourceCommand,
+  TerminateResponsibilityTransferCommand,
   UntagResourceCommand,
   UpdateOrganizationalUnitCommand,
   UpdatePolicyCommand,
+  UpdateResponsibilityTransferCommand,
 };
 
 interface OrganizationsService$ {
@@ -311,11 +338,13 @@ interface OrganizationsService$ {
     | AccessDeniedForDependencyError
     | AWSOrganizationsNotInUseError
     | ConcurrentModificationError
+    | ConstraintViolationError
     | HandshakeAlreadyInStateError
     | HandshakeConstraintViolationError
     | HandshakeNotFoundError
     | InvalidHandshakeTransitionError
     | InvalidInputError
+    | MasterCannotLeaveOrganizationError
     | ServiceError
     | TooManyRequestsError
   >;
@@ -527,6 +556,7 @@ interface OrganizationsService$ {
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
     | ConcurrentModificationError
+    | ConstraintViolationError
     | InvalidInputError
     | OrganizationNotEmptyError
     | ServiceError
@@ -766,6 +796,25 @@ interface OrganizationsService$ {
   >;
 
   /**
+   * @see {@link DescribeResponsibilityTransferCommand}
+   */
+  describeResponsibilityTransfer(
+    args: DescribeResponsibilityTransferCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeResponsibilityTransferCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | AWSOrganizationsNotInUseError
+    | InvalidInputError
+    | ResponsibilityTransferNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+    | UnsupportedAPIEndpointError
+  >;
+
+  /**
    * @see {@link DetachPolicyCommand}
    */
   detachPolicy(
@@ -917,6 +966,28 @@ interface OrganizationsService$ {
     | InvalidInputError
     | ServiceError
     | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link InviteOrganizationToTransferResponsibilityCommand}
+   */
+  inviteOrganizationToTransferResponsibility(
+    args: InviteOrganizationToTransferResponsibilityCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    InviteOrganizationToTransferResponsibilityCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | AWSOrganizationsNotInUseError
+    | ConcurrentModificationError
+    | ConstraintViolationError
+    | DuplicateHandshakeError
+    | HandshakeConstraintViolationError
+    | InvalidInputError
+    | ServiceError
+    | TooManyRequestsError
+    | UnsupportedAPIEndpointError
   >;
 
   /**
@@ -1147,6 +1218,26 @@ interface OrganizationsService$ {
   >;
 
   /**
+   * @see {@link ListInboundResponsibilityTransfersCommand}
+   */
+  listInboundResponsibilityTransfers(
+    args: ListInboundResponsibilityTransfersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListInboundResponsibilityTransfersCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | AWSOrganizationsNotInUseError
+    | ConstraintViolationError
+    | InvalidInputError
+    | ResponsibilityTransferNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+    | UnsupportedAPIEndpointError
+  >;
+
+  /**
    * @see {@link ListOrganizationalUnitsForParentCommand}
    */
   listOrganizationalUnitsForParent(
@@ -1162,6 +1253,25 @@ interface OrganizationsService$ {
     | ParentNotFoundError
     | ServiceError
     | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link ListOutboundResponsibilityTransfersCommand}
+   */
+  listOutboundResponsibilityTransfers(
+    args: ListOutboundResponsibilityTransfersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListOutboundResponsibilityTransfersCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | AWSOrganizationsNotInUseError
+    | ConstraintViolationError
+    | InvalidInputError
+    | ServiceError
+    | TooManyRequestsError
+    | UnsupportedAPIEndpointError
   >;
 
   /**
@@ -1379,6 +1489,29 @@ interface OrganizationsService$ {
   >;
 
   /**
+   * @see {@link TerminateResponsibilityTransferCommand}
+   */
+  terminateResponsibilityTransfer(
+    args: TerminateResponsibilityTransferCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    TerminateResponsibilityTransferCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | AWSOrganizationsNotInUseError
+    | ConcurrentModificationError
+    | ConstraintViolationError
+    | InvalidInputError
+    | InvalidResponsibilityTransferTransitionError
+    | ResponsibilityTransferAlreadyInStatusError
+    | ResponsibilityTransferNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+    | UnsupportedAPIEndpointError
+  >;
+
+  /**
    * @see {@link UntagResourceCommand}
    */
   untagResource(
@@ -1437,6 +1570,26 @@ interface OrganizationsService$ {
     | MalformedPolicyDocumentError
     | PolicyChangesInProgressError
     | PolicyNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+    | UnsupportedAPIEndpointError
+  >;
+
+  /**
+   * @see {@link UpdateResponsibilityTransferCommand}
+   */
+  updateResponsibilityTransfer(
+    args: UpdateResponsibilityTransferCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateResponsibilityTransferCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | AWSOrganizationsNotInUseError
+    | ConstraintViolationError
+    | InvalidInputError
+    | ResponsibilityTransferNotFoundError
     | ServiceError
     | TooManyRequestsError
     | UnsupportedAPIEndpointError

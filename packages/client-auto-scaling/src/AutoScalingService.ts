@@ -154,6 +154,9 @@ import {
   GetPredictiveScalingForecastCommand,
   type GetPredictiveScalingForecastCommandInput,
   type GetPredictiveScalingForecastCommandOutput,
+  LaunchInstancesCommand,
+  type LaunchInstancesCommandInput,
+  type LaunchInstancesCommandOutput,
   PutLifecycleHookCommand,
   type PutLifecycleHookCommandInput,
   type PutLifecycleHookCommandOutput,
@@ -209,6 +212,7 @@ import * as AutoScalingServiceConfig from "./AutoScalingServiceConfig.js";
 import type {
   ActiveInstanceRefreshNotFoundFaultError,
   AlreadyExistsFaultError,
+  IdempotentParameterMismatchError,
   InstanceRefreshInProgressFaultError,
   InvalidNextTokenError,
   IrreversibleInstanceRefreshFaultError,
@@ -272,6 +276,7 @@ const commands = {
   ExecutePolicyCommand,
   ExitStandbyCommand,
   GetPredictiveScalingForecastCommand,
+  LaunchInstancesCommand,
   PutLifecycleHookCommand,
   PutNotificationConfigurationCommand,
   PutScalingPolicyCommand,
@@ -311,7 +316,11 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AttachLoadBalancerTargetGroupsCommandOutput,
-    Cause.TimeoutException | SdkError | ResourceContentionFaultError | ServiceLinkedRoleError
+    | Cause.TimeoutException
+    | SdkError
+    | InstanceRefreshInProgressFaultError
+    | ResourceContentionFaultError
+    | ServiceLinkedRoleError
   >;
 
   /**
@@ -322,7 +331,11 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AttachLoadBalancersCommandOutput,
-    Cause.TimeoutException | SdkError | ResourceContentionFaultError | ServiceLinkedRoleError
+    | Cause.TimeoutException
+    | SdkError
+    | InstanceRefreshInProgressFaultError
+    | ResourceContentionFaultError
+    | ServiceLinkedRoleError
   >;
 
   /**
@@ -333,7 +346,11 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AttachTrafficSourcesCommandOutput,
-    Cause.TimeoutException | SdkError | ResourceContentionFaultError | ServiceLinkedRoleError
+    | Cause.TimeoutException
+    | SdkError
+    | InstanceRefreshInProgressFaultError
+    | ResourceContentionFaultError
+    | ServiceLinkedRoleError
   >;
 
   /**
@@ -866,6 +883,17 @@ interface AutoScalingService$ {
   >;
 
   /**
+   * @see {@link LaunchInstancesCommand}
+   */
+  launchInstances(
+    args: LaunchInstancesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    LaunchInstancesCommandOutput,
+    Cause.TimeoutException | SdkError | IdempotentParameterMismatchError | ResourceContentionFaultError
+  >;
+
+  /**
    * @see {@link PutLifecycleHookCommand}
    */
   putLifecycleHook(
@@ -917,7 +945,11 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutWarmPoolCommandOutput,
-    Cause.TimeoutException | SdkError | LimitExceededFaultError | ResourceContentionFaultError
+    | Cause.TimeoutException
+    | SdkError
+    | InstanceRefreshInProgressFaultError
+    | LimitExceededFaultError
+    | ResourceContentionFaultError
   >;
 
   /**

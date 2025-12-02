@@ -97,9 +97,15 @@ import {
   GetQueryRuntimeStatisticsCommand,
   type GetQueryRuntimeStatisticsCommandInput,
   type GetQueryRuntimeStatisticsCommandOutput,
+  GetResourceDashboardCommand,
+  type GetResourceDashboardCommandInput,
+  type GetResourceDashboardCommandOutput,
   GetSessionCommand,
   type GetSessionCommandInput,
   type GetSessionCommandOutput,
+  GetSessionEndpointCommand,
+  type GetSessionEndpointCommandInput,
+  type GetSessionEndpointCommandOutput,
   GetSessionStatusCommand,
   type GetSessionStatusCommandInput,
   type GetSessionStatusCommandOutput,
@@ -258,7 +264,9 @@ const commands = {
   GetQueryExecutionCommand,
   GetQueryResultsCommand,
   GetQueryRuntimeStatisticsCommand,
+  GetResourceDashboardCommand,
   GetSessionCommand,
+  GetSessionEndpointCommand,
   GetSessionStatusCommand,
   GetTableMetadataCommand,
   GetWorkGroupCommand,
@@ -642,6 +650,17 @@ interface AthenaService$ {
   >;
 
   /**
+   * @see {@link GetResourceDashboardCommand}
+   */
+  getResourceDashboard(
+    args: GetResourceDashboardCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetResourceDashboardCommandOutput,
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError | ResourceNotFoundError
+  >;
+
+  /**
    * @see {@link GetSessionCommand}
    */
   getSession(
@@ -649,6 +668,17 @@ interface AthenaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetSessionCommandOutput,
+    Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError | ResourceNotFoundError
+  >;
+
+  /**
+   * @see {@link GetSessionEndpointCommand}
+   */
+  getSessionEndpoint(
+    args: GetSessionEndpointCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetSessionEndpointCommandOutput,
     Cause.TimeoutException | SdkError | InternalServerError | InvalidRequestError | ResourceNotFoundError
   >;
 

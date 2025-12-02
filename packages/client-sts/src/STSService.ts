@@ -23,12 +23,18 @@ import {
   GetCallerIdentityCommand,
   type GetCallerIdentityCommandInput,
   type GetCallerIdentityCommandOutput,
+  GetDelegatedAccessTokenCommand,
+  type GetDelegatedAccessTokenCommandInput,
+  type GetDelegatedAccessTokenCommandOutput,
   GetFederationTokenCommand,
   type GetFederationTokenCommandInput,
   type GetFederationTokenCommandOutput,
   GetSessionTokenCommand,
   type GetSessionTokenCommandInput,
   type GetSessionTokenCommandOutput,
+  GetWebIdentityTokenCommand,
+  type GetWebIdentityTokenCommandInput,
+  type GetWebIdentityTokenCommandOutput,
   type STSClient,
   type STSClientConfig,
 } from "@aws-sdk/client-sts";
@@ -38,14 +44,18 @@ import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
 import type {
   ExpiredTokenError,
+  ExpiredTradeInTokenError,
   IDPCommunicationError,
   IDPRejectedClaimError,
   InvalidAuthorizationMessageError,
   InvalidIdentityTokenError,
+  JWTPayloadSizeExceededError,
   MalformedPolicyDocumentError,
+  OutboundWebIdentityFederationDisabledError,
   PackedPolicyTooLargeError,
   RegionDisabledError,
   SdkError,
+  SessionDurationEscalationError,
 } from "./Errors.js";
 import { AllServiceErrors } from "./Errors.js";
 import * as Instance from "./STSClientInstance.js";
@@ -59,8 +69,10 @@ const commands = {
   DecodeAuthorizationMessageCommand,
   GetAccessKeyInfoCommand,
   GetCallerIdentityCommand,
+  GetDelegatedAccessTokenCommand,
   GetFederationTokenCommand,
   GetSessionTokenCommand,
+  GetWebIdentityTokenCommand,
 };
 
 interface STSService$ {
@@ -164,6 +176,17 @@ interface STSService$ {
   >;
 
   /**
+   * @see {@link GetDelegatedAccessTokenCommand}
+   */
+  getDelegatedAccessToken(
+    args: GetDelegatedAccessTokenCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetDelegatedAccessTokenCommandOutput,
+    Cause.TimeoutException | SdkError | ExpiredTradeInTokenError | PackedPolicyTooLargeError | RegionDisabledError
+  >;
+
+  /**
    * @see {@link GetFederationTokenCommand}
    */
   getFederationToken(
@@ -183,6 +206,21 @@ interface STSService$ {
   ): Effect.Effect<
     GetSessionTokenCommandOutput,
     Cause.TimeoutException | SdkError | RegionDisabledError
+  >;
+
+  /**
+   * @see {@link GetWebIdentityTokenCommand}
+   */
+  getWebIdentityToken(
+    args: GetWebIdentityTokenCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetWebIdentityTokenCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | JWTPayloadSizeExceededError
+    | OutboundWebIdentityFederationDisabledError
+    | SessionDurationEscalationError
   >;
 }
 

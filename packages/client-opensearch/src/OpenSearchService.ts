@@ -35,6 +35,9 @@ import {
   CreateDomainCommand,
   type CreateDomainCommandInput,
   type CreateDomainCommandOutput,
+  CreateIndexCommand,
+  type CreateIndexCommandInput,
+  type CreateIndexCommandOutput,
   CreateOutboundConnectionCommand,
   type CreateOutboundConnectionCommandInput,
   type CreateOutboundConnectionCommandOutput,
@@ -59,6 +62,9 @@ import {
   DeleteInboundConnectionCommand,
   type DeleteInboundConnectionCommandInput,
   type DeleteInboundConnectionCommandOutput,
+  DeleteIndexCommand,
+  type DeleteIndexCommandInput,
+  type DeleteIndexCommandOutput,
   DeleteOutboundConnectionCommand,
   type DeleteOutboundConnectionCommandInput,
   type DeleteOutboundConnectionCommandOutput,
@@ -128,12 +134,18 @@ import {
   GetDataSourceCommand,
   type GetDataSourceCommandInput,
   type GetDataSourceCommandOutput,
+  GetDefaultApplicationSettingCommand,
+  type GetDefaultApplicationSettingCommandInput,
+  type GetDefaultApplicationSettingCommandOutput,
   GetDirectQueryDataSourceCommand,
   type GetDirectQueryDataSourceCommandInput,
   type GetDirectQueryDataSourceCommandOutput,
   GetDomainMaintenanceStatusCommand,
   type GetDomainMaintenanceStatusCommandInput,
   type GetDomainMaintenanceStatusCommandOutput,
+  GetIndexCommand,
+  type GetIndexCommandInput,
+  type GetIndexCommandOutput,
   GetPackageVersionHistoryCommand,
   type GetPackageVersionHistoryCommandInput,
   type GetPackageVersionHistoryCommandOutput,
@@ -190,6 +202,9 @@ import {
   PurchaseReservedInstanceOfferingCommand,
   type PurchaseReservedInstanceOfferingCommandInput,
   type PurchaseReservedInstanceOfferingCommandOutput,
+  PutDefaultApplicationSettingCommand,
+  type PutDefaultApplicationSettingCommandInput,
+  type PutDefaultApplicationSettingCommandOutput,
   RejectInboundConnectionCommand,
   type RejectInboundConnectionCommandInput,
   type RejectInboundConnectionCommandOutput,
@@ -217,6 +232,9 @@ import {
   UpdateDomainConfigCommand,
   type UpdateDomainConfigCommandInput,
   type UpdateDomainConfigCommandOutput,
+  UpdateIndexCommand,
+  type UpdateIndexCommandInput,
+  type UpdateIndexCommandOutput,
   UpdatePackageCommand,
   type UpdatePackageCommandInput,
   type UpdatePackageCommandOutput,
@@ -251,6 +269,7 @@ import type {
   ResourceNotFoundError,
   SdkError,
   SlotNotAvailableError,
+  ThrottlingError,
   ValidationError,
 } from "./Errors.js";
 import { AllServiceErrors } from "./Errors.js";
@@ -269,6 +288,7 @@ const commands = {
   CancelServiceSoftwareUpdateCommand,
   CreateApplicationCommand,
   CreateDomainCommand,
+  CreateIndexCommand,
   CreateOutboundConnectionCommand,
   CreatePackageCommand,
   CreateVpcEndpointCommand,
@@ -277,6 +297,7 @@ const commands = {
   DeleteDirectQueryDataSourceCommand,
   DeleteDomainCommand,
   DeleteInboundConnectionCommand,
+  DeleteIndexCommand,
   DeleteOutboundConnectionCommand,
   DeletePackageCommand,
   DeleteVpcEndpointCommand,
@@ -300,8 +321,10 @@ const commands = {
   GetApplicationCommand,
   GetCompatibleVersionsCommand,
   GetDataSourceCommand,
+  GetDefaultApplicationSettingCommand,
   GetDirectQueryDataSourceCommand,
   GetDomainMaintenanceStatusCommand,
+  GetIndexCommand,
   GetPackageVersionHistoryCommand,
   GetUpgradeHistoryCommand,
   GetUpgradeStatusCommand,
@@ -320,6 +343,7 @@ const commands = {
   ListVpcEndpointsCommand,
   ListVpcEndpointsForDomainCommand,
   PurchaseReservedInstanceOfferingCommand,
+  PutDefaultApplicationSettingCommand,
   RejectInboundConnectionCommand,
   RemoveTagsCommand,
   RevokeVpcEndpointAccessCommand,
@@ -329,6 +353,7 @@ const commands = {
   UpdateDataSourceCommand,
   UpdateDirectQueryDataSourceCommand,
   UpdateDomainConfigCommand,
+  UpdateIndexCommand,
   UpdatePackageCommand,
   UpdatePackageScopeCommand,
   UpdateScheduledActionCommand,
@@ -518,6 +543,26 @@ interface OpenSearchService$ {
   >;
 
   /**
+   * @see {@link CreateIndexCommand}
+   */
+  createIndex(
+    args: CreateIndexCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateIndexCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | DependencyFailureError
+    | DisabledOperationError
+    | InternalError
+    | ResourceAlreadyExistsError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
    * @see {@link CreateOutboundConnectionCommand}
    */
   createOutboundConnection(
@@ -644,6 +689,25 @@ interface OpenSearchService$ {
   ): Effect.Effect<
     DeleteInboundConnectionCommandOutput,
     Cause.TimeoutException | SdkError | DisabledOperationError | ResourceNotFoundError
+  >;
+
+  /**
+   * @see {@link DeleteIndexCommand}
+   */
+  deleteIndex(
+    args: DeleteIndexCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteIndexCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | DependencyFailureError
+    | DisabledOperationError
+    | InternalError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
   >;
 
   /**
@@ -973,6 +1037,17 @@ interface OpenSearchService$ {
   >;
 
   /**
+   * @see {@link GetDefaultApplicationSettingCommand}
+   */
+  getDefaultApplicationSetting(
+    args: GetDefaultApplicationSettingCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetDefaultApplicationSettingCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | InternalError | ResourceNotFoundError | ValidationError
+  >;
+
+  /**
    * @see {@link GetDirectQueryDataSourceCommand}
    */
   getDirectQueryDataSource(
@@ -1003,6 +1078,25 @@ interface OpenSearchService$ {
     | DisabledOperationError
     | InternalError
     | ResourceNotFoundError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link GetIndexCommand}
+   */
+  getIndex(
+    args: GetIndexCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetIndexCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | DependencyFailureError
+    | DisabledOperationError
+    | InternalError
+    | ResourceNotFoundError
+    | ThrottlingError
     | ValidationError
   >;
 
@@ -1274,6 +1368,17 @@ interface OpenSearchService$ {
   >;
 
   /**
+   * @see {@link PutDefaultApplicationSettingCommand}
+   */
+  putDefaultApplicationSetting(
+    args: PutDefaultApplicationSettingCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    PutDefaultApplicationSettingCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | InternalError | ResourceNotFoundError | ValidationError
+  >;
+
+  /**
    * @see {@link RejectInboundConnectionCommand}
    */
   rejectInboundConnection(
@@ -1409,6 +1514,25 @@ interface OpenSearchService$ {
     | InvalidTypeError
     | LimitExceededError
     | ResourceNotFoundError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link UpdateIndexCommand}
+   */
+  updateIndex(
+    args: UpdateIndexCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateIndexCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | DependencyFailureError
+    | DisabledOperationError
+    | InternalError
+    | ResourceNotFoundError
+    | ThrottlingError
     | ValidationError
   >;
 

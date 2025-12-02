@@ -76,6 +76,9 @@ import {
   DeleteCustomModelDeploymentCommand,
   type DeleteCustomModelDeploymentCommandInput,
   type DeleteCustomModelDeploymentCommandOutput,
+  DeleteEnforcedGuardrailConfigurationCommand,
+  type DeleteEnforcedGuardrailConfigurationCommandInput,
+  type DeleteEnforcedGuardrailConfigurationCommandOutput,
   DeleteFoundationModelAgreementCommand,
   type DeleteFoundationModelAgreementCommandInput,
   type DeleteFoundationModelAgreementCommandOutput,
@@ -196,6 +199,9 @@ import {
   ListCustomModelsCommand,
   type ListCustomModelsCommandInput,
   type ListCustomModelsCommandOutput,
+  ListEnforcedGuardrailsConfigurationCommand,
+  type ListEnforcedGuardrailsConfigurationCommandInput,
+  type ListEnforcedGuardrailsConfigurationCommandOutput,
   ListEvaluationJobsCommand,
   type ListEvaluationJobsCommandInput,
   type ListEvaluationJobsCommandOutput,
@@ -238,6 +244,9 @@ import {
   ListTagsForResourceCommand,
   type ListTagsForResourceCommandInput,
   type ListTagsForResourceCommandOutput,
+  PutEnforcedGuardrailConfigurationCommand,
+  type PutEnforcedGuardrailConfigurationCommandInput,
+  type PutEnforcedGuardrailConfigurationCommandOutput,
   PutModelInvocationLoggingConfigurationCommand,
   type PutModelInvocationLoggingConfigurationCommandInput,
   type PutModelInvocationLoggingConfigurationCommandOutput,
@@ -333,6 +342,7 @@ const commands = {
   DeleteAutomatedReasoningPolicyTestCaseCommand,
   DeleteCustomModelCommand,
   DeleteCustomModelDeploymentCommand,
+  DeleteEnforcedGuardrailConfigurationCommand,
   DeleteFoundationModelAgreementCommand,
   DeleteGuardrailCommand,
   DeleteImportedModelCommand,
@@ -373,6 +383,7 @@ const commands = {
   ListAutomatedReasoningPolicyTestResultsCommand,
   ListCustomModelDeploymentsCommand,
   ListCustomModelsCommand,
+  ListEnforcedGuardrailsConfigurationCommand,
   ListEvaluationJobsCommand,
   ListFoundationModelAgreementOffersCommand,
   ListFoundationModelsCommand,
@@ -387,6 +398,7 @@ const commands = {
   ListPromptRoutersCommand,
   ListProvisionedModelThroughputsCommand,
   ListTagsForResourceCommand,
+  PutEnforcedGuardrailConfigurationCommand,
   PutModelInvocationLoggingConfigurationCommand,
   PutUseCaseForModelAccessCommand,
   RegisterMarketplaceModelEndpointCommand,
@@ -857,6 +869,23 @@ interface BedrockService$ {
     | SdkError
     | AccessDeniedError
     | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link DeleteEnforcedGuardrailConfigurationCommand}
+   */
+  deleteEnforcedGuardrailConfiguration(
+    args: DeleteEnforcedGuardrailConfigurationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteEnforcedGuardrailConfigurationCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
     | InternalServerError
     | ResourceNotFoundError
     | ThrottlingError
@@ -1521,6 +1550,23 @@ interface BedrockService$ {
   >;
 
   /**
+   * @see {@link ListEnforcedGuardrailsConfigurationCommand}
+   */
+  listEnforcedGuardrailsConfiguration(
+    args: ListEnforcedGuardrailsConfigurationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListEnforcedGuardrailsConfigurationCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
    * @see {@link ListEvaluationJobsCommand}
    */
   listEvaluationJobs(
@@ -1698,6 +1744,24 @@ interface BedrockService$ {
     | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link PutEnforcedGuardrailConfigurationCommand}
+   */
+  putEnforcedGuardrailConfiguration(
+    args: PutEnforcedGuardrailConfigurationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    PutEnforcedGuardrailConfigurationCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
     | InternalServerError
     | ResourceNotFoundError
     | ThrottlingError

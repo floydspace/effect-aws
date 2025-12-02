@@ -2,6 +2,9 @@
  * @since 1.0.0
  */
 import {
+  AcceptDelegationRequestCommand,
+  type AcceptDelegationRequestCommandInput,
+  type AcceptDelegationRequestCommandOutput,
   AddClientIDToOpenIDConnectProviderCommand,
   type AddClientIDToOpenIDConnectProviderCommandInput,
   type AddClientIDToOpenIDConnectProviderCommandOutput,
@@ -11,6 +14,9 @@ import {
   AddUserToGroupCommand,
   type AddUserToGroupCommandInput,
   type AddUserToGroupCommandOutput,
+  AssociateDelegationRequestCommand,
+  type AssociateDelegationRequestCommandInput,
+  type AssociateDelegationRequestCommandOutput,
   AttachGroupPolicyCommand,
   type AttachGroupPolicyCommandInput,
   type AttachGroupPolicyCommandOutput,
@@ -29,6 +35,9 @@ import {
   CreateAccountAliasCommand,
   type CreateAccountAliasCommandInput,
   type CreateAccountAliasCommandOutput,
+  CreateDelegationRequestCommand,
+  type CreateDelegationRequestCommandInput,
+  type CreateDelegationRequestCommandOutput,
   CreateGroupCommand,
   type CreateGroupCommandInput,
   type CreateGroupCommandOutput,
@@ -152,6 +161,9 @@ import {
   DisableOrganizationsRootSessionsCommand,
   type DisableOrganizationsRootSessionsCommandInput,
   type DisableOrganizationsRootSessionsCommandOutput,
+  DisableOutboundWebIdentityFederationCommand,
+  type DisableOutboundWebIdentityFederationCommandInput,
+  type DisableOutboundWebIdentityFederationCommandOutput,
   EnableMFADeviceCommand,
   type EnableMFADeviceCommandInput,
   type EnableMFADeviceCommandOutput,
@@ -161,6 +173,9 @@ import {
   EnableOrganizationsRootSessionsCommand,
   type EnableOrganizationsRootSessionsCommandInput,
   type EnableOrganizationsRootSessionsCommandOutput,
+  EnableOutboundWebIdentityFederationCommand,
+  type EnableOutboundWebIdentityFederationCommandInput,
+  type EnableOutboundWebIdentityFederationCommandOutput,
   GenerateCredentialReportCommand,
   type GenerateCredentialReportCommandInput,
   type GenerateCredentialReportCommandOutput,
@@ -191,12 +206,18 @@ import {
   GetCredentialReportCommand,
   type GetCredentialReportCommandInput,
   type GetCredentialReportCommandOutput,
+  GetDelegationRequestCommand,
+  type GetDelegationRequestCommandInput,
+  type GetDelegationRequestCommandOutput,
   GetGroupCommand,
   type GetGroupCommandInput,
   type GetGroupCommandOutput,
   GetGroupPolicyCommand,
   type GetGroupPolicyCommandInput,
   type GetGroupPolicyCommandOutput,
+  GetHumanReadableSummaryCommand,
+  type GetHumanReadableSummaryCommandInput,
+  type GetHumanReadableSummaryCommandOutput,
   GetInstanceProfileCommand,
   type GetInstanceProfileCommandInput,
   type GetInstanceProfileCommandOutput,
@@ -212,6 +233,9 @@ import {
   GetOrganizationsAccessReportCommand,
   type GetOrganizationsAccessReportCommandInput,
   type GetOrganizationsAccessReportCommandOutput,
+  GetOutboundWebIdentityFederationInfoCommand,
+  type GetOutboundWebIdentityFederationInfoCommandInput,
+  type GetOutboundWebIdentityFederationInfoCommandOutput,
   GetPolicyCommand,
   type GetPolicyCommandInput,
   type GetPolicyCommandOutput,
@@ -265,6 +289,9 @@ import {
   ListAttachedUserPoliciesCommand,
   type ListAttachedUserPoliciesCommandInput,
   type ListAttachedUserPoliciesCommandOutput,
+  ListDelegationRequestsCommand,
+  type ListDelegationRequestsCommandInput,
+  type ListDelegationRequestsCommandOutput,
   ListEntitiesForPolicyCommand,
   type ListEntitiesForPolicyCommandInput,
   type ListEntitiesForPolicyCommandOutput,
@@ -370,6 +397,9 @@ import {
   PutUserPolicyCommand,
   type PutUserPolicyCommandInput,
   type PutUserPolicyCommandOutput,
+  RejectDelegationRequestCommand,
+  type RejectDelegationRequestCommandInput,
+  type RejectDelegationRequestCommandOutput,
   RemoveClientIDFromOpenIDConnectProviderCommand,
   type RemoveClientIDFromOpenIDConnectProviderCommandInput,
   type RemoveClientIDFromOpenIDConnectProviderCommandOutput,
@@ -385,6 +415,9 @@ import {
   ResyncMFADeviceCommand,
   type ResyncMFADeviceCommandInput,
   type ResyncMFADeviceCommandOutput,
+  SendDelegationTokenCommand,
+  type SendDelegationTokenCommandInput,
+  type SendDelegationTokenCommandOutput,
   SetDefaultPolicyVersionCommand,
   type SetDefaultPolicyVersionCommandInput,
   type SetDefaultPolicyVersionCommandOutput,
@@ -454,6 +487,9 @@ import {
   UpdateAssumeRolePolicyCommand,
   type UpdateAssumeRolePolicyCommandInput,
   type UpdateAssumeRolePolicyCommandOutput,
+  UpdateDelegationRequestCommand,
+  type UpdateDelegationRequestCommandInput,
+  type UpdateDelegationRequestCommandOutput,
   UpdateGroupCommand,
   type UpdateGroupCommandInput,
   type UpdateGroupCommandOutput,
@@ -513,6 +549,8 @@ import type {
   DuplicateSSHPublicKeyError,
   EntityAlreadyExistsError,
   EntityTemporarilyUnmodifiableError,
+  FeatureDisabledError,
+  FeatureEnabledError,
   InvalidAuthenticationCodeError,
   InvalidCertificateError,
   InvalidInputError,
@@ -542,15 +580,18 @@ import * as Instance from "./IAMClientInstance.js";
 import * as IAMServiceConfig from "./IAMServiceConfig.js";
 
 const commands = {
+  AcceptDelegationRequestCommand,
   AddClientIDToOpenIDConnectProviderCommand,
   AddRoleToInstanceProfileCommand,
   AddUserToGroupCommand,
+  AssociateDelegationRequestCommand,
   AttachGroupPolicyCommand,
   AttachRolePolicyCommand,
   AttachUserPolicyCommand,
   ChangePasswordCommand,
   CreateAccessKeyCommand,
   CreateAccountAliasCommand,
+  CreateDelegationRequestCommand,
   CreateGroupCommand,
   CreateInstanceProfileCommand,
   CreateLoginProfileCommand,
@@ -592,9 +633,11 @@ const commands = {
   DetachUserPolicyCommand,
   DisableOrganizationsRootCredentialsManagementCommand,
   DisableOrganizationsRootSessionsCommand,
+  DisableOutboundWebIdentityFederationCommand,
   EnableMFADeviceCommand,
   EnableOrganizationsRootCredentialsManagementCommand,
   EnableOrganizationsRootSessionsCommand,
+  EnableOutboundWebIdentityFederationCommand,
   GenerateCredentialReportCommand,
   GenerateOrganizationsAccessReportCommand,
   GenerateServiceLastAccessedDetailsCommand,
@@ -605,13 +648,16 @@ const commands = {
   GetContextKeysForCustomPolicyCommand,
   GetContextKeysForPrincipalPolicyCommand,
   GetCredentialReportCommand,
+  GetDelegationRequestCommand,
   GetGroupCommand,
   GetGroupPolicyCommand,
+  GetHumanReadableSummaryCommand,
   GetInstanceProfileCommand,
   GetLoginProfileCommand,
   GetMFADeviceCommand,
   GetOpenIDConnectProviderCommand,
   GetOrganizationsAccessReportCommand,
+  GetOutboundWebIdentityFederationInfoCommand,
   GetPolicyCommand,
   GetPolicyVersionCommand,
   GetRoleCommand,
@@ -629,6 +675,7 @@ const commands = {
   ListAttachedGroupPoliciesCommand,
   ListAttachedRolePoliciesCommand,
   ListAttachedUserPoliciesCommand,
+  ListDelegationRequestsCommand,
   ListEntitiesForPolicyCommand,
   ListGroupPoliciesCommand,
   ListGroupsCommand,
@@ -664,11 +711,13 @@ const commands = {
   PutRolePolicyCommand,
   PutUserPermissionsBoundaryCommand,
   PutUserPolicyCommand,
+  RejectDelegationRequestCommand,
   RemoveClientIDFromOpenIDConnectProviderCommand,
   RemoveRoleFromInstanceProfileCommand,
   RemoveUserFromGroupCommand,
   ResetServiceSpecificCredentialCommand,
   ResyncMFADeviceCommand,
+  SendDelegationTokenCommand,
   SetDefaultPolicyVersionCommand,
   SetSecurityTokenServicePreferencesCommand,
   SimulateCustomPolicyCommand,
@@ -692,6 +741,7 @@ const commands = {
   UpdateAccessKeyCommand,
   UpdateAccountPasswordPolicyCommand,
   UpdateAssumeRolePolicyCommand,
+  UpdateDelegationRequestCommand,
   UpdateGroupCommand,
   UpdateLoginProfileCommand,
   UpdateOpenIDConnectProviderThumbprintCommand,
@@ -710,6 +760,17 @@ const commands = {
 
 interface IAMService$ {
   readonly _: unique symbol;
+
+  /**
+   * @see {@link AcceptDelegationRequestCommand}
+   */
+  acceptDelegationRequest(
+    args: AcceptDelegationRequestCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    AcceptDelegationRequestCommandOutput,
+    Cause.TimeoutException | SdkError | ConcurrentModificationError | NoSuchEntityError | ServiceFailureError
+  >;
 
   /**
    * @see {@link AddClientIDToOpenIDConnectProviderCommand}
@@ -754,6 +815,22 @@ interface IAMService$ {
   ): Effect.Effect<
     AddUserToGroupCommandOutput,
     Cause.TimeoutException | SdkError | LimitExceededError | NoSuchEntityError | ServiceFailureError
+  >;
+
+  /**
+   * @see {@link AssociateDelegationRequestCommand}
+   */
+  associateDelegationRequest(
+    args: AssociateDelegationRequestCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    AssociateDelegationRequestCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | ConcurrentModificationError
+    | InvalidInputError
+    | NoSuchEntityError
+    | ServiceFailureError
   >;
 
   /**
@@ -849,6 +926,23 @@ interface IAMService$ {
     | SdkError
     | ConcurrentModificationError
     | EntityAlreadyExistsError
+    | LimitExceededError
+    | ServiceFailureError
+  >;
+
+  /**
+   * @see {@link CreateDelegationRequestCommand}
+   */
+  createDelegationRequest(
+    args: CreateDelegationRequestCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateDelegationRequestCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | ConcurrentModificationError
+    | EntityAlreadyExistsError
+    | InvalidInputError
     | LimitExceededError
     | ServiceFailureError
   >;
@@ -1456,6 +1550,17 @@ interface IAMService$ {
   >;
 
   /**
+   * @see {@link DisableOutboundWebIdentityFederationCommand}
+   */
+  disableOutboundWebIdentityFederation(
+    args: DisableOutboundWebIdentityFederationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DisableOutboundWebIdentityFederationCommandOutput,
+    Cause.TimeoutException | SdkError | FeatureDisabledError
+  >;
+
+  /**
    * @see {@link EnableMFADeviceCommand}
    */
   enableMFADevice(
@@ -1506,6 +1611,17 @@ interface IAMService$ {
     | OrganizationNotFoundError
     | OrganizationNotInAllFeaturesModeError
     | ServiceAccessNotEnabledError
+  >;
+
+  /**
+   * @see {@link EnableOutboundWebIdentityFederationCommand}
+   */
+  enableOutboundWebIdentityFederation(
+    args: EnableOutboundWebIdentityFederationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    EnableOutboundWebIdentityFederationCommandOutput,
+    Cause.TimeoutException | SdkError | FeatureEnabledError
   >;
 
   /**
@@ -1624,6 +1740,17 @@ interface IAMService$ {
   >;
 
   /**
+   * @see {@link GetDelegationRequestCommand}
+   */
+  getDelegationRequest(
+    args: GetDelegationRequestCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetDelegationRequestCommandOutput,
+    Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError
+  >;
+
+  /**
    * @see {@link GetGroupCommand}
    */
   getGroup(
@@ -1643,6 +1770,17 @@ interface IAMService$ {
   ): Effect.Effect<
     GetGroupPolicyCommandOutput,
     Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError
+  >;
+
+  /**
+   * @see {@link GetHumanReadableSummaryCommand}
+   */
+  getHumanReadableSummary(
+    args: GetHumanReadableSummaryCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetHumanReadableSummaryCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -1698,6 +1836,17 @@ interface IAMService$ {
   ): Effect.Effect<
     GetOrganizationsAccessReportCommandOutput,
     Cause.TimeoutException | SdkError | NoSuchEntityError
+  >;
+
+  /**
+   * @see {@link GetOutboundWebIdentityFederationInfoCommand}
+   */
+  getOutboundWebIdentityFederationInfo(
+    args: GetOutboundWebIdentityFederationInfoCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetOutboundWebIdentityFederationInfoCommandOutput,
+    Cause.TimeoutException | SdkError | FeatureDisabledError
   >;
 
   /**
@@ -1884,6 +2033,17 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAttachedUserPoliciesCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
+  >;
+
+  /**
+   * @see {@link ListDelegationRequestsCommand}
+   */
+  listDelegationRequests(
+    args: ListDelegationRequestsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListDelegationRequestsCommandOutput,
     Cause.TimeoutException | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
   >;
 
@@ -2305,6 +2465,22 @@ interface IAMService$ {
   >;
 
   /**
+   * @see {@link RejectDelegationRequestCommand}
+   */
+  rejectDelegationRequest(
+    args: RejectDelegationRequestCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    RejectDelegationRequestCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | ConcurrentModificationError
+    | InvalidInputError
+    | NoSuchEntityError
+    | ServiceFailureError
+  >;
+
+  /**
    * @see {@link RemoveClientIDFromOpenIDConnectProviderCommand}
    */
   removeClientIDFromOpenIDConnectProvider(
@@ -2371,6 +2547,22 @@ interface IAMService$ {
     | ConcurrentModificationError
     | InvalidAuthenticationCodeError
     | LimitExceededError
+    | NoSuchEntityError
+    | ServiceFailureError
+  >;
+
+  /**
+   * @see {@link SendDelegationTokenCommand}
+   */
+  sendDelegationToken(
+    args: SendDelegationTokenCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    SendDelegationTokenCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | ConcurrentModificationError
+    | InvalidInputError
     | NoSuchEntityError
     | ServiceFailureError
   >;
@@ -2715,6 +2907,22 @@ interface IAMService$ {
     | NoSuchEntityError
     | ServiceFailureError
     | UnmodifiableEntityError
+  >;
+
+  /**
+   * @see {@link UpdateDelegationRequestCommand}
+   */
+  updateDelegationRequest(
+    args: UpdateDelegationRequestCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateDelegationRequestCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | ConcurrentModificationError
+    | InvalidInputError
+    | NoSuchEntityError
+    | ServiceFailureError
   >;
 
   /**

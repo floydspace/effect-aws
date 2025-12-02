@@ -8,6 +8,9 @@ import {
   CreateClusterCommand,
   type CreateClusterCommandInput,
   type CreateClusterCommandOutput,
+  CreateExpressGatewayServiceCommand,
+  type CreateExpressGatewayServiceCommandInput,
+  type CreateExpressGatewayServiceCommandOutput,
   CreateServiceCommand,
   type CreateServiceCommandInput,
   type CreateServiceCommandOutput,
@@ -26,6 +29,9 @@ import {
   DeleteClusterCommand,
   type DeleteClusterCommandInput,
   type DeleteClusterCommandOutput,
+  DeleteExpressGatewayServiceCommand,
+  type DeleteExpressGatewayServiceCommandInput,
+  type DeleteExpressGatewayServiceCommandOutput,
   DeleteServiceCommand,
   type DeleteServiceCommandInput,
   type DeleteServiceCommandOutput,
@@ -50,6 +56,9 @@ import {
   DescribeContainerInstancesCommand,
   type DescribeContainerInstancesCommandInput,
   type DescribeContainerInstancesCommandOutput,
+  DescribeExpressGatewayServiceCommand,
+  type DescribeExpressGatewayServiceCommandInput,
+  type DescribeExpressGatewayServiceCommandOutput,
   DescribeServiceDeploymentsCommand,
   type DescribeServiceDeploymentsCommandInput,
   type DescribeServiceDeploymentsCommandOutput,
@@ -172,6 +181,9 @@ import {
   UpdateContainerInstancesStateCommand,
   type UpdateContainerInstancesStateCommandInput,
   type UpdateContainerInstancesStateCommandOutput,
+  UpdateExpressGatewayServiceCommand,
+  type UpdateExpressGatewayServiceCommandInput,
+  type UpdateExpressGatewayServiceCommandOutput,
   UpdateServiceCommand,
   type UpdateServiceCommandInput,
   type UpdateServiceCommandOutput,
@@ -227,12 +239,14 @@ import { AllServiceErrors } from "./Errors.js";
 const commands = {
   CreateCapacityProviderCommand,
   CreateClusterCommand,
+  CreateExpressGatewayServiceCommand,
   CreateServiceCommand,
   CreateTaskSetCommand,
   DeleteAccountSettingCommand,
   DeleteAttributesCommand,
   DeleteCapacityProviderCommand,
   DeleteClusterCommand,
+  DeleteExpressGatewayServiceCommand,
   DeleteServiceCommand,
   DeleteTaskDefinitionsCommand,
   DeleteTaskSetCommand,
@@ -241,6 +255,7 @@ const commands = {
   DescribeCapacityProvidersCommand,
   DescribeClustersCommand,
   DescribeContainerInstancesCommand,
+  DescribeExpressGatewayServiceCommand,
   DescribeServiceDeploymentsCommand,
   DescribeServiceRevisionsCommand,
   DescribeServicesCommand,
@@ -281,6 +296,7 @@ const commands = {
   UpdateClusterSettingsCommand,
   UpdateContainerAgentCommand,
   UpdateContainerInstancesStateCommand,
+  UpdateExpressGatewayServiceCommand,
   UpdateServiceCommand,
   UpdateServicePrimaryTaskSetCommand,
   UpdateTaskProtectionCommand,
@@ -318,6 +334,26 @@ interface ECSService$ {
   ): Effect.Effect<
     CreateClusterCommandOutput,
     Cause.TimeoutException | SdkError | ClientError | InvalidParameterError | NamespaceNotFoundError | ServerError
+  >;
+
+  /**
+   * @see {@link CreateExpressGatewayServiceCommand}
+   */
+  createExpressGatewayService(
+    args: CreateExpressGatewayServiceCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateExpressGatewayServiceCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | ClientError
+    | ClusterNotFoundError
+    | InvalidParameterError
+    | PlatformTaskDefinitionIncompatibilityError
+    | PlatformUnknownError
+    | ServerError
+    | UnsupportedFeatureError
   >;
 
   /**
@@ -422,6 +458,26 @@ interface ECSService$ {
     | InvalidParameterError
     | ServerError
     | UpdateInProgressError
+  >;
+
+  /**
+   * @see {@link DeleteExpressGatewayServiceCommand}
+   */
+  deleteExpressGatewayService(
+    args: DeleteExpressGatewayServiceCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteExpressGatewayServiceCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | ClientError
+    | ClusterNotFoundError
+    | InvalidParameterError
+    | ServerError
+    | ServiceNotActiveError
+    | ServiceNotFoundError
+    | UnsupportedFeatureError
   >;
 
   /**
@@ -532,6 +588,25 @@ interface ECSService$ {
   ): Effect.Effect<
     DescribeContainerInstancesCommandOutput,
     Cause.TimeoutException | SdkError | ClientError | ClusterNotFoundError | InvalidParameterError | ServerError
+  >;
+
+  /**
+   * @see {@link DescribeExpressGatewayServiceCommand}
+   */
+  describeExpressGatewayService(
+    args: DescribeExpressGatewayServiceCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeExpressGatewayServiceCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | ClientError
+    | ClusterNotFoundError
+    | InvalidParameterError
+    | ResourceNotFoundError
+    | ServerError
+    | UnsupportedFeatureError
   >;
 
   /**
@@ -1094,6 +1169,26 @@ interface ECSService$ {
   ): Effect.Effect<
     UpdateContainerInstancesStateCommandOutput,
     Cause.TimeoutException | SdkError | ClientError | ClusterNotFoundError | InvalidParameterError | ServerError
+  >;
+
+  /**
+   * @see {@link UpdateExpressGatewayServiceCommand}
+   */
+  updateExpressGatewayService(
+    args: UpdateExpressGatewayServiceCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateExpressGatewayServiceCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | ClientError
+    | ClusterNotFoundError
+    | InvalidParameterError
+    | ServerError
+    | ServiceNotActiveError
+    | ServiceNotFoundError
+    | UnsupportedFeatureError
   >;
 
   /**

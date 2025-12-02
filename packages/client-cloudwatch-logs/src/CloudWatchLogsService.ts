@@ -5,6 +5,9 @@ import {
   AssociateKmsKeyCommand,
   type AssociateKmsKeyCommandInput,
   type AssociateKmsKeyCommandOutput,
+  AssociateSourceToS3TableIntegrationCommand,
+  type AssociateSourceToS3TableIntegrationCommandInput,
+  type AssociateSourceToS3TableIntegrationCommandOutput,
   CancelExportTaskCommand,
   type CancelExportTaskCommandInput,
   type CancelExportTaskCommandOutput,
@@ -25,6 +28,9 @@ import {
   CreateLogStreamCommand,
   type CreateLogStreamCommandInput,
   type CreateLogStreamCommandOutput,
+  CreateScheduledQueryCommand,
+  type CreateScheduledQueryCommandInput,
+  type CreateScheduledQueryCommandOutput,
   DeleteAccountPolicyCommand,
   type DeleteAccountPolicyCommandInput,
   type DeleteAccountPolicyCommandOutput,
@@ -73,6 +79,9 @@ import {
   DeleteRetentionPolicyCommand,
   type DeleteRetentionPolicyCommandInput,
   type DeleteRetentionPolicyCommandOutput,
+  DeleteScheduledQueryCommand,
+  type DeleteScheduledQueryCommandInput,
+  type DeleteScheduledQueryCommandOutput,
   DeleteSubscriptionFilterCommand,
   type DeleteSubscriptionFilterCommandInput,
   type DeleteSubscriptionFilterCommandOutput,
@@ -130,6 +139,9 @@ import {
   DisassociateKmsKeyCommand,
   type DisassociateKmsKeyCommandInput,
   type DisassociateKmsKeyCommandOutput,
+  DisassociateSourceFromS3TableIntegrationCommand,
+  type DisassociateSourceFromS3TableIntegrationCommandInput,
+  type DisassociateSourceFromS3TableIntegrationCommandOutput,
   FilterLogEventsCommand,
   type FilterLogEventsCommandInput,
   type FilterLogEventsCommandOutput,
@@ -157,6 +169,9 @@ import {
   GetLogEventsCommand,
   type GetLogEventsCommandInput,
   type GetLogEventsCommandOutput,
+  GetLogFieldsCommand,
+  type GetLogFieldsCommandInput,
+  type GetLogFieldsCommandOutput,
   GetLogGroupFieldsCommand,
   type GetLogGroupFieldsCommandInput,
   type GetLogGroupFieldsCommandOutput,
@@ -169,9 +184,18 @@ import {
   GetQueryResultsCommand,
   type GetQueryResultsCommandInput,
   type GetQueryResultsCommandOutput,
+  GetScheduledQueryCommand,
+  type GetScheduledQueryCommandInput,
+  type GetScheduledQueryCommandOutput,
+  GetScheduledQueryHistoryCommand,
+  type GetScheduledQueryHistoryCommandInput,
+  type GetScheduledQueryHistoryCommandOutput,
   GetTransformerCommand,
   type GetTransformerCommandInput,
   type GetTransformerCommandOutput,
+  ListAggregateLogGroupSummariesCommand,
+  type ListAggregateLogGroupSummariesCommandInput,
+  type ListAggregateLogGroupSummariesCommandOutput,
   ListAnomaliesCommand,
   type ListAnomaliesCommandInput,
   type ListAnomaliesCommandOutput,
@@ -187,6 +211,12 @@ import {
   ListLogGroupsForQueryCommand,
   type ListLogGroupsForQueryCommandInput,
   type ListLogGroupsForQueryCommandOutput,
+  ListScheduledQueriesCommand,
+  type ListScheduledQueriesCommandInput,
+  type ListScheduledQueriesCommandOutput,
+  ListSourcesForS3TableIntegrationCommand,
+  type ListSourcesForS3TableIntegrationCommandInput,
+  type ListSourcesForS3TableIntegrationCommandOutput,
   ListTagsForResourceCommand,
   type ListTagsForResourceCommandInput,
   type ListTagsForResourceCommandOutput,
@@ -223,6 +253,9 @@ import {
   PutLogEventsCommand,
   type PutLogEventsCommandInput,
   type PutLogEventsCommandOutput,
+  PutLogGroupDeletionProtectionCommand,
+  type PutLogGroupDeletionProtectionCommandInput,
+  type PutLogGroupDeletionProtectionCommandOutput,
   PutMetricFilterCommand,
   type PutMetricFilterCommandInput,
   type PutMetricFilterCommandOutput,
@@ -277,6 +310,9 @@ import {
   UpdateLogAnomalyDetectorCommand,
   type UpdateLogAnomalyDetectorCommandInput,
   type UpdateLogAnomalyDetectorCommandOutput,
+  UpdateScheduledQueryCommand,
+  type UpdateScheduledQueryCommandInput,
+  type UpdateScheduledQueryCommandOutput,
 } from "@aws-sdk/client-cloudwatch-logs";
 import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
@@ -288,6 +324,7 @@ import type {
   AccessDeniedError,
   ConflictError,
   DataAlreadyAcceptedError,
+  InternalServerError,
   InvalidOperationError,
   InvalidParameterError,
   InvalidSequenceTokenError,
@@ -308,12 +345,14 @@ import { AllServiceErrors } from "./Errors.js";
 
 const commands = {
   AssociateKmsKeyCommand,
+  AssociateSourceToS3TableIntegrationCommand,
   CancelExportTaskCommand,
   CreateDeliveryCommand,
   CreateExportTaskCommand,
   CreateLogAnomalyDetectorCommand,
   CreateLogGroupCommand,
   CreateLogStreamCommand,
+  CreateScheduledQueryCommand,
   DeleteAccountPolicyCommand,
   DeleteDataProtectionPolicyCommand,
   DeleteDeliveryCommand,
@@ -330,6 +369,7 @@ const commands = {
   DeleteQueryDefinitionCommand,
   DeleteResourcePolicyCommand,
   DeleteRetentionPolicyCommand,
+  DeleteScheduledQueryCommand,
   DeleteSubscriptionFilterCommand,
   DeleteTransformerCommand,
   DescribeAccountPoliciesCommand,
@@ -349,6 +389,7 @@ const commands = {
   DescribeResourcePoliciesCommand,
   DescribeSubscriptionFiltersCommand,
   DisassociateKmsKeyCommand,
+  DisassociateSourceFromS3TableIntegrationCommand,
   FilterLogEventsCommand,
   GetDataProtectionPolicyCommand,
   GetDeliveryCommand,
@@ -358,16 +399,22 @@ const commands = {
   GetIntegrationCommand,
   GetLogAnomalyDetectorCommand,
   GetLogEventsCommand,
+  GetLogFieldsCommand,
   GetLogGroupFieldsCommand,
   GetLogObjectCommand,
   GetLogRecordCommand,
   GetQueryResultsCommand,
+  GetScheduledQueryCommand,
+  GetScheduledQueryHistoryCommand,
   GetTransformerCommand,
+  ListAggregateLogGroupSummariesCommand,
   ListAnomaliesCommand,
   ListIntegrationsCommand,
   ListLogAnomalyDetectorsCommand,
   ListLogGroupsCommand,
   ListLogGroupsForQueryCommand,
+  ListScheduledQueriesCommand,
+  ListSourcesForS3TableIntegrationCommand,
   ListTagsForResourceCommand,
   ListTagsLogGroupCommand,
   PutAccountPolicyCommand,
@@ -380,6 +427,7 @@ const commands = {
   PutIndexPolicyCommand,
   PutIntegrationCommand,
   PutLogEventsCommand,
+  PutLogGroupDeletionProtectionCommand,
   PutMetricFilterCommand,
   PutQueryDefinitionCommand,
   PutResourcePolicyCommand,
@@ -398,6 +446,7 @@ const commands = {
   UpdateAnomalyCommand,
   UpdateDeliveryConfigurationCommand,
   UpdateLogAnomalyDetectorCommand,
+  UpdateScheduledQueryCommand,
 };
 
 interface CloudWatchLogsService$ {
@@ -417,6 +466,23 @@ interface CloudWatchLogsService$ {
     | OperationAbortedError
     | ResourceNotFoundError
     | ServiceUnavailableError
+  >;
+
+  /**
+   * @see {@link AssociateSourceToS3TableIntegrationCommand}
+   */
+  associateSourceToS3TableIntegration(
+    args: AssociateSourceToS3TableIntegrationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    AssociateSourceToS3TableIntegrationCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
   >;
 
   /**
@@ -520,6 +586,25 @@ interface CloudWatchLogsService$ {
     | ResourceAlreadyExistsError
     | ResourceNotFoundError
     | ServiceUnavailableError
+  >;
+
+  /**
+   * @see {@link CreateScheduledQueryCommand}
+   */
+  createScheduledQuery(
+    args: CreateScheduledQueryCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateScheduledQueryCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ServiceQuotaExceededError
+    | ThrottlingError
+    | ValidationError
   >;
 
   /**
@@ -703,6 +788,7 @@ interface CloudWatchLogsService$ {
     | OperationAbortedError
     | ResourceNotFoundError
     | ServiceUnavailableError
+    | ValidationError
   >;
 
   /**
@@ -719,6 +805,7 @@ interface CloudWatchLogsService$ {
     | OperationAbortedError
     | ResourceNotFoundError
     | ServiceUnavailableError
+    | ValidationError
   >;
 
   /**
@@ -778,6 +865,23 @@ interface CloudWatchLogsService$ {
     | OperationAbortedError
     | ResourceNotFoundError
     | ServiceUnavailableError
+  >;
+
+  /**
+   * @see {@link DeleteScheduledQueryCommand}
+   */
+  deleteScheduledQuery(
+    args: DeleteScheduledQueryCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteScheduledQueryCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
   >;
 
   /**
@@ -1043,6 +1147,23 @@ interface CloudWatchLogsService$ {
   >;
 
   /**
+   * @see {@link DisassociateSourceFromS3TableIntegrationCommand}
+   */
+  disassociateSourceFromS3TableIntegration(
+    args: DisassociateSourceFromS3TableIntegrationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DisassociateSourceFromS3TableIntegrationCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
    * @see {@link FilterLogEventsCommand}
    */
   filterLogEvents(
@@ -1170,6 +1291,22 @@ interface CloudWatchLogsService$ {
   >;
 
   /**
+   * @see {@link GetLogFieldsCommand}
+   */
+  getLogFields(
+    args: GetLogFieldsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetLogFieldsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidParameterError
+    | OperationAbortedError
+    | ResourceNotFoundError
+    | ServiceUnavailableError
+  >;
+
+  /**
    * @see {@link GetLogGroupFieldsCommand}
    */
   getLogGroupFields(
@@ -1230,6 +1367,40 @@ interface CloudWatchLogsService$ {
   >;
 
   /**
+   * @see {@link GetScheduledQueryCommand}
+   */
+  getScheduledQuery(
+    args: GetScheduledQueryCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetScheduledQueryCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link GetScheduledQueryHistoryCommand}
+   */
+  getScheduledQueryHistory(
+    args: GetScheduledQueryHistoryCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetScheduledQueryHistoryCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
    * @see {@link GetTransformerCommand}
    */
   getTransformer(
@@ -1243,6 +1414,17 @@ interface CloudWatchLogsService$ {
     | InvalidParameterError
     | ResourceNotFoundError
     | ServiceUnavailableError
+  >;
+
+  /**
+   * @see {@link ListAggregateLogGroupSummariesCommand}
+   */
+  listAggregateLogGroupSummaries(
+    args: ListAggregateLogGroupSummariesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListAggregateLogGroupSummariesCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidParameterError | ServiceUnavailableError | ValidationError
   >;
 
   /**
@@ -1313,6 +1495,34 @@ interface CloudWatchLogsService$ {
     | InvalidParameterError
     | ResourceNotFoundError
     | ServiceUnavailableError
+  >;
+
+  /**
+   * @see {@link ListScheduledQueriesCommand}
+   */
+  listScheduledQueries(
+    args: ListScheduledQueriesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListScheduledQueriesCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+  >;
+
+  /**
+   * @see {@link ListSourcesForS3TableIntegrationCommand}
+   */
+  listSourcesForS3TableIntegration(
+    args: ListSourcesForS3TableIntegrationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListSourcesForS3TableIntegrationCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
   >;
 
   /**
@@ -1493,6 +1703,24 @@ interface CloudWatchLogsService$ {
     | ResourceNotFoundError
     | ServiceUnavailableError
     | UnrecognizedClientError
+  >;
+
+  /**
+   * @see {@link PutLogGroupDeletionProtectionCommand}
+   */
+  putLogGroupDeletionProtection(
+    args: PutLogGroupDeletionProtectionCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    PutLogGroupDeletionProtectionCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InvalidOperationError
+    | InvalidParameterError
+    | OperationAbortedError
+    | ResourceNotFoundError
+    | ServiceUnavailableError
   >;
 
   /**
@@ -1762,6 +1990,23 @@ interface CloudWatchLogsService$ {
     | OperationAbortedError
     | ResourceNotFoundError
     | ServiceUnavailableError
+  >;
+
+  /**
+   * @see {@link UpdateScheduledQueryCommand}
+   */
+  updateScheduledQuery(
+    args: UpdateScheduledQueryCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateScheduledQueryCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
   >;
 }
 

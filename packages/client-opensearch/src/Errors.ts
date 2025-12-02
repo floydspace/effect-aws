@@ -11,6 +11,7 @@ import type {
   ResourceAlreadyExistsException,
   ResourceNotFoundException,
   SlotNotAvailableException,
+  ThrottlingException,
   ValidationException,
 } from "@aws-sdk/client-opensearch";
 import type { TaggedException } from "@effect-aws/commons";
@@ -28,6 +29,7 @@ export const AllServiceErrors = [
   "ResourceAlreadyExistsException",
   "ResourceNotFoundException",
   "SlotNotAvailableException",
+  "ThrottlingException",
   "ValidationException",
 ] as const;
 
@@ -43,5 +45,6 @@ export type LimitExceededError = TaggedException<LimitExceededException>;
 export type ResourceAlreadyExistsError = TaggedException<ResourceAlreadyExistsException>;
 export type ResourceNotFoundError = TaggedException<ResourceNotFoundException>;
 export type SlotNotAvailableError = TaggedException<SlotNotAvailableException>;
+export type ThrottlingError = TaggedException<ThrottlingException>;
 export type ValidationError = TaggedException<ValidationException>;
 export type SdkError = TaggedException<Error & { name: "SdkError" }>;

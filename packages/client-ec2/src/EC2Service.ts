@@ -257,12 +257,18 @@ import {
   CreateInternetGatewayCommand,
   type CreateInternetGatewayCommandInput,
   type CreateInternetGatewayCommandOutput,
+  CreateInterruptibleCapacityReservationAllocationCommand,
+  type CreateInterruptibleCapacityReservationAllocationCommandInput,
+  type CreateInterruptibleCapacityReservationAllocationCommandOutput,
   CreateIpamCommand,
   type CreateIpamCommandInput,
   type CreateIpamCommandOutput,
   CreateIpamExternalResourceVerificationTokenCommand,
   type CreateIpamExternalResourceVerificationTokenCommandInput,
   type CreateIpamExternalResourceVerificationTokenCommandOutput,
+  CreateIpamPolicyCommand,
+  type CreateIpamPolicyCommandInput,
+  type CreateIpamPolicyCommandOutput,
   CreateIpamPoolCommand,
   type CreateIpamPoolCommandInput,
   type CreateIpamPoolCommandOutput,
@@ -407,6 +413,12 @@ import {
   CreateTransitGatewayConnectPeerCommand,
   type CreateTransitGatewayConnectPeerCommandInput,
   type CreateTransitGatewayConnectPeerCommandOutput,
+  CreateTransitGatewayMeteringPolicyCommand,
+  type CreateTransitGatewayMeteringPolicyCommandInput,
+  type CreateTransitGatewayMeteringPolicyCommandOutput,
+  CreateTransitGatewayMeteringPolicyEntryCommand,
+  type CreateTransitGatewayMeteringPolicyEntryCommandInput,
+  type CreateTransitGatewayMeteringPolicyEntryCommandOutput,
   CreateTransitGatewayMulticastDomainCommand,
   type CreateTransitGatewayMulticastDomainCommandInput,
   type CreateTransitGatewayMulticastDomainCommandOutput,
@@ -452,6 +464,9 @@ import {
   CreateVpcCommand,
   type CreateVpcCommandInput,
   type CreateVpcCommandOutput,
+  CreateVpcEncryptionControlCommand,
+  type CreateVpcEncryptionControlCommandInput,
+  type CreateVpcEncryptionControlCommandOutput,
   CreateVpcEndpointCommand,
   type CreateVpcEndpointCommandInput,
   type CreateVpcEndpointCommandOutput,
@@ -464,6 +479,9 @@ import {
   CreateVpcPeeringConnectionCommand,
   type CreateVpcPeeringConnectionCommandInput,
   type CreateVpcPeeringConnectionCommandOutput,
+  CreateVpnConcentratorCommand,
+  type CreateVpnConcentratorCommandInput,
+  type CreateVpnConcentratorCommandOutput,
   CreateVpnConnectionCommand,
   type CreateVpnConnectionCommandInput,
   type CreateVpnConnectionCommandOutput,
@@ -527,6 +545,9 @@ import {
   DeleteIpamExternalResourceVerificationTokenCommand,
   type DeleteIpamExternalResourceVerificationTokenCommandInput,
   type DeleteIpamExternalResourceVerificationTokenCommandOutput,
+  DeleteIpamPolicyCommand,
+  type DeleteIpamPolicyCommandInput,
+  type DeleteIpamPolicyCommandOutput,
   DeleteIpamPoolCommand,
   type DeleteIpamPoolCommandInput,
   type DeleteIpamPoolCommandOutput,
@@ -662,6 +683,12 @@ import {
   DeleteTransitGatewayConnectPeerCommand,
   type DeleteTransitGatewayConnectPeerCommandInput,
   type DeleteTransitGatewayConnectPeerCommandOutput,
+  DeleteTransitGatewayMeteringPolicyCommand,
+  type DeleteTransitGatewayMeteringPolicyCommandInput,
+  type DeleteTransitGatewayMeteringPolicyCommandOutput,
+  DeleteTransitGatewayMeteringPolicyEntryCommand,
+  type DeleteTransitGatewayMeteringPolicyEntryCommandInput,
+  type DeleteTransitGatewayMeteringPolicyEntryCommandOutput,
   DeleteTransitGatewayMulticastDomainCommand,
   type DeleteTransitGatewayMulticastDomainCommandInput,
   type DeleteTransitGatewayMulticastDomainCommandOutput,
@@ -707,6 +734,9 @@ import {
   DeleteVpcCommand,
   type DeleteVpcCommandInput,
   type DeleteVpcCommandOutput,
+  DeleteVpcEncryptionControlCommand,
+  type DeleteVpcEncryptionControlCommandInput,
+  type DeleteVpcEncryptionControlCommandOutput,
   DeleteVpcEndpointConnectionNotificationsCommand,
   type DeleteVpcEndpointConnectionNotificationsCommandInput,
   type DeleteVpcEndpointConnectionNotificationsCommandOutput,
@@ -719,6 +749,9 @@ import {
   DeleteVpcPeeringConnectionCommand,
   type DeleteVpcPeeringConnectionCommandInput,
   type DeleteVpcPeeringConnectionCommandOutput,
+  DeleteVpnConcentratorCommand,
+  type DeleteVpnConcentratorCommandInput,
+  type DeleteVpnConcentratorCommandOutput,
   DeleteVpnConnectionCommand,
   type DeleteVpnConnectionCommandInput,
   type DeleteVpnConnectionCommandOutput,
@@ -941,6 +974,12 @@ import {
   DescribeInstancesCommand,
   type DescribeInstancesCommandInput,
   type DescribeInstancesCommandOutput,
+  DescribeInstanceSqlHaHistoryStatesCommand,
+  type DescribeInstanceSqlHaHistoryStatesCommandInput,
+  type DescribeInstanceSqlHaHistoryStatesCommandOutput,
+  DescribeInstanceSqlHaStatesCommand,
+  type DescribeInstanceSqlHaStatesCommandInput,
+  type DescribeInstanceSqlHaStatesCommandOutput,
   DescribeInstanceStatusCommand,
   type DescribeInstanceStatusCommandInput,
   type DescribeInstanceStatusCommandOutput,
@@ -962,6 +1001,9 @@ import {
   DescribeIpamExternalResourceVerificationTokensCommand,
   type DescribeIpamExternalResourceVerificationTokensCommandInput,
   type DescribeIpamExternalResourceVerificationTokensCommandOutput,
+  DescribeIpamPoliciesCommand,
+  type DescribeIpamPoliciesCommandInput,
+  type DescribeIpamPoliciesCommandOutput,
   DescribeIpamPoolsCommand,
   type DescribeIpamPoolsCommandInput,
   type DescribeIpamPoolsCommandOutput,
@@ -1181,6 +1223,9 @@ import {
   DescribeTransitGatewayConnectsCommand,
   type DescribeTransitGatewayConnectsCommandInput,
   type DescribeTransitGatewayConnectsCommandOutput,
+  DescribeTransitGatewayMeteringPoliciesCommand,
+  type DescribeTransitGatewayMeteringPoliciesCommandInput,
+  type DescribeTransitGatewayMeteringPoliciesCommandOutput,
   DescribeTransitGatewayMulticastDomainsCommand,
   type DescribeTransitGatewayMulticastDomainsCommandInput,
   type DescribeTransitGatewayMulticastDomainsCommandOutput,
@@ -1247,6 +1292,9 @@ import {
   DescribeVpcClassicLinkDnsSupportCommand,
   type DescribeVpcClassicLinkDnsSupportCommandInput,
   type DescribeVpcClassicLinkDnsSupportCommandOutput,
+  DescribeVpcEncryptionControlsCommand,
+  type DescribeVpcEncryptionControlsCommandInput,
+  type DescribeVpcEncryptionControlsCommandOutput,
   DescribeVpcEndpointAssociationsCommand,
   type DescribeVpcEndpointAssociationsCommandInput,
   type DescribeVpcEndpointAssociationsCommandOutput,
@@ -1274,6 +1322,9 @@ import {
   DescribeVpcsCommand,
   type DescribeVpcsCommandInput,
   type DescribeVpcsCommandOutput,
+  DescribeVpnConcentratorsCommand,
+  type DescribeVpnConcentratorsCommandInput,
+  type DescribeVpnConcentratorsCommandOutput,
   DescribeVpnConnectionsCommand,
   type DescribeVpnConnectionsCommandInput,
   type DescribeVpnConnectionsCommandOutput,
@@ -1331,9 +1382,15 @@ import {
   DisableImageDeregistrationProtectionCommand,
   type DisableImageDeregistrationProtectionCommandInput,
   type DisableImageDeregistrationProtectionCommandOutput,
+  DisableInstanceSqlHaStandbyDetectionsCommand,
+  type DisableInstanceSqlHaStandbyDetectionsCommandInput,
+  type DisableInstanceSqlHaStandbyDetectionsCommandOutput,
   DisableIpamOrganizationAdminAccountCommand,
   type DisableIpamOrganizationAdminAccountCommandInput,
   type DisableIpamOrganizationAdminAccountCommandOutput,
+  DisableIpamPolicyCommand,
+  type DisableIpamPolicyCommandInput,
+  type DisableIpamPolicyCommandOutput,
   DisableRouteServerPropagationCommand,
   type DisableRouteServerPropagationCommandInput,
   type DisableRouteServerPropagationCommandOutput,
@@ -1444,9 +1501,15 @@ import {
   EnableImageDeregistrationProtectionCommand,
   type EnableImageDeregistrationProtectionCommandInput,
   type EnableImageDeregistrationProtectionCommandOutput,
+  EnableInstanceSqlHaStandbyDetectionsCommand,
+  type EnableInstanceSqlHaStandbyDetectionsCommandInput,
+  type EnableInstanceSqlHaStandbyDetectionsCommandOutput,
   EnableIpamOrganizationAdminAccountCommand,
   type EnableIpamOrganizationAdminAccountCommandInput,
   type EnableIpamOrganizationAdminAccountCommandOutput,
+  EnableIpamPolicyCommand,
+  type EnableIpamPolicyCommandInput,
+  type EnableIpamPolicyCommandOutput,
   EnableReachabilityAnalyzerOrganizationSharingCommand,
   type EnableReachabilityAnalyzerOrganizationSharingCommandInput,
   type EnableReachabilityAnalyzerOrganizationSharingCommandOutput,
@@ -1537,6 +1600,9 @@ import {
   GetEbsEncryptionByDefaultCommand,
   type GetEbsEncryptionByDefaultCommandInput,
   type GetEbsEncryptionByDefaultCommandOutput,
+  GetEnabledIpamPolicyCommand,
+  type GetEnabledIpamPolicyCommandInput,
+  type GetEnabledIpamPolicyCommandOutput,
   GetFlowLogsIntegrationTemplateCommand,
   type GetFlowLogsIntegrationTemplateCommandInput,
   type GetFlowLogsIntegrationTemplateCommandOutput,
@@ -1546,6 +1612,9 @@ import {
   GetHostReservationPurchasePreviewCommand,
   type GetHostReservationPurchasePreviewCommandInput,
   type GetHostReservationPurchasePreviewCommandOutput,
+  GetImageAncestryCommand,
+  type GetImageAncestryCommandInput,
+  type GetImageAncestryCommandOutput,
   GetImageBlockPublicAccessStateCommand,
   type GetImageBlockPublicAccessStateCommandInput,
   type GetImageBlockPublicAccessStateCommandOutput,
@@ -1573,6 +1642,12 @@ import {
   GetIpamDiscoveredResourceCidrsCommand,
   type GetIpamDiscoveredResourceCidrsCommandInput,
   type GetIpamDiscoveredResourceCidrsCommandOutput,
+  GetIpamPolicyAllocationRulesCommand,
+  type GetIpamPolicyAllocationRulesCommandInput,
+  type GetIpamPolicyAllocationRulesCommandOutput,
+  GetIpamPolicyOrganizationTargetsCommand,
+  type GetIpamPolicyOrganizationTargetsCommandInput,
+  type GetIpamPolicyOrganizationTargetsCommandOutput,
   GetIpamPoolAllocationsCommand,
   type GetIpamPoolAllocationsCommandInput,
   type GetIpamPoolAllocationsCommandOutput,
@@ -1639,6 +1714,9 @@ import {
   GetTransitGatewayAttachmentPropagationsCommand,
   type GetTransitGatewayAttachmentPropagationsCommandInput,
   type GetTransitGatewayAttachmentPropagationsCommandOutput,
+  GetTransitGatewayMeteringPolicyEntriesCommand,
+  type GetTransitGatewayMeteringPolicyEntriesCommandInput,
+  type GetTransitGatewayMeteringPolicyEntriesCommandOutput,
   GetTransitGatewayMulticastDomainAssociationsCommand,
   type GetTransitGatewayMulticastDomainAssociationsCommandInput,
   type GetTransitGatewayMulticastDomainAssociationsCommandOutput,
@@ -1666,6 +1744,9 @@ import {
   GetVerifiedAccessGroupPolicyCommand,
   type GetVerifiedAccessGroupPolicyCommandInput,
   type GetVerifiedAccessGroupPolicyCommandOutput,
+  GetVpcResourcesBlockingEncryptionEnforcementCommand,
+  type GetVpcResourcesBlockingEncryptionEnforcementCommandInput,
+  type GetVpcResourcesBlockingEncryptionEnforcementCommandOutput,
   GetVpnConnectionDeviceSampleConfigurationCommand,
   type GetVpnConnectionDeviceSampleConfigurationCommandInput,
   type GetVpnConnectionDeviceSampleConfigurationCommandOutput,
@@ -1699,6 +1780,9 @@ import {
   ListSnapshotsInRecycleBinCommand,
   type ListSnapshotsInRecycleBinCommandInput,
   type ListSnapshotsInRecycleBinCommandOutput,
+  ListVolumesInRecycleBinCommand,
+  type ListVolumesInRecycleBinCommandInput,
+  type ListVolumesInRecycleBinCommandOutput,
   LockSnapshotCommand,
   type LockSnapshotCommandInput,
   type LockSnapshotCommandOutput,
@@ -1780,6 +1864,9 @@ import {
   ModifyIpamCommand,
   type ModifyIpamCommandInput,
   type ModifyIpamCommandOutput,
+  ModifyIpamPolicyAllocationRulesCommand,
+  type ModifyIpamPolicyAllocationRulesCommandInput,
+  type ModifyIpamPolicyAllocationRulesCommandOutput,
   ModifyIpamPoolCommand,
   type ModifyIpamPoolCommandInput,
   type ModifyIpamPoolCommandOutput,
@@ -1849,6 +1936,9 @@ import {
   ModifyTransitGatewayCommand,
   type ModifyTransitGatewayCommandInput,
   type ModifyTransitGatewayCommandOutput,
+  ModifyTransitGatewayMeteringPolicyCommand,
+  type ModifyTransitGatewayMeteringPolicyCommandInput,
+  type ModifyTransitGatewayMeteringPolicyCommandOutput,
   ModifyTransitGatewayPrefixListReferenceCommand,
   type ModifyTransitGatewayPrefixListReferenceCommandInput,
   type ModifyTransitGatewayPrefixListReferenceCommandOutput,
@@ -1891,6 +1981,9 @@ import {
   ModifyVpcBlockPublicAccessOptionsCommand,
   type ModifyVpcBlockPublicAccessOptionsCommandInput,
   type ModifyVpcBlockPublicAccessOptionsCommandOutput,
+  ModifyVpcEncryptionControlCommand,
+  type ModifyVpcEncryptionControlCommandInput,
+  type ModifyVpcEncryptionControlCommandOutput,
   ModifyVpcEndpointCommand,
   type ModifyVpcEndpointCommandInput,
   type ModifyVpcEndpointCommandOutput,
@@ -2074,6 +2167,9 @@ import {
   RestoreSnapshotTierCommand,
   type RestoreSnapshotTierCommandInput,
   type RestoreSnapshotTierCommandOutput,
+  RestoreVolumeFromRecycleBinCommand,
+  type RestoreVolumeFromRecycleBinCommandInput,
+  type RestoreVolumeFromRecycleBinCommandOutput,
   RevokeClientVpnIngressCommand,
   type RevokeClientVpnIngressCommandInput,
   type RevokeClientVpnIngressCommandOutput,
@@ -2143,6 +2239,9 @@ import {
   UpdateCapacityManagerOrganizationsAccessCommand,
   type UpdateCapacityManagerOrganizationsAccessCommandInput,
   type UpdateCapacityManagerOrganizationsAccessCommandOutput,
+  UpdateInterruptibleCapacityReservationAllocationCommand,
+  type UpdateInterruptibleCapacityReservationAllocationCommandInput,
+  type UpdateInterruptibleCapacityReservationAllocationCommandOutput,
   UpdateSecurityGroupRuleDescriptionsEgressCommand,
   type UpdateSecurityGroupRuleDescriptionsEgressCommandInput,
   type UpdateSecurityGroupRuleDescriptionsEgressCommandOutput,
@@ -2247,8 +2346,10 @@ const commands = {
   CreateInstanceEventWindowCommand,
   CreateInstanceExportTaskCommand,
   CreateInternetGatewayCommand,
+  CreateInterruptibleCapacityReservationAllocationCommand,
   CreateIpamCommand,
   CreateIpamExternalResourceVerificationTokenCommand,
+  CreateIpamPolicyCommand,
   CreateIpamPoolCommand,
   CreateIpamPrefixListResolverCommand,
   CreateIpamPrefixListResolverTargetCommand,
@@ -2297,6 +2398,8 @@ const commands = {
   CreateTransitGatewayCommand,
   CreateTransitGatewayConnectCommand,
   CreateTransitGatewayConnectPeerCommand,
+  CreateTransitGatewayMeteringPolicyCommand,
+  CreateTransitGatewayMeteringPolicyEntryCommand,
   CreateTransitGatewayMulticastDomainCommand,
   CreateTransitGatewayPeeringAttachmentCommand,
   CreateTransitGatewayPolicyTableCommand,
@@ -2312,10 +2415,12 @@ const commands = {
   CreateVolumeCommand,
   CreateVpcCommand,
   CreateVpcBlockPublicAccessExclusionCommand,
+  CreateVpcEncryptionControlCommand,
   CreateVpcEndpointCommand,
   CreateVpcEndpointConnectionNotificationCommand,
   CreateVpcEndpointServiceConfigurationCommand,
   CreateVpcPeeringConnectionCommand,
+  CreateVpnConcentratorCommand,
   CreateVpnConnectionCommand,
   CreateVpnConnectionRouteCommand,
   CreateVpnGatewayCommand,
@@ -2337,6 +2442,7 @@ const commands = {
   DeleteInternetGatewayCommand,
   DeleteIpamCommand,
   DeleteIpamExternalResourceVerificationTokenCommand,
+  DeleteIpamPolicyCommand,
   DeleteIpamPoolCommand,
   DeleteIpamPrefixListResolverCommand,
   DeleteIpamPrefixListResolverTargetCommand,
@@ -2382,6 +2488,8 @@ const commands = {
   DeleteTransitGatewayCommand,
   DeleteTransitGatewayConnectCommand,
   DeleteTransitGatewayConnectPeerCommand,
+  DeleteTransitGatewayMeteringPolicyCommand,
+  DeleteTransitGatewayMeteringPolicyEntryCommand,
   DeleteTransitGatewayMulticastDomainCommand,
   DeleteTransitGatewayPeeringAttachmentCommand,
   DeleteTransitGatewayPolicyTableCommand,
@@ -2397,10 +2505,12 @@ const commands = {
   DeleteVolumeCommand,
   DeleteVpcCommand,
   DeleteVpcBlockPublicAccessExclusionCommand,
+  DeleteVpcEncryptionControlCommand,
   DeleteVpcEndpointConnectionNotificationsCommand,
   DeleteVpcEndpointServiceConfigurationsCommand,
   DeleteVpcEndpointsCommand,
   DeleteVpcPeeringConnectionCommand,
+  DeleteVpnConcentratorCommand,
   DeleteVpnConnectionCommand,
   DeleteVpnConnectionRouteCommand,
   DeleteVpnGatewayCommand,
@@ -2474,6 +2584,8 @@ const commands = {
   DescribeInstanceEventNotificationAttributesCommand,
   DescribeInstanceEventWindowsCommand,
   DescribeInstanceImageMetadataCommand,
+  DescribeInstanceSqlHaHistoryStatesCommand,
+  DescribeInstanceSqlHaStatesCommand,
   DescribeInstanceStatusCommand,
   DescribeInstanceTopologyCommand,
   DescribeInstanceTypeOfferingsCommand,
@@ -2482,6 +2594,7 @@ const commands = {
   DescribeInternetGatewaysCommand,
   DescribeIpamByoasnCommand,
   DescribeIpamExternalResourceVerificationTokensCommand,
+  DescribeIpamPoliciesCommand,
   DescribeIpamPoolsCommand,
   DescribeIpamPrefixListResolverTargetsCommand,
   DescribeIpamPrefixListResolversCommand,
@@ -2555,6 +2668,7 @@ const commands = {
   DescribeTransitGatewayAttachmentsCommand,
   DescribeTransitGatewayConnectPeersCommand,
   DescribeTransitGatewayConnectsCommand,
+  DescribeTransitGatewayMeteringPoliciesCommand,
   DescribeTransitGatewayMulticastDomainsCommand,
   DescribeTransitGatewayPeeringAttachmentsCommand,
   DescribeTransitGatewayPolicyTablesCommand,
@@ -2577,6 +2691,7 @@ const commands = {
   DescribeVpcBlockPublicAccessOptionsCommand,
   DescribeVpcClassicLinkCommand,
   DescribeVpcClassicLinkDnsSupportCommand,
+  DescribeVpcEncryptionControlsCommand,
   DescribeVpcEndpointAssociationsCommand,
   DescribeVpcEndpointConnectionNotificationsCommand,
   DescribeVpcEndpointConnectionsCommand,
@@ -2586,6 +2701,7 @@ const commands = {
   DescribeVpcEndpointsCommand,
   DescribeVpcPeeringConnectionsCommand,
   DescribeVpcsCommand,
+  DescribeVpnConcentratorsCommand,
   DescribeVpnConnectionsCommand,
   DescribeVpnGatewaysCommand,
   DetachClassicLinkVpcCommand,
@@ -2605,7 +2721,9 @@ const commands = {
   DisableImageBlockPublicAccessCommand,
   DisableImageDeprecationCommand,
   DisableImageDeregistrationProtectionCommand,
+  DisableInstanceSqlHaStandbyDetectionsCommand,
   DisableIpamOrganizationAdminAccountCommand,
+  DisableIpamPolicyCommand,
   DisableRouteServerPropagationCommand,
   DisableSerialConsoleAccessCommand,
   DisableSnapshotBlockPublicAccessCommand,
@@ -2642,7 +2760,9 @@ const commands = {
   EnableImageBlockPublicAccessCommand,
   EnableImageDeprecationCommand,
   EnableImageDeregistrationProtectionCommand,
+  EnableInstanceSqlHaStandbyDetectionsCommand,
   EnableIpamOrganizationAdminAccountCommand,
+  EnableIpamPolicyCommand,
   EnableReachabilityAnalyzerOrganizationSharingCommand,
   EnableRouteServerPropagationCommand,
   EnableSerialConsoleAccessCommand,
@@ -2673,9 +2793,11 @@ const commands = {
   GetDefaultCreditSpecificationCommand,
   GetEbsDefaultKmsKeyIdCommand,
   GetEbsEncryptionByDefaultCommand,
+  GetEnabledIpamPolicyCommand,
   GetFlowLogsIntegrationTemplateCommand,
   GetGroupsForCapacityReservationCommand,
   GetHostReservationPurchasePreviewCommand,
+  GetImageAncestryCommand,
   GetImageBlockPublicAccessStateCommand,
   GetInstanceMetadataDefaultsCommand,
   GetInstanceTpmEkPubCommand,
@@ -2685,6 +2807,8 @@ const commands = {
   GetIpamDiscoveredAccountsCommand,
   GetIpamDiscoveredPublicAddressesCommand,
   GetIpamDiscoveredResourceCidrsCommand,
+  GetIpamPolicyAllocationRulesCommand,
+  GetIpamPolicyOrganizationTargetsCommand,
   GetIpamPoolAllocationsCommand,
   GetIpamPoolCidrsCommand,
   GetIpamPrefixListResolverRulesCommand,
@@ -2707,6 +2831,7 @@ const commands = {
   GetSpotPlacementScoresCommand,
   GetSubnetCidrReservationsCommand,
   GetTransitGatewayAttachmentPropagationsCommand,
+  GetTransitGatewayMeteringPolicyEntriesCommand,
   GetTransitGatewayMulticastDomainAssociationsCommand,
   GetTransitGatewayPolicyTableAssociationsCommand,
   GetTransitGatewayPolicyTableEntriesCommand,
@@ -2716,6 +2841,7 @@ const commands = {
   GetVerifiedAccessEndpointPolicyCommand,
   GetVerifiedAccessEndpointTargetsCommand,
   GetVerifiedAccessGroupPolicyCommand,
+  GetVpcResourcesBlockingEncryptionEnforcementCommand,
   GetVpnConnectionDeviceSampleConfigurationCommand,
   GetVpnConnectionDeviceTypesCommand,
   GetVpnTunnelReplacementStatusCommand,
@@ -2727,6 +2853,7 @@ const commands = {
   ImportVolumeCommand,
   ListImagesInRecycleBinCommand,
   ListSnapshotsInRecycleBinCommand,
+  ListVolumesInRecycleBinCommand,
   LockSnapshotCommand,
   ModifyAddressAttributeCommand,
   ModifyAvailabilityZoneGroupCommand,
@@ -2754,6 +2881,7 @@ const commands = {
   ModifyInstanceNetworkPerformanceOptionsCommand,
   ModifyInstancePlacementCommand,
   ModifyIpamCommand,
+  ModifyIpamPolicyAllocationRulesCommand,
   ModifyIpamPoolCommand,
   ModifyIpamPrefixListResolverCommand,
   ModifyIpamPrefixListResolverTargetCommand,
@@ -2777,6 +2905,7 @@ const commands = {
   ModifyTrafficMirrorFilterRuleCommand,
   ModifyTrafficMirrorSessionCommand,
   ModifyTransitGatewayCommand,
+  ModifyTransitGatewayMeteringPolicyCommand,
   ModifyTransitGatewayPrefixListReferenceCommand,
   ModifyTransitGatewayVpcAttachmentCommand,
   ModifyVerifiedAccessEndpointCommand,
@@ -2791,6 +2920,7 @@ const commands = {
   ModifyVpcAttributeCommand,
   ModifyVpcBlockPublicAccessExclusionCommand,
   ModifyVpcBlockPublicAccessOptionsCommand,
+  ModifyVpcEncryptionControlCommand,
   ModifyVpcEndpointCommand,
   ModifyVpcEndpointConnectionNotificationCommand,
   ModifyVpcEndpointServiceConfigurationCommand,
@@ -2852,6 +2982,7 @@ const commands = {
   RestoreManagedPrefixListVersionCommand,
   RestoreSnapshotFromRecycleBinCommand,
   RestoreSnapshotTierCommand,
+  RestoreVolumeFromRecycleBinCommand,
   RevokeClientVpnIngressCommand,
   RevokeSecurityGroupEgressCommand,
   RevokeSecurityGroupIngressCommand,
@@ -2875,6 +3006,7 @@ const commands = {
   UnlockSnapshotCommand,
   UnmonitorInstancesCommand,
   UpdateCapacityManagerOrganizationsAccessCommand,
+  UpdateInterruptibleCapacityReservationAllocationCommand,
   UpdateSecurityGroupRuleDescriptionsEgressCommand,
   UpdateSecurityGroupRuleDescriptionsIngressCommand,
   WithdrawByoipCidrCommand,
@@ -3819,6 +3951,17 @@ interface EC2Service$ {
   >;
 
   /**
+   * @see {@link CreateInterruptibleCapacityReservationAllocationCommand}
+   */
+  createInterruptibleCapacityReservationAllocation(
+    args: CreateInterruptibleCapacityReservationAllocationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateInterruptibleCapacityReservationAllocationCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link CreateIpamCommand}
    */
   createIpam(
@@ -3837,6 +3980,17 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateIpamExternalResourceVerificationTokenCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link CreateIpamPolicyCommand}
+   */
+  createIpamPolicy(
+    args: CreateIpamPolicyCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateIpamPolicyCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
@@ -4369,6 +4523,28 @@ interface EC2Service$ {
   >;
 
   /**
+   * @see {@link CreateTransitGatewayMeteringPolicyCommand}
+   */
+  createTransitGatewayMeteringPolicy(
+    args: CreateTransitGatewayMeteringPolicyCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateTransitGatewayMeteringPolicyCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link CreateTransitGatewayMeteringPolicyEntryCommand}
+   */
+  createTransitGatewayMeteringPolicyEntry(
+    args: CreateTransitGatewayMeteringPolicyEntryCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateTransitGatewayMeteringPolicyEntryCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link CreateTransitGatewayMulticastDomainCommand}
    */
   createTransitGatewayMulticastDomain(
@@ -4534,6 +4710,17 @@ interface EC2Service$ {
   >;
 
   /**
+   * @see {@link CreateVpcEncryptionControlCommand}
+   */
+  createVpcEncryptionControl(
+    args: CreateVpcEncryptionControlCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateVpcEncryptionControlCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link CreateVpcEndpointCommand}
    */
   createVpcEndpoint(
@@ -4574,6 +4761,17 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateVpcPeeringConnectionCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link CreateVpnConcentratorCommand}
+   */
+  createVpnConcentrator(
+    args: CreateVpnConcentratorCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateVpnConcentratorCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
@@ -4805,6 +5003,17 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteIpamExternalResourceVerificationTokenCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link DeleteIpamPolicyCommand}
+   */
+  deleteIpamPolicy(
+    args: DeleteIpamPolicyCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteIpamPolicyCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
@@ -5304,6 +5513,28 @@ interface EC2Service$ {
   >;
 
   /**
+   * @see {@link DeleteTransitGatewayMeteringPolicyCommand}
+   */
+  deleteTransitGatewayMeteringPolicy(
+    args: DeleteTransitGatewayMeteringPolicyCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteTransitGatewayMeteringPolicyCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link DeleteTransitGatewayMeteringPolicyEntryCommand}
+   */
+  deleteTransitGatewayMeteringPolicyEntry(
+    args: DeleteTransitGatewayMeteringPolicyEntryCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteTransitGatewayMeteringPolicyEntryCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link DeleteTransitGatewayMulticastDomainCommand}
    */
   deleteTransitGatewayMulticastDomain(
@@ -5469,6 +5700,17 @@ interface EC2Service$ {
   >;
 
   /**
+   * @see {@link DeleteVpcEncryptionControlCommand}
+   */
+  deleteVpcEncryptionControl(
+    args: DeleteVpcEncryptionControlCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteVpcEncryptionControlCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link DeleteVpcEndpointConnectionNotificationsCommand}
    */
   deleteVpcEndpointConnectionNotifications(
@@ -5509,6 +5751,17 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteVpcPeeringConnectionCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link DeleteVpnConcentratorCommand}
+   */
+  deleteVpnConcentrator(
+    args: DeleteVpnConcentratorCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteVpnConcentratorCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
@@ -6316,6 +6569,28 @@ interface EC2Service$ {
   >;
 
   /**
+   * @see {@link DescribeInstanceSqlHaHistoryStatesCommand}
+   */
+  describeInstanceSqlHaHistoryStates(
+    args: DescribeInstanceSqlHaHistoryStatesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeInstanceSqlHaHistoryStatesCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link DescribeInstanceSqlHaStatesCommand}
+   */
+  describeInstanceSqlHaStates(
+    args: DescribeInstanceSqlHaStatesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeInstanceSqlHaStatesCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link DescribeInstanceStatusCommand}
    */
   describeInstanceStatus(
@@ -6400,6 +6675,17 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeIpamExternalResourceVerificationTokensCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link DescribeIpamPoliciesCommand}
+   */
+  describeIpamPolicies(
+    args: DescribeIpamPoliciesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeIpamPoliciesCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
@@ -7207,6 +7493,17 @@ interface EC2Service$ {
   >;
 
   /**
+   * @see {@link DescribeTransitGatewayMeteringPoliciesCommand}
+   */
+  describeTransitGatewayMeteringPolicies(
+    args: DescribeTransitGatewayMeteringPoliciesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeTransitGatewayMeteringPoliciesCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link DescribeTransitGatewayMulticastDomainsCommand}
    */
   describeTransitGatewayMulticastDomains(
@@ -7449,6 +7746,17 @@ interface EC2Service$ {
   >;
 
   /**
+   * @see {@link DescribeVpcEncryptionControlsCommand}
+   */
+  describeVpcEncryptionControls(
+    args: DescribeVpcEncryptionControlsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeVpcEncryptionControlsCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link DescribeVpcEndpointAssociationsCommand}
    */
   describeVpcEndpointAssociations(
@@ -7544,6 +7852,17 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeVpcsCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link DescribeVpnConcentratorsCommand}
+   */
+  describeVpnConcentrators(
+    args: DescribeVpnConcentratorsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeVpnConcentratorsCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
@@ -7757,6 +8076,17 @@ interface EC2Service$ {
   >;
 
   /**
+   * @see {@link DisableInstanceSqlHaStandbyDetectionsCommand}
+   */
+  disableInstanceSqlHaStandbyDetections(
+    args: DisableInstanceSqlHaStandbyDetectionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DisableInstanceSqlHaStandbyDetectionsCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link DisableIpamOrganizationAdminAccountCommand}
    */
   disableIpamOrganizationAdminAccount(
@@ -7764,6 +8094,17 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisableIpamOrganizationAdminAccountCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link DisableIpamPolicyCommand}
+   */
+  disableIpamPolicy(
+    args: DisableIpamPolicyCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DisableIpamPolicyCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
@@ -8164,6 +8505,17 @@ interface EC2Service$ {
   >;
 
   /**
+   * @see {@link EnableInstanceSqlHaStandbyDetectionsCommand}
+   */
+  enableInstanceSqlHaStandbyDetections(
+    args: EnableInstanceSqlHaStandbyDetectionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    EnableInstanceSqlHaStandbyDetectionsCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link EnableIpamOrganizationAdminAccountCommand}
    */
   enableIpamOrganizationAdminAccount(
@@ -8171,6 +8523,17 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     EnableIpamOrganizationAdminAccountCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link EnableIpamPolicyCommand}
+   */
+  enableIpamPolicy(
+    args: EnableIpamPolicyCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    EnableIpamPolicyCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
@@ -8505,6 +8868,17 @@ interface EC2Service$ {
   >;
 
   /**
+   * @see {@link GetEnabledIpamPolicyCommand}
+   */
+  getEnabledIpamPolicy(
+    args: GetEnabledIpamPolicyCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetEnabledIpamPolicyCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link GetFlowLogsIntegrationTemplateCommand}
    */
   getFlowLogsIntegrationTemplate(
@@ -8534,6 +8908,17 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetHostReservationPurchasePreviewCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link GetImageAncestryCommand}
+   */
+  getImageAncestry(
+    args: GetImageAncestryCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetImageAncestryCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
@@ -8633,6 +9018,28 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetIpamDiscoveredResourceCidrsCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link GetIpamPolicyAllocationRulesCommand}
+   */
+  getIpamPolicyAllocationRules(
+    args: GetIpamPolicyAllocationRulesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetIpamPolicyAllocationRulesCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link GetIpamPolicyOrganizationTargetsCommand}
+   */
+  getIpamPolicyOrganizationTargets(
+    args: GetIpamPolicyOrganizationTargetsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetIpamPolicyOrganizationTargetsCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
@@ -8879,6 +9286,17 @@ interface EC2Service$ {
   >;
 
   /**
+   * @see {@link GetTransitGatewayMeteringPolicyEntriesCommand}
+   */
+  getTransitGatewayMeteringPolicyEntries(
+    args: GetTransitGatewayMeteringPolicyEntriesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetTransitGatewayMeteringPolicyEntriesCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link GetTransitGatewayMulticastDomainAssociationsCommand}
    */
   getTransitGatewayMulticastDomainAssociations(
@@ -8974,6 +9392,17 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetVerifiedAccessGroupPolicyCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link GetVpcResourcesBlockingEncryptionEnforcementCommand}
+   */
+  getVpcResourcesBlockingEncryptionEnforcement(
+    args: GetVpcResourcesBlockingEncryptionEnforcementCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetVpcResourcesBlockingEncryptionEnforcementCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
@@ -9095,6 +9524,17 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListSnapshotsInRecycleBinCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link ListVolumesInRecycleBinCommand}
+   */
+  listVolumesInRecycleBin(
+    args: ListVolumesInRecycleBinCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListVolumesInRecycleBinCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
@@ -9396,6 +9836,17 @@ interface EC2Service$ {
   >;
 
   /**
+   * @see {@link ModifyIpamPolicyAllocationRulesCommand}
+   */
+  modifyIpamPolicyAllocationRules(
+    args: ModifyIpamPolicyAllocationRulesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ModifyIpamPolicyAllocationRulesCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link ModifyIpamPoolCommand}
    */
   modifyIpamPool(
@@ -9649,6 +10100,17 @@ interface EC2Service$ {
   >;
 
   /**
+   * @see {@link ModifyTransitGatewayMeteringPolicyCommand}
+   */
+  modifyTransitGatewayMeteringPolicy(
+    args: ModifyTransitGatewayMeteringPolicyCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ModifyTransitGatewayMeteringPolicyCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link ModifyTransitGatewayPrefixListReferenceCommand}
    */
   modifyTransitGatewayPrefixListReference(
@@ -9799,6 +10261,17 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyVpcBlockPublicAccessOptionsCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link ModifyVpcEncryptionControlCommand}
+   */
+  modifyVpcEncryptionControl(
+    args: ModifyVpcEncryptionControlCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ModifyVpcEncryptionControlCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
@@ -10474,6 +10947,17 @@ interface EC2Service$ {
   >;
 
   /**
+   * @see {@link RestoreVolumeFromRecycleBinCommand}
+   */
+  restoreVolumeFromRecycleBin(
+    args: RestoreVolumeFromRecycleBinCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    RestoreVolumeFromRecycleBinCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link RevokeClientVpnIngressCommand}
    */
   revokeClientVpnIngress(
@@ -10723,6 +11207,17 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateCapacityManagerOrganizationsAccessCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link UpdateInterruptibleCapacityReservationAllocationCommand}
+   */
+  updateInterruptibleCapacityReservationAllocation(
+    args: UpdateInterruptibleCapacityReservationAllocationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateInterruptibleCapacityReservationAllocationCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 

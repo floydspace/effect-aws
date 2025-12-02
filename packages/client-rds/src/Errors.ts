@@ -144,6 +144,7 @@ import type {
   TenantDatabaseNotFoundFault,
   TenantDatabaseQuotaExceededFault,
   UnsupportedDBEngineVersionFault,
+  VpcEncryptionControlViolationException,
 } from "@aws-sdk/client-rds";
 import type { TaggedException } from "@effect-aws/commons";
 
@@ -293,6 +294,7 @@ export const AllServiceErrors = [
   "TenantDatabaseNotFoundFault",
   "TenantDatabaseQuotaExceededFault",
   "UnsupportedDBEngineVersionFault",
+  "VpcEncryptionControlViolationException",
 ] as const;
 
 export type AuthorizationAlreadyExistsFaultError = TaggedException<AuthorizationAlreadyExistsFault>;
@@ -446,4 +448,5 @@ export type TenantDatabaseAlreadyExistsFaultError = TaggedException<TenantDataba
 export type TenantDatabaseNotFoundFaultError = TaggedException<TenantDatabaseNotFoundFault>;
 export type TenantDatabaseQuotaExceededFaultError = TaggedException<TenantDatabaseQuotaExceededFault>;
 export type UnsupportedDBEngineVersionFaultError = TaggedException<UnsupportedDBEngineVersionFault>;
+export type VpcEncryptionControlViolationError = TaggedException<VpcEncryptionControlViolationException>;
 export type SdkError = TaggedException<Error & { name: "SdkError" }>;

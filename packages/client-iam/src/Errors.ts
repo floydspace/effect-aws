@@ -10,6 +10,8 @@ import type {
   DuplicateSSHPublicKeyException,
   EntityAlreadyExistsException,
   EntityTemporarilyUnmodifiableException,
+  FeatureDisabledException,
+  FeatureEnabledException,
   InvalidAuthenticationCodeException,
   InvalidCertificateException,
   InvalidInputException,
@@ -47,6 +49,8 @@ export const AllServiceErrors = [
   "DuplicateSSHPublicKeyException",
   "EntityAlreadyExistsException",
   "EntityTemporarilyUnmodifiableException",
+  "FeatureDisabledException",
+  "FeatureEnabledException",
   "InvalidAuthenticationCodeException",
   "InvalidCertificateException",
   "InvalidInputException",
@@ -84,6 +88,8 @@ export type DuplicateCertificateError = TaggedException<DuplicateCertificateExce
 export type DuplicateSSHPublicKeyError = TaggedException<DuplicateSSHPublicKeyException>;
 export type EntityAlreadyExistsError = TaggedException<EntityAlreadyExistsException>;
 export type EntityTemporarilyUnmodifiableError = TaggedException<EntityTemporarilyUnmodifiableException>;
+export type FeatureDisabledError = TaggedException<FeatureDisabledException>;
+export type FeatureEnabledError = TaggedException<FeatureEnabledException>;
 export type InvalidAuthenticationCodeError = TaggedException<InvalidAuthenticationCodeException>;
 export type InvalidCertificateError = TaggedException<InvalidCertificateException>;
 export type InvalidInputError = TaggedException<InvalidInputException>;

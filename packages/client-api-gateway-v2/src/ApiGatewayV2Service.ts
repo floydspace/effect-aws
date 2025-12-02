@@ -28,6 +28,18 @@ import {
   CreateModelCommand,
   type CreateModelCommandInput,
   type CreateModelCommandOutput,
+  CreatePortalCommand,
+  type CreatePortalCommandInput,
+  type CreatePortalCommandOutput,
+  CreatePortalProductCommand,
+  type CreatePortalProductCommandInput,
+  type CreatePortalProductCommandOutput,
+  CreateProductPageCommand,
+  type CreateProductPageCommandInput,
+  type CreateProductPageCommandOutput,
+  CreateProductRestEndpointPageCommand,
+  type CreateProductRestEndpointPageCommandInput,
+  type CreateProductRestEndpointPageCommandOutput,
   CreateRouteCommand,
   type CreateRouteCommandInput,
   type CreateRouteCommandOutput,
@@ -73,6 +85,21 @@ import {
   DeleteModelCommand,
   type DeleteModelCommandInput,
   type DeleteModelCommandOutput,
+  DeletePortalCommand,
+  type DeletePortalCommandInput,
+  type DeletePortalCommandOutput,
+  DeletePortalProductCommand,
+  type DeletePortalProductCommandInput,
+  type DeletePortalProductCommandOutput,
+  DeletePortalProductSharingPolicyCommand,
+  type DeletePortalProductSharingPolicyCommandInput,
+  type DeletePortalProductSharingPolicyCommandOutput,
+  DeleteProductPageCommand,
+  type DeleteProductPageCommandInput,
+  type DeleteProductPageCommandOutput,
+  DeleteProductRestEndpointPageCommand,
+  type DeleteProductRestEndpointPageCommandInput,
+  type DeleteProductRestEndpointPageCommandOutput,
   DeleteRouteCommand,
   type DeleteRouteCommandInput,
   type DeleteRouteCommandOutput,
@@ -94,6 +121,9 @@ import {
   DeleteVpcLinkCommand,
   type DeleteVpcLinkCommandInput,
   type DeleteVpcLinkCommandOutput,
+  DisablePortalCommand,
+  type DisablePortalCommandInput,
+  type DisablePortalCommandOutput,
   ExportApiCommand,
   type ExportApiCommandInput,
   type ExportApiCommandOutput,
@@ -148,6 +178,21 @@ import {
   GetModelTemplateCommand,
   type GetModelTemplateCommandInput,
   type GetModelTemplateCommandOutput,
+  GetPortalCommand,
+  type GetPortalCommandInput,
+  type GetPortalCommandOutput,
+  GetPortalProductCommand,
+  type GetPortalProductCommandInput,
+  type GetPortalProductCommandOutput,
+  GetPortalProductSharingPolicyCommand,
+  type GetPortalProductSharingPolicyCommandInput,
+  type GetPortalProductSharingPolicyCommandOutput,
+  GetProductPageCommand,
+  type GetProductPageCommandInput,
+  type GetProductPageCommandOutput,
+  GetProductRestEndpointPageCommand,
+  type GetProductRestEndpointPageCommandInput,
+  type GetProductRestEndpointPageCommandOutput,
   GetRouteCommand,
   type GetRouteCommandInput,
   type GetRouteCommandOutput,
@@ -181,9 +226,30 @@ import {
   ImportApiCommand,
   type ImportApiCommandInput,
   type ImportApiCommandOutput,
+  ListPortalProductsCommand,
+  type ListPortalProductsCommandInput,
+  type ListPortalProductsCommandOutput,
+  ListPortalsCommand,
+  type ListPortalsCommandInput,
+  type ListPortalsCommandOutput,
+  ListProductPagesCommand,
+  type ListProductPagesCommandInput,
+  type ListProductPagesCommandOutput,
+  ListProductRestEndpointPagesCommand,
+  type ListProductRestEndpointPagesCommandInput,
+  type ListProductRestEndpointPagesCommandOutput,
   ListRoutingRulesCommand,
   type ListRoutingRulesCommandInput,
   type ListRoutingRulesCommandOutput,
+  PreviewPortalCommand,
+  type PreviewPortalCommandInput,
+  type PreviewPortalCommandOutput,
+  PublishPortalCommand,
+  type PublishPortalCommandInput,
+  type PublishPortalCommandOutput,
+  PutPortalProductSharingPolicyCommand,
+  type PutPortalProductSharingPolicyCommandInput,
+  type PutPortalProductSharingPolicyCommandOutput,
   PutRoutingRuleCommand,
   type PutRoutingRuleCommandInput,
   type PutRoutingRuleCommandOutput,
@@ -223,6 +289,18 @@ import {
   UpdateModelCommand,
   type UpdateModelCommandInput,
   type UpdateModelCommandOutput,
+  UpdatePortalCommand,
+  type UpdatePortalCommandInput,
+  type UpdatePortalCommandOutput,
+  UpdatePortalProductCommand,
+  type UpdatePortalProductCommandInput,
+  type UpdatePortalProductCommandOutput,
+  UpdateProductPageCommand,
+  type UpdateProductPageCommandInput,
+  type UpdateProductPageCommandOutput,
+  UpdateProductRestEndpointPageCommand,
+  type UpdateProductRestEndpointPageCommandInput,
+  type UpdateProductRestEndpointPageCommandOutput,
   UpdateRouteCommand,
   type UpdateRouteCommandInput,
   type UpdateRouteCommandOutput,
@@ -261,6 +339,10 @@ const commands = {
   CreateIntegrationCommand,
   CreateIntegrationResponseCommand,
   CreateModelCommand,
+  CreatePortalCommand,
+  CreatePortalProductCommand,
+  CreateProductPageCommand,
+  CreateProductRestEndpointPageCommand,
   CreateRouteCommand,
   CreateRouteResponseCommand,
   CreateRoutingRuleCommand,
@@ -276,6 +358,11 @@ const commands = {
   DeleteIntegrationCommand,
   DeleteIntegrationResponseCommand,
   DeleteModelCommand,
+  DeletePortalCommand,
+  DeletePortalProductCommand,
+  DeletePortalProductSharingPolicyCommand,
+  DeleteProductPageCommand,
+  DeleteProductRestEndpointPageCommand,
   DeleteRouteCommand,
   DeleteRouteRequestParameterCommand,
   DeleteRouteResponseCommand,
@@ -283,6 +370,7 @@ const commands = {
   DeleteRoutingRuleCommand,
   DeleteStageCommand,
   DeleteVpcLinkCommand,
+  DisablePortalCommand,
   ExportApiCommand,
   GetApiCommand,
   GetApiMappingCommand,
@@ -301,6 +389,11 @@ const commands = {
   GetModelCommand,
   GetModelTemplateCommand,
   GetModelsCommand,
+  GetPortalCommand,
+  GetPortalProductCommand,
+  GetPortalProductSharingPolicyCommand,
+  GetProductPageCommand,
+  GetProductRestEndpointPageCommand,
   GetRouteCommand,
   GetRouteResponseCommand,
   GetRouteResponsesCommand,
@@ -312,7 +405,14 @@ const commands = {
   GetVpcLinkCommand,
   GetVpcLinksCommand,
   ImportApiCommand,
+  ListPortalProductsCommand,
+  ListPortalsCommand,
+  ListProductPagesCommand,
+  ListProductRestEndpointPagesCommand,
   ListRoutingRulesCommand,
+  PreviewPortalCommand,
+  PublishPortalCommand,
+  PutPortalProductSharingPolicyCommand,
   PutRoutingRuleCommand,
   ReimportApiCommand,
   ResetAuthorizersCacheCommand,
@@ -326,6 +426,10 @@ const commands = {
   UpdateIntegrationCommand,
   UpdateIntegrationResponseCommand,
   UpdateModelCommand,
+  UpdatePortalCommand,
+  UpdatePortalProductCommand,
+  UpdateProductPageCommand,
+  UpdateProductRestEndpointPageCommand,
   UpdateRouteCommand,
   UpdateRouteResponseCommand,
   UpdateStageCommand,
@@ -427,6 +531,50 @@ interface ApiGatewayV2Service$ {
   ): Effect.Effect<
     CreateModelCommandOutput,
     Cause.TimeoutException | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link CreatePortalCommand}
+   */
+  createPortal(
+    args: CreatePortalCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreatePortalCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | BadRequestError | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link CreatePortalProductCommand}
+   */
+  createPortalProduct(
+    args: CreatePortalProductCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreatePortalProductCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | BadRequestError | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link CreateProductPageCommand}
+   */
+  createProductPage(
+    args: CreateProductPageCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateProductPageCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | BadRequestError | NotFoundError | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link CreateProductRestEndpointPageCommand}
+   */
+  createProductRestEndpointPage(
+    args: CreateProductRestEndpointPageCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateProductRestEndpointPageCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -595,6 +743,61 @@ interface ApiGatewayV2Service$ {
   >;
 
   /**
+   * @see {@link DeletePortalCommand}
+   */
+  deletePortal(
+    args: DeletePortalCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeletePortalCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | BadRequestError | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link DeletePortalProductCommand}
+   */
+  deletePortalProduct(
+    args: DeletePortalProductCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeletePortalProductCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | BadRequestError | NotFoundError | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link DeletePortalProductSharingPolicyCommand}
+   */
+  deletePortalProductSharingPolicy(
+    args: DeletePortalProductSharingPolicyCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeletePortalProductSharingPolicyCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | BadRequestError | NotFoundError | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link DeleteProductPageCommand}
+   */
+  deleteProductPage(
+    args: DeleteProductPageCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteProductPageCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | BadRequestError | NotFoundError | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link DeleteProductRestEndpointPageCommand}
+   */
+  deleteProductRestEndpointPage(
+    args: DeleteProductRestEndpointPageCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteProductRestEndpointPageCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | BadRequestError | NotFoundError | TooManyRequestsError
+  >;
+
+  /**
    * @see {@link DeleteRouteCommand}
    */
   deleteRoute(
@@ -669,6 +872,23 @@ interface ApiGatewayV2Service$ {
   ): Effect.Effect<
     DeleteVpcLinkCommandOutput,
     Cause.TimeoutException | SdkError | NotFoundError | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link DisablePortalCommand}
+   */
+  disablePortal(
+    args: DisablePortalCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DisablePortalCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | BadRequestError
+    | ConflictError
+    | NotFoundError
+    | TooManyRequestsError
   >;
 
   /**
@@ -870,6 +1090,61 @@ interface ApiGatewayV2Service$ {
   >;
 
   /**
+   * @see {@link GetPortalCommand}
+   */
+  getPortal(
+    args: GetPortalCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetPortalCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | BadRequestError | NotFoundError | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link GetPortalProductCommand}
+   */
+  getPortalProduct(
+    args: GetPortalProductCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetPortalProductCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | BadRequestError | NotFoundError | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link GetPortalProductSharingPolicyCommand}
+   */
+  getPortalProductSharingPolicy(
+    args: GetPortalProductSharingPolicyCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetPortalProductSharingPolicyCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | BadRequestError | NotFoundError | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link GetProductPageCommand}
+   */
+  getProductPage(
+    args: GetProductPageCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetProductPageCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | BadRequestError | NotFoundError | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link GetProductRestEndpointPageCommand}
+   */
+  getProductRestEndpointPage(
+    args: GetProductRestEndpointPageCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetProductRestEndpointPageCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | BadRequestError | NotFoundError | TooManyRequestsError
+  >;
+
+  /**
    * @see {@link GetRouteCommand}
    */
   getRoute(
@@ -991,6 +1266,50 @@ interface ApiGatewayV2Service$ {
   >;
 
   /**
+   * @see {@link ListPortalProductsCommand}
+   */
+  listPortalProducts(
+    args: ListPortalProductsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListPortalProductsCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | BadRequestError | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link ListPortalsCommand}
+   */
+  listPortals(
+    args: ListPortalsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListPortalsCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | BadRequestError | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link ListProductPagesCommand}
+   */
+  listProductPages(
+    args: ListProductPagesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListProductPagesCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | BadRequestError | NotFoundError | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link ListProductRestEndpointPagesCommand}
+   */
+  listProductRestEndpointPages(
+    args: ListProductRestEndpointPagesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListProductRestEndpointPagesCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | BadRequestError | NotFoundError | TooManyRequestsError
+  >;
+
+  /**
    * @see {@link ListRoutingRulesCommand}
    */
   listRoutingRules(
@@ -999,6 +1318,51 @@ interface ApiGatewayV2Service$ {
   ): Effect.Effect<
     ListRoutingRulesCommandOutput,
     Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link PreviewPortalCommand}
+   */
+  previewPortal(
+    args: PreviewPortalCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    PreviewPortalCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | BadRequestError
+    | ConflictError
+    | NotFoundError
+    | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link PublishPortalCommand}
+   */
+  publishPortal(
+    args: PublishPortalCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    PublishPortalCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | BadRequestError
+    | ConflictError
+    | NotFoundError
+    | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link PutPortalProductSharingPolicyCommand}
+   */
+  putPortalProductSharingPolicy(
+    args: PutPortalProductSharingPolicyCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    PutPortalProductSharingPolicyCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1142,6 +1506,56 @@ interface ApiGatewayV2Service$ {
   ): Effect.Effect<
     UpdateModelCommandOutput,
     Cause.TimeoutException | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link UpdatePortalCommand}
+   */
+  updatePortal(
+    args: UpdatePortalCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdatePortalCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | BadRequestError
+    | ConflictError
+    | NotFoundError
+    | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link UpdatePortalProductCommand}
+   */
+  updatePortalProduct(
+    args: UpdatePortalProductCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdatePortalProductCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | BadRequestError | NotFoundError | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link UpdateProductPageCommand}
+   */
+  updateProductPage(
+    args: UpdateProductPageCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateProductPageCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | BadRequestError | NotFoundError | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link UpdateProductRestEndpointPageCommand}
+   */
+  updateProductRestEndpointPage(
+    args: UpdateProductRestEndpointPageCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateProductRestEndpointPageCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**

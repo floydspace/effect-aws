@@ -103,6 +103,9 @@ import {
   ListImportsCommand,
   type ListImportsCommandInput,
   type ListImportsCommandOutput,
+  ListInsightsDataCommand,
+  type ListInsightsDataCommandInput,
+  type ListInsightsDataCommandOutput,
   ListInsightsMetricDataCommand,
   type ListInsightsMetricDataCommandInput,
   type ListInsightsMetricDataCommandOutput,
@@ -313,6 +316,7 @@ const commands = {
   ListEventDataStoresCommand,
   ListImportFailuresCommand,
   ListImportsCommand,
+  ListInsightsDataCommand,
   ListInsightsMetricDataCommand,
   ListPublicKeysCommand,
   ListQueriesCommand,
@@ -465,6 +469,7 @@ interface CloudTrailService$ {
     | OperationNotPermittedError
     | OrganizationNotInAllFeaturesModeError
     | OrganizationsNotInUseError
+    | ThrottlingError
     | UnsupportedOperationError
   >;
 
@@ -785,8 +790,10 @@ interface CloudTrailService$ {
     | InvalidEventDataStoreStatusError
     | InvalidParameterCombinationError
     | InvalidParameterError
+    | InvalidTrailNameError
     | NoManagementAccountSLRExistsError
     | OperationNotPermittedError
+    | TrailNotFoundError
     | UnsupportedOperationError
   >;
 
@@ -1012,6 +1019,17 @@ interface CloudTrailService$ {
   >;
 
   /**
+   * @see {@link ListInsightsDataCommand}
+   */
+  listInsightsData(
+    args: ListInsightsDataCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListInsightsDataCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidParameterError | OperationNotPermittedError | UnsupportedOperationError
+  >;
+
+  /**
    * @see {@link ListInsightsMetricDataCommand}
    */
   listInsightsMetricData(
@@ -1019,7 +1037,12 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListInsightsMetricDataCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | OperationNotPermittedError | UnsupportedOperationError
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidParameterError
+    | InvalidTrailNameError
+    | OperationNotPermittedError
+    | UnsupportedOperationError
   >;
 
   /**
@@ -1134,12 +1157,15 @@ interface CloudTrailService$ {
     | InsufficientIAMAccessPermissionError
     | InvalidEventDataStoreCategoryError
     | InvalidEventDataStoreStatusError
+    | InvalidHomeRegionError
     | InvalidParameterCombinationError
     | InvalidParameterError
+    | InvalidTrailNameError
     | NoManagementAccountSLRExistsError
     | NotOrganizationMasterAccountError
     | OperationNotPermittedError
     | ThrottlingError
+    | TrailNotFoundError
     | UnsupportedOperationError
   >;
 
@@ -1531,6 +1557,7 @@ interface CloudTrailService$ {
     | Cause.TimeoutException
     | SdkError
     | CloudTrailAccessNotEnabledError
+    | ConflictError
     | EventDataStoreAlreadyExistsError
     | EventDataStoreARNInvalidError
     | EventDataStoreHasOngoingImportError
@@ -1549,6 +1576,7 @@ interface CloudTrailService$ {
     | OperationNotPermittedError
     | OrganizationNotInAllFeaturesModeError
     | OrganizationsNotInUseError
+    | ThrottlingError
     | UnsupportedOperationError
   >;
 

@@ -83,6 +83,9 @@ import {
   DeletePublicAccessBlockCommand,
   type DeletePublicAccessBlockCommandInput,
   type DeletePublicAccessBlockCommandOutput,
+  GetBucketAbacCommand,
+  type GetBucketAbacCommandInput,
+  type GetBucketAbacCommandOutput,
   GetBucketAccelerateConfigurationCommand,
   type GetBucketAccelerateConfigurationCommandInput,
   type GetBucketAccelerateConfigurationCommandOutput,
@@ -215,6 +218,9 @@ import {
   ListPartsCommand,
   type ListPartsCommandInput,
   type ListPartsCommandOutput,
+  PutBucketAbacCommand,
+  type PutBucketAbacCommandInput,
+  type PutBucketAbacCommandOutput,
   PutBucketAccelerateConfigurationCommand,
   type PutBucketAccelerateConfigurationCommandInput,
   type PutBucketAccelerateConfigurationCommandOutput,
@@ -373,6 +379,7 @@ const commands = {
   DeleteObjectTaggingCommand,
   DeleteObjectsCommand,
   DeletePublicAccessBlockCommand,
+  GetBucketAbacCommand,
   GetBucketAccelerateConfigurationCommand,
   GetBucketAclCommand,
   GetBucketAnalyticsConfigurationCommand,
@@ -417,6 +424,7 @@ const commands = {
   ListObjectsCommand,
   ListObjectsV2Command,
   ListPartsCommand,
+  PutBucketAbacCommand,
   PutBucketAccelerateConfigurationCommand,
   PutBucketAclCommand,
   PutBucketAnalyticsConfigurationCommand,
@@ -749,6 +757,17 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeletePublicAccessBlockCommandOutput,
+    Cause.TimeoutException | SdkError | S3ServiceError
+  >;
+
+  /**
+   * @see {@link GetBucketAbacCommand}
+   */
+  getBucketAbac(
+    args: GetBucketAbacCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetBucketAbacCommandOutput,
     Cause.TimeoutException | SdkError | S3ServiceError
   >;
 
@@ -1237,6 +1256,17 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListPartsCommandOutput,
+    Cause.TimeoutException | SdkError | S3ServiceError
+  >;
+
+  /**
+   * @see {@link PutBucketAbacCommand}
+   */
+  putBucketAbac(
+    args: PutBucketAbacCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    PutBucketAbacCommandOutput,
     Cause.TimeoutException | SdkError | S3ServiceError
   >;
 

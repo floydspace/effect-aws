@@ -645,6 +645,7 @@ import type {
   TenantDatabaseNotFoundFaultError,
   TenantDatabaseQuotaExceededFaultError,
   UnsupportedDBEngineVersionFaultError,
+  VpcEncryptionControlViolationError,
 } from "./Errors.js";
 import { AllServiceErrors } from "./Errors.js";
 import * as Instance from "./RDSClientInstance.js";
@@ -1098,6 +1099,7 @@ interface RDSService$ {
     | OptionGroupNotFoundFaultError
     | StorageQuotaExceededFaultError
     | StorageTypeNotSupportedFaultError
+    | VpcEncryptionControlViolationError
   >;
 
   /**
@@ -1181,6 +1183,7 @@ interface RDSService$ {
     | StorageQuotaExceededFaultError
     | StorageTypeNotSupportedFaultError
     | TenantDatabaseQuotaExceededFaultError
+    | VpcEncryptionControlViolationError
   >;
 
   /**
@@ -1217,6 +1220,7 @@ interface RDSService$ {
     | StorageQuotaExceededFaultError
     | StorageTypeNotSupportedFaultError
     | TenantDatabaseQuotaExceededFaultError
+    | VpcEncryptionControlViolationError
   >;
 
   /**
@@ -2403,6 +2407,7 @@ interface RDSService$ {
     | StorageQuotaExceededFaultError
     | StorageTypeNotAvailableFaultError
     | StorageTypeNotSupportedFaultError
+    | VpcEncryptionControlViolationError
   >;
 
   /**
@@ -2479,6 +2484,7 @@ interface RDSService$ {
     | StorageQuotaExceededFaultError
     | StorageTypeNotSupportedFaultError
     | TenantDatabaseQuotaExceededFaultError
+    | VpcEncryptionControlViolationError
   >;
 
   /**
@@ -2954,6 +2960,7 @@ interface RDSService$ {
     | OptionGroupNotFoundFaultError
     | StorageQuotaExceededFaultError
     | StorageTypeNotSupportedFaultError
+    | VpcEncryptionControlViolationError
   >;
 
   /**
@@ -2988,6 +2995,7 @@ interface RDSService$ {
     | OptionGroupNotFoundFaultError
     | StorageQuotaExceededFaultError
     | StorageTypeNotSupportedFaultError
+    | VpcEncryptionControlViolationError
   >;
 
   /**
@@ -3024,6 +3032,7 @@ interface RDSService$ {
     | StorageQuotaExceededFaultError
     | StorageTypeNotSupportedFaultError
     | TenantDatabaseQuotaExceededFaultError
+    | VpcEncryptionControlViolationError
   >;
 
   /**
@@ -3055,6 +3064,7 @@ interface RDSService$ {
     | ProvisionedIopsNotAvailableInAZFaultError
     | StorageQuotaExceededFaultError
     | StorageTypeNotSupportedFaultError
+    | VpcEncryptionControlViolationError
   >;
 
   /**
@@ -3092,6 +3102,7 @@ interface RDSService$ {
     | StorageQuotaExceededFaultError
     | StorageTypeNotSupportedFaultError
     | TenantDatabaseQuotaExceededFaultError
+    | VpcEncryptionControlViolationError
   >;
 
   /**
@@ -3142,6 +3153,7 @@ interface RDSService$ {
     | InvalidDBInstanceStateFaultError
     | InvalidDBShardGroupStateFaultError
     | KMSKeyNotAccessibleFaultError
+    | VpcEncryptionControlViolationError
   >;
 
   /**
@@ -3165,6 +3177,7 @@ interface RDSService$ {
     | InvalidSubnetError
     | InvalidVPCNetworkStateFaultError
     | KMSKeyNotAccessibleFaultError
+    | VpcEncryptionControlViolationError
   >;
 
   /**

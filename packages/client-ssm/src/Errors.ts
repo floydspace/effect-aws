@@ -84,6 +84,7 @@ import type {
   ItemSizeLimitExceededException,
   MalformedResourcePolicyDocumentException,
   MaxDocumentSizeExceeded,
+  NoLongerSupportedException,
   OpsItemAccessDeniedException,
   OpsItemAlreadyExistsException,
   OpsItemConflictException,
@@ -226,6 +227,7 @@ export const AllServiceErrors = [
   "ItemSizeLimitExceededException",
   "MalformedResourcePolicyDocumentException",
   "MaxDocumentSizeExceeded",
+  "NoLongerSupportedException",
   "OpsItemAccessDeniedException",
   "OpsItemAlreadyExistsException",
   "OpsItemConflictException",
@@ -366,6 +368,7 @@ export type ItemContentMismatchError = TaggedException<ItemContentMismatchExcept
 export type ItemSizeLimitExceededError = TaggedException<ItemSizeLimitExceededException>;
 export type MalformedResourcePolicyDocumentError = TaggedException<MalformedResourcePolicyDocumentException>;
 export type MaxDocumentSizeExceededError = TaggedException<MaxDocumentSizeExceeded>;
+export type NoLongerSupportedError = TaggedException<NoLongerSupportedException>;
 export type OpsItemAccessDeniedError = TaggedException<OpsItemAccessDeniedException>;
 export type OpsItemAlreadyExistsError = TaggedException<OpsItemAlreadyExistsException>;
 export type OpsItemConflictError = TaggedException<OpsItemConflictException>;

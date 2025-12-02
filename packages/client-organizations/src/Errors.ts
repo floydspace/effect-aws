@@ -26,6 +26,7 @@ import type {
   HandshakeNotFoundException,
   InvalidHandshakeTransitionException,
   InvalidInputException,
+  InvalidResponsibilityTransferTransitionException,
   MalformedPolicyDocumentException,
   MasterCannotLeaveOrganizationException,
   OrganizationalUnitNotEmptyException,
@@ -40,6 +41,8 @@ import type {
   PolicyTypeNotAvailableForOrganizationException,
   PolicyTypeNotEnabledException,
   ResourcePolicyNotFoundException,
+  ResponsibilityTransferAlreadyInStatusException,
+  ResponsibilityTransferNotFoundException,
   RootNotFoundException,
   ServiceException,
   SourceParentNotFoundException,
@@ -77,6 +80,7 @@ export const AllServiceErrors = [
   "HandshakeNotFoundException",
   "InvalidHandshakeTransitionException",
   "InvalidInputException",
+  "InvalidResponsibilityTransferTransitionException",
   "MalformedPolicyDocumentException",
   "MasterCannotLeaveOrganizationException",
   "OrganizationNotEmptyException",
@@ -91,6 +95,8 @@ export const AllServiceErrors = [
   "PolicyTypeNotAvailableForOrganizationException",
   "PolicyTypeNotEnabledException",
   "ResourcePolicyNotFoundException",
+  "ResponsibilityTransferAlreadyInStatusException",
+  "ResponsibilityTransferNotFoundException",
   "RootNotFoundException",
   "ServiceException",
   "SourceParentNotFoundException",
@@ -126,6 +132,9 @@ export type HandshakeConstraintViolationError = TaggedException<HandshakeConstra
 export type HandshakeNotFoundError = TaggedException<HandshakeNotFoundException>;
 export type InvalidHandshakeTransitionError = TaggedException<InvalidHandshakeTransitionException>;
 export type InvalidInputError = TaggedException<InvalidInputException>;
+export type InvalidResponsibilityTransferTransitionError = TaggedException<
+  InvalidResponsibilityTransferTransitionException
+>;
 export type MalformedPolicyDocumentError = TaggedException<MalformedPolicyDocumentException>;
 export type MasterCannotLeaveOrganizationError = TaggedException<MasterCannotLeaveOrganizationException>;
 export type OrganizationNotEmptyError = TaggedException<OrganizationNotEmptyException>;
@@ -142,6 +151,10 @@ export type PolicyTypeNotAvailableForOrganizationError = TaggedException<
 >;
 export type PolicyTypeNotEnabledError = TaggedException<PolicyTypeNotEnabledException>;
 export type ResourcePolicyNotFoundError = TaggedException<ResourcePolicyNotFoundException>;
+export type ResponsibilityTransferAlreadyInStatusError = TaggedException<
+  ResponsibilityTransferAlreadyInStatusException
+>;
+export type ResponsibilityTransferNotFoundError = TaggedException<ResponsibilityTransferNotFoundException>;
 export type RootNotFoundError = TaggedException<RootNotFoundException>;
 export type ServiceError = TaggedException<ServiceException>;
 export type SourceParentNotFoundError = TaggedException<SourceParentNotFoundException>;

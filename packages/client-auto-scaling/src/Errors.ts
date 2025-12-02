@@ -1,6 +1,7 @@
 import type {
   ActiveInstanceRefreshNotFoundFault,
   AlreadyExistsFault,
+  IdempotentParameterMismatchError as IdempotentParameterMismatchException,
   InstanceRefreshInProgressFault,
   InvalidNextToken,
   IrreversibleInstanceRefreshFault,
@@ -15,6 +16,7 @@ import type { TaggedException } from "@effect-aws/commons";
 export const AllServiceErrors = [
   "ActiveInstanceRefreshNotFoundFault",
   "AlreadyExistsFault",
+  "IdempotentParameterMismatchError",
   "InstanceRefreshInProgressFault",
   "InvalidNextToken",
   "IrreversibleInstanceRefreshFault",
@@ -27,6 +29,7 @@ export const AllServiceErrors = [
 
 export type ActiveInstanceRefreshNotFoundFaultError = TaggedException<ActiveInstanceRefreshNotFoundFault>;
 export type AlreadyExistsFaultError = TaggedException<AlreadyExistsFault>;
+export type IdempotentParameterMismatchError = TaggedException<IdempotentParameterMismatchException>;
 export type InstanceRefreshInProgressFaultError = TaggedException<InstanceRefreshInProgressFault>;
 export type InvalidNextTokenError = TaggedException<InvalidNextToken>;
 export type IrreversibleInstanceRefreshFaultError = TaggedException<IrreversibleInstanceRefreshFault>;

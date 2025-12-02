@@ -8,9 +8,15 @@ import {
   AddPermissionCommand,
   type AddPermissionCommandInput,
   type AddPermissionCommandOutput,
+  CheckpointDurableExecutionCommand,
+  type CheckpointDurableExecutionCommandInput,
+  type CheckpointDurableExecutionCommandOutput,
   CreateAliasCommand,
   type CreateAliasCommandInput,
   type CreateAliasCommandOutput,
+  CreateCapacityProviderCommand,
+  type CreateCapacityProviderCommandInput,
+  type CreateCapacityProviderCommandOutput,
   CreateCodeSigningConfigCommand,
   type CreateCodeSigningConfigCommandInput,
   type CreateCodeSigningConfigCommandOutput,
@@ -26,6 +32,9 @@ import {
   DeleteAliasCommand,
   type DeleteAliasCommandInput,
   type DeleteAliasCommandOutput,
+  DeleteCapacityProviderCommand,
+  type DeleteCapacityProviderCommandInput,
+  type DeleteCapacityProviderCommandOutput,
   DeleteCodeSigningConfigCommand,
   type DeleteCodeSigningConfigCommandInput,
   type DeleteCodeSigningConfigCommandOutput,
@@ -59,9 +68,21 @@ import {
   GetAliasCommand,
   type GetAliasCommandInput,
   type GetAliasCommandOutput,
+  GetCapacityProviderCommand,
+  type GetCapacityProviderCommandInput,
+  type GetCapacityProviderCommandOutput,
   GetCodeSigningConfigCommand,
   type GetCodeSigningConfigCommandInput,
   type GetCodeSigningConfigCommandOutput,
+  GetDurableExecutionCommand,
+  type GetDurableExecutionCommandInput,
+  type GetDurableExecutionCommandOutput,
+  GetDurableExecutionHistoryCommand,
+  type GetDurableExecutionHistoryCommandInput,
+  type GetDurableExecutionHistoryCommandOutput,
+  GetDurableExecutionStateCommand,
+  type GetDurableExecutionStateCommandInput,
+  type GetDurableExecutionStateCommandOutput,
   GetEventSourceMappingCommand,
   type GetEventSourceMappingCommandInput,
   type GetEventSourceMappingCommandOutput,
@@ -83,6 +104,9 @@ import {
   GetFunctionRecursionConfigCommand,
   type GetFunctionRecursionConfigCommandInput,
   type GetFunctionRecursionConfigCommandOutput,
+  GetFunctionScalingConfigCommand,
+  type GetFunctionScalingConfigCommandInput,
+  type GetFunctionScalingConfigCommandOutput,
   GetFunctionUrlConfigCommand,
   type GetFunctionUrlConfigCommandInput,
   type GetFunctionUrlConfigCommandOutput,
@@ -118,9 +142,15 @@ import {
   ListAliasesCommand,
   type ListAliasesCommandInput,
   type ListAliasesCommandOutput,
+  ListCapacityProvidersCommand,
+  type ListCapacityProvidersCommandInput,
+  type ListCapacityProvidersCommandOutput,
   ListCodeSigningConfigsCommand,
   type ListCodeSigningConfigsCommandInput,
   type ListCodeSigningConfigsCommandOutput,
+  ListDurableExecutionsByFunctionCommand,
+  type ListDurableExecutionsByFunctionCommandInput,
+  type ListDurableExecutionsByFunctionCommandOutput,
   ListEventSourceMappingsCommand,
   type ListEventSourceMappingsCommandInput,
   type ListEventSourceMappingsCommandOutput,
@@ -136,6 +166,9 @@ import {
   ListFunctionUrlConfigsCommand,
   type ListFunctionUrlConfigsCommandInput,
   type ListFunctionUrlConfigsCommandOutput,
+  ListFunctionVersionsByCapacityProviderCommand,
+  type ListFunctionVersionsByCapacityProviderCommandInput,
+  type ListFunctionVersionsByCapacityProviderCommandOutput,
   ListLayersCommand,
   type ListLayersCommandInput,
   type ListLayersCommandOutput,
@@ -169,6 +202,9 @@ import {
   PutFunctionRecursionConfigCommand,
   type PutFunctionRecursionConfigCommandInput,
   type PutFunctionRecursionConfigCommandOutput,
+  PutFunctionScalingConfigCommand,
+  type PutFunctionScalingConfigCommandInput,
+  type PutFunctionScalingConfigCommandOutput,
   PutProvisionedConcurrencyConfigCommand,
   type PutProvisionedConcurrencyConfigCommandInput,
   type PutProvisionedConcurrencyConfigCommandOutput,
@@ -181,6 +217,18 @@ import {
   RemovePermissionCommand,
   type RemovePermissionCommandInput,
   type RemovePermissionCommandOutput,
+  SendDurableExecutionCallbackFailureCommand,
+  type SendDurableExecutionCallbackFailureCommandInput,
+  type SendDurableExecutionCallbackFailureCommandOutput,
+  SendDurableExecutionCallbackHeartbeatCommand,
+  type SendDurableExecutionCallbackHeartbeatCommandInput,
+  type SendDurableExecutionCallbackHeartbeatCommandOutput,
+  SendDurableExecutionCallbackSuccessCommand,
+  type SendDurableExecutionCallbackSuccessCommandInput,
+  type SendDurableExecutionCallbackSuccessCommandOutput,
+  StopDurableExecutionCommand,
+  type StopDurableExecutionCommandInput,
+  type StopDurableExecutionCommandOutput,
   TagResourceCommand,
   type TagResourceCommandInput,
   type TagResourceCommandOutput,
@@ -190,6 +238,9 @@ import {
   UpdateAliasCommand,
   type UpdateAliasCommandInput,
   type UpdateAliasCommandOutput,
+  UpdateCapacityProviderCommand,
+  type UpdateCapacityProviderCommandInput,
+  type UpdateCapacityProviderCommandOutput,
   UpdateCodeSigningConfigCommand,
   type UpdateCodeSigningConfigCommandInput,
   type UpdateCodeSigningConfigCommandOutput,
@@ -214,9 +265,12 @@ import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
 import type {
+  CallbackTimeoutError,
+  CapacityProviderLimitExceededError,
   CodeSigningConfigNotFoundError,
   CodeStorageExceededError,
   CodeVerificationFailedError,
+  DurableExecutionAlreadyStartedError,
   EC2AccessDeniedError,
   EC2ThrottledError,
   EC2UnexpectedError,
@@ -225,6 +279,7 @@ import type {
   EFSMountFailureError,
   EFSMountTimeoutError,
   ENILimitReachedError,
+  FunctionVersionsPerCapacityProviderLimitExceededError,
   InvalidCodeSignatureError,
   InvalidParameterValueError,
   InvalidRequestContentError,
@@ -236,6 +291,7 @@ import type {
   KMSDisabledError,
   KMSInvalidStateError,
   KMSNotFoundError,
+  NoPublishedVersionError,
   PolicyLengthExceededError,
   PreconditionFailedError,
   ProvisionedConcurrencyConfigNotFoundError,
@@ -262,12 +318,15 @@ import * as LambdaServiceConfig from "./LambdaServiceConfig.js";
 const commands = {
   AddLayerVersionPermissionCommand,
   AddPermissionCommand,
+  CheckpointDurableExecutionCommand,
   CreateAliasCommand,
+  CreateCapacityProviderCommand,
   CreateCodeSigningConfigCommand,
   CreateEventSourceMappingCommand,
   CreateFunctionCommand,
   CreateFunctionUrlConfigCommand,
   DeleteAliasCommand,
+  DeleteCapacityProviderCommand,
   DeleteCodeSigningConfigCommand,
   DeleteEventSourceMappingCommand,
   DeleteFunctionCommand,
@@ -279,7 +338,11 @@ const commands = {
   DeleteProvisionedConcurrencyConfigCommand,
   GetAccountSettingsCommand,
   GetAliasCommand,
+  GetCapacityProviderCommand,
   GetCodeSigningConfigCommand,
+  GetDurableExecutionCommand,
+  GetDurableExecutionHistoryCommand,
+  GetDurableExecutionStateCommand,
   GetEventSourceMappingCommand,
   GetFunctionCommand,
   GetFunctionCodeSigningConfigCommand,
@@ -287,6 +350,7 @@ const commands = {
   GetFunctionConfigurationCommand,
   GetFunctionEventInvokeConfigCommand,
   GetFunctionRecursionConfigCommand,
+  GetFunctionScalingConfigCommand,
   GetFunctionUrlConfigCommand,
   GetLayerVersionCommand,
   GetLayerVersionByArnCommand,
@@ -298,10 +362,13 @@ const commands = {
   InvokeAsyncCommand,
   InvokeWithResponseStreamCommand,
   ListAliasesCommand,
+  ListCapacityProvidersCommand,
   ListCodeSigningConfigsCommand,
+  ListDurableExecutionsByFunctionCommand,
   ListEventSourceMappingsCommand,
   ListFunctionEventInvokeConfigsCommand,
   ListFunctionUrlConfigsCommand,
+  ListFunctionVersionsByCapacityProviderCommand,
   ListFunctionsCommand,
   ListFunctionsByCodeSigningConfigCommand,
   ListLayerVersionsCommand,
@@ -315,13 +382,19 @@ const commands = {
   PutFunctionConcurrencyCommand,
   PutFunctionEventInvokeConfigCommand,
   PutFunctionRecursionConfigCommand,
+  PutFunctionScalingConfigCommand,
   PutProvisionedConcurrencyConfigCommand,
   PutRuntimeManagementConfigCommand,
   RemoveLayerVersionPermissionCommand,
   RemovePermissionCommand,
+  SendDurableExecutionCallbackFailureCommand,
+  SendDurableExecutionCallbackHeartbeatCommand,
+  SendDurableExecutionCallbackSuccessCommand,
+  StopDurableExecutionCommand,
   TagResourceCommand,
   UntagResourceCommand,
   UpdateAliasCommand,
+  UpdateCapacityProviderCommand,
   UpdateCodeSigningConfigCommand,
   UpdateEventSourceMappingCommand,
   UpdateFunctionCodeCommand,
@@ -372,6 +445,17 @@ interface LambdaService$ {
   >;
 
   /**
+   * @see {@link CheckpointDurableExecutionCommand}
+   */
+  checkpointDurableExecution(
+    args: CheckpointDurableExecutionCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CheckpointDurableExecutionCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidParameterValueError | ServiceError | TooManyRequestsError
+  >;
+
+  /**
    * @see {@link CreateAliasCommand}
    */
   createAlias(
@@ -384,6 +468,23 @@ interface LambdaService$ {
     | InvalidParameterValueError
     | ResourceConflictError
     | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link CreateCapacityProviderCommand}
+   */
+  createCapacityProvider(
+    args: CreateCapacityProviderCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateCapacityProviderCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | CapacityProviderLimitExceededError
+    | InvalidParameterValueError
+    | ResourceConflictError
     | ServiceError
     | TooManyRequestsError
   >;
@@ -429,6 +530,7 @@ interface LambdaService$ {
     | CodeSigningConfigNotFoundError
     | CodeStorageExceededError
     | CodeVerificationFailedError
+    | FunctionVersionsPerCapacityProviderLimitExceededError
     | InvalidCodeSignatureError
     | InvalidParameterValueError
     | ResourceConflictError
@@ -466,6 +568,23 @@ interface LambdaService$ {
     | SdkError
     | InvalidParameterValueError
     | ResourceConflictError
+    | ServiceError
+    | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link DeleteCapacityProviderCommand}
+   */
+  deleteCapacityProvider(
+    args: DeleteCapacityProviderCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteCapacityProviderCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceConflictError
+    | ResourceNotFoundError
     | ServiceError
     | TooManyRequestsError
   >;
@@ -645,6 +764,22 @@ interface LambdaService$ {
   >;
 
   /**
+   * @see {@link GetCapacityProviderCommand}
+   */
+  getCapacityProvider(
+    args: GetCapacityProviderCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetCapacityProviderCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
+
+  /**
    * @see {@link GetCodeSigningConfigCommand}
    */
   getCodeSigningConfig(
@@ -653,6 +788,49 @@ interface LambdaService$ {
   ): Effect.Effect<
     GetCodeSigningConfigCommandOutput,
     Cause.TimeoutException | SdkError | InvalidParameterValueError | ResourceNotFoundError | ServiceError
+  >;
+
+  /**
+   * @see {@link GetDurableExecutionCommand}
+   */
+  getDurableExecution(
+    args: GetDurableExecutionCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetDurableExecutionCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link GetDurableExecutionHistoryCommand}
+   */
+  getDurableExecutionHistory(
+    args: GetDurableExecutionHistoryCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetDurableExecutionHistoryCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link GetDurableExecutionStateCommand}
+   */
+  getDurableExecutionState(
+    args: GetDurableExecutionStateCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetDurableExecutionStateCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidParameterValueError | ServiceError | TooManyRequestsError
   >;
 
   /**
@@ -759,6 +937,22 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetFunctionRecursionConfigCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link GetFunctionScalingConfigCommand}
+   */
+  getFunctionScalingConfig(
+    args: GetFunctionScalingConfigCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetFunctionScalingConfigCommandOutput,
     | Cause.TimeoutException
     | SdkError
     | InvalidParameterValueError
@@ -890,6 +1084,7 @@ interface LambdaService$ {
     InvokeCommandOutput,
     | Cause.TimeoutException
     | SdkError
+    | DurableExecutionAlreadyStartedError
     | EC2AccessDeniedError
     | EC2ThrottledError
     | EC2UnexpectedError
@@ -908,6 +1103,7 @@ interface LambdaService$ {
     | KMSDisabledError
     | KMSInvalidStateError
     | KMSNotFoundError
+    | NoPublishedVersionError
     | RecursiveInvocationError
     | RequestTooLargeError
     | ResourceConflictError
@@ -968,6 +1164,7 @@ interface LambdaService$ {
     | KMSDisabledError
     | KMSInvalidStateError
     | KMSNotFoundError
+    | NoPublishedVersionError
     | RecursiveInvocationError
     | RequestTooLargeError
     | ResourceConflictError
@@ -1000,6 +1197,17 @@ interface LambdaService$ {
   >;
 
   /**
+   * @see {@link ListCapacityProvidersCommand}
+   */
+  listCapacityProviders(
+    args: ListCapacityProvidersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListCapacityProvidersCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidParameterValueError | ServiceError | TooManyRequestsError
+  >;
+
+  /**
    * @see {@link ListCodeSigningConfigsCommand}
    */
   listCodeSigningConfigs(
@@ -1008,6 +1216,22 @@ interface LambdaService$ {
   ): Effect.Effect<
     ListCodeSigningConfigsCommandOutput,
     Cause.TimeoutException | SdkError | InvalidParameterValueError | ServiceError
+  >;
+
+  /**
+   * @see {@link ListDurableExecutionsByFunctionCommand}
+   */
+  listDurableExecutionsByFunction(
+    args: ListDurableExecutionsByFunctionCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListDurableExecutionsByFunctionCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
   >;
 
   /**
@@ -1050,6 +1274,22 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListFunctionUrlConfigsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link ListFunctionVersionsByCapacityProviderCommand}
+   */
+  listFunctionVersionsByCapacityProvider(
+    args: ListFunctionVersionsByCapacityProviderCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListFunctionVersionsByCapacityProviderCommandOutput,
     | Cause.TimeoutException
     | SdkError
     | InvalidParameterValueError
@@ -1183,6 +1423,7 @@ interface LambdaService$ {
     | Cause.TimeoutException
     | SdkError
     | CodeStorageExceededError
+    | FunctionVersionsPerCapacityProviderLimitExceededError
     | InvalidParameterValueError
     | PreconditionFailedError
     | ResourceConflictError
@@ -1261,6 +1502,23 @@ interface LambdaService$ {
   >;
 
   /**
+   * @see {@link PutFunctionScalingConfigCommand}
+   */
+  putFunctionScalingConfig(
+    args: PutFunctionScalingConfigCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    PutFunctionScalingConfigCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceConflictError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
+
+  /**
    * @see {@link PutProvisionedConcurrencyConfigCommand}
    */
   putProvisionedConcurrencyConfig(
@@ -1329,6 +1587,70 @@ interface LambdaService$ {
   >;
 
   /**
+   * @see {@link SendDurableExecutionCallbackFailureCommand}
+   */
+  sendDurableExecutionCallbackFailure(
+    args: SendDurableExecutionCallbackFailureCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    SendDurableExecutionCallbackFailureCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | CallbackTimeoutError
+    | InvalidParameterValueError
+    | ServiceError
+    | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link SendDurableExecutionCallbackHeartbeatCommand}
+   */
+  sendDurableExecutionCallbackHeartbeat(
+    args: SendDurableExecutionCallbackHeartbeatCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    SendDurableExecutionCallbackHeartbeatCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | CallbackTimeoutError
+    | InvalidParameterValueError
+    | ServiceError
+    | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link SendDurableExecutionCallbackSuccessCommand}
+   */
+  sendDurableExecutionCallbackSuccess(
+    args: SendDurableExecutionCallbackSuccessCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    SendDurableExecutionCallbackSuccessCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | CallbackTimeoutError
+    | InvalidParameterValueError
+    | ServiceError
+    | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link StopDurableExecutionCommand}
+   */
+  stopDurableExecution(
+    args: StopDurableExecutionCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    StopDurableExecutionCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
+
+  /**
    * @see {@link TagResourceCommand}
    */
   tagResource(
@@ -1374,6 +1696,23 @@ interface LambdaService$ {
     | SdkError
     | InvalidParameterValueError
     | PreconditionFailedError
+    | ResourceConflictError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link UpdateCapacityProviderCommand}
+   */
+  updateCapacityProvider(
+    args: UpdateCapacityProviderCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateCapacityProviderCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidParameterValueError
     | ResourceConflictError
     | ResourceNotFoundError
     | ServiceError

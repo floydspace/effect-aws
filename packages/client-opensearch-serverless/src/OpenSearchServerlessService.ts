@@ -611,7 +611,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateAccountSettingsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ValidationError
+    Cause.TimeoutException | SdkError | InternalServerError | ServiceQuotaExceededError | ValidationError
   >;
 
   /**

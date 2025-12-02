@@ -533,6 +533,7 @@ import type {
   ItemSizeLimitExceededError,
   MalformedResourcePolicyDocumentError,
   MaxDocumentSizeExceededError,
+  NoLongerSupportedError,
   OpsItemAccessDeniedError,
   OpsItemAlreadyExistsError,
   OpsItemConflictError,
@@ -882,6 +883,7 @@ interface SSMService$ {
     | InvalidDocumentContentError
     | InvalidDocumentSchemaVersionError
     | MaxDocumentSizeExceededError
+    | NoLongerSupportedError
     | TooManyUpdatesError
   >;
 
@@ -2542,6 +2544,7 @@ interface SSMService$ {
     | IdempotentParameterMismatchError
     | InternalServerError
     | InvalidAutomationExecutionParametersError
+    | NoLongerSupportedError
   >;
 
   /**

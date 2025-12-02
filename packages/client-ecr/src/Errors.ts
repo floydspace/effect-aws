@@ -1,8 +1,13 @@
 import type {
+  BlockedByOrganizationPolicyException,
   EmptyUploadException,
+  ExclusionAlreadyExistsException,
+  ExclusionNotFoundException,
   ImageAlreadyExistsException,
+  ImageArchivedException,
   ImageDigestDoesNotMatchException,
   ImageNotFoundException,
+  ImageStorageClassUpdateNotSupportedException,
   ImageTagAlreadyExistsException,
   InvalidLayerException,
   InvalidLayerPartException,
@@ -28,6 +33,7 @@ import type {
   ScanNotFoundException,
   SecretNotFoundException,
   ServerException,
+  SigningConfigurationNotFoundException,
   TemplateAlreadyExistsException,
   TemplateNotFoundException,
   TooManyTagsException,
@@ -43,10 +49,15 @@ import type {
 import type { TaggedException } from "@effect-aws/commons";
 
 export const AllServiceErrors = [
+  "BlockedByOrganizationPolicyException",
   "EmptyUploadException",
+  "ExclusionAlreadyExistsException",
+  "ExclusionNotFoundException",
   "ImageAlreadyExistsException",
+  "ImageArchivedException",
   "ImageDigestDoesNotMatchException",
   "ImageNotFoundException",
+  "ImageStorageClassUpdateNotSupportedException",
   "ImageTagAlreadyExistsException",
   "InvalidLayerException",
   "InvalidLayerPartException",
@@ -72,6 +83,7 @@ export const AllServiceErrors = [
   "ScanNotFoundException",
   "SecretNotFoundException",
   "ServerException",
+  "SigningConfigurationNotFoundException",
   "TemplateAlreadyExistsException",
   "TemplateNotFoundException",
   "TooManyTagsException",
@@ -85,10 +97,15 @@ export const AllServiceErrors = [
   "ValidationException",
 ] as const;
 
+export type BlockedByOrganizationPolicyError = TaggedException<BlockedByOrganizationPolicyException>;
 export type EmptyUploadError = TaggedException<EmptyUploadException>;
+export type ExclusionAlreadyExistsError = TaggedException<ExclusionAlreadyExistsException>;
+export type ExclusionNotFoundError = TaggedException<ExclusionNotFoundException>;
 export type ImageAlreadyExistsError = TaggedException<ImageAlreadyExistsException>;
+export type ImageArchivedError = TaggedException<ImageArchivedException>;
 export type ImageDigestDoesNotMatchError = TaggedException<ImageDigestDoesNotMatchException>;
 export type ImageNotFoundError = TaggedException<ImageNotFoundException>;
+export type ImageStorageClassUpdateNotSupportedError = TaggedException<ImageStorageClassUpdateNotSupportedException>;
 export type ImageTagAlreadyExistsError = TaggedException<ImageTagAlreadyExistsException>;
 export type InvalidLayerError = TaggedException<InvalidLayerException>;
 export type InvalidLayerPartError = TaggedException<InvalidLayerPartException>;
@@ -114,6 +131,7 @@ export type RepositoryPolicyNotFoundError = TaggedException<RepositoryPolicyNotF
 export type ScanNotFoundError = TaggedException<ScanNotFoundException>;
 export type SecretNotFoundError = TaggedException<SecretNotFoundException>;
 export type ServerError = TaggedException<ServerException>;
+export type SigningConfigurationNotFoundError = TaggedException<SigningConfigurationNotFoundException>;
 export type TemplateAlreadyExistsError = TaggedException<TemplateAlreadyExistsException>;
 export type TemplateNotFoundError = TaggedException<TemplateNotFoundException>;
 export type TooManyTagsError = TaggedException<TooManyTagsException>;

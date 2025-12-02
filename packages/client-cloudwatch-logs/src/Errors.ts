@@ -2,6 +2,7 @@ import type {
   AccessDeniedException,
   ConflictException,
   DataAlreadyAcceptedException,
+  InternalServerException,
   InternalStreamingException,
   InvalidOperationException,
   InvalidParameterException,
@@ -26,6 +27,7 @@ export const AllServiceErrors = [
   "AccessDeniedException",
   "ConflictException",
   "DataAlreadyAcceptedException",
+  "InternalServerException",
   "InternalStreamingException",
   "InvalidOperationException",
   "InvalidParameterException",
@@ -48,6 +50,7 @@ export const AllServiceErrors = [
 export type AccessDeniedError = TaggedException<AccessDeniedException>;
 export type ConflictError = TaggedException<ConflictException>;
 export type DataAlreadyAcceptedError = TaggedException<DataAlreadyAcceptedException>;
+export type InternalServerError = TaggedException<InternalServerException>;
 export type InternalStreamingError = TaggedException<InternalStreamingException>;
 export type InvalidOperationError = TaggedException<InvalidOperationException>;
 export type InvalidParameterError = TaggedException<InvalidParameterException>;

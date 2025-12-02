@@ -44,6 +44,12 @@ import {
   DeleteRepositoryPolicyCommand,
   type DeleteRepositoryPolicyCommandInput,
   type DeleteRepositoryPolicyCommandOutput,
+  DeleteSigningConfigurationCommand,
+  type DeleteSigningConfigurationCommandInput,
+  type DeleteSigningConfigurationCommandOutput,
+  DeregisterPullTimeUpdateExclusionCommand,
+  type DeregisterPullTimeUpdateExclusionCommandInput,
+  type DeregisterPullTimeUpdateExclusionCommandOutput,
   DescribeImageReplicationStatusCommand,
   type DescribeImageReplicationStatusCommandInput,
   type DescribeImageReplicationStatusCommandOutput,
@@ -53,6 +59,9 @@ import {
   DescribeImagesCommand,
   type DescribeImagesCommandInput,
   type DescribeImagesCommandOutput,
+  DescribeImageSigningStatusCommand,
+  type DescribeImageSigningStatusCommandInput,
+  type DescribeImageSigningStatusCommandOutput,
   DescribePullThroughCacheRulesCommand,
   type DescribePullThroughCacheRulesCommandInput,
   type DescribePullThroughCacheRulesCommandOutput,
@@ -91,12 +100,21 @@ import {
   GetRepositoryPolicyCommand,
   type GetRepositoryPolicyCommandInput,
   type GetRepositoryPolicyCommandOutput,
+  GetSigningConfigurationCommand,
+  type GetSigningConfigurationCommandInput,
+  type GetSigningConfigurationCommandOutput,
   InitiateLayerUploadCommand,
   type InitiateLayerUploadCommandInput,
   type InitiateLayerUploadCommandOutput,
+  ListImageReferrersCommand,
+  type ListImageReferrersCommandInput,
+  type ListImageReferrersCommandOutput,
   ListImagesCommand,
   type ListImagesCommandInput,
   type ListImagesCommandOutput,
+  ListPullTimeUpdateExclusionsCommand,
+  type ListPullTimeUpdateExclusionsCommandInput,
+  type ListPullTimeUpdateExclusionsCommandOutput,
   ListTagsForResourceCommand,
   type ListTagsForResourceCommandInput,
   type ListTagsForResourceCommandOutput,
@@ -124,6 +142,12 @@ import {
   PutReplicationConfigurationCommand,
   type PutReplicationConfigurationCommandInput,
   type PutReplicationConfigurationCommandOutput,
+  PutSigningConfigurationCommand,
+  type PutSigningConfigurationCommandInput,
+  type PutSigningConfigurationCommandOutput,
+  RegisterPullTimeUpdateExclusionCommand,
+  type RegisterPullTimeUpdateExclusionCommandInput,
+  type RegisterPullTimeUpdateExclusionCommandOutput,
   SetRepositoryPolicyCommand,
   type SetRepositoryPolicyCommandInput,
   type SetRepositoryPolicyCommandOutput,
@@ -139,6 +163,9 @@ import {
   UntagResourceCommand,
   type UntagResourceCommandInput,
   type UntagResourceCommandOutput,
+  UpdateImageStorageClassCommand,
+  type UpdateImageStorageClassCommandInput,
+  type UpdateImageStorageClassCommandOutput,
   UpdatePullThroughCacheRuleCommand,
   type UpdatePullThroughCacheRuleCommandInput,
   type UpdatePullThroughCacheRuleCommandOutput,
@@ -159,10 +186,15 @@ import { Effect, Layer } from "effect";
 import * as Instance from "./ECRClientInstance.js";
 import * as ECRServiceConfig from "./ECRServiceConfig.js";
 import type {
+  BlockedByOrganizationPolicyError,
   EmptyUploadError,
+  ExclusionAlreadyExistsError,
+  ExclusionNotFoundError,
   ImageAlreadyExistsError,
+  ImageArchivedError,
   ImageDigestDoesNotMatchError,
   ImageNotFoundError,
+  ImageStorageClassUpdateNotSupportedError,
   ImageTagAlreadyExistsError,
   InvalidLayerError,
   InvalidLayerPartError,
@@ -189,6 +221,7 @@ import type {
   SdkError,
   SecretNotFoundError,
   ServerError,
+  SigningConfigurationNotFoundError,
   TemplateAlreadyExistsError,
   TemplateNotFoundError,
   TooManyTagsError,
@@ -218,8 +251,11 @@ const commands = {
   DeleteRepositoryCommand,
   DeleteRepositoryCreationTemplateCommand,
   DeleteRepositoryPolicyCommand,
+  DeleteSigningConfigurationCommand,
+  DeregisterPullTimeUpdateExclusionCommand,
   DescribeImageReplicationStatusCommand,
   DescribeImageScanFindingsCommand,
+  DescribeImageSigningStatusCommand,
   DescribeImagesCommand,
   DescribePullThroughCacheRulesCommand,
   DescribeRegistryCommand,
@@ -233,8 +269,11 @@ const commands = {
   GetRegistryPolicyCommand,
   GetRegistryScanningConfigurationCommand,
   GetRepositoryPolicyCommand,
+  GetSigningConfigurationCommand,
   InitiateLayerUploadCommand,
+  ListImageReferrersCommand,
   ListImagesCommand,
+  ListPullTimeUpdateExclusionsCommand,
   ListTagsForResourceCommand,
   PutAccountSettingCommand,
   PutImageCommand,
@@ -244,11 +283,14 @@ const commands = {
   PutRegistryPolicyCommand,
   PutRegistryScanningConfigurationCommand,
   PutReplicationConfigurationCommand,
+  PutSigningConfigurationCommand,
+  RegisterPullTimeUpdateExclusionCommand,
   SetRepositoryPolicyCommand,
   StartImageScanCommand,
   StartLifecyclePolicyPreviewCommand,
   TagResourceCommand,
   UntagResourceCommand,
+  UpdateImageStorageClassCommand,
   UpdatePullThroughCacheRuleCommand,
   UpdateRepositoryCreationTemplateCommand,
   UploadLayerPartCommand,
@@ -480,6 +522,34 @@ interface ECRService$ {
   >;
 
   /**
+   * @see {@link DeleteSigningConfigurationCommand}
+   */
+  deleteSigningConfiguration(
+    args: DeleteSigningConfigurationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteSigningConfigurationCommandOutput,
+    Cause.TimeoutException | SdkError | ServerError | SigningConfigurationNotFoundError | ValidationError
+  >;
+
+  /**
+   * @see {@link DeregisterPullTimeUpdateExclusionCommand}
+   */
+  deregisterPullTimeUpdateExclusion(
+    args: DeregisterPullTimeUpdateExclusionCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeregisterPullTimeUpdateExclusionCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | ExclusionNotFoundError
+    | InvalidParameterError
+    | LimitExceededError
+    | ServerError
+    | ValidationError
+  >;
+
+  /**
    * @see {@link DescribeImageReplicationStatusCommand}
    */
   describeImageReplicationStatus(
@@ -510,6 +580,23 @@ interface ECRService$ {
     | InvalidParameterError
     | RepositoryNotFoundError
     | ScanNotFoundError
+    | ServerError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link DescribeImageSigningStatusCommand}
+   */
+  describeImageSigningStatus(
+    args: DescribeImageSigningStatusCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeImageSigningStatusCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | ImageNotFoundError
+    | InvalidParameterError
+    | RepositoryNotFoundError
     | ServerError
     | ValidationError
   >;
@@ -697,6 +784,22 @@ interface ECRService$ {
   >;
 
   /**
+   * @see {@link GetSigningConfigurationCommand}
+   */
+  getSigningConfiguration(
+    args: GetSigningConfigurationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetSigningConfigurationCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidParameterError
+    | ServerError
+    | SigningConfigurationNotFoundError
+    | ValidationError
+  >;
+
+  /**
    * @see {@link InitiateLayerUploadCommand}
    */
   initiateLayerUpload(
@@ -708,6 +811,17 @@ interface ECRService$ {
   >;
 
   /**
+   * @see {@link ListImageReferrersCommand}
+   */
+  listImageReferrers(
+    args: ListImageReferrersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListImageReferrersCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidParameterError | RepositoryNotFoundError | ServerError | ValidationError
+  >;
+
+  /**
    * @see {@link ListImagesCommand}
    */
   listImages(
@@ -716,6 +830,17 @@ interface ECRService$ {
   ): Effect.Effect<
     ListImagesCommandOutput,
     Cause.TimeoutException | SdkError | InvalidParameterError | RepositoryNotFoundError | ServerError
+  >;
+
+  /**
+   * @see {@link ListPullTimeUpdateExclusionsCommand}
+   */
+  listPullTimeUpdateExclusions(
+    args: ListPullTimeUpdateExclusionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListPullTimeUpdateExclusionsCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidParameterError | LimitExceededError | ServerError | ValidationError
   >;
 
   /**
@@ -814,7 +939,12 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutRegistryScanningConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | ServerError | ValidationError
+    | Cause.TimeoutException
+    | SdkError
+    | BlockedByOrganizationPolicyError
+    | InvalidParameterError
+    | ServerError
+    | ValidationError
   >;
 
   /**
@@ -826,6 +956,34 @@ interface ECRService$ {
   ): Effect.Effect<
     PutReplicationConfigurationCommandOutput,
     Cause.TimeoutException | SdkError | InvalidParameterError | ServerError | ValidationError
+  >;
+
+  /**
+   * @see {@link PutSigningConfigurationCommand}
+   */
+  putSigningConfiguration(
+    args: PutSigningConfigurationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    PutSigningConfigurationCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidParameterError | ServerError | ValidationError
+  >;
+
+  /**
+   * @see {@link RegisterPullTimeUpdateExclusionCommand}
+   */
+  registerPullTimeUpdateExclusion(
+    args: RegisterPullTimeUpdateExclusionCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    RegisterPullTimeUpdateExclusionCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | ExclusionAlreadyExistsError
+    | InvalidParameterError
+    | LimitExceededError
+    | ServerError
+    | ValidationError
   >;
 
   /**
@@ -849,6 +1007,7 @@ interface ECRService$ {
     StartImageScanCommandOutput,
     | Cause.TimeoutException
     | SdkError
+    | ImageArchivedError
     | ImageNotFoundError
     | InvalidParameterError
     | LimitExceededError
@@ -908,6 +1067,24 @@ interface ECRService$ {
     | RepositoryNotFoundError
     | ServerError
     | TooManyTagsError
+  >;
+
+  /**
+   * @see {@link UpdateImageStorageClassCommand}
+   */
+  updateImageStorageClass(
+    args: UpdateImageStorageClassCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateImageStorageClassCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | ImageNotFoundError
+    | ImageStorageClassUpdateNotSupportedError
+    | InvalidParameterError
+    | RepositoryNotFoundError
+    | ServerError
+    | ValidationError
   >;
 
   /**
