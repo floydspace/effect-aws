@@ -89,6 +89,11 @@ export default {
     commandToTest: "ListApplications",
     inputToTest: null,
   },
+  "client-data-pipeline": {
+    description: "Effectful AWS Data Pipeline client",
+    commandToTest: "ListPipelines",
+    inputToTest: null,
+  },
   "client-cognito-identity-provider": {
     description: "Effectful AWS Cognito Identity Provider client",
     commandToTest: "ListUserPools",

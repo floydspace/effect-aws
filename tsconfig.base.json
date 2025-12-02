@@ -201,6 +201,15 @@
       "@effect-aws/client-codedeploy/test/*": [
         "./packages/client-codedeploy/test/*.js"
       ],
+      "@effect-aws/client-data-pipeline": [
+        "./packages/client-data-pipeline/src/index.js"
+      ],
+      "@effect-aws/client-data-pipeline/*": [
+        "./packages/client-data-pipeline/src/*.js"
+      ],
+      "@effect-aws/client-data-pipeline/test/*": [
+        "./packages/client-data-pipeline/test/*.js"
+      ],
       "@effect-aws/client-cognito-identity-provider": [
         "./packages/client-cognito-identity-provider/src/index.js"
       ],
