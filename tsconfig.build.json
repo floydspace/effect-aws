@@ -82,6 +82,9 @@
       "path": "packages/client-firehose/tsconfig.esm.json"
     },
     {
+      "path": "packages/client-glue/tsconfig.esm.json"
+    },
+    {
       "path": "packages/client-iam/tsconfig.esm.json"
     },
     {

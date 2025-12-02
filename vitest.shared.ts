@@ -44,6 +44,7 @@ const config: UserConfig = {
       ...alias("client-elasticache"),
       ...alias("client-eventbridge"),
       ...alias("client-firehose"),
+      ...alias("client-glue"),
       ...alias("client-iam"),
       ...alias("client-iot"),
       ...alias("client-iot-data-plane"),

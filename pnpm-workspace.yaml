@@ -25,6 +25,7 @@ packages:
   - packages/client-elasticache
   - packages/client-eventbridge
   - packages/client-firehose
+  - packages/client-glue
   - packages/client-iam
   - packages/client-iot
   - packages/client-iot-data-plane

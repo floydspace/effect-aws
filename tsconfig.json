@@ -87,6 +87,9 @@
       "path": "packages/client-firehose"
     },
     {
+      "path": "packages/client-glue"
+    },
+    {
       "path": "packages/client-iam"
     },
     {

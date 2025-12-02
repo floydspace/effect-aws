@@ -139,6 +139,11 @@ export default {
     commandToTest: "PutRecord",
     inputToTest: { Record: { Data: Buffer.from("") } },
   },
+  "client-glue": {
+    description: "Effectful AWS Glue client",
+    commandToTest: "ListJobs",
+    inputToTest: null,
+  },
   "client-iam": {
     description: "Effectful AWS IAM client",
     commandToTest: "CreateRole",
