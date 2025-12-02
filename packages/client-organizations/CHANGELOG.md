@@ -1,5 +1,11 @@
 # @effect-aws/client-organizations
 
+## 1.10.7
+
+### Patch Changes
+
+- [`aecc0af`](https://github.com/floydspace/effect-aws/commit/aecc0af4f05c734c9e42cc46b552382c32d86b39) Thanks [@floydspace](https://github.com/floydspace)! - regenerate with new aws-sdk
+
 ## 1.10.6
 
 ### Patch Changes
