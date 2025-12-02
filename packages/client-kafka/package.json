@@ -1,10 +1,10 @@
 {
-  "name": "@effect-aws/http-handler",
-  "description": "Effectful AWS HTTP handler",
+  "name": "@effect-aws/client-kafka",
+  "description": "Effectful AWS Kafka client",
   "repository": {
     "type": "git",
     "url": "github:floydspace/effect-aws",
-    "directory": "packages/http-handler"
+    "directory": "packages/client-kafka"
   },
   "scripts": {
     "build": "npx projen build",
@@ -25,30 +25,25 @@
     "organization": false
   },
   "devDependencies": {
-    "@effect-aws/commons": "workspace:^",
-    "@effect/platform": "^0.84.8",
     "@types/node": "ts5.4",
     "effect": "^3.16.4",
     "typescript": "^5.4.2"
   },
   "peerDependencies": {
-    "@effect-aws/commons": "workspace:^",
-    "@effect/platform": ">=0.83.0",
-    "effect": ">=3.15.5 <4.0.0"
+    "effect": ">=3.0.4 <4.0.0"
   },
   "dependencies": {
-    "@smithy/protocol-http": "^5.3.5",
-    "@smithy/querystring-builder": "^4.2.5",
-    "@smithy/types": "^4.9.0"
+    "@aws-sdk/client-kafka": "^3",
+    "@effect-aws/commons": "workspace:^"
   },
   "main": "build/cjs/index.js",
   "license": "MIT",
-  "homepage": "https://floydspace.github.io/effect-aws/docs/http-handler",
+  "homepage": "https://floydspace.github.io/effect-aws/docs/client-kafka",
   "publishConfig": {
     "access": "public",
     "directory": "dist"
   },
-  "version": "0.1.1",
+  "version": "0.0.0",
   "types": "build/dts/index.d.ts",
   "type": "module",
   "module": "build/esm/index.js",

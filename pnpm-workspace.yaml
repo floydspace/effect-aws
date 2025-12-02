@@ -33,6 +33,8 @@ packages:
   - packages/client-iot-jobs-data-plane
   - packages/client-iot-wireless
   - packages/client-ivs
+  - packages/client-kafka
+  - packages/client-kafkaconnect
   - packages/client-kinesis
   - packages/client-kms
   - packages/client-lambda

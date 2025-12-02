@@ -303,4 +303,14 @@ export default {
     commandToTest: "ListDbClusters",
     inputToTest: null,
   },
+  "client-kafka": {
+    description: "Effectful AWS Kafka client",
+    commandToTest: "ListClusters",
+    inputToTest: null,
+  },
+  "client-kafkaconnect": {
+    description: "Effectful AWS KafkaConnect client",
+    commandToTest: "ListConnectors",
+    inputToTest: null,
+  },
 } as Record<string, Singularities>;

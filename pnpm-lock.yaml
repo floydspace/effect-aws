@@ -763,6 +763,46 @@ importers:
         version: 5.4.5
     publishDirectory: dist
 
+  packages/client-kafka:
+    dependencies:
+      '@aws-sdk/client-kafka':
+        specifier: ^3
+        version: 3.943.0
+      '@effect-aws/commons':
+        specifier: workspace:^
+        version: link:../commons/dist
+    devDependencies:
+      '@types/node':
+        specifier: ts5.4
+        version: 24.10.1
+      effect:
+        specifier: ^3.16.4
+        version: 3.16.4
+      typescript:
+        specifier: ^5.4.2
+        version: 5.4.5
+    publishDirectory: dist
+
+  packages/client-kafkaconnect:
+    dependencies:
+      '@aws-sdk/client-kafkaconnect':
+        specifier: ^3
+        version: 3.943.0
+      '@effect-aws/commons':
+        specifier: workspace:^
+        version: link:../commons/dist
+    devDependencies:
+      '@types/node':
+        specifier: ts5.4
+        version: 24.10.1
+      effect:
+        specifier: ^3.16.4
+        version: 3.16.4
+      typescript:
+        specifier: ^5.4.2
+        version: 5.4.5
+    publishDirectory: dist
+
   packages/client-kinesis:
     dependencies:
       '@aws-sdk/client-kinesis':
@@ -1192,13 +1232,13 @@ importers:
   packages/commons:
     dependencies:
       '@smithy/protocol-http':
-        specifier: ^5.3.4
+        specifier: ^5.3.5
         version: 5.3.5
       '@smithy/smithy-client':
-        specifier: ^4.9.2
+        specifier: ^4.9.9
         version: 4.9.9
       '@smithy/types':
-        specifier: ^4.3.1
+        specifier: ^4.9.0
         version: 4.9.0
     devDependencies:
       '@aws-sdk/middleware-logger':
@@ -1261,13 +1301,13 @@ importers:
   packages/http-handler:
     dependencies:
       '@smithy/protocol-http':
-        specifier: ^5.3.4
+        specifier: ^5.3.5
         version: 5.3.5
       '@smithy/querystring-builder':
-        specifier: ^4.2.4
+        specifier: ^4.2.5
         version: 4.2.5
       '@smithy/types':
-        specifier: ^4.3.1
+        specifier: ^4.9.0
         version: 4.9.0
     devDependencies:
       '@effect-aws/commons':
@@ -1699,6 +1739,14 @@ packages:
 
   '@aws-sdk/client-ivs@3.943.0':
     resolution: {integrity: sha512-ElTdMG+1uwj4jTkUHm3Ym5wLIjq+GOXaZkCaTRngg4pvYiAbhOFDpzFRIePJcgz/cZa12pELyGcVQY+PJYkwoQ==}
+    engines: {node: '>=18.0.0'}
+
+  '@aws-sdk/client-kafka@3.943.0':
+    resolution: {integrity: sha512-0hQMVn0nePmS+zgDM0NIHSRDxUooxUGIHi8b1YwYRiyFlCOSzOcZ7YI3qsrtJ5tJu7yGIKLzo50sHGOtRvZOkw==}
+    engines: {node: '>=18.0.0'}
+
+  '@aws-sdk/client-kafkaconnect@3.943.0':
+    resolution: {integrity: sha512-zp1419I7PtcZoZGsW0Yd3291vIgTKGE9Rfj26p5imnD6ez6hOGFvL53MS9Udy9GStdpE/nnPgwN6aRAKQZqPVA==}
     engines: {node: '>=18.0.0'}
 
   '@aws-sdk/client-kinesis@3.943.0':
@@ -7435,6 +7483,94 @@ snapshots:
       - aws-crt
 
   '@aws-sdk/client-ivs@3.943.0':
+    dependencies:
+      '@aws-crypto/sha256-browser': 5.2.0
+      '@aws-crypto/sha256-js': 5.2.0
+      '@aws-sdk/core': 3.943.0
+      '@aws-sdk/credential-provider-node': 3.943.0
+      '@aws-sdk/middleware-host-header': 3.936.0
+      '@aws-sdk/middleware-logger': 3.936.0
+      '@aws-sdk/middleware-recursion-detection': 3.936.0
+      '@aws-sdk/middleware-user-agent': 3.943.0
+      '@aws-sdk/region-config-resolver': 3.936.0
+      '@aws-sdk/types': 3.936.0
+      '@aws-sdk/util-endpoints': 3.936.0
+      '@aws-sdk/util-user-agent-browser': 3.936.0
+      '@aws-sdk/util-user-agent-node': 3.943.0
+      '@smithy/config-resolver': 4.4.3
+      '@smithy/core': 3.18.6
+      '@smithy/fetch-http-handler': 5.3.6
+      '@smithy/hash-node': 4.2.5
+      '@smithy/invalid-dependency': 4.2.5
+      '@smithy/middleware-content-length': 4.2.5
+      '@smithy/middleware-endpoint': 4.3.13
+      '@smithy/middleware-retry': 4.4.13
+      '@smithy/middleware-serde': 4.2.6
+      '@smithy/middleware-stack': 4.2.5
+      '@smithy/node-config-provider': 4.3.5
+      '@smithy/node-http-handler': 4.4.5
+      '@smithy/protocol-http': 5.3.5
+      '@smithy/smithy-client': 4.9.9
+      '@smithy/types': 4.9.0
+      '@smithy/url-parser': 4.2.5
+      '@smithy/util-base64': 4.3.0
+      '@smithy/util-body-length-browser': 4.2.0
+      '@smithy/util-body-length-node': 4.2.1
+      '@smithy/util-defaults-mode-browser': 4.3.12
+      '@smithy/util-defaults-mode-node': 4.2.15
+      '@smithy/util-endpoints': 3.2.5
+      '@smithy/util-middleware': 4.2.5
+      '@smithy/util-retry': 4.2.5
+      '@smithy/util-utf8': 4.2.0
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - aws-crt
+
+  '@aws-sdk/client-kafka@3.943.0':
+    dependencies:
+      '@aws-crypto/sha256-browser': 5.2.0
+      '@aws-crypto/sha256-js': 5.2.0
+      '@aws-sdk/core': 3.943.0
+      '@aws-sdk/credential-provider-node': 3.943.0
+      '@aws-sdk/middleware-host-header': 3.936.0
+      '@aws-sdk/middleware-logger': 3.936.0
+      '@aws-sdk/middleware-recursion-detection': 3.936.0
+      '@aws-sdk/middleware-user-agent': 3.943.0
+      '@aws-sdk/region-config-resolver': 3.936.0
+      '@aws-sdk/types': 3.936.0
+      '@aws-sdk/util-endpoints': 3.936.0
+      '@aws-sdk/util-user-agent-browser': 3.936.0
+      '@aws-sdk/util-user-agent-node': 3.943.0
+      '@smithy/config-resolver': 4.4.3
+      '@smithy/core': 3.18.6
+      '@smithy/fetch-http-handler': 5.3.6
+      '@smithy/hash-node': 4.2.5
+      '@smithy/invalid-dependency': 4.2.5
+      '@smithy/middleware-content-length': 4.2.5
+      '@smithy/middleware-endpoint': 4.3.13
+      '@smithy/middleware-retry': 4.4.13
+      '@smithy/middleware-serde': 4.2.6
+      '@smithy/middleware-stack': 4.2.5
+      '@smithy/node-config-provider': 4.3.5
+      '@smithy/node-http-handler': 4.4.5
+      '@smithy/protocol-http': 5.3.5
+      '@smithy/smithy-client': 4.9.9
+      '@smithy/types': 4.9.0
+      '@smithy/url-parser': 4.2.5
+      '@smithy/util-base64': 4.3.0
+      '@smithy/util-body-length-browser': 4.2.0
+      '@smithy/util-body-length-node': 4.2.1
+      '@smithy/util-defaults-mode-browser': 4.3.12
+      '@smithy/util-defaults-mode-node': 4.2.15
+      '@smithy/util-endpoints': 3.2.5
+      '@smithy/util-middleware': 4.2.5
+      '@smithy/util-retry': 4.2.5
+      '@smithy/util-utf8': 4.2.0
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - aws-crt
+
+  '@aws-sdk/client-kafkaconnect@3.943.0':
     dependencies:
       '@aws-crypto/sha256-browser': 5.2.0
       '@aws-crypto/sha256-js': 5.2.0

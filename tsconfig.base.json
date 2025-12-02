@@ -534,6 +534,24 @@
       "@effect-aws/client-timestream-influxdb/test/*": [
         "./packages/client-timestream-influxdb/test/*.js"
       ],
+      "@effect-aws/client-kafka": [
+        "./packages/client-kafka/src/index.js"
+      ],
+      "@effect-aws/client-kafka/*": [
+        "./packages/client-kafka/src/*.js"
+      ],
+      "@effect-aws/client-kafka/test/*": [
+        "./packages/client-kafka/test/*.js"
+      ],
+      "@effect-aws/client-kafkaconnect": [
+        "./packages/client-kafkaconnect/src/index.js"
+      ],
+      "@effect-aws/client-kafkaconnect/*": [
+        "./packages/client-kafkaconnect/src/*.js"
+      ],
+      "@effect-aws/client-kafkaconnect/test/*": [
+        "./packages/client-kafkaconnect/test/*.js"
+      ],
       "@effect-aws/dynamodb": [
         "./packages/dynamodb/src/index.js"
       ],
