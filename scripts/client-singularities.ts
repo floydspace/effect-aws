@@ -59,6 +59,11 @@ export default {
     commandToTest: "DescribeDomains",
     inputToTest: null,
   },
+  "client-cloudformation": {
+    description: "Effectful AWS CloudFormation client",
+    commandToTest: "ListStacks",
+    inputToTest: null,
+  },
   "client-cloudtrail": {
     description: "Effectful AWS CloudTrail client",
     commandToTest: "ListTrails",
@@ -138,6 +143,11 @@ export default {
     description: "Effectful AWS Firehose client",
     commandToTest: "PutRecord",
     inputToTest: { Record: { Data: Buffer.from("") } },
+  },
+  "client-glue": {
+    description: "Effectful AWS Glue client",
+    commandToTest: "ListJobs",
+    inputToTest: null,
   },
   "client-iam": {
     description: "Effectful AWS IAM client",
@@ -301,6 +311,16 @@ export default {
   "client-timestream-influxdb": {
     description: "Effectful AWS Timestream InfluxDB client",
     commandToTest: "ListDbClusters",
+    inputToTest: null,
+  },
+  "client-kafka": {
+    description: "Effectful AWS Kafka client",
+    commandToTest: "ListClusters",
+    inputToTest: null,
+  },
+  "client-kafkaconnect": {
+    description: "Effectful AWS KafkaConnect client",
+    commandToTest: "ListConnectors",
     inputToTest: null,
   },
 } as Record<string, Singularities>;

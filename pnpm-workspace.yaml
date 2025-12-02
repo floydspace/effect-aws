@@ -9,6 +9,7 @@ packages:
   - packages/client-auto-scaling
   - packages/client-bedrock
   - packages/client-bedrock-runtime
+  - packages/client-cloudformation
   - packages/client-cloudsearch
   - packages/client-cloudtrail
   - packages/client-cloudwatch
@@ -25,6 +26,7 @@ packages:
   - packages/client-elasticache
   - packages/client-eventbridge
   - packages/client-firehose
+  - packages/client-glue
   - packages/client-iam
   - packages/client-iot
   - packages/client-iot-data-plane
@@ -33,6 +35,8 @@ packages:
   - packages/client-iot-jobs-data-plane
   - packages/client-iot-wireless
   - packages/client-ivs
+  - packages/client-kafka
+  - packages/client-kafkaconnect
   - packages/client-kinesis
   - packages/client-kms
   - packages/client-lambda
