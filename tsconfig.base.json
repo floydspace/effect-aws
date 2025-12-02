@@ -147,6 +147,15 @@
       "@effect-aws/client-cloudsearch/test/*": [
         "./packages/client-cloudsearch/test/*.js"
       ],
+      "@effect-aws/client-cloudformation": [
+        "./packages/client-cloudformation/src/index.js"
+      ],
+      "@effect-aws/client-cloudformation/*": [
+        "./packages/client-cloudformation/src/*.js"
+      ],
+      "@effect-aws/client-cloudformation/test/*": [
+        "./packages/client-cloudformation/test/*.js"
+      ],
       "@effect-aws/client-cloudtrail": [
         "./packages/client-cloudtrail/src/index.js"
       ],
@@ -533,6 +542,24 @@
       ],
       "@effect-aws/client-timestream-influxdb/test/*": [
         "./packages/client-timestream-influxdb/test/*.js"
+      ],
+      "@effect-aws/client-kafka": [
+        "./packages/client-kafka/src/index.js"
+      ],
+      "@effect-aws/client-kafka/*": [
+        "./packages/client-kafka/src/*.js"
+      ],
+      "@effect-aws/client-kafka/test/*": [
+        "./packages/client-kafka/test/*.js"
+      ],
+      "@effect-aws/client-kafkaconnect": [
+        "./packages/client-kafkaconnect/src/index.js"
+      ],
+      "@effect-aws/client-kafkaconnect/*": [
+        "./packages/client-kafkaconnect/src/*.js"
+      ],
+      "@effect-aws/client-kafkaconnect/test/*": [
+        "./packages/client-kafkaconnect/test/*.js"
       ],
       "@effect-aws/dynamodb": [
         "./packages/dynamodb/src/index.js"

@@ -42,6 +42,9 @@
       "path": "packages/client-cloudsearch"
     },
     {
+      "path": "packages/client-cloudformation"
+    },
+    {
       "path": "packages/client-cloudtrail"
     },
     {
@@ -169,6 +172,12 @@
     },
     {
       "path": "packages/client-timestream-influxdb"
+    },
+    {
+      "path": "packages/client-kafka"
+    },
+    {
+      "path": "packages/client-kafkaconnect"
     },
     {
       "path": "packages/dynamodb"
