@@ -29,6 +29,7 @@ const config: UserConfig = {
       ...alias("client-bedrock"),
       ...alias("client-bedrock-runtime"),
       ...alias("client-cloudsearch"),
+      ...alias("client-cloudformation"),
       ...alias("client-cloudtrail"),
       ...alias("client-cloudwatch"),
       ...alias("client-cloudwatch-events"),

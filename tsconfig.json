@@ -42,6 +42,9 @@
       "path": "packages/client-cloudsearch"
     },
     {
+      "path": "packages/client-cloudformation"
+    },
+    {
       "path": "packages/client-cloudtrail"
     },
     {

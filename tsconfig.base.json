@@ -147,6 +147,15 @@
       "@effect-aws/client-cloudsearch/test/*": [
         "./packages/client-cloudsearch/test/*.js"
       ],
+      "@effect-aws/client-cloudformation": [
+        "./packages/client-cloudformation/src/index.js"
+      ],
+      "@effect-aws/client-cloudformation/*": [
+        "./packages/client-cloudformation/src/*.js"
+      ],
+      "@effect-aws/client-cloudformation/test/*": [
+        "./packages/client-cloudformation/test/*.js"
+      ],
       "@effect-aws/client-cloudtrail": [
         "./packages/client-cloudtrail/src/index.js"
       ],
