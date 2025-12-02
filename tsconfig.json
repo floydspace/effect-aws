@@ -201,6 +201,9 @@
       "path": "packages/secrets-manager"
     },
     {
+      "path": "packages/signature-v4"
+    },
+    {
       "path": "packages/ssm"
     },
     {
