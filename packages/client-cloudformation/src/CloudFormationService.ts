@@ -419,10 +419,7 @@ interface CloudFormationService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ActivateOrganizationsAccessCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InvalidOperationError
-    | OperationNotFoundError
+    Cause.TimeoutException | SdkError | InvalidOperationError | OperationNotFoundError
   >;
 
   /**
@@ -444,10 +441,7 @@ interface CloudFormationService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchDescribeTypeConfigurationsCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | CFNRegistryError
-    | TypeConfigurationNotFoundError
+    Cause.TimeoutException | SdkError | CFNRegistryError | TypeConfigurationNotFoundError
   >;
 
   /**
@@ -480,11 +474,7 @@ interface CloudFormationService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateChangeSetCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | AlreadyExistsError
-    | InsufficientCapabilitiesError
-    | LimitExceededError
+    Cause.TimeoutException | SdkError | AlreadyExistsError | InsufficientCapabilitiesError | LimitExceededError
   >;
 
   /**
@@ -495,11 +485,7 @@ interface CloudFormationService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateGeneratedTemplateCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | AlreadyExistsError
-    | ConcurrentResourcesLimitExceededError
-    | LimitExceededError
+    Cause.TimeoutException | SdkError | AlreadyExistsError | ConcurrentResourcesLimitExceededError | LimitExceededError
   >;
 
   /**
@@ -555,11 +541,7 @@ interface CloudFormationService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateStackSetCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | CreatedButModifiedError
-    | LimitExceededError
-    | NameAlreadyExistsError
+    Cause.TimeoutException | SdkError | CreatedButModifiedError | LimitExceededError | NameAlreadyExistsError
   >;
 
   /**
@@ -570,10 +552,7 @@ interface CloudFormationService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeactivateOrganizationsAccessCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InvalidOperationError
-    | OperationNotFoundError
+    Cause.TimeoutException | SdkError | InvalidOperationError | OperationNotFoundError
   >;
 
   /**
@@ -606,10 +585,7 @@ interface CloudFormationService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteGeneratedTemplateCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | ConcurrentResourcesLimitExceededError
-    | GeneratedTemplateNotFoundError
+    Cause.TimeoutException | SdkError | ConcurrentResourcesLimitExceededError | GeneratedTemplateNotFoundError
   >;
 
   /**
@@ -648,10 +624,7 @@ interface CloudFormationService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteStackSetCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | OperationInProgressError
-    | StackSetNotEmptyError
+    Cause.TimeoutException | SdkError | OperationInProgressError | StackSetNotEmptyError
   >;
 
   /**
@@ -728,10 +701,7 @@ interface CloudFormationService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeOrganizationsAccessCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InvalidOperationError
-    | OperationNotFoundError
+    Cause.TimeoutException | SdkError | InvalidOperationError | OperationNotFoundError
   >;
 
   /**
@@ -786,10 +756,7 @@ interface CloudFormationService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeStackInstanceCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | StackInstanceNotFoundError
-    | StackSetNotFoundError
+    Cause.TimeoutException | SdkError | StackInstanceNotFoundError | StackSetNotFoundError
   >;
 
   /**
@@ -855,10 +822,7 @@ interface CloudFormationService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeStackSetOperationCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | OperationNotFoundError
-    | StackSetNotFoundError
+    Cause.TimeoutException | SdkError | OperationNotFoundError | StackSetNotFoundError
   >;
 
   /**
@@ -924,11 +888,7 @@ interface CloudFormationService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DetectStackSetDriftCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InvalidOperationError
-    | OperationInProgressError
-    | StackSetNotFoundError
+    Cause.TimeoutException | SdkError | InvalidOperationError | OperationInProgressError | StackSetNotFoundError
   >;
 
   /**
@@ -1060,7 +1020,10 @@ interface CloudFormationService$ {
   listExports(
     args: ListExportsCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<ListExportsCommandOutput, Cause.TimeoutException | SdkError>;
+  ): Effect.Effect<
+    ListExportsCommandOutput,
+    Cause.TimeoutException | SdkError
+  >;
 
   /**
    * @see {@link ListGeneratedTemplatesCommand}
@@ -1090,7 +1053,10 @@ interface CloudFormationService$ {
   listImports(
     args: ListImportsCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<ListImportsCommandOutput, Cause.TimeoutException | SdkError>;
+  ): Effect.Effect<
+    ListImportsCommandOutput,
+    Cause.TimeoutException | SdkError
+  >;
 
   /**
    * @see {@link ListResourceScanRelatedResourcesCommand}
@@ -1100,10 +1066,7 @@ interface CloudFormationService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListResourceScanRelatedResourcesCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | ResourceScanInProgressError
-    | ResourceScanNotFoundError
+    Cause.TimeoutException | SdkError | ResourceScanInProgressError | ResourceScanNotFoundError
   >;
 
   /**
@@ -1114,10 +1077,7 @@ interface CloudFormationService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListResourceScanResourcesCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | ResourceScanInProgressError
-    | ResourceScanNotFoundError
+    Cause.TimeoutException | SdkError | ResourceScanInProgressError | ResourceScanNotFoundError
   >;
 
   /**
@@ -1139,11 +1099,7 @@ interface CloudFormationService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListStackInstanceResourceDriftsCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | OperationNotFoundError
-    | StackInstanceNotFoundError
-    | StackSetNotFoundError
+    Cause.TimeoutException | SdkError | OperationNotFoundError | StackInstanceNotFoundError | StackSetNotFoundError
   >;
 
   /**
@@ -1209,10 +1165,7 @@ interface CloudFormationService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListStackSetOperationResultsCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | OperationNotFoundError
-    | StackSetNotFoundError
+    Cause.TimeoutException | SdkError | OperationNotFoundError | StackSetNotFoundError
   >;
 
   /**
@@ -1243,7 +1196,10 @@ interface CloudFormationService$ {
   listStacks(
     args: ListStacksCommandInput,
     options?: HttpHandlerOptions,
-  ): Effect.Effect<ListStacksCommandOutput, Cause.TimeoutException | SdkError>;
+  ): Effect.Effect<
+    ListStacksCommandOutput,
+    Cause.TimeoutException | SdkError
+  >;
 
   /**
    * @see {@link ListTypeRegistrationsCommand}
@@ -1297,10 +1253,7 @@ interface CloudFormationService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RecordHandlerProgressCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InvalidStateTransitionError
-    | OperationStatusCheckFailedError
+    Cause.TimeoutException | SdkError | InvalidStateTransitionError | OperationStatusCheckFailedError
   >;
 
   /**
@@ -1388,10 +1341,7 @@ interface CloudFormationService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartResourceScanCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | ResourceScanInProgressError
-    | ResourceScanLimitExceededError
+    Cause.TimeoutException | SdkError | ResourceScanInProgressError | ResourceScanLimitExceededError
   >;
 
   /**
@@ -1402,11 +1352,7 @@ interface CloudFormationService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StopStackSetOperationCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InvalidOperationError
-    | OperationNotFoundError
-    | StackSetNotFoundError
+    Cause.TimeoutException | SdkError | InvalidOperationError | OperationNotFoundError | StackSetNotFoundError
   >;
 
   /**
@@ -1428,11 +1374,7 @@ interface CloudFormationService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateGeneratedTemplateCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | AlreadyExistsError
-    | GeneratedTemplateNotFoundError
-    | LimitExceededError
+    Cause.TimeoutException | SdkError | AlreadyExistsError | GeneratedTemplateNotFoundError | LimitExceededError
   >;
 
   /**
@@ -1443,10 +1385,7 @@ interface CloudFormationService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateStackCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InsufficientCapabilitiesError
-    | TokenAlreadyExistsError
+    Cause.TimeoutException | SdkError | InsufficientCapabilitiesError | TokenAlreadyExistsError
   >;
 
   /**
@@ -1529,33 +1468,24 @@ export const makeCloudFormationService = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class CloudFormationService extends Effect.Tag(
-  "@effect-aws/client-cloudformation/CloudFormationService",
-)<CloudFormationService, CloudFormationService$>() {
-  static readonly defaultLayer = Layer.effect(
-    this,
-    makeCloudFormationService,
-  ).pipe(Layer.provide(Instance.layer));
+export class CloudFormationService extends Effect.Tag("@effect-aws/client-cloudformation/CloudFormationService")<
+  CloudFormationService,
+  CloudFormationService$
+>() {
+  static readonly defaultLayer = Layer.effect(this, makeCloudFormationService).pipe(Layer.provide(Instance.layer));
   static readonly layer = (config: CloudFormationService.Config) =>
     Layer.effect(this, makeCloudFormationService).pipe(
       Layer.provide(Instance.layer),
-      Layer.provide(
-        CloudFormationServiceConfig.setCloudFormationServiceConfig(config),
-      ),
+      Layer.provide(CloudFormationServiceConfig.setCloudFormationServiceConfig(config)),
     );
   static readonly baseLayer = (
-    evaluate: (
-      defaultConfig: CloudFormationClientConfig,
-    ) => CloudFormationClient,
+    evaluate: (defaultConfig: CloudFormationClientConfig) => CloudFormationClient,
   ) =>
     Layer.effect(this, makeCloudFormationService).pipe(
       Layer.provide(
         Layer.effect(
           Instance.CloudFormationClientInstance,
-          Effect.map(
-            CloudFormationServiceConfig.toCloudFormationClientConfig,
-            evaluate,
-          ),
+          Effect.map(CloudFormationServiceConfig.toCloudFormationClientConfig, evaluate),
         ),
       ),
     );

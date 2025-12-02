@@ -22,32 +22,19 @@ type ServiceFnOptions = {
  * @category errors
  */
 export const catchServiceExceptions = (errorTags?: Array.NonEmptyReadonlyArray<string>) => (e: unknown) => {
-  if (
-    e instanceof ServiceException &&
-    (!errorTags || errorTags.includes(e.name))
-  ) {
-    const ServiceException = Data.tagged<TaggedException<ServiceException>>(
-      e.name,
-    );
+  if (e instanceof ServiceException && (!errorTags || errorTags.includes(e.name))) {
+    const ServiceException = Data.tagged<TaggedException<ServiceException>>(e.name);
 
     return ServiceException({ ...e, message: e.message, stack: e.stack });
   }
   if (e instanceof Error) {
-    if (
-      Runtime.isFiberFailure(e) &&
-      Cause.isFailType(e[Runtime.FiberFailureCauseId])
-    ) {
+    if (Runtime.isFiberFailure(e) && Cause.isFailType(e[Runtime.FiberFailureCauseId])) {
       return e[Runtime.FiberFailureCauseId].error;
     }
     if (e.name === "TimeoutError") {
       return new Cause.TimeoutException(e.message);
     }
-    return SdkError({
-      ...e,
-      name: "SdkError",
-      message: e.message,
-      stack: e.stack,
-    });
+    return SdkError({ ...e, name: "SdkError", message: e.message, stack: e.stack });
   }
   throw e;
 };
@@ -71,10 +58,7 @@ export const makeServiceFn = (
         (scope) =>
           Effect.tryPromise({
             try: (abortSignal) =>
-              client.send(new CommandCtor(args, config, { runtime, scope }), {
-                ...(options ?? {}),
-                abortSignal,
-              }),
+              client.send(new CommandCtor(args, config, { runtime, scope }), { ...(options ?? {}), abortSignal }),
             catch: catchServiceExceptions(fnOptions.errorTags),
           }),
         Scope.close,
@@ -88,14 +72,10 @@ export const makeServiceFn = (
  */
 export const fromCommandsAndServiceFn = <Service>(
   commands: Record<string, CommandCtor<any>>,
-  serviceFnMaker: (
-    CommandCtor: CommandCtor<any>,
-  ) => ReturnType<typeof makeServiceFn>,
+  serviceFnMaker: (CommandCtor: CommandCtor<any>) => ReturnType<typeof makeServiceFn>,
 ): Effect.Effect<Service> =>
   Effect.gen(function*() {
-    const maybeRequestHandler = yield* Effect.serviceOption(
-      HttpHandler.RequestHandler,
-    );
+    const maybeRequestHandler = yield* Effect.serviceOption(HttpHandler.RequestHandler);
 
     return Record.mapEntries(commands, (CommandCtor, command) => {
       const ExtendedCommand = class extends CommandCtor {
@@ -112,29 +92,17 @@ export const fromCommandsAndServiceFn = <Service>(
           configuration: BaseResolvedConfig,
           options: any,
         ) {
-          return super.resolveMiddleware(
-            stack,
-            {
-              ...configuration,
-              ...(this.config.logger ? { logger: this.config.logger } : {}),
-              ...(Option.isSome(maybeRequestHandler)
-                ? {
-                  requestHandler: HttpHandler.toClientRequestHandler(
-                    maybeRequestHandler.value,
-                    this.runtimeOptions,
-                  ),
-                }
-                : {}),
-            },
-            options,
-          );
+          return super.resolveMiddleware(stack, {
+            ...configuration,
+            ...(this.config.logger ? { logger: this.config.logger } : {}),
+            ...(Option.isSome(maybeRequestHandler)
+              ? { requestHandler: HttpHandler.toClientRequestHandler(maybeRequestHandler.value, this.runtimeOptions) }
+              : {}),
+          }, options);
         }
       };
 
-      const serviceFnName = String.uncapitalize(command).replace(
-        /Command$/,
-        "",
-      );
+      const serviceFnName = String.uncapitalize(command).replace(/Command$/, "");
       return [serviceFnName, serviceFnMaker(ExtendedCommand)];
     }) as Service;
   });

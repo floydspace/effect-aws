@@ -50,9 +50,7 @@ describe("CloudFormationClientImpl", () => {
 
     const result = await pipe(
       program,
-      Effect.provide(
-        CloudFormation.layer({ region: "eu-central-1", logger: true }),
-      ),
+      Effect.provide(CloudFormation.layer({ region: "eu-central-1", logger: true })),
       Effect.runPromiseExit,
     );
 
@@ -76,9 +74,7 @@ describe("CloudFormationClientImpl", () => {
     const result = await pipe(
       program,
       Effect.provide(
-        CloudFormation.baseLayer(
-          () => new CloudFormationClient({ region: "eu-central-1" }),
-        ),
+        CloudFormation.baseLayer(() => new CloudFormationClient({ region: "eu-central-1" })),
       ),
       Effect.runPromiseExit,
     );
@@ -106,9 +102,7 @@ describe("CloudFormationClientImpl", () => {
           (config) => new CloudFormationClient({ ...config, region: "eu-central-1" }),
         ),
       ),
-      CloudFormationServiceConfig.withCloudFormationServiceConfig({
-        logger: true,
-      }),
+      CloudFormationServiceConfig.withCloudFormationServiceConfig({ logger: true }),
       Effect.runPromiseExit,
     );
 
