@@ -1,13 +1,17 @@
 import * as PowerTools from "@aws-lambda-powertools/tracer";
-import type { TracerInterface, TracerOptions } from "@aws-lambda-powertools/tracer/types";
+import type { CaptureLambdaHandlerOptions, TracerInterface, TracerOptions } from "@aws-lambda-powertools/tracer/types";
+import type { EffectHandler } from "@effect-aws/lambda";
 import * as Xray from "aws-xray-sdk-core";
-import { Cause, Context, Effect, Layer, Option } from "effect";
+import type { ConfigError } from "effect";
+import { Cause, Config, Context, Effect, Layer, Option } from "effect";
 import type { Exit } from "effect/Exit";
 import * as EffectTracer from "effect/Tracer";
-import type { XrayTracer } from "../Tracer.js";
+import { XrayTracer } from "../Tracer.js";
 import { unknownToAttributeValue } from "./utils.js";
 
-const XraySpanTypeId = Symbol.for("@effect-aws/powertools-tracer/Tracer/XraySpan");
+const XraySpanTypeId = Symbol.for(
+  "@effect-aws/powertools-tracer/Tracer/XraySpan",
+);
 
 type XraySegment = NonNullable<ReturnType<PowerTools.Tracer["getSegment"]>>;
 
@@ -128,7 +132,66 @@ export const make = Effect.map(Tracer, (tracer) =>
 export const layerTracer = (options?: TracerOptions) => Layer.sync(Tracer, () => new PowerTools.Tracer(options));
 
 /** @internal */
-export const layerWithoutXrayTracer = Layer.unwrapEffect(Effect.map(make, Layer.setTracer));
+export const layerWithoutXrayTracer = Layer.unwrapEffect(
+  Effect.map(make, Layer.setTracer),
+);
 
 /** @internal */
 export const layer = (options?: TracerOptions) => layerWithoutXrayTracer.pipe(Layer.provide(layerTracer(options)));
+
+/** @internal */
+export const layerWithXrayTracer = (options?: TracerOptions) =>
+  layerWithoutXrayTracer.pipe(Layer.provideMerge(layerTracer(options)));
+
+/** @internal
+ *  @link https://docs.aws.amazon.com/powertools/typescript/latest/features/tracer/#lambda-handler
+ */
+export const captureLambdaHandler = (options?: CaptureLambdaHandlerOptions | undefined) =>
+<T, R, E1, A>(
+  handler: EffectHandler<T, R, E1, A>,
+): EffectHandler<T, R | XrayTracer, E1 | ConfigError.ConfigError, A> =>
+(event, context) =>
+  Effect.gen(function*() {
+    const tracer = yield* XrayTracer;
+    const _HANDLER = yield* Config.string("_HANDLER");
+
+    const segment = tracer.getSegment(); // This is the facade segment (the one that is created by AWS Lambda)
+    let subsegment: Xray.Subsegment | undefined;
+    if (segment) {
+      // Create subsegment for the function & set it as active
+      subsegment = segment.addNewSubsegment(`## ${_HANDLER}`);
+      tracer.setSegment(subsegment);
+    }
+
+    // Annotate the subsegment with the cold start & serviceName
+    tracer.annotateColdStart();
+    tracer.addServiceNameAnnotation();
+
+    yield* Effect.addFinalizer(() =>
+      Effect.sync(() => {
+        if (segment && subsegment) {
+          // Close subsegment (the AWS Lambda one is closed automatically)
+          subsegment.close();
+          // Set back the facade segment as active again
+          tracer.setSegment(segment);
+        }
+      })
+    );
+
+    return yield* handler(event, context).pipe(
+      Effect.tap((result) =>
+        Effect.sync(() => {
+          // Add the response as metadata
+          if (options?.captureResponse ?? true) {
+            tracer.addResponseAsMetadata(result, _HANDLER);
+          }
+        })
+      ),
+      Effect.tapError((error) =>
+        Effect.sync(() => {
+          // Add the error as metadata
+          tracer.addErrorAsMetadata(error as Error);
+        })
+      ),
+    );
+  }).pipe(Effect.scoped);

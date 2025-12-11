@@ -45,3 +45,11 @@ export const layerWithoutXrayTracer: Layer<never, never, XrayTracer> = internal.
  * @category layers
  */
 export const layer: (options?: TracerOptions) => Layer<never> = internal.layer;
+
+/**
+ * @since 1.0.0
+ * @category layers
+ */
+export const layerWitXrayTracer: (
+  options?: TracerOptions,
+) => Layer<XrayTracer, never, never> = internal.layerWithXrayTracer;
