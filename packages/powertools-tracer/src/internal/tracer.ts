@@ -197,3 +197,20 @@ export const captureLambdaHandler = (options?: CaptureLambdaHandlerOptions | und
       ),
     );
   }).pipe(Effect.scoped);
+
+/** @internal
+ *  @link https://docs.powertools.aws.dev/lambda/typescript/latest/core/tracer/#tracing-aws-sdk-v3-clients
+ */
+export const captureAWSv3Client = <A, E, R>(
+  self: Effect.Effect<A, E, R>,
+): Effect.Effect<A, E, XrayTracer | R> =>
+  self.pipe(
+    Effect.flatMap((client) =>
+      Effect.gen(function*() {
+        const tracer = yield* XrayTracer;
+        return yield* Effect.fromNullable(tracer.captureAWSv3Client(client)).pipe(
+          Effect.orDie,
+        );
+      })
+    ),
+  );
