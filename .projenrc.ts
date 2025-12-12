@@ -130,7 +130,12 @@ new TypeScriptLibProject({
   parent: project,
   name: "powertools-logger",
   description: "Effectful AWS Lambda Powertools Logger",
-  devDeps: [...effectDeps, "@aws-lambda-powertools/commons@2.0.0", "@aws-lambda-powertools/logger@2.0.0"],
+  devDeps: [
+    ...effectDeps,
+    `${lambda.package.packageName}@workspace:^`,
+    "@aws-lambda-powertools/commons@2.0.0",
+    "@aws-lambda-powertools/logger@2.0.0",
+  ],
   peerDeps: [...commonPeerDeps, "@aws-lambda-powertools/logger@>=2.0.0"],
 });
 
@@ -146,7 +151,6 @@ const tracer = new TypeScriptLibProject({
     "@types/aws-lambda",
   ],
   peerDeps: [...commonPeerDeps, "@aws-lambda-powertools/tracer@>=2.0.0"],
-  workspaceDeps: [lambda],
   addExamples: true,
 });
 

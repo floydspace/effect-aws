@@ -1417,6 +1417,9 @@ importers:
       '@aws-lambda-powertools/logger':
         specifier: 2.0.0
         version: 2.0.0
+      '@effect-aws/lambda':
+        specifier: workspace:^
+        version: link:../lambda/dist
       '@types/node':
         specifier: ts5.4
         version: 24.10.1
@@ -1430,9 +1433,6 @@ importers:
 
   packages/powertools-tracer:
     dependencies:
-      '@effect-aws/lambda':
-        specifier: workspace:^
-        version: link:../lambda/dist
       aws-xray-sdk-core:
         specifier: ^3.5.3
         version: 3.12.0

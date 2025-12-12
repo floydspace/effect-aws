@@ -2,19 +2,28 @@
  * @since 1.0.0
  */
 import type { CaptureLambdaHandlerOptions, TracerInterface, TracerOptions } from "@aws-lambda-powertools/tracer/types";
-import type { EffectHandler } from "@effect-aws/lambda";
-import type { ConfigError } from "effect";
+import type { Context } from "aws-lambda";
+import type { ConfigError, Effect, Tracer } from "effect";
 import type { Tag } from "effect/Context";
-import type { Effect } from "effect/Effect";
 import type { Layer } from "effect/Layer";
-import type { Tracer as EffectTracer } from "effect/Tracer";
 import * as internal from "./internal/tracer.js";
+
+/**
+ * Effectful AWS Lambda handler type.
+ *
+ * @since 1.0.0
+ * @category model
+ */
+export type EffectHandler<T, R, E = never, A = void> = (
+  event: T,
+  context: Context,
+) => Effect.Effect<A, E, R>;
 
 /**
  * @since 1.0.0
  * @category constructors
  */
-export const make: Effect<EffectTracer, never, XrayTracer> = internal.make;
+export const make: Effect.Effect<Tracer.Tracer, never, XrayTracer> = internal.make;
 
 /**
  * @since 1.0.0
@@ -65,10 +74,23 @@ export const layerWithXrayTracer: (
  * - Captures response/errors as metadata
  *
  * @since 1.0.0
- * @category config
+ * @category tracing
  */
 export const captureLambdaHandler: (
   options?: CaptureLambdaHandlerOptions | undefined,
 ) => <T, R, E1, A>(
   handler: EffectHandler<T, R, E1, A>,
 ) => EffectHandler<T, XrayTracer | R, E1 | ConfigError.ConfigError, A> = internal.captureLambdaHandler;
+
+/**
+ * Instruments an AWS SDK v3 client Effect with X-Ray tracing.
+ *
+ * Use with Layer.scoped to create instrumented client layers that
+ * automatically capture AWS API calls in X-Ray traces.
+ *
+ * @since 1.0.0
+ * @category tracing
+ */
+export const captureAWSv3Client: <A, E, R>(
+  self: Effect.Effect<A, E, R>,
+) => Effect.Effect<A, E, XrayTracer | R> = internal.captureAWSv3Client;

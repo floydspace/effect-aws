@@ -73,6 +73,58 @@ export const handler = LambdaHandler.make({
 });
 ```
 
+## AWS SDK v3 Client Instrumentation
+
+Use `captureAWSv3Client` to automatically instrument AWS SDK v3 clients with X-Ray tracing. All AWS API calls made through instrumented clients will appear as subsegments in your traces.
+
+### S3 Example
+
+```typescript
+import { S3ClientInstance, S3Service, makeS3Service } from "@effect-aws/client-s3";
+import { Tracer } from "@effect-aws/powertools-tracer";
+import { Layer } from "effect";
+
+const InstrumentedS3ClientLayer = Layer.scoped(
+  S3ClientInstance.S3ClientInstance,
+  S3ClientInstance.make.pipe(Tracer.captureAWSv3Client),
+);
+
+export const InstrumentedS3Layer = Layer.effect(
+  S3Service,
+  makeS3Service,
+).pipe(Layer.provide(InstrumentedS3ClientLayer));
+```
+
+### DynamoDB Document Example
+
+```typescript
+import { DynamoDBClientInstance } from "@effect-aws/client-dynamodb";
+import {
+  DynamoDBDocumentClientInstance,
+  DynamoDBDocumentService,
+  makeDynamoDBDocumentService,
+} from "@effect-aws/dynamodb";
+import { Tracer } from "@effect-aws/powertools-tracer";
+import { Layer } from "effect";
+
+const InstrumentedDynamoDBClientLayer = Layer.scoped(
+  DynamoDBClientInstance.DynamoDBClientInstance,
+  DynamoDBClientInstance.make.pipe(Tracer.captureAWSv3Client),
+);
+
+const InstrumentedDocumentClientLayer = Layer.scoped(
+  DynamoDBDocumentClientInstance.DynamoDBDocumentClientInstance,
+  DynamoDBDocumentClientInstance.make,
+).pipe(Layer.provide(InstrumentedDynamoDBClientLayer));
+
+export const InstrumentedDynamoDBDocumentLayer = Layer.effect(
+  DynamoDBDocumentService,
+  makeDynamoDBDocumentService,
+).pipe(Layer.provide(InstrumentedDocumentClientLayer));
+```
+
+> **Note:** Instrumented layers require `XrayTracer` in the environment. Use `layerWithXrayTracer` when composing your final application layer.
+
 ## Available Layers
 
 | Layer | Description |

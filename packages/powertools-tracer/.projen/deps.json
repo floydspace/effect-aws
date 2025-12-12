@@ -39,11 +39,6 @@
       "type": "peer"
     },
     {
-      "name": "@effect-aws/lambda",
-      "version": "workspace:^",
-      "type": "runtime"
-    },
-    {
       "name": "aws-xray-sdk-core",
       "version": "^3.5.3",
       "type": "runtime"

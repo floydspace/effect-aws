@@ -37,7 +37,6 @@
     "effect": ">=3.0.4 <4.0.0"
   },
   "dependencies": {
-    "@effect-aws/lambda": "workspace:^",
     "aws-xray-sdk-core": "^3.5.3"
   },
   "main": "build/cjs/index.js",

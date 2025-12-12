@@ -6,10 +6,5 @@
     "outDir": "build/esm",
     "declarationDir": "build/dts",
     "stripInternal": true
-  },
-  "references": [
-    {
-      "path": "../lambda/tsconfig.esm.json"
-    }
-  ]
+  }
 }

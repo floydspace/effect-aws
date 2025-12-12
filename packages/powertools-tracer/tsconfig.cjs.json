@@ -6,10 +6,5 @@
     "outDir": "build/cjs",
     "moduleResolution": "node",
     "module": "CommonJS"
-  },
-  "references": [
-    {
-      "path": "../lambda/tsconfig.cjs.json"
-    }
-  ]
+  }
 }

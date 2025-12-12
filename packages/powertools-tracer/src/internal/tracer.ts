@@ -101,7 +101,11 @@ export class XraySpan implements EffectTracer.Span {
     this.span.close();
   }
 
-  event(name: string, _startTime: bigint, attributes?: Record<string, unknown>) {
+  event(
+    name: string,
+    _startTime: bigint,
+    attributes?: Record<string, unknown>,
+  ) {
     this.span.addMetadata(name, attributes);
   }
 }
@@ -197,3 +201,18 @@ export const captureLambdaHandler = (options?: CaptureLambdaHandlerOptions | und
       ),
     );
   }).pipe(Effect.scoped);
+
+/** @internal
+ *  @link https://docs.powertools.aws.dev/lambda/typescript/latest/core/tracer/#tracing-aws-sdk-v3-clients
+ */
+export const captureAWSv3Client = <A, E, R>(
+  self: Effect.Effect<A, E, R>,
+): Effect.Effect<A, E, XrayTracer | R> =>
+  self.pipe(
+    Effect.flatMap((client) =>
+      Effect.gen(function*() {
+        const tracer = yield* XrayTracer;
+        return tracer.captureAWSv3Client(client) ?? client;
+      })
+    ),
+  );
