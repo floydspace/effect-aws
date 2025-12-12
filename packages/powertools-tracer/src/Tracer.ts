@@ -1,7 +1,9 @@
 /**
  * @since 1.0.0
  */
-import type { TracerInterface, TracerOptions } from "@aws-lambda-powertools/tracer/types";
+import type { CaptureLambdaHandlerOptions, TracerInterface, TracerOptions } from "@aws-lambda-powertools/tracer/types";
+import type { EffectHandler } from "@effect-aws/lambda";
+import type { ConfigError } from "effect";
 import type { Tag } from "effect/Context";
 import type { Effect } from "effect/Effect";
 import type { Layer } from "effect/Layer";
@@ -50,6 +52,23 @@ export const layer: (options?: TracerOptions) => Layer<never> = internal.layer;
  * @since 1.0.0
  * @category layers
  */
-export const layerWitXrayTracer: (
+export const layerWithXrayTracer: (
   options?: TracerOptions,
 ) => Layer<XrayTracer, never, never> = internal.layerWithXrayTracer;
+
+/**
+ * Wraps an Effect handler with X-Ray tracing instrumentation.
+ *
+ * Automatically:
+ * - Creates subsegment for the Lambda handler
+ * - Annotates cold start and service name
+ * - Captures response/errors as metadata
+ *
+ * @since 1.0.0
+ * @category config
+ */
+export const captureLambdaHandler: (
+  options?: CaptureLambdaHandlerOptions | undefined,
+) => <T, R, E1, A>(
+  handler: EffectHandler<T, R, E1, A>,
+) => EffectHandler<T, XrayTracer | R, E1 | ConfigError.ConfigError, A> = internal.captureLambdaHandler;

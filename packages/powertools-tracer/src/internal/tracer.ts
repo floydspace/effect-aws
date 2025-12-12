@@ -44,7 +44,9 @@ export class XraySpan implements EffectTracer.Span {
       parentSegment = span;
     }
 
-    this.span = parentSegment ? parentSegment.addNewSubsegment(name) : new Xray.Segment(name);
+    this.span = parentSegment
+      ? parentSegment.addNewSubsegment(name)
+      : new Xray.Segment(name);
     this.spanId = this.span.id;
     this.traceId = tracer.getRootXrayTraceId() ?? (this.span as Xray.Segment).trace_id;
     this.status = {
