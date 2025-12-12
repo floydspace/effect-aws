@@ -1,4 +1,4 @@
-import { makeLambda } from "@effect-aws/lambda";
+import { LambdaHandler } from "@effect-aws/lambda";
 import { Tracer } from "@effect-aws/powertools-tracer";
 import type { APIGatewayProxyEventV2, APIGatewayProxyHandlerV2 } from "aws-lambda";
 import { Effect, flow } from "effect";
@@ -53,22 +53,24 @@ class BadInputError {
   readonly _tag = "BadInputError";
 }
 
-export const handler: APIGatewayProxyHandlerV2 = makeLambda({
-  handler: flow(
-    program,
-    Effect.catchTags({
-      BadInputError: () =>
+export const handler: APIGatewayProxyHandlerV2 = LambdaHandler.make({
+  handler: Tracer.captureLambdaHandler()(
+    flow(
+      program,
+      Effect.catchTags({
+        BadInputError: () =>
+          Effect.succeed({
+            statusCode: 400,
+            body: JSON.stringify({ message: "Bad input" }),
+          }),
+      }),
+      Effect.catchAllDefect((defect) =>
         Effect.succeed({
-          statusCode: 400,
-          body: JSON.stringify({ message: "Bad input" }),
-        }),
-    }),
-    Effect.catchAllDefect((defect) =>
-      Effect.succeed({
-        statusCode: 500,
-        body: JSON.stringify({ message: `An error occurred: ${defect}` }),
-      })
+          statusCode: 500,
+          body: JSON.stringify({ message: `An error occurred: ${defect}` }),
+        })
+      ),
     ),
   ),
-  layer: Tracer.layer(),
+  layer: Tracer.layerWithXrayTracer(),
 });

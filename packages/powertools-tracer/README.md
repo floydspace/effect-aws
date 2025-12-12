@@ -29,3 +29,120 @@ program.pipe(Effect.provide(Tracer.layer()), Effect.runSync)
 ```
 
 Check out the a more complete example in the [examples](./examples/example.ts).
+
+## Lambda Handler Instrumentation
+
+Use `captureLambdaHandler` to automatically instrument your Lambda function with X-Ray tracing. This helper provides:
+
+- **Subsegment lifecycle management** - Creates a subsegment named `## ${_HANDLER}` and closes it automatically
+- **Cold start annotation** - Annotates traces with cold start information
+- **Service name annotation** - Annotates traces with the service name
+- **Response capture** - Serializes function responses as metadata
+- **Error capture** - Serializes errors as metadata
+
+```typescript
+import { LambdaHandler } from "@effect-aws/lambda";
+import { Tracer } from "@effect-aws/powertools-tracer";
+import type { APIGatewayProxyEventV2 } from "aws-lambda";
+import { Effect } from "effect";
+
+const myEffectHandler = (event: APIGatewayProxyEventV2) =>
+  Effect.gen(function* () {
+    yield* Effect.log("Processing request");
+    return { statusCode: 200, body: JSON.stringify({ message: "Success" }) };
+  });
+
+export const handler = LambdaHandler.make({
+  handler: Tracer.captureLambdaHandler()(myEffectHandler),
+  layer: Tracer.layerWithXrayTracer({ serviceName: "my-service" }),
+});
+```
+
+### Configuration Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `captureResponse` | `boolean` | `true` | Serialize function responses as metadata |
+
+To disable response capture:
+
+```typescript
+export const handler = LambdaHandler.make({
+  handler: Tracer.captureLambdaHandler({ captureResponse: false })(myEffectHandler),
+  layer: Tracer.layerWithXrayTracer(),
+});
+```
+
+## AWS SDK v3 Client Instrumentation
+
+Use `captureAWSv3Client` to automatically instrument AWS SDK v3 clients with X-Ray tracing. All AWS API calls made through instrumented clients will appear as subsegments in your traces.
+
+### S3 Example
+
+```typescript
+import { S3ClientInstance, S3Service, makeS3Service } from "@effect-aws/client-s3";
+import { Tracer } from "@effect-aws/powertools-tracer";
+import { Layer } from "effect";
+
+const InstrumentedS3ClientLayer = Layer.scoped(
+  S3ClientInstance.S3ClientInstance,
+  S3ClientInstance.make.pipe(Tracer.captureAWSv3Client),
+);
+
+export const InstrumentedS3Layer = Layer.effect(
+  S3Service,
+  makeS3Service,
+).pipe(Layer.provide(InstrumentedS3ClientLayer));
+```
+
+### DynamoDB Document Example
+
+```typescript
+import { DynamoDBClientInstance } from "@effect-aws/client-dynamodb";
+import {
+  DynamoDBDocumentClientInstance,
+  DynamoDBDocumentService,
+  makeDynamoDBDocumentService,
+} from "@effect-aws/dynamodb";
+import { Tracer } from "@effect-aws/powertools-tracer";
+import { Layer } from "effect";
+
+const InstrumentedDynamoDBClientLayer = Layer.scoped(
+  DynamoDBClientInstance.DynamoDBClientInstance,
+  DynamoDBClientInstance.make.pipe(Tracer.captureAWSv3Client),
+);
+
+const InstrumentedDocumentClientLayer = Layer.scoped(
+  DynamoDBDocumentClientInstance.DynamoDBDocumentClientInstance,
+  DynamoDBDocumentClientInstance.make,
+).pipe(Layer.provide(InstrumentedDynamoDBClientLayer));
+
+export const InstrumentedDynamoDBDocumentLayer = Layer.effect(
+  DynamoDBDocumentService,
+  makeDynamoDBDocumentService,
+).pipe(Layer.provide(InstrumentedDocumentClientLayer));
+```
+
+> **Note:** Instrumented layers require `XrayTracer` in the environment. Use `layerWithXrayTracer` when composing your final application layer.
+
+## Available Layers
+
+| Layer | Description |
+|-------|-------------|
+| `layer(options?)` | Sets Effect's tracer (most common) |
+| `layerWithXrayTracer(options?)` | Provides `XrayTracer` service AND sets Effect's tracer |
+| `layerTracer(options?)` | Only provides `XrayTracer` service |
+| `layerWithoutXrayTracer` | Only sets Effect's tracer (requires `XrayTracer` from context) |
+
+Use `layerWithXrayTracer` when you need to use `captureLambdaHandler`, as it requires the `XrayTracer` service.
+
+## Prerequisites
+
+To use X-Ray tracing with AWS Lambda:
+
+1. **Enable Active Tracing** on your Lambda function (AWS Console / SAM / CDK)
+2. **IAM permissions**: `xray:PutTraceSegments`, `xray:PutTelemetryRecords`
+3. **Environment variables** (optional):
+   - `POWERTOOLS_SERVICE_NAME` - Service name for traces
+   - `POWERTOOLS_TRACER_CAPTURE_RESPONSE` - Enable/disable response capture
+   - `POWERTOOLS_TRACER_CAPTURE_ERROR` - Enable/disable error capture

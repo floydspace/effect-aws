@@ -11,11 +11,6 @@
       "type": "build"
     },
     {
-      "name": "@effect-aws/lambda",
-      "version": "workspace:^",
-      "type": "build"
-    },
-    {
       "name": "@types/aws-lambda",
       "type": "build"
     },
@@ -42,6 +37,11 @@
       "name": "effect",
       "version": ">=3.0.4 <4.0.0",
       "type": "peer"
+    },
+    {
+      "name": "@effect-aws/lambda",
+      "version": "workspace:^",
+      "type": "runtime"
     },
     {
       "name": "aws-xray-sdk-core",

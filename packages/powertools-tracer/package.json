@@ -27,7 +27,6 @@
   "devDependencies": {
     "@aws-lambda-powertools/commons": "2.0.0",
     "@aws-lambda-powertools/tracer": "2.0.0",
-    "@effect-aws/lambda": "workspace:^",
     "@types/aws-lambda": "^8.10.157",
     "@types/node": "ts5.4",
     "effect": "^3.16.4",
@@ -38,6 +37,7 @@
     "effect": ">=3.0.4 <4.0.0"
   },
   "dependencies": {
+    "@effect-aws/lambda": "workspace:^",
     "aws-xray-sdk-core": "^3.5.3"
   },
   "main": "build/cjs/index.js",

@@ -141,12 +141,12 @@ const tracer = new TypeScriptLibProject({
   deps: ["aws-xray-sdk-core@^3.5.3"],
   devDeps: [
     ...effectDeps,
-    `${lambda.package.packageName}@workspace:^`,
     "@aws-lambda-powertools/commons@2.0.0",
     "@aws-lambda-powertools/tracer@2.0.0",
     "@types/aws-lambda",
   ],
   peerDeps: [...commonPeerDeps, "@aws-lambda-powertools/tracer@>=2.0.0"],
+  workspaceDeps: [lambda],
   addExamples: true,
 });
 
