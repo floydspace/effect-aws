@@ -11,11 +11,6 @@
       "type": "build"
     },
     {
-      "name": "@effect-aws/lambda",
-      "version": "workspace:^",
-      "type": "build"
-    },
-    {
       "name": "@types/aws-lambda",
       "type": "build"
     },

@@ -1417,6 +1417,9 @@ importers:
       '@aws-lambda-powertools/logger':
         specifier: 2.0.0
         version: 2.0.0
+      '@effect-aws/lambda':
+        specifier: workspace:^
+        version: link:../lambda/dist
       '@types/node':
         specifier: ts5.4
         version: 24.10.1
@@ -1440,9 +1443,6 @@ importers:
       '@aws-lambda-powertools/tracer':
         specifier: 2.0.0
         version: 2.0.0
-      '@effect-aws/lambda':
-        specifier: workspace:^
-        version: link:../lambda/dist
       '@types/aws-lambda':
         specifier: ^8.10.157
         version: 8.10.157
