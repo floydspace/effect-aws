@@ -1,5 +1,11 @@
 # @effect-aws/client-timestream-influxdb
 
+## 1.10.8
+
+### Patch Changes
+
+- [`4469350`](https://github.com/floydspace/effect-aws/commit/4469350435811bb60677e9c757e0b2202e60683b) Thanks [@floydspace](https://github.com/floydspace)! - upgrade with new sdk methods
+
 ## 1.10.3
 
 ### Patch Changes
