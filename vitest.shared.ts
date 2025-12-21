@@ -82,6 +82,7 @@ const config: UserConfig = {
       ...alias("powertools-logger"),
       ...alias("powertools-tracer"),
       ...alias("secrets-manager"),
+      ...alias("signature-v4"),
       ...alias("ssm"),
       ...alias("s3"),
       ...alias("http-handler"),
