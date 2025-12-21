@@ -67,6 +67,7 @@
     },
     {
       "name": "aws-sdk-client-mock-vitest",
+      "version": "^6.2.1",
       "type": "build"
     },
     {

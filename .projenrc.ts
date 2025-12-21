@@ -41,7 +41,7 @@ new Readme(project, { org });
 new Eslint(project);
 new Vitest(project, { sharedSetupFiles: ["vitest.setup.ts"] });
 project.addDevDeps("vitest-mock-extended");
-project.addDevDeps("aws-sdk-client-mock", "aws-sdk-client-mock-vitest");
+project.addDevDeps("aws-sdk-client-mock", "aws-sdk-client-mock-vitest@^6.2.1");
 
 const effectDeps = ["effect"];
 
