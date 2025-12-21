@@ -41,6 +41,12 @@ import {
   ListTagsForResourceCommand,
   type ListTagsForResourceCommandInput,
   type ListTagsForResourceCommandOutput,
+  RebootDbClusterCommand,
+  type RebootDbClusterCommandInput,
+  type RebootDbClusterCommandOutput,
+  RebootDbInstanceCommand,
+  type RebootDbInstanceCommandInput,
+  type RebootDbInstanceCommandOutput,
   TagResourceCommand,
   type TagResourceCommandInput,
   type TagResourceCommandOutput,
@@ -88,6 +94,8 @@ const commands = {
   ListDbInstancesForClusterCommand,
   ListDbParameterGroupsCommand,
   ListTagsForResourceCommand,
+  RebootDbClusterCommand,
+  RebootDbInstanceCommand,
   TagResourceCommand,
   UntagResourceCommand,
   UpdateDbClusterCommand,
@@ -318,6 +326,42 @@ interface TimestreamInfluxDBService$ {
   ): Effect.Effect<
     ListTagsForResourceCommandOutput,
     Cause.TimeoutException | SdkError | ResourceNotFoundError
+  >;
+
+  /**
+   * @see {@link RebootDbClusterCommand}
+   */
+  rebootDbCluster(
+    args: RebootDbClusterCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    RebootDbClusterCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link RebootDbInstanceCommand}
+   */
+  rebootDbInstance(
+    args: RebootDbInstanceCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    RebootDbInstanceCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
   >;
 
   /**

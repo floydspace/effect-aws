@@ -286,6 +286,9 @@ import {
   UpdateAutomatedReasoningPolicyTestCaseCommand,
   type UpdateAutomatedReasoningPolicyTestCaseCommandInput,
   type UpdateAutomatedReasoningPolicyTestCaseCommandOutput,
+  UpdateCustomModelDeploymentCommand,
+  type UpdateCustomModelDeploymentCommandInput,
+  type UpdateCustomModelDeploymentCommandOutput,
   UpdateGuardrailCommand,
   type UpdateGuardrailCommandInput,
   type UpdateGuardrailCommandOutput,
@@ -412,6 +415,7 @@ const commands = {
   UpdateAutomatedReasoningPolicyCommand,
   UpdateAutomatedReasoningPolicyAnnotationsCommand,
   UpdateAutomatedReasoningPolicyTestCaseCommand,
+  UpdateCustomModelDeploymentCommand,
   UpdateGuardrailCommand,
   UpdateMarketplaceModelEndpointCommand,
   UpdateProvisionedModelThroughputCommand,
@@ -1986,6 +1990,23 @@ interface BedrockService$ {
     | ConflictError
     | InternalServerError
     | ResourceInUseError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link UpdateCustomModelDeploymentCommand}
+   */
+  updateCustomModelDeployment(
+    args: UpdateCustomModelDeploymentCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateCustomModelDeploymentCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
     | ResourceNotFoundError
     | ThrottlingError
     | ValidationError

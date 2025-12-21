@@ -25,6 +25,9 @@ import {
   GetContactInformationCommand,
   type GetContactInformationCommandInput,
   type GetContactInformationCommandOutput,
+  GetGovCloudAccountInformationCommand,
+  type GetGovCloudAccountInformationCommandInput,
+  type GetGovCloudAccountInformationCommandOutput,
   GetPrimaryEmailCommand,
   type GetPrimaryEmailCommandInput,
   type GetPrimaryEmailCommandOutput,
@@ -58,6 +61,7 @@ import type {
   ConflictError,
   InternalServerError,
   ResourceNotFoundError,
+  ResourceUnavailableError,
   SdkError,
   TooManyRequestsError,
   ValidationError,
@@ -72,6 +76,7 @@ const commands = {
   GetAccountInformationCommand,
   GetAlternateContactCommand,
   GetContactInformationCommand,
+  GetGovCloudAccountInformationCommand,
   GetPrimaryEmailCommand,
   GetRegionOptStatusCommand,
   ListRegionsCommand,
@@ -194,6 +199,24 @@ interface AccountService$ {
     | AccessDeniedError
     | InternalServerError
     | ResourceNotFoundError
+    | TooManyRequestsError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link GetGovCloudAccountInformationCommand}
+   */
+  getGovCloudAccountInformation(
+    args: GetGovCloudAccountInformationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetGovCloudAccountInformationCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ResourceUnavailableError
     | TooManyRequestsError
     | ValidationError
   >;

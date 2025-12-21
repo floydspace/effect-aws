@@ -11,6 +11,9 @@ import {
   CancelExportTaskCommand,
   type CancelExportTaskCommandInput,
   type CancelExportTaskCommandOutput,
+  CancelImportTaskCommand,
+  type CancelImportTaskCommandInput,
+  type CancelImportTaskCommandOutput,
   type CloudWatchLogsClient,
   type CloudWatchLogsClientConfig,
   CreateDeliveryCommand,
@@ -19,6 +22,9 @@ import {
   CreateExportTaskCommand,
   type CreateExportTaskCommandInput,
   type CreateExportTaskCommandOutput,
+  CreateImportTaskCommand,
+  type CreateImportTaskCommandInput,
+  type CreateImportTaskCommandOutput,
   CreateLogAnomalyDetectorCommand,
   type CreateLogAnomalyDetectorCommandInput,
   type CreateLogAnomalyDetectorCommandOutput,
@@ -112,6 +118,12 @@ import {
   DescribeFieldIndexesCommand,
   type DescribeFieldIndexesCommandInput,
   type DescribeFieldIndexesCommandOutput,
+  DescribeImportTaskBatchesCommand,
+  type DescribeImportTaskBatchesCommandInput,
+  type DescribeImportTaskBatchesCommandOutput,
+  DescribeImportTasksCommand,
+  type DescribeImportTasksCommandInput,
+  type DescribeImportTasksCommandOutput,
   DescribeIndexPoliciesCommand,
   type DescribeIndexPoliciesCommandInput,
   type DescribeIndexPoliciesCommandOutput,
@@ -347,8 +359,10 @@ const commands = {
   AssociateKmsKeyCommand,
   AssociateSourceToS3TableIntegrationCommand,
   CancelExportTaskCommand,
+  CancelImportTaskCommand,
   CreateDeliveryCommand,
   CreateExportTaskCommand,
+  CreateImportTaskCommand,
   CreateLogAnomalyDetectorCommand,
   CreateLogGroupCommand,
   CreateLogStreamCommand,
@@ -380,6 +394,8 @@ const commands = {
   DescribeDestinationsCommand,
   DescribeExportTasksCommand,
   DescribeFieldIndexesCommand,
+  DescribeImportTaskBatchesCommand,
+  DescribeImportTasksCommand,
   DescribeIndexPoliciesCommand,
   DescribeLogGroupsCommand,
   DescribeLogStreamsCommand,
@@ -502,6 +518,23 @@ interface CloudWatchLogsService$ {
   >;
 
   /**
+   * @see {@link CancelImportTaskCommand}
+   */
+  cancelImportTask(
+    args: CancelImportTaskCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CancelImportTaskCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InvalidOperationError
+    | InvalidParameterError
+    | ResourceNotFoundError
+    | ThrottlingError
+  >;
+
+  /**
    * @see {@link CreateDeliveryCommand}
    */
   createDelivery(
@@ -536,6 +569,25 @@ interface CloudWatchLogsService$ {
     | ResourceAlreadyExistsError
     | ResourceNotFoundError
     | ServiceUnavailableError
+  >;
+
+  /**
+   * @see {@link CreateImportTaskCommand}
+   */
+  createImportTask(
+    args: CreateImportTaskCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateImportTaskCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InvalidOperationError
+    | InvalidParameterError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
   >;
 
   /**
@@ -1034,6 +1086,40 @@ interface CloudWatchLogsService$ {
     | OperationAbortedError
     | ResourceNotFoundError
     | ServiceUnavailableError
+  >;
+
+  /**
+   * @see {@link DescribeImportTaskBatchesCommand}
+   */
+  describeImportTaskBatches(
+    args: DescribeImportTaskBatchesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeImportTaskBatchesCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InvalidOperationError
+    | InvalidParameterError
+    | ResourceNotFoundError
+    | ThrottlingError
+  >;
+
+  /**
+   * @see {@link DescribeImportTasksCommand}
+   */
+  describeImportTasks(
+    args: DescribeImportTasksCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeImportTasksCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InvalidOperationError
+    | InvalidParameterError
+    | ResourceNotFoundError
+    | ThrottlingError
   >;
 
   /**
