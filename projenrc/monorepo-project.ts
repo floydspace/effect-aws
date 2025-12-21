@@ -17,7 +17,7 @@ export class MonorepoProject extends PnpmMonorepoProject {
 
   constructor(options: MonorepoProjectOptions) {
     super({
-      pnpmVersion: "9.15.4",
+      pnpmVersion: "10.26.1",
       license: "MIT",
       eslint: false,
       prettier: false,
@@ -34,6 +34,8 @@ export class MonorepoProject extends PnpmMonorepoProject {
       disableTsconfigDev: true, // main tsconfig is used for dev
       ...options,
     });
+
+    this.package.addEngine("pnpm", ">=10 <11");
 
     new GitIdentityFixer(this, {
       name: "github-actions[bot]",

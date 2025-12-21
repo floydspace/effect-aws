@@ -6,7 +6,7 @@ settings:
 
 patchedDependencies:
   '@changesets/assemble-release-plan':
-    hash: p7kmydqaquh73yzi4jncjwdpcm
+    hash: 204b1639f4beff7068c98b6d43e1bc61620fccdef3ab8157b8531174b5ce2048
     path: patches/@changesets__assemble-release-plan.patch
 
 importers:
@@ -9378,7 +9378,7 @@ snapshots:
       resolve-from: 5.0.0
       semver: 7.6.3
 
-  '@changesets/assemble-release-plan@6.0.5(patch_hash=p7kmydqaquh73yzi4jncjwdpcm)':
+  '@changesets/assemble-release-plan@6.0.5(patch_hash=204b1639f4beff7068c98b6d43e1bc61620fccdef3ab8157b8531174b5ce2048)':
     dependencies:
       '@changesets/errors': 0.2.0
       '@changesets/get-dependents-graph': 2.1.2
@@ -9402,7 +9402,7 @@ snapshots:
   '@changesets/cli@2.27.12':
     dependencies:
       '@changesets/apply-release-plan': 7.0.8
-      '@changesets/assemble-release-plan': 6.0.5(patch_hash=p7kmydqaquh73yzi4jncjwdpcm)
+      '@changesets/assemble-release-plan': 6.0.5(patch_hash=204b1639f4beff7068c98b6d43e1bc61620fccdef3ab8157b8531174b5ce2048)
       '@changesets/changelog-git': 0.2.0
       '@changesets/config': 3.0.5
       '@changesets/errors': 0.2.0
@@ -9460,7 +9460,7 @@ snapshots:
 
   '@changesets/get-release-plan@4.0.6':
     dependencies:
-      '@changesets/assemble-release-plan': 6.0.5(patch_hash=p7kmydqaquh73yzi4jncjwdpcm)
+      '@changesets/assemble-release-plan': 6.0.5(patch_hash=204b1639f4beff7068c98b6d43e1bc61620fccdef3ab8157b8531174b5ce2048)
       '@changesets/config': 3.0.5
       '@changesets/pre': 2.0.1
       '@changesets/read': 0.6.2
