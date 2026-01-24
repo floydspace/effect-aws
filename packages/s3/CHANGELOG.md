@@ -1,5 +1,12 @@
 # @effect-aws/s3
 
+## 0.2.6
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @effect-aws/client-s3@1.10.9
+
 ## 0.2.5
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # @effect-aws/ssm
 
+## 1.3.6
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @effect-aws/client-ssm@1.10.9
+
 ## 1.3.5
 
 ### Patch Changes
