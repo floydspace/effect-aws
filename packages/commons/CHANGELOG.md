@@ -1,5 +1,11 @@
 # @effect-aws/commons
 
+## 0.3.1
+
+### Patch Changes
+
+- [`582a7b0`](https://github.com/floydspace/effect-aws/commit/582a7b031638287f27362b84b69f2d4be63425d3) Thanks [@floydspace](https://github.com/floydspace)! - Fix bug when effect-aws is used with updated aws-sdk version which has previously existed commands removed
+
 ## 0.3.0
 
 ### Minor Changes
