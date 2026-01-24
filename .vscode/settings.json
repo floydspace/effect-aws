@@ -4,6 +4,7 @@
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "editor.formatOnSave": true,
   "eslint.format.enable": true,
+  "bun.test.enable": false,
   "[json]": {
     "editor.defaultFormatter": "vscode.json-language-features"
   },

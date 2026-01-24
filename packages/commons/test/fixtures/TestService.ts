@@ -6,7 +6,9 @@ import * as TestServiceConfig from "./TestServiceConfig.js";
 
 const commands = {
   TestCommand: Command.classBuilder().build(),
-};
+  // this could happen when effect-aws is used with updated aws-sdk version which has previously existed commands removed
+  UndefinedCommand: undefined,
+} as unknown as Record<string, Service.CommandCtor<any>>;
 
 export interface TestService$ {
   readonly _: unique symbol;
