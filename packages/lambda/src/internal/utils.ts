@@ -1,4 +1,5 @@
 import type { ALBEvent, APIGatewayProxyEvent } from "../Types.js";
+import type { ResponseValues } from "./types.js";
 
 export function getEventBody({
   body,
@@ -54,7 +55,7 @@ export function getRequestValuesFromEvent<
   };
 }
 
-export function getMultiValueHeaders(headers: Record<string, string>) {
+export function getMultiValueHeaders(headers: ResponseValues<unknown>["headers"]) {
   const multiValueHeaders = {} as Record<string, Array<string>>;
 
   Object.entries(headers).forEach(([headerKey, headerValue]) => {

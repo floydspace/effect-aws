@@ -1,5 +1,6 @@
 import url from "node:url";
 
+import { Record } from "effect";
 import type { APIGatewayProxyEvent, APIGatewayProxyResult } from "../../Types.js";
 import type { EventSource } from "../types.js";
 import { getMultiValueHeaders, getRequestValuesFromEvent } from "../utils.js";
@@ -39,7 +40,7 @@ const getResponseToApiGateway: EventSource<APIGatewayProxyEvent, APIGatewayProxy
   return {
     statusCode,
     body,
-    headers,
+    headers: Record.map(headers, String),
     multiValueHeaders,
     isBase64Encoded,
   };

@@ -14,7 +14,7 @@ export type ResponseValues<TEvent> = {
   event: TEvent;
   statusCode: number;
   body: string;
-  headers: Record<string, string>;
+  headers: { [key: string]: string } & { "set-cookie"?: string | Array<string> };
   isBase64Encoded: boolean;
   response?: any;
 };

@@ -8,7 +8,7 @@ import { Context, Effect, Function, Layer } from "effect";
 import { getEventSource } from "./internal/index.js";
 import * as internal from "./internal/lambdaHandler.js";
 import { pipeTo } from "./internal/stream.js";
-import type { EventSource } from "./internal/types.js";
+import type { EventSource, ResponseValues } from "./internal/types.js";
 import { encodeBase64, isContentEncodingBinary, isContentTypeBinary } from "./internal/utils.js";
 import * as LambdaRuntime from "./LambdaRuntime.js";
 import type {
@@ -292,17 +292,17 @@ export const httpApiHandler = (options?: Pick<HttpApiOptions, "middleware">): Ef
       ? encodeBase64(yield* Effect.promise(() => res.arrayBuffer()))
       : yield* Effect.promise(() => res.text());
 
-    const headers: Record<string, string> = {};
+    const headers: ResponseValues<LambdaHandler.Event>["headers"] = {};
 
     if (res.headers.has("set-cookie")) {
       const cookies = res.headers.getSetCookie
         ? res.headers.getSetCookie()
-        : Array.from((res.headers as any).entries())
-          .filter(([k]: any) => k === "set-cookie")
-          .map(([, v]: any) => v);
+        : Array.from(res.headers.entries())
+          .filter(([k]) => k === "set-cookie")
+          .map(([, v]) => v);
 
       if (Array.isArray(cookies)) {
-        headers["set-cookie"] = cookies.join(", ");
+        headers["set-cookie"] = cookies;
         res.headers.delete("set-cookie");
       }
     }
