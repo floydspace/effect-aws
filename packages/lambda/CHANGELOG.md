@@ -1,5 +1,11 @@
 # @effect-aws/lambda
 
+## 1.5.2
+
+### Patch Changes
+
+- [`3c65d07`](https://github.com/floydspace/effect-aws/commit/3c65d07a6e77800c15ba6498328e74d1ce702885) Thanks [@floydspace](https://github.com/floydspace)! - fix multi-value cookie header to be properly typed and handled in the codebase. This ensures that when a response contains multiple "Set-Cookie" headers, instead of returning comma-separated value
+
 ## 1.5.1
 
 ### Patch Changes
