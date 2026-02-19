@@ -297,9 +297,9 @@ export const httpApiHandler = (options?: Pick<HttpApiOptions, "middleware">): Ef
     if (res.headers.has("set-cookie")) {
       const cookies = res.headers.getSetCookie
         ? res.headers.getSetCookie()
-        : Array.from(res.headers.entries())
-          .filter(([k]) => k === "set-cookie")
-          .map(([, v]) => v);
+        : Array.from((res.headers as any).entries())
+          .filter(([k]: any) => k === "set-cookie")
+          .map(([, v]: any) => v);
 
       if (Array.isArray(cookies)) {
         headers["set-cookie"] = cookies;
