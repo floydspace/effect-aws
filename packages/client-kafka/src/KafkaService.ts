@@ -175,8 +175,9 @@ import {
 } from "@aws-sdk/client-kafka";
 import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
-import type { Cause } from "effect";
-import { Effect, Layer } from "effect";
+import type * as Cause from "effect/Cause";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
 import type {
   BadRequestError,
   ConflictError,

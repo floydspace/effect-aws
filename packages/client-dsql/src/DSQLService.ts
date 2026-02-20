@@ -43,8 +43,9 @@ import {
 } from "@aws-sdk/client-dsql";
 import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
-import type { Cause } from "effect";
-import { Effect, Layer } from "effect";
+import type * as Cause from "effect/Cause";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
 import * as Instance from "./DSQLClientInstance.js";
 import * as DSQLServiceConfig from "./DSQLServiceConfig.js";
 import type {

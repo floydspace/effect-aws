@@ -3,9 +3,11 @@
  */
 import type { ApiGatewayV2ClientConfig } from "@aws-sdk/client-apigatewayv2";
 import { ServiceLogger } from "@effect-aws/commons";
-import { Effect, FiberRef, Layer } from "effect";
+import * as Effect from "effect/Effect";
+import * as FiberRef from "effect/FiberRef";
 import { dual } from "effect/Function";
 import { globalValue } from "effect/GlobalValue";
+import * as Layer from "effect/Layer";
 import type { ApiGatewayV2Service } from "./ApiGatewayV2Service.js";
 
 /**

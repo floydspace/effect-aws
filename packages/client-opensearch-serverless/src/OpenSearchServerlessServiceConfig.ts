@@ -3,9 +3,11 @@
  */
 import type { OpenSearchServerlessClientConfig } from "@aws-sdk/client-opensearchserverless";
 import { ServiceLogger } from "@effect-aws/commons";
-import { Effect, FiberRef, Layer } from "effect";
+import * as Effect from "effect/Effect";
+import * as FiberRef from "effect/FiberRef";
 import { dual } from "effect/Function";
 import { globalValue } from "effect/GlobalValue";
+import * as Layer from "effect/Layer";
 import type { OpenSearchServerlessService } from "./OpenSearchServerlessService.js";
 
 /**

@@ -1,6 +1,6 @@
 import type { EC2ServiceException } from "@aws-sdk/client-ec2";
 import type { TaggedException } from "@effect-aws/commons";
-import { Data } from "effect";
+import * as Data from "effect/Data";
 
 export type EC2ServiceError = TaggedException<
   EC2ServiceException & { name: "EC2ServiceError" }

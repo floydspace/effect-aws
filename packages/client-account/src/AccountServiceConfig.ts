@@ -3,9 +3,11 @@
  */
 import type { AccountClientConfig } from "@aws-sdk/client-account";
 import { ServiceLogger } from "@effect-aws/commons";
-import { Effect, FiberRef, Layer } from "effect";
+import * as Effect from "effect/Effect";
+import * as FiberRef from "effect/FiberRef";
 import { dual } from "effect/Function";
 import { globalValue } from "effect/GlobalValue";
+import * as Layer from "effect/Layer";
 import type { AccountService } from "./AccountService.js";
 
 /**

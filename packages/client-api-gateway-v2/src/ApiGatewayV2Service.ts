@@ -316,8 +316,9 @@ import {
 } from "@aws-sdk/client-apigatewayv2";
 import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
-import type { Cause } from "effect";
-import { Effect, Layer } from "effect";
+import type * as Cause from "effect/Cause";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
 import * as Instance from "./ApiGatewayV2ClientInstance.js";
 import * as ApiGatewayV2ServiceConfig from "./ApiGatewayV2ServiceConfig.js";
 import type {

@@ -3,9 +3,11 @@
  */
 import type { DynamoDBClientConfig } from "@aws-sdk/client-dynamodb";
 import { ServiceLogger } from "@effect-aws/commons";
-import { Effect, FiberRef, Layer } from "effect";
+import * as Effect from "effect/Effect";
+import * as FiberRef from "effect/FiberRef";
 import { dual } from "effect/Function";
 import { globalValue } from "effect/GlobalValue";
+import * as Layer from "effect/Layer";
 import type { DynamoDBService } from "./DynamoDBService.js";
 
 /**
