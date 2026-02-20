@@ -11,7 +11,8 @@ import type {
   TooManyPartsError,
 } from "@effect-aws/client-s3";
 import { S3Service } from "@effect-aws/client-s3";
-import { Error as PlatformError, FileSystem } from "@effect/platform";
+import * as PlatformError from "@effect/platform/Error";
+import * as FileSystem from "@effect/platform/FileSystem";
 import type * as Cause from "effect/Cause";
 import * as Chunk from "effect/Chunk";
 import * as Context from "effect/Context";

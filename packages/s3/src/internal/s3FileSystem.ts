@@ -1,6 +1,7 @@
 import type { S3Service } from "@effect-aws/client-s3";
 import { S3 } from "@effect-aws/client-s3";
-import { Error as PlatformError, FileSystem } from "@effect/platform";
+import * as PlatformError from "@effect/platform/Error";
+import * as FileSystem from "@effect/platform/FileSystem";
 import * as Array from "effect/Array";
 import * as Config from "effect/Config";
 import type * as Context from "effect/Context";

@@ -8,7 +8,8 @@ import type {
   S3ClientConfig,
 } from "@aws-sdk/client-s3";
 import { S3Service } from "@effect-aws/client-s3";
-import type { Error as PlatformError, FileSystem } from "@effect/platform";
+import type * as PlatformError from "@effect/platform/Error";
+import type * as FileSystem from "@effect/platform/FileSystem";
 import type * as Cause from "effect/Cause";
 import type * as Context from "effect/Context";
 import type * as Effect from "effect/Effect";

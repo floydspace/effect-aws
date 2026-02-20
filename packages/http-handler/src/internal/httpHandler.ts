@@ -1,7 +1,9 @@
 import type { HttpHandlerOptions } from "@effect-aws/commons";
 import { HttpHandler } from "@effect-aws/commons";
-import type { HttpMethod } from "@effect/platform";
-import { HttpBody, HttpClient, HttpClientRequest } from "@effect/platform";
+import * as HttpBody from "@effect/platform/HttpBody";
+import * as HttpClient from "@effect/platform/HttpClient";
+import * as HttpClientRequest from "@effect/platform/HttpClientRequest";
+import type * as HttpMethod from "@effect/platform/HttpMethod";
 import type { HttpRequest } from "@smithy/protocol-http";
 import { HttpResponse } from "@smithy/protocol-http";
 import { buildQueryString } from "@smithy/querystring-builder";

@@ -1,5 +1,5 @@
-import { Error } from "@effect/platform";
 import * as NodeStream from "@effect/platform-node-shared/NodeStream";
+import * as Error from "@effect/platform/Error";
 import * as Effect from "effect/Effect";
 import { dual } from "effect/Function";
 import * as Predicate from "effect/Predicate";
