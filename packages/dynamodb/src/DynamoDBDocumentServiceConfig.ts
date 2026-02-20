@@ -2,9 +2,11 @@
  * @since 1.0.0
  */
 import type { TranslateConfig } from "@aws-sdk/lib-dynamodb";
-import { Effect, FiberRef, Layer } from "effect";
+import * as Effect from "effect/Effect";
+import * as FiberRef from "effect/FiberRef";
 import { dual } from "effect/Function";
 import { globalValue } from "effect/GlobalValue";
+import * as Layer from "effect/Layer";
 import type { DynamoDBDocumentService } from "./DynamoDBDocumentService.js";
 
 /**

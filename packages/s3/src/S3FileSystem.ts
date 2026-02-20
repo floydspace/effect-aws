@@ -3,7 +3,9 @@
  */
 import type { S3Service } from "@effect-aws/client-s3";
 import type { FileSystem } from "@effect/platform/FileSystem";
-import type { Config, ConfigError, Layer } from "effect";
+import type * as Config from "effect/Config";
+import type * as ConfigError from "effect/ConfigError";
+import type * as Layer from "effect/Layer";
 import * as internal from "./internal/s3FileSystem.js";
 
 /**

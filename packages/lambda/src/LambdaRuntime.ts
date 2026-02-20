@@ -1,8 +1,10 @@
 /**
  * @since 1.0.0
  */
-import type { Layer } from "effect";
-import { Console, Effect, ManagedRuntime } from "effect";
+import * as Console from "effect/Console";
+import * as Effect from "effect/Effect";
+import type * as Layer from "effect/Layer";
+import * as ManagedRuntime from "effect/ManagedRuntime";
 
 /**
  * Makes a managed runtime from a layer asynchronously, designed for AWS Lambda.

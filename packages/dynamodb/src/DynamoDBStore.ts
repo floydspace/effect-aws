@@ -1,7 +1,9 @@
 /**
  * @since 1.0.0
  */
-import { Config, Effect, Layer } from "effect";
+import * as Config from "effect/Config";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
 import { DynamoDBDocumentService } from "./DynamoDBDocumentService.js";
 
 type WithoutTableNameInArgs = {

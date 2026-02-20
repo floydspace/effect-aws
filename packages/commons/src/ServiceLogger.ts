@@ -2,7 +2,8 @@
  * @since 0.1.0
  */
 import type { Logger } from "@smithy/types";
-import { Effect, Runtime } from "effect";
+import * as Effect from "effect/Effect";
+import * as Runtime from "effect/Runtime";
 
 /**
  * @since 0.1.0

@@ -64,8 +64,9 @@ import type {
 } from "@effect-aws/client-dynamodb";
 import { DynamoDBServiceConfig } from "@effect-aws/client-dynamodb";
 import { type HttpHandlerOptions, Service } from "@effect-aws/commons";
-import type { Cause } from "effect";
-import { Effect, Layer } from "effect";
+import type * as Cause from "effect/Cause";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
 import * as Instance from "./DynamoDBDocumentClientInstance.js";
 import * as DynamoDBDocumentServiceConfig from "./DynamoDBDocumentServiceConfig.js";
 

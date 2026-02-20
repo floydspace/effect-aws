@@ -3,8 +3,11 @@
  */
 import type { HttpApi, HttpRouter } from "@effect/platform";
 import { HttpApiBuilder, HttpApp } from "@effect/platform";
-import type { Cause } from "effect";
-import { Context, Effect, Function, Layer } from "effect";
+import type * as Cause from "effect/Cause";
+import * as Context from "effect/Context";
+import * as Effect from "effect/Effect";
+import * as Function from "effect/Function";
+import * as Layer from "effect/Layer";
 import { getEventSource } from "./internal/index.js";
 import * as internal from "./internal/lambdaHandler.js";
 import { pipeTo } from "./internal/stream.js";

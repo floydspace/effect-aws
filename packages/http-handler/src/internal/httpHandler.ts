@@ -6,8 +6,13 @@ import type { HttpRequest } from "@smithy/protocol-http";
 import { HttpResponse } from "@smithy/protocol-http";
 import { buildQueryString } from "@smithy/querystring-builder";
 import type { RequestHandlerOutput } from "@smithy/types";
-import type { Cause, Scope } from "effect";
-import { Duration, Effect, Option, Sink, Stream } from "effect";
+import type * as Cause from "effect/Cause";
+import * as Duration from "effect/Duration";
+import * as Effect from "effect/Effect";
+import * as Option from "effect/Option";
+import type * as Scope from "effect/Scope";
+import * as Sink from "effect/Sink";
+import * as Stream from "effect/Stream";
 
 declare module "@effect/platform/HttpClientResponse" {
   interface HttpClientResponse {

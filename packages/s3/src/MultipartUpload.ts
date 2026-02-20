@@ -9,8 +9,11 @@ import type {
 } from "@aws-sdk/client-s3";
 import { S3Service } from "@effect-aws/client-s3";
 import type { Error as PlatformError, FileSystem } from "@effect/platform";
-import type { Cause, Context, Effect, Stream } from "effect";
-import { Layer } from "effect";
+import type * as Cause from "effect/Cause";
+import type * as Context from "effect/Context";
+import type * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
+import type * as Stream from "effect/Stream";
 import * as internal from "./internal/multipartUpload.js";
 
 /**

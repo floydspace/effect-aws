@@ -12,8 +12,16 @@ import type {
 } from "@effect-aws/client-s3";
 import { S3Service } from "@effect-aws/client-s3";
 import { Error as PlatformError, FileSystem } from "@effect/platform";
-import type { Cause } from "effect";
-import { Chunk, Context, Effect, Exit, Option, Predicate, Ref, Sink, Stream } from "effect";
+import type * as Cause from "effect/Cause";
+import * as Chunk from "effect/Chunk";
+import * as Context from "effect/Context";
+import * as Effect from "effect/Effect";
+import * as Exit from "effect/Exit";
+import * as Option from "effect/Option";
+import * as Predicate from "effect/Predicate";
+import * as Ref from "effect/Ref";
+import * as Sink from "effect/Sink";
+import * as Stream from "effect/Stream";
 import type { MultipartUpload, UploadObjectCommandInput, UploadObjectOptions } from "../MultipartUpload.js";
 
 /** @internal */
