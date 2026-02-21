@@ -1,29 +1,31 @@
 import type { S3Service } from "@effect-aws/client-s3";
 import { S3 } from "@effect-aws/client-s3";
-import { Error as PlatformError, FileSystem } from "@effect/platform";
-import type { Context } from "effect";
-import { Array, Config, Effect, Layer, Match, Option, String as Str } from "effect";
+import { Array, Config, Effect, FileSystem, Layer, Match, Option, PlatformError, String as Str } from "effect";
 import type { S3FileSystemConfig } from "../S3FileSystem.js";
 
 /** @internal */
 const handleBadArgument = (method: string) => (err: unknown) =>
-  new PlatformError.BadArgument({
-    module: "FileSystem",
-    method,
-    cause: err,
-  });
+  new PlatformError.PlatformError(
+    new PlatformError.BadArgument({
+      module: "FileSystem",
+      method,
+      cause: err,
+    }),
+  );
 
 /** @internal */
 const handleSystemError =
-  (method: string, reason: PlatformError.SystemErrorReason, path: string, syscall?: string) => (err: unknown) =>
-    new PlatformError.SystemError({
-      module: "FileSystem",
-      method,
-      reason,
-      cause: err,
-      pathOrDescriptor: path,
-      syscall,
-    });
+  (method: string, reason: PlatformError.SystemErrorTag, path: string, syscall?: string) => (err: unknown) =>
+    new PlatformError.PlatformError(
+      new PlatformError.SystemError({
+        module: "FileSystem",
+        method,
+        _tag: reason,
+        cause: err,
+        pathOrDescriptor: path,
+        syscall,
+      }),
+    );
 
 const checkPath = (path: string) =>
   Effect.gen(function*() {
@@ -32,7 +34,7 @@ const checkPath = (path: string) =>
     }
   });
 
-const access = (s3: Context.Tag.Service<S3Service>, config: S3FileSystemConfig) => (path: string) =>
+const access = (s3: S3Service.Type, config: S3FileSystemConfig) => (path: string) =>
   Effect.gen(function*() {
     yield* checkPath(path).pipe(Effect.mapError(handleBadArgument("access")));
     yield* s3.headObject({ Bucket: config.bucketName, Key: path }).pipe(
@@ -46,7 +48,7 @@ const access = (s3: Context.Tag.Service<S3Service>, config: S3FileSystemConfig) 
   });
 
 const copyFileFactory = (method: string) =>
-(s3: Context.Tag.Service<S3Service>, config: S3FileSystemConfig) =>
+(s3: S3Service.Type, config: S3FileSystemConfig) =>
 (
   fromPath: string,
   toPath: string,
@@ -60,10 +62,13 @@ const copyFileFactory = (method: string) =>
 
 const copyFile = copyFileFactory("copyFile");
 
-const makeDirectory = (s3: Context.Tag.Service<S3Service>, config: S3FileSystemConfig) =>
+const makeDirectory = (s3: S3Service.Type, config: S3FileSystemConfig) =>
 (
   path: string,
-  options?: FileSystem.MakeDirectoryOptions,
+  options?: {
+    readonly recursive?: boolean | undefined;
+    readonly mode?: number | undefined;
+  },
 ): Effect.Effect<void, PlatformError.PlatformError> =>
   Effect.gen(function*() {
     yield* checkPath(path).pipe(Effect.mapError(handleBadArgument("makeDirectory")));
@@ -92,10 +97,12 @@ const makeDirectory = (s3: Context.Tag.Service<S3Service>, config: S3FileSystemC
     );
   });
 
-const readDirectory = (s3: Context.Tag.Service<S3Service>, config: S3FileSystemConfig) =>
+const readDirectory = (s3: S3Service.Type, config: S3FileSystemConfig) =>
 (
   path: string,
-  options?: FileSystem.ReadDirectoryOptions,
+  options?: {
+    readonly recursive?: boolean | undefined;
+  },
 ): Effect.Effect<Array<string>, PlatformError.PlatformError> =>
   Effect.gen(function*() {
     yield* checkPath(path).pipe(Effect.mapError(handleBadArgument("readDirectory")));
@@ -103,16 +110,18 @@ const readDirectory = (s3: Context.Tag.Service<S3Service>, config: S3FileSystemC
     key = key.startsWith("/") ? key.slice(1) : key;
     key = key ? key.endsWith("/") ? key : `${key}/` : "";
     return yield* s3.listObjects({ Bucket: config.bucketName, Prefix: key }).pipe(
-      Effect.flatMap((response) => Effect.fromNullable(response.Contents)),
-      Effect.map(Array.filterMap((content) =>
+      Effect.flatMap((response) => Effect.fromNullishOr(response.Contents)),
+      Effect.map(Array.map((content) =>
         options?.recursive
-          ? Option.fromNullable(content.Key?.replace(new RegExp(`^${key}`), "") || null)
-          : Option.fromNullable(content.Key?.replace(new RegExp(`^${key}`), "").replace(/\/.*$/, "") || null)
+          ? Option.fromNullishOr(content.Key?.replace(new RegExp(`^${key}`), "") || null)
+          : Option.fromNullishOr(content.Key?.replace(new RegExp(`^${key}`), "").replace(/\/.*$/, "") || null)
       )),
+      Effect.map(Array.filter(Option.isSome)),
+      Effect.map(Array.map((x) => x.value)),
       Effect.map(Array.dedupe),
       Effect.mapError((error) =>
         Match.value(error).pipe(
-          Match.tag("NoSuchElementException", handleSystemError("readDirectory", "NotFound", key, "listObjects")),
+          Match.tag("NoSuchElementError", handleSystemError("readDirectory", "NotFound", key, "listObjects")),
           Match.tag("NoSuchBucket", handleSystemError("readDirectory", "NotFound", key, "listObjects")),
           Match.orElse(handleSystemError("readDirectory", "Unknown", key, "listObjects")),
         )
@@ -120,12 +129,12 @@ const readDirectory = (s3: Context.Tag.Service<S3Service>, config: S3FileSystemC
     );
   });
 
-const readFile = (s3: Context.Tag.Service<S3Service>, config: S3FileSystemConfig) => (path: string) =>
+const readFile = (s3: S3Service.Type, config: S3FileSystemConfig) => (path: string) =>
   Effect.gen(function*() {
     yield* checkPath(path).pipe(Effect.mapError(handleBadArgument("readFile")));
     return yield* s3.getObject({ Bucket: config.bucketName, Key: path }).pipe(
-      Effect.flatMap((response) => Effect.fromNullable(response.Body)),
-      Effect.andThen((blob) => blob.transformToByteArray()),
+      Effect.flatMap((response) => Effect.fromNullishOr(response.Body)),
+      Effect.flatMap((blob) => Effect.tryPromise(() => blob.transformToByteArray())),
       Effect.mapError((error) =>
         Match.value(error).pipe(
           Match.tag("NoSuchKey", handleSystemError("readFile", "NotFound", path)),
@@ -136,7 +145,7 @@ const readFile = (s3: Context.Tag.Service<S3Service>, config: S3FileSystemConfig
   });
 
 const removeFactory = (method: string) =>
-(s3: Context.Tag.Service<S3Service>, config: S3FileSystemConfig) =>
+(s3: S3Service.Type, config: S3FileSystemConfig) =>
 (
   path: string,
   // options?: FileSystem.RemoveOptions,
@@ -150,7 +159,7 @@ const removeFactory = (method: string) =>
 
 const remove = removeFactory("remove");
 
-const rename = (s3: Context.Tag.Service<S3Service>, config: S3FileSystemConfig) =>
+const rename = (s3: S3Service.Type, config: S3FileSystemConfig) =>
 (
   oldPath: string,
   newPath: string,
@@ -160,7 +169,7 @@ const rename = (s3: Context.Tag.Service<S3Service>, config: S3FileSystemConfig) 
     yield* removeFactory("rename")(s3, config)(oldPath);
   });
 
-const writeFile = (s3: Context.Tag.Service<S3Service>, config: S3FileSystemConfig) =>
+const writeFile = (s3: S3Service.Type, config: S3FileSystemConfig) =>
 (
   path: string,
   data: Uint8Array,
@@ -195,8 +204,8 @@ const makeFileSystem = (config: S3FileSystemConfig) =>
 export const layer = (config: S3FileSystemConfig) => Layer.effect(FileSystem.FileSystem, makeFileSystem(config));
 
 /** @internal */
-export const layerConfig = (config: Config.Config.Wrap<S3FileSystemConfig>) =>
-  Config.unwrap(config).pipe(
+export const layerConfig = (config: Config.Wrap<S3FileSystemConfig>) =>
+  Config.unwrap(config).asEffect().pipe(
     Effect.flatMap(makeFileSystem),
     Layer.effect(FileSystem.FileSystem),
   );

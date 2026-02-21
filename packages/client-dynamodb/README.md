@@ -16,7 +16,7 @@ With default DynamoDBClient instance:
 ```typescript
 import { DynamoDB } from "@effect-aws/client-dynamodb";
 
-const program = DynamoDB.putItem(args);
+const program = DynamoDB.use((svc) => svc.putItem(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom DynamoDBClient instance:
 ```typescript
 import { DynamoDB } from "@effect-aws/client-dynamodb";
 
-const program = DynamoDB.putItem(args);
+const program = DynamoDB.use((svc) => svc.putItem(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom DynamoDBClient configuration:
 ```typescript
 import { DynamoDB } from "@effect-aws/client-dynamodb";
 
-const program = DynamoDB.putItem(args);
+const program = DynamoDB.use((svc) => svc.putItem(args));
 
 const result = await pipe(
   program,

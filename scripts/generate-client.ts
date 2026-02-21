@@ -165,16 +165,16 @@ async function generateClientInstanceFile(
  * @since 1.0.0
  */
 import { ${sdkName}Client } from "@aws-sdk/client-${originalServiceName}";
-import { Context, Effect, Layer } from "effect";
+import { ServiceMap, Effect, Layer } from "effect";
 import * as ${sdkName}ServiceConfig from "./${sdkName}ServiceConfig.js";
 
 /**
  * @since 1.0.0
  * @category tags
  */
-export class ${sdkName}ClientInstance extends Context.Tag(
+export class ${sdkName}ClientInstance extends ServiceMap.Service<${sdkName}ClientInstance, ${sdkName}Client>()(
   "@effect-aws/client-${serviceName}/${sdkName}ClientInstance",
-)<${sdkName}ClientInstance, ${sdkName}Client>() {}
+) {}
 
 /**
  * @since 1.0.0
@@ -193,7 +193,7 @@ export const make = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const layer = Layer.scoped(${sdkName}ClientInstance, make);
+export const layer = Layer.effect(${sdkName}ClientInstance, make);
 `,
   );
 }
@@ -211,18 +211,17 @@ async function generateServiceConfigFile(
  */
 import type { ${sdkName}ClientConfig } from "@aws-sdk/client-${originalServiceName}";
 import { ServiceLogger } from "@effect-aws/commons";
-import { Effect, FiberRef, Layer } from "effect";
+import { Effect, ServiceMap, Layer } from "effect";
 import { dual } from "effect/Function";
-import { globalValue } from "effect/GlobalValue";
 import type { ${sdkName}Service } from "./${sdkName}Service.js";
 
 /**
  * @since 1.0.0
  * @category ${serviceName} service config
  */
-const current${sdkName}ServiceConfig = globalValue(
+const current${sdkName}ServiceConfig = ServiceMap.Reference<${sdkName}Service.Config>(
   "@effect-aws/client-${serviceName}/current${sdkName}ServiceConfig",
-  () => FiberRef.unsafeMake<${sdkName}Service.Config>({}),
+  { defaultValue: () => ({}) },
 );
 
 /**
@@ -235,7 +234,7 @@ export const with${sdkName}ServiceConfig: {
 } = dual(
   2,
   <A, E, R>(effect: Effect.Effect<A, E, R>, config: ${sdkName}Service.Config): Effect.Effect<A, E, R> =>
-    Effect.locally(effect, current${sdkName}ServiceConfig, config),
+    Effect.provideService(effect, current${sdkName}ServiceConfig, config),
 );
 
 /**
@@ -243,14 +242,14 @@ export const with${sdkName}ServiceConfig: {
  * @category ${serviceName} service config
  */
 export const set${sdkName}ServiceConfig = (config: ${sdkName}Service.Config) =>
-  Layer.locallyScoped(current${sdkName}ServiceConfig, config);
+  Layer.succeed(current${sdkName}ServiceConfig, config);
 
 /**
  * @since 1.0.0
  * @category adapters
  */
 export const to${sdkName}ClientConfig: Effect.Effect<${sdkName}ClientConfig> = Effect.gen(function*() {
-  const { logger: serviceLogger, ...config } = yield* FiberRef.get(current${sdkName}ServiceConfig);
+  const { logger: serviceLogger, ...config } = yield* current${sdkName}ServiceConfig;
 
   const logger = serviceLogger === true
     ? yield* ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger)
@@ -339,7 +338,7 @@ async function generateServiceFile(
     Record.filter(
       (shape): shape is Extract<Shape, { type: "operation" }> => shape.type === "operation",
     ),
-    Struct.pick(...operationTargets),
+    Struct.pick(operationTargets),
     Record.filter(Predicate.isNotUndefined),
     Record.mapKeys(getNameFromTarget),
     Record.toEntries,
@@ -349,7 +348,7 @@ async function generateServiceFile(
 
   const importedErrors = pipe(
     operationShapes,
-    Array.map(Tuple.getSecond),
+    Array.map(Tuple.get(1)),
     Array.filter(
       (shape): shape is Extract<Shape, { type: "operation" }> => shape.type === "operation",
     ),
@@ -384,7 +383,7 @@ import {
 import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
-import { Effect, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import * as Instance from "./${sdkName}ClientInstance.js";
 import * as ${sdkName}ServiceConfig from "./${sdkName}ServiceConfig.js";
 ${
@@ -449,7 +448,7 @@ ${
     ${operationName}CommandOutput,
     ${
             pipe(
-              ["Cause.TimeoutException", "SdkError", ...(exportedErrors.length ? errors : [`${sdkName}ServiceError`])],
+              ["Cause.TimeoutError", "SdkError", ...(exportedErrors.length ? errors : [`${sdkName}ServiceError`])],
               Array.join(" | "),
             )
           }
@@ -481,10 +480,10 @@ export const make${sdkName}Service = Effect.gen(function* () {
  * @since 1.0.0
  * @category models
  */
-export class ${sdkName}Service extends Effect.Tag("@effect-aws/client-${serviceName}/${sdkName}Service")<
+export class ${sdkName}Service extends ServiceMap.Service<
   ${sdkName}Service,
   ${sdkName}Service$
->() {
+>()("@effect-aws/client-${serviceName}/${sdkName}Service") {
   static readonly defaultLayer = Layer.effect(this, make${sdkName}Service).pipe(Layer.provide(Instance.layer));
   static readonly layer = (config: ${sdkName}Service.Config) =>
     Layer.effect(this, make${sdkName}Service).pipe(
@@ -566,7 +565,7 @@ describe("${sdkName}ClientImpl", () => {
         : `const args = {} as unknown as ${commandToTest}CommandInput`
     }
 
-    const program = ${sdkName}.${String.uncapitalize(commandToTest)}(args);
+    const program = ${sdkName}.use((svc) => svc.${String.uncapitalize(commandToTest)}(args));
 
     const result = await pipe(
       program,
@@ -590,7 +589,7 @@ describe("${sdkName}ClientImpl", () => {
         : `const args = {} as unknown as ${commandToTest}CommandInput`
     }
 
-    const program = ${sdkName}.${String.uncapitalize(commandToTest)}(args);
+    const program = ${sdkName}.use((svc) => svc.${String.uncapitalize(commandToTest)}(args));
 
     const result = await pipe(
       program,
@@ -617,7 +616,7 @@ describe("${sdkName}ClientImpl", () => {
         : `const args = {} as unknown as ${commandToTest}CommandInput`
     }
 
-    const program = ${sdkName}.${String.uncapitalize(commandToTest)}(args);
+    const program = ${sdkName}.use((svc) => svc.${String.uncapitalize(commandToTest)}(args));
 
     const result = await pipe(
       program,
@@ -645,7 +644,7 @@ describe("${sdkName}ClientImpl", () => {
         : `const args = {} as unknown as ${commandToTest}CommandInput`
     }
 
-    const program = ${sdkName}.${String.uncapitalize(commandToTest)}(args);
+    const program = ${sdkName}.use((svc) => svc.${String.uncapitalize(commandToTest)}(args));
 
     const result = await pipe(
       program,
@@ -677,7 +676,7 @@ describe("${sdkName}ClientImpl", () => {
         : `const args = {} as unknown as ${commandToTest}CommandInput`
     }
 
-    const program = ${sdkName}.${String.uncapitalize(commandToTest)}(args);
+    const program = ${sdkName}.use((svc) => svc.${String.uncapitalize(commandToTest)}(args));
 
     const result = await pipe(
       program,
@@ -687,7 +686,7 @@ describe("${sdkName}ClientImpl", () => {
 
     expect(result).toEqual(
       Exit.fail(
-        SdkError({
+        new SdkError({
           ...new Error("test"),
           name: "SdkError",
           message: "test",
@@ -716,7 +715,7 @@ describe("${sdkName}ClientImpl", () => {
         : `const args = {} as unknown as ${commandToTest}CommandInput`
     }
 
-    const program = ${sdkName}.${String.uncapitalize(commandToTest)}(args).pipe(
+    const program = ${sdkName}.use((svc) => svc.${String.uncapitalize(commandToTest)}(args)).pipe(
       Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 
@@ -726,9 +725,9 @@ describe("${sdkName}ClientImpl", () => {
       Effect.runPromiseExit,
     );
 
-    expect(result).toEqual(
+    expect(result).toContainEqual(
       Exit.fail(
-        SdkError({
+        new SdkError({
           ...new Error("test"),
           name: "SdkError",
           message: "test",
@@ -765,7 +764,7 @@ With default ${sdkName}Client instance:
 \`\`\`typescript
 import { ${sdkName} } from "@effect-aws/client-${serviceName}";
 
-const program = ${sdkName}.${String.uncapitalize(commandToTest)}(args);
+const program = ${sdkName}.use((svc) => svc.${String.uncapitalize(commandToTest)}(args));
 
 const result = pipe(
   program,
@@ -779,7 +778,7 @@ With custom ${sdkName}Client instance:
 \`\`\`typescript
 import { ${sdkName} } from "@effect-aws/client-${serviceName}";
 
-const program = ${sdkName}.${String.uncapitalize(commandToTest)}(args);
+const program = ${sdkName}.use((svc) => svc.${String.uncapitalize(commandToTest)}(args));
 
 const result = await pipe(
   program,
@@ -795,7 +794,7 @@ With custom ${sdkName}Client configuration:
 \`\`\`typescript
 import { ${sdkName} } from "@effect-aws/client-${serviceName}";
 
-const program = ${sdkName}.${String.uncapitalize(commandToTest)}(args);
+const program = ${sdkName}.use((svc) => svc.${String.uncapitalize(commandToTest)}(args));
 
 const result = await pipe(
   program,

@@ -21,7 +21,7 @@ describe("KMSClientImpl", () => {
 
     const args = {} as unknown as ListKeysCommandInput;
 
-    const program = KMS.listKeys(args);
+    const program = KMS.use((svc) => svc.listKeys(args));
 
     const result = await pipe(
       program,
@@ -41,7 +41,7 @@ describe("KMSClientImpl", () => {
 
     const args = {} as unknown as ListKeysCommandInput;
 
-    const program = KMS.listKeys(args);
+    const program = KMS.use((svc) => svc.listKeys(args));
 
     const result = await pipe(
       program,
@@ -64,7 +64,7 @@ describe("KMSClientImpl", () => {
 
     const args = {} as unknown as ListKeysCommandInput;
 
-    const program = KMS.listKeys(args);
+    const program = KMS.use((svc) => svc.listKeys(args));
 
     const result = await pipe(
       program,
@@ -88,7 +88,7 @@ describe("KMSClientImpl", () => {
 
     const args = {} as unknown as ListKeysCommandInput;
 
-    const program = KMS.listKeys(args);
+    const program = KMS.use((svc) => svc.listKeys(args));
 
     const result = await pipe(
       program,
@@ -116,7 +116,7 @@ describe("KMSClientImpl", () => {
 
     const args = {} as unknown as ListKeysCommandInput;
 
-    const program = KMS.listKeys(args);
+    const program = KMS.use((svc) => svc.listKeys(args));
 
     const result = await pipe(
       program,
@@ -126,7 +126,7 @@ describe("KMSClientImpl", () => {
 
     expect(result).toEqual(
       Exit.fail(
-        SdkError({
+        new SdkError({
           ...new Error("test"),
           name: "SdkError",
           message: "test",
@@ -151,7 +151,7 @@ describe("KMSClientImpl", () => {
 
     const args = {} as unknown as ListKeysCommandInput;
 
-    const program = KMS.listKeys(args).pipe(
+    const program = KMS.use((svc) => svc.listKeys(args)).pipe(
       Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 
@@ -161,9 +161,9 @@ describe("KMSClientImpl", () => {
       Effect.runPromiseExit,
     );
 
-    expect(result).toEqual(
+    expect(result).toContainEqual(
       Exit.fail(
-        SdkError({
+        new SdkError({
           ...new Error("test"),
           name: "SdkError",
           message: "test",

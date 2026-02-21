@@ -16,7 +16,7 @@ With default BedrockClient instance:
 ```typescript
 import { Bedrock } from "@effect-aws/client-bedrock";
 
-const program = Bedrock.listCustomModels(args);
+const program = Bedrock.use((svc) => svc.listCustomModels(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom BedrockClient instance:
 ```typescript
 import { Bedrock } from "@effect-aws/client-bedrock";
 
-const program = Bedrock.listCustomModels(args);
+const program = Bedrock.use((svc) => svc.listCustomModels(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom BedrockClient configuration:
 ```typescript
 import { Bedrock } from "@effect-aws/client-bedrock";
 
-const program = Bedrock.listCustomModels(args);
+const program = Bedrock.use((svc) => svc.listCustomModels(args));
 
 const result = await pipe(
   program,

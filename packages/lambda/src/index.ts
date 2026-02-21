@@ -11,9 +11,4 @@ export * as LambdaRuntime from "./LambdaRuntime.js";
 /**
  * @since 1.0.0
  */
-export * from "./Compatibility.js";
-
-/**
- * @since 1.0.0
- */
 export * from "./Types.js";

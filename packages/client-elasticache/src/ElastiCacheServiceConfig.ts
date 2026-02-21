@@ -3,18 +3,17 @@
  */
 import type { ElastiCacheClientConfig } from "@aws-sdk/client-elasticache";
 import { ServiceLogger } from "@effect-aws/commons";
-import { Effect, FiberRef, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import { dual } from "effect/Function";
-import { globalValue } from "effect/GlobalValue";
 import type { ElastiCacheService } from "./ElastiCacheService.js";
 
 /**
  * @since 1.0.0
  * @category elasticache service config
  */
-const currentElastiCacheServiceConfig = globalValue(
+const currentElastiCacheServiceConfig = ServiceMap.Reference<ElastiCacheService.Config>(
   "@effect-aws/client-elasticache/currentElastiCacheServiceConfig",
-  () => FiberRef.unsafeMake<ElastiCacheService.Config>({}),
+  { defaultValue: () => ({}) },
 );
 
 /**
@@ -27,7 +26,7 @@ export const withElastiCacheServiceConfig: {
 } = dual(
   2,
   <A, E, R>(effect: Effect.Effect<A, E, R>, config: ElastiCacheService.Config): Effect.Effect<A, E, R> =>
-    Effect.locally(effect, currentElastiCacheServiceConfig, config),
+    Effect.provideService(effect, currentElastiCacheServiceConfig, config),
 );
 
 /**
@@ -35,14 +34,14 @@ export const withElastiCacheServiceConfig: {
  * @category elasticache service config
  */
 export const setElastiCacheServiceConfig = (config: ElastiCacheService.Config) =>
-  Layer.locallyScoped(currentElastiCacheServiceConfig, config);
+  Layer.succeed(currentElastiCacheServiceConfig, config);
 
 /**
  * @since 1.0.0
  * @category adapters
  */
 export const toElastiCacheClientConfig: Effect.Effect<ElastiCacheClientConfig> = Effect.gen(function*() {
-  const { logger: serviceLogger, ...config } = yield* FiberRef.get(currentElastiCacheServiceConfig);
+  const { logger: serviceLogger, ...config } = yield* currentElastiCacheServiceConfig;
 
   const logger = serviceLogger === true
     ? yield* ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger)

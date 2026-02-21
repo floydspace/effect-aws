@@ -16,7 +16,7 @@ With default LambdaClient instance:
 ```typescript
 import { Lambda } from "@effect-aws/client-lambda";
 
-const program = Lambda.invoke(args);
+const program = Lambda.use((svc) => svc.invoke(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom LambdaClient instance:
 ```typescript
 import { Lambda } from "@effect-aws/client-lambda";
 
-const program = Lambda.invoke(args);
+const program = Lambda.use((svc) => svc.invoke(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom LambdaClient configuration:
 ```typescript
 import { Lambda } from "@effect-aws/client-lambda";
 
-const program = Lambda.invoke(args);
+const program = Lambda.use((svc) => svc.invoke(args));
 
 const result = await pipe(
   program,

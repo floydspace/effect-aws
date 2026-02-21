@@ -3,18 +3,17 @@
  */
 import type { TimestreamWriteClientConfig } from "@aws-sdk/client-timestream-write";
 import { ServiceLogger } from "@effect-aws/commons";
-import { Effect, FiberRef, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import { dual } from "effect/Function";
-import { globalValue } from "effect/GlobalValue";
 import type { TimestreamWriteService } from "./TimestreamWriteService.js";
 
 /**
  * @since 1.0.0
  * @category timestream-write service config
  */
-const currentTimestreamWriteServiceConfig = globalValue(
+const currentTimestreamWriteServiceConfig = ServiceMap.Reference<TimestreamWriteService.Config>(
   "@effect-aws/client-timestream-write/currentTimestreamWriteServiceConfig",
-  () => FiberRef.unsafeMake<TimestreamWriteService.Config>({}),
+  { defaultValue: () => ({}) },
 );
 
 /**
@@ -27,7 +26,7 @@ export const withTimestreamWriteServiceConfig: {
 } = dual(
   2,
   <A, E, R>(effect: Effect.Effect<A, E, R>, config: TimestreamWriteService.Config): Effect.Effect<A, E, R> =>
-    Effect.locally(effect, currentTimestreamWriteServiceConfig, config),
+    Effect.provideService(effect, currentTimestreamWriteServiceConfig, config),
 );
 
 /**
@@ -35,14 +34,14 @@ export const withTimestreamWriteServiceConfig: {
  * @category timestream-write service config
  */
 export const setTimestreamWriteServiceConfig = (config: TimestreamWriteService.Config) =>
-  Layer.locallyScoped(currentTimestreamWriteServiceConfig, config);
+  Layer.succeed(currentTimestreamWriteServiceConfig, config);
 
 /**
  * @since 1.0.0
  * @category adapters
  */
 export const toTimestreamWriteClientConfig: Effect.Effect<TimestreamWriteClientConfig> = Effect.gen(function*() {
-  const { logger: serviceLogger, ...config } = yield* FiberRef.get(currentTimestreamWriteServiceConfig);
+  const { logger: serviceLogger, ...config } = yield* currentTimestreamWriteServiceConfig;
 
   const logger = serviceLogger === true
     ? yield* ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger)

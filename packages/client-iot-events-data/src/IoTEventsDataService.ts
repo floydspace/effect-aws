@@ -44,7 +44,7 @@ import {
 import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
-import { Effect, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import type {
   InternalFailureError,
   InvalidRequestError,
@@ -83,7 +83,7 @@ interface IoTEventsDataService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchAcknowledgeAlarmCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -99,7 +99,7 @@ interface IoTEventsDataService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchDeleteDetectorCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -115,7 +115,7 @@ interface IoTEventsDataService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchDisableAlarmCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -131,7 +131,7 @@ interface IoTEventsDataService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchEnableAlarmCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -147,7 +147,7 @@ interface IoTEventsDataService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchPutMessageCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -163,7 +163,7 @@ interface IoTEventsDataService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchResetAlarmCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -179,7 +179,7 @@ interface IoTEventsDataService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchSnoozeAlarmCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -195,7 +195,7 @@ interface IoTEventsDataService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchUpdateDetectorCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -211,7 +211,7 @@ interface IoTEventsDataService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeAlarmCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -228,7 +228,7 @@ interface IoTEventsDataService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeDetectorCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -245,7 +245,7 @@ interface IoTEventsDataService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAlarmsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -262,7 +262,7 @@ interface IoTEventsDataService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDetectorsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -293,10 +293,10 @@ export const makeIoTEventsDataService = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class IoTEventsDataService extends Effect.Tag("@effect-aws/client-iot-events-data/IoTEventsDataService")<
+export class IoTEventsDataService extends ServiceMap.Service<
   IoTEventsDataService,
   IoTEventsDataService$
->() {
+>()("@effect-aws/client-iot-events-data/IoTEventsDataService") {
   static readonly defaultLayer = Layer.effect(this, makeIoTEventsDataService).pipe(Layer.provide(Instance.layer));
   static readonly layer = (config: IoTEventsDataService.Config) =>
     Layer.effect(this, makeIoTEventsDataService).pipe(

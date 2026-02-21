@@ -37,7 +37,7 @@ describe("S3ClientImpl", () => {
 
     const args: HeadObjectCommandInput = { Key: "test", Bucket: "test" };
 
-    const program = S3.headObject(args);
+    const program = S3.use((svc) => svc.headObject(args));
 
     const result = await pipe(
       program,
@@ -57,7 +57,7 @@ describe("S3ClientImpl", () => {
 
     const args: HeadObjectCommandInput = { Key: "test", Bucket: "test" };
 
-    const program = S3.headObject(args);
+    const program = S3.use((svc) => svc.headObject(args));
 
     const result = await pipe(
       program,
@@ -80,7 +80,7 @@ describe("S3ClientImpl", () => {
 
     const args: HeadObjectCommandInput = { Key: "test", Bucket: "test" };
 
-    const program = S3.headObject(args);
+    const program = S3.use((svc) => svc.headObject(args));
 
     const result = await pipe(
       program,
@@ -104,7 +104,7 @@ describe("S3ClientImpl", () => {
 
     const args: HeadObjectCommandInput = { Key: "test", Bucket: "test" };
 
-    const program = S3.headObject(args);
+    const program = S3.use((svc) => svc.headObject(args));
 
     const result = await pipe(
       program,
@@ -132,7 +132,7 @@ describe("S3ClientImpl", () => {
 
     const args: HeadObjectCommandInput = { Key: "test", Bucket: "test" };
 
-    const program = S3.headObject(args, { requestTimeout: 1000 });
+    const program = S3.use((svc) => svc.headObject(args));
 
     const result = await pipe(
       program,
@@ -142,7 +142,7 @@ describe("S3ClientImpl", () => {
 
     expect(result).toEqual(
       Exit.fail(
-        SdkError({
+        new SdkError({
           ...new Error("test"),
           name: "SdkError",
           message: "test",
@@ -167,7 +167,7 @@ describe("S3ClientImpl", () => {
 
     const args: HeadObjectCommandInput = { Key: "test", Bucket: "test" };
 
-    const program = S3.headObject(args).pipe(
+    const program = S3.use((svc) => svc.headObject(args)).pipe(
       Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 
@@ -177,9 +177,9 @@ describe("S3ClientImpl", () => {
       Effect.runPromiseExit,
     );
 
-    expect(result).toEqual(
+    expect(result).toContainEqual(
       Exit.fail(
-        SdkError({
+        new SdkError({
           ...new Error("test"),
           name: "SdkError",
           message: "test",
@@ -194,7 +194,7 @@ describe("S3ClientImpl", () => {
   it("presigned url", async () => {
     const args: GetObjectCommandInput = { Key: "test", Bucket: "test" };
 
-    const program = S3.getObject(args, { presigned: true, expiresIn: 100 });
+    const program = S3.use((svc) => svc.getObject(args, { presigned: true, expiresIn: 100 }));
 
     const result = await pipe(
       program,

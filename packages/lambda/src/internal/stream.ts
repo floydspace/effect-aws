@@ -1,23 +1,25 @@
-import { Error } from "@effect/platform";
 import * as NodeStream from "@effect/platform-node-shared/NodeStream";
 import { Effect, Stream } from "effect";
 import { dual } from "effect/Function";
+import * as Error from "effect/PlatformError";
 import type { PipelineDestination, PipelineSource } from "node:stream";
 import * as NS from "node:stream/promises";
 
 const handleErrnoException =
   (module: Error.SystemError["module"], method: string) => (err: unknown): Error.PlatformError => {
-    const reason: Error.SystemErrorReason = "Unknown";
+    const reason: Error.SystemErrorTag = "Unknown";
 
-    return new Error.SystemError({
-      reason,
-      module,
-      method,
-      pathOrDescriptor: "",
-      syscall: (err as NodeJS.ErrnoException).syscall,
-      description: (err as NodeJS.ErrnoException).message,
-      cause: err,
-    });
+    return new Error.PlatformError(
+      new Error.SystemError({
+        _tag: reason,
+        module,
+        method,
+        pathOrDescriptor: "",
+        syscall: (err as NodeJS.ErrnoException).syscall,
+        description: (err as NodeJS.ErrnoException).message,
+        cause: err,
+      }),
+    );
   };
 
 /** @internal */

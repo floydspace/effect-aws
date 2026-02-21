@@ -16,7 +16,7 @@ With default KafkaConnectClient instance:
 ```typescript
 import { KafkaConnect } from "@effect-aws/client-kafkaconnect";
 
-const program = KafkaConnect.listConnectors(args);
+const program = KafkaConnect.use((svc) => svc.listConnectors(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom KafkaConnectClient instance:
 ```typescript
 import { KafkaConnect } from "@effect-aws/client-kafkaconnect";
 
-const program = KafkaConnect.listConnectors(args);
+const program = KafkaConnect.use((svc) => svc.listConnectors(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom KafkaConnectClient configuration:
 ```typescript
 import { KafkaConnect } from "@effect-aws/client-kafkaconnect";
 
-const program = KafkaConnect.listConnectors(args);
+const program = KafkaConnect.use((svc) => svc.listConnectors(args));
 
 const result = await pipe(
   program,

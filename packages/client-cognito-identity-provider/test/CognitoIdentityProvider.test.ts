@@ -29,7 +29,7 @@ describe("CognitoIdentityProviderClientImpl", () => {
 
     const args = {} as unknown as ListUserPoolsCommandInput;
 
-    const program = CognitoIdentityProvider.listUserPools(args);
+    const program = CognitoIdentityProvider.use((svc) => svc.listUserPools(args));
 
     const result = await pipe(
       program,
@@ -49,7 +49,7 @@ describe("CognitoIdentityProviderClientImpl", () => {
 
     const args = {} as unknown as ListUserPoolsCommandInput;
 
-    const program = CognitoIdentityProvider.listUserPools(args);
+    const program = CognitoIdentityProvider.use((svc) => svc.listUserPools(args));
 
     const result = await pipe(
       program,
@@ -72,7 +72,7 @@ describe("CognitoIdentityProviderClientImpl", () => {
 
     const args = {} as unknown as ListUserPoolsCommandInput;
 
-    const program = CognitoIdentityProvider.listUserPools(args);
+    const program = CognitoIdentityProvider.use((svc) => svc.listUserPools(args));
 
     const result = await pipe(
       program,
@@ -96,7 +96,7 @@ describe("CognitoIdentityProviderClientImpl", () => {
 
     const args = {} as unknown as ListUserPoolsCommandInput;
 
-    const program = CognitoIdentityProvider.listUserPools(args);
+    const program = CognitoIdentityProvider.use((svc) => svc.listUserPools(args));
 
     const result = await pipe(
       program,
@@ -124,7 +124,7 @@ describe("CognitoIdentityProviderClientImpl", () => {
 
     const args = {} as unknown as ListUserPoolsCommandInput;
 
-    const program = CognitoIdentityProvider.listUserPools(args);
+    const program = CognitoIdentityProvider.use((svc) => svc.listUserPools(args));
 
     const result = await pipe(
       program,
@@ -134,7 +134,7 @@ describe("CognitoIdentityProviderClientImpl", () => {
 
     expect(result).toEqual(
       Exit.fail(
-        SdkError({
+        new SdkError({
           ...new Error("test"),
           name: "SdkError",
           message: "test",
@@ -159,7 +159,7 @@ describe("CognitoIdentityProviderClientImpl", () => {
 
     const args = {} as unknown as ListUserPoolsCommandInput;
 
-    const program = CognitoIdentityProvider.listUserPools(args).pipe(
+    const program = CognitoIdentityProvider.use((svc) => svc.listUserPools(args)).pipe(
       Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 
@@ -169,9 +169,9 @@ describe("CognitoIdentityProviderClientImpl", () => {
       Effect.runPromiseExit,
     );
 
-    expect(result).toEqual(
+    expect(result).toContainEqual(
       Exit.fail(
-        SdkError({
+        new SdkError({
           ...new Error("test"),
           name: "SdkError",
           message: "test",

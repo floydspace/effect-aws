@@ -62,7 +62,7 @@ import {
 import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
-import { Effect, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import type {
   BadRequestError,
   ConflictError,
@@ -110,7 +110,7 @@ interface KafkaConnectService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateConnectorCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -130,7 +130,7 @@ interface KafkaConnectService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateCustomPluginCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -150,7 +150,7 @@ interface KafkaConnectService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateWorkerConfigurationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -170,7 +170,7 @@ interface KafkaConnectService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteConnectorCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ForbiddenError
@@ -189,7 +189,7 @@ interface KafkaConnectService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteCustomPluginCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ForbiddenError
@@ -208,7 +208,7 @@ interface KafkaConnectService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteWorkerConfigurationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ForbiddenError
@@ -227,7 +227,7 @@ interface KafkaConnectService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeConnectorCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ForbiddenError
@@ -246,7 +246,7 @@ interface KafkaConnectService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeConnectorOperationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ForbiddenError
@@ -265,7 +265,7 @@ interface KafkaConnectService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeCustomPluginCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ForbiddenError
@@ -284,7 +284,7 @@ interface KafkaConnectService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeWorkerConfigurationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ForbiddenError
@@ -303,7 +303,7 @@ interface KafkaConnectService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListConnectorOperationsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ForbiddenError
@@ -322,7 +322,7 @@ interface KafkaConnectService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListConnectorsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ForbiddenError
@@ -341,7 +341,7 @@ interface KafkaConnectService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListCustomPluginsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ForbiddenError
@@ -360,7 +360,7 @@ interface KafkaConnectService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsForResourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ForbiddenError
@@ -379,7 +379,7 @@ interface KafkaConnectService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListWorkerConfigurationsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ForbiddenError
@@ -398,7 +398,7 @@ interface KafkaConnectService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagResourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -418,7 +418,7 @@ interface KafkaConnectService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ForbiddenError
@@ -437,7 +437,7 @@ interface KafkaConnectService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateConnectorCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ForbiddenError
@@ -470,10 +470,10 @@ export const makeKafkaConnectService = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class KafkaConnectService extends Effect.Tag("@effect-aws/client-kafkaconnect/KafkaConnectService")<
+export class KafkaConnectService extends ServiceMap.Service<
   KafkaConnectService,
   KafkaConnectService$
->() {
+>()("@effect-aws/client-kafkaconnect/KafkaConnectService") {
   static readonly defaultLayer = Layer.effect(this, makeKafkaConnectService).pipe(Layer.provide(Instance.layer));
   static readonly layer = (config: KafkaConnectService.Config) =>
     Layer.effect(this, makeKafkaConnectService).pipe(

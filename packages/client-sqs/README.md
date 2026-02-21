@@ -16,7 +16,7 @@ With default SQSClient instance:
 ```typescript
 import { SQS } from "@effect-aws/client-sqs";
 
-const program = SQS.sendMessage(args);
+const program = SQS.use((svc) => svc.sendMessage(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom SQSClient instance:
 ```typescript
 import { SQS } from "@effect-aws/client-sqs";
 
-const program = SQS.sendMessage(args);
+const program = SQS.use((svc) => svc.sendMessage(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom SQSClient configuration:
 ```typescript
 import { SQS } from "@effect-aws/client-sqs";
 
-const program = SQS.sendMessage(args);
+const program = SQS.use((svc) => svc.sendMessage(args));
 
 const result = await pipe(
   program,

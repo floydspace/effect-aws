@@ -182,7 +182,7 @@ import {
 import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
-import { Effect, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import * as Instance from "./ECRClientInstance.js";
 import * as ECRServiceConfig from "./ECRServiceConfig.js";
 import type {
@@ -308,7 +308,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchCheckLayerAvailabilityCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | RepositoryNotFoundError | ServerError
+    Cause.TimeoutError | SdkError | InvalidParameterError | RepositoryNotFoundError | ServerError
   >;
 
   /**
@@ -319,7 +319,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchDeleteImageCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | RepositoryNotFoundError | ServerError
+    Cause.TimeoutError | SdkError | InvalidParameterError | RepositoryNotFoundError | ServerError
   >;
 
   /**
@@ -330,7 +330,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchGetImageCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | LimitExceededError
@@ -347,7 +347,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchGetRepositoryScanningConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | RepositoryNotFoundError | ServerError | ValidationError
+    Cause.TimeoutError | SdkError | InvalidParameterError | RepositoryNotFoundError | ServerError | ValidationError
   >;
 
   /**
@@ -358,7 +358,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CompleteLayerUploadCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EmptyUploadError
     | InvalidLayerError
@@ -379,7 +379,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreatePullThroughCacheRuleCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | LimitExceededError
@@ -400,7 +400,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateRepositoryCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | InvalidTagParameterError
@@ -419,7 +419,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateRepositoryCreationTemplateCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | LimitExceededError
@@ -436,7 +436,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteLifecyclePolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | LifecyclePolicyNotFoundError
@@ -453,7 +453,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeletePullThroughCacheRuleCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | PullThroughCacheRuleNotFoundError
@@ -469,12 +469,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteRegistryPolicyCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InvalidParameterError
-    | RegistryPolicyNotFoundError
-    | ServerError
-    | ValidationError
+    Cause.TimeoutError | SdkError | InvalidParameterError | RegistryPolicyNotFoundError | ServerError | ValidationError
   >;
 
   /**
@@ -485,7 +480,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteRepositoryCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | KmsError
@@ -502,7 +497,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteRepositoryCreationTemplateCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | ServerError | TemplateNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | InvalidParameterError | ServerError | TemplateNotFoundError | ValidationError
   >;
 
   /**
@@ -513,7 +508,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteRepositoryPolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | RepositoryNotFoundError
@@ -529,7 +524,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteSigningConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | ServerError | SigningConfigurationNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | ServerError | SigningConfigurationNotFoundError | ValidationError
   >;
 
   /**
@@ -540,7 +535,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeregisterPullTimeUpdateExclusionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ExclusionNotFoundError
     | InvalidParameterError
@@ -557,7 +552,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeImageReplicationStatusCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ImageNotFoundError
     | InvalidParameterError
@@ -574,7 +569,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeImageScanFindingsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ImageNotFoundError
     | InvalidParameterError
@@ -592,7 +587,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeImageSigningStatusCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ImageNotFoundError
     | InvalidParameterError
@@ -609,12 +604,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeImagesCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | ImageNotFoundError
-    | InvalidParameterError
-    | RepositoryNotFoundError
-    | ServerError
+    Cause.TimeoutError | SdkError | ImageNotFoundError | InvalidParameterError | RepositoryNotFoundError | ServerError
   >;
 
   /**
@@ -625,7 +615,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribePullThroughCacheRulesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | PullThroughCacheRuleNotFoundError
@@ -641,7 +631,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeRegistryCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | ServerError | ValidationError
+    Cause.TimeoutError | SdkError | InvalidParameterError | ServerError | ValidationError
   >;
 
   /**
@@ -652,7 +642,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeRepositoriesCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | RepositoryNotFoundError | ServerError
+    Cause.TimeoutError | SdkError | InvalidParameterError | RepositoryNotFoundError | ServerError
   >;
 
   /**
@@ -663,7 +653,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeRepositoryCreationTemplatesCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | ServerError | ValidationError
+    Cause.TimeoutError | SdkError | InvalidParameterError | ServerError | ValidationError
   >;
 
   /**
@@ -674,7 +664,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAccountSettingCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | ServerError | ValidationError
+    Cause.TimeoutError | SdkError | InvalidParameterError | ServerError | ValidationError
   >;
 
   /**
@@ -685,7 +675,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAuthorizationTokenCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | ServerError
+    Cause.TimeoutError | SdkError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -696,7 +686,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDownloadUrlForLayerCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | LayerInaccessibleError
@@ -714,7 +704,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetLifecyclePolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | LifecyclePolicyNotFoundError
@@ -731,7 +721,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetLifecyclePolicyPreviewCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | LifecyclePolicyPreviewNotFoundError
@@ -748,12 +738,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetRegistryPolicyCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InvalidParameterError
-    | RegistryPolicyNotFoundError
-    | ServerError
-    | ValidationError
+    Cause.TimeoutError | SdkError | InvalidParameterError | RegistryPolicyNotFoundError | ServerError | ValidationError
   >;
 
   /**
@@ -764,7 +749,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetRegistryScanningConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | ServerError | ValidationError
+    Cause.TimeoutError | SdkError | InvalidParameterError | ServerError | ValidationError
   >;
 
   /**
@@ -775,7 +760,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetRepositoryPolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | RepositoryNotFoundError
@@ -791,7 +776,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetSigningConfigurationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | ServerError
@@ -807,7 +792,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     InitiateLayerUploadCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | KmsError | RepositoryNotFoundError | ServerError
+    Cause.TimeoutError | SdkError | InvalidParameterError | KmsError | RepositoryNotFoundError | ServerError
   >;
 
   /**
@@ -818,7 +803,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListImageReferrersCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | RepositoryNotFoundError | ServerError | ValidationError
+    Cause.TimeoutError | SdkError | InvalidParameterError | RepositoryNotFoundError | ServerError | ValidationError
   >;
 
   /**
@@ -829,7 +814,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListImagesCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | RepositoryNotFoundError | ServerError
+    Cause.TimeoutError | SdkError | InvalidParameterError | RepositoryNotFoundError | ServerError
   >;
 
   /**
@@ -840,7 +825,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListPullTimeUpdateExclusionsCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | LimitExceededError | ServerError | ValidationError
+    Cause.TimeoutError | SdkError | InvalidParameterError | LimitExceededError | ServerError | ValidationError
   >;
 
   /**
@@ -851,7 +836,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsForResourceCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | RepositoryNotFoundError | ServerError
+    Cause.TimeoutError | SdkError | InvalidParameterError | RepositoryNotFoundError | ServerError
   >;
 
   /**
@@ -862,7 +847,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutAccountSettingCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | LimitExceededError | ServerError | ValidationError
+    Cause.TimeoutError | SdkError | InvalidParameterError | LimitExceededError | ServerError | ValidationError
   >;
 
   /**
@@ -873,7 +858,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutImageCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ImageAlreadyExistsError
     | ImageDigestDoesNotMatchError
@@ -895,7 +880,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutImageScanningConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | RepositoryNotFoundError | ServerError | ValidationError
+    Cause.TimeoutError | SdkError | InvalidParameterError | RepositoryNotFoundError | ServerError | ValidationError
   >;
 
   /**
@@ -906,7 +891,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutImageTagMutabilityCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | RepositoryNotFoundError | ServerError
+    Cause.TimeoutError | SdkError | InvalidParameterError | RepositoryNotFoundError | ServerError
   >;
 
   /**
@@ -917,7 +902,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutLifecyclePolicyCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | RepositoryNotFoundError | ServerError | ValidationError
+    Cause.TimeoutError | SdkError | InvalidParameterError | RepositoryNotFoundError | ServerError | ValidationError
   >;
 
   /**
@@ -928,7 +913,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutRegistryPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | ServerError | ValidationError
+    Cause.TimeoutError | SdkError | InvalidParameterError | ServerError | ValidationError
   >;
 
   /**
@@ -939,7 +924,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutRegistryScanningConfigurationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BlockedByOrganizationPolicyError
     | InvalidParameterError
@@ -955,7 +940,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutReplicationConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | ServerError | ValidationError
+    Cause.TimeoutError | SdkError | InvalidParameterError | ServerError | ValidationError
   >;
 
   /**
@@ -966,7 +951,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutSigningConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | ServerError | ValidationError
+    Cause.TimeoutError | SdkError | InvalidParameterError | ServerError | ValidationError
   >;
 
   /**
@@ -977,7 +962,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RegisterPullTimeUpdateExclusionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ExclusionAlreadyExistsError
     | InvalidParameterError
@@ -994,7 +979,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SetRepositoryPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | RepositoryNotFoundError | ServerError
+    Cause.TimeoutError | SdkError | InvalidParameterError | RepositoryNotFoundError | ServerError
   >;
 
   /**
@@ -1005,7 +990,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartImageScanCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ImageArchivedError
     | ImageNotFoundError
@@ -1025,7 +1010,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartLifecyclePolicyPreviewCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | LifecyclePolicyNotFoundError
@@ -1043,7 +1028,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagResourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | InvalidTagParameterError
@@ -1060,7 +1045,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | InvalidTagParameterError
@@ -1077,7 +1062,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateImageStorageClassCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ImageNotFoundError
     | ImageStorageClassUpdateNotSupportedError
@@ -1095,7 +1080,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdatePullThroughCacheRuleCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | PullThroughCacheRuleNotFoundError
@@ -1114,7 +1099,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateRepositoryCreationTemplateCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | ServerError | TemplateNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | InvalidParameterError | ServerError | TemplateNotFoundError | ValidationError
   >;
 
   /**
@@ -1125,7 +1110,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UploadLayerPartCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidLayerPartError
     | InvalidParameterError
@@ -1144,7 +1129,7 @@ interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ValidatePullThroughCacheRuleCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | PullThroughCacheRuleNotFoundError
@@ -1174,10 +1159,10 @@ export const makeECRService = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class ECRService extends Effect.Tag("@effect-aws/client-ecr/ECRService")<
+export class ECRService extends ServiceMap.Service<
   ECRService,
   ECRService$
->() {
+>()("@effect-aws/client-ecr/ECRService") {
   static readonly defaultLayer = Layer.effect(this, makeECRService).pipe(Layer.provide(Instance.layer));
   static readonly layer = (config: ECRService.Config) =>
     Layer.effect(this, makeECRService).pipe(

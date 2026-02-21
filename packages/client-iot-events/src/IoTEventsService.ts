@@ -86,7 +86,7 @@ import {
 import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
-import { Effect, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import type {
   InternalFailureError,
   InvalidRequestError,
@@ -143,7 +143,7 @@ interface IoTEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateAlarmModelCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -162,7 +162,7 @@ interface IoTEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateDetectorModelCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -181,7 +181,7 @@ interface IoTEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateInputCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -198,7 +198,7 @@ interface IoTEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteAlarmModelCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -216,7 +216,7 @@ interface IoTEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDetectorModelCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -234,7 +234,7 @@ interface IoTEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteInputCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -252,7 +252,7 @@ interface IoTEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeAlarmModelCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -269,7 +269,7 @@ interface IoTEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeDetectorModelCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -286,7 +286,7 @@ interface IoTEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeDetectorModelAnalysisCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -303,7 +303,7 @@ interface IoTEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeInputCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -320,7 +320,7 @@ interface IoTEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeLoggingOptionsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -338,7 +338,7 @@ interface IoTEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDetectorModelAnalysisResultsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -355,7 +355,7 @@ interface IoTEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAlarmModelVersionsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -372,7 +372,7 @@ interface IoTEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAlarmModelsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -388,7 +388,7 @@ interface IoTEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDetectorModelVersionsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -405,7 +405,7 @@ interface IoTEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDetectorModelsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -421,7 +421,7 @@ interface IoTEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListInputRoutingsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -438,7 +438,7 @@ interface IoTEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListInputsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -454,7 +454,7 @@ interface IoTEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsForResourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -471,7 +471,7 @@ interface IoTEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutLoggingOptionsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -489,7 +489,7 @@ interface IoTEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartDetectorModelAnalysisCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -506,7 +506,7 @@ interface IoTEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagResourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -524,7 +524,7 @@ interface IoTEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -541,7 +541,7 @@ interface IoTEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateAlarmModelCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -559,7 +559,7 @@ interface IoTEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateDetectorModelCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -577,7 +577,7 @@ interface IoTEventsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateInputCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -609,10 +609,10 @@ export const makeIoTEventsService = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class IoTEventsService extends Effect.Tag("@effect-aws/client-iot-events/IoTEventsService")<
+export class IoTEventsService extends ServiceMap.Service<
   IoTEventsService,
   IoTEventsService$
->() {
+>()("@effect-aws/client-iot-events/IoTEventsService") {
   static readonly defaultLayer = Layer.effect(this, makeIoTEventsService).pipe(Layer.provide(Instance.layer));
   static readonly layer = (config: IoTEventsService.Config) =>
     Layer.effect(this, makeIoTEventsService).pipe(

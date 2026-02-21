@@ -3,18 +3,17 @@
  */
 import type { CloudFormationClientConfig } from "@aws-sdk/client-cloudformation";
 import { ServiceLogger } from "@effect-aws/commons";
-import { Effect, FiberRef, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import { dual } from "effect/Function";
-import { globalValue } from "effect/GlobalValue";
 import type { CloudFormationService } from "./CloudFormationService.js";
 
 /**
  * @since 1.0.0
  * @category cloudformation service config
  */
-const currentCloudFormationServiceConfig = globalValue(
+const currentCloudFormationServiceConfig = ServiceMap.Reference<CloudFormationService.Config>(
   "@effect-aws/client-cloudformation/currentCloudFormationServiceConfig",
-  () => FiberRef.unsafeMake<CloudFormationService.Config>({}),
+  { defaultValue: () => ({}) },
 );
 
 /**
@@ -27,7 +26,7 @@ export const withCloudFormationServiceConfig: {
 } = dual(
   2,
   <A, E, R>(effect: Effect.Effect<A, E, R>, config: CloudFormationService.Config): Effect.Effect<A, E, R> =>
-    Effect.locally(effect, currentCloudFormationServiceConfig, config),
+    Effect.provideService(effect, currentCloudFormationServiceConfig, config),
 );
 
 /**
@@ -35,14 +34,14 @@ export const withCloudFormationServiceConfig: {
  * @category cloudformation service config
  */
 export const setCloudFormationServiceConfig = (config: CloudFormationService.Config) =>
-  Layer.locallyScoped(currentCloudFormationServiceConfig, config);
+  Layer.succeed(currentCloudFormationServiceConfig, config);
 
 /**
  * @since 1.0.0
  * @category adapters
  */
 export const toCloudFormationClientConfig: Effect.Effect<CloudFormationClientConfig> = Effect.gen(function*() {
-  const { logger: serviceLogger, ...config } = yield* FiberRef.get(currentCloudFormationServiceConfig);
+  const { logger: serviceLogger, ...config } = yield* currentCloudFormationServiceConfig;
 
   const logger = serviceLogger === true
     ? yield* ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger)

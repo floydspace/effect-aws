@@ -3,18 +3,17 @@
  */
 import type { IoTClientConfig } from "@aws-sdk/client-iot";
 import { ServiceLogger } from "@effect-aws/commons";
-import { Effect, FiberRef, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import { dual } from "effect/Function";
-import { globalValue } from "effect/GlobalValue";
 import type { IoTService } from "./IoTService.js";
 
 /**
  * @since 1.0.0
  * @category iot service config
  */
-const currentIoTServiceConfig = globalValue(
+const currentIoTServiceConfig = ServiceMap.Reference<IoTService.Config>(
   "@effect-aws/client-iot/currentIoTServiceConfig",
-  () => FiberRef.unsafeMake<IoTService.Config>({}),
+  { defaultValue: () => ({}) },
 );
 
 /**
@@ -27,21 +26,21 @@ export const withIoTServiceConfig: {
 } = dual(
   2,
   <A, E, R>(effect: Effect.Effect<A, E, R>, config: IoTService.Config): Effect.Effect<A, E, R> =>
-    Effect.locally(effect, currentIoTServiceConfig, config),
+    Effect.provideService(effect, currentIoTServiceConfig, config),
 );
 
 /**
  * @since 1.0.0
  * @category iot service config
  */
-export const setIoTServiceConfig = (config: IoTService.Config) => Layer.locallyScoped(currentIoTServiceConfig, config);
+export const setIoTServiceConfig = (config: IoTService.Config) => Layer.succeed(currentIoTServiceConfig, config);
 
 /**
  * @since 1.0.0
  * @category adapters
  */
 export const toIoTClientConfig: Effect.Effect<IoTClientConfig> = Effect.gen(function*() {
-  const { logger: serviceLogger, ...config } = yield* FiberRef.get(currentIoTServiceConfig);
+  const { logger: serviceLogger, ...config } = yield* currentIoTServiceConfig;
 
   const logger = serviceLogger === true
     ? yield* ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger)

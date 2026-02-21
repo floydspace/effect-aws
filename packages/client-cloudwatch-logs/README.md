@@ -16,7 +16,7 @@ With default CloudWatchLogsClient instance:
 ```typescript
 import { CloudWatchLogs } from "@effect-aws/client-cloudwatch-logs";
 
-const program = CloudWatchLogs.describeLogGroups(args);
+const program = CloudWatchLogs.use((svc) => svc.describeLogGroups(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom CloudWatchLogsClient instance:
 ```typescript
 import { CloudWatchLogs } from "@effect-aws/client-cloudwatch-logs";
 
-const program = CloudWatchLogs.describeLogGroups(args);
+const program = CloudWatchLogs.use((svc) => svc.describeLogGroups(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom CloudWatchLogsClient configuration:
 ```typescript
 import { CloudWatchLogs } from "@effect-aws/client-cloudwatch-logs";
 
-const program = CloudWatchLogs.describeLogGroups(args);
+const program = CloudWatchLogs.use((svc) => svc.describeLogGroups(args));
 
 const result = await pipe(
   program,

@@ -2,16 +2,16 @@
  * @since 1.0.0
  */
 import { Logger } from "@aws-lambda-powertools/logger";
-import { Context, Effect, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import * as LoggerOptions from "./LoggerOptions.js";
 
 /**
  * @since 1.0.0
  * @category tags
  */
-export class LoggerInstance extends Context.Tag(
+export class LoggerInstance extends ServiceMap.Service<LoggerInstance, Logger>()(
   "@effect-aws/powertools-logger/LoggerInstance",
-)<LoggerInstance, Logger>() {}
+) {}
 
 /**
  * @since 1.0.0

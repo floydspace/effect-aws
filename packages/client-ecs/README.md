@@ -16,7 +16,7 @@ With default ECSClient instance:
 ```typescript
 import { ECS } from "@effect-aws/client-ecs";
 
-const program = ECS.listClusters(args);
+const program = ECS.use((svc) => svc.listClusters(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom ECSClient instance:
 ```typescript
 import { ECS } from "@effect-aws/client-ecs";
 
-const program = ECS.listClusters(args);
+const program = ECS.use((svc) => svc.listClusters(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom ECSClient configuration:
 ```typescript
 import { ECS } from "@effect-aws/client-ecs";
 
-const program = ECS.listClusters(args);
+const program = ECS.use((svc) => svc.listClusters(args));
 
 const result = await pipe(
   program,

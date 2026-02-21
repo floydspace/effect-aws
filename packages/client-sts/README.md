@@ -16,7 +16,7 @@ With default STSClient instance:
 ```typescript
 import { STS } from "@effect-aws/client-sts";
 
-const program = STS.getCallerIdentity(args);
+const program = STS.use((svc) => svc.getCallerIdentity(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom STSClient instance:
 ```typescript
 import { STS } from "@effect-aws/client-sts";
 
-const program = STS.getCallerIdentity(args);
+const program = STS.use((svc) => svc.getCallerIdentity(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom STSClient configuration:
 ```typescript
 import { STS } from "@effect-aws/client-sts";
 
-const program = STS.getCallerIdentity(args);
+const program = STS.use((svc) => svc.getCallerIdentity(args));
 
 const result = await pipe(
   program,

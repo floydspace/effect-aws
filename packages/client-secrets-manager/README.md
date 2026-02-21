@@ -16,7 +16,7 @@ With default SecretsManagerClient instance:
 ```typescript
 import { SecretsManager } from "@effect-aws/client-secrets-manager";
 
-const program = SecretsManager.getSecretValue(args);
+const program = SecretsManager.use((svc) => svc.getSecretValue(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom SecretsManagerClient instance:
 ```typescript
 import { SecretsManager } from "@effect-aws/client-secrets-manager";
 
-const program = SecretsManager.getSecretValue(args);
+const program = SecretsManager.use((svc) => svc.getSecretValue(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom SecretsManagerClient configuration:
 ```typescript
 import { SecretsManager } from "@effect-aws/client-secrets-manager";
 
-const program = SecretsManager.getSecretValue(args);
+const program = SecretsManager.use((svc) => svc.getSecretValue(args));
 
 const result = await pipe(
   program,

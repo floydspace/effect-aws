@@ -8,7 +8,8 @@ import type {
   LogItemExtraInput,
   LogItemMessage,
 } from "@aws-lambda-powertools/logger/types";
-import { Cause, Effect, FiberId, FiberRef, FiberRefs, HashMap, Layer, List, Logger as Log, LogLevel } from "effect";
+import type { LogLevel } from "effect";
+import { Cause, Effect, Layer, Logger as Log, References, ServiceMap } from "effect";
 import * as Instance from "./LoggerInstance.js";
 import * as LoggerOptions from "./LoggerOptions.js";
 
@@ -22,18 +23,20 @@ const LogLevelThreshold = {
   SILENT: 28,
 } as const;
 
-const MappedLogLevel = {
-  [LogLevel.All.label]: LogLevelThreshold.TRACE,
-  [LogLevel.Trace.label]: LogLevelThreshold.TRACE,
-  [LogLevel.Debug.label]: LogLevelThreshold.DEBUG,
-  [LogLevel.Info.label]: LogLevelThreshold.INFO,
-  [LogLevel.Warning.label]: LogLevelThreshold.WARN,
-  [LogLevel.Error.label]: LogLevelThreshold.ERROR,
-  [LogLevel.Fatal.label]: LogLevelThreshold.CRITICAL,
-  [LogLevel.None.label]: LogLevelThreshold.SILENT,
+const MappedLogLevel: Record<LogLevel.LogLevel, typeof LogLevelThreshold[keyof typeof LogLevelThreshold]> = {
+  All: LogLevelThreshold.TRACE,
+  Trace: LogLevelThreshold.TRACE,
+  Debug: LogLevelThreshold.DEBUG,
+  Info: LogLevelThreshold.INFO,
+  Warn: LogLevelThreshold.WARN,
+  Error: LogLevelThreshold.ERROR,
+  Fatal: LogLevelThreshold.CRITICAL,
+  None: LogLevelThreshold.SILENT,
 } as const;
 
-const logExtraInput = FiberRef.unsafeMake<LogItemExtraInput>([]);
+const logExtraInput = ServiceMap.Reference<LogItemExtraInput>("@effect-aws/powertools-logger/logExtraInput", {
+  defaultValue: () => [],
+});
 
 const processLog = (effect: (message: string) => Effect.Effect<void>) => {
   return (input: LogItemMessage, ...extraInput: Array<LogAttributes>) => {
@@ -41,7 +44,7 @@ const processLog = (effect: (message: string) => Effect.Effect<void>) => {
 
     const extraInputs = typeof input === "string" ? extraInput : [input, ...extraInput];
 
-    return Effect.locally(effect(message), logExtraInput, extraInputs);
+    return Effect.provideService(effect(message), logExtraInput, extraInputs);
   };
 };
 
@@ -90,13 +93,20 @@ export const logFatal = processLog(Effect.logFatal);
 export const logCritical = processLog(Effect.logFatal);
 
 /**
+ * Formats the identifier of a `Fiber` by prefixing it with a hash tag.
+ */
+const formatFiberId = (fiberId: number) => `#${fiberId}`;
+
+const isCauseEmpty = <E>(self: Cause.Cause<E>): self is Cause.Cause<never> => self.reasons.length === 0;
+
+/**
  * @since 1.0.0
  * @category constructors
  */
 const makeLoggerInstance = (logger: Logger) => {
   return Log.make<unknown, void>((options) => {
     const extraInputs = [
-      ...FiberRefs.getOrDefault(options.context, logExtraInput),
+      ...ServiceMap.getReferenceUnsafe(options.fiber.services, logExtraInput),
     ];
 
     let message = options.message;
@@ -107,22 +117,22 @@ const makeLoggerInstance = (logger: Logger) => {
       extraInputs.push(...rest);
     }
 
-    const nowMillis = options.date.getTime();
+    // const nowMillis = options.date.getTime();
 
     extraInputs.push({
-      fiber: FiberId.threadName(options.fiberId),
+      fiber: formatFiberId(options.fiber.id),
       date: options.date.toISOString(),
-      ...(Cause.isEmpty(options.cause)
+      ...(isCauseEmpty(options.cause)
         ? {}
         : { cause: Cause.pretty(options.cause) }),
-      ...List.reduce(options.spans, {}, (acc, span) => ({
-        ...acc,
-        [span.label]: `${nowMillis - span.startTime}ms`,
-      })),
-      ...HashMap.reduce(options.annotations, {}, (acc, value, key) => ({
-        ...acc,
-        [key]: value,
-      })),
+      // ...List.reduce(options.spans, {}, (acc, span) => ({
+      //   ...acc,
+      //   [span.label]: `${nowMillis - span.startTime}ms`,
+      // })),
+      // ...HashMap.reduce(options.annotations, {}, (acc, value, key) => ({
+      //   ...acc,
+      //   [key]: value,
+      // })),
     });
 
     const unsafeLogger = logger as unknown as {
@@ -134,17 +144,17 @@ const makeLoggerInstance = (logger: Logger) => {
     };
 
     unsafeLogger.processLogItem(
-      MappedLogLevel[options.logLevel.label],
+      MappedLogLevel[options.logLevel],
       (message ?? {}) as LogItemMessage,
       extraInputs as LogItemExtraInput,
     );
   });
 };
 
-const PowerToolsLoggerEffect = Effect.map(Instance.LoggerInstance, makeLoggerInstance);
+const PowerToolsLoggerEffect = Effect.map(Instance.LoggerInstance.asEffect(), makeLoggerInstance);
 const PowerToolsLoggerLayer = Layer.merge(
-  Log.replaceEffect(Log.defaultLogger, PowerToolsLoggerEffect),
-  Log.minimumLogLevel(LogLevel.All),
+  Log.layer([PowerToolsLoggerEffect]),
+  Layer.succeed(References.MinimumLogLevel, "All"),
 );
 
 /**

@@ -2,16 +2,18 @@
  * @since 1.0.0
  */
 import { CloudFormationClient } from "@aws-sdk/client-cloudformation";
-import { Context, Effect, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import * as CloudFormationServiceConfig from "./CloudFormationServiceConfig.js";
 
 /**
  * @since 1.0.0
  * @category tags
  */
-export class CloudFormationClientInstance extends Context.Tag(
-  "@effect-aws/client-cloudformation/CloudFormationClientInstance",
-)<CloudFormationClientInstance, CloudFormationClient>() {}
+export class CloudFormationClientInstance
+  extends ServiceMap.Service<CloudFormationClientInstance, CloudFormationClient>()(
+    "@effect-aws/client-cloudformation/CloudFormationClientInstance",
+  )
+{}
 
 /**
  * @since 1.0.0
@@ -30,4 +32,4 @@ export const make = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const layer = Layer.scoped(CloudFormationClientInstance, make);
+export const layer = Layer.effect(CloudFormationClientInstance, make);

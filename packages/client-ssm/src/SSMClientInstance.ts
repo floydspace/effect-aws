@@ -2,16 +2,16 @@
  * @since 1.0.0
  */
 import { SSMClient } from "@aws-sdk/client-ssm";
-import { Context, Effect, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import * as SSMServiceConfig from "./SSMServiceConfig.js";
 
 /**
  * @since 1.0.0
  * @category tags
  */
-export class SSMClientInstance extends Context.Tag(
+export class SSMClientInstance extends ServiceMap.Service<SSMClientInstance, SSMClient>()(
   "@effect-aws/client-ssm/SSMClientInstance",
-)<SSMClientInstance, SSMClient>() {}
+) {}
 
 /**
  * @since 1.0.0
@@ -30,4 +30,4 @@ export const make = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const layer = Layer.scoped(SSMClientInstance, make);
+export const layer = Layer.effect(SSMClientInstance, make);

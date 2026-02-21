@@ -16,7 +16,7 @@ With default IoTClient instance:
 ```typescript
 import { IoT } from "@effect-aws/client-iot";
 
-const program = IoT.describeJob(args);
+const program = IoT.use((svc) => svc.describeJob(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom IoTClient instance:
 ```typescript
 import { IoT } from "@effect-aws/client-iot";
 
-const program = IoT.describeJob(args);
+const program = IoT.use((svc) => svc.describeJob(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom IoTClient configuration:
 ```typescript
 import { IoT } from "@effect-aws/client-iot";
 
-const program = IoT.describeJob(args);
+const program = IoT.use((svc) => svc.describeJob(args));
 
 const result = await pipe(
   program,

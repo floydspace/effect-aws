@@ -44,7 +44,7 @@ import {
 import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
-import { Effect, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import * as Instance from "./DSQLClientInstance.js";
 import * as DSQLServiceConfig from "./DSQLServiceConfig.js";
 import type {
@@ -84,7 +84,7 @@ interface DSQLService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateClusterCommandOutput,
-    Cause.TimeoutException | SdkError | ConflictError | ServiceQuotaExceededError | ValidationError
+    Cause.TimeoutError | SdkError | ConflictError | ServiceQuotaExceededError | ValidationError
   >;
 
   /**
@@ -95,7 +95,7 @@ interface DSQLService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteClusterCommandOutput,
-    Cause.TimeoutException | SdkError | ConflictError | ResourceNotFoundError
+    Cause.TimeoutError | SdkError | ConflictError | ResourceNotFoundError
   >;
 
   /**
@@ -106,7 +106,7 @@ interface DSQLService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteClusterPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | ConflictError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | ConflictError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -117,7 +117,7 @@ interface DSQLService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetClusterCommandOutput,
-    Cause.TimeoutException | SdkError | ResourceNotFoundError
+    Cause.TimeoutError | SdkError | ResourceNotFoundError
   >;
 
   /**
@@ -128,7 +128,7 @@ interface DSQLService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetClusterPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -139,7 +139,7 @@ interface DSQLService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetVpcEndpointServiceNameCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -150,7 +150,7 @@ interface DSQLService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListClustersCommandOutput,
-    Cause.TimeoutException | SdkError | ResourceNotFoundError
+    Cause.TimeoutError | SdkError | ResourceNotFoundError
   >;
 
   /**
@@ -161,7 +161,7 @@ interface DSQLService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsForResourceCommandOutput,
-    Cause.TimeoutException | SdkError | ResourceNotFoundError
+    Cause.TimeoutError | SdkError | ResourceNotFoundError
   >;
 
   /**
@@ -172,7 +172,7 @@ interface DSQLService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutClusterPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | ConflictError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | ConflictError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -183,7 +183,7 @@ interface DSQLService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagResourceCommandOutput,
-    Cause.TimeoutException | SdkError | ResourceNotFoundError | ServiceQuotaExceededError
+    Cause.TimeoutError | SdkError | ResourceNotFoundError | ServiceQuotaExceededError
   >;
 
   /**
@@ -194,7 +194,7 @@ interface DSQLService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
-    Cause.TimeoutException | SdkError | ResourceNotFoundError
+    Cause.TimeoutError | SdkError | ResourceNotFoundError
   >;
 
   /**
@@ -205,7 +205,7 @@ interface DSQLService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateClusterCommandOutput,
-    Cause.TimeoutException | SdkError | ConflictError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | ConflictError | ResourceNotFoundError | ValidationError
   >;
 }
 
@@ -230,10 +230,10 @@ export const makeDSQLService = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class DSQLService extends Effect.Tag("@effect-aws/client-dsql/DSQLService")<
+export class DSQLService extends ServiceMap.Service<
   DSQLService,
   DSQLService$
->() {
+>()("@effect-aws/client-dsql/DSQLService") {
   static readonly defaultLayer = Layer.effect(this, makeDSQLService).pipe(Layer.provide(Instance.layer));
   static readonly layer = (config: DSQLService.Config) =>
     Layer.effect(this, makeDSQLService).pipe(
