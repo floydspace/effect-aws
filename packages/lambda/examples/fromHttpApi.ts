@@ -1,16 +1,7 @@
 import { LambdaHandler } from "@effect-aws/lambda";
-import {
-  FetchHttpClient,
-  HttpApi,
-  HttpApiBuilder,
-  HttpApiEndpoint,
-  HttpApiGroup,
-  HttpApiSchema,
-  HttpClient,
-  HttpClientResponse,
-  HttpServer,
-} from "@effect/platform";
 import { Effect, Layer, Schema } from "effect";
+import { FetchHttpClient, HttpClient, HttpClientResponse, HttpServer } from "effect/unstable/http";
+import { HttpApi, HttpApiBuilder, HttpApiEndpoint, HttpApiGroup } from "effect/unstable/httpapi";
 
 const YahooResponse = Schema.Struct({
   chart: Schema.Struct({
@@ -29,11 +20,11 @@ const YahooResponse = Schema.Struct({
   }),
 });
 
-const symbolParam = HttpApiSchema.param("symbol", Schema.String);
-
 const getQuote = HttpApiEndpoint.get(
   "getQuote",
-)`/quote/${symbolParam}`.addSuccess(YahooResponse);
+  `/quote/:symbol`,
+  { success: YahooResponse, params: { symbol: Schema.String } },
+);
 
 const quotesGroup = HttpApiGroup.make("quotes").add(getQuote);
 
@@ -46,8 +37,8 @@ const QuotesLive = HttpApiBuilder.group(
   (handlers) =>
     handlers.handle(
       "getQuote",
-      ({ path }) =>
-        HttpClient.get(`https://query2.finance.yahoo.com/v8/finance/chart/${path.symbol}`, {
+      ({ params }) =>
+        HttpClient.get(`https://query2.finance.yahoo.com/v8/finance/chart/${params.symbol}`, {
           urlParams: { interval: "1d" },
         }).pipe(
           Effect.andThen(HttpClientResponse.schemaBodyJson(YahooResponse)),
@@ -57,17 +48,11 @@ const QuotesLive = HttpApiBuilder.group(
 );
 
 // Provide the implementation for the API
-const MyApiLive = HttpApiBuilder.api(MyApi).pipe(
+const MyApiLive = HttpApiBuilder.layer(MyApi).pipe(
   Layer.provide(QuotesLive),
   Layer.provide(FetchHttpClient.layer),
+  Layer.provide(HttpServer.layerServices),
 );
 
 // Create the Lambda handler
-export const handler = LambdaHandler.fromHttpApi(
-  Layer.mergeAll(
-    MyApiLive,
-    // you could also use NodeHttpServer.layerContext, depending on your
-    // server's platform
-    HttpServer.layerContext,
-  ),
-);
+export const handler = LambdaHandler.fromHttpApi(MyApiLive);

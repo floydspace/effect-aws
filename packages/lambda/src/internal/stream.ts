@@ -1,12 +1,9 @@
 import { Error } from "@effect/platform";
 import * as NodeStream from "@effect/platform-node-shared/NodeStream";
-import { Effect, Predicate, Stream } from "effect";
+import { Effect, Stream } from "effect";
 import { dual } from "effect/Function";
 import type { PipelineDestination, PipelineSource } from "node:stream";
 import * as NS from "node:stream/promises";
-
-/** @internal */
-const isStream = (u: unknown): u is Stream.Stream<unknown, unknown> => Predicate.hasProperty(u, Stream.StreamTypeId);
 
 const handleErrnoException =
   (module: Error.SystemError["module"], method: string) => (err: unknown): Error.PlatformError => {
@@ -48,7 +45,7 @@ export const pipeTo: {
     options?: Omit<NS.PipelineOptions, "signal">,
   ): Effect.Effect<void, Error.PlatformError>;
 } = dual(
-  (args) => isStream(args[0]),
+  (args) => Stream.isStream(args[0]),
   <E, R>(
     stream: Stream.Stream<string | Uint8Array, E, R>,
     writable: NodeJS.WritableStream,
