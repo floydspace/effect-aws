@@ -77,7 +77,6 @@ const config: UserConfig = {
       ...alias("client-kafka"),
       ...alias("client-kafkaconnect"),
       ...alias("dynamodb"),
-      ...alias("lib-dynamodb"),
       ...alias("lambda"),
       ...alias("powertools-logger"),
       ...alias("powertools-tracer"),

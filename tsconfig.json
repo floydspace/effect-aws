@@ -186,9 +186,6 @@
       "path": "packages/dynamodb"
     },
     {
-      "path": "packages/lib-dynamodb"
-    },
-    {
       "path": "packages/lambda"
     },
     {
