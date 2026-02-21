@@ -16,7 +16,7 @@ With default CognitoIdentityProviderClient instance:
 ```typescript
 import { CognitoIdentityProvider } from "@effect-aws/client-cognito-identity-provider";
 
-const program = CognitoIdentityProvider.listUserPools(args);
+const program = CognitoIdentityProvider.use((svc) => svc.listUserPools(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom CognitoIdentityProviderClient instance:
 ```typescript
 import { CognitoIdentityProvider } from "@effect-aws/client-cognito-identity-provider";
 
-const program = CognitoIdentityProvider.listUserPools(args);
+const program = CognitoIdentityProvider.use((svc) => svc.listUserPools(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom CognitoIdentityProviderClient configuration:
 ```typescript
 import { CognitoIdentityProvider } from "@effect-aws/client-cognito-identity-provider";
 
-const program = CognitoIdentityProvider.listUserPools(args);
+const program = CognitoIdentityProvider.use((svc) => svc.listUserPools(args));
 
 const result = await pipe(
   program,

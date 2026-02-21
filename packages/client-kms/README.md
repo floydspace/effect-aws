@@ -16,7 +16,7 @@ With default KMSClient instance:
 ```typescript
 import { KMS } from "@effect-aws/client-kms";
 
-const program = KMS.listKeys(args);
+const program = KMS.use((svc) => svc.listKeys(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom KMSClient instance:
 ```typescript
 import { KMS } from "@effect-aws/client-kms";
 
-const program = KMS.listKeys(args);
+const program = KMS.use((svc) => svc.listKeys(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom KMSClient configuration:
 ```typescript
 import { KMS } from "@effect-aws/client-kms";
 
-const program = KMS.listKeys(args);
+const program = KMS.use((svc) => svc.listKeys(args));
 
 const result = await pipe(
   program,

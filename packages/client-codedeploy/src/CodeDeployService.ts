@@ -149,7 +149,7 @@ import {
 import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
-import { Effect, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import * as Instance from "./CodeDeployClientInstance.js";
 import * as CodeDeployServiceConfig from "./CodeDeployServiceConfig.js";
 import type {
@@ -328,7 +328,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AddTagsToOnPremisesInstancesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InstanceLimitExceededError
     | InstanceNameRequiredError
@@ -347,7 +347,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchGetApplicationRevisionsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ApplicationDoesNotExistError
     | ApplicationNameRequiredError
@@ -365,7 +365,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchGetApplicationsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ApplicationDoesNotExistError
     | ApplicationNameRequiredError
@@ -381,7 +381,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchGetDeploymentGroupsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ApplicationDoesNotExistError
     | ApplicationNameRequiredError
@@ -400,7 +400,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchGetDeploymentInstancesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BatchLimitExceededError
     | DeploymentDoesNotExistError
@@ -419,7 +419,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchGetDeploymentTargetsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DeploymentDoesNotExistError
     | DeploymentIdRequiredError
@@ -440,7 +440,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchGetDeploymentsCommandOutput,
-    Cause.TimeoutException | SdkError | BatchLimitExceededError | DeploymentIdRequiredError | InvalidDeploymentIdError
+    Cause.TimeoutError | SdkError | BatchLimitExceededError | DeploymentIdRequiredError | InvalidDeploymentIdError
   >;
 
   /**
@@ -451,7 +451,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchGetOnPremisesInstancesCommandOutput,
-    Cause.TimeoutException | SdkError | BatchLimitExceededError | InstanceNameRequiredError | InvalidInstanceNameError
+    Cause.TimeoutError | SdkError | BatchLimitExceededError | InstanceNameRequiredError | InvalidInstanceNameError
   >;
 
   /**
@@ -462,7 +462,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ContinueDeploymentCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DeploymentAlreadyCompletedError
     | DeploymentDoesNotExistError
@@ -482,7 +482,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateApplicationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ApplicationAlreadyExistsError
     | ApplicationLimitExceededError
@@ -500,7 +500,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateDeploymentCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AlarmsLimitExceededError
     | ApplicationDoesNotExistError
@@ -538,7 +538,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateDeploymentConfigCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DeploymentConfigAlreadyExistsError
     | DeploymentConfigLimitExceededError
@@ -558,7 +558,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateDeploymentGroupCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AlarmsLimitExceededError
     | ApplicationDoesNotExistError
@@ -603,7 +603,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteApplicationCommandOutput,
-    Cause.TimeoutException | SdkError | ApplicationNameRequiredError | InvalidApplicationNameError | InvalidRoleError
+    Cause.TimeoutError | SdkError | ApplicationNameRequiredError | InvalidApplicationNameError | InvalidRoleError
   >;
 
   /**
@@ -614,7 +614,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDeploymentConfigCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DeploymentConfigInUseError
     | DeploymentConfigNameRequiredError
@@ -630,7 +630,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDeploymentGroupCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ApplicationNameRequiredError
     | DeploymentGroupNameRequiredError
@@ -647,7 +647,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteGitHubAccountTokenCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | GitHubAccountTokenDoesNotExistError
     | GitHubAccountTokenNameRequiredError
@@ -664,7 +664,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteResourcesByExternalIdCommandOutput,
-    Cause.TimeoutException | SdkError
+    Cause.TimeoutError | SdkError
   >;
 
   /**
@@ -675,7 +675,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeregisterOnPremisesInstanceCommandOutput,
-    Cause.TimeoutException | SdkError | InstanceNameRequiredError | InvalidInstanceNameError
+    Cause.TimeoutError | SdkError | InstanceNameRequiredError | InvalidInstanceNameError
   >;
 
   /**
@@ -686,7 +686,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetApplicationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ApplicationDoesNotExistError
     | ApplicationNameRequiredError
@@ -701,7 +701,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetApplicationRevisionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ApplicationDoesNotExistError
     | ApplicationNameRequiredError
@@ -719,11 +719,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDeploymentCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | DeploymentDoesNotExistError
-    | DeploymentIdRequiredError
-    | InvalidDeploymentIdError
+    Cause.TimeoutError | SdkError | DeploymentDoesNotExistError | DeploymentIdRequiredError | InvalidDeploymentIdError
   >;
 
   /**
@@ -734,7 +730,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDeploymentConfigCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DeploymentConfigDoesNotExistError
     | DeploymentConfigNameRequiredError
@@ -750,7 +746,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDeploymentGroupCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ApplicationDoesNotExistError
     | ApplicationNameRequiredError
@@ -769,7 +765,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDeploymentInstanceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DeploymentDoesNotExistError
     | DeploymentIdRequiredError
@@ -788,7 +784,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDeploymentTargetCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DeploymentDoesNotExistError
     | DeploymentIdRequiredError
@@ -808,11 +804,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetOnPremisesInstanceCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InstanceNameRequiredError
-    | InstanceNotRegisteredError
-    | InvalidInstanceNameError
+    Cause.TimeoutError | SdkError | InstanceNameRequiredError | InstanceNotRegisteredError | InvalidInstanceNameError
   >;
 
   /**
@@ -823,7 +815,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListApplicationRevisionsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ApplicationDoesNotExistError
     | ApplicationNameRequiredError
@@ -845,7 +837,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListApplicationsCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidNextTokenError
+    Cause.TimeoutError | SdkError | InvalidNextTokenError
   >;
 
   /**
@@ -856,7 +848,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDeploymentConfigsCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidNextTokenError
+    Cause.TimeoutError | SdkError | InvalidNextTokenError
   >;
 
   /**
@@ -867,7 +859,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDeploymentGroupsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ApplicationDoesNotExistError
     | ApplicationNameRequiredError
@@ -883,7 +875,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDeploymentInstancesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DeploymentDoesNotExistError
     | DeploymentIdRequiredError
@@ -905,7 +897,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDeploymentTargetsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DeploymentDoesNotExistError
     | DeploymentIdRequiredError
@@ -926,7 +918,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDeploymentsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ApplicationDoesNotExistError
     | ApplicationNameRequiredError
@@ -949,7 +941,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListGitHubAccountTokenNamesCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidNextTokenError | OperationNotSupportedError | ResourceValidationError
+    Cause.TimeoutError | SdkError | InvalidNextTokenError | OperationNotSupportedError | ResourceValidationError
   >;
 
   /**
@@ -960,7 +952,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListOnPremisesInstancesCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidNextTokenError | InvalidRegistrationStatusError | InvalidTagFilterError
+    Cause.TimeoutError | SdkError | InvalidNextTokenError | InvalidRegistrationStatusError | InvalidTagFilterError
   >;
 
   /**
@@ -971,7 +963,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsForResourceCommandOutput,
-    Cause.TimeoutException | SdkError | ArnNotSupportedError | InvalidArnError | ResourceArnRequiredError
+    Cause.TimeoutError | SdkError | ArnNotSupportedError | InvalidArnError | ResourceArnRequiredError
   >;
 
   /**
@@ -982,7 +974,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutLifecycleEventHookExecutionStatusCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DeploymentDoesNotExistError
     | DeploymentIdRequiredError
@@ -1001,7 +993,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RegisterApplicationRevisionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ApplicationDoesNotExistError
     | ApplicationNameRequiredError
@@ -1019,7 +1011,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RegisterOnPremisesInstanceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | IamArnRequiredError
     | IamSessionArnAlreadyRegisteredError
@@ -1041,7 +1033,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RemoveTagsFromOnPremisesInstancesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InstanceLimitExceededError
     | InstanceNameRequiredError
@@ -1060,7 +1052,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SkipWaitTimeForInstanceTerminationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DeploymentAlreadyCompletedError
     | DeploymentDoesNotExistError
@@ -1078,7 +1070,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StopDeploymentCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DeploymentAlreadyCompletedError
     | DeploymentDoesNotExistError
@@ -1096,7 +1088,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagResourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ApplicationDoesNotExistError
     | ArnNotSupportedError
@@ -1116,7 +1108,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ApplicationDoesNotExistError
     | ArnNotSupportedError
@@ -1136,7 +1128,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateApplicationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ApplicationAlreadyExistsError
     | ApplicationDoesNotExistError
@@ -1152,7 +1144,7 @@ interface CodeDeployService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateDeploymentGroupCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AlarmsLimitExceededError
     | ApplicationDoesNotExistError
@@ -1209,10 +1201,10 @@ export const makeCodeDeployService = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class CodeDeployService extends Effect.Tag("@effect-aws/client-codedeploy/CodeDeployService")<
+export class CodeDeployService extends ServiceMap.Service<
   CodeDeployService,
   CodeDeployService$
->() {
+>()("@effect-aws/client-codedeploy/CodeDeployService") {
   static readonly defaultLayer = Layer.effect(this, makeCodeDeployService).pipe(Layer.provide(Instance.layer));
   static readonly layer = (config: CodeDeployService.Config) =>
     Layer.effect(this, makeCodeDeployService).pipe(

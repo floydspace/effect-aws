@@ -1,15 +1,15 @@
 import type { HttpHandlerOptions } from "@effect-aws/commons";
 import { HttpHandler } from "@effect-aws/commons";
-import type { HttpMethod } from "@effect/platform";
-import { HttpBody, HttpClient, HttpClientRequest } from "@effect/platform";
 import type { HttpRequest } from "@smithy/protocol-http";
 import { HttpResponse } from "@smithy/protocol-http";
 import { buildQueryString } from "@smithy/querystring-builder";
 import type { RequestHandlerOutput } from "@smithy/types";
 import type { Cause, Scope } from "effect";
 import { Duration, Effect, Option, Sink, Stream } from "effect";
+import type { HttpMethod } from "effect/unstable/http";
+import { HttpBody, HttpClient, HttpClientError, HttpClientRequest } from "effect/unstable/http";
 
-declare module "@effect/platform/HttpClientResponse" {
+declare module "effect/unstable/http" {
   interface HttpClientResponse {
     /**
      * @private
@@ -63,11 +63,11 @@ export const makeHttpClientRequestHandler = (config: HttpHandlerOptions) =>
         handlerOptions?: HttpHandlerOptions,
       ): Effect.Effect<
         RequestHandlerOutput<HttpResponse>,
-        Cause.TimeoutException,
+        Cause.TimeoutError,
         Scope.Scope
       > =>
         Effect.gen(function*() {
-          const requestTimeoutInMs = Option.fromNullable(handlerOptions?.requestTimeout ?? config.requestTimeout).pipe(
+          const requestTimeoutInMs = Option.fromNullishOr(handlerOptions?.requestTimeout ?? config.requestTimeout).pipe(
             Option.map(Duration.millis),
             Option.getOrElse(() => Duration.infinity),
           );
@@ -86,8 +86,9 @@ export const makeHttpClientRequestHandler = (config: HttpHandlerOptions) =>
             Effect.flatMap((res) =>
               tryToReadableStream(res.stream).pipe(
                 Effect.catchTag(
-                  "ResponseError",
-                  (error) => error.reason === "EmptyBody" ? res.arrayBuffer : Effect.fail(error),
+                  "HttpClientError",
+                  (error) =>
+                    error.reason instanceof HttpClientError.EmptyBodyError ? res.arrayBuffer : Effect.fail(error),
                 ),
                 Effect.map((body) =>
                   new HttpResponse({

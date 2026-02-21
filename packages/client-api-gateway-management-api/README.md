@@ -16,7 +16,7 @@ With default ApiGatewayManagementApiClient instance:
 ```typescript
 import { ApiGatewayManagementApi } from "@effect-aws/client-api-gateway-management-api";
 
-const program = ApiGatewayManagementApi.postToConnection(args);
+const program = ApiGatewayManagementApi.use((svc) => svc.postToConnection(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom ApiGatewayManagementApiClient instance:
 ```typescript
 import { ApiGatewayManagementApi } from "@effect-aws/client-api-gateway-management-api";
 
-const program = ApiGatewayManagementApi.postToConnection(args);
+const program = ApiGatewayManagementApi.use((svc) => svc.postToConnection(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom ApiGatewayManagementApiClient configuration:
 ```typescript
 import { ApiGatewayManagementApi } from "@effect-aws/client-api-gateway-management-api";
 
-const program = ApiGatewayManagementApi.postToConnection(args);
+const program = ApiGatewayManagementApi.use((svc) => svc.postToConnection(args));
 
 const result = await pipe(
   program,

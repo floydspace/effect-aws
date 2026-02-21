@@ -2,16 +2,18 @@
  * @since 1.0.0
  */
 import { BedrockRuntimeClient } from "@aws-sdk/client-bedrock-runtime";
-import { Context, Effect, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import * as BedrockRuntimeServiceConfig from "./BedrockRuntimeServiceConfig.js";
 
 /**
  * @since 1.0.0
  * @category tags
  */
-export class BedrockRuntimeClientInstance extends Context.Tag(
-  "@effect-aws/client-bedrock-runtime/BedrockRuntimeClientInstance",
-)<BedrockRuntimeClientInstance, BedrockRuntimeClient>() {}
+export class BedrockRuntimeClientInstance
+  extends ServiceMap.Service<BedrockRuntimeClientInstance, BedrockRuntimeClient>()(
+    "@effect-aws/client-bedrock-runtime/BedrockRuntimeClientInstance",
+  )
+{}
 
 /**
  * @since 1.0.0
@@ -30,4 +32,4 @@ export const make = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const layer = Layer.scoped(BedrockRuntimeClientInstance, make);
+export const layer = Layer.effect(BedrockRuntimeClientInstance, make);

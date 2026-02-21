@@ -206,7 +206,7 @@ import {
 import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
-import { Effect, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import * as Instance from "./AutoScalingClientInstance.js";
 import * as AutoScalingServiceConfig from "./AutoScalingServiceConfig.js";
 import type {
@@ -305,7 +305,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AttachInstancesCommandOutput,
-    Cause.TimeoutException | SdkError | ResourceContentionFaultError | ServiceLinkedRoleError
+    Cause.TimeoutError | SdkError | ResourceContentionFaultError | ServiceLinkedRoleError
   >;
 
   /**
@@ -316,7 +316,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AttachLoadBalancerTargetGroupsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InstanceRefreshInProgressFaultError
     | ResourceContentionFaultError
@@ -331,7 +331,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AttachLoadBalancersCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InstanceRefreshInProgressFaultError
     | ResourceContentionFaultError
@@ -346,7 +346,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AttachTrafficSourcesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InstanceRefreshInProgressFaultError
     | ResourceContentionFaultError
@@ -361,7 +361,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchDeleteScheduledActionCommandOutput,
-    Cause.TimeoutException | SdkError | ResourceContentionFaultError
+    Cause.TimeoutError | SdkError | ResourceContentionFaultError
   >;
 
   /**
@@ -372,7 +372,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchPutScheduledUpdateGroupActionCommandOutput,
-    Cause.TimeoutException | SdkError | AlreadyExistsFaultError | LimitExceededFaultError | ResourceContentionFaultError
+    Cause.TimeoutError | SdkError | AlreadyExistsFaultError | LimitExceededFaultError | ResourceContentionFaultError
   >;
 
   /**
@@ -383,7 +383,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelInstanceRefreshCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ActiveInstanceRefreshNotFoundFaultError
     | LimitExceededFaultError
@@ -398,7 +398,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CompleteLifecycleActionCommandOutput,
-    Cause.TimeoutException | SdkError | ResourceContentionFaultError
+    Cause.TimeoutError | SdkError | ResourceContentionFaultError
   >;
 
   /**
@@ -409,7 +409,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateAutoScalingGroupCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AlreadyExistsFaultError
     | LimitExceededFaultError
@@ -425,7 +425,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateLaunchConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | AlreadyExistsFaultError | LimitExceededFaultError | ResourceContentionFaultError
+    Cause.TimeoutError | SdkError | AlreadyExistsFaultError | LimitExceededFaultError | ResourceContentionFaultError
   >;
 
   /**
@@ -436,7 +436,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateOrUpdateTagsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AlreadyExistsFaultError
     | LimitExceededFaultError
@@ -452,7 +452,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteAutoScalingGroupCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ResourceContentionFaultError
     | ResourceInUseFaultError
@@ -467,7 +467,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteLaunchConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | ResourceContentionFaultError | ResourceInUseFaultError
+    Cause.TimeoutError | SdkError | ResourceContentionFaultError | ResourceInUseFaultError
   >;
 
   /**
@@ -478,7 +478,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteLifecycleHookCommandOutput,
-    Cause.TimeoutException | SdkError | ResourceContentionFaultError
+    Cause.TimeoutError | SdkError | ResourceContentionFaultError
   >;
 
   /**
@@ -489,7 +489,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteNotificationConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | ResourceContentionFaultError
+    Cause.TimeoutError | SdkError | ResourceContentionFaultError
   >;
 
   /**
@@ -500,7 +500,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeletePolicyCommandOutput,
-    Cause.TimeoutException | SdkError | ResourceContentionFaultError | ServiceLinkedRoleError
+    Cause.TimeoutError | SdkError | ResourceContentionFaultError | ServiceLinkedRoleError
   >;
 
   /**
@@ -511,7 +511,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteScheduledActionCommandOutput,
-    Cause.TimeoutException | SdkError | ResourceContentionFaultError
+    Cause.TimeoutError | SdkError | ResourceContentionFaultError
   >;
 
   /**
@@ -522,7 +522,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteTagsCommandOutput,
-    Cause.TimeoutException | SdkError | ResourceContentionFaultError | ResourceInUseFaultError
+    Cause.TimeoutError | SdkError | ResourceContentionFaultError | ResourceInUseFaultError
   >;
 
   /**
@@ -533,7 +533,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteWarmPoolCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | LimitExceededFaultError
     | ResourceContentionFaultError
@@ -549,7 +549,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeAccountLimitsCommandOutput,
-    Cause.TimeoutException | SdkError | ResourceContentionFaultError
+    Cause.TimeoutError | SdkError | ResourceContentionFaultError
   >;
 
   /**
@@ -560,7 +560,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeAdjustmentTypesCommandOutput,
-    Cause.TimeoutException | SdkError | ResourceContentionFaultError
+    Cause.TimeoutError | SdkError | ResourceContentionFaultError
   >;
 
   /**
@@ -571,7 +571,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeAutoScalingGroupsCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidNextTokenError | ResourceContentionFaultError
+    Cause.TimeoutError | SdkError | InvalidNextTokenError | ResourceContentionFaultError
   >;
 
   /**
@@ -582,7 +582,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeAutoScalingInstancesCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidNextTokenError | ResourceContentionFaultError
+    Cause.TimeoutError | SdkError | InvalidNextTokenError | ResourceContentionFaultError
   >;
 
   /**
@@ -593,7 +593,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeAutoScalingNotificationTypesCommandOutput,
-    Cause.TimeoutException | SdkError | ResourceContentionFaultError
+    Cause.TimeoutError | SdkError | ResourceContentionFaultError
   >;
 
   /**
@@ -604,7 +604,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeInstanceRefreshesCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidNextTokenError | ResourceContentionFaultError
+    Cause.TimeoutError | SdkError | InvalidNextTokenError | ResourceContentionFaultError
   >;
 
   /**
@@ -615,7 +615,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeLaunchConfigurationsCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidNextTokenError | ResourceContentionFaultError
+    Cause.TimeoutError | SdkError | InvalidNextTokenError | ResourceContentionFaultError
   >;
 
   /**
@@ -626,7 +626,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeLifecycleHookTypesCommandOutput,
-    Cause.TimeoutException | SdkError | ResourceContentionFaultError
+    Cause.TimeoutError | SdkError | ResourceContentionFaultError
   >;
 
   /**
@@ -637,7 +637,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeLifecycleHooksCommandOutput,
-    Cause.TimeoutException | SdkError | ResourceContentionFaultError
+    Cause.TimeoutError | SdkError | ResourceContentionFaultError
   >;
 
   /**
@@ -648,7 +648,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeLoadBalancerTargetGroupsCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidNextTokenError | ResourceContentionFaultError
+    Cause.TimeoutError | SdkError | InvalidNextTokenError | ResourceContentionFaultError
   >;
 
   /**
@@ -659,7 +659,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeLoadBalancersCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidNextTokenError | ResourceContentionFaultError
+    Cause.TimeoutError | SdkError | InvalidNextTokenError | ResourceContentionFaultError
   >;
 
   /**
@@ -670,7 +670,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeMetricCollectionTypesCommandOutput,
-    Cause.TimeoutException | SdkError | ResourceContentionFaultError
+    Cause.TimeoutError | SdkError | ResourceContentionFaultError
   >;
 
   /**
@@ -681,7 +681,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeNotificationConfigurationsCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidNextTokenError | ResourceContentionFaultError
+    Cause.TimeoutError | SdkError | InvalidNextTokenError | ResourceContentionFaultError
   >;
 
   /**
@@ -692,7 +692,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribePoliciesCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidNextTokenError | ResourceContentionFaultError | ServiceLinkedRoleError
+    Cause.TimeoutError | SdkError | InvalidNextTokenError | ResourceContentionFaultError | ServiceLinkedRoleError
   >;
 
   /**
@@ -703,7 +703,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeScalingActivitiesCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidNextTokenError | ResourceContentionFaultError
+    Cause.TimeoutError | SdkError | InvalidNextTokenError | ResourceContentionFaultError
   >;
 
   /**
@@ -714,7 +714,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeScalingProcessTypesCommandOutput,
-    Cause.TimeoutException | SdkError | ResourceContentionFaultError
+    Cause.TimeoutError | SdkError | ResourceContentionFaultError
   >;
 
   /**
@@ -725,7 +725,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeScheduledActionsCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidNextTokenError | ResourceContentionFaultError
+    Cause.TimeoutError | SdkError | InvalidNextTokenError | ResourceContentionFaultError
   >;
 
   /**
@@ -736,7 +736,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeTagsCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidNextTokenError | ResourceContentionFaultError
+    Cause.TimeoutError | SdkError | InvalidNextTokenError | ResourceContentionFaultError
   >;
 
   /**
@@ -747,7 +747,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeTerminationPolicyTypesCommandOutput,
-    Cause.TimeoutException | SdkError | ResourceContentionFaultError
+    Cause.TimeoutError | SdkError | ResourceContentionFaultError
   >;
 
   /**
@@ -758,7 +758,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeTrafficSourcesCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidNextTokenError | ResourceContentionFaultError
+    Cause.TimeoutError | SdkError | InvalidNextTokenError | ResourceContentionFaultError
   >;
 
   /**
@@ -769,7 +769,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeWarmPoolCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidNextTokenError | LimitExceededFaultError | ResourceContentionFaultError
+    Cause.TimeoutError | SdkError | InvalidNextTokenError | LimitExceededFaultError | ResourceContentionFaultError
   >;
 
   /**
@@ -780,7 +780,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DetachInstancesCommandOutput,
-    Cause.TimeoutException | SdkError | ResourceContentionFaultError
+    Cause.TimeoutError | SdkError | ResourceContentionFaultError
   >;
 
   /**
@@ -791,7 +791,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DetachLoadBalancerTargetGroupsCommandOutput,
-    Cause.TimeoutException | SdkError | ResourceContentionFaultError
+    Cause.TimeoutError | SdkError | ResourceContentionFaultError
   >;
 
   /**
@@ -802,7 +802,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DetachLoadBalancersCommandOutput,
-    Cause.TimeoutException | SdkError | ResourceContentionFaultError
+    Cause.TimeoutError | SdkError | ResourceContentionFaultError
   >;
 
   /**
@@ -813,7 +813,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DetachTrafficSourcesCommandOutput,
-    Cause.TimeoutException | SdkError | ResourceContentionFaultError
+    Cause.TimeoutError | SdkError | ResourceContentionFaultError
   >;
 
   /**
@@ -824,7 +824,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisableMetricsCollectionCommandOutput,
-    Cause.TimeoutException | SdkError | ResourceContentionFaultError
+    Cause.TimeoutError | SdkError | ResourceContentionFaultError
   >;
 
   /**
@@ -835,7 +835,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     EnableMetricsCollectionCommandOutput,
-    Cause.TimeoutException | SdkError | ResourceContentionFaultError
+    Cause.TimeoutError | SdkError | ResourceContentionFaultError
   >;
 
   /**
@@ -846,7 +846,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     EnterStandbyCommandOutput,
-    Cause.TimeoutException | SdkError | ResourceContentionFaultError
+    Cause.TimeoutError | SdkError | ResourceContentionFaultError
   >;
 
   /**
@@ -857,7 +857,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ExecutePolicyCommandOutput,
-    Cause.TimeoutException | SdkError | ResourceContentionFaultError | ScalingActivityInProgressFaultError
+    Cause.TimeoutError | SdkError | ResourceContentionFaultError | ScalingActivityInProgressFaultError
   >;
 
   /**
@@ -868,7 +868,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ExitStandbyCommandOutput,
-    Cause.TimeoutException | SdkError | ResourceContentionFaultError
+    Cause.TimeoutError | SdkError | ResourceContentionFaultError
   >;
 
   /**
@@ -879,7 +879,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPredictiveScalingForecastCommandOutput,
-    Cause.TimeoutException | SdkError | ResourceContentionFaultError
+    Cause.TimeoutError | SdkError | ResourceContentionFaultError
   >;
 
   /**
@@ -890,7 +890,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     LaunchInstancesCommandOutput,
-    Cause.TimeoutException | SdkError | IdempotentParameterMismatchError | ResourceContentionFaultError
+    Cause.TimeoutError | SdkError | IdempotentParameterMismatchError | ResourceContentionFaultError
   >;
 
   /**
@@ -901,7 +901,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutLifecycleHookCommandOutput,
-    Cause.TimeoutException | SdkError | LimitExceededFaultError | ResourceContentionFaultError
+    Cause.TimeoutError | SdkError | LimitExceededFaultError | ResourceContentionFaultError
   >;
 
   /**
@@ -912,7 +912,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutNotificationConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | LimitExceededFaultError | ResourceContentionFaultError | ServiceLinkedRoleError
+    Cause.TimeoutError | SdkError | LimitExceededFaultError | ResourceContentionFaultError | ServiceLinkedRoleError
   >;
 
   /**
@@ -923,7 +923,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutScalingPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | LimitExceededFaultError | ResourceContentionFaultError | ServiceLinkedRoleError
+    Cause.TimeoutError | SdkError | LimitExceededFaultError | ResourceContentionFaultError | ServiceLinkedRoleError
   >;
 
   /**
@@ -934,7 +934,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutScheduledUpdateGroupActionCommandOutput,
-    Cause.TimeoutException | SdkError | AlreadyExistsFaultError | LimitExceededFaultError | ResourceContentionFaultError
+    Cause.TimeoutError | SdkError | AlreadyExistsFaultError | LimitExceededFaultError | ResourceContentionFaultError
   >;
 
   /**
@@ -945,7 +945,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutWarmPoolCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InstanceRefreshInProgressFaultError
     | LimitExceededFaultError
@@ -960,7 +960,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RecordLifecycleActionHeartbeatCommandOutput,
-    Cause.TimeoutException | SdkError | ResourceContentionFaultError
+    Cause.TimeoutError | SdkError | ResourceContentionFaultError
   >;
 
   /**
@@ -971,7 +971,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ResumeProcessesCommandOutput,
-    Cause.TimeoutException | SdkError | ResourceContentionFaultError | ResourceInUseFaultError
+    Cause.TimeoutError | SdkError | ResourceContentionFaultError | ResourceInUseFaultError
   >;
 
   /**
@@ -982,7 +982,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RollbackInstanceRefreshCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ActiveInstanceRefreshNotFoundFaultError
     | IrreversibleInstanceRefreshFaultError
@@ -998,7 +998,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SetDesiredCapacityCommandOutput,
-    Cause.TimeoutException | SdkError | ResourceContentionFaultError | ScalingActivityInProgressFaultError
+    Cause.TimeoutError | SdkError | ResourceContentionFaultError | ScalingActivityInProgressFaultError
   >;
 
   /**
@@ -1009,7 +1009,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SetInstanceHealthCommandOutput,
-    Cause.TimeoutException | SdkError | ResourceContentionFaultError
+    Cause.TimeoutError | SdkError | ResourceContentionFaultError
   >;
 
   /**
@@ -1020,7 +1020,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SetInstanceProtectionCommandOutput,
-    Cause.TimeoutException | SdkError | LimitExceededFaultError | ResourceContentionFaultError
+    Cause.TimeoutError | SdkError | LimitExceededFaultError | ResourceContentionFaultError
   >;
 
   /**
@@ -1031,7 +1031,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartInstanceRefreshCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InstanceRefreshInProgressFaultError
     | LimitExceededFaultError
@@ -1046,7 +1046,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SuspendProcessesCommandOutput,
-    Cause.TimeoutException | SdkError | ResourceContentionFaultError | ResourceInUseFaultError
+    Cause.TimeoutError | SdkError | ResourceContentionFaultError | ResourceInUseFaultError
   >;
 
   /**
@@ -1057,7 +1057,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TerminateInstanceInAutoScalingGroupCommandOutput,
-    Cause.TimeoutException | SdkError | ResourceContentionFaultError | ScalingActivityInProgressFaultError
+    Cause.TimeoutError | SdkError | ResourceContentionFaultError | ScalingActivityInProgressFaultError
   >;
 
   /**
@@ -1068,7 +1068,7 @@ interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateAutoScalingGroupCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ResourceContentionFaultError
     | ScalingActivityInProgressFaultError
@@ -1097,10 +1097,10 @@ export const makeAutoScalingService = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class AutoScalingService extends Effect.Tag("@effect-aws/client-auto-scaling/AutoScalingService")<
+export class AutoScalingService extends ServiceMap.Service<
   AutoScalingService,
   AutoScalingService$
->() {
+>()("@effect-aws/client-auto-scaling/AutoScalingService") {
   static readonly defaultLayer = Layer.effect(this, makeAutoScalingService).pipe(Layer.provide(Instance.layer));
   static readonly layer = (config: AutoScalingService.Config) =>
     Layer.effect(this, makeAutoScalingService).pipe(

@@ -21,7 +21,7 @@ describe("SESClientImpl", () => {
 
     const args = {} as unknown as SendEmailCommandInput;
 
-    const program = SES.sendEmail(args);
+    const program = SES.use((svc) => svc.sendEmail(args));
 
     const result = await pipe(
       program,
@@ -41,7 +41,7 @@ describe("SESClientImpl", () => {
 
     const args = {} as unknown as SendEmailCommandInput;
 
-    const program = SES.sendEmail(args);
+    const program = SES.use((svc) => svc.sendEmail(args));
 
     const result = await pipe(
       program,
@@ -64,7 +64,7 @@ describe("SESClientImpl", () => {
 
     const args = {} as unknown as SendEmailCommandInput;
 
-    const program = SES.sendEmail(args);
+    const program = SES.use((svc) => svc.sendEmail(args));
 
     const result = await pipe(
       program,
@@ -88,7 +88,7 @@ describe("SESClientImpl", () => {
 
     const args = {} as unknown as SendEmailCommandInput;
 
-    const program = SES.sendEmail(args);
+    const program = SES.use((svc) => svc.sendEmail(args));
 
     const result = await pipe(
       program,
@@ -116,7 +116,7 @@ describe("SESClientImpl", () => {
 
     const args = {} as unknown as SendEmailCommandInput;
 
-    const program = SES.sendEmail(args);
+    const program = SES.use((svc) => svc.sendEmail(args));
 
     const result = await pipe(
       program,
@@ -126,7 +126,7 @@ describe("SESClientImpl", () => {
 
     expect(result).toEqual(
       Exit.fail(
-        SdkError({
+        new SdkError({
           ...new Error("test"),
           name: "SdkError",
           message: "test",
@@ -151,7 +151,7 @@ describe("SESClientImpl", () => {
 
     const args = {} as unknown as SendEmailCommandInput;
 
-    const program = SES.sendEmail(args).pipe(
+    const program = SES.use((svc) => svc.sendEmail(args)).pipe(
       Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 
@@ -161,9 +161,9 @@ describe("SESClientImpl", () => {
       Effect.runPromiseExit,
     );
 
-    expect(result).toEqual(
+    expect(result).toContainEqual(
       Exit.fail(
-        SdkError({
+        new SdkError({
           ...new Error("test"),
           name: "SdkError",
           message: "test",

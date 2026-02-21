@@ -16,7 +16,7 @@ With default IoTDataPlaneClient instance:
 ```typescript
 import { IoTDataPlane } from "@effect-aws/client-iot-data-plane";
 
-const program = IoTDataPlane.publish(args);
+const program = IoTDataPlane.use((svc) => svc.publish(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom IoTDataPlaneClient instance:
 ```typescript
 import { IoTDataPlane } from "@effect-aws/client-iot-data-plane";
 
-const program = IoTDataPlane.publish(args);
+const program = IoTDataPlane.use((svc) => svc.publish(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom IoTDataPlaneClient configuration:
 ```typescript
 import { IoTDataPlane } from "@effect-aws/client-iot-data-plane";
 
-const program = IoTDataPlane.publish(args);
+const program = IoTDataPlane.use((svc) => svc.publish(args));
 
 const result = await pipe(
   program,

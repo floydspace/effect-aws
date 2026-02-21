@@ -1,13 +1,11 @@
 import { it } from "@effect/vitest";
-import { Effect, Layer, Logger, LogLevel } from "effect";
+import { Effect, Logger, LogLevel } from "effect";
 import { beforeEach, describe, expect, vi } from "vitest";
 import { mockHandlerOutput } from "./fixtures/TestClientInstance.js";
 import { TestService } from "./fixtures/TestService.js";
 
 const mockLogFn = vi.fn();
-const mockLogger = Logger.replace(Logger.defaultLogger, Logger.make(mockLogFn)).pipe(
-  Layer.provide(Logger.minimumLogLevel(LogLevel.All)),
-);
+const mockLogger = Logger.make(mockLogFn);
 
 describe("Service", () => {
   beforeEach(() => {
@@ -18,7 +16,7 @@ describe("Service", () => {
     "should print info logs by default",
     () =>
       Effect.gen(function*() {
-        const result = yield* TestService.test({});
+        const result = yield* TestService.use((n) => n.test({}));
 
         expect(result).toEqual(mockHandlerOutput.output);
         expect(mockLogFn).toHaveBeenCalledOnce();
@@ -31,12 +29,12 @@ describe("Service", () => {
               output: {},
               metadata: expect.anything(),
             }],
-            logLevel: LogLevel.Info,
+            logLevel: "Info",
           }),
         );
       }).pipe(
         Effect.provide(TestService.layer({ logger: true })),
-        Effect.provide(mockLogger),
+        Effect.provide(Logger.layer([mockLogger])),
       ),
   );
 
@@ -44,14 +42,17 @@ describe("Service", () => {
     "should not print info logs if log level set to warning",
     () =>
       Effect.gen(function*() {
-        const result = yield* TestService.test({});
+        const result = yield* TestService.use((n) => n.test({}));
 
         expect(result).toEqual(mockHandlerOutput.output);
         expect(mockLogFn).not.toHaveBeenCalled();
       }).pipe(
-        Logger.withMinimumLogLevel(LogLevel.Warning),
         Effect.provide(TestService.layer({ logger: true })),
-        Effect.provide(mockLogger),
+        Effect.provide(Logger.layer([Logger.make((options) => {
+          if (LogLevel.isGreaterThanOrEqualTo(options.logLevel, "Warn")) {
+            mockLogFn(options);
+          }
+        })])),
       ),
   );
 
@@ -59,13 +60,13 @@ describe("Service", () => {
     "should not print any logs if logger is disabled",
     () =>
       Effect.gen(function*() {
-        const result = yield* TestService.test({});
+        const result = yield* TestService.use((n) => n.test({}));
 
         expect(result).toEqual(mockHandlerOutput.output);
         expect(mockLogFn).not.toHaveBeenCalled();
       }).pipe(
         Effect.provide(TestService.layer({})),
-        Effect.provide(mockLogger),
+        Effect.provide(Logger.layer([mockLogger])),
       ),
   );
 });

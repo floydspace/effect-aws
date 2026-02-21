@@ -9,10 +9,9 @@ import {
 } from "@aws-sdk/client-s3";
 import { S3 } from "@effect-aws/client-s3";
 import { S3FileSystem } from "@effect-aws/s3";
-import { Error as PlatformError, FileSystem } from "@effect/platform";
 import { layer } from "@effect/vitest";
 import { mockClient } from "aws-sdk-client-mock";
-import { Effect, Exit, Layer } from "effect";
+import { Effect, Exit, FileSystem, Layer, PlatformError } from "effect";
 import { afterEach, describe, expect } from "vitest";
 import { mock } from "vitest-mock-extended";
 import { SdkError } from "../../commons/src/Errors.js";
@@ -74,11 +73,13 @@ layer(TestLayer)("S3FileSystem", (it) => {
         const result = yield* fs.exists("").pipe(Effect.exit);
 
         expect(result).toStrictEqual(Exit.fail(
-          new PlatformError.BadArgument({
-            module: "FileSystem",
-            method: "access",
-            cause: new Error("Path is empty"),
-          }),
+          new PlatformError.PlatformError(
+            new PlatformError.BadArgument({
+              module: "FileSystem",
+              method: "access",
+              cause: new Error("Path is empty"),
+            }),
+          ),
         ));
       }));
 
@@ -94,14 +95,16 @@ layer(TestLayer)("S3FileSystem", (it) => {
         const result = yield* fs.exists("path-to-file.ext").pipe(Effect.exit);
 
         expect(result).toStrictEqual(Exit.fail(
-          new PlatformError.SystemError({
-            module: "FileSystem",
-            method: "access",
-            reason: "Unknown",
-            pathOrDescriptor: "path-to-file.ext",
-            syscall: undefined,
-            cause: SdkError({ name: "SdkError", message: err.message, stack: err.stack }),
-          }),
+          new PlatformError.PlatformError(
+            new PlatformError.SystemError({
+              module: "FileSystem",
+              method: "access",
+              _tag: "Unknown",
+              pathOrDescriptor: "path-to-file.ext",
+              syscall: undefined,
+              cause: new SdkError({ name: "SdkError", message: err.message, stack: err.stack }),
+            }),
+          ),
         ));
       }));
   });
@@ -144,14 +147,16 @@ layer(TestLayer)("S3FileSystem", (it) => {
 
         expect(result).toStrictEqual(
           Exit.fail(
-            new PlatformError.SystemError({
-              module: "FileSystem",
-              method: "makeDirectory",
-              reason: "AlreadyExists",
-              pathOrDescriptor: "aaa/bbb/ccc/",
-              syscall: "headObject",
-              cause: {}, // TODO: Fix this
-            }),
+            new PlatformError.PlatformError(
+              new PlatformError.SystemError({
+                module: "FileSystem",
+                method: "makeDirectory",
+                _tag: "AlreadyExists",
+                pathOrDescriptor: "aaa/bbb/ccc/",
+                syscall: "headObject",
+                cause: {}, // TODO: Fix this
+              }),
+            ),
           ),
         );
         expect(clientMock).toHaveReceivedCommandTimes(HeadObjectCommand, 2);
@@ -177,13 +182,15 @@ layer(TestLayer)("S3FileSystem", (it) => {
 
         expect(result).toStrictEqual(
           Exit.fail(
-            new PlatformError.SystemError({
-              module: "FileSystem",
-              method: "makeDirectory",
-              reason: "NotFound",
-              pathOrDescriptor: "aaa/bbb/ccc/",
-              syscall: "headObject",
-            }),
+            new PlatformError.PlatformError(
+              new PlatformError.SystemError({
+                module: "FileSystem",
+                method: "makeDirectory",
+                _tag: "NotFound",
+                pathOrDescriptor: "aaa/bbb/ccc/",
+                syscall: "headObject",
+              }),
+            ),
           ),
         );
         expect(clientMock).toHaveReceivedCommandTimes(HeadObjectCommand, 2);
@@ -295,13 +302,15 @@ layer(TestLayer)("S3FileSystem", (it) => {
         const result = yield* fs.readDirectory("path-to-dir").pipe(Effect.exit);
 
         expect(result).toStrictEqual(Exit.fail(
-          new PlatformError.SystemError({
-            module: "FileSystem",
-            method: "readDirectory",
-            reason: "NotFound",
-            pathOrDescriptor: "path-to-dir/",
-            syscall: "listObjects",
-          }),
+          new PlatformError.PlatformError(
+            new PlatformError.SystemError({
+              module: "FileSystem",
+              method: "readDirectory",
+              _tag: "NotFound",
+              pathOrDescriptor: "path-to-dir/",
+              syscall: "listObjects",
+            }),
+          ),
         ));
 
         expect(clientMock).toHaveReceivedCommandOnce(ListObjectsCommand);

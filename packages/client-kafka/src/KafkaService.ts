@@ -20,6 +20,9 @@ import {
   CreateReplicatorCommand,
   type CreateReplicatorCommandInput,
   type CreateReplicatorCommandOutput,
+  CreateTopicCommand,
+  type CreateTopicCommandInput,
+  type CreateTopicCommandOutput,
   CreateVpcConnectionCommand,
   type CreateVpcConnectionCommandInput,
   type CreateVpcConnectionCommandOutput,
@@ -35,6 +38,9 @@ import {
   DeleteReplicatorCommand,
   type DeleteReplicatorCommandInput,
   type DeleteReplicatorCommandOutput,
+  DeleteTopicCommand,
+  type DeleteTopicCommandInput,
+  type DeleteTopicCommandOutput,
   DeleteVpcConnectionCommand,
   type DeleteVpcConnectionCommandInput,
   type DeleteVpcConnectionCommandOutput,
@@ -172,21 +178,33 @@ import {
   UpdateStorageCommand,
   type UpdateStorageCommandInput,
   type UpdateStorageCommandOutput,
+  UpdateTopicCommand,
+  type UpdateTopicCommandInput,
+  type UpdateTopicCommandOutput,
 } from "@aws-sdk/client-kafka";
 import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
-import { Effect, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import type {
   BadRequestError,
+  ClusterConnectivityError,
   ConflictError,
+  ControllerMovedError,
   ForbiddenError,
+  GroupSubscribedToTopicError,
   InternalServerError,
+  KafkaRequestError,
+  KafkaTimeoutError,
+  NotControllerError,
   NotFoundError,
+  ReassignmentInProgressError,
   SdkError,
   ServiceUnavailableError,
   TooManyRequestsError,
+  TopicExistsError,
   UnauthorizedError,
+  UnknownTopicOrPartitionError,
 } from "./Errors.js";
 import { AllServiceErrors } from "./Errors.js";
 import * as Instance from "./KafkaClientInstance.js";
@@ -199,11 +217,13 @@ const commands = {
   CreateClusterV2Command,
   CreateConfigurationCommand,
   CreateReplicatorCommand,
+  CreateTopicCommand,
   CreateVpcConnectionCommand,
   DeleteClusterCommand,
   DeleteClusterPolicyCommand,
   DeleteConfigurationCommand,
   DeleteReplicatorCommand,
+  DeleteTopicCommand,
   DeleteVpcConnectionCommand,
   DescribeClusterCommand,
   DescribeClusterOperationCommand,
@@ -249,6 +269,7 @@ const commands = {
   UpdateReplicationInfoCommand,
   UpdateSecurityCommand,
   UpdateStorageCommand,
+  UpdateTopicCommand,
 };
 
 interface KafkaService$ {
@@ -262,7 +283,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchAssociateScramSecretCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ForbiddenError
@@ -281,7 +302,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchDisassociateScramSecretCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ForbiddenError
@@ -300,7 +321,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateClusterCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -319,7 +340,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateClusterV2CommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -338,7 +359,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateConfigurationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -357,7 +378,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateReplicatorCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -370,6 +391,34 @@ interface KafkaService$ {
   >;
 
   /**
+   * @see {@link CreateTopicCommand}
+   */
+  createTopic(
+    args: CreateTopicCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateTopicCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | BadRequestError
+    | ClusterConnectivityError
+    | ConflictError
+    | ControllerMovedError
+    | ForbiddenError
+    | GroupSubscribedToTopicError
+    | InternalServerError
+    | KafkaRequestError
+    | KafkaTimeoutError
+    | NotControllerError
+    | ReassignmentInProgressError
+    | ServiceUnavailableError
+    | TooManyRequestsError
+    | TopicExistsError
+    | UnauthorizedError
+    | UnknownTopicOrPartitionError
+  >;
+
+  /**
    * @see {@link CreateVpcConnectionCommand}
    */
   createVpcConnection(
@@ -377,7 +426,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateVpcConnectionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ForbiddenError
@@ -395,7 +444,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteClusterCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
+    Cause.TimeoutError | SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
   >;
 
   /**
@@ -406,7 +455,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteClusterPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
+    Cause.TimeoutError | SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
   >;
 
   /**
@@ -417,7 +466,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
+    Cause.TimeoutError | SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
   >;
 
   /**
@@ -428,7 +477,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteReplicatorCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ForbiddenError
@@ -440,6 +489,30 @@ interface KafkaService$ {
   >;
 
   /**
+   * @see {@link DeleteTopicCommand}
+   */
+  deleteTopic(
+    args: DeleteTopicCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteTopicCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | BadRequestError
+    | ClusterConnectivityError
+    | ControllerMovedError
+    | ForbiddenError
+    | GroupSubscribedToTopicError
+    | InternalServerError
+    | KafkaRequestError
+    | KafkaTimeoutError
+    | NotControllerError
+    | NotFoundError
+    | ReassignmentInProgressError
+    | UnknownTopicOrPartitionError
+  >;
+
+  /**
    * @see {@link DeleteVpcConnectionCommand}
    */
   deleteVpcConnection(
@@ -447,7 +520,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteVpcConnectionCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
+    Cause.TimeoutError | SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
   >;
 
   /**
@@ -458,7 +531,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeClusterCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ForbiddenError
@@ -475,7 +548,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeClusterOperationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ForbiddenError
@@ -492,7 +565,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeClusterOperationV2CommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ForbiddenError
@@ -511,7 +584,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeClusterV2CommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ForbiddenError
@@ -528,7 +601,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeConfigurationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ForbiddenError
@@ -546,7 +619,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeConfigurationRevisionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ForbiddenError
@@ -564,7 +637,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeReplicatorCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ForbiddenError
@@ -583,7 +656,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeTopicCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ForbiddenError
@@ -600,7 +673,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeTopicPartitionsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ForbiddenError
@@ -617,7 +690,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeVpcConnectionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ForbiddenError
@@ -635,7 +708,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetBootstrapBrokersCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -652,7 +725,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetClusterPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
+    Cause.TimeoutError | SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
   >;
 
   /**
@@ -663,7 +736,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetCompatibleKafkaVersionsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ForbiddenError
@@ -682,7 +755,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListClientVpcConnectionsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ForbiddenError
@@ -699,7 +772,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListClusterOperationsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | ForbiddenError | InternalServerError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | ForbiddenError | InternalServerError | UnauthorizedError
   >;
 
   /**
@@ -710,7 +783,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListClusterOperationsV2CommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ForbiddenError
@@ -729,7 +802,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListClustersCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | ForbiddenError | InternalServerError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | ForbiddenError | InternalServerError | UnauthorizedError
   >;
 
   /**
@@ -740,7 +813,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListClustersV2CommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | ForbiddenError | InternalServerError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | ForbiddenError | InternalServerError | UnauthorizedError
   >;
 
   /**
@@ -751,7 +824,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListConfigurationRevisionsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ForbiddenError
@@ -769,7 +842,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListConfigurationsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ForbiddenError
@@ -786,7 +859,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListKafkaVersionsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | ForbiddenError | InternalServerError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | ForbiddenError | InternalServerError | UnauthorizedError
   >;
 
   /**
@@ -797,7 +870,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListNodesCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
+    Cause.TimeoutError | SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
   >;
 
   /**
@@ -808,7 +881,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListReplicatorsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ForbiddenError
@@ -827,7 +900,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListScramSecretsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ForbiddenError
@@ -846,7 +919,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsForResourceCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | InternalServerError | NotFoundError
+    Cause.TimeoutError | SdkError | BadRequestError | InternalServerError | NotFoundError
   >;
 
   /**
@@ -857,7 +930,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTopicsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ForbiddenError
@@ -874,7 +947,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListVpcConnectionsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ForbiddenError
@@ -891,7 +964,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutClusterPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | ForbiddenError | InternalServerError
+    Cause.TimeoutError | SdkError | BadRequestError | ForbiddenError | InternalServerError
   >;
 
   /**
@@ -902,7 +975,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RebootBrokerCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ForbiddenError
@@ -921,7 +994,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RejectClientVpcConnectionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ForbiddenError
@@ -938,7 +1011,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagResourceCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | InternalServerError | NotFoundError
+    Cause.TimeoutError | SdkError | BadRequestError | InternalServerError | NotFoundError
   >;
 
   /**
@@ -949,7 +1022,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | InternalServerError | NotFoundError
+    Cause.TimeoutError | SdkError | BadRequestError | InternalServerError | NotFoundError
   >;
 
   /**
@@ -960,7 +1033,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateBrokerCountCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ForbiddenError
@@ -977,7 +1050,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateBrokerStorageCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ForbiddenError
@@ -994,7 +1067,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateBrokerTypeCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ForbiddenError
@@ -1013,7 +1086,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateClusterConfigurationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ForbiddenError
@@ -1031,7 +1104,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateClusterKafkaVersionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ForbiddenError
@@ -1050,7 +1123,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateConfigurationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ForbiddenError
@@ -1068,7 +1141,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateConnectivityCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ForbiddenError
@@ -1086,7 +1159,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateMonitoringCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ForbiddenError
@@ -1103,7 +1176,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateRebalancingCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ForbiddenError
@@ -1122,7 +1195,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateReplicationInfoCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ForbiddenError
@@ -1141,7 +1214,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateSecurityCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ForbiddenError
@@ -1160,7 +1233,7 @@ interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateStorageCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ForbiddenError
@@ -1169,6 +1242,32 @@ interface KafkaService$ {
     | ServiceUnavailableError
     | TooManyRequestsError
     | UnauthorizedError
+  >;
+
+  /**
+   * @see {@link UpdateTopicCommand}
+   */
+  updateTopic(
+    args: UpdateTopicCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateTopicCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | BadRequestError
+    | ClusterConnectivityError
+    | ControllerMovedError
+    | ForbiddenError
+    | GroupSubscribedToTopicError
+    | InternalServerError
+    | KafkaRequestError
+    | KafkaTimeoutError
+    | NotControllerError
+    | NotFoundError
+    | ReassignmentInProgressError
+    | ServiceUnavailableError
+    | UnauthorizedError
+    | UnknownTopicOrPartitionError
   >;
 }
 
@@ -1193,10 +1292,10 @@ export const makeKafkaService = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class KafkaService extends Effect.Tag("@effect-aws/client-kafka/KafkaService")<
+export class KafkaService extends ServiceMap.Service<
   KafkaService,
   KafkaService$
->() {
+>()("@effect-aws/client-kafka/KafkaService") {
   static readonly defaultLayer = Layer.effect(this, makeKafkaService).pipe(Layer.provide(Instance.layer));
   static readonly layer = (config: KafkaService.Config) =>
     Layer.effect(this, makeKafkaService).pipe(

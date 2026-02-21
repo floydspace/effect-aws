@@ -3,8 +3,8 @@
  */
 import type { HttpRequest, HttpResponse } from "@smithy/protocol-http";
 import type { HttpHandlerOptions, RequestHandler as ClientRequestHandler, RequestHandlerOutput } from "@smithy/types";
-import type { Cause, Effect } from "effect";
-import { Context, Runtime, Scope } from "effect";
+import type { Cause } from "effect";
+import { Effect, Scope, ServiceMap } from "effect";
 import type { RuntimeOptions } from "./internal/httpHandler.js";
 
 const TypeId = Symbol.for("@effect-aws/commons/RequestHandler");
@@ -15,7 +15,7 @@ type RequestHandlerConstructorProps = {
     handlerOptions?: HttpHandlerOptions,
   ) => Effect.Effect<
     RequestHandlerOutput<HttpResponse>,
-    Cause.TimeoutException,
+    Cause.TimeoutError,
     Scope.Scope
   >;
 };
@@ -32,7 +32,7 @@ export interface RequestHandler extends RequestHandlerConstructorProps {
  * @since 0.3.0
  * @category tag
  */
-export const RequestHandler = Context.GenericTag<RequestHandler>("@effect-aws/commons/RequestHandler");
+export const RequestHandler = ServiceMap.Service<RequestHandler>("@effect-aws/commons/RequestHandler");
 
 const proto = {
   [TypeId]: TypeId,
@@ -53,8 +53,8 @@ export const toClientRequestHandler = (
   requestHandler: RequestHandler,
   config: RuntimeOptions,
 ): ClientRequestHandler<HttpRequest, HttpResponse, HttpHandlerOptions> => {
-  const runPromise = Runtime.runPromise(config.runtime);
-  const scoped = Scope.extend(config.scope);
+  const runPromise = Effect.runPromiseWith(config.runtime);
+  const scoped = Scope.provide(config.scope);
 
   class HttpHandler implements ClientRequestHandler<HttpRequest, HttpResponse, HttpHandlerOptions> {
     handle(request: HttpRequest, options: HttpHandlerOptions = {}) {

@@ -16,7 +16,7 @@ With default OpenSearchClient instance:
 ```typescript
 import { OpenSearch } from "@effect-aws/client-opensearch";
 
-const program = OpenSearch.describeDomains(args);
+const program = OpenSearch.use((svc) => svc.describeDomains(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom OpenSearchClient instance:
 ```typescript
 import { OpenSearch } from "@effect-aws/client-opensearch";
 
-const program = OpenSearch.describeDomains(args);
+const program = OpenSearch.use((svc) => svc.describeDomains(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom OpenSearchClient configuration:
 ```typescript
 import { OpenSearch } from "@effect-aws/client-opensearch";
 
-const program = OpenSearch.describeDomains(args);
+const program = OpenSearch.use((svc) => svc.describeDomains(args));
 
 const result = await pipe(
   program,

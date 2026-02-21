@@ -16,7 +16,7 @@ With default SSMClient instance:
 ```typescript
 import { SSM } from "@effect-aws/client-ssm";
 
-const program = SSM.describeParameters(args);
+const program = SSM.use((svc) => svc.describeParameters(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom SSMClient instance:
 ```typescript
 import { SSM } from "@effect-aws/client-ssm";
 
-const program = SSM.describeParameters(args);
+const program = SSM.use((svc) => svc.describeParameters(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom SSMClient configuration:
 ```typescript
 import { SSM } from "@effect-aws/client-ssm";
 
-const program = SSM.describeParameters(args);
+const program = SSM.use((svc) => svc.describeParameters(args));
 
 const result = await pipe(
   program,

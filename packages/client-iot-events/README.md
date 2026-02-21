@@ -16,7 +16,7 @@ With default IoTEventsClient instance:
 ```typescript
 import { IoTEvents } from "@effect-aws/client-iot-events";
 
-const program = IoTEvents.listInputs(args);
+const program = IoTEvents.use((svc) => svc.listInputs(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom IoTEventsClient instance:
 ```typescript
 import { IoTEvents } from "@effect-aws/client-iot-events";
 
-const program = IoTEvents.listInputs(args);
+const program = IoTEvents.use((svc) => svc.listInputs(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom IoTEventsClient configuration:
 ```typescript
 import { IoTEvents } from "@effect-aws/client-iot-events";
 
-const program = IoTEvents.listInputs(args);
+const program = IoTEvents.use((svc) => svc.listInputs(args));
 
 const result = await pipe(
   program,

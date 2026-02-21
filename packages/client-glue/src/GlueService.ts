@@ -179,6 +179,9 @@ import {
   DeleteConnectionCommand,
   type DeleteConnectionCommandInput,
   type DeleteConnectionCommandOutput,
+  DeleteConnectionTypeCommand,
+  type DeleteConnectionTypeCommandInput,
+  type DeleteConnectionTypeCommandOutput,
   DeleteCrawlerCommand,
   type DeleteCrawlerCommandInput,
   type DeleteCrawlerCommandOutput,
@@ -392,6 +395,9 @@ import {
   GetMappingCommand,
   type GetMappingCommandInput,
   type GetMappingCommandOutput,
+  GetMaterializedViewRefreshTaskRunCommand,
+  type GetMaterializedViewRefreshTaskRunCommandInput,
+  type GetMaterializedViewRefreshTaskRunCommandOutput,
   GetMLTaskRunCommand,
   type GetMLTaskRunCommandInput,
   type GetMLTaskRunCommandOutput,
@@ -556,6 +562,9 @@ import {
   ListJobsCommand,
   type ListJobsCommandInput,
   type ListJobsCommandOutput,
+  ListMaterializedViewRefreshTaskRunsCommand,
+  type ListMaterializedViewRefreshTaskRunsCommandInput,
+  type ListMaterializedViewRefreshTaskRunsCommandOutput,
   ListMLTransformsCommand,
   type ListMLTransformsCommandInput,
   type ListMLTransformsCommandOutput,
@@ -607,6 +616,9 @@ import {
   QuerySchemaVersionMetadataCommand,
   type QuerySchemaVersionMetadataCommandInput,
   type QuerySchemaVersionMetadataCommandOutput,
+  RegisterConnectionTypeCommand,
+  type RegisterConnectionTypeCommandInput,
+  type RegisterConnectionTypeCommandOutput,
   RegisterSchemaVersionCommand,
   type RegisterSchemaVersionCommandInput,
   type RegisterSchemaVersionCommandOutput,
@@ -655,6 +667,9 @@ import {
   StartJobRunCommand,
   type StartJobRunCommandInput,
   type StartJobRunCommandOutput,
+  StartMaterializedViewRefreshTaskRunCommand,
+  type StartMaterializedViewRefreshTaskRunCommandInput,
+  type StartMaterializedViewRefreshTaskRunCommandOutput,
   StartMLEvaluationTaskRunCommand,
   type StartMLEvaluationTaskRunCommandInput,
   type StartMLEvaluationTaskRunCommandOutput,
@@ -679,6 +694,9 @@ import {
   StopCrawlerScheduleCommand,
   type StopCrawlerScheduleCommandInput,
   type StopCrawlerScheduleCommandOutput,
+  StopMaterializedViewRefreshTaskRunCommand,
+  type StopMaterializedViewRefreshTaskRunCommandInput,
+  type StopMaterializedViewRefreshTaskRunCommandOutput,
   StopSessionCommand,
   type StopSessionCommandInput,
   type StopSessionCommandOutput,
@@ -785,7 +803,7 @@ import {
 import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
-import { Effect, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import type {
   AccessDeniedError,
   AlreadyExistsError,
@@ -817,6 +835,9 @@ import type {
   InvalidIntegrationStateFaultError,
   InvalidStateError,
   KMSKeyNotAccessibleFaultError,
+  MaterializedViewRefreshTaskNotRunningError,
+  MaterializedViewRefreshTaskRunningError,
+  MaterializedViewRefreshTaskStoppingError,
   MLTransformNotReadyError,
   NoScheduleError,
   OperationNotSupportedError,
@@ -898,6 +919,7 @@ const commands = {
   DeleteColumnStatisticsForTableCommand,
   DeleteColumnStatisticsTaskSettingsCommand,
   DeleteConnectionCommand,
+  DeleteConnectionTypeCommand,
   DeleteCrawlerCommand,
   DeleteCustomEntityTypeCommand,
   DeleteDataQualityRulesetCommand,
@@ -973,6 +995,7 @@ const commands = {
   GetMLTransformCommand,
   GetMLTransformsCommand,
   GetMappingCommand,
+  GetMaterializedViewRefreshTaskRunCommand,
   GetPartitionCommand,
   GetPartitionIndexesCommand,
   GetPartitionsCommand,
@@ -1024,6 +1047,7 @@ const commands = {
   ListIntegrationResourcePropertiesCommand,
   ListJobsCommand,
   ListMLTransformsCommand,
+  ListMaterializedViewRefreshTaskRunsCommand,
   ListRegistriesCommand,
   ListSchemaVersionsCommand,
   ListSchemasCommand,
@@ -1040,6 +1064,7 @@ const commands = {
   PutSchemaVersionMetadataCommand,
   PutWorkflowRunPropertiesCommand,
   QuerySchemaVersionMetadataCommand,
+  RegisterConnectionTypeCommand,
   RegisterSchemaVersionCommand,
   RemoveSchemaVersionMetadataCommand,
   ResetJobBookmarkCommand,
@@ -1058,12 +1083,14 @@ const commands = {
   StartJobRunCommand,
   StartMLEvaluationTaskRunCommand,
   StartMLLabelingSetGenerationTaskRunCommand,
+  StartMaterializedViewRefreshTaskRunCommand,
   StartTriggerCommand,
   StartWorkflowRunCommand,
   StopColumnStatisticsTaskRunCommand,
   StopColumnStatisticsTaskRunScheduleCommand,
   StopCrawlerCommand,
   StopCrawlerScheduleCommand,
+  StopMaterializedViewRefreshTaskRunCommand,
   StopSessionCommand,
   StopTriggerCommand,
   StopWorkflowRunCommand,
@@ -1111,7 +1138,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchCreatePartitionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AlreadyExistsError
     | EntityNotFoundError
@@ -1130,7 +1157,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchDeleteConnectionCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServiceError | OperationTimeoutError
+    Cause.TimeoutError | SdkError | InternalServiceError | OperationTimeoutError
   >;
 
   /**
@@ -1141,7 +1168,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchDeletePartitionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
@@ -1157,7 +1184,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchDeleteTableCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | GlueEncryptionError
@@ -1175,7 +1202,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchDeleteTableVersionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
@@ -1191,7 +1218,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchGetBlueprintsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
+    Cause.TimeoutError | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
   >;
 
   /**
@@ -1202,7 +1229,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchGetCrawlersCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidInputError | OperationTimeoutError
+    Cause.TimeoutError | SdkError | InvalidInputError | OperationTimeoutError
   >;
 
   /**
@@ -1213,7 +1240,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchGetCustomEntityTypesCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
+    Cause.TimeoutError | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
   >;
 
   /**
@@ -1224,7 +1251,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchGetDataQualityResultCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
+    Cause.TimeoutError | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
   >;
 
   /**
@@ -1235,12 +1262,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchGetDevEndpointsCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | AccessDeniedError
-    | InternalServiceError
-    | InvalidInputError
-    | OperationTimeoutError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServiceError | InvalidInputError | OperationTimeoutError
   >;
 
   /**
@@ -1251,7 +1273,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchGetJobsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
+    Cause.TimeoutError | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
   >;
 
   /**
@@ -1262,7 +1284,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchGetPartitionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | FederationSourceError
@@ -1282,7 +1304,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchGetTableOptimizerCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityNotFoundError
@@ -1299,7 +1321,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchGetTriggersCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
+    Cause.TimeoutError | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
   >;
 
   /**
@@ -1310,7 +1332,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchGetWorkflowsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
+    Cause.TimeoutError | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
   >;
 
   /**
@@ -1321,7 +1343,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchPutDataQualityStatisticAnnotationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
@@ -1337,7 +1359,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchStopJobRunCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
+    Cause.TimeoutError | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
   >;
 
   /**
@@ -1348,7 +1370,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchUpdatePartitionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | GlueEncryptionError
@@ -1365,7 +1387,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelDataQualityRuleRecommendationRunCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
@@ -1381,7 +1403,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelDataQualityRulesetEvaluationRunCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
@@ -1397,7 +1419,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelMLTaskRunCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
@@ -1413,7 +1435,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelStatementCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityNotFoundError
@@ -1431,7 +1453,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CheckSchemaVersionValidityCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServiceError | InvalidInputError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServiceError | InvalidInputError
   >;
 
   /**
@@ -1442,7 +1464,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateBlueprintCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AlreadyExistsError
     | InternalServiceError
@@ -1459,7 +1481,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateCatalogCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AlreadyExistsError
@@ -1482,7 +1504,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateClassifierCommandOutput,
-    Cause.TimeoutException | SdkError | AlreadyExistsError | InvalidInputError | OperationTimeoutError
+    Cause.TimeoutError | SdkError | AlreadyExistsError | InvalidInputError | OperationTimeoutError
   >;
 
   /**
@@ -1493,7 +1515,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateColumnStatisticsTaskSettingsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AlreadyExistsError
@@ -1512,7 +1534,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateConnectionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AlreadyExistsError
     | GlueEncryptionError
@@ -1529,7 +1551,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateCrawlerCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AlreadyExistsError
     | InvalidInputError
@@ -1545,7 +1567,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateCustomEntityTypeCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AlreadyExistsError
@@ -1564,7 +1586,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateDataQualityRulesetCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AlreadyExistsError
     | InternalServiceError
@@ -1581,7 +1603,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateDatabaseCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AlreadyExistsError
     | ConcurrentModificationError
@@ -1603,7 +1625,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateDevEndpointCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AlreadyExistsError
@@ -1623,7 +1645,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateGlueIdentityCenterConfigurationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AlreadyExistsError
@@ -1641,7 +1663,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateIntegrationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1665,7 +1687,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateIntegrationResourcePropertyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1685,7 +1707,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateIntegrationTablePropertiesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityNotFoundError
@@ -1704,7 +1726,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateJobCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AlreadyExistsError
     | ConcurrentModificationError
@@ -1723,7 +1745,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateMLTransformCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AlreadyExistsError
@@ -1742,7 +1764,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreatePartitionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AlreadyExistsError
     | EntityNotFoundError
@@ -1761,7 +1783,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreatePartitionIndexCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AlreadyExistsError
     | EntityNotFoundError
@@ -1780,7 +1802,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateRegistryCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AlreadyExistsError
@@ -1798,7 +1820,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateSchemaCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AlreadyExistsError
@@ -1817,7 +1839,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateScriptCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
+    Cause.TimeoutError | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
   >;
 
   /**
@@ -1828,7 +1850,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateSecurityConfigurationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AlreadyExistsError
     | InternalServiceError
@@ -1845,7 +1867,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateSessionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AlreadyExistsError
@@ -1865,7 +1887,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateTableCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AlreadyExistsError
     | ConcurrentModificationError
@@ -1888,7 +1910,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateTableOptimizerCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AlreadyExistsError
@@ -1907,7 +1929,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateTriggerCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AlreadyExistsError
     | ConcurrentModificationError
@@ -1927,7 +1949,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateUsageProfileCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AlreadyExistsError
     | InternalServiceError
@@ -1945,7 +1967,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateUserDefinedFunctionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AlreadyExistsError
     | EntityNotFoundError
@@ -1964,7 +1986,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateWorkflowCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AlreadyExistsError
     | ConcurrentModificationError
@@ -1982,7 +2004,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteBlueprintCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
+    Cause.TimeoutError | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
   >;
 
   /**
@@ -1993,7 +2015,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteCatalogCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConcurrentModificationError
@@ -2013,7 +2035,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteClassifierCommandOutput,
-    Cause.TimeoutException | SdkError | EntityNotFoundError | OperationTimeoutError
+    Cause.TimeoutError | SdkError | EntityNotFoundError | OperationTimeoutError
   >;
 
   /**
@@ -2024,7 +2046,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteColumnStatisticsForPartitionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | GlueEncryptionError
@@ -2041,7 +2063,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteColumnStatisticsForTableCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | GlueEncryptionError
@@ -2058,7 +2080,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteColumnStatisticsTaskSettingsCommandOutput,
-    Cause.TimeoutException | SdkError | EntityNotFoundError | InvalidInputError | OperationTimeoutError
+    Cause.TimeoutError | SdkError | EntityNotFoundError | InvalidInputError | OperationTimeoutError
   >;
 
   /**
@@ -2069,7 +2091,25 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteConnectionCommandOutput,
-    Cause.TimeoutException | SdkError | EntityNotFoundError | OperationTimeoutError
+    Cause.TimeoutError | SdkError | EntityNotFoundError | OperationTimeoutError
+  >;
+
+  /**
+   * @see {@link DeleteConnectionTypeCommand}
+   */
+  deleteConnectionType(
+    args: DeleteConnectionTypeCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteConnectionTypeCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | EntityNotFoundError
+    | InternalServiceError
+    | InvalidInputError
+    | OperationTimeoutError
+    | ValidationError
   >;
 
   /**
@@ -2080,7 +2120,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteCrawlerCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | CrawlerRunningError
     | EntityNotFoundError
@@ -2096,7 +2136,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteCustomEntityTypeCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityNotFoundError
@@ -2113,7 +2153,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDataQualityRulesetCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
@@ -2129,7 +2169,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDatabaseCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentModificationError
     | EntityNotFoundError
@@ -2148,7 +2188,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDevEndpointCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
@@ -2164,7 +2204,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteGlueIdentityCenterConfigurationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConcurrentModificationError
@@ -2182,7 +2222,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteIntegrationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -2205,7 +2245,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteIntegrationResourcePropertyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityNotFoundError
@@ -2224,7 +2264,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteIntegrationTablePropertiesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityNotFoundError
@@ -2243,7 +2283,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteJobCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
+    Cause.TimeoutError | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
   >;
 
   /**
@@ -2254,7 +2294,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteMLTransformCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
@@ -2270,7 +2310,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeletePartitionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
@@ -2286,7 +2326,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeletePartitionIndexCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConflictError
     | EntityNotFoundError
@@ -2304,7 +2344,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteRegistryCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConcurrentModificationError
@@ -2320,7 +2360,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteResourcePolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConditionCheckFailureError
     | EntityNotFoundError
@@ -2337,7 +2377,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteSchemaCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConcurrentModificationError
@@ -2353,7 +2393,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteSchemaVersionsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConcurrentModificationError
@@ -2369,7 +2409,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteSecurityConfigurationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
@@ -2385,7 +2425,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteSessionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConcurrentModificationError
@@ -2403,7 +2443,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteTableCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentModificationError
     | EntityNotFoundError
@@ -2423,7 +2463,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteTableOptimizerCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityNotFoundError
@@ -2440,7 +2480,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteTableVersionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
@@ -2456,7 +2496,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteTriggerCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentModificationError
     | InternalServiceError
@@ -2472,7 +2512,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteUsageProfileCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalServiceError
     | InvalidInputError
@@ -2488,7 +2528,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteUserDefinedFunctionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
@@ -2504,7 +2544,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteWorkflowCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentModificationError
     | InternalServiceError
@@ -2520,7 +2560,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeConnectionTypeCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServiceError | InvalidInputError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServiceError | InvalidInputError | ValidationError
   >;
 
   /**
@@ -2531,7 +2571,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeEntityCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityNotFoundError
@@ -2550,7 +2590,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeInboundIntegrationsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityNotFoundError
@@ -2571,7 +2611,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeIntegrationsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityNotFoundError
@@ -2590,7 +2630,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetBlueprintCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
@@ -2606,7 +2646,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetBlueprintRunCommandOutput,
-    Cause.TimeoutException | SdkError | EntityNotFoundError | InternalServiceError | OperationTimeoutError
+    Cause.TimeoutError | SdkError | EntityNotFoundError | InternalServiceError | OperationTimeoutError
   >;
 
   /**
@@ -2617,7 +2657,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetBlueprintRunsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
@@ -2633,7 +2673,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetCatalogCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityNotFoundError
@@ -2653,7 +2693,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetCatalogImportStatusCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServiceError | OperationTimeoutError
+    Cause.TimeoutError | SdkError | InternalServiceError | OperationTimeoutError
   >;
 
   /**
@@ -2664,7 +2704,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetCatalogsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityNotFoundError
@@ -2684,7 +2724,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetClassifierCommandOutput,
-    Cause.TimeoutException | SdkError | EntityNotFoundError | OperationTimeoutError
+    Cause.TimeoutError | SdkError | EntityNotFoundError | OperationTimeoutError
   >;
 
   /**
@@ -2695,7 +2735,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetClassifiersCommandOutput,
-    Cause.TimeoutException | SdkError | OperationTimeoutError
+    Cause.TimeoutError | SdkError | OperationTimeoutError
   >;
 
   /**
@@ -2706,7 +2746,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetColumnStatisticsForPartitionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | GlueEncryptionError
@@ -2723,7 +2763,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetColumnStatisticsForTableCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | GlueEncryptionError
@@ -2740,7 +2780,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetColumnStatisticsTaskRunCommandOutput,
-    Cause.TimeoutException | SdkError | EntityNotFoundError | InvalidInputError | OperationTimeoutError
+    Cause.TimeoutError | SdkError | EntityNotFoundError | InvalidInputError | OperationTimeoutError
   >;
 
   /**
@@ -2751,7 +2791,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetColumnStatisticsTaskRunsCommandOutput,
-    Cause.TimeoutException | SdkError | OperationTimeoutError
+    Cause.TimeoutError | SdkError | OperationTimeoutError
   >;
 
   /**
@@ -2762,7 +2802,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetColumnStatisticsTaskSettingsCommandOutput,
-    Cause.TimeoutException | SdkError | EntityNotFoundError | InvalidInputError | OperationTimeoutError
+    Cause.TimeoutError | SdkError | EntityNotFoundError | InvalidInputError | OperationTimeoutError
   >;
 
   /**
@@ -2773,7 +2813,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetConnectionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | GlueEncryptionError
@@ -2789,7 +2829,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetConnectionsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | GlueEncryptionError
@@ -2805,7 +2845,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetCrawlerCommandOutput,
-    Cause.TimeoutException | SdkError | EntityNotFoundError | OperationTimeoutError
+    Cause.TimeoutError | SdkError | EntityNotFoundError | OperationTimeoutError
   >;
 
   /**
@@ -2816,7 +2856,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetCrawlerMetricsCommandOutput,
-    Cause.TimeoutException | SdkError | OperationTimeoutError
+    Cause.TimeoutError | SdkError | OperationTimeoutError
   >;
 
   /**
@@ -2827,7 +2867,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetCrawlersCommandOutput,
-    Cause.TimeoutException | SdkError | OperationTimeoutError
+    Cause.TimeoutError | SdkError | OperationTimeoutError
   >;
 
   /**
@@ -2838,7 +2878,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetCustomEntityTypeCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityNotFoundError
@@ -2855,7 +2895,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDataCatalogEncryptionSettingsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
+    Cause.TimeoutError | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
   >;
 
   /**
@@ -2866,7 +2906,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDataQualityModelCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
@@ -2882,7 +2922,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDataQualityModelResultCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
@@ -2898,7 +2938,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDataQualityResultCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
@@ -2914,7 +2954,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDataQualityRuleRecommendationRunCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
@@ -2930,7 +2970,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDataQualityRulesetCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
@@ -2946,7 +2986,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDataQualityRulesetEvaluationRunCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
@@ -2962,7 +3002,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDatabaseCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | FederationSourceError
@@ -2981,7 +3021,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDatabasesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | FederationSourceError
@@ -3000,7 +3040,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDataflowGraphCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
+    Cause.TimeoutError | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
   >;
 
   /**
@@ -3011,7 +3051,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDevEndpointCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
@@ -3027,7 +3067,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDevEndpointsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
@@ -3043,7 +3083,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetEntityRecordsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityNotFoundError
@@ -3062,7 +3102,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetGlueIdentityCenterConfigurationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConcurrentModificationError
@@ -3080,7 +3120,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetIntegrationResourcePropertyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityNotFoundError
@@ -3099,7 +3139,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetIntegrationTablePropertiesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityNotFoundError
@@ -3118,7 +3158,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetJobCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
@@ -3134,7 +3174,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetJobBookmarkCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
@@ -3151,7 +3191,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetJobRunCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
@@ -3167,7 +3207,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetJobRunsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
@@ -3183,7 +3223,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetJobsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
@@ -3199,7 +3239,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetMLTaskRunCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
@@ -3215,7 +3255,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetMLTaskRunsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
@@ -3231,7 +3271,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetMLTransformCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
@@ -3247,7 +3287,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetMLTransformsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
@@ -3263,12 +3303,23 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetMappingCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
     | InvalidInputError
     | OperationTimeoutError
+  >;
+
+  /**
+   * @see {@link GetMaterializedViewRefreshTaskRunCommand}
+   */
+  getMaterializedViewRefreshTaskRun(
+    args: GetMaterializedViewRefreshTaskRunCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetMaterializedViewRefreshTaskRunCommandOutput,
+    Cause.TimeoutError | SdkError | AccessDeniedError | EntityNotFoundError | InvalidInputError | OperationTimeoutError
   >;
 
   /**
@@ -3279,7 +3330,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPartitionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | FederationSourceError
@@ -3298,7 +3349,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPartitionIndexesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConflictError
     | EntityNotFoundError
@@ -3315,7 +3366,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPartitionsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | FederationSourceError
@@ -3336,7 +3387,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPlanCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
+    Cause.TimeoutError | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
   >;
 
   /**
@@ -3347,12 +3398,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetRegistryCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | AccessDeniedError
-    | EntityNotFoundError
-    | InternalServiceError
-    | InvalidInputError
+    Cause.TimeoutError | SdkError | AccessDeniedError | EntityNotFoundError | InternalServiceError | InvalidInputError
   >;
 
   /**
@@ -3363,7 +3409,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetResourcePoliciesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | GlueEncryptionError
     | InternalServiceError
@@ -3379,7 +3425,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetResourcePolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
@@ -3395,12 +3441,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetSchemaCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | AccessDeniedError
-    | EntityNotFoundError
-    | InternalServiceError
-    | InvalidInputError
+    Cause.TimeoutError | SdkError | AccessDeniedError | EntityNotFoundError | InternalServiceError | InvalidInputError
   >;
 
   /**
@@ -3411,12 +3452,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetSchemaByDefinitionCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | AccessDeniedError
-    | EntityNotFoundError
-    | InternalServiceError
-    | InvalidInputError
+    Cause.TimeoutError | SdkError | AccessDeniedError | EntityNotFoundError | InternalServiceError | InvalidInputError
   >;
 
   /**
@@ -3427,12 +3463,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetSchemaVersionCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | AccessDeniedError
-    | EntityNotFoundError
-    | InternalServiceError
-    | InvalidInputError
+    Cause.TimeoutError | SdkError | AccessDeniedError | EntityNotFoundError | InternalServiceError | InvalidInputError
   >;
 
   /**
@@ -3443,12 +3474,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetSchemaVersionsDiffCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | AccessDeniedError
-    | EntityNotFoundError
-    | InternalServiceError
-    | InvalidInputError
+    Cause.TimeoutError | SdkError | AccessDeniedError | EntityNotFoundError | InternalServiceError | InvalidInputError
   >;
 
   /**
@@ -3459,7 +3485,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetSecurityConfigurationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
@@ -3475,7 +3501,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetSecurityConfigurationsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
@@ -3491,7 +3517,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetSessionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityNotFoundError
@@ -3508,7 +3534,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetStatementCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityNotFoundError
@@ -3526,7 +3552,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetTableCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | FederationSourceError
@@ -3546,7 +3572,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetTableOptimizerCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityNotFoundError
@@ -3563,7 +3589,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetTableVersionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | GlueEncryptionError
@@ -3580,7 +3606,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetTableVersionsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | GlueEncryptionError
@@ -3597,7 +3623,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetTablesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | FederationSourceError
@@ -3616,7 +3642,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetTagsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
@@ -3632,7 +3658,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetTriggerCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
@@ -3648,7 +3674,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetTriggersCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
@@ -3664,7 +3690,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetUnfilteredPartitionMetadataCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | FederationSourceError
@@ -3684,7 +3710,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetUnfilteredPartitionsMetadataCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | FederationSourceError
@@ -3704,7 +3730,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetUnfilteredTableMetadataCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | FederationSourceError
@@ -3724,7 +3750,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetUsageProfileCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
@@ -3741,7 +3767,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetUserDefinedFunctionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | GlueEncryptionError
@@ -3758,7 +3784,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetUserDefinedFunctionsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | GlueEncryptionError
@@ -3775,7 +3801,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetWorkflowCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
@@ -3791,7 +3817,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetWorkflowRunCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
@@ -3807,7 +3833,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetWorkflowRunPropertiesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
@@ -3823,7 +3849,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetWorkflowRunsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
@@ -3839,7 +3865,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ImportCatalogToGlueCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServiceError | OperationTimeoutError
+    Cause.TimeoutError | SdkError | InternalServiceError | OperationTimeoutError
   >;
 
   /**
@@ -3850,7 +3876,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListBlueprintsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
+    Cause.TimeoutError | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
   >;
 
   /**
@@ -3861,7 +3887,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListColumnStatisticsTaskRunsCommandOutput,
-    Cause.TimeoutException | SdkError | OperationTimeoutError
+    Cause.TimeoutError | SdkError | OperationTimeoutError
   >;
 
   /**
@@ -3872,7 +3898,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListConnectionTypesCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServiceError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServiceError
   >;
 
   /**
@@ -3883,7 +3909,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListCrawlersCommandOutput,
-    Cause.TimeoutException | SdkError | OperationTimeoutError
+    Cause.TimeoutError | SdkError | OperationTimeoutError
   >;
 
   /**
@@ -3894,7 +3920,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListCrawlsCommandOutput,
-    Cause.TimeoutException | SdkError | EntityNotFoundError | InvalidInputError | OperationTimeoutError
+    Cause.TimeoutError | SdkError | EntityNotFoundError | InvalidInputError | OperationTimeoutError
   >;
 
   /**
@@ -3905,7 +3931,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListCustomEntityTypesCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
+    Cause.TimeoutError | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
   >;
 
   /**
@@ -3916,7 +3942,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDataQualityResultsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
+    Cause.TimeoutError | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
   >;
 
   /**
@@ -3927,7 +3953,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDataQualityRuleRecommendationRunsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
+    Cause.TimeoutError | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
   >;
 
   /**
@@ -3938,7 +3964,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDataQualityRulesetEvaluationRunsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
+    Cause.TimeoutError | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
   >;
 
   /**
@@ -3949,7 +3975,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDataQualityRulesetsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
@@ -3965,7 +3991,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDataQualityStatisticAnnotationsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServiceError | InvalidInputError
+    Cause.TimeoutError | SdkError | InternalServiceError | InvalidInputError
   >;
 
   /**
@@ -3976,7 +4002,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDataQualityStatisticsCommandOutput,
-    Cause.TimeoutException | SdkError | EntityNotFoundError | InternalServiceError | InvalidInputError
+    Cause.TimeoutError | SdkError | EntityNotFoundError | InternalServiceError | InvalidInputError
   >;
 
   /**
@@ -3987,7 +4013,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDevEndpointsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
@@ -4003,7 +4029,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListEntitiesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityNotFoundError
@@ -4022,7 +4048,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListIntegrationResourcePropertiesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityNotFoundError
@@ -4041,7 +4067,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListJobsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
@@ -4057,12 +4083,23 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListMLTransformsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
     | InvalidInputError
     | OperationTimeoutError
+  >;
+
+  /**
+   * @see {@link ListMaterializedViewRefreshTaskRunsCommand}
+   */
+  listMaterializedViewRefreshTaskRuns(
+    args: ListMaterializedViewRefreshTaskRunsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListMaterializedViewRefreshTaskRunsCommandOutput,
+    Cause.TimeoutError | SdkError | AccessDeniedError | InvalidInputError | OperationTimeoutError
   >;
 
   /**
@@ -4073,7 +4110,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListRegistriesCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServiceError | InvalidInputError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServiceError | InvalidInputError
   >;
 
   /**
@@ -4084,12 +4121,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListSchemaVersionsCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | AccessDeniedError
-    | EntityNotFoundError
-    | InternalServiceError
-    | InvalidInputError
+    Cause.TimeoutError | SdkError | AccessDeniedError | EntityNotFoundError | InternalServiceError | InvalidInputError
   >;
 
   /**
@@ -4100,12 +4132,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListSchemasCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | AccessDeniedError
-    | EntityNotFoundError
-    | InternalServiceError
-    | InvalidInputError
+    Cause.TimeoutError | SdkError | AccessDeniedError | EntityNotFoundError | InternalServiceError | InvalidInputError
   >;
 
   /**
@@ -4116,12 +4143,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListSessionsCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | AccessDeniedError
-    | InternalServiceError
-    | InvalidInputError
-    | OperationTimeoutError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServiceError | InvalidInputError | OperationTimeoutError
   >;
 
   /**
@@ -4132,7 +4154,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListStatementsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityNotFoundError
@@ -4150,7 +4172,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTableOptimizerRunsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityNotFoundError
@@ -4168,7 +4190,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTriggersCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
@@ -4184,7 +4206,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListUsageProfilesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalServiceError
     | InvalidInputError
@@ -4200,7 +4222,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListWorkflowsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
+    Cause.TimeoutError | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
   >;
 
   /**
@@ -4211,7 +4233,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyIntegrationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -4234,7 +4256,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutDataCatalogEncryptionSettingsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
+    Cause.TimeoutError | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
   >;
 
   /**
@@ -4245,7 +4267,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutDataQualityProfileAnnotationCommandOutput,
-    Cause.TimeoutException | SdkError | EntityNotFoundError | InternalServiceError | InvalidInputError
+    Cause.TimeoutError | SdkError | EntityNotFoundError | InternalServiceError | InvalidInputError
   >;
 
   /**
@@ -4256,7 +4278,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutResourcePolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConditionCheckFailureError
     | EntityNotFoundError
@@ -4273,7 +4295,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutSchemaVersionMetadataCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AlreadyExistsError
@@ -4290,7 +4312,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutWorkflowRunPropertiesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AlreadyExistsError
     | ConcurrentModificationError
@@ -4309,7 +4331,25 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     QuerySchemaVersionMetadataCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | EntityNotFoundError | InvalidInputError
+    Cause.TimeoutError | SdkError | AccessDeniedError | EntityNotFoundError | InvalidInputError
+  >;
+
+  /**
+   * @see {@link RegisterConnectionTypeCommand}
+   */
+  registerConnectionType(
+    args: RegisterConnectionTypeCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    RegisterConnectionTypeCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | InternalServiceError
+    | InvalidInputError
+    | OperationTimeoutError
+    | ResourceNumberLimitExceededError
+    | ValidationError
   >;
 
   /**
@@ -4320,7 +4360,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RegisterSchemaVersionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConcurrentModificationError
@@ -4338,7 +4378,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RemoveSchemaVersionMetadataCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | EntityNotFoundError | InvalidInputError
+    Cause.TimeoutError | SdkError | AccessDeniedError | EntityNotFoundError | InvalidInputError
   >;
 
   /**
@@ -4349,7 +4389,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ResetJobBookmarkCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
@@ -4365,7 +4405,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ResumeWorkflowRunCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentRunsExceededError
     | EntityNotFoundError
@@ -4383,7 +4423,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RunStatementCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityNotFoundError
@@ -4403,7 +4443,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SearchTablesCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
+    Cause.TimeoutError | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
   >;
 
   /**
@@ -4414,7 +4454,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartBlueprintRunCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | IllegalBlueprintStateError
@@ -4432,7 +4472,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartColumnStatisticsTaskRunCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ColumnStatisticsTaskRunningError
@@ -4450,12 +4490,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartColumnStatisticsTaskRunScheduleCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | AccessDeniedError
-    | EntityNotFoundError
-    | InvalidInputError
-    | OperationTimeoutError
+    Cause.TimeoutError | SdkError | AccessDeniedError | EntityNotFoundError | InvalidInputError | OperationTimeoutError
   >;
 
   /**
@@ -4466,7 +4501,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartCrawlerCommandOutput,
-    Cause.TimeoutException | SdkError | CrawlerRunningError | EntityNotFoundError | OperationTimeoutError
+    Cause.TimeoutError | SdkError | CrawlerRunningError | EntityNotFoundError | OperationTimeoutError
   >;
 
   /**
@@ -4477,7 +4512,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartCrawlerScheduleCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | NoScheduleError
@@ -4494,7 +4529,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartDataQualityRuleRecommendationRunCommandOutput,
-    Cause.TimeoutException | SdkError | ConflictError | InternalServiceError | InvalidInputError | OperationTimeoutError
+    Cause.TimeoutError | SdkError | ConflictError | InternalServiceError | InvalidInputError | OperationTimeoutError
   >;
 
   /**
@@ -4505,7 +4540,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartDataQualityRulesetEvaluationRunCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConflictError
     | EntityNotFoundError
@@ -4522,7 +4557,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartExportLabelsTaskRunCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
@@ -4538,7 +4573,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartImportLabelsTaskRunCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
@@ -4555,7 +4590,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartJobRunCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentRunsExceededError
     | EntityNotFoundError
@@ -4573,7 +4608,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartMLEvaluationTaskRunCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentRunsExceededError
     | EntityNotFoundError
@@ -4591,13 +4626,31 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartMLLabelingSetGenerationTaskRunCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentRunsExceededError
     | EntityNotFoundError
     | InternalServiceError
     | InvalidInputError
     | OperationTimeoutError
+  >;
+
+  /**
+   * @see {@link StartMaterializedViewRefreshTaskRunCommand}
+   */
+  startMaterializedViewRefreshTaskRun(
+    args: StartMaterializedViewRefreshTaskRunCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    StartMaterializedViewRefreshTaskRunCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | EntityNotFoundError
+    | InvalidInputError
+    | MaterializedViewRefreshTaskRunningError
+    | OperationTimeoutError
+    | ResourceNumberLimitExceededError
   >;
 
   /**
@@ -4608,7 +4661,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartTriggerCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentRunsExceededError
     | EntityNotFoundError
@@ -4626,7 +4679,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartWorkflowRunCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentRunsExceededError
     | EntityNotFoundError
@@ -4644,7 +4697,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StopColumnStatisticsTaskRunCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ColumnStatisticsTaskNotRunningError
     | ColumnStatisticsTaskStoppingError
@@ -4660,7 +4713,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StopColumnStatisticsTaskRunScheduleCommandOutput,
-    Cause.TimeoutException | SdkError | EntityNotFoundError | InvalidInputError | OperationTimeoutError
+    Cause.TimeoutError | SdkError | EntityNotFoundError | InvalidInputError | OperationTimeoutError
   >;
 
   /**
@@ -4671,7 +4724,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StopCrawlerCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | CrawlerNotRunningError
     | CrawlerStoppingError
@@ -4687,12 +4740,29 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StopCrawlerScheduleCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | OperationTimeoutError
     | SchedulerNotRunningError
     | SchedulerTransitioningError
+  >;
+
+  /**
+   * @see {@link StopMaterializedViewRefreshTaskRunCommand}
+   */
+  stopMaterializedViewRefreshTaskRun(
+    args: StopMaterializedViewRefreshTaskRunCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    StopMaterializedViewRefreshTaskRunCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | InvalidInputError
+    | MaterializedViewRefreshTaskNotRunningError
+    | MaterializedViewRefreshTaskStoppingError
+    | OperationTimeoutError
   >;
 
   /**
@@ -4703,7 +4773,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StopSessionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConcurrentModificationError
@@ -4721,7 +4791,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StopTriggerCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentModificationError
     | EntityNotFoundError
@@ -4738,7 +4808,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StopWorkflowRunCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | IllegalWorkflowStateError
@@ -4755,7 +4825,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagResourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
@@ -4771,7 +4841,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TestConnectionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -4792,7 +4862,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
@@ -4808,7 +4878,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateBlueprintCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentModificationError
     | EntityNotFoundError
@@ -4826,7 +4896,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateCatalogCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConcurrentModificationError
@@ -4846,7 +4916,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateClassifierCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InvalidInputError
@@ -4862,7 +4932,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateColumnStatisticsForPartitionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | GlueEncryptionError
@@ -4879,7 +4949,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateColumnStatisticsForTableCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | GlueEncryptionError
@@ -4896,7 +4966,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateColumnStatisticsTaskSettingsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityNotFoundError
@@ -4913,7 +4983,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateConnectionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | GlueEncryptionError
@@ -4929,7 +4999,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateCrawlerCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | CrawlerRunningError
     | EntityNotFoundError
@@ -4946,7 +5016,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateCrawlerScheduleCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InvalidInputError
@@ -4963,7 +5033,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateDataQualityRulesetCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AlreadyExistsError
     | EntityNotFoundError
@@ -4982,7 +5052,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateDatabaseCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AlreadyExistsError
     | ConcurrentModificationError
@@ -5003,7 +5073,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateDevEndpointCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InternalServiceError
@@ -5020,7 +5090,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateGlueIdentityCenterConfigurationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConcurrentModificationError
@@ -5038,7 +5108,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateIntegrationResourcePropertyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityNotFoundError
@@ -5057,7 +5127,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateIntegrationTablePropertiesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityNotFoundError
@@ -5076,7 +5146,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateJobCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentModificationError
     | EntityNotFoundError
@@ -5093,7 +5163,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateJobFromSourceControlCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AlreadyExistsError
@@ -5112,7 +5182,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateMLTransformCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityNotFoundError
@@ -5129,7 +5199,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdatePartitionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | GlueEncryptionError
@@ -5146,7 +5216,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateRegistryCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConcurrentModificationError
@@ -5163,7 +5233,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateSchemaCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConcurrentModificationError
@@ -5180,7 +5250,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateSourceControlFromJobCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AlreadyExistsError
@@ -5199,7 +5269,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateTableCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AlreadyExistsError
     | ConcurrentModificationError
@@ -5222,7 +5292,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateTableOptimizerCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConcurrentModificationError
@@ -5241,7 +5311,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateTriggerCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentModificationError
     | EntityNotFoundError
@@ -5258,7 +5328,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateUsageProfileCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentModificationError
     | EntityNotFoundError
@@ -5276,7 +5346,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateUserDefinedFunctionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | GlueEncryptionError
@@ -5293,7 +5363,7 @@ interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateWorkflowCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentModificationError
     | EntityNotFoundError
@@ -5324,10 +5394,10 @@ export const makeGlueService = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class GlueService extends Effect.Tag("@effect-aws/client-glue/GlueService")<
+export class GlueService extends ServiceMap.Service<
   GlueService,
   GlueService$
->() {
+>()("@effect-aws/client-glue/GlueService") {
   static readonly defaultLayer = Layer.effect(this, makeGlueService).pipe(Layer.provide(Instance.layer));
   static readonly layer = (config: GlueService.Config) =>
     Layer.effect(this, makeGlueService).pipe(

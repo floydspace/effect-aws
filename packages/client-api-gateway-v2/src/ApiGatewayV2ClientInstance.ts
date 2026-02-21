@@ -2,16 +2,16 @@
  * @since 1.0.0
  */
 import { ApiGatewayV2Client } from "@aws-sdk/client-apigatewayv2";
-import { Context, Effect, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import * as ApiGatewayV2ServiceConfig from "./ApiGatewayV2ServiceConfig.js";
 
 /**
  * @since 1.0.0
  * @category tags
  */
-export class ApiGatewayV2ClientInstance extends Context.Tag(
+export class ApiGatewayV2ClientInstance extends ServiceMap.Service<ApiGatewayV2ClientInstance, ApiGatewayV2Client>()(
   "@effect-aws/client-api-gateway-v2/ApiGatewayV2ClientInstance",
-)<ApiGatewayV2ClientInstance, ApiGatewayV2Client>() {}
+) {}
 
 /**
  * @since 1.0.0
@@ -30,4 +30,4 @@ export const make = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const layer = Layer.scoped(ApiGatewayV2ClientInstance, make);
+export const layer = Layer.effect(ApiGatewayV2ClientInstance, make);

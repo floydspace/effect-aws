@@ -3,18 +3,17 @@
  */
 import type { SchedulerClientConfig } from "@aws-sdk/client-scheduler";
 import { ServiceLogger } from "@effect-aws/commons";
-import { Effect, FiberRef, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import { dual } from "effect/Function";
-import { globalValue } from "effect/GlobalValue";
 import type { SchedulerService } from "./SchedulerService.js";
 
 /**
  * @since 1.0.0
  * @category scheduler service config
  */
-const currentSchedulerServiceConfig = globalValue(
+const currentSchedulerServiceConfig = ServiceMap.Reference<SchedulerService.Config>(
   "@effect-aws/client-scheduler/currentSchedulerServiceConfig",
-  () => FiberRef.unsafeMake<SchedulerService.Config>({}),
+  { defaultValue: () => ({}) },
 );
 
 /**
@@ -27,7 +26,7 @@ export const withSchedulerServiceConfig: {
 } = dual(
   2,
   <A, E, R>(effect: Effect.Effect<A, E, R>, config: SchedulerService.Config): Effect.Effect<A, E, R> =>
-    Effect.locally(effect, currentSchedulerServiceConfig, config),
+    Effect.provideService(effect, currentSchedulerServiceConfig, config),
 );
 
 /**
@@ -35,14 +34,14 @@ export const withSchedulerServiceConfig: {
  * @category scheduler service config
  */
 export const setSchedulerServiceConfig = (config: SchedulerService.Config) =>
-  Layer.locallyScoped(currentSchedulerServiceConfig, config);
+  Layer.succeed(currentSchedulerServiceConfig, config);
 
 /**
  * @since 1.0.0
  * @category adapters
  */
 export const toSchedulerClientConfig: Effect.Effect<SchedulerClientConfig> = Effect.gen(function*() {
-  const { logger: serviceLogger, ...config } = yield* FiberRef.get(currentSchedulerServiceConfig);
+  const { logger: serviceLogger, ...config } = yield* currentSchedulerServiceConfig;
 
   const logger = serviceLogger === true
     ? yield* ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger)

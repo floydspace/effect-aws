@@ -16,7 +16,7 @@ With default APIGatewayClient instance:
 ```typescript
 import { APIGateway } from "@effect-aws/client-api-gateway";
 
-const program = APIGateway.getApiKey(args);
+const program = APIGateway.use((svc) => svc.getApiKey(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom APIGatewayClient instance:
 ```typescript
 import { APIGateway } from "@effect-aws/client-api-gateway";
 
-const program = APIGateway.getApiKey(args);
+const program = APIGateway.use((svc) => svc.getApiKey(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom APIGatewayClient configuration:
 ```typescript
 import { APIGateway } from "@effect-aws/client-api-gateway";
 
-const program = APIGateway.getApiKey(args);
+const program = APIGateway.use((svc) => svc.getApiKey(args));
 
 const result = await pipe(
   program,

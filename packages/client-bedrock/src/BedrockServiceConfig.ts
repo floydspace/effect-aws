@@ -3,18 +3,17 @@
  */
 import type { BedrockClientConfig } from "@aws-sdk/client-bedrock";
 import { ServiceLogger } from "@effect-aws/commons";
-import { Effect, FiberRef, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import { dual } from "effect/Function";
-import { globalValue } from "effect/GlobalValue";
 import type { BedrockService } from "./BedrockService.js";
 
 /**
  * @since 1.0.0
  * @category bedrock service config
  */
-const currentBedrockServiceConfig = globalValue(
+const currentBedrockServiceConfig = ServiceMap.Reference<BedrockService.Config>(
   "@effect-aws/client-bedrock/currentBedrockServiceConfig",
-  () => FiberRef.unsafeMake<BedrockService.Config>({}),
+  { defaultValue: () => ({}) },
 );
 
 /**
@@ -27,7 +26,7 @@ export const withBedrockServiceConfig: {
 } = dual(
   2,
   <A, E, R>(effect: Effect.Effect<A, E, R>, config: BedrockService.Config): Effect.Effect<A, E, R> =>
-    Effect.locally(effect, currentBedrockServiceConfig, config),
+    Effect.provideService(effect, currentBedrockServiceConfig, config),
 );
 
 /**
@@ -35,14 +34,14 @@ export const withBedrockServiceConfig: {
  * @category bedrock service config
  */
 export const setBedrockServiceConfig = (config: BedrockService.Config) =>
-  Layer.locallyScoped(currentBedrockServiceConfig, config);
+  Layer.succeed(currentBedrockServiceConfig, config);
 
 /**
  * @since 1.0.0
  * @category adapters
  */
 export const toBedrockClientConfig: Effect.Effect<BedrockClientConfig> = Effect.gen(function*() {
-  const { logger: serviceLogger, ...config } = yield* FiberRef.get(currentBedrockServiceConfig);
+  const { logger: serviceLogger, ...config } = yield* currentBedrockServiceConfig;
 
   const logger = serviceLogger === true
     ? yield* ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger)

@@ -1,4 +1,4 @@
-import { makeLambda } from "@effect-aws/lambda";
+import { LambdaHandler } from "@effect-aws/lambda";
 import { Tracer } from "@effect-aws/powertools-tracer";
 import type { APIGatewayProxyEventV2, APIGatewayProxyHandlerV2 } from "aws-lambda";
 import { Effect, flow } from "effect";
@@ -40,7 +40,7 @@ export const program = (event: APIGatewayProxyEventV2) =>
       yield* Effect.fail(new BadInputError());
     }
     if (event.queryStringParameters?.fatal === "true") {
-      yield* Effect.dieMessage("Fatal error");
+      yield* Effect.die("Fatal error");
     }
 
     return {
@@ -53,7 +53,7 @@ class BadInputError {
   readonly _tag = "BadInputError";
 }
 
-export const handler: APIGatewayProxyHandlerV2 = makeLambda({
+export const handler: APIGatewayProxyHandlerV2 = LambdaHandler.make({
   handler: flow(
     program,
     Effect.catchTags({
@@ -63,7 +63,7 @@ export const handler: APIGatewayProxyHandlerV2 = makeLambda({
           body: JSON.stringify({ message: "Bad input" }),
         }),
     }),
-    Effect.catchAllDefect((defect) =>
+    Effect.catchDefect((defect) =>
       Effect.succeed({
         statusCode: 500,
         body: JSON.stringify({ message: `An error occurred: ${defect}` }),

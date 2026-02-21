@@ -16,7 +16,7 @@ With default CodeDeployClient instance:
 ```typescript
 import { CodeDeploy } from "@effect-aws/client-codedeploy";
 
-const program = CodeDeploy.listApplications(args);
+const program = CodeDeploy.use((svc) => svc.listApplications(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom CodeDeployClient instance:
 ```typescript
 import { CodeDeploy } from "@effect-aws/client-codedeploy";
 
-const program = CodeDeploy.listApplications(args);
+const program = CodeDeploy.use((svc) => svc.listApplications(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom CodeDeployClient configuration:
 ```typescript
 import { CodeDeploy } from "@effect-aws/client-codedeploy";
 
-const program = CodeDeploy.listApplications(args);
+const program = CodeDeploy.use((svc) => svc.listApplications(args));
 
 const result = await pipe(
   program,

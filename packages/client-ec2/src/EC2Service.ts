@@ -368,6 +368,12 @@ import {
   CreateRouteTableCommand,
   type CreateRouteTableCommandInput,
   type CreateRouteTableCommandOutput,
+  CreateSecondaryNetworkCommand,
+  type CreateSecondaryNetworkCommandInput,
+  type CreateSecondaryNetworkCommandOutput,
+  CreateSecondarySubnetCommand,
+  type CreateSecondarySubnetCommandInput,
+  type CreateSecondarySubnetCommandOutput,
   CreateSecurityGroupCommand,
   type CreateSecurityGroupCommandInput,
   type CreateSecurityGroupCommandOutput,
@@ -644,6 +650,12 @@ import {
   DeleteRouteTableCommand,
   type DeleteRouteTableCommandInput,
   type DeleteRouteTableCommandOutput,
+  DeleteSecondaryNetworkCommand,
+  type DeleteSecondaryNetworkCommandInput,
+  type DeleteSecondaryNetworkCommandOutput,
+  DeleteSecondarySubnetCommand,
+  type DeleteSecondarySubnetCommandInput,
+  type DeleteSecondarySubnetCommandOutput,
   DeleteSecurityGroupCommand,
   type DeleteSecurityGroupCommandInput,
   type DeleteSecurityGroupCommandOutput,
@@ -1148,6 +1160,15 @@ import {
   DescribeScheduledInstancesCommand,
   type DescribeScheduledInstancesCommandInput,
   type DescribeScheduledInstancesCommandOutput,
+  DescribeSecondaryInterfacesCommand,
+  type DescribeSecondaryInterfacesCommandInput,
+  type DescribeSecondaryInterfacesCommandOutput,
+  DescribeSecondaryNetworksCommand,
+  type DescribeSecondaryNetworksCommandInput,
+  type DescribeSecondaryNetworksCommandOutput,
+  DescribeSecondarySubnetsCommand,
+  type DescribeSecondarySubnetsCommandInput,
+  type DescribeSecondarySubnetsCommandOutput,
   DescribeSecurityGroupReferencesCommand,
   type DescribeSecurityGroupReferencesCommandInput,
   type DescribeSecurityGroupReferencesCommandOutput,
@@ -2255,7 +2276,7 @@ import {
 import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
-import { Effect, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import * as Instance from "./EC2ClientInstance.js";
 import * as EC2ServiceConfig from "./EC2ServiceConfig.js";
 import type { EC2ServiceError, SdkError } from "./Errors.js";
@@ -2383,6 +2404,8 @@ const commands = {
   CreateRouteServerEndpointCommand,
   CreateRouteServerPeerCommand,
   CreateRouteTableCommand,
+  CreateSecondaryNetworkCommand,
+  CreateSecondarySubnetCommand,
   CreateSecurityGroupCommand,
   CreateSnapshotCommand,
   CreateSnapshotsCommand,
@@ -2475,6 +2498,8 @@ const commands = {
   DeleteRouteServerEndpointCommand,
   DeleteRouteServerPeerCommand,
   DeleteRouteTableCommand,
+  DeleteSecondaryNetworkCommand,
+  DeleteSecondarySubnetCommand,
   DeleteSecurityGroupCommand,
   DeleteSnapshotCommand,
   DeleteSpotDatafeedSubscriptionCommand,
@@ -2643,6 +2668,9 @@ const commands = {
   DescribeRouteTablesCommand,
   DescribeScheduledInstanceAvailabilityCommand,
   DescribeScheduledInstancesCommand,
+  DescribeSecondaryInterfacesCommand,
+  DescribeSecondaryNetworksCommand,
+  DescribeSecondarySubnetsCommand,
   DescribeSecurityGroupReferencesCommand,
   DescribeSecurityGroupRulesCommand,
   DescribeSecurityGroupVpcAssociationsCommand,
@@ -3023,7 +3051,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AcceptAddressTransferCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3034,7 +3062,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AcceptCapacityReservationBillingOwnershipCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3045,7 +3073,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AcceptReservedInstancesExchangeQuoteCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3056,7 +3084,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AcceptTransitGatewayMulticastDomainAssociationsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3067,7 +3095,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AcceptTransitGatewayPeeringAttachmentCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3078,7 +3106,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AcceptTransitGatewayVpcAttachmentCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3089,7 +3117,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AcceptVpcEndpointConnectionsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3100,7 +3128,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AcceptVpcPeeringConnectionCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3111,7 +3139,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AdvertiseByoipCidrCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3122,7 +3150,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AllocateAddressCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3133,7 +3161,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AllocateHostsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3144,7 +3172,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AllocateIpamPoolCidrCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3155,7 +3183,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ApplySecurityGroupsToClientVpnTargetNetworkCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3166,7 +3194,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AssignIpv6AddressesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3177,7 +3205,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AssignPrivateIpAddressesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3188,7 +3216,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AssignPrivateNatGatewayAddressCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3199,7 +3227,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AssociateAddressCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3210,7 +3238,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AssociateCapacityReservationBillingOwnerCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3221,7 +3249,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AssociateClientVpnTargetNetworkCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3232,7 +3260,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AssociateDhcpOptionsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3243,7 +3271,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AssociateEnclaveCertificateIamRoleCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3254,7 +3282,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AssociateIamInstanceProfileCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3265,7 +3293,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AssociateInstanceEventWindowCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3276,7 +3304,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AssociateIpamByoasnCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3287,7 +3315,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AssociateIpamResourceDiscoveryCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3298,7 +3326,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AssociateNatGatewayAddressCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3309,7 +3337,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AssociateRouteServerCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3320,7 +3348,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AssociateRouteTableCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3331,7 +3359,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AssociateSecurityGroupVpcCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3342,7 +3370,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AssociateSubnetCidrBlockCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3353,7 +3381,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AssociateTransitGatewayMulticastDomainCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3364,7 +3392,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AssociateTransitGatewayPolicyTableCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3375,7 +3403,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AssociateTransitGatewayRouteTableCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3386,7 +3414,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AssociateTrunkInterfaceCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3397,7 +3425,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AssociateVpcCidrBlockCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3408,7 +3436,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AttachClassicLinkVpcCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3419,7 +3447,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AttachInternetGatewayCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3430,7 +3458,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AttachNetworkInterfaceCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3441,7 +3469,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AttachVerifiedAccessTrustProviderCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3452,7 +3480,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AttachVolumeCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3463,7 +3491,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AttachVpnGatewayCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3474,7 +3502,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AuthorizeClientVpnIngressCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3485,7 +3513,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AuthorizeSecurityGroupEgressCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3496,7 +3524,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AuthorizeSecurityGroupIngressCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3507,7 +3535,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BundleInstanceCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3518,7 +3546,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelBundleTaskCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3529,7 +3557,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelCapacityReservationCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3540,7 +3568,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelCapacityReservationFleetsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3551,7 +3579,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelConversionTaskCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3562,7 +3590,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelDeclarativePoliciesReportCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3573,7 +3601,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelExportTaskCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3584,7 +3612,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelImageLaunchPermissionCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3595,7 +3623,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelImportTaskCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3606,7 +3634,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelReservedInstancesListingCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3617,7 +3645,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelSpotFleetRequestsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3628,7 +3656,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelSpotInstanceRequestsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3639,7 +3667,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ConfirmProductInstanceCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3650,7 +3678,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CopyFpgaImageCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3661,7 +3689,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CopyImageCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3672,7 +3700,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CopySnapshotCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3683,7 +3711,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CopyVolumesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3694,7 +3722,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateCapacityManagerDataExportCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3705,7 +3733,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateCapacityReservationCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3716,7 +3744,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateCapacityReservationBySplittingCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3727,7 +3755,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateCapacityReservationFleetCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3738,7 +3766,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateCarrierGatewayCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3749,7 +3777,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateClientVpnEndpointCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3760,7 +3788,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateClientVpnRouteCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3771,7 +3799,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateCoipCidrCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3782,7 +3810,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateCoipPoolCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3793,7 +3821,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateCustomerGatewayCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3804,7 +3832,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateDefaultSubnetCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3815,7 +3843,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateDefaultVpcCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3826,7 +3854,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateDelegateMacVolumeOwnershipTaskCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3837,7 +3865,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateDhcpOptionsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3848,7 +3876,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateEgressOnlyInternetGatewayCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3859,7 +3887,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateFleetCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3870,7 +3898,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateFlowLogsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3881,7 +3909,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateFpgaImageCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3892,7 +3920,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateImageCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3903,7 +3931,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateImageUsageReportCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3914,7 +3942,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateInstanceConnectEndpointCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3925,7 +3953,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateInstanceEventWindowCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3936,7 +3964,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateInstanceExportTaskCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3947,7 +3975,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateInternetGatewayCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3958,7 +3986,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateInterruptibleCapacityReservationAllocationCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3969,7 +3997,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateIpamCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3980,7 +4008,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateIpamExternalResourceVerificationTokenCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -3991,7 +4019,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateIpamPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4002,7 +4030,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateIpamPoolCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4013,7 +4041,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateIpamPrefixListResolverCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4024,7 +4052,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateIpamPrefixListResolverTargetCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4035,7 +4063,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateIpamResourceDiscoveryCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4046,7 +4074,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateIpamScopeCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4057,7 +4085,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateKeyPairCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4068,7 +4096,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateLaunchTemplateCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4079,7 +4107,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateLaunchTemplateVersionCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4090,7 +4118,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateLocalGatewayRouteCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4101,7 +4129,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateLocalGatewayRouteTableCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4112,7 +4140,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4123,7 +4151,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateLocalGatewayRouteTableVpcAssociationCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4134,7 +4162,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateLocalGatewayVirtualInterfaceCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4145,7 +4173,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateLocalGatewayVirtualInterfaceGroupCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4156,7 +4184,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateMacSystemIntegrityProtectionModificationTaskCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4167,7 +4195,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateManagedPrefixListCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4178,7 +4206,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateNatGatewayCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4189,7 +4217,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateNetworkAclCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4200,7 +4228,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateNetworkAclEntryCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4211,7 +4239,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateNetworkInsightsAccessScopeCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4222,7 +4250,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateNetworkInsightsPathCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4233,7 +4261,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateNetworkInterfaceCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4244,7 +4272,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateNetworkInterfacePermissionCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4255,7 +4283,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreatePlacementGroupCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4266,7 +4294,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreatePublicIpv4PoolCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4277,7 +4305,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateReplaceRootVolumeTaskCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4288,7 +4316,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateReservedInstancesListingCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4299,7 +4327,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateRestoreImageTaskCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4310,7 +4338,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateRouteCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4321,7 +4349,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateRouteServerCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4332,7 +4360,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateRouteServerEndpointCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4343,7 +4371,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateRouteServerPeerCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4354,7 +4382,29 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateRouteTableCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link CreateSecondaryNetworkCommand}
+   */
+  createSecondaryNetwork(
+    args: CreateSecondaryNetworkCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateSecondaryNetworkCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link CreateSecondarySubnetCommand}
+   */
+  createSecondarySubnet(
+    args: CreateSecondarySubnetCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateSecondarySubnetCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4365,7 +4415,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateSecurityGroupCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4376,7 +4426,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateSnapshotCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4387,7 +4437,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateSnapshotsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4398,7 +4448,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateSpotDatafeedSubscriptionCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4409,7 +4459,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateStoreImageTaskCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4420,7 +4470,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateSubnetCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4431,7 +4481,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateSubnetCidrReservationCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4442,7 +4492,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateTagsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4453,7 +4503,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateTrafficMirrorFilterCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4464,7 +4514,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateTrafficMirrorFilterRuleCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4475,7 +4525,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateTrafficMirrorSessionCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4486,7 +4536,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateTrafficMirrorTargetCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4497,7 +4547,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateTransitGatewayCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4508,7 +4558,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateTransitGatewayConnectCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4519,7 +4569,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateTransitGatewayConnectPeerCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4530,7 +4580,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateTransitGatewayMeteringPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4541,7 +4591,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateTransitGatewayMeteringPolicyEntryCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4552,7 +4602,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateTransitGatewayMulticastDomainCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4563,7 +4613,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateTransitGatewayPeeringAttachmentCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4574,7 +4624,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateTransitGatewayPolicyTableCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4585,7 +4635,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateTransitGatewayPrefixListReferenceCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4596,7 +4646,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateTransitGatewayRouteCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4607,7 +4657,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateTransitGatewayRouteTableCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4618,7 +4668,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateTransitGatewayRouteTableAnnouncementCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4629,7 +4679,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateTransitGatewayVpcAttachmentCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4640,7 +4690,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateVerifiedAccessEndpointCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4651,7 +4701,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateVerifiedAccessGroupCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4662,7 +4712,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateVerifiedAccessInstanceCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4673,7 +4723,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateVerifiedAccessTrustProviderCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4684,7 +4734,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateVolumeCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4695,7 +4745,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateVpcCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4706,7 +4756,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateVpcBlockPublicAccessExclusionCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4717,7 +4767,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateVpcEncryptionControlCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4728,7 +4778,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateVpcEndpointCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4739,7 +4789,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateVpcEndpointConnectionNotificationCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4750,7 +4800,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateVpcEndpointServiceConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4761,7 +4811,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateVpcPeeringConnectionCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4772,7 +4822,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateVpnConcentratorCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4783,7 +4833,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateVpnConnectionCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4794,7 +4844,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateVpnConnectionRouteCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4805,7 +4855,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateVpnGatewayCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4816,7 +4866,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteCapacityManagerDataExportCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4827,7 +4877,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteCarrierGatewayCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4838,7 +4888,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteClientVpnEndpointCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4849,7 +4899,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteClientVpnRouteCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4860,7 +4910,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteCoipCidrCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4871,7 +4921,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteCoipPoolCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4882,7 +4932,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteCustomerGatewayCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4893,7 +4943,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDhcpOptionsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4904,7 +4954,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteEgressOnlyInternetGatewayCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4915,7 +4965,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteFleetsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4926,7 +4976,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteFlowLogsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4937,7 +4987,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteFpgaImageCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4948,7 +4998,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteImageUsageReportCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4959,7 +5009,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteInstanceConnectEndpointCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4970,7 +5020,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteInstanceEventWindowCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4981,7 +5031,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteInternetGatewayCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -4992,7 +5042,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteIpamCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5003,7 +5053,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteIpamExternalResourceVerificationTokenCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5014,7 +5064,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteIpamPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5025,7 +5075,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteIpamPoolCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5036,7 +5086,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteIpamPrefixListResolverCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5047,7 +5097,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteIpamPrefixListResolverTargetCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5058,7 +5108,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteIpamResourceDiscoveryCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5069,7 +5119,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteIpamScopeCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5080,7 +5130,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteKeyPairCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5091,7 +5141,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteLaunchTemplateCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5102,7 +5152,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteLaunchTemplateVersionsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5113,7 +5163,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteLocalGatewayRouteCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5124,7 +5174,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteLocalGatewayRouteTableCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5135,7 +5185,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5146,7 +5196,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteLocalGatewayRouteTableVpcAssociationCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5157,7 +5207,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteLocalGatewayVirtualInterfaceCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5168,7 +5218,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteLocalGatewayVirtualInterfaceGroupCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5179,7 +5229,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteManagedPrefixListCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5190,7 +5240,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteNatGatewayCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5201,7 +5251,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteNetworkAclCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5212,7 +5262,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteNetworkAclEntryCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5223,7 +5273,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteNetworkInsightsAccessScopeCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5234,7 +5284,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteNetworkInsightsAccessScopeAnalysisCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5245,7 +5295,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteNetworkInsightsAnalysisCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5256,7 +5306,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteNetworkInsightsPathCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5267,7 +5317,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteNetworkInterfaceCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5278,7 +5328,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteNetworkInterfacePermissionCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5289,7 +5339,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeletePlacementGroupCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5300,7 +5350,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeletePublicIpv4PoolCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5311,7 +5361,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteQueuedReservedInstancesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5322,7 +5372,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteRouteCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5333,7 +5383,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteRouteServerCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5344,7 +5394,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteRouteServerEndpointCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5355,7 +5405,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteRouteServerPeerCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5366,7 +5416,29 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteRouteTableCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link DeleteSecondaryNetworkCommand}
+   */
+  deleteSecondaryNetwork(
+    args: DeleteSecondaryNetworkCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteSecondaryNetworkCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link DeleteSecondarySubnetCommand}
+   */
+  deleteSecondarySubnet(
+    args: DeleteSecondarySubnetCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteSecondarySubnetCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5377,7 +5449,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteSecurityGroupCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5388,7 +5460,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteSnapshotCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5399,7 +5471,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteSpotDatafeedSubscriptionCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5410,7 +5482,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteSubnetCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5421,7 +5493,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteSubnetCidrReservationCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5432,7 +5504,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteTagsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5443,7 +5515,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteTrafficMirrorFilterCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5454,7 +5526,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteTrafficMirrorFilterRuleCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5465,7 +5537,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteTrafficMirrorSessionCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5476,7 +5548,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteTrafficMirrorTargetCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5487,7 +5559,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteTransitGatewayCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5498,7 +5570,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteTransitGatewayConnectCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5509,7 +5581,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteTransitGatewayConnectPeerCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5520,7 +5592,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteTransitGatewayMeteringPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5531,7 +5603,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteTransitGatewayMeteringPolicyEntryCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5542,7 +5614,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteTransitGatewayMulticastDomainCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5553,7 +5625,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteTransitGatewayPeeringAttachmentCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5564,7 +5636,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteTransitGatewayPolicyTableCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5575,7 +5647,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteTransitGatewayPrefixListReferenceCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5586,7 +5658,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteTransitGatewayRouteCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5597,7 +5669,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteTransitGatewayRouteTableCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5608,7 +5680,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteTransitGatewayRouteTableAnnouncementCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5619,7 +5691,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteTransitGatewayVpcAttachmentCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5630,7 +5702,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteVerifiedAccessEndpointCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5641,7 +5713,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteVerifiedAccessGroupCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5652,7 +5724,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteVerifiedAccessInstanceCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5663,7 +5735,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteVerifiedAccessTrustProviderCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5674,7 +5746,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteVolumeCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5685,7 +5757,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteVpcCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5696,7 +5768,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteVpcBlockPublicAccessExclusionCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5707,7 +5779,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteVpcEncryptionControlCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5718,7 +5790,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteVpcEndpointConnectionNotificationsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5729,7 +5801,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteVpcEndpointServiceConfigurationsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5740,7 +5812,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteVpcEndpointsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5751,7 +5823,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteVpcPeeringConnectionCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5762,7 +5834,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteVpnConcentratorCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5773,7 +5845,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteVpnConnectionCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5784,7 +5856,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteVpnConnectionRouteCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5795,7 +5867,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteVpnGatewayCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5806,7 +5878,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeprovisionByoipCidrCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5817,7 +5889,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeprovisionIpamByoasnCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5828,7 +5900,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeprovisionIpamPoolCidrCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5839,7 +5911,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeprovisionPublicIpv4PoolCidrCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5850,7 +5922,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeregisterImageCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5861,7 +5933,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeregisterInstanceEventNotificationAttributesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5872,7 +5944,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeregisterTransitGatewayMulticastGroupMembersCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5883,7 +5955,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeregisterTransitGatewayMulticastGroupSourcesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5894,7 +5966,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeAccountAttributesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5905,7 +5977,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeAddressTransfersCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5916,7 +5988,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeAddressesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5927,7 +5999,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeAddressesAttributeCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5938,7 +6010,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeAggregateIdFormatCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5949,7 +6021,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeAvailabilityZonesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5960,7 +6032,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeAwsNetworkPerformanceMetricSubscriptionsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5971,7 +6043,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeBundleTasksCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5982,7 +6054,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeByoipCidrsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -5993,7 +6065,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeCapacityBlockExtensionHistoryCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6004,7 +6076,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeCapacityBlockExtensionOfferingsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6015,7 +6087,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeCapacityBlockOfferingsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6026,7 +6098,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeCapacityBlockStatusCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6037,7 +6109,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeCapacityBlocksCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6048,7 +6120,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeCapacityManagerDataExportsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6059,7 +6131,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeCapacityReservationBillingRequestsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6070,7 +6142,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeCapacityReservationFleetsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6081,7 +6153,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeCapacityReservationTopologyCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6092,7 +6164,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeCapacityReservationsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6103,7 +6175,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeCarrierGatewaysCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6114,7 +6186,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeClassicLinkInstancesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6125,7 +6197,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeClientVpnAuthorizationRulesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6136,7 +6208,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeClientVpnConnectionsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6147,7 +6219,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeClientVpnEndpointsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6158,7 +6230,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeClientVpnRoutesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6169,7 +6241,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeClientVpnTargetNetworksCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6180,7 +6252,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeCoipPoolsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6191,7 +6263,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeConversionTasksCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6202,7 +6274,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeCustomerGatewaysCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6213,7 +6285,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeDeclarativePoliciesReportsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6224,7 +6296,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeDhcpOptionsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6235,7 +6307,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeEgressOnlyInternetGatewaysCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6246,7 +6318,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeElasticGpusCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6257,7 +6329,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeExportImageTasksCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6268,7 +6340,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeExportTasksCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6279,7 +6351,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeFastLaunchImagesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6290,7 +6362,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeFastSnapshotRestoresCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6301,7 +6373,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeFleetHistoryCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6312,7 +6384,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeFleetInstancesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6323,7 +6395,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeFleetsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6334,7 +6406,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeFlowLogsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6345,7 +6417,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeFpgaImageAttributeCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6356,7 +6428,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeFpgaImagesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6367,7 +6439,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeHostReservationOfferingsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6378,7 +6450,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeHostReservationsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6389,7 +6461,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeHostsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6400,7 +6472,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeIamInstanceProfileAssociationsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6411,7 +6483,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeIdFormatCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6422,7 +6494,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeIdentityIdFormatCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6433,7 +6505,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeImageAttributeCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6444,7 +6516,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeImageReferencesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6455,7 +6527,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeImageUsageReportEntriesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6466,7 +6538,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeImageUsageReportsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6477,7 +6549,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeImagesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6488,7 +6560,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeImportImageTasksCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6499,7 +6571,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeImportSnapshotTasksCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6510,7 +6582,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeInstanceAttributeCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6521,7 +6593,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeInstanceConnectEndpointsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6532,7 +6604,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeInstanceCreditSpecificationsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6543,7 +6615,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeInstanceEventNotificationAttributesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6554,7 +6626,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeInstanceEventWindowsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6565,7 +6637,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeInstanceImageMetadataCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6576,7 +6648,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeInstanceSqlHaHistoryStatesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6587,7 +6659,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeInstanceSqlHaStatesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6598,7 +6670,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeInstanceStatusCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6609,7 +6681,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeInstanceTopologyCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6620,7 +6692,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeInstanceTypeOfferingsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6631,7 +6703,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeInstanceTypesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6642,7 +6714,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeInstancesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6653,7 +6725,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeInternetGatewaysCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6664,7 +6736,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeIpamByoasnCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6675,7 +6747,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeIpamExternalResourceVerificationTokensCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6686,7 +6758,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeIpamPoliciesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6697,7 +6769,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeIpamPoolsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6708,7 +6780,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeIpamPrefixListResolverTargetsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6719,7 +6791,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeIpamPrefixListResolversCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6730,7 +6802,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeIpamResourceDiscoveriesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6741,7 +6813,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeIpamResourceDiscoveryAssociationsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6752,7 +6824,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeIpamScopesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6763,7 +6835,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeIpamsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6774,7 +6846,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeIpv6PoolsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6785,7 +6857,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeKeyPairsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6796,7 +6868,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeLaunchTemplateVersionsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6807,7 +6879,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeLaunchTemplatesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6818,7 +6890,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6829,7 +6901,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeLocalGatewayRouteTableVpcAssociationsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6840,7 +6912,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeLocalGatewayRouteTablesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6851,7 +6923,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeLocalGatewayVirtualInterfaceGroupsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6862,7 +6934,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeLocalGatewayVirtualInterfacesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6873,7 +6945,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeLocalGatewaysCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6884,7 +6956,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeLockedSnapshotsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6895,7 +6967,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeMacHostsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6906,7 +6978,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeMacModificationTasksCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6917,7 +6989,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeManagedPrefixListsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6928,7 +7000,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeMovingAddressesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6939,7 +7011,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeNatGatewaysCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6950,7 +7022,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeNetworkAclsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6961,7 +7033,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeNetworkInsightsAccessScopeAnalysesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6972,7 +7044,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeNetworkInsightsAccessScopesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6983,7 +7055,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeNetworkInsightsAnalysesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -6994,7 +7066,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeNetworkInsightsPathsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7005,7 +7077,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeNetworkInterfaceAttributeCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7016,7 +7088,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeNetworkInterfacePermissionsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7027,7 +7099,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeNetworkInterfacesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7038,7 +7110,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeOutpostLagsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7049,7 +7121,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribePlacementGroupsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7060,7 +7132,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribePrefixListsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7071,7 +7143,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribePrincipalIdFormatCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7082,7 +7154,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribePublicIpv4PoolsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7093,7 +7165,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeRegionsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7104,7 +7176,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeReplaceRootVolumeTasksCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7115,7 +7187,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeReservedInstancesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7126,7 +7198,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeReservedInstancesListingsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7137,7 +7209,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeReservedInstancesModificationsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7148,7 +7220,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeReservedInstancesOfferingsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7159,7 +7231,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeRouteServerEndpointsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7170,7 +7242,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeRouteServerPeersCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7181,7 +7253,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeRouteServersCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7192,7 +7264,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeRouteTablesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7203,7 +7275,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeScheduledInstanceAvailabilityCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7214,7 +7286,40 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeScheduledInstancesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link DescribeSecondaryInterfacesCommand}
+   */
+  describeSecondaryInterfaces(
+    args: DescribeSecondaryInterfacesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeSecondaryInterfacesCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link DescribeSecondaryNetworksCommand}
+   */
+  describeSecondaryNetworks(
+    args: DescribeSecondaryNetworksCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeSecondaryNetworksCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link DescribeSecondarySubnetsCommand}
+   */
+  describeSecondarySubnets(
+    args: DescribeSecondarySubnetsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeSecondarySubnetsCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7225,7 +7330,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeSecurityGroupReferencesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7236,7 +7341,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeSecurityGroupRulesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7247,7 +7352,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeSecurityGroupVpcAssociationsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7258,7 +7363,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeSecurityGroupsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7269,7 +7374,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeServiceLinkVirtualInterfacesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7280,7 +7385,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeSnapshotAttributeCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7291,7 +7396,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeSnapshotTierStatusCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7302,7 +7407,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeSnapshotsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7313,7 +7418,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeSpotDatafeedSubscriptionCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7324,7 +7429,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeSpotFleetInstancesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7335,7 +7440,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeSpotFleetRequestHistoryCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7346,7 +7451,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeSpotFleetRequestsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7357,7 +7462,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeSpotInstanceRequestsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7368,7 +7473,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeSpotPriceHistoryCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7379,7 +7484,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeStaleSecurityGroupsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7390,7 +7495,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeStoreImageTasksCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7401,7 +7506,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeSubnetsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7412,7 +7517,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeTagsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7423,7 +7528,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeTrafficMirrorFilterRulesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7434,7 +7539,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeTrafficMirrorFiltersCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7445,7 +7550,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeTrafficMirrorSessionsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7456,7 +7561,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeTrafficMirrorTargetsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7467,7 +7572,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeTransitGatewayAttachmentsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7478,7 +7583,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeTransitGatewayConnectPeersCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7489,7 +7594,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeTransitGatewayConnectsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7500,7 +7605,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeTransitGatewayMeteringPoliciesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7511,7 +7616,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeTransitGatewayMulticastDomainsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7522,7 +7627,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeTransitGatewayPeeringAttachmentsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7533,7 +7638,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeTransitGatewayPolicyTablesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7544,7 +7649,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeTransitGatewayRouteTableAnnouncementsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7555,7 +7660,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeTransitGatewayRouteTablesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7566,7 +7671,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeTransitGatewayVpcAttachmentsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7577,7 +7682,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeTransitGatewaysCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7588,7 +7693,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeTrunkInterfaceAssociationsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7599,7 +7704,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeVerifiedAccessEndpointsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7610,7 +7715,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeVerifiedAccessGroupsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7621,7 +7726,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeVerifiedAccessInstanceLoggingConfigurationsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7632,7 +7737,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeVerifiedAccessInstancesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7643,7 +7748,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeVerifiedAccessTrustProvidersCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7654,7 +7759,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeVolumeAttributeCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7665,7 +7770,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeVolumeStatusCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7676,7 +7781,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeVolumesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7687,7 +7792,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeVolumesModificationsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7698,7 +7803,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeVpcAttributeCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7709,7 +7814,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeVpcBlockPublicAccessExclusionsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7720,7 +7825,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeVpcBlockPublicAccessOptionsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7731,7 +7836,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeVpcClassicLinkCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7742,7 +7847,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeVpcClassicLinkDnsSupportCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7753,7 +7858,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeVpcEncryptionControlsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7764,7 +7869,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeVpcEndpointAssociationsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7775,7 +7880,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeVpcEndpointConnectionNotificationsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7786,7 +7891,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeVpcEndpointConnectionsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7797,7 +7902,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeVpcEndpointServiceConfigurationsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7808,7 +7913,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeVpcEndpointServicePermissionsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7819,7 +7924,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeVpcEndpointServicesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7830,7 +7935,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeVpcEndpointsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7841,7 +7946,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeVpcPeeringConnectionsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7852,7 +7957,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeVpcsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7863,7 +7968,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeVpnConcentratorsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7874,7 +7979,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeVpnConnectionsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7885,7 +7990,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeVpnGatewaysCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7896,7 +8001,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DetachClassicLinkVpcCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7907,7 +8012,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DetachInternetGatewayCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7918,7 +8023,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DetachNetworkInterfaceCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7929,7 +8034,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DetachVerifiedAccessTrustProviderCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7940,7 +8045,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DetachVolumeCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7951,7 +8056,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DetachVpnGatewayCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7962,7 +8067,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisableAddressTransferCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7973,7 +8078,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisableAllowedImagesSettingsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7984,7 +8089,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisableAwsNetworkPerformanceMetricSubscriptionCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -7995,7 +8100,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisableCapacityManagerCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8006,7 +8111,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisableEbsEncryptionByDefaultCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8017,7 +8122,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisableFastLaunchCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8028,7 +8133,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisableFastSnapshotRestoresCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8039,7 +8144,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisableImageCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8050,7 +8155,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisableImageBlockPublicAccessCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8061,7 +8166,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisableImageDeprecationCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8072,7 +8177,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisableImageDeregistrationProtectionCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8083,7 +8188,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisableInstanceSqlHaStandbyDetectionsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8094,7 +8199,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisableIpamOrganizationAdminAccountCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8105,7 +8210,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisableIpamPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8116,7 +8221,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisableRouteServerPropagationCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8127,7 +8232,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisableSerialConsoleAccessCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8138,7 +8243,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisableSnapshotBlockPublicAccessCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8149,7 +8254,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisableTransitGatewayRouteTablePropagationCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8160,7 +8265,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisableVgwRoutePropagationCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8171,7 +8276,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisableVpcClassicLinkCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8182,7 +8287,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisableVpcClassicLinkDnsSupportCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8193,7 +8298,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisassociateAddressCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8204,7 +8309,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisassociateCapacityReservationBillingOwnerCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8215,7 +8320,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisassociateClientVpnTargetNetworkCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8226,7 +8331,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisassociateEnclaveCertificateIamRoleCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8237,7 +8342,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisassociateIamInstanceProfileCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8248,7 +8353,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisassociateInstanceEventWindowCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8259,7 +8364,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisassociateIpamByoasnCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8270,7 +8375,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisassociateIpamResourceDiscoveryCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8281,7 +8386,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisassociateNatGatewayAddressCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8292,7 +8397,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisassociateRouteServerCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8303,7 +8408,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisassociateRouteTableCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8314,7 +8419,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisassociateSecurityGroupVpcCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8325,7 +8430,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisassociateSubnetCidrBlockCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8336,7 +8441,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisassociateTransitGatewayMulticastDomainCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8347,7 +8452,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisassociateTransitGatewayPolicyTableCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8358,7 +8463,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisassociateTransitGatewayRouteTableCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8369,7 +8474,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisassociateTrunkInterfaceCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8380,7 +8485,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisassociateVpcCidrBlockCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8391,7 +8496,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     EnableAddressTransferCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8402,7 +8507,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     EnableAllowedImagesSettingsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8413,7 +8518,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     EnableAwsNetworkPerformanceMetricSubscriptionCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8424,7 +8529,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     EnableCapacityManagerCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8435,7 +8540,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     EnableEbsEncryptionByDefaultCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8446,7 +8551,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     EnableFastLaunchCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8457,7 +8562,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     EnableFastSnapshotRestoresCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8468,7 +8573,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     EnableImageCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8479,7 +8584,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     EnableImageBlockPublicAccessCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8490,7 +8595,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     EnableImageDeprecationCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8501,7 +8606,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     EnableImageDeregistrationProtectionCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8512,7 +8617,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     EnableInstanceSqlHaStandbyDetectionsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8523,7 +8628,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     EnableIpamOrganizationAdminAccountCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8534,7 +8639,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     EnableIpamPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8545,7 +8650,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     EnableReachabilityAnalyzerOrganizationSharingCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8556,7 +8661,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     EnableRouteServerPropagationCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8567,7 +8672,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     EnableSerialConsoleAccessCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8578,7 +8683,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     EnableSnapshotBlockPublicAccessCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8589,7 +8694,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     EnableTransitGatewayRouteTablePropagationCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8600,7 +8705,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     EnableVgwRoutePropagationCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8611,7 +8716,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     EnableVolumeIOCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8622,7 +8727,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     EnableVpcClassicLinkCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8633,7 +8738,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     EnableVpcClassicLinkDnsSupportCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8644,7 +8749,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ExportClientVpnClientCertificateRevocationListCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8655,7 +8760,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ExportClientVpnClientConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8666,7 +8771,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ExportImageCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8677,7 +8782,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ExportTransitGatewayRoutesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8688,7 +8793,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ExportVerifiedAccessInstanceClientConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8699,7 +8804,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetActiveVpnTunnelStatusCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8710,7 +8815,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAllowedImagesSettingsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8721,7 +8826,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAssociatedEnclaveCertificateIamRolesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8732,7 +8837,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAssociatedIpv6PoolCidrsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8743,7 +8848,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAwsNetworkPerformanceDataCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8754,7 +8859,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetCapacityManagerAttributesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8765,7 +8870,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetCapacityManagerMetricDataCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8776,7 +8881,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetCapacityManagerMetricDimensionsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8787,7 +8892,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetCapacityReservationUsageCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8798,7 +8903,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetCoipPoolUsageCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8809,7 +8914,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetConsoleOutputCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8820,7 +8925,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetConsoleScreenshotCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8831,7 +8936,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDeclarativePoliciesReportSummaryCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8842,7 +8947,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDefaultCreditSpecificationCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8853,7 +8958,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetEbsDefaultKmsKeyIdCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8864,7 +8969,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetEbsEncryptionByDefaultCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8875,7 +8980,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetEnabledIpamPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8886,7 +8991,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetFlowLogsIntegrationTemplateCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8897,7 +9002,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetGroupsForCapacityReservationCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8908,7 +9013,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetHostReservationPurchasePreviewCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8919,7 +9024,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetImageAncestryCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8930,7 +9035,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetImageBlockPublicAccessStateCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8941,7 +9046,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetInstanceMetadataDefaultsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8952,7 +9057,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetInstanceTpmEkPubCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8963,7 +9068,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetInstanceTypesFromInstanceRequirementsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8974,7 +9079,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetInstanceUefiDataCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8985,7 +9090,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetIpamAddressHistoryCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -8996,7 +9101,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetIpamDiscoveredAccountsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9007,7 +9112,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetIpamDiscoveredPublicAddressesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9018,7 +9123,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetIpamDiscoveredResourceCidrsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9029,7 +9134,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetIpamPolicyAllocationRulesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9040,7 +9145,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetIpamPolicyOrganizationTargetsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9051,7 +9156,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetIpamPoolAllocationsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9062,7 +9167,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetIpamPoolCidrsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9073,7 +9178,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetIpamPrefixListResolverRulesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9084,7 +9189,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetIpamPrefixListResolverVersionEntriesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9095,7 +9200,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetIpamPrefixListResolverVersionsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9106,7 +9211,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetIpamResourceCidrsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9117,7 +9222,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetLaunchTemplateDataCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9128,7 +9233,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetManagedPrefixListAssociationsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9139,7 +9244,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetManagedPrefixListEntriesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9150,7 +9255,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetNetworkInsightsAccessScopeAnalysisFindingsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9161,7 +9266,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetNetworkInsightsAccessScopeContentCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9172,7 +9277,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPasswordDataCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9183,7 +9288,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetReservedInstancesExchangeQuoteCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9194,7 +9299,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetRouteServerAssociationsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9205,7 +9310,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetRouteServerPropagationsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9216,7 +9321,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetRouteServerRoutingDatabaseCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9227,7 +9332,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetSecurityGroupsForVpcCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9238,7 +9343,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetSerialConsoleAccessStatusCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9249,7 +9354,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetSnapshotBlockPublicAccessStateCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9260,7 +9365,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetSpotPlacementScoresCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9271,7 +9376,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetSubnetCidrReservationsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9282,7 +9387,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetTransitGatewayAttachmentPropagationsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9293,7 +9398,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetTransitGatewayMeteringPolicyEntriesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9304,7 +9409,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetTransitGatewayMulticastDomainAssociationsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9315,7 +9420,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetTransitGatewayPolicyTableAssociationsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9326,7 +9431,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetTransitGatewayPolicyTableEntriesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9337,7 +9442,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetTransitGatewayPrefixListReferencesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9348,7 +9453,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetTransitGatewayRouteTableAssociationsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9359,7 +9464,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetTransitGatewayRouteTablePropagationsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9370,7 +9475,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetVerifiedAccessEndpointPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9381,7 +9486,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetVerifiedAccessEndpointTargetsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9392,7 +9497,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetVerifiedAccessGroupPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9403,7 +9508,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetVpcResourcesBlockingEncryptionEnforcementCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9414,7 +9519,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetVpnConnectionDeviceSampleConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9425,7 +9530,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetVpnConnectionDeviceTypesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9436,7 +9541,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetVpnTunnelReplacementStatusCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9447,7 +9552,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ImportClientVpnClientCertificateRevocationListCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9458,7 +9563,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ImportImageCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9469,7 +9574,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ImportInstanceCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9480,7 +9585,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ImportKeyPairCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9491,7 +9596,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ImportSnapshotCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9502,7 +9607,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ImportVolumeCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9513,7 +9618,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListImagesInRecycleBinCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9524,7 +9629,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListSnapshotsInRecycleBinCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9535,7 +9640,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListVolumesInRecycleBinCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9546,7 +9651,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     LockSnapshotCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9557,7 +9662,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyAddressAttributeCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9568,7 +9673,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyAvailabilityZoneGroupCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9579,7 +9684,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyCapacityReservationCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9590,7 +9695,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyCapacityReservationFleetCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9601,7 +9706,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyClientVpnEndpointCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9612,7 +9717,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyDefaultCreditSpecificationCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9623,7 +9728,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyEbsDefaultKmsKeyIdCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9634,7 +9739,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyFleetCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9645,7 +9750,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyFpgaImageAttributeCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9656,7 +9761,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyHostsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9667,7 +9772,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyIdFormatCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9678,7 +9783,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyIdentityIdFormatCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9689,7 +9794,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyImageAttributeCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9700,7 +9805,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyInstanceAttributeCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9711,7 +9816,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyInstanceCapacityReservationAttributesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9722,7 +9827,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyInstanceConnectEndpointCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9733,7 +9838,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyInstanceCpuOptionsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9744,7 +9849,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyInstanceCreditSpecificationCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9755,7 +9860,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyInstanceEventStartTimeCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9766,7 +9871,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyInstanceEventWindowCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9777,7 +9882,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyInstanceMaintenanceOptionsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9788,7 +9893,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyInstanceMetadataDefaultsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9799,7 +9904,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyInstanceMetadataOptionsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9810,7 +9915,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyInstanceNetworkPerformanceOptionsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9821,7 +9926,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyInstancePlacementCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9832,7 +9937,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyIpamCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9843,7 +9948,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyIpamPolicyAllocationRulesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9854,7 +9959,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyIpamPoolCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9865,7 +9970,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyIpamPrefixListResolverCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9876,7 +9981,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyIpamPrefixListResolverTargetCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9887,7 +9992,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyIpamResourceCidrCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9898,7 +10003,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyIpamResourceDiscoveryCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9909,7 +10014,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyIpamScopeCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9920,7 +10025,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyLaunchTemplateCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9931,7 +10036,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyLocalGatewayRouteCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9942,7 +10047,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyManagedPrefixListCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9953,7 +10058,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyNetworkInterfaceAttributeCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9964,7 +10069,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyPrivateDnsNameOptionsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9975,7 +10080,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyPublicIpDnsNameOptionsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9986,7 +10091,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyReservedInstancesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -9997,7 +10102,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyRouteServerCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10008,7 +10113,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifySecurityGroupRulesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10019,7 +10124,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifySnapshotAttributeCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10030,7 +10135,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifySnapshotTierCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10041,7 +10146,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifySpotFleetRequestCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10052,7 +10157,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifySubnetAttributeCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10063,7 +10168,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyTrafficMirrorFilterNetworkServicesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10074,7 +10179,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyTrafficMirrorFilterRuleCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10085,7 +10190,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyTrafficMirrorSessionCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10096,7 +10201,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyTransitGatewayCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10107,7 +10212,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyTransitGatewayMeteringPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10118,7 +10223,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyTransitGatewayPrefixListReferenceCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10129,7 +10234,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyTransitGatewayVpcAttachmentCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10140,7 +10245,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyVerifiedAccessEndpointCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10151,7 +10256,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyVerifiedAccessEndpointPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10162,7 +10267,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyVerifiedAccessGroupCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10173,7 +10278,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyVerifiedAccessGroupPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10184,7 +10289,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyVerifiedAccessInstanceCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10195,7 +10300,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyVerifiedAccessInstanceLoggingConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10206,7 +10311,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyVerifiedAccessTrustProviderCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10217,7 +10322,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyVolumeCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10228,7 +10333,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyVolumeAttributeCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10239,7 +10344,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyVpcAttributeCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10250,7 +10355,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyVpcBlockPublicAccessExclusionCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10261,7 +10366,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyVpcBlockPublicAccessOptionsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10272,7 +10377,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyVpcEncryptionControlCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10283,7 +10388,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyVpcEndpointCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10294,7 +10399,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyVpcEndpointConnectionNotificationCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10305,7 +10410,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyVpcEndpointServiceConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10316,7 +10421,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyVpcEndpointServicePayerResponsibilityCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10327,7 +10432,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyVpcEndpointServicePermissionsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10338,7 +10443,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyVpcPeeringConnectionOptionsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10349,7 +10454,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyVpcTenancyCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10360,7 +10465,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyVpnConnectionCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10371,7 +10476,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyVpnConnectionOptionsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10382,7 +10487,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyVpnTunnelCertificateCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10393,7 +10498,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyVpnTunnelOptionsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10404,7 +10509,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     MonitorInstancesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10415,7 +10520,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     MoveAddressToVpcCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10426,7 +10531,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     MoveByoipCidrToIpamCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10437,7 +10542,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     MoveCapacityReservationInstancesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10448,7 +10553,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ProvisionByoipCidrCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10459,7 +10564,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ProvisionIpamByoasnCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10470,7 +10575,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ProvisionIpamPoolCidrCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10481,7 +10586,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ProvisionPublicIpv4PoolCidrCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10492,7 +10597,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PurchaseCapacityBlockCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10503,7 +10608,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PurchaseCapacityBlockExtensionCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10514,7 +10619,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PurchaseHostReservationCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10525,7 +10630,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PurchaseReservedInstancesOfferingCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10536,7 +10641,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PurchaseScheduledInstancesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10547,7 +10652,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RebootInstancesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10558,7 +10663,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RegisterImageCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10569,7 +10674,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RegisterInstanceEventNotificationAttributesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10580,7 +10685,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RegisterTransitGatewayMulticastGroupMembersCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10591,7 +10696,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RegisterTransitGatewayMulticastGroupSourcesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10602,7 +10707,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RejectCapacityReservationBillingOwnershipCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10613,7 +10718,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RejectTransitGatewayMulticastDomainAssociationsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10624,7 +10729,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RejectTransitGatewayPeeringAttachmentCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10635,7 +10740,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RejectTransitGatewayVpcAttachmentCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10646,7 +10751,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RejectVpcEndpointConnectionsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10657,7 +10762,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RejectVpcPeeringConnectionCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10668,7 +10773,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ReleaseAddressCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10679,7 +10784,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ReleaseHostsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10690,7 +10795,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ReleaseIpamPoolAllocationCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10701,7 +10806,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ReplaceIamInstanceProfileAssociationCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10712,7 +10817,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ReplaceImageCriteriaInAllowedImagesSettingsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10723,7 +10828,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ReplaceNetworkAclAssociationCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10734,7 +10839,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ReplaceNetworkAclEntryCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10745,7 +10850,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ReplaceRouteCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10756,7 +10861,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ReplaceRouteTableAssociationCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10767,7 +10872,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ReplaceTransitGatewayRouteCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10778,7 +10883,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ReplaceVpnTunnelCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10789,7 +10894,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ReportInstanceStatusCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10800,7 +10905,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RequestSpotFleetCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10811,7 +10916,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RequestSpotInstancesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10822,7 +10927,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ResetAddressAttributeCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10833,7 +10938,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ResetEbsDefaultKmsKeyIdCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10844,7 +10949,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ResetFpgaImageAttributeCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10855,7 +10960,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ResetImageAttributeCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10866,7 +10971,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ResetInstanceAttributeCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10877,7 +10982,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ResetNetworkInterfaceAttributeCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10888,7 +10993,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ResetSnapshotAttributeCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10899,7 +11004,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RestoreAddressToClassicCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10910,7 +11015,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RestoreImageFromRecycleBinCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10921,7 +11026,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RestoreManagedPrefixListVersionCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10932,7 +11037,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RestoreSnapshotFromRecycleBinCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10943,7 +11048,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RestoreSnapshotTierCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10954,7 +11059,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RestoreVolumeFromRecycleBinCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10965,7 +11070,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RevokeClientVpnIngressCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10976,7 +11081,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RevokeSecurityGroupEgressCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10987,7 +11092,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RevokeSecurityGroupIngressCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -10998,7 +11103,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RunInstancesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -11009,7 +11114,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RunScheduledInstancesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -11020,7 +11125,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SearchLocalGatewayRoutesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -11031,7 +11136,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SearchTransitGatewayMulticastGroupsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -11042,7 +11147,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SearchTransitGatewayRoutesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -11053,7 +11158,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SendDiagnosticInterruptCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -11064,7 +11169,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartDeclarativePoliciesReportCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -11075,7 +11180,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartInstancesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -11086,7 +11191,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartNetworkInsightsAccessScopeAnalysisCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -11097,7 +11202,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartNetworkInsightsAnalysisCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -11108,7 +11213,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartVpcEndpointServicePrivateDnsVerificationCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -11119,7 +11224,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StopInstancesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -11130,7 +11235,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TerminateClientVpnConnectionsCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -11141,7 +11246,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TerminateInstancesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -11152,7 +11257,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UnassignIpv6AddressesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -11163,7 +11268,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UnassignPrivateIpAddressesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -11174,7 +11279,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UnassignPrivateNatGatewayAddressCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -11185,7 +11290,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UnlockSnapshotCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -11196,7 +11301,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UnmonitorInstancesCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -11207,7 +11312,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateCapacityManagerOrganizationsAccessCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -11218,7 +11323,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateInterruptibleCapacityReservationAllocationCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -11229,7 +11334,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateSecurityGroupRuleDescriptionsEgressCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -11240,7 +11345,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateSecurityGroupRuleDescriptionsIngressCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
   /**
@@ -11251,7 +11356,7 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     WithdrawByoipCidrCommandOutput,
-    Cause.TimeoutException | SdkError | EC2ServiceError
+    Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 }
 
@@ -11275,10 +11380,10 @@ export const makeEC2Service = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class EC2Service extends Effect.Tag("@effect-aws/client-ec2/EC2Service")<
+export class EC2Service extends ServiceMap.Service<
   EC2Service,
   EC2Service$
->() {
+>()("@effect-aws/client-ec2/EC2Service") {
   static readonly defaultLayer = Layer.effect(this, makeEC2Service).pipe(Layer.provide(Instance.layer));
   static readonly layer = (config: EC2Service.Config) =>
     Layer.effect(this, makeEC2Service).pipe(

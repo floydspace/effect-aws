@@ -16,7 +16,7 @@ With default IoTEventsDataClient instance:
 ```typescript
 import { IoTEventsData } from "@effect-aws/client-iot-events-data";
 
-const program = IoTEventsData.describeAlarm(args);
+const program = IoTEventsData.use((svc) => svc.describeAlarm(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom IoTEventsDataClient instance:
 ```typescript
 import { IoTEventsData } from "@effect-aws/client-iot-events-data";
 
-const program = IoTEventsData.describeAlarm(args);
+const program = IoTEventsData.use((svc) => svc.describeAlarm(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom IoTEventsDataClient configuration:
 ```typescript
 import { IoTEventsData } from "@effect-aws/client-iot-events-data";
 
-const program = IoTEventsData.describeAlarm(args);
+const program = IoTEventsData.use((svc) => svc.describeAlarm(args));
 
 const result = await pipe(
   program,

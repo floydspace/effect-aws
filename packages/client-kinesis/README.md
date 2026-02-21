@@ -16,7 +16,7 @@ With default KinesisClient instance:
 ```typescript
 import { Kinesis } from "@effect-aws/client-kinesis";
 
-const program = Kinesis.putRecord(args);
+const program = Kinesis.use((svc) => svc.putRecord(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom KinesisClient instance:
 ```typescript
 import { Kinesis } from "@effect-aws/client-kinesis";
 
-const program = Kinesis.putRecord(args);
+const program = Kinesis.use((svc) => svc.putRecord(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom KinesisClient configuration:
 ```typescript
 import { Kinesis } from "@effect-aws/client-kinesis";
 
-const program = Kinesis.putRecord(args);
+const program = Kinesis.use((svc) => svc.putRecord(args));
 
 const result = await pipe(
   program,

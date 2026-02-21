@@ -2,16 +2,16 @@
  * @since 1.0.0
  */
 import { KMSClient } from "@aws-sdk/client-kms";
-import { Context, Effect, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import * as KMSServiceConfig from "./KMSServiceConfig.js";
 
 /**
  * @since 1.0.0
  * @category tags
  */
-export class KMSClientInstance extends Context.Tag(
+export class KMSClientInstance extends ServiceMap.Service<KMSClientInstance, KMSClient>()(
   "@effect-aws/client-kms/KMSClientInstance",
-)<KMSClientInstance, KMSClient>() {}
+) {}
 
 /**
  * @since 1.0.0
@@ -30,4 +30,4 @@ export const make = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const layer = Layer.scoped(KMSClientInstance, make);
+export const layer = Layer.effect(KMSClientInstance, make);
