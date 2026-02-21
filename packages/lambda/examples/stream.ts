@@ -9,12 +9,12 @@ import { createGzip } from "node:zlib";
  * Streaming handler that takes a Lambda Function URL event, compresses it using gzip and
  * returns the compressed data as a stream.
  */
-const streamHandler: StreamHandler<LambdaFunctionURLEvent, never, Cause.UnknownException> = (event) => {
+const streamHandler: StreamHandler<LambdaFunctionURLEvent, never, Cause.UnknownError> = (event) => {
   return Stream.make(Buffer.from(JSON.stringify(event))).pipe(
-    Stream.pipeThroughChannelOrFail(NodeStream.fromDuplex(
-      () => createGzip(),
-      (e) => new Cause.UnknownException(e),
-    )),
+    Stream.pipeThroughChannelOrFail(NodeStream.fromDuplex({
+      evaluate: () => createGzip(),
+      onError: (e) => new Cause.UnknownError(e),
+    })),
   );
 };
 

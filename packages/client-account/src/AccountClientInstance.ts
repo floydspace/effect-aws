@@ -2,16 +2,16 @@
  * @since 1.0.0
  */
 import { AccountClient } from "@aws-sdk/client-account";
-import { Context, Effect, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import * as AccountServiceConfig from "./AccountServiceConfig.js";
 
 /**
  * @since 1.0.0
  * @category tags
  */
-export class AccountClientInstance extends Context.Tag(
+export class AccountClientInstance extends ServiceMap.Service<AccountClientInstance, AccountClient>()(
   "@effect-aws/client-account/AccountClientInstance",
-)<AccountClientInstance, AccountClient>() {}
+) {}
 
 /**
  * @since 1.0.0
@@ -30,4 +30,4 @@ export const make = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const layer = Layer.scoped(AccountClientInstance, make);
+export const layer = Layer.effect(AccountClientInstance, make);

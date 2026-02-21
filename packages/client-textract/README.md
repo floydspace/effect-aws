@@ -16,7 +16,7 @@ With default TextractClient instance:
 ```typescript
 import { Textract } from "@effect-aws/client-textract";
 
-const program = Textract.listAdapters(args);
+const program = Textract.use((svc) => svc.listAdapters(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom TextractClient instance:
 ```typescript
 import { Textract } from "@effect-aws/client-textract";
 
-const program = Textract.listAdapters(args);
+const program = Textract.use((svc) => svc.listAdapters(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom TextractClient configuration:
 ```typescript
 import { Textract } from "@effect-aws/client-textract";
 
-const program = Textract.listAdapters(args);
+const program = Textract.use((svc) => svc.listAdapters(args));
 
 const result = await pipe(
   program,

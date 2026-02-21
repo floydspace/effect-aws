@@ -16,7 +16,7 @@ With default CloudWatchClient instance:
 ```typescript
 import { CloudWatch } from "@effect-aws/client-cloudwatch";
 
-const program = CloudWatch.describeAlarms(args);
+const program = CloudWatch.use((svc) => svc.describeAlarms(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom CloudWatchClient instance:
 ```typescript
 import { CloudWatch } from "@effect-aws/client-cloudwatch";
 
-const program = CloudWatch.describeAlarms(args);
+const program = CloudWatch.use((svc) => svc.describeAlarms(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom CloudWatchClient configuration:
 ```typescript
 import { CloudWatch } from "@effect-aws/client-cloudwatch";
 
-const program = CloudWatch.describeAlarms(args);
+const program = CloudWatch.use((svc) => svc.describeAlarms(args));
 
 const result = await pipe(
   program,

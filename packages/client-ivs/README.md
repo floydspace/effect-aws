@@ -16,7 +16,7 @@ With default IvsClient instance:
 ```typescript
 import { Ivs } from "@effect-aws/client-ivs";
 
-const program = Ivs.listChannels(args);
+const program = Ivs.use((svc) => svc.listChannels(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom IvsClient instance:
 ```typescript
 import { Ivs } from "@effect-aws/client-ivs";
 
-const program = Ivs.listChannels(args);
+const program = Ivs.use((svc) => svc.listChannels(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom IvsClient configuration:
 ```typescript
 import { Ivs } from "@effect-aws/client-ivs";
 
-const program = Ivs.listChannels(args);
+const program = Ivs.use((svc) => svc.listChannels(args));
 
 const result = await pipe(
   program,

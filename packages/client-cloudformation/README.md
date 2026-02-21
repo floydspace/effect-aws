@@ -16,7 +16,7 @@ With default CloudFormationClient instance:
 ```typescript
 import { CloudFormation } from "@effect-aws/client-cloudformation";
 
-const program = CloudFormation.listStacks(args);
+const program = CloudFormation.use((svc) => svc.listStacks(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom CloudFormationClient instance:
 ```typescript
 import { CloudFormation } from "@effect-aws/client-cloudformation";
 
-const program = CloudFormation.listStacks(args);
+const program = CloudFormation.use((svc) => svc.listStacks(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom CloudFormationClient configuration:
 ```typescript
 import { CloudFormation } from "@effect-aws/client-cloudformation";
 
-const program = CloudFormation.listStacks(args);
+const program = CloudFormation.use((svc) => svc.listStacks(args));
 
 const result = await pipe(
   program,

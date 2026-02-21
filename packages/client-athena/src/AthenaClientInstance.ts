@@ -2,16 +2,16 @@
  * @since 1.0.0
  */
 import { AthenaClient } from "@aws-sdk/client-athena";
-import { Context, Effect, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import * as AthenaServiceConfig from "./AthenaServiceConfig.js";
 
 /**
  * @since 1.0.0
  * @category tags
  */
-export class AthenaClientInstance extends Context.Tag(
+export class AthenaClientInstance extends ServiceMap.Service<AthenaClientInstance, AthenaClient>()(
   "@effect-aws/client-athena/AthenaClientInstance",
-)<AthenaClientInstance, AthenaClient>() {}
+) {}
 
 /**
  * @since 1.0.0
@@ -30,4 +30,4 @@ export const make = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const layer = Layer.scoped(AthenaClientInstance, make);
+export const layer = Layer.effect(AthenaClientInstance, make);

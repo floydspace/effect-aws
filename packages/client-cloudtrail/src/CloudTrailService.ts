@@ -188,7 +188,7 @@ import {
 import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
-import { Effect, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import * as Instance from "./CloudTrailClientInstance.js";
 import * as CloudTrailServiceConfig from "./CloudTrailServiceConfig.js";
 import type {
@@ -356,7 +356,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AddTagsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ChannelARNInvalidError
     | ChannelNotFoundError
@@ -384,7 +384,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelQueryCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConflictError
     | EventDataStoreARNInvalidError
@@ -406,7 +406,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateChannelCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ChannelAlreadyExistsError
     | ChannelMaxLimitExceededError
@@ -430,7 +430,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateDashboardCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConflictError
     | EventDataStoreNotFoundError
@@ -450,7 +450,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateEventDataStoreCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | CloudTrailAccessNotEnabledError
     | ConflictError
@@ -481,7 +481,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateTrailCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | CloudTrailAccessNotEnabledError
     | CloudTrailInvalidClientTokenIdError
@@ -526,7 +526,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteChannelCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ChannelARNInvalidError
     | ChannelNotFoundError
@@ -542,7 +542,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDashboardCommandOutput,
-    Cause.TimeoutException | SdkError | ConflictError | ResourceNotFoundError | UnsupportedOperationError
+    Cause.TimeoutError | SdkError | ConflictError | ResourceNotFoundError | UnsupportedOperationError
   >;
 
   /**
@@ -553,7 +553,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteEventDataStoreCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ChannelExistsForEDSError
     | ConflictError
@@ -579,7 +579,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteResourcePolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConflictError
     | OperationNotPermittedError
@@ -598,7 +598,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteTrailCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | CloudTrailARNInvalidError
     | ConflictError
@@ -621,7 +621,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeregisterOrganizationDelegatedAdminCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccountNotFoundError
     | AccountNotRegisteredError
@@ -644,7 +644,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeQueryCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EventDataStoreARNInvalidError
     | EventDataStoreNotFoundError
@@ -664,7 +664,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeTrailsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | CloudTrailARNInvalidError
     | InvalidTrailNameError
@@ -681,7 +681,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisableFederationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | CloudTrailAccessNotEnabledError
@@ -707,7 +707,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     EnableFederationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | CloudTrailAccessNotEnabledError
@@ -734,7 +734,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GenerateQueryCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EventDataStoreARNInvalidError
     | EventDataStoreNotFoundError
@@ -754,7 +754,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetChannelCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ChannelARNInvalidError
     | ChannelNotFoundError
@@ -770,7 +770,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDashboardCommandOutput,
-    Cause.TimeoutException | SdkError | ResourceNotFoundError | UnsupportedOperationError
+    Cause.TimeoutError | SdkError | ResourceNotFoundError | UnsupportedOperationError
   >;
 
   /**
@@ -781,7 +781,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetEventConfigurationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | CloudTrailARNInvalidError
     | EventDataStoreARNInvalidError
@@ -805,7 +805,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetEventDataStoreCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EventDataStoreARNInvalidError
     | EventDataStoreNotFoundError
@@ -823,7 +823,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetEventSelectorsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | CloudTrailARNInvalidError
     | InvalidTrailNameError
@@ -841,7 +841,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetImportCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ImportNotFoundError
     | InvalidParameterError
@@ -857,7 +857,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetInsightSelectorsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | CloudTrailARNInvalidError
     | InsightNotEnabledError
@@ -879,7 +879,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetQueryResultsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EventDataStoreARNInvalidError
     | EventDataStoreNotFoundError
@@ -902,7 +902,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetResourcePolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | OperationNotPermittedError
     | ResourceARNNotValidError
@@ -920,7 +920,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetTrailCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | CloudTrailARNInvalidError
     | InvalidTrailNameError
@@ -937,7 +937,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetTrailStatusCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | CloudTrailARNInvalidError
     | InvalidTrailNameError
@@ -954,7 +954,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListChannelsCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidNextTokenError | OperationNotPermittedError | UnsupportedOperationError
+    Cause.TimeoutError | SdkError | InvalidNextTokenError | OperationNotPermittedError | UnsupportedOperationError
   >;
 
   /**
@@ -965,7 +965,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDashboardsCommandOutput,
-    Cause.TimeoutException | SdkError | UnsupportedOperationError
+    Cause.TimeoutError | SdkError | UnsupportedOperationError
   >;
 
   /**
@@ -976,7 +976,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListEventDataStoresCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidMaxResultsError
     | InvalidNextTokenError
@@ -993,7 +993,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListImportFailuresCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidNextTokenError
     | InvalidParameterError
@@ -1009,7 +1009,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListImportsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EventDataStoreARNInvalidError
     | InvalidNextTokenError
@@ -1026,7 +1026,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListInsightsDataCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | OperationNotPermittedError | UnsupportedOperationError
+    Cause.TimeoutError | SdkError | InvalidParameterError | OperationNotPermittedError | UnsupportedOperationError
   >;
 
   /**
@@ -1037,7 +1037,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListInsightsMetricDataCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | InvalidTrailNameError
@@ -1053,7 +1053,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListPublicKeysCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidTimeRangeError
     | InvalidTokenError
@@ -1069,7 +1069,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListQueriesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EventDataStoreARNInvalidError
     | EventDataStoreNotFoundError
@@ -1092,7 +1092,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ChannelARNInvalidError
     | CloudTrailARNInvalidError
@@ -1116,7 +1116,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTrailsCommandOutput,
-    Cause.TimeoutException | SdkError | OperationNotPermittedError | UnsupportedOperationError
+    Cause.TimeoutError | SdkError | OperationNotPermittedError | UnsupportedOperationError
   >;
 
   /**
@@ -1127,7 +1127,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     LookupEventsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidEventCategoryError
     | InvalidLookupAttributesError
@@ -1146,7 +1146,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutEventConfigurationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | CloudTrailARNInvalidError
     | ConflictError
@@ -1177,7 +1177,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutEventSelectorsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | CloudTrailARNInvalidError
     | ConflictError
@@ -1201,7 +1201,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutInsightSelectorsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | CloudTrailARNInvalidError
     | InsufficientEncryptionPolicyError
@@ -1229,7 +1229,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutResourcePolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConflictError
     | OperationNotPermittedError
@@ -1248,7 +1248,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RegisterOrganizationDelegatedAdminCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccountNotFoundError
     | AccountRegisteredError
@@ -1274,7 +1274,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RemoveTagsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ChannelARNInvalidError
     | ChannelNotFoundError
@@ -1301,7 +1301,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RestoreEventDataStoreCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | CloudTrailAccessNotEnabledError
     | EventDataStoreARNInvalidError
@@ -1326,7 +1326,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SearchSampleQueriesCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | OperationNotPermittedError | UnsupportedOperationError
+    Cause.TimeoutError | SdkError | InvalidParameterError | OperationNotPermittedError | UnsupportedOperationError
   >;
 
   /**
@@ -1337,7 +1337,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartDashboardRefreshCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EventDataStoreNotFoundError
     | InactiveEventDataStoreError
@@ -1354,7 +1354,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartEventDataStoreIngestionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConflictError
     | EventDataStoreARNInvalidError
@@ -1377,7 +1377,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartImportCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccountHasOngoingImportError
     | EventDataStoreARNInvalidError
@@ -1401,7 +1401,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartLoggingCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | CloudTrailARNInvalidError
     | ConflictError
@@ -1424,7 +1424,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartQueryCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EventDataStoreARNInvalidError
     | EventDataStoreNotFoundError
@@ -1450,7 +1450,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StopEventDataStoreIngestionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConflictError
     | EventDataStoreARNInvalidError
@@ -1473,7 +1473,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StopImportCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ImportNotFoundError
     | InvalidParameterError
@@ -1489,7 +1489,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StopLoggingCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | CloudTrailARNInvalidError
     | ConflictError
@@ -1512,7 +1512,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateChannelCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ChannelAlreadyExistsError
     | ChannelARNInvalidError
@@ -1534,7 +1534,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateDashboardCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConflictError
     | EventDataStoreNotFoundError
@@ -1554,7 +1554,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateEventDataStoreCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | CloudTrailAccessNotEnabledError
     | ConflictError
@@ -1588,7 +1588,7 @@ interface CloudTrailService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateTrailCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | CloudTrailAccessNotEnabledError
     | CloudTrailARNInvalidError
@@ -1647,10 +1647,10 @@ export const makeCloudTrailService = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class CloudTrailService extends Effect.Tag("@effect-aws/client-cloudtrail/CloudTrailService")<
+export class CloudTrailService extends ServiceMap.Service<
   CloudTrailService,
   CloudTrailService$
->() {
+>()("@effect-aws/client-cloudtrail/CloudTrailService") {
   static readonly defaultLayer = Layer.effect(this, makeCloudTrailService).pipe(Layer.provide(Instance.layer));
   static readonly layer = (config: CloudTrailService.Config) =>
     Layer.effect(this, makeCloudTrailService).pipe(

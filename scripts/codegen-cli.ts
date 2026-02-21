@@ -6,11 +6,11 @@
  * 3. Run `Run pnpm run eslint --fix` to fix the formatting.
  * 4. Commit the changes and enjoy.
  */
-import { Prompt } from "@effect/cli";
-import { FileSystem } from "@effect/platform";
-import { NodeContext, NodeHttpClient, NodeRuntime } from "@effect/platform-node";
-import { Array, Effect, Option, Record, String } from "effect";
+import { NodeRuntime, NodeServices } from "@effect/platform-node";
+import { Array, Effect, FileSystem, Option, Record, String } from "effect";
 import { pipe } from "effect/Function";
+import { Prompt } from "effect/unstable/cli";
+import { FetchHttpClient } from "effect/unstable/http";
 import singularities from "./client-singularities.js";
 import { generateClient } from "./generate-client.js";
 import { fetchSdkManifest } from "./manifest.js";
@@ -66,6 +66,6 @@ const cli = Effect.gen(function*() {
 });
 
 NodeRuntime.runMain(cli.pipe(
-  Effect.provide(NodeContext.layer),
-  Effect.provide(NodeHttpClient.layer),
+  Effect.provide(NodeServices.layer),
+  Effect.provide(FetchHttpClient.layer),
 ));

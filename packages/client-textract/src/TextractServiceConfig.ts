@@ -3,18 +3,17 @@
  */
 import type { TextractClientConfig } from "@aws-sdk/client-textract";
 import { ServiceLogger } from "@effect-aws/commons";
-import { Effect, FiberRef, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import { dual } from "effect/Function";
-import { globalValue } from "effect/GlobalValue";
 import type { TextractService } from "./TextractService.js";
 
 /**
  * @since 1.0.0
  * @category textract service config
  */
-const currentTextractServiceConfig = globalValue(
+const currentTextractServiceConfig = ServiceMap.Reference<TextractService.Config>(
   "@effect-aws/client-textract/currentTextractServiceConfig",
-  () => FiberRef.unsafeMake<TextractService.Config>({}),
+  { defaultValue: () => ({}) },
 );
 
 /**
@@ -27,7 +26,7 @@ export const withTextractServiceConfig: {
 } = dual(
   2,
   <A, E, R>(effect: Effect.Effect<A, E, R>, config: TextractService.Config): Effect.Effect<A, E, R> =>
-    Effect.locally(effect, currentTextractServiceConfig, config),
+    Effect.provideService(effect, currentTextractServiceConfig, config),
 );
 
 /**
@@ -35,14 +34,14 @@ export const withTextractServiceConfig: {
  * @category textract service config
  */
 export const setTextractServiceConfig = (config: TextractService.Config) =>
-  Layer.locallyScoped(currentTextractServiceConfig, config);
+  Layer.succeed(currentTextractServiceConfig, config);
 
 /**
  * @since 1.0.0
  * @category adapters
  */
 export const toTextractClientConfig: Effect.Effect<TextractClientConfig> = Effect.gen(function*() {
-  const { logger: serviceLogger, ...config } = yield* FiberRef.get(currentTextractServiceConfig);
+  const { logger: serviceLogger, ...config } = yield* currentTextractServiceConfig;
 
   const logger = serviceLogger === true
     ? yield* ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger)

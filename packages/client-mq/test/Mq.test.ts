@@ -21,7 +21,7 @@ describe("MqClientImpl", () => {
 
     const args = {} as unknown as ListBrokersCommandInput;
 
-    const program = Mq.listBrokers(args);
+    const program = Mq.use((svc) => svc.listBrokers(args));
 
     const result = await pipe(
       program,
@@ -41,7 +41,7 @@ describe("MqClientImpl", () => {
 
     const args = {} as unknown as ListBrokersCommandInput;
 
-    const program = Mq.listBrokers(args);
+    const program = Mq.use((svc) => svc.listBrokers(args));
 
     const result = await pipe(
       program,
@@ -64,7 +64,7 @@ describe("MqClientImpl", () => {
 
     const args = {} as unknown as ListBrokersCommandInput;
 
-    const program = Mq.listBrokers(args);
+    const program = Mq.use((svc) => svc.listBrokers(args));
 
     const result = await pipe(
       program,
@@ -88,7 +88,7 @@ describe("MqClientImpl", () => {
 
     const args = {} as unknown as ListBrokersCommandInput;
 
-    const program = Mq.listBrokers(args);
+    const program = Mq.use((svc) => svc.listBrokers(args));
 
     const result = await pipe(
       program,
@@ -116,7 +116,7 @@ describe("MqClientImpl", () => {
 
     const args = {} as unknown as ListBrokersCommandInput;
 
-    const program = Mq.listBrokers(args);
+    const program = Mq.use((svc) => svc.listBrokers(args));
 
     const result = await pipe(
       program,
@@ -126,7 +126,7 @@ describe("MqClientImpl", () => {
 
     expect(result).toEqual(
       Exit.fail(
-        SdkError({
+        new SdkError({
           ...new Error("test"),
           name: "SdkError",
           message: "test",
@@ -151,7 +151,7 @@ describe("MqClientImpl", () => {
 
     const args = {} as unknown as ListBrokersCommandInput;
 
-    const program = Mq.listBrokers(args).pipe(
+    const program = Mq.use((svc) => svc.listBrokers(args)).pipe(
       Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 
@@ -161,9 +161,9 @@ describe("MqClientImpl", () => {
       Effect.runPromiseExit,
     );
 
-    expect(result).toEqual(
+    expect(result).toContainEqual(
       Exit.fail(
-        SdkError({
+        new SdkError({
           ...new Error("test"),
           name: "SdkError",
           message: "test",

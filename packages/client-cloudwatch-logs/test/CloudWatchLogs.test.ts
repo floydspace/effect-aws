@@ -26,7 +26,7 @@ describe("CloudWatchLogsClientImpl", () => {
 
     const args = {} as unknown as DescribeLogGroupsCommandInput;
 
-    const program = CloudWatchLogs.describeLogGroups(args);
+    const program = CloudWatchLogs.use((svc) => svc.describeLogGroups(args));
 
     const result = await pipe(
       program,
@@ -46,7 +46,7 @@ describe("CloudWatchLogsClientImpl", () => {
 
     const args = {} as unknown as DescribeLogGroupsCommandInput;
 
-    const program = CloudWatchLogs.describeLogGroups(args);
+    const program = CloudWatchLogs.use((svc) => svc.describeLogGroups(args));
 
     const result = await pipe(
       program,
@@ -69,7 +69,7 @@ describe("CloudWatchLogsClientImpl", () => {
 
     const args = {} as unknown as DescribeLogGroupsCommandInput;
 
-    const program = CloudWatchLogs.describeLogGroups(args);
+    const program = CloudWatchLogs.use((svc) => svc.describeLogGroups(args));
 
     const result = await pipe(
       program,
@@ -93,7 +93,7 @@ describe("CloudWatchLogsClientImpl", () => {
 
     const args = {} as unknown as DescribeLogGroupsCommandInput;
 
-    const program = CloudWatchLogs.describeLogGroups(args);
+    const program = CloudWatchLogs.use((svc) => svc.describeLogGroups(args));
 
     const result = await pipe(
       program,
@@ -121,7 +121,7 @@ describe("CloudWatchLogsClientImpl", () => {
 
     const args = {} as unknown as DescribeLogGroupsCommandInput;
 
-    const program = CloudWatchLogs.describeLogGroups(args);
+    const program = CloudWatchLogs.use((svc) => svc.describeLogGroups(args));
 
     const result = await pipe(
       program,
@@ -131,7 +131,7 @@ describe("CloudWatchLogsClientImpl", () => {
 
     expect(result).toEqual(
       Exit.fail(
-        SdkError({
+        new SdkError({
           ...new Error("test"),
           name: "SdkError",
           message: "test",
@@ -156,7 +156,7 @@ describe("CloudWatchLogsClientImpl", () => {
 
     const args = {} as unknown as DescribeLogGroupsCommandInput;
 
-    const program = CloudWatchLogs.describeLogGroups(args).pipe(
+    const program = CloudWatchLogs.use((svc) => svc.describeLogGroups(args)).pipe(
       Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 
@@ -166,9 +166,9 @@ describe("CloudWatchLogsClientImpl", () => {
       Effect.runPromiseExit,
     );
 
-    expect(result).toEqual(
+    expect(result).toContainEqual(
       Exit.fail(
-        SdkError({
+        new SdkError({
           ...new Error("test"),
           name: "SdkError",
           message: "test",

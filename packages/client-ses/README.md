@@ -16,7 +16,7 @@ With default SESClient instance:
 ```typescript
 import { SES } from "@effect-aws/client-ses";
 
-const program = SES.sendEmail(args);
+const program = SES.use((svc) => svc.sendEmail(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom SESClient instance:
 ```typescript
 import { SES } from "@effect-aws/client-ses";
 
-const program = SES.sendEmail(args);
+const program = SES.use((svc) => svc.sendEmail(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom SESClient configuration:
 ```typescript
 import { SES } from "@effect-aws/client-ses";
 
-const program = SES.sendEmail(args);
+const program = SES.use((svc) => svc.sendEmail(args));
 
 const result = await pipe(
   program,

@@ -3,18 +3,17 @@
  */
 import type { MqClientConfig } from "@aws-sdk/client-mq";
 import { ServiceLogger } from "@effect-aws/commons";
-import { Effect, FiberRef, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import { dual } from "effect/Function";
-import { globalValue } from "effect/GlobalValue";
 import type { MqService } from "./MqService.js";
 
 /**
  * @since 1.0.0
  * @category mq service config
  */
-const currentMqServiceConfig = globalValue(
+const currentMqServiceConfig = ServiceMap.Reference<MqService.Config>(
   "@effect-aws/client-mq/currentMqServiceConfig",
-  () => FiberRef.unsafeMake<MqService.Config>({}),
+  { defaultValue: () => ({}) },
 );
 
 /**
@@ -27,21 +26,21 @@ export const withMqServiceConfig: {
 } = dual(
   2,
   <A, E, R>(effect: Effect.Effect<A, E, R>, config: MqService.Config): Effect.Effect<A, E, R> =>
-    Effect.locally(effect, currentMqServiceConfig, config),
+    Effect.provideService(effect, currentMqServiceConfig, config),
 );
 
 /**
  * @since 1.0.0
  * @category mq service config
  */
-export const setMqServiceConfig = (config: MqService.Config) => Layer.locallyScoped(currentMqServiceConfig, config);
+export const setMqServiceConfig = (config: MqService.Config) => Layer.succeed(currentMqServiceConfig, config);
 
 /**
  * @since 1.0.0
  * @category adapters
  */
 export const toMqClientConfig: Effect.Effect<MqClientConfig> = Effect.gen(function*() {
-  const { logger: serviceLogger, ...config } = yield* FiberRef.get(currentMqServiceConfig);
+  const { logger: serviceLogger, ...config } = yield* currentMqServiceConfig;
 
   const logger = serviceLogger === true
     ? yield* ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger)

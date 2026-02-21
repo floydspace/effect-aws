@@ -3,18 +3,17 @@
  */
 import type { FirehoseClientConfig } from "@aws-sdk/client-firehose";
 import { ServiceLogger } from "@effect-aws/commons";
-import { Effect, FiberRef, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import { dual } from "effect/Function";
-import { globalValue } from "effect/GlobalValue";
 import type { FirehoseService } from "./FirehoseService.js";
 
 /**
  * @since 1.0.0
  * @category firehose service config
  */
-const currentFirehoseServiceConfig = globalValue(
+const currentFirehoseServiceConfig = ServiceMap.Reference<FirehoseService.Config>(
   "@effect-aws/client-firehose/currentFirehoseServiceConfig",
-  () => FiberRef.unsafeMake<FirehoseService.Config>({}),
+  { defaultValue: () => ({}) },
 );
 
 /**
@@ -27,7 +26,7 @@ export const withFirehoseServiceConfig: {
 } = dual(
   2,
   <A, E, R>(effect: Effect.Effect<A, E, R>, config: FirehoseService.Config): Effect.Effect<A, E, R> =>
-    Effect.locally(effect, currentFirehoseServiceConfig, config),
+    Effect.provideService(effect, currentFirehoseServiceConfig, config),
 );
 
 /**
@@ -35,14 +34,14 @@ export const withFirehoseServiceConfig: {
  * @category firehose service config
  */
 export const setFirehoseServiceConfig = (config: FirehoseService.Config) =>
-  Layer.locallyScoped(currentFirehoseServiceConfig, config);
+  Layer.succeed(currentFirehoseServiceConfig, config);
 
 /**
  * @since 1.0.0
  * @category adapters
  */
 export const toFirehoseClientConfig: Effect.Effect<FirehoseClientConfig> = Effect.gen(function*() {
-  const { logger: serviceLogger, ...config } = yield* FiberRef.get(currentFirehoseServiceConfig);
+  const { logger: serviceLogger, ...config } = yield* currentFirehoseServiceConfig;
 
   const logger = serviceLogger === true
     ? yield* ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger)

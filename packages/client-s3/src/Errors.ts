@@ -1,4 +1,5 @@
 import type {
+  AccessDenied,
   BucketAlreadyExists,
   BucketAlreadyOwnedByYou,
   EncryptionTypeMismatch,
@@ -19,6 +20,7 @@ import type { TaggedException } from "@effect-aws/commons";
 import { Data } from "effect";
 
 export const AllServiceErrors = [
+  "AccessDenied",
   "BucketAlreadyExists",
   "BucketAlreadyOwnedByYou",
   "EncryptionTypeMismatch",
@@ -35,6 +37,7 @@ export const AllServiceErrors = [
   "TooManyParts",
 ] as const;
 
+export type AccessDeniedError = TaggedException<AccessDenied>;
 export type BucketAlreadyExistsError = TaggedException<BucketAlreadyExists>;
 export type BucketAlreadyOwnedByYouError = TaggedException<BucketAlreadyOwnedByYou>;
 export type EncryptionTypeMismatchError = TaggedException<EncryptionTypeMismatch>;
@@ -50,8 +53,9 @@ export type ObjectAlreadyInActiveTierError = TaggedException<ObjectAlreadyInActi
 export type ObjectNotInActiveTierError = TaggedException<ObjectNotInActiveTierException>;
 export type TooManyPartsError = TaggedException<TooManyParts>;
 
-export type S3ServiceError = TaggedException<
-  S3ServiceException & { name: "S3ServiceError" }
->;
-export const S3ServiceError = Data.tagged<S3ServiceError>("S3ServiceError");
+export class S3ServiceError extends Data.TaggedError("S3ServiceError")<
+  TaggedException<
+    S3ServiceException & { name: "S3ServiceError" }
+  >
+> {}
 export type SdkError = TaggedException<Error & { name: "SdkError" }>;

@@ -16,7 +16,7 @@ With default MqClient instance:
 ```typescript
 import { Mq } from "@effect-aws/client-mq";
 
-const program = Mq.listBrokers(args);
+const program = Mq.use((svc) => svc.listBrokers(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom MqClient instance:
 ```typescript
 import { Mq } from "@effect-aws/client-mq";
 
-const program = Mq.listBrokers(args);
+const program = Mq.use((svc) => svc.listBrokers(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom MqClient configuration:
 ```typescript
 import { Mq } from "@effect-aws/client-mq";
 
-const program = Mq.listBrokers(args);
+const program = Mq.use((svc) => svc.listBrokers(args));
 
 const result = await pipe(
   program,

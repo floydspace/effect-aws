@@ -1,7 +1,7 @@
 /**
  * @since 1.0.0
  */
-import { Config, Effect, Layer } from "effect";
+import { Config, Effect, Layer, ServiceMap } from "effect";
 import { DynamoDBDocumentService } from "./DynamoDBDocumentService.js";
 
 type WithoutTableNameInArgs = {
@@ -11,18 +11,18 @@ type WithoutTableNameInArgs = {
       args: Omit<Parameters<DynamoDBDocumentService.Type[K]>[0], "TableName">,
       options?: Parameters<DynamoDBDocumentService.Type[K]>[1],
     ) => Effect.Effect<
-      Effect.Effect.Success<
+      Effect.Success<
         ReturnType<DynamoDBDocumentService.Type[K]>
       > extends { Item?: infer Item } ? Item | undefined
-        : Effect.Effect.Success<
+        : Effect.Success<
           ReturnType<DynamoDBDocumentService.Type[K]>
         > extends { Items?: infer Items } ? Items
-        : Effect.Effect.Success<
+        : Effect.Success<
           ReturnType<DynamoDBDocumentService.Type[K]>
         > extends { Attributes?: infer Attributes } ? Attributes | undefined
         : never,
-      Effect.Effect.Error<ReturnType<DynamoDBDocumentService.Type[K]>>,
-      Effect.Effect.Context<ReturnType<DynamoDBDocumentService.Type[K]>>
+      Effect.Error<ReturnType<DynamoDBDocumentService.Type[K]>>,
+      Effect.Services<ReturnType<DynamoDBDocumentService.Type[K]>>
     >
     : never;
 };
@@ -94,13 +94,13 @@ export const makeDynamoDBStore = Effect.fn(function*(props: DynamoDBStore.Config
  * @since 1.0.0
  * @category models
  */
-export class DynamoDBStore extends Effect.Tag("@effect-aws/dynamodb/DynamoDBStore")<
+export class DynamoDBStore extends ServiceMap.Service<
   DynamoDBStore,
   DynamoDBStore.Type
->() {
+>()("@effect-aws/dynamodb/DynamoDBStore") {
   static layer = (props: DynamoDBStore.Config) => Layer.effect(this, makeDynamoDBStore(props));
-  static layerConfig = (config: Config.Config.Wrap<DynamoDBStore.Config>) =>
-    Layer.effect(this, Config.unwrap(config).pipe(Effect.flatMap(makeDynamoDBStore)));
+  static layerConfig = (config: Config.Wrap<DynamoDBStore.Config>) =>
+    Layer.effect(this, Config.unwrap(config).asEffect().pipe(Effect.flatMap(makeDynamoDBStore)));
 }
 
 /**

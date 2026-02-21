@@ -3,18 +3,17 @@
  */
 import type { IoTEventsDataClientConfig } from "@aws-sdk/client-iot-events-data";
 import { ServiceLogger } from "@effect-aws/commons";
-import { Effect, FiberRef, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import { dual } from "effect/Function";
-import { globalValue } from "effect/GlobalValue";
 import type { IoTEventsDataService } from "./IoTEventsDataService.js";
 
 /**
  * @since 1.0.0
  * @category iot-events-data service config
  */
-const currentIoTEventsDataServiceConfig = globalValue(
+const currentIoTEventsDataServiceConfig = ServiceMap.Reference<IoTEventsDataService.Config>(
   "@effect-aws/client-iot-events-data/currentIoTEventsDataServiceConfig",
-  () => FiberRef.unsafeMake<IoTEventsDataService.Config>({}),
+  { defaultValue: () => ({}) },
 );
 
 /**
@@ -27,7 +26,7 @@ export const withIoTEventsDataServiceConfig: {
 } = dual(
   2,
   <A, E, R>(effect: Effect.Effect<A, E, R>, config: IoTEventsDataService.Config): Effect.Effect<A, E, R> =>
-    Effect.locally(effect, currentIoTEventsDataServiceConfig, config),
+    Effect.provideService(effect, currentIoTEventsDataServiceConfig, config),
 );
 
 /**
@@ -35,14 +34,14 @@ export const withIoTEventsDataServiceConfig: {
  * @category iot-events-data service config
  */
 export const setIoTEventsDataServiceConfig = (config: IoTEventsDataService.Config) =>
-  Layer.locallyScoped(currentIoTEventsDataServiceConfig, config);
+  Layer.succeed(currentIoTEventsDataServiceConfig, config);
 
 /**
  * @since 1.0.0
  * @category adapters
  */
 export const toIoTEventsDataClientConfig: Effect.Effect<IoTEventsDataClientConfig> = Effect.gen(function*() {
-  const { logger: serviceLogger, ...config } = yield* FiberRef.get(currentIoTEventsDataServiceConfig);
+  const { logger: serviceLogger, ...config } = yield* currentIoTEventsDataServiceConfig;
 
   const logger = serviceLogger === true
     ? yield* ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger)

@@ -536,7 +536,7 @@ import {
 import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
-import { Effect, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import type {
   AccountNotManagementOrDelegatedAdministratorError,
   CallerIsNotManagementAccountError,
@@ -769,7 +769,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AcceptDelegationRequestCommandOutput,
-    Cause.TimeoutException | SdkError | ConcurrentModificationError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | ConcurrentModificationError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -780,7 +780,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AddClientIDToOpenIDConnectProviderCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentModificationError
     | InvalidInputError
@@ -797,7 +797,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AddRoleToInstanceProfileCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityAlreadyExistsError
     | LimitExceededError
@@ -814,7 +814,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AddUserToGroupCommandOutput,
-    Cause.TimeoutException | SdkError | LimitExceededError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | LimitExceededError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -825,7 +825,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AssociateDelegationRequestCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentModificationError
     | InvalidInputError
@@ -841,7 +841,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AttachGroupPolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidInputError
     | LimitExceededError
@@ -858,7 +858,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AttachRolePolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidInputError
     | LimitExceededError
@@ -876,7 +876,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AttachUserPolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidInputError
     | LimitExceededError
@@ -893,7 +893,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ChangePasswordCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityTemporarilyUnmodifiableError
     | InvalidUserTypeError
@@ -911,7 +911,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateAccessKeyCommandOutput,
-    Cause.TimeoutException | SdkError | LimitExceededError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | LimitExceededError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -922,7 +922,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateAccountAliasCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentModificationError
     | EntityAlreadyExistsError
@@ -938,7 +938,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateDelegationRequestCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentModificationError
     | EntityAlreadyExistsError
@@ -955,7 +955,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateGroupCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityAlreadyExistsError
     | LimitExceededError
@@ -971,7 +971,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateInstanceProfileCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentModificationError
     | EntityAlreadyExistsError
@@ -988,7 +988,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateLoginProfileCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityAlreadyExistsError
     | LimitExceededError
@@ -1005,7 +1005,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateOpenIDConnectProviderCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentModificationError
     | EntityAlreadyExistsError
@@ -1023,7 +1023,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreatePolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentModificationError
     | EntityAlreadyExistsError
@@ -1041,7 +1041,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreatePolicyVersionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidInputError
     | LimitExceededError
@@ -1058,7 +1058,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateRoleCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentModificationError
     | EntityAlreadyExistsError
@@ -1076,7 +1076,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateSAMLProviderCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentModificationError
     | EntityAlreadyExistsError
@@ -1093,7 +1093,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateServiceLinkedRoleCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidInputError | LimitExceededError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | InvalidInputError | LimitExceededError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -1104,7 +1104,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateServiceSpecificCredentialCommandOutput,
-    Cause.TimeoutException | SdkError | LimitExceededError | NoSuchEntityError | ServiceNotSupportedError
+    Cause.TimeoutError | SdkError | LimitExceededError | NoSuchEntityError | ServiceNotSupportedError
   >;
 
   /**
@@ -1115,7 +1115,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateUserCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentModificationError
     | EntityAlreadyExistsError
@@ -1133,7 +1133,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateVirtualMFADeviceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentModificationError
     | EntityAlreadyExistsError
@@ -1150,7 +1150,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeactivateMFADeviceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentModificationError
     | EntityTemporarilyUnmodifiableError
@@ -1167,7 +1167,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteAccessKeyCommandOutput,
-    Cause.TimeoutException | SdkError | LimitExceededError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | LimitExceededError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -1178,7 +1178,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteAccountAliasCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentModificationError
     | LimitExceededError
@@ -1194,7 +1194,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteAccountPasswordPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | LimitExceededError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | LimitExceededError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -1205,12 +1205,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteGroupCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | DeleteConflictError
-    | LimitExceededError
-    | NoSuchEntityError
-    | ServiceFailureError
+    Cause.TimeoutError | SdkError | DeleteConflictError | LimitExceededError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -1221,7 +1216,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteGroupPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | LimitExceededError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | LimitExceededError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -1232,12 +1227,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteInstanceProfileCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | DeleteConflictError
-    | LimitExceededError
-    | NoSuchEntityError
-    | ServiceFailureError
+    Cause.TimeoutError | SdkError | DeleteConflictError | LimitExceededError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -1248,7 +1238,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteLoginProfileCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityTemporarilyUnmodifiableError
     | LimitExceededError
@@ -1264,7 +1254,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteOpenIDConnectProviderCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -1275,7 +1265,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeletePolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DeleteConflictError
     | InvalidInputError
@@ -1292,7 +1282,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeletePolicyVersionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DeleteConflictError
     | InvalidInputError
@@ -1309,7 +1299,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteRoleCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentModificationError
     | DeleteConflictError
@@ -1327,7 +1317,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteRolePermissionsBoundaryCommandOutput,
-    Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError | UnmodifiableEntityError
+    Cause.TimeoutError | SdkError | NoSuchEntityError | ServiceFailureError | UnmodifiableEntityError
   >;
 
   /**
@@ -1338,7 +1328,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteRolePolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | LimitExceededError
     | NoSuchEntityError
@@ -1354,7 +1344,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteSAMLProviderCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidInputError | LimitExceededError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | InvalidInputError | LimitExceededError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -1365,7 +1355,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteSSHPublicKeyCommandOutput,
-    Cause.TimeoutException | SdkError | NoSuchEntityError
+    Cause.TimeoutError | SdkError | NoSuchEntityError
   >;
 
   /**
@@ -1376,12 +1366,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteServerCertificateCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | DeleteConflictError
-    | LimitExceededError
-    | NoSuchEntityError
-    | ServiceFailureError
+    Cause.TimeoutError | SdkError | DeleteConflictError | LimitExceededError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -1392,7 +1377,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteServiceLinkedRoleCommandOutput,
-    Cause.TimeoutException | SdkError | LimitExceededError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | LimitExceededError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -1403,7 +1388,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteServiceSpecificCredentialCommandOutput,
-    Cause.TimeoutException | SdkError | NoSuchEntityError
+    Cause.TimeoutError | SdkError | NoSuchEntityError
   >;
 
   /**
@@ -1414,7 +1399,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteSigningCertificateCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentModificationError
     | LimitExceededError
@@ -1430,7 +1415,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteUserCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentModificationError
     | DeleteConflictError
@@ -1447,7 +1432,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteUserPermissionsBoundaryCommandOutput,
-    Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -1458,7 +1443,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteUserPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | LimitExceededError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | LimitExceededError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -1469,7 +1454,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteVirtualMFADeviceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentModificationError
     | DeleteConflictError
@@ -1486,7 +1471,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DetachGroupPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidInputError | LimitExceededError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | InvalidInputError | LimitExceededError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -1497,7 +1482,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DetachRolePolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidInputError
     | LimitExceededError
@@ -1514,7 +1499,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DetachUserPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidInputError | LimitExceededError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | InvalidInputError | LimitExceededError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -1525,7 +1510,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisableOrganizationsRootCredentialsManagementCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccountNotManagementOrDelegatedAdministratorError
     | OrganizationNotFoundError
@@ -1541,7 +1526,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisableOrganizationsRootSessionsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccountNotManagementOrDelegatedAdministratorError
     | OrganizationNotFoundError
@@ -1557,7 +1542,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisableOutboundWebIdentityFederationCommandOutput,
-    Cause.TimeoutException | SdkError | FeatureDisabledError
+    Cause.TimeoutError | SdkError | FeatureDisabledError
   >;
 
   /**
@@ -1568,7 +1553,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     EnableMFADeviceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentModificationError
     | EntityAlreadyExistsError
@@ -1587,7 +1572,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     EnableOrganizationsRootCredentialsManagementCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccountNotManagementOrDelegatedAdministratorError
     | CallerIsNotManagementAccountError
@@ -1604,7 +1589,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     EnableOrganizationsRootSessionsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccountNotManagementOrDelegatedAdministratorError
     | CallerIsNotManagementAccountError
@@ -1621,7 +1606,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     EnableOutboundWebIdentityFederationCommandOutput,
-    Cause.TimeoutException | SdkError | FeatureEnabledError
+    Cause.TimeoutError | SdkError | FeatureEnabledError
   >;
 
   /**
@@ -1632,7 +1617,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GenerateCredentialReportCommandOutput,
-    Cause.TimeoutException | SdkError | LimitExceededError | ServiceFailureError
+    Cause.TimeoutError | SdkError | LimitExceededError | ServiceFailureError
   >;
 
   /**
@@ -1643,7 +1628,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GenerateOrganizationsAccessReportCommandOutput,
-    Cause.TimeoutException | SdkError | ReportGenerationLimitExceededError
+    Cause.TimeoutError | SdkError | ReportGenerationLimitExceededError
   >;
 
   /**
@@ -1654,7 +1639,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GenerateServiceLastAccessedDetailsCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidInputError | NoSuchEntityError
+    Cause.TimeoutError | SdkError | InvalidInputError | NoSuchEntityError
   >;
 
   /**
@@ -1665,7 +1650,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAccessKeyLastUsedCommandOutput,
-    Cause.TimeoutException | SdkError
+    Cause.TimeoutError | SdkError
   >;
 
   /**
@@ -1676,7 +1661,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAccountAuthorizationDetailsCommandOutput,
-    Cause.TimeoutException | SdkError | ServiceFailureError
+    Cause.TimeoutError | SdkError | ServiceFailureError
   >;
 
   /**
@@ -1687,7 +1672,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAccountPasswordPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -1698,7 +1683,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAccountSummaryCommandOutput,
-    Cause.TimeoutException | SdkError | ServiceFailureError
+    Cause.TimeoutError | SdkError | ServiceFailureError
   >;
 
   /**
@@ -1709,7 +1694,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetContextKeysForCustomPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidInputError
+    Cause.TimeoutError | SdkError | InvalidInputError
   >;
 
   /**
@@ -1720,7 +1705,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetContextKeysForPrincipalPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidInputError | NoSuchEntityError
+    Cause.TimeoutError | SdkError | InvalidInputError | NoSuchEntityError
   >;
 
   /**
@@ -1731,7 +1716,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetCredentialReportCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | CredentialReportExpiredError
     | CredentialReportNotPresentError
@@ -1747,7 +1732,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDelegationRequestCommandOutput,
-    Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -1758,7 +1743,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetGroupCommandOutput,
-    Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -1769,7 +1754,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetGroupPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -1780,7 +1765,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetHumanReadableSummaryCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -1791,7 +1776,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetInstanceProfileCommandOutput,
-    Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -1802,7 +1787,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetLoginProfileCommandOutput,
-    Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -1813,7 +1798,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetMFADeviceCommandOutput,
-    Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -1824,7 +1809,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetOpenIDConnectProviderCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -1835,7 +1820,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetOrganizationsAccessReportCommandOutput,
-    Cause.TimeoutException | SdkError | NoSuchEntityError
+    Cause.TimeoutError | SdkError | NoSuchEntityError
   >;
 
   /**
@@ -1846,7 +1831,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetOutboundWebIdentityFederationInfoCommandOutput,
-    Cause.TimeoutException | SdkError | FeatureDisabledError
+    Cause.TimeoutError | SdkError | FeatureDisabledError
   >;
 
   /**
@@ -1857,7 +1842,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -1868,7 +1853,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPolicyVersionCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -1879,7 +1864,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetRoleCommandOutput,
-    Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -1890,7 +1875,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetRolePolicyCommandOutput,
-    Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -1901,7 +1886,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetSAMLProviderCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -1912,7 +1897,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetSSHPublicKeyCommandOutput,
-    Cause.TimeoutException | SdkError | NoSuchEntityError | UnrecognizedPublicKeyEncodingError
+    Cause.TimeoutError | SdkError | NoSuchEntityError | UnrecognizedPublicKeyEncodingError
   >;
 
   /**
@@ -1923,7 +1908,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetServerCertificateCommandOutput,
-    Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -1934,7 +1919,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetServiceLastAccessedDetailsCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidInputError | NoSuchEntityError
+    Cause.TimeoutError | SdkError | InvalidInputError | NoSuchEntityError
   >;
 
   /**
@@ -1945,7 +1930,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetServiceLastAccessedDetailsWithEntitiesCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidInputError | NoSuchEntityError
+    Cause.TimeoutError | SdkError | InvalidInputError | NoSuchEntityError
   >;
 
   /**
@@ -1956,7 +1941,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetServiceLinkedRoleDeletionStatusCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -1967,7 +1952,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetUserCommandOutput,
-    Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -1978,7 +1963,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetUserPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -1989,7 +1974,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAccessKeysCommandOutput,
-    Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -2000,7 +1985,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAccountAliasesCommandOutput,
-    Cause.TimeoutException | SdkError | ServiceFailureError
+    Cause.TimeoutError | SdkError | ServiceFailureError
   >;
 
   /**
@@ -2011,7 +1996,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAttachedGroupPoliciesCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -2022,7 +2007,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAttachedRolePoliciesCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -2033,7 +2018,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAttachedUserPoliciesCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -2044,7 +2029,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDelegationRequestsCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -2055,7 +2040,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListEntitiesForPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -2066,7 +2051,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListGroupPoliciesCommandOutput,
-    Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -2077,7 +2062,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListGroupsCommandOutput,
-    Cause.TimeoutException | SdkError | ServiceFailureError
+    Cause.TimeoutError | SdkError | ServiceFailureError
   >;
 
   /**
@@ -2088,7 +2073,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListGroupsForUserCommandOutput,
-    Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -2099,7 +2084,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListInstanceProfileTagsCommandOutput,
-    Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -2110,7 +2095,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListInstanceProfilesCommandOutput,
-    Cause.TimeoutException | SdkError | ServiceFailureError
+    Cause.TimeoutError | SdkError | ServiceFailureError
   >;
 
   /**
@@ -2121,7 +2106,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListInstanceProfilesForRoleCommandOutput,
-    Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -2132,7 +2117,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListMFADeviceTagsCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -2143,7 +2128,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListMFADevicesCommandOutput,
-    Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -2154,7 +2139,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListOpenIDConnectProviderTagsCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -2165,7 +2150,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListOpenIDConnectProvidersCommandOutput,
-    Cause.TimeoutException | SdkError | ServiceFailureError
+    Cause.TimeoutError | SdkError | ServiceFailureError
   >;
 
   /**
@@ -2176,7 +2161,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListOrganizationsFeaturesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccountNotManagementOrDelegatedAdministratorError
     | OrganizationNotFoundError
@@ -2192,7 +2177,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListPoliciesCommandOutput,
-    Cause.TimeoutException | SdkError | ServiceFailureError
+    Cause.TimeoutError | SdkError | ServiceFailureError
   >;
 
   /**
@@ -2203,7 +2188,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListPoliciesGrantingServiceAccessCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidInputError | NoSuchEntityError
+    Cause.TimeoutError | SdkError | InvalidInputError | NoSuchEntityError
   >;
 
   /**
@@ -2214,7 +2199,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListPolicyTagsCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -2225,7 +2210,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListPolicyVersionsCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -2236,7 +2221,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListRolePoliciesCommandOutput,
-    Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -2247,7 +2232,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListRoleTagsCommandOutput,
-    Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -2258,7 +2243,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListRolesCommandOutput,
-    Cause.TimeoutException | SdkError | ServiceFailureError
+    Cause.TimeoutError | SdkError | ServiceFailureError
   >;
 
   /**
@@ -2269,7 +2254,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListSAMLProviderTagsCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -2280,7 +2265,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListSAMLProvidersCommandOutput,
-    Cause.TimeoutException | SdkError | ServiceFailureError
+    Cause.TimeoutError | SdkError | ServiceFailureError
   >;
 
   /**
@@ -2291,7 +2276,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListSSHPublicKeysCommandOutput,
-    Cause.TimeoutException | SdkError | NoSuchEntityError
+    Cause.TimeoutError | SdkError | NoSuchEntityError
   >;
 
   /**
@@ -2302,7 +2287,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListServerCertificateTagsCommandOutput,
-    Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -2313,7 +2298,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListServerCertificatesCommandOutput,
-    Cause.TimeoutException | SdkError | ServiceFailureError
+    Cause.TimeoutError | SdkError | ServiceFailureError
   >;
 
   /**
@@ -2324,7 +2309,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListServiceSpecificCredentialsCommandOutput,
-    Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceNotSupportedError
+    Cause.TimeoutError | SdkError | NoSuchEntityError | ServiceNotSupportedError
   >;
 
   /**
@@ -2335,7 +2320,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListSigningCertificatesCommandOutput,
-    Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -2346,7 +2331,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListUserPoliciesCommandOutput,
-    Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -2357,7 +2342,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListUserTagsCommandOutput,
-    Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -2368,7 +2353,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListUsersCommandOutput,
-    Cause.TimeoutException | SdkError | ServiceFailureError
+    Cause.TimeoutError | SdkError | ServiceFailureError
   >;
 
   /**
@@ -2379,7 +2364,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListVirtualMFADevicesCommandOutput,
-    Cause.TimeoutException | SdkError
+    Cause.TimeoutError | SdkError
   >;
 
   /**
@@ -2390,7 +2375,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutGroupPolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | LimitExceededError
     | MalformedPolicyDocumentError
@@ -2406,7 +2391,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutRolePermissionsBoundaryCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidInputError
     | NoSuchEntityError
@@ -2423,7 +2408,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutRolePolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | LimitExceededError
     | MalformedPolicyDocumentError
@@ -2440,7 +2425,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutUserPermissionsBoundaryCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidInputError
     | NoSuchEntityError
@@ -2456,7 +2441,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutUserPolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | LimitExceededError
     | MalformedPolicyDocumentError
@@ -2472,7 +2457,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RejectDelegationRequestCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentModificationError
     | InvalidInputError
@@ -2488,7 +2473,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RemoveClientIDFromOpenIDConnectProviderCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentModificationError
     | InvalidInputError
@@ -2504,7 +2489,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RemoveRoleFromInstanceProfileCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | LimitExceededError
     | NoSuchEntityError
@@ -2520,7 +2505,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RemoveUserFromGroupCommandOutput,
-    Cause.TimeoutException | SdkError | LimitExceededError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | LimitExceededError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -2531,7 +2516,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ResetServiceSpecificCredentialCommandOutput,
-    Cause.TimeoutException | SdkError | NoSuchEntityError
+    Cause.TimeoutError | SdkError | NoSuchEntityError
   >;
 
   /**
@@ -2542,7 +2527,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ResyncMFADeviceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentModificationError
     | InvalidAuthenticationCodeError
@@ -2559,7 +2544,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SendDelegationTokenCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentModificationError
     | InvalidInputError
@@ -2575,7 +2560,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SetDefaultPolicyVersionCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidInputError | LimitExceededError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | InvalidInputError | LimitExceededError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -2586,7 +2571,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SetSecurityTokenServicePreferencesCommandOutput,
-    Cause.TimeoutException | SdkError | ServiceFailureError
+    Cause.TimeoutError | SdkError | ServiceFailureError
   >;
 
   /**
@@ -2597,7 +2582,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SimulateCustomPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidInputError | PolicyEvaluationError
+    Cause.TimeoutError | SdkError | InvalidInputError | PolicyEvaluationError
   >;
 
   /**
@@ -2608,7 +2593,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SimulatePrincipalPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidInputError | NoSuchEntityError | PolicyEvaluationError
+    Cause.TimeoutError | SdkError | InvalidInputError | NoSuchEntityError | PolicyEvaluationError
   >;
 
   /**
@@ -2619,7 +2604,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagInstanceProfileCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentModificationError
     | InvalidInputError
@@ -2636,7 +2621,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagMFADeviceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentModificationError
     | InvalidInputError
@@ -2653,7 +2638,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagOpenIDConnectProviderCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentModificationError
     | InvalidInputError
@@ -2670,7 +2655,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagPolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentModificationError
     | InvalidInputError
@@ -2687,7 +2672,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagRoleCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentModificationError
     | InvalidInputError
@@ -2704,7 +2689,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagSAMLProviderCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentModificationError
     | InvalidInputError
@@ -2721,7 +2706,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagServerCertificateCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentModificationError
     | InvalidInputError
@@ -2738,7 +2723,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagUserCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentModificationError
     | InvalidInputError
@@ -2755,7 +2740,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagInstanceProfileCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentModificationError
     | InvalidInputError
@@ -2771,7 +2756,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagMFADeviceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentModificationError
     | InvalidInputError
@@ -2787,7 +2772,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagOpenIDConnectProviderCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentModificationError
     | InvalidInputError
@@ -2803,7 +2788,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagPolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentModificationError
     | InvalidInputError
@@ -2819,7 +2804,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagRoleCommandOutput,
-    Cause.TimeoutException | SdkError | ConcurrentModificationError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | ConcurrentModificationError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -2830,7 +2815,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagSAMLProviderCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentModificationError
     | InvalidInputError
@@ -2846,7 +2831,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagServerCertificateCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentModificationError
     | InvalidInputError
@@ -2862,7 +2847,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagUserCommandOutput,
-    Cause.TimeoutException | SdkError | ConcurrentModificationError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | ConcurrentModificationError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -2873,7 +2858,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateAccessKeyCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidInputError | LimitExceededError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | InvalidInputError | LimitExceededError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -2884,7 +2869,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateAccountPasswordPolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | LimitExceededError
     | MalformedPolicyDocumentError
@@ -2900,7 +2885,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateAssumeRolePolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | LimitExceededError
     | MalformedPolicyDocumentError
@@ -2917,7 +2902,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateDelegationRequestCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentModificationError
     | InvalidInputError
@@ -2933,7 +2918,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateGroupCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityAlreadyExistsError
     | LimitExceededError
@@ -2949,7 +2934,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateLoginProfileCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityTemporarilyUnmodifiableError
     | LimitExceededError
@@ -2966,7 +2951,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateOpenIDConnectProviderThumbprintCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentModificationError
     | InvalidInputError
@@ -2982,7 +2967,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateRoleCommandOutput,
-    Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError | UnmodifiableEntityError
+    Cause.TimeoutError | SdkError | NoSuchEntityError | ServiceFailureError | UnmodifiableEntityError
   >;
 
   /**
@@ -2993,7 +2978,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateRoleDescriptionCommandOutput,
-    Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError | UnmodifiableEntityError
+    Cause.TimeoutError | SdkError | NoSuchEntityError | ServiceFailureError | UnmodifiableEntityError
   >;
 
   /**
@@ -3004,7 +2989,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateSAMLProviderCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentModificationError
     | InvalidInputError
@@ -3021,7 +3006,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateSSHPublicKeyCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidInputError | NoSuchEntityError
+    Cause.TimeoutError | SdkError | InvalidInputError | NoSuchEntityError
   >;
 
   /**
@@ -3032,7 +3017,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateServerCertificateCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityAlreadyExistsError
     | LimitExceededError
@@ -3048,7 +3033,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateServiceSpecificCredentialCommandOutput,
-    Cause.TimeoutException | SdkError | NoSuchEntityError
+    Cause.TimeoutError | SdkError | NoSuchEntityError
   >;
 
   /**
@@ -3059,7 +3044,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateSigningCertificateCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidInputError | LimitExceededError | NoSuchEntityError | ServiceFailureError
+    Cause.TimeoutError | SdkError | InvalidInputError | LimitExceededError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -3070,7 +3055,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateUserCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentModificationError
     | EntityAlreadyExistsError
@@ -3088,7 +3073,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UploadSSHPublicKeyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DuplicateSSHPublicKeyError
     | InvalidPublicKeyError
@@ -3105,7 +3090,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UploadServerCertificateCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentModificationError
     | EntityAlreadyExistsError
@@ -3124,7 +3109,7 @@ interface IAMService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UploadSigningCertificateCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentModificationError
     | DuplicateCertificateError
@@ -3158,10 +3143,10 @@ export const makeIAMService = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class IAMService extends Effect.Tag("@effect-aws/client-iam/IAMService")<
+export class IAMService extends ServiceMap.Service<
   IAMService,
   IAMService$
->() {
+>()("@effect-aws/client-iam/IAMService") {
   static readonly defaultLayer = Layer.effect(this, makeIAMService).pipe(Layer.provide(Instance.layer));
   static readonly layer = (config: IAMService.Config) =>
     Layer.effect(this, makeIAMService).pipe(

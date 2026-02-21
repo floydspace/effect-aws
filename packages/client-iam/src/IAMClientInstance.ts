@@ -2,16 +2,16 @@
  * @since 1.0.0
  */
 import { IAMClient } from "@aws-sdk/client-iam";
-import { Context, Effect, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import * as IAMServiceConfig from "./IAMServiceConfig.js";
 
 /**
  * @since 1.0.0
  * @category tags
  */
-export class IAMClientInstance extends Context.Tag(
+export class IAMClientInstance extends ServiceMap.Service<IAMClientInstance, IAMClient>()(
   "@effect-aws/client-iam/IAMClientInstance",
-)<IAMClientInstance, IAMClient>() {}
+) {}
 
 /**
  * @since 1.0.0
@@ -30,4 +30,4 @@ export const make = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const layer = Layer.scoped(IAMClientInstance, make);
+export const layer = Layer.effect(IAMClientInstance, make);

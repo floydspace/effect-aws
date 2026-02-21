@@ -3,18 +3,17 @@
  */
 import type { OrganizationsClientConfig } from "@aws-sdk/client-organizations";
 import { ServiceLogger } from "@effect-aws/commons";
-import { Effect, FiberRef, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import { dual } from "effect/Function";
-import { globalValue } from "effect/GlobalValue";
 import type { OrganizationsService } from "./OrganizationsService.js";
 
 /**
  * @since 1.0.0
  * @category organizations service config
  */
-const currentOrganizationsServiceConfig = globalValue(
+const currentOrganizationsServiceConfig = ServiceMap.Reference<OrganizationsService.Config>(
   "@effect-aws/client-organizations/currentOrganizationsServiceConfig",
-  () => FiberRef.unsafeMake<OrganizationsService.Config>({}),
+  { defaultValue: () => ({}) },
 );
 
 /**
@@ -27,7 +26,7 @@ export const withOrganizationsServiceConfig: {
 } = dual(
   2,
   <A, E, R>(effect: Effect.Effect<A, E, R>, config: OrganizationsService.Config): Effect.Effect<A, E, R> =>
-    Effect.locally(effect, currentOrganizationsServiceConfig, config),
+    Effect.provideService(effect, currentOrganizationsServiceConfig, config),
 );
 
 /**
@@ -35,14 +34,14 @@ export const withOrganizationsServiceConfig: {
  * @category organizations service config
  */
 export const setOrganizationsServiceConfig = (config: OrganizationsService.Config) =>
-  Layer.locallyScoped(currentOrganizationsServiceConfig, config);
+  Layer.succeed(currentOrganizationsServiceConfig, config);
 
 /**
  * @since 1.0.0
  * @category adapters
  */
 export const toOrganizationsClientConfig: Effect.Effect<OrganizationsClientConfig> = Effect.gen(function*() {
-  const { logger: serviceLogger, ...config } = yield* FiberRef.get(currentOrganizationsServiceConfig);
+  const { logger: serviceLogger, ...config } = yield* currentOrganizationsServiceConfig;
 
   const logger = serviceLogger === true
     ? yield* ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger)

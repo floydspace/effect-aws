@@ -579,15 +579,6 @@
       "@effect-aws/dynamodb/test/*": [
         "./packages/dynamodb/test/*.js"
       ],
-      "@effect-aws/lib-dynamodb": [
-        "./packages/lib-dynamodb/src/index.js"
-      ],
-      "@effect-aws/lib-dynamodb/*": [
-        "./packages/lib-dynamodb/src/*.js"
-      ],
-      "@effect-aws/lib-dynamodb/test/*": [
-        "./packages/lib-dynamodb/test/*.js"
-      ],
       "@effect-aws/lambda": [
         "./packages/lambda/src/index.js"
       ],

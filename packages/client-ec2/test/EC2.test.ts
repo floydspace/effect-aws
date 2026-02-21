@@ -21,7 +21,7 @@ describe("EC2ClientImpl", () => {
 
     const args = {} as unknown as AcceptAddressTransferCommandInput;
 
-    const program = EC2.acceptAddressTransfer(args);
+    const program = EC2.use((svc) => svc.acceptAddressTransfer(args));
 
     const result = await pipe(
       program,
@@ -41,7 +41,7 @@ describe("EC2ClientImpl", () => {
 
     const args = {} as unknown as AcceptAddressTransferCommandInput;
 
-    const program = EC2.acceptAddressTransfer(args);
+    const program = EC2.use((svc) => svc.acceptAddressTransfer(args));
 
     const result = await pipe(
       program,
@@ -64,7 +64,7 @@ describe("EC2ClientImpl", () => {
 
     const args = {} as unknown as AcceptAddressTransferCommandInput;
 
-    const program = EC2.acceptAddressTransfer(args);
+    const program = EC2.use((svc) => svc.acceptAddressTransfer(args));
 
     const result = await pipe(
       program,
@@ -88,7 +88,7 @@ describe("EC2ClientImpl", () => {
 
     const args = {} as unknown as AcceptAddressTransferCommandInput;
 
-    const program = EC2.acceptAddressTransfer(args);
+    const program = EC2.use((svc) => svc.acceptAddressTransfer(args));
 
     const result = await pipe(
       program,
@@ -116,7 +116,7 @@ describe("EC2ClientImpl", () => {
 
     const args = {} as unknown as AcceptAddressTransferCommandInput;
 
-    const program = EC2.acceptAddressTransfer(args);
+    const program = EC2.use((svc) => svc.acceptAddressTransfer(args));
 
     const result = await pipe(
       program,
@@ -126,7 +126,7 @@ describe("EC2ClientImpl", () => {
 
     expect(result).toEqual(
       Exit.fail(
-        SdkError({
+        new SdkError({
           ...new Error("test"),
           name: "SdkError",
           message: "test",

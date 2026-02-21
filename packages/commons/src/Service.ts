@@ -2,10 +2,10 @@
  * @since 0.1.0
  */
 import type { CommandImpl, SmithyResolvedConfiguration } from "@smithy/smithy-client";
-import { ServiceException } from "@smithy/smithy-client";
+import { ServiceException as ServiceError } from "@smithy/smithy-client";
 import type { Client, HandlerOptions, Logger, MiddlewareStack, RequestHandler } from "@smithy/types";
 import type { Array } from "effect";
-import { Cause, Data, Effect, Option, pipe, Record, Runtime, Scope, String } from "effect";
+import { Cause, Data, Effect, Option, pipe, Record, Scope, String } from "effect";
 import type { TaggedException } from "./Errors.js";
 import { SdkError } from "./Errors.js";
 import * as HttpHandler from "./HttpHandler.js";
@@ -46,19 +46,19 @@ type ServiceFnOptions = {
  * @category errors
  */
 export const catchServiceExceptions = (errorTags?: Array.NonEmptyReadonlyArray<string>) => (e: unknown) => {
-  if (e instanceof ServiceException && (!errorTags || errorTags.includes(e.name))) {
-    const ServiceException = Data.tagged<TaggedException<ServiceException>>(e.name);
+  if (e instanceof ServiceError && (!errorTags || errorTags.includes(e.name))) {
+    class ServiceException extends Data.TaggedError(e.name)<TaggedException<ServiceError>> {}
 
-    return ServiceException({ ...e, message: e.message, stack: e.stack });
+    return new ServiceException({ ...e, message: e.message, stack: e.stack });
   }
   if (e instanceof Error) {
-    if (Runtime.isFiberFailure(e) && Cause.isFailType(e[Runtime.FiberFailureCauseId])) {
-      return e[Runtime.FiberFailureCauseId].error;
-    }
+    // if (Runtime.isFiberFailure(e) && Cause.isFailType(e[Runtime.FiberFailureCauseId])) {
+    //   return e[Runtime.FiberFailureCauseId].error;
+    // }
     if (e.name === "TimeoutError") {
-      return new Cause.TimeoutException(e.message);
+      return new Cause.TimeoutError(e.message);
     }
-    return SdkError({ ...e, name: "SdkError", message: e.message, stack: e.stack });
+    return new SdkError({ ...e, name: "SdkError", message: e.message, stack: e.stack });
   }
   throw e;
 };
@@ -75,7 +75,7 @@ export const makeServiceFn = (
   return (args: any, options?: HttpHandlerOptions) =>
     Effect.gen(function*() {
       const config = yield* fnOptions.resolveClientConfig;
-      const runtime = yield* Effect.runtime();
+      const runtime = yield* Effect.services<never>();
 
       return yield* Effect.acquireUseRelease(
         Scope.make(),

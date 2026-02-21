@@ -16,7 +16,7 @@ With default ECRClient instance:
 ```typescript
 import { ECR } from "@effect-aws/client-ecr";
 
-const program = ECR.describeRepositories(args);
+const program = ECR.use((svc) => svc.describeRepositories(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom ECRClient instance:
 ```typescript
 import { ECR } from "@effect-aws/client-ecr";
 
-const program = ECR.describeRepositories(args);
+const program = ECR.use((svc) => svc.describeRepositories(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom ECRClient configuration:
 ```typescript
 import { ECR } from "@effect-aws/client-ecr";
 
-const program = ECR.describeRepositories(args);
+const program = ECR.use((svc) => svc.describeRepositories(args));
 
 const result = await pipe(
   program,

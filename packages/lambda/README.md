@@ -5,7 +5,7 @@ Clean way to write AWS Lambda handlers using [Effect](https://www.effect.website
 [![npm version](https://img.shields.io/npm/v/%40effect-aws%2Flambda?color=brightgreen&label=npm%20package)](https://www.npmjs.com/package/@effect-aws/lambda)
 [![npm downloads](https://img.shields.io/npm/dm/%40effect-aws%2Flambda)](https://www.npmjs.com/package/@effect-aws/lambda)
 
-It provides a `makeLambda` function that takes an `EffectHandler` and returns a native promise Lambda handler function.
+It provides a `LambdaHandler.make` function that takes an `EffectHandler` and returns a native promise Lambda handler function.
 
 The implementation supports defining global runtime layer with graceful shutdown. So all finalizers defined by `acquireRelease` will be called on lambda downscaling.
 
@@ -21,7 +21,7 @@ Without dependencies:
 
 ```typescript
 import { Effect } from "effect"
-import { EffectHandler, makeLambda, SNSEvent } from "@effect-aws/lambda"
+import { EffectHandler, LambdaHandler, SNSEvent } from "@effect-aws/lambda"
 
 // Define your effect handler
 const myEffectHandler: EffectHandler<SNSEvent, never> = (event, context) => {
@@ -30,13 +30,13 @@ const myEffectHandler: EffectHandler<SNSEvent, never> = (event, context) => {
 }
 
 // Create the Lambda handler
-export const handler = makeLambda(myEffectHandler)
+export const handler = LambdaHandler.make(myEffectHandler)
 ```
 
 With dependencies:
 
 ```typescript
-import { EffectHandler, makeLambda, SNSEvent } from "@effect-aws/lambda"
+import { EffectHandler, LambdaHandler, SNSEvent } from "@effect-aws/lambda"
 import * as Logger from "@effect-aws/powertools-logger"
 import { Context, Effect, Layer } from "effect"
 
@@ -64,7 +64,10 @@ const LambdaLive = Layer.provideMerge(
 )
 
 // Create the Lambda handler
-export const handler = makeLambda(myEffectHandler, LambdaLive)
+export const handler = LambdaHandler.make({
+  handler: myEffectHandler,
+  layer: LambdaLive
+})
 ```
 
 Streaming:

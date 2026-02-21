@@ -16,7 +16,7 @@ With default CloudWatchEventsClient instance:
 ```typescript
 import { CloudWatchEvents } from "@effect-aws/client-cloudwatch-events";
 
-const program = CloudWatchEvents.listRules(args);
+const program = CloudWatchEvents.use((svc) => svc.listRules(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom CloudWatchEventsClient instance:
 ```typescript
 import { CloudWatchEvents } from "@effect-aws/client-cloudwatch-events";
 
-const program = CloudWatchEvents.listRules(args);
+const program = CloudWatchEvents.use((svc) => svc.listRules(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom CloudWatchEventsClient configuration:
 ```typescript
 import { CloudWatchEvents } from "@effect-aws/client-cloudwatch-events";
 
-const program = CloudWatchEvents.listRules(args);
+const program = CloudWatchEvents.use((svc) => svc.listRules(args));
 
 const result = await pipe(
   program,

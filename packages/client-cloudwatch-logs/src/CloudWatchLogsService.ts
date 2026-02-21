@@ -329,7 +329,7 @@ import {
 import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
-import { Effect, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import * as Instance from "./CloudWatchLogsClientInstance.js";
 import * as CloudWatchLogsServiceConfig from "./CloudWatchLogsServiceConfig.js";
 import type {
@@ -476,7 +476,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AssociateKmsKeyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | OperationAbortedError
@@ -492,7 +492,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AssociateSourceToS3TableIntegrationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -509,7 +509,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelExportTaskCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidOperationError
     | InvalidParameterError
@@ -525,7 +525,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelImportTaskCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InvalidOperationError
@@ -542,7 +542,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateDeliveryCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -561,7 +561,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateExportTaskCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | LimitExceededError
@@ -579,7 +579,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateImportTaskCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -598,7 +598,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateLogAnomalyDetectorCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | LimitExceededError
@@ -615,7 +615,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateLogGroupCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | LimitExceededError
@@ -632,7 +632,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateLogStreamCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | ResourceAlreadyExistsError
@@ -648,7 +648,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateScheduledQueryCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -667,7 +667,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteAccountPolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | OperationAbortedError
@@ -683,7 +683,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDataProtectionPolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | OperationAbortedError
@@ -699,7 +699,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDeliveryCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConflictError
     | ResourceNotFoundError
@@ -717,7 +717,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDeliveryDestinationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConflictError
     | ResourceNotFoundError
@@ -735,12 +735,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDeliveryDestinationPolicyCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | ConflictError
-    | ResourceNotFoundError
-    | ServiceUnavailableError
-    | ValidationError
+    Cause.TimeoutError | SdkError | ConflictError | ResourceNotFoundError | ServiceUnavailableError | ValidationError
   >;
 
   /**
@@ -751,7 +746,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDeliverySourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConflictError
     | ResourceNotFoundError
@@ -769,7 +764,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDestinationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | OperationAbortedError
@@ -785,7 +780,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteIndexPolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | LimitExceededError
@@ -802,7 +797,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteIntegrationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | ResourceNotFoundError
@@ -818,7 +813,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteLogAnomalyDetectorCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | OperationAbortedError
@@ -834,7 +829,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteLogGroupCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | OperationAbortedError
@@ -851,7 +846,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteLogStreamCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | OperationAbortedError
@@ -868,7 +863,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteMetricFilterCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | OperationAbortedError
@@ -884,7 +879,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteQueryDefinitionCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | ResourceNotFoundError | ServiceUnavailableError
+    Cause.TimeoutError | SdkError | InvalidParameterError | ResourceNotFoundError | ServiceUnavailableError
   >;
 
   /**
@@ -895,7 +890,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteResourcePolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | OperationAbortedError
@@ -911,7 +906,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteRetentionPolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | OperationAbortedError
@@ -927,7 +922,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteScheduledQueryCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -944,7 +939,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteSubscriptionFilterCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | OperationAbortedError
@@ -960,7 +955,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteTransformerCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidOperationError
     | InvalidParameterError
@@ -977,7 +972,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeAccountPoliciesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | OperationAbortedError
@@ -993,12 +988,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeConfigurationTemplatesCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | ResourceNotFoundError
-    | ServiceUnavailableError
-    | ThrottlingError
-    | ValidationError
+    Cause.TimeoutError | SdkError | ResourceNotFoundError | ServiceUnavailableError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1009,7 +999,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeDeliveriesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ServiceQuotaExceededError
     | ServiceUnavailableError
@@ -1025,7 +1015,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeDeliveryDestinationsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ServiceQuotaExceededError
     | ServiceUnavailableError
@@ -1041,7 +1031,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeDeliverySourcesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ServiceQuotaExceededError
     | ServiceUnavailableError
@@ -1057,7 +1047,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeDestinationsCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | ServiceUnavailableError
+    Cause.TimeoutError | SdkError | InvalidParameterError | ServiceUnavailableError
   >;
 
   /**
@@ -1068,7 +1058,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeExportTasksCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | ServiceUnavailableError
+    Cause.TimeoutError | SdkError | InvalidParameterError | ServiceUnavailableError
   >;
 
   /**
@@ -1079,7 +1069,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeFieldIndexesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | LimitExceededError
@@ -1096,7 +1086,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeImportTaskBatchesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InvalidOperationError
@@ -1113,7 +1103,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeImportTasksCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InvalidOperationError
@@ -1130,7 +1120,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeIndexPoliciesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | LimitExceededError
@@ -1147,7 +1137,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeLogGroupsCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | ServiceUnavailableError
+    Cause.TimeoutError | SdkError | InvalidParameterError | ServiceUnavailableError
   >;
 
   /**
@@ -1158,7 +1148,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeLogStreamsCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | ResourceNotFoundError | ServiceUnavailableError
+    Cause.TimeoutError | SdkError | InvalidParameterError | ResourceNotFoundError | ServiceUnavailableError
   >;
 
   /**
@@ -1169,7 +1159,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeMetricFiltersCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | ResourceNotFoundError | ServiceUnavailableError
+    Cause.TimeoutError | SdkError | InvalidParameterError | ResourceNotFoundError | ServiceUnavailableError
   >;
 
   /**
@@ -1180,7 +1170,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeQueriesCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | ResourceNotFoundError | ServiceUnavailableError
+    Cause.TimeoutError | SdkError | InvalidParameterError | ResourceNotFoundError | ServiceUnavailableError
   >;
 
   /**
@@ -1191,7 +1181,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeQueryDefinitionsCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | ServiceUnavailableError
+    Cause.TimeoutError | SdkError | InvalidParameterError | ServiceUnavailableError
   >;
 
   /**
@@ -1202,7 +1192,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeResourcePoliciesCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | ServiceUnavailableError
+    Cause.TimeoutError | SdkError | InvalidParameterError | ServiceUnavailableError
   >;
 
   /**
@@ -1213,7 +1203,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeSubscriptionFiltersCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | ResourceNotFoundError | ServiceUnavailableError
+    Cause.TimeoutError | SdkError | InvalidParameterError | ResourceNotFoundError | ServiceUnavailableError
   >;
 
   /**
@@ -1224,7 +1214,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisassociateKmsKeyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | OperationAbortedError
@@ -1240,7 +1230,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisassociateSourceFromS3TableIntegrationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1257,7 +1247,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     FilterLogEventsCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | ResourceNotFoundError | ServiceUnavailableError
+    Cause.TimeoutError | SdkError | InvalidParameterError | ResourceNotFoundError | ServiceUnavailableError
   >;
 
   /**
@@ -1268,7 +1258,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDataProtectionPolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | OperationAbortedError
@@ -1284,7 +1274,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDeliveryCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ResourceNotFoundError
     | ServiceQuotaExceededError
@@ -1301,7 +1291,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDeliveryDestinationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ResourceNotFoundError
     | ServiceQuotaExceededError
@@ -1318,7 +1308,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDeliveryDestinationPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | ResourceNotFoundError | ServiceUnavailableError | ValidationError
+    Cause.TimeoutError | SdkError | ResourceNotFoundError | ServiceUnavailableError | ValidationError
   >;
 
   /**
@@ -1329,7 +1319,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDeliverySourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ResourceNotFoundError
     | ServiceQuotaExceededError
@@ -1346,7 +1336,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetIntegrationCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | ResourceNotFoundError | ServiceUnavailableError
+    Cause.TimeoutError | SdkError | InvalidParameterError | ResourceNotFoundError | ServiceUnavailableError
   >;
 
   /**
@@ -1357,7 +1347,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetLogAnomalyDetectorCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | OperationAbortedError
@@ -1373,7 +1363,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetLogEventsCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | ResourceNotFoundError | ServiceUnavailableError
+    Cause.TimeoutError | SdkError | InvalidParameterError | ResourceNotFoundError | ServiceUnavailableError
   >;
 
   /**
@@ -1384,7 +1374,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetLogFieldsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | OperationAbortedError
@@ -1400,7 +1390,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetLogGroupFieldsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | LimitExceededError
@@ -1416,7 +1406,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetLogObjectCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InvalidOperationError
@@ -1433,7 +1423,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetLogRecordCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | LimitExceededError
@@ -1449,7 +1439,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetQueryResultsCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | ResourceNotFoundError | ServiceUnavailableError
+    Cause.TimeoutError | SdkError | InvalidParameterError | ResourceNotFoundError | ServiceUnavailableError
   >;
 
   /**
@@ -1460,7 +1450,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetScheduledQueryCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1477,7 +1467,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetScheduledQueryHistoryCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1494,7 +1484,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetTransformerCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidOperationError
     | InvalidParameterError
@@ -1510,7 +1500,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAggregateLogGroupSummariesCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | ServiceUnavailableError | ValidationError
+    Cause.TimeoutError | SdkError | InvalidParameterError | ServiceUnavailableError | ValidationError
   >;
 
   /**
@@ -1521,7 +1511,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAnomaliesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | OperationAbortedError
@@ -1537,7 +1527,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListIntegrationsCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | ServiceUnavailableError
+    Cause.TimeoutError | SdkError | InvalidParameterError | ServiceUnavailableError
   >;
 
   /**
@@ -1548,7 +1538,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListLogAnomalyDetectorsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | OperationAbortedError
@@ -1564,7 +1554,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListLogGroupsCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | ServiceUnavailableError
+    Cause.TimeoutError | SdkError | InvalidParameterError | ServiceUnavailableError
   >;
 
   /**
@@ -1575,7 +1565,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListLogGroupsForQueryCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InvalidParameterError
@@ -1591,7 +1581,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListScheduledQueriesCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1602,7 +1592,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListSourcesForS3TableIntegrationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1619,7 +1609,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsForResourceCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | ResourceNotFoundError | ServiceUnavailableError
+    Cause.TimeoutError | SdkError | InvalidParameterError | ResourceNotFoundError | ServiceUnavailableError
   >;
 
   /**
@@ -1630,7 +1620,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsLogGroupCommandOutput,
-    Cause.TimeoutException | SdkError | ResourceNotFoundError | ServiceUnavailableError
+    Cause.TimeoutError | SdkError | ResourceNotFoundError | ServiceUnavailableError
   >;
 
   /**
@@ -1641,7 +1631,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutAccountPolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | LimitExceededError
@@ -1657,7 +1647,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutDataProtectionPolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | LimitExceededError
@@ -1674,7 +1664,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutDeliveryDestinationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConflictError
     | ResourceNotFoundError
@@ -1692,12 +1682,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutDeliveryDestinationPolicyCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | ConflictError
-    | ResourceNotFoundError
-    | ServiceUnavailableError
-    | ValidationError
+    Cause.TimeoutError | SdkError | ConflictError | ResourceNotFoundError | ServiceUnavailableError | ValidationError
   >;
 
   /**
@@ -1708,7 +1693,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutDeliverySourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConflictError
     | ResourceNotFoundError
@@ -1726,7 +1711,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutDestinationCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | OperationAbortedError | ServiceUnavailableError
+    Cause.TimeoutError | SdkError | InvalidParameterError | OperationAbortedError | ServiceUnavailableError
   >;
 
   /**
@@ -1737,7 +1722,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutDestinationPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | OperationAbortedError | ServiceUnavailableError
+    Cause.TimeoutError | SdkError | InvalidParameterError | OperationAbortedError | ServiceUnavailableError
   >;
 
   /**
@@ -1748,7 +1733,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutIndexPolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | LimitExceededError
@@ -1765,7 +1750,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutIntegrationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | LimitExceededError
@@ -1781,7 +1766,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutLogEventsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DataAlreadyAcceptedError
     | InvalidParameterError
@@ -1799,7 +1784,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutLogGroupDeletionProtectionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InvalidOperationError
@@ -1817,7 +1802,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutMetricFilterCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidOperationError
     | InvalidParameterError
@@ -1835,7 +1820,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutQueryDefinitionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | LimitExceededError
@@ -1851,7 +1836,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutResourcePolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | LimitExceededError
@@ -1868,7 +1853,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutRetentionPolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | OperationAbortedError
@@ -1884,7 +1869,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutSubscriptionFilterCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidOperationError
     | InvalidParameterError
@@ -1902,7 +1887,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutTransformerCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidOperationError
     | InvalidParameterError
@@ -1920,7 +1905,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartLiveTailCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InvalidOperationError
@@ -1937,7 +1922,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartQueryCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | LimitExceededError
@@ -1954,7 +1939,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StopQueryCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | ResourceNotFoundError | ServiceUnavailableError
+    Cause.TimeoutError | SdkError | InvalidParameterError | ResourceNotFoundError | ServiceUnavailableError
   >;
 
   /**
@@ -1965,7 +1950,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagLogGroupCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | ResourceNotFoundError
+    Cause.TimeoutError | SdkError | InvalidParameterError | ResourceNotFoundError
   >;
 
   /**
@@ -1976,7 +1961,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagResourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | ResourceNotFoundError
@@ -1992,7 +1977,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TestMetricFilterCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | ServiceUnavailableError
+    Cause.TimeoutError | SdkError | InvalidParameterError | ServiceUnavailableError
   >;
 
   /**
@@ -2003,7 +1988,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TestTransformerCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidOperationError | InvalidParameterError | ServiceUnavailableError
+    Cause.TimeoutError | SdkError | InvalidOperationError | InvalidParameterError | ServiceUnavailableError
   >;
 
   /**
@@ -2014,7 +1999,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagLogGroupCommandOutput,
-    Cause.TimeoutException | SdkError | ResourceNotFoundError
+    Cause.TimeoutError | SdkError | ResourceNotFoundError
   >;
 
   /**
@@ -2025,7 +2010,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | ResourceNotFoundError | ServiceUnavailableError
+    Cause.TimeoutError | SdkError | InvalidParameterError | ResourceNotFoundError | ServiceUnavailableError
   >;
 
   /**
@@ -2036,7 +2021,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateAnomalyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | OperationAbortedError
@@ -2052,7 +2037,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateDeliveryConfigurationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -2070,7 +2055,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateLogAnomalyDetectorCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | OperationAbortedError
@@ -2086,7 +2071,7 @@ interface CloudWatchLogsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateScheduledQueryCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -2117,10 +2102,10 @@ export const makeCloudWatchLogsService = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class CloudWatchLogsService extends Effect.Tag("@effect-aws/client-cloudwatch-logs/CloudWatchLogsService")<
+export class CloudWatchLogsService extends ServiceMap.Service<
   CloudWatchLogsService,
   CloudWatchLogsService$
->() {
+>()("@effect-aws/client-cloudwatch-logs/CloudWatchLogsService") {
   static readonly defaultLayer = Layer.effect(this, makeCloudWatchLogsService).pipe(Layer.provide(Instance.layer));
   static readonly layer = (config: CloudWatchLogsService.Config) =>
     Layer.effect(this, makeCloudWatchLogsService).pipe(

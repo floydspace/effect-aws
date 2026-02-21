@@ -1,26 +1,25 @@
-import { Error } from "@effect/platform";
 import * as NodeStream from "@effect/platform-node-shared/NodeStream";
-import { Effect, Predicate, Stream } from "effect";
+import { Effect, Stream } from "effect";
 import { dual } from "effect/Function";
+import * as Error from "effect/PlatformError";
 import type { PipelineDestination, PipelineSource } from "node:stream";
 import * as NS from "node:stream/promises";
 
-/** @internal */
-const isStream = (u: unknown): u is Stream.Stream<unknown, unknown> => Predicate.hasProperty(u, Stream.StreamTypeId);
-
 const handleErrnoException =
   (module: Error.SystemError["module"], method: string) => (err: unknown): Error.PlatformError => {
-    const reason: Error.SystemErrorReason = "Unknown";
+    const reason: Error.SystemErrorTag = "Unknown";
 
-    return new Error.SystemError({
-      reason,
-      module,
-      method,
-      pathOrDescriptor: "",
-      syscall: (err as NodeJS.ErrnoException).syscall,
-      description: (err as NodeJS.ErrnoException).message,
-      cause: err,
-    });
+    return new Error.PlatformError(
+      new Error.SystemError({
+        _tag: reason,
+        module,
+        method,
+        pathOrDescriptor: "",
+        syscall: (err as NodeJS.ErrnoException).syscall,
+        description: (err as NodeJS.ErrnoException).message,
+        cause: err,
+      }),
+    );
   };
 
 /** @internal */
@@ -48,7 +47,7 @@ export const pipeTo: {
     options?: Omit<NS.PipelineOptions, "signal">,
   ): Effect.Effect<void, Error.PlatformError>;
 } = dual(
-  (args) => isStream(args[0]),
+  (args) => Stream.isStream(args[0]),
   <E, R>(
     stream: Stream.Stream<string | Uint8Array, E, R>,
     writable: NodeJS.WritableStream,

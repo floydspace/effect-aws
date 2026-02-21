@@ -63,7 +63,6 @@ packages:
   - packages/dynamodb
   - packages/http-handler
   - packages/lambda
-  - packages/lib-dynamodb
   - packages/powertools-logger
   - packages/powertools-tracer
   - packages/s3

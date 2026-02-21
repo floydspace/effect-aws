@@ -2,16 +2,16 @@
  * @since 1.0.0
  */
 import { CloudTrailClient } from "@aws-sdk/client-cloudtrail";
-import { Context, Effect, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import * as CloudTrailServiceConfig from "./CloudTrailServiceConfig.js";
 
 /**
  * @since 1.0.0
  * @category tags
  */
-export class CloudTrailClientInstance extends Context.Tag(
+export class CloudTrailClientInstance extends ServiceMap.Service<CloudTrailClientInstance, CloudTrailClient>()(
   "@effect-aws/client-cloudtrail/CloudTrailClientInstance",
-)<CloudTrailClientInstance, CloudTrailClient>() {}
+) {}
 
 /**
  * @since 1.0.0
@@ -30,4 +30,4 @@ export const make = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const layer = Layer.scoped(CloudTrailClientInstance, make);
+export const layer = Layer.effect(CloudTrailClientInstance, make);

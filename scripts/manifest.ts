@@ -1,5 +1,5 @@
-import { HttpClient, HttpClientResponse } from "@effect/platform";
 import { Effect, Schema } from "effect";
+import { HttpClient, HttpClientResponse } from "effect/unstable/http";
 
 const OperationShape = Schema.Struct({
   type: Schema.Literal("operation"),
@@ -30,7 +30,7 @@ const MapShape = Schema.Struct({ type: Schema.Literal("map") });
 const DocumentShape = Schema.Struct({ type: Schema.Literal("document") });
 const UnionShape = Schema.Struct({ type: Schema.Literal("union") });
 
-const Shape = Schema.Union(
+const Shape = Schema.Union([
   OperationShape,
   ServiceShape,
   BooleanShape,
@@ -48,11 +48,11 @@ const Shape = Schema.Union(
   MapShape,
   DocumentShape,
   UnionShape,
-);
+]);
 export type Shape = Schema.Schema.Type<typeof Shape>;
 
 export class Manifest extends Schema.Class<Manifest>("Manifest")({
-  shapes: Schema.Record({ key: Schema.String, value: Shape }),
+  shapes: Schema.Record(Schema.String, Shape),
 }) {}
 
 export const fetchSdkManifest = (awsServiceName: string) =>

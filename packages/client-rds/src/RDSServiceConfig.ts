@@ -3,18 +3,17 @@
  */
 import type { RDSClientConfig } from "@aws-sdk/client-rds";
 import { ServiceLogger } from "@effect-aws/commons";
-import { Effect, FiberRef, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import { dual } from "effect/Function";
-import { globalValue } from "effect/GlobalValue";
 import type { RDSService } from "./RDSService.js";
 
 /**
  * @since 1.0.0
  * @category rds service config
  */
-const currentRDSServiceConfig = globalValue(
+const currentRDSServiceConfig = ServiceMap.Reference<RDSService.Config>(
   "@effect-aws/client-rds/currentRDSServiceConfig",
-  () => FiberRef.unsafeMake<RDSService.Config>({}),
+  { defaultValue: () => ({}) },
 );
 
 /**
@@ -27,21 +26,21 @@ export const withRDSServiceConfig: {
 } = dual(
   2,
   <A, E, R>(effect: Effect.Effect<A, E, R>, config: RDSService.Config): Effect.Effect<A, E, R> =>
-    Effect.locally(effect, currentRDSServiceConfig, config),
+    Effect.provideService(effect, currentRDSServiceConfig, config),
 );
 
 /**
  * @since 1.0.0
  * @category rds service config
  */
-export const setRDSServiceConfig = (config: RDSService.Config) => Layer.locallyScoped(currentRDSServiceConfig, config);
+export const setRDSServiceConfig = (config: RDSService.Config) => Layer.succeed(currentRDSServiceConfig, config);
 
 /**
  * @since 1.0.0
  * @category adapters
  */
 export const toRDSClientConfig: Effect.Effect<RDSClientConfig> = Effect.gen(function*() {
-  const { logger: serviceLogger, ...config } = yield* FiberRef.get(currentRDSServiceConfig);
+  const { logger: serviceLogger, ...config } = yield* currentRDSServiceConfig;
 
   const logger = serviceLogger === true
     ? yield* ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger)

@@ -16,7 +16,7 @@ With default AutoScalingClient instance:
 ```typescript
 import { AutoScaling } from "@effect-aws/client-auto-scaling";
 
-const program = AutoScaling.describeAutoScalingGroups(args);
+const program = AutoScaling.use((svc) => svc.describeAutoScalingGroups(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom AutoScalingClient instance:
 ```typescript
 import { AutoScaling } from "@effect-aws/client-auto-scaling";
 
-const program = AutoScaling.describeAutoScalingGroups(args);
+const program = AutoScaling.use((svc) => svc.describeAutoScalingGroups(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom AutoScalingClient configuration:
 ```typescript
 import { AutoScaling } from "@effect-aws/client-auto-scaling";
 
-const program = AutoScaling.describeAutoScalingGroups(args);
+const program = AutoScaling.use((svc) => svc.describeAutoScalingGroups(args));
 
 const result = await pipe(
   program,

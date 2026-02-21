@@ -3,18 +3,17 @@
  */
 import type { CloudTrailClientConfig } from "@aws-sdk/client-cloudtrail";
 import { ServiceLogger } from "@effect-aws/commons";
-import { Effect, FiberRef, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import { dual } from "effect/Function";
-import { globalValue } from "effect/GlobalValue";
 import type { CloudTrailService } from "./CloudTrailService.js";
 
 /**
  * @since 1.0.0
  * @category cloudtrail service config
  */
-const currentCloudTrailServiceConfig = globalValue(
+const currentCloudTrailServiceConfig = ServiceMap.Reference<CloudTrailService.Config>(
   "@effect-aws/client-cloudtrail/currentCloudTrailServiceConfig",
-  () => FiberRef.unsafeMake<CloudTrailService.Config>({}),
+  { defaultValue: () => ({}) },
 );
 
 /**
@@ -27,7 +26,7 @@ export const withCloudTrailServiceConfig: {
 } = dual(
   2,
   <A, E, R>(effect: Effect.Effect<A, E, R>, config: CloudTrailService.Config): Effect.Effect<A, E, R> =>
-    Effect.locally(effect, currentCloudTrailServiceConfig, config),
+    Effect.provideService(effect, currentCloudTrailServiceConfig, config),
 );
 
 /**
@@ -35,14 +34,14 @@ export const withCloudTrailServiceConfig: {
  * @category cloudtrail service config
  */
 export const setCloudTrailServiceConfig = (config: CloudTrailService.Config) =>
-  Layer.locallyScoped(currentCloudTrailServiceConfig, config);
+  Layer.succeed(currentCloudTrailServiceConfig, config);
 
 /**
  * @since 1.0.0
  * @category adapters
  */
 export const toCloudTrailClientConfig: Effect.Effect<CloudTrailClientConfig> = Effect.gen(function*() {
-  const { logger: serviceLogger, ...config } = yield* FiberRef.get(currentCloudTrailServiceConfig);
+  const { logger: serviceLogger, ...config } = yield* currentCloudTrailServiceConfig;
 
   const logger = serviceLogger === true
     ? yield* ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger)

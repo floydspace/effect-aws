@@ -3,15 +3,15 @@
  */
 import type { DsqlSignerConfig } from "@aws-sdk/dsql-signer";
 import { DsqlSigner } from "@aws-sdk/dsql-signer";
-import { Context, Effect, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 
 /**
  * @since 0.1.0
  * @category tags
  */
-export class DsqlSignerInstance extends Context.Tag(
+export class DsqlSignerInstance extends ServiceMap.Service<DsqlSignerInstance, DsqlSigner>()(
   "@effect-aws/dsql/DsqlSignerInstance",
-)<DsqlSignerInstance, DsqlSigner>() {}
+) {}
 
 /**
  * @since 0.1.0
