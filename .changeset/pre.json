@@ -70,5 +70,7 @@
     "@effect-aws/secrets-manager": "1.3.3",
     "@effect-aws/ssm": "1.3.6"
   },
-  "changesets": []
+  "changesets": [
+    "sour-parents-clean"
+  ]
 }
