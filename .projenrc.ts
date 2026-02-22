@@ -29,6 +29,7 @@ new Changesets(project, {
   repo,
   onlyUpdatePeerDependentsWhenOutOfRange: true,
   linked: [`@${name}/client-*`],
+  prereleaseBranches: ["beta"],
 });
 project.package.manifest.pnpm.patchedDependencies = {
   "@changesets/assemble-release-plan": "patches/@changesets__assemble-release-plan.patch",

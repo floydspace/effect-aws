@@ -1,7 +1,7 @@
 name: Snapshot
 on:
   pull_request:
-    branches: [main]
+    branches: [main, beta]
   workflow_dispatch:
 
 permissions: {}
