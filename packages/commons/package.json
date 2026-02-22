@@ -25,18 +25,18 @@
     "organization": false
   },
   "devDependencies": {
-    "@aws-sdk/middleware-logger": "^3.956.0",
+    "@aws-sdk/middleware-logger": "^3.972.3",
     "@types/node": "ts5.4",
-    "effect": "^3.16.4",
+    "effect": "4.0.0-beta.8",
     "typescript": "^5.4.2"
   },
   "peerDependencies": {
-    "effect": ">=3.0.4 <4.0.0"
+    "effect": ">=4.0.0 <5.0.0"
   },
   "dependencies": {
-    "@smithy/protocol-http": "^5.3.5",
-    "@smithy/smithy-client": "^4.9.9",
-    "@smithy/types": "^4.9.0"
+    "@smithy/protocol-http": "^5.3.8",
+    "@smithy/smithy-client": "^4.11.5",
+    "@smithy/types": "^4.11.0"
   },
   "main": "build/cjs/index.js",
   "license": "MIT",

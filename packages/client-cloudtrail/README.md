@@ -16,7 +16,7 @@ With default CloudTrailClient instance:
 ```typescript
 import { CloudTrail } from "@effect-aws/client-cloudtrail";
 
-const program = CloudTrail.listTrails(args);
+const program = CloudTrail.use((svc) => svc.listTrails(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom CloudTrailClient instance:
 ```typescript
 import { CloudTrail } from "@effect-aws/client-cloudtrail";
 
-const program = CloudTrail.listTrails(args);
+const program = CloudTrail.use((svc) => svc.listTrails(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom CloudTrailClient configuration:
 ```typescript
 import { CloudTrail } from "@effect-aws/client-cloudtrail";
 
-const program = CloudTrail.listTrails(args);
+const program = CloudTrail.use((svc) => svc.listTrails(args));
 
 const result = await pipe(
   program,

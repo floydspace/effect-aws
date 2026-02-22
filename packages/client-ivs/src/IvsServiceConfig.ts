@@ -3,18 +3,17 @@
  */
 import type { IvsClientConfig } from "@aws-sdk/client-ivs";
 import { ServiceLogger } from "@effect-aws/commons";
-import { Effect, FiberRef, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import { dual } from "effect/Function";
-import { globalValue } from "effect/GlobalValue";
 import type { IvsService } from "./IvsService.js";
 
 /**
  * @since 1.0.0
  * @category ivs service config
  */
-const currentIvsServiceConfig = globalValue(
+const currentIvsServiceConfig = ServiceMap.Reference<IvsService.Config>(
   "@effect-aws/client-ivs/currentIvsServiceConfig",
-  () => FiberRef.unsafeMake<IvsService.Config>({}),
+  { defaultValue: () => ({}) },
 );
 
 /**
@@ -27,21 +26,21 @@ export const withIvsServiceConfig: {
 } = dual(
   2,
   <A, E, R>(effect: Effect.Effect<A, E, R>, config: IvsService.Config): Effect.Effect<A, E, R> =>
-    Effect.locally(effect, currentIvsServiceConfig, config),
+    Effect.provideService(effect, currentIvsServiceConfig, config),
 );
 
 /**
  * @since 1.0.0
  * @category ivs service config
  */
-export const setIvsServiceConfig = (config: IvsService.Config) => Layer.locallyScoped(currentIvsServiceConfig, config);
+export const setIvsServiceConfig = (config: IvsService.Config) => Layer.succeed(currentIvsServiceConfig, config);
 
 /**
  * @since 1.0.0
  * @category adapters
  */
 export const toIvsClientConfig: Effect.Effect<IvsClientConfig> = Effect.gen(function*() {
-  const { logger: serviceLogger, ...config } = yield* FiberRef.get(currentIvsServiceConfig);
+  const { logger: serviceLogger, ...config } = yield* currentIvsServiceConfig;
 
   const logger = serviceLogger === true
     ? yield* ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger)

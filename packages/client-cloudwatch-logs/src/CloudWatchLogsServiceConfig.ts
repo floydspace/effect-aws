@@ -3,18 +3,17 @@
  */
 import type { CloudWatchLogsClientConfig } from "@aws-sdk/client-cloudwatch-logs";
 import { ServiceLogger } from "@effect-aws/commons";
-import { Effect, FiberRef, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import { dual } from "effect/Function";
-import { globalValue } from "effect/GlobalValue";
 import type { CloudWatchLogsService } from "./CloudWatchLogsService.js";
 
 /**
  * @since 1.0.0
  * @category cloudwatch-logs service config
  */
-const currentCloudWatchLogsServiceConfig = globalValue(
+const currentCloudWatchLogsServiceConfig = ServiceMap.Reference<CloudWatchLogsService.Config>(
   "@effect-aws/client-cloudwatch-logs/currentCloudWatchLogsServiceConfig",
-  () => FiberRef.unsafeMake<CloudWatchLogsService.Config>({}),
+  { defaultValue: () => ({}) },
 );
 
 /**
@@ -27,7 +26,7 @@ export const withCloudWatchLogsServiceConfig: {
 } = dual(
   2,
   <A, E, R>(effect: Effect.Effect<A, E, R>, config: CloudWatchLogsService.Config): Effect.Effect<A, E, R> =>
-    Effect.locally(effect, currentCloudWatchLogsServiceConfig, config),
+    Effect.provideService(effect, currentCloudWatchLogsServiceConfig, config),
 );
 
 /**
@@ -35,14 +34,14 @@ export const withCloudWatchLogsServiceConfig: {
  * @category cloudwatch-logs service config
  */
 export const setCloudWatchLogsServiceConfig = (config: CloudWatchLogsService.Config) =>
-  Layer.locallyScoped(currentCloudWatchLogsServiceConfig, config);
+  Layer.succeed(currentCloudWatchLogsServiceConfig, config);
 
 /**
  * @since 1.0.0
  * @category adapters
  */
 export const toCloudWatchLogsClientConfig: Effect.Effect<CloudWatchLogsClientConfig> = Effect.gen(function*() {
-  const { logger: serviceLogger, ...config } = yield* FiberRef.get(currentCloudWatchLogsServiceConfig);
+  const { logger: serviceLogger, ...config } = yield* currentCloudWatchLogsServiceConfig;
 
   const logger = serviceLogger === true
     ? yield* ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger)

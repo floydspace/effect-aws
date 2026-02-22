@@ -77,7 +77,7 @@ import {
 import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
-import { Effect, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import type {
   BatchEntryIdsNotDistinctError,
   BatchRequestTooLongError,
@@ -150,7 +150,7 @@ interface SQSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AddPermissionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidAddressError
     | InvalidSecurityError
@@ -168,7 +168,7 @@ interface SQSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelMessageMoveTaskCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidAddressError
     | InvalidSecurityError
@@ -185,7 +185,7 @@ interface SQSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ChangeMessageVisibilityCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidAddressError
     | InvalidSecurityError
@@ -204,7 +204,7 @@ interface SQSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ChangeMessageVisibilityBatchCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BatchEntryIdsNotDistinctError
     | EmptyBatchRequestError
@@ -225,7 +225,7 @@ interface SQSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateQueueCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidAddressError
     | InvalidAttributeNameError
@@ -245,7 +245,7 @@ interface SQSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteMessageCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidAddressError
     | InvalidIdFormatError
@@ -264,7 +264,7 @@ interface SQSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteMessageBatchCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BatchEntryIdsNotDistinctError
     | EmptyBatchRequestError
@@ -285,7 +285,7 @@ interface SQSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteQueueCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidAddressError
     | InvalidSecurityError
@@ -302,7 +302,7 @@ interface SQSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetQueueAttributesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidAddressError
     | InvalidAttributeNameError
@@ -320,7 +320,7 @@ interface SQSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetQueueUrlCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidAddressError
     | InvalidSecurityError
@@ -337,7 +337,7 @@ interface SQSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDeadLetterSourceQueuesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidAddressError
     | InvalidSecurityError
@@ -354,7 +354,7 @@ interface SQSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListMessageMoveTasksCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidAddressError
     | InvalidSecurityError
@@ -371,7 +371,7 @@ interface SQSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListQueueTagsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidAddressError
     | InvalidSecurityError
@@ -388,7 +388,7 @@ interface SQSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListQueuesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidAddressError
     | InvalidSecurityError
@@ -404,7 +404,7 @@ interface SQSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PurgeQueueCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidAddressError
     | InvalidSecurityError
@@ -422,7 +422,7 @@ interface SQSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ReceiveMessageCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidAddressError
     | InvalidSecurityError
@@ -447,7 +447,7 @@ interface SQSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RemovePermissionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidAddressError
     | InvalidSecurityError
@@ -464,7 +464,7 @@ interface SQSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SendMessageCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidAddressError
     | InvalidMessageContentsError
@@ -489,7 +489,7 @@ interface SQSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SendMessageBatchCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BatchEntryIdsNotDistinctError
     | BatchRequestTooLongError
@@ -518,7 +518,7 @@ interface SQSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SetQueueAttributesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidAddressError
     | InvalidAttributeNameError
@@ -538,7 +538,7 @@ interface SQSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartMessageMoveTaskCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidAddressError
     | InvalidSecurityError
@@ -555,7 +555,7 @@ interface SQSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagQueueCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidAddressError
     | InvalidSecurityError
@@ -572,7 +572,7 @@ interface SQSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagQueueCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidAddressError
     | InvalidSecurityError
@@ -603,10 +603,10 @@ export const makeSQSService = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class SQSService extends Effect.Tag("@effect-aws/client-sqs/SQSService")<
+export class SQSService extends ServiceMap.Service<
   SQSService,
   SQSService$
->() {
+>()("@effect-aws/client-sqs/SQSService") {
   static readonly defaultLayer = Layer.effect(this, makeSQSService).pipe(Layer.provide(Instance.layer));
   static readonly layer = (config: SQSService.Config) =>
     Layer.effect(this, makeSQSService).pipe(

@@ -2,16 +2,16 @@
  * @since 1.0.0
  */
 import { LambdaClient } from "@aws-sdk/client-lambda";
-import { Context, Effect, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import * as LambdaServiceConfig from "./LambdaServiceConfig.js";
 
 /**
  * @since 1.0.0
  * @category tags
  */
-export class LambdaClientInstance extends Context.Tag(
+export class LambdaClientInstance extends ServiceMap.Service<LambdaClientInstance, LambdaClient>()(
   "@effect-aws/client-lambda/LambdaClientInstance",
-)<LambdaClientInstance, LambdaClient>() {}
+) {}
 
 /**
  * @since 1.0.0
@@ -30,4 +30,4 @@ export const make = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const layer = Layer.scoped(LambdaClientInstance, make);
+export const layer = Layer.effect(LambdaClientInstance, make);

@@ -2,16 +2,16 @@
  * @since 1.0.0
  */
 import { ECRClient } from "@aws-sdk/client-ecr";
-import { Context, Effect, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import * as ECRServiceConfig from "./ECRServiceConfig.js";
 
 /**
  * @since 1.0.0
  * @category tags
  */
-export class ECRClientInstance extends Context.Tag(
+export class ECRClientInstance extends ServiceMap.Service<ECRClientInstance, ECRClient>()(
   "@effect-aws/client-ecr/ECRClientInstance",
-)<ECRClientInstance, ECRClient>() {}
+) {}
 
 /**
  * @since 1.0.0
@@ -30,4 +30,4 @@ export const make = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const layer = Layer.scoped(ECRClientInstance, make);
+export const layer = Layer.effect(ECRClientInstance, make);

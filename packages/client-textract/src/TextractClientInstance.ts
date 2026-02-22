@@ -2,16 +2,16 @@
  * @since 1.0.0
  */
 import { TextractClient } from "@aws-sdk/client-textract";
-import { Context, Effect, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import * as TextractServiceConfig from "./TextractServiceConfig.js";
 
 /**
  * @since 1.0.0
  * @category tags
  */
-export class TextractClientInstance extends Context.Tag(
+export class TextractClientInstance extends ServiceMap.Service<TextractClientInstance, TextractClient>()(
   "@effect-aws/client-textract/TextractClientInstance",
-)<TextractClientInstance, TextractClient>() {}
+) {}
 
 /**
  * @since 1.0.0
@@ -30,4 +30,4 @@ export const make = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const layer = Layer.scoped(TextractClientInstance, make);
+export const layer = Layer.effect(TextractClientInstance, make);

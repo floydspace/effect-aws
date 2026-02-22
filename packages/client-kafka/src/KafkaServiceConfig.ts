@@ -3,18 +3,17 @@
  */
 import type { KafkaClientConfig } from "@aws-sdk/client-kafka";
 import { ServiceLogger } from "@effect-aws/commons";
-import { Effect, FiberRef, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import { dual } from "effect/Function";
-import { globalValue } from "effect/GlobalValue";
 import type { KafkaService } from "./KafkaService.js";
 
 /**
  * @since 1.0.0
  * @category kafka service config
  */
-const currentKafkaServiceConfig = globalValue(
+const currentKafkaServiceConfig = ServiceMap.Reference<KafkaService.Config>(
   "@effect-aws/client-kafka/currentKafkaServiceConfig",
-  () => FiberRef.unsafeMake<KafkaService.Config>({}),
+  { defaultValue: () => ({}) },
 );
 
 /**
@@ -27,22 +26,21 @@ export const withKafkaServiceConfig: {
 } = dual(
   2,
   <A, E, R>(effect: Effect.Effect<A, E, R>, config: KafkaService.Config): Effect.Effect<A, E, R> =>
-    Effect.locally(effect, currentKafkaServiceConfig, config),
+    Effect.provideService(effect, currentKafkaServiceConfig, config),
 );
 
 /**
  * @since 1.0.0
  * @category kafka service config
  */
-export const setKafkaServiceConfig = (config: KafkaService.Config) =>
-  Layer.locallyScoped(currentKafkaServiceConfig, config);
+export const setKafkaServiceConfig = (config: KafkaService.Config) => Layer.succeed(currentKafkaServiceConfig, config);
 
 /**
  * @since 1.0.0
  * @category adapters
  */
 export const toKafkaClientConfig: Effect.Effect<KafkaClientConfig> = Effect.gen(function*() {
-  const { logger: serviceLogger, ...config } = yield* FiberRef.get(currentKafkaServiceConfig);
+  const { logger: serviceLogger, ...config } = yield* currentKafkaServiceConfig;
 
   const logger = serviceLogger === true
     ? yield* ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger)

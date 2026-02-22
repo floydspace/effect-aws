@@ -2,16 +2,16 @@
  * @since 1.0.0
  */
 import { MqClient } from "@aws-sdk/client-mq";
-import { Context, Effect, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import * as MqServiceConfig from "./MqServiceConfig.js";
 
 /**
  * @since 1.0.0
  * @category tags
  */
-export class MqClientInstance extends Context.Tag(
+export class MqClientInstance extends ServiceMap.Service<MqClientInstance, MqClient>()(
   "@effect-aws/client-mq/MqClientInstance",
-)<MqClientInstance, MqClient>() {}
+) {}
 
 /**
  * @since 1.0.0
@@ -30,4 +30,4 @@ export const make = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const layer = Layer.scoped(MqClientInstance, make);
+export const layer = Layer.effect(MqClientInstance, make);

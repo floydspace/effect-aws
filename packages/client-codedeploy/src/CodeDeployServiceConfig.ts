@@ -3,18 +3,17 @@
  */
 import type { CodeDeployClientConfig } from "@aws-sdk/client-codedeploy";
 import { ServiceLogger } from "@effect-aws/commons";
-import { Effect, FiberRef, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import { dual } from "effect/Function";
-import { globalValue } from "effect/GlobalValue";
 import type { CodeDeployService } from "./CodeDeployService.js";
 
 /**
  * @since 1.0.0
  * @category codedeploy service config
  */
-const currentCodeDeployServiceConfig = globalValue(
+const currentCodeDeployServiceConfig = ServiceMap.Reference<CodeDeployService.Config>(
   "@effect-aws/client-codedeploy/currentCodeDeployServiceConfig",
-  () => FiberRef.unsafeMake<CodeDeployService.Config>({}),
+  { defaultValue: () => ({}) },
 );
 
 /**
@@ -27,7 +26,7 @@ export const withCodeDeployServiceConfig: {
 } = dual(
   2,
   <A, E, R>(effect: Effect.Effect<A, E, R>, config: CodeDeployService.Config): Effect.Effect<A, E, R> =>
-    Effect.locally(effect, currentCodeDeployServiceConfig, config),
+    Effect.provideService(effect, currentCodeDeployServiceConfig, config),
 );
 
 /**
@@ -35,14 +34,14 @@ export const withCodeDeployServiceConfig: {
  * @category codedeploy service config
  */
 export const setCodeDeployServiceConfig = (config: CodeDeployService.Config) =>
-  Layer.locallyScoped(currentCodeDeployServiceConfig, config);
+  Layer.succeed(currentCodeDeployServiceConfig, config);
 
 /**
  * @since 1.0.0
  * @category adapters
  */
 export const toCodeDeployClientConfig: Effect.Effect<CodeDeployClientConfig> = Effect.gen(function*() {
-  const { logger: serviceLogger, ...config } = yield* FiberRef.get(currentCodeDeployServiceConfig);
+  const { logger: serviceLogger, ...config } = yield* currentCodeDeployServiceConfig;
 
   const logger = serviceLogger === true
     ? yield* ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger)

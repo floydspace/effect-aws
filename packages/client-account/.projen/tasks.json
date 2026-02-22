@@ -26,7 +26,7 @@
       "description": "Only compile",
       "steps": [
         {
-          "exec": "tsc -b ./tsconfig.cjs.json ./tsconfig.esm.json"
+          "exec": "tsc -b ./tsconfig.esm.json"
         }
       ]
     },

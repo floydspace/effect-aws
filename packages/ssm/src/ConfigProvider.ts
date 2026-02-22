@@ -2,19 +2,7 @@
  * @since 1.0.0
  */
 import { SSMService } from "@effect-aws/client-ssm";
-import type { Config } from "effect";
-import {
-  Array,
-  Cause,
-  ConfigError,
-  ConfigProvider,
-  ConfigProviderPathPatch,
-  Effect,
-  HashSet,
-  Layer,
-  Option,
-  pipe,
-} from "effect";
+import { Array, ConfigProvider, Effect, Option, pipe } from "effect";
 
 /**
  * @since 1.2.0
@@ -32,117 +20,36 @@ export interface FromParameterStoreConfig {
  *
  * @deprecated Use `ConfigProvider.withParameterStoreConfigProvider` or `ConfigProvider.setParameterStoreConfigProvider` instead.
  */
-export const fromParameterStore = (
-  config?: Partial<FromParameterStoreConfig> & { serviceLayer?: Layer.Layer<SSMService> },
-): ConfigProvider.ConfigProvider => {
-  const { pathDelim, serviceLayer } = Object.assign(
-    {},
-    { pathDelim: "_", serviceLayer: SSMService.defaultLayer },
-    config,
-  );
-  const makePathString = (path: ReadonlyArray<string>): string => pipe(path, Array.join(pathDelim));
-  const unmakePathString = (pathString: string): ReadonlyArray<string> => pathString.split(pathDelim);
+export const fromParameterStore: (config?: Partial<FromParameterStoreConfig>) => Effect.Effect<
+  ConfigProvider.ConfigProvider,
+  never,
+  SSMService
+> = Effect
+  .fnUntraced(
+    function*(config) {
+      const { pathDelim } = Object.assign({}, { pathDelim: "_" }, config);
+      const makePathString = (path: ReadonlyArray<string>): string => pipe(path, Array.join(pathDelim));
 
-  const load = <A>(
-    path: ReadonlyArray<string>,
-    primitive: Config.Config.Primitive<A>,
-  ): Effect.Effect<Array<A>, ConfigError.ConfigError> => {
-    const pathString = makePathString(path);
-    return SSMService.getParameter({
-      Name: pathString,
-      WithDecryption: true,
-    }).pipe(
-      Effect.flatMap((value) => Option.fromNullable(value.Parameter?.Value)),
-      Effect.catchTag("ParameterNotFound", () =>
-        Effect.fail(
-          ConfigError.MissingData(
-            path as Array<string>,
-            `Expected ${pathString} parameter to exist in AWS Systems Manager Parameter Store`,
-          ),
-        )),
-      Effect.catchTag("ParameterVersionNotFound", () =>
-        Effect.fail(
-          ConfigError.MissingData(
-            path as Array<string>,
-            `Expected ${pathString} parameter version to exist in AWS Systems Manager Parameter Store`,
-          ),
-        )),
-      Effect.catchTag("NoSuchElementException", () =>
-        Effect.fail(
-          ConfigError.MissingData(
-            path as Array<string>,
-            `Expected ${pathString} to exist in AWS Systems Manager Parameter Store`,
-          ),
-        )),
-      Effect.catchTag("InvalidKeyId", () =>
-        Effect.fail(
-          ConfigError.InvalidData(
-            path as Array<string>,
-            "Invalid key ID when retrieving configuration from AWS Systems Manager Parameter Store",
-          ),
-        )),
-      Effect.catchAllCause((cause) =>
-        Cause.isFailType(cause) && ConfigError.isConfigError(cause.error)
-          ? Effect.fail(cause.error)
-          : Effect.fail(
-            ConfigError.SourceUnavailable(
-              path as Array<string>,
-              "Failed to load configuration from AWS Systems Manager Parameter Store",
+      const svc = yield* SSMService;
+
+      return ConfigProvider.make((path) => {
+        const pathString = makePathString(path.map(String));
+        return svc.getParameter({ Name: pathString }).pipe(
+          Effect.map((value) => Option.fromNullishOr(value.Parameter?.Value)),
+          Effect.catchTag("ParameterNotFound", () => Effect.succeedNone),
+          Effect.catchTag("ParameterVersionNotFound", () => Effect.succeedNone),
+          Effect.map(Option.map(ConfigProvider.makeValue)),
+          Effect.map(Option.getOrUndefined),
+          Effect.mapError((cause) =>
+            new ConfigProvider.SourceError({
+              message: "Failed to load configuration from AWS Systems Manager Parameter Store",
               cause,
-            ),
-          )
-      ),
-      Effect.flatMap((value) =>
-        pipe(
-          primitive.parse(value),
-          Effect.mapBoth({
-            onFailure: ConfigError.prefixed(path as Array<string>),
-            onSuccess: Array.of,
-          }),
-        )
-      ),
-      Effect.provide(serviceLayer),
-    );
-  };
-
-  const enumerateChildren = (
-    path: ReadonlyArray<string>,
-  ): Effect.Effect<HashSet.HashSet<string>, ConfigError.ConfigError> =>
-    SSMService.describeParameters({}).pipe(
-      Effect.flatMap((params) => Option.fromNullable(params.Parameters)),
-      Effect.map(Array.map((param) => Option.fromNullable(param.Name))),
-      Effect.flatMap(Option.all),
-      Effect.orDie,
-      Effect.map((keys) => {
-        const keyPaths = keys.map(unmakePathString);
-        const filteredKeyPaths = keyPaths
-          .filter((keyPath) => {
-            for (let i = 0; i < path.length; i++) {
-              const pathComponent = pipe(path, Array.unsafeGet(i));
-              const currentElement = keyPath[i];
-              if (
-                currentElement === undefined ||
-                pathComponent !== currentElement
-              ) {
-                return false;
-              }
-            }
-            return true;
-          })
-          .flatMap((keyPath) => keyPath.slice(path.length, path.length + 1));
-        return HashSet.fromIterable(filteredKeyPaths);
-      }),
-      Effect.provide(serviceLayer),
-    );
-
-  return ConfigProvider.fromFlat(
-    ConfigProvider.makeFlat({
-      load,
-      enumerateChildren,
-      patch: ConfigProviderPathPatch.empty,
-    }),
+            })
+          ),
+        );
+      });
+    },
   );
-};
 
 /**
  * Sets the current `ConfigProvider` that loads configuration from AWS Systems Manager Parameter Store.
@@ -151,16 +58,7 @@ export const fromParameterStore = (
  * @category config
  */
 export const setParameterStoreConfigProvider = (config?: Partial<FromParameterStoreConfig>) =>
-  Effect.gen(function*() {
-    const service = yield* SSMService;
-
-    const provider = fromParameterStore({
-      ...config,
-      serviceLayer: Layer.succeed(SSMService, service),
-    });
-
-    return Layer.setConfigProvider(provider);
-  }).pipe(Layer.unwrapEffect);
+  ConfigProvider.layer(fromParameterStore(config));
 
 /**
  * Executes the specified workflow with the parameter store configuration provider.

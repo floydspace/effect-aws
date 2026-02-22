@@ -2,16 +2,18 @@
  * @since 1.0.0
  */
 import { OpenSearchServerlessClient } from "@aws-sdk/client-opensearchserverless";
-import { Context, Effect, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import * as OpenSearchServerlessServiceConfig from "./OpenSearchServerlessServiceConfig.js";
 
 /**
  * @since 1.0.0
  * @category tags
  */
-export class OpenSearchServerlessClientInstance extends Context.Tag(
-  "@effect-aws/client-opensearch-serverless/OpenSearchServerlessClientInstance",
-)<OpenSearchServerlessClientInstance, OpenSearchServerlessClient>() {}
+export class OpenSearchServerlessClientInstance
+  extends ServiceMap.Service<OpenSearchServerlessClientInstance, OpenSearchServerlessClient>()(
+    "@effect-aws/client-opensearch-serverless/OpenSearchServerlessClientInstance",
+  )
+{}
 
 /**
  * @since 1.0.0
@@ -30,4 +32,4 @@ export const make = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const layer = Layer.scoped(OpenSearchServerlessClientInstance, make);
+export const layer = Layer.effect(OpenSearchServerlessClientInstance, make);

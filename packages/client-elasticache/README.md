@@ -16,7 +16,7 @@ With default ElastiCacheClient instance:
 ```typescript
 import { ElastiCache } from "@effect-aws/client-elasticache";
 
-const program = ElastiCache.listTagsForResource(args);
+const program = ElastiCache.use((svc) => svc.listTagsForResource(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom ElastiCacheClient instance:
 ```typescript
 import { ElastiCache } from "@effect-aws/client-elasticache";
 
-const program = ElastiCache.listTagsForResource(args);
+const program = ElastiCache.use((svc) => svc.listTagsForResource(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom ElastiCacheClient configuration:
 ```typescript
 import { ElastiCache } from "@effect-aws/client-elasticache";
 
-const program = ElastiCache.listTagsForResource(args);
+const program = ElastiCache.use((svc) => svc.listTagsForResource(args));
 
 const result = await pipe(
   program,

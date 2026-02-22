@@ -2,7 +2,8 @@ import { InvalidRequestException, ResourceNotFoundException } from "@aws-sdk/cli
 import { SecretsManager } from "@effect-aws/client-secrets-manager";
 import { ConfigProvider } from "@effect-aws/secrets-manager";
 import { Arg } from "@fluffy-spoon/substitute";
-import { Config, ConfigError, Effect, Exit, Layer, Redacted } from "effect";
+import { Config, Effect, Exit, Layer, Option, Redacted, Schema, SchemaAST, SchemaIssue } from "effect";
+import { SourceError } from "effect/ConfigProvider";
 import { describe, expect, it } from "vitest";
 import { SubstituteBuilder } from "./utils/index.js";
 
@@ -15,7 +16,7 @@ describe("fromSecretsManager", () => {
 
     const serviceLayer = SecretsManager.baseLayer(() => clientSubstitute);
 
-    const result = await Config.string("test").pipe(
+    const result = await Config.string("test").asEffect().pipe(
       ConfigProvider.withSecretsManagerConfigProvider(),
       Effect.provide(serviceLayer),
       Effect.runPromiseExit,
@@ -39,7 +40,8 @@ describe("fromSecretsManager", () => {
     const configProviderLayer = Layer.provide(ConfigProvider.setSecretsManagerConfigProvider(), serviceLayer);
 
     const result = await Config.redacted("my-secret-that-doesnt-exist").pipe(
-      Config.withDefault(Redacted.make("mocked-default-value")),
+      Config.withDefault(() => Redacted.make("mocked-default-value")),
+    ).asEffect().pipe(
       Effect.provide(configProviderLayer),
       Effect.map(Redacted.value),
       Effect.runPromiseExit,
@@ -62,7 +64,8 @@ describe("fromSecretsManager", () => {
     const serviceLayer = SecretsManager.baseLayer(() => clientSubstitute);
 
     const result = await Config.redacted("test").pipe(
-      Config.withDefault(Redacted.make("mocked-default-value")),
+      Config.withDefault(() => Redacted.make("mocked-default-value")),
+    ).asEffect().pipe(
       ConfigProvider.withSecretsManagerConfigProvider(),
       Effect.provide(serviceLayer),
       Effect.map(Redacted.value),
@@ -71,9 +74,16 @@ describe("fromSecretsManager", () => {
 
     expect(result).toEqual(
       Exit.fail(
-        ConfigError.InvalidData(
-          ["test"],
-          "Invalid request to AWS Secrets Manager",
+        new Config.ConfigError(
+          new SourceError(
+            {
+              message: "Failed to load configuration from AWS Secrets Manager",
+              cause: new InvalidRequestException({
+                $metadata: {},
+                message: "mocked-error",
+              }),
+            },
+          ),
         ),
       ),
     );
@@ -92,7 +102,7 @@ describe("fromSecretsManager", () => {
 
     const serviceLayer = SecretsManager.baseLayer(() => clientSubstitute);
 
-    const result = await Config.string("test").pipe(
+    const result = await Config.string("test").asEffect().pipe(
       ConfigProvider.withSecretsManagerConfigProvider(),
       Effect.provide(serviceLayer),
       Effect.runPromiseExit,
@@ -100,9 +110,16 @@ describe("fromSecretsManager", () => {
 
     expect(result).toEqual(
       Exit.fail(
-        ConfigError.MissingData(
-          ["test"],
-          "Expected test to exist in AWS Secrets Manager",
+        new Config.ConfigError(
+          new Schema.SchemaError(
+            new SchemaIssue.Pointer(
+              ["test"],
+              new SchemaIssue.InvalidType(
+                SchemaAST.string,
+                Option.some(undefined),
+              ),
+            ),
+          ),
         ),
       ),
     );
@@ -116,7 +133,7 @@ describe("fromSecretsManager", () => {
 
     const serviceLayer = SecretsManager.baseLayer(() => clientSubstitute);
 
-    const result = await Config.string("test").pipe(
+    const result = await Config.string("test").asEffect().pipe(
       ConfigProvider.withSecretsManagerConfigProvider(),
       Effect.provide(serviceLayer),
       Effect.runPromiseExit,
@@ -124,9 +141,16 @@ describe("fromSecretsManager", () => {
 
     expect(result).toEqual(
       Exit.fail(
-        ConfigError.MissingData(
-          ["test"],
-          "Expected test to exist in AWS Secrets Manager",
+        new Config.ConfigError(
+          new Schema.SchemaError(
+            new SchemaIssue.Pointer(
+              ["test"],
+              new SchemaIssue.InvalidType(
+                SchemaAST.string,
+                Option.some(undefined),
+              ),
+            ),
+          ),
         ),
       ),
     );

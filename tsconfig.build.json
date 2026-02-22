@@ -181,9 +181,6 @@
       "path": "packages/dynamodb/tsconfig.esm.json"
     },
     {
-      "path": "packages/lib-dynamodb/tsconfig.esm.json"
-    },
-    {
       "path": "packages/lambda/tsconfig.esm.json"
     },
     {

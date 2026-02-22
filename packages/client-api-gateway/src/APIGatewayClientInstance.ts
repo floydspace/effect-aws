@@ -2,16 +2,16 @@
  * @since 1.0.0
  */
 import { APIGatewayClient } from "@aws-sdk/client-api-gateway";
-import { Context, Effect, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import * as APIGatewayServiceConfig from "./APIGatewayServiceConfig.js";
 
 /**
  * @since 1.0.0
  * @category tags
  */
-export class APIGatewayClientInstance extends Context.Tag(
+export class APIGatewayClientInstance extends ServiceMap.Service<APIGatewayClientInstance, APIGatewayClient>()(
   "@effect-aws/client-api-gateway/APIGatewayClientInstance",
-)<APIGatewayClientInstance, APIGatewayClient>() {}
+) {}
 
 /**
  * @since 1.0.0
@@ -30,4 +30,4 @@ export const make = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const layer = Layer.scoped(APIGatewayClientInstance, make);
+export const layer = Layer.effect(APIGatewayClientInstance, make);

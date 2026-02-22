@@ -3,18 +3,17 @@
  */
 import type { BedrockRuntimeClientConfig } from "@aws-sdk/client-bedrock-runtime";
 import { ServiceLogger } from "@effect-aws/commons";
-import { Effect, FiberRef, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import { dual } from "effect/Function";
-import { globalValue } from "effect/GlobalValue";
 import type { BedrockRuntimeService } from "./BedrockRuntimeService.js";
 
 /**
  * @since 1.0.0
  * @category bedrock-runtime service config
  */
-const currentBedrockRuntimeServiceConfig = globalValue(
+const currentBedrockRuntimeServiceConfig = ServiceMap.Reference<BedrockRuntimeService.Config>(
   "@effect-aws/client-bedrock-runtime/currentBedrockRuntimeServiceConfig",
-  () => FiberRef.unsafeMake<BedrockRuntimeService.Config>({}),
+  { defaultValue: () => ({}) },
 );
 
 /**
@@ -27,7 +26,7 @@ export const withBedrockRuntimeServiceConfig: {
 } = dual(
   2,
   <A, E, R>(effect: Effect.Effect<A, E, R>, config: BedrockRuntimeService.Config): Effect.Effect<A, E, R> =>
-    Effect.locally(effect, currentBedrockRuntimeServiceConfig, config),
+    Effect.provideService(effect, currentBedrockRuntimeServiceConfig, config),
 );
 
 /**
@@ -35,14 +34,14 @@ export const withBedrockRuntimeServiceConfig: {
  * @category bedrock-runtime service config
  */
 export const setBedrockRuntimeServiceConfig = (config: BedrockRuntimeService.Config) =>
-  Layer.locallyScoped(currentBedrockRuntimeServiceConfig, config);
+  Layer.succeed(currentBedrockRuntimeServiceConfig, config);
 
 /**
  * @since 1.0.0
  * @category adapters
  */
 export const toBedrockRuntimeClientConfig: Effect.Effect<BedrockRuntimeClientConfig> = Effect.gen(function*() {
-  const { logger: serviceLogger, ...config } = yield* FiberRef.get(currentBedrockRuntimeServiceConfig);
+  const { logger: serviceLogger, ...config } = yield* currentBedrockRuntimeServiceConfig;
 
   const logger = serviceLogger === true
     ? yield* ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger)

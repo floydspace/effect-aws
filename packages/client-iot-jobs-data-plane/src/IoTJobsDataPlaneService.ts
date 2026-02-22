@@ -23,7 +23,7 @@ import {
 import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
-import { Effect, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import type {
   CertificateValidationError,
   ConflictError,
@@ -61,7 +61,7 @@ interface IoTJobsDataPlaneService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeJobExecutionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | CertificateValidationError
     | InvalidRequestError
@@ -79,7 +79,7 @@ interface IoTJobsDataPlaneService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPendingJobExecutionsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | CertificateValidationError
     | InvalidRequestError
@@ -96,7 +96,7 @@ interface IoTJobsDataPlaneService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartCommandExecutionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConflictError
     | InternalServerError
@@ -114,7 +114,7 @@ interface IoTJobsDataPlaneService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartNextPendingJobExecutionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | CertificateValidationError
     | InvalidRequestError
@@ -131,7 +131,7 @@ interface IoTJobsDataPlaneService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateJobExecutionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | CertificateValidationError
     | InvalidRequestError
@@ -163,12 +163,10 @@ export const makeIoTJobsDataPlaneService = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class IoTJobsDataPlaneService
-  extends Effect.Tag("@effect-aws/client-iot-jobs-data-plane/IoTJobsDataPlaneService")<
-    IoTJobsDataPlaneService,
-    IoTJobsDataPlaneService$
-  >()
-{
+export class IoTJobsDataPlaneService extends ServiceMap.Service<
+  IoTJobsDataPlaneService,
+  IoTJobsDataPlaneService$
+>()("@effect-aws/client-iot-jobs-data-plane/IoTJobsDataPlaneService") {
   static readonly defaultLayer = Layer.effect(this, makeIoTJobsDataPlaneService).pipe(Layer.provide(Instance.layer));
   static readonly layer = (config: IoTJobsDataPlaneService.Config) =>
     Layer.effect(this, makeIoTJobsDataPlaneService).pipe(

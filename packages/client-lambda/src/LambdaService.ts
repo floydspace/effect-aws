@@ -263,7 +263,7 @@ import {
 import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
-import { Effect, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import type {
   CallbackTimeoutError,
   CapacityProviderLimitExceededError,
@@ -414,7 +414,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AddLayerVersionPermissionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | PolicyLengthExceededError
@@ -433,7 +433,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AddPermissionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | PolicyLengthExceededError
@@ -452,7 +452,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CheckpointDurableExecutionCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterValueError | ServiceError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | InvalidParameterValueError | ServiceError | TooManyRequestsError
   >;
 
   /**
@@ -463,7 +463,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateAliasCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | ResourceConflictError
@@ -480,7 +480,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateCapacityProviderCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | CapacityProviderLimitExceededError
     | InvalidParameterValueError
@@ -497,7 +497,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateCodeSigningConfigCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterValueError | ServiceError
+    Cause.TimeoutError | SdkError | InvalidParameterValueError | ServiceError
   >;
 
   /**
@@ -508,7 +508,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateEventSourceMappingCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | ResourceConflictError
@@ -525,7 +525,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateFunctionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | CodeSigningConfigNotFoundError
     | CodeStorageExceededError
@@ -547,7 +547,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateFunctionUrlConfigCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | ResourceConflictError
@@ -564,7 +564,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteAliasCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | ResourceConflictError
@@ -580,7 +580,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteCapacityProviderCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | ResourceConflictError
@@ -597,7 +597,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteCodeSigningConfigCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | ResourceConflictError
@@ -613,7 +613,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteEventSourceMappingCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | ResourceConflictError
@@ -631,7 +631,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteFunctionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | ResourceConflictError
@@ -648,7 +648,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteFunctionCodeSigningConfigCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | CodeSigningConfigNotFoundError
     | InvalidParameterValueError
@@ -666,7 +666,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteFunctionConcurrencyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | ResourceConflictError
@@ -683,7 +683,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteFunctionEventInvokeConfigCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | ResourceConflictError
@@ -700,12 +700,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteFunctionUrlConfigCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | ResourceConflictError
-    | ResourceNotFoundError
-    | ServiceError
-    | TooManyRequestsError
+    Cause.TimeoutError | SdkError | ResourceConflictError | ResourceNotFoundError | ServiceError | TooManyRequestsError
   >;
 
   /**
@@ -716,7 +711,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteLayerVersionCommandOutput,
-    Cause.TimeoutException | SdkError | ServiceError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | ServiceError | TooManyRequestsError
   >;
 
   /**
@@ -727,7 +722,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteProvisionedConcurrencyConfigCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | ResourceConflictError
@@ -744,7 +739,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAccountSettingsCommandOutput,
-    Cause.TimeoutException | SdkError | ServiceError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | ServiceError | TooManyRequestsError
   >;
 
   /**
@@ -755,7 +750,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAliasCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | ResourceNotFoundError
@@ -771,7 +766,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetCapacityProviderCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | ResourceNotFoundError
@@ -787,7 +782,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetCodeSigningConfigCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterValueError | ResourceNotFoundError | ServiceError
+    Cause.TimeoutError | SdkError | InvalidParameterValueError | ResourceNotFoundError | ServiceError
   >;
 
   /**
@@ -798,7 +793,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDurableExecutionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | ResourceNotFoundError
@@ -814,7 +809,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDurableExecutionHistoryCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | ResourceNotFoundError
@@ -830,7 +825,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDurableExecutionStateCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterValueError | ServiceError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | InvalidParameterValueError | ServiceError | TooManyRequestsError
   >;
 
   /**
@@ -841,7 +836,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetEventSourceMappingCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | ResourceNotFoundError
@@ -857,7 +852,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetFunctionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | ResourceNotFoundError
@@ -873,7 +868,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetFunctionCodeSigningConfigCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | ResourceNotFoundError
@@ -889,7 +884,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetFunctionConcurrencyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | ResourceNotFoundError
@@ -905,7 +900,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetFunctionConfigurationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | ResourceNotFoundError
@@ -921,7 +916,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetFunctionEventInvokeConfigCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | ResourceNotFoundError
@@ -937,7 +932,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetFunctionRecursionConfigCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | ResourceNotFoundError
@@ -953,7 +948,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetFunctionScalingConfigCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | ResourceNotFoundError
@@ -969,7 +964,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetFunctionUrlConfigCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | ResourceNotFoundError
@@ -985,7 +980,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetLayerVersionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | ResourceNotFoundError
@@ -1001,7 +996,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetLayerVersionByArnCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | ResourceNotFoundError
@@ -1017,7 +1012,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetLayerVersionPolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | ResourceNotFoundError
@@ -1033,7 +1028,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | ResourceNotFoundError
@@ -1049,7 +1044,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetProvisionedConcurrencyConfigCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | ProvisionedConcurrencyConfigNotFoundError
@@ -1066,7 +1061,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetRuntimeManagementConfigCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | ResourceNotFoundError
@@ -1082,7 +1077,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     InvokeCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DurableExecutionAlreadyStartedError
     | EC2AccessDeniedError
@@ -1127,7 +1122,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     InvokeAsyncCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidRequestContentError
     | InvalidRuntimeError
@@ -1144,7 +1139,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     InvokeWithResponseStreamCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EC2AccessDeniedError
     | EC2ThrottledError
@@ -1188,7 +1183,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAliasesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | ResourceNotFoundError
@@ -1204,7 +1199,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListCapacityProvidersCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterValueError | ServiceError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | InvalidParameterValueError | ServiceError | TooManyRequestsError
   >;
 
   /**
@@ -1215,7 +1210,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListCodeSigningConfigsCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterValueError | ServiceError
+    Cause.TimeoutError | SdkError | InvalidParameterValueError | ServiceError
   >;
 
   /**
@@ -1226,7 +1221,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDurableExecutionsByFunctionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | ResourceNotFoundError
@@ -1242,7 +1237,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListEventSourceMappingsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | ResourceNotFoundError
@@ -1258,7 +1253,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListFunctionEventInvokeConfigsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | ResourceNotFoundError
@@ -1274,7 +1269,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListFunctionUrlConfigsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | ResourceNotFoundError
@@ -1290,7 +1285,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListFunctionVersionsByCapacityProviderCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | ResourceNotFoundError
@@ -1306,7 +1301,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListFunctionsCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterValueError | ServiceError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | InvalidParameterValueError | ServiceError | TooManyRequestsError
   >;
 
   /**
@@ -1317,7 +1312,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListFunctionsByCodeSigningConfigCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterValueError | ResourceNotFoundError | ServiceError
+    Cause.TimeoutError | SdkError | InvalidParameterValueError | ResourceNotFoundError | ServiceError
   >;
 
   /**
@@ -1328,7 +1323,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListLayerVersionsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | ResourceNotFoundError
@@ -1344,7 +1339,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListLayersCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterValueError | ServiceError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | InvalidParameterValueError | ServiceError | TooManyRequestsError
   >;
 
   /**
@@ -1355,7 +1350,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListProvisionedConcurrencyConfigsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | ResourceNotFoundError
@@ -1371,7 +1366,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | ResourceNotFoundError
@@ -1387,7 +1382,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListVersionsByFunctionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | ResourceNotFoundError
@@ -1403,7 +1398,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PublishLayerVersionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | CodeStorageExceededError
     | InvalidParameterValueError
@@ -1420,7 +1415,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PublishVersionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | CodeStorageExceededError
     | FunctionVersionsPerCapacityProviderLimitExceededError
@@ -1440,7 +1435,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutFunctionCodeSigningConfigCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | CodeSigningConfigNotFoundError
     | InvalidParameterValueError
@@ -1458,7 +1453,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutFunctionConcurrencyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | ResourceConflictError
@@ -1475,7 +1470,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutFunctionEventInvokeConfigCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | ResourceConflictError
@@ -1492,7 +1487,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutFunctionRecursionConfigCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | ResourceConflictError
@@ -1509,7 +1504,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutFunctionScalingConfigCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | ResourceConflictError
@@ -1526,7 +1521,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutProvisionedConcurrencyConfigCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | ResourceConflictError
@@ -1543,7 +1538,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutRuntimeManagementConfigCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | ResourceConflictError
@@ -1560,7 +1555,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RemoveLayerVersionPermissionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | PreconditionFailedError
@@ -1577,7 +1572,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RemovePermissionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | PreconditionFailedError
@@ -1594,7 +1589,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SendDurableExecutionCallbackFailureCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | CallbackTimeoutError
     | InvalidParameterValueError
@@ -1610,7 +1605,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SendDurableExecutionCallbackHeartbeatCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | CallbackTimeoutError
     | InvalidParameterValueError
@@ -1626,7 +1621,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SendDurableExecutionCallbackSuccessCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | CallbackTimeoutError
     | InvalidParameterValueError
@@ -1642,7 +1637,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StopDurableExecutionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | ResourceNotFoundError
@@ -1658,7 +1653,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagResourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | ResourceConflictError
@@ -1675,7 +1670,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | ResourceConflictError
@@ -1692,7 +1687,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateAliasCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | PreconditionFailedError
@@ -1710,7 +1705,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateCapacityProviderCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | ResourceConflictError
@@ -1727,7 +1722,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateCodeSigningConfigCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterValueError | ResourceNotFoundError | ServiceError
+    Cause.TimeoutError | SdkError | InvalidParameterValueError | ResourceNotFoundError | ServiceError
   >;
 
   /**
@@ -1738,7 +1733,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateEventSourceMappingCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | ResourceConflictError
@@ -1756,7 +1751,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateFunctionCodeCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | CodeSigningConfigNotFoundError
     | CodeStorageExceededError
@@ -1778,7 +1773,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateFunctionConfigurationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | CodeSigningConfigNotFoundError
     | CodeVerificationFailedError
@@ -1799,7 +1794,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateFunctionEventInvokeConfigCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | ResourceConflictError
@@ -1816,7 +1811,7 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateFunctionUrlConfigCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
     | ResourceConflictError
@@ -1847,10 +1842,10 @@ export const makeLambdaService = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class LambdaService extends Effect.Tag("@effect-aws/client-lambda/LambdaService")<
+export class LambdaService extends ServiceMap.Service<
   LambdaService,
   LambdaService$
->() {
+>()("@effect-aws/client-lambda/LambdaService") {
   static readonly defaultLayer = Layer.effect(this, makeLambdaService).pipe(Layer.provide(Instance.layer));
   static readonly layer = (config: LambdaService.Config) =>
     Layer.effect(this, makeLambdaService).pipe(

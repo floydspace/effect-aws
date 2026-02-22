@@ -16,7 +16,7 @@ With default TimestreamWriteClient instance:
 ```typescript
 import { TimestreamWrite } from "@effect-aws/client-timestream-write";
 
-const program = TimestreamWrite.listTables(args);
+const program = TimestreamWrite.use((svc) => svc.listTables(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom TimestreamWriteClient instance:
 ```typescript
 import { TimestreamWrite } from "@effect-aws/client-timestream-write";
 
-const program = TimestreamWrite.listTables(args);
+const program = TimestreamWrite.use((svc) => svc.listTables(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom TimestreamWriteClient configuration:
 ```typescript
 import { TimestreamWrite } from "@effect-aws/client-timestream-write";
 
-const program = TimestreamWrite.listTables(args);
+const program = TimestreamWrite.use((svc) => svc.listTables(args));
 
 const result = await pipe(
   program,

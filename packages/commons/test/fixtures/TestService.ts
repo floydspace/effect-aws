@@ -1,6 +1,6 @@
 import { type HttpHandlerOptions, Service } from "@effect-aws/commons";
 import { Command } from "@smithy/smithy-client";
-import { Effect, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import * as Instance from "./TestClientInstance.js";
 import * as TestServiceConfig from "./TestServiceConfig.js";
 
@@ -26,10 +26,10 @@ export const makeTestService = Effect.gen(function*() {
   );
 });
 
-export class TestService extends Effect.Tag("@effect-aws/commons/test/TestService")<
+export class TestService extends ServiceMap.Service<
   TestService,
   TestService$
->() {
+>()("@effect-aws/commons/test/TestService") {
   static readonly layer = (config: TestService.Config) =>
     Layer.effect(this, makeTestService).pipe(
       Layer.provide(Instance.layer),

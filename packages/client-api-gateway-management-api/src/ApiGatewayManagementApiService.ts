@@ -17,7 +17,7 @@ import {
 import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
-import { Effect, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import * as Instance from "./ApiGatewayManagementApiClientInstance.js";
 import * as ApiGatewayManagementApiServiceConfig from "./ApiGatewayManagementApiServiceConfig.js";
 import type { ForbiddenError, GoneError, LimitExceededError, PayloadTooLargeError, SdkError } from "./Errors.js";
@@ -40,7 +40,7 @@ interface ApiGatewayManagementApiService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteConnectionCommandOutput,
-    Cause.TimeoutException | SdkError | ForbiddenError | GoneError | LimitExceededError
+    Cause.TimeoutError | SdkError | ForbiddenError | GoneError | LimitExceededError
   >;
 
   /**
@@ -51,7 +51,7 @@ interface ApiGatewayManagementApiService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetConnectionCommandOutput,
-    Cause.TimeoutException | SdkError | ForbiddenError | GoneError | LimitExceededError
+    Cause.TimeoutError | SdkError | ForbiddenError | GoneError | LimitExceededError
   >;
 
   /**
@@ -62,7 +62,7 @@ interface ApiGatewayManagementApiService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PostToConnectionCommandOutput,
-    Cause.TimeoutException | SdkError | ForbiddenError | GoneError | LimitExceededError | PayloadTooLargeError
+    Cause.TimeoutError | SdkError | ForbiddenError | GoneError | LimitExceededError | PayloadTooLargeError
   >;
 }
 
@@ -87,12 +87,10 @@ export const makeApiGatewayManagementApiService = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class ApiGatewayManagementApiService
-  extends Effect.Tag("@effect-aws/client-api-gateway-management-api/ApiGatewayManagementApiService")<
-    ApiGatewayManagementApiService,
-    ApiGatewayManagementApiService$
-  >()
-{
+export class ApiGatewayManagementApiService extends ServiceMap.Service<
+  ApiGatewayManagementApiService,
+  ApiGatewayManagementApiService$
+>()("@effect-aws/client-api-gateway-management-api/ApiGatewayManagementApiService") {
   static readonly defaultLayer = Layer.effect(this, makeApiGatewayManagementApiService).pipe(
     Layer.provide(Instance.layer),
   );

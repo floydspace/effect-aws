@@ -38,7 +38,7 @@ import {
 import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
-import { Effect, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import * as Instance from "./BedrockRuntimeClientInstance.js";
 import * as BedrockRuntimeServiceConfig from "./BedrockRuntimeServiceConfig.js";
 import type {
@@ -82,7 +82,7 @@ interface BedrockRuntimeService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ApplyGuardrailCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -101,7 +101,7 @@ interface BedrockRuntimeService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ConverseCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -122,7 +122,7 @@ interface BedrockRuntimeService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ConverseStreamCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -143,7 +143,7 @@ interface BedrockRuntimeService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CountTokensCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -161,7 +161,7 @@ interface BedrockRuntimeService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAsyncInvokeCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -172,7 +172,7 @@ interface BedrockRuntimeService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     InvokeModelCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -194,7 +194,7 @@ interface BedrockRuntimeService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     InvokeModelWithBidirectionalStreamCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -217,7 +217,7 @@ interface BedrockRuntimeService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     InvokeModelWithResponseStreamCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -240,7 +240,7 @@ interface BedrockRuntimeService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAsyncInvokesCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -251,7 +251,7 @@ interface BedrockRuntimeService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartAsyncInvokeCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -285,10 +285,10 @@ export const makeBedrockRuntimeService = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class BedrockRuntimeService extends Effect.Tag("@effect-aws/client-bedrock-runtime/BedrockRuntimeService")<
+export class BedrockRuntimeService extends ServiceMap.Service<
   BedrockRuntimeService,
   BedrockRuntimeService$
->() {
+>()("@effect-aws/client-bedrock-runtime/BedrockRuntimeService") {
   static readonly defaultLayer = Layer.effect(this, makeBedrockRuntimeService).pipe(Layer.provide(Instance.layer));
   static readonly layer = (config: BedrockRuntimeService.Config) =>
     Layer.effect(this, makeBedrockRuntimeService).pipe(

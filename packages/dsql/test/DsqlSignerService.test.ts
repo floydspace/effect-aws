@@ -15,7 +15,7 @@ describe("DsqlSigner", () => {
     });
 
     const adminToken = await pipe(
-      DsqlSigner.getDbConnectAdminAuthToken(),
+      DsqlSigner.use((n) => n.getDbConnectAdminAuthToken()),
       Effect.provide(layer),
       Effect.runPromiseExit,
     );
@@ -25,7 +25,7 @@ describe("DsqlSigner", () => {
     );
 
     const token = await pipe(
-      DsqlSigner.getDbConnectAuthToken(),
+      DsqlSigner.use((n) => n.getDbConnectAuthToken()),
       Effect.provide(layer),
       Effect.runPromiseExit,
     );

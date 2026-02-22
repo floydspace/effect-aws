@@ -2,16 +2,16 @@
  * @since 1.0.0
  */
 import { CodeDeployClient } from "@aws-sdk/client-codedeploy";
-import { Context, Effect, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import * as CodeDeployServiceConfig from "./CodeDeployServiceConfig.js";
 
 /**
  * @since 1.0.0
  * @category tags
  */
-export class CodeDeployClientInstance extends Context.Tag(
+export class CodeDeployClientInstance extends ServiceMap.Service<CodeDeployClientInstance, CodeDeployClient>()(
   "@effect-aws/client-codedeploy/CodeDeployClientInstance",
-)<CodeDeployClientInstance, CodeDeployClient>() {}
+) {}
 
 /**
  * @since 1.0.0
@@ -30,4 +30,4 @@ export const make = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const layer = Layer.scoped(CodeDeployClientInstance, make);
+export const layer = Layer.effect(CodeDeployClientInstance, make);

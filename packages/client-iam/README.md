@@ -16,7 +16,7 @@ With default IAMClient instance:
 ```typescript
 import { IAM } from "@effect-aws/client-iam";
 
-const program = IAM.createRole(args);
+const program = IAM.use((svc) => svc.createRole(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom IAMClient instance:
 ```typescript
 import { IAM } from "@effect-aws/client-iam";
 
-const program = IAM.createRole(args);
+const program = IAM.use((svc) => svc.createRole(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom IAMClient configuration:
 ```typescript
 import { IAM } from "@effect-aws/client-iam";
 
-const program = IAM.createRole(args);
+const program = IAM.use((svc) => svc.createRole(args));
 
 const result = await pipe(
   program,

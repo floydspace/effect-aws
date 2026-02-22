@@ -2,16 +2,16 @@
  * @since 1.0.0
  */
 import { IoTEventsDataClient } from "@aws-sdk/client-iot-events-data";
-import { Context, Effect, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import * as IoTEventsDataServiceConfig from "./IoTEventsDataServiceConfig.js";
 
 /**
  * @since 1.0.0
  * @category tags
  */
-export class IoTEventsDataClientInstance extends Context.Tag(
+export class IoTEventsDataClientInstance extends ServiceMap.Service<IoTEventsDataClientInstance, IoTEventsDataClient>()(
   "@effect-aws/client-iot-events-data/IoTEventsDataClientInstance",
-)<IoTEventsDataClientInstance, IoTEventsDataClient>() {}
+) {}
 
 /**
  * @since 1.0.0
@@ -30,4 +30,4 @@ export const make = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const layer = Layer.scoped(IoTEventsDataClientInstance, make);
+export const layer = Layer.effect(IoTEventsDataClientInstance, make);

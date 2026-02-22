@@ -26,6 +26,7 @@
     },
     {
       "name": "@effect/vitest",
+      "version": "4.0.0-beta.8",
       "type": "build"
     },
     {
@@ -133,19 +134,13 @@
       "type": "build"
     },
     {
-      "name": "@effect/cli",
-      "type": "runtime"
-    },
-    {
-      "name": "@effect/platform",
-      "type": "runtime"
-    },
-    {
       "name": "@effect/platform-node",
+      "version": "4.0.0-beta.8",
       "type": "runtime"
     },
     {
       "name": "effect",
+      "version": "4.0.0-beta.8",
       "type": "runtime"
     }
   ],

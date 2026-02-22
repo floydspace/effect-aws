@@ -3,18 +3,17 @@
  */
 import type { APIGatewayClientConfig } from "@aws-sdk/client-api-gateway";
 import { ServiceLogger } from "@effect-aws/commons";
-import { Effect, FiberRef, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import { dual } from "effect/Function";
-import { globalValue } from "effect/GlobalValue";
 import type { APIGatewayService } from "./APIGatewayService.js";
 
 /**
  * @since 1.0.0
  * @category api-gateway service config
  */
-const currentAPIGatewayServiceConfig = globalValue(
+const currentAPIGatewayServiceConfig = ServiceMap.Reference<APIGatewayService.Config>(
   "@effect-aws/client-api-gateway/currentAPIGatewayServiceConfig",
-  () => FiberRef.unsafeMake<APIGatewayService.Config>({}),
+  { defaultValue: () => ({}) },
 );
 
 /**
@@ -27,7 +26,7 @@ export const withAPIGatewayServiceConfig: {
 } = dual(
   2,
   <A, E, R>(effect: Effect.Effect<A, E, R>, config: APIGatewayService.Config): Effect.Effect<A, E, R> =>
-    Effect.locally(effect, currentAPIGatewayServiceConfig, config),
+    Effect.provideService(effect, currentAPIGatewayServiceConfig, config),
 );
 
 /**
@@ -35,14 +34,14 @@ export const withAPIGatewayServiceConfig: {
  * @category api-gateway service config
  */
 export const setAPIGatewayServiceConfig = (config: APIGatewayService.Config) =>
-  Layer.locallyScoped(currentAPIGatewayServiceConfig, config);
+  Layer.succeed(currentAPIGatewayServiceConfig, config);
 
 /**
  * @since 1.0.0
  * @category adapters
  */
 export const toAPIGatewayClientConfig: Effect.Effect<APIGatewayClientConfig> = Effect.gen(function*() {
-  const { logger: serviceLogger, ...config } = yield* FiberRef.get(currentAPIGatewayServiceConfig);
+  const { logger: serviceLogger, ...config } = yield* currentAPIGatewayServiceConfig;
 
   const logger = serviceLogger === true
     ? yield* ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger)

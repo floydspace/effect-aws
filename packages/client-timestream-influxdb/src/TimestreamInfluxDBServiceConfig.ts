@@ -3,18 +3,17 @@
  */
 import type { TimestreamInfluxDBClientConfig } from "@aws-sdk/client-timestream-influxdb";
 import { ServiceLogger } from "@effect-aws/commons";
-import { Effect, FiberRef, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import { dual } from "effect/Function";
-import { globalValue } from "effect/GlobalValue";
 import type { TimestreamInfluxDBService } from "./TimestreamInfluxDBService.js";
 
 /**
  * @since 1.0.0
  * @category timestream-influxdb service config
  */
-const currentTimestreamInfluxDBServiceConfig = globalValue(
+const currentTimestreamInfluxDBServiceConfig = ServiceMap.Reference<TimestreamInfluxDBService.Config>(
   "@effect-aws/client-timestream-influxdb/currentTimestreamInfluxDBServiceConfig",
-  () => FiberRef.unsafeMake<TimestreamInfluxDBService.Config>({}),
+  { defaultValue: () => ({}) },
 );
 
 /**
@@ -27,7 +26,7 @@ export const withTimestreamInfluxDBServiceConfig: {
 } = dual(
   2,
   <A, E, R>(effect: Effect.Effect<A, E, R>, config: TimestreamInfluxDBService.Config): Effect.Effect<A, E, R> =>
-    Effect.locally(effect, currentTimestreamInfluxDBServiceConfig, config),
+    Effect.provideService(effect, currentTimestreamInfluxDBServiceConfig, config),
 );
 
 /**
@@ -35,14 +34,14 @@ export const withTimestreamInfluxDBServiceConfig: {
  * @category timestream-influxdb service config
  */
 export const setTimestreamInfluxDBServiceConfig = (config: TimestreamInfluxDBService.Config) =>
-  Layer.locallyScoped(currentTimestreamInfluxDBServiceConfig, config);
+  Layer.succeed(currentTimestreamInfluxDBServiceConfig, config);
 
 /**
  * @since 1.0.0
  * @category adapters
  */
 export const toTimestreamInfluxDBClientConfig: Effect.Effect<TimestreamInfluxDBClientConfig> = Effect.gen(function*() {
-  const { logger: serviceLogger, ...config } = yield* FiberRef.get(currentTimestreamInfluxDBServiceConfig);
+  const { logger: serviceLogger, ...config } = yield* currentTimestreamInfluxDBServiceConfig;
 
   const logger = serviceLogger === true
     ? yield* ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger)

@@ -2,7 +2,8 @@ import { InvalidKeyId, ParameterNotFound } from "@aws-sdk/client-ssm";
 import { SSM } from "@effect-aws/client-ssm";
 import { ConfigProvider } from "@effect-aws/ssm";
 import { Arg } from "@fluffy-spoon/substitute";
-import { Config, ConfigError, Effect, Exit, Layer, Redacted } from "effect";
+import { Config, Effect, Exit, Layer, Option, Redacted, Schema, SchemaAST, SchemaIssue } from "effect";
+import { SourceError } from "effect/ConfigProvider";
 import { describe, expect, it } from "vitest";
 import { SubstituteBuilder } from "./utils/index.js";
 
@@ -15,7 +16,7 @@ describe("fromParameterStore", () => {
 
     const serviceLayer = SSM.baseLayer(() => clientSubstitute);
 
-    const result = await Config.string("test").pipe(
+    const result = await Config.string("test").asEffect().pipe(
       ConfigProvider.withParameterStoreConfigProvider(),
       Effect.provide(serviceLayer),
       Effect.runPromiseExit,
@@ -39,7 +40,8 @@ describe("fromParameterStore", () => {
     const configProviderLayer = Layer.provide(ConfigProvider.setParameterStoreConfigProvider(), serviceLayer);
 
     const result = await Config.redacted("my-param-that-doesnt-exist").pipe(
-      Config.withDefault(Redacted.make("mocked-default-value")),
+      Config.withDefault(() => Redacted.make("mocked-default-value")),
+    ).asEffect().pipe(
       Effect.provide(configProviderLayer),
       Effect.map(Redacted.value),
       Effect.runPromiseExit,
@@ -62,7 +64,8 @@ describe("fromParameterStore", () => {
     const serviceLayer = SSM.baseLayer(() => clientSubstitute);
 
     const result = await Config.redacted("test").pipe(
-      Config.withDefault(Redacted.make("mocked-default-value")),
+      Config.withDefault(() => Redacted.make("mocked-default-value")),
+    ).asEffect().pipe(
       ConfigProvider.withParameterStoreConfigProvider(),
       Effect.provide(serviceLayer),
       Effect.map(Redacted.value),
@@ -71,9 +74,16 @@ describe("fromParameterStore", () => {
 
     expect(result).toEqual(
       Exit.fail(
-        ConfigError.InvalidData(
-          ["test"],
-          "Invalid key ID when retrieving configuration from AWS Systems Manager Parameter Store",
+        new Config.ConfigError(
+          new SourceError(
+            {
+              message: "Invalid key ID when retrieving configuration from AWS Systems Manager Parameter Store",
+              cause: new InvalidKeyId({
+                $metadata: {},
+                message: "mocked-error",
+              }),
+            },
+          ),
         ),
       ),
     );
@@ -92,7 +102,7 @@ describe("fromParameterStore", () => {
 
     const serviceLayer = SSM.baseLayer(() => clientSubstitute);
 
-    const result = await Config.string("test").pipe(
+    const result = await Config.string("test").asEffect().pipe(
       ConfigProvider.withParameterStoreConfigProvider(),
       Effect.provide(serviceLayer),
       Effect.runPromiseExit,
@@ -100,9 +110,16 @@ describe("fromParameterStore", () => {
 
     expect(result).toEqual(
       Exit.fail(
-        ConfigError.MissingData(
-          ["test"],
-          "Expected test parameter to exist in AWS Systems Manager Parameter Store",
+        new Config.ConfigError(
+          new Schema.SchemaError(
+            new SchemaIssue.Pointer(
+              ["test"],
+              new SchemaIssue.InvalidType(
+                SchemaAST.string,
+                Option.some(undefined),
+              ),
+            ),
+          ),
         ),
       ),
     );
@@ -116,7 +133,7 @@ describe("fromParameterStore", () => {
 
     const serviceLayer = SSM.baseLayer(() => clientSubstitute);
 
-    const result = await Config.string("test").pipe(
+    const result = await Config.string("test").asEffect().pipe(
       ConfigProvider.withParameterStoreConfigProvider(),
       Effect.provide(serviceLayer),
       Effect.runPromiseExit,
@@ -124,9 +141,16 @@ describe("fromParameterStore", () => {
 
     expect(result).toEqual(
       Exit.fail(
-        ConfigError.MissingData(
-          ["test"],
-          "Expected test to exist in AWS Systems Manager Parameter Store",
+        new Config.ConfigError(
+          new Schema.SchemaError(
+            new SchemaIssue.Pointer(
+              ["test"],
+              new SchemaIssue.InvalidType(
+                SchemaAST.string,
+                Option.some(undefined),
+              ),
+            ),
+          ),
         ),
       ),
     );

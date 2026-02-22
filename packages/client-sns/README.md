@@ -16,7 +16,7 @@ With default SNSClient instance:
 ```typescript
 import { SNS } from "@effect-aws/client-sns";
 
-const program = SNS.publish(args);
+const program = SNS.use((svc) => svc.publish(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom SNSClient instance:
 ```typescript
 import { SNS } from "@effect-aws/client-sns";
 
-const program = SNS.publish(args);
+const program = SNS.use((svc) => svc.publish(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom SNSClient configuration:
 ```typescript
 import { SNS } from "@effect-aws/client-sns";
 
-const program = SNS.publish(args);
+const program = SNS.use((svc) => svc.publish(args));
 
 const result = await pipe(
   program,

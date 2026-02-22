@@ -167,7 +167,7 @@ import {
 import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
-import { Effect, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import type {
   AlreadyExistsError,
   CloudHsmClusterInUseError,
@@ -290,7 +290,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelKeyDeletionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DependencyTimeoutError
     | InvalidArnError
@@ -307,7 +307,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ConnectCustomKeyStoreCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | CloudHsmClusterInvalidConfigurationError
     | CloudHsmClusterNotActiveError
@@ -324,7 +324,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateAliasCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AlreadyExistsError
     | DependencyTimeoutError
@@ -343,7 +343,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateCustomKeyStoreCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | CloudHsmClusterInUseError
     | CloudHsmClusterInvalidConfigurationError
@@ -372,7 +372,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateGrantCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DependencyTimeoutError
     | DisabledError
@@ -393,7 +393,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateKeyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | CloudHsmClusterInvalidConfigurationError
     | CustomKeyStoreInvalidStateError
@@ -418,7 +418,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DecryptCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DependencyTimeoutError
     | DisabledError
@@ -441,7 +441,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteAliasCommandOutput,
-    Cause.TimeoutException | SdkError | DependencyTimeoutError | KMSInternalError | KMSInvalidStateError | NotFoundError
+    Cause.TimeoutError | SdkError | DependencyTimeoutError | KMSInternalError | KMSInvalidStateError | NotFoundError
   >;
 
   /**
@@ -452,7 +452,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteCustomKeyStoreCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | CustomKeyStoreHasCMKsError
     | CustomKeyStoreInvalidStateError
@@ -468,7 +468,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteImportedKeyMaterialCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DependencyTimeoutError
     | InvalidArnError
@@ -486,7 +486,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeriveSharedSecretCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DependencyTimeoutError
     | DisabledError
@@ -507,7 +507,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeCustomKeyStoresCommandOutput,
-    Cause.TimeoutException | SdkError | CustomKeyStoreNotFoundError | InvalidMarkerError | KMSInternalError
+    Cause.TimeoutError | SdkError | CustomKeyStoreNotFoundError | InvalidMarkerError | KMSInternalError
   >;
 
   /**
@@ -518,7 +518,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeKeyCommandOutput,
-    Cause.TimeoutException | SdkError | DependencyTimeoutError | InvalidArnError | KMSInternalError | NotFoundError
+    Cause.TimeoutError | SdkError | DependencyTimeoutError | InvalidArnError | KMSInternalError | NotFoundError
   >;
 
   /**
@@ -529,7 +529,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisableKeyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DependencyTimeoutError
     | InvalidArnError
@@ -546,7 +546,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisableKeyRotationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DependencyTimeoutError
     | DisabledError
@@ -565,7 +565,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisconnectCustomKeyStoreCommandOutput,
-    Cause.TimeoutException | SdkError | CustomKeyStoreInvalidStateError | CustomKeyStoreNotFoundError | KMSInternalError
+    Cause.TimeoutError | SdkError | CustomKeyStoreInvalidStateError | CustomKeyStoreNotFoundError | KMSInternalError
   >;
 
   /**
@@ -576,7 +576,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     EnableKeyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DependencyTimeoutError
     | InvalidArnError
@@ -594,7 +594,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     EnableKeyRotationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DependencyTimeoutError
     | DisabledError
@@ -613,7 +613,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     EncryptCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DependencyTimeoutError
     | DisabledError
@@ -634,7 +634,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GenerateDataKeyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DependencyTimeoutError
     | DisabledError
@@ -655,7 +655,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GenerateDataKeyPairCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DependencyTimeoutError
     | DisabledError
@@ -677,7 +677,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GenerateDataKeyPairWithoutPlaintextCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DependencyTimeoutError
     | DisabledError
@@ -699,7 +699,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GenerateDataKeyWithoutPlaintextCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DependencyTimeoutError
     | DisabledError
@@ -720,7 +720,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GenerateMacCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DisabledError
     | DryRunOperationError
@@ -740,7 +740,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GenerateRandomCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | CustomKeyStoreInvalidStateError
     | CustomKeyStoreNotFoundError
@@ -757,7 +757,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetKeyPolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DependencyTimeoutError
     | InvalidArnError
@@ -774,7 +774,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetKeyRotationStatusCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DependencyTimeoutError
     | InvalidArnError
@@ -792,7 +792,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetParametersForImportCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DependencyTimeoutError
     | InvalidArnError
@@ -810,7 +810,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPublicKeyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DependencyTimeoutError
     | DisabledError
@@ -832,7 +832,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ImportKeyMaterialCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DependencyTimeoutError
     | ExpiredImportTokenError
@@ -854,7 +854,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAliasesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DependencyTimeoutError
     | InvalidArnError
@@ -871,7 +871,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListGrantsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DependencyTimeoutError
     | InvalidArnError
@@ -890,7 +890,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListKeyPoliciesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DependencyTimeoutError
     | InvalidArnError
@@ -907,7 +907,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListKeyRotationsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidArnError
     | InvalidMarkerError
@@ -925,7 +925,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListKeysCommandOutput,
-    Cause.TimeoutException | SdkError | DependencyTimeoutError | InvalidMarkerError | KMSInternalError
+    Cause.TimeoutError | SdkError | DependencyTimeoutError | InvalidMarkerError | KMSInternalError
   >;
 
   /**
@@ -936,7 +936,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListResourceTagsCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidArnError | InvalidMarkerError | KMSInternalError | NotFoundError
+    Cause.TimeoutError | SdkError | InvalidArnError | InvalidMarkerError | KMSInternalError | NotFoundError
   >;
 
   /**
@@ -947,7 +947,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListRetirableGrantsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DependencyTimeoutError
     | InvalidArnError
@@ -964,7 +964,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutKeyPolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DependencyTimeoutError
     | InvalidArnError
@@ -984,7 +984,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ReEncryptCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DependencyTimeoutError
     | DisabledError
@@ -1007,7 +1007,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ReplicateKeyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AlreadyExistsError
     | DisabledError
@@ -1029,7 +1029,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RetireGrantCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DependencyTimeoutError
     | DryRunOperationError
@@ -1049,7 +1049,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RevokeGrantCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DependencyTimeoutError
     | DryRunOperationError
@@ -1068,7 +1068,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RotateKeyOnDemandCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConflictError
     | DependencyTimeoutError
@@ -1089,7 +1089,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ScheduleKeyDeletionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DependencyTimeoutError
     | InvalidArnError
@@ -1106,7 +1106,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SignCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DependencyTimeoutError
     | DisabledError
@@ -1127,7 +1127,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagResourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidArnError
     | KMSInternalError
@@ -1145,13 +1145,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InvalidArnError
-    | KMSInternalError
-    | KMSInvalidStateError
-    | NotFoundError
-    | TagError
+    Cause.TimeoutError | SdkError | InvalidArnError | KMSInternalError | KMSInvalidStateError | NotFoundError | TagError
   >;
 
   /**
@@ -1162,7 +1156,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateAliasCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DependencyTimeoutError
     | KMSInternalError
@@ -1179,7 +1173,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateCustomKeyStoreCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | CloudHsmClusterInvalidConfigurationError
     | CloudHsmClusterNotActiveError
@@ -1208,7 +1202,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateKeyDescriptionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DependencyTimeoutError
     | InvalidArnError
@@ -1225,7 +1219,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdatePrimaryRegionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DisabledError
     | InvalidArnError
@@ -1243,7 +1237,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     VerifyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DependencyTimeoutError
     | DisabledError
@@ -1265,7 +1259,7 @@ interface KMSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     VerifyMacCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DisabledError
     | DryRunOperationError
@@ -1300,10 +1294,10 @@ export const makeKMSService = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class KMSService extends Effect.Tag("@effect-aws/client-kms/KMSService")<
+export class KMSService extends ServiceMap.Service<
   KMSService,
   KMSService$
->() {
+>()("@effect-aws/client-kms/KMSService") {
   static readonly defaultLayer = Layer.effect(this, makeKMSService).pipe(Layer.provide(Instance.layer));
   static readonly layer = (config: KMSService.Config) =>
     Layer.effect(this, makeKMSService).pipe(

@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - main
+      - beta
   workflow_dispatch: {}
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref_name }}
@@ -35,6 +36,8 @@ jobs:
         run: pnpm i --frozen-lockfile
       - name: build
         run: pnpm exec projen build
+      - name: Prepare Changeset
+        run: npx projen changeset pre ${{ github.ref_name == 'main' && 'exit' || format('{0} {1}', 'enter', github.ref_name) }} || echo 'swallow'
       - name: Create Release Pull Request or Publish
         uses: changesets/action@v1
         env:

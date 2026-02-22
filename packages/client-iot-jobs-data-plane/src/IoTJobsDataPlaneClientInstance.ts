@@ -2,16 +2,18 @@
  * @since 1.0.0
  */
 import { IoTJobsDataPlaneClient } from "@aws-sdk/client-iot-jobs-data-plane";
-import { Context, Effect, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import * as IoTJobsDataPlaneServiceConfig from "./IoTJobsDataPlaneServiceConfig.js";
 
 /**
  * @since 1.0.0
  * @category tags
  */
-export class IoTJobsDataPlaneClientInstance extends Context.Tag(
-  "@effect-aws/client-iot-jobs-data-plane/IoTJobsDataPlaneClientInstance",
-)<IoTJobsDataPlaneClientInstance, IoTJobsDataPlaneClient>() {}
+export class IoTJobsDataPlaneClientInstance
+  extends ServiceMap.Service<IoTJobsDataPlaneClientInstance, IoTJobsDataPlaneClient>()(
+    "@effect-aws/client-iot-jobs-data-plane/IoTJobsDataPlaneClientInstance",
+  )
+{}
 
 /**
  * @since 1.0.0
@@ -30,4 +32,4 @@ export const make = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const layer = Layer.scoped(IoTJobsDataPlaneClientInstance, make);
+export const layer = Layer.effect(IoTJobsDataPlaneClientInstance, make);

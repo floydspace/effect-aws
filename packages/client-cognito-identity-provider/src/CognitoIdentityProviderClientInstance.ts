@@ -2,16 +2,18 @@
  * @since 1.0.0
  */
 import { CognitoIdentityProviderClient } from "@aws-sdk/client-cognito-identity-provider";
-import { Context, Effect, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import * as CognitoIdentityProviderServiceConfig from "./CognitoIdentityProviderServiceConfig.js";
 
 /**
  * @since 1.0.0
  * @category tags
  */
-export class CognitoIdentityProviderClientInstance extends Context.Tag(
-  "@effect-aws/client-cognito-identity-provider/CognitoIdentityProviderClientInstance",
-)<CognitoIdentityProviderClientInstance, CognitoIdentityProviderClient>() {}
+export class CognitoIdentityProviderClientInstance
+  extends ServiceMap.Service<CognitoIdentityProviderClientInstance, CognitoIdentityProviderClient>()(
+    "@effect-aws/client-cognito-identity-provider/CognitoIdentityProviderClientInstance",
+  )
+{}
 
 /**
  * @since 1.0.0
@@ -30,4 +32,4 @@ export const make = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const layer = Layer.scoped(CognitoIdentityProviderClientInstance, make);
+export const layer = Layer.effect(CognitoIdentityProviderClientInstance, make);

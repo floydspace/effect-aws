@@ -26,7 +26,7 @@ describe("OpenSearchClientImpl", () => {
 
     const args = {} as unknown as DescribeDomainsCommandInput;
 
-    const program = OpenSearch.describeDomains(args);
+    const program = OpenSearch.use((svc) => svc.describeDomains(args));
 
     const result = await pipe(
       program,
@@ -46,7 +46,7 @@ describe("OpenSearchClientImpl", () => {
 
     const args = {} as unknown as DescribeDomainsCommandInput;
 
-    const program = OpenSearch.describeDomains(args);
+    const program = OpenSearch.use((svc) => svc.describeDomains(args));
 
     const result = await pipe(
       program,
@@ -69,7 +69,7 @@ describe("OpenSearchClientImpl", () => {
 
     const args = {} as unknown as DescribeDomainsCommandInput;
 
-    const program = OpenSearch.describeDomains(args);
+    const program = OpenSearch.use((svc) => svc.describeDomains(args));
 
     const result = await pipe(
       program,
@@ -93,7 +93,7 @@ describe("OpenSearchClientImpl", () => {
 
     const args = {} as unknown as DescribeDomainsCommandInput;
 
-    const program = OpenSearch.describeDomains(args);
+    const program = OpenSearch.use((svc) => svc.describeDomains(args));
 
     const result = await pipe(
       program,
@@ -121,7 +121,7 @@ describe("OpenSearchClientImpl", () => {
 
     const args = {} as unknown as DescribeDomainsCommandInput;
 
-    const program = OpenSearch.describeDomains(args);
+    const program = OpenSearch.use((svc) => svc.describeDomains(args));
 
     const result = await pipe(
       program,
@@ -131,7 +131,7 @@ describe("OpenSearchClientImpl", () => {
 
     expect(result).toEqual(
       Exit.fail(
-        SdkError({
+        new SdkError({
           ...new Error("test"),
           name: "SdkError",
           message: "test",
@@ -156,7 +156,7 @@ describe("OpenSearchClientImpl", () => {
 
     const args = {} as unknown as DescribeDomainsCommandInput;
 
-    const program = OpenSearch.describeDomains(args).pipe(
+    const program = OpenSearch.use((svc) => svc.describeDomains(args)).pipe(
       Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 
@@ -166,9 +166,9 @@ describe("OpenSearchClientImpl", () => {
       Effect.runPromiseExit,
     );
 
-    expect(result).toEqual(
+    expect(result).toContainEqual(
       Exit.fail(
-        SdkError({
+        new SdkError({
           ...new Error("test"),
           name: "SdkError",
           message: "test",

@@ -16,7 +16,7 @@ With default TimestreamInfluxDBClient instance:
 ```typescript
 import { TimestreamInfluxDB } from "@effect-aws/client-timestream-influxdb";
 
-const program = TimestreamInfluxDB.listDbClusters(args);
+const program = TimestreamInfluxDB.use((svc) => svc.listDbClusters(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom TimestreamInfluxDBClient instance:
 ```typescript
 import { TimestreamInfluxDB } from "@effect-aws/client-timestream-influxdb";
 
-const program = TimestreamInfluxDB.listDbClusters(args);
+const program = TimestreamInfluxDB.use((svc) => svc.listDbClusters(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom TimestreamInfluxDBClient configuration:
 ```typescript
 import { TimestreamInfluxDB } from "@effect-aws/client-timestream-influxdb";
 
-const program = TimestreamInfluxDB.listDbClusters(args);
+const program = TimestreamInfluxDB.use((svc) => svc.listDbClusters(args));
 
 const result = await pipe(
   program,

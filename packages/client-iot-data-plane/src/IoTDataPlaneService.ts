@@ -32,7 +32,7 @@ import {
 import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
-import { Effect, Layer } from "effect";
+import { Effect, Layer, ServiceMap } from "effect";
 import type {
   ConflictError,
   ForbiddenError,
@@ -73,7 +73,7 @@ interface IoTDataPlaneService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteConnectionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ForbiddenError
     | InternalFailureError
@@ -90,7 +90,7 @@ interface IoTDataPlaneService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteThingShadowCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -110,7 +110,7 @@ interface IoTDataPlaneService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetRetainedMessageCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -129,7 +129,7 @@ interface IoTDataPlaneService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetThingShadowCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -149,7 +149,7 @@ interface IoTDataPlaneService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListNamedShadowsForThingCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -168,7 +168,7 @@ interface IoTDataPlaneService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListRetainedMessagesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -186,7 +186,7 @@ interface IoTDataPlaneService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PublishCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -203,7 +203,7 @@ interface IoTDataPlaneService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateThingShadowCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConflictError
     | InternalFailureError
@@ -238,10 +238,10 @@ export const makeIoTDataPlaneService = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class IoTDataPlaneService extends Effect.Tag("@effect-aws/client-iot-data-plane/IoTDataPlaneService")<
+export class IoTDataPlaneService extends ServiceMap.Service<
   IoTDataPlaneService,
   IoTDataPlaneService$
->() {
+>()("@effect-aws/client-iot-data-plane/IoTDataPlaneService") {
   static readonly defaultLayer = Layer.effect(this, makeIoTDataPlaneService).pipe(Layer.provide(Instance.layer));
   static readonly layer = (config: IoTDataPlaneService.Config) =>
     Layer.effect(this, makeIoTDataPlaneService).pipe(

@@ -16,7 +16,7 @@ With default EC2Client instance:
 ```typescript
 import { EC2 } from "@effect-aws/client-ec2";
 
-const program = EC2.acceptAddressTransfer(args);
+const program = EC2.use((svc) => svc.acceptAddressTransfer(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom EC2Client instance:
 ```typescript
 import { EC2 } from "@effect-aws/client-ec2";
 
-const program = EC2.acceptAddressTransfer(args);
+const program = EC2.use((svc) => svc.acceptAddressTransfer(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom EC2Client configuration:
 ```typescript
 import { EC2 } from "@effect-aws/client-ec2";
 
-const program = EC2.acceptAddressTransfer(args);
+const program = EC2.use((svc) => svc.acceptAddressTransfer(args));
 
 const result = await pipe(
   program,
