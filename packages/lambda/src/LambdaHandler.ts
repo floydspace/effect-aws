@@ -108,7 +108,7 @@ export const context = (): Effect.Effect<LambdaContext> =>
  *  return Effect.logInfo("Hello, world!");
  * };
  *
- * const LambdaLayer = Logger.replace(Logger.defaultLogger, Logger.logfmtLogger);
+ * const LambdaLayer = Logger.layer([Logger.consoleLogFmt]);
  *
  * export const handler = LambdaHandler.make({
  *  handler: effectHandler,
@@ -158,7 +158,7 @@ export const make: {
  *  return Stream.make("1", "2", "3");
  * };
  *
- * const LambdaLayer = Logger.replace(Logger.defaultLogger, Logger.logfmtLogger);
+ * const LambdaLayer = Logger.layer([Logger.consoleLogFmt]);
  *
  * export const handler = LambdaHandler.stream({
  *  handler: streamHandler,
@@ -301,21 +301,17 @@ export const httpApiHandler: EffectHandler<
  * @example
  * ```ts
  * import { LambdaHandler } from "@effect-aws/lambda"
- * import { HttpApi, HttpApiBuilder, HttpServer } from "@effect/platform"
+ * import { HttpServer } from "effect/unstable/http";
+ * import { HttpApi, HttpApiBuilder } from "effect/unstable/httpapi"
  * import { Layer } from "effect"
  *
  * class MyApi extends HttpApi.make("api") {}
  *
- * const MyApiLive = HttpApiBuilder.api(MyApi)
+ * const MyApiLive = HttpApiBuilder.layer(MyApi).pipe(
+ *   Layer.provide(HttpServer.layerServices),
+ * );
  *
- * export const handler = LambdaHandler.fromHttpApi(
- *   Layer.mergeAll(
- *     MyApiLive,
- *     // you could also use NodeHttpServer.layerContext, depending on your
- *     // server's platform
- *     HttpServer.layerContext
- *   )
- * )
+ * export const handler = LambdaHandler.fromHttpApi(MyApiLive)
  * ```
  *
  * @since 1.4.0

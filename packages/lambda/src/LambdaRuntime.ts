@@ -12,7 +12,7 @@ import { Console, Effect, ManagedRuntime } from "effect";
  * import { LambdaRuntime, LambdaContext } from "@effect-aws/lambda";
  * import { Effect, Logger } from "effect";
  *
- * const LambdaLayer = Logger.replace(Logger.defaultLogger, Logger.logfmtLogger);
+ * const LambdaLayer = Logger.layer([Logger.consoleLogFmt]);
  *
  * const lambdaRuntime = LambdaRuntime.fromLayer(LambdaLayer);
  *
