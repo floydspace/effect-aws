@@ -6,10 +6,12 @@ import {
 } from "@aws-sdk/client-athena";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-athena/dist-cjs/runtimeConfig";
-import { Athena, AthenaServiceConfig } from "@effect-aws/client-athena";
-import { SdkError } from "@effect-aws/commons";
+import { AthenaService as Athena } from "@effect-aws/client-athena/AthenaService";
+import * as AthenaServiceConfig from "@effect-aws/client-athena/AthenaServiceConfig";
+import { SdkError } from "@effect-aws/commons/Errors";
 import { mockClient } from "aws-sdk-client-mock";
-import { Effect, Exit } from "effect";
+import * as Effect from "effect/Effect";
+import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
 

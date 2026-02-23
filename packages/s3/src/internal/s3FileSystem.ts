@@ -1,8 +1,15 @@
-import type { S3Service } from "@effect-aws/client-s3";
-import { S3 } from "@effect-aws/client-s3";
-import { Error as PlatformError, FileSystem } from "@effect/platform";
-import type { Context } from "effect";
-import { Array, Config, Effect, Layer, Match, Option, String as Str } from "effect";
+import * as S3 from "@effect-aws/client-s3/S3Service";
+import type { S3Service } from "@effect-aws/client-s3/S3Service";
+import * as PlatformError from "@effect/platform/Error";
+import * as FileSystem from "@effect/platform/FileSystem";
+import * as Array from "effect/Array";
+import * as Config from "effect/Config";
+import type * as Context from "effect/Context";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
+import * as Match from "effect/Match";
+import * as Option from "effect/Option";
+import * as Str from "effect/String";
 import type { S3FileSystemConfig } from "../S3FileSystem.js";
 
 /** @internal */
@@ -175,7 +182,7 @@ const writeFile = (s3: Context.Tag.Service<S3Service>, config: S3FileSystemConfi
 
 const makeFileSystem = (config: S3FileSystemConfig) =>
   Effect.gen(function*() {
-    const s3 = yield* S3;
+    const s3 = yield* S3.S3Service;
 
     return FileSystem.make({
       ...FileSystem.makeNoop({

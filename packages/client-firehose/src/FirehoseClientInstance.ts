@@ -2,7 +2,9 @@
  * @since 1.0.0
  */
 import { FirehoseClient } from "@aws-sdk/client-firehose";
-import { Context, Effect, Layer } from "effect";
+import * as Context from "effect/Context";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
 import * as FirehoseServiceConfig from "./FirehoseServiceConfig.js";
 
 /**

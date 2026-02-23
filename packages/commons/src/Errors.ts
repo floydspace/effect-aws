@@ -1,4 +1,4 @@
-import { Data } from "effect";
+import * as Data from "effect/Data";
 
 export type TaggedException<T extends { name: string }> = T & {
   readonly _tag: T["name"];

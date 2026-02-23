@@ -34,7 +34,7 @@ import type {
   ValidationException,
   VerificationException,
 } from "@aws-sdk/client-sns";
-import type { TaggedException } from "@effect-aws/commons";
+import type { TaggedException } from "@effect-aws/commons/Errors";
 
 export const AllServiceErrors = [
   "AuthorizationErrorException",

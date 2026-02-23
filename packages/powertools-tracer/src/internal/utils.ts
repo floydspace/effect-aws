@@ -1,4 +1,4 @@
-import { Inspectable } from "effect";
+import * as Inspectable from "effect/Inspectable";
 
 /** @internal */
 export const unknownToAttributeValue = (value: unknown): boolean | string | number => {

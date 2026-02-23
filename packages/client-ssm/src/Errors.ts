@@ -139,7 +139,7 @@ import type {
   UnsupportedPlatformType,
   ValidationException,
 } from "@aws-sdk/client-ssm";
-import type { TaggedException } from "@effect-aws/commons";
+import type { TaggedException } from "@effect-aws/commons/Errors";
 
 export const AllServiceErrors = [
   "AccessDeniedException",

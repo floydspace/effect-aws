@@ -33,7 +33,7 @@ import type {
   VersionConflictException,
   VersionsLimitExceededException,
 } from "@aws-sdk/client-iot";
-import type { TaggedException } from "@effect-aws/commons";
+import type { TaggedException } from "@effect-aws/commons/Errors";
 
 export const AllServiceErrors = [
   "CertificateConflictException",

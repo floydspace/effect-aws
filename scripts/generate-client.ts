@@ -112,12 +112,12 @@ async function generateErrorsFile(
           ) :
         `${sdkName}ServiceException`
     } } from "@aws-sdk/client-${originalServiceName}";
-import type { TaggedException } from "@effect-aws/commons";
+import type { TaggedException } from "@effect-aws/commons/Errors";
 ${
       allServiceErrors.length > 0 ?
         `
 export const AllServiceErrors = [${allServiceErrors}] as const;` :
-        `import { Data } from "effect";
+        `import * as Data from "effect/Data";
 
 export type ${sdkName}ServiceError = TaggedException<
   ${sdkName}ServiceException & { name: "${sdkName}ServiceError" }
@@ -165,7 +165,9 @@ async function generateClientInstanceFile(
  * @since 1.0.0
  */
 import { ${sdkName}Client } from "@aws-sdk/client-${originalServiceName}";
-import { Context, Effect, Layer } from "effect";
+import * as Context from "effect/Context";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
 import * as ${sdkName}ServiceConfig from "./${sdkName}ServiceConfig.js";
 
 /**
@@ -210,8 +212,10 @@ async function generateServiceConfigFile(
  * @since 1.0.0
  */
 import type { ${sdkName}ClientConfig } from "@aws-sdk/client-${originalServiceName}";
-import { ServiceLogger } from "@effect-aws/commons";
-import { Effect, FiberRef, Layer } from "effect";
+import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Effect from "effect/Effect";
+import * as FiberRef from "effect/FiberRef";
+import * as Layer from "effect/Layer";
 import { dual } from "effect/Function";
 import { globalValue } from "effect/GlobalValue";
 import type { ${sdkName}Service } from "./${sdkName}Service.js";
@@ -381,10 +385,12 @@ import {
       )
     }
 } from "@aws-sdk/client-${originalServiceName}";
-import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
-import { Service } from "@effect-aws/commons";
-import type { Cause } from "effect";
-import { Effect, Layer } from "effect";
+import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
+import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Service from "@effect-aws/commons/Service";
+import type * as Cause from "effect/Cause";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
 import * as Instance from "./${sdkName}ClientInstance.js";
 import * as ${sdkName}ServiceConfig from "./${sdkName}ServiceConfig.js";
 ${
@@ -542,10 +548,12 @@ async function generateTestFile(
 } from "@aws-sdk/client-${originalServiceName}";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-${originalServiceName}/dist-cjs/runtimeConfig";
-import { ${sdkName}, ${sdkName}ServiceConfig } from "@effect-aws/client-${serviceName}";
-import { SdkError } from "@effect-aws/commons";
+import { ${sdkName}Service as ${sdkName} } from "@effect-aws/client-${serviceName}/${sdkName}Service";
+import * as ${sdkName}ServiceConfig from "@effect-aws/client-${serviceName}/${sdkName}ServiceConfig";
+import { SdkError } from "@effect-aws/commons/Errors";
 import { mockClient } from "aws-sdk-client-mock";
-import { Effect, Exit } from "effect";
+import * as Effect from "effect/Effect";
+import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
 

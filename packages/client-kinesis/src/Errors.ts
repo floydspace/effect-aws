@@ -16,7 +16,7 @@ import type {
   ResourceNotFoundException,
   ValidationException,
 } from "@aws-sdk/client-kinesis";
-import type { TaggedException } from "@effect-aws/commons";
+import type { TaggedException } from "@effect-aws/commons/Errors";
 
 export const AllServiceErrors = [
   "AccessDeniedException",

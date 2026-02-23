@@ -2,10 +2,12 @@
  * @since 1.0.0
  */
 import type { ECRClientConfig } from "@aws-sdk/client-ecr";
-import { ServiceLogger } from "@effect-aws/commons";
-import { Effect, FiberRef, Layer } from "effect";
+import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Effect from "effect/Effect";
+import * as FiberRef from "effect/FiberRef";
 import { dual } from "effect/Function";
 import { globalValue } from "effect/GlobalValue";
+import * as Layer from "effect/Layer";
 import type { ECRService } from "./ECRService.js";
 
 /**

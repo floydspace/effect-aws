@@ -8,7 +8,7 @@ import type {
   ResourceNotFoundException,
   ValidationException,
 } from "@aws-sdk/client-cloudsearch";
-import type { TaggedException } from "@effect-aws/commons";
+import type { TaggedException } from "@effect-aws/commons/Errors";
 
 export const AllServiceErrors = [
   "BaseException",

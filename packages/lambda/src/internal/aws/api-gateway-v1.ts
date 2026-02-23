@@ -1,6 +1,6 @@
 import url from "node:url";
 
-import { Record } from "effect";
+import * as Record from "effect/Record";
 import type { APIGatewayProxyEvent, APIGatewayProxyResult } from "../../Types.js";
 import type { EventSource } from "../types.js";
 import { getMultiValueHeaders, getRequestValuesFromEvent } from "../utils.js";

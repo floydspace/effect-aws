@@ -2,8 +2,10 @@
  * @since 1.0.0
  */
 import { DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
-import { DynamoDBClientInstance } from "@effect-aws/client-dynamodb";
-import { Context, Effect, Layer } from "effect";
+import * as DynamoDBClientInstance from "@effect-aws/client-dynamodb/DynamoDBClientInstance";
+import * as Context from "effect/Context";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
 import * as DynamoDBDocumentServiceConfig from "./DynamoDBDocumentServiceConfig.js";
 
 /**

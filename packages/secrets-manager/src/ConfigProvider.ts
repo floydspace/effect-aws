@@ -1,20 +1,18 @@
 /**
  * @since 1.0.0
  */
-import { SecretsManagerService } from "@effect-aws/client-secrets-manager";
-import type { Config } from "effect";
-import {
-  Array,
-  Cause,
-  ConfigError,
-  ConfigProvider,
-  ConfigProviderPathPatch,
-  Effect,
-  HashSet,
-  Layer,
-  Option,
-  pipe,
-} from "effect";
+import * as SecretsManagerService from "@effect-aws/client-secrets-manager/SecretsManagerService";
+import * as Array from "effect/Array";
+import * as Cause from "effect/Cause";
+import type * as Config from "effect/Config";
+import * as ConfigError from "effect/ConfigError";
+import * as ConfigProvider from "effect/ConfigProvider";
+import * as ConfigProviderPathPatch from "effect/ConfigProviderPathPatch";
+import * as Effect from "effect/Effect";
+import { pipe } from "effect/Function";
+import * as HashSet from "effect/HashSet";
+import * as Layer from "effect/Layer";
+import * as Option from "effect/Option";
 
 /**
  * @since 1.2.0
@@ -33,11 +31,13 @@ export interface FromSecretsManagerConfig {
  * @deprecated Use `ConfigProvider.withSecretsManagerConfigProvider` or `ConfigProvider.setSecretsManagerConfigProvider` instead.
  */
 export const fromSecretsManager = (
-  config?: Partial<FromSecretsManagerConfig> & { serviceLayer?: Layer.Layer<SecretsManagerService> },
+  config?: Partial<FromSecretsManagerConfig> & {
+    serviceLayer?: Layer.Layer<SecretsManagerService.SecretsManagerService>;
+  },
 ): ConfigProvider.ConfigProvider => {
   const { pathDelim, serviceLayer } = Object.assign(
     {},
-    { pathDelim: "_", serviceLayer: SecretsManagerService.defaultLayer },
+    { pathDelim: "_", serviceLayer: SecretsManagerService.SecretsManagerService.defaultLayer },
     config,
   );
   const makePathString = (path: ReadonlyArray<string>): string => pipe(path, Array.join(pathDelim));
@@ -48,7 +48,7 @@ export const fromSecretsManager = (
     primitive: Config.Config.Primitive<A>,
   ): Effect.Effect<Array<A>, ConfigError.ConfigError> => {
     const pathString = makePathString(path);
-    return SecretsManagerService.getSecretValue({ SecretId: pathString }).pipe(
+    return SecretsManagerService.SecretsManagerService.getSecretValue({ SecretId: pathString }).pipe(
       Effect.flatMap((value) => Option.fromNullable(value.SecretString)),
       Effect.catchTag("ResourceNotFoundException", () =>
         Effect.fail(
@@ -105,7 +105,7 @@ export const fromSecretsManager = (
   const enumerateChildren = (
     path: ReadonlyArray<string>,
   ): Effect.Effect<HashSet.HashSet<string>, ConfigError.ConfigError> =>
-    SecretsManagerService.listSecrets({}).pipe(
+    SecretsManagerService.SecretsManagerService.listSecrets({}).pipe(
       Effect.flatMap((secrets) => Option.fromNullable(secrets.SecretList)),
       Effect.map(Array.map((secret) => Option.fromNullable(secret.Name))),
       Effect.flatMap(Option.all),
@@ -149,11 +149,11 @@ export const fromSecretsManager = (
  */
 export const setSecretsManagerConfigProvider = (config?: Partial<FromSecretsManagerConfig>) =>
   Effect.gen(function*() {
-    const service = yield* SecretsManagerService;
+    const service = yield* SecretsManagerService.SecretsManagerService;
 
     const provider = fromSecretsManager({
       ...config,
-      serviceLayer: Layer.succeed(SecretsManagerService, service),
+      serviceLayer: Layer.succeed(SecretsManagerService.SecretsManagerService, service),
     });
 
     return Layer.setConfigProvider(provider);

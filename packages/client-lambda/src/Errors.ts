@@ -44,7 +44,7 @@ import type {
   TooManyRequestsException,
   UnsupportedMediaTypeException,
 } from "@aws-sdk/client-lambda";
-import type { TaggedException } from "@effect-aws/commons";
+import type { TaggedException } from "@effect-aws/commons/Errors";
 
 export const AllServiceErrors = [
   "CallbackTimeoutException",

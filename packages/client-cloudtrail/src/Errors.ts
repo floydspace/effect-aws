@@ -86,7 +86,7 @@ import type {
   TrailNotProvidedException,
   UnsupportedOperationException,
 } from "@aws-sdk/client-cloudtrail";
-import type { TaggedException } from "@effect-aws/commons";
+import type { TaggedException } from "@effect-aws/commons/Errors";
 
 export const AllServiceErrors = [
   "AccessDeniedException",

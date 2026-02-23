@@ -2,7 +2,9 @@
  * @since 1.0.0
  */
 import { KafkaClient } from "@aws-sdk/client-kafka";
-import { Context, Effect, Layer } from "effect";
+import * as Context from "effect/Context";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
 import * as KafkaServiceConfig from "./KafkaServiceConfig.js";
 
 /**

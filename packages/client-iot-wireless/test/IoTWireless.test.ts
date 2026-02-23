@@ -6,10 +6,12 @@ import {
 } from "@aws-sdk/client-iot-wireless";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-iot-wireless/dist-cjs/runtimeConfig";
-import { IoTWireless, IoTWirelessServiceConfig } from "@effect-aws/client-iot-wireless";
-import { SdkError } from "@effect-aws/commons";
+import { IoTWirelessService as IoTWireless } from "@effect-aws/client-iot-wireless/IoTWirelessService";
+import * as IoTWirelessServiceConfig from "@effect-aws/client-iot-wireless/IoTWirelessServiceConfig";
+import { SdkError } from "@effect-aws/commons/Errors";
 import { mockClient } from "aws-sdk-client-mock";
-import { Effect, Exit } from "effect";
+import * as Effect from "effect/Effect";
+import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
 

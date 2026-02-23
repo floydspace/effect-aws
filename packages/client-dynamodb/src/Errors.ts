@@ -35,7 +35,7 @@ import type {
   TransactionConflictException,
   TransactionInProgressException,
 } from "@aws-sdk/client-dynamodb";
-import type { TaggedException } from "@effect-aws/commons";
+import type { TaggedException } from "@effect-aws/commons/Errors";
 
 export const AllServiceErrors = [
   "BackupInUseException",

@@ -2,7 +2,9 @@
  * @since 1.0.0
  */
 import { EC2Client } from "@aws-sdk/client-ec2";
-import { Context, Effect, Layer } from "effect";
+import * as Context from "effect/Context";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
 import * as EC2ServiceConfig from "./EC2ServiceConfig.js";
 
 /**

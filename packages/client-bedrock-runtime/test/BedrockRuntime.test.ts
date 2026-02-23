@@ -6,10 +6,12 @@ import {
 } from "@aws-sdk/client-bedrock-runtime";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-bedrock-runtime/dist-cjs/runtimeConfig";
-import { BedrockRuntime, BedrockRuntimeServiceConfig } from "@effect-aws/client-bedrock-runtime";
-import { SdkError } from "@effect-aws/commons";
+import { BedrockRuntimeService as BedrockRuntime } from "@effect-aws/client-bedrock-runtime/BedrockRuntimeService";
+import * as BedrockRuntimeServiceConfig from "@effect-aws/client-bedrock-runtime/BedrockRuntimeServiceConfig";
+import { SdkError } from "@effect-aws/commons/Errors";
 import { mockClient } from "aws-sdk-client-mock";
-import { Effect, Exit } from "effect";
+import * as Effect from "effect/Effect";
+import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
 

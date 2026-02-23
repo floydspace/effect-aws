@@ -55,7 +55,7 @@ import type {
   WebAuthnOriginNotAllowedException,
   WebAuthnRelyingPartyMismatchException,
 } from "@aws-sdk/client-cognito-identity-provider";
-import type { TaggedException } from "@effect-aws/commons";
+import type { TaggedException } from "@effect-aws/commons/Errors";
 
 export const AllServiceErrors = [
   "AliasExistsException",

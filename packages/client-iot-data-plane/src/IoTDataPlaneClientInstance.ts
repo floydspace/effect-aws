@@ -2,7 +2,9 @@
  * @since 1.0.0
  */
 import { IoTDataPlaneClient } from "@aws-sdk/client-iot-data-plane";
-import { Context, Effect, Layer } from "effect";
+import * as Context from "effect/Context";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
 import * as IoTDataPlaneServiceConfig from "./IoTDataPlaneServiceConfig.js";
 
 /**

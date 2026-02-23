@@ -12,7 +12,7 @@ import type {
   ThrottlingException,
   ValidationException,
 } from "@aws-sdk/client-bedrock-runtime";
-import type { TaggedException } from "@effect-aws/commons";
+import type { TaggedException } from "@effect-aws/commons/Errors";
 
 export const AllServiceErrors = [
   "AccessDeniedException",

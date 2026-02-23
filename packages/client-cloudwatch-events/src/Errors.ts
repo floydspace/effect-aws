@@ -11,7 +11,7 @@ import type {
   ResourceAlreadyExistsException,
   ResourceNotFoundException,
 } from "@aws-sdk/client-cloudwatch-events";
-import type { TaggedException } from "@effect-aws/commons";
+import type { TaggedException } from "@effect-aws/commons/Errors";
 
 export const AllServiceErrors = [
   "ConcurrentModificationException",

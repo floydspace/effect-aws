@@ -6,13 +6,12 @@ import {
 } from "@aws-sdk/client-apigatewaymanagementapi";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-apigatewaymanagementapi/dist-cjs/runtimeConfig";
-import {
-  ApiGatewayManagementApi,
-  ApiGatewayManagementApiServiceConfig,
-} from "@effect-aws/client-api-gateway-management-api";
-import { SdkError } from "@effect-aws/commons";
+import { ApiGatewayManagementApiService as ApiGatewayManagementApi } from "@effect-aws/client-api-gateway-management-api/ApiGatewayManagementApiService";
+import * as ApiGatewayManagementApiServiceConfig from "@effect-aws/client-api-gateway-management-api/ApiGatewayManagementApiServiceConfig";
+import { SdkError } from "@effect-aws/commons/Errors";
 import { mockClient } from "aws-sdk-client-mock";
-import { Effect, Exit } from "effect";
+import * as Effect from "effect/Effect";
+import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
