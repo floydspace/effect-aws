@@ -48,7 +48,7 @@ import type {
   XksProxyVpcEndpointServiceInvalidConfigurationException,
   XksProxyVpcEndpointServiceNotFoundException,
 } from "@aws-sdk/client-kms";
-import type { TaggedException } from "@effect-aws/commons";
+import type { TaggedException } from "@effect-aws/commons/Errors";
 
 export const AllServiceErrors = [
   "AlreadyExistsException",

@@ -6,10 +6,12 @@ import {
 } from "@aws-sdk/client-opensearch";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-opensearch/dist-cjs/runtimeConfig";
-import { OpenSearch, OpenSearchServiceConfig } from "@effect-aws/client-opensearch";
-import { SdkError } from "@effect-aws/commons";
+import { OpenSearchService as OpenSearch } from "@effect-aws/client-opensearch/OpenSearchService";
+import * as OpenSearchServiceConfig from "@effect-aws/client-opensearch/OpenSearchServiceConfig";
+import { SdkError } from "@effect-aws/commons/Errors";
 import { mockClient } from "aws-sdk-client-mock";
-import { Effect, Exit } from "effect";
+import * as Effect from "effect/Effect";
+import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
 

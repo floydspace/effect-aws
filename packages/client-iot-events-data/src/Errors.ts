@@ -5,7 +5,7 @@ import type {
   ServiceUnavailableException,
   ThrottlingException,
 } from "@aws-sdk/client-iot-events-data";
-import type { TaggedException } from "@effect-aws/commons";
+import type { TaggedException } from "@effect-aws/commons/Errors";
 
 export const AllServiceErrors = [
   "InternalFailureException",

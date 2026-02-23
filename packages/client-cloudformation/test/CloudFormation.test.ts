@@ -6,10 +6,12 @@ import {
 } from "@aws-sdk/client-cloudformation";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-cloudformation/dist-cjs/runtimeConfig";
-import { CloudFormation, CloudFormationServiceConfig } from "@effect-aws/client-cloudformation";
-import { SdkError } from "@effect-aws/commons";
+import { CloudFormationService as CloudFormation } from "@effect-aws/client-cloudformation/CloudFormationService";
+import * as CloudFormationServiceConfig from "@effect-aws/client-cloudformation/CloudFormationServiceConfig";
+import { SdkError } from "@effect-aws/commons/Errors";
 import { mockClient } from "aws-sdk-client-mock";
-import { Effect, Exit } from "effect";
+import * as Effect from "effect/Effect";
+import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
 

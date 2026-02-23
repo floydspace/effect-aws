@@ -6,10 +6,12 @@ import {
 } from "@aws-sdk/client-kafkaconnect";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-kafkaconnect/dist-cjs/runtimeConfig";
-import { KafkaConnect, KafkaConnectServiceConfig } from "@effect-aws/client-kafkaconnect";
-import { SdkError } from "@effect-aws/commons";
+import { KafkaConnectService as KafkaConnect } from "@effect-aws/client-kafkaconnect/KafkaConnectService";
+import * as KafkaConnectServiceConfig from "@effect-aws/client-kafkaconnect/KafkaConnectServiceConfig";
+import { SdkError } from "@effect-aws/commons/Errors";
 import { mockClient } from "aws-sdk-client-mock";
-import { Effect, Exit } from "effect";
+import * as Effect from "effect/Effect";
+import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
 

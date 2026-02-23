@@ -76,7 +76,7 @@ import type {
   UserNotFoundFault,
   UserQuotaExceededFault,
 } from "@aws-sdk/client-elasticache";
-import type { TaggedException } from "@effect-aws/commons";
+import type { TaggedException } from "@effect-aws/commons/Errors";
 
 export const AllServiceErrors = [
   "APICallRateForCustomerExceededFault",

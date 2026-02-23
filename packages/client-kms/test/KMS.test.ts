@@ -1,10 +1,12 @@
 import { KMSClient, KMSServiceException, ListKeysCommand, type ListKeysCommandInput } from "@aws-sdk/client-kms";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-kms/dist-cjs/runtimeConfig";
-import { KMS, KMSServiceConfig } from "@effect-aws/client-kms";
-import { SdkError } from "@effect-aws/commons";
+import { KMSService as KMS } from "@effect-aws/client-kms/KMSService";
+import * as KMSServiceConfig from "@effect-aws/client-kms/KMSServiceConfig";
+import { SdkError } from "@effect-aws/commons/Errors";
 import { mockClient } from "aws-sdk-client-mock";
-import { Effect, Exit } from "effect";
+import * as Effect from "effect/Effect";
+import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
 

@@ -6,10 +6,12 @@ import {
 } from "@aws-sdk/client-rds";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-rds/dist-cjs/runtimeConfig";
-import { RDS, RDSServiceConfig } from "@effect-aws/client-rds";
-import { SdkError } from "@effect-aws/commons";
+import { RDSService as RDS } from "@effect-aws/client-rds/RDSService";
+import * as RDSServiceConfig from "@effect-aws/client-rds/RDSServiceConfig";
+import { SdkError } from "@effect-aws/commons/Errors";
 import { mockClient } from "aws-sdk-client-mock";
-import { Effect, Exit } from "effect";
+import * as Effect from "effect/Effect";
+import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
 

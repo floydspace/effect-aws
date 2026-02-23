@@ -28,7 +28,7 @@ import type {
   UnsupportedFeatureException,
   UpdateInProgressException,
 } from "@aws-sdk/client-ecs";
-import type { TaggedException } from "@effect-aws/commons";
+import type { TaggedException } from "@effect-aws/commons/Errors";
 
 export const AllServiceErrors = [
   "AccessDeniedException",

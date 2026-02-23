@@ -7,7 +7,7 @@ import type {
   ThrottlingException,
   ValidationException,
 } from "@aws-sdk/client-dsql";
-import type { TaggedException } from "@effect-aws/commons";
+import type { TaggedException } from "@effect-aws/commons/Errors";
 
 export const AllServiceErrors = [
   "AccessDeniedException",

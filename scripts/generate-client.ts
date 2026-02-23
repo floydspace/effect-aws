@@ -112,7 +112,7 @@ async function generateErrorsFile(
           ) :
         `${sdkName}ServiceException`
     } } from "@aws-sdk/client-${originalServiceName}";
-import type { TaggedException } from "@effect-aws/commons";
+import type { TaggedException } from "@effect-aws/commons/Errors";
 ${
       allServiceErrors.length > 0 ?
         `
@@ -212,7 +212,7 @@ async function generateServiceConfigFile(
  * @since 1.0.0
  */
 import type { ${sdkName}ClientConfig } from "@aws-sdk/client-${originalServiceName}";
-import { ServiceLogger } from "@effect-aws/commons";
+import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
 import * as Effect from "effect/Effect";
 import * as FiberRef from "effect/FiberRef";
 import * as Layer from "effect/Layer";
@@ -385,8 +385,9 @@ import {
       )
     }
 } from "@aws-sdk/client-${originalServiceName}";
-import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
-import { Service } from "@effect-aws/commons";
+import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
+import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Service from "@effect-aws/commons/Service";
 import type * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
@@ -547,8 +548,9 @@ async function generateTestFile(
 } from "@aws-sdk/client-${originalServiceName}";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-${originalServiceName}/dist-cjs/runtimeConfig";
-import { ${sdkName}, ${sdkName}ServiceConfig } from "@effect-aws/client-${serviceName}";
-import { SdkError } from "@effect-aws/commons";
+import { ${sdkName}Service as ${sdkName} } from "@effect-aws/client-${serviceName}/${sdkName}Service";
+import * as ${sdkName}ServiceConfig from "@effect-aws/client-${serviceName}/${sdkName}ServiceConfig";
+import { SdkError } from "@effect-aws/commons/Errors";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";

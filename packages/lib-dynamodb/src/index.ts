@@ -8,11 +8,10 @@ export {
   /**
    * @since 1.0.0
    */
-  DynamoDBDocument,
-  /**
-   * @since 1.0.0
-   */
-  DynamoDBDocumentClientInstance,
+  DynamoDBDocumentService as DynamoDBDocument,
+} from "@effect-aws/dynamodb/DynamoDBDocumentService";
+
+export {
   /**
    * @since 1.0.0
    */
@@ -20,9 +19,17 @@ export {
   /**
    * @since 1.0.0
    */
-  DynamoDBDocumentServiceConfig,
+  makeDynamoDBDocumentService,
+} from "@effect-aws/dynamodb/DynamoDBDocumentService";
+
+export {
   /**
    * @since 1.0.0
    */
-  makeDynamoDBDocumentService,
-} from "@effect-aws/dynamodb";
+  DynamoDBDocumentClientInstance,
+} from "@effect-aws/dynamodb/DynamoDBDocumentClientInstance";
+
+/**
+ * @since 1.0.0
+ */
+export * as DynamoDBDocumentServiceConfig from "@effect-aws/dynamodb/DynamoDBDocumentServiceConfig";

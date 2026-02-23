@@ -110,7 +110,7 @@ import type {
   TriggerTargetsLimitExceededException,
   UnsupportedActionForDeploymentTypeException,
 } from "@aws-sdk/client-codedeploy";
-import type { TaggedException } from "@effect-aws/commons";
+import type { TaggedException } from "@effect-aws/commons/Errors";
 
 export const AllServiceErrors = [
   "AlarmsLimitExceededException",

@@ -6,10 +6,12 @@ import {
 } from "@aws-sdk/client-cloudsearch";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-cloudsearch/dist-cjs/runtimeConfig";
-import { CloudSearch, CloudSearchServiceConfig } from "@effect-aws/client-cloudsearch";
-import { SdkError } from "@effect-aws/commons";
+import { CloudSearchService as CloudSearch } from "@effect-aws/client-cloudsearch/CloudSearchService";
+import * as CloudSearchServiceConfig from "@effect-aws/client-cloudsearch/CloudSearchServiceConfig";
+import { SdkError } from "@effect-aws/commons/Errors";
 import { mockClient } from "aws-sdk-client-mock";
-import { Effect, Exit } from "effect";
+import * as Effect from "effect/Effect";
+import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
 

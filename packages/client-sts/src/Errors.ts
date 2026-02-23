@@ -12,7 +12,7 @@ import type {
   RegionDisabledException,
   SessionDurationEscalationException,
 } from "@aws-sdk/client-sts";
-import type { TaggedException } from "@effect-aws/commons";
+import type { TaggedException } from "@effect-aws/commons/Errors";
 
 export const AllServiceErrors = [
   "ExpiredTokenException",

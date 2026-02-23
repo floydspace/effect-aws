@@ -34,7 +34,7 @@ import type {
   TrackingOptionsAlreadyExistsException,
   TrackingOptionsDoesNotExistException,
 } from "@aws-sdk/client-ses";
-import type { TaggedException } from "@effect-aws/commons";
+import type { TaggedException } from "@effect-aws/commons/Errors";
 
 export const AllServiceErrors = [
   "AccountSendingPausedException",

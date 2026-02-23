@@ -50,7 +50,7 @@ import type {
   TooManyRequestsException,
   UnsupportedAPIEndpointException,
 } from "@aws-sdk/client-organizations";
-import type { TaggedException } from "@effect-aws/commons";
+import type { TaggedException } from "@effect-aws/commons/Errors";
 
 export const AllServiceErrors = [
   "AWSOrganizationsNotInUseException",

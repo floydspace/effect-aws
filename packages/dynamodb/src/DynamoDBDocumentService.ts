@@ -47,6 +47,7 @@ import {
   TransactWriteCommand,
   UpdateCommand,
 } from "@aws-sdk/lib-dynamodb";
+import * as DynamoDBServiceConfig from "@effect-aws/client-dynamodb/DynamoDBServiceConfig";
 import type {
   ConditionalCheckFailedError,
   DuplicateItemError,
@@ -61,9 +62,9 @@ import type {
   TransactionCanceledError,
   TransactionConflictError,
   TransactionInProgressError,
-} from "@effect-aws/client-dynamodb";
-import { DynamoDBServiceConfig } from "@effect-aws/client-dynamodb";
-import { type HttpHandlerOptions, Service } from "@effect-aws/commons";
+} from "@effect-aws/client-dynamodb/Errors";
+import * as Service from "@effect-aws/commons/Service";
+import { type HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";

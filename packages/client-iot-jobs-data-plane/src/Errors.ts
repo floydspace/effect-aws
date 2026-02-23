@@ -11,7 +11,7 @@ import type {
   ThrottlingException,
   ValidationException,
 } from "@aws-sdk/client-iot-jobs-data-plane";
-import type { TaggedException } from "@effect-aws/commons";
+import type { TaggedException } from "@effect-aws/commons/Errors";
 
 export const AllServiceErrors = [
   "CertificateValidationException",

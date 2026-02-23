@@ -1,7 +1,7 @@
 /**
  * @since 0.1.0
  */
-import type { S3Service } from "@effect-aws/client-s3";
+import type { S3Service } from "@effect-aws/client-s3/S3Service";
 import type { FileSystem } from "@effect/platform/FileSystem";
 import type * as Config from "effect/Config";
 import type * as ConfigError from "effect/ConfigError";

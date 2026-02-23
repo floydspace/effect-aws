@@ -1,10 +1,12 @@
 import { InvokeCommand, type InvokeCommandInput, LambdaClient, LambdaServiceException } from "@aws-sdk/client-lambda";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-lambda/dist-cjs/runtimeConfig";
-import { Lambda, LambdaServiceConfig } from "@effect-aws/client-lambda";
-import { SdkError } from "@effect-aws/commons";
+import { LambdaService as Lambda } from "@effect-aws/client-lambda/LambdaService";
+import * as LambdaServiceConfig from "@effect-aws/client-lambda/LambdaServiceConfig";
+import { SdkError } from "@effect-aws/commons/Errors";
 import { mockClient } from "aws-sdk-client-mock";
-import { Effect, Exit } from "effect";
+import * as Effect from "effect/Effect";
+import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
 

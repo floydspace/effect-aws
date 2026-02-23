@@ -1,5 +1,5 @@
-import type { HttpHandlerOptions } from "@effect-aws/commons";
-import { HttpHandler } from "@effect-aws/commons";
+import * as HttpHandler from "@effect-aws/commons/HttpHandler";
+import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import * as HttpBody from "@effect/platform/HttpBody";
 import * as HttpClient from "@effect/platform/HttpClient";
 import * as HttpClientRequest from "@effect/platform/HttpClientRequest";

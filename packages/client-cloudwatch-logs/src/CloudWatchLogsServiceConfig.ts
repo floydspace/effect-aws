@@ -2,7 +2,7 @@
  * @since 1.0.0
  */
 import type { CloudWatchLogsClientConfig } from "@aws-sdk/client-cloudwatch-logs";
-import { ServiceLogger } from "@effect-aws/commons";
+import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
 import * as Effect from "effect/Effect";
 import * as FiberRef from "effect/FiberRef";
 import { dual } from "effect/Function";

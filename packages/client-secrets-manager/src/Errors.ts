@@ -12,7 +12,7 @@ import type {
   ResourceExistsException,
   ResourceNotFoundException,
 } from "@aws-sdk/client-secrets-manager";
-import type { TaggedException } from "@effect-aws/commons";
+import type { TaggedException } from "@effect-aws/commons/Errors";
 
 export const AllServiceErrors = [
   "DecryptionFailure",

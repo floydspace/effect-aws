@@ -1,5 +1,5 @@
-import type { S3Service } from "@effect-aws/client-s3";
-import { S3 } from "@effect-aws/client-s3";
+import * as S3 from "@effect-aws/client-s3/S3Service";
+import type { S3Service } from "@effect-aws/client-s3/S3Service";
 import * as PlatformError from "@effect/platform/Error";
 import * as FileSystem from "@effect/platform/FileSystem";
 import * as Array from "effect/Array";
@@ -182,7 +182,7 @@ const writeFile = (s3: Context.Tag.Service<S3Service>, config: S3FileSystemConfi
 
 const makeFileSystem = (config: S3FileSystemConfig) =>
   Effect.gen(function*() {
-    const s3 = yield* S3;
+    const s3 = yield* S3.S3Service;
 
     return FileSystem.make({
       ...FileSystem.makeNoop({

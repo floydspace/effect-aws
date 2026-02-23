@@ -28,7 +28,7 @@ import type {
   TooManyEntriesInBatchRequest,
   UnsupportedOperation,
 } from "@aws-sdk/client-sqs";
-import type { TaggedException } from "@effect-aws/commons";
+import type { TaggedException } from "@effect-aws/commons/Errors";
 
 export const AllServiceErrors = [
   "BatchEntryIdsNotDistinct",

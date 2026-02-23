@@ -8,7 +8,7 @@ import type {
   TooManyRequestsException,
   UnauthorizedException,
 } from "@aws-sdk/client-kafkaconnect";
-import type { TaggedException } from "@effect-aws/commons";
+import type { TaggedException } from "@effect-aws/commons/Errors";
 
 export const AllServiceErrors = [
   "BadRequestException",
