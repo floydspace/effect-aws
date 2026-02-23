@@ -2,7 +2,9 @@
  * @since 1.0.0
  */
 import { FirehoseClient } from "@aws-sdk/client-firehose";
-import { Effect, Layer, ServiceMap } from "effect";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
+import * as ServiceMap from "effect/ServiceMap";
 import * as FirehoseServiceConfig from "./FirehoseServiceConfig.js";
 
 /**

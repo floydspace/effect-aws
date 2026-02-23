@@ -1,6 +1,7 @@
 import { ServiceLogger } from "@effect-aws/commons";
 import { it } from "@effect/vitest";
-import { Effect, Logger } from "effect";
+import * as Effect from "effect/Effect";
+import * as Logger from "effect/Logger";
 import { beforeEach, describe, expect, vi } from "vitest";
 
 const mockLogFn = vi.fn();

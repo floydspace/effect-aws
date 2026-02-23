@@ -1,7 +1,8 @@
 import * as NodeStream from "@effect/platform-node-shared/NodeStream";
-import { Effect, Stream } from "effect";
+import * as Effect from "effect/Effect";
 import { dual } from "effect/Function";
 import * as Error from "effect/PlatformError";
+import * as Stream from "effect/Stream";
 import type { PipelineDestination, PipelineSource } from "node:stream";
 import * as NS from "node:stream/promises";
 

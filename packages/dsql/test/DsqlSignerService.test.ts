@@ -1,5 +1,6 @@
 import { DsqlSigner } from "@effect-aws/dsql";
-import { Effect, Exit } from "effect";
+import * as Effect from "effect/Effect";
+import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
 import { describe, expect, it } from "vitest";
 

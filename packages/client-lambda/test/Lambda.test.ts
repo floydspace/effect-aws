@@ -4,7 +4,8 @@ import * as runtimeConfig from "@aws-sdk/client-lambda/dist-cjs/runtimeConfig";
 import { Lambda, LambdaServiceConfig } from "@effect-aws/client-lambda";
 import { SdkError } from "@effect-aws/commons";
 import { mockClient } from "aws-sdk-client-mock";
-import { Effect, Exit } from "effect";
+import * as Effect from "effect/Effect";
+import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
 

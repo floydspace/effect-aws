@@ -1,7 +1,7 @@
 import { Logger as LoggerCtor } from "@aws-lambda-powertools/logger";
 import { Logger } from "@effect-aws/powertools-logger";
 import { it } from "@effect/vitest";
-import { Effect } from "effect";
+import * as Effect from "effect/Effect";
 import * as TestClock from "effect/testing/TestClock";
 import type { MockInstance } from "vitest";
 import { afterEach, beforeEach, describe, expect, vi } from "vitest";

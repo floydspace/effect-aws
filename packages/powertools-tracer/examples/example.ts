@@ -1,7 +1,8 @@
 import { LambdaHandler } from "@effect-aws/lambda";
 import { Tracer } from "@effect-aws/powertools-tracer";
 import type { APIGatewayProxyEventV2, APIGatewayProxyHandlerV2 } from "aws-lambda";
-import { Effect, flow } from "effect";
+import * as Effect from "effect/Effect";
+import { flow } from "effect/Function";
 
 const task = (
   name: string,

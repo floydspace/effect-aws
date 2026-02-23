@@ -1,4 +1,4 @@
-import { ServiceMap } from "effect";
+import * as ServiceMap from "effect/ServiceMap";
 import type { LambdaHandler } from "../LambdaHandler.js";
 import type { LambdaContext } from "../Types.js";
 

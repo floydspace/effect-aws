@@ -8,7 +8,10 @@ import type {
   SNSEvent,
 } from "@effect-aws/lambda";
 import { LambdaHandler } from "@effect-aws/lambda";
-import { Effect, Layer, Schema, ServiceMap } from "effect";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
+import * as Schema from "effect/Schema";
+import * as ServiceMap from "effect/ServiceMap";
 import { HttpEffect, HttpServer, HttpServerResponse } from "effect/unstable/http";
 import { HttpApi, HttpApiBuilder, HttpApiEndpoint, HttpApiGroup, HttpApiSchema } from "effect/unstable/httpapi";
 import { describe, expect, it, vi } from "vitest";

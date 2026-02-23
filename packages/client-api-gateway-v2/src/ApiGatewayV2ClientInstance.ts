@@ -2,7 +2,9 @@
  * @since 1.0.0
  */
 import { ApiGatewayV2Client } from "@aws-sdk/client-apigatewayv2";
-import { Effect, Layer, ServiceMap } from "effect";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
+import * as ServiceMap from "effect/ServiceMap";
 import * as ApiGatewayV2ServiceConfig from "./ApiGatewayV2ServiceConfig.js";
 
 /**

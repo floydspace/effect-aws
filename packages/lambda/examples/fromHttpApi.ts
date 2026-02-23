@@ -1,5 +1,7 @@
 import { LambdaHandler } from "@effect-aws/lambda";
-import { Effect, Layer, Schema } from "effect";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
+import * as Schema from "effect/Schema";
 import { FetchHttpClient, HttpClient, HttpClientResponse, HttpServer } from "effect/unstable/http";
 import { HttpApi, HttpApiBuilder, HttpApiEndpoint, HttpApiGroup } from "effect/unstable/httpapi";
 

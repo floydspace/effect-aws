@@ -2,7 +2,9 @@
  * @since 1.0.0
  */
 import { OrganizationsClient } from "@aws-sdk/client-organizations";
-import { Effect, Layer, ServiceMap } from "effect";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
+import * as ServiceMap from "effect/ServiceMap";
 import * as OrganizationsServiceConfig from "./OrganizationsServiceConfig.js";
 
 /**

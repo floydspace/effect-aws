@@ -1,6 +1,8 @@
 import { MultipartUpload } from "@effect-aws/s3";
 import { NodeFileSystem } from "@effect/platform-node";
-import { Effect, FileSystem, Layer } from "effect";
+import * as Effect from "effect/Effect";
+import * as FileSystem from "effect/FileSystem";
+import * as Layer from "effect/Layer";
 
 const program = Effect.gen(function*() {
   const fs = yield* FileSystem.FileSystem;

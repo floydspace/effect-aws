@@ -2,7 +2,9 @@
  * @since 1.0.0
  */
 import { IoTClient } from "@aws-sdk/client-iot";
-import { Effect, Layer, ServiceMap } from "effect";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
+import * as ServiceMap from "effect/ServiceMap";
 import * as IoTServiceConfig from "./IoTServiceConfig.js";
 
 /**

@@ -3,7 +3,9 @@
  */
 import type { DsqlSignerConfig } from "@aws-sdk/dsql-signer";
 import { DsqlSigner } from "@aws-sdk/dsql-signer";
-import { Effect, Layer, ServiceMap } from "effect";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
+import * as ServiceMap from "effect/ServiceMap";
 
 /**
  * @since 0.1.0

@@ -17,7 +17,7 @@ import type {
   TooManyParts,
 } from "@aws-sdk/client-s3";
 import type { TaggedException } from "@effect-aws/commons";
-import { Data } from "effect";
+import * as Data from "effect/Data";
 
 export const AllServiceErrors = [
   "AccessDenied",

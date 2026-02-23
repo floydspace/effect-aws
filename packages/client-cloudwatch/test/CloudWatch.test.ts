@@ -9,7 +9,8 @@ import * as runtimeConfig from "@aws-sdk/client-cloudwatch/dist-cjs/runtimeConfi
 import { CloudWatch, CloudWatchServiceConfig } from "@effect-aws/client-cloudwatch";
 import { SdkError } from "@effect-aws/commons";
 import { mockClient } from "aws-sdk-client-mock";
-import { Effect, Exit } from "effect";
+import * as Effect from "effect/Effect";
+import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
 

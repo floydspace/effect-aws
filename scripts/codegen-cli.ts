@@ -7,8 +7,13 @@
  * 4. Commit the changes and enjoy.
  */
 import { NodeRuntime, NodeServices } from "@effect/platform-node";
-import { Array, Effect, FileSystem, Option, Record, String } from "effect";
+import * as Array from "effect/Array";
+import * as Effect from "effect/Effect";
+import * as FileSystem from "effect/FileSystem";
 import { pipe } from "effect/Function";
+import * as Option from "effect/Option";
+import * as Record from "effect/Record";
+import * as String from "effect/String";
 import { Prompt } from "effect/unstable/cli";
 import { FetchHttpClient } from "effect/unstable/http";
 import singularities from "./client-singularities.js";

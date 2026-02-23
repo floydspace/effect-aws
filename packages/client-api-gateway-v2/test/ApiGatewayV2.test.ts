@@ -9,7 +9,8 @@ import * as runtimeConfig from "@aws-sdk/client-apigatewayv2/dist-cjs/runtimeCon
 import { ApiGatewayV2, ApiGatewayV2ServiceConfig } from "@effect-aws/client-api-gateway-v2";
 import { SdkError } from "@effect-aws/commons";
 import { mockClient } from "aws-sdk-client-mock";
-import { Effect, Exit } from "effect";
+import * as Effect from "effect/Effect";
+import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
 

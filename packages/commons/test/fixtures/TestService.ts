@@ -1,6 +1,8 @@
 import { type HttpHandlerOptions, Service } from "@effect-aws/commons";
 import { Command } from "@smithy/smithy-client";
-import { Effect, Layer, ServiceMap } from "effect";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
+import * as ServiceMap from "effect/ServiceMap";
 import * as Instance from "./TestClientInstance.js";
 import * as TestServiceConfig from "./TestServiceConfig.js";
 

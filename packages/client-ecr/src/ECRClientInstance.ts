@@ -2,7 +2,9 @@
  * @since 1.0.0
  */
 import { ECRClient } from "@aws-sdk/client-ecr";
-import { Effect, Layer, ServiceMap } from "effect";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
+import * as ServiceMap from "effect/ServiceMap";
 import * as ECRServiceConfig from "./ECRServiceConfig.js";
 
 /**

@@ -2,7 +2,9 @@ import type { Service } from "@effect-aws/commons";
 import { ServiceLogger } from "@effect-aws/commons";
 import type { SmithyConfiguration } from "@smithy/smithy-client";
 import type { HttpHandlerOptions } from "@smithy/types";
-import { Effect, Layer, ServiceMap } from "effect";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
+import * as ServiceMap from "effect/ServiceMap";
 import type { TestService } from "./TestService.js";
 
 export interface TestClientConfig

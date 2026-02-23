@@ -2,7 +2,9 @@
  * @since 1.0.0
  */
 import { LambdaClient } from "@aws-sdk/client-lambda";
-import { Effect, Layer, ServiceMap } from "effect";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
+import * as ServiceMap from "effect/ServiceMap";
 import * as LambdaServiceConfig from "./LambdaServiceConfig.js";
 
 /**

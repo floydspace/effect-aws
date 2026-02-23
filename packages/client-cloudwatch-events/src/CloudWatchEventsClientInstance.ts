@@ -2,7 +2,9 @@
  * @since 1.0.0
  */
 import { CloudWatchEventsClient } from "@aws-sdk/client-cloudwatch-events";
-import { Effect, Layer, ServiceMap } from "effect";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
+import * as ServiceMap from "effect/ServiceMap";
 import * as CloudWatchEventsServiceConfig from "./CloudWatchEventsServiceConfig.js";
 
 /**

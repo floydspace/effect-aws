@@ -2,7 +2,9 @@
  * @since 1.0.0
  */
 import { CognitoIdentityProviderClient } from "@aws-sdk/client-cognito-identity-provider";
-import { Effect, Layer, ServiceMap } from "effect";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
+import * as ServiceMap from "effect/ServiceMap";
 import * as CognitoIdentityProviderServiceConfig from "./CognitoIdentityProviderServiceConfig.js";
 
 /**

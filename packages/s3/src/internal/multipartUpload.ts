@@ -12,8 +12,17 @@ import type {
   TooManyPartsError,
 } from "@effect-aws/client-s3";
 import { S3Service } from "@effect-aws/client-s3";
-import type { Cause } from "effect";
-import { Array, Effect, Exit, FileSystem, Option, PlatformError, Ref, ServiceMap, Sink, Stream } from "effect";
+import * as Array from "effect/Array";
+import type * as Cause from "effect/Cause";
+import * as Effect from "effect/Effect";
+import * as Exit from "effect/Exit";
+import * as FileSystem from "effect/FileSystem";
+import * as Option from "effect/Option";
+import * as PlatformError from "effect/PlatformError";
+import * as Ref from "effect/Ref";
+import * as ServiceMap from "effect/ServiceMap";
+import * as Sink from "effect/Sink";
+import * as Stream from "effect/Stream";
 import type { MultipartUpload, UploadObjectCommandInput, UploadObjectOptions } from "../MultipartUpload.js";
 
 /** @internal */

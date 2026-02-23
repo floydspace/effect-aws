@@ -1,8 +1,11 @@
 /**
  * @since 1.4.0
  */
-import type { Cause } from "effect";
-import { Effect, Layer, Predicate, ServiceMap } from "effect";
+import type * as Cause from "effect/Cause";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
+import * as Predicate from "effect/Predicate";
+import * as ServiceMap from "effect/ServiceMap";
 import type { HttpMiddleware } from "effect/unstable/http";
 import { HttpRouter } from "effect/unstable/http";
 import { getEventSource } from "./internal/index.js";

@@ -9,7 +9,9 @@ import {
 import { MultipartUpload } from "@effect-aws/s3";
 import { layer } from "@effect/vitest";
 import { mockClient } from "aws-sdk-client-mock";
-import { Effect, Schedule, Stream } from "effect";
+import * as Effect from "effect/Effect";
+import * as Schedule from "effect/Schedule";
+import * as Stream from "effect/Stream";
 import { afterEach, expect } from "vitest";
 
 const clientMock = mockClient(S3Client);

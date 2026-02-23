@@ -3,8 +3,10 @@
  */
 import type { GlueClientConfig } from "@aws-sdk/client-glue";
 import { ServiceLogger } from "@effect-aws/commons";
-import { Effect, Layer, ServiceMap } from "effect";
+import * as Effect from "effect/Effect";
 import { dual } from "effect/Function";
+import * as Layer from "effect/Layer";
+import * as ServiceMap from "effect/ServiceMap";
 import type { GlueService } from "./GlueService.js";
 
 /**

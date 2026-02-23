@@ -2,7 +2,9 @@
  * @since 1.0.0
  */
 import { OpenSearchClient } from "@aws-sdk/client-opensearch";
-import { Effect, Layer, ServiceMap } from "effect";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
+import * as ServiceMap from "effect/ServiceMap";
 import * as OpenSearchServiceConfig from "./OpenSearchServiceConfig.js";
 
 /**

@@ -2,7 +2,11 @@
  * @since 1.0.0
  */
 import { SSMService } from "@effect-aws/client-ssm";
-import { Array, ConfigProvider, Effect, Option, pipe } from "effect";
+import * as Array from "effect/Array";
+import * as ConfigProvider from "effect/ConfigProvider";
+import * as Effect from "effect/Effect";
+import { pipe } from "effect/Function";
+import * as Option from "effect/Option";
 
 /**
  * @since 1.2.0

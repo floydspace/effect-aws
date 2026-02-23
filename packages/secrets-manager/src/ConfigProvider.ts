@@ -2,7 +2,11 @@
  * @since 1.0.0
  */
 import { SecretsManagerService } from "@effect-aws/client-secrets-manager";
-import { Array, ConfigProvider, Effect, Option, pipe } from "effect";
+import * as Array from "effect/Array";
+import * as ConfigProvider from "effect/ConfigProvider";
+import * as Effect from "effect/Effect";
+import { pipe } from "effect/Function";
+import * as Option from "effect/Option";
 
 /**
  * @since 1.2.0

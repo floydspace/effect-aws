@@ -2,8 +2,10 @@
  * @since 1.0.0
  */
 import type { TranslateConfig } from "@aws-sdk/lib-dynamodb";
-import { Effect, Layer, ServiceMap } from "effect";
+import * as Effect from "effect/Effect";
 import { dual } from "effect/Function";
+import * as Layer from "effect/Layer";
+import * as ServiceMap from "effect/ServiceMap";
 import type { DynamoDBDocumentService } from "./DynamoDBDocumentService.js";
 
 /**

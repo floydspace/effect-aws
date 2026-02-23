@@ -18,8 +18,9 @@ import type {
   SNSEvent,
   SQSEvent,
 } from "aws-lambda";
-import type { Layer, Stream } from "effect";
 import type * as Effect from "effect/Effect";
+import type * as Layer from "effect/Layer";
+import type * as Stream from "effect/Stream";
 
 declare global {
   namespace awslambda {

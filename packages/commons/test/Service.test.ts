@@ -1,5 +1,7 @@
 import { it } from "@effect/vitest";
-import { Effect, Logger, LogLevel } from "effect";
+import * as Effect from "effect/Effect";
+import * as Logger from "effect/Logger";
+import * as LogLevel from "effect/LogLevel";
 import { beforeEach, describe, expect, vi } from "vitest";
 import { mockHandlerOutput } from "./fixtures/TestClientInstance.js";
 import { TestService } from "./fixtures/TestService.js";

@@ -2275,8 +2275,10 @@ import {
 } from "@aws-sdk/client-ec2";
 import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
-import type { Cause } from "effect";
-import { Effect, Layer, ServiceMap } from "effect";
+import type * as Cause from "effect/Cause";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
+import * as ServiceMap from "effect/ServiceMap";
 import * as Instance from "./EC2ClientInstance.js";
 import * as EC2ServiceConfig from "./EC2ServiceConfig.js";
 import type { EC2ServiceError, SdkError } from "./Errors.js";

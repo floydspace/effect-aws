@@ -4,8 +4,15 @@
 import type { CommandImpl, SmithyResolvedConfiguration } from "@smithy/smithy-client";
 import { ServiceException as ServiceError } from "@smithy/smithy-client";
 import type { Client, HandlerOptions, Logger, MiddlewareStack, RequestHandler } from "@smithy/types";
-import type { Array } from "effect";
-import { Cause, Data, Effect, Option, pipe, Record, Scope, String } from "effect";
+import type { NonEmptyReadonlyArray } from "effect/Array";
+import * as Cause from "effect/Cause";
+import * as Data from "effect/Data";
+import * as Effect from "effect/Effect";
+import { pipe } from "effect/Function";
+import * as Option from "effect/Option";
+import * as Record from "effect/Record";
+import * as Scope from "effect/Scope";
+import * as String from "effect/String";
 import type { TaggedException } from "./Errors.js";
 import { SdkError } from "./Errors.js";
 import * as HttpHandler from "./HttpHandler.js";
@@ -37,7 +44,7 @@ export interface BaseResolvedConfig
 export type CommandCtor<I> = new(input: I, ...args: Array<any>) => CommandImpl<I, any, BaseResolvedConfig>;
 
 type ServiceFnOptions = {
-  errorTags?: Array.NonEmptyReadonlyArray<string>;
+  errorTags?: NonEmptyReadonlyArray<string>;
   resolveClientConfig: Effect.Effect<LoggerResolvedConfig>;
 };
 
@@ -45,7 +52,7 @@ type ServiceFnOptions = {
  * @since 0.1.0
  * @category errors
  */
-export const catchServiceExceptions = (errorTags?: Array.NonEmptyReadonlyArray<string>) => (e: unknown) => {
+export const catchServiceExceptions = (errorTags?: NonEmptyReadonlyArray<string>) => (e: unknown) => {
   if (e instanceof ServiceError && (!errorTags || errorTags.includes(e.name))) {
     class ServiceException extends Data.TaggedError(e.name)<TaggedException<ServiceError>> {}
 

@@ -4,7 +4,8 @@ import * as runtimeConfig from "@aws-sdk/client-mq/dist-cjs/runtimeConfig";
 import { Mq, MqServiceConfig } from "@effect-aws/client-mq";
 import { SdkError } from "@effect-aws/commons";
 import { mockClient } from "aws-sdk-client-mock";
-import { Effect, Exit } from "effect";
+import * as Effect from "effect/Effect";
+import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
 

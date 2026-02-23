@@ -2,7 +2,9 @@
  * @since 1.0.0
  */
 import { STSClient } from "@aws-sdk/client-sts";
-import { Effect, Layer, ServiceMap } from "effect";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
+import * as ServiceMap from "effect/ServiceMap";
 import * as STSServiceConfig from "./STSServiceConfig.js";
 
 /**

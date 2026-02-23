@@ -8,8 +8,13 @@ import type {
   LogItemExtraInput,
   LogItemMessage,
 } from "@aws-lambda-powertools/logger/types";
-import type { LogLevel } from "effect";
-import { Cause, Effect, Layer, Logger as Log, References, ServiceMap } from "effect";
+import * as Cause from "effect/Cause";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
+import * as Log from "effect/Logger";
+import type * as LogLevel from "effect/LogLevel";
+import * as References from "effect/References";
+import * as ServiceMap from "effect/ServiceMap";
 import * as Instance from "./LoggerInstance.js";
 import * as LoggerOptions from "./LoggerOptions.js";
 

@@ -4,7 +4,8 @@ import * as runtimeConfig from "@aws-sdk/client-glue/dist-cjs/runtimeConfig";
 import { Glue, GlueServiceConfig } from "@effect-aws/client-glue";
 import { SdkError } from "@effect-aws/commons";
 import { mockClient } from "aws-sdk-client-mock";
-import { Effect, Exit } from "effect";
+import * as Effect from "effect/Effect";
+import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
 

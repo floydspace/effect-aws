@@ -1,8 +1,11 @@
 import * as PowerTools from "@aws-lambda-powertools/tracer";
 import type { TracerInterface, TracerOptions } from "@aws-lambda-powertools/tracer/types";
 import * as Xray from "aws-xray-sdk-core";
-import { Cause, Effect, Layer, ServiceMap } from "effect";
+import * as Cause from "effect/Cause";
+import * as Effect from "effect/Effect";
 import type { Exit } from "effect/Exit";
+import * as Layer from "effect/Layer";
+import * as ServiceMap from "effect/ServiceMap";
 import * as EffectTracer from "effect/Tracer";
 import type { XrayTracer } from "../Tracer.js";
 import { unknownToAttributeValue } from "./utils.js";

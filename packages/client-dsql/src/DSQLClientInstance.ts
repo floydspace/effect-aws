@@ -2,7 +2,9 @@
  * @since 1.0.0
  */
 import { DSQLClient } from "@aws-sdk/client-dsql";
-import { Effect, Layer, ServiceMap } from "effect";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
+import * as ServiceMap from "effect/ServiceMap";
 import * as DSQLServiceConfig from "./DSQLServiceConfig.js";
 
 /**

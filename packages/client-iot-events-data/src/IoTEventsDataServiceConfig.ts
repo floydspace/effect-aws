@@ -3,8 +3,10 @@
  */
 import type { IoTEventsDataClientConfig } from "@aws-sdk/client-iot-events-data";
 import { ServiceLogger } from "@effect-aws/commons";
-import { Effect, Layer, ServiceMap } from "effect";
+import * as Effect from "effect/Effect";
 import { dual } from "effect/Function";
+import * as Layer from "effect/Layer";
+import * as ServiceMap from "effect/ServiceMap";
 import type { IoTEventsDataService } from "./IoTEventsDataService.js";
 
 /**

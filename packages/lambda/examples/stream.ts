@@ -2,7 +2,8 @@ import type { StreamHandler } from "@effect-aws/lambda";
 import { LambdaHandler } from "@effect-aws/lambda";
 import { NodeStream } from "@effect/platform-node";
 import type { LambdaFunctionURLEvent } from "aws-lambda";
-import { Cause, Stream } from "effect";
+import * as Cause from "effect/Cause";
+import * as Stream from "effect/Stream";
 import { createGzip } from "node:zlib";
 
 /**

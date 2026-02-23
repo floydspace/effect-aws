@@ -2,8 +2,16 @@ import { InvalidRequestException, ResourceNotFoundException } from "@aws-sdk/cli
 import { SecretsManager } from "@effect-aws/client-secrets-manager";
 import { ConfigProvider } from "@effect-aws/secrets-manager";
 import { Arg } from "@fluffy-spoon/substitute";
-import { Config, Effect, Exit, Layer, Option, Redacted, Schema, SchemaAST, SchemaIssue } from "effect";
+import * as Config from "effect/Config";
 import { SourceError } from "effect/ConfigProvider";
+import * as Effect from "effect/Effect";
+import * as Exit from "effect/Exit";
+import * as Layer from "effect/Layer";
+import * as Option from "effect/Option";
+import * as Redacted from "effect/Redacted";
+import * as Schema from "effect/Schema";
+import * as SchemaAST from "effect/SchemaAST";
+import * as SchemaIssue from "effect/SchemaIssue";
 import { describe, expect, it } from "vitest";
 import { SubstituteBuilder } from "./utils/index.js";
 

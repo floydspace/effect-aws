@@ -2,9 +2,9 @@
  * @since 1.0.0
  */
 import type { TracerInterface, TracerOptions } from "@aws-lambda-powertools/tracer/types";
-import type { ServiceMap } from "effect";
 import type { Effect } from "effect/Effect";
 import type { Layer } from "effect/Layer";
+import type { Service } from "effect/ServiceMap";
 import type { Tracer as EffectTracer } from "effect/Tracer";
 import * as internal from "./internal/tracer.js";
 
@@ -26,7 +26,7 @@ export interface XrayTracer {
  * @since 1.0.0
  * @category tags
  */
-export const XrayTracer: ServiceMap.Service<XrayTracer, TracerInterface> = internal.Tracer;
+export const XrayTracer: Service<XrayTracer, TracerInterface> = internal.Tracer;
 
 /**
  * @since 1.0.0

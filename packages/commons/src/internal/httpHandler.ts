@@ -1,6 +1,7 @@
-import type { Scope, ServiceMap } from "effect";
+import type { Scope } from "effect/Scope";
+import type { ServiceMap } from "effect/ServiceMap";
 
 export interface RuntimeOptions {
-  runtime: ServiceMap.ServiceMap<never>;
-  scope: Scope.Scope;
+  runtime: ServiceMap<never>;
+  scope: Scope;
 }

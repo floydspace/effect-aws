@@ -2,7 +2,9 @@
  * @since 1.0.0
  */
 import { AthenaClient } from "@aws-sdk/client-athena";
-import { Effect, Layer, ServiceMap } from "effect";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
+import * as ServiceMap from "effect/ServiceMap";
 import * as AthenaServiceConfig from "./AthenaServiceConfig.js";
 
 /**

@@ -2,7 +2,9 @@
  * @since 1.0.0
  */
 import { CloudFormationClient } from "@aws-sdk/client-cloudformation";
-import { Effect, Layer, ServiceMap } from "effect";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
+import * as ServiceMap from "effect/ServiceMap";
 import * as CloudFormationServiceConfig from "./CloudFormationServiceConfig.js";
 
 /**
