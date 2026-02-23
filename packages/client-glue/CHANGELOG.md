@@ -1,5 +1,14 @@
 # @effect-aws/client-glue
 
+## 2.0.0-beta.1
+
+### Patch Changes
+
+- [`56d5efb`](https://github.com/floydspace/effect-aws/commit/56d5efb1dbf1d8b60720a95e1cc71013d1a390cd) Thanks [@floydspace](https://github.com/floydspace)! - use named imports instead of barrel
+
+- Updated dependencies [[`56d5efb`](https://github.com/floydspace/effect-aws/commit/56d5efb1dbf1d8b60720a95e1cc71013d1a390cd)]:
+  - @effect-aws/commons@1.0.0-beta.1
+
 ## 2.0.0-beta.0
 
 ### Major Changes
