@@ -347,9 +347,7 @@ const commands = {
   UpdateTrailCommand,
 };
 
-interface CloudTrailService$ {
-  readonly _: unique symbol;
-
+export interface CloudTrailService$ {
   /**
    * @see {@link AddTagsCommand}
    */

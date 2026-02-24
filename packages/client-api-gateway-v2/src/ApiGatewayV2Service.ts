@@ -438,9 +438,7 @@ const commands = {
   UpdateVpcLinkCommand,
 };
 
-interface ApiGatewayV2Service$ {
-  readonly _: unique symbol;
-
+export interface ApiGatewayV2Service$ {
   /**
    * @see {@link CreateApiCommand}
    */

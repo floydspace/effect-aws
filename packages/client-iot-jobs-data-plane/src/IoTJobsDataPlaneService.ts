@@ -52,9 +52,7 @@ const commands = {
   UpdateJobExecutionCommand,
 };
 
-interface IoTJobsDataPlaneService$ {
-  readonly _: unique symbol;
-
+export interface IoTJobsDataPlaneService$ {
   /**
    * @see {@link DescribeJobExecutionCommand}
    */

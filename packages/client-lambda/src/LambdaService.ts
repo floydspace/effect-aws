@@ -405,9 +405,7 @@ const commands = {
   UpdateFunctionUrlConfigCommand,
 };
 
-interface LambdaService$ {
-  readonly _: unique symbol;
-
+export interface LambdaService$ {
   /**
    * @see {@link AddLayerVersionPermissionCommand}
    */

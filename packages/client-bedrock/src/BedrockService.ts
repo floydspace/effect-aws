@@ -423,9 +423,7 @@ const commands = {
   UpdateProvisionedModelThroughputCommand,
 };
 
-interface BedrockService$ {
-  readonly _: unique symbol;
-
+export interface BedrockService$ {
   /**
    * @see {@link BatchDeleteEvaluationJobCommand}
    */

@@ -434,9 +434,7 @@ const commands = {
     }
 };
 
-interface ${sdkName}Service$ {
-  readonly _: unique symbol;
-
+export interface ${sdkName}Service$ {
 ${
       pipe(
         operationShapes,

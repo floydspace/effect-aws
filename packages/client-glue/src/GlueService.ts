@@ -1129,9 +1129,7 @@ const commands = {
   UpdateWorkflowCommand,
 };
 
-interface GlueService$ {
-  readonly _: unique symbol;
-
+export interface GlueService$ {
   /**
    * @see {@link BatchCreatePartitionCommand}
    */

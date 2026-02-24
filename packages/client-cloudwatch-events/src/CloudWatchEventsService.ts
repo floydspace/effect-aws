@@ -236,9 +236,7 @@ const commands = {
   UpdateConnectionCommand,
 };
 
-interface CloudWatchEventsService$ {
-  readonly _: unique symbol;
-
+export interface CloudWatchEventsService$ {
   /**
    * @see {@link ActivateEventSourceCommand}
    */

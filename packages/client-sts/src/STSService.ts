@@ -77,9 +77,7 @@ const commands = {
   GetWebIdentityTokenCommand,
 };
 
-interface STSService$ {
-  readonly _: unique symbol;
-
+export interface STSService$ {
   /**
    * @see {@link AssumeRoleCommand}
    */

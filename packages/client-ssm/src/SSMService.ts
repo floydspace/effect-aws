@@ -744,9 +744,7 @@ const commands = {
   UpdateServiceSettingCommand,
 };
 
-interface SSMService$ {
-  readonly _: unique symbol;
-
+export interface SSMService$ {
   /**
    * @see {@link AddTagsToResourceCommand}
    */

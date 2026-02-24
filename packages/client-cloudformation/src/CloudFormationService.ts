@@ -410,9 +410,7 @@ const commands = {
   ValidateTemplateCommand,
 };
 
-interface CloudFormationService$ {
-  readonly _: unique symbol;
-
+export interface CloudFormationService$ {
   /**
    * @see {@link ActivateOrganizationsAccessCommand}
    */

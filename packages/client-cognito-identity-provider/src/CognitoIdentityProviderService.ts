@@ -552,9 +552,7 @@ const commands = {
   VerifyUserAttributeCommand,
 };
 
-interface CognitoIdentityProviderService$ {
-  readonly _: unique symbol;
-
+export interface CognitoIdentityProviderService$ {
   /**
    * @see {@link AddCustomAttributesCommand}
    */

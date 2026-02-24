@@ -106,9 +106,7 @@ const commands = {
   WriteRecordsCommand,
 };
 
-interface TimestreamWriteService$ {
-  readonly _: unique symbol;
-
+export interface TimestreamWriteService$ {
   /**
    * @see {@link CreateBatchLoadTaskCommand}
    */

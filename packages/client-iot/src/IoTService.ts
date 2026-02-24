@@ -1142,9 +1142,7 @@ const commands = {
   ValidateSecurityProfileBehaviorsCommand,
 };
 
-interface IoTService$ {
-  readonly _: unique symbol;
-
+export interface IoTService$ {
   /**
    * @see {@link AcceptCertificateTransferCommand}
    */

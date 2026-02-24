@@ -262,9 +262,7 @@ const commands = {
   UpdateEventBusCommand,
 };
 
-interface EventBridgeService$ {
-  readonly _: unique symbol;
-
+export interface EventBridgeService$ {
   /**
    * @see {@link ActivateEventSourceCommand}
    */

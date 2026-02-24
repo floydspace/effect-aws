@@ -819,9 +819,7 @@ const commands = {
   SwitchoverReadReplicaCommand,
 };
 
-interface RDSService$ {
-  readonly _: unique symbol;
-
+export interface RDSService$ {
   /**
    * @see {@link AddRoleToDBClusterCommand}
    */

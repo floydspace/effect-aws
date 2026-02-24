@@ -307,9 +307,7 @@ const commands = {
   UpdateWorkGroupCommand,
 };
 
-interface AthenaService$ {
-  readonly _: unique symbol;
-
+export interface AthenaService$ {
   /**
    * @see {@link BatchGetNamedQueryCommand}
    */

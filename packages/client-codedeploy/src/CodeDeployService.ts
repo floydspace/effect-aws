@@ -319,9 +319,7 @@ const commands = {
   UpdateDeploymentGroupCommand,
 };
 
-interface CodeDeployService$ {
-  readonly _: unique symbol;
-
+export interface CodeDeployService$ {
   /**
    * @see {@link AddTagsToOnPremisesInstancesCommand}
    */

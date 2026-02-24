@@ -223,9 +223,7 @@ const commands = {
   VerifySMSSandboxPhoneNumberCommand,
 };
 
-interface SNSService$ {
-  readonly _: unique symbol;
-
+export interface SNSService$ {
   /**
    * @see {@link AddPermissionCommand}
    */

@@ -467,9 +467,7 @@ const commands = {
   WriteGetObjectResponseCommand,
 };
 
-interface S3Service$ {
-  readonly _: unique symbol;
-
+export interface S3Service$ {
   /**
    * @see {@link AbortMultipartUploadCommand}
    */

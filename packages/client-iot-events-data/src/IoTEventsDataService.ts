@@ -74,9 +74,7 @@ const commands = {
   ListDetectorsCommand,
 };
 
-interface IoTEventsDataService$ {
-  readonly _: unique symbol;
-
+export interface IoTEventsDataService$ {
   /**
    * @see {@link BatchAcknowledgeAlarmCommand}
    */

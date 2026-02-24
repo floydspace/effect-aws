@@ -31,9 +31,7 @@ const commands = {
   PostToConnectionCommand,
 };
 
-interface ApiGatewayManagementApiService$ {
-  readonly _: unique symbol;
-
+export interface ApiGatewayManagementApiService$ {
   /**
    * @see {@link DeleteConnectionCommand}
    */

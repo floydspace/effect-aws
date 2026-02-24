@@ -3042,9 +3042,7 @@ const commands = {
   WithdrawByoipCidrCommand,
 };
 
-interface EC2Service$ {
-  readonly _: unique symbol;
-
+export interface EC2Service$ {
   /**
    * @see {@link AcceptAddressTransferCommand}
    */

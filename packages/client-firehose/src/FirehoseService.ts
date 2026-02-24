@@ -77,9 +77,7 @@ const commands = {
   UpdateDestinationCommand,
 };
 
-interface FirehoseService$ {
-  readonly _: unique symbol;
-
+export interface FirehoseService$ {
   /**
    * @see {@link CreateDeliveryStreamCommand}
    */

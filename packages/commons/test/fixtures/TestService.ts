@@ -13,8 +13,6 @@ const commands = {
 } as unknown as Record<string, Service.CommandCtor<any>>;
 
 export interface TestService$ {
-  readonly _: unique symbol;
-
   test(args: any, options?: HttpHandlerOptions): Effect.Effect<any>;
 }
 

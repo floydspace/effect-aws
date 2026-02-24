@@ -476,9 +476,7 @@ const commands = {
   UpdateWirelessGatewayCommand,
 };
 
-interface IoTWirelessService$ {
-  readonly _: unique symbol;
-
+export interface IoTWirelessService$ {
   /**
    * @see {@link AssociateAwsAccountWithPartnerAccountCommand}
    */

@@ -88,8 +88,6 @@ const commands = {
 };
 
 interface DynamoDBDocumentService$ {
-  readonly _: unique symbol;
-
   /**
    * @see {@link BatchExecuteStatementCommand}
    */

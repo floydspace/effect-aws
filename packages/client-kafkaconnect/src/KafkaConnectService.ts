@@ -101,9 +101,7 @@ const commands = {
   UpdateConnectorCommand,
 };
 
-interface KafkaConnectService$ {
-  readonly _: unique symbol;
-
+export interface KafkaConnectService$ {
   /**
    * @see {@link CreateConnectorCommand}
    */

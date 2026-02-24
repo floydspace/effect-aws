@@ -339,9 +339,7 @@ const commands = {
   VerifyEmailIdentityCommand,
 };
 
-interface SESService$ {
-  readonly _: unique symbol;
-
+export interface SESService$ {
   /**
    * @see {@link CloneReceiptRuleSetCommand}
    */

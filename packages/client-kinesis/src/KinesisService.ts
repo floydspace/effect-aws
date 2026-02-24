@@ -193,9 +193,7 @@ const commands = {
   UpdateStreamWarmThroughputCommand,
 };
 
-interface KinesisService$ {
-  readonly _: unique symbol;
-
+export interface KinesisService$ {
   /**
    * @see {@link AddTagsToStreamCommand}
    */

@@ -202,9 +202,7 @@ const commands = {
   ValidateStateMachineDefinitionCommand,
 };
 
-interface SFNService$ {
-  readonly _: unique symbol;
-
+export interface SFNService$ {
   /**
    * @see {@link CreateActivityCommand}
    */

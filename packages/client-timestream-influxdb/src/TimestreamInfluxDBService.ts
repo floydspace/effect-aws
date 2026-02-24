@@ -104,9 +104,7 @@ const commands = {
   UpdateDbInstanceCommand,
 };
 
-interface TimestreamInfluxDBService$ {
-  readonly _: unique symbol;
-
+export interface TimestreamInfluxDBService$ {
   /**
    * @see {@link CreateDbClusterCommand}
    */

@@ -211,9 +211,7 @@ const commands = {
   UpdateVpcEndpointCommand,
 };
 
-interface OpenSearchServerlessService$ {
-  readonly _: unique symbol;
-
+export interface OpenSearchServerlessService$ {
   /**
    * @see {@link BatchGetCollectionCommand}
    */

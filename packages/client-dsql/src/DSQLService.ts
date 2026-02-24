@@ -75,9 +75,7 @@ const commands = {
   UpdateClusterCommand,
 };
 
-interface DSQLService$ {
-  readonly _: unique symbol;
-
+export interface DSQLService$ {
   /**
    * @see {@link CreateClusterCommand}
    */

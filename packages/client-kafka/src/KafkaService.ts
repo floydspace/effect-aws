@@ -274,9 +274,7 @@ const commands = {
   UpdateTopicCommand,
 };
 
-interface KafkaService$ {
-  readonly _: unique symbol;
-
+export interface KafkaService$ {
   /**
    * @see {@link BatchAssociateScramSecretCommand}
    */

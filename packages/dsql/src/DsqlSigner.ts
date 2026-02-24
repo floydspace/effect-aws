@@ -8,8 +8,6 @@ import * as ServiceMap from "effect/ServiceMap";
 import * as Instance from "./DsqlSignerInstance.js";
 
 interface DsqlSigner$ {
-  readonly _: unique symbol;
-
   getDbConnectAdminAuthToken(): Effect.Effect<string>;
   getDbConnectAuthToken(): Effect.Effect<string>;
 }

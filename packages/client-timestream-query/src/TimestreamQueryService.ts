@@ -90,9 +90,7 @@ const commands = {
   UpdateScheduledQueryCommand,
 };
 
-interface TimestreamQueryService$ {
-  readonly _: unique symbol;
-
+export interface TimestreamQueryService$ {
   /**
    * @see {@link CancelQueryCommand}
    */

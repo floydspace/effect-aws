@@ -397,9 +397,7 @@ const commands = {
   TestMigrationCommand,
 };
 
-interface ElastiCacheService$ {
-  readonly _: unique symbol;
-
+export interface ElastiCacheService$ {
   /**
    * @see {@link AddTagsToResourceCommand}
    */

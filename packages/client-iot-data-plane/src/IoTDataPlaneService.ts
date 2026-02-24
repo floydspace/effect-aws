@@ -64,9 +64,7 @@ const commands = {
   UpdateThingShadowCommand,
 };
 
-interface IoTDataPlaneService$ {
-  readonly _: unique symbol;
-
+export interface IoTDataPlaneService$ {
   /**
    * @see {@link DeleteConnectionCommand}
    */

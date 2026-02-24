@@ -760,9 +760,7 @@ const commands = {
   UploadSigningCertificateCommand,
 };
 
-interface IAMService$ {
-  readonly _: unique symbol;
-
+export interface IAMService$ {
   /**
    * @see {@link AcceptDelegationRequestCommand}
    */

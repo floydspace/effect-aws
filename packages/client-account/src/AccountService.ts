@@ -88,9 +88,7 @@ const commands = {
   StartPrimaryEmailUpdateCommand,
 };
 
-interface AccountService$ {
-  readonly _: unique symbol;
-
+export interface AccountService$ {
   /**
    * @see {@link AcceptPrimaryEmailUpdateCommand}
    */

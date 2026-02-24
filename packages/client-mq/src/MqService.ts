@@ -123,9 +123,7 @@ const commands = {
   UpdateUserCommand,
 };
 
-interface MqService$ {
-  readonly _: unique symbol;
-
+export interface MqService$ {
   /**
    * @see {@link CreateBrokerCommand}
    */

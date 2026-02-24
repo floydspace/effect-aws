@@ -134,9 +134,7 @@ const commands = {
   UpdateInputCommand,
 };
 
-interface IoTEventsService$ {
-  readonly _: unique symbol;
-
+export interface IoTEventsService$ {
   /**
    * @see {@link CreateAlarmModelCommand}
    */

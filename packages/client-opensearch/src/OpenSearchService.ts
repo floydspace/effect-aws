@@ -363,9 +363,7 @@ const commands = {
   UpgradeDomainCommand,
 };
 
-interface OpenSearchService$ {
-  readonly _: unique symbol;
-
+export interface OpenSearchService$ {
   /**
    * @see {@link AcceptInboundConnectionCommand}
    */

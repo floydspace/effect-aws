@@ -133,9 +133,7 @@ const commands = {
   UpdateServiceAccessPoliciesCommand,
 };
 
-interface CloudSearchService$ {
-  readonly _: unique symbol;
-
+export interface CloudSearchService$ {
   /**
    * @see {@link BuildSuggestersCommand}
    */

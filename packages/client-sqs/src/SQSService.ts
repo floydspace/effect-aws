@@ -141,9 +141,7 @@ const commands = {
   UntagQueueCommand,
 };
 
-interface SQSService$ {
-  readonly _: unique symbol;
-
+export interface SQSService$ {
   /**
    * @see {@link AddPermissionCommand}
    */

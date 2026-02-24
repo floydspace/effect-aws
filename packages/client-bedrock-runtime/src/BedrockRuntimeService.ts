@@ -73,9 +73,7 @@ const commands = {
   StartAsyncInvokeCommand,
 };
 
-interface BedrockRuntimeService$ {
-  readonly _: unique symbol;
-
+export interface BedrockRuntimeService$ {
   /**
    * @see {@link ApplyGuardrailCommand}
    */

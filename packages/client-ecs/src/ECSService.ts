@@ -305,9 +305,7 @@ const commands = {
   UpdateTaskSetCommand,
 };
 
-interface ECSService$ {
-  readonly _: unique symbol;
-
+export interface ECSService$ {
   /**
    * @see {@link CreateCapacityProviderCommand}
    */

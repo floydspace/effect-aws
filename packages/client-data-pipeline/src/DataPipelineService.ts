@@ -102,9 +102,7 @@ const commands = {
   ValidatePipelineDefinitionCommand,
 };
 
-interface DataPipelineService$ {
-  readonly _: unique symbol;
-
+export interface DataPipelineService$ {
   /**
    * @see {@link ActivatePipelineCommand}
    */

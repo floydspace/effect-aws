@@ -281,9 +281,7 @@ const commands = {
   VerifyMacCommand,
 };
 
-interface KMSService$ {
-  readonly _: unique symbol;
-
+export interface KMSService$ {
   /**
    * @see {@link CancelKeyDeletionCommand}
    */

@@ -75,9 +75,7 @@ const commands = {
   UpdateScheduleCommand,
 };
 
-interface SchedulerService$ {
-  readonly _: unique symbol;
-
+export interface SchedulerService$ {
   /**
    * @see {@link CreateScheduleCommand}
    */

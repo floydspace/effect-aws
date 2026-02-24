@@ -125,9 +125,7 @@ const commands = {
   ValidateResourcePolicyCommand,
 };
 
-interface SecretsManagerService$ {
-  readonly _: unique symbol;
-
+export interface SecretsManagerService$ {
   /**
    * @see {@link BatchGetSecretValueCommand}
    */

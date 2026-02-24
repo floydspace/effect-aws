@@ -299,9 +299,7 @@ const commands = {
   ValidatePullThroughCacheRuleCommand,
 };
 
-interface ECRService$ {
-  readonly _: unique symbol;
-
+export interface ECRService$ {
   /**
    * @see {@link BatchCheckLayerAvailabilityCommand}
    */

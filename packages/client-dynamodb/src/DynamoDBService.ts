@@ -284,9 +284,7 @@ const commands = {
   UpdateTimeToLiveCommand,
 };
 
-interface DynamoDBService$ {
-  readonly _: unique symbol;
-
+export interface DynamoDBService$ {
   /**
    * @see {@link BatchExecuteStatementCommand}
    */

@@ -139,9 +139,7 @@ const commands = {
   UpdateAdapterCommand,
 };
 
-interface TextractService$ {
-  readonly _: unique symbol;
-
+export interface TextractService$ {
   /**
    * @see {@link AnalyzeDocumentCommand}
    */

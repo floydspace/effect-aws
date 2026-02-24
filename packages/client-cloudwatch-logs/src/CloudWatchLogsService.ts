@@ -467,9 +467,7 @@ const commands = {
   UpdateScheduledQueryCommand,
 };
 
-interface CloudWatchLogsService$ {
-  readonly _: unique symbol;
-
+export interface CloudWatchLogsService$ {
   /**
    * @see {@link AssociateKmsKeyCommand}
    */

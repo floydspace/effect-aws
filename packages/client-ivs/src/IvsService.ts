@@ -171,9 +171,7 @@ const commands = {
   UpdatePlaybackRestrictionPolicyCommand,
 };
 
-interface IvsService$ {
-  readonly _: unique symbol;
-
+export interface IvsService$ {
   /**
    * @see {@link BatchGetChannelCommand}
    */

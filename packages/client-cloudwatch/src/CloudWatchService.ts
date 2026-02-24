@@ -191,9 +191,7 @@ const commands = {
   UntagResourceCommand,
 };
 
-interface CloudWatchService$ {
-  readonly _: unique symbol;
-
+export interface CloudWatchService$ {
   /**
    * @see {@link DeleteAlarmsCommand}
    */

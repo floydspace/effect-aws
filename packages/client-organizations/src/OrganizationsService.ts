@@ -323,9 +323,7 @@ const commands = {
   UpdateResponsibilityTransferCommand,
 };
 
-interface OrganizationsService$ {
-  readonly _: unique symbol;
-
+export interface OrganizationsService$ {
   /**
    * @see {@link AcceptHandshakeCommand}
    */

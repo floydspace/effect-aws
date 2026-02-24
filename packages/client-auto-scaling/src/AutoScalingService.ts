@@ -296,9 +296,7 @@ const commands = {
   UpdateAutoScalingGroupCommand,
 };
 
-interface AutoScalingService$ {
-  readonly _: unique symbol;
-
+export interface AutoScalingService$ {
   /**
    * @see {@link AttachInstancesCommand}
    */
