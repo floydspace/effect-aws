@@ -1,5 +1,11 @@
 # @effect-aws/powertools-logger
 
+## 2.0.0-beta.2
+
+### Patch Changes
+
+- [`0d321e6`](https://github.com/floydspace/effect-aws/commit/0d321e6926ba30e58221483e764d1103078d76d5) Thanks [@floydspace](https://github.com/floydspace)! - remove unique symbol from service shape, discriminator is applyed as service identifier
+
 ## 2.0.0-beta.1
 
 ### Patch Changes
