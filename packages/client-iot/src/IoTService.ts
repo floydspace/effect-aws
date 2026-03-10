@@ -649,6 +649,70 @@ import {
   ListViolationEventsCommand,
   type ListViolationEventsCommandInput,
   type ListViolationEventsCommandOutput,
+  paginateGetBehaviorModelTrainingSummaries,
+  paginateListActiveViolations,
+  paginateListAttachedPolicies,
+  paginateListAuditFindings,
+  paginateListAuditMitigationActionsExecutions,
+  paginateListAuditMitigationActionsTasks,
+  paginateListAuditSuppressions,
+  paginateListAuditTasks,
+  paginateListAuthorizers,
+  paginateListBillingGroups,
+  paginateListCACertificates,
+  paginateListCertificates,
+  paginateListCertificatesByCA,
+  paginateListCommandExecutions,
+  paginateListCommands,
+  paginateListCustomMetrics,
+  paginateListDetectMitigationActionsExecutions,
+  paginateListDetectMitigationActionsTasks,
+  paginateListDimensions,
+  paginateListDomainConfigurations,
+  paginateListFleetMetrics,
+  paginateListIndices,
+  paginateListJobExecutionsForJob,
+  paginateListJobExecutionsForThing,
+  paginateListJobs,
+  paginateListJobTemplates,
+  paginateListManagedJobTemplates,
+  paginateListMetricValues,
+  paginateListMitigationActions,
+  paginateListOTAUpdates,
+  paginateListOutgoingCertificates,
+  paginateListPackages,
+  paginateListPackageVersions,
+  paginateListPolicies,
+  paginateListPolicyPrincipals,
+  paginateListPrincipalPolicies,
+  paginateListPrincipalThings,
+  paginateListPrincipalThingsV2,
+  paginateListProvisioningTemplates,
+  paginateListProvisioningTemplateVersions,
+  paginateListRelatedResourcesForAuditFinding,
+  paginateListRoleAliases,
+  paginateListSbomValidationResults,
+  paginateListScheduledAudits,
+  paginateListSecurityProfiles,
+  paginateListSecurityProfilesForTarget,
+  paginateListStreams,
+  paginateListTagsForResource,
+  paginateListTargetsForPolicy,
+  paginateListTargetsForSecurityProfile,
+  paginateListThingGroups,
+  paginateListThingGroupsForThing,
+  paginateListThingPrincipals,
+  paginateListThingPrincipalsV2,
+  paginateListThingRegistrationTaskReports,
+  paginateListThingRegistrationTasks,
+  paginateListThings,
+  paginateListThingsInBillingGroup,
+  paginateListThingsInThingGroup,
+  paginateListThingTypes,
+  paginateListTopicRuleDestinations,
+  paginateListTopicRules,
+  paginateListV2LoggingLevels,
+  paginateListViolationEvents,
   PutVerificationStateOnViolationCommand,
   type PutVerificationStateOnViolationCommandInput,
   type PutVerificationStateOnViolationCommandOutput,
@@ -827,6 +891,7 @@ import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
+import type * as Stream from "effect/Stream";
 import type {
   CertificateConflictError,
   CertificateStateError,
@@ -1140,6 +1205,73 @@ const commands = {
   UpdateThingTypeCommand,
   UpdateTopicRuleDestinationCommand,
   ValidateSecurityProfileBehaviorsCommand,
+};
+
+const paginators = {
+  paginateGetBehaviorModelTrainingSummaries,
+  paginateListActiveViolations,
+  paginateListAttachedPolicies,
+  paginateListAuditFindings,
+  paginateListAuditMitigationActionsExecutions,
+  paginateListAuditMitigationActionsTasks,
+  paginateListAuditSuppressions,
+  paginateListAuditTasks,
+  paginateListAuthorizers,
+  paginateListBillingGroups,
+  paginateListCACertificates,
+  paginateListCertificates,
+  paginateListCertificatesByCA,
+  paginateListCommandExecutions,
+  paginateListCommands,
+  paginateListCustomMetrics,
+  paginateListDetectMitigationActionsExecutions,
+  paginateListDetectMitigationActionsTasks,
+  paginateListDimensions,
+  paginateListDomainConfigurations,
+  paginateListFleetMetrics,
+  paginateListIndices,
+  paginateListJobExecutionsForJob,
+  paginateListJobExecutionsForThing,
+  paginateListJobTemplates,
+  paginateListJobs,
+  paginateListManagedJobTemplates,
+  paginateListMetricValues,
+  paginateListMitigationActions,
+  paginateListOTAUpdates,
+  paginateListOutgoingCertificates,
+  paginateListPackageVersions,
+  paginateListPackages,
+  paginateListPolicies,
+  paginateListPolicyPrincipals,
+  paginateListPrincipalPolicies,
+  paginateListPrincipalThings,
+  paginateListPrincipalThingsV2,
+  paginateListProvisioningTemplateVersions,
+  paginateListProvisioningTemplates,
+  paginateListRelatedResourcesForAuditFinding,
+  paginateListRoleAliases,
+  paginateListSbomValidationResults,
+  paginateListScheduledAudits,
+  paginateListSecurityProfiles,
+  paginateListSecurityProfilesForTarget,
+  paginateListStreams,
+  paginateListTagsForResource,
+  paginateListTargetsForPolicy,
+  paginateListTargetsForSecurityProfile,
+  paginateListThingGroups,
+  paginateListThingGroupsForThing,
+  paginateListThingPrincipals,
+  paginateListThingPrincipalsV2,
+  paginateListThingRegistrationTaskReports,
+  paginateListThingRegistrationTasks,
+  paginateListThingTypes,
+  paginateListThings,
+  paginateListThingsInBillingGroup,
+  paginateListThingsInThingGroup,
+  paginateListTopicRuleDestinations,
+  paginateListTopicRules,
+  paginateListV2LoggingLevels,
+  paginateListViolationEvents,
 };
 
 interface IoTService$ {
@@ -3331,6 +3463,19 @@ interface IoTService$ {
     | ThrottlingError
   >;
 
+  getBehaviorModelTrainingSummariesStream(
+    args: GetBehaviorModelTrainingSummariesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    GetBehaviorModelTrainingSummariesCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalFailureError
+    | InvalidRequestError
+    | ResourceNotFoundError
+    | ThrottlingError
+  >;
+
   /**
    * @see {@link GetBucketsAggregationCommand}
    */
@@ -3682,6 +3827,19 @@ interface IoTService$ {
     | ThrottlingError
   >;
 
+  listActiveViolationsStream(
+    args: ListActiveViolationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListActiveViolationsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalFailureError
+    | InvalidRequestError
+    | ResourceNotFoundError
+    | ThrottlingError
+  >;
+
   /**
    * @see {@link ListAttachedPoliciesCommand}
    */
@@ -3689,6 +3847,22 @@ interface IoTService$ {
     args: ListAttachedPoliciesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListAttachedPoliciesCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalFailureError
+    | InvalidRequestError
+    | LimitExceededError
+    | ResourceNotFoundError
+    | ServiceUnavailableError
+    | ThrottlingError
+    | UnauthorizedError
+  >;
+
+  listAttachedPoliciesStream(
+    args: ListAttachedPoliciesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListAttachedPoliciesCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -3712,6 +3886,14 @@ interface IoTService$ {
     Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
   >;
 
+  listAuditFindingsStream(
+    args: ListAuditFindingsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListAuditFindingsCommandOutput,
+    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
+  >;
+
   /**
    * @see {@link ListAuditMitigationActionsExecutionsCommand}
    */
@@ -3719,6 +3901,14 @@ interface IoTService$ {
     args: ListAuditMitigationActionsExecutionsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListAuditMitigationActionsExecutionsCommandOutput,
+    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
+  >;
+
+  listAuditMitigationActionsExecutionsStream(
+    args: ListAuditMitigationActionsExecutionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListAuditMitigationActionsExecutionsCommandOutput,
     Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
   >;
@@ -3734,6 +3924,14 @@ interface IoTService$ {
     Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
   >;
 
+  listAuditMitigationActionsTasksStream(
+    args: ListAuditMitigationActionsTasksCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListAuditMitigationActionsTasksCommandOutput,
+    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
+  >;
+
   /**
    * @see {@link ListAuditSuppressionsCommand}
    */
@@ -3741,6 +3939,14 @@ interface IoTService$ {
     args: ListAuditSuppressionsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListAuditSuppressionsCommandOutput,
+    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
+  >;
+
+  listAuditSuppressionsStream(
+    args: ListAuditSuppressionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListAuditSuppressionsCommandOutput,
     Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
   >;
@@ -3756,6 +3962,14 @@ interface IoTService$ {
     Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
   >;
 
+  listAuditTasksStream(
+    args: ListAuditTasksCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListAuditTasksCommandOutput,
+    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
+  >;
+
   /**
    * @see {@link ListAuthorizersCommand}
    */
@@ -3763,6 +3977,20 @@ interface IoTService$ {
     args: ListAuthorizersCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListAuthorizersCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalFailureError
+    | InvalidRequestError
+    | ServiceUnavailableError
+    | ThrottlingError
+    | UnauthorizedError
+  >;
+
+  listAuthorizersStream(
+    args: ListAuthorizersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListAuthorizersCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -3789,6 +4017,19 @@ interface IoTService$ {
     | ThrottlingError
   >;
 
+  listBillingGroupsStream(
+    args: ListBillingGroupsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListBillingGroupsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalFailureError
+    | InvalidRequestError
+    | ResourceNotFoundError
+    | ThrottlingError
+  >;
+
   /**
    * @see {@link ListCACertificatesCommand}
    */
@@ -3796,6 +4037,20 @@ interface IoTService$ {
     args: ListCACertificatesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListCACertificatesCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalFailureError
+    | InvalidRequestError
+    | ServiceUnavailableError
+    | ThrottlingError
+    | UnauthorizedError
+  >;
+
+  listCACertificatesStream(
+    args: ListCACertificatesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListCACertificatesCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -3840,6 +4095,20 @@ interface IoTService$ {
     | UnauthorizedError
   >;
 
+  listCertificatesStream(
+    args: ListCertificatesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListCertificatesCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalFailureError
+    | InvalidRequestError
+    | ServiceUnavailableError
+    | ThrottlingError
+    | UnauthorizedError
+  >;
+
   /**
    * @see {@link ListCertificatesByCACommand}
    */
@@ -3847,6 +4116,20 @@ interface IoTService$ {
     args: ListCertificatesByCACommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListCertificatesByCACommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalFailureError
+    | InvalidRequestError
+    | ServiceUnavailableError
+    | ThrottlingError
+    | UnauthorizedError
+  >;
+
+  listCertificatesByCAStream(
+    args: ListCertificatesByCACommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListCertificatesByCACommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -3868,6 +4151,14 @@ interface IoTService$ {
     Cause.TimeoutException | SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
+  listCommandExecutionsStream(
+    args: ListCommandExecutionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListCommandExecutionsCommandOutput,
+    Cause.TimeoutException | SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
+  >;
+
   /**
    * @see {@link ListCommandsCommand}
    */
@@ -3875,6 +4166,14 @@ interface IoTService$ {
     args: ListCommandsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListCommandsCommandOutput,
+    Cause.TimeoutException | SdkError | InternalServerError | ThrottlingError | ValidationError
+  >;
+
+  listCommandsStream(
+    args: ListCommandsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListCommandsCommandOutput,
     Cause.TimeoutException | SdkError | InternalServerError | ThrottlingError | ValidationError
   >;
@@ -3890,6 +4189,14 @@ interface IoTService$ {
     Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
   >;
 
+  listCustomMetricsStream(
+    args: ListCustomMetricsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListCustomMetricsCommandOutput,
+    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
+  >;
+
   /**
    * @see {@link ListDetectMitigationActionsExecutionsCommand}
    */
@@ -3897,6 +4204,14 @@ interface IoTService$ {
     args: ListDetectMitigationActionsExecutionsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListDetectMitigationActionsExecutionsCommandOutput,
+    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
+  >;
+
+  listDetectMitigationActionsExecutionsStream(
+    args: ListDetectMitigationActionsExecutionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListDetectMitigationActionsExecutionsCommandOutput,
     Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
   >;
@@ -3912,6 +4227,14 @@ interface IoTService$ {
     Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
   >;
 
+  listDetectMitigationActionsTasksStream(
+    args: ListDetectMitigationActionsTasksCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListDetectMitigationActionsTasksCommandOutput,
+    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
+  >;
+
   /**
    * @see {@link ListDimensionsCommand}
    */
@@ -3923,6 +4246,14 @@ interface IoTService$ {
     Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
   >;
 
+  listDimensionsStream(
+    args: ListDimensionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListDimensionsCommandOutput,
+    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
+  >;
+
   /**
    * @see {@link ListDomainConfigurationsCommand}
    */
@@ -3930,6 +4261,20 @@ interface IoTService$ {
     args: ListDomainConfigurationsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListDomainConfigurationsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalFailureError
+    | InvalidRequestError
+    | ServiceUnavailableError
+    | ThrottlingError
+    | UnauthorizedError
+  >;
+
+  listDomainConfigurationsStream(
+    args: ListDomainConfigurationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListDomainConfigurationsCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -3957,6 +4302,20 @@ interface IoTService$ {
     | UnauthorizedError
   >;
 
+  listFleetMetricsStream(
+    args: ListFleetMetricsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListFleetMetricsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalFailureError
+    | InvalidRequestError
+    | ServiceUnavailableError
+    | ThrottlingError
+    | UnauthorizedError
+  >;
+
   /**
    * @see {@link ListIndicesCommand}
    */
@@ -3964,6 +4323,20 @@ interface IoTService$ {
     args: ListIndicesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListIndicesCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalFailureError
+    | InvalidRequestError
+    | ServiceUnavailableError
+    | ThrottlingError
+    | UnauthorizedError
+  >;
+
+  listIndicesStream(
+    args: ListIndicesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListIndicesCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -3990,6 +4363,19 @@ interface IoTService$ {
     | ThrottlingError
   >;
 
+  listJobExecutionsForJobStream(
+    args: ListJobExecutionsForJobCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListJobExecutionsForJobCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidRequestError
+    | ResourceNotFoundError
+    | ServiceUnavailableError
+    | ThrottlingError
+  >;
+
   /**
    * @see {@link ListJobExecutionsForThingCommand}
    */
@@ -3997,6 +4383,19 @@ interface IoTService$ {
     args: ListJobExecutionsForThingCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListJobExecutionsForThingCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidRequestError
+    | ResourceNotFoundError
+    | ServiceUnavailableError
+    | ThrottlingError
+  >;
+
+  listJobExecutionsForThingStream(
+    args: ListJobExecutionsForThingCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListJobExecutionsForThingCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -4017,6 +4416,14 @@ interface IoTService$ {
     Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
   >;
 
+  listJobTemplatesStream(
+    args: ListJobTemplatesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListJobTemplatesCommandOutput,
+    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
+  >;
+
   /**
    * @see {@link ListJobsCommand}
    */
@@ -4024,6 +4431,19 @@ interface IoTService$ {
     args: ListJobsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListJobsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidRequestError
+    | ResourceNotFoundError
+    | ServiceUnavailableError
+    | ThrottlingError
+  >;
+
+  listJobsStream(
+    args: ListJobsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListJobsCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -4049,6 +4469,19 @@ interface IoTService$ {
     | ThrottlingError
   >;
 
+  listManagedJobTemplatesStream(
+    args: ListManagedJobTemplatesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListManagedJobTemplatesCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalServerError
+    | InvalidRequestError
+    | ResourceNotFoundError
+    | ThrottlingError
+  >;
+
   /**
    * @see {@link ListMetricValuesCommand}
    */
@@ -4056,6 +4489,19 @@ interface IoTService$ {
     args: ListMetricValuesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListMetricValuesCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalFailureError
+    | InvalidRequestError
+    | ResourceNotFoundError
+    | ThrottlingError
+  >;
+
+  listMetricValuesStream(
+    args: ListMetricValuesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListMetricValuesCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -4076,6 +4522,14 @@ interface IoTService$ {
     Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
   >;
 
+  listMitigationActionsStream(
+    args: ListMitigationActionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListMitigationActionsCommandOutput,
+    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
+  >;
+
   /**
    * @see {@link ListOTAUpdatesCommand}
    */
@@ -4083,6 +4537,20 @@ interface IoTService$ {
     args: ListOTAUpdatesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListOTAUpdatesCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalFailureError
+    | InvalidRequestError
+    | ServiceUnavailableError
+    | ThrottlingError
+    | UnauthorizedError
+  >;
+
+  listOTAUpdatesStream(
+    args: ListOTAUpdatesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListOTAUpdatesCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -4110,6 +4578,20 @@ interface IoTService$ {
     | UnauthorizedError
   >;
 
+  listOutgoingCertificatesStream(
+    args: ListOutgoingCertificatesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListOutgoingCertificatesCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalFailureError
+    | InvalidRequestError
+    | ServiceUnavailableError
+    | ThrottlingError
+    | UnauthorizedError
+  >;
+
   /**
    * @see {@link ListPackageVersionsCommand}
    */
@@ -4121,6 +4603,14 @@ interface IoTService$ {
     Cause.TimeoutException | SdkError | InternalServerError | ThrottlingError | ValidationError
   >;
 
+  listPackageVersionsStream(
+    args: ListPackageVersionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListPackageVersionsCommandOutput,
+    Cause.TimeoutException | SdkError | InternalServerError | ThrottlingError | ValidationError
+  >;
+
   /**
    * @see {@link ListPackagesCommand}
    */
@@ -4128,6 +4618,14 @@ interface IoTService$ {
     args: ListPackagesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListPackagesCommandOutput,
+    Cause.TimeoutException | SdkError | InternalServerError | ThrottlingError | ValidationError
+  >;
+
+  listPackagesStream(
+    args: ListPackagesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListPackagesCommandOutput,
     Cause.TimeoutException | SdkError | InternalServerError | ThrottlingError | ValidationError
   >;
@@ -4149,6 +4647,20 @@ interface IoTService$ {
     | UnauthorizedError
   >;
 
+  listPoliciesStream(
+    args: ListPoliciesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListPoliciesCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalFailureError
+    | InvalidRequestError
+    | ServiceUnavailableError
+    | ThrottlingError
+    | UnauthorizedError
+  >;
+
   /**
    * @see {@link ListPolicyPrincipalsCommand}
    */
@@ -4156,6 +4668,21 @@ interface IoTService$ {
     args: ListPolicyPrincipalsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListPolicyPrincipalsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalFailureError
+    | InvalidRequestError
+    | ResourceNotFoundError
+    | ServiceUnavailableError
+    | ThrottlingError
+    | UnauthorizedError
+  >;
+
+  listPolicyPrincipalsStream(
+    args: ListPolicyPrincipalsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListPolicyPrincipalsCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -4203,6 +4730,21 @@ interface IoTService$ {
     | UnauthorizedError
   >;
 
+  listPrincipalPoliciesStream(
+    args: ListPrincipalPoliciesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListPrincipalPoliciesCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalFailureError
+    | InvalidRequestError
+    | ResourceNotFoundError
+    | ServiceUnavailableError
+    | ThrottlingError
+    | UnauthorizedError
+  >;
+
   /**
    * @see {@link ListPrincipalThingsCommand}
    */
@@ -4210,6 +4752,21 @@ interface IoTService$ {
     args: ListPrincipalThingsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListPrincipalThingsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalFailureError
+    | InvalidRequestError
+    | ResourceNotFoundError
+    | ServiceUnavailableError
+    | ThrottlingError
+    | UnauthorizedError
+  >;
+
+  listPrincipalThingsStream(
+    args: ListPrincipalThingsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListPrincipalThingsCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -4239,6 +4796,21 @@ interface IoTService$ {
     | UnauthorizedError
   >;
 
+  listPrincipalThingsV2Stream(
+    args: ListPrincipalThingsV2CommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListPrincipalThingsV2CommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalFailureError
+    | InvalidRequestError
+    | ResourceNotFoundError
+    | ServiceUnavailableError
+    | ThrottlingError
+    | UnauthorizedError
+  >;
+
   /**
    * @see {@link ListProvisioningTemplateVersionsCommand}
    */
@@ -4246,6 +4818,20 @@ interface IoTService$ {
     args: ListProvisioningTemplateVersionsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListProvisioningTemplateVersionsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalFailureError
+    | InvalidRequestError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | UnauthorizedError
+  >;
+
+  listProvisioningTemplateVersionsStream(
+    args: ListProvisioningTemplateVersionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListProvisioningTemplateVersionsCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -4267,6 +4853,14 @@ interface IoTService$ {
     Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError | UnauthorizedError
   >;
 
+  listProvisioningTemplatesStream(
+    args: ListProvisioningTemplatesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListProvisioningTemplatesCommandOutput,
+    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError | UnauthorizedError
+  >;
+
   /**
    * @see {@link ListRelatedResourcesForAuditFindingCommand}
    */
@@ -4274,6 +4868,19 @@ interface IoTService$ {
     args: ListRelatedResourcesForAuditFindingCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListRelatedResourcesForAuditFindingCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalFailureError
+    | InvalidRequestError
+    | ResourceNotFoundError
+    | ThrottlingError
+  >;
+
+  listRelatedResourcesForAuditFindingStream(
+    args: ListRelatedResourcesForAuditFindingCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListRelatedResourcesForAuditFindingCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -4300,6 +4907,20 @@ interface IoTService$ {
     | UnauthorizedError
   >;
 
+  listRoleAliasesStream(
+    args: ListRoleAliasesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListRoleAliasesCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalFailureError
+    | InvalidRequestError
+    | ServiceUnavailableError
+    | ThrottlingError
+    | UnauthorizedError
+  >;
+
   /**
    * @see {@link ListSbomValidationResultsCommand}
    */
@@ -4311,6 +4932,14 @@ interface IoTService$ {
     Cause.TimeoutException | SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
+  listSbomValidationResultsStream(
+    args: ListSbomValidationResultsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListSbomValidationResultsCommandOutput,
+    Cause.TimeoutException | SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
+  >;
+
   /**
    * @see {@link ListScheduledAuditsCommand}
    */
@@ -4318,6 +4947,14 @@ interface IoTService$ {
     args: ListScheduledAuditsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListScheduledAuditsCommandOutput,
+    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
+  >;
+
+  listScheduledAuditsStream(
+    args: ListScheduledAuditsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListScheduledAuditsCommandOutput,
     Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
   >;
@@ -4338,6 +4975,19 @@ interface IoTService$ {
     | ThrottlingError
   >;
 
+  listSecurityProfilesStream(
+    args: ListSecurityProfilesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListSecurityProfilesCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalFailureError
+    | InvalidRequestError
+    | ResourceNotFoundError
+    | ThrottlingError
+  >;
+
   /**
    * @see {@link ListSecurityProfilesForTargetCommand}
    */
@@ -4345,6 +4995,19 @@ interface IoTService$ {
     args: ListSecurityProfilesForTargetCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListSecurityProfilesForTargetCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalFailureError
+    | InvalidRequestError
+    | ResourceNotFoundError
+    | ThrottlingError
+  >;
+
+  listSecurityProfilesForTargetStream(
+    args: ListSecurityProfilesForTargetCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListSecurityProfilesForTargetCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -4371,6 +5034,20 @@ interface IoTService$ {
     | UnauthorizedError
   >;
 
+  listStreamsStream(
+    args: ListStreamsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListStreamsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalFailureError
+    | InvalidRequestError
+    | ServiceUnavailableError
+    | ThrottlingError
+    | UnauthorizedError
+  >;
+
   /**
    * @see {@link ListTagsForResourceCommand}
    */
@@ -4378,6 +5055,19 @@ interface IoTService$ {
     args: ListTagsForResourceCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListTagsForResourceCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalFailureError
+    | InvalidRequestError
+    | ResourceNotFoundError
+    | ThrottlingError
+  >;
+
+  listTagsForResourceStream(
+    args: ListTagsForResourceCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListTagsForResourceCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -4406,6 +5096,22 @@ interface IoTService$ {
     | UnauthorizedError
   >;
 
+  listTargetsForPolicyStream(
+    args: ListTargetsForPolicyCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListTargetsForPolicyCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalFailureError
+    | InvalidRequestError
+    | LimitExceededError
+    | ResourceNotFoundError
+    | ServiceUnavailableError
+    | ThrottlingError
+    | UnauthorizedError
+  >;
+
   /**
    * @see {@link ListTargetsForSecurityProfileCommand}
    */
@@ -4413,6 +5119,19 @@ interface IoTService$ {
     args: ListTargetsForSecurityProfileCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListTargetsForSecurityProfileCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalFailureError
+    | InvalidRequestError
+    | ResourceNotFoundError
+    | ThrottlingError
+  >;
+
+  listTargetsForSecurityProfileStream(
+    args: ListTargetsForSecurityProfileCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListTargetsForSecurityProfileCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -4438,6 +5157,19 @@ interface IoTService$ {
     | ThrottlingError
   >;
 
+  listThingGroupsStream(
+    args: ListThingGroupsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListThingGroupsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalFailureError
+    | InvalidRequestError
+    | ResourceNotFoundError
+    | ThrottlingError
+  >;
+
   /**
    * @see {@link ListThingGroupsForThingCommand}
    */
@@ -4454,6 +5186,19 @@ interface IoTService$ {
     | ThrottlingError
   >;
 
+  listThingGroupsForThingStream(
+    args: ListThingGroupsForThingCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListThingGroupsForThingCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalFailureError
+    | InvalidRequestError
+    | ResourceNotFoundError
+    | ThrottlingError
+  >;
+
   /**
    * @see {@link ListThingPrincipalsCommand}
    */
@@ -4461,6 +5206,21 @@ interface IoTService$ {
     args: ListThingPrincipalsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListThingPrincipalsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalFailureError
+    | InvalidRequestError
+    | ResourceNotFoundError
+    | ServiceUnavailableError
+    | ThrottlingError
+    | UnauthorizedError
+  >;
+
+  listThingPrincipalsStream(
+    args: ListThingPrincipalsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListThingPrincipalsCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -4490,6 +5250,21 @@ interface IoTService$ {
     | UnauthorizedError
   >;
 
+  listThingPrincipalsV2Stream(
+    args: ListThingPrincipalsV2CommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListThingPrincipalsV2CommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalFailureError
+    | InvalidRequestError
+    | ResourceNotFoundError
+    | ServiceUnavailableError
+    | ThrottlingError
+    | UnauthorizedError
+  >;
+
   /**
    * @see {@link ListThingRegistrationTaskReportsCommand}
    */
@@ -4497,6 +5272,14 @@ interface IoTService$ {
     args: ListThingRegistrationTaskReportsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListThingRegistrationTaskReportsCommandOutput,
+    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError | UnauthorizedError
+  >;
+
+  listThingRegistrationTaskReportsStream(
+    args: ListThingRegistrationTaskReportsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListThingRegistrationTaskReportsCommandOutput,
     Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError | UnauthorizedError
   >;
@@ -4512,6 +5295,14 @@ interface IoTService$ {
     Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError | UnauthorizedError
   >;
 
+  listThingRegistrationTasksStream(
+    args: ListThingRegistrationTasksCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListThingRegistrationTasksCommandOutput,
+    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError | UnauthorizedError
+  >;
+
   /**
    * @see {@link ListThingTypesCommand}
    */
@@ -4519,6 +5310,20 @@ interface IoTService$ {
     args: ListThingTypesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListThingTypesCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalFailureError
+    | InvalidRequestError
+    | ServiceUnavailableError
+    | ThrottlingError
+    | UnauthorizedError
+  >;
+
+  listThingTypesStream(
+    args: ListThingTypesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListThingTypesCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -4546,6 +5351,20 @@ interface IoTService$ {
     | UnauthorizedError
   >;
 
+  listThingsStream(
+    args: ListThingsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListThingsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalFailureError
+    | InvalidRequestError
+    | ServiceUnavailableError
+    | ThrottlingError
+    | UnauthorizedError
+  >;
+
   /**
    * @see {@link ListThingsInBillingGroupCommand}
    */
@@ -4553,6 +5372,19 @@ interface IoTService$ {
     args: ListThingsInBillingGroupCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListThingsInBillingGroupCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalFailureError
+    | InvalidRequestError
+    | ResourceNotFoundError
+    | ThrottlingError
+  >;
+
+  listThingsInBillingGroupStream(
+    args: ListThingsInBillingGroupCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListThingsInBillingGroupCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -4578,6 +5410,19 @@ interface IoTService$ {
     | ThrottlingError
   >;
 
+  listThingsInThingGroupStream(
+    args: ListThingsInThingGroupCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListThingsInThingGroupCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalFailureError
+    | InvalidRequestError
+    | ResourceNotFoundError
+    | ThrottlingError
+  >;
+
   /**
    * @see {@link ListTopicRuleDestinationsCommand}
    */
@@ -4585,6 +5430,19 @@ interface IoTService$ {
     args: ListTopicRuleDestinationsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListTopicRuleDestinationsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalError
+    | InvalidRequestError
+    | ServiceUnavailableError
+    | UnauthorizedError
+  >;
+
+  listTopicRuleDestinationsStream(
+    args: ListTopicRuleDestinationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListTopicRuleDestinationsCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -4610,6 +5468,19 @@ interface IoTService$ {
     | UnauthorizedError
   >;
 
+  listTopicRulesStream(
+    args: ListTopicRulesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListTopicRulesCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalError
+    | InvalidRequestError
+    | ServiceUnavailableError
+    | UnauthorizedError
+  >;
+
   /**
    * @see {@link ListV2LoggingLevelsCommand}
    */
@@ -4626,6 +5497,19 @@ interface IoTService$ {
     | ServiceUnavailableError
   >;
 
+  listV2LoggingLevelsStream(
+    args: ListV2LoggingLevelsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListV2LoggingLevelsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalError
+    | InvalidRequestError
+    | NotConfiguredError
+    | ServiceUnavailableError
+  >;
+
   /**
    * @see {@link ListViolationEventsCommand}
    */
@@ -4633,6 +5517,14 @@ interface IoTService$ {
     args: ListViolationEventsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListViolationEventsCommandOutput,
+    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
+  >;
+
+  listViolationEventsStream(
+    args: ListViolationEventsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListViolationEventsCommandOutput,
     Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
   >;
@@ -5612,6 +6504,7 @@ export const makeIoTService = Effect.gen(function*() {
       errorTags: AllServiceErrors,
       resolveClientConfig: IoTServiceConfig.toIoTClientConfig,
     },
+    paginators,
   );
 });
 

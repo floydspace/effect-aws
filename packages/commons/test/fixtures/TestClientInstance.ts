@@ -9,7 +9,7 @@ import * as TestServiceConfig from "./TestServiceConfig.js";
 
 export const mockHandlerOutput = mock<InitializeHandlerOutput<any>>({ output: {} });
 
-class TestClient extends Client<HttpHandlerOptions, any, any, BaseResolvedConfig> {
+export class TestClient extends Client<HttpHandlerOptions, any, any, BaseResolvedConfig> {
   constructor(...[config]: CheckOptionalClientConfig<TestServiceConfig.TestClientConfig>) {
     super({
       apiVersion: "2025-03-12",

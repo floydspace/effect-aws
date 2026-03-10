@@ -73,6 +73,8 @@ import {
   MergeShardsCommand,
   type MergeShardsCommandInput,
   type MergeShardsCommandOutput,
+  paginateListStreamConsumers,
+  paginateListStreams,
   PutRecordCommand,
   type PutRecordCommandInput,
   type PutRecordCommandOutput,
@@ -128,6 +130,7 @@ import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
+import type * as Stream from "effect/Stream";
 import type {
   AccessDeniedError,
   ExpiredIteratorError,
@@ -191,6 +194,11 @@ const commands = {
   UpdateShardCountCommand,
   UpdateStreamModeCommand,
   UpdateStreamWarmThroughputCommand,
+};
+
+const paginators = {
+  paginateListStreamConsumers,
+  paginateListStreams,
 };
 
 interface KinesisService$ {
@@ -495,6 +503,20 @@ interface KinesisService$ {
     | ResourceNotFoundError
   >;
 
+  listStreamConsumersStream(
+    args: ListStreamConsumersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListStreamConsumersCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | ExpiredNextTokenError
+    | InvalidArgumentError
+    | LimitExceededError
+    | ResourceInUseError
+    | ResourceNotFoundError
+  >;
+
   /**
    * @see {@link ListStreamsCommand}
    */
@@ -502,6 +524,14 @@ interface KinesisService$ {
     args: ListStreamsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListStreamsCommandOutput,
+    Cause.TimeoutException | SdkError | ExpiredNextTokenError | InvalidArgumentError | LimitExceededError
+  >;
+
+  listStreamsStream(
+    args: ListStreamsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListStreamsCommandOutput,
     Cause.TimeoutException | SdkError | ExpiredNextTokenError | InvalidArgumentError | LimitExceededError
   >;
@@ -859,6 +889,7 @@ export const makeKinesisService = Effect.gen(function*() {
       errorTags: AllServiceErrors,
       resolveClientConfig: KinesisServiceConfig.toKinesisClientConfig,
     },
+    paginators,
   );
 });
 

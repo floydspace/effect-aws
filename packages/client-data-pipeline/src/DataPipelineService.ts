@@ -34,6 +34,9 @@ import {
   ListPipelinesCommand,
   type ListPipelinesCommandInput,
   type ListPipelinesCommandOutput,
+  paginateDescribeObjects,
+  paginateListPipelines,
+  paginateQueryObjects,
   PollForTaskCommand,
   type PollForTaskCommandInput,
   type PollForTaskCommandOutput,
@@ -68,6 +71,7 @@ import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
+import type * as Stream from "effect/Stream";
 import * as Instance from "./DataPipelineClientInstance.js";
 import * as DataPipelineServiceConfig from "./DataPipelineServiceConfig.js";
 import type {
@@ -100,6 +104,12 @@ const commands = {
   SetStatusCommand,
   SetTaskStatusCommand,
   ValidatePipelineDefinitionCommand,
+};
+
+const paginators = {
+  paginateDescribeObjects,
+  paginateListPipelines,
+  paginateQueryObjects,
 };
 
 interface DataPipelineService$ {
@@ -191,6 +201,19 @@ interface DataPipelineService$ {
     | PipelineNotFoundError
   >;
 
+  describeObjectsStream(
+    args: DescribeObjectsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeObjectsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalServiceError
+    | InvalidRequestError
+    | PipelineDeletedError
+    | PipelineNotFoundError
+  >;
+
   /**
    * @see {@link DescribePipelinesCommand}
    */
@@ -251,6 +274,14 @@ interface DataPipelineService$ {
     Cause.TimeoutException | SdkError | InternalServiceError | InvalidRequestError
   >;
 
+  listPipelinesStream(
+    args: ListPipelinesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListPipelinesCommandOutput,
+    Cause.TimeoutException | SdkError | InternalServiceError | InvalidRequestError
+  >;
+
   /**
    * @see {@link PollForTaskCommand}
    */
@@ -285,6 +316,19 @@ interface DataPipelineService$ {
     args: QueryObjectsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    QueryObjectsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalServiceError
+    | InvalidRequestError
+    | PipelineDeletedError
+    | PipelineNotFoundError
+  >;
+
+  queryObjectsStream(
+    args: QueryObjectsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     QueryObjectsCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -402,6 +446,7 @@ export const makeDataPipelineService = Effect.gen(function*() {
       errorTags: AllServiceErrors,
       resolveClientConfig: DataPipelineServiceConfig.toDataPipelineClientConfig,
     },
+    paginators,
   );
 });
 

@@ -41,6 +41,9 @@ import {
   ListTagsForResourceCommand,
   type ListTagsForResourceCommandInput,
   type ListTagsForResourceCommandOutput,
+  paginateListBatchLoadTasks,
+  paginateListDatabases,
+  paginateListTables,
   ResumeBatchLoadTaskCommand,
   type ResumeBatchLoadTaskCommandInput,
   type ResumeBatchLoadTaskCommandOutput,
@@ -68,6 +71,7 @@ import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
+import type * as Stream from "effect/Stream";
 import type {
   AccessDeniedError,
   ConflictError,
@@ -104,6 +108,12 @@ const commands = {
   UpdateDatabaseCommand,
   UpdateTableCommand,
   WriteRecordsCommand,
+};
+
+const paginators = {
+  paginateListBatchLoadTasks,
+  paginateListDatabases,
+  paginateListTables,
 };
 
 interface TimestreamWriteService$ {
@@ -285,6 +295,20 @@ interface TimestreamWriteService$ {
     | ValidationError
   >;
 
+  listBatchLoadTasksStream(
+    args: ListBatchLoadTasksCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListBatchLoadTasksCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | InvalidEndpointError
+    | ThrottlingError
+    | ValidationError
+  >;
+
   /**
    * @see {@link ListDatabasesCommand}
    */
@@ -302,6 +326,20 @@ interface TimestreamWriteService$ {
     | ValidationError
   >;
 
+  listDatabasesStream(
+    args: ListDatabasesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListDatabasesCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | InvalidEndpointError
+    | ThrottlingError
+    | ValidationError
+  >;
+
   /**
    * @see {@link ListTablesCommand}
    */
@@ -309,6 +347,21 @@ interface TimestreamWriteService$ {
     args: ListTablesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListTablesCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | InvalidEndpointError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  listTablesStream(
+    args: ListTablesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListTablesCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -454,6 +507,7 @@ export const makeTimestreamWriteService = Effect.gen(function*() {
       errorTags: AllServiceErrors,
       resolveClientConfig: TimestreamWriteServiceConfig.toTimestreamWriteClientConfig,
     },
+    paginators,
   );
 });
 

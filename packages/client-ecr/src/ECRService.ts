@@ -118,6 +118,13 @@ import {
   ListTagsForResourceCommand,
   type ListTagsForResourceCommandInput,
   type ListTagsForResourceCommandOutput,
+  paginateDescribeImages,
+  paginateDescribeImageScanFindings,
+  paginateDescribePullThroughCacheRules,
+  paginateDescribeRepositories,
+  paginateDescribeRepositoryCreationTemplates,
+  paginateGetLifecyclePolicyPreview,
+  paginateListImages,
   PutAccountSettingCommand,
   type PutAccountSettingCommandInput,
   type PutAccountSettingCommandOutput,
@@ -185,6 +192,7 @@ import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
+import type * as Stream from "effect/Stream";
 import * as Instance from "./ECRClientInstance.js";
 import * as ECRServiceConfig from "./ECRServiceConfig.js";
 import type {
@@ -297,6 +305,16 @@ const commands = {
   UpdateRepositoryCreationTemplateCommand,
   UploadLayerPartCommand,
   ValidatePullThroughCacheRuleCommand,
+};
+
+const paginators = {
+  paginateDescribeImageScanFindings,
+  paginateDescribeImages,
+  paginateDescribePullThroughCacheRules,
+  paginateDescribeRepositories,
+  paginateDescribeRepositoryCreationTemplates,
+  paginateGetLifecyclePolicyPreview,
+  paginateListImages,
 };
 
 interface ECRService$ {
@@ -586,6 +604,21 @@ interface ECRService$ {
     | ValidationError
   >;
 
+  describeImageScanFindingsStream(
+    args: DescribeImageScanFindingsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeImageScanFindingsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | ImageNotFoundError
+    | InvalidParameterError
+    | RepositoryNotFoundError
+    | ScanNotFoundError
+    | ServerError
+    | ValidationError
+  >;
+
   /**
    * @see {@link DescribeImageSigningStatusCommand}
    */
@@ -619,6 +652,19 @@ interface ECRService$ {
     | ServerError
   >;
 
+  describeImagesStream(
+    args: DescribeImagesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeImagesCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | ImageNotFoundError
+    | InvalidParameterError
+    | RepositoryNotFoundError
+    | ServerError
+  >;
+
   /**
    * @see {@link DescribePullThroughCacheRulesCommand}
    */
@@ -626,6 +672,19 @@ interface ECRService$ {
     args: DescribePullThroughCacheRulesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribePullThroughCacheRulesCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidParameterError
+    | PullThroughCacheRuleNotFoundError
+    | ServerError
+    | ValidationError
+  >;
+
+  describePullThroughCacheRulesStream(
+    args: DescribePullThroughCacheRulesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribePullThroughCacheRulesCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -657,6 +716,14 @@ interface ECRService$ {
     Cause.TimeoutException | SdkError | InvalidParameterError | RepositoryNotFoundError | ServerError
   >;
 
+  describeRepositoriesStream(
+    args: DescribeRepositoriesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeRepositoriesCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidParameterError | RepositoryNotFoundError | ServerError
+  >;
+
   /**
    * @see {@link DescribeRepositoryCreationTemplatesCommand}
    */
@@ -664,6 +731,14 @@ interface ECRService$ {
     args: DescribeRepositoryCreationTemplatesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeRepositoryCreationTemplatesCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidParameterError | ServerError | ValidationError
+  >;
+
+  describeRepositoryCreationTemplatesStream(
+    args: DescribeRepositoryCreationTemplatesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeRepositoryCreationTemplatesCommandOutput,
     Cause.TimeoutException | SdkError | InvalidParameterError | ServerError | ValidationError
   >;
@@ -732,6 +807,20 @@ interface ECRService$ {
     args: GetLifecyclePolicyPreviewCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    GetLifecyclePolicyPreviewCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidParameterError
+    | LifecyclePolicyPreviewNotFoundError
+    | RepositoryNotFoundError
+    | ServerError
+    | ValidationError
+  >;
+
+  getLifecyclePolicyPreviewStream(
+    args: GetLifecyclePolicyPreviewCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     GetLifecyclePolicyPreviewCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -830,6 +919,14 @@ interface ECRService$ {
     args: ListImagesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListImagesCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidParameterError | RepositoryNotFoundError | ServerError
+  >;
+
+  listImagesStream(
+    args: ListImagesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListImagesCommandOutput,
     Cause.TimeoutException | SdkError | InvalidParameterError | RepositoryNotFoundError | ServerError
   >;
@@ -1169,6 +1266,7 @@ export const makeECRService = Effect.gen(function*() {
       errorTags: AllServiceErrors,
       resolveClientConfig: ECRServiceConfig.toECRClientConfig,
     },
+    paginators,
   );
 });
 

@@ -218,6 +218,10 @@ import {
   ListPartsCommand,
   type ListPartsCommandInput,
   type ListPartsCommandOutput,
+  paginateListBuckets,
+  paginateListDirectoryBuckets,
+  paginateListObjectsV2,
+  paginateListParts,
   PutBucketAbacCommand,
   type PutBucketAbacCommandInput,
   type PutBucketAbacCommandOutput,
@@ -313,6 +317,9 @@ import {
   UpdateBucketMetadataJournalTableConfigurationCommand,
   type UpdateBucketMetadataJournalTableConfigurationCommandInput,
   type UpdateBucketMetadataJournalTableConfigurationCommandOutput,
+  UpdateObjectEncryptionCommand,
+  type UpdateObjectEncryptionCommandInput,
+  type UpdateObjectEncryptionCommandOutput,
   UploadPartCommand,
   type UploadPartCommandInput,
   type UploadPartCommandOutput,
@@ -331,7 +338,9 @@ import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
+import type * as Stream from "effect/Stream";
 import type {
+  AccessDeniedError,
   BucketAlreadyExistsError,
   BucketAlreadyOwnedByYouError,
   EncryptionTypeMismatchError,
@@ -457,9 +466,17 @@ const commands = {
   SelectObjectContentCommand,
   UpdateBucketMetadataInventoryTableConfigurationCommand,
   UpdateBucketMetadataJournalTableConfigurationCommand,
+  UpdateObjectEncryptionCommand,
   UploadPartCommand,
   UploadPartCopyCommand,
   WriteGetObjectResponseCommand,
+};
+
+const paginators = {
+  paginateListBuckets,
+  paginateListDirectoryBuckets,
+  paginateListObjectsV2,
+  paginateListParts,
 };
 
 interface S3Service$ {
@@ -1195,6 +1212,11 @@ interface S3Service$ {
     Cause.TimeoutException | SdkError | S3ServiceError
   >;
 
+  listBucketsStream(
+    args: ListBucketsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListBucketsCommandOutput, Cause.TimeoutException | SdkError>;
+
   /**
    * @see {@link ListDirectoryBucketsCommand}
    */
@@ -1205,6 +1227,11 @@ interface S3Service$ {
     ListDirectoryBucketsCommandOutput,
     Cause.TimeoutException | SdkError | S3ServiceError
   >;
+
+  listDirectoryBucketsStream(
+    args: ListDirectoryBucketsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListDirectoryBucketsCommandOutput, Cause.TimeoutException | SdkError>;
 
   /**
    * @see {@link ListMultipartUploadsCommand}
@@ -1250,6 +1277,11 @@ interface S3Service$ {
     Cause.TimeoutException | SdkError | NoSuchBucketError
   >;
 
+  listObjectsV2Stream(
+    args: ListObjectsV2CommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListObjectsV2CommandOutput, Cause.TimeoutException | SdkError | NoSuchBucketError>;
+
   /**
    * @see {@link ListPartsCommand}
    */
@@ -1260,6 +1292,11 @@ interface S3Service$ {
     ListPartsCommandOutput,
     Cause.TimeoutException | SdkError | S3ServiceError
   >;
+
+  listPartsStream(
+    args: ListPartsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListPartsCommandOutput, Cause.TimeoutException | SdkError>;
 
   /**
    * @see {@link PutBucketAbacCommand}
@@ -1612,6 +1649,17 @@ interface S3Service$ {
   >;
 
   /**
+   * @see {@link UpdateObjectEncryptionCommand}
+   */
+  updateObjectEncryption(
+    args: UpdateObjectEncryptionCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateObjectEncryptionCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | InvalidRequestError | NoSuchKeyError
+  >;
+
+  /**
    * @see {@link UploadPartCommand}
    */
   uploadPart(
@@ -1652,25 +1700,34 @@ interface S3Service$ {
 export const makeS3Service = Effect.gen(function*() {
   const client = yield* Instance.S3ClientInstance;
 
-  return yield* Service.fromCommandsAndServiceFn<S3Service$>(commands, (CommandCtor) =>
-  (
-    args: any,
-    options?:
-      | ({ readonly presigned?: false } & HttpHandlerOptions)
-      | ({ readonly presigned: true } & RequestPresigningArguments),
-  ) =>
-    options?.presigned
-      ? Effect.gen(function*() {
-        const config = yield* S3ServiceConfig.toS3ClientConfig;
-        return yield* Effect.tryPromise({
-          try: () => getSignedUrl(client, new CommandCtor(args, config), options),
-          catch: Service.catchServiceExceptions(AllServiceErrors),
-        });
-      })
-      : Service.makeServiceFn(client, CommandCtor, {
+  return yield* Service.fromCommandsAndServiceFn<S3Service$>(
+    commands,
+    (CommandCtor) =>
+    (
+      args: any,
+      options?:
+        | ({ readonly presigned?: false } & HttpHandlerOptions)
+        | ({ readonly presigned: true } & RequestPresigningArguments),
+    ) =>
+      options?.presigned
+        ? Effect.gen(function*() {
+          const config = yield* S3ServiceConfig.toS3ClientConfig;
+          return yield* Effect.tryPromise({
+            try: () => getSignedUrl(client, new CommandCtor(args, config), options),
+            catch: Service.catchServiceExceptions(AllServiceErrors),
+          });
+        })
+        : Service.makeServiceFn(client, CommandCtor, {
+          errorTags: AllServiceErrors,
+          resolveClientConfig: S3ServiceConfig.toS3ClientConfig,
+        })(args, options),
+    paginators,
+    (paginateFn) =>
+      Service.makeServiceStreamFn(client, paginateFn, {
         errorTags: AllServiceErrors,
         resolveClientConfig: S3ServiceConfig.toS3ClientConfig,
-      })(args, options));
+      }),
+  );
 });
 
 /**

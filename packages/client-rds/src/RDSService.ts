@@ -392,6 +392,47 @@ import {
   ModifyTenantDatabaseCommand,
   type ModifyTenantDatabaseCommandInput,
   type ModifyTenantDatabaseCommandOutput,
+  paginateDescribeBlueGreenDeployments,
+  paginateDescribeCertificates,
+  paginateDescribeDBClusterAutomatedBackups,
+  paginateDescribeDBClusterBacktracks,
+  paginateDescribeDBClusterEndpoints,
+  paginateDescribeDBClusterParameterGroups,
+  paginateDescribeDBClusterParameters,
+  paginateDescribeDBClusters,
+  paginateDescribeDBClusterSnapshots,
+  paginateDescribeDBEngineVersions,
+  paginateDescribeDBInstanceAutomatedBackups,
+  paginateDescribeDBInstances,
+  paginateDescribeDBLogFiles,
+  paginateDescribeDBMajorEngineVersions,
+  paginateDescribeDBParameterGroups,
+  paginateDescribeDBParameters,
+  paginateDescribeDBProxies,
+  paginateDescribeDBProxyEndpoints,
+  paginateDescribeDBProxyTargetGroups,
+  paginateDescribeDBProxyTargets,
+  paginateDescribeDBRecommendations,
+  paginateDescribeDBSecurityGroups,
+  paginateDescribeDBSnapshots,
+  paginateDescribeDBSnapshotTenantDatabases,
+  paginateDescribeDBSubnetGroups,
+  paginateDescribeEngineDefaultClusterParameters,
+  paginateDescribeEngineDefaultParameters,
+  paginateDescribeEvents,
+  paginateDescribeEventSubscriptions,
+  paginateDescribeExportTasks,
+  paginateDescribeGlobalClusters,
+  paginateDescribeIntegrations,
+  paginateDescribeOptionGroupOptions,
+  paginateDescribeOptionGroups,
+  paginateDescribeOrderableDBInstanceOptions,
+  paginateDescribePendingMaintenanceActions,
+  paginateDescribeReservedDBInstances,
+  paginateDescribeReservedDBInstancesOfferings,
+  paginateDescribeSourceRegions,
+  paginateDescribeTenantDatabases,
+  paginateDownloadDBLogFilePortion,
   PromoteReadReplicaCommand,
   type PromoteReadReplicaCommandInput,
   type PromoteReadReplicaCommandOutput,
@@ -500,6 +541,7 @@ import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
+import type * as Stream from "effect/Stream";
 import type {
   AuthorizationAlreadyExistsFaultError,
   AuthorizationNotFoundFaultError,
@@ -817,6 +859,50 @@ const commands = {
   SwitchoverBlueGreenDeploymentCommand,
   SwitchoverGlobalClusterCommand,
   SwitchoverReadReplicaCommand,
+};
+
+const paginators = {
+  paginateDescribeBlueGreenDeployments,
+  paginateDescribeCertificates,
+  paginateDescribeDBClusterAutomatedBackups,
+  paginateDescribeDBClusterBacktracks,
+  paginateDescribeDBClusterEndpoints,
+  paginateDescribeDBClusterParameterGroups,
+  paginateDescribeDBClusterParameters,
+  paginateDescribeDBClusterSnapshots,
+  paginateDescribeDBClusters,
+  paginateDescribeDBEngineVersions,
+  paginateDescribeDBInstanceAutomatedBackups,
+  paginateDescribeDBInstances,
+  paginateDescribeDBLogFiles,
+  paginateDescribeDBMajorEngineVersions,
+  paginateDescribeDBParameterGroups,
+  paginateDescribeDBParameters,
+  paginateDescribeDBProxies,
+  paginateDescribeDBProxyEndpoints,
+  paginateDescribeDBProxyTargetGroups,
+  paginateDescribeDBProxyTargets,
+  paginateDescribeDBRecommendations,
+  paginateDescribeDBSecurityGroups,
+  paginateDescribeDBSnapshotTenantDatabases,
+  paginateDescribeDBSnapshots,
+  paginateDescribeDBSubnetGroups,
+  paginateDescribeEngineDefaultClusterParameters,
+  paginateDescribeEngineDefaultParameters,
+  paginateDescribeEventSubscriptions,
+  paginateDescribeEvents,
+  paginateDescribeExportTasks,
+  paginateDescribeGlobalClusters,
+  paginateDescribeIntegrations,
+  paginateDescribeOptionGroupOptions,
+  paginateDescribeOptionGroups,
+  paginateDescribeOrderableDBInstanceOptions,
+  paginateDescribePendingMaintenanceActions,
+  paginateDescribeReservedDBInstances,
+  paginateDescribeReservedDBInstancesOfferings,
+  paginateDescribeSourceRegions,
+  paginateDescribeTenantDatabases,
+  paginateDownloadDBLogFilePortion,
 };
 
 interface RDSService$ {
@@ -1740,6 +1826,14 @@ interface RDSService$ {
     Cause.TimeoutException | SdkError | BlueGreenDeploymentNotFoundFaultError
   >;
 
+  describeBlueGreenDeploymentsStream(
+    args: DescribeBlueGreenDeploymentsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeBlueGreenDeploymentsCommandOutput,
+    Cause.TimeoutException | SdkError | BlueGreenDeploymentNotFoundFaultError
+  >;
+
   /**
    * @see {@link DescribeCertificatesCommand}
    */
@@ -1747,6 +1841,14 @@ interface RDSService$ {
     args: DescribeCertificatesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeCertificatesCommandOutput,
+    Cause.TimeoutException | SdkError | CertificateNotFoundFaultError
+  >;
+
+  describeCertificatesStream(
+    args: DescribeCertificatesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeCertificatesCommandOutput,
     Cause.TimeoutException | SdkError | CertificateNotFoundFaultError
   >;
@@ -1762,6 +1864,14 @@ interface RDSService$ {
     Cause.TimeoutException | SdkError | DBClusterAutomatedBackupNotFoundFaultError
   >;
 
+  describeDBClusterAutomatedBackupsStream(
+    args: DescribeDBClusterAutomatedBackupsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeDBClusterAutomatedBackupsCommandOutput,
+    Cause.TimeoutException | SdkError | DBClusterAutomatedBackupNotFoundFaultError
+  >;
+
   /**
    * @see {@link DescribeDBClusterBacktracksCommand}
    */
@@ -1769,6 +1879,14 @@ interface RDSService$ {
     args: DescribeDBClusterBacktracksCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeDBClusterBacktracksCommandOutput,
+    Cause.TimeoutException | SdkError | DBClusterBacktrackNotFoundFaultError | DBClusterNotFoundFaultError
+  >;
+
+  describeDBClusterBacktracksStream(
+    args: DescribeDBClusterBacktracksCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeDBClusterBacktracksCommandOutput,
     Cause.TimeoutException | SdkError | DBClusterBacktrackNotFoundFaultError | DBClusterNotFoundFaultError
   >;
@@ -1784,6 +1902,14 @@ interface RDSService$ {
     Cause.TimeoutException | SdkError | DBClusterNotFoundFaultError
   >;
 
+  describeDBClusterEndpointsStream(
+    args: DescribeDBClusterEndpointsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeDBClusterEndpointsCommandOutput,
+    Cause.TimeoutException | SdkError | DBClusterNotFoundFaultError
+  >;
+
   /**
    * @see {@link DescribeDBClusterParameterGroupsCommand}
    */
@@ -1795,6 +1921,14 @@ interface RDSService$ {
     Cause.TimeoutException | SdkError | DBParameterGroupNotFoundFaultError
   >;
 
+  describeDBClusterParameterGroupsStream(
+    args: DescribeDBClusterParameterGroupsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeDBClusterParameterGroupsCommandOutput,
+    Cause.TimeoutException | SdkError | DBParameterGroupNotFoundFaultError
+  >;
+
   /**
    * @see {@link DescribeDBClusterParametersCommand}
    */
@@ -1802,6 +1936,14 @@ interface RDSService$ {
     args: DescribeDBClusterParametersCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeDBClusterParametersCommandOutput,
+    Cause.TimeoutException | SdkError | DBParameterGroupNotFoundFaultError
+  >;
+
+  describeDBClusterParametersStream(
+    args: DescribeDBClusterParametersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeDBClusterParametersCommandOutput,
     Cause.TimeoutException | SdkError | DBParameterGroupNotFoundFaultError
   >;
@@ -1828,6 +1970,14 @@ interface RDSService$ {
     Cause.TimeoutException | SdkError | DBClusterSnapshotNotFoundFaultError
   >;
 
+  describeDBClusterSnapshotsStream(
+    args: DescribeDBClusterSnapshotsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeDBClusterSnapshotsCommandOutput,
+    Cause.TimeoutException | SdkError | DBClusterSnapshotNotFoundFaultError
+  >;
+
   /**
    * @see {@link DescribeDBClustersCommand}
    */
@@ -1838,6 +1988,11 @@ interface RDSService$ {
     DescribeDBClustersCommandOutput,
     Cause.TimeoutException | SdkError | DBClusterNotFoundFaultError
   >;
+
+  describeDBClustersStream(
+    args: DescribeDBClustersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeDBClustersCommandOutput, Cause.TimeoutException | SdkError | DBClusterNotFoundFaultError>;
 
   /**
    * @see {@link DescribeDBEngineVersionsCommand}
@@ -1850,6 +2005,11 @@ interface RDSService$ {
     Cause.TimeoutException | SdkError
   >;
 
+  describeDBEngineVersionsStream(
+    args: DescribeDBEngineVersionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeDBEngineVersionsCommandOutput, Cause.TimeoutException | SdkError>;
+
   /**
    * @see {@link DescribeDBInstanceAutomatedBackupsCommand}
    */
@@ -1857,6 +2017,14 @@ interface RDSService$ {
     args: DescribeDBInstanceAutomatedBackupsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeDBInstanceAutomatedBackupsCommandOutput,
+    Cause.TimeoutException | SdkError | DBInstanceAutomatedBackupNotFoundFaultError
+  >;
+
+  describeDBInstanceAutomatedBackupsStream(
+    args: DescribeDBInstanceAutomatedBackupsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeDBInstanceAutomatedBackupsCommandOutput,
     Cause.TimeoutException | SdkError | DBInstanceAutomatedBackupNotFoundFaultError
   >;
@@ -1872,6 +2040,11 @@ interface RDSService$ {
     Cause.TimeoutException | SdkError | DBInstanceNotFoundFaultError
   >;
 
+  describeDBInstancesStream(
+    args: DescribeDBInstancesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeDBInstancesCommandOutput, Cause.TimeoutException | SdkError | DBInstanceNotFoundFaultError>;
+
   /**
    * @see {@link DescribeDBLogFilesCommand}
    */
@@ -1879,6 +2052,14 @@ interface RDSService$ {
     args: DescribeDBLogFilesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeDBLogFilesCommandOutput,
+    Cause.TimeoutException | SdkError | DBInstanceNotFoundFaultError | DBInstanceNotReadyFaultError
+  >;
+
+  describeDBLogFilesStream(
+    args: DescribeDBLogFilesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeDBLogFilesCommandOutput,
     Cause.TimeoutException | SdkError | DBInstanceNotFoundFaultError | DBInstanceNotReadyFaultError
   >;
@@ -1894,6 +2075,11 @@ interface RDSService$ {
     Cause.TimeoutException | SdkError
   >;
 
+  describeDBMajorEngineVersionsStream(
+    args: DescribeDBMajorEngineVersionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeDBMajorEngineVersionsCommandOutput, Cause.TimeoutException | SdkError>;
+
   /**
    * @see {@link DescribeDBParameterGroupsCommand}
    */
@@ -1901,6 +2087,14 @@ interface RDSService$ {
     args: DescribeDBParameterGroupsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeDBParameterGroupsCommandOutput,
+    Cause.TimeoutException | SdkError | DBParameterGroupNotFoundFaultError
+  >;
+
+  describeDBParameterGroupsStream(
+    args: DescribeDBParameterGroupsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeDBParameterGroupsCommandOutput,
     Cause.TimeoutException | SdkError | DBParameterGroupNotFoundFaultError
   >;
@@ -1916,6 +2110,14 @@ interface RDSService$ {
     Cause.TimeoutException | SdkError | DBParameterGroupNotFoundFaultError
   >;
 
+  describeDBParametersStream(
+    args: DescribeDBParametersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeDBParametersCommandOutput,
+    Cause.TimeoutException | SdkError | DBParameterGroupNotFoundFaultError
+  >;
+
   /**
    * @see {@link DescribeDBProxiesCommand}
    */
@@ -1926,6 +2128,11 @@ interface RDSService$ {
     DescribeDBProxiesCommandOutput,
     Cause.TimeoutException | SdkError | DBProxyNotFoundFaultError
   >;
+
+  describeDBProxiesStream(
+    args: DescribeDBProxiesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeDBProxiesCommandOutput, Cause.TimeoutException | SdkError | DBProxyNotFoundFaultError>;
 
   /**
    * @see {@link DescribeDBProxyEndpointsCommand}
@@ -1938,6 +2145,14 @@ interface RDSService$ {
     Cause.TimeoutException | SdkError | DBProxyEndpointNotFoundFaultError | DBProxyNotFoundFaultError
   >;
 
+  describeDBProxyEndpointsStream(
+    args: DescribeDBProxyEndpointsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeDBProxyEndpointsCommandOutput,
+    Cause.TimeoutException | SdkError | DBProxyEndpointNotFoundFaultError | DBProxyNotFoundFaultError
+  >;
+
   /**
    * @see {@link DescribeDBProxyTargetGroupsCommand}
    */
@@ -1945,6 +2160,18 @@ interface RDSService$ {
     args: DescribeDBProxyTargetGroupsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeDBProxyTargetGroupsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | DBProxyNotFoundFaultError
+    | DBProxyTargetGroupNotFoundFaultError
+    | InvalidDBProxyStateFaultError
+  >;
+
+  describeDBProxyTargetGroupsStream(
+    args: DescribeDBProxyTargetGroupsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeDBProxyTargetGroupsCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -1969,6 +2196,19 @@ interface RDSService$ {
     | InvalidDBProxyStateFaultError
   >;
 
+  describeDBProxyTargetsStream(
+    args: DescribeDBProxyTargetsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeDBProxyTargetsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | DBProxyNotFoundFaultError
+    | DBProxyTargetGroupNotFoundFaultError
+    | DBProxyTargetNotFoundFaultError
+    | InvalidDBProxyStateFaultError
+  >;
+
   /**
    * @see {@link DescribeDBRecommendationsCommand}
    */
@@ -1980,6 +2220,11 @@ interface RDSService$ {
     Cause.TimeoutException | SdkError
   >;
 
+  describeDBRecommendationsStream(
+    args: DescribeDBRecommendationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeDBRecommendationsCommandOutput, Cause.TimeoutException | SdkError>;
+
   /**
    * @see {@link DescribeDBSecurityGroupsCommand}
    */
@@ -1987,6 +2232,14 @@ interface RDSService$ {
     args: DescribeDBSecurityGroupsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeDBSecurityGroupsCommandOutput,
+    Cause.TimeoutException | SdkError | DBSecurityGroupNotFoundFaultError
+  >;
+
+  describeDBSecurityGroupsStream(
+    args: DescribeDBSecurityGroupsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeDBSecurityGroupsCommandOutput,
     Cause.TimeoutException | SdkError | DBSecurityGroupNotFoundFaultError
   >;
@@ -2024,6 +2277,14 @@ interface RDSService$ {
     Cause.TimeoutException | SdkError | DBSnapshotNotFoundFaultError
   >;
 
+  describeDBSnapshotTenantDatabasesStream(
+    args: DescribeDBSnapshotTenantDatabasesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeDBSnapshotTenantDatabasesCommandOutput,
+    Cause.TimeoutException | SdkError | DBSnapshotNotFoundFaultError
+  >;
+
   /**
    * @see {@link DescribeDBSnapshotsCommand}
    */
@@ -2035,6 +2296,11 @@ interface RDSService$ {
     Cause.TimeoutException | SdkError | DBSnapshotNotFoundFaultError
   >;
 
+  describeDBSnapshotsStream(
+    args: DescribeDBSnapshotsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeDBSnapshotsCommandOutput, Cause.TimeoutException | SdkError | DBSnapshotNotFoundFaultError>;
+
   /**
    * @see {@link DescribeDBSubnetGroupsCommand}
    */
@@ -2042,6 +2308,14 @@ interface RDSService$ {
     args: DescribeDBSubnetGroupsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeDBSubnetGroupsCommandOutput,
+    Cause.TimeoutException | SdkError | DBSubnetGroupNotFoundFaultError
+  >;
+
+  describeDBSubnetGroupsStream(
+    args: DescribeDBSubnetGroupsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeDBSubnetGroupsCommandOutput,
     Cause.TimeoutException | SdkError | DBSubnetGroupNotFoundFaultError
   >;
@@ -2057,6 +2331,11 @@ interface RDSService$ {
     Cause.TimeoutException | SdkError
   >;
 
+  describeEngineDefaultClusterParametersStream(
+    args: DescribeEngineDefaultClusterParametersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeEngineDefaultClusterParametersCommandOutput, Cause.TimeoutException | SdkError>;
+
   /**
    * @see {@link DescribeEngineDefaultParametersCommand}
    */
@@ -2067,6 +2346,11 @@ interface RDSService$ {
     DescribeEngineDefaultParametersCommandOutput,
     Cause.TimeoutException | SdkError
   >;
+
+  describeEngineDefaultParametersStream(
+    args: DescribeEngineDefaultParametersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeEngineDefaultParametersCommandOutput, Cause.TimeoutException | SdkError>;
 
   /**
    * @see {@link DescribeEventCategoriesCommand}
@@ -2090,6 +2374,14 @@ interface RDSService$ {
     Cause.TimeoutException | SdkError | SubscriptionNotFoundFaultError
   >;
 
+  describeEventSubscriptionsStream(
+    args: DescribeEventSubscriptionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeEventSubscriptionsCommandOutput,
+    Cause.TimeoutException | SdkError | SubscriptionNotFoundFaultError
+  >;
+
   /**
    * @see {@link DescribeEventsCommand}
    */
@@ -2100,6 +2392,11 @@ interface RDSService$ {
     DescribeEventsCommandOutput,
     Cause.TimeoutException | SdkError
   >;
+
+  describeEventsStream(
+    args: DescribeEventsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeEventsCommandOutput, Cause.TimeoutException | SdkError>;
 
   /**
    * @see {@link DescribeExportTasksCommand}
@@ -2112,6 +2409,11 @@ interface RDSService$ {
     Cause.TimeoutException | SdkError | ExportTaskNotFoundFaultError
   >;
 
+  describeExportTasksStream(
+    args: DescribeExportTasksCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeExportTasksCommandOutput, Cause.TimeoutException | SdkError | ExportTaskNotFoundFaultError>;
+
   /**
    * @see {@link DescribeGlobalClustersCommand}
    */
@@ -2119,6 +2421,14 @@ interface RDSService$ {
     args: DescribeGlobalClustersCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeGlobalClustersCommandOutput,
+    Cause.TimeoutException | SdkError | GlobalClusterNotFoundFaultError
+  >;
+
+  describeGlobalClustersStream(
+    args: DescribeGlobalClustersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeGlobalClustersCommandOutput,
     Cause.TimeoutException | SdkError | GlobalClusterNotFoundFaultError
   >;
@@ -2134,6 +2444,14 @@ interface RDSService$ {
     Cause.TimeoutException | SdkError | IntegrationNotFoundFaultError
   >;
 
+  describeIntegrationsStream(
+    args: DescribeIntegrationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeIntegrationsCommandOutput,
+    Cause.TimeoutException | SdkError | IntegrationNotFoundFaultError
+  >;
+
   /**
    * @see {@link DescribeOptionGroupOptionsCommand}
    */
@@ -2145,6 +2463,11 @@ interface RDSService$ {
     Cause.TimeoutException | SdkError
   >;
 
+  describeOptionGroupOptionsStream(
+    args: DescribeOptionGroupOptionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeOptionGroupOptionsCommandOutput, Cause.TimeoutException | SdkError>;
+
   /**
    * @see {@link DescribeOptionGroupsCommand}
    */
@@ -2152,6 +2475,14 @@ interface RDSService$ {
     args: DescribeOptionGroupsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeOptionGroupsCommandOutput,
+    Cause.TimeoutException | SdkError | OptionGroupNotFoundFaultError
+  >;
+
+  describeOptionGroupsStream(
+    args: DescribeOptionGroupsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeOptionGroupsCommandOutput,
     Cause.TimeoutException | SdkError | OptionGroupNotFoundFaultError
   >;
@@ -2167,6 +2498,11 @@ interface RDSService$ {
     Cause.TimeoutException | SdkError
   >;
 
+  describeOrderableDBInstanceOptionsStream(
+    args: DescribeOrderableDBInstanceOptionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeOrderableDBInstanceOptionsCommandOutput, Cause.TimeoutException | SdkError>;
+
   /**
    * @see {@link DescribePendingMaintenanceActionsCommand}
    */
@@ -2174,6 +2510,14 @@ interface RDSService$ {
     args: DescribePendingMaintenanceActionsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribePendingMaintenanceActionsCommandOutput,
+    Cause.TimeoutException | SdkError | ResourceNotFoundFaultError
+  >;
+
+  describePendingMaintenanceActionsStream(
+    args: DescribePendingMaintenanceActionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribePendingMaintenanceActionsCommandOutput,
     Cause.TimeoutException | SdkError | ResourceNotFoundFaultError
   >;
@@ -2189,6 +2533,14 @@ interface RDSService$ {
     Cause.TimeoutException | SdkError | ReservedDBInstanceNotFoundFaultError
   >;
 
+  describeReservedDBInstancesStream(
+    args: DescribeReservedDBInstancesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeReservedDBInstancesCommandOutput,
+    Cause.TimeoutException | SdkError | ReservedDBInstanceNotFoundFaultError
+  >;
+
   /**
    * @see {@link DescribeReservedDBInstancesOfferingsCommand}
    */
@@ -2196,6 +2548,14 @@ interface RDSService$ {
     args: DescribeReservedDBInstancesOfferingsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeReservedDBInstancesOfferingsCommandOutput,
+    Cause.TimeoutException | SdkError | ReservedDBInstancesOfferingNotFoundFaultError
+  >;
+
+  describeReservedDBInstancesOfferingsStream(
+    args: DescribeReservedDBInstancesOfferingsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeReservedDBInstancesOfferingsCommandOutput,
     Cause.TimeoutException | SdkError | ReservedDBInstancesOfferingNotFoundFaultError
   >;
@@ -2211,6 +2571,11 @@ interface RDSService$ {
     Cause.TimeoutException | SdkError
   >;
 
+  describeSourceRegionsStream(
+    args: DescribeSourceRegionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeSourceRegionsCommandOutput, Cause.TimeoutException | SdkError>;
+
   /**
    * @see {@link DescribeTenantDatabasesCommand}
    */
@@ -2218,6 +2583,14 @@ interface RDSService$ {
     args: DescribeTenantDatabasesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeTenantDatabasesCommandOutput,
+    Cause.TimeoutException | SdkError | DBInstanceNotFoundFaultError
+  >;
+
+  describeTenantDatabasesStream(
+    args: DescribeTenantDatabasesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeTenantDatabasesCommandOutput,
     Cause.TimeoutException | SdkError | DBInstanceNotFoundFaultError
   >;
@@ -2251,6 +2624,18 @@ interface RDSService$ {
     args: DownloadDBLogFilePortionCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DownloadDBLogFilePortionCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | DBInstanceNotFoundFaultError
+    | DBInstanceNotReadyFaultError
+    | DBLogFileNotFoundFaultError
+  >;
+
+  downloadDBLogFilePortionStream(
+    args: DownloadDBLogFilePortionCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DownloadDBLogFilePortionCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -3339,6 +3724,7 @@ export const makeRDSService = Effect.gen(function*() {
       errorTags: AllServiceErrors,
       resolveClientConfig: RDSServiceConfig.toRDSClientConfig,
     },
+    paginators,
   );
 });
 

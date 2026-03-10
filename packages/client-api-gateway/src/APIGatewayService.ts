@@ -277,6 +277,18 @@ import {
   ImportRestApiCommand,
   type ImportRestApiCommandInput,
   type ImportRestApiCommandOutput,
+  paginateGetApiKeys,
+  paginateGetBasePathMappings,
+  paginateGetClientCertificates,
+  paginateGetDeployments,
+  paginateGetDomainNames,
+  paginateGetModels,
+  paginateGetResources,
+  paginateGetRestApis,
+  paginateGetUsage,
+  paginateGetUsagePlanKeys,
+  paginateGetUsagePlans,
+  paginateGetVpcLinks,
   PutGatewayResponseCommand,
   type PutGatewayResponseCommandInput,
   type PutGatewayResponseCommandOutput,
@@ -383,6 +395,7 @@ import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
+import type * as Stream from "effect/Stream";
 import * as Instance from "./APIGatewayClientInstance.js";
 import * as APIGatewayServiceConfig from "./APIGatewayServiceConfig.js";
 import type {
@@ -522,6 +535,21 @@ const commands = {
   UpdateUsageCommand,
   UpdateUsagePlanCommand,
   UpdateVpcLinkCommand,
+};
+
+const paginators = {
+  paginateGetApiKeys,
+  paginateGetBasePathMappings,
+  paginateGetClientCertificates,
+  paginateGetDeployments,
+  paginateGetDomainNames,
+  paginateGetModels,
+  paginateGetResources,
+  paginateGetRestApis,
+  paginateGetUsage,
+  paginateGetUsagePlanKeys,
+  paginateGetUsagePlans,
+  paginateGetVpcLinks,
 };
 
 interface APIGatewayService$ {
@@ -1268,6 +1296,14 @@ interface APIGatewayService$ {
     Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
+  getApiKeysStream(
+    args: GetApiKeysCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    GetApiKeysCommandOutput,
+    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+  >;
+
   /**
    * @see {@link GetAuthorizerCommand}
    */
@@ -1312,6 +1348,14 @@ interface APIGatewayService$ {
     Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
+  getBasePathMappingsStream(
+    args: GetBasePathMappingsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    GetBasePathMappingsCommandOutput,
+    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+  >;
+
   /**
    * @see {@link GetClientCertificateCommand}
    */
@@ -1330,6 +1374,14 @@ interface APIGatewayService$ {
     args: GetClientCertificatesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    GetClientCertificatesCommandOutput,
+    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+  >;
+
+  getClientCertificatesStream(
+    args: GetClientCertificatesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     GetClientCertificatesCommandOutput,
     Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
@@ -1358,6 +1410,20 @@ interface APIGatewayService$ {
     args: GetDeploymentsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    GetDeploymentsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | BadRequestError
+    | NotFoundError
+    | ServiceUnavailableError
+    | TooManyRequestsError
+    | UnauthorizedError
+  >;
+
+  getDeploymentsStream(
+    args: GetDeploymentsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     GetDeploymentsCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -1441,6 +1507,14 @@ interface APIGatewayService$ {
     args: GetDomainNamesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    GetDomainNamesCommandOutput,
+    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+  >;
+
+  getDomainNamesStream(
+    args: GetDomainNamesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     GetDomainNamesCommandOutput,
     Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
@@ -1562,6 +1636,14 @@ interface APIGatewayService$ {
     Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
+  getModelsStream(
+    args: GetModelsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    GetModelsCommandOutput,
+    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+  >;
+
   /**
    * @see {@link GetRequestValidatorCommand}
    */
@@ -1606,6 +1688,14 @@ interface APIGatewayService$ {
     Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
+  getResourcesStream(
+    args: GetResourcesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    GetResourcesCommandOutput,
+    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+  >;
+
   /**
    * @see {@link GetRestApiCommand}
    */
@@ -1624,6 +1714,14 @@ interface APIGatewayService$ {
     args: GetRestApisCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    GetRestApisCommandOutput,
+    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+  >;
+
+  getRestApisStream(
+    args: GetRestApisCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     GetRestApisCommandOutput,
     Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
@@ -1726,6 +1824,14 @@ interface APIGatewayService$ {
     Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
+  getUsageStream(
+    args: GetUsageCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    GetUsageCommandOutput,
+    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+  >;
+
   /**
    * @see {@link GetUsagePlanCommand}
    */
@@ -1759,6 +1865,14 @@ interface APIGatewayService$ {
     Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
+  getUsagePlanKeysStream(
+    args: GetUsagePlanKeysCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    GetUsagePlanKeysCommandOutput,
+    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+  >;
+
   /**
    * @see {@link GetUsagePlansCommand}
    */
@@ -1766,6 +1880,14 @@ interface APIGatewayService$ {
     args: GetUsagePlansCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    GetUsagePlansCommandOutput,
+    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+  >;
+
+  getUsagePlansStream(
+    args: GetUsagePlansCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     GetUsagePlansCommandOutput,
     Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
@@ -1788,6 +1910,14 @@ interface APIGatewayService$ {
     args: GetVpcLinksCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    GetVpcLinksCommandOutput,
+    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+  >;
+
+  getVpcLinksStream(
+    args: GetVpcLinksCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     GetVpcLinksCommandOutput,
     Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
@@ -2439,6 +2569,7 @@ export const makeAPIGatewayService = Effect.gen(function*() {
       errorTags: AllServiceErrors,
       resolveClientConfig: APIGatewayServiceConfig.toAPIGatewayClientConfig,
     },
+    paginators,
   );
 });
 

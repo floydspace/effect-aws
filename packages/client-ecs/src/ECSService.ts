@@ -121,6 +121,15 @@ import {
   ListTasksCommand,
   type ListTasksCommandInput,
   type ListTasksCommandOutput,
+  paginateListAccountSettings,
+  paginateListAttributes,
+  paginateListClusters,
+  paginateListContainerInstances,
+  paginateListServices,
+  paginateListServicesByNamespace,
+  paginateListTaskDefinitionFamilies,
+  paginateListTaskDefinitions,
+  paginateListTasks,
   PutAccountSettingCommand,
   type PutAccountSettingCommandInput,
   type PutAccountSettingCommandOutput,
@@ -203,6 +212,7 @@ import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
+import type * as Stream from "effect/Stream";
 import * as Instance from "./ECSClientInstance.js";
 import * as ECSServiceConfig from "./ECSServiceConfig.js";
 import type {
@@ -303,6 +313,18 @@ const commands = {
   UpdateServicePrimaryTaskSetCommand,
   UpdateTaskProtectionCommand,
   UpdateTaskSetCommand,
+};
+
+const paginators = {
+  paginateListAccountSettings,
+  paginateListAttributes,
+  paginateListClusters,
+  paginateListContainerInstances,
+  paginateListServices,
+  paginateListServicesByNamespace,
+  paginateListTaskDefinitionFamilies,
+  paginateListTaskDefinitions,
+  paginateListTasks,
 };
 
 interface ECSService$ {
@@ -761,6 +783,14 @@ interface ECSService$ {
     Cause.TimeoutException | SdkError | ClientError | InvalidParameterError | ServerError
   >;
 
+  listAccountSettingsStream(
+    args: ListAccountSettingsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListAccountSettingsCommandOutput,
+    Cause.TimeoutException | SdkError | ClientError | InvalidParameterError | ServerError
+  >;
+
   /**
    * @see {@link ListAttributesCommand}
    */
@@ -768,6 +798,14 @@ interface ECSService$ {
     args: ListAttributesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListAttributesCommandOutput,
+    Cause.TimeoutException | SdkError | ClusterNotFoundError | InvalidParameterError
+  >;
+
+  listAttributesStream(
+    args: ListAttributesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListAttributesCommandOutput,
     Cause.TimeoutException | SdkError | ClusterNotFoundError | InvalidParameterError
   >;
@@ -783,6 +821,14 @@ interface ECSService$ {
     Cause.TimeoutException | SdkError | ClientError | InvalidParameterError | ServerError
   >;
 
+  listClustersStream(
+    args: ListClustersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListClustersCommandOutput,
+    Cause.TimeoutException | SdkError | ClientError | InvalidParameterError | ServerError
+  >;
+
   /**
    * @see {@link ListContainerInstancesCommand}
    */
@@ -790,6 +836,14 @@ interface ECSService$ {
     args: ListContainerInstancesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListContainerInstancesCommandOutput,
+    Cause.TimeoutException | SdkError | ClientError | ClusterNotFoundError | InvalidParameterError | ServerError
+  >;
+
+  listContainerInstancesStream(
+    args: ListContainerInstancesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListContainerInstancesCommandOutput,
     Cause.TimeoutException | SdkError | ClientError | ClusterNotFoundError | InvalidParameterError | ServerError
   >;
@@ -823,6 +877,14 @@ interface ECSService$ {
     Cause.TimeoutException | SdkError | ClientError | ClusterNotFoundError | InvalidParameterError | ServerError
   >;
 
+  listServicesStream(
+    args: ListServicesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListServicesCommandOutput,
+    Cause.TimeoutException | SdkError | ClientError | ClusterNotFoundError | InvalidParameterError | ServerError
+  >;
+
   /**
    * @see {@link ListServicesByNamespaceCommand}
    */
@@ -830,6 +892,14 @@ interface ECSService$ {
     args: ListServicesByNamespaceCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListServicesByNamespaceCommandOutput,
+    Cause.TimeoutException | SdkError | ClientError | InvalidParameterError | NamespaceNotFoundError | ServerError
+  >;
+
+  listServicesByNamespaceStream(
+    args: ListServicesByNamespaceCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListServicesByNamespaceCommandOutput,
     Cause.TimeoutException | SdkError | ClientError | InvalidParameterError | NamespaceNotFoundError | ServerError
   >;
@@ -856,6 +926,14 @@ interface ECSService$ {
     Cause.TimeoutException | SdkError | ClientError | InvalidParameterError | ServerError
   >;
 
+  listTaskDefinitionFamiliesStream(
+    args: ListTaskDefinitionFamiliesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListTaskDefinitionFamiliesCommandOutput,
+    Cause.TimeoutException | SdkError | ClientError | InvalidParameterError | ServerError
+  >;
+
   /**
    * @see {@link ListTaskDefinitionsCommand}
    */
@@ -867,6 +945,14 @@ interface ECSService$ {
     Cause.TimeoutException | SdkError | ClientError | InvalidParameterError | ServerError
   >;
 
+  listTaskDefinitionsStream(
+    args: ListTaskDefinitionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListTaskDefinitionsCommandOutput,
+    Cause.TimeoutException | SdkError | ClientError | InvalidParameterError | ServerError
+  >;
+
   /**
    * @see {@link ListTasksCommand}
    */
@@ -874,6 +960,20 @@ interface ECSService$ {
     args: ListTasksCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListTasksCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | ClientError
+    | ClusterNotFoundError
+    | InvalidParameterError
+    | ServerError
+    | ServiceNotFoundError
+  >;
+
+  listTasksStream(
+    args: ListTasksCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListTasksCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -1292,6 +1392,7 @@ export const makeECSService = Effect.gen(function*() {
       errorTags: AllServiceErrors,
       resolveClientConfig: ECSServiceConfig.toECSClientConfig,
     },
+    paginators,
   );
 });
 

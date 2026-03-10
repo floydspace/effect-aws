@@ -128,6 +128,8 @@ import {
   ListVerifiedEmailAddressesCommand,
   type ListVerifiedEmailAddressesCommandInput,
   type ListVerifiedEmailAddressesCommandOutput,
+  paginateListCustomVerificationEmailTemplates,
+  paginateListIdentities,
   PutConfigurationSetDeliveryOptionsCommand,
   type PutConfigurationSetDeliveryOptionsCommandInput,
   type PutConfigurationSetDeliveryOptionsCommandOutput,
@@ -224,6 +226,7 @@ import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
+import type * as Stream from "effect/Stream";
 import type {
   AccountSendingPausedError,
   AlreadyExistsError,
@@ -337,6 +340,11 @@ const commands = {
   VerifyDomainIdentityCommand,
   VerifyEmailAddressCommand,
   VerifyEmailIdentityCommand,
+};
+
+const paginators = {
+  paginateListCustomVerificationEmailTemplates,
+  paginateListIdentities,
 };
 
 interface SESService$ {
@@ -766,6 +774,11 @@ interface SESService$ {
     Cause.TimeoutException | SdkError
   >;
 
+  listCustomVerificationEmailTemplatesStream(
+    args: ListCustomVerificationEmailTemplatesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListCustomVerificationEmailTemplatesCommandOutput, Cause.TimeoutException | SdkError>;
+
   /**
    * @see {@link ListIdentitiesCommand}
    */
@@ -776,6 +789,11 @@ interface SESService$ {
     ListIdentitiesCommandOutput,
     Cause.TimeoutException | SdkError
   >;
+
+  listIdentitiesStream(
+    args: ListIdentitiesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListIdentitiesCommandOutput, Cause.TimeoutException | SdkError>;
 
   /**
    * @see {@link ListIdentityPoliciesCommand}
@@ -1223,6 +1241,7 @@ export const makeSESService = Effect.gen(function*() {
       errorTags: AllServiceErrors,
       resolveClientConfig: SESServiceConfig.toSESClientConfig,
     },
+    paginators,
   );
 });
 

@@ -31,6 +31,7 @@ import {
   ListAsyncInvokesCommand,
   type ListAsyncInvokesCommandInput,
   type ListAsyncInvokesCommandOutput,
+  paginateListAsyncInvokes,
   StartAsyncInvokeCommand,
   type StartAsyncInvokeCommandInput,
   type StartAsyncInvokeCommandOutput,
@@ -41,6 +42,7 @@ import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
+import type * as Stream from "effect/Stream";
 import * as Instance from "./BedrockRuntimeClientInstance.js";
 import * as BedrockRuntimeServiceConfig from "./BedrockRuntimeServiceConfig.js";
 import type {
@@ -71,6 +73,10 @@ const commands = {
   InvokeModelWithResponseStreamCommand,
   ListAsyncInvokesCommand,
   StartAsyncInvokeCommand,
+};
+
+const paginators = {
+  paginateListAsyncInvokes,
 };
 
 interface BedrockRuntimeService$ {
@@ -245,6 +251,14 @@ interface BedrockRuntimeService$ {
     Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
+  listAsyncInvokesStream(
+    args: ListAsyncInvokesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListAsyncInvokesCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+  >;
+
   /**
    * @see {@link StartAsyncInvokeCommand}
    */
@@ -280,6 +294,7 @@ export const makeBedrockRuntimeService = Effect.gen(function*() {
       errorTags: AllServiceErrors,
       resolveClientConfig: BedrockRuntimeServiceConfig.toBedrockRuntimeClientConfig,
     },
+    paginators,
   );
 });
 

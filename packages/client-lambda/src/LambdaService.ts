@@ -184,6 +184,22 @@ import {
   ListVersionsByFunctionCommand,
   type ListVersionsByFunctionCommandInput,
   type ListVersionsByFunctionCommandOutput,
+  paginateGetDurableExecutionHistory,
+  paginateGetDurableExecutionState,
+  paginateListAliases,
+  paginateListCapacityProviders,
+  paginateListCodeSigningConfigs,
+  paginateListDurableExecutionsByFunction,
+  paginateListEventSourceMappings,
+  paginateListFunctionEventInvokeConfigs,
+  paginateListFunctions,
+  paginateListFunctionsByCodeSigningConfig,
+  paginateListFunctionUrlConfigs,
+  paginateListFunctionVersionsByCapacityProvider,
+  paginateListLayers,
+  paginateListLayerVersions,
+  paginateListProvisionedConcurrencyConfigs,
+  paginateListVersionsByFunction,
   PublishLayerVersionCommand,
   type PublishLayerVersionCommandInput,
   type PublishLayerVersionCommandOutput,
@@ -266,6 +282,7 @@ import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
+import type * as Stream from "effect/Stream";
 import type {
   CallbackTimeoutError,
   CapacityProviderLimitExceededError,
@@ -403,6 +420,25 @@ const commands = {
   UpdateFunctionConfigurationCommand,
   UpdateFunctionEventInvokeConfigCommand,
   UpdateFunctionUrlConfigCommand,
+};
+
+const paginators = {
+  paginateGetDurableExecutionHistory,
+  paginateGetDurableExecutionState,
+  paginateListAliases,
+  paginateListCapacityProviders,
+  paginateListCodeSigningConfigs,
+  paginateListDurableExecutionsByFunction,
+  paginateListEventSourceMappings,
+  paginateListFunctionEventInvokeConfigs,
+  paginateListFunctionUrlConfigs,
+  paginateListFunctionVersionsByCapacityProvider,
+  paginateListFunctions,
+  paginateListFunctionsByCodeSigningConfig,
+  paginateListLayerVersions,
+  paginateListLayers,
+  paginateListProvisionedConcurrencyConfigs,
+  paginateListVersionsByFunction,
 };
 
 interface LambdaService$ {
@@ -824,6 +860,19 @@ interface LambdaService$ {
     | TooManyRequestsError
   >;
 
+  getDurableExecutionHistoryStream(
+    args: GetDurableExecutionHistoryCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    GetDurableExecutionHistoryCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
+
   /**
    * @see {@link GetDurableExecutionStateCommand}
    */
@@ -831,6 +880,14 @@ interface LambdaService$ {
     args: GetDurableExecutionStateCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    GetDurableExecutionStateCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidParameterValueError | ServiceError | TooManyRequestsError
+  >;
+
+  getDurableExecutionStateStream(
+    args: GetDurableExecutionStateCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     GetDurableExecutionStateCommandOutput,
     Cause.TimeoutException | SdkError | InvalidParameterValueError | ServiceError | TooManyRequestsError
   >;
@@ -1198,6 +1255,19 @@ interface LambdaService$ {
     | TooManyRequestsError
   >;
 
+  listAliasesStream(
+    args: ListAliasesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListAliasesCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
+
   /**
    * @see {@link ListCapacityProvidersCommand}
    */
@@ -1205,6 +1275,14 @@ interface LambdaService$ {
     args: ListCapacityProvidersCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListCapacityProvidersCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidParameterValueError | ServiceError | TooManyRequestsError
+  >;
+
+  listCapacityProvidersStream(
+    args: ListCapacityProvidersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListCapacityProvidersCommandOutput,
     Cause.TimeoutException | SdkError | InvalidParameterValueError | ServiceError | TooManyRequestsError
   >;
@@ -1220,6 +1298,14 @@ interface LambdaService$ {
     Cause.TimeoutException | SdkError | InvalidParameterValueError | ServiceError
   >;
 
+  listCodeSigningConfigsStream(
+    args: ListCodeSigningConfigsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListCodeSigningConfigsCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidParameterValueError | ServiceError
+  >;
+
   /**
    * @see {@link ListDurableExecutionsByFunctionCommand}
    */
@@ -1227,6 +1313,19 @@ interface LambdaService$ {
     args: ListDurableExecutionsByFunctionCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListDurableExecutionsByFunctionCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
+
+  listDurableExecutionsByFunctionStream(
+    args: ListDurableExecutionsByFunctionCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListDurableExecutionsByFunctionCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -1252,6 +1351,19 @@ interface LambdaService$ {
     | TooManyRequestsError
   >;
 
+  listEventSourceMappingsStream(
+    args: ListEventSourceMappingsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListEventSourceMappingsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
+
   /**
    * @see {@link ListFunctionEventInvokeConfigsCommand}
    */
@@ -1259,6 +1371,19 @@ interface LambdaService$ {
     args: ListFunctionEventInvokeConfigsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListFunctionEventInvokeConfigsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
+
+  listFunctionEventInvokeConfigsStream(
+    args: ListFunctionEventInvokeConfigsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListFunctionEventInvokeConfigsCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -1284,6 +1409,19 @@ interface LambdaService$ {
     | TooManyRequestsError
   >;
 
+  listFunctionUrlConfigsStream(
+    args: ListFunctionUrlConfigsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListFunctionUrlConfigsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
+
   /**
    * @see {@link ListFunctionVersionsByCapacityProviderCommand}
    */
@@ -1291,6 +1429,19 @@ interface LambdaService$ {
     args: ListFunctionVersionsByCapacityProviderCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListFunctionVersionsByCapacityProviderCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
+
+  listFunctionVersionsByCapacityProviderStream(
+    args: ListFunctionVersionsByCapacityProviderCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListFunctionVersionsByCapacityProviderCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -1311,6 +1462,14 @@ interface LambdaService$ {
     Cause.TimeoutException | SdkError | InvalidParameterValueError | ServiceError | TooManyRequestsError
   >;
 
+  listFunctionsStream(
+    args: ListFunctionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListFunctionsCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidParameterValueError | ServiceError | TooManyRequestsError
+  >;
+
   /**
    * @see {@link ListFunctionsByCodeSigningConfigCommand}
    */
@@ -1318,6 +1477,14 @@ interface LambdaService$ {
     args: ListFunctionsByCodeSigningConfigCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListFunctionsByCodeSigningConfigCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidParameterValueError | ResourceNotFoundError | ServiceError
+  >;
+
+  listFunctionsByCodeSigningConfigStream(
+    args: ListFunctionsByCodeSigningConfigCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListFunctionsByCodeSigningConfigCommandOutput,
     Cause.TimeoutException | SdkError | InvalidParameterValueError | ResourceNotFoundError | ServiceError
   >;
@@ -1338,6 +1505,19 @@ interface LambdaService$ {
     | TooManyRequestsError
   >;
 
+  listLayerVersionsStream(
+    args: ListLayerVersionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListLayerVersionsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
+
   /**
    * @see {@link ListLayersCommand}
    */
@@ -1349,6 +1529,14 @@ interface LambdaService$ {
     Cause.TimeoutException | SdkError | InvalidParameterValueError | ServiceError | TooManyRequestsError
   >;
 
+  listLayersStream(
+    args: ListLayersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListLayersCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidParameterValueError | ServiceError | TooManyRequestsError
+  >;
+
   /**
    * @see {@link ListProvisionedConcurrencyConfigsCommand}
    */
@@ -1356,6 +1544,19 @@ interface LambdaService$ {
     args: ListProvisionedConcurrencyConfigsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListProvisionedConcurrencyConfigsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
+
+  listProvisionedConcurrencyConfigsStream(
+    args: ListProvisionedConcurrencyConfigsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListProvisionedConcurrencyConfigsCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -1388,6 +1589,19 @@ interface LambdaService$ {
     args: ListVersionsByFunctionCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListVersionsByFunctionCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
+
+  listVersionsByFunctionStream(
+    args: ListVersionsByFunctionCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListVersionsByFunctionCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -1842,6 +2056,7 @@ export const makeLambdaService = Effect.gen(function*() {
       errorTags: AllServiceErrors,
       resolveClientConfig: LambdaServiceConfig.toLambdaClientConfig,
     },
+    paginators,
   );
 });
 

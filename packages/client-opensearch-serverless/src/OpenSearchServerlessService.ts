@@ -5,6 +5,9 @@ import {
   BatchGetCollectionCommand,
   type BatchGetCollectionCommandInput,
   type BatchGetCollectionCommandOutput,
+  BatchGetCollectionGroupCommand,
+  type BatchGetCollectionGroupCommandInput,
+  type BatchGetCollectionGroupCommandOutput,
   BatchGetEffectiveLifecyclePolicyCommand,
   type BatchGetEffectiveLifecyclePolicyCommandInput,
   type BatchGetEffectiveLifecyclePolicyCommandOutput,
@@ -20,6 +23,9 @@ import {
   CreateCollectionCommand,
   type CreateCollectionCommandInput,
   type CreateCollectionCommandOutput,
+  CreateCollectionGroupCommand,
+  type CreateCollectionGroupCommandInput,
+  type CreateCollectionGroupCommandOutput,
   CreateIndexCommand,
   type CreateIndexCommandInput,
   type CreateIndexCommandOutput,
@@ -41,6 +47,9 @@ import {
   DeleteCollectionCommand,
   type DeleteCollectionCommandInput,
   type DeleteCollectionCommandOutput,
+  DeleteCollectionGroupCommand,
+  type DeleteCollectionGroupCommandInput,
+  type DeleteCollectionGroupCommandOutput,
   DeleteIndexCommand,
   type DeleteIndexCommandInput,
   type DeleteIndexCommandOutput,
@@ -77,6 +86,9 @@ import {
   ListAccessPoliciesCommand,
   type ListAccessPoliciesCommandInput,
   type ListAccessPoliciesCommandOutput,
+  ListCollectionGroupsCommand,
+  type ListCollectionGroupsCommandInput,
+  type ListCollectionGroupsCommandOutput,
   ListCollectionsCommand,
   type ListCollectionsCommandInput,
   type ListCollectionsCommandOutput,
@@ -97,6 +109,13 @@ import {
   type ListVpcEndpointsCommandOutput,
   type OpenSearchServerlessClient,
   type OpenSearchServerlessClientConfig,
+  paginateListAccessPolicies,
+  paginateListCollectionGroups,
+  paginateListCollections,
+  paginateListLifecyclePolicies,
+  paginateListSecurityConfigs,
+  paginateListSecurityPolicies,
+  paginateListVpcEndpoints,
   TagResourceCommand,
   type TagResourceCommandInput,
   type TagResourceCommandOutput,
@@ -112,6 +131,9 @@ import {
   UpdateCollectionCommand,
   type UpdateCollectionCommandInput,
   type UpdateCollectionCommandOutput,
+  UpdateCollectionGroupCommand,
+  type UpdateCollectionGroupCommandInput,
+  type UpdateCollectionGroupCommandOutput,
   UpdateIndexCommand,
   type UpdateIndexCommandInput,
   type UpdateIndexCommandOutput,
@@ -134,6 +156,7 @@ import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
+import type * as Stream from "effect/Stream";
 import type {
   ConflictError,
   InternalServerError,
@@ -149,11 +172,13 @@ import * as OpenSearchServerlessServiceConfig from "./OpenSearchServerlessServic
 
 const commands = {
   BatchGetCollectionCommand,
+  BatchGetCollectionGroupCommand,
   BatchGetEffectiveLifecyclePolicyCommand,
   BatchGetLifecyclePolicyCommand,
   BatchGetVpcEndpointCommand,
   CreateAccessPolicyCommand,
   CreateCollectionCommand,
+  CreateCollectionGroupCommand,
   CreateIndexCommand,
   CreateLifecyclePolicyCommand,
   CreateSecurityConfigCommand,
@@ -161,6 +186,7 @@ const commands = {
   CreateVpcEndpointCommand,
   DeleteAccessPolicyCommand,
   DeleteCollectionCommand,
+  DeleteCollectionGroupCommand,
   DeleteIndexCommand,
   DeleteLifecyclePolicyCommand,
   DeleteSecurityConfigCommand,
@@ -173,6 +199,7 @@ const commands = {
   GetSecurityConfigCommand,
   GetSecurityPolicyCommand,
   ListAccessPoliciesCommand,
+  ListCollectionGroupsCommand,
   ListCollectionsCommand,
   ListLifecyclePoliciesCommand,
   ListSecurityConfigsCommand,
@@ -184,11 +211,22 @@ const commands = {
   UpdateAccessPolicyCommand,
   UpdateAccountSettingsCommand,
   UpdateCollectionCommand,
+  UpdateCollectionGroupCommand,
   UpdateIndexCommand,
   UpdateLifecyclePolicyCommand,
   UpdateSecurityConfigCommand,
   UpdateSecurityPolicyCommand,
   UpdateVpcEndpointCommand,
+};
+
+const paginators = {
+  paginateListAccessPolicies,
+  paginateListCollectionGroups,
+  paginateListCollections,
+  paginateListLifecyclePolicies,
+  paginateListSecurityConfigs,
+  paginateListSecurityPolicies,
+  paginateListVpcEndpoints,
 };
 
 interface OpenSearchServerlessService$ {
@@ -202,6 +240,17 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchGetCollectionCommandOutput,
+    Cause.TimeoutException | SdkError | InternalServerError | ValidationError
+  >;
+
+  /**
+   * @see {@link BatchGetCollectionGroupCommand}
+   */
+  batchGetCollectionGroup(
+    args: BatchGetCollectionGroupCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    BatchGetCollectionGroupCommandOutput,
     Cause.TimeoutException | SdkError | InternalServerError | ValidationError
   >;
 
@@ -267,6 +316,22 @@ interface OpenSearchServerlessService$ {
     | ConflictError
     | InternalServerError
     | OcuLimitExceededError
+    | ServiceQuotaExceededError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link CreateCollectionGroupCommand}
+   */
+  createCollectionGroup(
+    args: CreateCollectionGroupCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateCollectionGroupCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | ConflictError
+    | InternalServerError
     | ServiceQuotaExceededError
     | ValidationError
   >;
@@ -365,6 +430,17 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteCollectionCommandOutput,
+    Cause.TimeoutException | SdkError | ConflictError | InternalServerError | ResourceNotFoundError | ValidationError
+  >;
+
+  /**
+   * @see {@link DeleteCollectionGroupCommand}
+   */
+  deleteCollectionGroup(
+    args: DeleteCollectionGroupCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteCollectionGroupCommandOutput,
     Cause.TimeoutException | SdkError | ConflictError | InternalServerError | ResourceNotFoundError | ValidationError
   >;
 
@@ -500,6 +576,33 @@ interface OpenSearchServerlessService$ {
     Cause.TimeoutException | SdkError | InternalServerError | ValidationError
   >;
 
+  listAccessPoliciesStream(
+    args: ListAccessPoliciesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListAccessPoliciesCommandOutput,
+    Cause.TimeoutException | SdkError | InternalServerError | ValidationError
+  >;
+
+  /**
+   * @see {@link ListCollectionGroupsCommand}
+   */
+  listCollectionGroups(
+    args: ListCollectionGroupsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListCollectionGroupsCommandOutput,
+    Cause.TimeoutException | SdkError | InternalServerError | ValidationError
+  >;
+
+  listCollectionGroupsStream(
+    args: ListCollectionGroupsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListCollectionGroupsCommandOutput,
+    Cause.TimeoutException | SdkError | InternalServerError | ValidationError
+  >;
+
   /**
    * @see {@link ListCollectionsCommand}
    */
@@ -507,6 +610,14 @@ interface OpenSearchServerlessService$ {
     args: ListCollectionsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListCollectionsCommandOutput,
+    Cause.TimeoutException | SdkError | InternalServerError | ValidationError
+  >;
+
+  listCollectionsStream(
+    args: ListCollectionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListCollectionsCommandOutput,
     Cause.TimeoutException | SdkError | InternalServerError | ValidationError
   >;
@@ -522,6 +633,14 @@ interface OpenSearchServerlessService$ {
     Cause.TimeoutException | SdkError | InternalServerError | ValidationError
   >;
 
+  listLifecyclePoliciesStream(
+    args: ListLifecyclePoliciesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListLifecyclePoliciesCommandOutput,
+    Cause.TimeoutException | SdkError | InternalServerError | ValidationError
+  >;
+
   /**
    * @see {@link ListSecurityConfigsCommand}
    */
@@ -533,6 +652,14 @@ interface OpenSearchServerlessService$ {
     Cause.TimeoutException | SdkError | InternalServerError | ValidationError
   >;
 
+  listSecurityConfigsStream(
+    args: ListSecurityConfigsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListSecurityConfigsCommandOutput,
+    Cause.TimeoutException | SdkError | InternalServerError | ValidationError
+  >;
+
   /**
    * @see {@link ListSecurityPoliciesCommand}
    */
@@ -540,6 +667,14 @@ interface OpenSearchServerlessService$ {
     args: ListSecurityPoliciesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListSecurityPoliciesCommandOutput,
+    Cause.TimeoutException | SdkError | InternalServerError | ValidationError
+  >;
+
+  listSecurityPoliciesStream(
+    args: ListSecurityPoliciesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListSecurityPoliciesCommandOutput,
     Cause.TimeoutException | SdkError | InternalServerError | ValidationError
   >;
@@ -562,6 +697,14 @@ interface OpenSearchServerlessService$ {
     args: ListVpcEndpointsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListVpcEndpointsCommandOutput,
+    Cause.TimeoutException | SdkError | InternalServerError | ValidationError
+  >;
+
+  listVpcEndpointsStream(
+    args: ListVpcEndpointsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListVpcEndpointsCommandOutput,
     Cause.TimeoutException | SdkError | InternalServerError | ValidationError
   >;
@@ -625,6 +768,22 @@ interface OpenSearchServerlessService$ {
   ): Effect.Effect<
     UpdateCollectionCommandOutput,
     Cause.TimeoutException | SdkError | ConflictError | InternalServerError | ValidationError
+  >;
+
+  /**
+   * @see {@link UpdateCollectionGroupCommand}
+   */
+  updateCollectionGroup(
+    args: UpdateCollectionGroupCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateCollectionGroupCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | ConflictError
+    | InternalServerError
+    | ServiceQuotaExceededError
+    | ValidationError
   >;
 
   /**
@@ -709,6 +868,7 @@ export const makeOpenSearchServerlessService = Effect.gen(function*() {
       errorTags: AllServiceErrors,
       resolveClientConfig: OpenSearchServerlessServiceConfig.toOpenSearchServerlessClientConfig,
     },
+    paginators,
   );
 });
 

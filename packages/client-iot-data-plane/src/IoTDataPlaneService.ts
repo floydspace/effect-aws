@@ -22,6 +22,7 @@ import {
   ListRetainedMessagesCommand,
   type ListRetainedMessagesCommandInput,
   type ListRetainedMessagesCommandOutput,
+  paginateListRetainedMessages,
   PublishCommand,
   type PublishCommandInput,
   type PublishCommandOutput,
@@ -35,6 +36,7 @@ import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
+import type * as Stream from "effect/Stream";
 import type {
   ConflictError,
   ForbiddenError,
@@ -62,6 +64,10 @@ const commands = {
   ListRetainedMessagesCommand,
   PublishCommand,
   UpdateThingShadowCommand,
+};
+
+const paginators = {
+  paginateListRetainedMessages,
 };
 
 interface IoTDataPlaneService$ {
@@ -180,6 +186,21 @@ interface IoTDataPlaneService$ {
     | UnauthorizedError
   >;
 
+  listRetainedMessagesStream(
+    args: ListRetainedMessagesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListRetainedMessagesCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalFailureError
+    | InvalidRequestError
+    | MethodNotAllowedError
+    | ServiceUnavailableError
+    | ThrottlingError
+    | UnauthorizedError
+  >;
+
   /**
    * @see {@link PublishCommand}
    */
@@ -233,6 +254,7 @@ export const makeIoTDataPlaneService = Effect.gen(function*() {
       errorTags: AllServiceErrors,
       resolveClientConfig: IoTDataPlaneServiceConfig.toIoTDataPlaneClientConfig,
     },
+    paginators,
   );
 });
 

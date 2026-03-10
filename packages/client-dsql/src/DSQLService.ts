@@ -28,6 +28,7 @@ import {
   ListTagsForResourceCommand,
   type ListTagsForResourceCommandInput,
   type ListTagsForResourceCommandOutput,
+  paginateListClusters,
   PutClusterPolicyCommand,
   type PutClusterPolicyCommandInput,
   type PutClusterPolicyCommandOutput,
@@ -47,6 +48,7 @@ import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
+import type * as Stream from "effect/Stream";
 import * as Instance from "./DSQLClientInstance.js";
 import * as DSQLServiceConfig from "./DSQLServiceConfig.js";
 import type {
@@ -73,6 +75,10 @@ const commands = {
   TagResourceCommand,
   UntagResourceCommand,
   UpdateClusterCommand,
+};
+
+const paginators = {
+  paginateListClusters,
 };
 
 interface DSQLService$ {
@@ -155,6 +161,11 @@ interface DSQLService$ {
     Cause.TimeoutException | SdkError | ResourceNotFoundError
   >;
 
+  listClustersStream(
+    args: ListClustersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListClustersCommandOutput, Cause.TimeoutException | SdkError | ResourceNotFoundError>;
+
   /**
    * @see {@link ListTagsForResourceCommand}
    */
@@ -225,6 +236,7 @@ export const makeDSQLService = Effect.gen(function*() {
       errorTags: AllServiceErrors,
       resolveClientConfig: DSQLServiceConfig.toDSQLClientConfig,
     },
+    paginators,
   );
 });
 

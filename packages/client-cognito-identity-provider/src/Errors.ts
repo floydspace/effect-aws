@@ -1,4 +1,5 @@
 import type {
+  AccessDeniedException,
   AliasExistsException,
   CodeDeliveryFailureException,
   CodeMismatchException,
@@ -11,6 +12,7 @@ import type {
   ForbiddenException,
   GroupExistsException,
   InternalErrorException,
+  InternalServerException,
   InvalidEmailRoleAccessPolicyException,
   InvalidLambdaResponseException,
   InvalidOAuthFlowException,
@@ -58,6 +60,7 @@ import type {
 import type { TaggedException } from "@effect-aws/commons/Errors";
 
 export const AllServiceErrors = [
+  "AccessDeniedException",
   "AliasExistsException",
   "CodeDeliveryFailureException",
   "CodeMismatchException",
@@ -70,6 +73,7 @@ export const AllServiceErrors = [
   "ForbiddenException",
   "GroupExistsException",
   "InternalErrorException",
+  "InternalServerException",
   "InvalidEmailRoleAccessPolicyException",
   "InvalidLambdaResponseException",
   "InvalidOAuthFlowException",
@@ -115,6 +119,7 @@ export const AllServiceErrors = [
   "WebAuthnRelyingPartyMismatchException",
 ] as const;
 
+export type AccessDeniedError = TaggedException<AccessDeniedException>;
 export type AliasExistsError = TaggedException<AliasExistsException>;
 export type CodeDeliveryFailureError = TaggedException<CodeDeliveryFailureException>;
 export type CodeMismatchError = TaggedException<CodeMismatchException>;
@@ -127,6 +132,7 @@ export type FeatureUnavailableInTierError = TaggedException<FeatureUnavailableIn
 export type ForbiddenError = TaggedException<ForbiddenException>;
 export type GroupExistsError = TaggedException<GroupExistsException>;
 export type InternalError = TaggedException<InternalErrorException>;
+export type InternalServerError = TaggedException<InternalServerException>;
 export type InvalidEmailRoleAccessPolicyError = TaggedException<InvalidEmailRoleAccessPolicyException>;
 export type InvalidLambdaResponseError = TaggedException<InvalidLambdaResponseException>;
 export type InvalidOAuthFlowError = TaggedException<InvalidOAuthFlowException>;

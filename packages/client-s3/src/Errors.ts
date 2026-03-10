@@ -1,4 +1,5 @@
 import type {
+  AccessDenied,
   BucketAlreadyExists,
   BucketAlreadyOwnedByYou,
   EncryptionTypeMismatch,
@@ -19,6 +20,7 @@ import type { TaggedException } from "@effect-aws/commons/Errors";
 import * as Data from "effect/Data";
 
 export const AllServiceErrors = [
+  "AccessDenied",
   "BucketAlreadyExists",
   "BucketAlreadyOwnedByYou",
   "EncryptionTypeMismatch",
@@ -35,6 +37,7 @@ export const AllServiceErrors = [
   "TooManyParts",
 ] as const;
 
+export type AccessDeniedError = TaggedException<AccessDenied>;
 export type BucketAlreadyExistsError = TaggedException<BucketAlreadyExists>;
 export type BucketAlreadyOwnedByYouError = TaggedException<BucketAlreadyOwnedByYou>;
 export type EncryptionTypeMismatchError = TaggedException<EncryptionTypeMismatch>;

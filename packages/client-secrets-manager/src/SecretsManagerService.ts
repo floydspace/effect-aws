@@ -35,6 +35,9 @@ import {
   ListSecretVersionIdsCommand,
   type ListSecretVersionIdsCommandInput,
   type ListSecretVersionIdsCommandOutput,
+  paginateBatchGetSecretValue,
+  paginateListSecrets,
+  paginateListSecretVersionIds,
   PutResourcePolicyCommand,
   type PutResourcePolicyCommandInput,
   type PutResourcePolicyCommandOutput,
@@ -80,6 +83,7 @@ import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
+import type * as Stream from "effect/Stream";
 import type {
   DecryptionError,
   EncryptionError,
@@ -125,6 +129,12 @@ const commands = {
   ValidateResourcePolicyCommand,
 };
 
+const paginators = {
+  paginateBatchGetSecretValue,
+  paginateListSecretVersionIds,
+  paginateListSecrets,
+};
+
 interface SecretsManagerService$ {
   readonly _: unique symbol;
 
@@ -135,6 +145,21 @@ interface SecretsManagerService$ {
     args: BatchGetSecretValueCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    BatchGetSecretValueCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | DecryptionError
+    | InternalServiceError
+    | InvalidNextTokenError
+    | InvalidParameterError
+    | InvalidRequestError
+    | ResourceNotFoundError
+  >;
+
+  batchGetSecretValueStream(
+    args: BatchGetSecretValueCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     BatchGetSecretValueCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -287,6 +312,19 @@ interface SecretsManagerService$ {
     | ResourceNotFoundError
   >;
 
+  listSecretVersionIdsStream(
+    args: ListSecretVersionIdsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListSecretVersionIdsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalServiceError
+    | InvalidNextTokenError
+    | InvalidParameterError
+    | ResourceNotFoundError
+  >;
+
   /**
    * @see {@link ListSecretsCommand}
    */
@@ -294,6 +332,19 @@ interface SecretsManagerService$ {
     args: ListSecretsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListSecretsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalServiceError
+    | InvalidNextTokenError
+    | InvalidParameterError
+    | InvalidRequestError
+  >;
+
+  listSecretsStream(
+    args: ListSecretsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListSecretsCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -524,6 +575,7 @@ export const makeSecretsManagerService = Effect.gen(function*() {
       errorTags: AllServiceErrors,
       resolveClientConfig: SecretsManagerServiceConfig.toSecretsManagerClientConfig,
     },
+    paginators,
   );
 });
 

@@ -4,6 +4,9 @@
 import {
   type CloudWatchClient,
   type CloudWatchClientConfig,
+  DeleteAlarmMuteRuleCommand,
+  type DeleteAlarmMuteRuleCommandInput,
+  type DeleteAlarmMuteRuleCommandOutput,
   DeleteAlarmsCommand,
   type DeleteAlarmsCommandInput,
   type DeleteAlarmsCommandOutput,
@@ -49,6 +52,9 @@ import {
   EnableInsightRulesCommand,
   type EnableInsightRulesCommandInput,
   type EnableInsightRulesCommandOutput,
+  GetAlarmMuteRuleCommand,
+  type GetAlarmMuteRuleCommandInput,
+  type GetAlarmMuteRuleCommandOutput,
   GetDashboardCommand,
   type GetDashboardCommandInput,
   type GetDashboardCommandOutput,
@@ -67,6 +73,9 @@ import {
   GetMetricWidgetImageCommand,
   type GetMetricWidgetImageCommandInput,
   type GetMetricWidgetImageCommandOutput,
+  ListAlarmMuteRulesCommand,
+  type ListAlarmMuteRulesCommandInput,
+  type ListAlarmMuteRulesCommandOutput,
   ListDashboardsCommand,
   type ListDashboardsCommandInput,
   type ListDashboardsCommandOutput,
@@ -82,6 +91,19 @@ import {
   ListTagsForResourceCommand,
   type ListTagsForResourceCommandInput,
   type ListTagsForResourceCommandOutput,
+  paginateDescribeAlarmHistory,
+  paginateDescribeAlarms,
+  paginateDescribeAnomalyDetectors,
+  paginateDescribeInsightRules,
+  paginateGetMetricData,
+  paginateListAlarmMuteRules,
+  paginateListDashboards,
+  paginateListManagedInsightRules,
+  paginateListMetrics,
+  paginateListMetricStreams,
+  PutAlarmMuteRuleCommand,
+  type PutAlarmMuteRuleCommandInput,
+  type PutAlarmMuteRuleCommandOutput,
   PutAnomalyDetectorCommand,
   type PutAnomalyDetectorCommandInput,
   type PutAnomalyDetectorCommandOutput,
@@ -128,6 +150,7 @@ import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
+import type * as Stream from "effect/Stream";
 import * as Instance from "./CloudWatchClientInstance.js";
 import * as CloudWatchServiceConfig from "./CloudWatchServiceConfig.js";
 import type {
@@ -150,6 +173,7 @@ import type {
 import { AllServiceErrors } from "./Errors.js";
 
 const commands = {
+  DeleteAlarmMuteRuleCommand,
   DeleteAlarmsCommand,
   DeleteAnomalyDetectorCommand,
   DeleteDashboardsCommand,
@@ -165,17 +189,20 @@ const commands = {
   DisableInsightRulesCommand,
   EnableAlarmActionsCommand,
   EnableInsightRulesCommand,
+  GetAlarmMuteRuleCommand,
   GetDashboardCommand,
   GetInsightRuleReportCommand,
   GetMetricDataCommand,
   GetMetricStatisticsCommand,
   GetMetricStreamCommand,
   GetMetricWidgetImageCommand,
+  ListAlarmMuteRulesCommand,
   ListDashboardsCommand,
   ListManagedInsightRulesCommand,
   ListMetricStreamsCommand,
   ListMetricsCommand,
   ListTagsForResourceCommand,
+  PutAlarmMuteRuleCommand,
   PutAnomalyDetectorCommand,
   PutCompositeAlarmCommand,
   PutDashboardCommand,
@@ -191,8 +218,32 @@ const commands = {
   UntagResourceCommand,
 };
 
+const paginators = {
+  paginateDescribeAlarmHistory,
+  paginateDescribeAlarms,
+  paginateDescribeAnomalyDetectors,
+  paginateDescribeInsightRules,
+  paginateGetMetricData,
+  paginateListAlarmMuteRules,
+  paginateListDashboards,
+  paginateListManagedInsightRules,
+  paginateListMetricStreams,
+  paginateListMetrics,
+};
+
 interface CloudWatchService$ {
   readonly _: unique symbol;
+
+  /**
+   * @see {@link DeleteAlarmMuteRuleCommand}
+   */
+  deleteAlarmMuteRule(
+    args: DeleteAlarmMuteRuleCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteAlarmMuteRuleCommandOutput,
+    Cause.TimeoutException | SdkError
+  >;
 
   /**
    * @see {@link DeleteAlarmsCommand}
@@ -286,6 +337,11 @@ interface CloudWatchService$ {
     Cause.TimeoutException | SdkError | InvalidNextTokenError
   >;
 
+  describeAlarmHistoryStream(
+    args: DescribeAlarmHistoryCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeAlarmHistoryCommandOutput, Cause.TimeoutException | SdkError | InvalidNextTokenError>;
+
   /**
    * @see {@link DescribeAlarmsCommand}
    */
@@ -296,6 +352,11 @@ interface CloudWatchService$ {
     DescribeAlarmsCommandOutput,
     Cause.TimeoutException | SdkError | InvalidNextTokenError
   >;
+
+  describeAlarmsStream(
+    args: DescribeAlarmsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeAlarmsCommandOutput, Cause.TimeoutException | SdkError | InvalidNextTokenError>;
 
   /**
    * @see {@link DescribeAlarmsForMetricCommand}
@@ -324,6 +385,19 @@ interface CloudWatchService$ {
     | InvalidParameterValueError
   >;
 
+  describeAnomalyDetectorsStream(
+    args: DescribeAnomalyDetectorsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeAnomalyDetectorsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalServiceFaultError
+    | InvalidNextTokenError
+    | InvalidParameterCombinationError
+    | InvalidParameterValueError
+  >;
+
   /**
    * @see {@link DescribeInsightRulesCommand}
    */
@@ -334,6 +408,11 @@ interface CloudWatchService$ {
     DescribeInsightRulesCommandOutput,
     Cause.TimeoutException | SdkError | InvalidNextTokenError
   >;
+
+  describeInsightRulesStream(
+    args: DescribeInsightRulesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeInsightRulesCommandOutput, Cause.TimeoutException | SdkError | InvalidNextTokenError>;
 
   /**
    * @see {@link DisableAlarmActionsCommand}
@@ -380,6 +459,17 @@ interface CloudWatchService$ {
   >;
 
   /**
+   * @see {@link GetAlarmMuteRuleCommand}
+   */
+  getAlarmMuteRule(
+    args: GetAlarmMuteRuleCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetAlarmMuteRuleCommandOutput,
+    Cause.TimeoutException | SdkError | ResourceNotFoundError
+  >;
+
+  /**
    * @see {@link GetDashboardCommand}
    */
   getDashboard(
@@ -415,6 +505,11 @@ interface CloudWatchService$ {
     GetMetricDataCommandOutput,
     Cause.TimeoutException | SdkError | InvalidNextTokenError
   >;
+
+  getMetricDataStream(
+    args: GetMetricDataCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<GetMetricDataCommandOutput, Cause.TimeoutException | SdkError | InvalidNextTokenError>;
 
   /**
    * @see {@link GetMetricStatisticsCommand}
@@ -461,12 +556,39 @@ interface CloudWatchService$ {
   >;
 
   /**
+   * @see {@link ListAlarmMuteRulesCommand}
+   */
+  listAlarmMuteRules(
+    args: ListAlarmMuteRulesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListAlarmMuteRulesCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidNextTokenError | ResourceNotFoundError
+  >;
+
+  listAlarmMuteRulesStream(
+    args: ListAlarmMuteRulesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListAlarmMuteRulesCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidNextTokenError | ResourceNotFoundError
+  >;
+
+  /**
    * @see {@link ListDashboardsCommand}
    */
   listDashboards(
     args: ListDashboardsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListDashboardsCommandOutput,
+    Cause.TimeoutException | SdkError | InternalServiceFaultError | InvalidParameterValueError
+  >;
+
+  listDashboardsStream(
+    args: ListDashboardsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListDashboardsCommandOutput,
     Cause.TimeoutException | SdkError | InternalServiceFaultError | InvalidParameterValueError
   >;
@@ -478,6 +600,18 @@ interface CloudWatchService$ {
     args: ListManagedInsightRulesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListManagedInsightRulesCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidNextTokenError
+    | InvalidParameterValueError
+    | MissingRequiredParameterError
+  >;
+
+  listManagedInsightRulesStream(
+    args: ListManagedInsightRulesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListManagedInsightRulesCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -502,6 +636,19 @@ interface CloudWatchService$ {
     | MissingRequiredParameterError
   >;
 
+  listMetricStreamsStream(
+    args: ListMetricStreamsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListMetricStreamsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalServiceFaultError
+    | InvalidNextTokenError
+    | InvalidParameterValueError
+    | MissingRequiredParameterError
+  >;
+
   /**
    * @see {@link ListMetricsCommand}
    */
@@ -509,6 +656,14 @@ interface CloudWatchService$ {
     args: ListMetricsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListMetricsCommandOutput,
+    Cause.TimeoutException | SdkError | InternalServiceFaultError | InvalidParameterValueError
+  >;
+
+  listMetricsStream(
+    args: ListMetricsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListMetricsCommandOutput,
     Cause.TimeoutException | SdkError | InternalServiceFaultError | InvalidParameterValueError
   >;
@@ -526,6 +681,17 @@ interface CloudWatchService$ {
     | InternalServiceFaultError
     | InvalidParameterValueError
     | ResourceNotFoundExceptionError
+  >;
+
+  /**
+   * @see {@link PutAlarmMuteRuleCommand}
+   */
+  putAlarmMuteRule(
+    args: PutAlarmMuteRuleCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    PutAlarmMuteRuleCommandOutput,
+    Cause.TimeoutException | SdkError | LimitExceededFaultError
   >;
 
   /**
@@ -723,6 +889,7 @@ export const makeCloudWatchService = Effect.gen(function*() {
       errorTags: AllServiceErrors,
       resolveClientConfig: CloudWatchServiceConfig.toCloudWatchClientConfig,
     },
+    paginators,
   );
 });
 

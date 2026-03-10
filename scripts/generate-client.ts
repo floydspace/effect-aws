@@ -1,5 +1,11 @@
-import { Array, Option, Predicate, Record, String, Struct, Tuple } from "effect";
+import * as Array from "effect/Array";
 import { flow, pipe } from "effect/Function";
+import * as Option from "effect/Option";
+import * as Predicate from "effect/Predicate";
+import * as Record from "effect/Record";
+import * as String from "effect/String";
+import * as Struct from "effect/Struct";
+import * as Tuple from "effect/Tuple";
 import { exec } from "node:child_process";
 import { mkdir, rm, writeFile } from "node:fs/promises";
 import type { Manifest, Shape } from "./manifest.js";
@@ -47,6 +53,16 @@ export async function generateClient([
     Record.keys,
   );
 
+  const paginateFns = pipe(
+    awsClient,
+    Record.filter(
+      (value, key) =>
+        typeof value === "function" &&
+        key.startsWith("paginate"),
+    ),
+    Record.keys,
+  );
+
   await generateErrorsFile(
     `./packages/client-${serviceName}/src/Errors.ts`,
     sdkName,
@@ -77,6 +93,7 @@ export async function generateClient([
     exportedErrors,
     originalServiceName,
     manifest,
+    paginateFns,
   );
 
   await mkdir(`./packages/client-${serviceName}/test`, { recursive: true });
@@ -330,6 +347,7 @@ async function generateServiceFile(
   exportedErrors: Array<string>,
   originalServiceName: string,
   manifest: Manifest,
+  paginateFns: Array<string>,
 ) {
   const operationTargets = pipe(
     manifest.shapes,
@@ -384,14 +402,20 @@ import {
         Array.join("\n  "),
       )
     }
+    ${paginateFns}
 } from "@aws-sdk/client-${originalServiceName}";
 import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
 import * as Service from "@effect-aws/commons/Service";
 import type * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
-import * as Instance from "./${sdkName}ClientInstance.js";
+import * as Layer from "effect/Layer";${
+      paginateFns.length > 0 ?
+        `
+import * as Stream from "effect/Stream";
+` :
+        ""
+    }import * as Instance from "./${sdkName}ClientInstance.js";
 import * as ${sdkName}ServiceConfig from "./${sdkName}ServiceConfig.js";
 ${
       exportedErrors.length > 0 ?
@@ -428,7 +452,15 @@ const commands = {
       )
     }
 };
-
+${
+      paginateFns.length > 0 ?
+        `
+const paginators = {
+  ${paginateFns}
+};
+` :
+        ""
+    }
 interface ${sdkName}Service$ {
   readonly _: unique symbol;
 
@@ -459,7 +491,25 @@ ${
               Array.join(" | "),
             )
           }
-  >`;
+  >;
+
+${
+            Array.map(paginateFns, String.replace(/^paginate/, "")).includes(operationName) ?
+              `${
+                String.uncapitalize(operationName)
+              }Stream(args: ${operationName}CommandInput, options?: HttpHandlerOptions): Stream.Stream<${operationName}CommandOutput, ${
+                pipe(
+                  [
+                    "Cause.TimeoutException",
+                    "SdkError",
+                    ...(exportedErrors.length ? errors : [`${sdkName}ServiceError`]),
+                  ],
+                  Array.join(" | "),
+                )
+              }>;` :
+              ""
+          }
+  `;
         }),
         Array.join("\n\n"),
       )
@@ -479,8 +529,13 @@ export const make${sdkName}Service = Effect.gen(function* () {
     {
       ${exportedErrors.length ? "errorTags: AllServiceErrors," : ""}
       resolveClientConfig: ${sdkName}ServiceConfig.to${sdkName}ClientConfig,
-    },
-  );
+    },${
+      paginateFns.length > 0 ?
+        `
+    paginators,
+` :
+        ""
+    }  );
 });
 
 /**

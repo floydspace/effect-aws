@@ -1,0 +1,55 @@
+---
+"@effect-aws/client-cognito-identity-provider": minor
+"@effect-aws/client-opensearch-serverless": minor
+"@effect-aws/client-timestream-influxdb": minor
+"@effect-aws/client-timestream-query": minor
+"@effect-aws/client-timestream-write": minor
+"@effect-aws/client-bedrock-runtime": minor
+"@effect-aws/client-cloudwatch-logs": minor
+"@effect-aws/client-secrets-manager": minor
+"@effect-aws/client-api-gateway-v2": minor
+"@effect-aws/client-cloudformation": minor
+"@effect-aws/client-iot-data-plane": minor
+"@effect-aws/client-data-pipeline": minor
+"@effect-aws/client-organizations": minor
+"@effect-aws/client-auto-scaling": minor
+"@effect-aws/client-iot-wireless": minor
+"@effect-aws/client-kafkaconnect": minor
+"@effect-aws/client-api-gateway": minor
+"@effect-aws/client-elasticache": minor
+"@effect-aws/client-cloudtrail": minor
+"@effect-aws/client-cloudwatch": minor
+"@effect-aws/client-codedeploy": minor
+"@effect-aws/client-opensearch": minor
+"@effect-aws/client-scheduler": minor
+"@effect-aws/client-dynamodb": minor
+"@effect-aws/client-textract": minor
+"@effect-aws/client-account": minor
+"@effect-aws/client-bedrock": minor
+"@effect-aws/client-kinesis": minor
+"@effect-aws/client-athena": minor
+"@effect-aws/client-lambda": minor
+"@effect-aws/client-kafka": minor
+"@effect-aws/client-dsql": minor
+"@effect-aws/client-glue": minor
+"@effect-aws/client-ec2": minor
+"@effect-aws/client-ecr": minor
+"@effect-aws/client-ecs": minor
+"@effect-aws/client-iam": minor
+"@effect-aws/client-iot": minor
+"@effect-aws/client-ivs": minor
+"@effect-aws/client-kms": minor
+"@effect-aws/client-rds": minor
+"@effect-aws/client-ses": minor
+"@effect-aws/client-sfn": minor
+"@effect-aws/client-sns": minor
+"@effect-aws/client-sqs": minor
+"@effect-aws/client-ssm": minor
+"@effect-aws/client-mq": minor
+"@effect-aws/client-s3": minor
+"@effect-aws/commons": minor
+---
+
+add streaming pagination support to various AWS services
+
+closes [#145](https://github.com/floydspace/effect-aws/issues/145)

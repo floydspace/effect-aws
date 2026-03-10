@@ -68,6 +68,11 @@ import {
   ListTagsForResourceCommand,
   type ListTagsForResourceCommandInput,
   type ListTagsForResourceCommandOutput,
+  paginateGetExecutionHistory,
+  paginateListActivities,
+  paginateListExecutions,
+  paginateListMapRuns,
+  paginateListStateMachines,
   PublishStateMachineVersionCommand,
   type PublishStateMachineVersionCommandInput,
   type PublishStateMachineVersionCommandOutput,
@@ -122,6 +127,7 @@ import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
+import type * as Stream from "effect/Stream";
 import type {
   ActivityAlreadyExistsError,
   ActivityDoesNotExistError,
@@ -200,6 +206,14 @@ const commands = {
   UpdateStateMachineCommand,
   UpdateStateMachineAliasCommand,
   ValidateStateMachineDefinitionCommand,
+};
+
+const paginators = {
+  paginateGetExecutionHistory,
+  paginateListActivities,
+  paginateListExecutions,
+  paginateListMapRuns,
+  paginateListStateMachines,
 };
 
 interface SFNService$ {
@@ -434,6 +448,21 @@ interface SFNService$ {
     | KmsThrottlingError
   >;
 
+  getExecutionHistoryStream(
+    args: GetExecutionHistoryCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    GetExecutionHistoryCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | ExecutionDoesNotExistError
+    | InvalidArnError
+    | InvalidTokenError
+    | KmsAccessDeniedError
+    | KmsInvalidStateError
+    | KmsThrottlingError
+  >;
+
   /**
    * @see {@link ListActivitiesCommand}
    */
@@ -444,6 +473,11 @@ interface SFNService$ {
     ListActivitiesCommandOutput,
     Cause.TimeoutException | SdkError | InvalidTokenError
   >;
+
+  listActivitiesStream(
+    args: ListActivitiesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListActivitiesCommandOutput, Cause.TimeoutException | SdkError | InvalidTokenError>;
 
   /**
    * @see {@link ListExecutionsCommand}
@@ -463,6 +497,21 @@ interface SFNService$ {
     | ValidationError
   >;
 
+  listExecutionsStream(
+    args: ListExecutionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListExecutionsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidArnError
+    | InvalidTokenError
+    | ResourceNotFoundError
+    | StateMachineDoesNotExistError
+    | StateMachineTypeNotSupportedError
+    | ValidationError
+  >;
+
   /**
    * @see {@link ListMapRunsCommand}
    */
@@ -470,6 +519,14 @@ interface SFNService$ {
     args: ListMapRunsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListMapRunsCommandOutput,
+    Cause.TimeoutException | SdkError | ExecutionDoesNotExistError | InvalidArnError | InvalidTokenError
+  >;
+
+  listMapRunsStream(
+    args: ListMapRunsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListMapRunsCommandOutput,
     Cause.TimeoutException | SdkError | ExecutionDoesNotExistError | InvalidArnError | InvalidTokenError
   >;
@@ -512,6 +569,11 @@ interface SFNService$ {
     ListStateMachinesCommandOutput,
     Cause.TimeoutException | SdkError | InvalidTokenError
   >;
+
+  listStateMachinesStream(
+    args: ListStateMachinesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListStateMachinesCommandOutput, Cause.TimeoutException | SdkError | InvalidTokenError>;
 
   /**
    * @see {@link ListTagsForResourceCommand}
@@ -786,6 +848,7 @@ export const makeSFNService = Effect.gen(function*() {
       errorTags: AllServiceErrors,
       resolveClientConfig: SFNServiceConfig.toSFNClientConfig,
     },
+    paginators,
   );
 });
 
