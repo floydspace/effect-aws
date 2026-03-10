@@ -235,6 +235,24 @@ import {
   ListTagsLogGroupCommand,
   type ListTagsLogGroupCommandInput,
   type ListTagsLogGroupCommandOutput,
+  paginateDescribeConfigurationTemplates,
+  paginateDescribeDeliveries,
+  paginateDescribeDeliveryDestinations,
+  paginateDescribeDeliverySources,
+  paginateDescribeDestinations,
+  paginateDescribeLogGroups,
+  paginateDescribeLogStreams,
+  paginateDescribeMetricFilters,
+  paginateDescribeSubscriptionFilters,
+  paginateFilterLogEvents,
+  paginateGetLogEvents,
+  paginateGetScheduledQueryHistory,
+  paginateListAggregateLogGroupSummaries,
+  paginateListAnomalies,
+  paginateListLogAnomalyDetectors,
+  paginateListLogGroupsForQuery,
+  paginateListScheduledQueries,
+  paginateListSourcesForS3TableIntegration,
   PutAccountPolicyCommand,
   type PutAccountPolicyCommandInput,
   type PutAccountPolicyCommandOutput,
@@ -330,6 +348,7 @@ import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
+import type * as Stream from "effect/Stream";
 import * as Instance from "./CloudWatchLogsClientInstance.js";
 import * as CloudWatchLogsServiceConfig from "./CloudWatchLogsServiceConfig.js";
 import type {
@@ -463,6 +482,27 @@ const commands = {
   UpdateDeliveryConfigurationCommand,
   UpdateLogAnomalyDetectorCommand,
   UpdateScheduledQueryCommand,
+};
+
+const paginators = {
+  paginateDescribeConfigurationTemplates,
+  paginateDescribeDeliveries,
+  paginateDescribeDeliveryDestinations,
+  paginateDescribeDeliverySources,
+  paginateDescribeDestinations,
+  paginateDescribeLogGroups,
+  paginateDescribeLogStreams,
+  paginateDescribeMetricFilters,
+  paginateDescribeSubscriptionFilters,
+  paginateFilterLogEvents,
+  paginateGetLogEvents,
+  paginateGetScheduledQueryHistory,
+  paginateListAggregateLogGroupSummaries,
+  paginateListAnomalies,
+  paginateListLogAnomalyDetectors,
+  paginateListLogGroupsForQuery,
+  paginateListScheduledQueries,
+  paginateListSourcesForS3TableIntegration,
 };
 
 interface CloudWatchLogsService$ {
@@ -1001,6 +1041,19 @@ interface CloudWatchLogsService$ {
     | ValidationError
   >;
 
+  describeConfigurationTemplatesStream(
+    args: DescribeConfigurationTemplatesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeConfigurationTemplatesCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | ResourceNotFoundError
+    | ServiceUnavailableError
+    | ThrottlingError
+    | ValidationError
+  >;
+
   /**
    * @see {@link DescribeDeliveriesCommand}
    */
@@ -1008,6 +1061,19 @@ interface CloudWatchLogsService$ {
     args: DescribeDeliveriesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeDeliveriesCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | ServiceQuotaExceededError
+    | ServiceUnavailableError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  describeDeliveriesStream(
+    args: DescribeDeliveriesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeDeliveriesCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -1033,6 +1099,19 @@ interface CloudWatchLogsService$ {
     | ValidationError
   >;
 
+  describeDeliveryDestinationsStream(
+    args: DescribeDeliveryDestinationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeDeliveryDestinationsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | ServiceQuotaExceededError
+    | ServiceUnavailableError
+    | ThrottlingError
+    | ValidationError
+  >;
+
   /**
    * @see {@link DescribeDeliverySourcesCommand}
    */
@@ -1049,6 +1128,19 @@ interface CloudWatchLogsService$ {
     | ValidationError
   >;
 
+  describeDeliverySourcesStream(
+    args: DescribeDeliverySourcesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeDeliverySourcesCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | ServiceQuotaExceededError
+    | ServiceUnavailableError
+    | ThrottlingError
+    | ValidationError
+  >;
+
   /**
    * @see {@link DescribeDestinationsCommand}
    */
@@ -1056,6 +1148,14 @@ interface CloudWatchLogsService$ {
     args: DescribeDestinationsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeDestinationsCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidParameterError | ServiceUnavailableError
+  >;
+
+  describeDestinationsStream(
+    args: DescribeDestinationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeDestinationsCommandOutput,
     Cause.TimeoutException | SdkError | InvalidParameterError | ServiceUnavailableError
   >;
@@ -1150,6 +1250,14 @@ interface CloudWatchLogsService$ {
     Cause.TimeoutException | SdkError | InvalidParameterError | ServiceUnavailableError
   >;
 
+  describeLogGroupsStream(
+    args: DescribeLogGroupsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeLogGroupsCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidParameterError | ServiceUnavailableError
+  >;
+
   /**
    * @see {@link DescribeLogStreamsCommand}
    */
@@ -1161,6 +1269,14 @@ interface CloudWatchLogsService$ {
     Cause.TimeoutException | SdkError | InvalidParameterError | ResourceNotFoundError | ServiceUnavailableError
   >;
 
+  describeLogStreamsStream(
+    args: DescribeLogStreamsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeLogStreamsCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidParameterError | ResourceNotFoundError | ServiceUnavailableError
+  >;
+
   /**
    * @see {@link DescribeMetricFiltersCommand}
    */
@@ -1168,6 +1284,14 @@ interface CloudWatchLogsService$ {
     args: DescribeMetricFiltersCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeMetricFiltersCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidParameterError | ResourceNotFoundError | ServiceUnavailableError
+  >;
+
+  describeMetricFiltersStream(
+    args: DescribeMetricFiltersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeMetricFiltersCommandOutput,
     Cause.TimeoutException | SdkError | InvalidParameterError | ResourceNotFoundError | ServiceUnavailableError
   >;
@@ -1216,6 +1340,14 @@ interface CloudWatchLogsService$ {
     Cause.TimeoutException | SdkError | InvalidParameterError | ResourceNotFoundError | ServiceUnavailableError
   >;
 
+  describeSubscriptionFiltersStream(
+    args: DescribeSubscriptionFiltersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeSubscriptionFiltersCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidParameterError | ResourceNotFoundError | ServiceUnavailableError
+  >;
+
   /**
    * @see {@link DisassociateKmsKeyCommand}
    */
@@ -1256,6 +1388,14 @@ interface CloudWatchLogsService$ {
     args: FilterLogEventsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    FilterLogEventsCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidParameterError | ResourceNotFoundError | ServiceUnavailableError
+  >;
+
+  filterLogEventsStream(
+    args: FilterLogEventsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     FilterLogEventsCommandOutput,
     Cause.TimeoutException | SdkError | InvalidParameterError | ResourceNotFoundError | ServiceUnavailableError
   >;
@@ -1376,6 +1516,14 @@ interface CloudWatchLogsService$ {
     Cause.TimeoutException | SdkError | InvalidParameterError | ResourceNotFoundError | ServiceUnavailableError
   >;
 
+  getLogEventsStream(
+    args: GetLogEventsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    GetLogEventsCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidParameterError | ResourceNotFoundError | ServiceUnavailableError
+  >;
+
   /**
    * @see {@link GetLogFieldsCommand}
    */
@@ -1486,6 +1634,20 @@ interface CloudWatchLogsService$ {
     | ValidationError
   >;
 
+  getScheduledQueryHistoryStream(
+    args: GetScheduledQueryHistoryCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    GetScheduledQueryHistoryCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
   /**
    * @see {@link GetTransformerCommand}
    */
@@ -1513,6 +1675,14 @@ interface CloudWatchLogsService$ {
     Cause.TimeoutException | SdkError | InvalidParameterError | ServiceUnavailableError | ValidationError
   >;
 
+  listAggregateLogGroupSummariesStream(
+    args: ListAggregateLogGroupSummariesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListAggregateLogGroupSummariesCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidParameterError | ServiceUnavailableError | ValidationError
+  >;
+
   /**
    * @see {@link ListAnomaliesCommand}
    */
@@ -1520,6 +1690,19 @@ interface CloudWatchLogsService$ {
     args: ListAnomaliesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListAnomaliesCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidParameterError
+    | OperationAbortedError
+    | ResourceNotFoundError
+    | ServiceUnavailableError
+  >;
+
+  listAnomaliesStream(
+    args: ListAnomaliesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListAnomaliesCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -1556,6 +1739,19 @@ interface CloudWatchLogsService$ {
     | ServiceUnavailableError
   >;
 
+  listLogAnomalyDetectorsStream(
+    args: ListLogAnomalyDetectorsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListLogAnomalyDetectorsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidParameterError
+    | OperationAbortedError
+    | ResourceNotFoundError
+    | ServiceUnavailableError
+  >;
+
   /**
    * @see {@link ListLogGroupsCommand}
    */
@@ -1583,6 +1779,19 @@ interface CloudWatchLogsService$ {
     | ServiceUnavailableError
   >;
 
+  listLogGroupsForQueryStream(
+    args: ListLogGroupsForQueryCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListLogGroupsForQueryCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InvalidParameterError
+    | ResourceNotFoundError
+    | ServiceUnavailableError
+  >;
+
   /**
    * @see {@link ListScheduledQueriesCommand}
    */
@@ -1594,6 +1803,14 @@ interface CloudWatchLogsService$ {
     Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
+  listScheduledQueriesStream(
+    args: ListScheduledQueriesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListScheduledQueriesCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+  >;
+
   /**
    * @see {@link ListSourcesForS3TableIntegrationCommand}
    */
@@ -1601,6 +1818,20 @@ interface CloudWatchLogsService$ {
     args: ListSourcesForS3TableIntegrationCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListSourcesForS3TableIntegrationCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  listSourcesForS3TableIntegrationStream(
+    args: ListSourcesForS3TableIntegrationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListSourcesForS3TableIntegrationCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -2110,6 +2341,7 @@ export const makeCloudWatchLogsService = Effect.gen(function*() {
       errorTags: AllServiceErrors,
       resolveClientConfig: CloudWatchLogsServiceConfig.toCloudWatchLogsClientConfig,
     },
+    paginators,
   );
 });
 

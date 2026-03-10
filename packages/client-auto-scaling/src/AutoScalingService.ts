@@ -157,6 +157,19 @@ import {
   LaunchInstancesCommand,
   type LaunchInstancesCommandInput,
   type LaunchInstancesCommandOutput,
+  paginateDescribeAutoScalingGroups,
+  paginateDescribeAutoScalingInstances,
+  paginateDescribeInstanceRefreshes,
+  paginateDescribeLaunchConfigurations,
+  paginateDescribeLoadBalancers,
+  paginateDescribeLoadBalancerTargetGroups,
+  paginateDescribeNotificationConfigurations,
+  paginateDescribePolicies,
+  paginateDescribeScalingActivities,
+  paginateDescribeScheduledActions,
+  paginateDescribeTags,
+  paginateDescribeTrafficSources,
+  paginateDescribeWarmPool,
   PutLifecycleHookCommand,
   type PutLifecycleHookCommandInput,
   type PutLifecycleHookCommandOutput,
@@ -207,6 +220,7 @@ import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
+import type * as Stream from "effect/Stream";
 import * as Instance from "./AutoScalingClientInstance.js";
 import * as AutoScalingServiceConfig from "./AutoScalingServiceConfig.js";
 import type {
@@ -292,6 +306,22 @@ const commands = {
   SuspendProcessesCommand,
   TerminateInstanceInAutoScalingGroupCommand,
   UpdateAutoScalingGroupCommand,
+};
+
+const paginators = {
+  paginateDescribeAutoScalingGroups,
+  paginateDescribeAutoScalingInstances,
+  paginateDescribeInstanceRefreshes,
+  paginateDescribeLaunchConfigurations,
+  paginateDescribeLoadBalancerTargetGroups,
+  paginateDescribeLoadBalancers,
+  paginateDescribeNotificationConfigurations,
+  paginateDescribePolicies,
+  paginateDescribeScalingActivities,
+  paginateDescribeScheduledActions,
+  paginateDescribeTags,
+  paginateDescribeTrafficSources,
+  paginateDescribeWarmPool,
 };
 
 interface AutoScalingService$ {
@@ -574,6 +604,14 @@ interface AutoScalingService$ {
     Cause.TimeoutException | SdkError | InvalidNextTokenError | ResourceContentionFaultError
   >;
 
+  describeAutoScalingGroupsStream(
+    args: DescribeAutoScalingGroupsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeAutoScalingGroupsCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidNextTokenError | ResourceContentionFaultError
+  >;
+
   /**
    * @see {@link DescribeAutoScalingInstancesCommand}
    */
@@ -581,6 +619,14 @@ interface AutoScalingService$ {
     args: DescribeAutoScalingInstancesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeAutoScalingInstancesCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidNextTokenError | ResourceContentionFaultError
+  >;
+
+  describeAutoScalingInstancesStream(
+    args: DescribeAutoScalingInstancesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeAutoScalingInstancesCommandOutput,
     Cause.TimeoutException | SdkError | InvalidNextTokenError | ResourceContentionFaultError
   >;
@@ -607,6 +653,14 @@ interface AutoScalingService$ {
     Cause.TimeoutException | SdkError | InvalidNextTokenError | ResourceContentionFaultError
   >;
 
+  describeInstanceRefreshesStream(
+    args: DescribeInstanceRefreshesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeInstanceRefreshesCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidNextTokenError | ResourceContentionFaultError
+  >;
+
   /**
    * @see {@link DescribeLaunchConfigurationsCommand}
    */
@@ -614,6 +668,14 @@ interface AutoScalingService$ {
     args: DescribeLaunchConfigurationsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeLaunchConfigurationsCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidNextTokenError | ResourceContentionFaultError
+  >;
+
+  describeLaunchConfigurationsStream(
+    args: DescribeLaunchConfigurationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeLaunchConfigurationsCommandOutput,
     Cause.TimeoutException | SdkError | InvalidNextTokenError | ResourceContentionFaultError
   >;
@@ -651,6 +713,14 @@ interface AutoScalingService$ {
     Cause.TimeoutException | SdkError | InvalidNextTokenError | ResourceContentionFaultError
   >;
 
+  describeLoadBalancerTargetGroupsStream(
+    args: DescribeLoadBalancerTargetGroupsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeLoadBalancerTargetGroupsCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidNextTokenError | ResourceContentionFaultError
+  >;
+
   /**
    * @see {@link DescribeLoadBalancersCommand}
    */
@@ -658,6 +728,14 @@ interface AutoScalingService$ {
     args: DescribeLoadBalancersCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeLoadBalancersCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidNextTokenError | ResourceContentionFaultError
+  >;
+
+  describeLoadBalancersStream(
+    args: DescribeLoadBalancersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeLoadBalancersCommandOutput,
     Cause.TimeoutException | SdkError | InvalidNextTokenError | ResourceContentionFaultError
   >;
@@ -684,6 +762,14 @@ interface AutoScalingService$ {
     Cause.TimeoutException | SdkError | InvalidNextTokenError | ResourceContentionFaultError
   >;
 
+  describeNotificationConfigurationsStream(
+    args: DescribeNotificationConfigurationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeNotificationConfigurationsCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidNextTokenError | ResourceContentionFaultError
+  >;
+
   /**
    * @see {@link DescribePoliciesCommand}
    */
@@ -695,6 +781,14 @@ interface AutoScalingService$ {
     Cause.TimeoutException | SdkError | InvalidNextTokenError | ResourceContentionFaultError | ServiceLinkedRoleError
   >;
 
+  describePoliciesStream(
+    args: DescribePoliciesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribePoliciesCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidNextTokenError | ResourceContentionFaultError | ServiceLinkedRoleError
+  >;
+
   /**
    * @see {@link DescribeScalingActivitiesCommand}
    */
@@ -702,6 +796,14 @@ interface AutoScalingService$ {
     args: DescribeScalingActivitiesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeScalingActivitiesCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidNextTokenError | ResourceContentionFaultError
+  >;
+
+  describeScalingActivitiesStream(
+    args: DescribeScalingActivitiesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeScalingActivitiesCommandOutput,
     Cause.TimeoutException | SdkError | InvalidNextTokenError | ResourceContentionFaultError
   >;
@@ -728,6 +830,14 @@ interface AutoScalingService$ {
     Cause.TimeoutException | SdkError | InvalidNextTokenError | ResourceContentionFaultError
   >;
 
+  describeScheduledActionsStream(
+    args: DescribeScheduledActionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeScheduledActionsCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidNextTokenError | ResourceContentionFaultError
+  >;
+
   /**
    * @see {@link DescribeTagsCommand}
    */
@@ -735,6 +845,14 @@ interface AutoScalingService$ {
     args: DescribeTagsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeTagsCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidNextTokenError | ResourceContentionFaultError
+  >;
+
+  describeTagsStream(
+    args: DescribeTagsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeTagsCommandOutput,
     Cause.TimeoutException | SdkError | InvalidNextTokenError | ResourceContentionFaultError
   >;
@@ -761,6 +879,14 @@ interface AutoScalingService$ {
     Cause.TimeoutException | SdkError | InvalidNextTokenError | ResourceContentionFaultError
   >;
 
+  describeTrafficSourcesStream(
+    args: DescribeTrafficSourcesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeTrafficSourcesCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidNextTokenError | ResourceContentionFaultError
+  >;
+
   /**
    * @see {@link DescribeWarmPoolCommand}
    */
@@ -768,6 +894,14 @@ interface AutoScalingService$ {
     args: DescribeWarmPoolCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeWarmPoolCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidNextTokenError | LimitExceededFaultError | ResourceContentionFaultError
+  >;
+
+  describeWarmPoolStream(
+    args: DescribeWarmPoolCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeWarmPoolCommandOutput,
     Cause.TimeoutException | SdkError | InvalidNextTokenError | LimitExceededFaultError | ResourceContentionFaultError
   >;
@@ -1090,6 +1224,7 @@ export const makeAutoScalingService = Effect.gen(function*() {
       errorTags: AllServiceErrors,
       resolveClientConfig: AutoScalingServiceConfig.toAutoScalingClientConfig,
     },
+    paginators,
   );
 });
 

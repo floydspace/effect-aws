@@ -397,9 +397,13 @@ import {
 import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
-import { Effect, Layer } from "effect";
+import { Effect, Layer } from "effect";${
+      paginateFns.length > 0 ?
+        `
 import * as Stream from "effect/Stream";
-import * as Instance from "./${sdkName}ClientInstance.js";
+` :
+        ""
+    }import * as Instance from "./${sdkName}ClientInstance.js";
 import * as ${sdkName}ServiceConfig from "./${sdkName}ServiceConfig.js";
 ${
       exportedErrors.length > 0 ?
@@ -436,11 +440,15 @@ const commands = {
       )
     }
 };
-
+${
+      paginateFns.length > 0 ?
+        `
 const paginators = {
   ${paginateFns}
 };
-
+` :
+        ""
+    }
 interface ${sdkName}Service$ {
   readonly _: unique symbol;
 
@@ -509,9 +517,13 @@ export const make${sdkName}Service = Effect.gen(function* () {
     {
       ${exportedErrors.length ? "errorTags: AllServiceErrors," : ""}
       resolveClientConfig: ${sdkName}ServiceConfig.to${sdkName}ClientConfig,
-    },
+    },${
+      paginateFns.length > 0 ?
+        `
     paginators,
-  );
+` :
+        ""
+    }  );
 });
 
 /**

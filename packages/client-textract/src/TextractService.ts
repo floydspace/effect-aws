@@ -56,6 +56,8 @@ import {
   ListTagsForResourceCommand,
   type ListTagsForResourceCommandInput,
   type ListTagsForResourceCommandOutput,
+  paginateListAdapters,
+  paginateListAdapterVersions,
   StartDocumentAnalysisCommand,
   type StartDocumentAnalysisCommandInput,
   type StartDocumentAnalysisCommandOutput,
@@ -84,6 +86,7 @@ import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
+import type * as Stream from "effect/Stream";
 import type {
   AccessDeniedError,
   BadDocumentError,
@@ -135,6 +138,11 @@ const commands = {
   TagResourceCommand,
   UntagResourceCommand,
   UpdateAdapterCommand,
+};
+
+const paginators = {
+  paginateListAdapterVersions,
+  paginateListAdapters,
 };
 
 interface TextractService$ {
@@ -469,6 +477,22 @@ interface TextractService$ {
     | ValidationError
   >;
 
+  listAdapterVersionsStream(
+    args: ListAdapterVersionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListAdapterVersionsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | InvalidParameterError
+    | ProvisionedThroughputExceededError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
   /**
    * @see {@link ListAdaptersCommand}
    */
@@ -476,6 +500,21 @@ interface TextractService$ {
     args: ListAdaptersCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListAdaptersCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | InvalidParameterError
+    | ProvisionedThroughputExceededError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  listAdaptersStream(
+    args: ListAdaptersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListAdaptersCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -676,6 +715,7 @@ export const makeTextractService = Effect.gen(function*() {
       errorTags: AllServiceErrors,
       resolveClientConfig: TextractServiceConfig.toTextractClientConfig,
     },
+    paginators,
   );
 });
 
