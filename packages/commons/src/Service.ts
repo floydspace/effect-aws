@@ -45,6 +45,10 @@ export interface BaseResolvedConfig
  */
 export type CommandCtor<I> = new(input: I, ...args: Array<any>) => CommandImpl<I, any, BaseResolvedConfig>;
 
+/**
+ * @since 0.4.0
+ * @category models
+ */
 export type PaginatorCtor<I> = (config: PaginationConfiguration, input: I, ...args: Array<any>) => Paginator<any>;
 
 type ServiceFnOptions = {
@@ -101,6 +105,10 @@ export const makeServiceFn = (
     });
 };
 
+/**
+ * @since 0.4.0
+ * @category constructors
+ */
 export const makeServiceStreamFn = (
   client: Client<any, any, BaseResolvedConfig>,
   paginateFn: PaginatorCtor<any>,
