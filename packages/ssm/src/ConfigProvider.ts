@@ -1,7 +1,7 @@
 /**
  * @since 1.0.0
  */
-import * as SSMService from "@effect-aws/client-ssm/SSMService";
+import { SSMService } from "@effect-aws/client-ssm/SSMService";
 import * as Array from "effect/Array";
 import * as Cause from "effect/Cause";
 import type * as Config from "effect/Config";
@@ -31,11 +31,11 @@ export interface FromParameterStoreConfig {
  * @deprecated Use `ConfigProvider.withParameterStoreConfigProvider` or `ConfigProvider.setParameterStoreConfigProvider` instead.
  */
 export const fromParameterStore = (
-  config?: Partial<FromParameterStoreConfig> & { serviceLayer?: Layer.Layer<SSMService.SSMService> },
+  config?: Partial<FromParameterStoreConfig> & { serviceLayer?: Layer.Layer<SSMService> },
 ): ConfigProvider.ConfigProvider => {
   const { pathDelim, serviceLayer } = Object.assign(
     {},
-    { pathDelim: "_", serviceLayer: SSMService.SSMService.defaultLayer },
+    { pathDelim: "_", serviceLayer: SSMService.defaultLayer },
     config,
   );
   const makePathString = (path: ReadonlyArray<string>): string => pipe(path, Array.join(pathDelim));
@@ -46,7 +46,7 @@ export const fromParameterStore = (
     primitive: Config.Config.Primitive<A>,
   ): Effect.Effect<Array<A>, ConfigError.ConfigError> => {
     const pathString = makePathString(path);
-    return SSMService.SSMService.getParameter({
+    return SSMService.getParameter({
       Name: pathString,
       WithDecryption: true,
     }).pipe(
@@ -106,7 +106,7 @@ export const fromParameterStore = (
   const enumerateChildren = (
     path: ReadonlyArray<string>,
   ): Effect.Effect<HashSet.HashSet<string>, ConfigError.ConfigError> =>
-    SSMService.SSMService.describeParameters({}).pipe(
+    SSMService.describeParameters({}).pipe(
       Effect.flatMap((params) => Option.fromNullable(params.Parameters)),
       Effect.map(Array.map((param) => Option.fromNullable(param.Name))),
       Effect.flatMap(Option.all),
@@ -150,11 +150,11 @@ export const fromParameterStore = (
  */
 export const setParameterStoreConfigProvider = (config?: Partial<FromParameterStoreConfig>) =>
   Effect.gen(function*() {
-    const service = yield* SSMService.SSMService;
+    const service = yield* SSMService;
 
     const provider = fromParameterStore({
       ...config,
-      serviceLayer: Layer.succeed(SSMService.SSMService, service),
+      serviceLayer: Layer.succeed(SSMService, service),
     });
 
     return Layer.setConfigProvider(provider);

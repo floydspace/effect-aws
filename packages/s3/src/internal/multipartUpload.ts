@@ -10,7 +10,7 @@ import type {
   SdkError,
   TooManyPartsError,
 } from "@effect-aws/client-s3/Errors";
-import * as S3Service from "@effect-aws/client-s3/S3Service";
+import { S3Service } from "@effect-aws/client-s3/S3Service";
 import * as PlatformError from "@effect/platform/Error";
 import * as FileSystem from "@effect/platform/FileSystem";
 import type * as Cause from "effect/Cause";
@@ -198,8 +198,8 @@ export type S3ServiceErrors = PutObjectError | S3ServiceError;
 const MIN_PART_SIZE = FileSystem.MiB(5);
 
 /** @internal */
-export const make: Effect.Effect<MultipartUpload, never, S3Service.S3Service> = Effect.gen(function*() {
-  const s3 = yield* S3Service.S3Service;
+export const make: Effect.Effect<MultipartUpload, never, S3Service> = Effect.gen(function*() {
+  const s3 = yield* S3Service;
 
   const uploadPart = (
     partNumber: number,
