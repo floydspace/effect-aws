@@ -2,7 +2,9 @@
  * @since 1.0.0
  */
 import { IvsClient } from "@aws-sdk/client-ivs";
-import { Context, Effect, Layer } from "effect";
+import * as Context from "effect/Context";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
 import * as IvsServiceConfig from "./IvsServiceConfig.js";
 
 /**

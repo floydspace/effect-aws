@@ -6,10 +6,12 @@ import {
 } from "@aws-sdk/client-elasticache";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-elasticache/dist-cjs/runtimeConfig";
-import { ElastiCache, ElastiCacheServiceConfig } from "@effect-aws/client-elasticache";
-import { SdkError } from "@effect-aws/commons";
+import { ElastiCacheService as ElastiCache } from "@effect-aws/client-elasticache/ElastiCacheService";
+import * as ElastiCacheServiceConfig from "@effect-aws/client-elasticache/ElastiCacheServiceConfig";
+import { SdkError } from "@effect-aws/commons/Errors";
 import { mockClient } from "aws-sdk-client-mock";
-import { Effect, Exit } from "effect";
+import * as Effect from "effect/Effect";
+import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
 

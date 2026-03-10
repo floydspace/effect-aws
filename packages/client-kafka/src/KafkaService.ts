@@ -20,6 +20,9 @@ import {
   CreateReplicatorCommand,
   type CreateReplicatorCommandInput,
   type CreateReplicatorCommandOutput,
+  CreateTopicCommand,
+  type CreateTopicCommandInput,
+  type CreateTopicCommandOutput,
   CreateVpcConnectionCommand,
   type CreateVpcConnectionCommandInput,
   type CreateVpcConnectionCommandOutput,
@@ -35,6 +38,9 @@ import {
   DeleteReplicatorCommand,
   type DeleteReplicatorCommandInput,
   type DeleteReplicatorCommandOutput,
+  DeleteTopicCommand,
+  type DeleteTopicCommandInput,
+  type DeleteTopicCommandOutput,
   DeleteVpcConnectionCommand,
   type DeleteVpcConnectionCommandInput,
   type DeleteVpcConnectionCommandOutput,
@@ -186,22 +192,36 @@ import {
   UpdateStorageCommand,
   type UpdateStorageCommandInput,
   type UpdateStorageCommandOutput,
+  UpdateTopicCommand,
+  type UpdateTopicCommandInput,
+  type UpdateTopicCommandOutput,
 } from "@aws-sdk/client-kafka";
-import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
-import { Service } from "@effect-aws/commons";
-import type { Cause } from "effect";
-import { Effect, Layer } from "effect";
+import * as Service from "@effect-aws/commons/Service";
+import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
+import type * as Cause from "effect/Cause";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
 import type * as Stream from "effect/Stream";
 import type {
   BadRequestError,
+  ClusterConnectivityError,
   ConflictError,
+  ControllerMovedError,
   ForbiddenError,
+  GroupSubscribedToTopicError,
   InternalServerError,
+  KafkaRequestError,
+  KafkaTimeoutError,
+  NotControllerError,
   NotFoundError,
+  ReassignmentInProgressError,
   SdkError,
   ServiceUnavailableError,
   TooManyRequestsError,
+  TopicExistsError,
   UnauthorizedError,
+  UnknownTopicOrPartitionError,
 } from "./Errors.js";
 import { AllServiceErrors } from "./Errors.js";
 import * as Instance from "./KafkaClientInstance.js";
@@ -214,11 +234,13 @@ const commands = {
   CreateClusterV2Command,
   CreateConfigurationCommand,
   CreateReplicatorCommand,
+  CreateTopicCommand,
   CreateVpcConnectionCommand,
   DeleteClusterCommand,
   DeleteClusterPolicyCommand,
   DeleteConfigurationCommand,
   DeleteReplicatorCommand,
+  DeleteTopicCommand,
   DeleteVpcConnectionCommand,
   DescribeClusterCommand,
   DescribeClusterOperationCommand,
@@ -264,6 +286,7 @@ const commands = {
   UpdateReplicationInfoCommand,
   UpdateSecurityCommand,
   UpdateStorageCommand,
+  UpdateTopicCommand,
 };
 
 const paginators = {
@@ -402,6 +425,34 @@ interface KafkaService$ {
   >;
 
   /**
+   * @see {@link CreateTopicCommand}
+   */
+  createTopic(
+    args: CreateTopicCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateTopicCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | BadRequestError
+    | ClusterConnectivityError
+    | ConflictError
+    | ControllerMovedError
+    | ForbiddenError
+    | GroupSubscribedToTopicError
+    | InternalServerError
+    | KafkaRequestError
+    | KafkaTimeoutError
+    | NotControllerError
+    | ReassignmentInProgressError
+    | ServiceUnavailableError
+    | TooManyRequestsError
+    | TopicExistsError
+    | UnauthorizedError
+    | UnknownTopicOrPartitionError
+  >;
+
+  /**
    * @see {@link CreateVpcConnectionCommand}
    */
   createVpcConnection(
@@ -469,6 +520,30 @@ interface KafkaService$ {
     | ServiceUnavailableError
     | TooManyRequestsError
     | UnauthorizedError
+  >;
+
+  /**
+   * @see {@link DeleteTopicCommand}
+   */
+  deleteTopic(
+    args: DeleteTopicCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteTopicCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | BadRequestError
+    | ClusterConnectivityError
+    | ControllerMovedError
+    | ForbiddenError
+    | GroupSubscribedToTopicError
+    | InternalServerError
+    | KafkaRequestError
+    | KafkaTimeoutError
+    | NotControllerError
+    | NotFoundError
+    | ReassignmentInProgressError
+    | UnknownTopicOrPartitionError
   >;
 
   /**
@@ -1374,6 +1449,32 @@ interface KafkaService$ {
     | ServiceUnavailableError
     | TooManyRequestsError
     | UnauthorizedError
+  >;
+
+  /**
+   * @see {@link UpdateTopicCommand}
+   */
+  updateTopic(
+    args: UpdateTopicCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateTopicCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | BadRequestError
+    | ClusterConnectivityError
+    | ControllerMovedError
+    | ForbiddenError
+    | GroupSubscribedToTopicError
+    | InternalServerError
+    | KafkaRequestError
+    | KafkaTimeoutError
+    | NotControllerError
+    | NotFoundError
+    | ReassignmentInProgressError
+    | ServiceUnavailableError
+    | UnauthorizedError
+    | UnknownTopicOrPartitionError
   >;
 }
 

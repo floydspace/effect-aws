@@ -3,8 +3,11 @@
  */
 import type { HttpRequest, HttpResponse } from "@smithy/protocol-http";
 import type { HttpHandlerOptions, RequestHandler as ClientRequestHandler, RequestHandlerOutput } from "@smithy/types";
-import type { Cause, Effect } from "effect";
-import { Context, Runtime, Scope } from "effect";
+import type * as Cause from "effect/Cause";
+import * as Context from "effect/Context";
+import type * as Effect from "effect/Effect";
+import * as Runtime from "effect/Runtime";
+import * as Scope from "effect/Scope";
 import type { RuntimeOptions } from "./internal/httpHandler.js";
 
 const TypeId = Symbol.for("@effect-aws/commons/RequestHandler");

@@ -368,6 +368,12 @@ import {
   CreateRouteTableCommand,
   type CreateRouteTableCommandInput,
   type CreateRouteTableCommandOutput,
+  CreateSecondaryNetworkCommand,
+  type CreateSecondaryNetworkCommandInput,
+  type CreateSecondaryNetworkCommandOutput,
+  CreateSecondarySubnetCommand,
+  type CreateSecondarySubnetCommandInput,
+  type CreateSecondarySubnetCommandOutput,
   CreateSecurityGroupCommand,
   type CreateSecurityGroupCommandInput,
   type CreateSecurityGroupCommandOutput,
@@ -644,6 +650,12 @@ import {
   DeleteRouteTableCommand,
   type DeleteRouteTableCommandInput,
   type DeleteRouteTableCommandOutput,
+  DeleteSecondaryNetworkCommand,
+  type DeleteSecondaryNetworkCommandInput,
+  type DeleteSecondaryNetworkCommandOutput,
+  DeleteSecondarySubnetCommand,
+  type DeleteSecondarySubnetCommandInput,
+  type DeleteSecondarySubnetCommandOutput,
   DeleteSecurityGroupCommand,
   type DeleteSecurityGroupCommandInput,
   type DeleteSecurityGroupCommandOutput,
@@ -1148,6 +1160,15 @@ import {
   DescribeScheduledInstancesCommand,
   type DescribeScheduledInstancesCommandInput,
   type DescribeScheduledInstancesCommandOutput,
+  DescribeSecondaryInterfacesCommand,
+  type DescribeSecondaryInterfacesCommandInput,
+  type DescribeSecondaryInterfacesCommandOutput,
+  DescribeSecondaryNetworksCommand,
+  type DescribeSecondaryNetworksCommandInput,
+  type DescribeSecondaryNetworksCommandOutput,
+  DescribeSecondarySubnetsCommand,
+  type DescribeSecondarySubnetsCommandInput,
+  type DescribeSecondarySubnetsCommandOutput,
   DescribeSecurityGroupReferencesCommand,
   type DescribeSecurityGroupReferencesCommandInput,
   type DescribeSecurityGroupReferencesCommandOutput,
@@ -2118,6 +2139,9 @@ import {
   paginateDescribeRouteTables,
   paginateDescribeScheduledInstanceAvailability,
   paginateDescribeScheduledInstances,
+  paginateDescribeSecondaryInterfaces,
+  paginateDescribeSecondaryNetworks,
+  paginateDescribeSecondarySubnets,
   paginateDescribeSecurityGroupRules,
   paginateDescribeSecurityGroups,
   paginateDescribeSecurityGroupVpcAssociations,
@@ -2192,6 +2216,7 @@ import {
   paginateListSnapshotsInRecycleBin,
   paginateSearchLocalGatewayRoutes,
   paginateSearchTransitGatewayMulticastGroups,
+  paginateSearchTransitGatewayRoutes,
   ProvisionByoipCidrCommand,
   type ProvisionByoipCidrCommandInput,
   type ProvisionByoipCidrCommandOutput,
@@ -2415,10 +2440,12 @@ import {
   type WithdrawByoipCidrCommandInput,
   type WithdrawByoipCidrCommandOutput,
 } from "@aws-sdk/client-ec2";
-import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
-import { Service } from "@effect-aws/commons";
-import type { Cause } from "effect";
-import { Effect, Layer } from "effect";
+import * as Service from "@effect-aws/commons/Service";
+import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
+import type * as Cause from "effect/Cause";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
 import type * as Stream from "effect/Stream";
 import * as Instance from "./EC2ClientInstance.js";
 import * as EC2ServiceConfig from "./EC2ServiceConfig.js";
@@ -2547,6 +2574,8 @@ const commands = {
   CreateRouteServerEndpointCommand,
   CreateRouteServerPeerCommand,
   CreateRouteTableCommand,
+  CreateSecondaryNetworkCommand,
+  CreateSecondarySubnetCommand,
   CreateSecurityGroupCommand,
   CreateSnapshotCommand,
   CreateSnapshotsCommand,
@@ -2639,6 +2668,8 @@ const commands = {
   DeleteRouteServerEndpointCommand,
   DeleteRouteServerPeerCommand,
   DeleteRouteTableCommand,
+  DeleteSecondaryNetworkCommand,
+  DeleteSecondarySubnetCommand,
   DeleteSecurityGroupCommand,
   DeleteSnapshotCommand,
   DeleteSpotDatafeedSubscriptionCommand,
@@ -2807,6 +2838,9 @@ const commands = {
   DescribeRouteTablesCommand,
   DescribeScheduledInstanceAvailabilityCommand,
   DescribeScheduledInstancesCommand,
+  DescribeSecondaryInterfacesCommand,
+  DescribeSecondaryNetworksCommand,
+  DescribeSecondarySubnetsCommand,
   DescribeSecurityGroupReferencesCommand,
   DescribeSecurityGroupRulesCommand,
   DescribeSecurityGroupVpcAssociationsCommand,
@@ -3266,6 +3300,9 @@ const paginators = {
   paginateDescribeRouteTables,
   paginateDescribeScheduledInstanceAvailability,
   paginateDescribeScheduledInstances,
+  paginateDescribeSecondaryInterfaces,
+  paginateDescribeSecondaryNetworks,
+  paginateDescribeSecondarySubnets,
   paginateDescribeSecurityGroupRules,
   paginateDescribeSecurityGroupVpcAssociations,
   paginateDescribeSecurityGroups,
@@ -3340,6 +3377,7 @@ const paginators = {
   paginateListSnapshotsInRecycleBin,
   paginateSearchLocalGatewayRoutes,
   paginateSearchTransitGatewayMulticastGroups,
+  paginateSearchTransitGatewayRoutes,
 };
 
 interface EC2Service$ {
@@ -4688,6 +4726,28 @@ interface EC2Service$ {
   >;
 
   /**
+   * @see {@link CreateSecondaryNetworkCommand}
+   */
+  createSecondaryNetwork(
+    args: CreateSecondaryNetworkCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateSecondaryNetworkCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link CreateSecondarySubnetCommand}
+   */
+  createSecondarySubnet(
+    args: CreateSecondarySubnetCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateSecondarySubnetCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link CreateSecurityGroupCommand}
    */
   createSecurityGroup(
@@ -5696,6 +5756,28 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteRouteTableCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link DeleteSecondaryNetworkCommand}
+   */
+  deleteSecondaryNetwork(
+    args: DeleteSecondaryNetworkCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteSecondaryNetworkCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link DeleteSecondarySubnetCommand}
+   */
+  deleteSecondarySubnet(
+    args: DeleteSecondarySubnetCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteSecondarySubnetCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
@@ -8054,6 +8136,54 @@ interface EC2Service$ {
     args: DescribeScheduledInstancesCommandInput,
     options?: HttpHandlerOptions,
   ): Stream.Stream<DescribeScheduledInstancesCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
+  /**
+   * @see {@link DescribeSecondaryInterfacesCommand}
+   */
+  describeSecondaryInterfaces(
+    args: DescribeSecondaryInterfacesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeSecondaryInterfacesCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  describeSecondaryInterfacesStream(
+    args: DescribeSecondaryInterfacesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeSecondaryInterfacesCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
+  /**
+   * @see {@link DescribeSecondaryNetworksCommand}
+   */
+  describeSecondaryNetworks(
+    args: DescribeSecondaryNetworksCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeSecondaryNetworksCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  describeSecondaryNetworksStream(
+    args: DescribeSecondaryNetworksCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeSecondaryNetworksCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
+  /**
+   * @see {@link DescribeSecondarySubnetsCommand}
+   */
+  describeSecondarySubnets(
+    args: DescribeSecondarySubnetsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeSecondarySubnetsCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  describeSecondarySubnetsStream(
+    args: DescribeSecondarySubnetsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeSecondarySubnetsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
 
   /**
    * @see {@link DescribeSecurityGroupReferencesCommand}
@@ -12324,6 +12454,11 @@ interface EC2Service$ {
     SearchTransitGatewayRoutesCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
+
+  searchTransitGatewayRoutesStream(
+    args: SearchTransitGatewayRoutesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<SearchTransitGatewayRoutesCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
 
   /**
    * @see {@link SendDiagnosticInterruptCommand}

@@ -6,10 +6,12 @@ import {
 } from "@aws-sdk/client-eventbridge";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-eventbridge/dist-cjs/runtimeConfig";
-import { EventBridge, EventBridgeServiceConfig } from "@effect-aws/client-eventbridge";
-import { SdkError } from "@effect-aws/commons";
+import { EventBridgeService as EventBridge } from "@effect-aws/client-eventbridge/EventBridgeService";
+import * as EventBridgeServiceConfig from "@effect-aws/client-eventbridge/EventBridgeServiceConfig";
+import { SdkError } from "@effect-aws/commons/Errors";
 import { mockClient } from "aws-sdk-client-mock";
-import { Effect, Exit } from "effect";
+import * as Effect from "effect/Effect";
+import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
 

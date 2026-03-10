@@ -13,7 +13,7 @@ import type {
   ResourceNotFoundException,
   ThrottlingException,
 } from "@aws-sdk/client-eventbridge";
-import type { TaggedException } from "@effect-aws/commons";
+import type { TaggedException } from "@effect-aws/commons/Errors";
 
 export const AllServiceErrors = [
   "AccessDeniedException",

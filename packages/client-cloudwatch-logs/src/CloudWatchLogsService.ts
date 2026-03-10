@@ -256,6 +256,9 @@ import {
   PutAccountPolicyCommand,
   type PutAccountPolicyCommandInput,
   type PutAccountPolicyCommandOutput,
+  PutBearerTokenAuthenticationCommand,
+  type PutBearerTokenAuthenticationCommandInput,
+  type PutBearerTokenAuthenticationCommandOutput,
   PutDataProtectionPolicyCommand,
   type PutDataProtectionPolicyCommandInput,
   type PutDataProtectionPolicyCommandOutput,
@@ -344,10 +347,12 @@ import {
   type UpdateScheduledQueryCommandInput,
   type UpdateScheduledQueryCommandOutput,
 } from "@aws-sdk/client-cloudwatch-logs";
-import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
-import { Service } from "@effect-aws/commons";
-import type { Cause } from "effect";
-import { Effect, Layer } from "effect";
+import * as Service from "@effect-aws/commons/Service";
+import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
+import type * as Cause from "effect/Cause";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
 import type * as Stream from "effect/Stream";
 import * as Instance from "./CloudWatchLogsClientInstance.js";
 import * as CloudWatchLogsServiceConfig from "./CloudWatchLogsServiceConfig.js";
@@ -453,6 +458,7 @@ const commands = {
   ListTagsForResourceCommand,
   ListTagsLogGroupCommand,
   PutAccountPolicyCommand,
+  PutBearerTokenAuthenticationCommand,
   PutDataProtectionPolicyCommand,
   PutDeliveryDestinationCommand,
   PutDeliveryDestinationPolicyCommand,
@@ -1877,6 +1883,24 @@ interface CloudWatchLogsService$ {
     | InvalidParameterError
     | LimitExceededError
     | OperationAbortedError
+    | ServiceUnavailableError
+  >;
+
+  /**
+   * @see {@link PutBearerTokenAuthenticationCommand}
+   */
+  putBearerTokenAuthentication(
+    args: PutBearerTokenAuthenticationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    PutBearerTokenAuthenticationCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InvalidOperationError
+    | InvalidParameterError
+    | OperationAbortedError
+    | ResourceNotFoundError
     | ServiceUnavailableError
   >;
 

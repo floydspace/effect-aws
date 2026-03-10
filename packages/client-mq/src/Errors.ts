@@ -6,7 +6,7 @@ import type {
   NotFoundException,
   UnauthorizedException,
 } from "@aws-sdk/client-mq";
-import type { TaggedException } from "@effect-aws/commons";
+import type { TaggedException } from "@effect-aws/commons/Errors";
 
 export const AllServiceErrors = [
   "BadRequestException",

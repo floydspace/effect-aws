@@ -6,13 +6,12 @@ import {
 } from "@aws-sdk/client-cognito-identity-provider";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-cognito-identity-provider/dist-cjs/runtimeConfig";
-import {
-  CognitoIdentityProvider,
-  CognitoIdentityProviderServiceConfig,
-} from "@effect-aws/client-cognito-identity-provider";
-import { SdkError } from "@effect-aws/commons";
+import { CognitoIdentityProviderService as CognitoIdentityProvider } from "@effect-aws/client-cognito-identity-provider/CognitoIdentityProviderService";
+import * as CognitoIdentityProviderServiceConfig from "@effect-aws/client-cognito-identity-provider/CognitoIdentityProviderServiceConfig";
+import { SdkError } from "@effect-aws/commons/Errors";
 import { mockClient } from "aws-sdk-client-mock";
-import { Effect, Exit } from "effect";
+import * as Effect from "effect/Effect";
+import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
 

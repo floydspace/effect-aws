@@ -1,20 +1,18 @@
 /**
  * @since 1.0.0
  */
-import { SSMService } from "@effect-aws/client-ssm";
-import type { Config } from "effect";
-import {
-  Array,
-  Cause,
-  ConfigError,
-  ConfigProvider,
-  ConfigProviderPathPatch,
-  Effect,
-  HashSet,
-  Layer,
-  Option,
-  pipe,
-} from "effect";
+import { SSMService } from "@effect-aws/client-ssm/SSMService";
+import * as Array from "effect/Array";
+import * as Cause from "effect/Cause";
+import type * as Config from "effect/Config";
+import * as ConfigError from "effect/ConfigError";
+import * as ConfigProvider from "effect/ConfigProvider";
+import * as ConfigProviderPathPatch from "effect/ConfigProviderPathPatch";
+import * as Effect from "effect/Effect";
+import { pipe } from "effect/Function";
+import * as HashSet from "effect/HashSet";
+import * as Layer from "effect/Layer";
+import * as Option from "effect/Option";
 
 /**
  * @since 1.2.0

@@ -6,10 +6,12 @@ import {
 } from "@aws-sdk/client-dynamodb";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-dynamodb/dist-cjs/runtimeConfig";
-import { DynamoDB, DynamoDBServiceConfig } from "@effect-aws/client-dynamodb";
-import { SdkError } from "@effect-aws/commons";
+import { DynamoDBService as DynamoDB } from "@effect-aws/client-dynamodb/DynamoDBService";
+import * as DynamoDBServiceConfig from "@effect-aws/client-dynamodb/DynamoDBServiceConfig";
+import { SdkError } from "@effect-aws/commons/Errors";
 import { mockClient } from "aws-sdk-client-mock";
-import { Effect, Exit } from "effect";
+import * as Effect from "effect/Effect";
+import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
 

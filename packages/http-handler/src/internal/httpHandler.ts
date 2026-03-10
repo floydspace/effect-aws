@@ -1,13 +1,20 @@
-import type { HttpHandlerOptions } from "@effect-aws/commons";
-import { HttpHandler } from "@effect-aws/commons";
-import type { HttpMethod } from "@effect/platform";
-import { HttpBody, HttpClient, HttpClientRequest } from "@effect/platform";
+import * as HttpHandler from "@effect-aws/commons/HttpHandler";
+import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
+import * as HttpBody from "@effect/platform/HttpBody";
+import * as HttpClient from "@effect/platform/HttpClient";
+import * as HttpClientRequest from "@effect/platform/HttpClientRequest";
+import type * as HttpMethod from "@effect/platform/HttpMethod";
 import type { HttpRequest } from "@smithy/protocol-http";
 import { HttpResponse } from "@smithy/protocol-http";
 import { buildQueryString } from "@smithy/querystring-builder";
 import type { RequestHandlerOutput } from "@smithy/types";
-import type { Cause, Scope } from "effect";
-import { Duration, Effect, Option, Sink, Stream } from "effect";
+import type * as Cause from "effect/Cause";
+import * as Duration from "effect/Duration";
+import * as Effect from "effect/Effect";
+import * as Option from "effect/Option";
+import type * as Scope from "effect/Scope";
+import * as Sink from "effect/Sink";
+import * as Stream from "effect/Stream";
 
 declare module "@effect/platform/HttpClientResponse" {
   interface HttpClientResponse {

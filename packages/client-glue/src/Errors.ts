@@ -29,6 +29,9 @@ import type {
   InvalidIntegrationStateFault,
   InvalidStateException,
   KMSKeyNotAccessibleFault,
+  MaterializedViewRefreshTaskNotRunningException,
+  MaterializedViewRefreshTaskRunningException,
+  MaterializedViewRefreshTaskStoppingException,
   MLTransformNotReadyException,
   NoScheduleException,
   OperationNotSupportedException,
@@ -45,7 +48,7 @@ import type {
   ValidationException,
   VersionMismatchException,
 } from "@aws-sdk/client-glue";
-import type { TaggedException } from "@effect-aws/commons";
+import type { TaggedException } from "@effect-aws/commons/Errors";
 
 export const AllServiceErrors = [
   "AccessDeniedException",
@@ -79,6 +82,9 @@ export const AllServiceErrors = [
   "InvalidStateException",
   "KMSKeyNotAccessibleFault",
   "MLTransformNotReadyException",
+  "MaterializedViewRefreshTaskNotRunningException",
+  "MaterializedViewRefreshTaskRunningException",
+  "MaterializedViewRefreshTaskStoppingException",
   "NoScheduleException",
   "OperationNotSupportedException",
   "OperationTimeoutException",
@@ -126,6 +132,11 @@ export type InvalidIntegrationStateFaultError = TaggedException<InvalidIntegrati
 export type InvalidStateError = TaggedException<InvalidStateException>;
 export type KMSKeyNotAccessibleFaultError = TaggedException<KMSKeyNotAccessibleFault>;
 export type MLTransformNotReadyError = TaggedException<MLTransformNotReadyException>;
+export type MaterializedViewRefreshTaskNotRunningError = TaggedException<
+  MaterializedViewRefreshTaskNotRunningException
+>;
+export type MaterializedViewRefreshTaskRunningError = TaggedException<MaterializedViewRefreshTaskRunningException>;
+export type MaterializedViewRefreshTaskStoppingError = TaggedException<MaterializedViewRefreshTaskStoppingException>;
 export type NoScheduleError = TaggedException<NoScheduleException>;
 export type OperationNotSupportedError = TaggedException<OperationNotSupportedException>;
 export type OperationTimeoutError = TaggedException<OperationTimeoutException>;

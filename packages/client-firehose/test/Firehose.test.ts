@@ -6,10 +6,12 @@ import {
 } from "@aws-sdk/client-firehose";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-firehose/dist-cjs/runtimeConfig";
-import { Firehose, FirehoseServiceConfig } from "@effect-aws/client-firehose";
-import { SdkError } from "@effect-aws/commons";
+import { FirehoseService as Firehose } from "@effect-aws/client-firehose/FirehoseService";
+import * as FirehoseServiceConfig from "@effect-aws/client-firehose/FirehoseServiceConfig";
+import { SdkError } from "@effect-aws/commons/Errors";
 import { mockClient } from "aws-sdk-client-mock";
-import { Effect, Exit } from "effect";
+import * as Effect from "effect/Effect";
+import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
 

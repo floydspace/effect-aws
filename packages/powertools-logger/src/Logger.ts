@@ -8,7 +8,16 @@ import type {
   LogItemExtraInput,
   LogItemMessage,
 } from "@aws-lambda-powertools/logger/types";
-import { Cause, Effect, FiberId, FiberRef, FiberRefs, HashMap, Layer, List, Logger as Log, LogLevel } from "effect";
+import * as Cause from "effect/Cause";
+import * as Effect from "effect/Effect";
+import * as FiberId from "effect/FiberId";
+import * as FiberRef from "effect/FiberRef";
+import * as FiberRefs from "effect/FiberRefs";
+import * as HashMap from "effect/HashMap";
+import * as Layer from "effect/Layer";
+import * as List from "effect/List";
+import * as Log from "effect/Logger";
+import * as LogLevel from "effect/LogLevel";
 import * as Instance from "./LoggerInstance.js";
 import * as LoggerOptions from "./LoggerOptions.js";
 

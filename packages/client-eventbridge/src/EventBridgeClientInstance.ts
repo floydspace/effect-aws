@@ -2,7 +2,9 @@
  * @since 1.0.0
  */
 import { EventBridgeClient } from "@aws-sdk/client-eventbridge";
-import { Context, Effect, Layer } from "effect";
+import * as Context from "effect/Context";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
 import * as EventBridgeServiceConfig from "./EventBridgeServiceConfig.js";
 
 /**

@@ -2,7 +2,8 @@
  * @since 0.1.0
  */
 import type { DsqlSignerConfig } from "@aws-sdk/dsql-signer";
-import { Effect, Layer } from "effect";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
 import * as Instance from "./DsqlSignerInstance.js";
 
 interface DsqlSigner$ {

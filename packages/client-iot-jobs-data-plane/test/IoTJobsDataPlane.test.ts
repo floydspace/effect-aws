@@ -6,10 +6,12 @@ import {
 } from "@aws-sdk/client-iot-jobs-data-plane";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-iot-jobs-data-plane/dist-cjs/runtimeConfig";
-import { IoTJobsDataPlane, IoTJobsDataPlaneServiceConfig } from "@effect-aws/client-iot-jobs-data-plane";
-import { SdkError } from "@effect-aws/commons";
+import { IoTJobsDataPlaneService as IoTJobsDataPlane } from "@effect-aws/client-iot-jobs-data-plane/IoTJobsDataPlaneService";
+import * as IoTJobsDataPlaneServiceConfig from "@effect-aws/client-iot-jobs-data-plane/IoTJobsDataPlaneServiceConfig";
+import { SdkError } from "@effect-aws/commons/Errors";
 import { mockClient } from "aws-sdk-client-mock";
-import { Effect, Exit } from "effect";
+import * as Effect from "effect/Effect";
+import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
 

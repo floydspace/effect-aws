@@ -179,6 +179,9 @@ import {
   DeleteConnectionCommand,
   type DeleteConnectionCommandInput,
   type DeleteConnectionCommandOutput,
+  DeleteConnectionTypeCommand,
+  type DeleteConnectionTypeCommandInput,
+  type DeleteConnectionTypeCommandOutput,
   DeleteCrawlerCommand,
   type DeleteCrawlerCommandInput,
   type DeleteCrawlerCommandOutput,
@@ -392,6 +395,9 @@ import {
   GetMappingCommand,
   type GetMappingCommandInput,
   type GetMappingCommandOutput,
+  GetMaterializedViewRefreshTaskRunCommand,
+  type GetMaterializedViewRefreshTaskRunCommandInput,
+  type GetMaterializedViewRefreshTaskRunCommandOutput,
   GetMLTaskRunCommand,
   type GetMLTaskRunCommandInput,
   type GetMLTaskRunCommandOutput,
@@ -556,6 +562,9 @@ import {
   ListJobsCommand,
   type ListJobsCommandInput,
   type ListJobsCommandOutput,
+  ListMaterializedViewRefreshTaskRunsCommand,
+  type ListMaterializedViewRefreshTaskRunsCommandInput,
+  type ListMaterializedViewRefreshTaskRunsCommandOutput,
   ListMLTransformsCommand,
   type ListMLTransformsCommandInput,
   type ListMLTransformsCommandOutput,
@@ -624,6 +633,7 @@ import {
   paginateListDevEndpoints,
   paginateListEntities,
   paginateListJobs,
+  paginateListMaterializedViewRefreshTaskRuns,
   paginateListMLTransforms,
   paginateListRegistries,
   paginateListSchemas,
@@ -652,6 +662,9 @@ import {
   QuerySchemaVersionMetadataCommand,
   type QuerySchemaVersionMetadataCommandInput,
   type QuerySchemaVersionMetadataCommandOutput,
+  RegisterConnectionTypeCommand,
+  type RegisterConnectionTypeCommandInput,
+  type RegisterConnectionTypeCommandOutput,
   RegisterSchemaVersionCommand,
   type RegisterSchemaVersionCommandInput,
   type RegisterSchemaVersionCommandOutput,
@@ -700,6 +713,9 @@ import {
   StartJobRunCommand,
   type StartJobRunCommandInput,
   type StartJobRunCommandOutput,
+  StartMaterializedViewRefreshTaskRunCommand,
+  type StartMaterializedViewRefreshTaskRunCommandInput,
+  type StartMaterializedViewRefreshTaskRunCommandOutput,
   StartMLEvaluationTaskRunCommand,
   type StartMLEvaluationTaskRunCommandInput,
   type StartMLEvaluationTaskRunCommandOutput,
@@ -724,6 +740,9 @@ import {
   StopCrawlerScheduleCommand,
   type StopCrawlerScheduleCommandInput,
   type StopCrawlerScheduleCommandOutput,
+  StopMaterializedViewRefreshTaskRunCommand,
+  type StopMaterializedViewRefreshTaskRunCommandInput,
+  type StopMaterializedViewRefreshTaskRunCommandOutput,
   StopSessionCommand,
   type StopSessionCommandInput,
   type StopSessionCommandOutput,
@@ -827,10 +846,12 @@ import {
   type UpdateWorkflowCommandInput,
   type UpdateWorkflowCommandOutput,
 } from "@aws-sdk/client-glue";
-import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
-import { Service } from "@effect-aws/commons";
-import type { Cause } from "effect";
-import { Effect, Layer } from "effect";
+import * as Service from "@effect-aws/commons/Service";
+import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
+import type * as Cause from "effect/Cause";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
 import type * as Stream from "effect/Stream";
 import type {
   AccessDeniedError,
@@ -863,6 +884,9 @@ import type {
   InvalidIntegrationStateFaultError,
   InvalidStateError,
   KMSKeyNotAccessibleFaultError,
+  MaterializedViewRefreshTaskNotRunningError,
+  MaterializedViewRefreshTaskRunningError,
+  MaterializedViewRefreshTaskStoppingError,
   MLTransformNotReadyError,
   NoScheduleError,
   OperationNotSupportedError,
@@ -944,6 +968,7 @@ const commands = {
   DeleteColumnStatisticsForTableCommand,
   DeleteColumnStatisticsTaskSettingsCommand,
   DeleteConnectionCommand,
+  DeleteConnectionTypeCommand,
   DeleteCrawlerCommand,
   DeleteCustomEntityTypeCommand,
   DeleteDataQualityRulesetCommand,
@@ -1019,6 +1044,7 @@ const commands = {
   GetMLTransformCommand,
   GetMLTransformsCommand,
   GetMappingCommand,
+  GetMaterializedViewRefreshTaskRunCommand,
   GetPartitionCommand,
   GetPartitionIndexesCommand,
   GetPartitionsCommand,
@@ -1070,6 +1096,7 @@ const commands = {
   ListIntegrationResourcePropertiesCommand,
   ListJobsCommand,
   ListMLTransformsCommand,
+  ListMaterializedViewRefreshTaskRunsCommand,
   ListRegistriesCommand,
   ListSchemaVersionsCommand,
   ListSchemasCommand,
@@ -1086,6 +1113,7 @@ const commands = {
   PutSchemaVersionMetadataCommand,
   PutWorkflowRunPropertiesCommand,
   QuerySchemaVersionMetadataCommand,
+  RegisterConnectionTypeCommand,
   RegisterSchemaVersionCommand,
   RemoveSchemaVersionMetadataCommand,
   ResetJobBookmarkCommand,
@@ -1104,12 +1132,14 @@ const commands = {
   StartJobRunCommand,
   StartMLEvaluationTaskRunCommand,
   StartMLLabelingSetGenerationTaskRunCommand,
+  StartMaterializedViewRefreshTaskRunCommand,
   StartTriggerCommand,
   StartWorkflowRunCommand,
   StopColumnStatisticsTaskRunCommand,
   StopColumnStatisticsTaskRunScheduleCommand,
   StopCrawlerCommand,
   StopCrawlerScheduleCommand,
+  StopMaterializedViewRefreshTaskRunCommand,
   StopSessionCommand,
   StopTriggerCommand,
   StopWorkflowRunCommand,
@@ -1183,6 +1213,7 @@ const paginators = {
   paginateListEntities,
   paginateListJobs,
   paginateListMLTransforms,
+  paginateListMaterializedViewRefreshTaskRuns,
   paginateListRegistries,
   paginateListSchemaVersions,
   paginateListSchemas,
@@ -2164,6 +2195,24 @@ interface GlueService$ {
   ): Effect.Effect<
     DeleteConnectionCommandOutput,
     Cause.TimeoutException | SdkError | EntityNotFoundError | OperationTimeoutError
+  >;
+
+  /**
+   * @see {@link DeleteConnectionTypeCommand}
+   */
+  deleteConnectionType(
+    args: DeleteConnectionTypeCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteConnectionTypeCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | EntityNotFoundError
+    | InternalServiceError
+    | InvalidInputError
+    | OperationTimeoutError
+    | ValidationError
   >;
 
   /**
@@ -3509,6 +3558,22 @@ interface GlueService$ {
   >;
 
   /**
+   * @see {@link GetMaterializedViewRefreshTaskRunCommand}
+   */
+  getMaterializedViewRefreshTaskRun(
+    args: GetMaterializedViewRefreshTaskRunCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetMaterializedViewRefreshTaskRunCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | EntityNotFoundError
+    | InvalidInputError
+    | OperationTimeoutError
+  >;
+
+  /**
    * @see {@link GetPartitionCommand}
    */
   getPartition(
@@ -4577,6 +4642,25 @@ interface GlueService$ {
   >;
 
   /**
+   * @see {@link ListMaterializedViewRefreshTaskRunsCommand}
+   */
+  listMaterializedViewRefreshTaskRuns(
+    args: ListMaterializedViewRefreshTaskRunsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListMaterializedViewRefreshTaskRunsCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | InvalidInputError | OperationTimeoutError
+  >;
+
+  listMaterializedViewRefreshTaskRunsStream(
+    args: ListMaterializedViewRefreshTaskRunsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListMaterializedViewRefreshTaskRunsCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | InvalidInputError | OperationTimeoutError
+  >;
+
+  /**
    * @see {@link ListRegistriesCommand}
    */
   listRegistries(
@@ -4920,6 +5004,24 @@ interface GlueService$ {
   >;
 
   /**
+   * @see {@link RegisterConnectionTypeCommand}
+   */
+  registerConnectionType(
+    args: RegisterConnectionTypeCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    RegisterConnectionTypeCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServiceError
+    | InvalidInputError
+    | OperationTimeoutError
+    | ResourceNumberLimitExceededError
+    | ValidationError
+  >;
+
+  /**
    * @see {@link RegisterSchemaVersionCommand}
    */
   registerSchemaVersion(
@@ -5216,6 +5318,24 @@ interface GlueService$ {
   >;
 
   /**
+   * @see {@link StartMaterializedViewRefreshTaskRunCommand}
+   */
+  startMaterializedViewRefreshTaskRun(
+    args: StartMaterializedViewRefreshTaskRunCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    StartMaterializedViewRefreshTaskRunCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | EntityNotFoundError
+    | InvalidInputError
+    | MaterializedViewRefreshTaskRunningError
+    | OperationTimeoutError
+    | ResourceNumberLimitExceededError
+  >;
+
+  /**
    * @see {@link StartTriggerCommand}
    */
   startTrigger(
@@ -5308,6 +5428,23 @@ interface GlueService$ {
     | OperationTimeoutError
     | SchedulerNotRunningError
     | SchedulerTransitioningError
+  >;
+
+  /**
+   * @see {@link StopMaterializedViewRefreshTaskRunCommand}
+   */
+  stopMaterializedViewRefreshTaskRun(
+    args: StopMaterializedViewRefreshTaskRunCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    StopMaterializedViewRefreshTaskRunCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InvalidInputError
+    | MaterializedViewRefreshTaskNotRunningError
+    | MaterializedViewRefreshTaskStoppingError
+    | OperationTimeoutError
   >;
 
   /**

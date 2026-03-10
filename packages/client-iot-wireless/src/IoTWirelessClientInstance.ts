@@ -2,7 +2,9 @@
  * @since 1.0.0
  */
 import { IoTWirelessClient } from "@aws-sdk/client-iot-wireless";
-import { Context, Effect, Layer } from "effect";
+import * as Context from "effect/Context";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
 import * as IoTWirelessServiceConfig from "./IoTWirelessServiceConfig.js";
 
 /**

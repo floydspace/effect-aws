@@ -7,10 +7,14 @@ import type {
   S3Client,
   S3ClientConfig,
 } from "@aws-sdk/client-s3";
-import { S3Service } from "@effect-aws/client-s3";
-import type { Error as PlatformError, FileSystem } from "@effect/platform";
-import type { Cause, Context, Effect, Stream } from "effect";
-import { Layer } from "effect";
+import { S3Service } from "@effect-aws/client-s3/S3Service";
+import type * as PlatformError from "@effect/platform/Error";
+import type * as FileSystem from "@effect/platform/FileSystem";
+import type * as Cause from "effect/Cause";
+import type * as Context from "effect/Context";
+import type * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
+import type * as Stream from "effect/Stream";
 import * as internal from "./internal/multipartUpload.js";
 
 /**

@@ -7,7 +7,7 @@ import type {
   TooManyRequestsException,
   ValidationException,
 } from "@aws-sdk/client-account";
-import type { TaggedException } from "@effect-aws/commons";
+import type { TaggedException } from "@effect-aws/commons/Errors";
 
 export const AllServiceErrors = [
   "AccessDeniedException",

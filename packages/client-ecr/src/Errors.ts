@@ -46,7 +46,7 @@ import type {
   UploadNotFoundException,
   ValidationException,
 } from "@aws-sdk/client-ecr";
-import type { TaggedException } from "@effect-aws/commons";
+import type { TaggedException } from "@effect-aws/commons/Errors";
 
 export const AllServiceErrors = [
   "BlockedByOrganizationPolicyException",

@@ -317,6 +317,9 @@ import {
   UpdateBucketMetadataJournalTableConfigurationCommand,
   type UpdateBucketMetadataJournalTableConfigurationCommandInput,
   type UpdateBucketMetadataJournalTableConfigurationCommandOutput,
+  UpdateObjectEncryptionCommand,
+  type UpdateObjectEncryptionCommandInput,
+  type UpdateObjectEncryptionCommandOutput,
   UploadPartCommand,
   type UploadPartCommandInput,
   type UploadPartCommandOutput,
@@ -329,12 +332,15 @@ import {
 } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import type { RequestPresigningArguments } from "@aws-sdk/types";
-import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
-import { Service } from "@effect-aws/commons";
-import type { Cause } from "effect";
-import { Effect, Layer } from "effect";
+import * as Service from "@effect-aws/commons/Service";
+import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
+import type * as Cause from "effect/Cause";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
 import type * as Stream from "effect/Stream";
 import type {
+  AccessDeniedError,
   BucketAlreadyExistsError,
   BucketAlreadyOwnedByYouError,
   EncryptionTypeMismatchError,
@@ -460,6 +466,7 @@ const commands = {
   SelectObjectContentCommand,
   UpdateBucketMetadataInventoryTableConfigurationCommand,
   UpdateBucketMetadataJournalTableConfigurationCommand,
+  UpdateObjectEncryptionCommand,
   UploadPartCommand,
   UploadPartCopyCommand,
   WriteGetObjectResponseCommand,
@@ -1208,7 +1215,7 @@ interface S3Service$ {
   listBucketsStream(
     args: ListBucketsCommandInput,
     options?: HttpHandlerOptions,
-  ): Stream.Stream<ListBucketsCommandOutput, Cause.TimeoutException | SdkError | S3ServiceError>;
+  ): Stream.Stream<ListBucketsCommandOutput, Cause.TimeoutException | SdkError>;
 
   /**
    * @see {@link ListDirectoryBucketsCommand}
@@ -1224,7 +1231,7 @@ interface S3Service$ {
   listDirectoryBucketsStream(
     args: ListDirectoryBucketsCommandInput,
     options?: HttpHandlerOptions,
-  ): Stream.Stream<ListDirectoryBucketsCommandOutput, Cause.TimeoutException | SdkError | S3ServiceError>;
+  ): Stream.Stream<ListDirectoryBucketsCommandOutput, Cause.TimeoutException | SdkError>;
 
   /**
    * @see {@link ListMultipartUploadsCommand}
@@ -1289,7 +1296,7 @@ interface S3Service$ {
   listPartsStream(
     args: ListPartsCommandInput,
     options?: HttpHandlerOptions,
-  ): Stream.Stream<ListPartsCommandOutput, Cause.TimeoutException | SdkError | S3ServiceError>;
+  ): Stream.Stream<ListPartsCommandOutput, Cause.TimeoutException | SdkError>;
 
   /**
    * @see {@link PutBucketAbacCommand}
@@ -1639,6 +1646,17 @@ interface S3Service$ {
   ): Effect.Effect<
     UpdateBucketMetadataJournalTableConfigurationCommandOutput,
     Cause.TimeoutException | SdkError | S3ServiceError
+  >;
+
+  /**
+   * @see {@link UpdateObjectEncryptionCommand}
+   */
+  updateObjectEncryption(
+    args: UpdateObjectEncryptionCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateObjectEncryptionCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | InvalidRequestError | NoSuchKeyError
   >;
 
   /**

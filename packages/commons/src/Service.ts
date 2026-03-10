@@ -12,9 +12,17 @@ import type {
   Paginator,
   RequestHandler,
 } from "@smithy/types";
-import type { Array } from "effect";
-import { Cause, Data, Effect, Option, pipe, Record, Runtime, Scope, String } from "effect";
+import type * as Array from "effect/Array";
+import * as Cause from "effect/Cause";
+import * as Data from "effect/Data";
+import * as Effect from "effect/Effect";
+import { pipe } from "effect/Function";
+import * as Option from "effect/Option";
+import * as Record from "effect/Record";
+import * as Runtime from "effect/Runtime";
+import * as Scope from "effect/Scope";
 import * as Stream from "effect/Stream";
+import * as String from "effect/String";
 import type { TaggedException } from "./Errors.js";
 import { SdkError } from "./Errors.js";
 import * as HttpHandler from "./HttpHandler.js";
