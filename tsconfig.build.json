@@ -196,6 +196,9 @@
       "path": "packages/secrets-manager/tsconfig.esm.json"
     },
     {
+      "path": "packages/signature-v4/tsconfig.esm.json"
+    },
+    {
       "path": "packages/ssm/tsconfig.esm.json"
     },
     {

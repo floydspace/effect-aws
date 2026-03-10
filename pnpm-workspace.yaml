@@ -68,4 +68,5 @@ packages:
   - packages/powertools-tracer
   - packages/s3
   - packages/secrets-manager
+  - packages/signature-v4
   - packages/ssm
