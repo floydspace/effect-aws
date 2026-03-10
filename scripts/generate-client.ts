@@ -47,6 +47,16 @@ export async function generateClient([
     Record.keys,
   );
 
+  const paginateFns = pipe(
+    awsClient,
+    Record.filter(
+      (value, key) =>
+        typeof value === "function" &&
+        key.startsWith("paginate"),
+    ),
+    Record.keys,
+  );
+
   await generateErrorsFile(
     `./packages/client-${serviceName}/src/Errors.ts`,
     sdkName,
@@ -77,6 +87,7 @@ export async function generateClient([
     exportedErrors,
     originalServiceName,
     manifest,
+    paginateFns,
   );
 
   await mkdir(`./packages/client-${serviceName}/test`, { recursive: true });
@@ -326,6 +337,7 @@ async function generateServiceFile(
   exportedErrors: Array<string>,
   originalServiceName: string,
   manifest: Manifest,
+  paginateFns: Array<string>,
 ) {
   const operationTargets = pipe(
     manifest.shapes,
@@ -380,12 +392,18 @@ import {
         Array.join("\n  "),
       )
     }
+    ${paginateFns}
 } from "@aws-sdk/client-${originalServiceName}";
 import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
-import { Effect, Layer } from "effect";
-import * as Instance from "./${sdkName}ClientInstance.js";
+import { Effect, Layer } from "effect";${
+      paginateFns.length > 0 ?
+        `
+import * as Stream from "effect/Stream";
+` :
+        ""
+    }import * as Instance from "./${sdkName}ClientInstance.js";
 import * as ${sdkName}ServiceConfig from "./${sdkName}ServiceConfig.js";
 ${
       exportedErrors.length > 0 ?
@@ -422,7 +440,15 @@ const commands = {
       )
     }
 };
-
+${
+      paginateFns.length > 0 ?
+        `
+const paginators = {
+  ${paginateFns}
+};
+` :
+        ""
+    }
 interface ${sdkName}Service$ {
   readonly _: unique symbol;
 
@@ -453,7 +479,25 @@ ${
               Array.join(" | "),
             )
           }
-  >`;
+  >;
+
+${
+            Array.map(paginateFns, String.replace(/^paginate/, "")).includes(operationName) ?
+              `${
+                String.uncapitalize(operationName)
+              }Stream(args: ${operationName}CommandInput, options?: HttpHandlerOptions): Stream.Stream<${operationName}CommandOutput, ${
+                pipe(
+                  [
+                    "Cause.TimeoutException",
+                    "SdkError",
+                    ...(exportedErrors.length ? errors : [`${sdkName}ServiceError`]),
+                  ],
+                  Array.join(" | "),
+                )
+              }>;` :
+              ""
+          }
+  `;
         }),
         Array.join("\n\n"),
       )
@@ -473,8 +517,13 @@ export const make${sdkName}Service = Effect.gen(function* () {
     {
       ${exportedErrors.length ? "errorTags: AllServiceErrors," : ""}
       resolveClientConfig: ${sdkName}ServiceConfig.to${sdkName}ClientConfig,
-    },
-  );
+    },${
+      paginateFns.length > 0 ?
+        `
+    paginators,
+` :
+        ""
+    }  );
 });
 
 /**

@@ -44,6 +44,8 @@ import {
   ListQueueTagsCommand,
   type ListQueueTagsCommandInput,
   type ListQueueTagsCommandOutput,
+  paginateListDeadLetterSourceQueues,
+  paginateListQueues,
   PurgeQueueCommand,
   type PurgeQueueCommandInput,
   type PurgeQueueCommandOutput,
@@ -78,6 +80,7 @@ import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
+import type * as Stream from "effect/Stream";
 import type {
   BatchEntryIdsNotDistinctError,
   BatchRequestTooLongError,
@@ -137,6 +140,11 @@ const commands = {
   StartMessageMoveTaskCommand,
   TagQueueCommand,
   UntagQueueCommand,
+};
+
+const paginators = {
+  paginateListDeadLetterSourceQueues,
+  paginateListQueues,
 };
 
 interface SQSService$ {
@@ -346,6 +354,20 @@ interface SQSService$ {
     | UnsupportedOperationError
   >;
 
+  listDeadLetterSourceQueuesStream(
+    args: ListDeadLetterSourceQueuesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListDeadLetterSourceQueuesCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidAddressError
+    | InvalidSecurityError
+    | QueueDoesNotExistError
+    | RequestThrottledError
+    | UnsupportedOperationError
+  >;
+
   /**
    * @see {@link ListMessageMoveTasksCommand}
    */
@@ -387,6 +409,19 @@ interface SQSService$ {
     args: ListQueuesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListQueuesCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidAddressError
+    | InvalidSecurityError
+    | RequestThrottledError
+    | UnsupportedOperationError
+  >;
+
+  listQueuesStream(
+    args: ListQueuesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListQueuesCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -596,6 +631,7 @@ export const makeSQSService = Effect.gen(function*() {
       errorTags: AllServiceErrors,
       resolveClientConfig: SQSServiceConfig.toSQSClientConfig,
     },
+    paginators,
   );
 });
 

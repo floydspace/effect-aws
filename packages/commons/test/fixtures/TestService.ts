@@ -1,4 +1,5 @@
 import { type HttpHandlerOptions, Service } from "@effect-aws/commons";
+import { createPaginator } from "@smithy/core";
 import { Command } from "@smithy/smithy-client";
 import { Effect, Layer } from "effect";
 import * as Instance from "./TestClientInstance.js";
@@ -9,6 +10,10 @@ const commands = {
   // this could happen when effect-aws is used with updated aws-sdk version which has previously existed commands removed
   UndefinedCommand: undefined,
 } as unknown as Record<string, Service.CommandCtor<any>>;
+
+const paginators: Record<string, Service.PaginatorCtor<any>> = {
+  paginateTestCommand: createPaginator(Instance.TestClient, commands.TestCommand, "inputToken", "outputToken"),
+};
 
 export interface TestService$ {
   readonly _: unique symbol;
@@ -23,6 +28,7 @@ export const makeTestService = Effect.gen(function*() {
     client,
     commands,
     { resolveClientConfig: TestServiceConfig.toTestClientConfig },
+    paginators,
   );
 });
 

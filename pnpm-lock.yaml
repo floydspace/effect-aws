@@ -1284,6 +1284,9 @@ importers:
       '@aws-sdk/middleware-logger':
         specifier: ^3.956.0
         version: 3.956.0
+      '@smithy/core':
+        specifier: ^3.20.0
+        version: 3.20.0
       '@types/node':
         specifier: ts5.4
         version: 25.0.3

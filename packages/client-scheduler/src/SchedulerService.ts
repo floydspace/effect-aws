@@ -29,6 +29,8 @@ import {
   ListTagsForResourceCommand,
   type ListTagsForResourceCommandInput,
   type ListTagsForResourceCommandOutput,
+  paginateListScheduleGroups,
+  paginateListSchedules,
   type SchedulerClient,
   type SchedulerClientConfig,
   TagResourceCommand,
@@ -45,6 +47,7 @@ import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
+import type * as Stream from "effect/Stream";
 import type {
   ConflictError,
   InternalServerError,
@@ -71,6 +74,11 @@ const commands = {
   TagResourceCommand,
   UntagResourceCommand,
   UpdateScheduleCommand,
+};
+
+const paginators = {
+  paginateListScheduleGroups,
+  paginateListSchedules,
 };
 
 interface SchedulerService$ {
@@ -178,6 +186,14 @@ interface SchedulerService$ {
     Cause.TimeoutException | SdkError | InternalServerError | ThrottlingError | ValidationError
   >;
 
+  listScheduleGroupsStream(
+    args: ListScheduleGroupsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListScheduleGroupsCommandOutput,
+    Cause.TimeoutException | SdkError | InternalServerError | ThrottlingError | ValidationError
+  >;
+
   /**
    * @see {@link ListSchedulesCommand}
    */
@@ -185,6 +201,14 @@ interface SchedulerService$ {
     args: ListSchedulesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListSchedulesCommandOutput,
+    Cause.TimeoutException | SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
+  >;
+
+  listSchedulesStream(
+    args: ListSchedulesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListSchedulesCommandOutput,
     Cause.TimeoutException | SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
@@ -266,6 +290,7 @@ export const makeSchedulerService = Effect.gen(function*() {
       errorTags: AllServiceErrors,
       resolveClientConfig: SchedulerServiceConfig.toSchedulerClientConfig,
     },
+    paginators,
   );
 });
 

@@ -199,6 +199,21 @@ import {
   type ListVpcEndpointsForDomainCommandOutput,
   type OpenSearchClient,
   type OpenSearchClientConfig,
+  paginateDescribeDomainAutoTunes,
+  paginateDescribeInboundConnections,
+  paginateDescribeOutboundConnections,
+  paginateDescribePackages,
+  paginateDescribeReservedInstanceOfferings,
+  paginateDescribeReservedInstances,
+  paginateGetPackageVersionHistory,
+  paginateGetUpgradeHistory,
+  paginateListApplications,
+  paginateListDomainMaintenances,
+  paginateListDomainsForPackage,
+  paginateListInstanceTypeDetails,
+  paginateListPackagesForDomain,
+  paginateListScheduledActions,
+  paginateListVersions,
   PurchaseReservedInstanceOfferingCommand,
   type PurchaseReservedInstanceOfferingCommandInput,
   type PurchaseReservedInstanceOfferingCommandOutput,
@@ -255,6 +270,7 @@ import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
+import type * as Stream from "effect/Stream";
 import type {
   AccessDeniedError,
   BaseError,
@@ -359,6 +375,24 @@ const commands = {
   UpdateScheduledActionCommand,
   UpdateVpcEndpointCommand,
   UpgradeDomainCommand,
+};
+
+const paginators = {
+  paginateDescribeDomainAutoTunes,
+  paginateDescribeInboundConnections,
+  paginateDescribeOutboundConnections,
+  paginateDescribePackages,
+  paginateDescribeReservedInstanceOfferings,
+  paginateDescribeReservedInstances,
+  paginateGetPackageVersionHistory,
+  paginateGetUpgradeHistory,
+  paginateListApplications,
+  paginateListDomainMaintenances,
+  paginateListDomainsForPackage,
+  paginateListInstanceTypeDetails,
+  paginateListPackagesForDomain,
+  paginateListScheduledActions,
+  paginateListVersions,
 };
 
 interface OpenSearchService$ {
@@ -772,6 +806,14 @@ interface OpenSearchService$ {
     Cause.TimeoutException | SdkError | BaseError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
+  describeDomainAutoTunesStream(
+    args: DescribeDomainAutoTunesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeDomainAutoTunesCommandOutput,
+    Cause.TimeoutException | SdkError | BaseError | InternalError | ResourceNotFoundError | ValidationError
+  >;
+
   /**
    * @see {@link DescribeDomainChangeProgressCommand}
    */
@@ -868,6 +910,14 @@ interface OpenSearchService$ {
     Cause.TimeoutException | SdkError | DisabledOperationError | InvalidPaginationTokenError
   >;
 
+  describeInboundConnectionsStream(
+    args: DescribeInboundConnectionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeInboundConnectionsCommandOutput,
+    Cause.TimeoutException | SdkError | DisabledOperationError | InvalidPaginationTokenError
+  >;
+
   /**
    * @see {@link DescribeInstanceTypeLimitsCommand}
    */
@@ -897,6 +947,14 @@ interface OpenSearchService$ {
     Cause.TimeoutException | SdkError | DisabledOperationError | InvalidPaginationTokenError
   >;
 
+  describeOutboundConnectionsStream(
+    args: DescribeOutboundConnectionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeOutboundConnectionsCommandOutput,
+    Cause.TimeoutException | SdkError | DisabledOperationError | InvalidPaginationTokenError
+  >;
+
   /**
    * @see {@link DescribePackagesCommand}
    */
@@ -904,6 +962,20 @@ interface OpenSearchService$ {
     args: DescribePackagesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribePackagesCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | BaseError
+    | InternalError
+    | ResourceNotFoundError
+    | ValidationError
+  >;
+
+  describePackagesStream(
+    args: DescribePackagesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribePackagesCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -925,6 +997,14 @@ interface OpenSearchService$ {
     Cause.TimeoutException | SdkError | DisabledOperationError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
+  describeReservedInstanceOfferingsStream(
+    args: DescribeReservedInstanceOfferingsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeReservedInstanceOfferingsCommandOutput,
+    Cause.TimeoutException | SdkError | DisabledOperationError | InternalError | ResourceNotFoundError | ValidationError
+  >;
+
   /**
    * @see {@link DescribeReservedInstancesCommand}
    */
@@ -932,6 +1012,14 @@ interface OpenSearchService$ {
     args: DescribeReservedInstancesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeReservedInstancesCommandOutput,
+    Cause.TimeoutException | SdkError | DisabledOperationError | InternalError | ResourceNotFoundError | ValidationError
+  >;
+
+  describeReservedInstancesStream(
+    args: DescribeReservedInstancesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeReservedInstancesCommandOutput,
     Cause.TimeoutException | SdkError | DisabledOperationError | InternalError | ResourceNotFoundError | ValidationError
   >;
@@ -1117,6 +1205,20 @@ interface OpenSearchService$ {
     | ValidationError
   >;
 
+  getPackageVersionHistoryStream(
+    args: GetPackageVersionHistoryCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    GetPackageVersionHistoryCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | BaseError
+    | InternalError
+    | ResourceNotFoundError
+    | ValidationError
+  >;
+
   /**
    * @see {@link GetUpgradeHistoryCommand}
    */
@@ -1124,6 +1226,20 @@ interface OpenSearchService$ {
     args: GetUpgradeHistoryCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    GetUpgradeHistoryCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | BaseError
+    | DisabledOperationError
+    | InternalError
+    | ResourceNotFoundError
+    | ValidationError
+  >;
+
+  getUpgradeHistoryStream(
+    args: GetUpgradeHistoryCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     GetUpgradeHistoryCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -1158,6 +1274,21 @@ interface OpenSearchService$ {
     args: ListApplicationsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListApplicationsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | BaseError
+    | DisabledOperationError
+    | InternalError
+    | ResourceNotFoundError
+    | ValidationError
+  >;
+
+  listApplicationsStream(
+    args: ListApplicationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListApplicationsCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -1221,6 +1352,20 @@ interface OpenSearchService$ {
     | ValidationError
   >;
 
+  listDomainMaintenancesStream(
+    args: ListDomainMaintenancesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListDomainMaintenancesCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | BaseError
+    | DisabledOperationError
+    | InternalError
+    | ResourceNotFoundError
+    | ValidationError
+  >;
+
   /**
    * @see {@link ListDomainNamesCommand}
    */
@@ -1249,6 +1394,20 @@ interface OpenSearchService$ {
     | ValidationError
   >;
 
+  listDomainsForPackageStream(
+    args: ListDomainsForPackageCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListDomainsForPackageCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | BaseError
+    | InternalError
+    | ResourceNotFoundError
+    | ValidationError
+  >;
+
   /**
    * @see {@link ListInstanceTypeDetailsCommand}
    */
@@ -1256,6 +1415,14 @@ interface OpenSearchService$ {
     args: ListInstanceTypeDetailsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListInstanceTypeDetailsCommandOutput,
+    Cause.TimeoutException | SdkError | BaseError | InternalError | ResourceNotFoundError | ValidationError
+  >;
+
+  listInstanceTypeDetailsStream(
+    args: ListInstanceTypeDetailsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListInstanceTypeDetailsCommandOutput,
     Cause.TimeoutException | SdkError | BaseError | InternalError | ResourceNotFoundError | ValidationError
   >;
@@ -1277,6 +1444,20 @@ interface OpenSearchService$ {
     | ValidationError
   >;
 
+  listPackagesForDomainStream(
+    args: ListPackagesForDomainCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListPackagesForDomainCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | BaseError
+    | InternalError
+    | ResourceNotFoundError
+    | ValidationError
+  >;
+
   /**
    * @see {@link ListScheduledActionsCommand}
    */
@@ -1284,6 +1465,20 @@ interface OpenSearchService$ {
     args: ListScheduledActionsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListScheduledActionsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | BaseError
+    | InternalError
+    | InvalidPaginationTokenError
+    | ResourceNotFoundError
+    | ValidationError
+  >;
+
+  listScheduledActionsStream(
+    args: ListScheduledActionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListScheduledActionsCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -1312,6 +1507,14 @@ interface OpenSearchService$ {
     args: ListVersionsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListVersionsCommandOutput,
+    Cause.TimeoutException | SdkError | BaseError | InternalError | ResourceNotFoundError | ValidationError
+  >;
+
+  listVersionsStream(
+    args: ListVersionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListVersionsCommandOutput,
     Cause.TimeoutException | SdkError | BaseError | InternalError | ResourceNotFoundError | ValidationError
   >;
@@ -1495,6 +1698,7 @@ interface OpenSearchService$ {
     | BaseError
     | DisabledOperationError
     | InternalError
+    | LimitExceededError
     | ResourceNotFoundError
     | ValidationError
   >;
@@ -1641,6 +1845,7 @@ export const makeOpenSearchService = Effect.gen(function*() {
       errorTags: AllServiceErrors,
       resolveClientConfig: OpenSearchServiceConfig.toOpenSearchClientConfig,
     },
+    paginators,
   );
 });
 

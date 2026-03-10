@@ -2029,6 +2029,169 @@ import {
   MoveCapacityReservationInstancesCommand,
   type MoveCapacityReservationInstancesCommandInput,
   type MoveCapacityReservationInstancesCommandOutput,
+  paginateDescribeAddressesAttribute,
+  paginateDescribeAddressTransfers,
+  paginateDescribeAwsNetworkPerformanceMetricSubscriptions,
+  paginateDescribeByoipCidrs,
+  paginateDescribeCapacityBlockExtensionHistory,
+  paginateDescribeCapacityBlockExtensionOfferings,
+  paginateDescribeCapacityBlockOfferings,
+  paginateDescribeCapacityBlocks,
+  paginateDescribeCapacityBlockStatus,
+  paginateDescribeCapacityManagerDataExports,
+  paginateDescribeCapacityReservationBillingRequests,
+  paginateDescribeCapacityReservationFleets,
+  paginateDescribeCapacityReservations,
+  paginateDescribeCarrierGateways,
+  paginateDescribeClassicLinkInstances,
+  paginateDescribeClientVpnAuthorizationRules,
+  paginateDescribeClientVpnConnections,
+  paginateDescribeClientVpnEndpoints,
+  paginateDescribeClientVpnRoutes,
+  paginateDescribeClientVpnTargetNetworks,
+  paginateDescribeCoipPools,
+  paginateDescribeDhcpOptions,
+  paginateDescribeEgressOnlyInternetGateways,
+  paginateDescribeExportImageTasks,
+  paginateDescribeFastLaunchImages,
+  paginateDescribeFastSnapshotRestores,
+  paginateDescribeFleets,
+  paginateDescribeFlowLogs,
+  paginateDescribeFpgaImages,
+  paginateDescribeHostReservationOfferings,
+  paginateDescribeHostReservations,
+  paginateDescribeHosts,
+  paginateDescribeIamInstanceProfileAssociations,
+  paginateDescribeImageReferences,
+  paginateDescribeImages,
+  paginateDescribeImageUsageReportEntries,
+  paginateDescribeImageUsageReports,
+  paginateDescribeImportImageTasks,
+  paginateDescribeImportSnapshotTasks,
+  paginateDescribeInstanceConnectEndpoints,
+  paginateDescribeInstanceCreditSpecifications,
+  paginateDescribeInstanceEventWindows,
+  paginateDescribeInstanceImageMetadata,
+  paginateDescribeInstances,
+  paginateDescribeInstanceStatus,
+  paginateDescribeInstanceTopology,
+  paginateDescribeInstanceTypeOfferings,
+  paginateDescribeInstanceTypes,
+  paginateDescribeInternetGateways,
+  paginateDescribeIpamPools,
+  paginateDescribeIpamPrefixListResolvers,
+  paginateDescribeIpamPrefixListResolverTargets,
+  paginateDescribeIpamResourceDiscoveries,
+  paginateDescribeIpamResourceDiscoveryAssociations,
+  paginateDescribeIpams,
+  paginateDescribeIpamScopes,
+  paginateDescribeIpv6Pools,
+  paginateDescribeLaunchTemplates,
+  paginateDescribeLaunchTemplateVersions,
+  paginateDescribeLocalGatewayRouteTables,
+  paginateDescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociations,
+  paginateDescribeLocalGatewayRouteTableVpcAssociations,
+  paginateDescribeLocalGateways,
+  paginateDescribeLocalGatewayVirtualInterfaceGroups,
+  paginateDescribeLocalGatewayVirtualInterfaces,
+  paginateDescribeMacHosts,
+  paginateDescribeMacModificationTasks,
+  paginateDescribeManagedPrefixLists,
+  paginateDescribeMovingAddresses,
+  paginateDescribeNatGateways,
+  paginateDescribeNetworkAcls,
+  paginateDescribeNetworkInsightsAccessScopeAnalyses,
+  paginateDescribeNetworkInsightsAccessScopes,
+  paginateDescribeNetworkInsightsAnalyses,
+  paginateDescribeNetworkInsightsPaths,
+  paginateDescribeNetworkInterfacePermissions,
+  paginateDescribeNetworkInterfaces,
+  paginateDescribePrefixLists,
+  paginateDescribePrincipalIdFormat,
+  paginateDescribePublicIpv4Pools,
+  paginateDescribeReplaceRootVolumeTasks,
+  paginateDescribeReservedInstancesModifications,
+  paginateDescribeReservedInstancesOfferings,
+  paginateDescribeRouteServerEndpoints,
+  paginateDescribeRouteServerPeers,
+  paginateDescribeRouteServers,
+  paginateDescribeRouteTables,
+  paginateDescribeScheduledInstanceAvailability,
+  paginateDescribeScheduledInstances,
+  paginateDescribeSecurityGroupRules,
+  paginateDescribeSecurityGroups,
+  paginateDescribeSecurityGroupVpcAssociations,
+  paginateDescribeSnapshots,
+  paginateDescribeSnapshotTierStatus,
+  paginateDescribeSpotFleetRequests,
+  paginateDescribeSpotInstanceRequests,
+  paginateDescribeSpotPriceHistory,
+  paginateDescribeStaleSecurityGroups,
+  paginateDescribeStoreImageTasks,
+  paginateDescribeSubnets,
+  paginateDescribeTags,
+  paginateDescribeTrafficMirrorFilters,
+  paginateDescribeTrafficMirrorSessions,
+  paginateDescribeTrafficMirrorTargets,
+  paginateDescribeTransitGatewayAttachments,
+  paginateDescribeTransitGatewayConnectPeers,
+  paginateDescribeTransitGatewayConnects,
+  paginateDescribeTransitGatewayMulticastDomains,
+  paginateDescribeTransitGatewayPeeringAttachments,
+  paginateDescribeTransitGatewayPolicyTables,
+  paginateDescribeTransitGatewayRouteTableAnnouncements,
+  paginateDescribeTransitGatewayRouteTables,
+  paginateDescribeTransitGateways,
+  paginateDescribeTransitGatewayVpcAttachments,
+  paginateDescribeTrunkInterfaceAssociations,
+  paginateDescribeVerifiedAccessEndpoints,
+  paginateDescribeVerifiedAccessGroups,
+  paginateDescribeVerifiedAccessInstanceLoggingConfigurations,
+  paginateDescribeVerifiedAccessInstances,
+  paginateDescribeVerifiedAccessTrustProviders,
+  paginateDescribeVolumes,
+  paginateDescribeVolumesModifications,
+  paginateDescribeVolumeStatus,
+  paginateDescribeVpcClassicLinkDnsSupport,
+  paginateDescribeVpcEndpointConnectionNotifications,
+  paginateDescribeVpcEndpointConnections,
+  paginateDescribeVpcEndpoints,
+  paginateDescribeVpcEndpointServiceConfigurations,
+  paginateDescribeVpcEndpointServicePermissions,
+  paginateDescribeVpcPeeringConnections,
+  paginateDescribeVpcs,
+  paginateDescribeVpnConcentrators,
+  paginateGetAssociatedIpv6PoolCidrs,
+  paginateGetAwsNetworkPerformanceData,
+  paginateGetCapacityManagerMetricData,
+  paginateGetCapacityManagerMetricDimensions,
+  paginateGetGroupsForCapacityReservation,
+  paginateGetInstanceTypesFromInstanceRequirements,
+  paginateGetIpamAddressHistory,
+  paginateGetIpamDiscoveredAccounts,
+  paginateGetIpamDiscoveredResourceCidrs,
+  paginateGetIpamPoolAllocations,
+  paginateGetIpamPoolCidrs,
+  paginateGetIpamPrefixListResolverRules,
+  paginateGetIpamPrefixListResolverVersionEntries,
+  paginateGetIpamPrefixListResolverVersions,
+  paginateGetIpamResourceCidrs,
+  paginateGetManagedPrefixListAssociations,
+  paginateGetManagedPrefixListEntries,
+  paginateGetNetworkInsightsAccessScopeAnalysisFindings,
+  paginateGetSecurityGroupsForVpc,
+  paginateGetSpotPlacementScores,
+  paginateGetTransitGatewayAttachmentPropagations,
+  paginateGetTransitGatewayMulticastDomainAssociations,
+  paginateGetTransitGatewayPolicyTableAssociations,
+  paginateGetTransitGatewayPrefixListReferences,
+  paginateGetTransitGatewayRouteTableAssociations,
+  paginateGetTransitGatewayRouteTablePropagations,
+  paginateGetVpnConnectionDeviceTypes,
+  paginateListImagesInRecycleBin,
+  paginateListSnapshotsInRecycleBin,
+  paginateSearchLocalGatewayRoutes,
+  paginateSearchTransitGatewayMulticastGroups,
   ProvisionByoipCidrCommand,
   type ProvisionByoipCidrCommandInput,
   type ProvisionByoipCidrCommandOutput,
@@ -2256,6 +2419,7 @@ import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
+import type * as Stream from "effect/Stream";
 import * as Instance from "./EC2ClientInstance.js";
 import * as EC2ServiceConfig from "./EC2ServiceConfig.js";
 import type { EC2ServiceError, SdkError } from "./Errors.js";
@@ -3010,6 +3174,172 @@ const commands = {
   UpdateSecurityGroupRuleDescriptionsEgressCommand,
   UpdateSecurityGroupRuleDescriptionsIngressCommand,
   WithdrawByoipCidrCommand,
+};
+
+const paginators = {
+  paginateDescribeAddressTransfers,
+  paginateDescribeAddressesAttribute,
+  paginateDescribeAwsNetworkPerformanceMetricSubscriptions,
+  paginateDescribeByoipCidrs,
+  paginateDescribeCapacityBlockExtensionHistory,
+  paginateDescribeCapacityBlockExtensionOfferings,
+  paginateDescribeCapacityBlockOfferings,
+  paginateDescribeCapacityBlockStatus,
+  paginateDescribeCapacityBlocks,
+  paginateDescribeCapacityManagerDataExports,
+  paginateDescribeCapacityReservationBillingRequests,
+  paginateDescribeCapacityReservationFleets,
+  paginateDescribeCapacityReservations,
+  paginateDescribeCarrierGateways,
+  paginateDescribeClassicLinkInstances,
+  paginateDescribeClientVpnAuthorizationRules,
+  paginateDescribeClientVpnConnections,
+  paginateDescribeClientVpnEndpoints,
+  paginateDescribeClientVpnRoutes,
+  paginateDescribeClientVpnTargetNetworks,
+  paginateDescribeCoipPools,
+  paginateDescribeDhcpOptions,
+  paginateDescribeEgressOnlyInternetGateways,
+  paginateDescribeExportImageTasks,
+  paginateDescribeFastLaunchImages,
+  paginateDescribeFastSnapshotRestores,
+  paginateDescribeFleets,
+  paginateDescribeFlowLogs,
+  paginateDescribeFpgaImages,
+  paginateDescribeHostReservationOfferings,
+  paginateDescribeHostReservations,
+  paginateDescribeHosts,
+  paginateDescribeIamInstanceProfileAssociations,
+  paginateDescribeImageReferences,
+  paginateDescribeImageUsageReportEntries,
+  paginateDescribeImageUsageReports,
+  paginateDescribeImages,
+  paginateDescribeImportImageTasks,
+  paginateDescribeImportSnapshotTasks,
+  paginateDescribeInstanceConnectEndpoints,
+  paginateDescribeInstanceCreditSpecifications,
+  paginateDescribeInstanceEventWindows,
+  paginateDescribeInstanceImageMetadata,
+  paginateDescribeInstanceStatus,
+  paginateDescribeInstanceTopology,
+  paginateDescribeInstanceTypeOfferings,
+  paginateDescribeInstanceTypes,
+  paginateDescribeInstances,
+  paginateDescribeInternetGateways,
+  paginateDescribeIpamPools,
+  paginateDescribeIpamPrefixListResolverTargets,
+  paginateDescribeIpamPrefixListResolvers,
+  paginateDescribeIpamResourceDiscoveries,
+  paginateDescribeIpamResourceDiscoveryAssociations,
+  paginateDescribeIpamScopes,
+  paginateDescribeIpams,
+  paginateDescribeIpv6Pools,
+  paginateDescribeLaunchTemplateVersions,
+  paginateDescribeLaunchTemplates,
+  paginateDescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociations,
+  paginateDescribeLocalGatewayRouteTableVpcAssociations,
+  paginateDescribeLocalGatewayRouteTables,
+  paginateDescribeLocalGatewayVirtualInterfaceGroups,
+  paginateDescribeLocalGatewayVirtualInterfaces,
+  paginateDescribeLocalGateways,
+  paginateDescribeMacHosts,
+  paginateDescribeMacModificationTasks,
+  paginateDescribeManagedPrefixLists,
+  paginateDescribeMovingAddresses,
+  paginateDescribeNatGateways,
+  paginateDescribeNetworkAcls,
+  paginateDescribeNetworkInsightsAccessScopeAnalyses,
+  paginateDescribeNetworkInsightsAccessScopes,
+  paginateDescribeNetworkInsightsAnalyses,
+  paginateDescribeNetworkInsightsPaths,
+  paginateDescribeNetworkInterfacePermissions,
+  paginateDescribeNetworkInterfaces,
+  paginateDescribePrefixLists,
+  paginateDescribePrincipalIdFormat,
+  paginateDescribePublicIpv4Pools,
+  paginateDescribeReplaceRootVolumeTasks,
+  paginateDescribeReservedInstancesModifications,
+  paginateDescribeReservedInstancesOfferings,
+  paginateDescribeRouteServerEndpoints,
+  paginateDescribeRouteServerPeers,
+  paginateDescribeRouteServers,
+  paginateDescribeRouteTables,
+  paginateDescribeScheduledInstanceAvailability,
+  paginateDescribeScheduledInstances,
+  paginateDescribeSecurityGroupRules,
+  paginateDescribeSecurityGroupVpcAssociations,
+  paginateDescribeSecurityGroups,
+  paginateDescribeSnapshotTierStatus,
+  paginateDescribeSnapshots,
+  paginateDescribeSpotFleetRequests,
+  paginateDescribeSpotInstanceRequests,
+  paginateDescribeSpotPriceHistory,
+  paginateDescribeStaleSecurityGroups,
+  paginateDescribeStoreImageTasks,
+  paginateDescribeSubnets,
+  paginateDescribeTags,
+  paginateDescribeTrafficMirrorFilters,
+  paginateDescribeTrafficMirrorSessions,
+  paginateDescribeTrafficMirrorTargets,
+  paginateDescribeTransitGatewayAttachments,
+  paginateDescribeTransitGatewayConnectPeers,
+  paginateDescribeTransitGatewayConnects,
+  paginateDescribeTransitGatewayMulticastDomains,
+  paginateDescribeTransitGatewayPeeringAttachments,
+  paginateDescribeTransitGatewayPolicyTables,
+  paginateDescribeTransitGatewayRouteTableAnnouncements,
+  paginateDescribeTransitGatewayRouteTables,
+  paginateDescribeTransitGatewayVpcAttachments,
+  paginateDescribeTransitGateways,
+  paginateDescribeTrunkInterfaceAssociations,
+  paginateDescribeVerifiedAccessEndpoints,
+  paginateDescribeVerifiedAccessGroups,
+  paginateDescribeVerifiedAccessInstanceLoggingConfigurations,
+  paginateDescribeVerifiedAccessInstances,
+  paginateDescribeVerifiedAccessTrustProviders,
+  paginateDescribeVolumeStatus,
+  paginateDescribeVolumes,
+  paginateDescribeVolumesModifications,
+  paginateDescribeVpcClassicLinkDnsSupport,
+  paginateDescribeVpcEndpointConnectionNotifications,
+  paginateDescribeVpcEndpointConnections,
+  paginateDescribeVpcEndpointServiceConfigurations,
+  paginateDescribeVpcEndpointServicePermissions,
+  paginateDescribeVpcEndpoints,
+  paginateDescribeVpcPeeringConnections,
+  paginateDescribeVpcs,
+  paginateDescribeVpnConcentrators,
+  paginateGetAssociatedIpv6PoolCidrs,
+  paginateGetAwsNetworkPerformanceData,
+  paginateGetCapacityManagerMetricData,
+  paginateGetCapacityManagerMetricDimensions,
+  paginateGetGroupsForCapacityReservation,
+  paginateGetInstanceTypesFromInstanceRequirements,
+  paginateGetIpamAddressHistory,
+  paginateGetIpamDiscoveredAccounts,
+  paginateGetIpamDiscoveredResourceCidrs,
+  paginateGetIpamPoolAllocations,
+  paginateGetIpamPoolCidrs,
+  paginateGetIpamPrefixListResolverRules,
+  paginateGetIpamPrefixListResolverVersionEntries,
+  paginateGetIpamPrefixListResolverVersions,
+  paginateGetIpamResourceCidrs,
+  paginateGetManagedPrefixListAssociations,
+  paginateGetManagedPrefixListEntries,
+  paginateGetNetworkInsightsAccessScopeAnalysisFindings,
+  paginateGetSecurityGroupsForVpc,
+  paginateGetSpotPlacementScores,
+  paginateGetTransitGatewayAttachmentPropagations,
+  paginateGetTransitGatewayMulticastDomainAssociations,
+  paginateGetTransitGatewayPolicyTableAssociations,
+  paginateGetTransitGatewayPrefixListReferences,
+  paginateGetTransitGatewayRouteTableAssociations,
+  paginateGetTransitGatewayRouteTablePropagations,
+  paginateGetVpnConnectionDeviceTypes,
+  paginateListImagesInRecycleBin,
+  paginateListSnapshotsInRecycleBin,
+  paginateSearchLocalGatewayRoutes,
+  paginateSearchTransitGatewayMulticastGroups,
 };
 
 interface EC2Service$ {
@@ -5908,6 +6238,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeAddressTransfersStream(
+    args: DescribeAddressTransfersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeAddressTransfersCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeAddressesCommand}
    */
@@ -5929,6 +6264,11 @@ interface EC2Service$ {
     DescribeAddressesAttributeCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
+
+  describeAddressesAttributeStream(
+    args: DescribeAddressesAttributeCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeAddressesAttributeCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
 
   /**
    * @see {@link DescribeAggregateIdFormatCommand}
@@ -5963,6 +6303,14 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeAwsNetworkPerformanceMetricSubscriptionsStream(
+    args: DescribeAwsNetworkPerformanceMetricSubscriptionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeAwsNetworkPerformanceMetricSubscriptionsCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
   /**
    * @see {@link DescribeBundleTasksCommand}
    */
@@ -5985,6 +6333,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeByoipCidrsStream(
+    args: DescribeByoipCidrsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeByoipCidrsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeCapacityBlockExtensionHistoryCommand}
    */
@@ -5992,6 +6345,14 @@ interface EC2Service$ {
     args: DescribeCapacityBlockExtensionHistoryCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeCapacityBlockExtensionHistoryCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  describeCapacityBlockExtensionHistoryStream(
+    args: DescribeCapacityBlockExtensionHistoryCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeCapacityBlockExtensionHistoryCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
@@ -6007,6 +6368,14 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeCapacityBlockExtensionOfferingsStream(
+    args: DescribeCapacityBlockExtensionOfferingsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeCapacityBlockExtensionOfferingsCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
   /**
    * @see {@link DescribeCapacityBlockOfferingsCommand}
    */
@@ -6017,6 +6386,11 @@ interface EC2Service$ {
     DescribeCapacityBlockOfferingsCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
+
+  describeCapacityBlockOfferingsStream(
+    args: DescribeCapacityBlockOfferingsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeCapacityBlockOfferingsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
 
   /**
    * @see {@link DescribeCapacityBlockStatusCommand}
@@ -6029,6 +6403,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeCapacityBlockStatusStream(
+    args: DescribeCapacityBlockStatusCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeCapacityBlockStatusCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeCapacityBlocksCommand}
    */
@@ -6040,6 +6419,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeCapacityBlocksStream(
+    args: DescribeCapacityBlocksCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeCapacityBlocksCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeCapacityManagerDataExportsCommand}
    */
@@ -6047,6 +6431,14 @@ interface EC2Service$ {
     args: DescribeCapacityManagerDataExportsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeCapacityManagerDataExportsCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  describeCapacityManagerDataExportsStream(
+    args: DescribeCapacityManagerDataExportsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeCapacityManagerDataExportsCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
@@ -6062,6 +6454,14 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeCapacityReservationBillingRequestsStream(
+    args: DescribeCapacityReservationBillingRequestsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeCapacityReservationBillingRequestsCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
   /**
    * @see {@link DescribeCapacityReservationFleetsCommand}
    */
@@ -6072,6 +6472,11 @@ interface EC2Service$ {
     DescribeCapacityReservationFleetsCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
+
+  describeCapacityReservationFleetsStream(
+    args: DescribeCapacityReservationFleetsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeCapacityReservationFleetsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
 
   /**
    * @see {@link DescribeCapacityReservationTopologyCommand}
@@ -6095,6 +6500,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeCapacityReservationsStream(
+    args: DescribeCapacityReservationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeCapacityReservationsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeCarrierGatewaysCommand}
    */
@@ -6105,6 +6515,11 @@ interface EC2Service$ {
     DescribeCarrierGatewaysCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
+
+  describeCarrierGatewaysStream(
+    args: DescribeCarrierGatewaysCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeCarrierGatewaysCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
 
   /**
    * @see {@link DescribeClassicLinkInstancesCommand}
@@ -6117,6 +6532,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeClassicLinkInstancesStream(
+    args: DescribeClassicLinkInstancesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeClassicLinkInstancesCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeClientVpnAuthorizationRulesCommand}
    */
@@ -6124,6 +6544,14 @@ interface EC2Service$ {
     args: DescribeClientVpnAuthorizationRulesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeClientVpnAuthorizationRulesCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  describeClientVpnAuthorizationRulesStream(
+    args: DescribeClientVpnAuthorizationRulesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeClientVpnAuthorizationRulesCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
@@ -6139,6 +6567,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeClientVpnConnectionsStream(
+    args: DescribeClientVpnConnectionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeClientVpnConnectionsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeClientVpnEndpointsCommand}
    */
@@ -6149,6 +6582,11 @@ interface EC2Service$ {
     DescribeClientVpnEndpointsCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
+
+  describeClientVpnEndpointsStream(
+    args: DescribeClientVpnEndpointsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeClientVpnEndpointsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
 
   /**
    * @see {@link DescribeClientVpnRoutesCommand}
@@ -6161,6 +6599,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeClientVpnRoutesStream(
+    args: DescribeClientVpnRoutesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeClientVpnRoutesCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeClientVpnTargetNetworksCommand}
    */
@@ -6172,6 +6615,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeClientVpnTargetNetworksStream(
+    args: DescribeClientVpnTargetNetworksCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeClientVpnTargetNetworksCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeCoipPoolsCommand}
    */
@@ -6182,6 +6630,11 @@ interface EC2Service$ {
     DescribeCoipPoolsCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
+
+  describeCoipPoolsStream(
+    args: DescribeCoipPoolsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeCoipPoolsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
 
   /**
    * @see {@link DescribeConversionTasksCommand}
@@ -6227,6 +6680,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeDhcpOptionsStream(
+    args: DescribeDhcpOptionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeDhcpOptionsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeEgressOnlyInternetGatewaysCommand}
    */
@@ -6234,6 +6692,14 @@ interface EC2Service$ {
     args: DescribeEgressOnlyInternetGatewaysCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeEgressOnlyInternetGatewaysCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  describeEgressOnlyInternetGatewaysStream(
+    args: DescribeEgressOnlyInternetGatewaysCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeEgressOnlyInternetGatewaysCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
@@ -6260,6 +6726,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeExportImageTasksStream(
+    args: DescribeExportImageTasksCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeExportImageTasksCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeExportTasksCommand}
    */
@@ -6282,6 +6753,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeFastLaunchImagesStream(
+    args: DescribeFastLaunchImagesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeFastLaunchImagesCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeFastSnapshotRestoresCommand}
    */
@@ -6292,6 +6768,11 @@ interface EC2Service$ {
     DescribeFastSnapshotRestoresCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
+
+  describeFastSnapshotRestoresStream(
+    args: DescribeFastSnapshotRestoresCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeFastSnapshotRestoresCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
 
   /**
    * @see {@link DescribeFleetHistoryCommand}
@@ -6326,6 +6807,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeFleetsStream(
+    args: DescribeFleetsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeFleetsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeFlowLogsCommand}
    */
@@ -6336,6 +6822,11 @@ interface EC2Service$ {
     DescribeFlowLogsCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
+
+  describeFlowLogsStream(
+    args: DescribeFlowLogsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeFlowLogsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
 
   /**
    * @see {@link DescribeFpgaImageAttributeCommand}
@@ -6359,6 +6850,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeFpgaImagesStream(
+    args: DescribeFpgaImagesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeFpgaImagesCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeHostReservationOfferingsCommand}
    */
@@ -6369,6 +6865,11 @@ interface EC2Service$ {
     DescribeHostReservationOfferingsCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
+
+  describeHostReservationOfferingsStream(
+    args: DescribeHostReservationOfferingsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeHostReservationOfferingsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
 
   /**
    * @see {@link DescribeHostReservationsCommand}
@@ -6381,6 +6882,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeHostReservationsStream(
+    args: DescribeHostReservationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeHostReservationsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeHostsCommand}
    */
@@ -6392,6 +6898,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeHostsStream(
+    args: DescribeHostsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeHostsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeIamInstanceProfileAssociationsCommand}
    */
@@ -6399,6 +6910,14 @@ interface EC2Service$ {
     args: DescribeIamInstanceProfileAssociationsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeIamInstanceProfileAssociationsCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  describeIamInstanceProfileAssociationsStream(
+    args: DescribeIamInstanceProfileAssociationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeIamInstanceProfileAssociationsCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
@@ -6447,6 +6966,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeImageReferencesStream(
+    args: DescribeImageReferencesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeImageReferencesCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeImageUsageReportEntriesCommand}
    */
@@ -6457,6 +6981,11 @@ interface EC2Service$ {
     DescribeImageUsageReportEntriesCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
+
+  describeImageUsageReportEntriesStream(
+    args: DescribeImageUsageReportEntriesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeImageUsageReportEntriesCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
 
   /**
    * @see {@link DescribeImageUsageReportsCommand}
@@ -6469,6 +6998,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeImageUsageReportsStream(
+    args: DescribeImageUsageReportsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeImageUsageReportsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeImagesCommand}
    */
@@ -6479,6 +7013,11 @@ interface EC2Service$ {
     DescribeImagesCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
+
+  describeImagesStream(
+    args: DescribeImagesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeImagesCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
 
   /**
    * @see {@link DescribeImportImageTasksCommand}
@@ -6491,6 +7030,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeImportImageTasksStream(
+    args: DescribeImportImageTasksCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeImportImageTasksCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeImportSnapshotTasksCommand}
    */
@@ -6501,6 +7045,11 @@ interface EC2Service$ {
     DescribeImportSnapshotTasksCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
+
+  describeImportSnapshotTasksStream(
+    args: DescribeImportSnapshotTasksCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeImportSnapshotTasksCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
 
   /**
    * @see {@link DescribeInstanceAttributeCommand}
@@ -6524,6 +7073,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeInstanceConnectEndpointsStream(
+    args: DescribeInstanceConnectEndpointsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeInstanceConnectEndpointsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeInstanceCreditSpecificationsCommand}
    */
@@ -6531,6 +7085,14 @@ interface EC2Service$ {
     args: DescribeInstanceCreditSpecificationsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeInstanceCreditSpecificationsCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  describeInstanceCreditSpecificationsStream(
+    args: DescribeInstanceCreditSpecificationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeInstanceCreditSpecificationsCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
@@ -6557,6 +7119,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeInstanceEventWindowsStream(
+    args: DescribeInstanceEventWindowsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeInstanceEventWindowsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeInstanceImageMetadataCommand}
    */
@@ -6567,6 +7134,11 @@ interface EC2Service$ {
     DescribeInstanceImageMetadataCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
+
+  describeInstanceImageMetadataStream(
+    args: DescribeInstanceImageMetadataCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeInstanceImageMetadataCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
 
   /**
    * @see {@link DescribeInstanceSqlHaHistoryStatesCommand}
@@ -6601,6 +7173,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeInstanceStatusStream(
+    args: DescribeInstanceStatusCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeInstanceStatusCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeInstanceTopologyCommand}
    */
@@ -6611,6 +7188,11 @@ interface EC2Service$ {
     DescribeInstanceTopologyCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
+
+  describeInstanceTopologyStream(
+    args: DescribeInstanceTopologyCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeInstanceTopologyCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
 
   /**
    * @see {@link DescribeInstanceTypeOfferingsCommand}
@@ -6623,6 +7205,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeInstanceTypeOfferingsStream(
+    args: DescribeInstanceTypeOfferingsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeInstanceTypeOfferingsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeInstanceTypesCommand}
    */
@@ -6633,6 +7220,11 @@ interface EC2Service$ {
     DescribeInstanceTypesCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
+
+  describeInstanceTypesStream(
+    args: DescribeInstanceTypesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeInstanceTypesCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
 
   /**
    * @see {@link DescribeInstancesCommand}
@@ -6645,6 +7237,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeInstancesStream(
+    args: DescribeInstancesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeInstancesCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeInternetGatewaysCommand}
    */
@@ -6655,6 +7252,11 @@ interface EC2Service$ {
     DescribeInternetGatewaysCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
+
+  describeInternetGatewaysStream(
+    args: DescribeInternetGatewaysCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeInternetGatewaysCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
 
   /**
    * @see {@link DescribeIpamByoasnCommand}
@@ -6700,6 +7302,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeIpamPoolsStream(
+    args: DescribeIpamPoolsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeIpamPoolsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeIpamPrefixListResolverTargetsCommand}
    */
@@ -6707,6 +7314,14 @@ interface EC2Service$ {
     args: DescribeIpamPrefixListResolverTargetsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeIpamPrefixListResolverTargetsCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  describeIpamPrefixListResolverTargetsStream(
+    args: DescribeIpamPrefixListResolverTargetsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeIpamPrefixListResolverTargetsCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
@@ -6722,6 +7337,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeIpamPrefixListResolversStream(
+    args: DescribeIpamPrefixListResolversCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeIpamPrefixListResolversCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeIpamResourceDiscoveriesCommand}
    */
@@ -6733,6 +7353,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeIpamResourceDiscoveriesStream(
+    args: DescribeIpamResourceDiscoveriesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeIpamResourceDiscoveriesCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeIpamResourceDiscoveryAssociationsCommand}
    */
@@ -6740,6 +7365,14 @@ interface EC2Service$ {
     args: DescribeIpamResourceDiscoveryAssociationsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeIpamResourceDiscoveryAssociationsCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  describeIpamResourceDiscoveryAssociationsStream(
+    args: DescribeIpamResourceDiscoveryAssociationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeIpamResourceDiscoveryAssociationsCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
@@ -6755,6 +7388,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeIpamScopesStream(
+    args: DescribeIpamScopesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeIpamScopesCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeIpamsCommand}
    */
@@ -6766,6 +7404,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeIpamsStream(
+    args: DescribeIpamsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeIpamsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeIpv6PoolsCommand}
    */
@@ -6776,6 +7419,11 @@ interface EC2Service$ {
     DescribeIpv6PoolsCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
+
+  describeIpv6PoolsStream(
+    args: DescribeIpv6PoolsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeIpv6PoolsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
 
   /**
    * @see {@link DescribeKeyPairsCommand}
@@ -6799,6 +7447,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeLaunchTemplateVersionsStream(
+    args: DescribeLaunchTemplateVersionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeLaunchTemplateVersionsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeLaunchTemplatesCommand}
    */
@@ -6810,6 +7463,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeLaunchTemplatesStream(
+    args: DescribeLaunchTemplatesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeLaunchTemplatesCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsCommand}
    */
@@ -6817,6 +7475,14 @@ interface EC2Service$ {
     args: DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  describeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsStream(
+    args: DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
@@ -6832,6 +7498,14 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeLocalGatewayRouteTableVpcAssociationsStream(
+    args: DescribeLocalGatewayRouteTableVpcAssociationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeLocalGatewayRouteTableVpcAssociationsCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
   /**
    * @see {@link DescribeLocalGatewayRouteTablesCommand}
    */
@@ -6843,6 +7517,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeLocalGatewayRouteTablesStream(
+    args: DescribeLocalGatewayRouteTablesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeLocalGatewayRouteTablesCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeLocalGatewayVirtualInterfaceGroupsCommand}
    */
@@ -6850,6 +7529,14 @@ interface EC2Service$ {
     args: DescribeLocalGatewayVirtualInterfaceGroupsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeLocalGatewayVirtualInterfaceGroupsCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  describeLocalGatewayVirtualInterfaceGroupsStream(
+    args: DescribeLocalGatewayVirtualInterfaceGroupsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeLocalGatewayVirtualInterfaceGroupsCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
@@ -6865,6 +7552,14 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeLocalGatewayVirtualInterfacesStream(
+    args: DescribeLocalGatewayVirtualInterfacesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeLocalGatewayVirtualInterfacesCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
   /**
    * @see {@link DescribeLocalGatewaysCommand}
    */
@@ -6875,6 +7570,11 @@ interface EC2Service$ {
     DescribeLocalGatewaysCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
+
+  describeLocalGatewaysStream(
+    args: DescribeLocalGatewaysCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeLocalGatewaysCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
 
   /**
    * @see {@link DescribeLockedSnapshotsCommand}
@@ -6898,6 +7598,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeMacHostsStream(
+    args: DescribeMacHostsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeMacHostsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeMacModificationTasksCommand}
    */
@@ -6908,6 +7613,11 @@ interface EC2Service$ {
     DescribeMacModificationTasksCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
+
+  describeMacModificationTasksStream(
+    args: DescribeMacModificationTasksCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeMacModificationTasksCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
 
   /**
    * @see {@link DescribeManagedPrefixListsCommand}
@@ -6920,6 +7630,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeManagedPrefixListsStream(
+    args: DescribeManagedPrefixListsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeManagedPrefixListsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeMovingAddressesCommand}
    */
@@ -6930,6 +7645,11 @@ interface EC2Service$ {
     DescribeMovingAddressesCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
+
+  describeMovingAddressesStream(
+    args: DescribeMovingAddressesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeMovingAddressesCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
 
   /**
    * @see {@link DescribeNatGatewaysCommand}
@@ -6942,6 +7662,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeNatGatewaysStream(
+    args: DescribeNatGatewaysCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeNatGatewaysCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeNetworkAclsCommand}
    */
@@ -6953,6 +7678,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeNetworkAclsStream(
+    args: DescribeNetworkAclsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeNetworkAclsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeNetworkInsightsAccessScopeAnalysesCommand}
    */
@@ -6960,6 +7690,14 @@ interface EC2Service$ {
     args: DescribeNetworkInsightsAccessScopeAnalysesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeNetworkInsightsAccessScopeAnalysesCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  describeNetworkInsightsAccessScopeAnalysesStream(
+    args: DescribeNetworkInsightsAccessScopeAnalysesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeNetworkInsightsAccessScopeAnalysesCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
@@ -6975,6 +7713,14 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeNetworkInsightsAccessScopesStream(
+    args: DescribeNetworkInsightsAccessScopesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeNetworkInsightsAccessScopesCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
   /**
    * @see {@link DescribeNetworkInsightsAnalysesCommand}
    */
@@ -6986,6 +7732,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeNetworkInsightsAnalysesStream(
+    args: DescribeNetworkInsightsAnalysesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeNetworkInsightsAnalysesCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeNetworkInsightsPathsCommand}
    */
@@ -6996,6 +7747,11 @@ interface EC2Service$ {
     DescribeNetworkInsightsPathsCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
+
+  describeNetworkInsightsPathsStream(
+    args: DescribeNetworkInsightsPathsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeNetworkInsightsPathsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
 
   /**
    * @see {@link DescribeNetworkInterfaceAttributeCommand}
@@ -7019,6 +7775,14 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeNetworkInterfacePermissionsStream(
+    args: DescribeNetworkInterfacePermissionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeNetworkInterfacePermissionsCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
   /**
    * @see {@link DescribeNetworkInterfacesCommand}
    */
@@ -7029,6 +7793,11 @@ interface EC2Service$ {
     DescribeNetworkInterfacesCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
+
+  describeNetworkInterfacesStream(
+    args: DescribeNetworkInterfacesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeNetworkInterfacesCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
 
   /**
    * @see {@link DescribeOutpostLagsCommand}
@@ -7063,6 +7832,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describePrefixListsStream(
+    args: DescribePrefixListsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribePrefixListsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribePrincipalIdFormatCommand}
    */
@@ -7074,6 +7848,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describePrincipalIdFormatStream(
+    args: DescribePrincipalIdFormatCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribePrincipalIdFormatCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribePublicIpv4PoolsCommand}
    */
@@ -7084,6 +7863,11 @@ interface EC2Service$ {
     DescribePublicIpv4PoolsCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
+
+  describePublicIpv4PoolsStream(
+    args: DescribePublicIpv4PoolsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribePublicIpv4PoolsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
 
   /**
    * @see {@link DescribeRegionsCommand}
@@ -7106,6 +7890,11 @@ interface EC2Service$ {
     DescribeReplaceRootVolumeTasksCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
+
+  describeReplaceRootVolumeTasksStream(
+    args: DescribeReplaceRootVolumeTasksCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeReplaceRootVolumeTasksCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
 
   /**
    * @see {@link DescribeReservedInstancesCommand}
@@ -7140,6 +7929,14 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeReservedInstancesModificationsStream(
+    args: DescribeReservedInstancesModificationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeReservedInstancesModificationsCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
   /**
    * @see {@link DescribeReservedInstancesOfferingsCommand}
    */
@@ -7147,6 +7944,14 @@ interface EC2Service$ {
     args: DescribeReservedInstancesOfferingsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeReservedInstancesOfferingsCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  describeReservedInstancesOfferingsStream(
+    args: DescribeReservedInstancesOfferingsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeReservedInstancesOfferingsCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
@@ -7162,6 +7967,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeRouteServerEndpointsStream(
+    args: DescribeRouteServerEndpointsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeRouteServerEndpointsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeRouteServerPeersCommand}
    */
@@ -7172,6 +7982,11 @@ interface EC2Service$ {
     DescribeRouteServerPeersCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
+
+  describeRouteServerPeersStream(
+    args: DescribeRouteServerPeersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeRouteServerPeersCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
 
   /**
    * @see {@link DescribeRouteServersCommand}
@@ -7184,6 +7999,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeRouteServersStream(
+    args: DescribeRouteServersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeRouteServersCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeRouteTablesCommand}
    */
@@ -7195,6 +8015,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeRouteTablesStream(
+    args: DescribeRouteTablesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeRouteTablesCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeScheduledInstanceAvailabilityCommand}
    */
@@ -7202,6 +8027,14 @@ interface EC2Service$ {
     args: DescribeScheduledInstanceAvailabilityCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeScheduledInstanceAvailabilityCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  describeScheduledInstanceAvailabilityStream(
+    args: DescribeScheduledInstanceAvailabilityCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeScheduledInstanceAvailabilityCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
@@ -7216,6 +8049,11 @@ interface EC2Service$ {
     DescribeScheduledInstancesCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
+
+  describeScheduledInstancesStream(
+    args: DescribeScheduledInstancesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeScheduledInstancesCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
 
   /**
    * @see {@link DescribeSecurityGroupReferencesCommand}
@@ -7239,6 +8077,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeSecurityGroupRulesStream(
+    args: DescribeSecurityGroupRulesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeSecurityGroupRulesCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeSecurityGroupVpcAssociationsCommand}
    */
@@ -7246,6 +8089,14 @@ interface EC2Service$ {
     args: DescribeSecurityGroupVpcAssociationsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeSecurityGroupVpcAssociationsCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  describeSecurityGroupVpcAssociationsStream(
+    args: DescribeSecurityGroupVpcAssociationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeSecurityGroupVpcAssociationsCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
@@ -7260,6 +8111,11 @@ interface EC2Service$ {
     DescribeSecurityGroupsCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
+
+  describeSecurityGroupsStream(
+    args: DescribeSecurityGroupsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeSecurityGroupsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
 
   /**
    * @see {@link DescribeServiceLinkVirtualInterfacesCommand}
@@ -7294,6 +8150,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeSnapshotTierStatusStream(
+    args: DescribeSnapshotTierStatusCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeSnapshotTierStatusCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeSnapshotsCommand}
    */
@@ -7304,6 +8165,11 @@ interface EC2Service$ {
     DescribeSnapshotsCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
+
+  describeSnapshotsStream(
+    args: DescribeSnapshotsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeSnapshotsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
 
   /**
    * @see {@link DescribeSpotDatafeedSubscriptionCommand}
@@ -7349,6 +8215,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeSpotFleetRequestsStream(
+    args: DescribeSpotFleetRequestsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeSpotFleetRequestsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeSpotInstanceRequestsCommand}
    */
@@ -7359,6 +8230,11 @@ interface EC2Service$ {
     DescribeSpotInstanceRequestsCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
+
+  describeSpotInstanceRequestsStream(
+    args: DescribeSpotInstanceRequestsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeSpotInstanceRequestsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
 
   /**
    * @see {@link DescribeSpotPriceHistoryCommand}
@@ -7371,6 +8247,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeSpotPriceHistoryStream(
+    args: DescribeSpotPriceHistoryCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeSpotPriceHistoryCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeStaleSecurityGroupsCommand}
    */
@@ -7381,6 +8262,11 @@ interface EC2Service$ {
     DescribeStaleSecurityGroupsCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
+
+  describeStaleSecurityGroupsStream(
+    args: DescribeStaleSecurityGroupsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeStaleSecurityGroupsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
 
   /**
    * @see {@link DescribeStoreImageTasksCommand}
@@ -7393,6 +8279,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeStoreImageTasksStream(
+    args: DescribeStoreImageTasksCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeStoreImageTasksCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeSubnetsCommand}
    */
@@ -7404,6 +8295,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeSubnetsStream(
+    args: DescribeSubnetsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeSubnetsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeTagsCommand}
    */
@@ -7414,6 +8310,11 @@ interface EC2Service$ {
     DescribeTagsCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
+
+  describeTagsStream(
+    args: DescribeTagsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeTagsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
 
   /**
    * @see {@link DescribeTrafficMirrorFilterRulesCommand}
@@ -7437,6 +8338,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeTrafficMirrorFiltersStream(
+    args: DescribeTrafficMirrorFiltersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeTrafficMirrorFiltersCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeTrafficMirrorSessionsCommand}
    */
@@ -7447,6 +8353,11 @@ interface EC2Service$ {
     DescribeTrafficMirrorSessionsCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
+
+  describeTrafficMirrorSessionsStream(
+    args: DescribeTrafficMirrorSessionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeTrafficMirrorSessionsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
 
   /**
    * @see {@link DescribeTrafficMirrorTargetsCommand}
@@ -7459,6 +8370,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeTrafficMirrorTargetsStream(
+    args: DescribeTrafficMirrorTargetsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeTrafficMirrorTargetsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeTransitGatewayAttachmentsCommand}
    */
@@ -7470,6 +8386,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeTransitGatewayAttachmentsStream(
+    args: DescribeTransitGatewayAttachmentsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeTransitGatewayAttachmentsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeTransitGatewayConnectPeersCommand}
    */
@@ -7477,6 +8398,14 @@ interface EC2Service$ {
     args: DescribeTransitGatewayConnectPeersCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeTransitGatewayConnectPeersCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  describeTransitGatewayConnectPeersStream(
+    args: DescribeTransitGatewayConnectPeersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeTransitGatewayConnectPeersCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
@@ -7491,6 +8420,11 @@ interface EC2Service$ {
     DescribeTransitGatewayConnectsCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
+
+  describeTransitGatewayConnectsStream(
+    args: DescribeTransitGatewayConnectsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeTransitGatewayConnectsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
 
   /**
    * @see {@link DescribeTransitGatewayMeteringPoliciesCommand}
@@ -7514,6 +8448,14 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeTransitGatewayMulticastDomainsStream(
+    args: DescribeTransitGatewayMulticastDomainsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeTransitGatewayMulticastDomainsCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
   /**
    * @see {@link DescribeTransitGatewayPeeringAttachmentsCommand}
    */
@@ -7521,6 +8463,14 @@ interface EC2Service$ {
     args: DescribeTransitGatewayPeeringAttachmentsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeTransitGatewayPeeringAttachmentsCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  describeTransitGatewayPeeringAttachmentsStream(
+    args: DescribeTransitGatewayPeeringAttachmentsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeTransitGatewayPeeringAttachmentsCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
@@ -7536,6 +8486,14 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeTransitGatewayPolicyTablesStream(
+    args: DescribeTransitGatewayPolicyTablesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeTransitGatewayPolicyTablesCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
   /**
    * @see {@link DescribeTransitGatewayRouteTableAnnouncementsCommand}
    */
@@ -7543,6 +8501,14 @@ interface EC2Service$ {
     args: DescribeTransitGatewayRouteTableAnnouncementsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeTransitGatewayRouteTableAnnouncementsCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  describeTransitGatewayRouteTableAnnouncementsStream(
+    args: DescribeTransitGatewayRouteTableAnnouncementsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeTransitGatewayRouteTableAnnouncementsCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
@@ -7558,6 +8524,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeTransitGatewayRouteTablesStream(
+    args: DescribeTransitGatewayRouteTablesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeTransitGatewayRouteTablesCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeTransitGatewayVpcAttachmentsCommand}
    */
@@ -7565,6 +8536,14 @@ interface EC2Service$ {
     args: DescribeTransitGatewayVpcAttachmentsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeTransitGatewayVpcAttachmentsCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  describeTransitGatewayVpcAttachmentsStream(
+    args: DescribeTransitGatewayVpcAttachmentsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeTransitGatewayVpcAttachmentsCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
@@ -7580,6 +8559,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeTransitGatewaysStream(
+    args: DescribeTransitGatewaysCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeTransitGatewaysCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeTrunkInterfaceAssociationsCommand}
    */
@@ -7587,6 +8571,14 @@ interface EC2Service$ {
     args: DescribeTrunkInterfaceAssociationsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeTrunkInterfaceAssociationsCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  describeTrunkInterfaceAssociationsStream(
+    args: DescribeTrunkInterfaceAssociationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeTrunkInterfaceAssociationsCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
@@ -7602,6 +8594,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeVerifiedAccessEndpointsStream(
+    args: DescribeVerifiedAccessEndpointsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeVerifiedAccessEndpointsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeVerifiedAccessGroupsCommand}
    */
@@ -7613,6 +8610,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeVerifiedAccessGroupsStream(
+    args: DescribeVerifiedAccessGroupsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeVerifiedAccessGroupsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeVerifiedAccessInstanceLoggingConfigurationsCommand}
    */
@@ -7620,6 +8622,14 @@ interface EC2Service$ {
     args: DescribeVerifiedAccessInstanceLoggingConfigurationsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeVerifiedAccessInstanceLoggingConfigurationsCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  describeVerifiedAccessInstanceLoggingConfigurationsStream(
+    args: DescribeVerifiedAccessInstanceLoggingConfigurationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeVerifiedAccessInstanceLoggingConfigurationsCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
@@ -7635,6 +8645,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeVerifiedAccessInstancesStream(
+    args: DescribeVerifiedAccessInstancesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeVerifiedAccessInstancesCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeVerifiedAccessTrustProvidersCommand}
    */
@@ -7642,6 +8657,14 @@ interface EC2Service$ {
     args: DescribeVerifiedAccessTrustProvidersCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeVerifiedAccessTrustProvidersCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  describeVerifiedAccessTrustProvidersStream(
+    args: DescribeVerifiedAccessTrustProvidersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeVerifiedAccessTrustProvidersCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
@@ -7668,6 +8691,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeVolumeStatusStream(
+    args: DescribeVolumeStatusCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeVolumeStatusCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeVolumesCommand}
    */
@@ -7679,6 +8707,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeVolumesStream(
+    args: DescribeVolumesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeVolumesCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeVolumesModificationsCommand}
    */
@@ -7689,6 +8722,11 @@ interface EC2Service$ {
     DescribeVolumesModificationsCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
+
+  describeVolumesModificationsStream(
+    args: DescribeVolumesModificationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeVolumesModificationsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
 
   /**
    * @see {@link DescribeVpcAttributeCommand}
@@ -7745,6 +8783,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeVpcClassicLinkDnsSupportStream(
+    args: DescribeVpcClassicLinkDnsSupportCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeVpcClassicLinkDnsSupportCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeVpcEncryptionControlsCommand}
    */
@@ -7778,6 +8821,14 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeVpcEndpointConnectionNotificationsStream(
+    args: DescribeVpcEndpointConnectionNotificationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeVpcEndpointConnectionNotificationsCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
   /**
    * @see {@link DescribeVpcEndpointConnectionsCommand}
    */
@@ -7788,6 +8839,11 @@ interface EC2Service$ {
     DescribeVpcEndpointConnectionsCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
+
+  describeVpcEndpointConnectionsStream(
+    args: DescribeVpcEndpointConnectionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeVpcEndpointConnectionsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
 
   /**
    * @see {@link DescribeVpcEndpointServiceConfigurationsCommand}
@@ -7800,6 +8856,14 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeVpcEndpointServiceConfigurationsStream(
+    args: DescribeVpcEndpointServiceConfigurationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeVpcEndpointServiceConfigurationsCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
   /**
    * @see {@link DescribeVpcEndpointServicePermissionsCommand}
    */
@@ -7807,6 +8871,14 @@ interface EC2Service$ {
     args: DescribeVpcEndpointServicePermissionsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeVpcEndpointServicePermissionsCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  describeVpcEndpointServicePermissionsStream(
+    args: DescribeVpcEndpointServicePermissionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeVpcEndpointServicePermissionsCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
@@ -7833,6 +8905,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeVpcEndpointsStream(
+    args: DescribeVpcEndpointsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeVpcEndpointsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeVpcPeeringConnectionsCommand}
    */
@@ -7843,6 +8920,11 @@ interface EC2Service$ {
     DescribeVpcPeeringConnectionsCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
+
+  describeVpcPeeringConnectionsStream(
+    args: DescribeVpcPeeringConnectionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeVpcPeeringConnectionsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
 
   /**
    * @see {@link DescribeVpcsCommand}
@@ -7855,6 +8937,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  describeVpcsStream(
+    args: DescribeVpcsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeVpcsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link DescribeVpnConcentratorsCommand}
    */
@@ -7865,6 +8952,11 @@ interface EC2Service$ {
     DescribeVpnConcentratorsCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
+
+  describeVpnConcentratorsStream(
+    args: DescribeVpnConcentratorsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeVpnConcentratorsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
 
   /**
    * @see {@link DescribeVpnConnectionsCommand}
@@ -8735,6 +9827,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  getAssociatedIpv6PoolCidrsStream(
+    args: GetAssociatedIpv6PoolCidrsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<GetAssociatedIpv6PoolCidrsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link GetAwsNetworkPerformanceDataCommand}
    */
@@ -8745,6 +9842,11 @@ interface EC2Service$ {
     GetAwsNetworkPerformanceDataCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
+
+  getAwsNetworkPerformanceDataStream(
+    args: GetAwsNetworkPerformanceDataCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<GetAwsNetworkPerformanceDataCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
 
   /**
    * @see {@link GetCapacityManagerAttributesCommand}
@@ -8768,6 +9870,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  getCapacityManagerMetricDataStream(
+    args: GetCapacityManagerMetricDataCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<GetCapacityManagerMetricDataCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link GetCapacityManagerMetricDimensionsCommand}
    */
@@ -8775,6 +9882,14 @@ interface EC2Service$ {
     args: GetCapacityManagerMetricDimensionsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    GetCapacityManagerMetricDimensionsCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  getCapacityManagerMetricDimensionsStream(
+    args: GetCapacityManagerMetricDimensionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     GetCapacityManagerMetricDimensionsCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
@@ -8900,6 +10015,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  getGroupsForCapacityReservationStream(
+    args: GetGroupsForCapacityReservationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<GetGroupsForCapacityReservationCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link GetHostReservationPurchasePreviewCommand}
    */
@@ -8966,6 +10086,14 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  getInstanceTypesFromInstanceRequirementsStream(
+    args: GetInstanceTypesFromInstanceRequirementsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    GetInstanceTypesFromInstanceRequirementsCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
   /**
    * @see {@link GetInstanceUefiDataCommand}
    */
@@ -8988,6 +10116,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  getIpamAddressHistoryStream(
+    args: GetIpamAddressHistoryCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<GetIpamAddressHistoryCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link GetIpamDiscoveredAccountsCommand}
    */
@@ -8998,6 +10131,11 @@ interface EC2Service$ {
     GetIpamDiscoveredAccountsCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
+
+  getIpamDiscoveredAccountsStream(
+    args: GetIpamDiscoveredAccountsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<GetIpamDiscoveredAccountsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
 
   /**
    * @see {@link GetIpamDiscoveredPublicAddressesCommand}
@@ -9020,6 +10158,11 @@ interface EC2Service$ {
     GetIpamDiscoveredResourceCidrsCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
+
+  getIpamDiscoveredResourceCidrsStream(
+    args: GetIpamDiscoveredResourceCidrsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<GetIpamDiscoveredResourceCidrsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
 
   /**
    * @see {@link GetIpamPolicyAllocationRulesCommand}
@@ -9054,6 +10197,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  getIpamPoolAllocationsStream(
+    args: GetIpamPoolAllocationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<GetIpamPoolAllocationsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link GetIpamPoolCidrsCommand}
    */
@@ -9064,6 +10212,11 @@ interface EC2Service$ {
     GetIpamPoolCidrsCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
+
+  getIpamPoolCidrsStream(
+    args: GetIpamPoolCidrsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<GetIpamPoolCidrsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
 
   /**
    * @see {@link GetIpamPrefixListResolverRulesCommand}
@@ -9076,6 +10229,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  getIpamPrefixListResolverRulesStream(
+    args: GetIpamPrefixListResolverRulesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<GetIpamPrefixListResolverRulesCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link GetIpamPrefixListResolverVersionEntriesCommand}
    */
@@ -9083,6 +10241,14 @@ interface EC2Service$ {
     args: GetIpamPrefixListResolverVersionEntriesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    GetIpamPrefixListResolverVersionEntriesCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  getIpamPrefixListResolverVersionEntriesStream(
+    args: GetIpamPrefixListResolverVersionEntriesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     GetIpamPrefixListResolverVersionEntriesCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
@@ -9098,6 +10264,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  getIpamPrefixListResolverVersionsStream(
+    args: GetIpamPrefixListResolverVersionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<GetIpamPrefixListResolverVersionsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link GetIpamResourceCidrsCommand}
    */
@@ -9108,6 +10279,11 @@ interface EC2Service$ {
     GetIpamResourceCidrsCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
+
+  getIpamResourceCidrsStream(
+    args: GetIpamResourceCidrsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<GetIpamResourceCidrsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
 
   /**
    * @see {@link GetLaunchTemplateDataCommand}
@@ -9131,6 +10307,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  getManagedPrefixListAssociationsStream(
+    args: GetManagedPrefixListAssociationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<GetManagedPrefixListAssociationsCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link GetManagedPrefixListEntriesCommand}
    */
@@ -9142,6 +10323,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  getManagedPrefixListEntriesStream(
+    args: GetManagedPrefixListEntriesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<GetManagedPrefixListEntriesCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link GetNetworkInsightsAccessScopeAnalysisFindingsCommand}
    */
@@ -9149,6 +10335,14 @@ interface EC2Service$ {
     args: GetNetworkInsightsAccessScopeAnalysisFindingsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    GetNetworkInsightsAccessScopeAnalysisFindingsCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  getNetworkInsightsAccessScopeAnalysisFindingsStream(
+    args: GetNetworkInsightsAccessScopeAnalysisFindingsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     GetNetworkInsightsAccessScopeAnalysisFindingsCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
@@ -9230,6 +10424,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  getSecurityGroupsForVpcStream(
+    args: GetSecurityGroupsForVpcCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<GetSecurityGroupsForVpcCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link GetSerialConsoleAccessStatusCommand}
    */
@@ -9263,6 +10462,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  getSpotPlacementScoresStream(
+    args: GetSpotPlacementScoresCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<GetSpotPlacementScoresCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link GetSubnetCidrReservationsCommand}
    */
@@ -9281,6 +10485,14 @@ interface EC2Service$ {
     args: GetTransitGatewayAttachmentPropagationsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    GetTransitGatewayAttachmentPropagationsCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  getTransitGatewayAttachmentPropagationsStream(
+    args: GetTransitGatewayAttachmentPropagationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     GetTransitGatewayAttachmentPropagationsCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
@@ -9307,6 +10519,14 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  getTransitGatewayMulticastDomainAssociationsStream(
+    args: GetTransitGatewayMulticastDomainAssociationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    GetTransitGatewayMulticastDomainAssociationsCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
   /**
    * @see {@link GetTransitGatewayPolicyTableAssociationsCommand}
    */
@@ -9314,6 +10534,14 @@ interface EC2Service$ {
     args: GetTransitGatewayPolicyTableAssociationsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    GetTransitGatewayPolicyTableAssociationsCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  getTransitGatewayPolicyTableAssociationsStream(
+    args: GetTransitGatewayPolicyTableAssociationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     GetTransitGatewayPolicyTableAssociationsCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
@@ -9340,6 +10568,14 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  getTransitGatewayPrefixListReferencesStream(
+    args: GetTransitGatewayPrefixListReferencesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    GetTransitGatewayPrefixListReferencesCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
   /**
    * @see {@link GetTransitGatewayRouteTableAssociationsCommand}
    */
@@ -9351,6 +10587,14 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  getTransitGatewayRouteTableAssociationsStream(
+    args: GetTransitGatewayRouteTableAssociationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    GetTransitGatewayRouteTableAssociationsCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
   /**
    * @see {@link GetTransitGatewayRouteTablePropagationsCommand}
    */
@@ -9358,6 +10602,14 @@ interface EC2Service$ {
     args: GetTransitGatewayRouteTablePropagationsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    GetTransitGatewayRouteTablePropagationsCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  getTransitGatewayRouteTablePropagationsStream(
+    args: GetTransitGatewayRouteTablePropagationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     GetTransitGatewayRouteTablePropagationsCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
@@ -9427,6 +10679,11 @@ interface EC2Service$ {
     GetVpnConnectionDeviceTypesCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
+
+  getVpnConnectionDeviceTypesStream(
+    args: GetVpnConnectionDeviceTypesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<GetVpnConnectionDeviceTypesCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
 
   /**
    * @see {@link GetVpnTunnelReplacementStatusCommand}
@@ -9516,6 +10773,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  listImagesInRecycleBinStream(
+    args: ListImagesInRecycleBinCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListImagesInRecycleBinCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link ListSnapshotsInRecycleBinCommand}
    */
@@ -9526,6 +10788,11 @@ interface EC2Service$ {
     ListSnapshotsInRecycleBinCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
+
+  listSnapshotsInRecycleBinStream(
+    args: ListSnapshotsInRecycleBinCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListSnapshotsInRecycleBinCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
 
   /**
    * @see {@link ListVolumesInRecycleBinCommand}
@@ -11023,6 +12290,11 @@ interface EC2Service$ {
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
+  searchLocalGatewayRoutesStream(
+    args: SearchLocalGatewayRoutesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<SearchLocalGatewayRoutesCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link SearchTransitGatewayMulticastGroupsCommand}
    */
@@ -11030,6 +12302,14 @@ interface EC2Service$ {
     args: SearchTransitGatewayMulticastGroupsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    SearchTransitGatewayMulticastGroupsCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  searchTransitGatewayMulticastGroupsStream(
+    args: SearchTransitGatewayMulticastGroupsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     SearchTransitGatewayMulticastGroupsCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
@@ -11268,6 +12548,7 @@ export const makeEC2Service = Effect.gen(function*() {
     {
       resolveClientConfig: EC2ServiceConfig.toEC2ClientConfig,
     },
+    paginators,
   );
 });
 

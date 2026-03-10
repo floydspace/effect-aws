@@ -61,6 +61,7 @@ import {
   type ListUsersCommandOutput,
   type MqClient,
   type MqClientConfig,
+  paginateListBrokers,
   PromoteCommand,
   type PromoteCommandInput,
   type PromoteCommandOutput,
@@ -81,6 +82,7 @@ import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
+import type * as Stream from "effect/Stream";
 import type {
   BadRequestError,
   ConflictError,
@@ -119,6 +121,10 @@ const commands = {
   UpdateBrokerCommand,
   UpdateConfigurationCommand,
   UpdateUserCommand,
+};
+
+const paginators = {
+  paginateListBrokers,
 };
 
 interface MqService$ {
@@ -307,6 +313,14 @@ interface MqService$ {
     Cause.TimeoutException | SdkError | BadRequestError | ForbiddenError | InternalServerError
   >;
 
+  listBrokersStream(
+    args: ListBrokersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListBrokersCommandOutput,
+    Cause.TimeoutException | SdkError | BadRequestError | ForbiddenError | InternalServerError
+  >;
+
   /**
    * @see {@link ListConfigurationRevisionsCommand}
    */
@@ -439,6 +453,7 @@ export const makeMqService = Effect.gen(function*() {
       errorTags: AllServiceErrors,
       resolveClientConfig: MqServiceConfig.toMqClientConfig,
     },
+    paginators,
   );
 });
 

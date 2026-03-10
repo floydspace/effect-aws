@@ -121,6 +121,20 @@ import {
   ListVpcConnectionsCommand,
   type ListVpcConnectionsCommandInput,
   type ListVpcConnectionsCommandOutput,
+  paginateDescribeTopicPartitions,
+  paginateListClientVpcConnections,
+  paginateListClusterOperations,
+  paginateListClusterOperationsV2,
+  paginateListClusters,
+  paginateListClustersV2,
+  paginateListConfigurationRevisions,
+  paginateListConfigurations,
+  paginateListKafkaVersions,
+  paginateListNodes,
+  paginateListReplicators,
+  paginateListScramSecrets,
+  paginateListTopics,
+  paginateListVpcConnections,
   PutClusterPolicyCommand,
   type PutClusterPolicyCommandInput,
   type PutClusterPolicyCommandOutput,
@@ -177,6 +191,7 @@ import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
+import type * as Stream from "effect/Stream";
 import type {
   BadRequestError,
   ConflictError,
@@ -249,6 +264,23 @@ const commands = {
   UpdateReplicationInfoCommand,
   UpdateSecurityCommand,
   UpdateStorageCommand,
+};
+
+const paginators = {
+  paginateDescribeTopicPartitions,
+  paginateListClientVpcConnections,
+  paginateListClusterOperations,
+  paginateListClusterOperationsV2,
+  paginateListClusters,
+  paginateListClustersV2,
+  paginateListConfigurationRevisions,
+  paginateListConfigurations,
+  paginateListKafkaVersions,
+  paginateListNodes,
+  paginateListReplicators,
+  paginateListScramSecrets,
+  paginateListTopics,
+  paginateListVpcConnections,
 };
 
 interface KafkaService$ {
@@ -609,6 +641,20 @@ interface KafkaService$ {
     | UnauthorizedError
   >;
 
+  describeTopicPartitionsStream(
+    args: DescribeTopicPartitionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeTopicPartitionsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | BadRequestError
+    | ForbiddenError
+    | InternalServerError
+    | NotFoundError
+    | UnauthorizedError
+  >;
+
   /**
    * @see {@link DescribeVpcConnectionCommand}
    */
@@ -691,6 +737,20 @@ interface KafkaService$ {
     | UnauthorizedError
   >;
 
+  listClientVpcConnectionsStream(
+    args: ListClientVpcConnectionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListClientVpcConnectionsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | BadRequestError
+    | ForbiddenError
+    | InternalServerError
+    | ServiceUnavailableError
+    | UnauthorizedError
+  >;
+
   /**
    * @see {@link ListClusterOperationsCommand}
    */
@@ -698,6 +758,14 @@ interface KafkaService$ {
     args: ListClusterOperationsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListClusterOperationsCommandOutput,
+    Cause.TimeoutException | SdkError | BadRequestError | ForbiddenError | InternalServerError | UnauthorizedError
+  >;
+
+  listClusterOperationsStream(
+    args: ListClusterOperationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListClusterOperationsCommandOutput,
     Cause.TimeoutException | SdkError | BadRequestError | ForbiddenError | InternalServerError | UnauthorizedError
   >;
@@ -721,6 +789,22 @@ interface KafkaService$ {
     | UnauthorizedError
   >;
 
+  listClusterOperationsV2Stream(
+    args: ListClusterOperationsV2CommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListClusterOperationsV2CommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | BadRequestError
+    | ForbiddenError
+    | InternalServerError
+    | NotFoundError
+    | ServiceUnavailableError
+    | TooManyRequestsError
+    | UnauthorizedError
+  >;
+
   /**
    * @see {@link ListClustersCommand}
    */
@@ -728,6 +812,14 @@ interface KafkaService$ {
     args: ListClustersCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListClustersCommandOutput,
+    Cause.TimeoutException | SdkError | BadRequestError | ForbiddenError | InternalServerError | UnauthorizedError
+  >;
+
+  listClustersStream(
+    args: ListClustersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListClustersCommandOutput,
     Cause.TimeoutException | SdkError | BadRequestError | ForbiddenError | InternalServerError | UnauthorizedError
   >;
@@ -743,6 +835,14 @@ interface KafkaService$ {
     Cause.TimeoutException | SdkError | BadRequestError | ForbiddenError | InternalServerError | UnauthorizedError
   >;
 
+  listClustersV2Stream(
+    args: ListClustersV2CommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListClustersV2CommandOutput,
+    Cause.TimeoutException | SdkError | BadRequestError | ForbiddenError | InternalServerError | UnauthorizedError
+  >;
+
   /**
    * @see {@link ListConfigurationRevisionsCommand}
    */
@@ -750,6 +850,21 @@ interface KafkaService$ {
     args: ListConfigurationRevisionsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListConfigurationRevisionsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | BadRequestError
+    | ForbiddenError
+    | InternalServerError
+    | NotFoundError
+    | ServiceUnavailableError
+    | UnauthorizedError
+  >;
+
+  listConfigurationRevisionsStream(
+    args: ListConfigurationRevisionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListConfigurationRevisionsCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -778,6 +893,20 @@ interface KafkaService$ {
     | UnauthorizedError
   >;
 
+  listConfigurationsStream(
+    args: ListConfigurationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListConfigurationsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | BadRequestError
+    | ForbiddenError
+    | InternalServerError
+    | ServiceUnavailableError
+    | UnauthorizedError
+  >;
+
   /**
    * @see {@link ListKafkaVersionsCommand}
    */
@@ -789,6 +918,14 @@ interface KafkaService$ {
     Cause.TimeoutException | SdkError | BadRequestError | ForbiddenError | InternalServerError | UnauthorizedError
   >;
 
+  listKafkaVersionsStream(
+    args: ListKafkaVersionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListKafkaVersionsCommandOutput,
+    Cause.TimeoutException | SdkError | BadRequestError | ForbiddenError | InternalServerError | UnauthorizedError
+  >;
+
   /**
    * @see {@link ListNodesCommand}
    */
@@ -796,6 +933,14 @@ interface KafkaService$ {
     args: ListNodesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListNodesCommandOutput,
+    Cause.TimeoutException | SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
+  >;
+
+  listNodesStream(
+    args: ListNodesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListNodesCommandOutput,
     Cause.TimeoutException | SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
   >;
@@ -819,6 +964,22 @@ interface KafkaService$ {
     | UnauthorizedError
   >;
 
+  listReplicatorsStream(
+    args: ListReplicatorsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListReplicatorsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | BadRequestError
+    | ForbiddenError
+    | InternalServerError
+    | NotFoundError
+    | ServiceUnavailableError
+    | TooManyRequestsError
+    | UnauthorizedError
+  >;
+
   /**
    * @see {@link ListScramSecretsCommand}
    */
@@ -826,6 +987,22 @@ interface KafkaService$ {
     args: ListScramSecretsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListScramSecretsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | BadRequestError
+    | ForbiddenError
+    | InternalServerError
+    | NotFoundError
+    | ServiceUnavailableError
+    | TooManyRequestsError
+    | UnauthorizedError
+  >;
+
+  listScramSecretsStream(
+    args: ListScramSecretsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListScramSecretsCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -866,6 +1043,20 @@ interface KafkaService$ {
     | UnauthorizedError
   >;
 
+  listTopicsStream(
+    args: ListTopicsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListTopicsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | BadRequestError
+    | ForbiddenError
+    | InternalServerError
+    | ServiceUnavailableError
+    | UnauthorizedError
+  >;
+
   /**
    * @see {@link ListVpcConnectionsCommand}
    */
@@ -873,6 +1064,20 @@ interface KafkaService$ {
     args: ListVpcConnectionsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListVpcConnectionsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | BadRequestError
+    | ForbiddenError
+    | InternalServerError
+    | ServiceUnavailableError
+    | UnauthorizedError
+  >;
+
+  listVpcConnectionsStream(
+    args: ListVpcConnectionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListVpcConnectionsCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -1186,6 +1391,7 @@ export const makeKafkaService = Effect.gen(function*() {
       errorTags: AllServiceErrors,
       resolveClientConfig: KafkaServiceConfig.toKafkaClientConfig,
     },
+    paginators,
   );
 });
 

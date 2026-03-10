@@ -166,6 +166,24 @@ import {
   type MoveAccountCommandOutput,
   type OrganizationsClient,
   type OrganizationsClientConfig,
+  paginateListAccounts,
+  paginateListAccountsForParent,
+  paginateListAccountsWithInvalidEffectivePolicy,
+  paginateListAWSServiceAccessForOrganization,
+  paginateListChildren,
+  paginateListCreateAccountStatus,
+  paginateListDelegatedAdministrators,
+  paginateListDelegatedServicesForAccount,
+  paginateListEffectivePolicyValidationErrors,
+  paginateListHandshakesForAccount,
+  paginateListHandshakesForOrganization,
+  paginateListOrganizationalUnitsForParent,
+  paginateListParents,
+  paginateListPolicies,
+  paginateListPoliciesForTarget,
+  paginateListRoots,
+  paginateListTagsForResource,
+  paginateListTargetsForPolicy,
   PutResourcePolicyCommand,
   type PutResourcePolicyCommandInput,
   type PutResourcePolicyCommandOutput,
@@ -198,6 +216,7 @@ import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
+import type * as Stream from "effect/Stream";
 import type {
   AccessDeniedError,
   AccessDeniedForDependencyError,
@@ -319,6 +338,27 @@ const commands = {
   UpdateOrganizationalUnitCommand,
   UpdatePolicyCommand,
   UpdateResponsibilityTransferCommand,
+};
+
+const paginators = {
+  paginateListAWSServiceAccessForOrganization,
+  paginateListAccounts,
+  paginateListAccountsForParent,
+  paginateListAccountsWithInvalidEffectivePolicy,
+  paginateListChildren,
+  paginateListCreateAccountStatus,
+  paginateListDelegatedAdministrators,
+  paginateListDelegatedServicesForAccount,
+  paginateListEffectivePolicyValidationErrors,
+  paginateListHandshakesForAccount,
+  paginateListHandshakesForOrganization,
+  paginateListOrganizationalUnitsForParent,
+  paginateListParents,
+  paginateListPolicies,
+  paginateListPoliciesForTarget,
+  paginateListRoots,
+  paginateListTagsForResource,
+  paginateListTargetsForPolicy,
 };
 
 interface OrganizationsService$ {
@@ -1030,6 +1070,22 @@ interface OrganizationsService$ {
     | UnsupportedAPIEndpointError
   >;
 
+  listAWSServiceAccessForOrganizationStream(
+    args: ListAWSServiceAccessForOrganizationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListAWSServiceAccessForOrganizationCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | AWSOrganizationsNotInUseError
+    | ConstraintViolationError
+    | InvalidInputError
+    | ServiceError
+    | TooManyRequestsError
+    | UnsupportedAPIEndpointError
+  >;
+
   /**
    * @see {@link ListAccountsCommand}
    */
@@ -1047,6 +1103,20 @@ interface OrganizationsService$ {
     | TooManyRequestsError
   >;
 
+  listAccountsStream(
+    args: ListAccountsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListAccountsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | AWSOrganizationsNotInUseError
+    | InvalidInputError
+    | ServiceError
+    | TooManyRequestsError
+  >;
+
   /**
    * @see {@link ListAccountsForParentCommand}
    */
@@ -1054,6 +1124,21 @@ interface OrganizationsService$ {
     args: ListAccountsForParentCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListAccountsForParentCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | AWSOrganizationsNotInUseError
+    | InvalidInputError
+    | ParentNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
+
+  listAccountsForParentStream(
+    args: ListAccountsForParentCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListAccountsForParentCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -1085,6 +1170,23 @@ interface OrganizationsService$ {
     | UnsupportedAPIEndpointError
   >;
 
+  listAccountsWithInvalidEffectivePolicyStream(
+    args: ListAccountsWithInvalidEffectivePolicyCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListAccountsWithInvalidEffectivePolicyCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | AWSOrganizationsNotInUseError
+    | ConstraintViolationError
+    | EffectivePolicyNotFoundError
+    | InvalidInputError
+    | ServiceError
+    | TooManyRequestsError
+    | UnsupportedAPIEndpointError
+  >;
+
   /**
    * @see {@link ListChildrenCommand}
    */
@@ -1103,6 +1205,21 @@ interface OrganizationsService$ {
     | TooManyRequestsError
   >;
 
+  listChildrenStream(
+    args: ListChildrenCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListChildrenCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | AWSOrganizationsNotInUseError
+    | InvalidInputError
+    | ParentNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
+
   /**
    * @see {@link ListCreateAccountStatusCommand}
    */
@@ -1110,6 +1227,21 @@ interface OrganizationsService$ {
     args: ListCreateAccountStatusCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListCreateAccountStatusCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | AWSOrganizationsNotInUseError
+    | InvalidInputError
+    | ServiceError
+    | TooManyRequestsError
+    | UnsupportedAPIEndpointError
+  >;
+
+  listCreateAccountStatusStream(
+    args: ListCreateAccountStatusCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListCreateAccountStatusCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -1140,6 +1272,22 @@ interface OrganizationsService$ {
     | UnsupportedAPIEndpointError
   >;
 
+  listDelegatedAdministratorsStream(
+    args: ListDelegatedAdministratorsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListDelegatedAdministratorsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | AWSOrganizationsNotInUseError
+    | ConstraintViolationError
+    | InvalidInputError
+    | ServiceError
+    | TooManyRequestsError
+    | UnsupportedAPIEndpointError
+  >;
+
   /**
    * @see {@link ListDelegatedServicesForAccountCommand}
    */
@@ -1147,6 +1295,24 @@ interface OrganizationsService$ {
     args: ListDelegatedServicesForAccountCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListDelegatedServicesForAccountCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | AccountNotFoundError
+    | AccountNotRegisteredError
+    | AWSOrganizationsNotInUseError
+    | ConstraintViolationError
+    | InvalidInputError
+    | ServiceError
+    | TooManyRequestsError
+    | UnsupportedAPIEndpointError
+  >;
+
+  listDelegatedServicesForAccountStream(
+    args: ListDelegatedServicesForAccountCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListDelegatedServicesForAccountCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -1182,6 +1348,24 @@ interface OrganizationsService$ {
     | UnsupportedAPIEndpointError
   >;
 
+  listEffectivePolicyValidationErrorsStream(
+    args: ListEffectivePolicyValidationErrorsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListEffectivePolicyValidationErrorsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | AccountNotFoundError
+    | AWSOrganizationsNotInUseError
+    | ConstraintViolationError
+    | EffectivePolicyNotFoundError
+    | InvalidInputError
+    | ServiceError
+    | TooManyRequestsError
+    | UnsupportedAPIEndpointError
+  >;
+
   /**
    * @see {@link ListHandshakesForAccountCommand}
    */
@@ -1199,6 +1383,20 @@ interface OrganizationsService$ {
     | TooManyRequestsError
   >;
 
+  listHandshakesForAccountStream(
+    args: ListHandshakesForAccountCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListHandshakesForAccountCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | ConcurrentModificationError
+    | InvalidInputError
+    | ServiceError
+    | TooManyRequestsError
+  >;
+
   /**
    * @see {@link ListHandshakesForOrganizationCommand}
    */
@@ -1206,6 +1404,21 @@ interface OrganizationsService$ {
     args: ListHandshakesForOrganizationCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListHandshakesForOrganizationCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | AWSOrganizationsNotInUseError
+    | ConcurrentModificationError
+    | InvalidInputError
+    | ServiceError
+    | TooManyRequestsError
+  >;
+
+  listHandshakesForOrganizationStream(
+    args: ListHandshakesForOrganizationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListHandshakesForOrganizationCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -1255,6 +1468,21 @@ interface OrganizationsService$ {
     | TooManyRequestsError
   >;
 
+  listOrganizationalUnitsForParentStream(
+    args: ListOrganizationalUnitsForParentCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListOrganizationalUnitsForParentCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | AWSOrganizationsNotInUseError
+    | InvalidInputError
+    | ParentNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
+
   /**
    * @see {@link ListOutboundResponsibilityTransfersCommand}
    */
@@ -1292,6 +1520,21 @@ interface OrganizationsService$ {
     | TooManyRequestsError
   >;
 
+  listParentsStream(
+    args: ListParentsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListParentsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | AWSOrganizationsNotInUseError
+    | ChildNotFoundError
+    | InvalidInputError
+    | ServiceError
+    | TooManyRequestsError
+  >;
+
   /**
    * @see {@link ListPoliciesCommand}
    */
@@ -1299,6 +1542,21 @@ interface OrganizationsService$ {
     args: ListPoliciesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListPoliciesCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | AWSOrganizationsNotInUseError
+    | InvalidInputError
+    | ServiceError
+    | TooManyRequestsError
+    | UnsupportedAPIEndpointError
+  >;
+
+  listPoliciesStream(
+    args: ListPoliciesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListPoliciesCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -1329,6 +1587,22 @@ interface OrganizationsService$ {
     | UnsupportedAPIEndpointError
   >;
 
+  listPoliciesForTargetStream(
+    args: ListPoliciesForTargetCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListPoliciesForTargetCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | AWSOrganizationsNotInUseError
+    | InvalidInputError
+    | ServiceError
+    | TargetNotFoundError
+    | TooManyRequestsError
+    | UnsupportedAPIEndpointError
+  >;
+
   /**
    * @see {@link ListRootsCommand}
    */
@@ -1336,6 +1610,20 @@ interface OrganizationsService$ {
     args: ListRootsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListRootsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | AWSOrganizationsNotInUseError
+    | InvalidInputError
+    | ServiceError
+    | TooManyRequestsError
+  >;
+
+  listRootsStream(
+    args: ListRootsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListRootsCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -1364,6 +1652,21 @@ interface OrganizationsService$ {
     | TooManyRequestsError
   >;
 
+  listTagsForResourceStream(
+    args: ListTagsForResourceCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListTagsForResourceCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | AWSOrganizationsNotInUseError
+    | InvalidInputError
+    | ServiceError
+    | TargetNotFoundError
+    | TooManyRequestsError
+  >;
+
   /**
    * @see {@link ListTargetsForPolicyCommand}
    */
@@ -1371,6 +1674,22 @@ interface OrganizationsService$ {
     args: ListTargetsForPolicyCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListTargetsForPolicyCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | AWSOrganizationsNotInUseError
+    | InvalidInputError
+    | PolicyNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+    | UnsupportedAPIEndpointError
+  >;
+
+  listTargetsForPolicyStream(
+    args: ListTargetsForPolicyCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListTargetsForPolicyCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -1610,6 +1929,7 @@ export const makeOrganizationsService = Effect.gen(function*() {
       errorTags: AllServiceErrors,
       resolveClientConfig: OrganizationsServiceConfig.toOrganizationsClientConfig,
     },
+    paginators,
   );
 });
 

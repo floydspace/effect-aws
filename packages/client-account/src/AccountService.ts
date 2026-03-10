@@ -37,6 +37,7 @@ import {
   ListRegionsCommand,
   type ListRegionsCommandInput,
   type ListRegionsCommandOutput,
+  paginateListRegions,
   PutAccountNameCommand,
   type PutAccountNameCommandInput,
   type PutAccountNameCommandOutput,
@@ -54,6 +55,7 @@ import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
+import type * as Stream from "effect/Stream";
 import * as Instance from "./AccountClientInstance.js";
 import * as AccountServiceConfig from "./AccountServiceConfig.js";
 import type {
@@ -84,6 +86,10 @@ const commands = {
   PutAlternateContactCommand,
   PutContactInformationCommand,
   StartPrimaryEmailUpdateCommand,
+};
+
+const paginators = {
+  paginateListRegions,
 };
 
 interface AccountService$ {
@@ -260,6 +266,14 @@ interface AccountService$ {
     Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | TooManyRequestsError | ValidationError
   >;
 
+  listRegionsStream(
+    args: ListRegionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListRegionsCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | TooManyRequestsError | ValidationError
+  >;
+
   /**
    * @see {@link PutAccountNameCommand}
    */
@@ -326,6 +340,7 @@ export const makeAccountService = Effect.gen(function*() {
       errorTags: AllServiceErrors,
       resolveClientConfig: AccountServiceConfig.toAccountClientConfig,
     },
+    paginators,
   );
 });
 

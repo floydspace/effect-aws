@@ -82,6 +82,15 @@ import {
   ListTagsForResourceCommand,
   type ListTagsForResourceCommandInput,
   type ListTagsForResourceCommandOutput,
+  paginateDescribeAlarmHistory,
+  paginateDescribeAlarms,
+  paginateDescribeAnomalyDetectors,
+  paginateDescribeInsightRules,
+  paginateGetMetricData,
+  paginateListDashboards,
+  paginateListManagedInsightRules,
+  paginateListMetrics,
+  paginateListMetricStreams,
   PutAnomalyDetectorCommand,
   type PutAnomalyDetectorCommandInput,
   type PutAnomalyDetectorCommandOutput,
@@ -126,6 +135,7 @@ import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
+import type * as Stream from "effect/Stream";
 import * as Instance from "./CloudWatchClientInstance.js";
 import * as CloudWatchServiceConfig from "./CloudWatchServiceConfig.js";
 import type {
@@ -187,6 +197,18 @@ const commands = {
   StopMetricStreamsCommand,
   TagResourceCommand,
   UntagResourceCommand,
+};
+
+const paginators = {
+  paginateDescribeAlarmHistory,
+  paginateDescribeAlarms,
+  paginateDescribeAnomalyDetectors,
+  paginateDescribeInsightRules,
+  paginateGetMetricData,
+  paginateListDashboards,
+  paginateListManagedInsightRules,
+  paginateListMetricStreams,
+  paginateListMetrics,
 };
 
 interface CloudWatchService$ {
@@ -284,6 +306,11 @@ interface CloudWatchService$ {
     Cause.TimeoutException | SdkError | InvalidNextTokenError
   >;
 
+  describeAlarmHistoryStream(
+    args: DescribeAlarmHistoryCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeAlarmHistoryCommandOutput, Cause.TimeoutException | SdkError | InvalidNextTokenError>;
+
   /**
    * @see {@link DescribeAlarmsCommand}
    */
@@ -294,6 +321,11 @@ interface CloudWatchService$ {
     DescribeAlarmsCommandOutput,
     Cause.TimeoutException | SdkError | InvalidNextTokenError
   >;
+
+  describeAlarmsStream(
+    args: DescribeAlarmsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeAlarmsCommandOutput, Cause.TimeoutException | SdkError | InvalidNextTokenError>;
 
   /**
    * @see {@link DescribeAlarmsForMetricCommand}
@@ -322,6 +354,19 @@ interface CloudWatchService$ {
     | InvalidParameterValueError
   >;
 
+  describeAnomalyDetectorsStream(
+    args: DescribeAnomalyDetectorsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeAnomalyDetectorsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalServiceFaultError
+    | InvalidNextTokenError
+    | InvalidParameterCombinationError
+    | InvalidParameterValueError
+  >;
+
   /**
    * @see {@link DescribeInsightRulesCommand}
    */
@@ -332,6 +377,11 @@ interface CloudWatchService$ {
     DescribeInsightRulesCommandOutput,
     Cause.TimeoutException | SdkError | InvalidNextTokenError
   >;
+
+  describeInsightRulesStream(
+    args: DescribeInsightRulesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeInsightRulesCommandOutput, Cause.TimeoutException | SdkError | InvalidNextTokenError>;
 
   /**
    * @see {@link DisableAlarmActionsCommand}
@@ -414,6 +464,11 @@ interface CloudWatchService$ {
     Cause.TimeoutException | SdkError | InvalidNextTokenError
   >;
 
+  getMetricDataStream(
+    args: GetMetricDataCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<GetMetricDataCommandOutput, Cause.TimeoutException | SdkError | InvalidNextTokenError>;
+
   /**
    * @see {@link GetMetricStatisticsCommand}
    */
@@ -469,6 +524,14 @@ interface CloudWatchService$ {
     Cause.TimeoutException | SdkError | InternalServiceFaultError | InvalidParameterValueError
   >;
 
+  listDashboardsStream(
+    args: ListDashboardsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListDashboardsCommandOutput,
+    Cause.TimeoutException | SdkError | InternalServiceFaultError | InvalidParameterValueError
+  >;
+
   /**
    * @see {@link ListManagedInsightRulesCommand}
    */
@@ -476,6 +539,18 @@ interface CloudWatchService$ {
     args: ListManagedInsightRulesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListManagedInsightRulesCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidNextTokenError
+    | InvalidParameterValueError
+    | MissingRequiredParameterError
+  >;
+
+  listManagedInsightRulesStream(
+    args: ListManagedInsightRulesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListManagedInsightRulesCommandOutput,
     | Cause.TimeoutException
     | SdkError
@@ -500,6 +575,19 @@ interface CloudWatchService$ {
     | MissingRequiredParameterError
   >;
 
+  listMetricStreamsStream(
+    args: ListMetricStreamsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListMetricStreamsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalServiceFaultError
+    | InvalidNextTokenError
+    | InvalidParameterValueError
+    | MissingRequiredParameterError
+  >;
+
   /**
    * @see {@link ListMetricsCommand}
    */
@@ -507,6 +595,14 @@ interface CloudWatchService$ {
     args: ListMetricsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListMetricsCommandOutput,
+    Cause.TimeoutException | SdkError | InternalServiceFaultError | InvalidParameterValueError
+  >;
+
+  listMetricsStream(
+    args: ListMetricsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListMetricsCommandOutput,
     Cause.TimeoutException | SdkError | InternalServiceFaultError | InvalidParameterValueError
   >;
@@ -721,6 +817,7 @@ export const makeCloudWatchService = Effect.gen(function*() {
       errorTags: AllServiceErrors,
       resolveClientConfig: CloudWatchServiceConfig.toCloudWatchClientConfig,
     },
+    paginators,
   );
 });
 

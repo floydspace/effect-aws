@@ -382,6 +382,40 @@ import {
   ListVirtualMFADevicesCommand,
   type ListVirtualMFADevicesCommandInput,
   type ListVirtualMFADevicesCommandOutput,
+  paginateGetAccountAuthorizationDetails,
+  paginateGetGroup,
+  paginateListAccessKeys,
+  paginateListAccountAliases,
+  paginateListAttachedGroupPolicies,
+  paginateListAttachedRolePolicies,
+  paginateListAttachedUserPolicies,
+  paginateListEntitiesForPolicy,
+  paginateListGroupPolicies,
+  paginateListGroups,
+  paginateListGroupsForUser,
+  paginateListInstanceProfiles,
+  paginateListInstanceProfilesForRole,
+  paginateListInstanceProfileTags,
+  paginateListMFADevices,
+  paginateListMFADeviceTags,
+  paginateListOpenIDConnectProviderTags,
+  paginateListPolicies,
+  paginateListPolicyTags,
+  paginateListPolicyVersions,
+  paginateListRolePolicies,
+  paginateListRoles,
+  paginateListRoleTags,
+  paginateListSAMLProviderTags,
+  paginateListServerCertificates,
+  paginateListServerCertificateTags,
+  paginateListSigningCertificates,
+  paginateListSSHPublicKeys,
+  paginateListUserPolicies,
+  paginateListUsers,
+  paginateListUserTags,
+  paginateListVirtualMFADevices,
+  paginateSimulateCustomPolicy,
+  paginateSimulatePrincipalPolicy,
   PutGroupPolicyCommand,
   type PutGroupPolicyCommandInput,
   type PutGroupPolicyCommandOutput,
@@ -537,6 +571,7 @@ import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
+import type * as Stream from "effect/Stream";
 import type {
   AccountNotManagementOrDelegatedAdministratorError,
   CallerIsNotManagementAccountError,
@@ -756,6 +791,43 @@ const commands = {
   UploadSSHPublicKeyCommand,
   UploadServerCertificateCommand,
   UploadSigningCertificateCommand,
+};
+
+const paginators = {
+  paginateGetAccountAuthorizationDetails,
+  paginateGetGroup,
+  paginateListAccessKeys,
+  paginateListAccountAliases,
+  paginateListAttachedGroupPolicies,
+  paginateListAttachedRolePolicies,
+  paginateListAttachedUserPolicies,
+  paginateListEntitiesForPolicy,
+  paginateListGroupPolicies,
+  paginateListGroups,
+  paginateListGroupsForUser,
+  paginateListInstanceProfileTags,
+  paginateListInstanceProfiles,
+  paginateListInstanceProfilesForRole,
+  paginateListMFADeviceTags,
+  paginateListMFADevices,
+  paginateListOpenIDConnectProviderTags,
+  paginateListPolicies,
+  paginateListPolicyTags,
+  paginateListPolicyVersions,
+  paginateListRolePolicies,
+  paginateListRoleTags,
+  paginateListRoles,
+  paginateListSAMLProviderTags,
+  paginateListSSHPublicKeys,
+  paginateListServerCertificateTags,
+  paginateListServerCertificates,
+  paginateListSigningCertificates,
+  paginateListUserPolicies,
+  paginateListUserTags,
+  paginateListUsers,
+  paginateListVirtualMFADevices,
+  paginateSimulateCustomPolicy,
+  paginateSimulatePrincipalPolicy,
 };
 
 interface IAMService$ {
@@ -1679,6 +1751,14 @@ interface IAMService$ {
     Cause.TimeoutException | SdkError | ServiceFailureError
   >;
 
+  getAccountAuthorizationDetailsStream(
+    args: GetAccountAuthorizationDetailsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    GetAccountAuthorizationDetailsCommandOutput,
+    Cause.TimeoutException | SdkError | ServiceFailureError
+  >;
+
   /**
    * @see {@link GetAccountPasswordPolicyCommand}
    */
@@ -1760,6 +1840,11 @@ interface IAMService$ {
     GetGroupCommandOutput,
     Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError
   >;
+
+  getGroupStream(
+    args: GetGroupCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<GetGroupCommandOutput, Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError>;
 
   /**
    * @see {@link GetGroupPolicyCommand}
@@ -1992,6 +2077,14 @@ interface IAMService$ {
     Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError
   >;
 
+  listAccessKeysStream(
+    args: ListAccessKeysCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListAccessKeysCommandOutput,
+    Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError
+  >;
+
   /**
    * @see {@link ListAccountAliasesCommand}
    */
@@ -2003,6 +2096,11 @@ interface IAMService$ {
     Cause.TimeoutException | SdkError | ServiceFailureError
   >;
 
+  listAccountAliasesStream(
+    args: ListAccountAliasesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListAccountAliasesCommandOutput, Cause.TimeoutException | SdkError | ServiceFailureError>;
+
   /**
    * @see {@link ListAttachedGroupPoliciesCommand}
    */
@@ -2010,6 +2108,14 @@ interface IAMService$ {
     args: ListAttachedGroupPoliciesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListAttachedGroupPoliciesCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
+  >;
+
+  listAttachedGroupPoliciesStream(
+    args: ListAttachedGroupPoliciesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListAttachedGroupPoliciesCommandOutput,
     Cause.TimeoutException | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
   >;
@@ -2025,6 +2131,14 @@ interface IAMService$ {
     Cause.TimeoutException | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
   >;
 
+  listAttachedRolePoliciesStream(
+    args: ListAttachedRolePoliciesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListAttachedRolePoliciesCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
+  >;
+
   /**
    * @see {@link ListAttachedUserPoliciesCommand}
    */
@@ -2032,6 +2146,14 @@ interface IAMService$ {
     args: ListAttachedUserPoliciesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListAttachedUserPoliciesCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
+  >;
+
+  listAttachedUserPoliciesStream(
+    args: ListAttachedUserPoliciesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListAttachedUserPoliciesCommandOutput,
     Cause.TimeoutException | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
   >;
@@ -2058,6 +2180,14 @@ interface IAMService$ {
     Cause.TimeoutException | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
   >;
 
+  listEntitiesForPolicyStream(
+    args: ListEntitiesForPolicyCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListEntitiesForPolicyCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
+  >;
+
   /**
    * @see {@link ListGroupPoliciesCommand}
    */
@@ -2065,6 +2195,14 @@ interface IAMService$ {
     args: ListGroupPoliciesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListGroupPoliciesCommandOutput,
+    Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError
+  >;
+
+  listGroupPoliciesStream(
+    args: ListGroupPoliciesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListGroupPoliciesCommandOutput,
     Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError
   >;
@@ -2080,6 +2218,11 @@ interface IAMService$ {
     Cause.TimeoutException | SdkError | ServiceFailureError
   >;
 
+  listGroupsStream(
+    args: ListGroupsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListGroupsCommandOutput, Cause.TimeoutException | SdkError | ServiceFailureError>;
+
   /**
    * @see {@link ListGroupsForUserCommand}
    */
@@ -2087,6 +2230,14 @@ interface IAMService$ {
     args: ListGroupsForUserCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListGroupsForUserCommandOutput,
+    Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError
+  >;
+
+  listGroupsForUserStream(
+    args: ListGroupsForUserCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListGroupsForUserCommandOutput,
     Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError
   >;
@@ -2102,6 +2253,14 @@ interface IAMService$ {
     Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError
   >;
 
+  listInstanceProfileTagsStream(
+    args: ListInstanceProfileTagsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListInstanceProfileTagsCommandOutput,
+    Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError
+  >;
+
   /**
    * @see {@link ListInstanceProfilesCommand}
    */
@@ -2113,6 +2272,11 @@ interface IAMService$ {
     Cause.TimeoutException | SdkError | ServiceFailureError
   >;
 
+  listInstanceProfilesStream(
+    args: ListInstanceProfilesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListInstanceProfilesCommandOutput, Cause.TimeoutException | SdkError | ServiceFailureError>;
+
   /**
    * @see {@link ListInstanceProfilesForRoleCommand}
    */
@@ -2120,6 +2284,14 @@ interface IAMService$ {
     args: ListInstanceProfilesForRoleCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListInstanceProfilesForRoleCommandOutput,
+    Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError
+  >;
+
+  listInstanceProfilesForRoleStream(
+    args: ListInstanceProfilesForRoleCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListInstanceProfilesForRoleCommandOutput,
     Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError
   >;
@@ -2135,6 +2307,14 @@ interface IAMService$ {
     Cause.TimeoutException | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
   >;
 
+  listMFADeviceTagsStream(
+    args: ListMFADeviceTagsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListMFADeviceTagsCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
+  >;
+
   /**
    * @see {@link ListMFADevicesCommand}
    */
@@ -2146,6 +2326,14 @@ interface IAMService$ {
     Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError
   >;
 
+  listMFADevicesStream(
+    args: ListMFADevicesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListMFADevicesCommandOutput,
+    Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError
+  >;
+
   /**
    * @see {@link ListOpenIDConnectProviderTagsCommand}
    */
@@ -2153,6 +2341,14 @@ interface IAMService$ {
     args: ListOpenIDConnectProviderTagsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListOpenIDConnectProviderTagsCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
+  >;
+
+  listOpenIDConnectProviderTagsStream(
+    args: ListOpenIDConnectProviderTagsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListOpenIDConnectProviderTagsCommandOutput,
     Cause.TimeoutException | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
   >;
@@ -2195,6 +2391,11 @@ interface IAMService$ {
     Cause.TimeoutException | SdkError | ServiceFailureError
   >;
 
+  listPoliciesStream(
+    args: ListPoliciesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListPoliciesCommandOutput, Cause.TimeoutException | SdkError | ServiceFailureError>;
+
   /**
    * @see {@link ListPoliciesGrantingServiceAccessCommand}
    */
@@ -2217,6 +2418,14 @@ interface IAMService$ {
     Cause.TimeoutException | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
   >;
 
+  listPolicyTagsStream(
+    args: ListPolicyTagsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListPolicyTagsCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
+  >;
+
   /**
    * @see {@link ListPolicyVersionsCommand}
    */
@@ -2224,6 +2433,14 @@ interface IAMService$ {
     args: ListPolicyVersionsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListPolicyVersionsCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
+  >;
+
+  listPolicyVersionsStream(
+    args: ListPolicyVersionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListPolicyVersionsCommandOutput,
     Cause.TimeoutException | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
   >;
@@ -2239,6 +2456,14 @@ interface IAMService$ {
     Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError
   >;
 
+  listRolePoliciesStream(
+    args: ListRolePoliciesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListRolePoliciesCommandOutput,
+    Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError
+  >;
+
   /**
    * @see {@link ListRoleTagsCommand}
    */
@@ -2246,6 +2471,14 @@ interface IAMService$ {
     args: ListRoleTagsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListRoleTagsCommandOutput,
+    Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError
+  >;
+
+  listRoleTagsStream(
+    args: ListRoleTagsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListRoleTagsCommandOutput,
     Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError
   >;
@@ -2261,6 +2494,11 @@ interface IAMService$ {
     Cause.TimeoutException | SdkError | ServiceFailureError
   >;
 
+  listRolesStream(
+    args: ListRolesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListRolesCommandOutput, Cause.TimeoutException | SdkError | ServiceFailureError>;
+
   /**
    * @see {@link ListSAMLProviderTagsCommand}
    */
@@ -2268,6 +2506,14 @@ interface IAMService$ {
     args: ListSAMLProviderTagsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListSAMLProviderTagsCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
+  >;
+
+  listSAMLProviderTagsStream(
+    args: ListSAMLProviderTagsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListSAMLProviderTagsCommandOutput,
     Cause.TimeoutException | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
   >;
@@ -2294,6 +2540,11 @@ interface IAMService$ {
     Cause.TimeoutException | SdkError | NoSuchEntityError
   >;
 
+  listSSHPublicKeysStream(
+    args: ListSSHPublicKeysCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListSSHPublicKeysCommandOutput, Cause.TimeoutException | SdkError | NoSuchEntityError>;
+
   /**
    * @see {@link ListServerCertificateTagsCommand}
    */
@@ -2301,6 +2552,14 @@ interface IAMService$ {
     args: ListServerCertificateTagsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListServerCertificateTagsCommandOutput,
+    Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError
+  >;
+
+  listServerCertificateTagsStream(
+    args: ListServerCertificateTagsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListServerCertificateTagsCommandOutput,
     Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError
   >;
@@ -2315,6 +2574,11 @@ interface IAMService$ {
     ListServerCertificatesCommandOutput,
     Cause.TimeoutException | SdkError | ServiceFailureError
   >;
+
+  listServerCertificatesStream(
+    args: ListServerCertificatesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListServerCertificatesCommandOutput, Cause.TimeoutException | SdkError | ServiceFailureError>;
 
   /**
    * @see {@link ListServiceSpecificCredentialsCommand}
@@ -2338,6 +2602,14 @@ interface IAMService$ {
     Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError
   >;
 
+  listSigningCertificatesStream(
+    args: ListSigningCertificatesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListSigningCertificatesCommandOutput,
+    Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError
+  >;
+
   /**
    * @see {@link ListUserPoliciesCommand}
    */
@@ -2345,6 +2617,14 @@ interface IAMService$ {
     args: ListUserPoliciesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListUserPoliciesCommandOutput,
+    Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError
+  >;
+
+  listUserPoliciesStream(
+    args: ListUserPoliciesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListUserPoliciesCommandOutput,
     Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError
   >;
@@ -2360,6 +2640,14 @@ interface IAMService$ {
     Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError
   >;
 
+  listUserTagsStream(
+    args: ListUserTagsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListUserTagsCommandOutput,
+    Cause.TimeoutException | SdkError | NoSuchEntityError | ServiceFailureError
+  >;
+
   /**
    * @see {@link ListUsersCommand}
    */
@@ -2371,6 +2659,11 @@ interface IAMService$ {
     Cause.TimeoutException | SdkError | ServiceFailureError
   >;
 
+  listUsersStream(
+    args: ListUsersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListUsersCommandOutput, Cause.TimeoutException | SdkError | ServiceFailureError>;
+
   /**
    * @see {@link ListVirtualMFADevicesCommand}
    */
@@ -2381,6 +2674,11 @@ interface IAMService$ {
     ListVirtualMFADevicesCommandOutput,
     Cause.TimeoutException | SdkError
   >;
+
+  listVirtualMFADevicesStream(
+    args: ListVirtualMFADevicesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListVirtualMFADevicesCommandOutput, Cause.TimeoutException | SdkError>;
 
   /**
    * @see {@link PutGroupPolicyCommand}
@@ -2600,6 +2898,14 @@ interface IAMService$ {
     Cause.TimeoutException | SdkError | InvalidInputError | PolicyEvaluationError
   >;
 
+  simulateCustomPolicyStream(
+    args: SimulateCustomPolicyCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    SimulateCustomPolicyCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidInputError | PolicyEvaluationError
+  >;
+
   /**
    * @see {@link SimulatePrincipalPolicyCommand}
    */
@@ -2607,6 +2913,14 @@ interface IAMService$ {
     args: SimulatePrincipalPolicyCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    SimulatePrincipalPolicyCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidInputError | NoSuchEntityError | PolicyEvaluationError
+  >;
+
+  simulatePrincipalPolicyStream(
+    args: SimulatePrincipalPolicyCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     SimulatePrincipalPolicyCommandOutput,
     Cause.TimeoutException | SdkError | InvalidInputError | NoSuchEntityError | PolicyEvaluationError
   >;
@@ -3151,6 +3465,7 @@ export const makeIAMService = Effect.gen(function*() {
       errorTags: AllServiceErrors,
       resolveClientConfig: IAMServiceConfig.toIAMClientConfig,
     },
+    paginators,
   );
 });
 

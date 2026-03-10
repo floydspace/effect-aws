@@ -253,6 +253,17 @@ import {
   ListWirelessGatewayTaskDefinitionsCommand,
   type ListWirelessGatewayTaskDefinitionsCommandInput,
   type ListWirelessGatewayTaskDefinitionsCommandOutput,
+  paginateListDestinations,
+  paginateListDeviceProfiles,
+  paginateListFuotaTasks,
+  paginateListMulticastGroups,
+  paginateListMulticastGroupsByFuotaTask,
+  paginateListNetworkAnalyzerConfigurations,
+  paginateListPositionConfigurations,
+  paginateListQueuedMessages,
+  paginateListServiceProfiles,
+  paginateListWirelessDevices,
+  paginateListWirelessGateways,
   PutPositionConfigurationCommand,
   type PutPositionConfigurationCommandInput,
   type PutPositionConfigurationCommandOutput,
@@ -345,6 +356,7 @@ import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
+import type * as Stream from "effect/Stream";
 import type {
   AccessDeniedError,
   ConflictError,
@@ -472,6 +484,20 @@ const commands = {
   UpdateWirelessDeviceCommand,
   UpdateWirelessDeviceImportTaskCommand,
   UpdateWirelessGatewayCommand,
+};
+
+const paginators = {
+  paginateListDestinations,
+  paginateListDeviceProfiles,
+  paginateListFuotaTasks,
+  paginateListMulticastGroups,
+  paginateListMulticastGroupsByFuotaTask,
+  paginateListNetworkAnalyzerConfigurations,
+  paginateListPositionConfigurations,
+  paginateListQueuedMessages,
+  paginateListServiceProfiles,
+  paginateListWirelessDevices,
+  paginateListWirelessGateways,
 };
 
 interface IoTWirelessService$ {
@@ -1607,6 +1633,14 @@ interface IoTWirelessService$ {
     Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
+  listDestinationsStream(
+    args: ListDestinationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListDestinationsCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+  >;
+
   /**
    * @see {@link ListDeviceProfilesCommand}
    */
@@ -1614,6 +1648,14 @@ interface IoTWirelessService$ {
     args: ListDeviceProfilesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListDeviceProfilesCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+  >;
+
+  listDeviceProfilesStream(
+    args: ListDeviceProfilesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListDeviceProfilesCommandOutput,
     Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
@@ -1658,6 +1700,14 @@ interface IoTWirelessService$ {
     Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
+  listFuotaTasksStream(
+    args: ListFuotaTasksCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListFuotaTasksCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+  >;
+
   /**
    * @see {@link ListMulticastGroupsCommand}
    */
@@ -1665,6 +1715,14 @@ interface IoTWirelessService$ {
     args: ListMulticastGroupsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListMulticastGroupsCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+  >;
+
+  listMulticastGroupsStream(
+    args: ListMulticastGroupsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListMulticastGroupsCommandOutput,
     Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
@@ -1686,6 +1744,20 @@ interface IoTWirelessService$ {
     | ValidationError
   >;
 
+  listMulticastGroupsByFuotaTaskStream(
+    args: ListMulticastGroupsByFuotaTaskCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListMulticastGroupsByFuotaTaskCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
   /**
    * @see {@link ListNetworkAnalyzerConfigurationsCommand}
    */
@@ -1693,6 +1765,14 @@ interface IoTWirelessService$ {
     args: ListNetworkAnalyzerConfigurationsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListNetworkAnalyzerConfigurationsCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+  >;
+
+  listNetworkAnalyzerConfigurationsStream(
+    args: ListNetworkAnalyzerConfigurationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListNetworkAnalyzerConfigurationsCommandOutput,
     Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
@@ -1719,6 +1799,14 @@ interface IoTWirelessService$ {
     Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
+  listPositionConfigurationsStream(
+    args: ListPositionConfigurationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListPositionConfigurationsCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+  >;
+
   /**
    * @see {@link ListQueuedMessagesCommand}
    */
@@ -1736,6 +1824,20 @@ interface IoTWirelessService$ {
     | ValidationError
   >;
 
+  listQueuedMessagesStream(
+    args: ListQueuedMessagesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListQueuedMessagesCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
   /**
    * @see {@link ListServiceProfilesCommand}
    */
@@ -1743,6 +1845,14 @@ interface IoTWirelessService$ {
     args: ListServiceProfilesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListServiceProfilesCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+  >;
+
+  listServiceProfilesStream(
+    args: ListServiceProfilesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListServiceProfilesCommandOutput,
     Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
@@ -1793,6 +1903,14 @@ interface IoTWirelessService$ {
     Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
+  listWirelessDevicesStream(
+    args: ListWirelessDevicesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListWirelessDevicesCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+  >;
+
   /**
    * @see {@link ListWirelessGatewayTaskDefinitionsCommand}
    */
@@ -1811,6 +1929,14 @@ interface IoTWirelessService$ {
     args: ListWirelessGatewaysCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListWirelessGatewaysCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+  >;
+
+  listWirelessGatewaysStream(
+    args: ListWirelessGatewaysCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListWirelessGatewaysCommandOutput,
     Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
@@ -2311,6 +2437,7 @@ export const makeIoTWirelessService = Effect.gen(function*() {
       errorTags: AllServiceErrors,
       resolveClientConfig: IoTWirelessServiceConfig.toIoTWirelessClientConfig,
     },
+    paginators,
   );
 });
 

@@ -218,6 +218,10 @@ import {
   ListPartsCommand,
   type ListPartsCommandInput,
   type ListPartsCommandOutput,
+  paginateListBuckets,
+  paginateListDirectoryBuckets,
+  paginateListObjectsV2,
+  paginateListParts,
   PutBucketAbacCommand,
   type PutBucketAbacCommandInput,
   type PutBucketAbacCommandOutput,
@@ -329,6 +333,7 @@ import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
 import { Service } from "@effect-aws/commons";
 import type { Cause } from "effect";
 import { Effect, Layer } from "effect";
+import type * as Stream from "effect/Stream";
 import type {
   BucketAlreadyExistsError,
   BucketAlreadyOwnedByYouError,
@@ -458,6 +463,13 @@ const commands = {
   UploadPartCommand,
   UploadPartCopyCommand,
   WriteGetObjectResponseCommand,
+};
+
+const paginators = {
+  paginateListBuckets,
+  paginateListDirectoryBuckets,
+  paginateListObjectsV2,
+  paginateListParts,
 };
 
 interface S3Service$ {
@@ -1193,6 +1205,11 @@ interface S3Service$ {
     Cause.TimeoutException | SdkError | S3ServiceError
   >;
 
+  listBucketsStream(
+    args: ListBucketsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListBucketsCommandOutput, Cause.TimeoutException | SdkError | S3ServiceError>;
+
   /**
    * @see {@link ListDirectoryBucketsCommand}
    */
@@ -1203,6 +1220,11 @@ interface S3Service$ {
     ListDirectoryBucketsCommandOutput,
     Cause.TimeoutException | SdkError | S3ServiceError
   >;
+
+  listDirectoryBucketsStream(
+    args: ListDirectoryBucketsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListDirectoryBucketsCommandOutput, Cause.TimeoutException | SdkError | S3ServiceError>;
 
   /**
    * @see {@link ListMultipartUploadsCommand}
@@ -1248,6 +1270,11 @@ interface S3Service$ {
     Cause.TimeoutException | SdkError | NoSuchBucketError
   >;
 
+  listObjectsV2Stream(
+    args: ListObjectsV2CommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListObjectsV2CommandOutput, Cause.TimeoutException | SdkError | NoSuchBucketError>;
+
   /**
    * @see {@link ListPartsCommand}
    */
@@ -1258,6 +1285,11 @@ interface S3Service$ {
     ListPartsCommandOutput,
     Cause.TimeoutException | SdkError | S3ServiceError
   >;
+
+  listPartsStream(
+    args: ListPartsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListPartsCommandOutput, Cause.TimeoutException | SdkError | S3ServiceError>;
 
   /**
    * @see {@link PutBucketAbacCommand}
@@ -1650,25 +1682,34 @@ interface S3Service$ {
 export const makeS3Service = Effect.gen(function*() {
   const client = yield* Instance.S3ClientInstance;
 
-  return yield* Service.fromCommandsAndServiceFn<S3Service$>(commands, (CommandCtor) =>
-  (
-    args: any,
-    options?:
-      | ({ readonly presigned?: false } & HttpHandlerOptions)
-      | ({ readonly presigned: true } & RequestPresigningArguments),
-  ) =>
-    options?.presigned
-      ? Effect.gen(function*() {
-        const config = yield* S3ServiceConfig.toS3ClientConfig;
-        return yield* Effect.tryPromise({
-          try: () => getSignedUrl(client, new CommandCtor(args, config), options),
-          catch: Service.catchServiceExceptions(AllServiceErrors),
-        });
-      })
-      : Service.makeServiceFn(client, CommandCtor, {
+  return yield* Service.fromCommandsAndServiceFn<S3Service$>(
+    commands,
+    (CommandCtor) =>
+    (
+      args: any,
+      options?:
+        | ({ readonly presigned?: false } & HttpHandlerOptions)
+        | ({ readonly presigned: true } & RequestPresigningArguments),
+    ) =>
+      options?.presigned
+        ? Effect.gen(function*() {
+          const config = yield* S3ServiceConfig.toS3ClientConfig;
+          return yield* Effect.tryPromise({
+            try: () => getSignedUrl(client, new CommandCtor(args, config), options),
+            catch: Service.catchServiceExceptions(AllServiceErrors),
+          });
+        })
+        : Service.makeServiceFn(client, CommandCtor, {
+          errorTags: AllServiceErrors,
+          resolveClientConfig: S3ServiceConfig.toS3ClientConfig,
+        })(args, options),
+    paginators,
+    (paginateFn) =>
+      Service.makeServiceStreamFn(client, paginateFn, {
         errorTags: AllServiceErrors,
         resolveClientConfig: S3ServiceConfig.toS3ClientConfig,
-      })(args, options));
+      }),
+  );
 });
 
 /**
