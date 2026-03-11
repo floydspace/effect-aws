@@ -6,8 +6,9 @@ import {
 } from "@aws-sdk/client-ssm";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-ssm/dist-cjs/runtimeConfig";
-import { SSM, SSMServiceConfig } from "@effect-aws/client-ssm";
-import { SdkError } from "@effect-aws/commons";
+import { SSMService as SSM } from "@effect-aws/client-ssm/SSMService";
+import * as SSMServiceConfig from "@effect-aws/client-ssm/SSMServiceConfig";
+import { SdkError } from "@effect-aws/commons/Errors";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";

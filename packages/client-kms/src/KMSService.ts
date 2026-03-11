@@ -115,6 +115,14 @@ import {
   ListRetirableGrantsCommand,
   type ListRetirableGrantsCommandInput,
   type ListRetirableGrantsCommandOutput,
+  paginateDescribeCustomKeyStores,
+  paginateListAliases,
+  paginateListGrants,
+  paginateListKeyPolicies,
+  paginateListKeyRotations,
+  paginateListKeys,
+  paginateListResourceTags,
+  paginateListRetirableGrants,
   PutKeyPolicyCommand,
   type PutKeyPolicyCommandInput,
   type PutKeyPolicyCommandOutput,
@@ -164,12 +172,14 @@ import {
   type VerifyMacCommandInput,
   type VerifyMacCommandOutput,
 } from "@aws-sdk/client-kms";
-import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
-import { Service } from "@effect-aws/commons";
+import * as Service from "@effect-aws/commons/Service";
+import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as ServiceMap from "effect/ServiceMap";
+import type * as Stream from "effect/Stream";
 import type {
   AlreadyExistsError,
   CloudHsmClusterInUseError,
@@ -279,6 +289,17 @@ const commands = {
   UpdatePrimaryRegionCommand,
   VerifyCommand,
   VerifyMacCommand,
+};
+
+const paginators = {
+  paginateDescribeCustomKeyStores,
+  paginateListAliases,
+  paginateListGrants,
+  paginateListKeyPolicies,
+  paginateListKeyRotations,
+  paginateListKeys,
+  paginateListResourceTags,
+  paginateListRetirableGrants,
 };
 
 export interface KMSService$ {
@@ -506,6 +527,14 @@ export interface KMSService$ {
     args: DescribeCustomKeyStoresCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeCustomKeyStoresCommandOutput,
+    Cause.TimeoutError | SdkError | CustomKeyStoreNotFoundError | InvalidMarkerError | KMSInternalError
+  >;
+
+  describeCustomKeyStoresStream(
+    args: DescribeCustomKeyStoresCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeCustomKeyStoresCommandOutput,
     Cause.TimeoutError | SdkError | CustomKeyStoreNotFoundError | InvalidMarkerError | KMSInternalError
   >;
@@ -863,6 +892,20 @@ export interface KMSService$ {
     | NotFoundError
   >;
 
+  listAliasesStream(
+    args: ListAliasesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListAliasesCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | DependencyTimeoutError
+    | InvalidArnError
+    | InvalidMarkerError
+    | KMSInternalError
+    | NotFoundError
+  >;
+
   /**
    * @see {@link ListGrantsCommand}
    */
@@ -870,6 +913,22 @@ export interface KMSService$ {
     args: ListGrantsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListGrantsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | DependencyTimeoutError
+    | InvalidArnError
+    | InvalidGrantIdError
+    | InvalidMarkerError
+    | KMSInternalError
+    | KMSInvalidStateError
+    | NotFoundError
+  >;
+
+  listGrantsStream(
+    args: ListGrantsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListGrantsCommandOutput,
     | Cause.TimeoutError
     | SdkError
@@ -899,6 +958,20 @@ export interface KMSService$ {
     | NotFoundError
   >;
 
+  listKeyPoliciesStream(
+    args: ListKeyPoliciesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListKeyPoliciesCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | DependencyTimeoutError
+    | InvalidArnError
+    | KMSInternalError
+    | KMSInvalidStateError
+    | NotFoundError
+  >;
+
   /**
    * @see {@link ListKeyRotationsCommand}
    */
@@ -906,6 +979,21 @@ export interface KMSService$ {
     args: ListKeyRotationsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListKeyRotationsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InvalidArnError
+    | InvalidMarkerError
+    | KMSInternalError
+    | KMSInvalidStateError
+    | NotFoundError
+    | UnsupportedOperationError
+  >;
+
+  listKeyRotationsStream(
+    args: ListKeyRotationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListKeyRotationsCommandOutput,
     | Cause.TimeoutError
     | SdkError
@@ -928,6 +1016,14 @@ export interface KMSService$ {
     Cause.TimeoutError | SdkError | DependencyTimeoutError | InvalidMarkerError | KMSInternalError
   >;
 
+  listKeysStream(
+    args: ListKeysCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListKeysCommandOutput,
+    Cause.TimeoutError | SdkError | DependencyTimeoutError | InvalidMarkerError | KMSInternalError
+  >;
+
   /**
    * @see {@link ListResourceTagsCommand}
    */
@@ -939,6 +1035,14 @@ export interface KMSService$ {
     Cause.TimeoutError | SdkError | InvalidArnError | InvalidMarkerError | KMSInternalError | NotFoundError
   >;
 
+  listResourceTagsStream(
+    args: ListResourceTagsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListResourceTagsCommandOutput,
+    Cause.TimeoutError | SdkError | InvalidArnError | InvalidMarkerError | KMSInternalError | NotFoundError
+  >;
+
   /**
    * @see {@link ListRetirableGrantsCommand}
    */
@@ -946,6 +1050,20 @@ export interface KMSService$ {
     args: ListRetirableGrantsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListRetirableGrantsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | DependencyTimeoutError
+    | InvalidArnError
+    | InvalidMarkerError
+    | KMSInternalError
+    | NotFoundError
+  >;
+
+  listRetirableGrantsStream(
+    args: ListRetirableGrantsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListRetirableGrantsCommandOutput,
     | Cause.TimeoutError
     | SdkError
@@ -1287,6 +1405,7 @@ export const makeKMSService = Effect.gen(function*() {
       errorTags: AllServiceErrors,
       resolveClientConfig: KMSServiceConfig.toKMSClientConfig,
     },
+    paginators,
   );
 });
 

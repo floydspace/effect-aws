@@ -1,7 +1,7 @@
 /**
  * @since 1.0.0
  */
-import { SecretsManagerService } from "@effect-aws/client-secrets-manager";
+import { SecretsManagerService } from "@effect-aws/client-secrets-manager/SecretsManagerService";
 import * as Array from "effect/Array";
 import * as ConfigProvider from "effect/ConfigProvider";
 import * as Effect from "effect/Effect";

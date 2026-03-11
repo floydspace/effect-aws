@@ -6,8 +6,9 @@ import {
 } from "@aws-sdk/client-kafka";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-kafka/dist-cjs/runtimeConfig";
-import { Kafka, KafkaServiceConfig } from "@effect-aws/client-kafka";
-import { SdkError } from "@effect-aws/commons";
+import { KafkaService as Kafka } from "@effect-aws/client-kafka/KafkaService";
+import * as KafkaServiceConfig from "@effect-aws/client-kafka/KafkaServiceConfig";
+import { SdkError } from "@effect-aws/commons/Errors";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";

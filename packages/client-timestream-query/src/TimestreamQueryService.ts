@@ -29,6 +29,9 @@ import {
   ListTagsForResourceCommand,
   type ListTagsForResourceCommandInput,
   type ListTagsForResourceCommandOutput,
+  paginateListScheduledQueries,
+  paginateListTagsForResource,
+  paginateQuery,
   PrepareQueryCommand,
   type PrepareQueryCommandInput,
   type PrepareQueryCommandOutput,
@@ -50,12 +53,14 @@ import {
   type UpdateScheduledQueryCommandInput,
   type UpdateScheduledQueryCommandOutput,
 } from "@aws-sdk/client-timestream-query";
-import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
-import { Service } from "@effect-aws/commons";
+import * as Service from "@effect-aws/commons/Service";
+import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as ServiceMap from "effect/ServiceMap";
+import type * as Stream from "effect/Stream";
 import type {
   AccessDeniedError,
   ConflictError,
@@ -88,6 +93,12 @@ const commands = {
   UntagResourceCommand,
   UpdateAccountSettingsCommand,
   UpdateScheduledQueryCommand,
+};
+
+const paginators = {
+  paginateListScheduledQueries,
+  paginateListTagsForResource,
+  paginateQuery,
 };
 
 export interface TimestreamQueryService$ {
@@ -220,6 +231,20 @@ export interface TimestreamQueryService$ {
     | ValidationError
   >;
 
+  listScheduledQueriesStream(
+    args: ListScheduledQueriesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListScheduledQueriesCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | InvalidEndpointError
+    | ThrottlingError
+    | ValidationError
+  >;
+
   /**
    * @see {@link ListTagsForResourceCommand}
    */
@@ -227,6 +252,14 @@ export interface TimestreamQueryService$ {
     args: ListTagsForResourceCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListTagsForResourceCommandOutput,
+    Cause.TimeoutError | SdkError | InvalidEndpointError | ResourceNotFoundError | ThrottlingError | ValidationError
+  >;
+
+  listTagsForResourceStream(
+    args: ListTagsForResourceCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListTagsForResourceCommandOutput,
     Cause.TimeoutError | SdkError | InvalidEndpointError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
@@ -255,6 +288,22 @@ export interface TimestreamQueryService$ {
     args: QueryCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    QueryCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | InvalidEndpointError
+    | QueryExecutionError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  queryStream(
+    args: QueryCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     QueryCommandOutput,
     | Cause.TimeoutError
     | SdkError
@@ -345,6 +394,7 @@ export const makeTimestreamQueryService = Effect.gen(function*() {
       errorTags: AllServiceErrors,
       resolveClientConfig: TimestreamQueryServiceConfig.toTimestreamQueryClientConfig,
     },
+    paginators,
   );
 });
 

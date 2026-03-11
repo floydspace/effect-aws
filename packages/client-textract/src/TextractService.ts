@@ -56,6 +56,8 @@ import {
   ListTagsForResourceCommand,
   type ListTagsForResourceCommandInput,
   type ListTagsForResourceCommandOutput,
+  paginateListAdapters,
+  paginateListAdapterVersions,
   StartDocumentAnalysisCommand,
   type StartDocumentAnalysisCommandInput,
   type StartDocumentAnalysisCommandOutput,
@@ -80,12 +82,14 @@ import {
   type UpdateAdapterCommandInput,
   type UpdateAdapterCommandOutput,
 } from "@aws-sdk/client-textract";
-import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
-import { Service } from "@effect-aws/commons";
+import * as Service from "@effect-aws/commons/Service";
+import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as ServiceMap from "effect/ServiceMap";
+import type * as Stream from "effect/Stream";
 import type {
   AccessDeniedError,
   BadDocumentError,
@@ -137,6 +141,11 @@ const commands = {
   TagResourceCommand,
   UntagResourceCommand,
   UpdateAdapterCommand,
+};
+
+const paginators = {
+  paginateListAdapterVersions,
+  paginateListAdapters,
 };
 
 export interface TextractService$ {
@@ -469,6 +478,22 @@ export interface TextractService$ {
     | ValidationError
   >;
 
+  listAdapterVersionsStream(
+    args: ListAdapterVersionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListAdapterVersionsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | InvalidParameterError
+    | ProvisionedThroughputExceededError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
   /**
    * @see {@link ListAdaptersCommand}
    */
@@ -476,6 +501,21 @@ export interface TextractService$ {
     args: ListAdaptersCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListAdaptersCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | InvalidParameterError
+    | ProvisionedThroughputExceededError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  listAdaptersStream(
+    args: ListAdaptersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListAdaptersCommandOutput,
     | Cause.TimeoutError
     | SdkError
@@ -676,6 +716,7 @@ export const makeTextractService = Effect.gen(function*() {
       errorTags: AllServiceErrors,
       resolveClientConfig: TextractServiceConfig.toTextractClientConfig,
     },
+    paginators,
   );
 });
 

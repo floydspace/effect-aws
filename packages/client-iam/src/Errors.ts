@@ -35,7 +35,7 @@ import type {
   UnmodifiableEntityException,
   UnrecognizedPublicKeyEncodingException,
 } from "@aws-sdk/client-iam";
-import type { TaggedException } from "@effect-aws/commons";
+import type { TaggedException } from "@effect-aws/commons/Errors";
 
 export const AllServiceErrors = [
   "AccountNotManagementOrDelegatedAdministratorException",

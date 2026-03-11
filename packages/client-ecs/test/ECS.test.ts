@@ -6,8 +6,9 @@ import {
 } from "@aws-sdk/client-ecs";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-ecs/dist-cjs/runtimeConfig";
-import { ECS, ECSServiceConfig } from "@effect-aws/client-ecs";
-import { SdkError } from "@effect-aws/commons";
+import { ECSService as ECS } from "@effect-aws/client-ecs/ECSService";
+import * as ECSServiceConfig from "@effect-aws/client-ecs/ECSServiceConfig";
+import { SdkError } from "@effect-aws/commons/Errors";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";

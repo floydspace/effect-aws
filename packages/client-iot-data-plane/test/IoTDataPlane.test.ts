@@ -6,8 +6,9 @@ import {
 } from "@aws-sdk/client-iot-data-plane";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-iot-data-plane/dist-cjs/runtimeConfig";
-import { IoTDataPlane, IoTDataPlaneServiceConfig } from "@effect-aws/client-iot-data-plane";
-import { SdkError } from "@effect-aws/commons";
+import { IoTDataPlaneService as IoTDataPlane } from "@effect-aws/client-iot-data-plane/IoTDataPlaneService";
+import * as IoTDataPlaneServiceConfig from "@effect-aws/client-iot-data-plane/IoTDataPlaneServiceConfig";
+import { SdkError } from "@effect-aws/commons/Errors";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";

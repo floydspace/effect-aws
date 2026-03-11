@@ -86,6 +86,14 @@ import {
   OptInPhoneNumberCommand,
   type OptInPhoneNumberCommandInput,
   type OptInPhoneNumberCommandOutput,
+  paginateListEndpointsByPlatformApplication,
+  paginateListOriginationNumbers,
+  paginateListPhoneNumbersOptedOut,
+  paginateListPlatformApplications,
+  paginateListSMSSandboxPhoneNumbers,
+  paginateListSubscriptions,
+  paginateListSubscriptionsByTopic,
+  paginateListTopics,
   PublishBatchCommand,
   type PublishBatchCommandInput,
   type PublishBatchCommandOutput,
@@ -131,12 +139,14 @@ import {
   type VerifySMSSandboxPhoneNumberCommandInput,
   type VerifySMSSandboxPhoneNumberCommandOutput,
 } from "@aws-sdk/client-sns";
-import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
-import { Service } from "@effect-aws/commons";
+import * as Service from "@effect-aws/commons/Service";
+import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as ServiceMap from "effect/ServiceMap";
+import type * as Stream from "effect/Stream";
 import type {
   AuthorizationError,
   BatchEntryIdsNotDistinctError,
@@ -221,6 +231,17 @@ const commands = {
   UnsubscribeCommand,
   UntagResourceCommand,
   VerifySMSSandboxPhoneNumberCommand,
+};
+
+const paginators = {
+  paginateListEndpointsByPlatformApplication,
+  paginateListOriginationNumbers,
+  paginateListPhoneNumbersOptedOut,
+  paginateListPlatformApplications,
+  paginateListSMSSandboxPhoneNumbers,
+  paginateListSubscriptions,
+  paginateListSubscriptionsByTopic,
+  paginateListTopics,
 };
 
 export interface SNSService$ {
@@ -486,6 +507,14 @@ export interface SNSService$ {
     Cause.TimeoutError | SdkError | AuthorizationError | InternalError | InvalidParameterError | NotFoundError
   >;
 
+  listEndpointsByPlatformApplicationStream(
+    args: ListEndpointsByPlatformApplicationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListEndpointsByPlatformApplicationCommandOutput,
+    Cause.TimeoutError | SdkError | AuthorizationError | InternalError | InvalidParameterError | NotFoundError
+  >;
+
   /**
    * @see {@link ListOriginationNumbersCommand}
    */
@@ -493,6 +522,20 @@ export interface SNSService$ {
     args: ListOriginationNumbersCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListOriginationNumbersCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AuthorizationError
+    | InternalError
+    | InvalidParameterError
+    | ThrottledError
+    | ValidationError
+  >;
+
+  listOriginationNumbersStream(
+    args: ListOriginationNumbersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListOriginationNumbersCommandOutput,
     | Cause.TimeoutError
     | SdkError
@@ -514,6 +557,14 @@ export interface SNSService$ {
     Cause.TimeoutError | SdkError | AuthorizationError | InternalError | InvalidParameterError | ThrottledError
   >;
 
+  listPhoneNumbersOptedOutStream(
+    args: ListPhoneNumbersOptedOutCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListPhoneNumbersOptedOutCommandOutput,
+    Cause.TimeoutError | SdkError | AuthorizationError | InternalError | InvalidParameterError | ThrottledError
+  >;
+
   /**
    * @see {@link ListPlatformApplicationsCommand}
    */
@@ -521,6 +572,14 @@ export interface SNSService$ {
     args: ListPlatformApplicationsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListPlatformApplicationsCommandOutput,
+    Cause.TimeoutError | SdkError | AuthorizationError | InternalError | InvalidParameterError
+  >;
+
+  listPlatformApplicationsStream(
+    args: ListPlatformApplicationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListPlatformApplicationsCommandOutput,
     Cause.TimeoutError | SdkError | AuthorizationError | InternalError | InvalidParameterError
   >;
@@ -542,6 +601,20 @@ export interface SNSService$ {
     | ThrottledError
   >;
 
+  listSMSSandboxPhoneNumbersStream(
+    args: ListSMSSandboxPhoneNumbersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListSMSSandboxPhoneNumbersCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AuthorizationError
+    | InternalError
+    | InvalidParameterError
+    | ResourceNotFoundError
+    | ThrottledError
+  >;
+
   /**
    * @see {@link ListSubscriptionsCommand}
    */
@@ -553,6 +626,14 @@ export interface SNSService$ {
     Cause.TimeoutError | SdkError | AuthorizationError | InternalError | InvalidParameterError
   >;
 
+  listSubscriptionsStream(
+    args: ListSubscriptionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListSubscriptionsCommandOutput,
+    Cause.TimeoutError | SdkError | AuthorizationError | InternalError | InvalidParameterError
+  >;
+
   /**
    * @see {@link ListSubscriptionsByTopicCommand}
    */
@@ -560,6 +641,14 @@ export interface SNSService$ {
     args: ListSubscriptionsByTopicCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListSubscriptionsByTopicCommandOutput,
+    Cause.TimeoutError | SdkError | AuthorizationError | InternalError | InvalidParameterError | NotFoundError
+  >;
+
+  listSubscriptionsByTopicStream(
+    args: ListSubscriptionsByTopicCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListSubscriptionsByTopicCommandOutput,
     Cause.TimeoutError | SdkError | AuthorizationError | InternalError | InvalidParameterError | NotFoundError
   >;
@@ -588,6 +677,14 @@ export interface SNSService$ {
     args: ListTopicsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListTopicsCommandOutput,
+    Cause.TimeoutError | SdkError | AuthorizationError | InternalError | InvalidParameterError
+  >;
+
+  listTopicsStream(
+    args: ListTopicsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListTopicsCommandOutput,
     Cause.TimeoutError | SdkError | AuthorizationError | InternalError | InvalidParameterError
   >;
@@ -866,6 +963,7 @@ export const makeSNSService = Effect.gen(function*() {
       errorTags: AllServiceErrors,
       resolveClientConfig: SNSServiceConfig.toSNSClientConfig,
     },
+    paginators,
   );
 });
 

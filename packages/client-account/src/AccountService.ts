@@ -37,6 +37,7 @@ import {
   ListRegionsCommand,
   type ListRegionsCommandInput,
   type ListRegionsCommandOutput,
+  paginateListRegions,
   PutAccountNameCommand,
   type PutAccountNameCommandInput,
   type PutAccountNameCommandOutput,
@@ -50,12 +51,14 @@ import {
   type StartPrimaryEmailUpdateCommandInput,
   type StartPrimaryEmailUpdateCommandOutput,
 } from "@aws-sdk/client-account";
-import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
-import { Service } from "@effect-aws/commons";
+import * as Service from "@effect-aws/commons/Service";
+import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as ServiceMap from "effect/ServiceMap";
+import type * as Stream from "effect/Stream";
 import * as Instance from "./AccountClientInstance.js";
 import * as AccountServiceConfig from "./AccountServiceConfig.js";
 import type {
@@ -86,6 +89,10 @@ const commands = {
   PutAlternateContactCommand,
   PutContactInformationCommand,
   StartPrimaryEmailUpdateCommand,
+};
+
+const paginators = {
+  paginateListRegions,
 };
 
 export interface AccountService$ {
@@ -260,6 +267,14 @@ export interface AccountService$ {
     Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | TooManyRequestsError | ValidationError
   >;
 
+  listRegionsStream(
+    args: ListRegionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListRegionsCommandOutput,
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | TooManyRequestsError | ValidationError
+  >;
+
   /**
    * @see {@link PutAccountNameCommand}
    */
@@ -326,6 +341,7 @@ export const makeAccountService = Effect.gen(function*() {
       errorTags: AllServiceErrors,
       resolveClientConfig: AccountServiceConfig.toAccountClientConfig,
     },
+    paginators,
   );
 });
 

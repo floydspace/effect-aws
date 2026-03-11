@@ -53,6 +53,16 @@ export async function generateClient([
     Record.keys,
   );
 
+  const paginateFns = pipe(
+    awsClient,
+    Record.filter(
+      (value, key) =>
+        typeof value === "function" &&
+        key.startsWith("paginate"),
+    ),
+    Record.keys,
+  );
+
   await generateErrorsFile(
     `./packages/client-${serviceName}/src/Errors.ts`,
     sdkName,
@@ -83,6 +93,7 @@ export async function generateClient([
     exportedErrors,
     originalServiceName,
     manifest,
+    paginateFns,
   );
 
   await mkdir(`./packages/client-${serviceName}/test`, { recursive: true });
@@ -118,7 +129,7 @@ async function generateErrorsFile(
           ) :
         `${sdkName}ServiceException`
     } } from "@aws-sdk/client-${originalServiceName}";
-import type { TaggedException } from "@effect-aws/commons";
+import type { TaggedException } from "@effect-aws/commons/Errors";
 ${
       allServiceErrors.length > 0 ?
         `
@@ -218,7 +229,7 @@ async function generateServiceConfigFile(
  * @since 1.0.0
  */
 import type { ${sdkName}ClientConfig } from "@aws-sdk/client-${originalServiceName}";
-import { ServiceLogger } from "@effect-aws/commons";
+import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
 import * as ServiceMap from "effect/ServiceMap";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
@@ -335,6 +346,7 @@ async function generateServiceFile(
   exportedErrors: Array<string>,
   originalServiceName: string,
   manifest: Manifest,
+  paginateFns: Array<string>,
 ) {
   const operationTargets = pipe(
     manifest.shapes,
@@ -389,14 +401,21 @@ import {
         Array.join("\n  "),
       )
     }
+    ${paginateFns}
 } from "@aws-sdk/client-${originalServiceName}";
-import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
-import { Service } from "@effect-aws/commons";
+import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
+import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Service from "@effect-aws/commons/Service";
 import type * as Cause from "effect/Cause";
-import * as ServiceMap from "effect/ServiceMap";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as Instance from "./${sdkName}ClientInstance.js";
+import * as ServiceMap from "effect/ServiceMap";${
+      paginateFns.length > 0 ?
+        `
+import type * as Stream from "effect/Stream";
+` :
+        ""
+    }import * as Instance from "./${sdkName}ClientInstance.js";
 import * as ${sdkName}ServiceConfig from "./${sdkName}ServiceConfig.js";
 ${
       exportedErrors.length > 0 ?
@@ -433,7 +452,15 @@ const commands = {
       )
     }
 };
-
+${
+      paginateFns.length > 0 ?
+        `
+const paginators = {
+  ${paginateFns}
+};
+` :
+        ""
+    }
 export interface ${sdkName}Service$ {
 ${
       pipe(
@@ -462,7 +489,25 @@ ${
               Array.join(" | "),
             )
           }
-  >`;
+  >;
+
+${
+            Array.map(paginateFns, String.replace(/^paginate/, "")).includes(operationName) ?
+              `${
+                String.uncapitalize(operationName)
+              }Stream(args: ${operationName}CommandInput, options?: HttpHandlerOptions): Stream.Stream<${operationName}CommandOutput, ${
+                pipe(
+                  [
+                    "Cause.TimeoutError",
+                    "SdkError",
+                    ...(exportedErrors.length ? errors : [`${sdkName}ServiceError`]),
+                  ],
+                  Array.join(" | "),
+                )
+              }>;` :
+              ""
+          }
+  `;
         }),
         Array.join("\n\n"),
       )
@@ -482,8 +527,13 @@ export const make${sdkName}Service = Effect.gen(function* () {
     {
       ${exportedErrors.length ? "errorTags: AllServiceErrors," : ""}
       resolveClientConfig: ${sdkName}ServiceConfig.to${sdkName}ClientConfig,
-    },
-  );
+    },${
+      paginateFns.length > 0 ?
+        `
+    paginators,
+` :
+        ""
+    }  );
 });
 
 /**
@@ -551,8 +601,9 @@ async function generateTestFile(
 } from "@aws-sdk/client-${originalServiceName}";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-${originalServiceName}/dist-cjs/runtimeConfig";
-import { ${sdkName}, ${sdkName}ServiceConfig } from "@effect-aws/client-${serviceName}";
-import { SdkError } from "@effect-aws/commons";
+import { ${sdkName}Service as ${sdkName} } from "@effect-aws/client-${serviceName}/${sdkName}Service";
+import * as ${sdkName}ServiceConfig from "@effect-aws/client-${serviceName}/${sdkName}ServiceConfig";
+import { SdkError } from "@effect-aws/commons/Errors";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";

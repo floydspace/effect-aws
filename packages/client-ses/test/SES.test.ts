@@ -1,8 +1,9 @@
 import { SendEmailCommand, type SendEmailCommandInput, SESClient, SESServiceException } from "@aws-sdk/client-ses";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-ses/dist-cjs/runtimeConfig";
-import { SES, SESServiceConfig } from "@effect-aws/client-ses";
-import { SdkError } from "@effect-aws/commons";
+import { SESService as SES } from "@effect-aws/client-ses/SESService";
+import * as SESServiceConfig from "@effect-aws/client-ses/SESServiceConfig";
+import { SdkError } from "@effect-aws/commons/Errors";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";

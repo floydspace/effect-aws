@@ -18,6 +18,14 @@
 
 - [#198](https://github.com/floydspace/effect-aws/pull/198) [`57b06d0`](https://github.com/floydspace/effect-aws/commit/57b06d0474b35ae754e8e1b0a317e15669191779) Thanks [@floydspace](https://github.com/floydspace)! - Migrate to effect v4
 
+## 1.6.0
+
+### Minor Changes
+
+- [#201](https://github.com/floydspace/effect-aws/pull/201) [`9020433`](https://github.com/floydspace/effect-aws/commit/90204331a7bd175abe35267e0d4a6a7ecb634fb8) Thanks [@devmatteini](https://github.com/devmatteini)! - upgrade to named imports in all packages for better tree shaking
+
+  closes [#196](https://github.com/floydspace/effect-aws/issues/196)
+
 ## 1.5.1
 
 ### Patch Changes

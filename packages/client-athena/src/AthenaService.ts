@@ -166,6 +166,21 @@ import {
   ListWorkGroupsCommand,
   type ListWorkGroupsCommandInput,
   type ListWorkGroupsCommandOutput,
+  paginateGetQueryResults,
+  paginateListApplicationDPUSizes,
+  paginateListCalculationExecutions,
+  paginateListCapacityReservations,
+  paginateListDatabases,
+  paginateListDataCatalogs,
+  paginateListEngineVersions,
+  paginateListExecutors,
+  paginateListNamedQueries,
+  paginateListPreparedStatements,
+  paginateListQueryExecutions,
+  paginateListSessions,
+  paginateListTableMetadata,
+  paginateListTagsForResource,
+  paginateListWorkGroups,
   PutCapacityAssignmentConfigurationCommand,
   type PutCapacityAssignmentConfigurationCommandInput,
   type PutCapacityAssignmentConfigurationCommandOutput,
@@ -215,12 +230,14 @@ import {
   type UpdateWorkGroupCommandInput,
   type UpdateWorkGroupCommandOutput,
 } from "@aws-sdk/client-athena";
-import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
-import { Service } from "@effect-aws/commons";
+import * as Service from "@effect-aws/commons/Service";
+import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as ServiceMap from "effect/ServiceMap";
+import type * as Stream from "effect/Stream";
 import * as Instance from "./AthenaClientInstance.js";
 import * as AthenaServiceConfig from "./AthenaServiceConfig.js";
 import type {
@@ -305,6 +322,24 @@ const commands = {
   UpdateNotebookMetadataCommand,
   UpdatePreparedStatementCommand,
   UpdateWorkGroupCommand,
+};
+
+const paginators = {
+  paginateGetQueryResults,
+  paginateListApplicationDPUSizes,
+  paginateListCalculationExecutions,
+  paginateListCapacityReservations,
+  paginateListDataCatalogs,
+  paginateListDatabases,
+  paginateListEngineVersions,
+  paginateListExecutors,
+  paginateListNamedQueries,
+  paginateListPreparedStatements,
+  paginateListQueryExecutions,
+  paginateListSessions,
+  paginateListTableMetadata,
+  paginateListTagsForResource,
+  paginateListWorkGroups,
 };
 
 export interface AthenaService$ {
@@ -638,6 +673,14 @@ export interface AthenaService$ {
     Cause.TimeoutError | SdkError | InternalServerError | InvalidRequestError | TooManyRequestsError
   >;
 
+  getQueryResultsStream(
+    args: GetQueryResultsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    GetQueryResultsCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServerError | InvalidRequestError | TooManyRequestsError
+  >;
+
   /**
    * @see {@link GetQueryRuntimeStatisticsCommand}
    */
@@ -737,6 +780,14 @@ export interface AthenaService$ {
     Cause.TimeoutError | SdkError | InternalServerError | InvalidRequestError | TooManyRequestsError
   >;
 
+  listApplicationDPUSizesStream(
+    args: ListApplicationDPUSizesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListApplicationDPUSizesCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServerError | InvalidRequestError | TooManyRequestsError
+  >;
+
   /**
    * @see {@link ListCalculationExecutionsCommand}
    */
@@ -744,6 +795,14 @@ export interface AthenaService$ {
     args: ListCalculationExecutionsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListCalculationExecutionsCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServerError | InvalidRequestError | ResourceNotFoundError
+  >;
+
+  listCalculationExecutionsStream(
+    args: ListCalculationExecutionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListCalculationExecutionsCommandOutput,
     Cause.TimeoutError | SdkError | InternalServerError | InvalidRequestError | ResourceNotFoundError
   >;
@@ -759,6 +818,14 @@ export interface AthenaService$ {
     Cause.TimeoutError | SdkError | InternalServerError | InvalidRequestError
   >;
 
+  listCapacityReservationsStream(
+    args: ListCapacityReservationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListCapacityReservationsCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServerError | InvalidRequestError
+  >;
+
   /**
    * @see {@link ListDataCatalogsCommand}
    */
@@ -766,6 +833,14 @@ export interface AthenaService$ {
     args: ListDataCatalogsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListDataCatalogsCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServerError | InvalidRequestError
+  >;
+
+  listDataCatalogsStream(
+    args: ListDataCatalogsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListDataCatalogsCommandOutput,
     Cause.TimeoutError | SdkError | InternalServerError | InvalidRequestError
   >;
@@ -781,6 +856,14 @@ export interface AthenaService$ {
     Cause.TimeoutError | SdkError | InternalServerError | InvalidRequestError | MetadataError
   >;
 
+  listDatabasesStream(
+    args: ListDatabasesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListDatabasesCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServerError | InvalidRequestError | MetadataError
+  >;
+
   /**
    * @see {@link ListEngineVersionsCommand}
    */
@@ -788,6 +871,14 @@ export interface AthenaService$ {
     args: ListEngineVersionsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListEngineVersionsCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServerError | InvalidRequestError
+  >;
+
+  listEngineVersionsStream(
+    args: ListEngineVersionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListEngineVersionsCommandOutput,
     Cause.TimeoutError | SdkError | InternalServerError | InvalidRequestError
   >;
@@ -803,6 +894,14 @@ export interface AthenaService$ {
     Cause.TimeoutError | SdkError | InternalServerError | InvalidRequestError | ResourceNotFoundError
   >;
 
+  listExecutorsStream(
+    args: ListExecutorsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListExecutorsCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServerError | InvalidRequestError | ResourceNotFoundError
+  >;
+
   /**
    * @see {@link ListNamedQueriesCommand}
    */
@@ -810,6 +909,14 @@ export interface AthenaService$ {
     args: ListNamedQueriesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListNamedQueriesCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServerError | InvalidRequestError
+  >;
+
+  listNamedQueriesStream(
+    args: ListNamedQueriesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListNamedQueriesCommandOutput,
     Cause.TimeoutError | SdkError | InternalServerError | InvalidRequestError
   >;
@@ -847,6 +954,14 @@ export interface AthenaService$ {
     Cause.TimeoutError | SdkError | InternalServerError | InvalidRequestError
   >;
 
+  listPreparedStatementsStream(
+    args: ListPreparedStatementsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListPreparedStatementsCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServerError | InvalidRequestError
+  >;
+
   /**
    * @see {@link ListQueryExecutionsCommand}
    */
@@ -854,6 +969,14 @@ export interface AthenaService$ {
     args: ListQueryExecutionsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListQueryExecutionsCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServerError | InvalidRequestError
+  >;
+
+  listQueryExecutionsStream(
+    args: ListQueryExecutionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListQueryExecutionsCommandOutput,
     Cause.TimeoutError | SdkError | InternalServerError | InvalidRequestError
   >;
@@ -869,6 +992,14 @@ export interface AthenaService$ {
     Cause.TimeoutError | SdkError | InternalServerError | InvalidRequestError | ResourceNotFoundError
   >;
 
+  listSessionsStream(
+    args: ListSessionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListSessionsCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServerError | InvalidRequestError | ResourceNotFoundError
+  >;
+
   /**
    * @see {@link ListTableMetadataCommand}
    */
@@ -876,6 +1007,14 @@ export interface AthenaService$ {
     args: ListTableMetadataCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListTableMetadataCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServerError | InvalidRequestError | MetadataError
+  >;
+
+  listTableMetadataStream(
+    args: ListTableMetadataCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListTableMetadataCommandOutput,
     Cause.TimeoutError | SdkError | InternalServerError | InvalidRequestError | MetadataError
   >;
@@ -891,6 +1030,14 @@ export interface AthenaService$ {
     Cause.TimeoutError | SdkError | InternalServerError | InvalidRequestError | ResourceNotFoundError
   >;
 
+  listTagsForResourceStream(
+    args: ListTagsForResourceCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListTagsForResourceCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServerError | InvalidRequestError | ResourceNotFoundError
+  >;
+
   /**
    * @see {@link ListWorkGroupsCommand}
    */
@@ -898,6 +1045,14 @@ export interface AthenaService$ {
     args: ListWorkGroupsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListWorkGroupsCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServerError | InvalidRequestError
+  >;
+
+  listWorkGroupsStream(
+    args: ListWorkGroupsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListWorkGroupsCommandOutput,
     Cause.TimeoutError | SdkError | InternalServerError | InvalidRequestError
   >;
@@ -1099,6 +1254,7 @@ export const makeAthenaService = Effect.gen(function*() {
       errorTags: AllServiceErrors,
       resolveClientConfig: AthenaServiceConfig.toAthenaClientConfig,
     },
+    paginators,
   );
 });
 

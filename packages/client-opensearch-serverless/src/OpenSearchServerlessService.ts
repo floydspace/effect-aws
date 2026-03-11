@@ -109,6 +109,13 @@ import {
   type ListVpcEndpointsCommandOutput,
   type OpenSearchServerlessClient,
   type OpenSearchServerlessClientConfig,
+  paginateListAccessPolicies,
+  paginateListCollectionGroups,
+  paginateListCollections,
+  paginateListLifecyclePolicies,
+  paginateListSecurityConfigs,
+  paginateListSecurityPolicies,
+  paginateListVpcEndpoints,
   TagResourceCommand,
   type TagResourceCommandInput,
   type TagResourceCommandOutput,
@@ -143,12 +150,14 @@ import {
   type UpdateVpcEndpointCommandInput,
   type UpdateVpcEndpointCommandOutput,
 } from "@aws-sdk/client-opensearchserverless";
-import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
-import { Service } from "@effect-aws/commons";
+import * as Service from "@effect-aws/commons/Service";
+import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as ServiceMap from "effect/ServiceMap";
+import type * as Stream from "effect/Stream";
 import type {
   ConflictError,
   InternalServerError,
@@ -209,6 +218,16 @@ const commands = {
   UpdateSecurityConfigCommand,
   UpdateSecurityPolicyCommand,
   UpdateVpcEndpointCommand,
+};
+
+const paginators = {
+  paginateListAccessPolicies,
+  paginateListCollectionGroups,
+  paginateListCollections,
+  paginateListLifecyclePolicies,
+  paginateListSecurityConfigs,
+  paginateListSecurityPolicies,
+  paginateListVpcEndpoints,
 };
 
 export interface OpenSearchServerlessService$ {
@@ -526,6 +545,14 @@ export interface OpenSearchServerlessService$ {
     Cause.TimeoutError | SdkError | InternalServerError | ValidationError
   >;
 
+  listAccessPoliciesStream(
+    args: ListAccessPoliciesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListAccessPoliciesCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServerError | ValidationError
+  >;
+
   /**
    * @see {@link ListCollectionGroupsCommand}
    */
@@ -533,6 +560,14 @@ export interface OpenSearchServerlessService$ {
     args: ListCollectionGroupsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListCollectionGroupsCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServerError | ValidationError
+  >;
+
+  listCollectionGroupsStream(
+    args: ListCollectionGroupsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListCollectionGroupsCommandOutput,
     Cause.TimeoutError | SdkError | InternalServerError | ValidationError
   >;
@@ -548,6 +583,11 @@ export interface OpenSearchServerlessService$ {
     Cause.TimeoutError | SdkError | InternalServerError | ValidationError
   >;
 
+  listCollectionsStream(
+    args: ListCollectionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListCollectionsCommandOutput, Cause.TimeoutError | SdkError | InternalServerError | ValidationError>;
+
   /**
    * @see {@link ListLifecyclePoliciesCommand}
    */
@@ -555,6 +595,14 @@ export interface OpenSearchServerlessService$ {
     args: ListLifecyclePoliciesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListLifecyclePoliciesCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServerError | ValidationError
+  >;
+
+  listLifecyclePoliciesStream(
+    args: ListLifecyclePoliciesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListLifecyclePoliciesCommandOutput,
     Cause.TimeoutError | SdkError | InternalServerError | ValidationError
   >;
@@ -570,6 +618,14 @@ export interface OpenSearchServerlessService$ {
     Cause.TimeoutError | SdkError | InternalServerError | ValidationError
   >;
 
+  listSecurityConfigsStream(
+    args: ListSecurityConfigsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListSecurityConfigsCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServerError | ValidationError
+  >;
+
   /**
    * @see {@link ListSecurityPoliciesCommand}
    */
@@ -577,6 +633,14 @@ export interface OpenSearchServerlessService$ {
     args: ListSecurityPoliciesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListSecurityPoliciesCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServerError | ValidationError
+  >;
+
+  listSecurityPoliciesStream(
+    args: ListSecurityPoliciesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListSecurityPoliciesCommandOutput,
     Cause.TimeoutError | SdkError | InternalServerError | ValidationError
   >;
@@ -599,6 +663,14 @@ export interface OpenSearchServerlessService$ {
     args: ListVpcEndpointsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListVpcEndpointsCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServerError | ValidationError
+  >;
+
+  listVpcEndpointsStream(
+    args: ListVpcEndpointsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListVpcEndpointsCommandOutput,
     Cause.TimeoutError | SdkError | InternalServerError | ValidationError
   >;
@@ -757,6 +829,7 @@ export const makeOpenSearchServerlessService = Effect.gen(function*() {
       errorTags: AllServiceErrors,
       resolveClientConfig: OpenSearchServerlessServiceConfig.toOpenSearchServerlessClientConfig,
     },
+    paginators,
   );
 });
 

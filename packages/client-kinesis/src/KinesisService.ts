@@ -73,6 +73,8 @@ import {
   MergeShardsCommand,
   type MergeShardsCommandInput,
   type MergeShardsCommandOutput,
+  paginateListStreamConsumers,
+  paginateListStreams,
   PutRecordCommand,
   type PutRecordCommandInput,
   type PutRecordCommandOutput,
@@ -122,12 +124,14 @@ import {
   type UpdateStreamWarmThroughputCommandInput,
   type UpdateStreamWarmThroughputCommandOutput,
 } from "@aws-sdk/client-kinesis";
-import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
-import { Service } from "@effect-aws/commons";
+import * as Service from "@effect-aws/commons/Service";
+import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as ServiceMap from "effect/ServiceMap";
+import type * as Stream from "effect/Stream";
 import type {
   AccessDeniedError,
   ExpiredIteratorError,
@@ -191,6 +195,11 @@ const commands = {
   UpdateShardCountCommand,
   UpdateStreamModeCommand,
   UpdateStreamWarmThroughputCommand,
+};
+
+const paginators = {
+  paginateListStreamConsumers,
+  paginateListStreams,
 };
 
 export interface KinesisService$ {
@@ -493,6 +502,20 @@ export interface KinesisService$ {
     | ResourceNotFoundError
   >;
 
+  listStreamConsumersStream(
+    args: ListStreamConsumersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListStreamConsumersCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | ExpiredNextTokenError
+    | InvalidArgumentError
+    | LimitExceededError
+    | ResourceInUseError
+    | ResourceNotFoundError
+  >;
+
   /**
    * @see {@link ListStreamsCommand}
    */
@@ -500,6 +523,14 @@ export interface KinesisService$ {
     args: ListStreamsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListStreamsCommandOutput,
+    Cause.TimeoutError | SdkError | ExpiredNextTokenError | InvalidArgumentError | LimitExceededError
+  >;
+
+  listStreamsStream(
+    args: ListStreamsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListStreamsCommandOutput,
     Cause.TimeoutError | SdkError | ExpiredNextTokenError | InvalidArgumentError | LimitExceededError
   >;
@@ -857,6 +888,7 @@ export const makeKinesisService = Effect.gen(function*() {
       errorTags: AllServiceErrors,
       resolveClientConfig: KinesisServiceConfig.toKinesisClientConfig,
     },
+    paginators,
   );
 });
 

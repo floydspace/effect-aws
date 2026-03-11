@@ -6,8 +6,9 @@ import {
 } from "@aws-sdk/client-ivs";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-ivs/dist-cjs/runtimeConfig";
-import { Ivs, IvsServiceConfig } from "@effect-aws/client-ivs";
-import { SdkError } from "@effect-aws/commons";
+import { IvsService as Ivs } from "@effect-aws/client-ivs/IvsService";
+import * as IvsServiceConfig from "@effect-aws/client-ivs/IvsServiceConfig";
+import { SdkError } from "@effect-aws/commons/Errors";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";

@@ -6,8 +6,9 @@ import {
 } from "@aws-sdk/client-iot-events";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-iot-events/dist-cjs/runtimeConfig";
-import { IoTEvents, IoTEventsServiceConfig } from "@effect-aws/client-iot-events";
-import { SdkError } from "@effect-aws/commons";
+import { IoTEventsService as IoTEvents } from "@effect-aws/client-iot-events/IoTEventsService";
+import * as IoTEventsServiceConfig from "@effect-aws/client-iot-events/IoTEventsServiceConfig";
+import { SdkError } from "@effect-aws/commons/Errors";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";

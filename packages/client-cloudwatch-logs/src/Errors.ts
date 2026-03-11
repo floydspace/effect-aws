@@ -21,7 +21,7 @@ import type {
   UnrecognizedClientException,
   ValidationException,
 } from "@aws-sdk/client-cloudwatch-logs";
-import type { TaggedException } from "@effect-aws/commons";
+import type { TaggedException } from "@effect-aws/commons/Errors";
 
 export const AllServiceErrors = [
   "AccessDeniedException",

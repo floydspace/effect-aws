@@ -598,6 +598,52 @@ import {
   ModifyIntegrationCommand,
   type ModifyIntegrationCommandInput,
   type ModifyIntegrationCommandOutput,
+  paginateDescribeEntity,
+  paginateGetBlueprintRuns,
+  paginateGetClassifiers,
+  paginateGetColumnStatisticsTaskRuns,
+  paginateGetConnections,
+  paginateGetCrawlerMetrics,
+  paginateGetCrawlers,
+  paginateGetDatabases,
+  paginateGetDevEndpoints,
+  paginateGetJobRuns,
+  paginateGetJobs,
+  paginateGetMLTaskRuns,
+  paginateGetMLTransforms,
+  paginateGetPartitionIndexes,
+  paginateGetPartitions,
+  paginateGetResourcePolicies,
+  paginateGetSecurityConfigurations,
+  paginateGetTables,
+  paginateGetTableVersions,
+  paginateGetTriggers,
+  paginateGetUnfilteredPartitionsMetadata,
+  paginateGetUserDefinedFunctions,
+  paginateGetWorkflowRuns,
+  paginateListBlueprints,
+  paginateListColumnStatisticsTaskRuns,
+  paginateListConnectionTypes,
+  paginateListCrawlers,
+  paginateListCustomEntityTypes,
+  paginateListDataQualityResults,
+  paginateListDataQualityRuleRecommendationRuns,
+  paginateListDataQualityRulesetEvaluationRuns,
+  paginateListDataQualityRulesets,
+  paginateListDevEndpoints,
+  paginateListEntities,
+  paginateListJobs,
+  paginateListMaterializedViewRefreshTaskRuns,
+  paginateListMLTransforms,
+  paginateListRegistries,
+  paginateListSchemas,
+  paginateListSchemaVersions,
+  paginateListSessions,
+  paginateListTableOptimizerRuns,
+  paginateListTriggers,
+  paginateListUsageProfiles,
+  paginateListWorkflows,
+  paginateSearchTables,
   PutDataCatalogEncryptionSettingsCommand,
   type PutDataCatalogEncryptionSettingsCommandInput,
   type PutDataCatalogEncryptionSettingsCommandOutput,
@@ -800,12 +846,14 @@ import {
   type UpdateWorkflowCommandInput,
   type UpdateWorkflowCommandOutput,
 } from "@aws-sdk/client-glue";
-import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
-import { Service } from "@effect-aws/commons";
+import * as Service from "@effect-aws/commons/Service";
+import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as ServiceMap from "effect/ServiceMap";
+import type * as Stream from "effect/Stream";
 import type {
   AccessDeniedError,
   AlreadyExistsError,
@@ -1127,6 +1175,55 @@ const commands = {
   UpdateUsageProfileCommand,
   UpdateUserDefinedFunctionCommand,
   UpdateWorkflowCommand,
+};
+
+const paginators = {
+  paginateDescribeEntity,
+  paginateGetBlueprintRuns,
+  paginateGetClassifiers,
+  paginateGetColumnStatisticsTaskRuns,
+  paginateGetConnections,
+  paginateGetCrawlerMetrics,
+  paginateGetCrawlers,
+  paginateGetDatabases,
+  paginateGetDevEndpoints,
+  paginateGetJobRuns,
+  paginateGetJobs,
+  paginateGetMLTaskRuns,
+  paginateGetMLTransforms,
+  paginateGetPartitionIndexes,
+  paginateGetPartitions,
+  paginateGetResourcePolicies,
+  paginateGetSecurityConfigurations,
+  paginateGetTableVersions,
+  paginateGetTables,
+  paginateGetTriggers,
+  paginateGetUnfilteredPartitionsMetadata,
+  paginateGetUserDefinedFunctions,
+  paginateGetWorkflowRuns,
+  paginateListBlueprints,
+  paginateListColumnStatisticsTaskRuns,
+  paginateListConnectionTypes,
+  paginateListCrawlers,
+  paginateListCustomEntityTypes,
+  paginateListDataQualityResults,
+  paginateListDataQualityRuleRecommendationRuns,
+  paginateListDataQualityRulesetEvaluationRuns,
+  paginateListDataQualityRulesets,
+  paginateListDevEndpoints,
+  paginateListEntities,
+  paginateListJobs,
+  paginateListMLTransforms,
+  paginateListMaterializedViewRefreshTaskRuns,
+  paginateListRegistries,
+  paginateListSchemaVersions,
+  paginateListSchemas,
+  paginateListSessions,
+  paginateListTableOptimizerRuns,
+  paginateListTriggers,
+  paginateListUsageProfiles,
+  paginateListWorkflows,
+  paginateSearchTables,
 };
 
 export interface GlueService$ {
@@ -2582,6 +2679,22 @@ export interface GlueService$ {
     | ValidationError
   >;
 
+  describeEntityStream(
+    args: DescribeEntityCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeEntityCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | EntityNotFoundError
+    | FederationSourceError
+    | GlueEncryptionError
+    | InvalidInputError
+    | OperationTimeoutError
+    | ValidationError
+  >;
+
   /**
    * @see {@link DescribeInboundIntegrationsCommand}
    */
@@ -2665,6 +2778,19 @@ export interface GlueService$ {
     | OperationTimeoutError
   >;
 
+  getBlueprintRunsStream(
+    args: GetBlueprintRunsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    GetBlueprintRunsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | EntityNotFoundError
+    | InternalServiceError
+    | InvalidInputError
+    | OperationTimeoutError
+  >;
+
   /**
    * @see {@link GetCatalogCommand}
    */
@@ -2738,6 +2864,11 @@ export interface GlueService$ {
     Cause.TimeoutError | SdkError | OperationTimeoutError
   >;
 
+  getClassifiersStream(
+    args: GetClassifiersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<GetClassifiersCommandOutput, Cause.TimeoutError | SdkError | OperationTimeoutError>;
+
   /**
    * @see {@link GetColumnStatisticsForPartitionCommand}
    */
@@ -2794,6 +2925,11 @@ export interface GlueService$ {
     Cause.TimeoutError | SdkError | OperationTimeoutError
   >;
 
+  getColumnStatisticsTaskRunsStream(
+    args: GetColumnStatisticsTaskRunsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<GetColumnStatisticsTaskRunsCommandOutput, Cause.TimeoutError | SdkError | OperationTimeoutError>;
+
   /**
    * @see {@link GetColumnStatisticsTaskSettingsCommand}
    */
@@ -2837,6 +2973,19 @@ export interface GlueService$ {
     | OperationTimeoutError
   >;
 
+  getConnectionsStream(
+    args: GetConnectionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    GetConnectionsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | EntityNotFoundError
+    | GlueEncryptionError
+    | InvalidInputError
+    | OperationTimeoutError
+  >;
+
   /**
    * @see {@link GetCrawlerCommand}
    */
@@ -2859,6 +3008,11 @@ export interface GlueService$ {
     Cause.TimeoutError | SdkError | OperationTimeoutError
   >;
 
+  getCrawlerMetricsStream(
+    args: GetCrawlerMetricsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<GetCrawlerMetricsCommandOutput, Cause.TimeoutError | SdkError | OperationTimeoutError>;
+
   /**
    * @see {@link GetCrawlersCommand}
    */
@@ -2869,6 +3023,11 @@ export interface GlueService$ {
     GetCrawlersCommandOutput,
     Cause.TimeoutError | SdkError | OperationTimeoutError
   >;
+
+  getCrawlersStream(
+    args: GetCrawlersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<GetCrawlersCommandOutput, Cause.TimeoutError | SdkError | OperationTimeoutError>;
 
   /**
    * @see {@link GetCustomEntityTypeCommand}
@@ -3032,6 +3191,22 @@ export interface GlueService$ {
     | OperationTimeoutError
   >;
 
+  getDatabasesStream(
+    args: GetDatabasesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    GetDatabasesCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | EntityNotFoundError
+    | FederationSourceError
+    | FederationSourceRetryableError
+    | GlueEncryptionError
+    | InternalServiceError
+    | InvalidInputError
+    | OperationTimeoutError
+  >;
+
   /**
    * @see {@link GetDataflowGraphCommand}
    */
@@ -3066,6 +3241,19 @@ export interface GlueService$ {
     args: GetDevEndpointsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    GetDevEndpointsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | EntityNotFoundError
+    | InternalServiceError
+    | InvalidInputError
+    | OperationTimeoutError
+  >;
+
+  getDevEndpointsStream(
+    args: GetDevEndpointsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     GetDevEndpointsCommandOutput,
     | Cause.TimeoutError
     | SdkError
@@ -3215,6 +3403,19 @@ export interface GlueService$ {
     | OperationTimeoutError
   >;
 
+  getJobRunsStream(
+    args: GetJobRunsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    GetJobRunsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | EntityNotFoundError
+    | InternalServiceError
+    | InvalidInputError
+    | OperationTimeoutError
+  >;
+
   /**
    * @see {@link GetJobsCommand}
    */
@@ -3222,6 +3423,19 @@ export interface GlueService$ {
     args: GetJobsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    GetJobsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | EntityNotFoundError
+    | InternalServiceError
+    | InvalidInputError
+    | OperationTimeoutError
+  >;
+
+  getJobsStream(
+    args: GetJobsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     GetJobsCommandOutput,
     | Cause.TimeoutError
     | SdkError
@@ -3263,6 +3477,19 @@ export interface GlueService$ {
     | OperationTimeoutError
   >;
 
+  getMLTaskRunsStream(
+    args: GetMLTaskRunsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    GetMLTaskRunsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | EntityNotFoundError
+    | InternalServiceError
+    | InvalidInputError
+    | OperationTimeoutError
+  >;
+
   /**
    * @see {@link GetMLTransformCommand}
    */
@@ -3286,6 +3513,19 @@ export interface GlueService$ {
     args: GetMLTransformsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    GetMLTransformsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | EntityNotFoundError
+    | InternalServiceError
+    | InvalidInputError
+    | OperationTimeoutError
+  >;
+
+  getMLTransformsStream(
+    args: GetMLTransformsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     GetMLTransformsCommandOutput,
     | Cause.TimeoutError
     | SdkError
@@ -3358,6 +3598,20 @@ export interface GlueService$ {
     | OperationTimeoutError
   >;
 
+  getPartitionIndexesStream(
+    args: GetPartitionIndexesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    GetPartitionIndexesCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | ConflictError
+    | EntityNotFoundError
+    | InternalServiceError
+    | InvalidInputError
+    | OperationTimeoutError
+  >;
+
   /**
    * @see {@link GetPartitionsCommand}
    */
@@ -3365,6 +3619,24 @@ export interface GlueService$ {
     args: GetPartitionsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    GetPartitionsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | EntityNotFoundError
+    | FederationSourceError
+    | FederationSourceRetryableError
+    | GlueEncryptionError
+    | InternalServiceError
+    | InvalidInputError
+    | InvalidStateError
+    | OperationTimeoutError
+    | ResourceNotReadyError
+  >;
+
+  getPartitionsStream(
+    args: GetPartitionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     GetPartitionsCommandOutput,
     | Cause.TimeoutError
     | SdkError
@@ -3408,6 +3680,19 @@ export interface GlueService$ {
     args: GetResourcePoliciesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    GetResourcePoliciesCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | GlueEncryptionError
+    | InternalServiceError
+    | InvalidInputError
+    | OperationTimeoutError
+  >;
+
+  getResourcePoliciesStream(
+    args: GetResourcePoliciesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     GetResourcePoliciesCommandOutput,
     | Cause.TimeoutError
     | SdkError
@@ -3500,6 +3785,19 @@ export interface GlueService$ {
     args: GetSecurityConfigurationsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    GetSecurityConfigurationsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | EntityNotFoundError
+    | InternalServiceError
+    | InvalidInputError
+    | OperationTimeoutError
+  >;
+
+  getSecurityConfigurationsStream(
+    args: GetSecurityConfigurationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     GetSecurityConfigurationsCommandOutput,
     | Cause.TimeoutError
     | SdkError
@@ -3615,6 +3913,20 @@ export interface GlueService$ {
     | OperationTimeoutError
   >;
 
+  getTableVersionsStream(
+    args: GetTableVersionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    GetTableVersionsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | EntityNotFoundError
+    | GlueEncryptionError
+    | InternalServiceError
+    | InvalidInputError
+    | OperationTimeoutError
+  >;
+
   /**
    * @see {@link GetTablesCommand}
    */
@@ -3622,6 +3934,22 @@ export interface GlueService$ {
     args: GetTablesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    GetTablesCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | EntityNotFoundError
+    | FederationSourceError
+    | FederationSourceRetryableError
+    | GlueEncryptionError
+    | InternalServiceError
+    | InvalidInputError
+    | OperationTimeoutError
+  >;
+
+  getTablesStream(
+    args: GetTablesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     GetTablesCommandOutput,
     | Cause.TimeoutError
     | SdkError
@@ -3682,6 +4010,19 @@ export interface GlueService$ {
     | OperationTimeoutError
   >;
 
+  getTriggersStream(
+    args: GetTriggersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    GetTriggersCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | EntityNotFoundError
+    | InternalServiceError
+    | InvalidInputError
+    | OperationTimeoutError
+  >;
+
   /**
    * @see {@link GetUnfilteredPartitionMetadataCommand}
    */
@@ -3709,6 +4050,23 @@ export interface GlueService$ {
     args: GetUnfilteredPartitionsMetadataCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    GetUnfilteredPartitionsMetadataCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | EntityNotFoundError
+    | FederationSourceError
+    | FederationSourceRetryableError
+    | GlueEncryptionError
+    | InternalServiceError
+    | InvalidInputError
+    | OperationTimeoutError
+    | PermissionTypeMismatchError
+  >;
+
+  getUnfilteredPartitionsMetadataStream(
+    args: GetUnfilteredPartitionsMetadataCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     GetUnfilteredPartitionsMetadataCommandOutput,
     | Cause.TimeoutError
     | SdkError
@@ -3793,6 +4151,20 @@ export interface GlueService$ {
     | OperationTimeoutError
   >;
 
+  getUserDefinedFunctionsStream(
+    args: GetUserDefinedFunctionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    GetUserDefinedFunctionsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | EntityNotFoundError
+    | GlueEncryptionError
+    | InternalServiceError
+    | InvalidInputError
+    | OperationTimeoutError
+  >;
+
   /**
    * @see {@link GetWorkflowCommand}
    */
@@ -3857,6 +4229,19 @@ export interface GlueService$ {
     | OperationTimeoutError
   >;
 
+  getWorkflowRunsStream(
+    args: GetWorkflowRunsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    GetWorkflowRunsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | EntityNotFoundError
+    | InternalServiceError
+    | InvalidInputError
+    | OperationTimeoutError
+  >;
+
   /**
    * @see {@link ImportCatalogToGlueCommand}
    */
@@ -3879,6 +4264,14 @@ export interface GlueService$ {
     Cause.TimeoutError | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
   >;
 
+  listBlueprintsStream(
+    args: ListBlueprintsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListBlueprintsCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
+  >;
+
   /**
    * @see {@link ListColumnStatisticsTaskRunsCommand}
    */
@@ -3890,6 +4283,11 @@ export interface GlueService$ {
     Cause.TimeoutError | SdkError | OperationTimeoutError
   >;
 
+  listColumnStatisticsTaskRunsStream(
+    args: ListColumnStatisticsTaskRunsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListColumnStatisticsTaskRunsCommandOutput, Cause.TimeoutError | SdkError | OperationTimeoutError>;
+
   /**
    * @see {@link ListConnectionTypesCommand}
    */
@@ -3897,6 +4295,14 @@ export interface GlueService$ {
     args: ListConnectionTypesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListConnectionTypesCommandOutput,
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServiceError
+  >;
+
+  listConnectionTypesStream(
+    args: ListConnectionTypesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListConnectionTypesCommandOutput,
     Cause.TimeoutError | SdkError | AccessDeniedError | InternalServiceError
   >;
@@ -3911,6 +4317,11 @@ export interface GlueService$ {
     ListCrawlersCommandOutput,
     Cause.TimeoutError | SdkError | OperationTimeoutError
   >;
+
+  listCrawlersStream(
+    args: ListCrawlersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListCrawlersCommandOutput, Cause.TimeoutError | SdkError | OperationTimeoutError>;
 
   /**
    * @see {@link ListCrawlsCommand}
@@ -3934,6 +4345,14 @@ export interface GlueService$ {
     Cause.TimeoutError | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
   >;
 
+  listCustomEntityTypesStream(
+    args: ListCustomEntityTypesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListCustomEntityTypesCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
+  >;
+
   /**
    * @see {@link ListDataQualityResultsCommand}
    */
@@ -3941,6 +4360,14 @@ export interface GlueService$ {
     args: ListDataQualityResultsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListDataQualityResultsCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
+  >;
+
+  listDataQualityResultsStream(
+    args: ListDataQualityResultsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListDataQualityResultsCommandOutput,
     Cause.TimeoutError | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
   >;
@@ -3956,6 +4383,14 @@ export interface GlueService$ {
     Cause.TimeoutError | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
   >;
 
+  listDataQualityRuleRecommendationRunsStream(
+    args: ListDataQualityRuleRecommendationRunsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListDataQualityRuleRecommendationRunsCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
+  >;
+
   /**
    * @see {@link ListDataQualityRulesetEvaluationRunsCommand}
    */
@@ -3967,6 +4402,14 @@ export interface GlueService$ {
     Cause.TimeoutError | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
   >;
 
+  listDataQualityRulesetEvaluationRunsStream(
+    args: ListDataQualityRulesetEvaluationRunsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListDataQualityRulesetEvaluationRunsCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
+  >;
+
   /**
    * @see {@link ListDataQualityRulesetsCommand}
    */
@@ -3974,6 +4417,19 @@ export interface GlueService$ {
     args: ListDataQualityRulesetsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListDataQualityRulesetsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | EntityNotFoundError
+    | InternalServiceError
+    | InvalidInputError
+    | OperationTimeoutError
+  >;
+
+  listDataQualityRulesetsStream(
+    args: ListDataQualityRulesetsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListDataQualityRulesetsCommandOutput,
     | Cause.TimeoutError
     | SdkError
@@ -4021,6 +4477,19 @@ export interface GlueService$ {
     | OperationTimeoutError
   >;
 
+  listDevEndpointsStream(
+    args: ListDevEndpointsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListDevEndpointsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | EntityNotFoundError
+    | InternalServiceError
+    | InvalidInputError
+    | OperationTimeoutError
+  >;
+
   /**
    * @see {@link ListEntitiesCommand}
    */
@@ -4028,6 +4497,22 @@ export interface GlueService$ {
     args: ListEntitiesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListEntitiesCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | EntityNotFoundError
+    | FederationSourceError
+    | GlueEncryptionError
+    | InvalidInputError
+    | OperationTimeoutError
+    | ValidationError
+  >;
+
+  listEntitiesStream(
+    args: ListEntitiesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListEntitiesCommandOutput,
     | Cause.TimeoutError
     | SdkError
@@ -4075,6 +4560,19 @@ export interface GlueService$ {
     | OperationTimeoutError
   >;
 
+  listJobsStream(
+    args: ListJobsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListJobsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | EntityNotFoundError
+    | InternalServiceError
+    | InvalidInputError
+    | OperationTimeoutError
+  >;
+
   /**
    * @see {@link ListMLTransformsCommand}
    */
@@ -4082,6 +4580,19 @@ export interface GlueService$ {
     args: ListMLTransformsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListMLTransformsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | EntityNotFoundError
+    | InternalServiceError
+    | InvalidInputError
+    | OperationTimeoutError
+  >;
+
+  listMLTransformsStream(
+    args: ListMLTransformsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListMLTransformsCommandOutput,
     | Cause.TimeoutError
     | SdkError
@@ -4102,6 +4613,14 @@ export interface GlueService$ {
     Cause.TimeoutError | SdkError | AccessDeniedError | InvalidInputError | OperationTimeoutError
   >;
 
+  listMaterializedViewRefreshTaskRunsStream(
+    args: ListMaterializedViewRefreshTaskRunsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListMaterializedViewRefreshTaskRunsCommandOutput,
+    Cause.TimeoutError | SdkError | AccessDeniedError | InvalidInputError | OperationTimeoutError
+  >;
+
   /**
    * @see {@link ListRegistriesCommand}
    */
@@ -4109,6 +4628,14 @@ export interface GlueService$ {
     args: ListRegistriesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListRegistriesCommandOutput,
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServiceError | InvalidInputError
+  >;
+
+  listRegistriesStream(
+    args: ListRegistriesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListRegistriesCommandOutput,
     Cause.TimeoutError | SdkError | AccessDeniedError | InternalServiceError | InvalidInputError
   >;
@@ -4124,6 +4651,14 @@ export interface GlueService$ {
     Cause.TimeoutError | SdkError | AccessDeniedError | EntityNotFoundError | InternalServiceError | InvalidInputError
   >;
 
+  listSchemaVersionsStream(
+    args: ListSchemaVersionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListSchemaVersionsCommandOutput,
+    Cause.TimeoutError | SdkError | AccessDeniedError | EntityNotFoundError | InternalServiceError | InvalidInputError
+  >;
+
   /**
    * @see {@link ListSchemasCommand}
    */
@@ -4135,6 +4670,14 @@ export interface GlueService$ {
     Cause.TimeoutError | SdkError | AccessDeniedError | EntityNotFoundError | InternalServiceError | InvalidInputError
   >;
 
+  listSchemasStream(
+    args: ListSchemasCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListSchemasCommandOutput,
+    Cause.TimeoutError | SdkError | AccessDeniedError | EntityNotFoundError | InternalServiceError | InvalidInputError
+  >;
+
   /**
    * @see {@link ListSessionsCommand}
    */
@@ -4142,6 +4685,14 @@ export interface GlueService$ {
     args: ListSessionsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListSessionsCommandOutput,
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServiceError | InvalidInputError | OperationTimeoutError
+  >;
+
+  listSessionsStream(
+    args: ListSessionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListSessionsCommandOutput,
     Cause.TimeoutError | SdkError | AccessDeniedError | InternalServiceError | InvalidInputError | OperationTimeoutError
   >;
@@ -4182,6 +4733,21 @@ export interface GlueService$ {
     | ValidationError
   >;
 
+  listTableOptimizerRunsStream(
+    args: ListTableOptimizerRunsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListTableOptimizerRunsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | EntityNotFoundError
+    | InternalServiceError
+    | InvalidInputError
+    | ThrottlingError
+    | ValidationError
+  >;
+
   /**
    * @see {@link ListTriggersCommand}
    */
@@ -4189,6 +4755,19 @@ export interface GlueService$ {
     args: ListTriggersCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListTriggersCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | EntityNotFoundError
+    | InternalServiceError
+    | InvalidInputError
+    | OperationTimeoutError
+  >;
+
+  listTriggersStream(
+    args: ListTriggersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListTriggersCommandOutput,
     | Cause.TimeoutError
     | SdkError
@@ -4214,6 +4793,19 @@ export interface GlueService$ {
     | OperationTimeoutError
   >;
 
+  listUsageProfilesStream(
+    args: ListUsageProfilesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListUsageProfilesCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InternalServiceError
+    | InvalidInputError
+    | OperationNotSupportedError
+    | OperationTimeoutError
+  >;
+
   /**
    * @see {@link ListWorkflowsCommand}
    */
@@ -4221,6 +4813,14 @@ export interface GlueService$ {
     args: ListWorkflowsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListWorkflowsCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
+  >;
+
+  listWorkflowsStream(
+    args: ListWorkflowsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListWorkflowsCommandOutput,
     Cause.TimeoutError | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
   >;
@@ -4442,6 +5042,14 @@ export interface GlueService$ {
     args: SearchTablesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    SearchTablesCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
+  >;
+
+  searchTablesStream(
+    args: SearchTablesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     SearchTablesCommandOutput,
     Cause.TimeoutError | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
   >;
@@ -5387,6 +5995,7 @@ export const makeGlueService = Effect.gen(function*() {
       errorTags: AllServiceErrors,
       resolveClientConfig: GlueServiceConfig.toGlueClientConfig,
     },
+    paginators,
   );
 });
 

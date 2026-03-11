@@ -218,6 +218,10 @@ import {
   ListPartsCommand,
   type ListPartsCommandInput,
   type ListPartsCommandOutput,
+  paginateListBuckets,
+  paginateListDirectoryBuckets,
+  paginateListObjectsV2,
+  paginateListParts,
   PutBucketAbacCommand,
   type PutBucketAbacCommandInput,
   type PutBucketAbacCommandOutput,
@@ -328,12 +332,14 @@ import {
 } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import type { RequestPresigningArguments } from "@aws-sdk/types";
-import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
-import { Service } from "@effect-aws/commons";
+import * as Service from "@effect-aws/commons/Service";
+import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as ServiceMap from "effect/ServiceMap";
+import type * as Stream from "effect/Stream";
 import type {
   AccessDeniedError,
   BucketAlreadyExistsError,
@@ -465,6 +471,13 @@ const commands = {
   UploadPartCommand,
   UploadPartCopyCommand,
   WriteGetObjectResponseCommand,
+};
+
+const paginators = {
+  paginateListBuckets,
+  paginateListDirectoryBuckets,
+  paginateListObjectsV2,
+  paginateListParts,
 };
 
 export interface S3Service$ {
@@ -1198,6 +1211,11 @@ export interface S3Service$ {
     Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
+  listBucketsStream(
+    args: ListBucketsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListBucketsCommandOutput, Cause.TimeoutError | SdkError>;
+
   /**
    * @see {@link ListDirectoryBucketsCommand}
    */
@@ -1208,6 +1226,11 @@ export interface S3Service$ {
     ListDirectoryBucketsCommandOutput,
     Cause.TimeoutError | SdkError | S3ServiceError
   >;
+
+  listDirectoryBucketsStream(
+    args: ListDirectoryBucketsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListDirectoryBucketsCommandOutput, Cause.TimeoutError | SdkError>;
 
   /**
    * @see {@link ListMultipartUploadsCommand}
@@ -1253,6 +1276,11 @@ export interface S3Service$ {
     Cause.TimeoutError | SdkError | NoSuchBucketError
   >;
 
+  listObjectsV2Stream(
+    args: ListObjectsV2CommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListObjectsV2CommandOutput, Cause.TimeoutError | SdkError | NoSuchBucketError>;
+
   /**
    * @see {@link ListPartsCommand}
    */
@@ -1263,6 +1291,11 @@ export interface S3Service$ {
     ListPartsCommandOutput,
     Cause.TimeoutError | SdkError | S3ServiceError
   >;
+
+  listPartsStream(
+    args: ListPartsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListPartsCommandOutput, Cause.TimeoutError | SdkError>;
 
   /**
    * @see {@link PutBucketAbacCommand}
@@ -1666,25 +1699,34 @@ export interface S3Service$ {
 export const makeS3Service = Effect.gen(function*() {
   const client = yield* Instance.S3ClientInstance;
 
-  return yield* Service.fromCommandsAndServiceFn<S3Service$>(commands, (CommandCtor) =>
-  (
-    args: any,
-    options?:
-      | ({ readonly presigned?: false } & HttpHandlerOptions)
-      | ({ readonly presigned: true } & RequestPresigningArguments),
-  ) =>
-    options?.presigned
-      ? Effect.gen(function*() {
-        const config = yield* S3ServiceConfig.toS3ClientConfig;
-        return yield* Effect.tryPromise({
-          try: () => getSignedUrl(client, new CommandCtor(args, config), options),
-          catch: Service.catchServiceExceptions(AllServiceErrors),
-        });
-      })
-      : Service.makeServiceFn(client, CommandCtor, {
+  return yield* Service.fromCommandsAndServiceFn<S3Service$>(
+    commands,
+    (CommandCtor) =>
+    (
+      args: any,
+      options?:
+        | ({ readonly presigned?: false } & HttpHandlerOptions)
+        | ({ readonly presigned: true } & RequestPresigningArguments),
+    ) =>
+      options?.presigned
+        ? Effect.gen(function*() {
+          const config = yield* S3ServiceConfig.toS3ClientConfig;
+          return yield* Effect.tryPromise({
+            try: () => getSignedUrl(client, new CommandCtor(args, config), options),
+            catch: Service.catchServiceExceptions(AllServiceErrors),
+          });
+        })
+        : Service.makeServiceFn(client, CommandCtor, {
+          errorTags: AllServiceErrors,
+          resolveClientConfig: S3ServiceConfig.toS3ClientConfig,
+        })(args, options),
+    paginators,
+    (paginateFn) =>
+      Service.makeServiceStreamFn(client, paginateFn, {
         errorTags: AllServiceErrors,
         resolveClientConfig: S3ServiceConfig.toS3ClientConfig,
-      })(args, options));
+      }),
+  );
 });
 
 /**

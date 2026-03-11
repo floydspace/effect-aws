@@ -7,7 +7,7 @@ import type {
   S3Client,
   S3ClientConfig,
 } from "@aws-sdk/client-s3";
-import { S3Service } from "@effect-aws/client-s3";
+import { S3Service } from "@effect-aws/client-s3/S3Service";
 import type * as Cause from "effect/Cause";
 import type * as Effect from "effect/Effect";
 import type * as FileSystem from "effect/FileSystem";

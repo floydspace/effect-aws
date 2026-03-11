@@ -146,7 +146,7 @@ import type {
   UnsupportedDBEngineVersionFault,
   VpcEncryptionControlViolationException,
 } from "@aws-sdk/client-rds";
-import type { TaggedException } from "@effect-aws/commons";
+import type { TaggedException } from "@effect-aws/commons/Errors";
 
 export const AllServiceErrors = [
   "AuthorizationAlreadyExistsFault",

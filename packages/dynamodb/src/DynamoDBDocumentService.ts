@@ -62,8 +62,9 @@ import type {
   TransactionConflictError,
   TransactionInProgressError,
 } from "@effect-aws/client-dynamodb";
-import { DynamoDBServiceConfig } from "@effect-aws/client-dynamodb";
-import { type HttpHandlerOptions, Service } from "@effect-aws/commons";
+import * as DynamoDBServiceConfig from "@effect-aws/client-dynamodb/DynamoDBServiceConfig";
+import type { HttpHandlerOptions } from "@effect-aws/commons";
+import * as Service from "@effect-aws/commons/Service";
 import type * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";

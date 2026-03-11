@@ -11,7 +11,7 @@ import type {
   UnauthorizedException,
   UnsupportedDocumentEncodingException,
 } from "@aws-sdk/client-iot-data-plane";
-import type { TaggedException } from "@effect-aws/commons";
+import type { TaggedException } from "@effect-aws/commons/Errors";
 
 export const AllServiceErrors = [
   "ConflictException",

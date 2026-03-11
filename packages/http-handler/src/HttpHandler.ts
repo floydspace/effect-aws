@@ -2,7 +2,7 @@
  * @since 0.1.0
  */
 import type { HttpHandlerOptions } from "@effect-aws/commons";
-import { HttpHandler } from "@effect-aws/commons";
+import * as HttpHandler from "@effect-aws/commons/HttpHandler";
 import * as Layer from "effect/Layer";
 import { makeHttpClientRequestHandler } from "./internal/httpHandler.js";
 

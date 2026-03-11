@@ -16,7 +16,7 @@ import type {
   S3ServiceException,
   TooManyParts,
 } from "@aws-sdk/client-s3";
-import type { TaggedException } from "@effect-aws/commons";
+import type { TaggedException } from "@effect-aws/commons/Errors";
 import * as Data from "effect/Data";
 
 export const AllServiceErrors = [

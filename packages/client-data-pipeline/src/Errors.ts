@@ -5,7 +5,7 @@ import type {
   PipelineNotFoundException,
   TaskNotFoundException,
 } from "@aws-sdk/client-data-pipeline";
-import type { TaggedException } from "@effect-aws/commons";
+import type { TaggedException } from "@effect-aws/commons/Errors";
 
 export const AllServiceErrors = [
   "InternalServiceError",

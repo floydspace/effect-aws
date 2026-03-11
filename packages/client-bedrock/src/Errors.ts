@@ -10,7 +10,7 @@ import type {
   TooManyTagsException,
   ValidationException,
 } from "@aws-sdk/client-bedrock";
-import type { TaggedException } from "@effect-aws/commons";
+import type { TaggedException } from "@effect-aws/commons/Errors";
 
 export const AllServiceErrors = [
   "AccessDeniedException",

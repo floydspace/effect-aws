@@ -6,8 +6,9 @@ import {
 } from "@aws-sdk/client-dsql";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-dsql/dist-cjs/runtimeConfig";
-import { DSQL, DSQLServiceConfig } from "@effect-aws/client-dsql";
-import { SdkError } from "@effect-aws/commons";
+import { DSQLService as DSQL } from "@effect-aws/client-dsql/DSQLService";
+import * as DSQLServiceConfig from "@effect-aws/client-dsql/DSQLServiceConfig";
+import { SdkError } from "@effect-aws/commons/Errors";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";

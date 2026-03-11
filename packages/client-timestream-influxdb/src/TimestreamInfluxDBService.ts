@@ -41,6 +41,10 @@ import {
   ListTagsForResourceCommand,
   type ListTagsForResourceCommandInput,
   type ListTagsForResourceCommandOutput,
+  paginateListDbClusters,
+  paginateListDbInstances,
+  paginateListDbInstancesForCluster,
+  paginateListDbParameterGroups,
   RebootDbClusterCommand,
   type RebootDbClusterCommandInput,
   type RebootDbClusterCommandOutput,
@@ -62,12 +66,14 @@ import {
   type UpdateDbInstanceCommandInput,
   type UpdateDbInstanceCommandOutput,
 } from "@aws-sdk/client-timestream-influxdb";
-import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
-import { Service } from "@effect-aws/commons";
+import * as Service from "@effect-aws/commons/Service";
+import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as ServiceMap from "effect/ServiceMap";
+import type * as Stream from "effect/Stream";
 import type {
   AccessDeniedError,
   ConflictError,
@@ -102,6 +108,13 @@ const commands = {
   UntagResourceCommand,
   UpdateDbClusterCommand,
   UpdateDbInstanceCommand,
+};
+
+const paginators = {
+  paginateListDbClusters,
+  paginateListDbInstances,
+  paginateListDbInstancesForCluster,
+  paginateListDbParameterGroups,
 };
 
 export interface TimestreamInfluxDBService$ {
@@ -266,6 +279,20 @@ export interface TimestreamInfluxDBService$ {
     | ValidationError
   >;
 
+  listDbClustersStream(
+    args: ListDbClustersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListDbClustersCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
   /**
    * @see {@link ListDbInstancesCommand}
    */
@@ -273,6 +300,20 @@ export interface TimestreamInfluxDBService$ {
     args: ListDbInstancesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListDbInstancesCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  listDbInstancesStream(
+    args: ListDbInstancesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListDbInstancesCommandOutput,
     | Cause.TimeoutError
     | SdkError
@@ -300,6 +341,20 @@ export interface TimestreamInfluxDBService$ {
     | ValidationError
   >;
 
+  listDbInstancesForClusterStream(
+    args: ListDbInstancesForClusterCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListDbInstancesForClusterCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
   /**
    * @see {@link ListDbParameterGroupsCommand}
    */
@@ -307,6 +362,20 @@ export interface TimestreamInfluxDBService$ {
     args: ListDbParameterGroupsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListDbParameterGroupsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  listDbParameterGroupsStream(
+    args: ListDbParameterGroupsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListDbParameterGroupsCommandOutput,
     | Cause.TimeoutError
     | SdkError
@@ -437,6 +506,7 @@ export const makeTimestreamInfluxDBService = Effect.gen(function*() {
       errorTags: AllServiceErrors,
       resolveClientConfig: TimestreamInfluxDBServiceConfig.toTimestreamInfluxDBClientConfig,
     },
+    paginators,
   );
 });
 

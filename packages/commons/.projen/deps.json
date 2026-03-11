@@ -5,6 +5,10 @@
       "type": "build"
     },
     {
+      "name": "@smithy/core",
+      "type": "build"
+    },
+    {
       "name": "@types/node",
       "version": "ts5.4",
       "type": "build"

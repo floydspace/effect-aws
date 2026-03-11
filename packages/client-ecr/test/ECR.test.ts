@@ -6,8 +6,9 @@ import {
 } from "@aws-sdk/client-ecr";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-ecr/dist-cjs/runtimeConfig";
-import { ECR, ECRServiceConfig } from "@effect-aws/client-ecr";
-import { SdkError } from "@effect-aws/commons";
+import { ECRService as ECR } from "@effect-aws/client-ecr/ECRService";
+import * as ECRServiceConfig from "@effect-aws/client-ecr/ECRServiceConfig";
+import { SdkError } from "@effect-aws/commons/Errors";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";

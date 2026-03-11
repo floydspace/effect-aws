@@ -2,7 +2,7 @@
  * @since 1.0.0
  */
 import type { CloudWatchEventsClientConfig } from "@aws-sdk/client-cloudwatch-events";
-import { ServiceLogger } from "@effect-aws/commons";
+import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
 import * as Effect from "effect/Effect";
 import { dual } from "effect/Function";
 import * as Layer from "effect/Layer";

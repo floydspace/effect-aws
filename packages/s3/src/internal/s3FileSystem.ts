@@ -1,5 +1,5 @@
 import type { S3Service } from "@effect-aws/client-s3";
-import { S3 } from "@effect-aws/client-s3";
+import { S3Service as S3 } from "@effect-aws/client-s3/S3Service";
 import * as Array from "effect/Array";
 import * as Config from "effect/Config";
 import * as Effect from "effect/Effect";

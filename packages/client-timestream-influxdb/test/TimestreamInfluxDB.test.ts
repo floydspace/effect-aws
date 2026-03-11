@@ -6,8 +6,9 @@ import {
 } from "@aws-sdk/client-timestream-influxdb";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-timestream-influxdb/dist-cjs/runtimeConfig";
-import { TimestreamInfluxDB, TimestreamInfluxDBServiceConfig } from "@effect-aws/client-timestream-influxdb";
-import { SdkError } from "@effect-aws/commons";
+import { TimestreamInfluxDBService as TimestreamInfluxDB } from "@effect-aws/client-timestream-influxdb/TimestreamInfluxDBService";
+import * as TimestreamInfluxDBServiceConfig from "@effect-aws/client-timestream-influxdb/TimestreamInfluxDBServiceConfig";
+import { SdkError } from "@effect-aws/commons/Errors";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";

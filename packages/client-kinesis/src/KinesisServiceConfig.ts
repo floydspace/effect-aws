@@ -2,7 +2,7 @@
  * @since 1.0.0
  */
 import type { KinesisClientConfig } from "@aws-sdk/client-kinesis";
-import { ServiceLogger } from "@effect-aws/commons";
+import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
 import * as Effect from "effect/Effect";
 import { dual } from "effect/Function";
 import * as Layer from "effect/Layer";

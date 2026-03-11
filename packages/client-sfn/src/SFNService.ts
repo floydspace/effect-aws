@@ -68,6 +68,11 @@ import {
   ListTagsForResourceCommand,
   type ListTagsForResourceCommandInput,
   type ListTagsForResourceCommandOutput,
+  paginateGetExecutionHistory,
+  paginateListActivities,
+  paginateListExecutions,
+  paginateListMapRuns,
+  paginateListStateMachines,
   PublishStateMachineVersionCommand,
   type PublishStateMachineVersionCommandInput,
   type PublishStateMachineVersionCommandOutput,
@@ -116,12 +121,14 @@ import {
   type ValidateStateMachineDefinitionCommandInput,
   type ValidateStateMachineDefinitionCommandOutput,
 } from "@aws-sdk/client-sfn";
-import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
-import { Service } from "@effect-aws/commons";
+import * as Service from "@effect-aws/commons/Service";
+import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as ServiceMap from "effect/ServiceMap";
+import type * as Stream from "effect/Stream";
 import type {
   ActivityAlreadyExistsError,
   ActivityDoesNotExistError,
@@ -200,6 +207,14 @@ const commands = {
   UpdateStateMachineCommand,
   UpdateStateMachineAliasCommand,
   ValidateStateMachineDefinitionCommand,
+};
+
+const paginators = {
+  paginateGetExecutionHistory,
+  paginateListActivities,
+  paginateListExecutions,
+  paginateListMapRuns,
+  paginateListStateMachines,
 };
 
 export interface SFNService$ {
@@ -432,6 +447,21 @@ export interface SFNService$ {
     | KmsThrottlingError
   >;
 
+  getExecutionHistoryStream(
+    args: GetExecutionHistoryCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    GetExecutionHistoryCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | ExecutionDoesNotExistError
+    | InvalidArnError
+    | InvalidTokenError
+    | KmsAccessDeniedError
+    | KmsInvalidStateError
+    | KmsThrottlingError
+  >;
+
   /**
    * @see {@link ListActivitiesCommand}
    */
@@ -442,6 +472,11 @@ export interface SFNService$ {
     ListActivitiesCommandOutput,
     Cause.TimeoutError | SdkError | InvalidTokenError
   >;
+
+  listActivitiesStream(
+    args: ListActivitiesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListActivitiesCommandOutput, Cause.TimeoutError | SdkError | InvalidTokenError>;
 
   /**
    * @see {@link ListExecutionsCommand}
@@ -461,6 +496,21 @@ export interface SFNService$ {
     | ValidationError
   >;
 
+  listExecutionsStream(
+    args: ListExecutionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListExecutionsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InvalidArnError
+    | InvalidTokenError
+    | ResourceNotFoundError
+    | StateMachineDoesNotExistError
+    | StateMachineTypeNotSupportedError
+    | ValidationError
+  >;
+
   /**
    * @see {@link ListMapRunsCommand}
    */
@@ -468,6 +518,14 @@ export interface SFNService$ {
     args: ListMapRunsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListMapRunsCommandOutput,
+    Cause.TimeoutError | SdkError | ExecutionDoesNotExistError | InvalidArnError | InvalidTokenError
+  >;
+
+  listMapRunsStream(
+    args: ListMapRunsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListMapRunsCommandOutput,
     Cause.TimeoutError | SdkError | ExecutionDoesNotExistError | InvalidArnError | InvalidTokenError
   >;
@@ -510,6 +568,11 @@ export interface SFNService$ {
     ListStateMachinesCommandOutput,
     Cause.TimeoutError | SdkError | InvalidTokenError
   >;
+
+  listStateMachinesStream(
+    args: ListStateMachinesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListStateMachinesCommandOutput, Cause.TimeoutError | SdkError | InvalidTokenError>;
 
   /**
    * @see {@link ListTagsForResourceCommand}
@@ -784,6 +847,7 @@ export const makeSFNService = Effect.gen(function*() {
       errorTags: AllServiceErrors,
       resolveClientConfig: SFNServiceConfig.toSFNClientConfig,
     },
+    paginators,
   );
 });
 

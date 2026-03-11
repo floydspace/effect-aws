@@ -6,7 +6,7 @@ import type {
   ThrottlingException,
   ValidationException,
 } from "@aws-sdk/client-scheduler";
-import type { TaggedException } from "@effect-aws/commons";
+import type { TaggedException } from "@effect-aws/commons/Errors";
 
 export const AllServiceErrors = [
   "ConflictException",

@@ -1,8 +1,9 @@
 import { ListBrokersCommand, type ListBrokersCommandInput, MqClient, MqServiceException } from "@aws-sdk/client-mq";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-mq/dist-cjs/runtimeConfig";
-import { Mq, MqServiceConfig } from "@effect-aws/client-mq";
-import { SdkError } from "@effect-aws/commons";
+import { MqService as Mq } from "@effect-aws/client-mq/MqService";
+import * as MqServiceConfig from "@effect-aws/client-mq/MqServiceConfig";
+import { SdkError } from "@effect-aws/commons/Errors";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";

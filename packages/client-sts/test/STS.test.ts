@@ -6,8 +6,9 @@ import {
 } from "@aws-sdk/client-sts";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-sts/dist-cjs/runtimeConfig";
-import { STS, STSServiceConfig } from "@effect-aws/client-sts";
-import { SdkError } from "@effect-aws/commons";
+import { STSService as STS } from "@effect-aws/client-sts/STSService";
+import * as STSServiceConfig from "@effect-aws/client-sts/STSServiceConfig";
+import { SdkError } from "@effect-aws/commons/Errors";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";

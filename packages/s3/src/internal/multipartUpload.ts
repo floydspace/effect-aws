@@ -11,7 +11,7 @@ import type {
   SdkError,
   TooManyPartsError,
 } from "@effect-aws/client-s3";
-import { S3Service } from "@effect-aws/client-s3";
+import { S3Service } from "@effect-aws/client-s3/S3Service";
 import * as Array from "effect/Array";
 import type * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";

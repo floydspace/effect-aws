@@ -5,6 +5,9 @@ import {
   AddCustomAttributesCommand,
   type AddCustomAttributesCommandInput,
   type AddCustomAttributesCommandOutput,
+  AddUserPoolClientSecretCommand,
+  type AddUserPoolClientSecretCommandInput,
+  type AddUserPoolClientSecretCommandOutput,
   AdminAddUserToGroupCommand,
   type AdminAddUserToGroupCommandInput,
   type AdminAddUserToGroupCommandOutput,
@@ -154,6 +157,9 @@ import {
   DeleteUserPoolClientCommand,
   type DeleteUserPoolClientCommandInput,
   type DeleteUserPoolClientCommandOutput,
+  DeleteUserPoolClientSecretCommand,
+  type DeleteUserPoolClientSecretCommandInput,
+  type DeleteUserPoolClientSecretCommandOutput,
   DeleteUserPoolCommand,
   type DeleteUserPoolCommandInput,
   type DeleteUserPoolCommandOutput,
@@ -265,6 +271,9 @@ import {
   ListUserPoolClientsCommand,
   type ListUserPoolClientsCommandInput,
   type ListUserPoolClientsCommandOutput,
+  ListUserPoolClientSecretsCommand,
+  type ListUserPoolClientSecretsCommandInput,
+  type ListUserPoolClientSecretsCommandOutput,
   ListUserPoolsCommand,
   type ListUserPoolsCommandInput,
   type ListUserPoolsCommandOutput,
@@ -277,6 +286,15 @@ import {
   ListWebAuthnCredentialsCommand,
   type ListWebAuthnCredentialsCommandInput,
   type ListWebAuthnCredentialsCommandOutput,
+  paginateAdminListGroupsForUser,
+  paginateAdminListUserAuthEvents,
+  paginateListGroups,
+  paginateListIdentityProviders,
+  paginateListResourceServers,
+  paginateListUserPoolClients,
+  paginateListUserPools,
+  paginateListUsers,
+  paginateListUsersInGroup,
   ResendConfirmationCodeCommand,
   type ResendConfirmationCodeCommandInput,
   type ResendConfirmationCodeCommandOutput,
@@ -362,15 +380,18 @@ import {
   type VerifyUserAttributeCommandInput,
   type VerifyUserAttributeCommandOutput,
 } from "@aws-sdk/client-cognito-identity-provider";
-import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
-import { Service } from "@effect-aws/commons";
+import * as Service from "@effect-aws/commons/Service";
+import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as ServiceMap from "effect/ServiceMap";
+import type * as Stream from "effect/Stream";
 import * as Instance from "./CognitoIdentityProviderClientInstance.js";
 import * as CognitoIdentityProviderServiceConfig from "./CognitoIdentityProviderServiceConfig.js";
 import type {
+  AccessDeniedError,
   AliasExistsError,
   CodeDeliveryFailureError,
   CodeMismatchError,
@@ -383,6 +404,7 @@ import type {
   ForbiddenError,
   GroupExistsError,
   InternalError,
+  InternalServerError,
   InvalidEmailRoleAccessPolicyError,
   InvalidLambdaResponseError,
   InvalidOAuthFlowError,
@@ -432,6 +454,7 @@ import { AllServiceErrors } from "./Errors.js";
 
 const commands = {
   AddCustomAttributesCommand,
+  AddUserPoolClientSecretCommand,
   AdminAddUserToGroupCommand,
   AdminConfirmSignUpCommand,
   AdminCreateUserCommand,
@@ -482,6 +505,7 @@ const commands = {
   DeleteUserAttributesCommand,
   DeleteUserPoolCommand,
   DeleteUserPoolClientCommand,
+  DeleteUserPoolClientSecretCommand,
   DeleteUserPoolDomainCommand,
   DeleteWebAuthnCredentialCommand,
   DescribeIdentityProviderCommand,
@@ -517,6 +541,7 @@ const commands = {
   ListTagsForResourceCommand,
   ListTermsCommand,
   ListUserImportJobsCommand,
+  ListUserPoolClientSecretsCommand,
   ListUserPoolClientsCommand,
   ListUserPoolsCommand,
   ListUsersCommand,
@@ -552,6 +577,18 @@ const commands = {
   VerifyUserAttributeCommand,
 };
 
+const paginators = {
+  paginateAdminListGroupsForUser,
+  paginateAdminListUserAuthEvents,
+  paginateListGroups,
+  paginateListIdentityProviders,
+  paginateListResourceServers,
+  paginateListUserPoolClients,
+  paginateListUserPools,
+  paginateListUsers,
+  paginateListUsersInGroup,
+};
+
 export interface CognitoIdentityProviderService$ {
   /**
    * @see {@link AddCustomAttributesCommand}
@@ -569,6 +606,24 @@ export interface CognitoIdentityProviderService$ {
     | ResourceNotFoundError
     | TooManyRequestsError
     | UserImportInProgressError
+  >;
+
+  /**
+   * @see {@link AddUserPoolClientSecretCommand}
+   */
+  addUserPoolClientSecret(
+    args: AddUserPoolClientSecretCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    AddUserPoolClientSecretCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | InvalidParameterError
+    | LimitExceededError
+    | ResourceNotFoundError
+    | TooManyRequestsError
   >;
 
   /**
@@ -871,6 +926,21 @@ export interface CognitoIdentityProviderService$ {
     | UserNotFoundError
   >;
 
+  adminListGroupsForUserStream(
+    args: AdminListGroupsForUserCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    AdminListGroupsForUserCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InternalError
+    | InvalidParameterError
+    | NotAuthorizedError
+    | ResourceNotFoundError
+    | TooManyRequestsError
+    | UserNotFoundError
+  >;
+
   /**
    * @see {@link AdminListUserAuthEventsCommand}
    */
@@ -878,6 +948,22 @@ export interface CognitoIdentityProviderService$ {
     args: AdminListUserAuthEventsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    AdminListUserAuthEventsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InternalError
+    | InvalidParameterError
+    | NotAuthorizedError
+    | ResourceNotFoundError
+    | TooManyRequestsError
+    | UserNotFoundError
+    | UserPoolAddOnNotEnabledError
+  >;
+
+  adminListUserAuthEventsStream(
+    args: AdminListUserAuthEventsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     AdminListUserAuthEventsCommandOutput,
     | Cause.TimeoutError
     | SdkError
@@ -1162,6 +1248,7 @@ export interface CognitoIdentityProviderService$ {
     | InvalidParameterError
     | LimitExceededError
     | NotAuthorizedError
+    | PasswordResetRequiredError
     | TooManyRequestsError
     | WebAuthnChallengeNotFoundError
     | WebAuthnClientMismatchError
@@ -1599,6 +1686,23 @@ export interface CognitoIdentityProviderService$ {
   >;
 
   /**
+   * @see {@link DeleteUserPoolClientSecretCommand}
+   */
+  deleteUserPoolClientSecret(
+    args: DeleteUserPoolClientSecretCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteUserPoolClientSecretCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InternalServerError
+    | InvalidParameterError
+    | LimitExceededError
+    | ResourceNotFoundError
+    | TooManyRequestsError
+  >;
+
+  /**
    * @see {@link DeleteUserPoolDomainCommand}
    */
   deleteUserPoolDomain(
@@ -1630,6 +1734,7 @@ export interface CognitoIdentityProviderService$ {
     | InvalidParameterError
     | LimitExceededError
     | NotAuthorizedError
+    | PasswordResetRequiredError
     | ResourceNotFoundError
     | TooManyRequestsError
   >;
@@ -2166,6 +2271,20 @@ export interface CognitoIdentityProviderService$ {
     | TooManyRequestsError
   >;
 
+  listGroupsStream(
+    args: ListGroupsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListGroupsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InternalError
+    | InvalidParameterError
+    | NotAuthorizedError
+    | ResourceNotFoundError
+    | TooManyRequestsError
+  >;
+
   /**
    * @see {@link ListIdentityProvidersCommand}
    */
@@ -2183,6 +2302,20 @@ export interface CognitoIdentityProviderService$ {
     | TooManyRequestsError
   >;
 
+  listIdentityProvidersStream(
+    args: ListIdentityProvidersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListIdentityProvidersCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InternalError
+    | InvalidParameterError
+    | NotAuthorizedError
+    | ResourceNotFoundError
+    | TooManyRequestsError
+  >;
+
   /**
    * @see {@link ListResourceServersCommand}
    */
@@ -2190,6 +2323,20 @@ export interface CognitoIdentityProviderService$ {
     args: ListResourceServersCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListResourceServersCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InternalError
+    | InvalidParameterError
+    | NotAuthorizedError
+    | ResourceNotFoundError
+    | TooManyRequestsError
+  >;
+
+  listResourceServersStream(
+    args: ListResourceServersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListResourceServersCommandOutput,
     | Cause.TimeoutError
     | SdkError
@@ -2252,12 +2399,43 @@ export interface CognitoIdentityProviderService$ {
   >;
 
   /**
+   * @see {@link ListUserPoolClientSecretsCommand}
+   */
+  listUserPoolClientSecrets(
+    args: ListUserPoolClientSecretsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListUserPoolClientSecretsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InternalServerError
+    | InvalidParameterError
+    | LimitExceededError
+    | ResourceNotFoundError
+    | TooManyRequestsError
+  >;
+
+  /**
    * @see {@link ListUserPoolClientsCommand}
    */
   listUserPoolClients(
     args: ListUserPoolClientsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListUserPoolClientsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InternalError
+    | InvalidParameterError
+    | NotAuthorizedError
+    | ResourceNotFoundError
+    | TooManyRequestsError
+  >;
+
+  listUserPoolClientsStream(
+    args: ListUserPoolClientsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListUserPoolClientsCommandOutput,
     | Cause.TimeoutError
     | SdkError
@@ -2279,6 +2457,14 @@ export interface CognitoIdentityProviderService$ {
     Cause.TimeoutError | SdkError | InternalError | InvalidParameterError | NotAuthorizedError | TooManyRequestsError
   >;
 
+  listUserPoolsStream(
+    args: ListUserPoolsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListUserPoolsCommandOutput,
+    Cause.TimeoutError | SdkError | InternalError | InvalidParameterError | NotAuthorizedError | TooManyRequestsError
+  >;
+
   /**
    * @see {@link ListUsersCommand}
    */
@@ -2286,6 +2472,20 @@ export interface CognitoIdentityProviderService$ {
     args: ListUsersCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListUsersCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InternalError
+    | InvalidParameterError
+    | NotAuthorizedError
+    | ResourceNotFoundError
+    | TooManyRequestsError
+  >;
+
+  listUsersStream(
+    args: ListUsersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListUsersCommandOutput,
     | Cause.TimeoutError
     | SdkError
@@ -2313,6 +2513,20 @@ export interface CognitoIdentityProviderService$ {
     | TooManyRequestsError
   >;
 
+  listUsersInGroupStream(
+    args: ListUsersInGroupCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListUsersInGroupCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InternalError
+    | InvalidParameterError
+    | NotAuthorizedError
+    | ResourceNotFoundError
+    | TooManyRequestsError
+  >;
+
   /**
    * @see {@link ListWebAuthnCredentialsCommand}
    */
@@ -2328,6 +2542,7 @@ export interface CognitoIdentityProviderService$ {
     | InvalidParameterError
     | LimitExceededError
     | NotAuthorizedError
+    | PasswordResetRequiredError
     | TooManyRequestsError
   >;
 
@@ -2589,6 +2804,7 @@ export interface CognitoIdentityProviderService$ {
     | InvalidParameterError
     | LimitExceededError
     | NotAuthorizedError
+    | PasswordResetRequiredError
     | TooManyRequestsError
     | WebAuthnConfigurationMissingError
     | WebAuthnNotEnabledError
@@ -2938,6 +3154,7 @@ export const makeCognitoIdentityProviderService = Effect.gen(function*() {
       errorTags: AllServiceErrors,
       resolveClientConfig: CognitoIdentityProviderServiceConfig.toCognitoIdentityProviderClientConfig,
     },
+    paginators,
   );
 });
 

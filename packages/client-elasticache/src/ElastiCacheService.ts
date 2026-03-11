@@ -202,6 +202,25 @@ import {
   ModifyUserGroupCommand,
   type ModifyUserGroupCommandInput,
   type ModifyUserGroupCommandOutput,
+  paginateDescribeCacheClusters,
+  paginateDescribeCacheEngineVersions,
+  paginateDescribeCacheParameterGroups,
+  paginateDescribeCacheParameters,
+  paginateDescribeCacheSecurityGroups,
+  paginateDescribeCacheSubnetGroups,
+  paginateDescribeEngineDefaultParameters,
+  paginateDescribeEvents,
+  paginateDescribeGlobalReplicationGroups,
+  paginateDescribeReplicationGroups,
+  paginateDescribeReservedCacheNodes,
+  paginateDescribeReservedCacheNodesOfferings,
+  paginateDescribeServerlessCaches,
+  paginateDescribeServerlessCacheSnapshots,
+  paginateDescribeServiceUpdates,
+  paginateDescribeSnapshots,
+  paginateDescribeUpdateActions,
+  paginateDescribeUserGroups,
+  paginateDescribeUsers,
   PurchaseReservedCacheNodesOfferingCommand,
   type PurchaseReservedCacheNodesOfferingCommandInput,
   type PurchaseReservedCacheNodesOfferingCommandOutput,
@@ -230,12 +249,14 @@ import {
   type TestMigrationCommandInput,
   type TestMigrationCommandOutput,
 } from "@aws-sdk/client-elasticache";
-import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
-import { Service } from "@effect-aws/commons";
+import * as Service from "@effect-aws/commons/Service";
+import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as ServiceMap from "effect/ServiceMap";
+import type * as Stream from "effect/Stream";
 import * as Instance from "./ElastiCacheClientInstance.js";
 import * as ElastiCacheServiceConfig from "./ElastiCacheServiceConfig.js";
 import type {
@@ -395,6 +416,28 @@ const commands = {
   StartMigrationCommand,
   TestFailoverCommand,
   TestMigrationCommand,
+};
+
+const paginators = {
+  paginateDescribeCacheClusters,
+  paginateDescribeCacheEngineVersions,
+  paginateDescribeCacheParameterGroups,
+  paginateDescribeCacheParameters,
+  paginateDescribeCacheSecurityGroups,
+  paginateDescribeCacheSubnetGroups,
+  paginateDescribeEngineDefaultParameters,
+  paginateDescribeEvents,
+  paginateDescribeGlobalReplicationGroups,
+  paginateDescribeReplicationGroups,
+  paginateDescribeReservedCacheNodes,
+  paginateDescribeReservedCacheNodesOfferings,
+  paginateDescribeServerlessCacheSnapshots,
+  paginateDescribeServerlessCaches,
+  paginateDescribeServiceUpdates,
+  paginateDescribeSnapshots,
+  paginateDescribeUpdateActions,
+  paginateDescribeUserGroups,
+  paginateDescribeUsers,
 };
 
 export interface ElastiCacheService$ {
@@ -985,6 +1028,18 @@ export interface ElastiCacheService$ {
     | InvalidParameterValueError
   >;
 
+  describeCacheClustersStream(
+    args: DescribeCacheClustersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeCacheClustersCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | CacheClusterNotFoundFaultError
+    | InvalidParameterCombinationError
+    | InvalidParameterValueError
+  >;
+
   /**
    * @see {@link DescribeCacheEngineVersionsCommand}
    */
@@ -996,6 +1051,11 @@ export interface ElastiCacheService$ {
     Cause.TimeoutError | SdkError
   >;
 
+  describeCacheEngineVersionsStream(
+    args: DescribeCacheEngineVersionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeCacheEngineVersionsCommandOutput, Cause.TimeoutError | SdkError>;
+
   /**
    * @see {@link DescribeCacheParameterGroupsCommand}
    */
@@ -1003,6 +1063,18 @@ export interface ElastiCacheService$ {
     args: DescribeCacheParameterGroupsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeCacheParameterGroupsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | CacheParameterGroupNotFoundFaultError
+    | InvalidParameterCombinationError
+    | InvalidParameterValueError
+  >;
+
+  describeCacheParameterGroupsStream(
+    args: DescribeCacheParameterGroupsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeCacheParameterGroupsCommandOutput,
     | Cause.TimeoutError
     | SdkError
@@ -1026,6 +1098,18 @@ export interface ElastiCacheService$ {
     | InvalidParameterValueError
   >;
 
+  describeCacheParametersStream(
+    args: DescribeCacheParametersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeCacheParametersCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | CacheParameterGroupNotFoundFaultError
+    | InvalidParameterCombinationError
+    | InvalidParameterValueError
+  >;
+
   /**
    * @see {@link DescribeCacheSecurityGroupsCommand}
    */
@@ -1033,6 +1117,18 @@ export interface ElastiCacheService$ {
     args: DescribeCacheSecurityGroupsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeCacheSecurityGroupsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | CacheSecurityGroupNotFoundFaultError
+    | InvalidParameterCombinationError
+    | InvalidParameterValueError
+  >;
+
+  describeCacheSecurityGroupsStream(
+    args: DescribeCacheSecurityGroupsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeCacheSecurityGroupsCommandOutput,
     | Cause.TimeoutError
     | SdkError
@@ -1052,6 +1148,14 @@ export interface ElastiCacheService$ {
     Cause.TimeoutError | SdkError | CacheSubnetGroupNotFoundFaultError
   >;
 
+  describeCacheSubnetGroupsStream(
+    args: DescribeCacheSubnetGroupsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeCacheSubnetGroupsCommandOutput,
+    Cause.TimeoutError | SdkError | CacheSubnetGroupNotFoundFaultError
+  >;
+
   /**
    * @see {@link DescribeEngineDefaultParametersCommand}
    */
@@ -1059,6 +1163,14 @@ export interface ElastiCacheService$ {
     args: DescribeEngineDefaultParametersCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeEngineDefaultParametersCommandOutput,
+    Cause.TimeoutError | SdkError | InvalidParameterCombinationError | InvalidParameterValueError
+  >;
+
+  describeEngineDefaultParametersStream(
+    args: DescribeEngineDefaultParametersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeEngineDefaultParametersCommandOutput,
     Cause.TimeoutError | SdkError | InvalidParameterCombinationError | InvalidParameterValueError
   >;
@@ -1074,6 +1186,14 @@ export interface ElastiCacheService$ {
     Cause.TimeoutError | SdkError | InvalidParameterCombinationError | InvalidParameterValueError
   >;
 
+  describeEventsStream(
+    args: DescribeEventsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeEventsCommandOutput,
+    Cause.TimeoutError | SdkError | InvalidParameterCombinationError | InvalidParameterValueError
+  >;
+
   /**
    * @see {@link DescribeGlobalReplicationGroupsCommand}
    */
@@ -1081,6 +1201,18 @@ export interface ElastiCacheService$ {
     args: DescribeGlobalReplicationGroupsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeGlobalReplicationGroupsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | GlobalReplicationGroupNotFoundFaultError
+    | InvalidParameterCombinationError
+    | InvalidParameterValueError
+  >;
+
+  describeGlobalReplicationGroupsStream(
+    args: DescribeGlobalReplicationGroupsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeGlobalReplicationGroupsCommandOutput,
     | Cause.TimeoutError
     | SdkError
@@ -1104,6 +1236,18 @@ export interface ElastiCacheService$ {
     | ReplicationGroupNotFoundFaultError
   >;
 
+  describeReplicationGroupsStream(
+    args: DescribeReplicationGroupsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeReplicationGroupsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InvalidParameterCombinationError
+    | InvalidParameterValueError
+    | ReplicationGroupNotFoundFaultError
+  >;
+
   /**
    * @see {@link DescribeReservedCacheNodesCommand}
    */
@@ -1119,6 +1263,18 @@ export interface ElastiCacheService$ {
     | ReservedCacheNodeNotFoundFaultError
   >;
 
+  describeReservedCacheNodesStream(
+    args: DescribeReservedCacheNodesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeReservedCacheNodesCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InvalidParameterCombinationError
+    | InvalidParameterValueError
+    | ReservedCacheNodeNotFoundFaultError
+  >;
+
   /**
    * @see {@link DescribeReservedCacheNodesOfferingsCommand}
    */
@@ -1126,6 +1282,18 @@ export interface ElastiCacheService$ {
     args: DescribeReservedCacheNodesOfferingsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeReservedCacheNodesOfferingsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InvalidParameterCombinationError
+    | InvalidParameterValueError
+    | ReservedCacheNodesOfferingNotFoundFaultError
+  >;
+
+  describeReservedCacheNodesOfferingsStream(
+    args: DescribeReservedCacheNodesOfferingsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeReservedCacheNodesOfferingsCommandOutput,
     | Cause.TimeoutError
     | SdkError
@@ -1150,6 +1318,19 @@ export interface ElastiCacheService$ {
     | ServerlessCacheSnapshotNotFoundFaultError
   >;
 
+  describeServerlessCacheSnapshotsStream(
+    args: DescribeServerlessCacheSnapshotsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeServerlessCacheSnapshotsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InvalidParameterCombinationError
+    | InvalidParameterValueError
+    | ServerlessCacheNotFoundFaultError
+    | ServerlessCacheSnapshotNotFoundFaultError
+  >;
+
   /**
    * @see {@link DescribeServerlessCachesCommand}
    */
@@ -1165,6 +1346,18 @@ export interface ElastiCacheService$ {
     | ServerlessCacheNotFoundFaultError
   >;
 
+  describeServerlessCachesStream(
+    args: DescribeServerlessCachesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeServerlessCachesCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InvalidParameterCombinationError
+    | InvalidParameterValueError
+    | ServerlessCacheNotFoundFaultError
+  >;
+
   /**
    * @see {@link DescribeServiceUpdatesCommand}
    */
@@ -1172,6 +1365,18 @@ export interface ElastiCacheService$ {
     args: DescribeServiceUpdatesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeServiceUpdatesCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InvalidParameterCombinationError
+    | InvalidParameterValueError
+    | ServiceUpdateNotFoundFaultError
+  >;
+
+  describeServiceUpdatesStream(
+    args: DescribeServiceUpdatesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeServiceUpdatesCommandOutput,
     | Cause.TimeoutError
     | SdkError
@@ -1196,6 +1401,19 @@ export interface ElastiCacheService$ {
     | SnapshotNotFoundFaultError
   >;
 
+  describeSnapshotsStream(
+    args: DescribeSnapshotsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeSnapshotsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | CacheClusterNotFoundFaultError
+    | InvalidParameterCombinationError
+    | InvalidParameterValueError
+    | SnapshotNotFoundFaultError
+  >;
+
   /**
    * @see {@link DescribeUpdateActionsCommand}
    */
@@ -1203,6 +1421,14 @@ export interface ElastiCacheService$ {
     args: DescribeUpdateActionsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeUpdateActionsCommandOutput,
+    Cause.TimeoutError | SdkError | InvalidParameterCombinationError | InvalidParameterValueError
+  >;
+
+  describeUpdateActionsStream(
+    args: DescribeUpdateActionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeUpdateActionsCommandOutput,
     Cause.TimeoutError | SdkError | InvalidParameterCombinationError | InvalidParameterValueError
   >;
@@ -1222,6 +1448,18 @@ export interface ElastiCacheService$ {
     | UserGroupNotFoundFaultError
   >;
 
+  describeUserGroupsStream(
+    args: DescribeUserGroupsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeUserGroupsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InvalidParameterCombinationError
+    | ServiceLinkedRoleNotFoundFaultError
+    | UserGroupNotFoundFaultError
+  >;
+
   /**
    * @see {@link DescribeUsersCommand}
    */
@@ -1229,6 +1467,18 @@ export interface ElastiCacheService$ {
     args: DescribeUsersCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeUsersCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InvalidParameterCombinationError
+    | ServiceLinkedRoleNotFoundFaultError
+    | UserNotFoundFaultError
+  >;
+
+  describeUsersStream(
+    args: DescribeUsersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeUsersCommandOutput,
     | Cause.TimeoutError
     | SdkError
@@ -1720,6 +1970,7 @@ export const makeElastiCacheService = Effect.gen(function*() {
       errorTags: AllServiceErrors,
       resolveClientConfig: ElastiCacheServiceConfig.toElastiCacheClientConfig,
     },
+    paginators,
   );
 });
 

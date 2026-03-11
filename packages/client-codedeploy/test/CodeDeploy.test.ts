@@ -6,8 +6,9 @@ import {
 } from "@aws-sdk/client-codedeploy";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-codedeploy/dist-cjs/runtimeConfig";
-import { CodeDeploy, CodeDeployServiceConfig } from "@effect-aws/client-codedeploy";
-import { SdkError } from "@effect-aws/commons";
+import { CodeDeployService as CodeDeploy } from "@effect-aws/client-codedeploy/CodeDeployService";
+import * as CodeDeployServiceConfig from "@effect-aws/client-codedeploy/CodeDeployServiceConfig";
+import { SdkError } from "@effect-aws/commons/Errors";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";

@@ -115,6 +115,12 @@ import {
   ListTagsForResourceCommand,
   type ListTagsForResourceCommandInput,
   type ListTagsForResourceCommandOutput,
+  paginateListApplicationRevisions,
+  paginateListApplications,
+  paginateListDeploymentConfigs,
+  paginateListDeploymentGroups,
+  paginateListDeploymentInstances,
+  paginateListDeployments,
   PutLifecycleEventHookExecutionStatusCommand,
   type PutLifecycleEventHookExecutionStatusCommandInput,
   type PutLifecycleEventHookExecutionStatusCommandOutput,
@@ -146,12 +152,14 @@ import {
   type UpdateDeploymentGroupCommandInput,
   type UpdateDeploymentGroupCommandOutput,
 } from "@aws-sdk/client-codedeploy";
-import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
-import { Service } from "@effect-aws/commons";
+import * as Service from "@effect-aws/commons/Service";
+import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as ServiceMap from "effect/ServiceMap";
+import type * as Stream from "effect/Stream";
 import * as Instance from "./CodeDeployClientInstance.js";
 import * as CodeDeployServiceConfig from "./CodeDeployServiceConfig.js";
 import type {
@@ -317,6 +325,15 @@ const commands = {
   UntagResourceCommand,
   UpdateApplicationCommand,
   UpdateDeploymentGroupCommand,
+};
+
+const paginators = {
+  paginateListApplicationRevisions,
+  paginateListApplications,
+  paginateListDeploymentConfigs,
+  paginateListDeploymentGroups,
+  paginateListDeploymentInstances,
+  paginateListDeployments,
 };
 
 export interface CodeDeployService$ {
@@ -829,6 +846,25 @@ export interface CodeDeployService$ {
     | InvalidSortOrderError
   >;
 
+  listApplicationRevisionsStream(
+    args: ListApplicationRevisionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListApplicationRevisionsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | ApplicationDoesNotExistError
+    | ApplicationNameRequiredError
+    | BucketNameFilterRequiredError
+    | InvalidApplicationNameError
+    | InvalidBucketNameFilterError
+    | InvalidDeployedStateFilterError
+    | InvalidKeyPrefixFilterError
+    | InvalidNextTokenError
+    | InvalidSortByError
+    | InvalidSortOrderError
+  >;
+
   /**
    * @see {@link ListApplicationsCommand}
    */
@@ -840,6 +876,11 @@ export interface CodeDeployService$ {
     Cause.TimeoutError | SdkError | InvalidNextTokenError
   >;
 
+  listApplicationsStream(
+    args: ListApplicationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListApplicationsCommandOutput, Cause.TimeoutError | SdkError | InvalidNextTokenError>;
+
   /**
    * @see {@link ListDeploymentConfigsCommand}
    */
@@ -850,6 +891,11 @@ export interface CodeDeployService$ {
     ListDeploymentConfigsCommandOutput,
     Cause.TimeoutError | SdkError | InvalidNextTokenError
   >;
+
+  listDeploymentConfigsStream(
+    args: ListDeploymentConfigsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListDeploymentConfigsCommandOutput, Cause.TimeoutError | SdkError | InvalidNextTokenError>;
 
   /**
    * @see {@link ListDeploymentGroupsCommand}
@@ -867,6 +913,19 @@ export interface CodeDeployService$ {
     | InvalidNextTokenError
   >;
 
+  listDeploymentGroupsStream(
+    args: ListDeploymentGroupsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListDeploymentGroupsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | ApplicationDoesNotExistError
+    | ApplicationNameRequiredError
+    | InvalidApplicationNameError
+    | InvalidNextTokenError
+  >;
+
   /**
    * @see {@link ListDeploymentInstancesCommand}
    */
@@ -874,6 +933,25 @@ export interface CodeDeployService$ {
     args: ListDeploymentInstancesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListDeploymentInstancesCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | DeploymentDoesNotExistError
+    | DeploymentIdRequiredError
+    | DeploymentNotStartedError
+    | InvalidComputePlatformError
+    | InvalidDeploymentIdError
+    | InvalidDeploymentInstanceTypeError
+    | InvalidInstanceStatusError
+    | InvalidInstanceTypeError
+    | InvalidNextTokenError
+    | InvalidTargetFilterNameError
+  >;
+
+  listDeploymentInstancesStream(
+    args: ListDeploymentInstancesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListDeploymentInstancesCommandOutput,
     | Cause.TimeoutError
     | SdkError
@@ -917,6 +995,26 @@ export interface CodeDeployService$ {
     args: ListDeploymentsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListDeploymentsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | ApplicationDoesNotExistError
+    | ApplicationNameRequiredError
+    | DeploymentGroupDoesNotExistError
+    | DeploymentGroupNameRequiredError
+    | InvalidApplicationNameError
+    | InvalidDeploymentGroupNameError
+    | InvalidDeploymentStatusError
+    | InvalidExternalIdError
+    | InvalidInputError
+    | InvalidNextTokenError
+    | InvalidTimeRangeError
+  >;
+
+  listDeploymentsStream(
+    args: ListDeploymentsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListDeploymentsCommandOutput,
     | Cause.TimeoutError
     | SdkError
@@ -1194,6 +1292,7 @@ export const makeCodeDeployService = Effect.gen(function*() {
       errorTags: AllServiceErrors,
       resolveClientConfig: CodeDeployServiceConfig.toCodeDeployClientConfig,
     },
+    paginators,
   );
 });
 

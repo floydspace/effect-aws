@@ -220,6 +220,30 @@ import {
   ListTypeVersionsCommand,
   type ListTypeVersionsCommandInput,
   type ListTypeVersionsCommandOutput,
+  paginateDescribeAccountLimits,
+  paginateDescribeChangeSet,
+  paginateDescribeEvents,
+  paginateDescribeStackEvents,
+  paginateDescribeStackResourceDrifts,
+  paginateDescribeStacks,
+  paginateListChangeSets,
+  paginateListExports,
+  paginateListGeneratedTemplates,
+  paginateListImports,
+  paginateListResourceScanRelatedResources,
+  paginateListResourceScanResources,
+  paginateListResourceScans,
+  paginateListStackInstances,
+  paginateListStackRefactorActions,
+  paginateListStackRefactors,
+  paginateListStackResources,
+  paginateListStacks,
+  paginateListStackSetOperationResults,
+  paginateListStackSetOperations,
+  paginateListStackSets,
+  paginateListTypeRegistrations,
+  paginateListTypes,
+  paginateListTypeVersions,
   PublishTypeCommand,
   type PublishTypeCommandInput,
   type PublishTypeCommandOutput,
@@ -275,12 +299,14 @@ import {
   type ValidateTemplateCommandInput,
   type ValidateTemplateCommandOutput,
 } from "@aws-sdk/client-cloudformation";
-import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
-import { Service } from "@effect-aws/commons";
+import * as Service from "@effect-aws/commons/Service";
+import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as ServiceMap from "effect/ServiceMap";
+import type * as Stream from "effect/Stream";
 import * as Instance from "./CloudFormationClientInstance.js";
 import * as CloudFormationServiceConfig from "./CloudFormationServiceConfig.js";
 import type {
@@ -408,6 +434,33 @@ const commands = {
   UpdateStackSetCommand,
   UpdateTerminationProtectionCommand,
   ValidateTemplateCommand,
+};
+
+const paginators = {
+  paginateDescribeAccountLimits,
+  paginateDescribeChangeSet,
+  paginateDescribeEvents,
+  paginateDescribeStackEvents,
+  paginateDescribeStackResourceDrifts,
+  paginateDescribeStacks,
+  paginateListChangeSets,
+  paginateListExports,
+  paginateListGeneratedTemplates,
+  paginateListImports,
+  paginateListResourceScanRelatedResources,
+  paginateListResourceScanResources,
+  paginateListResourceScans,
+  paginateListStackInstances,
+  paginateListStackRefactorActions,
+  paginateListStackRefactors,
+  paginateListStackResources,
+  paginateListStackSetOperationResults,
+  paginateListStackSetOperations,
+  paginateListStackSets,
+  paginateListStacks,
+  paginateListTypeRegistrations,
+  paginateListTypeVersions,
+  paginateListTypes,
 };
 
 export interface CloudFormationService$ {
@@ -649,6 +702,11 @@ export interface CloudFormationService$ {
     Cause.TimeoutError | SdkError
   >;
 
+  describeAccountLimitsStream(
+    args: DescribeAccountLimitsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeAccountLimitsCommandOutput, Cause.TimeoutError | SdkError>;
+
   /**
    * @see {@link DescribeChangeSetCommand}
    */
@@ -659,6 +717,11 @@ export interface CloudFormationService$ {
     DescribeChangeSetCommandOutput,
     Cause.TimeoutError | SdkError | ChangeSetNotFoundError
   >;
+
+  describeChangeSetStream(
+    args: DescribeChangeSetCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeChangeSetCommandOutput, Cause.TimeoutError | SdkError | ChangeSetNotFoundError>;
 
   /**
    * @see {@link DescribeChangeSetHooksCommand}
@@ -681,6 +744,11 @@ export interface CloudFormationService$ {
     DescribeEventsCommandOutput,
     Cause.TimeoutError | SdkError
   >;
+
+  describeEventsStream(
+    args: DescribeEventsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeEventsCommandOutput, Cause.TimeoutError | SdkError>;
 
   /**
    * @see {@link DescribeGeneratedTemplateCommand}
@@ -748,6 +816,11 @@ export interface CloudFormationService$ {
     Cause.TimeoutError | SdkError
   >;
 
+  describeStackEventsStream(
+    args: DescribeStackEventsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeStackEventsCommandOutput, Cause.TimeoutError | SdkError>;
+
   /**
    * @see {@link DescribeStackInstanceCommand}
    */
@@ -792,6 +865,11 @@ export interface CloudFormationService$ {
     Cause.TimeoutError | SdkError
   >;
 
+  describeStackResourceDriftsStream(
+    args: DescribeStackResourceDriftsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeStackResourceDriftsCommandOutput, Cause.TimeoutError | SdkError>;
+
   /**
    * @see {@link DescribeStackResourcesCommand}
    */
@@ -835,6 +913,11 @@ export interface CloudFormationService$ {
     DescribeStacksCommandOutput,
     Cause.TimeoutError | SdkError
   >;
+
+  describeStacksStream(
+    args: DescribeStacksCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeStacksCommandOutput, Cause.TimeoutError | SdkError>;
 
   /**
    * @see {@link DescribeTypeCommand}
@@ -1014,6 +1097,11 @@ export interface CloudFormationService$ {
     Cause.TimeoutError | SdkError
   >;
 
+  listChangeSetsStream(
+    args: ListChangeSetsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListChangeSetsCommandOutput, Cause.TimeoutError | SdkError>;
+
   /**
    * @see {@link ListExportsCommand}
    */
@@ -1025,6 +1113,11 @@ export interface CloudFormationService$ {
     Cause.TimeoutError | SdkError
   >;
 
+  listExportsStream(
+    args: ListExportsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListExportsCommandOutput, Cause.TimeoutError | SdkError>;
+
   /**
    * @see {@link ListGeneratedTemplatesCommand}
    */
@@ -1035,6 +1128,11 @@ export interface CloudFormationService$ {
     ListGeneratedTemplatesCommandOutput,
     Cause.TimeoutError | SdkError
   >;
+
+  listGeneratedTemplatesStream(
+    args: ListGeneratedTemplatesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListGeneratedTemplatesCommandOutput, Cause.TimeoutError | SdkError>;
 
   /**
    * @see {@link ListHookResultsCommand}
@@ -1058,6 +1156,11 @@ export interface CloudFormationService$ {
     Cause.TimeoutError | SdkError
   >;
 
+  listImportsStream(
+    args: ListImportsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListImportsCommandOutput, Cause.TimeoutError | SdkError>;
+
   /**
    * @see {@link ListResourceScanRelatedResourcesCommand}
    */
@@ -1065,6 +1168,14 @@ export interface CloudFormationService$ {
     args: ListResourceScanRelatedResourcesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListResourceScanRelatedResourcesCommandOutput,
+    Cause.TimeoutError | SdkError | ResourceScanInProgressError | ResourceScanNotFoundError
+  >;
+
+  listResourceScanRelatedResourcesStream(
+    args: ListResourceScanRelatedResourcesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListResourceScanRelatedResourcesCommandOutput,
     Cause.TimeoutError | SdkError | ResourceScanInProgressError | ResourceScanNotFoundError
   >;
@@ -1080,6 +1191,14 @@ export interface CloudFormationService$ {
     Cause.TimeoutError | SdkError | ResourceScanInProgressError | ResourceScanNotFoundError
   >;
 
+  listResourceScanResourcesStream(
+    args: ListResourceScanResourcesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListResourceScanResourcesCommandOutput,
+    Cause.TimeoutError | SdkError | ResourceScanInProgressError | ResourceScanNotFoundError
+  >;
+
   /**
    * @see {@link ListResourceScansCommand}
    */
@@ -1090,6 +1209,11 @@ export interface CloudFormationService$ {
     ListResourceScansCommandOutput,
     Cause.TimeoutError | SdkError
   >;
+
+  listResourceScansStream(
+    args: ListResourceScansCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListResourceScansCommandOutput, Cause.TimeoutError | SdkError>;
 
   /**
    * @see {@link ListStackInstanceResourceDriftsCommand}
@@ -1113,6 +1237,11 @@ export interface CloudFormationService$ {
     Cause.TimeoutError | SdkError | StackSetNotFoundError
   >;
 
+  listStackInstancesStream(
+    args: ListStackInstancesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListStackInstancesCommandOutput, Cause.TimeoutError | SdkError | StackSetNotFoundError>;
+
   /**
    * @see {@link ListStackRefactorActionsCommand}
    */
@@ -1123,6 +1252,11 @@ export interface CloudFormationService$ {
     ListStackRefactorActionsCommandOutput,
     Cause.TimeoutError | SdkError
   >;
+
+  listStackRefactorActionsStream(
+    args: ListStackRefactorActionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListStackRefactorActionsCommandOutput, Cause.TimeoutError | SdkError>;
 
   /**
    * @see {@link ListStackRefactorsCommand}
@@ -1135,6 +1269,11 @@ export interface CloudFormationService$ {
     Cause.TimeoutError | SdkError
   >;
 
+  listStackRefactorsStream(
+    args: ListStackRefactorsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListStackRefactorsCommandOutput, Cause.TimeoutError | SdkError>;
+
   /**
    * @see {@link ListStackResourcesCommand}
    */
@@ -1145,6 +1284,11 @@ export interface CloudFormationService$ {
     ListStackResourcesCommandOutput,
     Cause.TimeoutError | SdkError
   >;
+
+  listStackResourcesStream(
+    args: ListStackResourcesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListStackResourcesCommandOutput, Cause.TimeoutError | SdkError>;
 
   /**
    * @see {@link ListStackSetAutoDeploymentTargetsCommand}
@@ -1168,6 +1312,14 @@ export interface CloudFormationService$ {
     Cause.TimeoutError | SdkError | OperationNotFoundError | StackSetNotFoundError
   >;
 
+  listStackSetOperationResultsStream(
+    args: ListStackSetOperationResultsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListStackSetOperationResultsCommandOutput,
+    Cause.TimeoutError | SdkError | OperationNotFoundError | StackSetNotFoundError
+  >;
+
   /**
    * @see {@link ListStackSetOperationsCommand}
    */
@@ -1178,6 +1330,11 @@ export interface CloudFormationService$ {
     ListStackSetOperationsCommandOutput,
     Cause.TimeoutError | SdkError | StackSetNotFoundError
   >;
+
+  listStackSetOperationsStream(
+    args: ListStackSetOperationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListStackSetOperationsCommandOutput, Cause.TimeoutError | SdkError | StackSetNotFoundError>;
 
   /**
    * @see {@link ListStackSetsCommand}
@@ -1190,6 +1347,11 @@ export interface CloudFormationService$ {
     Cause.TimeoutError | SdkError
   >;
 
+  listStackSetsStream(
+    args: ListStackSetsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListStackSetsCommandOutput, Cause.TimeoutError | SdkError>;
+
   /**
    * @see {@link ListStacksCommand}
    */
@@ -1200,6 +1362,11 @@ export interface CloudFormationService$ {
     ListStacksCommandOutput,
     Cause.TimeoutError | SdkError
   >;
+
+  listStacksStream(
+    args: ListStacksCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListStacksCommandOutput, Cause.TimeoutError | SdkError>;
 
   /**
    * @see {@link ListTypeRegistrationsCommand}
@@ -1212,6 +1379,11 @@ export interface CloudFormationService$ {
     Cause.TimeoutError | SdkError | CFNRegistryError
   >;
 
+  listTypeRegistrationsStream(
+    args: ListTypeRegistrationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListTypeRegistrationsCommandOutput, Cause.TimeoutError | SdkError | CFNRegistryError>;
+
   /**
    * @see {@link ListTypeVersionsCommand}
    */
@@ -1223,6 +1395,11 @@ export interface CloudFormationService$ {
     Cause.TimeoutError | SdkError | CFNRegistryError
   >;
 
+  listTypeVersionsStream(
+    args: ListTypeVersionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListTypeVersionsCommandOutput, Cause.TimeoutError | SdkError | CFNRegistryError>;
+
   /**
    * @see {@link ListTypesCommand}
    */
@@ -1233,6 +1410,11 @@ export interface CloudFormationService$ {
     ListTypesCommandOutput,
     Cause.TimeoutError | SdkError | CFNRegistryError
   >;
+
+  listTypesStream(
+    args: ListTypesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListTypesCommandOutput, Cause.TimeoutError | SdkError | CFNRegistryError>;
 
   /**
    * @see {@link PublishTypeCommand}
@@ -1461,6 +1643,7 @@ export const makeCloudFormationService = Effect.gen(function*() {
       errorTags: AllServiceErrors,
       resolveClientConfig: CloudFormationServiceConfig.toCloudFormationClientConfig,
     },
+    paginators,
   );
 });
 

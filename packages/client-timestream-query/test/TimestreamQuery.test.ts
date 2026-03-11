@@ -6,8 +6,9 @@ import {
 } from "@aws-sdk/client-timestream-query";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-timestream-query/dist-cjs/runtimeConfig";
-import { TimestreamQuery, TimestreamQueryServiceConfig } from "@effect-aws/client-timestream-query";
-import { SdkError } from "@effect-aws/commons";
+import { TimestreamQueryService as TimestreamQuery } from "@effect-aws/client-timestream-query/TimestreamQueryService";
+import * as TimestreamQueryServiceConfig from "@effect-aws/client-timestream-query/TimestreamQueryServiceConfig";
+import { SdkError } from "@effect-aws/commons/Errors";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";

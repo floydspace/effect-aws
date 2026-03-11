@@ -1,7 +1,7 @@
 /**
  * @since 1.0.0
  */
-import { SSMService } from "@effect-aws/client-ssm";
+import { SSMService } from "@effect-aws/client-ssm/SSMService";
 import * as Array from "effect/Array";
 import * as ConfigProvider from "effect/ConfigProvider";
 import * as Effect from "effect/Effect";

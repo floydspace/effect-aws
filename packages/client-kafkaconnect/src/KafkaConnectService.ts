@@ -49,6 +49,10 @@ import {
   ListWorkerConfigurationsCommand,
   type ListWorkerConfigurationsCommandInput,
   type ListWorkerConfigurationsCommandOutput,
+  paginateListConnectorOperations,
+  paginateListConnectors,
+  paginateListCustomPlugins,
+  paginateListWorkerConfigurations,
   TagResourceCommand,
   type TagResourceCommandInput,
   type TagResourceCommandOutput,
@@ -59,12 +63,14 @@ import {
   type UpdateConnectorCommandInput,
   type UpdateConnectorCommandOutput,
 } from "@aws-sdk/client-kafkaconnect";
-import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
-import { Service } from "@effect-aws/commons";
+import * as Service from "@effect-aws/commons/Service";
+import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as ServiceMap from "effect/ServiceMap";
+import type * as Stream from "effect/Stream";
 import type {
   BadRequestError,
   ConflictError,
@@ -99,6 +105,13 @@ const commands = {
   TagResourceCommand,
   UntagResourceCommand,
   UpdateConnectorCommand,
+};
+
+const paginators = {
+  paginateListConnectorOperations,
+  paginateListConnectors,
+  paginateListCustomPlugins,
+  paginateListWorkerConfigurations,
 };
 
 export interface KafkaConnectService$ {
@@ -314,6 +327,22 @@ export interface KafkaConnectService$ {
     | UnauthorizedError
   >;
 
+  listConnectorOperationsStream(
+    args: ListConnectorOperationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListConnectorOperationsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | BadRequestError
+    | ForbiddenError
+    | InternalServerError
+    | NotFoundError
+    | ServiceUnavailableError
+    | TooManyRequestsError
+    | UnauthorizedError
+  >;
+
   /**
    * @see {@link ListConnectorsCommand}
    */
@@ -333,6 +362,22 @@ export interface KafkaConnectService$ {
     | UnauthorizedError
   >;
 
+  listConnectorsStream(
+    args: ListConnectorsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListConnectorsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | BadRequestError
+    | ForbiddenError
+    | InternalServerError
+    | NotFoundError
+    | ServiceUnavailableError
+    | TooManyRequestsError
+    | UnauthorizedError
+  >;
+
   /**
    * @see {@link ListCustomPluginsCommand}
    */
@@ -340,6 +385,22 @@ export interface KafkaConnectService$ {
     args: ListCustomPluginsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListCustomPluginsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | BadRequestError
+    | ForbiddenError
+    | InternalServerError
+    | NotFoundError
+    | ServiceUnavailableError
+    | TooManyRequestsError
+    | UnauthorizedError
+  >;
+
+  listCustomPluginsStream(
+    args: ListCustomPluginsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListCustomPluginsCommandOutput,
     | Cause.TimeoutError
     | SdkError
@@ -378,6 +439,22 @@ export interface KafkaConnectService$ {
     args: ListWorkerConfigurationsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListWorkerConfigurationsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | BadRequestError
+    | ForbiddenError
+    | InternalServerError
+    | NotFoundError
+    | ServiceUnavailableError
+    | TooManyRequestsError
+    | UnauthorizedError
+  >;
+
+  listWorkerConfigurationsStream(
+    args: ListWorkerConfigurationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListWorkerConfigurationsCommandOutput,
     | Cause.TimeoutError
     | SdkError
@@ -463,6 +540,7 @@ export const makeKafkaConnectService = Effect.gen(function*() {
       errorTags: AllServiceErrors,
       resolveClientConfig: KafkaConnectServiceConfig.toKafkaConnectClientConfig,
     },
+    paginators,
   );
 });
 

@@ -118,6 +118,12 @@ import {
   ListTagsOfResourceCommand,
   type ListTagsOfResourceCommandInput,
   type ListTagsOfResourceCommandOutput,
+  paginateListContributorInsights,
+  paginateListExports,
+  paginateListImports,
+  paginateListTables,
+  paginateQuery,
+  paginateScan,
   PutItemCommand,
   type PutItemCommandInput,
   type PutItemCommandOutput,
@@ -176,12 +182,14 @@ import {
   type UpdateTimeToLiveCommandInput,
   type UpdateTimeToLiveCommandOutput,
 } from "@aws-sdk/client-dynamodb";
-import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
-import { Service } from "@effect-aws/commons";
+import * as Service from "@effect-aws/commons/Service";
+import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as ServiceMap from "effect/ServiceMap";
+import type * as Stream from "effect/Stream";
 import * as Instance from "./DynamoDBClientInstance.js";
 import * as DynamoDBServiceConfig from "./DynamoDBServiceConfig.js";
 import type {
@@ -282,6 +290,15 @@ const commands = {
   UpdateTableCommand,
   UpdateTableReplicaAutoScalingCommand,
   UpdateTimeToLiveCommand,
+};
+
+const paginators = {
+  paginateListContributorInsights,
+  paginateListExports,
+  paginateListImports,
+  paginateListTables,
+  paginateQuery,
+  paginateScan,
 };
 
 export interface DynamoDBService$ {
@@ -758,6 +775,14 @@ export interface DynamoDBService$ {
     Cause.TimeoutError | SdkError | InternalServerError | ResourceNotFoundError
   >;
 
+  listContributorInsightsStream(
+    args: ListContributorInsightsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListContributorInsightsCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServerError | ResourceNotFoundError
+  >;
+
   /**
    * @see {@link ListExportsCommand}
    */
@@ -768,6 +793,11 @@ export interface DynamoDBService$ {
     ListExportsCommandOutput,
     Cause.TimeoutError | SdkError | InternalServerError | LimitExceededError
   >;
+
+  listExportsStream(
+    args: ListExportsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListExportsCommandOutput, Cause.TimeoutError | SdkError | InternalServerError | LimitExceededError>;
 
   /**
    * @see {@link ListGlobalTablesCommand}
@@ -791,6 +821,11 @@ export interface DynamoDBService$ {
     Cause.TimeoutError | SdkError | LimitExceededError
   >;
 
+  listImportsStream(
+    args: ListImportsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListImportsCommandOutput, Cause.TimeoutError | SdkError | LimitExceededError>;
+
   /**
    * @see {@link ListTablesCommand}
    */
@@ -801,6 +836,11 @@ export interface DynamoDBService$ {
     ListTablesCommandOutput,
     Cause.TimeoutError | SdkError | InternalServerError | InvalidEndpointError
   >;
+
+  listTablesStream(
+    args: ListTablesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListTablesCommandOutput, Cause.TimeoutError | SdkError | InternalServerError | InvalidEndpointError>;
 
   /**
    * @see {@link ListTagsOfResourceCommand}
@@ -871,6 +911,21 @@ export interface DynamoDBService$ {
     | ThrottlingError
   >;
 
+  queryStream(
+    args: QueryCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    QueryCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InternalServerError
+    | InvalidEndpointError
+    | ProvisionedThroughputExceededError
+    | RequestLimitExceededError
+    | ResourceNotFoundError
+    | ThrottlingError
+  >;
+
   /**
    * @see {@link RestoreTableFromBackupCommand}
    */
@@ -917,6 +972,21 @@ export interface DynamoDBService$ {
     args: ScanCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ScanCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InternalServerError
+    | InvalidEndpointError
+    | ProvisionedThroughputExceededError
+    | RequestLimitExceededError
+    | ResourceNotFoundError
+    | ThrottlingError
+  >;
+
+  scanStream(
+    args: ScanCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ScanCommandOutput,
     | Cause.TimeoutError
     | SdkError
@@ -1170,6 +1240,7 @@ export const makeDynamoDBService = Effect.gen(function*() {
       errorTags: AllServiceErrors,
       resolveClientConfig: DynamoDBServiceConfig.toDynamoDBClientConfig,
     },
+    paginators,
   );
 });
 

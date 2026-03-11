@@ -124,6 +124,18 @@ import {
   LookupEventsCommand,
   type LookupEventsCommandInput,
   type LookupEventsCommandOutput,
+  paginateGetQueryResults,
+  paginateListChannels,
+  paginateListEventDataStores,
+  paginateListImportFailures,
+  paginateListImports,
+  paginateListInsightsData,
+  paginateListInsightsMetricData,
+  paginateListPublicKeys,
+  paginateListQueries,
+  paginateListTags,
+  paginateListTrails,
+  paginateLookupEvents,
   PutEventConfigurationCommand,
   type PutEventConfigurationCommandInput,
   type PutEventConfigurationCommandOutput,
@@ -185,12 +197,14 @@ import {
   type UpdateTrailCommandInput,
   type UpdateTrailCommandOutput,
 } from "@aws-sdk/client-cloudtrail";
-import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
-import { Service } from "@effect-aws/commons";
+import * as Service from "@effect-aws/commons/Service";
+import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as ServiceMap from "effect/ServiceMap";
+import type * as Stream from "effect/Stream";
 import * as Instance from "./CloudTrailClientInstance.js";
 import * as CloudTrailServiceConfig from "./CloudTrailServiceConfig.js";
 import type {
@@ -345,6 +359,21 @@ const commands = {
   UpdateDashboardCommand,
   UpdateEventDataStoreCommand,
   UpdateTrailCommand,
+};
+
+const paginators = {
+  paginateGetQueryResults,
+  paginateListChannels,
+  paginateListEventDataStores,
+  paginateListImportFailures,
+  paginateListImports,
+  paginateListInsightsData,
+  paginateListInsightsMetricData,
+  paginateListPublicKeys,
+  paginateListQueries,
+  paginateListTags,
+  paginateListTrails,
+  paginateLookupEvents,
 };
 
 export interface CloudTrailService$ {
@@ -894,6 +923,26 @@ export interface CloudTrailService$ {
     | UnsupportedOperationError
   >;
 
+  getQueryResultsStream(
+    args: GetQueryResultsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    GetQueryResultsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | EventDataStoreARNInvalidError
+    | EventDataStoreNotFoundError
+    | InactiveEventDataStoreError
+    | InsufficientEncryptionPolicyError
+    | InvalidMaxResultsError
+    | InvalidNextTokenError
+    | InvalidParameterError
+    | NoManagementAccountSLRExistsError
+    | OperationNotPermittedError
+    | QueryIdNotFoundError
+    | UnsupportedOperationError
+  >;
+
   /**
    * @see {@link GetResourcePolicyCommand}
    */
@@ -957,6 +1006,14 @@ export interface CloudTrailService$ {
     Cause.TimeoutError | SdkError | InvalidNextTokenError | OperationNotPermittedError | UnsupportedOperationError
   >;
 
+  listChannelsStream(
+    args: ListChannelsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListChannelsCommandOutput,
+    Cause.TimeoutError | SdkError | InvalidNextTokenError | OperationNotPermittedError | UnsupportedOperationError
+  >;
+
   /**
    * @see {@link ListDashboardsCommand}
    */
@@ -985,6 +1042,20 @@ export interface CloudTrailService$ {
     | UnsupportedOperationError
   >;
 
+  listEventDataStoresStream(
+    args: ListEventDataStoresCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListEventDataStoresCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InvalidMaxResultsError
+    | InvalidNextTokenError
+    | NoManagementAccountSLRExistsError
+    | OperationNotPermittedError
+    | UnsupportedOperationError
+  >;
+
   /**
    * @see {@link ListImportFailuresCommand}
    */
@@ -992,6 +1063,19 @@ export interface CloudTrailService$ {
     args: ListImportFailuresCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListImportFailuresCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InvalidNextTokenError
+    | InvalidParameterError
+    | OperationNotPermittedError
+    | UnsupportedOperationError
+  >;
+
+  listImportFailuresStream(
+    args: ListImportFailuresCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListImportFailuresCommandOutput,
     | Cause.TimeoutError
     | SdkError
@@ -1018,6 +1102,20 @@ export interface CloudTrailService$ {
     | UnsupportedOperationError
   >;
 
+  listImportsStream(
+    args: ListImportsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListImportsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | EventDataStoreARNInvalidError
+    | InvalidNextTokenError
+    | InvalidParameterError
+    | OperationNotPermittedError
+    | UnsupportedOperationError
+  >;
+
   /**
    * @see {@link ListInsightsDataCommand}
    */
@@ -1029,6 +1127,14 @@ export interface CloudTrailService$ {
     Cause.TimeoutError | SdkError | InvalidParameterError | OperationNotPermittedError | UnsupportedOperationError
   >;
 
+  listInsightsDataStream(
+    args: ListInsightsDataCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListInsightsDataCommandOutput,
+    Cause.TimeoutError | SdkError | InvalidParameterError | OperationNotPermittedError | UnsupportedOperationError
+  >;
+
   /**
    * @see {@link ListInsightsMetricDataCommand}
    */
@@ -1036,6 +1142,19 @@ export interface CloudTrailService$ {
     args: ListInsightsMetricDataCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListInsightsMetricDataCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InvalidParameterError
+    | InvalidTrailNameError
+    | OperationNotPermittedError
+    | UnsupportedOperationError
+  >;
+
+  listInsightsMetricDataStream(
+    args: ListInsightsMetricDataCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListInsightsMetricDataCommandOutput,
     | Cause.TimeoutError
     | SdkError
@@ -1061,6 +1180,19 @@ export interface CloudTrailService$ {
     | UnsupportedOperationError
   >;
 
+  listPublicKeysStream(
+    args: ListPublicKeysCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListPublicKeysCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InvalidTimeRangeError
+    | InvalidTokenError
+    | OperationNotPermittedError
+    | UnsupportedOperationError
+  >;
+
   /**
    * @see {@link ListQueriesCommand}
    */
@@ -1068,6 +1200,26 @@ export interface CloudTrailService$ {
     args: ListQueriesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListQueriesCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | EventDataStoreARNInvalidError
+    | EventDataStoreNotFoundError
+    | InactiveEventDataStoreError
+    | InvalidDateRangeError
+    | InvalidMaxResultsError
+    | InvalidNextTokenError
+    | InvalidParameterError
+    | InvalidQueryStatusError
+    | NoManagementAccountSLRExistsError
+    | OperationNotPermittedError
+    | UnsupportedOperationError
+  >;
+
+  listQueriesStream(
+    args: ListQueriesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListQueriesCommandOutput,
     | Cause.TimeoutError
     | SdkError
@@ -1108,6 +1260,27 @@ export interface CloudTrailService$ {
     | UnsupportedOperationError
   >;
 
+  listTagsStream(
+    args: ListTagsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListTagsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | ChannelARNInvalidError
+    | CloudTrailARNInvalidError
+    | EventDataStoreARNInvalidError
+    | EventDataStoreNotFoundError
+    | InactiveEventDataStoreError
+    | InvalidTokenError
+    | InvalidTrailNameError
+    | NoManagementAccountSLRExistsError
+    | OperationNotPermittedError
+    | ResourceNotFoundError
+    | ResourceTypeNotSupportedError
+    | UnsupportedOperationError
+  >;
+
   /**
    * @see {@link ListTrailsCommand}
    */
@@ -1119,6 +1292,14 @@ export interface CloudTrailService$ {
     Cause.TimeoutError | SdkError | OperationNotPermittedError | UnsupportedOperationError
   >;
 
+  listTrailsStream(
+    args: ListTrailsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListTrailsCommandOutput,
+    Cause.TimeoutError | SdkError | OperationNotPermittedError | UnsupportedOperationError
+  >;
+
   /**
    * @see {@link LookupEventsCommand}
    */
@@ -1126,6 +1307,22 @@ export interface CloudTrailService$ {
     args: LookupEventsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    LookupEventsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InvalidEventCategoryError
+    | InvalidLookupAttributesError
+    | InvalidMaxResultsError
+    | InvalidNextTokenError
+    | InvalidTimeRangeError
+    | OperationNotPermittedError
+    | UnsupportedOperationError
+  >;
+
+  lookupEventsStream(
+    args: LookupEventsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     LookupEventsCommandOutput,
     | Cause.TimeoutError
     | SdkError
@@ -1640,6 +1837,7 @@ export const makeCloudTrailService = Effect.gen(function*() {
       errorTags: AllServiceErrors,
       resolveClientConfig: CloudTrailServiceConfig.toCloudTrailClientConfig,
     },
+    paginators,
   );
 });
 

@@ -1,4 +1,5 @@
 import { type HttpHandlerOptions, Service } from "@effect-aws/commons";
+import { createPaginator } from "@smithy/core";
 import { Command } from "@smithy/smithy-client";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
@@ -12,6 +13,10 @@ const commands = {
   UndefinedCommand: undefined,
 } as unknown as Record<string, Service.CommandCtor<any>>;
 
+const paginators: Record<string, Service.PaginatorCtor<any>> = {
+  paginateTestCommand: createPaginator(Instance.TestClient, commands.TestCommand, "inputToken", "outputToken"),
+};
+
 export interface TestService$ {
   test(args: any, options?: HttpHandlerOptions): Effect.Effect<any>;
 }
@@ -23,6 +28,7 @@ export const makeTestService = Effect.gen(function*() {
     client,
     commands,
     { resolveClientConfig: TestServiceConfig.toTestClientConfig },
+    paginators,
   );
 });
 

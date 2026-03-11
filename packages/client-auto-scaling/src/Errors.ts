@@ -11,7 +11,7 @@ import type {
   ScalingActivityInProgressFault,
   ServiceLinkedRoleFailure,
 } from "@aws-sdk/client-auto-scaling";
-import type { TaggedException } from "@effect-aws/commons";
+import type { TaggedException } from "@effect-aws/commons/Errors";
 
 export const AllServiceErrors = [
   "ActiveInstanceRefreshNotFoundFault",

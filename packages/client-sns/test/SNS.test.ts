@@ -1,8 +1,9 @@
 import { PublishCommand, type PublishCommandInput, SNSClient, SNSServiceException } from "@aws-sdk/client-sns";
 // @ts-ignore
 import * as runtimeConfig from "@aws-sdk/client-sns/dist-cjs/runtimeConfig";
-import { SNS, SNSServiceConfig } from "@effect-aws/client-sns";
-import { SdkError } from "@effect-aws/commons";
+import { SNSService as SNS } from "@effect-aws/client-sns/SNSService";
+import * as SNSServiceConfig from "@effect-aws/client-sns/SNSServiceConfig";
+import { SdkError } from "@effect-aws/commons/Errors";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";

@@ -241,6 +241,7 @@ import {
   ListRoutingRulesCommand,
   type ListRoutingRulesCommandInput,
   type ListRoutingRulesCommandOutput,
+  paginateListRoutingRules,
   PreviewPortalCommand,
   type PreviewPortalCommandInput,
   type PreviewPortalCommandOutput,
@@ -314,12 +315,14 @@ import {
   type UpdateVpcLinkCommandInput,
   type UpdateVpcLinkCommandOutput,
 } from "@aws-sdk/client-apigatewayv2";
-import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
-import { Service } from "@effect-aws/commons";
+import * as Service from "@effect-aws/commons/Service";
+import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as ServiceMap from "effect/ServiceMap";
+import type * as Stream from "effect/Stream";
 import * as Instance from "./ApiGatewayV2ClientInstance.js";
 import * as ApiGatewayV2ServiceConfig from "./ApiGatewayV2ServiceConfig.js";
 import type {
@@ -436,6 +439,10 @@ const commands = {
   UpdateRouteResponseCommand,
   UpdateStageCommand,
   UpdateVpcLinkCommand,
+};
+
+const paginators = {
+  paginateListRoutingRules,
 };
 
 export interface ApiGatewayV2Service$ {
@@ -1320,6 +1327,14 @@ export interface ApiGatewayV2Service$ {
     Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
+  listRoutingRulesStream(
+    args: ListRoutingRulesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListRoutingRulesCommandOutput,
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+  >;
+
   /**
    * @see {@link PreviewPortalCommand}
    */
@@ -1617,6 +1632,7 @@ export const makeApiGatewayV2Service = Effect.gen(function*() {
       errorTags: AllServiceErrors,
       resolveClientConfig: ApiGatewayV2ServiceConfig.toApiGatewayV2ClientConfig,
     },
+    paginators,
   );
 });
 

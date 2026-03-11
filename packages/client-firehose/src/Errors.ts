@@ -8,7 +8,7 @@ import type {
   ResourceNotFoundException,
   ServiceUnavailableException,
 } from "@aws-sdk/client-firehose";
-import type { TaggedException } from "@effect-aws/commons";
+import type { TaggedException } from "@effect-aws/commons/Errors";
 
 export const AllServiceErrors = [
   "ConcurrentModificationException",

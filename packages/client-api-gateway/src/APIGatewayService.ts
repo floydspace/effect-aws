@@ -277,6 +277,18 @@ import {
   ImportRestApiCommand,
   type ImportRestApiCommandInput,
   type ImportRestApiCommandOutput,
+  paginateGetApiKeys,
+  paginateGetBasePathMappings,
+  paginateGetClientCertificates,
+  paginateGetDeployments,
+  paginateGetDomainNames,
+  paginateGetModels,
+  paginateGetResources,
+  paginateGetRestApis,
+  paginateGetUsage,
+  paginateGetUsagePlanKeys,
+  paginateGetUsagePlans,
+  paginateGetVpcLinks,
   PutGatewayResponseCommand,
   type PutGatewayResponseCommandInput,
   type PutGatewayResponseCommandOutput,
@@ -377,12 +389,14 @@ import {
   type UpdateVpcLinkCommandInput,
   type UpdateVpcLinkCommandOutput,
 } from "@aws-sdk/client-api-gateway";
-import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
-import { Service } from "@effect-aws/commons";
+import * as Service from "@effect-aws/commons/Service";
+import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as ServiceMap from "effect/ServiceMap";
+import type * as Stream from "effect/Stream";
 import * as Instance from "./APIGatewayClientInstance.js";
 import * as APIGatewayServiceConfig from "./APIGatewayServiceConfig.js";
 import type {
@@ -522,6 +536,21 @@ const commands = {
   UpdateUsageCommand,
   UpdateUsagePlanCommand,
   UpdateVpcLinkCommand,
+};
+
+const paginators = {
+  paginateGetApiKeys,
+  paginateGetBasePathMappings,
+  paginateGetClientCertificates,
+  paginateGetDeployments,
+  paginateGetDomainNames,
+  paginateGetModels,
+  paginateGetResources,
+  paginateGetRestApis,
+  paginateGetUsage,
+  paginateGetUsagePlanKeys,
+  paginateGetUsagePlans,
+  paginateGetVpcLinks,
 };
 
 export interface APIGatewayService$ {
@@ -1266,6 +1295,14 @@ export interface APIGatewayService$ {
     Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
+  getApiKeysStream(
+    args: GetApiKeysCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    GetApiKeysCommandOutput,
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+  >;
+
   /**
    * @see {@link GetAuthorizerCommand}
    */
@@ -1310,6 +1347,14 @@ export interface APIGatewayService$ {
     Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
+  getBasePathMappingsStream(
+    args: GetBasePathMappingsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    GetBasePathMappingsCommandOutput,
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+  >;
+
   /**
    * @see {@link GetClientCertificateCommand}
    */
@@ -1328,6 +1373,14 @@ export interface APIGatewayService$ {
     args: GetClientCertificatesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    GetClientCertificatesCommandOutput,
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+  >;
+
+  getClientCertificatesStream(
+    args: GetClientCertificatesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     GetClientCertificatesCommandOutput,
     Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
@@ -1356,6 +1409,20 @@ export interface APIGatewayService$ {
     args: GetDeploymentsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    GetDeploymentsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | BadRequestError
+    | NotFoundError
+    | ServiceUnavailableError
+    | TooManyRequestsError
+    | UnauthorizedError
+  >;
+
+  getDeploymentsStream(
+    args: GetDeploymentsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     GetDeploymentsCommandOutput,
     | Cause.TimeoutError
     | SdkError
@@ -1439,6 +1506,14 @@ export interface APIGatewayService$ {
     args: GetDomainNamesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    GetDomainNamesCommandOutput,
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+  >;
+
+  getDomainNamesStream(
+    args: GetDomainNamesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     GetDomainNamesCommandOutput,
     Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
@@ -1560,6 +1635,14 @@ export interface APIGatewayService$ {
     Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
+  getModelsStream(
+    args: GetModelsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    GetModelsCommandOutput,
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+  >;
+
   /**
    * @see {@link GetRequestValidatorCommand}
    */
@@ -1604,6 +1687,14 @@ export interface APIGatewayService$ {
     Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
+  getResourcesStream(
+    args: GetResourcesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    GetResourcesCommandOutput,
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+  >;
+
   /**
    * @see {@link GetRestApiCommand}
    */
@@ -1622,6 +1713,14 @@ export interface APIGatewayService$ {
     args: GetRestApisCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    GetRestApisCommandOutput,
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+  >;
+
+  getRestApisStream(
+    args: GetRestApisCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     GetRestApisCommandOutput,
     Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
@@ -1724,6 +1823,14 @@ export interface APIGatewayService$ {
     Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
+  getUsageStream(
+    args: GetUsageCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    GetUsageCommandOutput,
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+  >;
+
   /**
    * @see {@link GetUsagePlanCommand}
    */
@@ -1757,6 +1864,14 @@ export interface APIGatewayService$ {
     Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
+  getUsagePlanKeysStream(
+    args: GetUsagePlanKeysCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    GetUsagePlanKeysCommandOutput,
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+  >;
+
   /**
    * @see {@link GetUsagePlansCommand}
    */
@@ -1764,6 +1879,14 @@ export interface APIGatewayService$ {
     args: GetUsagePlansCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    GetUsagePlansCommandOutput,
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+  >;
+
+  getUsagePlansStream(
+    args: GetUsagePlansCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     GetUsagePlansCommandOutput,
     Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
@@ -1786,6 +1909,14 @@ export interface APIGatewayService$ {
     args: GetVpcLinksCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    GetVpcLinksCommandOutput,
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+  >;
+
+  getVpcLinksStream(
+    args: GetVpcLinksCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     GetVpcLinksCommandOutput,
     Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
@@ -2437,6 +2568,7 @@ export const makeAPIGatewayService = Effect.gen(function*() {
       errorTags: AllServiceErrors,
       resolveClientConfig: APIGatewayServiceConfig.toAPIGatewayClientConfig,
     },
+    paginators,
   );
 });
 

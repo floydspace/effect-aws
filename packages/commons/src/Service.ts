@@ -3,7 +3,15 @@
  */
 import type { CommandImpl, SmithyResolvedConfiguration } from "@smithy/smithy-client";
 import { ServiceException as ServiceError } from "@smithy/smithy-client";
-import type { Client, HandlerOptions, Logger, MiddlewareStack, RequestHandler } from "@smithy/types";
+import type {
+  Client,
+  HandlerOptions,
+  Logger,
+  MiddlewareStack,
+  PaginationConfiguration,
+  Paginator,
+  RequestHandler,
+} from "@smithy/types";
 import type { NonEmptyReadonlyArray } from "effect/Array";
 import * as Cause from "effect/Cause";
 import * as Data from "effect/Data";
@@ -12,6 +20,7 @@ import { pipe } from "effect/Function";
 import * as Option from "effect/Option";
 import * as Record from "effect/Record";
 import * as Scope from "effect/Scope";
+import * as Stream from "effect/Stream";
 import * as String from "effect/String";
 import type { TaggedException } from "./Errors.js";
 import { SdkError } from "./Errors.js";
@@ -42,6 +51,12 @@ export interface BaseResolvedConfig
  * @category models
  */
 export type CommandCtor<I> = new(input: I, ...args: Array<any>) => CommandImpl<I, any, BaseResolvedConfig>;
+
+/**
+ * @since 0.4.0
+ * @category models
+ */
+export type PaginatorCtor<I> = (config: PaginationConfiguration, input: I, ...args: Array<any>) => Paginator<any>;
 
 type ServiceFnOptions = {
   errorTags?: NonEmptyReadonlyArray<string>;
@@ -98,17 +113,38 @@ export const makeServiceFn = (
 };
 
 /**
+ * @since 0.4.0
+ * @category constructors
+ */
+export const makeServiceStreamFn = (
+  client: Client<any, any, BaseResolvedConfig>,
+  paginateFn: PaginatorCtor<any>,
+  fnOptions: ServiceFnOptions,
+) => {
+  return (args: any, options?: HttpHandlerOptions) => {
+    const paginator = paginateFn({ client }, args, options);
+
+    return Stream.fromAsyncIterable(
+      paginator,
+      catchServiceExceptions(fnOptions.errorTags),
+    );
+  };
+};
+
+/**
  * @since 0.1.0
  * @category constructors
  */
 export const fromCommandsAndServiceFn = <Service>(
   commands: Record<string, CommandCtor<any>>,
   serviceFnMaker: (CommandCtor: CommandCtor<any>) => ReturnType<typeof makeServiceFn>,
+  paginators?: Record<string, PaginatorCtor<any>>,
+  streamFnMaker?: (paginateFn: PaginatorCtor<any>) => ReturnType<typeof makeServiceStreamFn>,
 ): Effect.Effect<Service> =>
   Effect.gen(function*() {
     const maybeRequestHandler = yield* Effect.serviceOption(HttpHandler.RequestHandler);
 
-    return pipe(
+    const effectCommands = pipe(
       commands,
       Record.filter(Boolean),
       Record.mapEntries((CommandCtor, command) => {
@@ -140,6 +176,19 @@ export const fromCommandsAndServiceFn = <Service>(
         return [serviceFnName, serviceFnMaker(ExtendedCommand)];
       }),
     ) as Service;
+
+    const streamCommands = paginators ?
+      pipe(
+        paginators,
+        Record.filter(Boolean),
+        Record.mapEntries((paginateFn, command) => {
+          const serviceFnName = String.uncapitalize(command.replace(/^paginate/, "")) + "Stream";
+          return [serviceFnName, streamFnMaker?.(paginateFn)];
+        }),
+      )
+      : {};
+
+    return { ...effectCommands, ...streamCommands } as Service;
   });
 
 /**
@@ -150,5 +199,11 @@ export const fromClientAndCommands = <Service>(
   client: Client<any, any, BaseResolvedConfig>,
   commands: Record<string, CommandCtor<any>>,
   options: ServiceFnOptions,
+  paginators?: Record<string, PaginatorCtor<any>>,
 ): Effect.Effect<Service> =>
-  fromCommandsAndServiceFn(commands, (CommandCtor) => makeServiceFn(client, CommandCtor, options));
+  fromCommandsAndServiceFn(
+    commands,
+    (CommandCtor) => makeServiceFn(client, CommandCtor, options),
+    paginators,
+    (paginateFn) => makeServiceStreamFn(client, paginateFn, options),
+  );

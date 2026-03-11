@@ -48,7 +48,7 @@ import type {
   ValidationException,
   VersionMismatchException,
 } from "@aws-sdk/client-glue";
-import type { TaggedException } from "@effect-aws/commons";
+import type { TaggedException } from "@effect-aws/commons/Errors";
 
 export const AllServiceErrors = [
   "AccessDeniedException",

@@ -29,6 +29,8 @@ import {
   ListTagsForResourceCommand,
   type ListTagsForResourceCommandInput,
   type ListTagsForResourceCommandOutput,
+  paginateListScheduleGroups,
+  paginateListSchedules,
   type SchedulerClient,
   type SchedulerClientConfig,
   TagResourceCommand,
@@ -41,12 +43,14 @@ import {
   type UpdateScheduleCommandInput,
   type UpdateScheduleCommandOutput,
 } from "@aws-sdk/client-scheduler";
-import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
-import { Service } from "@effect-aws/commons";
+import * as Service from "@effect-aws/commons/Service";
+import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as ServiceMap from "effect/ServiceMap";
+import type * as Stream from "effect/Stream";
 import type {
   ConflictError,
   InternalServerError,
@@ -73,6 +77,11 @@ const commands = {
   TagResourceCommand,
   UntagResourceCommand,
   UpdateScheduleCommand,
+};
+
+const paginators = {
+  paginateListScheduleGroups,
+  paginateListSchedules,
 };
 
 export interface SchedulerService$ {
@@ -178,6 +187,14 @@ export interface SchedulerService$ {
     Cause.TimeoutError | SdkError | InternalServerError | ThrottlingError | ValidationError
   >;
 
+  listScheduleGroupsStream(
+    args: ListScheduleGroupsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListScheduleGroupsCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServerError | ThrottlingError | ValidationError
+  >;
+
   /**
    * @see {@link ListSchedulesCommand}
    */
@@ -185,6 +202,14 @@ export interface SchedulerService$ {
     args: ListSchedulesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListSchedulesCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
+  >;
+
+  listSchedulesStream(
+    args: ListSchedulesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListSchedulesCommandOutput,
     Cause.TimeoutError | SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
@@ -266,6 +291,7 @@ export const makeSchedulerService = Effect.gen(function*() {
       errorTags: AllServiceErrors,
       resolveClientConfig: SchedulerServiceConfig.toSchedulerClientConfig,
     },
+    paginators,
   );
 });
 

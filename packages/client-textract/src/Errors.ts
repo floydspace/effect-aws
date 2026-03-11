@@ -18,7 +18,7 @@ import type {
   UnsupportedDocumentException,
   ValidationException,
 } from "@aws-sdk/client-textract";
-import type { TaggedException } from "@effect-aws/commons";
+import type { TaggedException } from "@effect-aws/commons/Errors";
 
 export const AllServiceErrors = [
   "AccessDeniedException",

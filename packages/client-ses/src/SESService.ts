@@ -128,6 +128,8 @@ import {
   ListVerifiedEmailAddressesCommand,
   type ListVerifiedEmailAddressesCommandInput,
   type ListVerifiedEmailAddressesCommandOutput,
+  paginateListCustomVerificationEmailTemplates,
+  paginateListIdentities,
   PutConfigurationSetDeliveryOptionsCommand,
   type PutConfigurationSetDeliveryOptionsCommandInput,
   type PutConfigurationSetDeliveryOptionsCommandOutput,
@@ -218,12 +220,14 @@ import {
   type VerifyEmailIdentityCommandInput,
   type VerifyEmailIdentityCommandOutput,
 } from "@aws-sdk/client-ses";
-import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
-import { Service } from "@effect-aws/commons";
+import * as Service from "@effect-aws/commons/Service";
+import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as ServiceMap from "effect/ServiceMap";
+import type * as Stream from "effect/Stream";
 import type {
   AccountSendingPausedError,
   AlreadyExistsError,
@@ -337,6 +341,11 @@ const commands = {
   VerifyDomainIdentityCommand,
   VerifyEmailAddressCommand,
   VerifyEmailIdentityCommand,
+};
+
+const paginators = {
+  paginateListCustomVerificationEmailTemplates,
+  paginateListIdentities,
 };
 
 export interface SESService$ {
@@ -764,6 +773,11 @@ export interface SESService$ {
     Cause.TimeoutError | SdkError
   >;
 
+  listCustomVerificationEmailTemplatesStream(
+    args: ListCustomVerificationEmailTemplatesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListCustomVerificationEmailTemplatesCommandOutput, Cause.TimeoutError | SdkError>;
+
   /**
    * @see {@link ListIdentitiesCommand}
    */
@@ -774,6 +788,11 @@ export interface SESService$ {
     ListIdentitiesCommandOutput,
     Cause.TimeoutError | SdkError
   >;
+
+  listIdentitiesStream(
+    args: ListIdentitiesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListIdentitiesCommandOutput, Cause.TimeoutError | SdkError>;
 
   /**
    * @see {@link ListIdentityPoliciesCommand}
@@ -1221,6 +1240,7 @@ export const makeSESService = Effect.gen(function*() {
       errorTags: AllServiceErrors,
       resolveClientConfig: SESServiceConfig.toSESClientConfig,
     },
+    paginators,
   );
 });
 

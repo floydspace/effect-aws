@@ -332,6 +332,56 @@ import {
   ModifyDocumentPermissionCommand,
   type ModifyDocumentPermissionCommandInput,
   type ModifyDocumentPermissionCommandOutput,
+  paginateDescribeActivations,
+  paginateDescribeAssociationExecutions,
+  paginateDescribeAssociationExecutionTargets,
+  paginateDescribeAutomationExecutions,
+  paginateDescribeAutomationStepExecutions,
+  paginateDescribeAvailablePatches,
+  paginateDescribeEffectiveInstanceAssociations,
+  paginateDescribeEffectivePatchesForPatchBaseline,
+  paginateDescribeInstanceAssociationsStatus,
+  paginateDescribeInstanceInformation,
+  paginateDescribeInstancePatches,
+  paginateDescribeInstancePatchStates,
+  paginateDescribeInstancePatchStatesForPatchGroup,
+  paginateDescribeInstanceProperties,
+  paginateDescribeInventoryDeletions,
+  paginateDescribeMaintenanceWindowExecutions,
+  paginateDescribeMaintenanceWindowExecutionTaskInvocations,
+  paginateDescribeMaintenanceWindowExecutionTasks,
+  paginateDescribeMaintenanceWindows,
+  paginateDescribeMaintenanceWindowSchedule,
+  paginateDescribeMaintenanceWindowsForTarget,
+  paginateDescribeMaintenanceWindowTargets,
+  paginateDescribeMaintenanceWindowTasks,
+  paginateDescribeOpsItems,
+  paginateDescribeParameters,
+  paginateDescribePatchBaselines,
+  paginateDescribePatchGroups,
+  paginateDescribePatchProperties,
+  paginateDescribeSessions,
+  paginateGetInventory,
+  paginateGetInventorySchema,
+  paginateGetOpsSummary,
+  paginateGetParameterHistory,
+  paginateGetParametersByPath,
+  paginateGetResourcePolicies,
+  paginateListAssociations,
+  paginateListAssociationVersions,
+  paginateListCommandInvocations,
+  paginateListCommands,
+  paginateListComplianceItems,
+  paginateListComplianceSummaries,
+  paginateListDocuments,
+  paginateListDocumentVersions,
+  paginateListNodes,
+  paginateListNodesSummary,
+  paginateListOpsItemEvents,
+  paginateListOpsItemRelatedItems,
+  paginateListOpsMetadata,
+  paginateListResourceComplianceSummaries,
+  paginateListResourceDataSync,
   PutComplianceItemsCommand,
   type PutComplianceItemsCommandInput,
   type PutComplianceItemsCommandOutput,
@@ -443,12 +493,14 @@ import {
   type UpdateServiceSettingCommandInput,
   type UpdateServiceSettingCommandOutput,
 } from "@aws-sdk/client-ssm";
-import type { HttpHandlerOptions, ServiceLogger } from "@effect-aws/commons";
-import { Service } from "@effect-aws/commons";
+import * as Service from "@effect-aws/commons/Service";
+import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as ServiceMap from "effect/ServiceMap";
+import type * as Stream from "effect/Stream";
 import type {
   AccessDeniedError,
   AlreadyExistsError,
@@ -742,6 +794,59 @@ const commands = {
   UpdatePatchBaselineCommand,
   UpdateResourceDataSyncCommand,
   UpdateServiceSettingCommand,
+};
+
+const paginators = {
+  paginateDescribeActivations,
+  paginateDescribeAssociationExecutionTargets,
+  paginateDescribeAssociationExecutions,
+  paginateDescribeAutomationExecutions,
+  paginateDescribeAutomationStepExecutions,
+  paginateDescribeAvailablePatches,
+  paginateDescribeEffectiveInstanceAssociations,
+  paginateDescribeEffectivePatchesForPatchBaseline,
+  paginateDescribeInstanceAssociationsStatus,
+  paginateDescribeInstanceInformation,
+  paginateDescribeInstancePatchStates,
+  paginateDescribeInstancePatchStatesForPatchGroup,
+  paginateDescribeInstancePatches,
+  paginateDescribeInstanceProperties,
+  paginateDescribeInventoryDeletions,
+  paginateDescribeMaintenanceWindowExecutionTaskInvocations,
+  paginateDescribeMaintenanceWindowExecutionTasks,
+  paginateDescribeMaintenanceWindowExecutions,
+  paginateDescribeMaintenanceWindowSchedule,
+  paginateDescribeMaintenanceWindowTargets,
+  paginateDescribeMaintenanceWindowTasks,
+  paginateDescribeMaintenanceWindows,
+  paginateDescribeMaintenanceWindowsForTarget,
+  paginateDescribeOpsItems,
+  paginateDescribeParameters,
+  paginateDescribePatchBaselines,
+  paginateDescribePatchGroups,
+  paginateDescribePatchProperties,
+  paginateDescribeSessions,
+  paginateGetInventory,
+  paginateGetInventorySchema,
+  paginateGetOpsSummary,
+  paginateGetParameterHistory,
+  paginateGetParametersByPath,
+  paginateGetResourcePolicies,
+  paginateListAssociationVersions,
+  paginateListAssociations,
+  paginateListCommandInvocations,
+  paginateListCommands,
+  paginateListComplianceItems,
+  paginateListComplianceSummaries,
+  paginateListDocumentVersions,
+  paginateListDocuments,
+  paginateListNodes,
+  paginateListNodesSummary,
+  paginateListOpsItemEvents,
+  paginateListOpsItemRelatedItems,
+  paginateListOpsMetadata,
+  paginateListResourceComplianceSummaries,
+  paginateListResourceDataSync,
 };
 
 export interface SSMService$ {
@@ -1180,6 +1285,14 @@ export interface SSMService$ {
     Cause.TimeoutError | SdkError | InternalServerError | InvalidFilterError | InvalidNextTokenError
   >;
 
+  describeActivationsStream(
+    args: DescribeActivationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeActivationsCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServerError | InvalidFilterError | InvalidNextTokenError
+  >;
+
   /**
    * @see {@link DescribeAssociationCommand}
    */
@@ -1213,6 +1326,19 @@ export interface SSMService$ {
     | InvalidNextTokenError
   >;
 
+  describeAssociationExecutionTargetsStream(
+    args: DescribeAssociationExecutionTargetsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeAssociationExecutionTargetsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AssociationDoesNotExistError
+    | AssociationExecutionDoesNotExistError
+    | InternalServerError
+    | InvalidNextTokenError
+  >;
+
   /**
    * @see {@link DescribeAssociationExecutionsCommand}
    */
@@ -1224,6 +1350,14 @@ export interface SSMService$ {
     Cause.TimeoutError | SdkError | AssociationDoesNotExistError | InternalServerError | InvalidNextTokenError
   >;
 
+  describeAssociationExecutionsStream(
+    args: DescribeAssociationExecutionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeAssociationExecutionsCommandOutput,
+    Cause.TimeoutError | SdkError | AssociationDoesNotExistError | InternalServerError | InvalidNextTokenError
+  >;
+
   /**
    * @see {@link DescribeAutomationExecutionsCommand}
    */
@@ -1231,6 +1365,19 @@ export interface SSMService$ {
     args: DescribeAutomationExecutionsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeAutomationExecutionsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InternalServerError
+    | InvalidFilterKeyError
+    | InvalidFilterValueError
+    | InvalidNextTokenError
+  >;
+
+  describeAutomationExecutionsStream(
+    args: DescribeAutomationExecutionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeAutomationExecutionsCommandOutput,
     | Cause.TimeoutError
     | SdkError
@@ -1257,6 +1404,20 @@ export interface SSMService$ {
     | InvalidNextTokenError
   >;
 
+  describeAutomationStepExecutionsStream(
+    args: DescribeAutomationStepExecutionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeAutomationStepExecutionsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AutomationExecutionNotFoundError
+    | InternalServerError
+    | InvalidFilterKeyError
+    | InvalidFilterValueError
+    | InvalidNextTokenError
+  >;
+
   /**
    * @see {@link DescribeAvailablePatchesCommand}
    */
@@ -1267,6 +1428,11 @@ export interface SSMService$ {
     DescribeAvailablePatchesCommandOutput,
     Cause.TimeoutError | SdkError | InternalServerError
   >;
+
+  describeAvailablePatchesStream(
+    args: DescribeAvailablePatchesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeAvailablePatchesCommandOutput, Cause.TimeoutError | SdkError | InternalServerError>;
 
   /**
    * @see {@link DescribeDocumentCommand}
@@ -1307,6 +1473,14 @@ export interface SSMService$ {
     Cause.TimeoutError | SdkError | InternalServerError | InvalidInstanceIdError | InvalidNextTokenError
   >;
 
+  describeEffectiveInstanceAssociationsStream(
+    args: DescribeEffectiveInstanceAssociationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeEffectiveInstanceAssociationsCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServerError | InvalidInstanceIdError | InvalidNextTokenError
+  >;
+
   /**
    * @see {@link DescribeEffectivePatchesForPatchBaselineCommand}
    */
@@ -1323,6 +1497,19 @@ export interface SSMService$ {
     | UnsupportedOperatingSystemError
   >;
 
+  describeEffectivePatchesForPatchBaselineStream(
+    args: DescribeEffectivePatchesForPatchBaselineCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeEffectivePatchesForPatchBaselineCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | DoesNotExistError
+    | InternalServerError
+    | InvalidResourceIdError
+    | UnsupportedOperatingSystemError
+  >;
+
   /**
    * @see {@link DescribeInstanceAssociationsStatusCommand}
    */
@@ -1330,6 +1517,14 @@ export interface SSMService$ {
     args: DescribeInstanceAssociationsStatusCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeInstanceAssociationsStatusCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServerError | InvalidInstanceIdError | InvalidNextTokenError
+  >;
+
+  describeInstanceAssociationsStatusStream(
+    args: DescribeInstanceAssociationsStatusCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeInstanceAssociationsStatusCommandOutput,
     Cause.TimeoutError | SdkError | InternalServerError | InvalidInstanceIdError | InvalidNextTokenError
   >;
@@ -1351,6 +1546,20 @@ export interface SSMService$ {
     | InvalidNextTokenError
   >;
 
+  describeInstanceInformationStream(
+    args: DescribeInstanceInformationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeInstanceInformationCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InternalServerError
+    | InvalidFilterKeyError
+    | InvalidInstanceIdError
+    | InvalidInstanceInformationFilterValueError
+    | InvalidNextTokenError
+  >;
+
   /**
    * @see {@link DescribeInstancePatchStatesCommand}
    */
@@ -1358,6 +1567,14 @@ export interface SSMService$ {
     args: DescribeInstancePatchStatesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeInstancePatchStatesCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServerError | InvalidNextTokenError
+  >;
+
+  describeInstancePatchStatesStream(
+    args: DescribeInstancePatchStatesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeInstancePatchStatesCommandOutput,
     Cause.TimeoutError | SdkError | InternalServerError | InvalidNextTokenError
   >;
@@ -1373,6 +1590,14 @@ export interface SSMService$ {
     Cause.TimeoutError | SdkError | InternalServerError | InvalidFilterError | InvalidNextTokenError
   >;
 
+  describeInstancePatchStatesForPatchGroupStream(
+    args: DescribeInstancePatchStatesForPatchGroupCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeInstancePatchStatesForPatchGroupCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServerError | InvalidFilterError | InvalidNextTokenError
+  >;
+
   /**
    * @see {@link DescribeInstancePatchesCommand}
    */
@@ -1380,6 +1605,19 @@ export interface SSMService$ {
     args: DescribeInstancePatchesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeInstancePatchesCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InternalServerError
+    | InvalidFilterError
+    | InvalidInstanceIdError
+    | InvalidNextTokenError
+  >;
+
+  describeInstancePatchesStream(
+    args: DescribeInstancePatchesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeInstancePatchesCommandOutput,
     | Cause.TimeoutError
     | SdkError
@@ -1408,6 +1646,22 @@ export interface SSMService$ {
     | InvalidNextTokenError
   >;
 
+  describeInstancePropertiesStream(
+    args: DescribeInstancePropertiesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeInstancePropertiesCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InternalServerError
+    | InvalidActivationIdError
+    | InvalidDocumentError
+    | InvalidFilterKeyError
+    | InvalidInstanceIdError
+    | InvalidInstancePropertyFilterValueError
+    | InvalidNextTokenError
+  >;
+
   /**
    * @see {@link DescribeInventoryDeletionsCommand}
    */
@@ -1415,6 +1669,14 @@ export interface SSMService$ {
     args: DescribeInventoryDeletionsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeInventoryDeletionsCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServerError | InvalidDeletionIdError | InvalidNextTokenError
+  >;
+
+  describeInventoryDeletionsStream(
+    args: DescribeInventoryDeletionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeInventoryDeletionsCommandOutput,
     Cause.TimeoutError | SdkError | InternalServerError | InvalidDeletionIdError | InvalidNextTokenError
   >;
@@ -1430,6 +1692,14 @@ export interface SSMService$ {
     Cause.TimeoutError | SdkError | DoesNotExistError | InternalServerError
   >;
 
+  describeMaintenanceWindowExecutionTaskInvocationsStream(
+    args: DescribeMaintenanceWindowExecutionTaskInvocationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeMaintenanceWindowExecutionTaskInvocationsCommandOutput,
+    Cause.TimeoutError | SdkError | DoesNotExistError | InternalServerError
+  >;
+
   /**
    * @see {@link DescribeMaintenanceWindowExecutionTasksCommand}
    */
@@ -1437,6 +1707,14 @@ export interface SSMService$ {
     args: DescribeMaintenanceWindowExecutionTasksCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeMaintenanceWindowExecutionTasksCommandOutput,
+    Cause.TimeoutError | SdkError | DoesNotExistError | InternalServerError
+  >;
+
+  describeMaintenanceWindowExecutionTasksStream(
+    args: DescribeMaintenanceWindowExecutionTasksCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeMaintenanceWindowExecutionTasksCommandOutput,
     Cause.TimeoutError | SdkError | DoesNotExistError | InternalServerError
   >;
@@ -1452,6 +1730,14 @@ export interface SSMService$ {
     Cause.TimeoutError | SdkError | InternalServerError
   >;
 
+  describeMaintenanceWindowExecutionsStream(
+    args: DescribeMaintenanceWindowExecutionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeMaintenanceWindowExecutionsCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServerError
+  >;
+
   /**
    * @see {@link DescribeMaintenanceWindowScheduleCommand}
    */
@@ -1459,6 +1745,14 @@ export interface SSMService$ {
     args: DescribeMaintenanceWindowScheduleCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeMaintenanceWindowScheduleCommandOutput,
+    Cause.TimeoutError | SdkError | DoesNotExistError | InternalServerError
+  >;
+
+  describeMaintenanceWindowScheduleStream(
+    args: DescribeMaintenanceWindowScheduleCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeMaintenanceWindowScheduleCommandOutput,
     Cause.TimeoutError | SdkError | DoesNotExistError | InternalServerError
   >;
@@ -1474,6 +1768,14 @@ export interface SSMService$ {
     Cause.TimeoutError | SdkError | DoesNotExistError | InternalServerError
   >;
 
+  describeMaintenanceWindowTargetsStream(
+    args: DescribeMaintenanceWindowTargetsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeMaintenanceWindowTargetsCommandOutput,
+    Cause.TimeoutError | SdkError | DoesNotExistError | InternalServerError
+  >;
+
   /**
    * @see {@link DescribeMaintenanceWindowTasksCommand}
    */
@@ -1481,6 +1783,14 @@ export interface SSMService$ {
     args: DescribeMaintenanceWindowTasksCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeMaintenanceWindowTasksCommandOutput,
+    Cause.TimeoutError | SdkError | DoesNotExistError | InternalServerError
+  >;
+
+  describeMaintenanceWindowTasksStream(
+    args: DescribeMaintenanceWindowTasksCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeMaintenanceWindowTasksCommandOutput,
     Cause.TimeoutError | SdkError | DoesNotExistError | InternalServerError
   >;
@@ -1496,6 +1806,11 @@ export interface SSMService$ {
     Cause.TimeoutError | SdkError | InternalServerError
   >;
 
+  describeMaintenanceWindowsStream(
+    args: DescribeMaintenanceWindowsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeMaintenanceWindowsCommandOutput, Cause.TimeoutError | SdkError | InternalServerError>;
+
   /**
    * @see {@link DescribeMaintenanceWindowsForTargetCommand}
    */
@@ -1503,6 +1818,14 @@ export interface SSMService$ {
     args: DescribeMaintenanceWindowsForTargetCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeMaintenanceWindowsForTargetCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServerError
+  >;
+
+  describeMaintenanceWindowsForTargetStream(
+    args: DescribeMaintenanceWindowsForTargetCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeMaintenanceWindowsForTargetCommandOutput,
     Cause.TimeoutError | SdkError | InternalServerError
   >;
@@ -1518,6 +1841,11 @@ export interface SSMService$ {
     Cause.TimeoutError | SdkError | InternalServerError
   >;
 
+  describeOpsItemsStream(
+    args: DescribeOpsItemsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeOpsItemsCommandOutput, Cause.TimeoutError | SdkError | InternalServerError>;
+
   /**
    * @see {@link DescribeParametersCommand}
    */
@@ -1525,6 +1853,20 @@ export interface SSMService$ {
     args: DescribeParametersCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeParametersCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InternalServerError
+    | InvalidFilterKeyError
+    | InvalidFilterOptionError
+    | InvalidFilterValueError
+    | InvalidNextTokenError
+  >;
+
+  describeParametersStream(
+    args: DescribeParametersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeParametersCommandOutput,
     | Cause.TimeoutError
     | SdkError
@@ -1545,6 +1887,11 @@ export interface SSMService$ {
     DescribePatchBaselinesCommandOutput,
     Cause.TimeoutError | SdkError | InternalServerError
   >;
+
+  describePatchBaselinesStream(
+    args: DescribePatchBaselinesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribePatchBaselinesCommandOutput, Cause.TimeoutError | SdkError | InternalServerError>;
 
   /**
    * @see {@link DescribePatchGroupStateCommand}
@@ -1568,6 +1915,11 @@ export interface SSMService$ {
     Cause.TimeoutError | SdkError | InternalServerError
   >;
 
+  describePatchGroupsStream(
+    args: DescribePatchGroupsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribePatchGroupsCommandOutput, Cause.TimeoutError | SdkError | InternalServerError>;
+
   /**
    * @see {@link DescribePatchPropertiesCommand}
    */
@@ -1579,6 +1931,11 @@ export interface SSMService$ {
     Cause.TimeoutError | SdkError | InternalServerError
   >;
 
+  describePatchPropertiesStream(
+    args: DescribePatchPropertiesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribePatchPropertiesCommandOutput, Cause.TimeoutError | SdkError | InternalServerError>;
+
   /**
    * @see {@link DescribeSessionsCommand}
    */
@@ -1586,6 +1943,14 @@ export interface SSMService$ {
     args: DescribeSessionsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    DescribeSessionsCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServerError | InvalidFilterKeyError | InvalidNextTokenError
+  >;
+
+  describeSessionsStream(
+    args: DescribeSessionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     DescribeSessionsCommandOutput,
     Cause.TimeoutError | SdkError | InternalServerError | InvalidFilterKeyError | InvalidNextTokenError
   >;
@@ -1746,6 +2111,22 @@ export interface SSMService$ {
     | InvalidTypeNameError
   >;
 
+  getInventoryStream(
+    args: GetInventoryCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    GetInventoryCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InternalServerError
+    | InvalidAggregatorError
+    | InvalidFilterError
+    | InvalidInventoryGroupError
+    | InvalidNextTokenError
+    | InvalidResultAttributeError
+    | InvalidTypeNameError
+  >;
+
   /**
    * @see {@link GetInventorySchemaCommand}
    */
@@ -1753,6 +2134,14 @@ export interface SSMService$ {
     args: GetInventorySchemaCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    GetInventorySchemaCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServerError | InvalidNextTokenError | InvalidTypeNameError
+  >;
+
+  getInventorySchemaStream(
+    args: GetInventorySchemaCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     GetInventorySchemaCommandOutput,
     Cause.TimeoutError | SdkError | InternalServerError | InvalidNextTokenError | InvalidTypeNameError
   >;
@@ -1852,6 +2241,21 @@ export interface SSMService$ {
     | ResourceDataSyncNotFoundError
   >;
 
+  getOpsSummaryStream(
+    args: GetOpsSummaryCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    GetOpsSummaryCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InternalServerError
+    | InvalidAggregatorError
+    | InvalidFilterError
+    | InvalidNextTokenError
+    | InvalidTypeNameError
+    | ResourceDataSyncNotFoundError
+  >;
+
   /**
    * @see {@link GetParameterCommand}
    */
@@ -1884,6 +2288,19 @@ export interface SSMService$ {
     | ParameterNotFoundError
   >;
 
+  getParameterHistoryStream(
+    args: GetParameterHistoryCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    GetParameterHistoryCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InternalServerError
+    | InvalidKeyIdError
+    | InvalidNextTokenError
+    | ParameterNotFoundError
+  >;
+
   /**
    * @see {@link GetParametersCommand}
    */
@@ -1902,6 +2319,21 @@ export interface SSMService$ {
     args: GetParametersByPathCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    GetParametersByPathCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InternalServerError
+    | InvalidFilterKeyError
+    | InvalidFilterOptionError
+    | InvalidFilterValueError
+    | InvalidKeyIdError
+    | InvalidNextTokenError
+  >;
+
+  getParametersByPathStream(
+    args: GetParametersByPathCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     GetParametersByPathCommandOutput,
     | Cause.TimeoutError
     | SdkError
@@ -1946,6 +2378,14 @@ export interface SSMService$ {
     Cause.TimeoutError | SdkError | InternalServerError | ResourceNotFoundError | ResourcePolicyInvalidParameterError
   >;
 
+  getResourcePoliciesStream(
+    args: GetResourcePoliciesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    GetResourcePoliciesCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServerError | ResourceNotFoundError | ResourcePolicyInvalidParameterError
+  >;
+
   /**
    * @see {@link GetServiceSettingCommand}
    */
@@ -1985,6 +2425,14 @@ export interface SSMService$ {
     Cause.TimeoutError | SdkError | AssociationDoesNotExistError | InternalServerError | InvalidNextTokenError
   >;
 
+  listAssociationVersionsStream(
+    args: ListAssociationVersionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListAssociationVersionsCommandOutput,
+    Cause.TimeoutError | SdkError | AssociationDoesNotExistError | InternalServerError | InvalidNextTokenError
+  >;
+
   /**
    * @see {@link ListAssociationsCommand}
    */
@@ -1996,6 +2444,14 @@ export interface SSMService$ {
     Cause.TimeoutError | SdkError | InternalServerError | InvalidNextTokenError
   >;
 
+  listAssociationsStream(
+    args: ListAssociationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListAssociationsCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServerError | InvalidNextTokenError
+  >;
+
   /**
    * @see {@link ListCommandInvocationsCommand}
    */
@@ -2003,6 +2459,20 @@ export interface SSMService$ {
     args: ListCommandInvocationsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListCommandInvocationsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InternalServerError
+    | InvalidCommandIdError
+    | InvalidFilterKeyError
+    | InvalidInstanceIdError
+    | InvalidNextTokenError
+  >;
+
+  listCommandInvocationsStream(
+    args: ListCommandInvocationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListCommandInvocationsCommandOutput,
     | Cause.TimeoutError
     | SdkError
@@ -2030,6 +2500,20 @@ export interface SSMService$ {
     | InvalidNextTokenError
   >;
 
+  listCommandsStream(
+    args: ListCommandsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListCommandsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InternalServerError
+    | InvalidCommandIdError
+    | InvalidFilterKeyError
+    | InvalidInstanceIdError
+    | InvalidNextTokenError
+  >;
+
   /**
    * @see {@link ListComplianceItemsCommand}
    */
@@ -2047,6 +2531,20 @@ export interface SSMService$ {
     | InvalidResourceTypeError
   >;
 
+  listComplianceItemsStream(
+    args: ListComplianceItemsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListComplianceItemsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InternalServerError
+    | InvalidFilterError
+    | InvalidNextTokenError
+    | InvalidResourceIdError
+    | InvalidResourceTypeError
+  >;
+
   /**
    * @see {@link ListComplianceSummariesCommand}
    */
@@ -2054,6 +2552,14 @@ export interface SSMService$ {
     args: ListComplianceSummariesCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListComplianceSummariesCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServerError | InvalidFilterError | InvalidNextTokenError
+  >;
+
+  listComplianceSummariesStream(
+    args: ListComplianceSummariesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListComplianceSummariesCommandOutput,
     Cause.TimeoutError | SdkError | InternalServerError | InvalidFilterError | InvalidNextTokenError
   >;
@@ -2085,6 +2591,14 @@ export interface SSMService$ {
     Cause.TimeoutError | SdkError | InternalServerError | InvalidDocumentError | InvalidNextTokenError
   >;
 
+  listDocumentVersionsStream(
+    args: ListDocumentVersionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListDocumentVersionsCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServerError | InvalidDocumentError | InvalidNextTokenError
+  >;
+
   /**
    * @see {@link ListDocumentsCommand}
    */
@@ -2092,6 +2606,14 @@ export interface SSMService$ {
     args: ListDocumentsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListDocumentsCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServerError | InvalidFilterKeyError | InvalidNextTokenError
+  >;
+
+  listDocumentsStream(
+    args: ListDocumentsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListDocumentsCommandOutput,
     Cause.TimeoutError | SdkError | InternalServerError | InvalidFilterKeyError | InvalidNextTokenError
   >;
@@ -2130,6 +2652,20 @@ export interface SSMService$ {
     | UnsupportedOperationError
   >;
 
+  listNodesStream(
+    args: ListNodesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListNodesCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InternalServerError
+    | InvalidFilterError
+    | InvalidNextTokenError
+    | ResourceDataSyncNotFoundError
+    | UnsupportedOperationError
+  >;
+
   /**
    * @see {@link ListNodesSummaryCommand}
    */
@@ -2137,6 +2673,21 @@ export interface SSMService$ {
     args: ListNodesSummaryCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListNodesSummaryCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InternalServerError
+    | InvalidAggregatorError
+    | InvalidFilterError
+    | InvalidNextTokenError
+    | ResourceDataSyncNotFoundError
+    | UnsupportedOperationError
+  >;
+
+  listNodesSummaryStream(
+    args: ListNodesSummaryCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListNodesSummaryCommandOutput,
     | Cause.TimeoutError
     | SdkError
@@ -2164,6 +2715,19 @@ export interface SSMService$ {
     | OpsItemNotFoundError
   >;
 
+  listOpsItemEventsStream(
+    args: ListOpsItemEventsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListOpsItemEventsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InternalServerError
+    | OpsItemInvalidParameterError
+    | OpsItemLimitExceededError
+    | OpsItemNotFoundError
+  >;
+
   /**
    * @see {@link ListOpsItemRelatedItemsCommand}
    */
@@ -2171,6 +2735,14 @@ export interface SSMService$ {
     args: ListOpsItemRelatedItemsCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListOpsItemRelatedItemsCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServerError | OpsItemInvalidParameterError
+  >;
+
+  listOpsItemRelatedItemsStream(
+    args: ListOpsItemRelatedItemsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListOpsItemRelatedItemsCommandOutput,
     Cause.TimeoutError | SdkError | InternalServerError | OpsItemInvalidParameterError
   >;
@@ -2186,6 +2758,14 @@ export interface SSMService$ {
     Cause.TimeoutError | SdkError | InternalServerError | OpsMetadataInvalidArgumentError
   >;
 
+  listOpsMetadataStream(
+    args: ListOpsMetadataCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListOpsMetadataCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServerError | OpsMetadataInvalidArgumentError
+  >;
+
   /**
    * @see {@link ListResourceComplianceSummariesCommand}
    */
@@ -2197,6 +2777,14 @@ export interface SSMService$ {
     Cause.TimeoutError | SdkError | InternalServerError | InvalidFilterError | InvalidNextTokenError
   >;
 
+  listResourceComplianceSummariesStream(
+    args: ListResourceComplianceSummariesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListResourceComplianceSummariesCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServerError | InvalidFilterError | InvalidNextTokenError
+  >;
+
   /**
    * @see {@link ListResourceDataSyncCommand}
    */
@@ -2204,6 +2792,18 @@ export interface SSMService$ {
     args: ListResourceDataSyncCommandInput,
     options?: HttpHandlerOptions,
   ): Effect.Effect<
+    ListResourceDataSyncCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InternalServerError
+    | InvalidNextTokenError
+    | ResourceDataSyncInvalidConfigurationError
+  >;
+
+  listResourceDataSyncStream(
+    args: ListResourceDataSyncCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
     ListResourceDataSyncCommandOutput,
     | Cause.TimeoutError
     | SdkError
@@ -2830,6 +3430,7 @@ export const makeSSMService = Effect.gen(function*() {
       errorTags: AllServiceErrors,
       resolveClientConfig: SSMServiceConfig.toSSMClientConfig,
     },
+    paginators,
   );
 });
 
