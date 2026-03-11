@@ -48,7 +48,7 @@ describe("fromSecretsManager", () => {
     const configProviderLayer = Layer.provide(ConfigProvider.setSecretsManagerConfigProvider(), serviceLayer);
 
     const result = await Config.redacted("my-secret-that-doesnt-exist").pipe(
-      Config.withDefault(() => Redacted.make("mocked-default-value")),
+      Config.withDefault(Redacted.make("mocked-default-value")),
     ).asEffect().pipe(
       Effect.provide(configProviderLayer),
       Effect.map(Redacted.value),
@@ -72,7 +72,7 @@ describe("fromSecretsManager", () => {
     const serviceLayer = SecretsManager.baseLayer(() => clientSubstitute);
 
     const result = await Config.redacted("test").pipe(
-      Config.withDefault(() => Redacted.make("mocked-default-value")),
+      Config.withDefault(Redacted.make("mocked-default-value")),
     ).asEffect().pipe(
       ConfigProvider.withSecretsManagerConfigProvider(),
       Effect.provide(serviceLayer),

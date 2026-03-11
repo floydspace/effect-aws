@@ -39,7 +39,7 @@
     "@effect/docgen": "^0.5.2",
     "@effect/eslint-plugin": "^0.3.2",
     "@effect/language-service": "^0.19.0",
-    "@effect/vitest": "4.0.0-beta.8",
+    "@effect/vitest": "4.0.0-beta.30",
     "@eslint/compat": "^1.2.5",
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.19.0",
@@ -67,8 +67,8 @@
     "vitest-mock-extended": "^3.1.0"
   },
   "dependencies": {
-    "@effect/platform-node": "4.0.0-beta.8",
-    "effect": "4.0.0-beta.8"
+    "@effect/platform-node": "4.0.0-beta.30",
+    "effect": "4.0.0-beta.30"
   },
   "pnpm": {
     "patchedDependencies": {

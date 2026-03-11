@@ -43,11 +43,11 @@ new Vitest(project, { sharedSetupFiles: ["vitest.setup.ts"] });
 project.addDevDeps("vitest-mock-extended");
 project.addDevDeps("aws-sdk-client-mock", "aws-sdk-client-mock-vitest@^6.2.1");
 
-const effectDeps = ["effect@4.0.0-beta.8"];
+const effectDeps = ["effect@4.0.0-beta.30"];
 
 project.addScripts({ "codegen-client": "tsx ./scripts/codegen-cli.ts" });
-project.addDeps(...effectDeps, "@effect/platform-node@4.0.0-beta.8");
-project.addDevDeps("@effect/language-service", "@effect/vitest@4.0.0-beta.8");
+project.addDeps(...effectDeps, "@effect/platform-node@4.0.0-beta.30");
+project.addDevDeps("@effect/language-service", "@effect/vitest@4.0.0-beta.30");
 project.tsconfigBase?.file.addOverride("compilerOptions.plugins", [
   { name: "@effect/language-service" },
 ]);
@@ -113,7 +113,7 @@ const lambda = new TypeScriptLibProject({
   parent: project,
   name: "lambda",
   description: "Effectful AWS Lambda handler",
-  devDeps: [...effectDeps, "@effect/platform-node-shared@4.0.0-beta.8", "@types/aws-lambda"],
+  devDeps: [...effectDeps, "@effect/platform-node-shared@4.0.0-beta.30", "@types/aws-lambda"],
   peerDeps: ["effect@>=4.0.0 <5.0.0", "@effect/platform-node-shared@>=4.0.0 <5.0.0"],
   addExamples: true,
 });

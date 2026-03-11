@@ -27,7 +27,7 @@
   "devDependencies": {
     "@effect-aws/commons": "workspace:^",
     "@types/node": "ts5.4",
-    "effect": "4.0.0-beta.8",
+    "effect": "4.0.0-beta.30",
     "typescript": "^5.4.2"
   },
   "peerDependencies": {

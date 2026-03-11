@@ -25,10 +25,10 @@
     "organization": false
   },
   "devDependencies": {
-    "@effect/platform-node-shared": "4.0.0-beta.8",
+    "@effect/platform-node-shared": "4.0.0-beta.30",
     "@types/aws-lambda": "^8.10.159",
     "@types/node": "ts5.4",
-    "effect": "4.0.0-beta.8",
+    "effect": "4.0.0-beta.30",
     "typescript": "^5.4.2"
   },
   "peerDependencies": {

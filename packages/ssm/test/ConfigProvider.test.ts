@@ -48,7 +48,7 @@ describe("fromParameterStore", () => {
     const configProviderLayer = Layer.provide(ConfigProvider.setParameterStoreConfigProvider(), serviceLayer);
 
     const result = await Config.redacted("my-param-that-doesnt-exist").pipe(
-      Config.withDefault(() => Redacted.make("mocked-default-value")),
+      Config.withDefault(Redacted.make("mocked-default-value")),
     ).asEffect().pipe(
       Effect.provide(configProviderLayer),
       Effect.map(Redacted.value),
@@ -72,7 +72,7 @@ describe("fromParameterStore", () => {
     const serviceLayer = SSM.baseLayer(() => clientSubstitute);
 
     const result = await Config.redacted("test").pipe(
-      Config.withDefault(() => Redacted.make("mocked-default-value")),
+      Config.withDefault(Redacted.make("mocked-default-value")),
     ).asEffect().pipe(
       ConfigProvider.withParameterStoreConfigProvider(),
       Effect.provide(serviceLayer),
