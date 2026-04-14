@@ -9,12 +9,12 @@ import type {
   LogItemMessage,
 } from "@aws-lambda-powertools/logger/types";
 import * as Cause from "effect/Cause";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Log from "effect/Logger";
 import type * as LogLevel from "effect/LogLevel";
 import * as References from "effect/References";
-import * as ServiceMap from "effect/ServiceMap";
 import * as Instance from "./LoggerInstance.js";
 import * as LoggerOptions from "./LoggerOptions.js";
 
@@ -39,7 +39,7 @@ const MappedLogLevel: Record<LogLevel.LogLevel, typeof LogLevelThreshold[keyof t
   None: LogLevelThreshold.SILENT,
 } as const;
 
-const logExtraInput = ServiceMap.Reference<LogItemExtraInput>("@effect-aws/powertools-logger/logExtraInput", {
+const logExtraInput = Context.Reference<LogItemExtraInput>("@effect-aws/powertools-logger/logExtraInput", {
   defaultValue: () => [],
 });
 
@@ -111,7 +111,7 @@ const isCauseEmpty = <E>(self: Cause.Cause<E>): self is Cause.Cause<never> => se
 const makeLoggerInstance = (logger: Logger) => {
   return Log.make<unknown, void>((options) => {
     const extraInputs = [
-      ...ServiceMap.getReferenceUnsafe(options.fiber.services, logExtraInput),
+      ...Context.getReferenceUnsafe(options.fiber.context, logExtraInput),
     ];
 
     let message = options.message;

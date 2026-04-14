@@ -2,10 +2,10 @@
  * @since 1.4.0
  */
 import type * as Cause from "effect/Cause";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Predicate from "effect/Predicate";
-import * as ServiceMap from "effect/ServiceMap";
 import type { HttpMiddleware } from "effect/unstable/http";
 import { HttpRouter } from "effect/unstable/http";
 import { getEventSource } from "./internal/index.js";
@@ -75,8 +75,8 @@ export declare namespace LambdaHandler {
  */
 export const event = <T extends LambdaHandler.Event>(): Effect.Effect<T> =>
   Effect.map(
-    Effect.services<never>(),
-    (context) => ServiceMap.getUnsafe(context, internal.lambdaEventTag),
+    Effect.context<never>(),
+    (context) => Context.getUnsafe(context, internal.lambdaEventTag),
   ) as Effect.Effect<T>;
 
 /**
@@ -85,8 +85,8 @@ export const event = <T extends LambdaHandler.Event>(): Effect.Effect<T> =>
  */
 export const context = (): Effect.Effect<LambdaContext> =>
   Effect.map(
-    Effect.services<never>(),
-    (context) => ServiceMap.getUnsafe(context, internal.lambdaContextTag),
+    Effect.context<never>(),
+    (context) => Context.getUnsafe(context, internal.lambdaContextTag),
   );
 
 /**
@@ -203,9 +203,9 @@ interface HttpApiOptions {
 
 type WebHandler = (
   request: globalThis.Request,
-  services: ServiceMap.ServiceMap<LambdaHandler.Event | LambdaContext>,
+  services: Context.Context<LambdaHandler.Event | LambdaContext>,
 ) => Promise<globalThis.Response>;
-const WebHandler = ServiceMap.Service<WebHandler>("@effect-aws/lambda/WebHandler");
+const WebHandler = Context.Service<WebHandler>("@effect-aws/lambda/WebHandler");
 
 /**
  * Construct an `WebHandler` from an `HttpRouter` instance.
@@ -251,9 +251,9 @@ export const httpApiHandler: EffectHandler<
 
     const handler = yield* Effect.service(WebHandler);
 
-    const ctx = ServiceMap.empty().pipe(
-      ServiceMap.add(internal.lambdaEventTag, event),
-      ServiceMap.add(internal.lambdaContextTag, context),
+    const ctx = Context.empty().pipe(
+      Context.add(internal.lambdaEventTag, event),
+      Context.add(internal.lambdaContextTag, context),
     );
 
     const res: globalThis.Response = yield* Effect.tryPromise(() => handler(req, ctx));

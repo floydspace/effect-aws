@@ -2,16 +2,16 @@
  * @since 1.0.0
  */
 import { TextractClient } from "@aws-sdk/client-textract";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import * as TextractServiceConfig from "./TextractServiceConfig.js";
 
 /**
  * @since 1.0.0
  * @category tags
  */
-export class TextractClientInstance extends ServiceMap.Service<TextractClientInstance, TextractClient>()(
+export class TextractClientInstance extends Context.Service<TextractClientInstance, TextractClient>()(
   "@effect-aws/client-textract/TextractClientInstance",
 ) {}
 

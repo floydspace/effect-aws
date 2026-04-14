@@ -3,17 +3,17 @@
  */
 import type { SQSClientConfig } from "@aws-sdk/client-sqs";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import { dual } from "effect/Function";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import type { SQSService } from "./SQSService.js";
 
 /**
  * @since 1.0.0
  * @category sqs service config
  */
-const currentSQSServiceConfig = ServiceMap.Reference<SQSService.Config>(
+const currentSQSServiceConfig = Context.Reference<SQSService.Config>(
   "@effect-aws/client-sqs/currentSQSServiceConfig",
   { defaultValue: () => ({}) },
 );

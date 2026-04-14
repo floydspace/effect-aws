@@ -2,9 +2,9 @@
  * @since 1.0.0
  */
 import { ApiGatewayManagementApiClient } from "@aws-sdk/client-apigatewaymanagementapi";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import * as ApiGatewayManagementApiServiceConfig from "./ApiGatewayManagementApiServiceConfig.js";
 
 /**
@@ -12,7 +12,7 @@ import * as ApiGatewayManagementApiServiceConfig from "./ApiGatewayManagementApi
  * @category tags
  */
 export class ApiGatewayManagementApiClientInstance
-  extends ServiceMap.Service<ApiGatewayManagementApiClientInstance, ApiGatewayManagementApiClient>()(
+  extends Context.Service<ApiGatewayManagementApiClientInstance, ApiGatewayManagementApiClient>()(
     "@effect-aws/client-api-gateway-management-api/ApiGatewayManagementApiClientInstance",
   )
 {}

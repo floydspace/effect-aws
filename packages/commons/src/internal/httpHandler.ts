@@ -1,7 +1,7 @@
+import type { Context } from "effect/Context";
 import type { Scope } from "effect/Scope";
-import type { ServiceMap } from "effect/ServiceMap";
 
 export interface RuntimeOptions {
-  runtime: ServiceMap<never>;
+  runtime: Context<never>;
   scope: Scope;
 }

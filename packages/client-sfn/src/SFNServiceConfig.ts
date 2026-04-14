@@ -3,17 +3,17 @@
  */
 import type { SFNClientConfig } from "@aws-sdk/client-sfn";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import { dual } from "effect/Function";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import type { SFNService } from "./SFNService.js";
 
 /**
  * @since 1.0.0
  * @category sfn service config
  */
-const currentSFNServiceConfig = ServiceMap.Reference<SFNService.Config>(
+const currentSFNServiceConfig = Context.Reference<SFNService.Config>(
   "@effect-aws/client-sfn/currentSFNServiceConfig",
   { defaultValue: () => ({}) },
 );

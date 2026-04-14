@@ -3,17 +3,17 @@
  */
 import type { ElastiCacheClientConfig } from "@aws-sdk/client-elasticache";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import { dual } from "effect/Function";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import type { ElastiCacheService } from "./ElastiCacheService.js";
 
 /**
  * @since 1.0.0
  * @category elasticache service config
  */
-const currentElastiCacheServiceConfig = ServiceMap.Reference<ElastiCacheService.Config>(
+const currentElastiCacheServiceConfig = Context.Reference<ElastiCacheService.Config>(
   "@effect-aws/client-elasticache/currentElastiCacheServiceConfig",
   { defaultValue: () => ({}) },
 );

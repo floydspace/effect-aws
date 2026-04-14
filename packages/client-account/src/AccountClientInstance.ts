@@ -2,16 +2,16 @@
  * @since 1.0.0
  */
 import { AccountClient } from "@aws-sdk/client-account";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import * as AccountServiceConfig from "./AccountServiceConfig.js";
 
 /**
  * @since 1.0.0
  * @category tags
  */
-export class AccountClientInstance extends ServiceMap.Service<AccountClientInstance, AccountClient>()(
+export class AccountClientInstance extends Context.Service<AccountClientInstance, AccountClient>()(
   "@effect-aws/client-account/AccountClientInstance",
 ) {}
 

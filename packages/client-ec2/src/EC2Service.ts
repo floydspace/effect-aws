@@ -2444,9 +2444,9 @@ import * as Service from "@effect-aws/commons/Service";
 import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
 import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import type * as Stream from "effect/Stream";
 import * as Instance from "./EC2ClientInstance.js";
 import * as EC2ServiceConfig from "./EC2ServiceConfig.js";
@@ -12627,7 +12627,7 @@ export const makeEC2Service = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class EC2Service extends ServiceMap.Service<
+export class EC2Service extends Context.Service<
   EC2Service,
   EC2Service$
 >()("@effect-aws/client-ec2/EC2Service") {

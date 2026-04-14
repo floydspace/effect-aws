@@ -2,9 +2,9 @@
  * @since 1.0.0
  */
 import { IoTJobsDataPlaneClient } from "@aws-sdk/client-iot-jobs-data-plane";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import * as IoTJobsDataPlaneServiceConfig from "./IoTJobsDataPlaneServiceConfig.js";
 
 /**
@@ -12,7 +12,7 @@ import * as IoTJobsDataPlaneServiceConfig from "./IoTJobsDataPlaneServiceConfig.
  * @category tags
  */
 export class IoTJobsDataPlaneClientInstance
-  extends ServiceMap.Service<IoTJobsDataPlaneClientInstance, IoTJobsDataPlaneClient>()(
+  extends Context.Service<IoTJobsDataPlaneClientInstance, IoTJobsDataPlaneClient>()(
     "@effect-aws/client-iot-jobs-data-plane/IoTJobsDataPlaneClientInstance",
   )
 {}

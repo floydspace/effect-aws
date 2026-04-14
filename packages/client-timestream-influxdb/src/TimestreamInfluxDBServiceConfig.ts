@@ -3,17 +3,17 @@
  */
 import type { TimestreamInfluxDBClientConfig } from "@aws-sdk/client-timestream-influxdb";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import { dual } from "effect/Function";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import type { TimestreamInfluxDBService } from "./TimestreamInfluxDBService.js";
 
 /**
  * @since 1.0.0
  * @category timestream-influxdb service config
  */
-const currentTimestreamInfluxDBServiceConfig = ServiceMap.Reference<TimestreamInfluxDBService.Config>(
+const currentTimestreamInfluxDBServiceConfig = Context.Reference<TimestreamInfluxDBService.Config>(
   "@effect-aws/client-timestream-influxdb/currentTimestreamInfluxDBServiceConfig",
   { defaultValue: () => ({}) },
 );

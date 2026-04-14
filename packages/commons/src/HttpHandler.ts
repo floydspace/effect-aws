@@ -4,9 +4,9 @@
 import type { HttpRequest, HttpResponse } from "@smithy/protocol-http";
 import type { HttpHandlerOptions, RequestHandler as ClientRequestHandler, RequestHandlerOutput } from "@smithy/types";
 import type * as Cause from "effect/Cause";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Scope from "effect/Scope";
-import * as ServiceMap from "effect/ServiceMap";
 import type { RuntimeOptions } from "./internal/httpHandler.js";
 
 const TypeId = Symbol.for("@effect-aws/commons/RequestHandler");
@@ -34,7 +34,7 @@ export interface RequestHandler extends RequestHandlerConstructorProps {
  * @since 0.3.0
  * @category tag
  */
-export const RequestHandler = ServiceMap.Service<RequestHandler>("@effect-aws/commons/RequestHandler");
+export const RequestHandler = Context.Service<RequestHandler>("@effect-aws/commons/RequestHandler");
 
 const proto = {
   [TypeId]: TypeId,

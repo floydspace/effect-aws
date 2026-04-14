@@ -162,9 +162,9 @@ import * as Service from "@effect-aws/commons/Service";
 import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
 import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import * as Instance from "./CloudWatchEventsClientInstance.js";
 import * as CloudWatchEventsServiceConfig from "./CloudWatchEventsServiceConfig.js";
 import type {
@@ -940,7 +940,7 @@ export const makeCloudWatchEventsService = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class CloudWatchEventsService extends ServiceMap.Service<
+export class CloudWatchEventsService extends Context.Service<
   CloudWatchEventsService,
   CloudWatchEventsService$
 >()("@effect-aws/client-cloudwatch-events/CloudWatchEventsService") {

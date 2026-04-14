@@ -2,16 +2,16 @@
  * @since 1.0.0
  */
 import { IoTDataPlaneClient } from "@aws-sdk/client-iot-data-plane";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import * as IoTDataPlaneServiceConfig from "./IoTDataPlaneServiceConfig.js";
 
 /**
  * @since 1.0.0
  * @category tags
  */
-export class IoTDataPlaneClientInstance extends ServiceMap.Service<IoTDataPlaneClientInstance, IoTDataPlaneClient>()(
+export class IoTDataPlaneClientInstance extends Context.Service<IoTDataPlaneClientInstance, IoTDataPlaneClient>()(
   "@effect-aws/client-iot-data-plane/IoTDataPlaneClientInstance",
 ) {}
 

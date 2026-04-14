@@ -3,17 +3,17 @@
  */
 import type { RDSClientConfig } from "@aws-sdk/client-rds";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import { dual } from "effect/Function";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import type { RDSService } from "./RDSService.js";
 
 /**
  * @since 1.0.0
  * @category rds service config
  */
-const currentRDSServiceConfig = ServiceMap.Reference<RDSService.Config>(
+const currentRDSServiceConfig = Context.Reference<RDSService.Config>(
   "@effect-aws/client-rds/currentRDSServiceConfig",
   { defaultValue: () => ({}) },
 );

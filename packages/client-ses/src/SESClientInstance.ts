@@ -2,16 +2,16 @@
  * @since 1.0.0
  */
 import { SESClient } from "@aws-sdk/client-ses";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import * as SESServiceConfig from "./SESServiceConfig.js";
 
 /**
  * @since 1.0.0
  * @category tags
  */
-export class SESClientInstance extends ServiceMap.Service<SESClientInstance, SESClient>()(
+export class SESClientInstance extends Context.Service<SESClientInstance, SESClient>()(
   "@effect-aws/client-ses/SESClientInstance",
 ) {}
 

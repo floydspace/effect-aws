@@ -3,17 +3,17 @@
  */
 import type { STSClientConfig } from "@aws-sdk/client-sts";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import { dual } from "effect/Function";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import type { STSService } from "./STSService.js";
 
 /**
  * @since 1.0.0
  * @category sts service config
  */
-const currentSTSServiceConfig = ServiceMap.Reference<STSService.Config>(
+const currentSTSServiceConfig = Context.Reference<STSService.Config>(
   "@effect-aws/client-sts/currentSTSServiceConfig",
   { defaultValue: () => ({}) },
 );

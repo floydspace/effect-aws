@@ -3,17 +3,17 @@
  */
 import type { BedrockRuntimeClientConfig } from "@aws-sdk/client-bedrock-runtime";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import { dual } from "effect/Function";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import type { BedrockRuntimeService } from "./BedrockRuntimeService.js";
 
 /**
  * @since 1.0.0
  * @category bedrock-runtime service config
  */
-const currentBedrockRuntimeServiceConfig = ServiceMap.Reference<BedrockRuntimeService.Config>(
+const currentBedrockRuntimeServiceConfig = Context.Reference<BedrockRuntimeService.Config>(
   "@effect-aws/client-bedrock-runtime/currentBedrockRuntimeServiceConfig",
   { defaultValue: () => ({}) },
 );

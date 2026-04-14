@@ -2,10 +2,11 @@ import * as PowerTools from "@aws-lambda-powertools/tracer";
 import type { TracerInterface, TracerOptions } from "@aws-lambda-powertools/tracer/types";
 import * as Xray from "aws-xray-sdk-core";
 import * as Cause from "effect/Cause";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import type { Exit } from "effect/Exit";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
+import * as Option from "effect/Option";
 import * as EffectTracer from "effect/Tracer";
 import type { XrayTracer } from "../Tracer.js";
 import { unknownToAttributeValue } from "./utils.js";
@@ -29,8 +30,8 @@ export class XraySpan implements EffectTracer.Span {
   constructor(
     readonly tracer: TracerInterface,
     readonly name: string,
-    readonly parent: EffectTracer.AnySpan | undefined,
-    readonly annotations: ServiceMap.ServiceMap<never>,
+    readonly parent: Option.Option<EffectTracer.AnySpan>,
+    readonly annotations: Context.Context<never>,
     readonly links: Array<EffectTracer.SpanLink>,
     startTime: bigint,
     readonly kind: EffectTracer.SpanKind,
@@ -38,8 +39,8 @@ export class XraySpan implements EffectTracer.Span {
     this[XraySpanTypeId] = XraySpanTypeId;
 
     let parentSegment = tracer.getSegment();
-    if (parent) {
-      const { span } = parent as XraySpan;
+    if (Option.isSome(parent)) {
+      const { span } = parent.value as XraySpan;
       parentSegment = span;
     }
 
@@ -105,7 +106,7 @@ export class XraySpan implements EffectTracer.Span {
 }
 
 /** @internal */
-export const Tracer = ServiceMap.Service<XrayTracer, TracerInterface>(
+export const Tracer = Context.Service<XrayTracer, TracerInterface>(
   "@effect-aws/powertools-tracer/Tracer/XrayTracer",
 );
 

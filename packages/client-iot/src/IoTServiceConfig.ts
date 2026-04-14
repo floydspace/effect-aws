@@ -3,17 +3,17 @@
  */
 import type { IoTClientConfig } from "@aws-sdk/client-iot";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import { dual } from "effect/Function";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import type { IoTService } from "./IoTService.js";
 
 /**
  * @since 1.0.0
  * @category iot service config
  */
-const currentIoTServiceConfig = ServiceMap.Reference<IoTService.Config>(
+const currentIoTServiceConfig = Context.Reference<IoTService.Config>(
   "@effect-aws/client-iot/currentIoTServiceConfig",
   { defaultValue: () => ({}) },
 );

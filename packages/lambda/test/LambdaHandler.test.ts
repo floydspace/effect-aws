@@ -8,10 +8,10 @@ import type {
   SNSEvent,
 } from "@effect-aws/lambda";
 import { LambdaHandler } from "@effect-aws/lambda";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Schema from "effect/Schema";
-import * as ServiceMap from "effect/ServiceMap";
 import { HttpEffect, HttpServer, HttpServerResponse } from "effect/unstable/http";
 import { HttpApi, HttpApiBuilder, HttpApiEndpoint, HttpApiGroup, HttpApiSchema } from "effect/unstable/httpapi";
 import { describe, expect, it, vi } from "vitest";
@@ -43,7 +43,7 @@ describe("LambdaHandler", () => {
       interface FooService {
         bar: () => Effect.Effect<string>;
       }
-      const FooService = ServiceMap.Service<FooService>("@services/FooService");
+      const FooService = Context.Service<FooService>("@services/FooService");
       const FooServiceLive = Layer.succeed(
         FooService,
         FooService.of({ bar: () => Effect.succeed("Not implemented") }),
@@ -79,7 +79,7 @@ describe("LambdaHandler", () => {
       interface FooService {
         bar: () => Effect.Effect<string>;
       }
-      const FooService = ServiceMap.Service<FooService>("@services/FooService");
+      const FooService = Context.Service<FooService>("@services/FooService");
       const FooServiceLive = Layer.effect(
         FooService,
         Effect.gen(function*() {

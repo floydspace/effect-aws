@@ -3,17 +3,17 @@
  */
 import type { DSQLClientConfig } from "@aws-sdk/client-dsql";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import { dual } from "effect/Function";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import type { DSQLService } from "./DSQLService.js";
 
 /**
  * @since 1.0.0
  * @category dsql service config
  */
-const currentDSQLServiceConfig = ServiceMap.Reference<DSQLService.Config>(
+const currentDSQLServiceConfig = Context.Reference<DSQLService.Config>(
   "@effect-aws/client-dsql/currentDSQLServiceConfig",
   { defaultValue: () => ({}) },
 );

@@ -3,17 +3,17 @@
  */
 import type { AutoScalingClientConfig } from "@aws-sdk/client-auto-scaling";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import { dual } from "effect/Function";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import type { AutoScalingService } from "./AutoScalingService.js";
 
 /**
  * @since 1.0.0
  * @category auto-scaling service config
  */
-const currentAutoScalingServiceConfig = ServiceMap.Reference<AutoScalingService.Config>(
+const currentAutoScalingServiceConfig = Context.Reference<AutoScalingService.Config>(
   "@effect-aws/client-auto-scaling/currentAutoScalingServiceConfig",
   { defaultValue: () => ({}) },
 );

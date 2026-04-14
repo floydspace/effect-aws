@@ -2,16 +2,16 @@
  * @since 1.0.0
  */
 import { MqClient } from "@aws-sdk/client-mq";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import * as MqServiceConfig from "./MqServiceConfig.js";
 
 /**
  * @since 1.0.0
  * @category tags
  */
-export class MqClientInstance extends ServiceMap.Service<MqClientInstance, MqClient>()(
+export class MqClientInstance extends Context.Service<MqClientInstance, MqClient>()(
   "@effect-aws/client-mq/MqClientInstance",
 ) {}
 

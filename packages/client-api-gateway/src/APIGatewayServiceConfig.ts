@@ -3,17 +3,17 @@
  */
 import type { APIGatewayClientConfig } from "@aws-sdk/client-api-gateway";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import { dual } from "effect/Function";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import type { APIGatewayService } from "./APIGatewayService.js";
 
 /**
  * @since 1.0.0
  * @category api-gateway service config
  */
-const currentAPIGatewayServiceConfig = ServiceMap.Reference<APIGatewayService.Config>(
+const currentAPIGatewayServiceConfig = Context.Reference<APIGatewayService.Config>(
   "@effect-aws/client-api-gateway/currentAPIGatewayServiceConfig",
   { defaultValue: () => ({}) },
 );

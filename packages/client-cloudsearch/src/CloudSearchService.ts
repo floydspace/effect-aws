@@ -87,9 +87,9 @@ import * as Service from "@effect-aws/commons/Service";
 import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
 import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import * as Instance from "./CloudSearchClientInstance.js";
 import * as CloudSearchServiceConfig from "./CloudSearchServiceConfig.js";
 import type {
@@ -544,7 +544,7 @@ export const makeCloudSearchService = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class CloudSearchService extends ServiceMap.Service<
+export class CloudSearchService extends Context.Service<
   CloudSearchService,
   CloudSearchService$
 >()("@effect-aws/client-cloudsearch/CloudSearchService") {

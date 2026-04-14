@@ -3,17 +3,17 @@
  */
 import type { S3ClientConfig } from "@aws-sdk/client-s3";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import { dual } from "effect/Function";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import type { S3Service } from "./S3Service.js";
 
 /**
  * @since 1.0.0
  * @category s3 service config
  */
-const currentS3ServiceConfig = ServiceMap.Reference<S3Service.Config>(
+const currentS3ServiceConfig = Context.Reference<S3Service.Config>(
   "@effect-aws/client-s3/currentS3ServiceConfig",
   { defaultValue: () => ({}) },
 );

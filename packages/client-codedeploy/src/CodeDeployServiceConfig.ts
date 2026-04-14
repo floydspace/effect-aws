@@ -3,17 +3,17 @@
  */
 import type { CodeDeployClientConfig } from "@aws-sdk/client-codedeploy";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import { dual } from "effect/Function";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import type { CodeDeployService } from "./CodeDeployService.js";
 
 /**
  * @since 1.0.0
  * @category codedeploy service config
  */
-const currentCodeDeployServiceConfig = ServiceMap.Reference<CodeDeployService.Config>(
+const currentCodeDeployServiceConfig = Context.Reference<CodeDeployService.Config>(
   "@effect-aws/client-codedeploy/currentCodeDeployServiceConfig",
   { defaultValue: () => ({}) },
 );

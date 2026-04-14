@@ -2,9 +2,9 @@
  * @since 0.1.0
  */
 import type { DsqlSignerConfig } from "@aws-sdk/dsql-signer";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import * as Instance from "./DsqlSignerInstance.js";
 
 interface DsqlSigner$ {
@@ -29,7 +29,7 @@ export const makeDsqlSigner = Effect.gen(function*() {
  * @since 0.1.0
  * @category models
  */
-export class DsqlSigner extends ServiceMap.Service<
+export class DsqlSigner extends Context.Service<
   DsqlSigner,
   DsqlSigner$
 >()("@effect-aws/dsql/DsqlSigner") {

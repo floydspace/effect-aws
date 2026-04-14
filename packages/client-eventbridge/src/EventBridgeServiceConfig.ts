@@ -3,17 +3,17 @@
  */
 import type { EventBridgeClientConfig } from "@aws-sdk/client-eventbridge";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import { dual } from "effect/Function";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import type { EventBridgeService } from "./EventBridgeService.js";
 
 /**
  * @since 1.0.0
  * @category eventbridge service config
  */
-const currentEventBridgeServiceConfig = ServiceMap.Reference<EventBridgeService.Config>(
+const currentEventBridgeServiceConfig = Context.Reference<EventBridgeService.Config>(
   "@effect-aws/client-eventbridge/currentEventBridgeServiceConfig",
   { defaultValue: () => ({}) },
 );

@@ -3,17 +3,17 @@
  */
 import type { LambdaClientConfig } from "@aws-sdk/client-lambda";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import { dual } from "effect/Function";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import type { LambdaService } from "./LambdaService.js";
 
 /**
  * @since 1.0.0
  * @category lambda service config
  */
-const currentLambdaServiceConfig = ServiceMap.Reference<LambdaService.Config>(
+const currentLambdaServiceConfig = Context.Reference<LambdaService.Config>(
   "@effect-aws/client-lambda/currentLambdaServiceConfig",
   { defaultValue: () => ({}) },
 );

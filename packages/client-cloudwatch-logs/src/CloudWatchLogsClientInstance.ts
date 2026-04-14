@@ -2,20 +2,18 @@
  * @since 1.0.0
  */
 import { CloudWatchLogsClient } from "@aws-sdk/client-cloudwatch-logs";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import * as CloudWatchLogsServiceConfig from "./CloudWatchLogsServiceConfig.js";
 
 /**
  * @since 1.0.0
  * @category tags
  */
-export class CloudWatchLogsClientInstance
-  extends ServiceMap.Service<CloudWatchLogsClientInstance, CloudWatchLogsClient>()(
-    "@effect-aws/client-cloudwatch-logs/CloudWatchLogsClientInstance",
-  )
-{}
+export class CloudWatchLogsClientInstance extends Context.Service<CloudWatchLogsClientInstance, CloudWatchLogsClient>()(
+  "@effect-aws/client-cloudwatch-logs/CloudWatchLogsClientInstance",
+) {}
 
 /**
  * @since 1.0.0

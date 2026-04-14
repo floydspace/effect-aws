@@ -2,17 +2,17 @@
  * @since 1.0.0
  */
 import type { TranslateConfig } from "@aws-sdk/lib-dynamodb";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import { dual } from "effect/Function";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import type { DynamoDBDocumentService } from "./DynamoDBDocumentService.js";
 
 /**
  * @since 1.0.0
  * @category dynamodb service config
  */
-const currentDynamoDBDocumentServiceConfig = ServiceMap.Reference<DynamoDBDocumentService.Config>(
+const currentDynamoDBDocumentServiceConfig = Context.Reference<DynamoDBDocumentService.Config>(
   "@effect-aws/dynamodb/currentDynamoDBDocumentServiceConfig",
   { defaultValue: () => ({}) },
 );

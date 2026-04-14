@@ -14,19 +14,19 @@ import type {
 import { S3Service } from "@effect-aws/client-s3/S3Service";
 import * as Array from "effect/Array";
 import type * as Cause from "effect/Cause";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import * as FileSystem from "effect/FileSystem";
 import * as Option from "effect/Option";
 import * as PlatformError from "effect/PlatformError";
 import * as Ref from "effect/Ref";
-import * as ServiceMap from "effect/ServiceMap";
 import * as Sink from "effect/Sink";
 import * as Stream from "effect/Stream";
 import type { MultipartUpload, UploadObjectCommandInput, UploadObjectOptions } from "../MultipartUpload.js";
 
 /** @internal */
-export const tag = ServiceMap.Service<MultipartUpload>("@effect-aws/s3/MultipartUpload");
+export const tag = Context.Service<MultipartUpload>("@effect-aws/s3/MultipartUpload");
 
 /** @internal */
 const handleBadArgument = (method: string) => (err: unknown) =>

@@ -3,17 +3,17 @@
  */
 import type { IoTDataPlaneClientConfig } from "@aws-sdk/client-iot-data-plane";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import { dual } from "effect/Function";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import type { IoTDataPlaneService } from "./IoTDataPlaneService.js";
 
 /**
  * @since 1.0.0
  * @category iot-data-plane service config
  */
-const currentIoTDataPlaneServiceConfig = ServiceMap.Reference<IoTDataPlaneService.Config>(
+const currentIoTDataPlaneServiceConfig = Context.Reference<IoTDataPlaneService.Config>(
   "@effect-aws/client-iot-data-plane/currentIoTDataPlaneServiceConfig",
   { defaultValue: () => ({}) },
 );

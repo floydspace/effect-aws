@@ -2,16 +2,16 @@
  * @since 1.0.0
  */
 import { EventBridgeClient } from "@aws-sdk/client-eventbridge";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import * as EventBridgeServiceConfig from "./EventBridgeServiceConfig.js";
 
 /**
  * @since 1.0.0
  * @category tags
  */
-export class EventBridgeClientInstance extends ServiceMap.Service<EventBridgeClientInstance, EventBridgeClient>()(
+export class EventBridgeClientInstance extends Context.Service<EventBridgeClientInstance, EventBridgeClient>()(
   "@effect-aws/client-eventbridge/EventBridgeClientInstance",
 ) {}
 

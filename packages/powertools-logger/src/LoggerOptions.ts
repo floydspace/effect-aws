@@ -2,16 +2,16 @@
  * @since 1.0.0
  */
 import type { ConstructorOptions } from "@aws-lambda-powertools/logger/types";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import { dual } from "effect/Function";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 
 /**
  * @since 1.0.0
  * @category logger options
  */
-const currentLoggerOptions = ServiceMap.Reference<ConstructorOptions>(
+const currentLoggerOptions = Context.Reference<ConstructorOptions>(
   "@effect-aws/powertools-logger/currentLoggerOptions",
   { defaultValue: () => ({}) },
 );

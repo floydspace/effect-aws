@@ -3,17 +3,17 @@
  */
 import type { CognitoIdentityProviderClientConfig } from "@aws-sdk/client-cognito-identity-provider";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import { dual } from "effect/Function";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import type { CognitoIdentityProviderService } from "./CognitoIdentityProviderService.js";
 
 /**
  * @since 1.0.0
  * @category cognito-identity-provider service config
  */
-const currentCognitoIdentityProviderServiceConfig = ServiceMap.Reference<CognitoIdentityProviderService.Config>(
+const currentCognitoIdentityProviderServiceConfig = Context.Reference<CognitoIdentityProviderService.Config>(
   "@effect-aws/client-cognito-identity-provider/currentCognitoIdentityProviderServiceConfig",
   { defaultValue: () => ({}) },
 );

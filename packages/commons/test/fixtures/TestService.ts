@@ -1,9 +1,9 @@
 import { type HttpHandlerOptions, Service } from "@effect-aws/commons";
 import { createPaginator } from "@smithy/core";
 import { Command } from "@smithy/smithy-client";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import * as Instance from "./TestClientInstance.js";
 import * as TestServiceConfig from "./TestServiceConfig.js";
 
@@ -32,7 +32,7 @@ export const makeTestService = Effect.gen(function*() {
   );
 });
 
-export class TestService extends ServiceMap.Service<
+export class TestService extends Context.Service<
   TestService,
   TestService$
 >()("@effect-aws/commons/test/TestService") {

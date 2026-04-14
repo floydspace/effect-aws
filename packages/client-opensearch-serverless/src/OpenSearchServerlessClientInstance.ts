@@ -2,9 +2,9 @@
  * @since 1.0.0
  */
 import { OpenSearchServerlessClient } from "@aws-sdk/client-opensearchserverless";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import * as OpenSearchServerlessServiceConfig from "./OpenSearchServerlessServiceConfig.js";
 
 /**
@@ -12,7 +12,7 @@ import * as OpenSearchServerlessServiceConfig from "./OpenSearchServerlessServic
  * @category tags
  */
 export class OpenSearchServerlessClientInstance
-  extends ServiceMap.Service<OpenSearchServerlessClientInstance, OpenSearchServerlessClient>()(
+  extends Context.Service<OpenSearchServerlessClientInstance, OpenSearchServerlessClient>()(
     "@effect-aws/client-opensearch-serverless/OpenSearchServerlessClientInstance",
   )
 {}

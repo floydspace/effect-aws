@@ -3,17 +3,17 @@
  */
 import type { ApiGatewayManagementApiClientConfig } from "@aws-sdk/client-apigatewaymanagementapi";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import { dual } from "effect/Function";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import type { ApiGatewayManagementApiService } from "./ApiGatewayManagementApiService.js";
 
 /**
  * @since 1.0.0
  * @category api-gateway-management-api service config
  */
-const currentApiGatewayManagementApiServiceConfig = ServiceMap.Reference<ApiGatewayManagementApiService.Config>(
+const currentApiGatewayManagementApiServiceConfig = Context.Reference<ApiGatewayManagementApiService.Config>(
   "@effect-aws/client-api-gateway-management-api/currentApiGatewayManagementApiServiceConfig",
   { defaultValue: () => ({}) },
 );

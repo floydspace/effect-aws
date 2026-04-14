@@ -2,16 +2,16 @@
  * @since 1.0.0
  */
 import { BedrockClient } from "@aws-sdk/client-bedrock";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import * as BedrockServiceConfig from "./BedrockServiceConfig.js";
 
 /**
  * @since 1.0.0
  * @category tags
  */
-export class BedrockClientInstance extends ServiceMap.Service<BedrockClientInstance, BedrockClient>()(
+export class BedrockClientInstance extends Context.Service<BedrockClientInstance, BedrockClient>()(
   "@effect-aws/client-bedrock/BedrockClientInstance",
 ) {}
 

@@ -2,16 +2,16 @@
  * @since 1.0.0
  */
 import { KinesisClient } from "@aws-sdk/client-kinesis";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import * as KinesisServiceConfig from "./KinesisServiceConfig.js";
 
 /**
  * @since 1.0.0
  * @category tags
  */
-export class KinesisClientInstance extends ServiceMap.Service<KinesisClientInstance, KinesisClient>()(
+export class KinesisClientInstance extends Context.Service<KinesisClientInstance, KinesisClient>()(
   "@effect-aws/client-kinesis/KinesisClientInstance",
 ) {}
 

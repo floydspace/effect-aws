@@ -18,9 +18,9 @@ import * as Service from "@effect-aws/commons/Service";
 import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
 import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import * as Instance from "./ApiGatewayManagementApiClientInstance.js";
 import * as ApiGatewayManagementApiServiceConfig from "./ApiGatewayManagementApiServiceConfig.js";
 import type { ForbiddenError, GoneError, LimitExceededError, PayloadTooLargeError, SdkError } from "./Errors.js";
@@ -88,7 +88,7 @@ export const makeApiGatewayManagementApiService = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class ApiGatewayManagementApiService extends ServiceMap.Service<
+export class ApiGatewayManagementApiService extends Context.Service<
   ApiGatewayManagementApiService,
   ApiGatewayManagementApiService$
 >()("@effect-aws/client-api-gateway-management-api/ApiGatewayManagementApiService") {

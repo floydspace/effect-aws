@@ -2,9 +2,9 @@
  * @since 1.0.0
  */
 import { CognitoIdentityProviderClient } from "@aws-sdk/client-cognito-identity-provider";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import * as CognitoIdentityProviderServiceConfig from "./CognitoIdentityProviderServiceConfig.js";
 
 /**
@@ -12,7 +12,7 @@ import * as CognitoIdentityProviderServiceConfig from "./CognitoIdentityProvider
  * @category tags
  */
 export class CognitoIdentityProviderClientInstance
-  extends ServiceMap.Service<CognitoIdentityProviderClientInstance, CognitoIdentityProviderClient>()(
+  extends Context.Service<CognitoIdentityProviderClientInstance, CognitoIdentityProviderClient>()(
     "@effect-aws/client-cognito-identity-provider/CognitoIdentityProviderClientInstance",
   )
 {}

@@ -3,17 +3,17 @@
  */
 import type { SNSClientConfig } from "@aws-sdk/client-sns";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import { dual } from "effect/Function";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import type { SNSService } from "./SNSService.js";
 
 /**
  * @since 1.0.0
  * @category sns service config
  */
-const currentSNSServiceConfig = ServiceMap.Reference<SNSService.Config>(
+const currentSNSServiceConfig = Context.Reference<SNSService.Config>(
   "@effect-aws/client-sns/currentSNSServiceConfig",
   { defaultValue: () => ({}) },
 );

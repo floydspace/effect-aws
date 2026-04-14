@@ -182,7 +182,7 @@ async function generateClientInstanceFile(
  * @since 1.0.0
  */
 import { ${sdkName}Client } from "@aws-sdk/client-${originalServiceName}";
-import * as ServiceMap from "effect/ServiceMap";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as ${sdkName}ServiceConfig from "./${sdkName}ServiceConfig.js";
@@ -191,7 +191,7 @@ import * as ${sdkName}ServiceConfig from "./${sdkName}ServiceConfig.js";
  * @since 1.0.0
  * @category tags
  */
-export class ${sdkName}ClientInstance extends ServiceMap.Service<${sdkName}ClientInstance, ${sdkName}Client>()(
+export class ${sdkName}ClientInstance extends Context.Service<${sdkName}ClientInstance, ${sdkName}Client>()(
   "@effect-aws/client-${serviceName}/${sdkName}ClientInstance",
 ) {}
 
@@ -230,7 +230,7 @@ async function generateServiceConfigFile(
  */
 import type { ${sdkName}ClientConfig } from "@aws-sdk/client-${originalServiceName}";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
-import * as ServiceMap from "effect/ServiceMap";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import { dual } from "effect/Function";
@@ -240,7 +240,7 @@ import type { ${sdkName}Service } from "./${sdkName}Service.js";
  * @since 1.0.0
  * @category ${serviceName} service config
  */
-const current${sdkName}ServiceConfig = ServiceMap.Reference<${sdkName}Service.Config>(
+const current${sdkName}ServiceConfig = Context.Reference<${sdkName}Service.Config>(
   "@effect-aws/client-${serviceName}/current${sdkName}ServiceConfig",
   { defaultValue: () => ({}) },
 );
@@ -409,7 +409,7 @@ import * as Service from "@effect-aws/commons/Service";
 import type * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";${
+import * as Context from "effect/Context";${
       paginateFns.length > 0 ?
         `
 import type * as Stream from "effect/Stream";
@@ -540,7 +540,7 @@ export const make${sdkName}Service = Effect.gen(function* () {
  * @since 1.0.0
  * @category models
  */
-export class ${sdkName}Service extends ServiceMap.Service<
+export class ${sdkName}Service extends Context.Service<
   ${sdkName}Service,
   ${sdkName}Service$
 >()("@effect-aws/client-${serviceName}/${sdkName}Service") {

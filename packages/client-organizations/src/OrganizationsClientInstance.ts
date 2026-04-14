@@ -2,16 +2,16 @@
  * @since 1.0.0
  */
 import { OrganizationsClient } from "@aws-sdk/client-organizations";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import * as OrganizationsServiceConfig from "./OrganizationsServiceConfig.js";
 
 /**
  * @since 1.0.0
  * @category tags
  */
-export class OrganizationsClientInstance extends ServiceMap.Service<OrganizationsClientInstance, OrganizationsClient>()(
+export class OrganizationsClientInstance extends Context.Service<OrganizationsClientInstance, OrganizationsClient>()(
   "@effect-aws/client-organizations/OrganizationsClientInstance",
 ) {}
 

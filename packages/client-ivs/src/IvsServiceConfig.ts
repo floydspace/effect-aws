@@ -3,17 +3,17 @@
  */
 import type { IvsClientConfig } from "@aws-sdk/client-ivs";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import { dual } from "effect/Function";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import type { IvsService } from "./IvsService.js";
 
 /**
  * @since 1.0.0
  * @category ivs service config
  */
-const currentIvsServiceConfig = ServiceMap.Reference<IvsService.Config>(
+const currentIvsServiceConfig = Context.Reference<IvsService.Config>(
   "@effect-aws/client-ivs/currentIvsServiceConfig",
   { defaultValue: () => ({}) },
 );

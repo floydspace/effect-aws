@@ -2,16 +2,16 @@
  * @since 1.0.0
  */
 import { S3Client } from "@aws-sdk/client-s3";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import * as S3ServiceConfig from "./S3ServiceConfig.js";
 
 /**
  * @since 1.0.0
  * @category tags
  */
-export class S3ClientInstance extends ServiceMap.Service<S3ClientInstance, S3Client>()(
+export class S3ClientInstance extends Context.Service<S3ClientInstance, S3Client>()(
   "@effect-aws/client-s3/S3ClientInstance",
 ) {}
 

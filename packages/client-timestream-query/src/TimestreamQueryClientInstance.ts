@@ -2,9 +2,9 @@
  * @since 1.0.0
  */
 import { TimestreamQueryClient } from "@aws-sdk/client-timestream-query";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import * as TimestreamQueryServiceConfig from "./TimestreamQueryServiceConfig.js";
 
 /**
@@ -12,7 +12,7 @@ import * as TimestreamQueryServiceConfig from "./TimestreamQueryServiceConfig.js
  * @category tags
  */
 export class TimestreamQueryClientInstance
-  extends ServiceMap.Service<TimestreamQueryClientInstance, TimestreamQueryClient>()(
+  extends Context.Service<TimestreamQueryClientInstance, TimestreamQueryClient>()(
     "@effect-aws/client-timestream-query/TimestreamQueryClientInstance",
   )
 {}

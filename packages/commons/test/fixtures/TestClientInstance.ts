@@ -2,9 +2,9 @@ import { getLoggerPlugin } from "@aws-sdk/middleware-logger";
 import type { HttpHandlerOptions, Service } from "@effect-aws/commons";
 import { Client, NoOpLogger } from "@smithy/smithy-client";
 import type { CheckOptionalClientConfig, InitializeHandlerOutput, RequestHandler } from "@smithy/types";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import { mock } from "vitest-mock-extended";
 import * as TestServiceConfig from "./TestServiceConfig.js";
 
@@ -23,7 +23,7 @@ export class TestClient extends Client<HttpHandlerOptions, any, any, Service.Bas
   }
 }
 
-export class TestClientInstance extends ServiceMap.Service<TestClientInstance, TestClient>()(
+export class TestClientInstance extends Context.Service<TestClientInstance, TestClient>()(
   "@effect-aws/commons/test/TestClientInstance",
 ) {}
 

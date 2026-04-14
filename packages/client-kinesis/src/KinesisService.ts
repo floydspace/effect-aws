@@ -128,9 +128,9 @@ import * as Service from "@effect-aws/commons/Service";
 import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
 import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import type * as Stream from "effect/Stream";
 import type {
   AccessDeniedError,
@@ -896,7 +896,7 @@ export const makeKinesisService = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class KinesisService extends ServiceMap.Service<
+export class KinesisService extends Context.Service<
   KinesisService,
   KinesisService$
 >()("@effect-aws/client-kinesis/KinesisService") {

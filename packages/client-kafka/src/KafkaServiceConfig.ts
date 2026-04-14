@@ -3,17 +3,17 @@
  */
 import type { KafkaClientConfig } from "@aws-sdk/client-kafka";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import { dual } from "effect/Function";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import type { KafkaService } from "./KafkaService.js";
 
 /**
  * @since 1.0.0
  * @category kafka service config
  */
-const currentKafkaServiceConfig = ServiceMap.Reference<KafkaService.Config>(
+const currentKafkaServiceConfig = Context.Reference<KafkaService.Config>(
   "@effect-aws/client-kafka/currentKafkaServiceConfig",
   { defaultValue: () => ({}) },
 );

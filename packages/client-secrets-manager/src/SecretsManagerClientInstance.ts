@@ -2,20 +2,18 @@
  * @since 1.0.0
  */
 import { SecretsManagerClient } from "@aws-sdk/client-secrets-manager";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import * as SecretsManagerServiceConfig from "./SecretsManagerServiceConfig.js";
 
 /**
  * @since 1.0.0
  * @category tags
  */
-export class SecretsManagerClientInstance
-  extends ServiceMap.Service<SecretsManagerClientInstance, SecretsManagerClient>()(
-    "@effect-aws/client-secrets-manager/SecretsManagerClientInstance",
-  )
-{}
+export class SecretsManagerClientInstance extends Context.Service<SecretsManagerClientInstance, SecretsManagerClient>()(
+  "@effect-aws/client-secrets-manager/SecretsManagerClientInstance",
+) {}
 
 /**
  * @since 1.0.0

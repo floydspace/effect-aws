@@ -3,17 +3,17 @@
  */
 import type { IAMClientConfig } from "@aws-sdk/client-iam";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import { dual } from "effect/Function";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import type { IAMService } from "./IAMService.js";
 
 /**
  * @since 1.0.0
  * @category iam service config
  */
-const currentIAMServiceConfig = ServiceMap.Reference<IAMService.Config>(
+const currentIAMServiceConfig = Context.Reference<IAMService.Config>(
   "@effect-aws/client-iam/currentIAMServiceConfig",
   { defaultValue: () => ({}) },
 );

@@ -2,16 +2,16 @@
  * @since 1.0.0
  */
 import { SNSClient } from "@aws-sdk/client-sns";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import * as SNSServiceConfig from "./SNSServiceConfig.js";
 
 /**
  * @since 1.0.0
  * @category tags
  */
-export class SNSClientInstance extends ServiceMap.Service<SNSClientInstance, SNSClient>()(
+export class SNSClientInstance extends Context.Service<SNSClientInstance, SNSClient>()(
   "@effect-aws/client-sns/SNSClientInstance",
 ) {}
 

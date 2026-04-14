@@ -42,9 +42,9 @@ import * as Service from "@effect-aws/commons/Service";
 import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
 import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import type {
   ExpiredTokenError,
   ExpiredTradeInTokenError,
@@ -246,7 +246,7 @@ export const makeSTSService = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class STSService extends ServiceMap.Service<
+export class STSService extends Context.Service<
   STSService,
   STSService$
 >()("@effect-aws/client-sts/STSService") {

@@ -3,17 +3,17 @@
  */
 import type { TimestreamQueryClientConfig } from "@aws-sdk/client-timestream-query";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import { dual } from "effect/Function";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import type { TimestreamQueryService } from "./TimestreamQueryService.js";
 
 /**
  * @since 1.0.0
  * @category timestream-query service config
  */
-const currentTimestreamQueryServiceConfig = ServiceMap.Reference<TimestreamQueryService.Config>(
+const currentTimestreamQueryServiceConfig = Context.Reference<TimestreamQueryService.Config>(
   "@effect-aws/client-timestream-query/currentTimestreamQueryServiceConfig",
   { defaultValue: () => ({}) },
 );

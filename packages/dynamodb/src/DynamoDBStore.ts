@@ -2,9 +2,9 @@
  * @since 1.0.0
  */
 import * as Config from "effect/Config";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import { DynamoDBDocumentService } from "./DynamoDBDocumentService.js";
 
 type WithoutTableNameInArgs = {
@@ -97,7 +97,7 @@ export const makeDynamoDBStore = Effect.fn(function*(props: DynamoDBStore.Config
  * @since 1.0.0
  * @category models
  */
-export class DynamoDBStore extends ServiceMap.Service<
+export class DynamoDBStore extends Context.Service<
   DynamoDBStore,
   DynamoDBStore.Type
 >()("@effect-aws/dynamodb/DynamoDBStore") {

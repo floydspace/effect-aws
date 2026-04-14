@@ -3,17 +3,17 @@
  */
 import type { DynamoDBClientConfig } from "@aws-sdk/client-dynamodb";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import { dual } from "effect/Function";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import type { DynamoDBService } from "./DynamoDBService.js";
 
 /**
  * @since 1.0.0
  * @category dynamodb service config
  */
-const currentDynamoDBServiceConfig = ServiceMap.Reference<DynamoDBService.Config>(
+const currentDynamoDBServiceConfig = Context.Reference<DynamoDBService.Config>(
   "@effect-aws/client-dynamodb/currentDynamoDBServiceConfig",
   { defaultValue: () => ({}) },
 );

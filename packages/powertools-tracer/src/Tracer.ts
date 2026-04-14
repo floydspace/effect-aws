@@ -2,9 +2,9 @@
  * @since 1.0.0
  */
 import type { TracerInterface, TracerOptions } from "@aws-lambda-powertools/tracer/types";
+import type { Service } from "effect/Context";
 import type { Effect } from "effect/Effect";
 import type { Layer } from "effect/Layer";
-import type { Service } from "effect/ServiceMap";
 import type { Tracer as EffectTracer } from "effect/Tracer";
 import * as internal from "./internal/tracer.js";
 

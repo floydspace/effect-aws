@@ -2,16 +2,16 @@
  * @since 1.0.0
  */
 import { IoTEventsDataClient } from "@aws-sdk/client-iot-events-data";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import * as IoTEventsDataServiceConfig from "./IoTEventsDataServiceConfig.js";
 
 /**
  * @since 1.0.0
  * @category tags
  */
-export class IoTEventsDataClientInstance extends ServiceMap.Service<IoTEventsDataClientInstance, IoTEventsDataClient>()(
+export class IoTEventsDataClientInstance extends Context.Service<IoTEventsDataClientInstance, IoTEventsDataClient>()(
   "@effect-aws/client-iot-events-data/IoTEventsDataClientInstance",
 ) {}
 

@@ -3,9 +3,9 @@
  */
 import { DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
 import * as DynamoDBClientInstance from "@effect-aws/client-dynamodb/DynamoDBClientInstance";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import * as DynamoDBDocumentServiceConfig from "./DynamoDBDocumentServiceConfig.js";
 
 /**
@@ -13,7 +13,7 @@ import * as DynamoDBDocumentServiceConfig from "./DynamoDBDocumentServiceConfig.
  * @category tags
  */
 export class DynamoDBDocumentClientInstance
-  extends ServiceMap.Service<DynamoDBDocumentClientInstance, DynamoDBDocumentClient>()(
+  extends Context.Service<DynamoDBDocumentClientInstance, DynamoDBDocumentClient>()(
     "@effect-aws/dynamodb/DynamoDBDocumentClientInstance",
   )
 {}

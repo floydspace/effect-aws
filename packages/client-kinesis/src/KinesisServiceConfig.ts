@@ -3,17 +3,17 @@
  */
 import type { KinesisClientConfig } from "@aws-sdk/client-kinesis";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import { dual } from "effect/Function";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import type { KinesisService } from "./KinesisService.js";
 
 /**
  * @since 1.0.0
  * @category kinesis service config
  */
-const currentKinesisServiceConfig = ServiceMap.Reference<KinesisService.Config>(
+const currentKinesisServiceConfig = Context.Reference<KinesisService.Config>(
   "@effect-aws/client-kinesis/currentKinesisServiceConfig",
   { defaultValue: () => ({}) },
 );

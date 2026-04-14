@@ -2,9 +2,9 @@
  * @since 1.0.0
  */
 import { TimestreamWriteClient } from "@aws-sdk/client-timestream-write";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import * as TimestreamWriteServiceConfig from "./TimestreamWriteServiceConfig.js";
 
 /**
@@ -12,7 +12,7 @@ import * as TimestreamWriteServiceConfig from "./TimestreamWriteServiceConfig.js
  * @category tags
  */
 export class TimestreamWriteClientInstance
-  extends ServiceMap.Service<TimestreamWriteClientInstance, TimestreamWriteClient>()(
+  extends Context.Service<TimestreamWriteClientInstance, TimestreamWriteClient>()(
     "@effect-aws/client-timestream-write/TimestreamWriteClientInstance",
   )
 {}

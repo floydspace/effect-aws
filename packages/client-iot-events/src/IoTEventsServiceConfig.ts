@@ -3,17 +3,17 @@
  */
 import type { IoTEventsClientConfig } from "@aws-sdk/client-iot-events";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import { dual } from "effect/Function";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import type { IoTEventsService } from "./IoTEventsService.js";
 
 /**
  * @since 1.0.0
  * @category iot-events service config
  */
-const currentIoTEventsServiceConfig = ServiceMap.Reference<IoTEventsService.Config>(
+const currentIoTEventsServiceConfig = Context.Reference<IoTEventsService.Config>(
   "@effect-aws/client-iot-events/currentIoTEventsServiceConfig",
   { defaultValue: () => ({}) },
 );

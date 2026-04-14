@@ -3,17 +3,17 @@
  */
 import type { CloudSearchClientConfig } from "@aws-sdk/client-cloudsearch";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import { dual } from "effect/Function";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import type { CloudSearchService } from "./CloudSearchService.js";
 
 /**
  * @since 1.0.0
  * @category cloudsearch service config
  */
-const currentCloudSearchServiceConfig = ServiceMap.Reference<CloudSearchService.Config>(
+const currentCloudSearchServiceConfig = Context.Reference<CloudSearchService.Config>(
   "@effect-aws/client-cloudsearch/currentCloudSearchServiceConfig",
   { defaultValue: () => ({}) },
 );

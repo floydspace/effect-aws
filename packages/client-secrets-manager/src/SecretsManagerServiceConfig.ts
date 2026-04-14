@@ -3,17 +3,17 @@
  */
 import type { SecretsManagerClientConfig } from "@aws-sdk/client-secrets-manager";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import { dual } from "effect/Function";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import type { SecretsManagerService } from "./SecretsManagerService.js";
 
 /**
  * @since 1.0.0
  * @category secrets-manager service config
  */
-const currentSecretsManagerServiceConfig = ServiceMap.Reference<SecretsManagerService.Config>(
+const currentSecretsManagerServiceConfig = Context.Reference<SecretsManagerService.Config>(
   "@effect-aws/client-secrets-manager/currentSecretsManagerServiceConfig",
   { defaultValue: () => ({}) },
 );

@@ -3,17 +3,17 @@
  */
 import type { SESClientConfig } from "@aws-sdk/client-ses";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import { dual } from "effect/Function";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import type { SESService } from "./SESService.js";
 
 /**
  * @since 1.0.0
  * @category ses service config
  */
-const currentSESServiceConfig = ServiceMap.Reference<SESService.Config>(
+const currentSESServiceConfig = Context.Reference<SESService.Config>(
   "@effect-aws/client-ses/currentSESServiceConfig",
   { defaultValue: () => ({}) },
 );

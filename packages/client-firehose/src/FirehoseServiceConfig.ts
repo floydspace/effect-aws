@@ -3,17 +3,17 @@
  */
 import type { FirehoseClientConfig } from "@aws-sdk/client-firehose";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import { dual } from "effect/Function";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import type { FirehoseService } from "./FirehoseService.js";
 
 /**
  * @since 1.0.0
  * @category firehose service config
  */
-const currentFirehoseServiceConfig = ServiceMap.Reference<FirehoseService.Config>(
+const currentFirehoseServiceConfig = Context.Reference<FirehoseService.Config>(
   "@effect-aws/client-firehose/currentFirehoseServiceConfig",
   { defaultValue: () => ({}) },
 );

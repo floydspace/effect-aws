@@ -2,9 +2,9 @@
  * @since 1.0.0
  */
 import { CloudWatchEventsClient } from "@aws-sdk/client-cloudwatch-events";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import * as CloudWatchEventsServiceConfig from "./CloudWatchEventsServiceConfig.js";
 
 /**
@@ -12,7 +12,7 @@ import * as CloudWatchEventsServiceConfig from "./CloudWatchEventsServiceConfig.
  * @category tags
  */
 export class CloudWatchEventsClientInstance
-  extends ServiceMap.Service<CloudWatchEventsClientInstance, CloudWatchEventsClient>()(
+  extends Context.Service<CloudWatchEventsClientInstance, CloudWatchEventsClient>()(
     "@effect-aws/client-cloudwatch-events/CloudWatchEventsClientInstance",
   )
 {}

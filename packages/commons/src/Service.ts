@@ -97,7 +97,7 @@ export const makeServiceFn = (
   return (args: any, options?: HttpHandlerOptions) =>
     Effect.gen(function*() {
       const config = yield* fnOptions.resolveClientConfig;
-      const runtime = yield* Effect.services<never>();
+      const runtime = yield* Effect.context<never>();
 
       return yield* Effect.acquireUseRelease(
         Scope.make(),

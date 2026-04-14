@@ -66,9 +66,9 @@ import * as DynamoDBServiceConfig from "@effect-aws/client-dynamodb/DynamoDBServ
 import type { HttpHandlerOptions } from "@effect-aws/commons";
 import * as Service from "@effect-aws/commons/Service";
 import type * as Cause from "effect/Cause";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import * as Instance from "./DynamoDBDocumentClientInstance.js";
 import * as DynamoDBDocumentServiceConfig from "./DynamoDBDocumentServiceConfig.js";
 
@@ -340,7 +340,7 @@ export const makeDynamoDBDocumentService = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class DynamoDBDocumentService extends ServiceMap.Service<DynamoDBDocumentService, DynamoDBDocumentService$>()(
+export class DynamoDBDocumentService extends Context.Service<DynamoDBDocumentService, DynamoDBDocumentService$>()(
   "@effect-aws/dynamodb/DynamoDBDocumentService",
 ) {
   static readonly defaultLayer = Layer.effect(this, makeDynamoDBDocumentService).pipe(Layer.provide(Instance.layer));

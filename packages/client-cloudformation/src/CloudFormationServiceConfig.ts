@@ -3,17 +3,17 @@
  */
 import type { CloudFormationClientConfig } from "@aws-sdk/client-cloudformation";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import { dual } from "effect/Function";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import type { CloudFormationService } from "./CloudFormationService.js";
 
 /**
  * @since 1.0.0
  * @category cloudformation service config
  */
-const currentCloudFormationServiceConfig = ServiceMap.Reference<CloudFormationService.Config>(
+const currentCloudFormationServiceConfig = Context.Reference<CloudFormationService.Config>(
   "@effect-aws/client-cloudformation/currentCloudFormationServiceConfig",
   { defaultValue: () => ({}) },
 );

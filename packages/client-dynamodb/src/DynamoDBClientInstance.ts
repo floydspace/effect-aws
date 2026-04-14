@@ -2,16 +2,16 @@
  * @since 1.0.0
  */
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import * as DynamoDBServiceConfig from "./DynamoDBServiceConfig.js";
 
 /**
  * @since 1.0.0
  * @category tags
  */
-export class DynamoDBClientInstance extends ServiceMap.Service<DynamoDBClientInstance, DynamoDBClient>()(
+export class DynamoDBClientInstance extends Context.Service<DynamoDBClientInstance, DynamoDBClient>()(
   "@effect-aws/client-dynamodb/DynamoDBClientInstance",
 ) {}
 

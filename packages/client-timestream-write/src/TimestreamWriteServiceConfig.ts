@@ -3,17 +3,17 @@
  */
 import type { TimestreamWriteClientConfig } from "@aws-sdk/client-timestream-write";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import { dual } from "effect/Function";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import type { TimestreamWriteService } from "./TimestreamWriteService.js";
 
 /**
  * @since 1.0.0
  * @category timestream-write service config
  */
-const currentTimestreamWriteServiceConfig = ServiceMap.Reference<TimestreamWriteService.Config>(
+const currentTimestreamWriteServiceConfig = Context.Reference<TimestreamWriteService.Config>(
   "@effect-aws/client-timestream-write/currentTimestreamWriteServiceConfig",
   { defaultValue: () => ({}) },
 );

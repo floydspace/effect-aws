@@ -2,16 +2,16 @@
  * @since 1.0.0
  */
 import { IoTClient } from "@aws-sdk/client-iot";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import * as IoTServiceConfig from "./IoTServiceConfig.js";
 
 /**
  * @since 1.0.0
  * @category tags
  */
-export class IoTClientInstance extends ServiceMap.Service<IoTClientInstance, IoTClient>()(
+export class IoTClientInstance extends Context.Service<IoTClientInstance, IoTClient>()(
   "@effect-aws/client-iot/IoTClientInstance",
 ) {}
 

@@ -9,11 +9,11 @@ import type {
 } from "@aws-sdk/client-s3";
 import { S3Service } from "@effect-aws/client-s3/S3Service";
 import type * as Cause from "effect/Cause";
+import type * as Context from "effect/Context";
 import type * as Effect from "effect/Effect";
 import type * as FileSystem from "effect/FileSystem";
 import * as Layer from "effect/Layer";
 import type * as PlatformError from "effect/PlatformError";
-import type * as ServiceMap from "effect/ServiceMap";
 import type * as Stream from "effect/Stream";
 import * as internal from "./internal/multipartUpload.js";
 
@@ -64,7 +64,7 @@ export interface MultipartUpload {
  * @since 0.1.0
  * @category tag
  */
-export const MultipartUpload: ServiceMap.Service<MultipartUpload, MultipartUpload> = internal.tag;
+export const MultipartUpload: Context.Service<MultipartUpload, MultipartUpload> = internal.tag;
 
 /**
  * Upload an object to S3 using multipart upload.

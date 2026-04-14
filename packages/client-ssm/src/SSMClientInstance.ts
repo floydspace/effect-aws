@@ -2,16 +2,16 @@
  * @since 1.0.0
  */
 import { SSMClient } from "@aws-sdk/client-ssm";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import * as SSMServiceConfig from "./SSMServiceConfig.js";
 
 /**
  * @since 1.0.0
  * @category tags
  */
-export class SSMClientInstance extends ServiceMap.Service<SSMClientInstance, SSMClient>()(
+export class SSMClientInstance extends Context.Service<SSMClientInstance, SSMClient>()(
   "@effect-aws/client-ssm/SSMClientInstance",
 ) {}
 

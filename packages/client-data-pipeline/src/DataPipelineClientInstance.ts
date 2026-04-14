@@ -2,16 +2,16 @@
  * @since 1.0.0
  */
 import { DataPipelineClient } from "@aws-sdk/client-data-pipeline";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import * as DataPipelineServiceConfig from "./DataPipelineServiceConfig.js";
 
 /**
  * @since 1.0.0
  * @category tags
  */
-export class DataPipelineClientInstance extends ServiceMap.Service<DataPipelineClientInstance, DataPipelineClient>()(
+export class DataPipelineClientInstance extends Context.Service<DataPipelineClientInstance, DataPipelineClient>()(
   "@effect-aws/client-data-pipeline/DataPipelineClientInstance",
 ) {}
 

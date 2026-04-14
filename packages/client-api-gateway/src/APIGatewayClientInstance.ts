@@ -2,16 +2,16 @@
  * @since 1.0.0
  */
 import { APIGatewayClient } from "@aws-sdk/client-api-gateway";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import * as APIGatewayServiceConfig from "./APIGatewayServiceConfig.js";
 
 /**
  * @since 1.0.0
  * @category tags
  */
-export class APIGatewayClientInstance extends ServiceMap.Service<APIGatewayClientInstance, APIGatewayClient>()(
+export class APIGatewayClientInstance extends Context.Service<APIGatewayClientInstance, APIGatewayClient>()(
   "@effect-aws/client-api-gateway/APIGatewayClientInstance",
 ) {}
 

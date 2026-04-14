@@ -3,17 +3,17 @@
  */
 import type { OpenSearchServerlessClientConfig } from "@aws-sdk/client-opensearchserverless";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import { dual } from "effect/Function";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import type { OpenSearchServerlessService } from "./OpenSearchServerlessService.js";
 
 /**
  * @since 1.0.0
  * @category opensearch-serverless service config
  */
-const currentOpenSearchServerlessServiceConfig = ServiceMap.Reference<OpenSearchServerlessService.Config>(
+const currentOpenSearchServerlessServiceConfig = Context.Reference<OpenSearchServerlessService.Config>(
   "@effect-aws/client-opensearch-serverless/currentOpenSearchServerlessServiceConfig",
   { defaultValue: () => ({}) },
 );

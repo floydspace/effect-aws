@@ -3,17 +3,17 @@
  */
 import type { TextractClientConfig } from "@aws-sdk/client-textract";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import { dual } from "effect/Function";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import type { TextractService } from "./TextractService.js";
 
 /**
  * @since 1.0.0
  * @category textract service config
  */
-const currentTextractServiceConfig = ServiceMap.Reference<TextractService.Config>(
+const currentTextractServiceConfig = Context.Reference<TextractService.Config>(
   "@effect-aws/client-textract/currentTextractServiceConfig",
   { defaultValue: () => ({}) },
 );

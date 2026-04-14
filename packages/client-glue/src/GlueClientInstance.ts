@@ -2,16 +2,16 @@
  * @since 1.0.0
  */
 import { GlueClient } from "@aws-sdk/client-glue";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import * as GlueServiceConfig from "./GlueServiceConfig.js";
 
 /**
  * @since 1.0.0
  * @category tags
  */
-export class GlueClientInstance extends ServiceMap.Service<GlueClientInstance, GlueClient>()(
+export class GlueClientInstance extends Context.Service<GlueClientInstance, GlueClient>()(
   "@effect-aws/client-glue/GlueClientInstance",
 ) {}
 

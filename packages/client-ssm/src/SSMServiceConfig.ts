@@ -3,17 +3,17 @@
  */
 import type { SSMClientConfig } from "@aws-sdk/client-ssm";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import { dual } from "effect/Function";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import type { SSMService } from "./SSMService.js";
 
 /**
  * @since 1.0.0
  * @category ssm service config
  */
-const currentSSMServiceConfig = ServiceMap.Reference<SSMService.Config>(
+const currentSSMServiceConfig = Context.Reference<SSMService.Config>(
   "@effect-aws/client-ssm/currentSSMServiceConfig",
   { defaultValue: () => ({}) },
 );

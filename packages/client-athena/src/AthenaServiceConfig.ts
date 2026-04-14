@@ -3,17 +3,17 @@
  */
 import type { AthenaClientConfig } from "@aws-sdk/client-athena";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import { dual } from "effect/Function";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import type { AthenaService } from "./AthenaService.js";
 
 /**
  * @since 1.0.0
  * @category athena service config
  */
-const currentAthenaServiceConfig = ServiceMap.Reference<AthenaService.Config>(
+const currentAthenaServiceConfig = Context.Reference<AthenaService.Config>(
   "@effect-aws/client-athena/currentAthenaServiceConfig",
   { defaultValue: () => ({}) },
 );

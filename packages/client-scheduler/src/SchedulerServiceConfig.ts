@@ -3,17 +3,17 @@
  */
 import type { SchedulerClientConfig } from "@aws-sdk/client-scheduler";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import { dual } from "effect/Function";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import type { SchedulerService } from "./SchedulerService.js";
 
 /**
  * @since 1.0.0
  * @category scheduler service config
  */
-const currentSchedulerServiceConfig = ServiceMap.Reference<SchedulerService.Config>(
+const currentSchedulerServiceConfig = Context.Reference<SchedulerService.Config>(
   "@effect-aws/client-scheduler/currentSchedulerServiceConfig",
   { defaultValue: () => ({}) },
 );

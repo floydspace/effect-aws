@@ -3,17 +3,17 @@
  */
 import type { EC2ClientConfig } from "@aws-sdk/client-ec2";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import { dual } from "effect/Function";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import type { EC2Service } from "./EC2Service.js";
 
 /**
  * @since 1.0.0
  * @category ec2 service config
  */
-const currentEC2ServiceConfig = ServiceMap.Reference<EC2Service.Config>(
+const currentEC2ServiceConfig = Context.Reference<EC2Service.Config>(
   "@effect-aws/client-ec2/currentEC2ServiceConfig",
   { defaultValue: () => ({}) },
 );

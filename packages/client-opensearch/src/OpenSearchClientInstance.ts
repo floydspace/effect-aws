@@ -2,16 +2,16 @@
  * @since 1.0.0
  */
 import { OpenSearchClient } from "@aws-sdk/client-opensearch";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import * as OpenSearchServiceConfig from "./OpenSearchServiceConfig.js";
 
 /**
  * @since 1.0.0
  * @category tags
  */
-export class OpenSearchClientInstance extends ServiceMap.Service<OpenSearchClientInstance, OpenSearchClient>()(
+export class OpenSearchClientInstance extends Context.Service<OpenSearchClientInstance, OpenSearchClient>()(
   "@effect-aws/client-opensearch/OpenSearchClientInstance",
 ) {}
 

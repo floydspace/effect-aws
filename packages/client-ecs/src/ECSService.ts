@@ -210,9 +210,9 @@ import * as Service from "@effect-aws/commons/Service";
 import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
 import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import type * as Stream from "effect/Stream";
 import * as Instance from "./ECSClientInstance.js";
 import * as ECSServiceConfig from "./ECSServiceConfig.js";
@@ -1399,7 +1399,7 @@ export const makeECSService = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class ECSService extends ServiceMap.Service<
+export class ECSService extends Context.Service<
   ECSService,
   ECSService$
 >()("@effect-aws/client-ecs/ECSService") {

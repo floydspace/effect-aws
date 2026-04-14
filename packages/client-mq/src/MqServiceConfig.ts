@@ -3,17 +3,17 @@
  */
 import type { MqClientConfig } from "@aws-sdk/client-mq";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import { dual } from "effect/Function";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import type { MqService } from "./MqService.js";
 
 /**
  * @since 1.0.0
  * @category mq service config
  */
-const currentMqServiceConfig = ServiceMap.Reference<MqService.Config>(
+const currentMqServiceConfig = Context.Reference<MqService.Config>(
   "@effect-aws/client-mq/currentMqServiceConfig",
   { defaultValue: () => ({}) },
 );

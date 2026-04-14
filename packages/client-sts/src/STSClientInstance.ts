@@ -2,16 +2,16 @@
  * @since 1.0.0
  */
 import { STSClient } from "@aws-sdk/client-sts";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import * as STSServiceConfig from "./STSServiceConfig.js";
 
 /**
  * @since 1.0.0
  * @category tags
  */
-export class STSClientInstance extends ServiceMap.Service<STSClientInstance, STSClient>()(
+export class STSClientInstance extends Context.Service<STSClientInstance, STSClient>()(
   "@effect-aws/client-sts/STSClientInstance",
 ) {}
 

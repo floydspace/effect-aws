@@ -2,16 +2,16 @@
  * @since 1.0.0
  */
 import { IAMClient } from "@aws-sdk/client-iam";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import * as IAMServiceConfig from "./IAMServiceConfig.js";
 
 /**
  * @since 1.0.0
  * @category tags
  */
-export class IAMClientInstance extends ServiceMap.Service<IAMClientInstance, IAMClient>()(
+export class IAMClientInstance extends Context.Service<IAMClientInstance, IAMClient>()(
   "@effect-aws/client-iam/IAMClientInstance",
 ) {}
 

@@ -2,9 +2,9 @@
  * @since 1.0.0
  */
 import { TimestreamInfluxDBClient } from "@aws-sdk/client-timestream-influxdb";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import * as TimestreamInfluxDBServiceConfig from "./TimestreamInfluxDBServiceConfig.js";
 
 /**
@@ -12,7 +12,7 @@ import * as TimestreamInfluxDBServiceConfig from "./TimestreamInfluxDBServiceCon
  * @category tags
  */
 export class TimestreamInfluxDBClientInstance
-  extends ServiceMap.Service<TimestreamInfluxDBClientInstance, TimestreamInfluxDBClient>()(
+  extends Context.Service<TimestreamInfluxDBClientInstance, TimestreamInfluxDBClient>()(
     "@effect-aws/client-timestream-influxdb/TimestreamInfluxDBClientInstance",
   )
 {}

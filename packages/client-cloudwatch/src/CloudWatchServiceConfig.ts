@@ -3,17 +3,17 @@
  */
 import type { CloudWatchClientConfig } from "@aws-sdk/client-cloudwatch";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import { dual } from "effect/Function";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import type { CloudWatchService } from "./CloudWatchService.js";
 
 /**
  * @since 1.0.0
  * @category cloudwatch service config
  */
-const currentCloudWatchServiceConfig = ServiceMap.Reference<CloudWatchService.Config>(
+const currentCloudWatchServiceConfig = Context.Reference<CloudWatchService.Config>(
   "@effect-aws/client-cloudwatch/currentCloudWatchServiceConfig",
   { defaultValue: () => ({}) },
 );

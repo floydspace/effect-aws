@@ -3,17 +3,17 @@
  */
 import type { ECRClientConfig } from "@aws-sdk/client-ecr";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import { dual } from "effect/Function";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import type { ECRService } from "./ECRService.js";
 
 /**
  * @since 1.0.0
  * @category ecr service config
  */
-const currentECRServiceConfig = ServiceMap.Reference<ECRService.Config>(
+const currentECRServiceConfig = Context.Reference<ECRService.Config>(
   "@effect-aws/client-ecr/currentECRServiceConfig",
   { defaultValue: () => ({}) },
 );

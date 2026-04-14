@@ -2,16 +2,16 @@
  * @since 1.0.0
  */
 import { CodeDeployClient } from "@aws-sdk/client-codedeploy";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as ServiceMap from "effect/ServiceMap";
 import * as CodeDeployServiceConfig from "./CodeDeployServiceConfig.js";
 
 /**
  * @since 1.0.0
  * @category tags
  */
-export class CodeDeployClientInstance extends ServiceMap.Service<CodeDeployClientInstance, CodeDeployClient>()(
+export class CodeDeployClientInstance extends Context.Service<CodeDeployClientInstance, CodeDeployClient>()(
   "@effect-aws/client-codedeploy/CodeDeployClientInstance",
 ) {}
 
