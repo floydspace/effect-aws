@@ -68,4 +68,4 @@
 "@effect-aws/s3": minor
 ---
 
-Upgrade effect to beta.44 and resolve breaking change introduced by renaming ServiceMap to Context.
+Upgrade effect to beta.48 and resolve breaking change introduced by renaming ServiceMap to Context.

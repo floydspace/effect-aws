@@ -28,7 +28,7 @@
     "@aws-sdk/middleware-logger": "^3.972.9",
     "@smithy/core": "^3.23.14",
     "@types/node": "ts5.4",
-    "effect": "4.0.0-beta.44",
+    "effect": "4.0.0-beta.48",
     "typescript": "^5.4.2"
   },
   "peerDependencies": {
