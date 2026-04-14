@@ -36,17 +36,20 @@ const MyApi = HttpApi.make("MyApi").add(quotesGroup);
 const QuotesLive = HttpApiBuilder.group(
   MyApi,
   "quotes",
-  (handlers) =>
-    handlers.handle(
+  Effect.fnUntraced(function*(handlers) {
+    const http = yield* HttpClient.HttpClient;
+
+    return handlers.handle(
       "getQuote",
       ({ params }) =>
-        HttpClient.get(`https://query2.finance.yahoo.com/v8/finance/chart/${params.symbol}`, {
+        http.get(`https://query2.finance.yahoo.com/v8/finance/chart/${params.symbol}`, {
           urlParams: { interval: "1d" },
         }).pipe(
           Effect.andThen(HttpClientResponse.schemaBodyJson(YahooResponse)),
           Effect.orDie,
         ),
-    ),
+    );
+  }),
 );
 
 // Provide the implementation for the API
