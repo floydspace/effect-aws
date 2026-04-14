@@ -1,5 +1,11 @@
 # @effect-aws/lambda
 
+## 2.0.0-beta.4
+
+### Minor Changes
+
+- [#207](https://github.com/floydspace/effect-aws/pull/207) [`1e2f72e`](https://github.com/floydspace/effect-aws/commit/1e2f72e223a8db28517a3cd5d5ff70adc175d828) Thanks [@github-actions](https://github.com/apps/github-actions)! - Upgrade effect to beta.48 and resolve breaking change introduced by renaming ServiceMap to Context.
+
 ## 2.0.0-beta.3
 
 ### Minor Changes

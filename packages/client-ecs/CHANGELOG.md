@@ -1,5 +1,18 @@
 # @effect-aws/client-ecs
 
+## 2.0.0-beta.4
+
+### Minor Changes
+
+- [#207](https://github.com/floydspace/effect-aws/pull/207) [`8835cec`](https://github.com/floydspace/effect-aws/commit/8835cec99363e89196ec4748a1124d0c0792156c) Thanks [@github-actions](https://github.com/apps/github-actions)! - upgrade @aws-sdk to latest
+
+- [#207](https://github.com/floydspace/effect-aws/pull/207) [`1e2f72e`](https://github.com/floydspace/effect-aws/commit/1e2f72e223a8db28517a3cd5d5ff70adc175d828) Thanks [@github-actions](https://github.com/apps/github-actions)! - Upgrade effect to beta.48 and resolve breaking change introduced by renaming ServiceMap to Context.
+
+### Patch Changes
+
+- Updated dependencies [[`8835cec`](https://github.com/floydspace/effect-aws/commit/8835cec99363e89196ec4748a1124d0c0792156c), [`1e2f72e`](https://github.com/floydspace/effect-aws/commit/1e2f72e223a8db28517a3cd5d5ff70adc175d828)]:
+  - @effect-aws/commons@1.0.0-beta.4
+
 ## 2.0.0-beta.3
 
 ### Minor Changes

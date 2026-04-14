@@ -71,6 +71,8 @@
     "@effect-aws/ssm": "1.3.6"
   },
   "changesets": [
+    "giant-trainers-search",
+    "little-chairs-thank",
     "little-peas-care",
     "old-pumpkins-taste",
     "sour-parents-clean",
