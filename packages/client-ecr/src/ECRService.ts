@@ -240,6 +240,7 @@ import type {
   UnableToDecryptSecretValueError,
   UnableToGetUpstreamImageError,
   UnableToGetUpstreamLayerError,
+  UnableToListUpstreamImageReferrersError,
   UnsupportedImageTypeError,
   UnsupportedUpstreamRegistryError,
   UploadNotFoundError,
@@ -888,7 +889,13 @@ export interface ECRService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListImageReferrersCommandOutput,
-    Cause.TimeoutError | SdkError | InvalidParameterError | RepositoryNotFoundError | ServerError | ValidationError
+    | Cause.TimeoutError
+    | SdkError
+    | InvalidParameterError
+    | RepositoryNotFoundError
+    | ServerError
+    | UnableToListUpstreamImageReferrersError
+    | ValidationError
   >;
 
   /**

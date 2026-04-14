@@ -1597,6 +1597,9 @@ import {
   GetCapacityManagerMetricDimensionsCommand,
   type GetCapacityManagerMetricDimensionsCommandInput,
   type GetCapacityManagerMetricDimensionsCommandOutput,
+  GetCapacityManagerMonitoredTagKeysCommand,
+  type GetCapacityManagerMonitoredTagKeysCommandInput,
+  type GetCapacityManagerMonitoredTagKeysCommandOutput,
   GetCapacityReservationUsageCommand,
   type GetCapacityReservationUsageCommandInput,
   type GetCapacityReservationUsageCommandOutput,
@@ -2189,6 +2192,7 @@ import {
   paginateGetAwsNetworkPerformanceData,
   paginateGetCapacityManagerMetricData,
   paginateGetCapacityManagerMetricDimensions,
+  paginateGetCapacityManagerMonitoredTagKeys,
   paginateGetGroupsForCapacityReservation,
   paginateGetInstanceTypesFromInstanceRequirements,
   paginateGetIpamAddressHistory,
@@ -2424,6 +2428,9 @@ import {
   UnmonitorInstancesCommand,
   type UnmonitorInstancesCommandInput,
   type UnmonitorInstancesCommandOutput,
+  UpdateCapacityManagerMonitoredTagKeysCommand,
+  type UpdateCapacityManagerMonitoredTagKeysCommandInput,
+  type UpdateCapacityManagerMonitoredTagKeysCommandOutput,
   UpdateCapacityManagerOrganizationsAccessCommand,
   type UpdateCapacityManagerOrganizationsAccessCommandInput,
   type UpdateCapacityManagerOrganizationsAccessCommandOutput,
@@ -2984,6 +2991,7 @@ const commands = {
   GetCapacityManagerAttributesCommand,
   GetCapacityManagerMetricDataCommand,
   GetCapacityManagerMetricDimensionsCommand,
+  GetCapacityManagerMonitoredTagKeysCommand,
   GetCapacityReservationUsageCommand,
   GetCoipPoolUsageCommand,
   GetConsoleOutputCommand,
@@ -3204,6 +3212,7 @@ const commands = {
   UnassignPrivateNatGatewayAddressCommand,
   UnlockSnapshotCommand,
   UnmonitorInstancesCommand,
+  UpdateCapacityManagerMonitoredTagKeysCommand,
   UpdateCapacityManagerOrganizationsAccessCommand,
   UpdateInterruptibleCapacityReservationAllocationCommand,
   UpdateSecurityGroupRuleDescriptionsEgressCommand,
@@ -3351,6 +3360,7 @@ const paginators = {
   paginateGetAwsNetworkPerformanceData,
   paginateGetCapacityManagerMetricData,
   paginateGetCapacityManagerMetricDimensions,
+  paginateGetCapacityManagerMonitoredTagKeys,
   paginateGetGroupsForCapacityReservation,
   paginateGetInstanceTypesFromInstanceRequirements,
   paginateGetIpamAddressHistory,
@@ -9967,6 +9977,22 @@ export interface EC2Service$ {
   ): Stream.Stream<GetCapacityManagerMetricDimensionsCommandOutput, Cause.TimeoutError | SdkError | EC2ServiceError>;
 
   /**
+   * @see {@link GetCapacityManagerMonitoredTagKeysCommand}
+   */
+  getCapacityManagerMonitoredTagKeys(
+    args: GetCapacityManagerMonitoredTagKeysCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetCapacityManagerMonitoredTagKeysCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  getCapacityManagerMonitoredTagKeysStream(
+    args: GetCapacityManagerMonitoredTagKeysCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<GetCapacityManagerMonitoredTagKeysCommandOutput, Cause.TimeoutError | SdkError | EC2ServiceError>;
+
+  /**
    * @see {@link GetCapacityReservationUsageCommand}
    */
   getCapacityReservationUsage(
@@ -12547,6 +12573,17 @@ export interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UnmonitorInstancesCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link UpdateCapacityManagerMonitoredTagKeysCommand}
+   */
+  updateCapacityManagerMonitoredTagKeys(
+    args: UpdateCapacityManagerMonitoredTagKeysCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateCapacityManagerMonitoredTagKeysCommandOutput,
     Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 

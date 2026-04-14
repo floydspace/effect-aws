@@ -73,6 +73,9 @@ import {
   GetMetricWidgetImageCommand,
   type GetMetricWidgetImageCommandInput,
   type GetMetricWidgetImageCommandOutput,
+  GetOTelEnrichmentCommand,
+  type GetOTelEnrichmentCommandInput,
+  type GetOTelEnrichmentCommandOutput,
   ListAlarmMuteRulesCommand,
   type ListAlarmMuteRulesCommandInput,
   type ListAlarmMuteRulesCommandOutput,
@@ -134,9 +137,15 @@ import {
   StartMetricStreamsCommand,
   type StartMetricStreamsCommandInput,
   type StartMetricStreamsCommandOutput,
+  StartOTelEnrichmentCommand,
+  type StartOTelEnrichmentCommandInput,
+  type StartOTelEnrichmentCommandOutput,
   StopMetricStreamsCommand,
   type StopMetricStreamsCommandInput,
   type StopMetricStreamsCommandOutput,
+  StopOTelEnrichmentCommand,
+  type StopOTelEnrichmentCommandInput,
+  type StopOTelEnrichmentCommandOutput,
   TagResourceCommand,
   type TagResourceCommandInput,
   type TagResourceCommandOutput,
@@ -197,6 +206,7 @@ const commands = {
   GetMetricStatisticsCommand,
   GetMetricStreamCommand,
   GetMetricWidgetImageCommand,
+  GetOTelEnrichmentCommand,
   ListAlarmMuteRulesCommand,
   ListDashboardsCommand,
   ListManagedInsightRulesCommand,
@@ -214,7 +224,9 @@ const commands = {
   PutMetricStreamCommand,
   SetAlarmStateCommand,
   StartMetricStreamsCommand,
+  StartOTelEnrichmentCommand,
   StopMetricStreamsCommand,
+  StopOTelEnrichmentCommand,
   TagResourceCommand,
   UntagResourceCommand,
 };
@@ -555,6 +567,17 @@ export interface CloudWatchService$ {
   >;
 
   /**
+   * @see {@link GetOTelEnrichmentCommand}
+   */
+  getOTelEnrichment(
+    args: GetOTelEnrichmentCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetOTelEnrichmentCommandOutput,
+    Cause.TimeoutError | SdkError
+  >;
+
+  /**
    * @see {@link ListAlarmMuteRulesCommand}
    */
   listAlarmMuteRules(
@@ -817,6 +840,17 @@ export interface CloudWatchService$ {
   >;
 
   /**
+   * @see {@link StartOTelEnrichmentCommand}
+   */
+  startOTelEnrichment(
+    args: StartOTelEnrichmentCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    StartOTelEnrichmentCommandOutput,
+    Cause.TimeoutError | SdkError
+  >;
+
+  /**
    * @see {@link StopMetricStreamsCommand}
    */
   stopMetricStreams(
@@ -829,6 +863,17 @@ export interface CloudWatchService$ {
     | InternalServiceFaultError
     | InvalidParameterValueError
     | MissingRequiredParameterError
+  >;
+
+  /**
+   * @see {@link StopOTelEnrichmentCommand}
+   */
+  stopOTelEnrichment(
+    args: StopOTelEnrichmentCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    StopOTelEnrichmentCommandOutput,
+    Cause.TimeoutError | SdkError
   >;
 
   /**

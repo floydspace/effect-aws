@@ -103,6 +103,9 @@ import {
   DeleteProvisionedModelThroughputCommand,
   type DeleteProvisionedModelThroughputCommandInput,
   type DeleteProvisionedModelThroughputCommandOutput,
+  DeleteResourcePolicyCommand,
+  type DeleteResourcePolicyCommandInput,
+  type DeleteResourcePolicyCommandOutput,
   DeregisterMarketplaceModelEndpointCommand,
   type DeregisterMarketplaceModelEndpointCommandInput,
   type DeregisterMarketplaceModelEndpointCommandOutput,
@@ -178,6 +181,9 @@ import {
   GetProvisionedModelThroughputCommand,
   type GetProvisionedModelThroughputCommandInput,
   type GetProvisionedModelThroughputCommandOutput,
+  GetResourcePolicyCommand,
+  type GetResourcePolicyCommandInput,
+  type GetResourcePolicyCommandOutput,
   GetUseCaseForModelAccessCommand,
   type GetUseCaseForModelAccessCommandInput,
   type GetUseCaseForModelAccessCommandOutput,
@@ -268,6 +274,9 @@ import {
   PutModelInvocationLoggingConfigurationCommand,
   type PutModelInvocationLoggingConfigurationCommandInput,
   type PutModelInvocationLoggingConfigurationCommandOutput,
+  PutResourcePolicyCommand,
+  type PutResourcePolicyCommandInput,
+  type PutResourcePolicyCommandOutput,
   PutUseCaseForModelAccessCommand,
   type PutUseCaseForModelAccessCommandInput,
   type PutUseCaseForModelAccessCommandOutput,
@@ -376,6 +385,7 @@ const commands = {
   DeleteModelInvocationLoggingConfigurationCommand,
   DeletePromptRouterCommand,
   DeleteProvisionedModelThroughputCommand,
+  DeleteResourcePolicyCommand,
   DeregisterMarketplaceModelEndpointCommand,
   ExportAutomatedReasoningPolicyVersionCommand,
   GetAutomatedReasoningPolicyCommand,
@@ -401,6 +411,7 @@ const commands = {
   GetModelInvocationLoggingConfigurationCommand,
   GetPromptRouterCommand,
   GetProvisionedModelThroughputCommand,
+  GetResourcePolicyCommand,
   GetUseCaseForModelAccessCommand,
   ListAutomatedReasoningPoliciesCommand,
   ListAutomatedReasoningPolicyBuildWorkflowsCommand,
@@ -425,6 +436,7 @@ const commands = {
   ListTagsForResourceCommand,
   PutEnforcedGuardrailConfigurationCommand,
   PutModelInvocationLoggingConfigurationCommand,
+  PutResourcePolicyCommand,
   PutUseCaseForModelAccessCommand,
   RegisterMarketplaceModelEndpointCommand,
   StartAutomatedReasoningPolicyBuildWorkflowCommand,
@@ -1069,6 +1081,23 @@ export interface BedrockService$ {
   >;
 
   /**
+   * @see {@link DeleteResourcePolicyCommand}
+   */
+  deleteResourcePolicy(
+    args: DeleteResourcePolicyCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteResourcePolicyCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
    * @see {@link DeregisterMarketplaceModelEndpointCommand}
    */
   deregisterMarketplaceModelEndpoint(
@@ -1479,6 +1508,23 @@ export interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetProvisionedModelThroughputCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link GetResourcePolicyCommand}
+   */
+  getResourcePolicy(
+    args: GetResourcePolicyCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetResourcePolicyCommandOutput,
     | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
@@ -2011,6 +2057,23 @@ export interface BedrockService$ {
   ): Effect.Effect<
     PutModelInvocationLoggingConfigurationCommandOutput,
     Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+  >;
+
+  /**
+   * @see {@link PutResourcePolicyCommand}
+   */
+  putResourcePolicy(
+    args: PutResourcePolicyCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    PutResourcePolicyCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ThrottlingError
+    | ValidationError
   >;
 
   /**

@@ -321,6 +321,9 @@ import type {
   ResourceInUseError,
   ResourceNotFoundError,
   ResourceNotReadyError,
+  S3FilesMountConnectivityError,
+  S3FilesMountFailureError,
+  S3FilesMountTimeoutError,
   SdkError,
   SerializedRequestEntityTooLargeError,
   ServiceError,
@@ -1162,6 +1165,9 @@ export interface LambdaService$ {
     | ResourceConflictError
     | ResourceNotFoundError
     | ResourceNotReadyError
+    | S3FilesMountConnectivityError
+    | S3FilesMountFailureError
+    | S3FilesMountTimeoutError
     | SerializedRequestEntityTooLargeError
     | ServiceError
     | SnapStartError
@@ -1223,6 +1229,9 @@ export interface LambdaService$ {
     | ResourceConflictError
     | ResourceNotFoundError
     | ResourceNotReadyError
+    | S3FilesMountConnectivityError
+    | S3FilesMountFailureError
+    | S3FilesMountTimeoutError
     | SerializedRequestEntityTooLargeError
     | ServiceError
     | SnapStartError
