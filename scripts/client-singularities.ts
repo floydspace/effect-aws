@@ -257,6 +257,11 @@ export default {
     commandToTest: "SendEmail",
     inputToTest: null,
   },
+  "client-sesv2": {
+    description: "Effectful AWS SESv2 client",
+    commandToTest: "SendEmail",
+    inputToTest: null,
+  },
   "client-sfn": {
     description: "Effectful AWS Step Functions client",
     commandToTest: "StartExecution",

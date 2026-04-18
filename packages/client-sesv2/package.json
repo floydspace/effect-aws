@@ -1,10 +1,10 @@
 {
-  "name": "@effect-aws/commons",
-  "description": "Effectful AWS common library",
+  "name": "@effect-aws/client-sesv2",
+  "description": "Effectful AWS SESv2 client",
   "repository": {
     "type": "git",
     "url": "github:floydspace/effect-aws",
-    "directory": "packages/commons"
+    "directory": "packages/client-sesv2"
   },
   "scripts": {
     "build": "npx projen build",
@@ -25,8 +25,6 @@
     "organization": false
   },
   "devDependencies": {
-    "@aws-sdk/middleware-logger": "^3.972.10",
-    "@smithy/core": "^3.23.15",
     "@types/node": "ts5.4",
     "effect": "4.0.0-beta.48",
     "typescript": "^5.4.2"
@@ -35,18 +33,17 @@
     "effect": ">=4.0.0 <5.0.0"
   },
   "dependencies": {
-    "@smithy/protocol-http": "^5.3.14",
-    "@smithy/smithy-client": "^4.12.11",
-    "@smithy/types": "^4.14.1"
+    "@aws-sdk/client-sesv2": "^3",
+    "@effect-aws/commons": "workspace:^"
   },
   "main": "build/cjs/index.js",
   "license": "MIT",
-  "homepage": "https://floydspace.github.io/effect-aws/docs/commons",
+  "homepage": "https://floydspace.github.io/effect-aws/docs/client-sesv2",
   "publishConfig": {
     "access": "public",
     "directory": "dist"
   },
-  "version": "1.0.0-beta.4",
+  "version": "1.11.0",
   "types": "build/dts/index.d.ts",
   "type": "module",
   "module": "build/esm/index.js",

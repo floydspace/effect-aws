@@ -65,6 +65,7 @@ const config: UserConfig = {
       ...alias("client-scheduler"),
       ...alias("client-secrets-manager"),
       ...alias("client-ses"),
+      ...alias("client-sesv2"),
       ...alias("client-sfn"),
       ...alias("client-sns"),
       ...alias("client-sqs"),

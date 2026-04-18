@@ -150,6 +150,9 @@
       "path": "packages/client-ses"
     },
     {
+      "path": "packages/client-sesv2"
+    },
+    {
       "path": "packages/client-sfn"
     },
     {
