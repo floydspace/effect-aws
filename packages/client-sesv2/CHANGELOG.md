@@ -1,5 +1,11 @@
 # @effect-aws/client-sesv2
 
+## 2.0.0-beta.5
+
+### Major Changes
+
+- Migrate sesv2 client to effect v4
+
 ## 1.11.0
 
 ### Major Changes
