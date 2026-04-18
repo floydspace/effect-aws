@@ -471,6 +471,15 @@
       "@effect-aws/client-ses/test/*": [
         "./packages/client-ses/test/*.js"
       ],
+      "@effect-aws/client-sesv2": [
+        "./packages/client-sesv2/src/index.js"
+      ],
+      "@effect-aws/client-sesv2/*": [
+        "./packages/client-sesv2/src/*.js"
+      ],
+      "@effect-aws/client-sesv2/test/*": [
+        "./packages/client-sesv2/test/*.js"
+      ],
       "@effect-aws/client-sfn": [
         "./packages/client-sfn/src/index.js"
       ],
