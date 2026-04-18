@@ -49,6 +49,7 @@ packages:
   - packages/client-scheduler
   - packages/client-secrets-manager
   - packages/client-ses
+  - packages/client-sesv2
   - packages/client-sfn
   - packages/client-sns
   - packages/client-sqs
