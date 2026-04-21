@@ -677,6 +677,15 @@
       ],
       "@effect-aws/dsql/test/*": [
         "./packages/dsql/test/*.js"
+      ],
+      "@effect-aws/cloudfront-signer": [
+        "./packages/cloudfront-signer/src/index.js"
+      ],
+      "@effect-aws/cloudfront-signer/*": [
+        "./packages/cloudfront-signer/src/*.js"
+      ],
+      "@effect-aws/cloudfront-signer/test/*": [
+        "./packages/cloudfront-signer/test/*.js"
       ]
     }
   }
