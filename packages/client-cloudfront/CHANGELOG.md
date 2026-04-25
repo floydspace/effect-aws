@@ -1,5 +1,11 @@
 # @effect-aws/client-cloudfront
 
+## 2.0.0-beta.5
+
+### Major Changes
+
+- Migrate cloudfront service to effect v4
+
 ## 1.11.0
 
 ### Major Changes
