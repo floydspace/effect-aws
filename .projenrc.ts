@@ -66,7 +66,11 @@ const commons = new TypeScriptLibProject({
   name: "commons",
   description: "Effectful AWS common library",
   deps: ["@smithy/types", "@smithy/smithy-client", "@smithy/protocol-http"],
-  devDeps: [...effectDeps, "@aws-sdk/middleware-logger", "@smithy/core"],
+  devDeps: [
+    ...effectDeps,
+    "@aws-sdk/middleware-logger",
+    "@smithy/core",
+  ],
   peerDeps: commonPeerDeps,
 });
 
@@ -130,7 +134,11 @@ new TypeScriptLibProject({
   parent: project,
   name: "powertools-logger",
   description: "Effectful AWS Lambda Powertools Logger",
-  devDeps: [...effectDeps, "@aws-lambda-powertools/commons@2.0.0", "@aws-lambda-powertools/logger@2.0.0"],
+  devDeps: [
+    ...effectDeps,
+    "@aws-lambda-powertools/commons@2.0.0",
+    "@aws-lambda-powertools/logger@2.0.0",
+  ],
   peerDeps: [...commonPeerDeps, "@aws-lambda-powertools/logger@>=2.0.0"],
 });
 
@@ -159,7 +167,11 @@ new TypeScriptLibProject({
   parent: project,
   name: "secrets-manager",
   description: "Effectful AWS Secrets Manager functions",
-  devDeps: [...effectDeps, "@aws-sdk/client-secrets-manager@^3", "@fluffy-spoon/substitute"],
+  devDeps: [
+    ...effectDeps,
+    "@aws-sdk/client-secrets-manager@^3",
+    "@fluffy-spoon/substitute",
+  ],
   peerDeps: commonPeerDeps,
   workspacePeerDeps: [secretsManagerClient],
 });
@@ -177,7 +189,11 @@ new TypeScriptLibProject({
   parent: project,
   name: "s3",
   description: "Effectful AWS S3 functions",
-  devDeps: [...effectDeps, "@effect/platform", "@aws-sdk/client-s3@^3"],
+  devDeps: [
+    ...effectDeps,
+    "@effect/platform",
+    "@aws-sdk/client-s3@^3",
+  ],
   peerDeps: ["effect@>=3.15.5 <4.0.0", "@effect/platform@>=0.83.0"],
   workspacePeerDeps: [s3Client],
   addExamples: true,

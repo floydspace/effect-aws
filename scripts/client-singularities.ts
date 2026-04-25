@@ -54,6 +54,11 @@ export default {
     commandToTest: "InvokeModel",
     inputToTest: null,
   },
+  "client-cloudfront": {
+    description: "Effectful AWS CloudFront client",
+    commandToTest: "ListCachePolicies",
+    inputToTest: null,
+  },
   "client-cloudsearch": {
     description: "Effectful AWS CloudSearch client",
     commandToTest: "DescribeDomains",
