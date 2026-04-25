@@ -1,5 +1,11 @@
 # @effect-aws/client-ec2
 
+## 2.0.0-beta.5
+
+### Patch Changes
+
+- update services with new aws-sdk methods
+
 ## 2.0.0-beta.4
 
 ### Minor Changes
