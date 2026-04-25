@@ -244,6 +244,9 @@ import {
   RevokeVpcEndpointAccessCommand,
   type RevokeVpcEndpointAccessCommandInput,
   type RevokeVpcEndpointAccessCommandOutput,
+  RollbackServiceSoftwareUpdateCommand,
+  type RollbackServiceSoftwareUpdateCommandInput,
+  type RollbackServiceSoftwareUpdateCommandOutput,
   StartDomainMaintenanceCommand,
   type StartDomainMaintenanceCommandInput,
   type StartDomainMaintenanceCommandOutput,
@@ -387,6 +390,7 @@ const commands = {
   RejectInboundConnectionCommand,
   RemoveTagsCommand,
   RevokeVpcEndpointAccessCommand,
+  RollbackServiceSoftwareUpdateCommand,
   StartDomainMaintenanceCommand,
   StartServiceSoftwareUpdateCommand,
   UpdateApplicationCommand,
@@ -1723,6 +1727,23 @@ export interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RevokeVpcEndpointAccessCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | BaseError
+    | DisabledOperationError
+    | InternalError
+    | ResourceNotFoundError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link RollbackServiceSoftwareUpdateCommand}
+   */
+  rollbackServiceSoftwareUpdate(
+    args: RollbackServiceSoftwareUpdateCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    RollbackServiceSoftwareUpdateCommandOutput,
     | Cause.TimeoutError
     | SdkError
     | BaseError

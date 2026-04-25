@@ -10,6 +10,7 @@ packages:
   - packages/client-bedrock
   - packages/client-bedrock-runtime
   - packages/client-cloudformation
+  - packages/client-cloudfront
   - packages/client-cloudsearch
   - packages/client-cloudtrail
   - packages/client-cloudwatch

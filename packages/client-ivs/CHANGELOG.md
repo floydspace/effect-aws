@@ -51,6 +51,12 @@
 - Updated dependencies [[`57b06d0`](https://github.com/floydspace/effect-aws/commit/57b06d0474b35ae754e8e1b0a317e15669191779)]:
   - @effect-aws/commons@1.0.0-beta.0
 
+## 1.11.1
+
+### Patch Changes
+
+- [`dfd80a0`](https://github.com/floydspace/effect-aws/commit/dfd80a036b21ee3589c394b9d9d5babe96868515) Thanks [@floydspace](https://github.com/floydspace)! - update services with new aws-sdk methods
+
 ## 1.11.0
 
 ### Minor Changes

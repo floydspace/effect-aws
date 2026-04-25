@@ -11,6 +11,9 @@ import {
   AcceptReservedInstancesExchangeQuoteCommand,
   type AcceptReservedInstancesExchangeQuoteCommandInput,
   type AcceptReservedInstancesExchangeQuoteCommandOutput,
+  AcceptTransitGatewayClientVpnAttachmentCommand,
+  type AcceptTransitGatewayClientVpnAttachmentCommandInput,
+  type AcceptTransitGatewayClientVpnAttachmentCommandOutput,
   AcceptTransitGatewayMulticastDomainAssociationsCommand,
   type AcceptTransitGatewayMulticastDomainAssociationsCommandInput,
   type AcceptTransitGatewayMulticastDomainAssociationsCommandOutput,
@@ -686,6 +689,9 @@ import {
   DeleteTrafficMirrorTargetCommand,
   type DeleteTrafficMirrorTargetCommandInput,
   type DeleteTrafficMirrorTargetCommandOutput,
+  DeleteTransitGatewayClientVpnAttachmentCommand,
+  type DeleteTransitGatewayClientVpnAttachmentCommandInput,
+  type DeleteTransitGatewayClientVpnAttachmentCommandOutput,
   DeleteTransitGatewayCommand,
   type DeleteTransitGatewayCommandInput,
   type DeleteTransitGatewayCommandOutput,
@@ -1699,6 +1705,9 @@ import {
   GetManagedPrefixListEntriesCommand,
   type GetManagedPrefixListEntriesCommandInput,
   type GetManagedPrefixListEntriesCommandOutput,
+  GetManagedResourceVisibilityCommand,
+  type GetManagedResourceVisibilityCommandInput,
+  type GetManagedResourceVisibilityCommandOutput,
   GetNetworkInsightsAccessScopeAnalysisFindingsCommand,
   type GetNetworkInsightsAccessScopeAnalysisFindingsCommandInput,
   type GetNetworkInsightsAccessScopeAnalysisFindingsCommandOutput,
@@ -1918,6 +1927,9 @@ import {
   ModifyManagedPrefixListCommand,
   type ModifyManagedPrefixListCommandInput,
   type ModifyManagedPrefixListCommandOutput,
+  ModifyManagedResourceVisibilityCommand,
+  type ModifyManagedResourceVisibilityCommandInput,
+  type ModifyManagedResourceVisibilityCommandOutput,
   ModifyNetworkInterfaceAttributeCommand,
   type ModifyNetworkInterfaceAttributeCommandInput,
   type ModifyNetworkInterfaceAttributeCommandOutput,
@@ -2266,6 +2278,9 @@ import {
   RejectCapacityReservationBillingOwnershipCommand,
   type RejectCapacityReservationBillingOwnershipCommandInput,
   type RejectCapacityReservationBillingOwnershipCommandOutput,
+  RejectTransitGatewayClientVpnAttachmentCommand,
+  type RejectTransitGatewayClientVpnAttachmentCommandInput,
+  type RejectTransitGatewayClientVpnAttachmentCommandOutput,
   RejectTransitGatewayMulticastDomainAssociationsCommand,
   type RejectTransitGatewayMulticastDomainAssociationsCommandInput,
   type RejectTransitGatewayMulticastDomainAssociationsCommandOutput,
@@ -2463,6 +2478,7 @@ const commands = {
   AcceptAddressTransferCommand,
   AcceptCapacityReservationBillingOwnershipCommand,
   AcceptReservedInstancesExchangeQuoteCommand,
+  AcceptTransitGatewayClientVpnAttachmentCommand,
   AcceptTransitGatewayMulticastDomainAssociationsCommand,
   AcceptTransitGatewayPeeringAttachmentCommand,
   AcceptTransitGatewayVpcAttachmentCommand,
@@ -2689,6 +2705,7 @@ const commands = {
   DeleteTrafficMirrorSessionCommand,
   DeleteTrafficMirrorTargetCommand,
   DeleteTransitGatewayCommand,
+  DeleteTransitGatewayClientVpnAttachmentCommand,
   DeleteTransitGatewayConnectCommand,
   DeleteTransitGatewayConnectPeerCommand,
   DeleteTransitGatewayMeteringPolicyCommand,
@@ -3025,6 +3042,7 @@ const commands = {
   GetLaunchTemplateDataCommand,
   GetManagedPrefixListAssociationsCommand,
   GetManagedPrefixListEntriesCommand,
+  GetManagedResourceVisibilityCommand,
   GetNetworkInsightsAccessScopeAnalysisFindingsCommand,
   GetNetworkInsightsAccessScopeContentCommand,
   GetPasswordDataCommand,
@@ -3098,6 +3116,7 @@ const commands = {
   ModifyLaunchTemplateCommand,
   ModifyLocalGatewayRouteCommand,
   ModifyManagedPrefixListCommand,
+  ModifyManagedResourceVisibilityCommand,
   ModifyNetworkInterfaceAttributeCommand,
   ModifyPrivateDnsNameOptionsCommand,
   ModifyPublicIpDnsNameOptionsCommand,
@@ -3158,6 +3177,7 @@ const commands = {
   RegisterTransitGatewayMulticastGroupMembersCommand,
   RegisterTransitGatewayMulticastGroupSourcesCommand,
   RejectCapacityReservationBillingOwnershipCommand,
+  RejectTransitGatewayClientVpnAttachmentCommand,
   RejectTransitGatewayMulticastDomainAssociationsCommand,
   RejectTransitGatewayPeeringAttachmentCommand,
   RejectTransitGatewayVpcAttachmentCommand,
@@ -3422,6 +3442,17 @@ export interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AcceptReservedInstancesExchangeQuoteCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link AcceptTransitGatewayClientVpnAttachmentCommand}
+   */
+  acceptTransitGatewayClientVpnAttachment(
+    args: AcceptTransitGatewayClientVpnAttachmentCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    AcceptTransitGatewayClientVpnAttachmentCommandOutput,
     Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
@@ -5908,6 +5939,17 @@ export interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteTransitGatewayCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link DeleteTransitGatewayClientVpnAttachmentCommand}
+   */
+  deleteTransitGatewayClientVpnAttachment(
+    args: DeleteTransitGatewayClientVpnAttachmentCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteTransitGatewayClientVpnAttachmentCommandOutput,
     Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
@@ -10427,6 +10469,17 @@ export interface EC2Service$ {
   ): Stream.Stream<GetManagedPrefixListEntriesCommandOutput, Cause.TimeoutError | SdkError | EC2ServiceError>;
 
   /**
+   * @see {@link GetManagedResourceVisibilityCommand}
+   */
+  getManagedResourceVisibility(
+    args: GetManagedResourceVisibilityCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetManagedResourceVisibilityCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link GetNetworkInsightsAccessScopeAnalysisFindingsCommand}
    */
   getNetworkInsightsAccessScopeAnalysisFindings(
@@ -11308,6 +11361,17 @@ export interface EC2Service$ {
   >;
 
   /**
+   * @see {@link ModifyManagedResourceVisibilityCommand}
+   */
+  modifyManagedResourceVisibility(
+    args: ModifyManagedResourceVisibilityCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ModifyManagedResourceVisibilityCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link ModifyNetworkInterfaceAttributeCommand}
    */
   modifyNetworkInterfaceAttribute(
@@ -11964,6 +12028,17 @@ export interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RejectCapacityReservationBillingOwnershipCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link RejectTransitGatewayClientVpnAttachmentCommand}
+   */
+  rejectTransitGatewayClientVpnAttachment(
+    args: RejectTransitGatewayClientVpnAttachmentCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    RejectTransitGatewayClientVpnAttachmentCommandOutput,
     Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 

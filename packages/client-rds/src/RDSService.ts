@@ -296,6 +296,9 @@ import {
   DescribeReservedDBInstancesOfferingsCommand,
   type DescribeReservedDBInstancesOfferingsCommandInput,
   type DescribeReservedDBInstancesOfferingsCommandOutput,
+  DescribeServerlessV2PlatformVersionsCommand,
+  type DescribeServerlessV2PlatformVersionsCommandInput,
+  type DescribeServerlessV2PlatformVersionsCommandOutput,
   DescribeSourceRegionsCommand,
   type DescribeSourceRegionsCommandInput,
   type DescribeSourceRegionsCommandOutput,
@@ -430,6 +433,7 @@ import {
   paginateDescribePendingMaintenanceActions,
   paginateDescribeReservedDBInstances,
   paginateDescribeReservedDBInstancesOfferings,
+  paginateDescribeServerlessV2PlatformVersions,
   paginateDescribeSourceRegions,
   paginateDescribeTenantDatabases,
   paginateDownloadDBLogFilePortion,
@@ -795,6 +799,7 @@ const commands = {
   DescribePendingMaintenanceActionsCommand,
   DescribeReservedDBInstancesCommand,
   DescribeReservedDBInstancesOfferingsCommand,
+  DescribeServerlessV2PlatformVersionsCommand,
   DescribeSourceRegionsCommand,
   DescribeTenantDatabasesCommand,
   DescribeValidDBInstanceModificationsCommand,
@@ -901,6 +906,7 @@ const paginators = {
   paginateDescribePendingMaintenanceActions,
   paginateDescribeReservedDBInstances,
   paginateDescribeReservedDBInstancesOfferings,
+  paginateDescribeServerlessV2PlatformVersions,
   paginateDescribeSourceRegions,
   paginateDescribeTenantDatabases,
   paginateDownloadDBLogFilePortion,
@@ -2536,6 +2542,22 @@ export interface RDSService$ {
     DescribeReservedDBInstancesOfferingsCommandOutput,
     Cause.TimeoutError | SdkError | ReservedDBInstancesOfferingNotFoundFaultError
   >;
+
+  /**
+   * @see {@link DescribeServerlessV2PlatformVersionsCommand}
+   */
+  describeServerlessV2PlatformVersions(
+    args: DescribeServerlessV2PlatformVersionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeServerlessV2PlatformVersionsCommandOutput,
+    Cause.TimeoutError | SdkError
+  >;
+
+  describeServerlessV2PlatformVersionsStream(
+    args: DescribeServerlessV2PlatformVersionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeServerlessV2PlatformVersionsCommandOutput, Cause.TimeoutError | SdkError>;
 
   /**
    * @see {@link DescribeSourceRegionsCommand}
