@@ -41,6 +41,7 @@ import type {
   UnableToDecryptSecretValueException,
   UnableToGetUpstreamImageException,
   UnableToGetUpstreamLayerException,
+  UnableToListUpstreamImageReferrersException,
   UnsupportedImageTypeException,
   UnsupportedUpstreamRegistryException,
   UploadNotFoundException,
@@ -91,6 +92,7 @@ export const AllServiceErrors = [
   "UnableToDecryptSecretValueException",
   "UnableToGetUpstreamImageException",
   "UnableToGetUpstreamLayerException",
+  "UnableToListUpstreamImageReferrersException",
   "UnsupportedImageTypeException",
   "UnsupportedUpstreamRegistryException",
   "UploadNotFoundException",
@@ -139,6 +141,7 @@ export type UnableToAccessSecretError = TaggedException<UnableToAccessSecretExce
 export type UnableToDecryptSecretValueError = TaggedException<UnableToDecryptSecretValueException>;
 export type UnableToGetUpstreamImageError = TaggedException<UnableToGetUpstreamImageException>;
 export type UnableToGetUpstreamLayerError = TaggedException<UnableToGetUpstreamLayerException>;
+export type UnableToListUpstreamImageReferrersError = TaggedException<UnableToListUpstreamImageReferrersException>;
 export type UnsupportedImageTypeError = TaggedException<UnsupportedImageTypeException>;
 export type UnsupportedUpstreamRegistryError = TaggedException<UnsupportedUpstreamRegistryException>;
 export type UploadNotFoundError = TaggedException<UploadNotFoundException>;

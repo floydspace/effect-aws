@@ -11,6 +11,9 @@ import {
   AcceptReservedInstancesExchangeQuoteCommand,
   type AcceptReservedInstancesExchangeQuoteCommandInput,
   type AcceptReservedInstancesExchangeQuoteCommandOutput,
+  AcceptTransitGatewayClientVpnAttachmentCommand,
+  type AcceptTransitGatewayClientVpnAttachmentCommandInput,
+  type AcceptTransitGatewayClientVpnAttachmentCommandOutput,
   AcceptTransitGatewayMulticastDomainAssociationsCommand,
   type AcceptTransitGatewayMulticastDomainAssociationsCommandInput,
   type AcceptTransitGatewayMulticastDomainAssociationsCommandOutput,
@@ -686,6 +689,9 @@ import {
   DeleteTrafficMirrorTargetCommand,
   type DeleteTrafficMirrorTargetCommandInput,
   type DeleteTrafficMirrorTargetCommandOutput,
+  DeleteTransitGatewayClientVpnAttachmentCommand,
+  type DeleteTransitGatewayClientVpnAttachmentCommandInput,
+  type DeleteTransitGatewayClientVpnAttachmentCommandOutput,
   DeleteTransitGatewayCommand,
   type DeleteTransitGatewayCommandInput,
   type DeleteTransitGatewayCommandOutput,
@@ -1597,6 +1603,9 @@ import {
   GetCapacityManagerMetricDimensionsCommand,
   type GetCapacityManagerMetricDimensionsCommandInput,
   type GetCapacityManagerMetricDimensionsCommandOutput,
+  GetCapacityManagerMonitoredTagKeysCommand,
+  type GetCapacityManagerMonitoredTagKeysCommandInput,
+  type GetCapacityManagerMonitoredTagKeysCommandOutput,
   GetCapacityReservationUsageCommand,
   type GetCapacityReservationUsageCommandInput,
   type GetCapacityReservationUsageCommandOutput,
@@ -1696,6 +1705,9 @@ import {
   GetManagedPrefixListEntriesCommand,
   type GetManagedPrefixListEntriesCommandInput,
   type GetManagedPrefixListEntriesCommandOutput,
+  GetManagedResourceVisibilityCommand,
+  type GetManagedResourceVisibilityCommandInput,
+  type GetManagedResourceVisibilityCommandOutput,
   GetNetworkInsightsAccessScopeAnalysisFindingsCommand,
   type GetNetworkInsightsAccessScopeAnalysisFindingsCommandInput,
   type GetNetworkInsightsAccessScopeAnalysisFindingsCommandOutput,
@@ -1915,6 +1927,9 @@ import {
   ModifyManagedPrefixListCommand,
   type ModifyManagedPrefixListCommandInput,
   type ModifyManagedPrefixListCommandOutput,
+  ModifyManagedResourceVisibilityCommand,
+  type ModifyManagedResourceVisibilityCommandInput,
+  type ModifyManagedResourceVisibilityCommandOutput,
   ModifyNetworkInterfaceAttributeCommand,
   type ModifyNetworkInterfaceAttributeCommandInput,
   type ModifyNetworkInterfaceAttributeCommandOutput,
@@ -2189,6 +2204,7 @@ import {
   paginateGetAwsNetworkPerformanceData,
   paginateGetCapacityManagerMetricData,
   paginateGetCapacityManagerMetricDimensions,
+  paginateGetCapacityManagerMonitoredTagKeys,
   paginateGetGroupsForCapacityReservation,
   paginateGetInstanceTypesFromInstanceRequirements,
   paginateGetIpamAddressHistory,
@@ -2262,6 +2278,9 @@ import {
   RejectCapacityReservationBillingOwnershipCommand,
   type RejectCapacityReservationBillingOwnershipCommandInput,
   type RejectCapacityReservationBillingOwnershipCommandOutput,
+  RejectTransitGatewayClientVpnAttachmentCommand,
+  type RejectTransitGatewayClientVpnAttachmentCommandInput,
+  type RejectTransitGatewayClientVpnAttachmentCommandOutput,
   RejectTransitGatewayMulticastDomainAssociationsCommand,
   type RejectTransitGatewayMulticastDomainAssociationsCommandInput,
   type RejectTransitGatewayMulticastDomainAssociationsCommandOutput,
@@ -2424,6 +2443,9 @@ import {
   UnmonitorInstancesCommand,
   type UnmonitorInstancesCommandInput,
   type UnmonitorInstancesCommandOutput,
+  UpdateCapacityManagerMonitoredTagKeysCommand,
+  type UpdateCapacityManagerMonitoredTagKeysCommandInput,
+  type UpdateCapacityManagerMonitoredTagKeysCommandOutput,
   UpdateCapacityManagerOrganizationsAccessCommand,
   type UpdateCapacityManagerOrganizationsAccessCommandInput,
   type UpdateCapacityManagerOrganizationsAccessCommandOutput,
@@ -2455,6 +2477,7 @@ const commands = {
   AcceptAddressTransferCommand,
   AcceptCapacityReservationBillingOwnershipCommand,
   AcceptReservedInstancesExchangeQuoteCommand,
+  AcceptTransitGatewayClientVpnAttachmentCommand,
   AcceptTransitGatewayMulticastDomainAssociationsCommand,
   AcceptTransitGatewayPeeringAttachmentCommand,
   AcceptTransitGatewayVpcAttachmentCommand,
@@ -2681,6 +2704,7 @@ const commands = {
   DeleteTrafficMirrorSessionCommand,
   DeleteTrafficMirrorTargetCommand,
   DeleteTransitGatewayCommand,
+  DeleteTransitGatewayClientVpnAttachmentCommand,
   DeleteTransitGatewayConnectCommand,
   DeleteTransitGatewayConnectPeerCommand,
   DeleteTransitGatewayMeteringPolicyCommand,
@@ -2983,6 +3007,7 @@ const commands = {
   GetCapacityManagerAttributesCommand,
   GetCapacityManagerMetricDataCommand,
   GetCapacityManagerMetricDimensionsCommand,
+  GetCapacityManagerMonitoredTagKeysCommand,
   GetCapacityReservationUsageCommand,
   GetCoipPoolUsageCommand,
   GetConsoleOutputCommand,
@@ -3016,6 +3041,7 @@ const commands = {
   GetLaunchTemplateDataCommand,
   GetManagedPrefixListAssociationsCommand,
   GetManagedPrefixListEntriesCommand,
+  GetManagedResourceVisibilityCommand,
   GetNetworkInsightsAccessScopeAnalysisFindingsCommand,
   GetNetworkInsightsAccessScopeContentCommand,
   GetPasswordDataCommand,
@@ -3089,6 +3115,7 @@ const commands = {
   ModifyLaunchTemplateCommand,
   ModifyLocalGatewayRouteCommand,
   ModifyManagedPrefixListCommand,
+  ModifyManagedResourceVisibilityCommand,
   ModifyNetworkInterfaceAttributeCommand,
   ModifyPrivateDnsNameOptionsCommand,
   ModifyPublicIpDnsNameOptionsCommand,
@@ -3149,6 +3176,7 @@ const commands = {
   RegisterTransitGatewayMulticastGroupMembersCommand,
   RegisterTransitGatewayMulticastGroupSourcesCommand,
   RejectCapacityReservationBillingOwnershipCommand,
+  RejectTransitGatewayClientVpnAttachmentCommand,
   RejectTransitGatewayMulticastDomainAssociationsCommand,
   RejectTransitGatewayPeeringAttachmentCommand,
   RejectTransitGatewayVpcAttachmentCommand,
@@ -3203,6 +3231,7 @@ const commands = {
   UnassignPrivateNatGatewayAddressCommand,
   UnlockSnapshotCommand,
   UnmonitorInstancesCommand,
+  UpdateCapacityManagerMonitoredTagKeysCommand,
   UpdateCapacityManagerOrganizationsAccessCommand,
   UpdateInterruptibleCapacityReservationAllocationCommand,
   UpdateSecurityGroupRuleDescriptionsEgressCommand,
@@ -3350,6 +3379,7 @@ const paginators = {
   paginateGetAwsNetworkPerformanceData,
   paginateGetCapacityManagerMetricData,
   paginateGetCapacityManagerMetricDimensions,
+  paginateGetCapacityManagerMonitoredTagKeys,
   paginateGetGroupsForCapacityReservation,
   paginateGetInstanceTypesFromInstanceRequirements,
   paginateGetIpamAddressHistory,
@@ -3413,6 +3443,17 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AcceptReservedInstancesExchangeQuoteCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link AcceptTransitGatewayClientVpnAttachmentCommand}
+   */
+  acceptTransitGatewayClientVpnAttachment(
+    args: AcceptTransitGatewayClientVpnAttachmentCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    AcceptTransitGatewayClientVpnAttachmentCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
@@ -5899,6 +5940,17 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteTransitGatewayCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link DeleteTransitGatewayClientVpnAttachmentCommand}
+   */
+  deleteTransitGatewayClientVpnAttachment(
+    args: DeleteTransitGatewayClientVpnAttachmentCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteTransitGatewayClientVpnAttachmentCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 
@@ -10025,6 +10077,25 @@ interface EC2Service$ {
   >;
 
   /**
+   * @see {@link GetCapacityManagerMonitoredTagKeysCommand}
+   */
+  getCapacityManagerMonitoredTagKeys(
+    args: GetCapacityManagerMonitoredTagKeysCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetCapacityManagerMonitoredTagKeysCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  getCapacityManagerMonitoredTagKeysStream(
+    args: GetCapacityManagerMonitoredTagKeysCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    GetCapacityManagerMonitoredTagKeysCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link GetCapacityReservationUsageCommand}
    */
   getCapacityReservationUsage(
@@ -10457,6 +10528,17 @@ interface EC2Service$ {
     args: GetManagedPrefixListEntriesCommandInput,
     options?: HttpHandlerOptions,
   ): Stream.Stream<GetManagedPrefixListEntriesCommandOutput, Cause.TimeoutException | SdkError | EC2ServiceError>;
+
+  /**
+   * @see {@link GetManagedResourceVisibilityCommand}
+   */
+  getManagedResourceVisibility(
+    args: GetManagedResourceVisibilityCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetManagedResourceVisibilityCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link GetNetworkInsightsAccessScopeAnalysisFindingsCommand}
@@ -11343,6 +11425,17 @@ interface EC2Service$ {
   >;
 
   /**
+   * @see {@link ModifyManagedResourceVisibilityCommand}
+   */
+  modifyManagedResourceVisibility(
+    args: ModifyManagedResourceVisibilityCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ModifyManagedResourceVisibilityCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link ModifyNetworkInterfaceAttributeCommand}
    */
   modifyNetworkInterfaceAttribute(
@@ -12003,6 +12096,17 @@ interface EC2Service$ {
   >;
 
   /**
+   * @see {@link RejectTransitGatewayClientVpnAttachmentCommand}
+   */
+  rejectTransitGatewayClientVpnAttachment(
+    args: RejectTransitGatewayClientVpnAttachmentCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    RejectTransitGatewayClientVpnAttachmentCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link RejectTransitGatewayMulticastDomainAssociationsCommand}
    */
   rejectTransitGatewayMulticastDomainAssociations(
@@ -12611,6 +12715,17 @@ interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UnmonitorInstancesCommandOutput,
+    Cause.TimeoutException | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link UpdateCapacityManagerMonitoredTagKeysCommand}
+   */
+  updateCapacityManagerMonitoredTagKeys(
+    args: UpdateCapacityManagerMonitoredTagKeysCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateCapacityManagerMonitoredTagKeysCommandOutput,
     Cause.TimeoutException | SdkError | EC2ServiceError
   >;
 

@@ -10,6 +10,7 @@ import type {
   LimitExceededException,
   ResourceAlreadyExistsException,
   ResourceNotFoundException,
+  ServiceQuotaExceededException,
   SlotNotAvailableException,
   ThrottlingException,
   ValidationException,
@@ -28,6 +29,7 @@ export const AllServiceErrors = [
   "LimitExceededException",
   "ResourceAlreadyExistsException",
   "ResourceNotFoundException",
+  "ServiceQuotaExceededException",
   "SlotNotAvailableException",
   "ThrottlingException",
   "ValidationException",
@@ -44,6 +46,7 @@ export type InvalidTypeError = TaggedException<InvalidTypeException>;
 export type LimitExceededError = TaggedException<LimitExceededException>;
 export type ResourceAlreadyExistsError = TaggedException<ResourceAlreadyExistsException>;
 export type ResourceNotFoundError = TaggedException<ResourceNotFoundException>;
+export type ServiceQuotaExceededError = TaggedException<ServiceQuotaExceededException>;
 export type SlotNotAvailableError = TaggedException<SlotNotAvailableException>;
 export type ThrottlingError = TaggedException<ThrottlingException>;
 export type ValidationError = TaggedException<ValidationException>;

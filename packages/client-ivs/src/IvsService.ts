@@ -11,6 +11,9 @@ import {
   BatchStartViewerSessionRevocationCommand,
   type BatchStartViewerSessionRevocationCommandInput,
   type BatchStartViewerSessionRevocationCommandOutput,
+  CreateAdConfigurationCommand,
+  type CreateAdConfigurationCommandInput,
+  type CreateAdConfigurationCommandOutput,
   CreateChannelCommand,
   type CreateChannelCommandInput,
   type CreateChannelCommandOutput,
@@ -23,6 +26,9 @@ import {
   CreateStreamKeyCommand,
   type CreateStreamKeyCommandInput,
   type CreateStreamKeyCommandOutput,
+  DeleteAdConfigurationCommand,
+  type DeleteAdConfigurationCommandInput,
+  type DeleteAdConfigurationCommandOutput,
   DeleteChannelCommand,
   type DeleteChannelCommandInput,
   type DeleteChannelCommandOutput,
@@ -38,6 +44,9 @@ import {
   DeleteStreamKeyCommand,
   type DeleteStreamKeyCommandInput,
   type DeleteStreamKeyCommandOutput,
+  GetAdConfigurationCommand,
+  type GetAdConfigurationCommandInput,
+  type GetAdConfigurationCommandOutput,
   GetChannelCommand,
   type GetChannelCommandInput,
   type GetChannelCommandOutput,
@@ -62,8 +71,14 @@ import {
   ImportPlaybackKeyPairCommand,
   type ImportPlaybackKeyPairCommandInput,
   type ImportPlaybackKeyPairCommandOutput,
+  InsertAdBreakCommand,
+  type InsertAdBreakCommandInput,
+  type InsertAdBreakCommandOutput,
   type IvsClient,
   type IvsClientConfig,
+  ListAdConfigurationsCommand,
+  type ListAdConfigurationsCommandInput,
+  type ListAdConfigurationsCommandOutput,
   ListChannelsCommand,
   type ListChannelsCommandInput,
   type ListChannelsCommandOutput,
@@ -88,6 +103,7 @@ import {
   ListTagsForResourceCommand,
   type ListTagsForResourceCommandInput,
   type ListTagsForResourceCommandOutput,
+  paginateListAdConfigurations,
   paginateListChannels,
   paginateListPlaybackKeyPairs,
   paginateListPlaybackRestrictionPolicies,
@@ -133,6 +149,7 @@ import type {
   ResourceNotFoundError,
   SdkError,
   ServiceQuotaExceededError,
+  ServiceUnavailableError,
   StreamUnavailableError,
   ThrottlingError,
   ValidationError,
@@ -145,15 +162,18 @@ const commands = {
   BatchGetChannelCommand,
   BatchGetStreamKeyCommand,
   BatchStartViewerSessionRevocationCommand,
+  CreateAdConfigurationCommand,
   CreateChannelCommand,
   CreatePlaybackRestrictionPolicyCommand,
   CreateRecordingConfigurationCommand,
   CreateStreamKeyCommand,
+  DeleteAdConfigurationCommand,
   DeleteChannelCommand,
   DeletePlaybackKeyPairCommand,
   DeletePlaybackRestrictionPolicyCommand,
   DeleteRecordingConfigurationCommand,
   DeleteStreamKeyCommand,
+  GetAdConfigurationCommand,
   GetChannelCommand,
   GetPlaybackKeyPairCommand,
   GetPlaybackRestrictionPolicyCommand,
@@ -162,6 +182,8 @@ const commands = {
   GetStreamKeyCommand,
   GetStreamSessionCommand,
   ImportPlaybackKeyPairCommand,
+  InsertAdBreakCommand,
+  ListAdConfigurationsCommand,
   ListChannelsCommand,
   ListPlaybackKeyPairsCommand,
   ListPlaybackRestrictionPoliciesCommand,
@@ -180,6 +202,7 @@ const commands = {
 };
 
 const paginators = {
+  paginateListAdConfigurations,
   paginateListChannels,
   paginateListPlaybackKeyPairs,
   paginateListPlaybackRestrictionPolicies,
@@ -200,7 +223,7 @@ interface IvsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchGetChannelCommandOutput,
-    Cause.TimeoutException | SdkError
+    Cause.TimeoutException | SdkError | AccessDeniedError | ServiceUnavailableError | ValidationError
   >;
 
   /**
@@ -211,7 +234,7 @@ interface IvsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchGetStreamKeyCommandOutput,
-    Cause.TimeoutException | SdkError
+    Cause.TimeoutException | SdkError | AccessDeniedError | ServiceUnavailableError | ValidationError
   >;
 
   /**
@@ -223,6 +246,26 @@ interface IvsService$ {
   ): Effect.Effect<
     BatchStartViewerSessionRevocationCommandOutput,
     Cause.TimeoutException | SdkError | AccessDeniedError | PendingVerificationError | ThrottlingError | ValidationError
+  >;
+
+  /**
+   * @see {@link CreateAdConfigurationCommand}
+   */
+  createAdConfiguration(
+    args: CreateAdConfigurationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateAdConfigurationCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | PendingVerificationError
+    | ResourceNotFoundError
+    | ServiceQuotaExceededError
+    | ThrottlingError
+    | ValidationError
   >;
 
   /**
@@ -291,6 +334,23 @@ interface IvsService$ {
     | PendingVerificationError
     | ResourceNotFoundError
     | ServiceQuotaExceededError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link DeleteAdConfigurationCommand}
+   */
+  deleteAdConfiguration(
+    args: DeleteAdConfigurationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteAdConfigurationCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
     | ValidationError
   >;
 
@@ -373,6 +433,22 @@ interface IvsService$ {
     | SdkError
     | AccessDeniedError
     | PendingVerificationError
+    | ResourceNotFoundError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link GetAdConfigurationCommand}
+   */
+  getAdConfiguration(
+    args: GetAdConfigurationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetAdConfigurationCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
     | ResourceNotFoundError
     | ValidationError
   >;
@@ -484,6 +560,44 @@ interface IvsService$ {
     | PendingVerificationError
     | ServiceQuotaExceededError
     | ValidationError
+  >;
+
+  /**
+   * @see {@link InsertAdBreakCommand}
+   */
+  insertAdBreak(
+    args: InsertAdBreakCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    InsertAdBreakCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | ChannelNotBroadcastingError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link ListAdConfigurationsCommand}
+   */
+  listAdConfigurations(
+    args: ListAdConfigurationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListAdConfigurationsCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ValidationError
+  >;
+
+  listAdConfigurationsStream(
+    args: ListAdConfigurationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListAdConfigurationsCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ValidationError
   >;
 
   /**

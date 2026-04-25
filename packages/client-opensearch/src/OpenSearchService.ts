@@ -74,6 +74,9 @@ import {
   DeleteVpcEndpointCommand,
   type DeleteVpcEndpointCommandInput,
   type DeleteVpcEndpointCommandOutput,
+  DeregisterCapabilityCommand,
+  type DeregisterCapabilityCommandInput,
+  type DeregisterCapabilityCommandOutput,
   DescribeDomainAutoTunesCommand,
   type DescribeDomainAutoTunesCommandInput,
   type DescribeDomainAutoTunesCommandOutput,
@@ -101,6 +104,9 @@ import {
   DescribeInboundConnectionsCommand,
   type DescribeInboundConnectionsCommandInput,
   type DescribeInboundConnectionsCommandOutput,
+  DescribeInsightDetailsCommand,
+  type DescribeInsightDetailsCommandInput,
+  type DescribeInsightDetailsCommandOutput,
   DescribeInstanceTypeLimitsCommand,
   type DescribeInstanceTypeLimitsCommandInput,
   type DescribeInstanceTypeLimitsCommandOutput,
@@ -128,6 +134,9 @@ import {
   GetApplicationCommand,
   type GetApplicationCommandInput,
   type GetApplicationCommandOutput,
+  GetCapabilityCommand,
+  type GetCapabilityCommandInput,
+  type GetCapabilityCommandOutput,
   GetCompatibleVersionsCommand,
   type GetCompatibleVersionsCommandInput,
   type GetCompatibleVersionsCommandOutput,
@@ -173,6 +182,9 @@ import {
   ListDomainsForPackageCommand,
   type ListDomainsForPackageCommandInput,
   type ListDomainsForPackageCommandOutput,
+  ListInsightsCommand,
+  type ListInsightsCommandInput,
+  type ListInsightsCommandOutput,
   ListInstanceTypeDetailsCommand,
   type ListInstanceTypeDetailsCommandInput,
   type ListInstanceTypeDetailsCommandOutput,
@@ -220,6 +232,9 @@ import {
   PutDefaultApplicationSettingCommand,
   type PutDefaultApplicationSettingCommandInput,
   type PutDefaultApplicationSettingCommandOutput,
+  RegisterCapabilityCommand,
+  type RegisterCapabilityCommandInput,
+  type RegisterCapabilityCommandOutput,
   RejectInboundConnectionCommand,
   type RejectInboundConnectionCommandInput,
   type RejectInboundConnectionCommandOutput,
@@ -229,6 +244,9 @@ import {
   RevokeVpcEndpointAccessCommand,
   type RevokeVpcEndpointAccessCommandInput,
   type RevokeVpcEndpointAccessCommandOutput,
+  RollbackServiceSoftwareUpdateCommand,
+  type RollbackServiceSoftwareUpdateCommandInput,
+  type RollbackServiceSoftwareUpdateCommandOutput,
   StartDomainMaintenanceCommand,
   type StartDomainMaintenanceCommandInput,
   type StartDomainMaintenanceCommandOutput,
@@ -286,6 +304,7 @@ import type {
   ResourceAlreadyExistsError,
   ResourceNotFoundError,
   SdkError,
+  ServiceQuotaExceededError,
   SlotNotAvailableError,
   ThrottlingError,
   ValidationError,
@@ -319,6 +338,7 @@ const commands = {
   DeleteOutboundConnectionCommand,
   DeletePackageCommand,
   DeleteVpcEndpointCommand,
+  DeregisterCapabilityCommand,
   DescribeDomainCommand,
   DescribeDomainAutoTunesCommand,
   DescribeDomainChangeProgressCommand,
@@ -328,6 +348,7 @@ const commands = {
   DescribeDomainsCommand,
   DescribeDryRunProgressCommand,
   DescribeInboundConnectionsCommand,
+  DescribeInsightDetailsCommand,
   DescribeInstanceTypeLimitsCommand,
   DescribeOutboundConnectionsCommand,
   DescribePackagesCommand,
@@ -337,6 +358,7 @@ const commands = {
   DissociatePackageCommand,
   DissociatePackagesCommand,
   GetApplicationCommand,
+  GetCapabilityCommand,
   GetCompatibleVersionsCommand,
   GetDataSourceCommand,
   GetDefaultApplicationSettingCommand,
@@ -352,6 +374,7 @@ const commands = {
   ListDomainMaintenancesCommand,
   ListDomainNamesCommand,
   ListDomainsForPackageCommand,
+  ListInsightsCommand,
   ListInstanceTypeDetailsCommand,
   ListPackagesForDomainCommand,
   ListScheduledActionsCommand,
@@ -362,9 +385,11 @@ const commands = {
   ListVpcEndpointsForDomainCommand,
   PurchaseReservedInstanceOfferingCommand,
   PutDefaultApplicationSettingCommand,
+  RegisterCapabilityCommand,
   RejectInboundConnectionCommand,
   RemoveTagsCommand,
   RevokeVpcEndpointAccessCommand,
+  RollbackServiceSoftwareUpdateCommand,
   StartDomainMaintenanceCommand,
   StartServiceSoftwareUpdateCommand,
   UpdateApplicationCommand,
@@ -787,6 +812,24 @@ interface OpenSearchService$ {
   >;
 
   /**
+   * @see {@link DeregisterCapabilityCommand}
+   */
+  deregisterCapability(
+    args: DeregisterCapabilityCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeregisterCapabilityCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | DisabledOperationError
+    | InternalError
+    | ResourceNotFoundError
+    | ValidationError
+  >;
+
+  /**
    * @see {@link DescribeDomainCommand}
    */
   describeDomain(
@@ -918,6 +961,24 @@ interface OpenSearchService$ {
   ): Stream.Stream<
     DescribeInboundConnectionsCommandOutput,
     Cause.TimeoutException | SdkError | DisabledOperationError | InvalidPaginationTokenError
+  >;
+
+  /**
+   * @see {@link DescribeInsightDetailsCommand}
+   */
+  describeInsightDetails(
+    args: DescribeInsightDetailsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeInsightDetailsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | BaseError
+    | DisabledOperationError
+    | InternalError
+    | LimitExceededError
+    | ResourceNotFoundError
+    | ValidationError
   >;
 
   /**
@@ -1085,6 +1146,23 @@ interface OpenSearchService$ {
     | SdkError
     | AccessDeniedError
     | BaseError
+    | DisabledOperationError
+    | InternalError
+    | ResourceNotFoundError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link GetCapabilityCommand}
+   */
+  getCapability(
+    args: GetCapabilityCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetCapabilityCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
     | DisabledOperationError
     | InternalError
     | ResourceNotFoundError
@@ -1411,6 +1489,24 @@ interface OpenSearchService$ {
   >;
 
   /**
+   * @see {@link ListInsightsCommand}
+   */
+  listInsights(
+    args: ListInsightsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListInsightsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | BaseError
+    | DisabledOperationError
+    | InternalError
+    | LimitExceededError
+    | ResourceNotFoundError
+    | ValidationError
+  >;
+
+  /**
    * @see {@link ListInstanceTypeDetailsCommand}
    */
   listInstanceTypeDetails(
@@ -1584,6 +1680,25 @@ interface OpenSearchService$ {
   >;
 
   /**
+   * @see {@link RegisterCapabilityCommand}
+   */
+  registerCapability(
+    args: RegisterCapabilityCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    RegisterCapabilityCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | DisabledOperationError
+    | InternalError
+    | ResourceNotFoundError
+    | ServiceQuotaExceededError
+    | ValidationError
+  >;
+
+  /**
    * @see {@link RejectInboundConnectionCommand}
    */
   rejectInboundConnection(
@@ -1613,6 +1728,23 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RevokeVpcEndpointAccessCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | BaseError
+    | DisabledOperationError
+    | InternalError
+    | ResourceNotFoundError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link RollbackServiceSoftwareUpdateCommand}
+   */
+  rollbackServiceSoftwareUpdate(
+    args: RollbackServiceSoftwareUpdateCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    RollbackServiceSoftwareUpdateCommandOutput,
     | Cause.TimeoutException
     | SdkError
     | BaseError

@@ -6,6 +6,7 @@ import type {
   PendingVerification,
   ResourceNotFoundException,
   ServiceQuotaExceededException,
+  ServiceUnavailable,
   StreamUnavailable,
   ThrottlingException,
   ValidationException,
@@ -20,6 +21,7 @@ export const AllServiceErrors = [
   "PendingVerification",
   "ResourceNotFoundException",
   "ServiceQuotaExceededException",
+  "ServiceUnavailable",
   "StreamUnavailable",
   "ThrottlingException",
   "ValidationException",
@@ -32,6 +34,7 @@ export type InternalServerError = TaggedException<InternalServerException>;
 export type PendingVerificationError = TaggedException<PendingVerification>;
 export type ResourceNotFoundError = TaggedException<ResourceNotFoundException>;
 export type ServiceQuotaExceededError = TaggedException<ServiceQuotaExceededException>;
+export type ServiceUnavailableError = TaggedException<ServiceUnavailable>;
 export type StreamUnavailableError = TaggedException<StreamUnavailable>;
 export type ThrottlingError = TaggedException<ThrottlingException>;
 export type ValidationError = TaggedException<ValidationException>;

@@ -9,6 +9,8 @@ import type {
   ClusterContainsTasksException,
   ClusterNotFoundException,
   ConflictException,
+  DaemonNotActiveException,
+  DaemonNotFoundException,
   InvalidParameterException,
   LimitExceededException,
   MissingVersionException,
@@ -41,6 +43,8 @@ export const AllServiceErrors = [
   "ClusterContainsTasksException",
   "ClusterNotFoundException",
   "ConflictException",
+  "DaemonNotActiveException",
+  "DaemonNotFoundException",
   "InvalidParameterException",
   "LimitExceededException",
   "MissingVersionException",
@@ -71,6 +75,8 @@ export type ClusterContainsServicesError = TaggedException<ClusterContainsServic
 export type ClusterContainsTasksError = TaggedException<ClusterContainsTasksException>;
 export type ClusterNotFoundError = TaggedException<ClusterNotFoundException>;
 export type ConflictError = TaggedException<ConflictException>;
+export type DaemonNotActiveError = TaggedException<DaemonNotActiveException>;
+export type DaemonNotFoundError = TaggedException<DaemonNotFoundException>;
 export type InvalidParameterError = TaggedException<InvalidParameterException>;
 export type LimitExceededError = TaggedException<LimitExceededException>;
 export type MissingVersionError = TaggedException<MissingVersionException>;

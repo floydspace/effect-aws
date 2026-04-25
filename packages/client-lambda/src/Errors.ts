@@ -35,6 +35,9 @@ import type {
   ResourceInUseException,
   ResourceNotFoundException,
   ResourceNotReadyException,
+  S3FilesMountConnectivityException,
+  S3FilesMountFailureException,
+  S3FilesMountTimeoutException,
   SerializedRequestEntityTooLargeException,
   ServiceException,
   SnapStartException,
@@ -83,6 +86,9 @@ export const AllServiceErrors = [
   "ResourceInUseException",
   "ResourceNotFoundException",
   "ResourceNotReadyException",
+  "S3FilesMountConnectivityException",
+  "S3FilesMountFailureException",
+  "S3FilesMountTimeoutException",
   "SerializedRequestEntityTooLargeException",
   "ServiceException",
   "SnapStartException",
@@ -131,6 +137,9 @@ export type ResourceConflictError = TaggedException<ResourceConflictException>;
 export type ResourceInUseError = TaggedException<ResourceInUseException>;
 export type ResourceNotFoundError = TaggedException<ResourceNotFoundException>;
 export type ResourceNotReadyError = TaggedException<ResourceNotReadyException>;
+export type S3FilesMountConnectivityError = TaggedException<S3FilesMountConnectivityException>;
+export type S3FilesMountFailureError = TaggedException<S3FilesMountFailureException>;
+export type S3FilesMountTimeoutError = TaggedException<S3FilesMountTimeoutException>;
 export type SerializedRequestEntityTooLargeError = TaggedException<SerializedRequestEntityTooLargeException>;
 export type ServiceError = TaggedException<ServiceException>;
 export type SnapStartError = TaggedException<SnapStartException>;

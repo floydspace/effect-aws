@@ -34,6 +34,9 @@ import {
   CreateLogStreamCommand,
   type CreateLogStreamCommandInput,
   type CreateLogStreamCommandOutput,
+  CreateLookupTableCommand,
+  type CreateLookupTableCommandInput,
+  type CreateLookupTableCommandOutput,
   CreateScheduledQueryCommand,
   type CreateScheduledQueryCommandInput,
   type CreateScheduledQueryCommandOutput,
@@ -73,6 +76,9 @@ import {
   DeleteLogStreamCommand,
   type DeleteLogStreamCommandInput,
   type DeleteLogStreamCommandOutput,
+  DeleteLookupTableCommand,
+  type DeleteLookupTableCommandInput,
+  type DeleteLookupTableCommandOutput,
   DeleteMetricFilterCommand,
   type DeleteMetricFilterCommandInput,
   type DeleteMetricFilterCommandOutput,
@@ -133,6 +139,9 @@ import {
   DescribeLogStreamsCommand,
   type DescribeLogStreamsCommandInput,
   type DescribeLogStreamsCommandOutput,
+  DescribeLookupTablesCommand,
+  type DescribeLookupTablesCommandInput,
+  type DescribeLookupTablesCommandOutput,
   DescribeMetricFiltersCommand,
   type DescribeMetricFiltersCommandInput,
   type DescribeMetricFiltersCommandOutput,
@@ -193,6 +202,9 @@ import {
   GetLogRecordCommand,
   type GetLogRecordCommandInput,
   type GetLogRecordCommandOutput,
+  GetLookupTableCommand,
+  type GetLookupTableCommandInput,
+  type GetLookupTableCommandOutput,
   GetQueryResultsCommand,
   type GetQueryResultsCommandInput,
   type GetQueryResultsCommandOutput,
@@ -343,6 +355,9 @@ import {
   UpdateLogAnomalyDetectorCommand,
   type UpdateLogAnomalyDetectorCommandInput,
   type UpdateLogAnomalyDetectorCommandOutput,
+  UpdateLookupTableCommand,
+  type UpdateLookupTableCommandInput,
+  type UpdateLookupTableCommandOutput,
   UpdateScheduledQueryCommand,
   type UpdateScheduledQueryCommandInput,
   type UpdateScheduledQueryCommandOutput,
@@ -390,6 +405,7 @@ const commands = {
   CreateLogAnomalyDetectorCommand,
   CreateLogGroupCommand,
   CreateLogStreamCommand,
+  CreateLookupTableCommand,
   CreateScheduledQueryCommand,
   DeleteAccountPolicyCommand,
   DeleteDataProtectionPolicyCommand,
@@ -403,6 +419,7 @@ const commands = {
   DeleteLogAnomalyDetectorCommand,
   DeleteLogGroupCommand,
   DeleteLogStreamCommand,
+  DeleteLookupTableCommand,
   DeleteMetricFilterCommand,
   DeleteQueryDefinitionCommand,
   DeleteResourcePolicyCommand,
@@ -423,6 +440,7 @@ const commands = {
   DescribeIndexPoliciesCommand,
   DescribeLogGroupsCommand,
   DescribeLogStreamsCommand,
+  DescribeLookupTablesCommand,
   DescribeMetricFiltersCommand,
   DescribeQueriesCommand,
   DescribeQueryDefinitionsCommand,
@@ -443,6 +461,7 @@ const commands = {
   GetLogGroupFieldsCommand,
   GetLogObjectCommand,
   GetLogRecordCommand,
+  GetLookupTableCommand,
   GetQueryResultsCommand,
   GetScheduledQueryCommand,
   GetScheduledQueryHistoryCommand,
@@ -487,6 +506,7 @@ const commands = {
   UpdateAnomalyCommand,
   UpdateDeliveryConfigurationCommand,
   UpdateLogAnomalyDetectorCommand,
+  UpdateLookupTableCommand,
   UpdateScheduledQueryCommand,
 };
 
@@ -684,6 +704,24 @@ interface CloudWatchLogsService$ {
     | ResourceAlreadyExistsError
     | ResourceNotFoundError
     | ServiceUnavailableError
+  >;
+
+  /**
+   * @see {@link CreateLookupTableCommand}
+   */
+  createLookupTable(
+    args: CreateLookupTableCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateLookupTableCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InvalidParameterError
+    | LimitExceededError
+    | ResourceAlreadyExistsError
+    | ServiceUnavailableError
+    | ValidationError
   >;
 
   /**
@@ -904,6 +942,22 @@ interface CloudWatchLogsService$ {
     | ResourceNotFoundError
     | ServiceUnavailableError
     | ValidationError
+  >;
+
+  /**
+   * @see {@link DeleteLookupTableCommand}
+   */
+  deleteLookupTable(
+    args: DeleteLookupTableCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteLookupTableCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InvalidParameterError
+    | ResourceNotFoundError
+    | ServiceUnavailableError
   >;
 
   /**
@@ -1284,6 +1338,22 @@ interface CloudWatchLogsService$ {
   >;
 
   /**
+   * @see {@link DescribeLookupTablesCommand}
+   */
+  describeLookupTables(
+    args: DescribeLookupTablesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeLookupTablesCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InvalidParameterError
+    | ResourceNotFoundError
+    | ServiceUnavailableError
+  >;
+
+  /**
    * @see {@link DescribeMetricFiltersCommand}
    */
   describeMetricFilters(
@@ -1591,6 +1661,22 @@ interface CloudWatchLogsService$ {
     | SdkError
     | InvalidParameterError
     | LimitExceededError
+    | ResourceNotFoundError
+    | ServiceUnavailableError
+  >;
+
+  /**
+   * @see {@link GetLookupTableCommand}
+   */
+  getLookupTable(
+    args: GetLookupTableCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetLookupTableCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InvalidParameterError
     | ResourceNotFoundError
     | ServiceUnavailableError
   >;
@@ -2331,6 +2417,23 @@ interface CloudWatchLogsService$ {
     | OperationAbortedError
     | ResourceNotFoundError
     | ServiceUnavailableError
+  >;
+
+  /**
+   * @see {@link UpdateLookupTableCommand}
+   */
+  updateLookupTable(
+    args: UpdateLookupTableCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateLookupTableCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InvalidParameterError
+    | ResourceNotFoundError
+    | ServiceUnavailableError
+    | ValidationError
   >;
 
   /**
