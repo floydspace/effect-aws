@@ -1,5 +1,11 @@
 # @effect-aws/client-ivs
 
+## 1.11.1
+
+### Patch Changes
+
+- [`dfd80a0`](https://github.com/floydspace/effect-aws/commit/dfd80a036b21ee3589c394b9d9d5babe96868515) Thanks [@floydspace](https://github.com/floydspace)! - update services with new aws-sdk methods
+
 ## 1.11.0
 
 ### Minor Changes
