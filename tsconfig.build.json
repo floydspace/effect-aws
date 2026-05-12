@@ -214,7 +214,7 @@
       "path": "packages/dsql/tsconfig.esm.json"
     },
     {
-      "path": "packages/cloudfront-signer/tsconfig.esm.json"
+      "path": "packages/cloudfront/tsconfig.esm.json"
     }
   ]
 }

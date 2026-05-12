@@ -77,14 +77,14 @@ const makeCloudFrontSigner = (
  * @category models
  */
 export class CloudFrontSigner extends Effect.Tag(
-  "@effect-aws/cloudfront-signer/CloudFrontSigner",
+  "@effect-aws/cloudfront/CloudFrontSigner",
 )<CloudFrontSigner, CloudFrontSigner$>() {
   /**
    * @since 0.1.0
    *
    * @example
    * import { Effect, Layer } from "effect";
-   * import { CloudFrontSigner } from "@effect-aws/cloudfront-signer";
+   * import { CloudFrontSigner } from "@effect-aws/cloudfront";
    *
    * const signedUrl = CloudFrontSigner.getSignedUrl({
    *   url: "https://d111111abcdef8.cloudfront.net/private-content/private.jpeg",

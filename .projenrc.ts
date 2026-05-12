@@ -220,8 +220,8 @@ new TypeScriptLibProject({
 
 new TypeScriptLibProject({
   parent: project,
-  name: "cloudfront-signer",
-  description: "Effectful AWS CloudFront Signer",
+  name: "cloudfront",
+  description: "Effectful AWS CloudFront modules",
   deps: ["@aws-sdk/cloudfront-signer@^3"],
   devDeps: [...effectDeps],
   peerDeps: ["effect@>=3.15.5 <4.0.0"],

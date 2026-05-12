@@ -219,7 +219,7 @@
       "path": "packages/dsql"
     },
     {
-      "path": "packages/cloudfront-signer"
+      "path": "packages/cloudfront"
     }
   ]
 }

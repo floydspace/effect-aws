@@ -1,4 +1,4 @@
-import { CloudFrontSigner } from "@effect-aws/cloudfront-signer";
+import { CloudFrontSigner } from "@effect-aws/cloudfront";
 import { Cause, Effect, Exit } from "effect";
 import { pipe } from "effect/Function";
 import { describe, expect, it } from "vitest";

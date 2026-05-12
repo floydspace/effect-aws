@@ -1,10 +1,10 @@
 {
-  "name": "@effect-aws/cloudfront-signer",
-  "description": "Effectful AWS CloudFront Signer",
+  "name": "@effect-aws/cloudfront",
+  "description": "Effectful AWS CloudFront modules",
   "repository": {
     "type": "git",
     "url": "github:floydspace/effect-aws",
-    "directory": "packages/cloudfront-signer"
+    "directory": "packages/cloudfront"
   },
   "scripts": {
     "build": "npx projen build",
@@ -37,7 +37,7 @@
   },
   "main": "build/cjs/index.js",
   "license": "MIT",
-  "homepage": "https://floydspace.github.io/effect-aws/docs/cloudfront-signer",
+  "homepage": "https://floydspace.github.io/effect-aws/docs/cloudfront",
   "publishConfig": {
     "access": "public",
     "directory": "dist"

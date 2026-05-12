@@ -1,14 +1,14 @@
-# @effect-aws/cloudfront-signer
+# @effect-aws/cloudfront
 
-[![npm version](https://img.shields.io/npm/v/%40effect-aws%2Fcloudfront-signer?color=brightgreen&label=npm%20package)](https://www.npmjs.com/package/@effect-aws/cloudfront-signer)
-[![npm downloads](https://img.shields.io/npm/dm/%40effect-aws%2Fcloudfront-signer)](https://www.npmjs.com/package/@effect-aws/cloudfront-signer)
+[![npm version](https://img.shields.io/npm/v/%40effect-aws%2Fcloudfront?color=brightgreen&label=npm%20package)](https://www.npmjs.com/package/@effect-aws/cloudfront)
+[![npm downloads](https://img.shields.io/npm/dm/%40effect-aws%2Fcloudfront)](https://www.npmjs.com/package/@effect-aws/cloudfront)
 
-This package provides a Layer-based Effect wrapper around the AWS SDK CloudFront signing helpers.
+This package provides Effect modules for AWS CloudFront utilities.
 
 ## Installation
 
 ```bash
-npm install --save @effect-aws/cloudfront-signer
+npm install --save @effect-aws/cloudfront
 ```
 
 ## Usage
@@ -16,7 +16,7 @@ npm install --save @effect-aws/cloudfront-signer
 ### Signed URL
 
 ```ts
-import { CloudFrontSigner } from "@effect-aws/cloudfront-signer"
+import { CloudFrontSigner } from "@effect-aws/cloudfront"
 import { Effect } from "effect"
 
 const program = CloudFrontSigner.getSignedUrl({
@@ -38,7 +38,7 @@ const result = program.pipe(
 ### Signed Cookies
 
 ```ts
-import { CloudFrontSigner } from "@effect-aws/cloudfront-signer"
+import { CloudFrontSigner } from "@effect-aws/cloudfront"
 import { Effect } from "effect"
 
 const program = CloudFrontSigner.getSignedCookies({
@@ -60,7 +60,7 @@ const result = program.pipe(
 ### Custom Policy
 
 ```ts
-import { CloudFrontSigner } from "@effect-aws/cloudfront-signer"
+import { CloudFrontSigner } from "@effect-aws/cloudfront"
 import { Effect } from "effect"
 
 const policy = JSON.stringify({
