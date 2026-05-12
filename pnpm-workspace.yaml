@@ -60,6 +60,7 @@ packages:
   - packages/client-timestream-influxdb
   - packages/client-timestream-query
   - packages/client-timestream-write
+  - packages/cloudfront
   - packages/commons
   - packages/dsql
   - packages/dynamodb

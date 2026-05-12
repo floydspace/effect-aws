@@ -1309,6 +1309,23 @@ importers:
         version: 5.4.5
     publishDirectory: dist
 
+  packages/cloudfront:
+    dependencies:
+      '@aws-sdk/cloudfront-signer':
+        specifier: ^3
+        version: 3.1036.0
+    devDependencies:
+      '@types/node':
+        specifier: ts5.4
+        version: 25.6.0
+      effect:
+        specifier: ^3.16.4
+        version: 3.16.4
+      typescript:
+        specifier: ^5.4.2
+        version: 5.4.5
+    publishDirectory: dist
+
   packages/commons:
     dependencies:
       '@smithy/protocol-http':
@@ -1926,6 +1943,10 @@ packages:
 
   '@aws-sdk/client-timestream-write@3.1037.0':
     resolution: {integrity: sha512-4Ak1LqNLskcc/aMthXM6exlmajsfMiz5qotGTVFYGL/i/abRHSStGyC4GqILCD3eXiuhTXSWm6gkFVoTwJfz+g==}
+    engines: {node: '>=20.0.0'}
+
+  '@aws-sdk/cloudfront-signer@3.1036.0':
+    resolution: {integrity: sha512-AXEl7lGvlbWbN0Xi0dd0XVfzVnA39dUyMILPcTk6Q5DkwmPgp6M/K6A6Ejbjajhoe8C1AUF4O1+hDc7DPxnBxg==}
     engines: {node: '>=20.0.0'}
 
   '@aws-sdk/core@3.974.5':
@@ -8799,6 +8820,12 @@ snapshots:
       tslib: 2.8.1
     transitivePeerDependencies:
       - aws-crt
+
+  '@aws-sdk/cloudfront-signer@3.1036.0':
+    dependencies:
+      '@smithy/core': 3.23.17
+      '@smithy/url-parser': 4.2.14
+      tslib: 2.8.1
 
   '@aws-sdk/core@3.974.5':
     dependencies:

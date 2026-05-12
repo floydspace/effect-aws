@@ -677,6 +677,15 @@
       ],
       "@effect-aws/dsql/test/*": [
         "./packages/dsql/test/*.js"
+      ],
+      "@effect-aws/cloudfront": [
+        "./packages/cloudfront/src/index.js"
+      ],
+      "@effect-aws/cloudfront/*": [
+        "./packages/cloudfront/src/*.js"
+      ],
+      "@effect-aws/cloudfront/test/*": [
+        "./packages/cloudfront/test/*.js"
       ]
     }
   }
