@@ -87,6 +87,7 @@ const config: UserConfig = {
       ...alias("s3"),
       ...alias("http-handler"),
       ...alias("dsql"),
+      ...alias("cloudfront"),
     }
   }
 }

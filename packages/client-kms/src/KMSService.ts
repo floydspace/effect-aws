@@ -77,6 +77,9 @@ import {
   GenerateRandomCommand,
   type GenerateRandomCommandInput,
   type GenerateRandomCommandOutput,
+  GetKeyLastUsageCommand,
+  type GetKeyLastUsageCommandInput,
+  type GetKeyLastUsageCommandOutput,
   GetKeyPolicyCommand,
   type GetKeyPolicyCommandInput,
   type GetKeyPolicyCommandOutput,
@@ -261,6 +264,7 @@ const commands = {
   GenerateDataKeyWithoutPlaintextCommand,
   GenerateMacCommand,
   GenerateRandomCommand,
+  GetKeyLastUsageCommand,
   GetKeyPolicyCommand,
   GetKeyRotationStatusCommand,
   GetParametersForImportCommand,
@@ -776,6 +780,17 @@ export interface KMSService$ {
     | DependencyTimeoutError
     | KMSInternalError
     | UnsupportedOperationError
+  >;
+
+  /**
+   * @see {@link GetKeyLastUsageCommand}
+   */
+  getKeyLastUsage(
+    args: GetKeyLastUsageCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetKeyLastUsageCommandOutput,
+    Cause.TimeoutError | SdkError | DependencyTimeoutError | InvalidArnError | KMSInternalError | NotFoundError
   >;
 
   /**

@@ -213,6 +213,15 @@ new TypeScriptLibProject({
   peerDeps: ["effect@>=4.0.0 <5.0.0"],
 });
 
+new TypeScriptLibProject({
+  parent: project,
+  name: "cloudfront",
+  description: "Effectful AWS CloudFront modules",
+  deps: ["@aws-sdk/cloudfront-signer@^3"],
+  devDeps: [...effectDeps],
+  peerDeps: ["effect@>=4.0.0 <5.0.0"],
+});
+
 project.addGitIgnore("/.direnv"); // flake environment creates .direnv folder
 project.addGitIgnore("/docs"); // docs are generated
 project.addGitIgnore(".idea");

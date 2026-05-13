@@ -51,6 +51,12 @@
 - Updated dependencies [[`57b06d0`](https://github.com/floydspace/effect-aws/commit/57b06d0474b35ae754e8e1b0a317e15669191779)]:
   - @effect-aws/commons@1.0.0-beta.0
 
+## 1.11.2
+
+### Patch Changes
+
+- [`51d1f59`](https://github.com/floydspace/effect-aws/commit/51d1f59e02e59bae937b418dc6b0cb2eadc8b278) Thanks [@floydspace](https://github.com/floydspace)! - update kms service with new method
+
 ## 1.11.0
 
 ### Minor Changes
