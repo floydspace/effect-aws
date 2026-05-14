@@ -1,5 +1,11 @@
 # @effect-aws/client-kms
 
+## 2.0.0-beta.5
+
+### Patch Changes
+
+- update kms service with new method
+
 ## 2.0.0-beta.4
 
 ### Minor Changes

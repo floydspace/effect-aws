@@ -70,17 +70,20 @@
     "@effect-aws/secrets-manager": "1.3.3",
     "@effect-aws/ssm": "1.3.6",
     "@effect-aws/client-sesv2": "1.11.0",
-    "@effect-aws/client-cloudfront": "1.11.0"
+    "@effect-aws/client-cloudfront": "1.11.0",
+    "@effect-aws/cloudfront": "0.1.0"
   },
   "changesets": [
     "eighty-parents-bake",
     "giant-trainers-search",
     "little-chairs-thank",
     "little-peas-care",
+    "ninety-weeks-act",
     "old-pumpkins-taste",
     "pretty-gifts-guess",
     "sour-parents-clean",
     "sweet-terms-enjoy",
-    "ten-parents-unite"
+    "ten-parents-unite",
+    "yellow-lies-wink"
   ]
 }
