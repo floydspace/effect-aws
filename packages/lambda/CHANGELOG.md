@@ -1,5 +1,11 @@
 # @effect-aws/lambda
 
+## 1.7.0
+
+### Minor Changes
+
+- [#218](https://github.com/floydspace/effect-aws/pull/218) [`1e12d67`](https://github.com/floydspace/effect-aws/commit/1e12d6795b51c3a85a526d80dd13343a7806dae9) Thanks [@yotamishak](https://github.com/yotamishak)! - Add `LambdaHandler.streamFromHttpApi` for streaming `HttpApi` responses through Lambda Function URLs with response streaming enabled.
+
 ## 1.6.0
 
 ### Minor Changes
