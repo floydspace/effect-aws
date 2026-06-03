@@ -30,6 +30,12 @@
 
 - [#198](https://github.com/floydspace/effect-aws/pull/198) [`57b06d0`](https://github.com/floydspace/effect-aws/commit/57b06d0474b35ae754e8e1b0a317e15669191779) Thanks [@floydspace](https://github.com/floydspace)! - Migrate to effect v4
 
+## 1.7.0
+
+### Minor Changes
+
+- [#218](https://github.com/floydspace/effect-aws/pull/218) [`1e12d67`](https://github.com/floydspace/effect-aws/commit/1e12d6795b51c3a85a526d80dd13343a7806dae9) Thanks [@yotamishak](https://github.com/yotamishak)! - Add `LambdaHandler.streamFromHttpApi` for streaming `HttpApi` responses through Lambda Function URLs with response streaming enabled.
+
 ## 1.6.0
 
 ### Minor Changes

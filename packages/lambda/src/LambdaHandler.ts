@@ -5,12 +5,14 @@ import type * as Cause from "effect/Cause";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
+import type * as PlatformError from "effect/PlatformError";
 import * as Predicate from "effect/Predicate";
 import type { HttpMiddleware } from "effect/unstable/http";
 import { HttpRouter } from "effect/unstable/http";
+import { Readable } from "node:stream";
 import { getEventSource } from "./internal/index.js";
 import * as internal from "./internal/lambdaHandler.js";
-import { pipeTo } from "./internal/stream.js";
+import { pipeline, pipeTo } from "./internal/stream.js";
 import type { EventSource, ResponseValues } from "./internal/types.js";
 import { encodeBase64, isContentEncodingBinary, isContentTypeBinary } from "./internal/utils.js";
 import * as LambdaRuntime from "./LambdaRuntime.js";
@@ -207,6 +209,47 @@ type WebHandler = (
 ) => Promise<globalThis.Response>;
 const WebHandler = Context.Service<WebHandler>("@effect-aws/lambda/WebHandler");
 
+type EffectStreamifyHandler<T, R, E = never> = (
+  event: T,
+  responseStream: awslambda.HttpResponseStream,
+  context: LambdaContext,
+) => Effect.Effect<void, E, R>;
+
+const requestFromEvent = (event: LambdaHandler.Event): Request => {
+  const eventSource = getEventSource(event) as EventSource<LambdaHandler.Event, LambdaHandler.Result>;
+  const requestValues = eventSource.getRequest(event);
+
+  return new Request(
+    `https://${requestValues.remoteAddress}${requestValues.path}`,
+    {
+      method: requestValues.method,
+      headers: requestValues.headers,
+      body: requestValues.body,
+    },
+  );
+};
+
+const responseHeaders = (res: Response) => {
+  const headers: Record<string, string> = {};
+  const cookies = res.headers.has("set-cookie")
+    ? res.headers.getSetCookie
+      ? res.headers.getSetCookie()
+      : Array.from((res.headers as any).entries())
+        .filter(([k]: any) => k === "set-cookie")
+        .map(([, v]: any) => v)
+    : [];
+
+  if (Array.isArray(cookies) && cookies.length > 0) {
+    res.headers.delete("set-cookie");
+  }
+
+  res.headers.forEach((value, key) => {
+    headers[key] = value;
+  });
+
+  return { headers, cookies };
+};
+
 /**
  * Construct an `WebHandler` from an `HttpRouter` instance.
  *
@@ -238,16 +281,7 @@ export const httpApiHandler: EffectHandler<
 > = (event, context) =>
   Effect.gen(function*() {
     const eventSource = getEventSource(event) as EventSource<LambdaHandler.Event, LambdaHandler.Result>;
-    const requestValues = eventSource.getRequest(event);
-
-    const req = new Request(
-      `https://${requestValues.remoteAddress}${requestValues.path}`,
-      {
-        method: requestValues.method,
-        headers: requestValues.headers,
-        body: requestValues.body,
-      },
-    );
+    const req = requestFromEvent(event);
 
     const handler = yield* Effect.service(WebHandler);
 
@@ -270,32 +304,57 @@ export const httpApiHandler: EffectHandler<
       ? encodeBase64(yield* Effect.promise(() => res.arrayBuffer()))
       : yield* Effect.promise(() => res.text());
 
-    const headers: ResponseValues<LambdaHandler.Event>["headers"] = {};
+    const { cookies, headers } = responseHeaders(res);
+    const responseHeadersMap: ResponseValues<LambdaHandler.Event>["headers"] = headers;
 
-    if (res.headers.has("set-cookie")) {
-      const cookies = res.headers.getSetCookie
-        ? res.headers.getSetCookie()
-        : Array.from((res.headers as any).entries())
-          .filter(([k]: any) => k === "set-cookie")
-          .map(([, v]: any) => v);
-
-      if (Array.isArray(cookies)) {
-        headers["set-cookie"] = cookies;
-        res.headers.delete("set-cookie");
-      }
+    if (cookies.length > 0) {
+      responseHeadersMap["set-cookie"] = cookies;
     }
-
-    res.headers.forEach((value, key) => {
-      headers[key] = value;
-    });
 
     return eventSource.getResponse({
       event,
       statusCode: res.status,
       body,
-      headers,
+      headers: responseHeadersMap,
       isBase64Encoded,
     });
+  });
+
+/**
+ * Construct a streaming `StreamifyHandler` from an `HttpApi` instance for Lambda Function URLs.
+ *
+ * @since 1.7.0
+ * @category constructors
+ */
+export const httpApiStreamHandler: EffectStreamifyHandler<
+  LambdaHandler.Event,
+  WebHandler,
+  Cause.UnknownError | PlatformError.PlatformError
+> = (event, responseStream, context) =>
+  Effect.gen(function*() {
+    const req = requestFromEvent(event);
+
+    const handler = yield* Effect.service(WebHandler);
+
+    const ctx = Context.empty().pipe(
+      Context.add(internal.lambdaEventTag, event),
+      Context.add(internal.lambdaContextTag, context),
+    );
+
+    const res: globalThis.Response = yield* Effect.tryPromise(() => handler(req, ctx));
+
+    const { cookies, headers } = responseHeaders(res);
+    const httpResponseStream = global.awslambda.HttpResponseStream.from(responseStream, {
+      statusCode: res.status,
+      headers,
+      cookies,
+    });
+
+    if (res.body) {
+      yield* pipeline(Readable.fromWeb(res.body as any), httpResponseStream);
+    } else {
+      httpResponseStream.end();
+    }
   });
 
 /**
@@ -326,4 +385,44 @@ export const fromHttpApi = <LA, LE>(
 ): Handler<LambdaHandler.Event, LambdaHandler.Result> => {
   const WebHandlerLive = Layer.effect(WebHandler, makeWebHandler(layer, options));
   return make({ handler: httpApiHandler, layer: WebHandlerLive, memoMap: options?.memoMap });
+};
+
+/**
+ * Construct a streaming lambda handler from an `HttpApi` instance for Lambda Function URLs.
+ *
+ * Lambda response streaming is supported by Lambda Function URLs with response streaming enabled,
+ * not by API Gateway HTTP API integrations.
+ *
+ * @example
+ * ```ts
+ * import { LambdaHandler } from "@effect-aws/lambda"
+ * import { HttpApi, HttpApiBuilder, HttpServer } from "@effect/platform"
+ * import { Layer } from "effect"
+ *
+ * class MyApi extends HttpApi.make("api") {}
+ *
+ * const MyApiLive = HttpApiBuilder.api(MyApi)
+ *
+ * export const handler = LambdaHandler.streamFromHttpApi(
+ *   Layer.mergeAll(
+ *     MyApiLive,
+ *     HttpServer.layerContext
+ *   )
+ * )
+ * ```
+ *
+ * @since 1.7.0
+ * @category constructors
+ */
+export const streamFromHttpApi = <LA, LE>(
+  layer: Layer.Layer<LA, LE, HttpRouter.HttpRouter>,
+  options?: HttpApiOptions,
+): Handler<LambdaHandler.Event, void> => {
+  const WebHandlerLive = Layer.effect(WebHandler, makeWebHandler(layer, options));
+  const runtime = LambdaRuntime.fromLayer(WebHandlerLive, { memoMap: options?.memoMap });
+
+  return global.awslambda?.streamifyResponse(async (event, responseStream, context) => {
+    context.callbackWaitsForEmptyEventLoop = false;
+    return httpApiStreamHandler(event, responseStream, context).pipe(runtime.runPromise);
+  });
 };

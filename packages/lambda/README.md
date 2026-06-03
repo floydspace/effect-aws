@@ -113,3 +113,54 @@ export const handler: Handler = LambdaHandler.stream({
   layer: S3.defaultLayer
 })
 ```
+
+HttpApi streaming with Lambda Function URLs:
+
+```ts
+import { LambdaHandler } from "@effect-aws/lambda"
+import {
+  HttpApi,
+  HttpApiBuilder,
+  HttpApiEndpoint,
+  HttpApiGroup,
+  HttpApiSchema,
+  HttpServer,
+  HttpServerResponse
+} from "@effect/platform"
+import { Effect, Layer, Stream } from "effect"
+
+const encoder = new TextEncoder()
+
+const streamEndpoint = HttpApiEndpoint.get("stream")`/stream`.addSuccess(
+  HttpApiSchema.Text()
+)
+const pingEndpoint = HttpApiEndpoint.get("ping")`/ping`.addSuccess(
+  HttpApiSchema.Text()
+)
+
+const group = HttpApiGroup.make("api").add(streamEndpoint).add(pingEndpoint)
+const api = HttpApi.make("Api").add(group)
+
+const routes = HttpApiBuilder.group(api, "api", (handlers) =>
+  handlers
+    .handle("ping", () => Effect.succeed("pong\n"))
+    .handleRaw("stream", () =>
+      Effect.succeed(
+        HttpServerResponse.stream(
+          Stream.fromIterable(["chunk 1\n", "chunk 2\n", "done\n"]).pipe(
+            Stream.map((chunk) => encoder.encode(chunk))
+          ),
+          { contentType: "text/plain; charset=utf-8" }
+        )
+      )
+    )
+)
+
+const apiLive = HttpApiBuilder.api(api).pipe(Layer.provide(routes))
+
+export const handler = LambdaHandler.streamFromHttpApi(
+  Layer.mergeAll(apiLive, HttpServer.layerContext)
+)
+```
+
+Use `handle` for normal schema responses and `handleRaw` for streaming `HttpServerResponse` values. The Lambda must be invoked through a Lambda Function URL with response streaming enabled, for example `InvokeMode: RESPONSE_STREAM`. API Gateway HTTP API integrations do not support Lambda response streaming.

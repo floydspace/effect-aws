@@ -14,6 +14,7 @@ import * as Layer from "effect/Layer";
 import * as Schema from "effect/Schema";
 import { HttpEffect, HttpServer, HttpServerResponse } from "effect/unstable/http";
 import { HttpApi, HttpApiBuilder, HttpApiEndpoint, HttpApiGroup, HttpApiSchema } from "effect/unstable/httpapi";
+import { Writable } from "node:stream";
 import { describe, expect, it, vi } from "vitest";
 import { albEvent } from "./fixtures/alb-event.js";
 import { apiGatewayV1Event } from "./fixtures/api-gateway-v1-event.js";
@@ -337,6 +338,110 @@ describe("LambdaHandler", () => {
           isBase64Encoded: false,
         } satisfies ALBResult,
       );
+    });
+  });
+
+  describe("LambdaHandler.streamFromHttpApi", () => {
+    it("should stream Lambda Function URL responses", async () => {
+      const originalAwslambda = global.awslambda;
+      const chunks: Array<Buffer> = [];
+      let responseMetadata: {
+        readonly statusCode: number;
+        readonly headers: Record<string, string>;
+        readonly cookies: Array<string>;
+      } | undefined;
+      type TestStreamifyHandler = (
+        event: unknown,
+        responseStream: awslambda.HttpResponseStream,
+        context: LambdaContext,
+      ) => Promise<void>;
+
+      const streamifyResponse = vi.fn(
+        (streamHandler: TestStreamifyHandler) => async (event: unknown, context: LambdaContext) => {
+          const responseStream = new Writable({
+            write(chunk: Buffer | string, _encoding: BufferEncoding, callback: (error?: Error | null) => void) {
+              chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
+              callback();
+            },
+          });
+
+          await streamHandler(event, responseStream as awslambda.HttpResponseStream, context);
+        },
+      );
+
+      const from = vi.fn((
+        responseStream: awslambda.HttpResponseStream,
+        metadata: NonNullable<typeof responseMetadata>,
+      ) => {
+        responseMetadata = metadata;
+        return responseStream;
+      });
+
+      (global as any).awslambda = {
+        streamifyResponse,
+        HttpResponseStream: { from },
+      };
+
+      try {
+        const context = {
+          functionVersion: "$LATEST",
+          functionName: "demo-effect-app-dev-api",
+          invokedFunctionArn: "arn:aws:lambda:eu-fake-1:000000000000:function:demo-effect-app-dev-api",
+          awsRequestId: "8ad41330-f092-4037-bc7c-63ffb7d6d4e7",
+        } as LambdaContext;
+
+        const hello = HttpApiEndpoint.post("hello", `/my/path`, {
+          success: Schema.String.pipe(HttpApiSchema.asText()),
+        });
+
+        const quotesGroup = HttpApiGroup.make("hello").add(hello);
+
+        const MyApi = HttpApi.make("MyApi").add(quotesGroup);
+
+        const HelloLive = HttpApiBuilder.group(
+          MyApi,
+          "hello",
+          (handlers) =>
+            handlers.handle(
+              "hello",
+              () =>
+                HttpEffect.appendPreResponseHandler((_req, response) =>
+                  Effect.orDie(
+                    HttpServerResponse.setCookie(response, "cookie key", "cookie value"),
+                  )
+                ).pipe(
+                  Effect.flatMap(() => Effect.succeed("Hello, World!")),
+                ),
+            ),
+        );
+
+        const MyApiLive = HttpApiBuilder.layer(MyApi).pipe(
+          Layer.provide(HelloLive),
+          Layer.provide(HttpServer.layerServices),
+        );
+
+        const handler = LambdaHandler.streamFromHttpApi(MyApiLive);
+
+        // Lambda Function URL events currently use the same payload format as APIGatewayProxyEventV2.
+        const result = await handler(apiGatewayV2Event, context);
+
+        expect(result).toBeUndefined();
+        expect(streamifyResponse).toHaveBeenCalledTimes(1);
+        expect(from).toHaveBeenCalledTimes(1);
+        expect(responseMetadata).toStrictEqual({
+          statusCode: 200,
+          headers: {
+            "content-length": "13",
+            "content-type": "text/plain",
+          },
+          cookies: [
+            "cookie key=cookie%20value",
+          ],
+        });
+        expect(Buffer.concat(chunks).toString()).toBe("Hello, World!");
+      } finally {
+        (global as any).awslambda = originalAwslambda;
+      }
     });
   });
 });
