@@ -1,5 +1,11 @@
 # @effect-aws/lambda
 
+## 2.0.0-beta.5
+
+### Minor Changes
+
+- Add `LambdaHandler.streamFromHttpApi` for streaming `HttpApi` responses through Lambda Function URLs with response streaming enabled.
+
 ## 2.0.0-beta.4
 
 ### Minor Changes
