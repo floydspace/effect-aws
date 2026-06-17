@@ -9,6 +9,7 @@ packages:
   - packages/client-auto-scaling
   - packages/client-bedrock
   - packages/client-bedrock-agent
+  - packages/client-bedrock-agentcore
   - packages/client-bedrock-runtime
   - packages/client-cloudformation
   - packages/client-cloudfront

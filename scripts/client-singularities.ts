@@ -59,6 +59,11 @@ export default {
     commandToTest: "ListAgents",
     inputToTest: null,
   },
+  "client-bedrock-agentcore": {
+    description: "Effectful AWS Bedrock AgentCore client",
+    commandToTest: "ListSessions",
+    inputToTest: null,
+  },
   "client-cloudfront": {
     description: "Effectful AWS CloudFront client",
     commandToTest: "ListCachePolicies",
