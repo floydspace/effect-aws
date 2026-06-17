@@ -34,6 +34,9 @@
       "path": "packages/client-bedrock-runtime/tsconfig.esm.json"
     },
     {
+      "path": "packages/client-bedrock-agent/tsconfig.esm.json"
+    },
+    {
       "path": "packages/client-cloudfront/tsconfig.esm.json"
     },
     {

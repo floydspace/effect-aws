@@ -54,6 +54,11 @@ export default {
     commandToTest: "InvokeModel",
     inputToTest: null,
   },
+  "client-bedrock-agent": {
+    description: "Effectful AWS Bedrock Agent client",
+    commandToTest: "ListAgents",
+    inputToTest: null,
+  },
   "client-cloudfront": {
     description: "Effectful AWS CloudFront client",
     commandToTest: "ListCachePolicies",

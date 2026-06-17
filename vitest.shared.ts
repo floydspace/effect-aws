@@ -28,6 +28,7 @@ const config: UserConfig = {
       ...alias("client-auto-scaling"),
       ...alias("client-bedrock"),
       ...alias("client-bedrock-runtime"),
+      ...alias("client-bedrock-agent"),
       ...alias("client-cloudfront"),
       ...alias("client-cloudsearch"),
       ...alias("client-cloudformation"),

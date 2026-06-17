@@ -138,6 +138,15 @@
       "@effect-aws/client-bedrock-runtime/test/*": [
         "./packages/client-bedrock-runtime/test/*.js"
       ],
+      "@effect-aws/client-bedrock-agent": [
+        "./packages/client-bedrock-agent/src/index.js"
+      ],
+      "@effect-aws/client-bedrock-agent/*": [
+        "./packages/client-bedrock-agent/src/*.js"
+      ],
+      "@effect-aws/client-bedrock-agent/test/*": [
+        "./packages/client-bedrock-agent/test/*.js"
+      ],
       "@effect-aws/client-cloudfront": [
         "./packages/client-cloudfront/src/index.js"
       ],
