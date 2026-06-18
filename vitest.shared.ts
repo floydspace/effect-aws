@@ -46,6 +46,7 @@ const config: UserConfig = {
       ...alias("client-ec2"),
       ...alias("client-ecr"),
       ...alias("client-ecs"),
+      ...alias("client-eks"),
       ...alias("client-elasticache"),
       ...alias("client-eventbridge"),
       ...alias("client-firehose"),

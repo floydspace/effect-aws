@@ -93,6 +93,9 @@
       "path": "packages/client-ecs"
     },
     {
+      "path": "packages/client-eks"
+    },
+    {
       "path": "packages/client-elasticache"
     },
     {

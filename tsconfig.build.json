@@ -88,6 +88,9 @@
       "path": "packages/client-ecs/tsconfig.esm.json"
     },
     {
+      "path": "packages/client-eks/tsconfig.esm.json"
+    },
+    {
       "path": "packages/client-elasticache/tsconfig.esm.json"
     },
     {

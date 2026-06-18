@@ -300,6 +300,15 @@
       "@effect-aws/client-ecs/test/*": [
         "./packages/client-ecs/test/*.js"
       ],
+      "@effect-aws/client-eks": [
+        "./packages/client-eks/src/index.js"
+      ],
+      "@effect-aws/client-eks/*": [
+        "./packages/client-eks/src/*.js"
+      ],
+      "@effect-aws/client-eks/test/*": [
+        "./packages/client-eks/test/*.js"
+      ],
       "@effect-aws/client-elasticache": [
         "./packages/client-elasticache/src/index.js"
       ],

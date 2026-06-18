@@ -147,6 +147,11 @@ export default {
     commandToTest: "ListClusters",
     inputToTest: null,
   },
+  "client-eks": {
+    description: "Effectful AWS EKS client",
+    commandToTest: "ListClusters",
+    inputToTest: null,
+  },
   "client-elasticache": {
     description: "Effectful AWS ElastiCache client",
     commandToTest: "ListTagsForResource",
