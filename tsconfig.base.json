@@ -156,6 +156,15 @@
       "@effect-aws/client-bedrock-agentcore/test/*": [
         "./packages/client-bedrock-agentcore/test/*.js"
       ],
+      "@effect-aws/client-bedrock-agentcore-control": [
+        "./packages/client-bedrock-agentcore-control/src/index.js"
+      ],
+      "@effect-aws/client-bedrock-agentcore-control/*": [
+        "./packages/client-bedrock-agentcore-control/src/*.js"
+      ],
+      "@effect-aws/client-bedrock-agentcore-control/test/*": [
+        "./packages/client-bedrock-agentcore-control/test/*.js"
+      ],
       "@effect-aws/client-cloudfront": [
         "./packages/client-cloudfront/src/index.js"
       ],

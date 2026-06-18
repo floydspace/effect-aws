@@ -30,6 +30,7 @@ const config: UserConfig = {
       ...alias("client-bedrock-runtime"),
       ...alias("client-bedrock-agent"),
       ...alias("client-bedrock-agentcore"),
+      ...alias("client-bedrock-agentcore-control"),
       ...alias("client-cloudfront"),
       ...alias("client-cloudsearch"),
       ...alias("client-cloudformation"),

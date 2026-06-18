@@ -10,6 +10,7 @@ packages:
   - packages/client-bedrock
   - packages/client-bedrock-agent
   - packages/client-bedrock-agentcore
+  - packages/client-bedrock-agentcore-control
   - packages/client-bedrock-runtime
   - packages/client-cloudformation
   - packages/client-cloudfront

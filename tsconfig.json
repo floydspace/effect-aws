@@ -45,6 +45,9 @@
       "path": "packages/client-bedrock-agentcore"
     },
     {
+      "path": "packages/client-bedrock-agentcore-control"
+    },
+    {
       "path": "packages/client-cloudfront"
     },
     {
