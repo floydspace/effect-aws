@@ -2,6 +2,9 @@
  * @since 1.0.0
  */
 import {
+  AddDatasetExamplesCommand,
+  type AddDatasetExamplesCommandInput,
+  type AddDatasetExamplesCommandOutput,
   type BedrockAgentCoreControlClient,
   type BedrockAgentCoreControlClientConfig,
   CreateAgentRuntimeCommand,
@@ -25,6 +28,12 @@ import {
   CreateConfigurationBundleCommand,
   type CreateConfigurationBundleCommandInput,
   type CreateConfigurationBundleCommandOutput,
+  CreateDatasetCommand,
+  type CreateDatasetCommandInput,
+  type CreateDatasetCommandOutput,
+  CreateDatasetVersionCommand,
+  type CreateDatasetVersionCommandInput,
+  type CreateDatasetVersionCommandOutput,
   CreateEvaluatorCommand,
   type CreateEvaluatorCommandInput,
   type CreateEvaluatorCommandOutput,
@@ -40,6 +49,9 @@ import {
   CreateHarnessCommand,
   type CreateHarnessCommandInput,
   type CreateHarnessCommandOutput,
+  CreateHarnessEndpointCommand,
+  type CreateHarnessEndpointCommandInput,
+  type CreateHarnessEndpointCommandOutput,
   CreateMemoryCommand,
   type CreateMemoryCommandInput,
   type CreateMemoryCommandOutput,
@@ -94,6 +106,12 @@ import {
   DeleteConfigurationBundleCommand,
   type DeleteConfigurationBundleCommandInput,
   type DeleteConfigurationBundleCommandOutput,
+  DeleteDatasetCommand,
+  type DeleteDatasetCommandInput,
+  type DeleteDatasetCommandOutput,
+  DeleteDatasetExamplesCommand,
+  type DeleteDatasetExamplesCommandInput,
+  type DeleteDatasetExamplesCommandOutput,
   DeleteEvaluatorCommand,
   type DeleteEvaluatorCommandInput,
   type DeleteEvaluatorCommandOutput,
@@ -109,6 +127,9 @@ import {
   DeleteHarnessCommand,
   type DeleteHarnessCommandInput,
   type DeleteHarnessCommandOutput,
+  DeleteHarnessEndpointCommand,
+  type DeleteHarnessEndpointCommandInput,
+  type DeleteHarnessEndpointCommandOutput,
   DeleteMemoryCommand,
   type DeleteMemoryCommandInput,
   type DeleteMemoryCommandOutput,
@@ -169,6 +190,9 @@ import {
   GetConfigurationBundleVersionCommand,
   type GetConfigurationBundleVersionCommandInput,
   type GetConfigurationBundleVersionCommandOutput,
+  GetDatasetCommand,
+  type GetDatasetCommandInput,
+  type GetDatasetCommandOutput,
   GetEvaluatorCommand,
   type GetEvaluatorCommandInput,
   type GetEvaluatorCommandOutput,
@@ -184,6 +208,9 @@ import {
   GetHarnessCommand,
   type GetHarnessCommandInput,
   type GetHarnessCommandOutput,
+  GetHarnessEndpointCommand,
+  type GetHarnessEndpointCommandInput,
+  type GetHarnessEndpointCommandOutput,
   GetMemoryCommand,
   type GetMemoryCommandInput,
   type GetMemoryCommandOutput,
@@ -208,9 +235,18 @@ import {
   GetPolicyEngineCommand,
   type GetPolicyEngineCommandInput,
   type GetPolicyEngineCommandOutput,
+  GetPolicyEngineSummaryCommand,
+  type GetPolicyEngineSummaryCommandInput,
+  type GetPolicyEngineSummaryCommandOutput,
   GetPolicyGenerationCommand,
   type GetPolicyGenerationCommandInput,
   type GetPolicyGenerationCommandOutput,
+  GetPolicyGenerationSummaryCommand,
+  type GetPolicyGenerationSummaryCommandInput,
+  type GetPolicyGenerationSummaryCommandOutput,
+  GetPolicySummaryCommand,
+  type GetPolicySummaryCommandInput,
+  type GetPolicySummaryCommandOutput,
   GetRegistryCommand,
   type GetRegistryCommandInput,
   type GetRegistryCommandOutput,
@@ -253,6 +289,15 @@ import {
   ListConfigurationBundleVersionsCommand,
   type ListConfigurationBundleVersionsCommandInput,
   type ListConfigurationBundleVersionsCommandOutput,
+  ListDatasetExamplesCommand,
+  type ListDatasetExamplesCommandInput,
+  type ListDatasetExamplesCommandOutput,
+  ListDatasetsCommand,
+  type ListDatasetsCommandInput,
+  type ListDatasetsCommandOutput,
+  ListDatasetVersionsCommand,
+  type ListDatasetVersionsCommandInput,
+  type ListDatasetVersionsCommandOutput,
   ListEvaluatorsCommand,
   type ListEvaluatorsCommandInput,
   type ListEvaluatorsCommandOutput,
@@ -265,9 +310,15 @@ import {
   ListGatewayTargetsCommand,
   type ListGatewayTargetsCommandInput,
   type ListGatewayTargetsCommandOutput,
+  ListHarnessEndpointsCommand,
+  type ListHarnessEndpointsCommandInput,
+  type ListHarnessEndpointsCommandOutput,
   ListHarnessesCommand,
   type ListHarnessesCommandInput,
   type ListHarnessesCommandOutput,
+  ListHarnessVersionsCommand,
+  type ListHarnessVersionsCommandInput,
+  type ListHarnessVersionsCommandOutput,
   ListMemoriesCommand,
   type ListMemoriesCommandInput,
   type ListMemoriesCommandOutput,
@@ -292,12 +343,21 @@ import {
   ListPolicyEnginesCommand,
   type ListPolicyEnginesCommandInput,
   type ListPolicyEnginesCommandOutput,
+  ListPolicyEngineSummariesCommand,
+  type ListPolicyEngineSummariesCommandInput,
+  type ListPolicyEngineSummariesCommandOutput,
   ListPolicyGenerationAssetsCommand,
   type ListPolicyGenerationAssetsCommandInput,
   type ListPolicyGenerationAssetsCommandOutput,
   ListPolicyGenerationsCommand,
   type ListPolicyGenerationsCommandInput,
   type ListPolicyGenerationsCommandOutput,
+  ListPolicyGenerationSummariesCommand,
+  type ListPolicyGenerationSummariesCommandInput,
+  type ListPolicyGenerationSummariesCommandOutput,
+  ListPolicySummariesCommand,
+  type ListPolicySummariesCommandInput,
+  type ListPolicySummariesCommandOutput,
   ListRegistriesCommand,
   type ListRegistriesCommandInput,
   type ListRegistriesCommandOutput,
@@ -319,11 +379,16 @@ import {
   paginateListCodeInterpreters,
   paginateListConfigurationBundles,
   paginateListConfigurationBundleVersions,
+  paginateListDatasetExamples,
+  paginateListDatasets,
+  paginateListDatasetVersions,
   paginateListEvaluators,
   paginateListGatewayRules,
   paginateListGateways,
   paginateListGatewayTargets,
+  paginateListHarnessEndpoints,
   paginateListHarnesses,
+  paginateListHarnessVersions,
   paginateListMemories,
   paginateListOauth2CredentialProviders,
   paginateListOnlineEvaluationConfigs,
@@ -332,8 +397,11 @@ import {
   paginateListPaymentManagers,
   paginateListPolicies,
   paginateListPolicyEngines,
+  paginateListPolicyEngineSummaries,
   paginateListPolicyGenerationAssets,
   paginateListPolicyGenerations,
+  paginateListPolicyGenerationSummaries,
+  paginateListPolicySummaries,
   paginateListRegistries,
   paginateListRegistryRecords,
   paginateListWorkloadIdentities,
@@ -370,6 +438,12 @@ import {
   UpdateConfigurationBundleCommand,
   type UpdateConfigurationBundleCommandInput,
   type UpdateConfigurationBundleCommandOutput,
+  UpdateDatasetCommand,
+  type UpdateDatasetCommandInput,
+  type UpdateDatasetCommandOutput,
+  UpdateDatasetExamplesCommand,
+  type UpdateDatasetExamplesCommandInput,
+  type UpdateDatasetExamplesCommandOutput,
   UpdateEvaluatorCommand,
   type UpdateEvaluatorCommandInput,
   type UpdateEvaluatorCommandOutput,
@@ -385,6 +459,9 @@ import {
   UpdateHarnessCommand,
   type UpdateHarnessCommandInput,
   type UpdateHarnessCommandOutput,
+  UpdateHarnessEndpointCommand,
+  type UpdateHarnessEndpointCommandInput,
+  type UpdateHarnessEndpointCommandOutput,
   UpdateMemoryCommand,
   type UpdateMemoryCommandInput,
   type UpdateMemoryCommandOutput,
@@ -451,6 +528,7 @@ import type {
 import { AllServiceErrors } from "./Errors.js";
 
 const commands = {
+  AddDatasetExamplesCommand,
   CreateAgentRuntimeCommand,
   CreateAgentRuntimeEndpointCommand,
   CreateApiKeyCredentialProviderCommand,
@@ -458,11 +536,14 @@ const commands = {
   CreateBrowserProfileCommand,
   CreateCodeInterpreterCommand,
   CreateConfigurationBundleCommand,
+  CreateDatasetCommand,
+  CreateDatasetVersionCommand,
   CreateEvaluatorCommand,
   CreateGatewayCommand,
   CreateGatewayRuleCommand,
   CreateGatewayTargetCommand,
   CreateHarnessCommand,
+  CreateHarnessEndpointCommand,
   CreateMemoryCommand,
   CreateOauth2CredentialProviderCommand,
   CreateOnlineEvaluationConfigCommand,
@@ -481,11 +562,14 @@ const commands = {
   DeleteBrowserProfileCommand,
   DeleteCodeInterpreterCommand,
   DeleteConfigurationBundleCommand,
+  DeleteDatasetCommand,
+  DeleteDatasetExamplesCommand,
   DeleteEvaluatorCommand,
   DeleteGatewayCommand,
   DeleteGatewayRuleCommand,
   DeleteGatewayTargetCommand,
   DeleteHarnessCommand,
+  DeleteHarnessEndpointCommand,
   DeleteMemoryCommand,
   DeleteOauth2CredentialProviderCommand,
   DeleteOnlineEvaluationConfigCommand,
@@ -506,11 +590,13 @@ const commands = {
   GetCodeInterpreterCommand,
   GetConfigurationBundleCommand,
   GetConfigurationBundleVersionCommand,
+  GetDatasetCommand,
   GetEvaluatorCommand,
   GetGatewayCommand,
   GetGatewayRuleCommand,
   GetGatewayTargetCommand,
   GetHarnessCommand,
+  GetHarnessEndpointCommand,
   GetMemoryCommand,
   GetOauth2CredentialProviderCommand,
   GetOnlineEvaluationConfigCommand,
@@ -519,7 +605,10 @@ const commands = {
   GetPaymentManagerCommand,
   GetPolicyCommand,
   GetPolicyEngineCommand,
+  GetPolicyEngineSummaryCommand,
   GetPolicyGenerationCommand,
+  GetPolicyGenerationSummaryCommand,
+  GetPolicySummaryCommand,
   GetRegistryCommand,
   GetRegistryRecordCommand,
   GetResourcePolicyCommand,
@@ -534,10 +623,15 @@ const commands = {
   ListCodeInterpretersCommand,
   ListConfigurationBundleVersionsCommand,
   ListConfigurationBundlesCommand,
+  ListDatasetExamplesCommand,
+  ListDatasetVersionsCommand,
+  ListDatasetsCommand,
   ListEvaluatorsCommand,
   ListGatewayRulesCommand,
   ListGatewayTargetsCommand,
   ListGatewaysCommand,
+  ListHarnessEndpointsCommand,
+  ListHarnessVersionsCommand,
   ListHarnessesCommand,
   ListMemoriesCommand,
   ListOauth2CredentialProvidersCommand,
@@ -546,9 +640,12 @@ const commands = {
   ListPaymentCredentialProvidersCommand,
   ListPaymentManagersCommand,
   ListPoliciesCommand,
+  ListPolicyEngineSummariesCommand,
   ListPolicyEnginesCommand,
   ListPolicyGenerationAssetsCommand,
+  ListPolicyGenerationSummariesCommand,
   ListPolicyGenerationsCommand,
+  ListPolicySummariesCommand,
   ListRegistriesCommand,
   ListRegistryRecordsCommand,
   ListTagsForResourceCommand,
@@ -564,11 +661,14 @@ const commands = {
   UpdateAgentRuntimeEndpointCommand,
   UpdateApiKeyCredentialProviderCommand,
   UpdateConfigurationBundleCommand,
+  UpdateDatasetCommand,
+  UpdateDatasetExamplesCommand,
   UpdateEvaluatorCommand,
   UpdateGatewayCommand,
   UpdateGatewayRuleCommand,
   UpdateGatewayTargetCommand,
   UpdateHarnessCommand,
+  UpdateHarnessEndpointCommand,
   UpdateMemoryCommand,
   UpdateOauth2CredentialProviderCommand,
   UpdateOnlineEvaluationConfigCommand,
@@ -593,10 +693,15 @@ const paginators = {
   paginateListCodeInterpreters,
   paginateListConfigurationBundleVersions,
   paginateListConfigurationBundles,
+  paginateListDatasetExamples,
+  paginateListDatasetVersions,
+  paginateListDatasets,
   paginateListEvaluators,
   paginateListGatewayRules,
   paginateListGatewayTargets,
   paginateListGateways,
+  paginateListHarnessEndpoints,
+  paginateListHarnessVersions,
   paginateListHarnesses,
   paginateListMemories,
   paginateListOauth2CredentialProviders,
@@ -605,9 +710,12 @@ const paginators = {
   paginateListPaymentCredentialProviders,
   paginateListPaymentManagers,
   paginateListPolicies,
+  paginateListPolicyEngineSummaries,
   paginateListPolicyEngines,
   paginateListPolicyGenerationAssets,
+  paginateListPolicyGenerationSummaries,
   paginateListPolicyGenerations,
+  paginateListPolicySummaries,
   paginateListRegistries,
   paginateListRegistryRecords,
   paginateListWorkloadIdentities,
@@ -615,6 +723,25 @@ const paginators = {
 
 interface BedrockAgentCoreControlService$ {
   readonly _: unique symbol;
+
+  /**
+   * @see {@link AddDatasetExamplesCommand}
+   */
+  addDatasetExamples(
+    args: AddDatasetExamplesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    AddDatasetExamplesCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ServiceQuotaExceededError
+    | ThrottlingError
+    | ValidationError
+  >;
 
   /**
    * @see {@link CreateAgentRuntimeCommand}
@@ -749,6 +876,43 @@ interface BedrockAgentCoreControlService$ {
   >;
 
   /**
+   * @see {@link CreateDatasetCommand}
+   */
+  createDataset(
+    args: CreateDatasetCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateDatasetCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ServiceQuotaExceededError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link CreateDatasetVersionCommand}
+   */
+  createDatasetVersion(
+    args: CreateDatasetVersionCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateDatasetVersionCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ServiceQuotaExceededError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
    * @see {@link CreateEvaluatorCommand}
    */
   createEvaluator(
@@ -835,6 +999,25 @@ interface BedrockAgentCoreControlService$ {
     | AccessDeniedError
     | ConflictError
     | InternalServerError
+    | ServiceQuotaExceededError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link CreateHarnessEndpointCommand}
+   */
+  createHarnessEndpoint(
+    args: CreateHarnessEndpointCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateHarnessEndpointCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
     | ServiceQuotaExceededError
     | ThrottlingError
     | ValidationError
@@ -1179,6 +1362,42 @@ interface BedrockAgentCoreControlService$ {
   >;
 
   /**
+   * @see {@link DeleteDatasetCommand}
+   */
+  deleteDataset(
+    args: DeleteDatasetCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteDatasetCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link DeleteDatasetExamplesCommand}
+   */
+  deleteDatasetExamples(
+    args: DeleteDatasetExamplesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteDatasetExamplesCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
    * @see {@link DeleteEvaluatorCommand}
    */
   deleteEvaluator(
@@ -1258,6 +1477,24 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteHarnessCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link DeleteHarnessEndpointCommand}
+   */
+  deleteHarnessEndpoint(
+    args: DeleteHarnessEndpointCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteHarnessEndpointCommandOutput,
     | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
@@ -1621,6 +1858,24 @@ interface BedrockAgentCoreControlService$ {
   >;
 
   /**
+   * @see {@link GetDatasetCommand}
+   */
+  getDataset(
+    args: GetDatasetCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetDatasetCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
    * @see {@link GetEvaluatorCommand}
    */
   getEvaluator(
@@ -1696,6 +1951,23 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetHarnessCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link GetHarnessEndpointCommand}
+   */
+  getHarnessEndpoint(
+    args: GetHarnessEndpointCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetHarnessEndpointCommandOutput,
     | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
@@ -1846,6 +2118,23 @@ interface BedrockAgentCoreControlService$ {
   >;
 
   /**
+   * @see {@link GetPolicyEngineSummaryCommand}
+   */
+  getPolicyEngineSummary(
+    args: GetPolicyEngineSummaryCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetPolicyEngineSummaryCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
    * @see {@link GetPolicyGenerationCommand}
    */
   getPolicyGeneration(
@@ -1853,6 +2142,40 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPolicyGenerationCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link GetPolicyGenerationSummaryCommand}
+   */
+  getPolicyGenerationSummary(
+    args: GetPolicyGenerationSummaryCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetPolicyGenerationSummaryCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link GetPolicySummaryCommand}
+   */
+  getPolicySummary(
+    args: GetPolicySummaryCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetPolicySummaryCommandOutput,
     | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
@@ -2160,6 +2483,89 @@ interface BedrockAgentCoreControlService$ {
   >;
 
   /**
+   * @see {@link ListDatasetExamplesCommand}
+   */
+  listDatasetExamples(
+    args: ListDatasetExamplesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListDatasetExamplesCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  listDatasetExamplesStream(
+    args: ListDatasetExamplesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListDatasetExamplesCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link ListDatasetVersionsCommand}
+   */
+  listDatasetVersions(
+    args: ListDatasetVersionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListDatasetVersionsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  listDatasetVersionsStream(
+    args: ListDatasetVersionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListDatasetVersionsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link ListDatasetsCommand}
+   */
+  listDatasets(
+    args: ListDatasetsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListDatasetsCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+  >;
+
+  listDatasetsStream(
+    args: ListDatasetsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListDatasetsCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+  >;
+
+  /**
    * @see {@link ListEvaluatorsCommand}
    */
   listEvaluators(
@@ -2217,7 +2623,13 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListGatewayTargetsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
   >;
 
   listGatewayTargetsStream(
@@ -2225,7 +2637,13 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListGatewayTargetsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
   >;
 
   /**
@@ -2245,6 +2663,68 @@ interface BedrockAgentCoreControlService$ {
   ): Stream.Stream<
     ListGatewaysCommandOutput,
     Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+  >;
+
+  /**
+   * @see {@link ListHarnessEndpointsCommand}
+   */
+  listHarnessEndpoints(
+    args: ListHarnessEndpointsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListHarnessEndpointsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  listHarnessEndpointsStream(
+    args: ListHarnessEndpointsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListHarnessEndpointsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link ListHarnessVersionsCommand}
+   */
+  listHarnessVersions(
+    args: ListHarnessVersionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListHarnessVersionsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  listHarnessVersionsStream(
+    args: ListHarnessVersionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListHarnessVersionsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
   >;
 
   /**
@@ -2452,6 +2932,25 @@ interface BedrockAgentCoreControlService$ {
   >;
 
   /**
+   * @see {@link ListPolicyEngineSummariesCommand}
+   */
+  listPolicyEngineSummaries(
+    args: ListPolicyEngineSummariesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListPolicyEngineSummariesCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+  >;
+
+  listPolicyEngineSummariesStream(
+    args: ListPolicyEngineSummariesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListPolicyEngineSummariesCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+  >;
+
+  /**
    * @see {@link ListPolicyEnginesCommand}
    */
   listPolicyEngines(
@@ -2502,6 +3001,37 @@ interface BedrockAgentCoreControlService$ {
   >;
 
   /**
+   * @see {@link ListPolicyGenerationSummariesCommand}
+   */
+  listPolicyGenerationSummaries(
+    args: ListPolicyGenerationSummariesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListPolicyGenerationSummariesCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  listPolicyGenerationSummariesStream(
+    args: ListPolicyGenerationSummariesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListPolicyGenerationSummariesCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
    * @see {@link ListPolicyGenerationsCommand}
    */
   listPolicyGenerations(
@@ -2523,6 +3053,37 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListPolicyGenerationsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link ListPolicySummariesCommand}
+   */
+  listPolicySummaries(
+    args: ListPolicySummariesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListPolicySummariesCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  listPolicySummariesStream(
+    args: ListPolicySummariesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListPolicySummariesCommandOutput,
     | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
@@ -2840,6 +3401,43 @@ interface BedrockAgentCoreControlService$ {
   >;
 
   /**
+   * @see {@link UpdateDatasetCommand}
+   */
+  updateDataset(
+    args: UpdateDatasetCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateDatasetCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link UpdateDatasetExamplesCommand}
+   */
+  updateDatasetExamples(
+    args: UpdateDatasetExamplesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateDatasetExamplesCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ServiceQuotaExceededError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
    * @see {@link UpdateEvaluatorCommand}
    */
   updateEvaluator(
@@ -2928,6 +3526,25 @@ interface BedrockAgentCoreControlService$ {
     | ConflictError
     | InternalServerError
     | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link UpdateHarnessEndpointCommand}
+   */
+  updateHarnessEndpoint(
+    args: UpdateHarnessEndpointCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateHarnessEndpointCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ServiceQuotaExceededError
     | ThrottlingError
     | ValidationError
   >;

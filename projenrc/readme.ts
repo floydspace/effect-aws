@@ -30,7 +30,7 @@ export class Readme extends Component {
         "",
         "> A collection of libraries simplifying AWS integrations within the Effect ecosystem",
         "",
-        `<iframe width="100%" style="aspect-ratio: 16/9;" src="https://www.youtube.com/embed/Cg8Hv5nN1-A?fs=0&controls=0&modestbranding=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`,
+        `[![Watch the video](https://img.youtube.com/vi/Cg8Hv5nN1-A/maxresdefault.jpg)](https://www.youtube.com/watch?v=Cg8Hv5nN1-A)`,
         "",
         `Effect Website: https://www.effect.website<br>`,
         `Effect API Reference: https://effect-ts.github.io/effect<br>`,
