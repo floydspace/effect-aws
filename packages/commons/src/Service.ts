@@ -67,23 +67,25 @@ type ServiceFnOptions = {
  * @since 0.1.0
  * @category errors
  */
-export const catchServiceExceptions = (errorTags?: NonEmptyReadonlyArray<string>) => (e: unknown) => {
-  if (e instanceof ServiceError && (!errorTags || errorTags.includes(e.name))) {
-    class ServiceException extends Data.TaggedError(e.name)<TaggedException<ServiceError>> {}
+export const catchServiceExceptions =
+  (errorTags?: NonEmptyReadonlyArray<string>) =>
+  (e: unknown): TaggedException<ServiceError> | Cause.TimeoutError | SdkError => {
+    if (e instanceof ServiceError && (!errorTags || errorTags.includes(e.name))) {
+      class ServiceException extends Data.TaggedError(e.name)<TaggedException<ServiceError>> {}
 
-    return new ServiceException({ ...e, message: e.message, stack: e.stack });
-  }
-  if (e instanceof Error) {
-    // if (Runtime.isFiberFailure(e) && Cause.isFailType(e[Runtime.FiberFailureCauseId])) {
-    //   return e[Runtime.FiberFailureCauseId].error;
-    // }
-    if (e.name === "TimeoutError") {
-      return new Cause.TimeoutError(e.message);
+      return new ServiceException({ ...e, message: e.message, stack: e.stack });
     }
-    return new SdkError({ ...e, name: "SdkError", message: e.message, stack: e.stack });
-  }
-  throw e;
-};
+    if (e instanceof Error) {
+      // if (Runtime.isFiberFailure(e) && Cause.isFailType(e[Runtime.FiberFailureCauseId])) {
+      //   return e[Runtime.FiberFailureCauseId].error;
+      // }
+      if (e.name === "TimeoutError") {
+        return new Cause.TimeoutError(e.message);
+      }
+      return new SdkError({ ...e, name: "SdkError", message: e.message, stack: e.stack });
+    }
+    throw e;
+  };
 
 /**
  * @since 0.1.0
@@ -93,7 +95,7 @@ export const makeServiceFn = (
   client: Client<any, any, BaseResolvedConfig>,
   CommandCtor: CommandCtor<any>,
   fnOptions: ServiceFnOptions,
-) => {
+): (args: any, options?: HttpHandlerOptions) => Effect.Effect<any, any, any> => {
   return (args: any, options?: HttpHandlerOptions) =>
     Effect.gen(function*() {
       const config = yield* fnOptions.resolveClientConfig;
@@ -120,7 +122,7 @@ export const makeServiceStreamFn = (
   client: Client<any, any, BaseResolvedConfig>,
   paginateFn: PaginatorCtor<any>,
   fnOptions: ServiceFnOptions,
-) => {
+): (args: any, options?: HttpHandlerOptions) => Stream.Stream<any, any, any> => {
   return (args: any, options?: HttpHandlerOptions) => {
     const paginator = paginateFn({ client }, args, options);
 

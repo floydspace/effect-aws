@@ -111,7 +111,7 @@ export const Tracer = Context.Service<XrayTracer, TracerInterface>(
 );
 
 /** @internal */
-export const make = Effect.map(Tracer.asEffect(), (tracer) =>
+export const make = Effect.map(Tracer, (tracer) =>
   EffectTracer.make({
     span: ({ annotations, kind, links, name, parent, startTime }) => {
       return new XraySpan(

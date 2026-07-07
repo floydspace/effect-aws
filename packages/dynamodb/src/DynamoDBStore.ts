@@ -103,7 +103,7 @@ export class DynamoDBStore extends Context.Service<
 >()("@effect-aws/dynamodb/DynamoDBStore") {
   static layer = (props: DynamoDBStore.Config) => Layer.effect(this, makeDynamoDBStore(props));
   static layerConfig = (config: Config.Wrap<DynamoDBStore.Config>) =>
-    Layer.effect(this, Config.unwrap(config).asEffect().pipe(Effect.flatMap(makeDynamoDBStore)));
+    Layer.effect(this, Config.unwrap(config).pipe(Effect.flatMap(makeDynamoDBStore)));
 }
 
 /**

@@ -39,4 +39,4 @@ export const setLoggerOptions = (options: ConstructorOptions) => Layer.succeed(c
  * @since 1.0.0
  * @category logger options
  */
-export const getLoggerOptions: Effect.Effect<ConstructorOptions> = currentLoggerOptions.asEffect();
+export const getLoggerOptions: Effect.Effect<ConstructorOptions> = currentLoggerOptions;

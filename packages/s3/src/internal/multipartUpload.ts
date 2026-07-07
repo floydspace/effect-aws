@@ -301,7 +301,7 @@ export const make: Effect.Effect<MultipartUpload, never, S3Service> = Effect.gen
       const dataStream = Stream.fromAsyncIterable(getChunk(Body, partSize), handleBadArgument("uploadObject"));
 
       const [doublet, tailStream] = yield* dataStream.pipe(Stream.peel(Sink.take(2)));
-      const firstPart = yield* Array.head(doublet);
+      const firstPart = yield* Effect.fromOption(Array.head(doublet));
       const secondPart = Array.get(doublet, 1);
 
       if (Option.isNone(secondPart)) {

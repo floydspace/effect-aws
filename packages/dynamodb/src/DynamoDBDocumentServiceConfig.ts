@@ -41,4 +41,4 @@ export const setDynamoDBDocumentServiceConfig = (config: DynamoDBDocumentService
  * @since 1.0.0
  * @category adapters
  */
-export const toTranslateConfig: Effect.Effect<TranslateConfig> = currentDynamoDBDocumentServiceConfig.asEffect();
+export const toTranslateConfig: Effect.Effect<TranslateConfig> = currentDynamoDBDocumentServiceConfig;
