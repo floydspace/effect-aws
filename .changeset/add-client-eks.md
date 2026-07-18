@@ -1,5 +1,5 @@
 ---
-"@effect-aws/client-eks": major
+"@effect-aws/client-eks": minor
 ---
 
 add @effect-aws/client-eks

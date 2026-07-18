@@ -73,9 +73,6 @@ import {
   DeletePromptCommand,
   type DeletePromptCommandInput,
   type DeletePromptCommandOutput,
-  DeleteResourcePolicyCommand,
-  type DeleteResourcePolicyCommandInput,
-  type DeleteResourcePolicyCommandOutput,
   DisassociateAgentCollaboratorCommand,
   type DisassociateAgentCollaboratorCommandInput,
   type DisassociateAgentCollaboratorCommandOutput,
@@ -124,9 +121,6 @@ import {
   GetPromptCommand,
   type GetPromptCommandInput,
   type GetPromptCommandOutput,
-  GetResourcePolicyCommand,
-  type GetResourcePolicyCommandInput,
-  type GetResourcePolicyCommandOutput,
   IngestKnowledgeBaseDocumentsCommand,
   type IngestKnowledgeBaseDocumentsCommandInput,
   type IngestKnowledgeBaseDocumentsCommandOutput,
@@ -195,9 +189,6 @@ import {
   PrepareFlowCommand,
   type PrepareFlowCommandInput,
   type PrepareFlowCommandOutput,
-  PutResourcePolicyCommand,
-  type PutResourcePolicyCommandInput,
-  type PutResourcePolicyCommandOutput,
   StartIngestionJobCommand,
   type StartIngestionJobCommandInput,
   type StartIngestionJobCommandOutput,
@@ -289,7 +280,6 @@ const commands = {
   DeleteKnowledgeBaseCommand,
   DeleteKnowledgeBaseDocumentsCommand,
   DeletePromptCommand,
-  DeleteResourcePolicyCommand,
   DisassociateAgentCollaboratorCommand,
   DisassociateAgentKnowledgeBaseCommand,
   GetAgentCommand,
@@ -306,7 +296,6 @@ const commands = {
   GetKnowledgeBaseCommand,
   GetKnowledgeBaseDocumentsCommand,
   GetPromptCommand,
-  GetResourcePolicyCommand,
   IngestKnowledgeBaseDocumentsCommand,
   ListAgentActionGroupsCommand,
   ListAgentAliasesCommand,
@@ -325,7 +314,6 @@ const commands = {
   ListTagsForResourceCommand,
   PrepareAgentCommand,
   PrepareFlowCommand,
-  PutResourcePolicyCommand,
   StartIngestionJobCommand,
   StopIngestionJobCommand,
   TagResourceCommand,
@@ -785,24 +773,6 @@ interface BedrockAgentService$ {
   >;
 
   /**
-   * @see {@link DeleteResourcePolicyCommand}
-   */
-  deleteResourcePolicy(
-    args: DeleteResourcePolicyCommandInput,
-    options?: HttpHandlerOptions,
-  ): Effect.Effect<
-    DeleteResourcePolicyCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | AccessDeniedError
-    | ConflictError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
-  >;
-
-  /**
    * @see {@link DisassociateAgentCollaboratorCommand}
    */
   disassociateAgentCollaborator(
@@ -1068,23 +1038,6 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPromptCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ThrottlingError
-    | ValidationError
-  >;
-
-  /**
-   * @see {@link GetResourcePolicyCommand}
-   */
-  getResourcePolicy(
-    args: GetResourcePolicyCommandInput,
-    options?: HttpHandlerOptions,
-  ): Effect.Effect<
-    GetResourcePolicyCommandOutput,
     | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
@@ -1563,24 +1516,6 @@ interface BedrockAgentService$ {
     | InternalServerError
     | ResourceNotFoundError
     | ServiceQuotaExceededError
-    | ThrottlingError
-    | ValidationError
-  >;
-
-  /**
-   * @see {@link PutResourcePolicyCommand}
-   */
-  putResourcePolicy(
-    args: PutResourcePolicyCommandInput,
-    options?: HttpHandlerOptions,
-  ): Effect.Effect<
-    PutResourcePolicyCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | AccessDeniedError
-    | ConflictError
-    | InternalServerError
-    | ResourceNotFoundError
     | ThrottlingError
     | ValidationError
   >;
