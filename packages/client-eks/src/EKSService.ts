@@ -11,6 +11,9 @@ import {
   AssociateIdentityProviderConfigCommand,
   type AssociateIdentityProviderConfigCommandInput,
   type AssociateIdentityProviderConfigCommandOutput,
+  CancelUpdateCommand,
+  type CancelUpdateCommandInput,
+  type CancelUpdateCommandOutput,
   CreateAccessEntryCommand,
   type CreateAccessEntryCommandInput,
   type CreateAccessEntryCommandOutput,
@@ -245,6 +248,7 @@ const commands = {
   AssociateAccessPolicyCommand,
   AssociateEncryptionConfigCommand,
   AssociateIdentityProviderConfigCommand,
+  CancelUpdateCommand,
   CreateAccessEntryCommand,
   CreateAddonCommand,
   CreateCapabilityCommand,
@@ -377,6 +381,26 @@ interface EKSService$ {
     | ClientError
     | InvalidParameterError
     | InvalidRequestError
+    | ResourceInUseError
+    | ResourceNotFoundError
+    | ServerError
+    | ThrottlingError
+  >;
+
+  /**
+   * @see {@link CancelUpdateCommand}
+   */
+  cancelUpdate(
+    args: CancelUpdateCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CancelUpdateCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | ClientError
+    | InvalidParameterError
+    | InvalidRequestError
+    | InvalidStateError
     | ResourceInUseError
     | ResourceNotFoundError
     | ServerError

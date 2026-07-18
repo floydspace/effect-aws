@@ -372,24 +372,6 @@
       "@effect-aws/client-iot-data-plane/test/*": [
         "./packages/client-iot-data-plane/test/*.js"
       ],
-      "@effect-aws/client-iot-events": [
-        "./packages/client-iot-events/src/index.js"
-      ],
-      "@effect-aws/client-iot-events/*": [
-        "./packages/client-iot-events/src/*.js"
-      ],
-      "@effect-aws/client-iot-events/test/*": [
-        "./packages/client-iot-events/test/*.js"
-      ],
-      "@effect-aws/client-iot-events-data": [
-        "./packages/client-iot-events-data/src/index.js"
-      ],
-      "@effect-aws/client-iot-events-data/*": [
-        "./packages/client-iot-events-data/src/*.js"
-      ],
-      "@effect-aws/client-iot-events-data/test/*": [
-        "./packages/client-iot-events-data/test/*.js"
-      ],
       "@effect-aws/client-iot-jobs-data-plane": [
         "./packages/client-iot-jobs-data-plane/src/index.js"
       ],

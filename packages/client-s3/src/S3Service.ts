@@ -71,6 +71,9 @@ import {
   DeleteBucketWebsiteCommand,
   type DeleteBucketWebsiteCommandInput,
   type DeleteBucketWebsiteCommandOutput,
+  DeleteObjectAnnotationCommand,
+  type DeleteObjectAnnotationCommandInput,
+  type DeleteObjectAnnotationCommandOutput,
   DeleteObjectCommand,
   type DeleteObjectCommandInput,
   type DeleteObjectCommandOutput,
@@ -155,6 +158,9 @@ import {
   GetObjectAclCommand,
   type GetObjectAclCommandInput,
   type GetObjectAclCommandOutput,
+  GetObjectAnnotationCommand,
+  type GetObjectAnnotationCommandInput,
+  type GetObjectAnnotationCommandOutput,
   GetObjectAttributesCommand,
   type GetObjectAttributesCommandInput,
   type GetObjectAttributesCommandOutput,
@@ -206,6 +212,9 @@ import {
   ListMultipartUploadsCommand,
   type ListMultipartUploadsCommandInput,
   type ListMultipartUploadsCommandOutput,
+  ListObjectAnnotationsCommand,
+  type ListObjectAnnotationsCommandInput,
+  type ListObjectAnnotationsCommandOutput,
   ListObjectsCommand,
   type ListObjectsCommandInput,
   type ListObjectsCommandOutput,
@@ -220,6 +229,7 @@ import {
   type ListPartsCommandOutput,
   paginateListBuckets,
   paginateListDirectoryBuckets,
+  paginateListObjectAnnotations,
   paginateListObjectsV2,
   paginateListParts,
   PutBucketAbacCommand,
@@ -282,6 +292,9 @@ import {
   PutObjectAclCommand,
   type PutObjectAclCommandInput,
   type PutObjectAclCommandOutput,
+  PutObjectAnnotationCommand,
+  type PutObjectAnnotationCommandInput,
+  type PutObjectAnnotationCommandOutput,
   PutObjectCommand,
   type PutObjectCommandInput,
   type PutObjectCommandOutput,
@@ -311,6 +324,9 @@ import {
   SelectObjectContentCommand,
   type SelectObjectContentCommandInput,
   type SelectObjectContentCommandOutput,
+  UpdateBucketMetadataAnnotationTableConfigurationCommand,
+  type UpdateBucketMetadataAnnotationTableConfigurationCommandInput,
+  type UpdateBucketMetadataAnnotationTableConfigurationCommandOutput,
   UpdateBucketMetadataInventoryTableConfigurationCommand,
   type UpdateBucketMetadataInventoryTableConfigurationCommandInput,
   type UpdateBucketMetadataInventoryTableConfigurationCommandOutput,
@@ -341,13 +357,18 @@ import * as Layer from "effect/Layer";
 import type * as Stream from "effect/Stream";
 import type {
   AccessDeniedError,
+  AnnotationLimitExceededError,
+  AnnotationNameTooLongError,
   BucketAlreadyExistsError,
   BucketAlreadyOwnedByYouError,
   EncryptionTypeMismatchError,
   IdempotencyParameterMismatchError,
+  InvalidAnnotationNameError,
   InvalidObjectStateError,
+  InvalidPrefixError,
   InvalidRequestError,
   InvalidWriteOffsetError,
+  NoSuchAnnotationError,
   NoSuchBucketError,
   NoSuchKeyError,
   NoSuchUploadError,
@@ -357,6 +378,7 @@ import type {
   S3ServiceError,
   SdkError,
   TooManyPartsError,
+  UnsupportedMediaTypeError,
 } from "./Errors.js";
 import { AllServiceErrors } from "./Errors.js";
 import * as Instance from "./S3ClientInstance.js";
@@ -387,6 +409,7 @@ const commands = {
   DeleteBucketTaggingCommand,
   DeleteBucketWebsiteCommand,
   DeleteObjectCommand,
+  DeleteObjectAnnotationCommand,
   DeleteObjectTaggingCommand,
   DeleteObjectsCommand,
   DeletePublicAccessBlockCommand,
@@ -415,6 +438,7 @@ const commands = {
   GetBucketWebsiteCommand,
   GetObjectCommand,
   GetObjectAclCommand,
+  GetObjectAnnotationCommand,
   GetObjectAttributesCommand,
   GetObjectLegalHoldCommand,
   GetObjectLockConfigurationCommand,
@@ -431,6 +455,7 @@ const commands = {
   ListBucketsCommand,
   ListDirectoryBucketsCommand,
   ListMultipartUploadsCommand,
+  ListObjectAnnotationsCommand,
   ListObjectVersionsCommand,
   ListObjectsCommand,
   ListObjectsV2Command,
@@ -456,6 +481,7 @@ const commands = {
   PutBucketWebsiteCommand,
   PutObjectCommand,
   PutObjectAclCommand,
+  PutObjectAnnotationCommand,
   PutObjectLegalHoldCommand,
   PutObjectLockConfigurationCommand,
   PutObjectRetentionCommand,
@@ -464,6 +490,7 @@ const commands = {
   RenameObjectCommand,
   RestoreObjectCommand,
   SelectObjectContentCommand,
+  UpdateBucketMetadataAnnotationTableConfigurationCommand,
   UpdateBucketMetadataInventoryTableConfigurationCommand,
   UpdateBucketMetadataJournalTableConfigurationCommand,
   UpdateObjectEncryptionCommand,
@@ -475,6 +502,7 @@ const commands = {
 const paginators = {
   paginateListBuckets,
   paginateListDirectoryBuckets,
+  paginateListObjectAnnotations,
   paginateListObjectsV2,
   paginateListParts,
 };
@@ -744,6 +772,17 @@ interface S3Service$ {
   ): Effect.Effect<
     DeleteObjectCommandOutput,
     Cause.TimeoutException | SdkError | S3ServiceError
+  >;
+
+  /**
+   * @see {@link DeleteObjectAnnotationCommand}
+   */
+  deleteObjectAnnotation(
+    args: DeleteObjectAnnotationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteObjectAnnotationCommandOutput,
+    Cause.TimeoutException | SdkError | NoSuchBucketError | NoSuchKeyError
   >;
 
   /**
@@ -1059,6 +1098,17 @@ interface S3Service$ {
   >;
 
   /**
+   * @see {@link GetObjectAnnotationCommand}
+   */
+  getObjectAnnotation(
+    args: GetObjectAnnotationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetObjectAnnotationCommandOutput,
+    Cause.TimeoutException | SdkError | NoSuchAnnotationError | NoSuchBucketError | NoSuchKeyError
+  >;
+
+  /**
    * @see {@link GetObjectAttributesCommand}
    */
   getObjectAttributes(
@@ -1242,6 +1292,25 @@ interface S3Service$ {
   ): Effect.Effect<
     ListMultipartUploadsCommandOutput,
     Cause.TimeoutException | SdkError | S3ServiceError
+  >;
+
+  /**
+   * @see {@link ListObjectAnnotationsCommand}
+   */
+  listObjectAnnotations(
+    args: ListObjectAnnotationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListObjectAnnotationsCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidPrefixError | NoSuchBucketError | NoSuchKeyError
+  >;
+
+  listObjectAnnotationsStream(
+    args: ListObjectAnnotationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListObjectAnnotationsCommandOutput,
+    Cause.TimeoutException | SdkError | InvalidPrefixError | NoSuchBucketError | NoSuchKeyError
   >;
 
   /**
@@ -1539,6 +1608,25 @@ interface S3Service$ {
   >;
 
   /**
+   * @see {@link PutObjectAnnotationCommand}
+   */
+  putObjectAnnotation(
+    args: PutObjectAnnotationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    PutObjectAnnotationCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AnnotationLimitExceededError
+    | AnnotationNameTooLongError
+    | InvalidAnnotationNameError
+    | InvalidRequestError
+    | NoSuchBucketError
+    | NoSuchKeyError
+    | UnsupportedMediaTypeError
+  >;
+
+  /**
    * @see {@link PutObjectLegalHoldCommand}
    */
   putObjectLegalHold(
@@ -1623,6 +1711,17 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SelectObjectContentCommandOutput,
+    Cause.TimeoutException | SdkError | S3ServiceError
+  >;
+
+  /**
+   * @see {@link UpdateBucketMetadataAnnotationTableConfigurationCommand}
+   */
+  updateBucketMetadataAnnotationTableConfiguration(
+    args: UpdateBucketMetadataAnnotationTableConfigurationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateBucketMetadataAnnotationTableConfigurationCommandOutput,
     Cause.TimeoutException | SdkError | S3ServiceError
   >;
 

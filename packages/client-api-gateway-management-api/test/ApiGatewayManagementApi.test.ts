@@ -5,7 +5,7 @@ import {
   type PostToConnectionCommandInput,
 } from "@aws-sdk/client-apigatewaymanagementapi";
 // @ts-ignore
-import * as runtimeConfig from "@aws-sdk/client-apigatewaymanagementapi/dist-cjs/runtimeConfig";
+import * as runtimeConfig from "@aws-sdk/client-apigatewaymanagementapi/dist-es/runtimeConfig";
 import { ApiGatewayManagementApiService as ApiGatewayManagementApi } from "@effect-aws/client-api-gateway-management-api/ApiGatewayManagementApiService";
 import * as ApiGatewayManagementApiServiceConfig from "@effect-aws/client-api-gateway-management-api/ApiGatewayManagementApiServiceConfig";
 import { SdkError } from "@effect-aws/commons/Errors";

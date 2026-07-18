@@ -5,7 +5,7 @@ import {
   type ListClustersCommandInput,
 } from "@aws-sdk/client-kafka";
 // @ts-ignore
-import * as runtimeConfig from "@aws-sdk/client-kafka/dist-cjs/runtimeConfig";
+import * as runtimeConfig from "@aws-sdk/client-kafka/dist-es/runtimeConfig";
 import { KafkaService as Kafka } from "@effect-aws/client-kafka/KafkaService";
 import * as KafkaServiceConfig from "@effect-aws/client-kafka/KafkaServiceConfig";
 import { SdkError } from "@effect-aws/commons/Errors";

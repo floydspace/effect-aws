@@ -5,7 +5,7 @@ import {
   TimestreamInfluxDBServiceException,
 } from "@aws-sdk/client-timestream-influxdb";
 // @ts-ignore
-import * as runtimeConfig from "@aws-sdk/client-timestream-influxdb/dist-cjs/runtimeConfig";
+import * as runtimeConfig from "@aws-sdk/client-timestream-influxdb/dist-es/runtimeConfig";
 import { TimestreamInfluxDBService as TimestreamInfluxDB } from "@effect-aws/client-timestream-influxdb/TimestreamInfluxDBService";
 import * as TimestreamInfluxDBServiceConfig from "@effect-aws/client-timestream-influxdb/TimestreamInfluxDBServiceConfig";
 import { SdkError } from "@effect-aws/commons/Errors";

@@ -5,7 +5,7 @@ import {
   SSMServiceException,
 } from "@aws-sdk/client-ssm";
 // @ts-ignore
-import * as runtimeConfig from "@aws-sdk/client-ssm/dist-cjs/runtimeConfig";
+import * as runtimeConfig from "@aws-sdk/client-ssm/dist-es/runtimeConfig";
 import { SSMService as SSM } from "@effect-aws/client-ssm/SSMService";
 import * as SSMServiceConfig from "@effect-aws/client-ssm/SSMServiceConfig";
 import { SdkError } from "@effect-aws/commons/Errors";

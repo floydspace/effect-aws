@@ -5,7 +5,7 @@ import {
   ECRServiceException,
 } from "@aws-sdk/client-ecr";
 // @ts-ignore
-import * as runtimeConfig from "@aws-sdk/client-ecr/dist-cjs/runtimeConfig";
+import * as runtimeConfig from "@aws-sdk/client-ecr/dist-es/runtimeConfig";
 import { ECRService as ECR } from "@effect-aws/client-ecr/ECRService";
 import * as ECRServiceConfig from "@effect-aws/client-ecr/ECRServiceConfig";
 import { SdkError } from "@effect-aws/commons/Errors";

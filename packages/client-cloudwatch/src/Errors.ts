@@ -8,9 +8,13 @@ import type {
   InvalidNextToken,
   InvalidParameterCombinationException,
   InvalidParameterValueException,
+  KmsAccessDeniedException,
+  KmsKeyDisabledException,
+  KmsKeyNotFoundException,
   LimitExceededException,
   LimitExceededFault,
   MissingRequiredParameterException,
+  ResourceConflict,
   ResourceNotFound,
   ResourceNotFoundException,
 } from "@aws-sdk/client-cloudwatch";
@@ -26,9 +30,13 @@ export const AllServiceErrors = [
   "InvalidNextToken",
   "InvalidParameterCombinationException",
   "InvalidParameterValueException",
+  "KmsAccessDeniedException",
+  "KmsKeyDisabledException",
+  "KmsKeyNotFoundException",
   "LimitExceededException",
   "LimitExceededFault",
   "MissingRequiredParameterException",
+  "ResourceConflict",
   "ResourceNotFound",
   "ResourceNotFoundException",
 ] as const;
@@ -42,9 +50,13 @@ export type InvalidFormatFaultError = TaggedException<InvalidFormatFault>;
 export type InvalidNextTokenError = TaggedException<InvalidNextToken>;
 export type InvalidParameterCombinationError = TaggedException<InvalidParameterCombinationException>;
 export type InvalidParameterValueError = TaggedException<InvalidParameterValueException>;
+export type KmsAccessDeniedError = TaggedException<KmsAccessDeniedException>;
+export type KmsKeyDisabledError = TaggedException<KmsKeyDisabledException>;
+export type KmsKeyNotFoundError = TaggedException<KmsKeyNotFoundException>;
 export type LimitExceededError = TaggedException<LimitExceededException>;
 export type LimitExceededFaultError = TaggedException<LimitExceededFault>;
 export type MissingRequiredParameterError = TaggedException<MissingRequiredParameterException>;
+export type ResourceConflictError = TaggedException<ResourceConflict>;
 export type ResourceNotFoundError = TaggedException<ResourceNotFound>;
 export type ResourceNotFoundExceptionError = TaggedException<ResourceNotFoundException>;
 export type SdkError = TaggedException<Error & { name: "SdkError" }>;

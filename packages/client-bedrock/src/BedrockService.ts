@@ -2,6 +2,9 @@
  * @since 1.0.0
  */
 import {
+  BatchDeleteAdvancedPromptOptimizationJobCommand,
+  type BatchDeleteAdvancedPromptOptimizationJobCommandInput,
+  type BatchDeleteAdvancedPromptOptimizationJobCommandOutput,
   BatchDeleteEvaluationJobCommand,
   type BatchDeleteEvaluationJobCommandInput,
   type BatchDeleteEvaluationJobCommandOutput,
@@ -10,6 +13,9 @@ import {
   CancelAutomatedReasoningPolicyBuildWorkflowCommand,
   type CancelAutomatedReasoningPolicyBuildWorkflowCommandInput,
   type CancelAutomatedReasoningPolicyBuildWorkflowCommandOutput,
+  CreateAdvancedPromptOptimizationJobCommand,
+  type CreateAdvancedPromptOptimizationJobCommandInput,
+  type CreateAdvancedPromptOptimizationJobCommandOutput,
   CreateAutomatedReasoningPolicyCommand,
   type CreateAutomatedReasoningPolicyCommandInput,
   type CreateAutomatedReasoningPolicyCommandOutput,
@@ -112,6 +118,12 @@ import {
   ExportAutomatedReasoningPolicyVersionCommand,
   type ExportAutomatedReasoningPolicyVersionCommandInput,
   type ExportAutomatedReasoningPolicyVersionCommandOutput,
+  GetAccountDataRetentionCommand,
+  type GetAccountDataRetentionCommandInput,
+  type GetAccountDataRetentionCommandOutput,
+  GetAdvancedPromptOptimizationJobCommand,
+  type GetAdvancedPromptOptimizationJobCommandInput,
+  type GetAdvancedPromptOptimizationJobCommandOutput,
   GetAutomatedReasoningPolicyAnnotationsCommand,
   type GetAutomatedReasoningPolicyAnnotationsCommandInput,
   type GetAutomatedReasoningPolicyAnnotationsCommandOutput,
@@ -187,6 +199,9 @@ import {
   GetUseCaseForModelAccessCommand,
   type GetUseCaseForModelAccessCommandInput,
   type GetUseCaseForModelAccessCommandOutput,
+  ListAdvancedPromptOptimizationJobsCommand,
+  type ListAdvancedPromptOptimizationJobsCommandInput,
+  type ListAdvancedPromptOptimizationJobsCommandOutput,
   ListAutomatedReasoningPoliciesCommand,
   type ListAutomatedReasoningPoliciesCommandInput,
   type ListAutomatedReasoningPoliciesCommandOutput,
@@ -250,6 +265,7 @@ import {
   ListTagsForResourceCommand,
   type ListTagsForResourceCommandInput,
   type ListTagsForResourceCommandOutput,
+  paginateListAdvancedPromptOptimizationJobs,
   paginateListAutomatedReasoningPolicies,
   paginateListAutomatedReasoningPolicyBuildWorkflows,
   paginateListAutomatedReasoningPolicyTestCases,
@@ -268,6 +284,9 @@ import {
   paginateListModelInvocationJobs,
   paginateListPromptRouters,
   paginateListProvisionedModelThroughputs,
+  PutAccountDataRetentionCommand,
+  type PutAccountDataRetentionCommandInput,
+  type PutAccountDataRetentionCommandOutput,
   PutEnforcedGuardrailConfigurationCommand,
   type PutEnforcedGuardrailConfigurationCommandInput,
   type PutEnforcedGuardrailConfigurationCommandOutput,
@@ -289,6 +308,9 @@ import {
   StartAutomatedReasoningPolicyTestWorkflowCommand,
   type StartAutomatedReasoningPolicyTestWorkflowCommandInput,
   type StartAutomatedReasoningPolicyTestWorkflowCommandOutput,
+  StopAdvancedPromptOptimizationJobCommand,
+  type StopAdvancedPromptOptimizationJobCommandInput,
+  type StopAdvancedPromptOptimizationJobCommandOutput,
   StopEvaluationJobCommand,
   type StopEvaluationJobCommandInput,
   type StopEvaluationJobCommandOutput,
@@ -351,8 +373,10 @@ import type {
 import { AllServiceErrors } from "./Errors.js";
 
 const commands = {
+  BatchDeleteAdvancedPromptOptimizationJobCommand,
   BatchDeleteEvaluationJobCommand,
   CancelAutomatedReasoningPolicyBuildWorkflowCommand,
+  CreateAdvancedPromptOptimizationJobCommand,
   CreateAutomatedReasoningPolicyCommand,
   CreateAutomatedReasoningPolicyTestCaseCommand,
   CreateAutomatedReasoningPolicyVersionCommand,
@@ -387,6 +411,8 @@ const commands = {
   DeleteResourcePolicyCommand,
   DeregisterMarketplaceModelEndpointCommand,
   ExportAutomatedReasoningPolicyVersionCommand,
+  GetAccountDataRetentionCommand,
+  GetAdvancedPromptOptimizationJobCommand,
   GetAutomatedReasoningPolicyCommand,
   GetAutomatedReasoningPolicyAnnotationsCommand,
   GetAutomatedReasoningPolicyBuildWorkflowCommand,
@@ -412,6 +438,7 @@ const commands = {
   GetProvisionedModelThroughputCommand,
   GetResourcePolicyCommand,
   GetUseCaseForModelAccessCommand,
+  ListAdvancedPromptOptimizationJobsCommand,
   ListAutomatedReasoningPoliciesCommand,
   ListAutomatedReasoningPolicyBuildWorkflowsCommand,
   ListAutomatedReasoningPolicyTestCasesCommand,
@@ -433,6 +460,7 @@ const commands = {
   ListPromptRoutersCommand,
   ListProvisionedModelThroughputsCommand,
   ListTagsForResourceCommand,
+  PutAccountDataRetentionCommand,
   PutEnforcedGuardrailConfigurationCommand,
   PutModelInvocationLoggingConfigurationCommand,
   PutResourcePolicyCommand,
@@ -440,6 +468,7 @@ const commands = {
   RegisterMarketplaceModelEndpointCommand,
   StartAutomatedReasoningPolicyBuildWorkflowCommand,
   StartAutomatedReasoningPolicyTestWorkflowCommand,
+  StopAdvancedPromptOptimizationJobCommand,
   StopEvaluationJobCommand,
   StopModelCustomizationJobCommand,
   StopModelInvocationJobCommand,
@@ -455,6 +484,7 @@ const commands = {
 };
 
 const paginators = {
+  paginateListAdvancedPromptOptimizationJobs,
   paginateListAutomatedReasoningPolicies,
   paginateListAutomatedReasoningPolicyBuildWorkflows,
   paginateListAutomatedReasoningPolicyTestCases,
@@ -477,6 +507,17 @@ const paginators = {
 
 interface BedrockService$ {
   readonly _: unique symbol;
+
+  /**
+   * @see {@link BatchDeleteAdvancedPromptOptimizationJobCommand}
+   */
+  batchDeleteAdvancedPromptOptimizationJob(
+    args: BatchDeleteAdvancedPromptOptimizationJobCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    BatchDeleteAdvancedPromptOptimizationJobCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+  >;
 
   /**
    * @see {@link BatchDeleteEvaluationJobCommand}
@@ -510,6 +551,26 @@ interface BedrockService$ {
     | InternalServerError
     | ResourceNotFoundError
     | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link CreateAdvancedPromptOptimizationJobCommand}
+   */
+  createAdvancedPromptOptimizationJob(
+    args: CreateAdvancedPromptOptimizationJobCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateAdvancedPromptOptimizationJobCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ServiceQuotaExceededError
+    | ThrottlingError
+    | TooManyTagsError
     | ValidationError
   >;
 
@@ -1139,6 +1200,34 @@ interface BedrockService$ {
   >;
 
   /**
+   * @see {@link GetAccountDataRetentionCommand}
+   */
+  getAccountDataRetention(
+    args: GetAccountDataRetentionCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetAccountDataRetentionCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+  >;
+
+  /**
+   * @see {@link GetAdvancedPromptOptimizationJobCommand}
+   */
+  getAdvancedPromptOptimizationJob(
+    args: GetAdvancedPromptOptimizationJobCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetAdvancedPromptOptimizationJobCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
    * @see {@link GetAutomatedReasoningPolicyCommand}
    */
   getAutomatedReasoningPolicy(
@@ -1549,6 +1638,25 @@ interface BedrockService$ {
   ): Effect.Effect<
     GetUseCaseForModelAccessCommandOutput,
     Cause.TimeoutException | SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
+  >;
+
+  /**
+   * @see {@link ListAdvancedPromptOptimizationJobsCommand}
+   */
+  listAdvancedPromptOptimizationJobs(
+    args: ListAdvancedPromptOptimizationJobsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListAdvancedPromptOptimizationJobsCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+  >;
+
+  listAdvancedPromptOptimizationJobsStream(
+    args: ListAdvancedPromptOptimizationJobsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListAdvancedPromptOptimizationJobsCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -2037,6 +2145,17 @@ interface BedrockService$ {
   >;
 
   /**
+   * @see {@link PutAccountDataRetentionCommand}
+   */
+  putAccountDataRetention(
+    args: PutAccountDataRetentionCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    PutAccountDataRetentionCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+  >;
+
+  /**
    * @see {@link PutEnforcedGuardrailConfigurationCommand}
    */
   putEnforcedGuardrailConfiguration(
@@ -2144,6 +2263,24 @@ interface BedrockService$ {
     | AccessDeniedError
     | InternalServerError
     | ResourceInUseError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link StopAdvancedPromptOptimizationJobCommand}
+   */
+  stopAdvancedPromptOptimizationJob(
+    args: StopAdvancedPromptOptimizationJobCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    StopAdvancedPromptOptimizationJobCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
     | ResourceNotFoundError
     | ThrottlingError
     | ValidationError

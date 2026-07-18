@@ -14,6 +14,7 @@ import type {
   AutomationExecutionNotFoundException,
   AutomationStepNotFoundException,
   ComplianceTypeCountLimitExceededException,
+  ConflictException,
   CustomSchemaCountLimitExceededException,
   DocumentAlreadyExists,
   DocumentLimitExceeded,
@@ -157,6 +158,7 @@ export const AllServiceErrors = [
   "AutomationExecutionNotFoundException",
   "AutomationStepNotFoundException",
   "ComplianceTypeCountLimitExceededException",
+  "ConflictException",
   "CustomSchemaCountLimitExceededException",
   "DocumentAlreadyExists",
   "DocumentLimitExceeded",
@@ -298,6 +300,7 @@ export type AutomationExecutionLimitExceededError = TaggedException<AutomationEx
 export type AutomationExecutionNotFoundError = TaggedException<AutomationExecutionNotFoundException>;
 export type AutomationStepNotFoundError = TaggedException<AutomationStepNotFoundException>;
 export type ComplianceTypeCountLimitExceededError = TaggedException<ComplianceTypeCountLimitExceededException>;
+export type ConflictError = TaggedException<ConflictException>;
 export type CustomSchemaCountLimitExceededError = TaggedException<CustomSchemaCountLimitExceededException>;
 export type DocumentAlreadyExistsError = TaggedException<DocumentAlreadyExists>;
 export type DocumentLimitExceededError = TaggedException<DocumentLimitExceeded>;

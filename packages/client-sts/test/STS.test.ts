@@ -5,7 +5,7 @@ import {
   STSServiceException,
 } from "@aws-sdk/client-sts";
 // @ts-ignore
-import * as runtimeConfig from "@aws-sdk/client-sts/dist-cjs/runtimeConfig";
+import * as runtimeConfig from "@aws-sdk/client-sts/dist-es/runtimeConfig";
 import { STSService as STS } from "@effect-aws/client-sts/STSService";
 import * as STSServiceConfig from "@effect-aws/client-sts/STSServiceConfig";
 import { SdkError } from "@effect-aws/commons/Errors";

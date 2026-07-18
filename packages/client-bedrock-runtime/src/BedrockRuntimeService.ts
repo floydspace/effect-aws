@@ -19,6 +19,9 @@ import {
   GetAsyncInvokeCommand,
   type GetAsyncInvokeCommandInput,
   type GetAsyncInvokeCommandOutput,
+  InvokeGuardrailChecksCommand,
+  type InvokeGuardrailChecksCommandInput,
+  type InvokeGuardrailChecksCommandOutput,
   InvokeModelCommand,
   type InvokeModelCommandInput,
   type InvokeModelCommandOutput,
@@ -68,6 +71,7 @@ const commands = {
   ConverseStreamCommand,
   CountTokensCommand,
   GetAsyncInvokeCommand,
+  InvokeGuardrailChecksCommand,
   InvokeModelCommand,
   InvokeModelWithBidirectionalStreamCommand,
   InvokeModelWithResponseStreamCommand,
@@ -170,6 +174,23 @@ interface BedrockRuntimeService$ {
   ): Effect.Effect<
     GetAsyncInvokeCommandOutput,
     Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+  >;
+
+  /**
+   * @see {@link InvokeGuardrailChecksCommand}
+   */
+  invokeGuardrailChecks(
+    args: InvokeGuardrailChecksCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    InvokeGuardrailChecksCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ServiceUnavailableError
+    | ThrottlingError
+    | ValidationError
   >;
 
   /**

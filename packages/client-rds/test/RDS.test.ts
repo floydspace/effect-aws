@@ -5,7 +5,7 @@ import {
   RDSServiceException,
 } from "@aws-sdk/client-rds";
 // @ts-ignore
-import * as runtimeConfig from "@aws-sdk/client-rds/dist-cjs/runtimeConfig";
+import * as runtimeConfig from "@aws-sdk/client-rds/dist-es/runtimeConfig";
 import { RDSService as RDS } from "@effect-aws/client-rds/RDSService";
 import * as RDSServiceConfig from "@effect-aws/client-rds/RDSServiceConfig";
 import { SdkError } from "@effect-aws/commons/Errors";

@@ -284,8 +284,12 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import type * as Stream from "effect/Stream";
 import type {
+  AliasLimitExceededError,
   CallbackTimeoutError,
   CapacityProviderLimitExceededError,
+  CodeArtifactUserDeletedError,
+  CodeArtifactUserFailedError,
+  CodeArtifactUserPendingError,
   CodeSigningConfigNotFoundError,
   CodeStorageExceededError,
   CodeVerificationFailedError,
@@ -298,6 +302,7 @@ import type {
   EFSMountFailureError,
   EFSMountTimeoutError,
   ENILimitReachedError,
+  ENINotReadyError,
   FunctionVersionsPerCapacityProviderLimitExceededError,
   InvalidCodeSignatureError,
   InvalidParameterValueError,
@@ -310,10 +315,12 @@ import type {
   KMSDisabledError,
   KMSInvalidStateError,
   KMSNotFoundError,
+  ModeNotSupportedError,
   NoPublishedVersionError,
   PolicyLengthExceededError,
   PreconditionFailedError,
   ProvisionedConcurrencyConfigNotFoundError,
+  PublicPolicyError,
   RecursiveInvocationError,
   RequestTooLargeError,
   ResourceConflictError,
@@ -326,8 +333,10 @@ import type {
   SdkError,
   SerializedRequestEntityTooLargeError,
   ServiceError,
+  ServiceQuotaExceededError,
   SnapStartError,
   SnapStartNotReadyError,
+  SnapStartRegenerationFailureError,
   SnapStartTimeoutError,
   SubnetIPAddressLimitReachedError,
   TooManyRequestsError,
@@ -479,6 +488,7 @@ interface LambdaService$ {
     | InvalidParameterValueError
     | PolicyLengthExceededError
     | PreconditionFailedError
+    | PublicPolicyError
     | ResourceConflictError
     | ResourceNotFoundError
     | ServiceError
@@ -493,7 +503,15 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CheckpointDurableExecutionCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterValueError | ServiceError | TooManyRequestsError
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidParameterValueError
+    | KMSAccessDeniedError
+    | KMSDisabledError
+    | KMSInvalidStateError
+    | KMSNotFoundError
+    | ServiceError
+    | TooManyRequestsError
   >;
 
   /**
@@ -506,6 +524,7 @@ interface LambdaService$ {
     CreateAliasCommandOutput,
     | Cause.TimeoutException
     | SdkError
+    | AliasLimitExceededError
     | InvalidParameterValueError
     | ResourceConflictError
     | ResourceNotFoundError
@@ -609,6 +628,7 @@ interface LambdaService$ {
     | SdkError
     | InvalidParameterValueError
     | ResourceConflictError
+    | ResourceNotFoundError
     | ServiceError
     | TooManyRequestsError
   >;
@@ -743,6 +763,7 @@ interface LambdaService$ {
     DeleteFunctionUrlConfigCommandOutput,
     | Cause.TimeoutException
     | SdkError
+    | InvalidParameterValueError
     | ResourceConflictError
     | ResourceNotFoundError
     | ServiceError
@@ -757,7 +778,12 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteLayerVersionCommandOutput,
-    Cause.TimeoutException | SdkError | ServiceError | TooManyRequestsError
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidParameterValueError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
   >;
 
   /**
@@ -842,6 +868,10 @@ interface LambdaService$ {
     | Cause.TimeoutException
     | SdkError
     | InvalidParameterValueError
+    | KMSAccessDeniedError
+    | KMSDisabledError
+    | KMSInvalidStateError
+    | KMSNotFoundError
     | ResourceNotFoundError
     | ServiceError
     | TooManyRequestsError
@@ -858,6 +888,10 @@ interface LambdaService$ {
     | Cause.TimeoutException
     | SdkError
     | InvalidParameterValueError
+    | KMSAccessDeniedError
+    | KMSDisabledError
+    | KMSInvalidStateError
+    | KMSNotFoundError
     | ResourceNotFoundError
     | ServiceError
     | TooManyRequestsError
@@ -871,6 +905,10 @@ interface LambdaService$ {
     | Cause.TimeoutException
     | SdkError
     | InvalidParameterValueError
+    | KMSAccessDeniedError
+    | KMSDisabledError
+    | KMSInvalidStateError
+    | KMSNotFoundError
     | ResourceNotFoundError
     | ServiceError
     | TooManyRequestsError
@@ -884,7 +922,15 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDurableExecutionStateCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterValueError | ServiceError | TooManyRequestsError
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidParameterValueError
+    | KMSAccessDeniedError
+    | KMSDisabledError
+    | KMSInvalidStateError
+    | KMSNotFoundError
+    | ServiceError
+    | TooManyRequestsError
   >;
 
   getDurableExecutionStateStream(
@@ -892,7 +938,15 @@ interface LambdaService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     GetDurableExecutionStateCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterValueError | ServiceError | TooManyRequestsError
+    | Cause.TimeoutException
+    | SdkError
+    | InvalidParameterValueError
+    | KMSAccessDeniedError
+    | KMSDisabledError
+    | KMSInvalidStateError
+    | KMSNotFoundError
+    | ServiceError
+    | TooManyRequestsError
   >;
 
   /**
@@ -937,6 +991,7 @@ interface LambdaService$ {
     GetFunctionCodeSigningConfigCommandOutput,
     | Cause.TimeoutException
     | SdkError
+    | CodeSigningConfigNotFoundError
     | InvalidParameterValueError
     | ResourceNotFoundError
     | ServiceError
@@ -1146,6 +1201,9 @@ interface LambdaService$ {
     InvokeCommandOutput,
     | Cause.TimeoutException
     | SdkError
+    | CodeArtifactUserDeletedError
+    | CodeArtifactUserFailedError
+    | CodeArtifactUserPendingError
     | DurableExecutionAlreadyStartedError
     | EC2AccessDeniedError
     | EC2ThrottledError
@@ -1155,6 +1213,7 @@ interface LambdaService$ {
     | EFSMountFailureError
     | EFSMountTimeoutError
     | ENILimitReachedError
+    | ENINotReadyError
     | InvalidParameterValueError
     | InvalidRequestContentError
     | InvalidRuntimeError
@@ -1165,6 +1224,7 @@ interface LambdaService$ {
     | KMSDisabledError
     | KMSInvalidStateError
     | KMSNotFoundError
+    | ModeNotSupportedError
     | NoPublishedVersionError
     | RecursiveInvocationError
     | RequestTooLargeError
@@ -1176,8 +1236,10 @@ interface LambdaService$ {
     | S3FilesMountTimeoutError
     | SerializedRequestEntityTooLargeError
     | ServiceError
+    | ServiceQuotaExceededError
     | SnapStartError
     | SnapStartNotReadyError
+    | SnapStartRegenerationFailureError
     | SnapStartTimeoutError
     | SubnetIPAddressLimitReachedError
     | TooManyRequestsError
@@ -1194,11 +1256,35 @@ interface LambdaService$ {
     InvokeAsyncCommandOutput,
     | Cause.TimeoutException
     | SdkError
+    | EC2AccessDeniedError
+    | EC2ThrottledError
+    | EC2UnexpectedError
+    | EFSIOError
+    | EFSMountConnectivityError
+    | EFSMountFailureError
+    | EFSMountTimeoutError
+    | ENILimitReachedError
     | InvalidRequestContentError
     | InvalidRuntimeError
+    | InvalidSecurityGroupIDError
+    | InvalidSubnetIDError
+    | KMSAccessDeniedError
+    | KMSDisabledError
+    | KMSInvalidStateError
+    | KMSNotFoundError
+    | ModeNotSupportedError
     | ResourceConflictError
     | ResourceNotFoundError
+    | S3FilesMountConnectivityError
+    | S3FilesMountFailureError
+    | S3FilesMountTimeoutError
     | ServiceError
+    | ServiceQuotaExceededError
+    | SnapStartError
+    | SnapStartNotReadyError
+    | SnapStartRegenerationFailureError
+    | SnapStartTimeoutError
+    | SubnetIPAddressLimitReachedError
   >;
 
   /**
@@ -1240,8 +1326,10 @@ interface LambdaService$ {
     | S3FilesMountTimeoutError
     | SerializedRequestEntityTooLargeError
     | ServiceError
+    | ServiceQuotaExceededError
     | SnapStartError
     | SnapStartNotReadyError
+    | SnapStartRegenerationFailureError
     | SnapStartTimeoutError
     | SubnetIPAddressLimitReachedError
     | TooManyRequestsError
@@ -1806,6 +1894,7 @@ interface LambdaService$ {
     | SdkError
     | InvalidParameterValueError
     | PreconditionFailedError
+    | PublicPolicyError
     | ResourceNotFoundError
     | ServiceError
     | TooManyRequestsError
@@ -1823,6 +1912,11 @@ interface LambdaService$ {
     | SdkError
     | CallbackTimeoutError
     | InvalidParameterValueError
+    | KMSAccessDeniedError
+    | KMSDisabledError
+    | KMSInvalidStateError
+    | KMSNotFoundError
+    | ResourceNotFoundError
     | ServiceError
     | TooManyRequestsError
   >;
@@ -1839,6 +1933,7 @@ interface LambdaService$ {
     | SdkError
     | CallbackTimeoutError
     | InvalidParameterValueError
+    | ResourceNotFoundError
     | ServiceError
     | TooManyRequestsError
   >;
@@ -1855,6 +1950,11 @@ interface LambdaService$ {
     | SdkError
     | CallbackTimeoutError
     | InvalidParameterValueError
+    | KMSAccessDeniedError
+    | KMSDisabledError
+    | KMSInvalidStateError
+    | KMSNotFoundError
+    | ResourceNotFoundError
     | ServiceError
     | TooManyRequestsError
   >;
@@ -1870,6 +1970,10 @@ interface LambdaService$ {
     | Cause.TimeoutException
     | SdkError
     | InvalidParameterValueError
+    | KMSAccessDeniedError
+    | KMSDisabledError
+    | KMSInvalidStateError
+    | KMSNotFoundError
     | ResourceNotFoundError
     | ServiceError
     | TooManyRequestsError

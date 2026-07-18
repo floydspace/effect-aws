@@ -14,6 +14,9 @@ const config: UserConfig = {
   esbuild: {
     target: "es2020"
   },
+  resolve: {
+    mainFields: ["module", "main"],
+  },
   test: {
     setupFiles: [path.join(__dirname, "vitest.setup.ts")],
     include: ["test/**/*.test.ts"],
@@ -54,8 +57,6 @@ const config: UserConfig = {
       ...alias("client-iam"),
       ...alias("client-iot"),
       ...alias("client-iot-data-plane"),
-      ...alias("client-iot-events"),
-      ...alias("client-iot-events-data"),
       ...alias("client-iot-jobs-data-plane"),
       ...alias("client-iot-wireless"),
       ...alias("client-ivs"),

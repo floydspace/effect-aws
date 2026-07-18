@@ -20,6 +20,9 @@ import {
   AssociatePackagesCommand,
   type AssociatePackagesCommandInput,
   type AssociatePackagesCommandOutput,
+  AttachDataSourceCommand,
+  type AttachDataSourceCommandInput,
+  type AttachDataSourceCommandOutput,
   AuthorizeVpcEndpointAccessCommand,
   type AuthorizeVpcEndpointAccessCommandInput,
   type AuthorizeVpcEndpointAccessCommandOutput,
@@ -77,6 +80,9 @@ import {
   DeregisterCapabilityCommand,
   type DeregisterCapabilityCommandInput,
   type DeregisterCapabilityCommandOutput,
+  DescribeDataSourceAttachmentCommand,
+  type DescribeDataSourceAttachmentCommandInput,
+  type DescribeDataSourceAttachmentCommandOutput,
   DescribeDomainAutoTunesCommand,
   type DescribeDomainAutoTunesCommandInput,
   type DescribeDomainAutoTunesCommandOutput,
@@ -125,6 +131,9 @@ import {
   DescribeVpcEndpointsCommand,
   type DescribeVpcEndpointsCommandInput,
   type DescribeVpcEndpointsCommandOutput,
+  DetachDataSourceCommand,
+  type DetachDataSourceCommandInput,
+  type DetachDataSourceCommandOutput,
   DissociatePackageCommand,
   type DissociatePackageCommandInput,
   type DissociatePackageCommandOutput,
@@ -155,6 +164,9 @@ import {
   GetIndexCommand,
   type GetIndexCommandInput,
   type GetIndexCommandOutput,
+  GetMigrationCommand,
+  type GetMigrationCommandInput,
+  type GetMigrationCommandOutput,
   GetPackageVersionHistoryCommand,
   type GetPackageVersionHistoryCommandInput,
   type GetPackageVersionHistoryCommandOutput,
@@ -164,9 +176,15 @@ import {
   GetUpgradeStatusCommand,
   type GetUpgradeStatusCommandInput,
   type GetUpgradeStatusCommandOutput,
+  InsightFeedbackCommand,
+  type InsightFeedbackCommandInput,
+  type InsightFeedbackCommandOutput,
   ListApplicationsCommand,
   type ListApplicationsCommandInput,
   type ListApplicationsCommandOutput,
+  ListDataSourceAttachmentsCommand,
+  type ListDataSourceAttachmentsCommandInput,
+  type ListDataSourceAttachmentsCommandOutput,
   ListDataSourcesCommand,
   type ListDataSourcesCommandInput,
   type ListDataSourcesCommandOutput,
@@ -188,6 +206,9 @@ import {
   ListInstanceTypeDetailsCommand,
   type ListInstanceTypeDetailsCommandInput,
   type ListInstanceTypeDetailsCommandOutput,
+  ListMigrationsCommand,
+  type ListMigrationsCommandInput,
+  type ListMigrationsCommandOutput,
   ListPackagesForDomainCommand,
   type ListPackagesForDomainCommandInput,
   type ListPackagesForDomainCommandOutput,
@@ -250,6 +271,9 @@ import {
   StartDomainMaintenanceCommand,
   type StartDomainMaintenanceCommandInput,
   type StartDomainMaintenanceCommandOutput,
+  StartMigrationCommand,
+  type StartMigrationCommandInput,
+  type StartMigrationCommandOutput,
   StartServiceSoftwareUpdateCommand,
   type StartServiceSoftwareUpdateCommandInput,
   type StartServiceSoftwareUpdateCommandOutput,
@@ -320,6 +344,7 @@ const commands = {
   AddTagsCommand,
   AssociatePackageCommand,
   AssociatePackagesCommand,
+  AttachDataSourceCommand,
   AuthorizeVpcEndpointAccessCommand,
   CancelDomainConfigChangeCommand,
   CancelServiceSoftwareUpdateCommand,
@@ -339,6 +364,7 @@ const commands = {
   DeletePackageCommand,
   DeleteVpcEndpointCommand,
   DeregisterCapabilityCommand,
+  DescribeDataSourceAttachmentCommand,
   DescribeDomainCommand,
   DescribeDomainAutoTunesCommand,
   DescribeDomainChangeProgressCommand,
@@ -355,6 +381,7 @@ const commands = {
   DescribeReservedInstanceOfferingsCommand,
   DescribeReservedInstancesCommand,
   DescribeVpcEndpointsCommand,
+  DetachDataSourceCommand,
   DissociatePackageCommand,
   DissociatePackagesCommand,
   GetApplicationCommand,
@@ -365,10 +392,13 @@ const commands = {
   GetDirectQueryDataSourceCommand,
   GetDomainMaintenanceStatusCommand,
   GetIndexCommand,
+  GetMigrationCommand,
   GetPackageVersionHistoryCommand,
   GetUpgradeHistoryCommand,
   GetUpgradeStatusCommand,
+  InsightFeedbackCommand,
   ListApplicationsCommand,
+  ListDataSourceAttachmentsCommand,
   ListDataSourcesCommand,
   ListDirectQueryDataSourcesCommand,
   ListDomainMaintenancesCommand,
@@ -376,6 +406,7 @@ const commands = {
   ListDomainsForPackageCommand,
   ListInsightsCommand,
   ListInstanceTypeDetailsCommand,
+  ListMigrationsCommand,
   ListPackagesForDomainCommand,
   ListScheduledActionsCommand,
   ListTagsCommand,
@@ -391,6 +422,7 @@ const commands = {
   RevokeVpcEndpointAccessCommand,
   RollbackServiceSoftwareUpdateCommand,
   StartDomainMaintenanceCommand,
+  StartMigrationCommand,
   StartServiceSoftwareUpdateCommand,
   UpdateApplicationCommand,
   UpdateDataSourceCommand,
@@ -513,6 +545,24 @@ interface OpenSearchService$ {
     | Cause.TimeoutException
     | SdkError
     | BaseError
+    | ConflictError
+    | DisabledOperationError
+    | InternalError
+    | ResourceNotFoundError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link AttachDataSourceCommand}
+   */
+  attachDataSource(
+    args: AttachDataSourceCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    AttachDataSourceCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
     | ConflictError
     | DisabledOperationError
     | InternalError
@@ -830,6 +880,23 @@ interface OpenSearchService$ {
   >;
 
   /**
+   * @see {@link DescribeDataSourceAttachmentCommand}
+   */
+  describeDataSourceAttachment(
+    args: DescribeDataSourceAttachmentCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeDataSourceAttachmentCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | DisabledOperationError
+    | InternalError
+    | ResourceNotFoundError
+    | ValidationError
+  >;
+
+  /**
    * @see {@link DescribeDomainCommand}
    */
   describeDomain(
@@ -1099,6 +1166,24 @@ interface OpenSearchService$ {
   >;
 
   /**
+   * @see {@link DetachDataSourceCommand}
+   */
+  detachDataSource(
+    args: DetachDataSourceCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DetachDataSourceCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | DisabledOperationError
+    | InternalError
+    | ResourceNotFoundError
+    | ValidationError
+  >;
+
+  /**
    * @see {@link DissociatePackageCommand}
    */
   dissociatePackage(
@@ -1269,6 +1354,23 @@ interface OpenSearchService$ {
   >;
 
   /**
+   * @see {@link GetMigrationCommand}
+   */
+  getMigration(
+    args: GetMigrationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetMigrationCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | DisabledOperationError
+    | InternalError
+    | ResourceNotFoundError
+    | ValidationError
+  >;
+
+  /**
    * @see {@link GetPackageVersionHistoryCommand}
    */
   getPackageVersionHistory(
@@ -1348,6 +1450,24 @@ interface OpenSearchService$ {
   >;
 
   /**
+   * @see {@link InsightFeedbackCommand}
+   */
+  insightFeedback(
+    args: InsightFeedbackCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    InsightFeedbackCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | BaseError
+    | DisabledOperationError
+    | InternalError
+    | LimitExceededError
+    | ResourceNotFoundError
+    | ValidationError
+  >;
+
+  /**
    * @see {@link ListApplicationsCommand}
    */
   listApplications(
@@ -1374,6 +1494,23 @@ interface OpenSearchService$ {
     | SdkError
     | AccessDeniedError
     | BaseError
+    | DisabledOperationError
+    | InternalError
+    | ResourceNotFoundError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link ListDataSourceAttachmentsCommand}
+   */
+  listDataSourceAttachments(
+    args: ListDataSourceAttachmentsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListDataSourceAttachmentsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
     | DisabledOperationError
     | InternalError
     | ResourceNotFoundError
@@ -1523,6 +1660,17 @@ interface OpenSearchService$ {
   ): Stream.Stream<
     ListInstanceTypeDetailsCommandOutput,
     Cause.TimeoutException | SdkError | BaseError | InternalError | ResourceNotFoundError | ValidationError
+  >;
+
+  /**
+   * @see {@link ListMigrationsCommand}
+   */
+  listMigrations(
+    args: ListMigrationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListMigrationsCommandOutput,
+    Cause.TimeoutException | SdkError | AccessDeniedError | DisabledOperationError | InternalError | ValidationError
   >;
 
   /**
@@ -1765,6 +1913,24 @@ interface OpenSearchService$ {
     | Cause.TimeoutException
     | SdkError
     | BaseError
+    | DisabledOperationError
+    | InternalError
+    | ResourceNotFoundError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link StartMigrationCommand}
+   */
+  startMigration(
+    args: StartMigrationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    StartMigrationCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
     | DisabledOperationError
     | InternalError
     | ResourceNotFoundError

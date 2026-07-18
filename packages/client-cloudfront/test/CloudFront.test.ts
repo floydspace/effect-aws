@@ -5,7 +5,7 @@ import {
   type ListCachePoliciesCommandInput,
 } from "@aws-sdk/client-cloudfront";
 // @ts-ignore
-import * as runtimeConfig from "@aws-sdk/client-cloudfront/dist-cjs/runtimeConfig";
+import * as runtimeConfig from "@aws-sdk/client-cloudfront/dist-es/runtimeConfig";
 import { CloudFrontService as CloudFront } from "@effect-aws/client-cloudfront/CloudFrontService";
 import * as CloudFrontServiceConfig from "@effect-aws/client-cloudfront/CloudFrontServiceConfig";
 import { SdkError } from "@effect-aws/commons/Errors";

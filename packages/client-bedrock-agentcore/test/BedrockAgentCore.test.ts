@@ -5,7 +5,7 @@ import {
   type ListSessionsCommandInput,
 } from "@aws-sdk/client-bedrock-agentcore";
 // @ts-ignore
-import * as runtimeConfig from "@aws-sdk/client-bedrock-agentcore/dist-cjs/runtimeConfig";
+import * as runtimeConfig from "@aws-sdk/client-bedrock-agentcore/dist-es/runtimeConfig";
 import { BedrockAgentCoreService as BedrockAgentCore } from "@effect-aws/client-bedrock-agentcore/BedrockAgentCoreService";
 import * as BedrockAgentCoreServiceConfig from "@effect-aws/client-bedrock-agentcore/BedrockAgentCoreServiceConfig";
 import { SdkError } from "@effect-aws/commons/Errors";

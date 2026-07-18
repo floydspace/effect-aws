@@ -5,7 +5,7 @@ import {
   type DescribeAutoScalingGroupsCommandInput,
 } from "@aws-sdk/client-auto-scaling";
 // @ts-ignore
-import * as runtimeConfig from "@aws-sdk/client-auto-scaling/dist-cjs/runtimeConfig";
+import * as runtimeConfig from "@aws-sdk/client-auto-scaling/dist-es/runtimeConfig";
 import { AutoScalingService as AutoScaling } from "@effect-aws/client-auto-scaling/AutoScalingService";
 import * as AutoScalingServiceConfig from "@effect-aws/client-auto-scaling/AutoScalingServiceConfig";
 import { SdkError } from "@effect-aws/commons/Errors";

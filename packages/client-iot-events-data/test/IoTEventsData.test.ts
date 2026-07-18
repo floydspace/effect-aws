@@ -5,15 +5,15 @@ import {
   IoTEventsDataServiceException,
 } from "@aws-sdk/client-iot-events-data";
 // @ts-ignore
-import * as runtimeConfig from "@aws-sdk/client-iot-events-data/dist-cjs/runtimeConfig";
-import { IoTEventsDataService as IoTEventsData } from "@effect-aws/client-iot-events-data/IoTEventsDataService";
-import * as IoTEventsDataServiceConfig from "@effect-aws/client-iot-events-data/IoTEventsDataServiceConfig";
+import * as runtimeConfig from "@aws-sdk/client-iot-events-data/dist-es/runtimeConfig";
 import { SdkError } from "@effect-aws/commons/Errors";
 import { mockClient } from "aws-sdk-client-mock";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { IoTEventsDataService as IoTEventsData } from "../src/IoTEventsDataService.js";
+import * as IoTEventsDataServiceConfig from "../src/IoTEventsDataServiceConfig.js";
 
 const getRuntimeConfig = vi.spyOn(runtimeConfig, "getRuntimeConfig");
 const clientMock = mockClient(IoTEventsDataClient);

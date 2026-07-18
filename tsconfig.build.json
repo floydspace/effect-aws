@@ -112,12 +112,6 @@
       "path": "packages/client-iot-data-plane/tsconfig.esm.json"
     },
     {
-      "path": "packages/client-iot-events/tsconfig.esm.json"
-    },
-    {
-      "path": "packages/client-iot-events-data/tsconfig.esm.json"
-    },
-    {
       "path": "packages/client-iot-jobs-data-plane/tsconfig.esm.json"
     },
     {

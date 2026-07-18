@@ -5,7 +5,7 @@ import {
   type ListUserPoolsCommandInput,
 } from "@aws-sdk/client-cognito-identity-provider";
 // @ts-ignore
-import * as runtimeConfig from "@aws-sdk/client-cognito-identity-provider/dist-cjs/runtimeConfig";
+import * as runtimeConfig from "@aws-sdk/client-cognito-identity-provider/dist-es/runtimeConfig";
 import { CognitoIdentityProviderService as CognitoIdentityProvider } from "@effect-aws/client-cognito-identity-provider/CognitoIdentityProviderService";
 import * as CognitoIdentityProviderServiceConfig from "@effect-aws/client-cognito-identity-provider/CognitoIdentityProviderServiceConfig";
 import { SdkError } from "@effect-aws/commons/Errors";

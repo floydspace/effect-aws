@@ -1,6 +1,6 @@
 import { AcceptAddressTransferCommand, type AcceptAddressTransferCommandInput, EC2Client } from "@aws-sdk/client-ec2";
 // @ts-ignore
-import * as runtimeConfig from "@aws-sdk/client-ec2/dist-cjs/runtimeConfig";
+import * as runtimeConfig from "@aws-sdk/client-ec2/dist-es/runtimeConfig";
 import { EC2Service as EC2 } from "@effect-aws/client-ec2/EC2Service";
 import * as EC2ServiceConfig from "@effect-aws/client-ec2/EC2ServiceConfig";
 import { SdkError } from "@effect-aws/commons/Errors";

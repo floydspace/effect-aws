@@ -5,7 +5,7 @@ import {
   type StartQueryExecutionCommandInput,
 } from "@aws-sdk/client-athena";
 // @ts-ignore
-import * as runtimeConfig from "@aws-sdk/client-athena/dist-cjs/runtimeConfig";
+import * as runtimeConfig from "@aws-sdk/client-athena/dist-es/runtimeConfig";
 import { AthenaService as Athena } from "@effect-aws/client-athena/AthenaService";
 import * as AthenaServiceConfig from "@effect-aws/client-athena/AthenaServiceConfig";
 import { SdkError } from "@effect-aws/commons/Errors";

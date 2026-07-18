@@ -5,7 +5,7 @@ import {
   type ListAgentRuntimesCommandInput,
 } from "@aws-sdk/client-bedrock-agentcore-control";
 // @ts-ignore
-import * as runtimeConfig from "@aws-sdk/client-bedrock-agentcore-control/dist-cjs/runtimeConfig";
+import * as runtimeConfig from "@aws-sdk/client-bedrock-agentcore-control/dist-es/runtimeConfig";
 import { BedrockAgentCoreControlService as BedrockAgentCoreControl } from "@effect-aws/client-bedrock-agentcore-control/BedrockAgentCoreControlService";
 import * as BedrockAgentCoreControlServiceConfig from "@effect-aws/client-bedrock-agentcore-control/BedrockAgentCoreControlServiceConfig";
 import { SdkError } from "@effect-aws/commons/Errors";

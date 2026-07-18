@@ -2,6 +2,9 @@
  * @since 1.0.0
  */
 import {
+  AssociateDatasetKmsKeyCommand,
+  type AssociateDatasetKmsKeyCommandInput,
+  type AssociateDatasetKmsKeyCommandOutput,
   type CloudWatchClient,
   type CloudWatchClientConfig,
   DeleteAlarmMuteRuleCommand,
@@ -46,6 +49,9 @@ import {
   DisableInsightRulesCommand,
   type DisableInsightRulesCommandInput,
   type DisableInsightRulesCommandOutput,
+  DisassociateDatasetKmsKeyCommand,
+  type DisassociateDatasetKmsKeyCommandInput,
+  type DisassociateDatasetKmsKeyCommandOutput,
   EnableAlarmActionsCommand,
   type EnableAlarmActionsCommandInput,
   type EnableAlarmActionsCommandOutput,
@@ -58,6 +64,9 @@ import {
   GetDashboardCommand,
   type GetDashboardCommandInput,
   type GetDashboardCommandOutput,
+  GetDatasetCommand,
+  type GetDatasetCommandInput,
+  type GetDatasetCommandOutput,
   GetInsightRuleReportCommand,
   type GetInsightRuleReportCommandInput,
   type GetInsightRuleReportCommandOutput,
@@ -119,6 +128,9 @@ import {
   PutInsightRuleCommand,
   type PutInsightRuleCommandInput,
   type PutInsightRuleCommandOutput,
+  PutLogAlarmCommand,
+  type PutLogAlarmCommandInput,
+  type PutLogAlarmCommandOutput,
   PutManagedInsightRulesCommand,
   type PutManagedInsightRulesCommandInput,
   type PutManagedInsightRulesCommandOutput,
@@ -172,9 +184,13 @@ import type {
   InvalidNextTokenError,
   InvalidParameterCombinationError,
   InvalidParameterValueError,
+  KmsAccessDeniedError,
+  KmsKeyDisabledError,
+  KmsKeyNotFoundError,
   LimitExceededError,
   LimitExceededFaultError,
   MissingRequiredParameterError,
+  ResourceConflictError,
   ResourceNotFoundError,
   ResourceNotFoundExceptionError,
   SdkError,
@@ -182,6 +198,7 @@ import type {
 import { AllServiceErrors } from "./Errors.js";
 
 const commands = {
+  AssociateDatasetKmsKeyCommand,
   DeleteAlarmMuteRuleCommand,
   DeleteAlarmsCommand,
   DeleteAnomalyDetectorCommand,
@@ -196,10 +213,12 @@ const commands = {
   DescribeInsightRulesCommand,
   DisableAlarmActionsCommand,
   DisableInsightRulesCommand,
+  DisassociateDatasetKmsKeyCommand,
   EnableAlarmActionsCommand,
   EnableInsightRulesCommand,
   GetAlarmMuteRuleCommand,
   GetDashboardCommand,
+  GetDatasetCommand,
   GetInsightRuleReportCommand,
   GetMetricDataCommand,
   GetMetricStatisticsCommand,
@@ -217,6 +236,7 @@ const commands = {
   PutCompositeAlarmCommand,
   PutDashboardCommand,
   PutInsightRuleCommand,
+  PutLogAlarmCommand,
   PutManagedInsightRulesCommand,
   PutMetricAlarmCommand,
   PutMetricDataCommand,
@@ -247,6 +267,23 @@ interface CloudWatchService$ {
   readonly _: unique symbol;
 
   /**
+   * @see {@link AssociateDatasetKmsKeyCommand}
+   */
+  associateDatasetKmsKey(
+    args: AssociateDatasetKmsKeyCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    AssociateDatasetKmsKeyCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | ConflictError
+    | KmsAccessDeniedError
+    | KmsKeyDisabledError
+    | KmsKeyNotFoundError
+    | ResourceNotFoundError
+  >;
+
+  /**
    * @see {@link DeleteAlarmMuteRuleCommand}
    */
   deleteAlarmMuteRule(
@@ -265,7 +302,7 @@ interface CloudWatchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteAlarmsCommandOutput,
-    Cause.TimeoutException | SdkError | ResourceNotFoundError
+    Cause.TimeoutException | SdkError | ResourceConflictError | ResourceNotFoundError
   >;
 
   /**
@@ -293,12 +330,7 @@ interface CloudWatchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDashboardsCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | ConflictError
-    | DashboardNotFoundError
-    | InternalServiceFaultError
-    | InvalidParameterValueError
+    Cause.TimeoutException | SdkError | ConflictError | InternalServiceFaultError | InvalidParameterValueError
   >;
 
   /**
@@ -449,6 +481,17 @@ interface CloudWatchService$ {
   >;
 
   /**
+   * @see {@link DisassociateDatasetKmsKeyCommand}
+   */
+  disassociateDatasetKmsKey(
+    args: DisassociateDatasetKmsKeyCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DisassociateDatasetKmsKeyCommandOutput,
+    Cause.TimeoutException | SdkError | ConflictError | ResourceNotFoundError
+  >;
+
+  /**
    * @see {@link EnableAlarmActionsCommand}
    */
   enableAlarmActions(
@@ -490,6 +533,17 @@ interface CloudWatchService$ {
   ): Effect.Effect<
     GetDashboardCommandOutput,
     Cause.TimeoutException | SdkError | DashboardNotFoundError | InternalServiceFaultError | InvalidParameterValueError
+  >;
+
+  /**
+   * @see {@link GetDatasetCommand}
+   */
+  getDataset(
+    args: GetDatasetCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetDatasetCommandOutput,
+    Cause.TimeoutException | SdkError | ResourceNotFoundError
   >;
 
   /**
@@ -765,6 +819,17 @@ interface CloudWatchService$ {
   ): Effect.Effect<
     PutInsightRuleCommandOutput,
     Cause.TimeoutException | SdkError | InvalidParameterValueError | LimitExceededError | MissingRequiredParameterError
+  >;
+
+  /**
+   * @see {@link PutLogAlarmCommand}
+   */
+  putLogAlarm(
+    args: PutLogAlarmCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    PutLogAlarmCommandOutput,
+    Cause.TimeoutException | SdkError | LimitExceededFaultError | ResourceConflictError
   >;
 
   /**

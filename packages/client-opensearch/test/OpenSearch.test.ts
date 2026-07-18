@@ -5,7 +5,7 @@ import {
   OpenSearchServiceException,
 } from "@aws-sdk/client-opensearch";
 // @ts-ignore
-import * as runtimeConfig from "@aws-sdk/client-opensearch/dist-cjs/runtimeConfig";
+import * as runtimeConfig from "@aws-sdk/client-opensearch/dist-es/runtimeConfig";
 import { OpenSearchService as OpenSearch } from "@effect-aws/client-opensearch/OpenSearchService";
 import * as OpenSearchServiceConfig from "@effect-aws/client-opensearch/OpenSearchServiceConfig";
 import { SdkError } from "@effect-aws/commons/Errors";

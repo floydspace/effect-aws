@@ -1,6 +1,6 @@
 import { GlueClient, GlueServiceException, ListJobsCommand, type ListJobsCommandInput } from "@aws-sdk/client-glue";
 // @ts-ignore
-import * as runtimeConfig from "@aws-sdk/client-glue/dist-cjs/runtimeConfig";
+import * as runtimeConfig from "@aws-sdk/client-glue/dist-es/runtimeConfig";
 import { GlueService as Glue } from "@effect-aws/client-glue/GlueService";
 import * as GlueServiceConfig from "@effect-aws/client-glue/GlueServiceConfig";
 import { SdkError } from "@effect-aws/commons/Errors";

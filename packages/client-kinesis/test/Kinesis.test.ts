@@ -5,7 +5,7 @@ import {
   type PutRecordCommandInput,
 } from "@aws-sdk/client-kinesis";
 // @ts-ignore
-import * as runtimeConfig from "@aws-sdk/client-kinesis/dist-cjs/runtimeConfig";
+import * as runtimeConfig from "@aws-sdk/client-kinesis/dist-es/runtimeConfig";
 import { KinesisService as Kinesis } from "@effect-aws/client-kinesis/KinesisService";
 import * as KinesisServiceConfig from "@effect-aws/client-kinesis/KinesisServiceConfig";
 import { SdkError } from "@effect-aws/commons/Errors";

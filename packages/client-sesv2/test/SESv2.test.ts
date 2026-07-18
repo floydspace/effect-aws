@@ -5,7 +5,7 @@ import {
   SESv2ServiceException,
 } from "@aws-sdk/client-sesv2";
 // @ts-ignore
-import * as runtimeConfig from "@aws-sdk/client-sesv2/dist-cjs/runtimeConfig";
+import * as runtimeConfig from "@aws-sdk/client-sesv2/dist-es/runtimeConfig";
 import { SESv2Service as SESv2 } from "@effect-aws/client-sesv2/SESv2Service";
 import * as SESv2ServiceConfig from "@effect-aws/client-sesv2/SESv2ServiceConfig";
 import { SdkError } from "@effect-aws/commons/Errors";

@@ -5,7 +5,7 @@ import {
   type ListRegionsCommandInput,
 } from "@aws-sdk/client-account";
 // @ts-ignore
-import * as runtimeConfig from "@aws-sdk/client-account/dist-cjs/runtimeConfig";
+import * as runtimeConfig from "@aws-sdk/client-account/dist-es/runtimeConfig";
 import { AccountService as Account } from "@effect-aws/client-account/AccountService";
 import * as AccountServiceConfig from "@effect-aws/client-account/AccountServiceConfig";
 import { SdkError } from "@effect-aws/commons/Errors";

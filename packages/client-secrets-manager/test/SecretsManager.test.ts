@@ -5,7 +5,7 @@ import {
   SecretsManagerServiceException,
 } from "@aws-sdk/client-secrets-manager";
 // @ts-ignore
-import * as runtimeConfig from "@aws-sdk/client-secrets-manager/dist-cjs/runtimeConfig";
+import * as runtimeConfig from "@aws-sdk/client-secrets-manager/dist-es/runtimeConfig";
 import { SecretsManagerService as SecretsManager } from "@effect-aws/client-secrets-manager/SecretsManagerService";
 import * as SecretsManagerServiceConfig from "@effect-aws/client-secrets-manager/SecretsManagerServiceConfig";
 import { SdkError } from "@effect-aws/commons/Errors";

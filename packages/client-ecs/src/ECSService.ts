@@ -2,6 +2,9 @@
  * @since 1.0.0
  */
 import {
+  ContinueServiceDeploymentCommand,
+  type ContinueServiceDeploymentCommandInput,
+  type ContinueServiceDeploymentCommandOutput,
   CreateCapacityProviderCommand,
   type CreateCapacityProviderCommandInput,
   type CreateCapacityProviderCommandOutput,
@@ -287,6 +290,7 @@ import type {
 import { AllServiceErrors } from "./Errors.js";
 
 const commands = {
+  ContinueServiceDeploymentCommand,
   CreateCapacityProviderCommand,
   CreateClusterCommand,
   CreateDaemonCommand,
@@ -379,6 +383,24 @@ const paginators = {
 
 interface ECSService$ {
   readonly _: unique symbol;
+
+  /**
+   * @see {@link ContinueServiceDeploymentCommand}
+   */
+  continueServiceDeployment(
+    args: ContinueServiceDeploymentCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ContinueServiceDeploymentCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | ClientError
+    | InvalidParameterError
+    | ServerError
+    | ServiceDeploymentNotFoundError
+    | UnsupportedFeatureError
+  >;
 
   /**
    * @see {@link CreateCapacityProviderCommand}

@@ -5,7 +5,7 @@ import {
   type ListClustersCommandInput,
 } from "@aws-sdk/client-eks";
 // @ts-ignore
-import * as runtimeConfig from "@aws-sdk/client-eks/dist-cjs/runtimeConfig";
+import * as runtimeConfig from "@aws-sdk/client-eks/dist-es/runtimeConfig";
 import { EKSService as EKS } from "@effect-aws/client-eks/EKSService";
 import * as EKSServiceConfig from "@effect-aws/client-eks/EKSServiceConfig";
 import { SdkError } from "@effect-aws/commons/Errors";

@@ -5,7 +5,7 @@ import {
   type GetApiCommandInput,
 } from "@aws-sdk/client-apigatewayv2";
 // @ts-ignore
-import * as runtimeConfig from "@aws-sdk/client-apigatewayv2/dist-cjs/runtimeConfig";
+import * as runtimeConfig from "@aws-sdk/client-apigatewayv2/dist-es/runtimeConfig";
 import { ApiGatewayV2Service as ApiGatewayV2 } from "@effect-aws/client-api-gateway-v2/ApiGatewayV2Service";
 import * as ApiGatewayV2ServiceConfig from "@effect-aws/client-api-gateway-v2/ApiGatewayV2ServiceConfig";
 import { SdkError } from "@effect-aws/commons/Errors";

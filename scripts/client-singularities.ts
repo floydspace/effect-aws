@@ -189,16 +189,6 @@ export default {
     commandToTest: "Publish",
     inputToTest: null,
   },
-  "client-iot-events": {
-    description: "Effectful AWS IoT Events client",
-    commandToTest: "ListInputs",
-    inputToTest: null,
-  },
-  "client-iot-events-data": {
-    description: "Effectful AWS IoT Events Data client",
-    commandToTest: "DescribeAlarm",
-    inputToTest: null,
-  },
   "client-iot-jobs-data-plane": {
     description: "Effectful AWS IoT Jobs Data Plane client",
     commandToTest: "StartCommandExecution",

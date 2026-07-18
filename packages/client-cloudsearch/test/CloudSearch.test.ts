@@ -5,7 +5,7 @@ import {
   type DescribeDomainsCommandInput,
 } from "@aws-sdk/client-cloudsearch";
 // @ts-ignore
-import * as runtimeConfig from "@aws-sdk/client-cloudsearch/dist-cjs/runtimeConfig";
+import * as runtimeConfig from "@aws-sdk/client-cloudsearch/dist-es/runtimeConfig";
 import { CloudSearchService as CloudSearch } from "@effect-aws/client-cloudsearch/CloudSearchService";
 import * as CloudSearchServiceConfig from "@effect-aws/client-cloudsearch/CloudSearchServiceConfig";
 import { SdkError } from "@effect-aws/commons/Errors";

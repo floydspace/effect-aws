@@ -602,7 +602,7 @@ async function generateTestFile(
   ${sdkName}ServiceException,
 } from "@aws-sdk/client-${originalServiceName}";
 // @ts-ignore
-import * as runtimeConfig from "@aws-sdk/client-${originalServiceName}/dist-cjs/runtimeConfig";
+import * as runtimeConfig from "@aws-sdk/client-${originalServiceName}/dist-es/runtimeConfig";
 import { ${sdkName}Service as ${sdkName} } from "@effect-aws/client-${serviceName}/${sdkName}Service";
 import * as ${sdkName}ServiceConfig from "@effect-aws/client-${serviceName}/${sdkName}ServiceConfig";
 import { SdkError } from "@effect-aws/commons/Errors";

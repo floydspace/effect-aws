@@ -5,7 +5,7 @@ import {
   type ListTagsForResourceCommandInput,
 } from "@aws-sdk/client-elasticache";
 // @ts-ignore
-import * as runtimeConfig from "@aws-sdk/client-elasticache/dist-cjs/runtimeConfig";
+import * as runtimeConfig from "@aws-sdk/client-elasticache/dist-es/runtimeConfig";
 import { ElastiCacheService as ElastiCache } from "@effect-aws/client-elasticache/ElastiCacheService";
 import * as ElastiCacheServiceConfig from "@effect-aws/client-elasticache/ElastiCacheServiceConfig";
 import { SdkError } from "@effect-aws/commons/Errors";

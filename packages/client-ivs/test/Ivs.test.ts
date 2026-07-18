@@ -5,7 +5,7 @@ import {
   type ListChannelsCommandInput,
 } from "@aws-sdk/client-ivs";
 // @ts-ignore
-import * as runtimeConfig from "@aws-sdk/client-ivs/dist-cjs/runtimeConfig";
+import * as runtimeConfig from "@aws-sdk/client-ivs/dist-es/runtimeConfig";
 import { IvsService as Ivs } from "@effect-aws/client-ivs/IvsService";
 import * as IvsServiceConfig from "@effect-aws/client-ivs/IvsServiceConfig";
 import { SdkError } from "@effect-aws/commons/Errors";

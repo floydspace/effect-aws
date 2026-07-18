@@ -5,7 +5,7 @@ import {
   type DescribeAlarmsCommandInput,
 } from "@aws-sdk/client-cloudwatch";
 // @ts-ignore
-import * as runtimeConfig from "@aws-sdk/client-cloudwatch/dist-cjs/runtimeConfig";
+import * as runtimeConfig from "@aws-sdk/client-cloudwatch/dist-es/runtimeConfig";
 import { CloudWatchService as CloudWatch } from "@effect-aws/client-cloudwatch/CloudWatchService";
 import * as CloudWatchServiceConfig from "@effect-aws/client-cloudwatch/CloudWatchServiceConfig";
 import { SdkError } from "@effect-aws/commons/Errors";

@@ -7,7 +7,7 @@ import {
   S3ServiceException,
 } from "@aws-sdk/client-s3";
 // @ts-ignore
-import * as runtimeConfig from "@aws-sdk/client-s3/dist-cjs/runtimeConfig";
+import * as runtimeConfig from "@aws-sdk/client-s3/dist-es/runtimeConfig";
 import { S3Service as S3 } from "@effect-aws/client-s3/S3Service";
 import * as S3ServiceConfig from "@effect-aws/client-s3/S3ServiceConfig";
 import { SdkError } from "@effect-aws/commons/Errors";

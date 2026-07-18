@@ -5,7 +5,7 @@ import {
   TimestreamQueryServiceException,
 } from "@aws-sdk/client-timestream-query";
 // @ts-ignore
-import * as runtimeConfig from "@aws-sdk/client-timestream-query/dist-cjs/runtimeConfig";
+import * as runtimeConfig from "@aws-sdk/client-timestream-query/dist-es/runtimeConfig";
 import { TimestreamQueryService as TimestreamQuery } from "@effect-aws/client-timestream-query/TimestreamQueryService";
 import * as TimestreamQueryServiceConfig from "@effect-aws/client-timestream-query/TimestreamQueryServiceConfig";
 import { SdkError } from "@effect-aws/commons/Errors";

@@ -133,6 +133,9 @@ import {
   CreateUserPoolDomainCommand,
   type CreateUserPoolDomainCommandInput,
   type CreateUserPoolDomainCommandOutput,
+  CreateUserPoolReplicaCommand,
+  type CreateUserPoolReplicaCommandInput,
+  type CreateUserPoolReplicaCommandOutput,
   DeleteGroupCommand,
   type DeleteGroupCommandInput,
   type DeleteGroupCommandOutput,
@@ -166,6 +169,9 @@ import {
   DeleteUserPoolDomainCommand,
   type DeleteUserPoolDomainCommandInput,
   type DeleteUserPoolDomainCommandOutput,
+  DeleteUserPoolReplicaCommand,
+  type DeleteUserPoolReplicaCommandInput,
+  type DeleteUserPoolReplicaCommandOutput,
   DeleteWebAuthnCredentialCommand,
   type DeleteWebAuthnCredentialCommandInput,
   type DeleteWebAuthnCredentialCommandOutput,
@@ -220,6 +226,9 @@ import {
   GetLogDeliveryConfigurationCommand,
   type GetLogDeliveryConfigurationCommandInput,
   type GetLogDeliveryConfigurationCommandOutput,
+  GetProvisionedLimitCommand,
+  type GetProvisionedLimitCommandInput,
+  type GetProvisionedLimitCommandOutput,
   GetSigningCertificateCommand,
   type GetSigningCertificateCommandInput,
   type GetSigningCertificateCommandOutput,
@@ -274,6 +283,9 @@ import {
   ListUserPoolClientSecretsCommand,
   type ListUserPoolClientSecretsCommandInput,
   type ListUserPoolClientSecretsCommandOutput,
+  ListUserPoolReplicasCommand,
+  type ListUserPoolReplicasCommandInput,
+  type ListUserPoolReplicasCommandOutput,
   ListUserPoolsCommand,
   type ListUserPoolsCommandInput,
   type ListUserPoolsCommandOutput,
@@ -355,6 +367,9 @@ import {
   UpdateManagedLoginBrandingCommand,
   type UpdateManagedLoginBrandingCommandInput,
   type UpdateManagedLoginBrandingCommandOutput,
+  UpdateProvisionedLimitCommand,
+  type UpdateProvisionedLimitCommandInput,
+  type UpdateProvisionedLimitCommandOutput,
   UpdateResourceServerCommand,
   type UpdateResourceServerCommandInput,
   type UpdateResourceServerCommandOutput,
@@ -373,6 +388,9 @@ import {
   UpdateUserPoolDomainCommand,
   type UpdateUserPoolDomainCommandInput,
   type UpdateUserPoolDomainCommandOutput,
+  UpdateUserPoolReplicaCommand,
+  type UpdateUserPoolReplicaCommandInput,
+  type UpdateUserPoolReplicaCommandOutput,
   VerifySoftwareTokenCommand,
   type VerifySoftwareTokenCommandInput,
   type VerifySoftwareTokenCommandOutput,
@@ -416,6 +434,7 @@ import type {
   ManagedLoginBrandingExistsError,
   MFAMethodNotFoundError,
   NotAuthorizedError,
+  OperationNotEnabledError,
   PasswordHistoryPolicyViolationError,
   PasswordResetRequiredError,
   PreconditionNotMetError,
@@ -423,6 +442,7 @@ import type {
   ResourceNotFoundError,
   ScopeDoesNotExistError,
   SdkError,
+  ServiceQuotaExceededError,
   SoftwareTokenMFANotFoundError,
   TermsExistsError,
   TierChangeNotAllowedError,
@@ -495,6 +515,7 @@ const commands = {
   CreateUserPoolCommand,
   CreateUserPoolClientCommand,
   CreateUserPoolDomainCommand,
+  CreateUserPoolReplicaCommand,
   DeleteGroupCommand,
   DeleteIdentityProviderCommand,
   DeleteManagedLoginBrandingCommand,
@@ -506,6 +527,7 @@ const commands = {
   DeleteUserPoolClientCommand,
   DeleteUserPoolClientSecretCommand,
   DeleteUserPoolDomainCommand,
+  DeleteUserPoolReplicaCommand,
   DeleteWebAuthnCredentialCommand,
   DescribeIdentityProviderCommand,
   DescribeManagedLoginBrandingCommand,
@@ -524,6 +546,7 @@ const commands = {
   GetGroupCommand,
   GetIdentityProviderByIdentifierCommand,
   GetLogDeliveryConfigurationCommand,
+  GetProvisionedLimitCommand,
   GetSigningCertificateCommand,
   GetTokensFromRefreshTokenCommand,
   GetUICustomizationCommand,
@@ -542,6 +565,7 @@ const commands = {
   ListUserImportJobsCommand,
   ListUserPoolClientSecretsCommand,
   ListUserPoolClientsCommand,
+  ListUserPoolReplicasCommand,
   ListUserPoolsCommand,
   ListUsersCommand,
   ListUsersInGroupCommand,
@@ -566,12 +590,14 @@ const commands = {
   UpdateGroupCommand,
   UpdateIdentityProviderCommand,
   UpdateManagedLoginBrandingCommand,
+  UpdateProvisionedLimitCommand,
   UpdateResourceServerCommand,
   UpdateTermsCommand,
   UpdateUserAttributesCommand,
   UpdateUserPoolCommand,
   UpdateUserPoolClientCommand,
   UpdateUserPoolDomainCommand,
+  UpdateUserPoolReplicaCommand,
   VerifySoftwareTokenCommand,
   VerifyUserAttributeCommand,
 };
@@ -604,6 +630,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
     | UserImportInProgressError
@@ -640,6 +667,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
     | UserNotFoundError
@@ -660,6 +688,7 @@ interface CognitoIdentityProviderService$ {
     | InvalidParameterError
     | LimitExceededError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyFailedAttemptsError
     | TooManyRequestsError
@@ -686,6 +715,7 @@ interface CognitoIdentityProviderService$ {
     | InvalidSmsRoleAccessPolicyError
     | InvalidSmsRoleTrustRelationshipError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | PreconditionNotMetError
     | ResourceNotFoundError
     | TooManyRequestsError
@@ -709,6 +739,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
     | UserNotFoundError
@@ -727,6 +758,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
     | UserNotFoundError
@@ -746,6 +778,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
     | UserNotFoundError
@@ -764,6 +797,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
     | UserNotFoundError
@@ -782,6 +816,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
     | UserNotFoundError
@@ -801,6 +836,7 @@ interface CognitoIdentityProviderService$ {
     | InvalidParameterError
     | InvalidUserPoolConfigurationError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
     | UserNotFoundError
@@ -820,6 +856,7 @@ interface CognitoIdentityProviderService$ {
     | InvalidParameterError
     | InvalidUserPoolConfigurationError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
   >;
@@ -837,6 +874,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
     | UserNotFoundError
@@ -861,6 +899,7 @@ interface CognitoIdentityProviderService$ {
     | InvalidUserPoolConfigurationError
     | MFAMethodNotFoundError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | PasswordResetRequiredError
     | ResourceNotFoundError
     | TooManyRequestsError
@@ -886,6 +925,7 @@ interface CognitoIdentityProviderService$ {
     | InvalidParameterError
     | LimitExceededError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
     | UserNotFoundError
@@ -905,6 +945,7 @@ interface CognitoIdentityProviderService$ {
     | InvalidParameterError
     | InvalidUserPoolConfigurationError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
   >;
@@ -922,6 +963,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
     | UserNotFoundError
@@ -937,6 +979,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
     | UserNotFoundError
@@ -955,6 +998,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
     | UserNotFoundError
@@ -971,6 +1015,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
     | UserNotFoundError
@@ -990,6 +1035,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
     | UserNotFoundError
@@ -1013,6 +1059,7 @@ interface CognitoIdentityProviderService$ {
     | InvalidSmsRoleTrustRelationshipError
     | LimitExceededError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
     | UnexpectedLambdaError
@@ -1043,6 +1090,7 @@ interface CognitoIdentityProviderService$ {
     | InvalidUserPoolConfigurationError
     | MFAMethodNotFoundError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | PasswordHistoryPolicyViolationError
     | PasswordResetRequiredError
     | ResourceNotFoundError
@@ -1067,6 +1115,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | PasswordResetRequiredError
     | ResourceNotFoundError
     | UserNotConfirmedError
@@ -1087,6 +1136,7 @@ interface CognitoIdentityProviderService$ {
     | InvalidParameterError
     | InvalidPasswordError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | PasswordHistoryPolicyViolationError
     | ResourceNotFoundError
     | TooManyRequestsError
@@ -1106,6 +1156,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | UserNotFoundError
   >;
@@ -1123,6 +1174,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
     | UserNotFoundError
@@ -1143,6 +1195,7 @@ interface CognitoIdentityProviderService$ {
     | InvalidParameterError
     | InvalidUserPoolConfigurationError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
     | UserNotFoundError
@@ -1166,6 +1219,7 @@ interface CognitoIdentityProviderService$ {
     | InvalidSmsRoleAccessPolicyError
     | InvalidSmsRoleTrustRelationshipError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
     | UnexpectedLambdaError
@@ -1186,6 +1240,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
     | UserNotFoundError
@@ -1206,6 +1261,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | SoftwareTokenMFANotFoundError
   >;
@@ -1226,6 +1282,7 @@ interface CognitoIdentityProviderService$ {
     | InvalidPasswordError
     | LimitExceededError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | PasswordHistoryPolicyViolationError
     | PasswordResetRequiredError
     | ResourceNotFoundError
@@ -1249,6 +1306,7 @@ interface CognitoIdentityProviderService$ {
     | InvalidParameterError
     | LimitExceededError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | PasswordResetRequiredError
     | TooManyRequestsError
     | WebAuthnChallengeNotFoundError
@@ -1277,6 +1335,7 @@ interface CognitoIdentityProviderService$ {
     | InvalidPasswordError
     | InvalidUserPoolConfigurationError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | PasswordResetRequiredError
     | ResourceNotFoundError
     | TooManyRequestsError
@@ -1304,6 +1363,7 @@ interface CognitoIdentityProviderService$ {
     | InvalidPasswordError
     | LimitExceededError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | PasswordHistoryPolicyViolationError
     | ResourceNotFoundError
     | TooManyFailedAttemptsError
@@ -1333,6 +1393,7 @@ interface CognitoIdentityProviderService$ {
     | InvalidParameterError
     | LimitExceededError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyFailedAttemptsError
     | TooManyRequestsError
@@ -1356,6 +1417,7 @@ interface CognitoIdentityProviderService$ {
     | InvalidParameterError
     | LimitExceededError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
   >;
@@ -1395,6 +1457,7 @@ interface CognitoIdentityProviderService$ {
     | LimitExceededError
     | ManagedLoginBrandingExistsError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
   >;
@@ -1413,6 +1476,7 @@ interface CognitoIdentityProviderService$ {
     | InvalidParameterError
     | LimitExceededError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
   >;
@@ -1432,6 +1496,7 @@ interface CognitoIdentityProviderService$ {
     | InvalidParameterError
     | LimitExceededError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TermsExistsError
     | TooManyRequestsError
@@ -1451,6 +1516,7 @@ interface CognitoIdentityProviderService$ {
     | InvalidParameterError
     | LimitExceededError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | PreconditionNotMetError
     | ResourceNotFoundError
     | TooManyRequestsError
@@ -1495,6 +1561,7 @@ interface CognitoIdentityProviderService$ {
     | InvalidParameterError
     | LimitExceededError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | ScopeDoesNotExistError
     | TooManyRequestsError
@@ -1516,7 +1583,29 @@ interface CognitoIdentityProviderService$ {
     | InvalidParameterError
     | LimitExceededError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
+  >;
+
+  /**
+   * @see {@link CreateUserPoolReplicaCommand}
+   */
+  createUserPoolReplica(
+    args: CreateUserPoolReplicaCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateUserPoolReplicaCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | FeatureUnavailableInTierError
+    | InternalError
+    | InvalidParameterError
+    | LimitExceededError
+    | NotAuthorizedError
+    | OperationNotEnabledError
+    | ResourceNotFoundError
+    | TooManyRequestsError
+    | UserPoolTaggingError
   >;
 
   /**
@@ -1532,6 +1621,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
   >;
@@ -1569,6 +1659,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
   >;
@@ -1586,6 +1677,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
   >;
@@ -1604,6 +1696,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
   >;
@@ -1622,6 +1715,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | PasswordResetRequiredError
     | ResourceNotFoundError
     | TooManyRequestsError
@@ -1643,6 +1737,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | PasswordResetRequiredError
     | ResourceNotFoundError
     | TooManyRequestsError
@@ -1663,6 +1758,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
     | UserImportInProgressError
@@ -1682,6 +1778,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
   >;
@@ -1717,7 +1814,26 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
+  >;
+
+  /**
+   * @see {@link DeleteUserPoolReplicaCommand}
+   */
+  deleteUserPoolReplica(
+    args: DeleteUserPoolReplicaCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteUserPoolReplicaCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalError
+    | InvalidParameterError
+    | NotAuthorizedError
+    | OperationNotEnabledError
+    | ResourceNotFoundError
+    | TooManyRequestsError
   >;
 
   /**
@@ -1735,6 +1851,7 @@ interface CognitoIdentityProviderService$ {
     | InvalidParameterError
     | LimitExceededError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | PasswordResetRequiredError
     | ResourceNotFoundError
     | TooManyRequestsError
@@ -1770,6 +1887,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
   >;
@@ -1787,6 +1905,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
   >;
@@ -1804,6 +1923,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
   >;
@@ -1821,6 +1941,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
     | UserPoolAddOnNotEnabledError
@@ -1839,6 +1960,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
   >;
@@ -1856,6 +1978,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
   >;
@@ -1873,6 +1996,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
     | UserPoolTaggingError
@@ -1891,6 +2015,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
   >;
@@ -1908,6 +2033,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
   >;
 
@@ -1926,6 +2052,7 @@ interface CognitoIdentityProviderService$ {
     | InvalidParameterError
     | InvalidUserPoolConfigurationError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | PasswordResetRequiredError
     | ResourceNotFoundError
     | TooManyRequestsError
@@ -1953,6 +2080,7 @@ interface CognitoIdentityProviderService$ {
     | InvalidSmsRoleTrustRelationshipError
     | LimitExceededError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
     | UnexpectedLambdaError
@@ -1973,6 +2101,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
   >;
@@ -1992,6 +2121,7 @@ interface CognitoIdentityProviderService$ {
     | InvalidParameterError
     | InvalidUserPoolConfigurationError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | PasswordResetRequiredError
     | ResourceNotFoundError
     | TooManyRequestsError
@@ -2012,6 +2142,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
   >;
@@ -2051,6 +2182,23 @@ interface CognitoIdentityProviderService$ {
   >;
 
   /**
+   * @see {@link GetProvisionedLimitCommand}
+   */
+  getProvisionedLimit(
+    args: GetProvisionedLimitCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetProvisionedLimitCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalError
+    | InvalidParameterError
+    | NotAuthorizedError
+    | ResourceNotFoundError
+    | TooManyRequestsError
+  >;
+
+  /**
    * @see {@link GetSigningCertificateCommand}
    */
   getSigningCertificate(
@@ -2058,7 +2206,12 @@ interface CognitoIdentityProviderService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetSigningCertificateCommandOutput,
-    Cause.TimeoutException | SdkError | InternalError | InvalidParameterError | ResourceNotFoundError
+    | Cause.TimeoutException
+    | SdkError
+    | InternalError
+    | InvalidParameterError
+    | OperationNotEnabledError
+    | ResourceNotFoundError
   >;
 
   /**
@@ -2076,6 +2229,7 @@ interface CognitoIdentityProviderService$ {
     | InvalidLambdaResponseError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | RefreshTokenReuseError
     | ResourceNotFoundError
     | TooManyRequestsError
@@ -2097,6 +2251,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
   >;
@@ -2115,6 +2270,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | PasswordResetRequiredError
     | ResourceNotFoundError
     | TooManyRequestsError
@@ -2142,6 +2298,7 @@ interface CognitoIdentityProviderService$ {
     | InvalidSmsRoleTrustRelationshipError
     | LimitExceededError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | PasswordResetRequiredError
     | ResourceNotFoundError
     | TooManyRequestsError
@@ -2165,6 +2322,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | PasswordResetRequiredError
     | ResourceNotFoundError
     | TooManyRequestsError
@@ -2203,6 +2361,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | PasswordResetRequiredError
     | ResourceNotFoundError
     | TooManyRequestsError
@@ -2228,6 +2387,7 @@ interface CognitoIdentityProviderService$ {
     | InvalidSmsRoleTrustRelationshipError
     | InvalidUserPoolConfigurationError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | PasswordResetRequiredError
     | ResourceNotFoundError
     | TooManyRequestsError
@@ -2253,6 +2413,7 @@ interface CognitoIdentityProviderService$ {
     | InvalidParameterError
     | InvalidUserPoolConfigurationError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | PasswordResetRequiredError
     | ResourceNotFoundError
     | TooManyRequestsError
@@ -2273,6 +2434,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
   >;
@@ -2287,6 +2449,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
   >;
@@ -2335,6 +2498,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
   >;
@@ -2349,6 +2513,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
   >;
@@ -2366,6 +2531,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
   >;
@@ -2383,6 +2549,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
   >;
@@ -2400,6 +2567,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
   >;
@@ -2434,6 +2602,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
   >;
@@ -2448,6 +2617,25 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
+    | ResourceNotFoundError
+    | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link ListUserPoolReplicasCommand}
+   */
+  listUserPoolReplicas(
+    args: ListUserPoolReplicasCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListUserPoolReplicasCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalError
+    | InvalidParameterError
+    | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
   >;
@@ -2494,6 +2682,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
   >;
@@ -2508,6 +2697,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
   >;
@@ -2525,6 +2715,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
   >;
@@ -2539,6 +2730,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
   >;
@@ -2558,6 +2750,7 @@ interface CognitoIdentityProviderService$ {
     | InvalidParameterError
     | LimitExceededError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | PasswordResetRequiredError
     | TooManyRequestsError
   >;
@@ -2582,6 +2775,7 @@ interface CognitoIdentityProviderService$ {
     | InvalidSmsRoleTrustRelationshipError
     | LimitExceededError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
     | UnexpectedLambdaError
@@ -2613,6 +2807,7 @@ interface CognitoIdentityProviderService$ {
     | InvalidUserPoolConfigurationError
     | MFAMethodNotFoundError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | PasswordHistoryPolicyViolationError
     | PasswordResetRequiredError
     | ResourceNotFoundError
@@ -2637,6 +2832,7 @@ interface CognitoIdentityProviderService$ {
     | ForbiddenError
     | InternalError
     | InvalidParameterError
+    | OperationNotEnabledError
     | TooManyRequestsError
     | UnauthorizedError
     | UnsupportedOperationError
@@ -2676,6 +2872,7 @@ interface CognitoIdentityProviderService$ {
     | InvalidEmailRoleAccessPolicyError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
     | UserPoolAddOnNotEnabledError
@@ -2694,6 +2891,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
   >;
@@ -2712,6 +2910,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | PasswordResetRequiredError
     | ResourceNotFoundError
     | UserNotConfirmedError
@@ -2735,6 +2934,7 @@ interface CognitoIdentityProviderService$ {
     | InvalidSmsRoleAccessPolicyError
     | InvalidSmsRoleTrustRelationshipError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
   >;
@@ -2753,6 +2953,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | PasswordResetRequiredError
     | ResourceNotFoundError
     | UserNotConfirmedError
@@ -2780,6 +2981,7 @@ interface CognitoIdentityProviderService$ {
     | InvalidSmsRoleTrustRelationshipError
     | LimitExceededError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
     | UnexpectedLambdaError
@@ -2800,6 +3002,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | PreconditionNotMetError
     | ResourceNotFoundError
     | TooManyRequestsError
@@ -2820,6 +3023,7 @@ interface CognitoIdentityProviderService$ {
     | InvalidParameterError
     | LimitExceededError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | PasswordResetRequiredError
     | TooManyRequestsError
     | WebAuthnConfigurationMissingError
@@ -2839,6 +3043,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | PreconditionNotMetError
     | ResourceNotFoundError
     | TooManyRequestsError
@@ -2857,6 +3062,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
   >;
@@ -2874,6 +3080,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
   >;
@@ -2891,6 +3098,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
     | UserNotFoundError
@@ -2912,6 +3120,7 @@ interface CognitoIdentityProviderService$ {
     | InvalidParameterError
     | InvalidUserPoolConfigurationError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | PasswordResetRequiredError
     | ResourceNotFoundError
     | TooManyRequestsError
@@ -2932,6 +3141,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
   >;
@@ -2969,7 +3179,26 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
+    | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link UpdateProvisionedLimitCommand}
+   */
+  updateProvisionedLimit(
+    args: UpdateProvisionedLimitCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateProvisionedLimitCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalError
+    | InvalidParameterError
+    | NotAuthorizedError
+    | ResourceNotFoundError
+    | ServiceQuotaExceededError
     | TooManyRequestsError
   >;
 
@@ -2986,6 +3215,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
   >;
@@ -3004,6 +3234,7 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TermsExistsError
     | TooManyRequestsError
@@ -3031,6 +3262,7 @@ interface CognitoIdentityProviderService$ {
     | InvalidSmsRoleAccessPolicyError
     | InvalidSmsRoleTrustRelationshipError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | PasswordResetRequiredError
     | ResourceNotFoundError
     | TooManyRequestsError
@@ -3058,6 +3290,7 @@ interface CognitoIdentityProviderService$ {
     | InvalidSmsRoleAccessPolicyError
     | InvalidSmsRoleTrustRelationshipError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TierChangeNotAllowedError
     | TooManyRequestsError
@@ -3081,6 +3314,7 @@ interface CognitoIdentityProviderService$ {
     | InvalidOAuthFlowError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | ScopeDoesNotExistError
     | TooManyRequestsError
@@ -3101,6 +3335,25 @@ interface CognitoIdentityProviderService$ {
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError
+    | OperationNotEnabledError
+    | ResourceNotFoundError
+    | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link UpdateUserPoolReplicaCommand}
+   */
+  updateUserPoolReplica(
+    args: UpdateUserPoolReplicaCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateUserPoolReplicaCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | InternalError
+    | InvalidParameterError
+    | NotAuthorizedError
+    | OperationNotEnabledError
     | ResourceNotFoundError
     | TooManyRequestsError
   >;
@@ -3122,6 +3375,7 @@ interface CognitoIdentityProviderService$ {
     | InvalidParameterError
     | InvalidUserPoolConfigurationError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | PasswordResetRequiredError
     | ResourceNotFoundError
     | SoftwareTokenMFANotFoundError
@@ -3148,6 +3402,7 @@ interface CognitoIdentityProviderService$ {
     | InvalidParameterError
     | LimitExceededError
     | NotAuthorizedError
+    | OperationNotEnabledError
     | PasswordResetRequiredError
     | ResourceNotFoundError
     | TooManyRequestsError

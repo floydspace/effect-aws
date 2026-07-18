@@ -5,7 +5,7 @@ import {
   type StartCommandExecutionCommandInput,
 } from "@aws-sdk/client-iot-jobs-data-plane";
 // @ts-ignore
-import * as runtimeConfig from "@aws-sdk/client-iot-jobs-data-plane/dist-cjs/runtimeConfig";
+import * as runtimeConfig from "@aws-sdk/client-iot-jobs-data-plane/dist-es/runtimeConfig";
 import { IoTJobsDataPlaneService as IoTJobsDataPlane } from "@effect-aws/client-iot-jobs-data-plane/IoTJobsDataPlaneService";
 import * as IoTJobsDataPlaneServiceConfig from "@effect-aws/client-iot-jobs-data-plane/IoTJobsDataPlaneServiceConfig";
 import { SdkError } from "@effect-aws/commons/Errors";

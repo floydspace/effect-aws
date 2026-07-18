@@ -97,6 +97,9 @@ import {
   DeleteSubscriptionFilterCommand,
   type DeleteSubscriptionFilterCommandInput,
   type DeleteSubscriptionFilterCommandOutput,
+  DeleteSyslogConfigurationCommand,
+  type DeleteSyslogConfigurationCommandInput,
+  type DeleteSyslogConfigurationCommandOutput,
   DeleteTransformerCommand,
   type DeleteTransformerCommandInput,
   type DeleteTransformerCommandOutput,
@@ -214,6 +217,9 @@ import {
   GetScheduledQueryHistoryCommand,
   type GetScheduledQueryHistoryCommandInput,
   type GetScheduledQueryHistoryCommandOutput,
+  GetStorageTierPolicyCommand,
+  type GetStorageTierPolicyCommandInput,
+  type GetStorageTierPolicyCommandOutput,
   GetTransformerCommand,
   type GetTransformerCommandInput,
   type GetTransformerCommandOutput,
@@ -241,6 +247,9 @@ import {
   ListSourcesForS3TableIntegrationCommand,
   type ListSourcesForS3TableIntegrationCommandInput,
   type ListSourcesForS3TableIntegrationCommandOutput,
+  ListSyslogConfigurationsCommand,
+  type ListSyslogConfigurationsCommandInput,
+  type ListSyslogConfigurationsCommandOutput,
   ListTagsForResourceCommand,
   type ListTagsForResourceCommandInput,
   type ListTagsForResourceCommandOutput,
@@ -313,9 +322,15 @@ import {
   PutRetentionPolicyCommand,
   type PutRetentionPolicyCommandInput,
   type PutRetentionPolicyCommandOutput,
+  PutStorageTierPolicyCommand,
+  type PutStorageTierPolicyCommandInput,
+  type PutStorageTierPolicyCommandOutput,
   PutSubscriptionFilterCommand,
   type PutSubscriptionFilterCommandInput,
   type PutSubscriptionFilterCommandOutput,
+  PutSyslogConfigurationCommand,
+  type PutSyslogConfigurationCommandInput,
+  type PutSyslogConfigurationCommandOutput,
   PutTransformerCommand,
   type PutTransformerCommandInput,
   type PutTransformerCommandOutput,
@@ -426,6 +441,7 @@ const commands = {
   DeleteRetentionPolicyCommand,
   DeleteScheduledQueryCommand,
   DeleteSubscriptionFilterCommand,
+  DeleteSyslogConfigurationCommand,
   DeleteTransformerCommand,
   DescribeAccountPoliciesCommand,
   DescribeConfigurationTemplatesCommand,
@@ -465,6 +481,7 @@ const commands = {
   GetQueryResultsCommand,
   GetScheduledQueryCommand,
   GetScheduledQueryHistoryCommand,
+  GetStorageTierPolicyCommand,
   GetTransformerCommand,
   ListAggregateLogGroupSummariesCommand,
   ListAnomaliesCommand,
@@ -474,6 +491,7 @@ const commands = {
   ListLogGroupsForQueryCommand,
   ListScheduledQueriesCommand,
   ListSourcesForS3TableIntegrationCommand,
+  ListSyslogConfigurationsCommand,
   ListTagsForResourceCommand,
   ListTagsLogGroupCommand,
   PutAccountPolicyCommand,
@@ -492,7 +510,9 @@ const commands = {
   PutQueryDefinitionCommand,
   PutResourcePolicyCommand,
   PutRetentionPolicyCommand,
+  PutStorageTierPolicyCommand,
   PutSubscriptionFilterCommand,
+  PutSyslogConfigurationCommand,
   PutTransformerCommand,
   StartLiveTailCommand,
   StartQueryCommand,
@@ -1050,6 +1070,25 @@ interface CloudWatchLogsService$ {
     | OperationAbortedError
     | ResourceNotFoundError
     | ServiceUnavailableError
+  >;
+
+  /**
+   * @see {@link DeleteSyslogConfigurationCommand}
+   */
+  deleteSyslogConfiguration(
+    args: DeleteSyslogConfigurationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteSyslogConfigurationCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InvalidOperationError
+    | InvalidParameterError
+    | OperationAbortedError
+    | ResourceNotFoundError
+    | ServiceUnavailableError
+    | ThrottlingError
   >;
 
   /**
@@ -1741,6 +1780,23 @@ interface CloudWatchLogsService$ {
   >;
 
   /**
+   * @see {@link GetStorageTierPolicyCommand}
+   */
+  getStorageTierPolicy(
+    args: GetStorageTierPolicyCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetStorageTierPolicyCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InvalidParameterError
+    | OperationAbortedError
+    | ResourceNotFoundError
+    | ServiceUnavailableError
+  >;
+
+  /**
    * @see {@link GetTransformerCommand}
    */
   getTransformer(
@@ -1932,6 +1988,24 @@ interface CloudWatchLogsService$ {
     | ResourceNotFoundError
     | ThrottlingError
     | ValidationError
+  >;
+
+  /**
+   * @see {@link ListSyslogConfigurationsCommand}
+   */
+  listSyslogConfigurations(
+    args: ListSyslogConfigurationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListSyslogConfigurationsCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InvalidOperationError
+    | InvalidParameterError
+    | ResourceNotFoundError
+    | ServiceUnavailableError
+    | ThrottlingError
   >;
 
   /**
@@ -2218,6 +2292,23 @@ interface CloudWatchLogsService$ {
   >;
 
   /**
+   * @see {@link PutStorageTierPolicyCommand}
+   */
+  putStorageTierPolicy(
+    args: PutStorageTierPolicyCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    PutStorageTierPolicyCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InvalidParameterError
+    | OperationAbortedError
+    | ResourceNotFoundError
+    | ServiceUnavailableError
+  >;
+
+  /**
    * @see {@link PutSubscriptionFilterCommand}
    */
   putSubscriptionFilter(
@@ -2233,6 +2324,25 @@ interface CloudWatchLogsService$ {
     | OperationAbortedError
     | ResourceNotFoundError
     | ServiceUnavailableError
+  >;
+
+  /**
+   * @see {@link PutSyslogConfigurationCommand}
+   */
+  putSyslogConfiguration(
+    args: PutSyslogConfigurationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    PutSyslogConfigurationCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | InvalidOperationError
+    | InvalidParameterError
+    | OperationAbortedError
+    | ResourceNotFoundError
+    | ServiceUnavailableError
+    | ThrottlingError
   >;
 
   /**
@@ -2447,6 +2557,7 @@ interface CloudWatchLogsService$ {
     | Cause.TimeoutException
     | SdkError
     | AccessDeniedError
+    | ConflictError
     | InternalServerError
     | ResourceNotFoundError
     | ThrottlingError

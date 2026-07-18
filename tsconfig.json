@@ -117,12 +117,6 @@
       "path": "packages/client-iot-data-plane"
     },
     {
-      "path": "packages/client-iot-events"
-    },
-    {
-      "path": "packages/client-iot-events-data"
-    },
-    {
       "path": "packages/client-iot-jobs-data-plane"
     },
     {

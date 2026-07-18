@@ -5,7 +5,7 @@ import {
   type PutItemCommandInput,
 } from "@aws-sdk/client-dynamodb";
 // @ts-ignore
-import * as runtimeConfig from "@aws-sdk/client-dynamodb/dist-cjs/runtimeConfig";
+import * as runtimeConfig from "@aws-sdk/client-dynamodb/dist-es/runtimeConfig";
 import { DynamoDBService as DynamoDB } from "@effect-aws/client-dynamodb/DynamoDBService";
 import * as DynamoDBServiceConfig from "@effect-aws/client-dynamodb/DynamoDBServiceConfig";
 import { SdkError } from "@effect-aws/commons/Errors";

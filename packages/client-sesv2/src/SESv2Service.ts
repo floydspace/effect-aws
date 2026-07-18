@@ -309,6 +309,9 @@ import {
   PutSuppressedDestinationCommand,
   type PutSuppressedDestinationCommandInput,
   type PutSuppressedDestinationCommandOutput,
+  PutTenantSuppressionAttributesCommand,
+  type PutTenantSuppressionAttributesCommandInput,
+  type PutTenantSuppressionAttributesCommandOutput,
   SendBulkEmailCommand,
   type SendBulkEmailCommandInput,
   type SendBulkEmailCommandOutput,
@@ -478,6 +481,7 @@ const commands = {
   PutEmailIdentityFeedbackAttributesCommand,
   PutEmailIdentityMailFromAttributesCommand,
   PutSuppressedDestinationCommand,
+  PutTenantSuppressionAttributesCommand,
   SendBulkEmailCommand,
   SendCustomVerificationEmailCommand,
   SendEmailCommand,
@@ -1498,7 +1502,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListSuppressedDestinationsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | InvalidNextTokenError | TooManyRequestsError
+    Cause.TimeoutException | SdkError | BadRequestError | InvalidNextTokenError | NotFoundError | TooManyRequestsError
   >;
 
   listSuppressedDestinationsStream(
@@ -1506,7 +1510,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListSuppressedDestinationsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | InvalidNextTokenError | TooManyRequestsError
+    Cause.TimeoutException | SdkError | BadRequestError | InvalidNextTokenError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1808,7 +1812,18 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutSuppressedDestinationCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | TooManyRequestsError
+    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link PutTenantSuppressionAttributesCommand}
+   */
+  putTenantSuppressionAttributes(
+    args: PutTenantSuppressionAttributesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    PutTenantSuppressionAttributesCommandOutput,
+    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**

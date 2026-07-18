@@ -1,6 +1,6 @@
 import { KMSClient, KMSServiceException, ListKeysCommand, type ListKeysCommandInput } from "@aws-sdk/client-kms";
 // @ts-ignore
-import * as runtimeConfig from "@aws-sdk/client-kms/dist-cjs/runtimeConfig";
+import * as runtimeConfig from "@aws-sdk/client-kms/dist-es/runtimeConfig";
 import { KMSService as KMS } from "@effect-aws/client-kms/KMSService";
 import * as KMSServiceConfig from "@effect-aws/client-kms/KMSServiceConfig";
 import { SdkError } from "@effect-aws/commons/Errors";

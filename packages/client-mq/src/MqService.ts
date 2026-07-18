@@ -41,6 +41,9 @@ import {
   DescribeConfigurationRevisionCommand,
   type DescribeConfigurationRevisionCommandInput,
   type DescribeConfigurationRevisionCommandOutput,
+  DescribeSharedResourcesCommand,
+  type DescribeSharedResourcesCommandInput,
+  type DescribeSharedResourcesCommandOutput,
   DescribeUserCommand,
   type DescribeUserCommandInput,
   type DescribeUserCommandOutput,
@@ -61,6 +64,7 @@ import {
   type ListUsersCommandOutput,
   type MqClient,
   type MqClientConfig,
+  paginateDescribeSharedResources,
   paginateListBrokers,
   PromoteCommand,
   type PromoteCommandInput,
@@ -112,6 +116,7 @@ const commands = {
   DescribeBrokerInstanceOptionsCommand,
   DescribeConfigurationCommand,
   DescribeConfigurationRevisionCommand,
+  DescribeSharedResourcesCommand,
   DescribeUserCommand,
   ListBrokersCommand,
   ListConfigurationRevisionsCommand,
@@ -126,6 +131,7 @@ const commands = {
 };
 
 const paginators = {
+  paginateDescribeSharedResources,
   paginateListBrokers,
 };
 
@@ -290,6 +296,25 @@ interface MqService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeConfigurationRevisionCommandOutput,
+    Cause.TimeoutException | SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
+  >;
+
+  /**
+   * @see {@link DescribeSharedResourcesCommand}
+   */
+  describeSharedResources(
+    args: DescribeSharedResourcesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeSharedResourcesCommandOutput,
+    Cause.TimeoutException | SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
+  >;
+
+  describeSharedResourcesStream(
+    args: DescribeSharedResourcesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeSharedResourcesCommandOutput,
     Cause.TimeoutException | SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
   >;
 

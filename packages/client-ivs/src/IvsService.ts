@@ -126,6 +126,9 @@ import {
   UntagResourceCommand,
   type UntagResourceCommandInput,
   type UntagResourceCommandOutput,
+  UpdateAdConfigurationCommand,
+  type UpdateAdConfigurationCommandInput,
+  type UpdateAdConfigurationCommandOutput,
   UpdateChannelCommand,
   type UpdateChannelCommandInput,
   type UpdateChannelCommandOutput,
@@ -197,6 +200,7 @@ const commands = {
   StopStreamCommand,
   TagResourceCommand,
   UntagResourceCommand,
+  UpdateAdConfigurationCommand,
   UpdateChannelCommand,
   UpdatePlaybackRestrictionPolicyCommand,
 };
@@ -813,6 +817,26 @@ interface IvsService$ {
   ): Effect.Effect<
     UntagResourceCommandOutput,
     Cause.TimeoutException | SdkError | InternalServerError | ResourceNotFoundError | ValidationError
+  >;
+
+  /**
+   * @see {@link UpdateAdConfigurationCommand}
+   */
+  updateAdConfiguration(
+    args: UpdateAdConfigurationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateAdConfigurationCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | PendingVerificationError
+    | ResourceNotFoundError
+    | ServiceQuotaExceededError
+    | ThrottlingError
+    | ValidationError
   >;
 
   /**

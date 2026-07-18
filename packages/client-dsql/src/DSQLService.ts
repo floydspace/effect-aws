@@ -5,12 +5,18 @@ import {
   CreateClusterCommand,
   type CreateClusterCommandInput,
   type CreateClusterCommandOutput,
+  CreateStreamCommand,
+  type CreateStreamCommandInput,
+  type CreateStreamCommandOutput,
   DeleteClusterCommand,
   type DeleteClusterCommandInput,
   type DeleteClusterCommandOutput,
   DeleteClusterPolicyCommand,
   type DeleteClusterPolicyCommandInput,
   type DeleteClusterPolicyCommandOutput,
+  DeleteStreamCommand,
+  type DeleteStreamCommandInput,
+  type DeleteStreamCommandOutput,
   type DSQLClient,
   type DSQLClientConfig,
   GetClusterCommand,
@@ -19,16 +25,23 @@ import {
   GetClusterPolicyCommand,
   type GetClusterPolicyCommandInput,
   type GetClusterPolicyCommandOutput,
+  GetStreamCommand,
+  type GetStreamCommandInput,
+  type GetStreamCommandOutput,
   GetVpcEndpointServiceNameCommand,
   type GetVpcEndpointServiceNameCommandInput,
   type GetVpcEndpointServiceNameCommandOutput,
   ListClustersCommand,
   type ListClustersCommandInput,
   type ListClustersCommandOutput,
+  ListStreamsCommand,
+  type ListStreamsCommandInput,
+  type ListStreamsCommandOutput,
   ListTagsForResourceCommand,
   type ListTagsForResourceCommandInput,
   type ListTagsForResourceCommandOutput,
   paginateListClusters,
+  paginateListStreams,
   PutClusterPolicyCommand,
   type PutClusterPolicyCommandInput,
   type PutClusterPolicyCommandOutput,
@@ -64,12 +77,16 @@ import { AllServiceErrors } from "./Errors.js";
 
 const commands = {
   CreateClusterCommand,
+  CreateStreamCommand,
   DeleteClusterCommand,
   DeleteClusterPolicyCommand,
+  DeleteStreamCommand,
   GetClusterCommand,
   GetClusterPolicyCommand,
+  GetStreamCommand,
   GetVpcEndpointServiceNameCommand,
   ListClustersCommand,
+  ListStreamsCommand,
   ListTagsForResourceCommand,
   PutClusterPolicyCommand,
   TagResourceCommand,
@@ -79,6 +96,7 @@ const commands = {
 
 const paginators = {
   paginateListClusters,
+  paginateListStreams,
 };
 
 interface DSQLService$ {
@@ -93,6 +111,22 @@ interface DSQLService$ {
   ): Effect.Effect<
     CreateClusterCommandOutput,
     Cause.TimeoutException | SdkError | ConflictError | ServiceQuotaExceededError | ValidationError
+  >;
+
+  /**
+   * @see {@link CreateStreamCommand}
+   */
+  createStream(
+    args: CreateStreamCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateStreamCommandOutput,
+    | Cause.TimeoutException
+    | SdkError
+    | ConflictError
+    | ResourceNotFoundError
+    | ServiceQuotaExceededError
+    | ValidationError
   >;
 
   /**
@@ -118,6 +152,17 @@ interface DSQLService$ {
   >;
 
   /**
+   * @see {@link DeleteStreamCommand}
+   */
+  deleteStream(
+    args: DeleteStreamCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteStreamCommandOutput,
+    Cause.TimeoutException | SdkError | ConflictError | ResourceNotFoundError
+  >;
+
+  /**
    * @see {@link GetClusterCommand}
    */
   getCluster(
@@ -137,6 +182,17 @@ interface DSQLService$ {
   ): Effect.Effect<
     GetClusterPolicyCommandOutput,
     Cause.TimeoutException | SdkError | ResourceNotFoundError | ValidationError
+  >;
+
+  /**
+   * @see {@link GetStreamCommand}
+   */
+  getStream(
+    args: GetStreamCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetStreamCommandOutput,
+    Cause.TimeoutException | SdkError | ResourceNotFoundError
   >;
 
   /**
@@ -165,6 +221,22 @@ interface DSQLService$ {
     args: ListClustersCommandInput,
     options?: HttpHandlerOptions,
   ): Stream.Stream<ListClustersCommandOutput, Cause.TimeoutException | SdkError | ResourceNotFoundError>;
+
+  /**
+   * @see {@link ListStreamsCommand}
+   */
+  listStreams(
+    args: ListStreamsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListStreamsCommandOutput,
+    Cause.TimeoutException | SdkError | ResourceNotFoundError
+  >;
+
+  listStreamsStream(
+    args: ListStreamsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListStreamsCommandOutput, Cause.TimeoutException | SdkError | ResourceNotFoundError>;
 
   /**
    * @see {@link ListTagsForResourceCommand}
