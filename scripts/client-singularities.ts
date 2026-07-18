@@ -54,6 +54,21 @@ export default {
     commandToTest: "InvokeModel",
     inputToTest: null,
   },
+  "client-bedrock-agent": {
+    description: "Effectful AWS Bedrock Agent client",
+    commandToTest: "ListAgents",
+    inputToTest: null,
+  },
+  "client-bedrock-agentcore": {
+    description: "Effectful AWS Bedrock AgentCore client",
+    commandToTest: "ListSessions",
+    inputToTest: null,
+  },
+  "client-bedrock-agentcore-control": {
+    description: "Effectful AWS Bedrock AgentCore Control client",
+    commandToTest: "ListAgentRuntimes",
+    inputToTest: null,
+  },
   "client-cloudfront": {
     description: "Effectful AWS CloudFront client",
     commandToTest: "ListCachePolicies",
@@ -129,6 +144,11 @@ export default {
   },
   "client-ecs": {
     description: "Effectful AWS ECS client",
+    commandToTest: "ListClusters",
+    inputToTest: null,
+  },
+  "client-eks": {
+    description: "Effectful AWS EKS client",
     commandToTest: "ListClusters",
     inputToTest: null,
   },

@@ -138,6 +138,33 @@
       "@effect-aws/client-bedrock-runtime/test/*": [
         "./packages/client-bedrock-runtime/test/*.js"
       ],
+      "@effect-aws/client-bedrock-agent": [
+        "./packages/client-bedrock-agent/src/index.js"
+      ],
+      "@effect-aws/client-bedrock-agent/*": [
+        "./packages/client-bedrock-agent/src/*.js"
+      ],
+      "@effect-aws/client-bedrock-agent/test/*": [
+        "./packages/client-bedrock-agent/test/*.js"
+      ],
+      "@effect-aws/client-bedrock-agentcore": [
+        "./packages/client-bedrock-agentcore/src/index.js"
+      ],
+      "@effect-aws/client-bedrock-agentcore/*": [
+        "./packages/client-bedrock-agentcore/src/*.js"
+      ],
+      "@effect-aws/client-bedrock-agentcore/test/*": [
+        "./packages/client-bedrock-agentcore/test/*.js"
+      ],
+      "@effect-aws/client-bedrock-agentcore-control": [
+        "./packages/client-bedrock-agentcore-control/src/index.js"
+      ],
+      "@effect-aws/client-bedrock-agentcore-control/*": [
+        "./packages/client-bedrock-agentcore-control/src/*.js"
+      ],
+      "@effect-aws/client-bedrock-agentcore-control/test/*": [
+        "./packages/client-bedrock-agentcore-control/test/*.js"
+      ],
       "@effect-aws/client-cloudfront": [
         "./packages/client-cloudfront/src/index.js"
       ],
@@ -272,6 +299,15 @@
       ],
       "@effect-aws/client-ecs/test/*": [
         "./packages/client-ecs/test/*.js"
+      ],
+      "@effect-aws/client-eks": [
+        "./packages/client-eks/src/index.js"
+      ],
+      "@effect-aws/client-eks/*": [
+        "./packages/client-eks/src/*.js"
+      ],
+      "@effect-aws/client-eks/test/*": [
+        "./packages/client-eks/test/*.js"
       ],
       "@effect-aws/client-elasticache": [
         "./packages/client-elasticache/src/index.js"
