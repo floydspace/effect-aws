@@ -803,46 +803,6 @@ importers:
         version: 5.4.5
     publishDirectory: dist
 
-  packages/client-iot-events:
-    dependencies:
-      '@aws-sdk/client-iot-events':
-        specifier: ^3
-        version: 3.1076.0
-      '@effect-aws/commons':
-        specifier: workspace:^
-        version: link:../commons/dist
-    devDependencies:
-      '@types/node':
-        specifier: ts5.4
-        version: 25.9.3
-      effect:
-        specifier: ^3.16.4
-        version: 3.16.4
-      typescript:
-        specifier: ^5.4.2
-        version: 5.4.5
-    publishDirectory: dist
-
-  packages/client-iot-events-data:
-    dependencies:
-      '@aws-sdk/client-iot-events-data':
-        specifier: ^3
-        version: 3.1076.0
-      '@effect-aws/commons':
-        specifier: workspace:^
-        version: link:../commons/dist
-    devDependencies:
-      '@types/node':
-        specifier: ts5.4
-        version: 25.9.3
-      effect:
-        specifier: ^3.16.4
-        version: 3.16.4
-      typescript:
-        specifier: ^5.4.2
-        version: 5.4.5
-    publishDirectory: dist
-
   packages/client-iot-jobs-data-plane:
     dependencies:
       '@aws-sdk/client-iot-jobs-data-plane':
@@ -1747,19 +1707,6 @@ packages:
   '@antfu/utils@8.1.1':
     resolution: {integrity: sha512-Mex9nXf9vR6AhcXmMrlz/HVgYYZpVGJ6YlPgwl7UnaFpnshXs6EK/oa5Gpf3CzENMjkvEx2tQtntGnb7UtSTOQ==}
 
-  '@aws-crypto/sha256-browser@5.2.0':
-    resolution: {integrity: sha512-AXfN/lGotSQwu6HNcEsIASo7kWXZ5HYWvfOmSNKDsEqC4OashTp8alTmaz+F7TC2L083SFv5RdB+qU3Vs1kZqw==}
-
-  '@aws-crypto/sha256-js@5.2.0':
-    resolution: {integrity: sha512-FFQQyu7edu4ufvIZ+OadFpHHOt+eSTBaYaki44c+akjg7qZg9oOQeLlk77F6tSYqjDAFClrHJk9tMf0HdVyOvA==}
-    engines: {node: '>=16.0.0'}
-
-  '@aws-crypto/supports-web-crypto@5.2.0':
-    resolution: {integrity: sha512-iAvUotm021kM33eCdNfwIN//F77/IADDSs58i+MDaOqFrVjZo9bAal0NK7HurRuWLLpF1iLX7gbWrjHjeo+YFg==}
-
-  '@aws-crypto/util@5.2.0':
-    resolution: {integrity: sha512-4RkU9EsI6ZpBve5fseQlGNUWKMa1RLPQ1dnjnQoe07ldfIzcsGb5hC5W0Dm7u423KWzawlrpbjXBrXCEv9zazQ==}
-
   '@aws-lambda-powertools/commons@2.0.0':
     resolution: {integrity: sha512-wPBXPOOWak4p30Y/t2QqGmX267y+dVVAeKk8FaaQUz2Y94LvxKSyezd9sbsfW6sjFVRgKDwLa59EptfqBxygDw==}
 
@@ -1914,16 +1861,6 @@ packages:
   '@aws-sdk/client-iot-data-plane@3.1090.0':
     resolution: {integrity: sha512-zZAwC2Be6uY/CwvugGEb0vuOP6O5WmJCilRRIeMlJIShCtkZ9LCuGcQa02fwNDo+kMIyYJ9PA72tobfYuHE25w==}
     engines: {node: '>=20.0.0'}
-
-  '@aws-sdk/client-iot-events-data@3.1076.0':
-    resolution: {integrity: sha512-qfAyJUgKDg80X8qbQoK7ivbODFQKhKJY/ZCBuJVn2Q/bgZiaepDQaq5ABGm2yBGjJ7s718FzgJoE/AQxkZ1d5A==}
-    engines: {node: '>=20.0.0'}
-    deprecated: The IoTEventsData client was removed from the SDK.
-
-  '@aws-sdk/client-iot-events@3.1076.0':
-    resolution: {integrity: sha512-VLNmOZKlxqp49ewmcm2R95O9ZnuZZfUxtPE6a4BtQyIjTrj5MSUGQLtvLTVfa3RGJJlRsHX+h6XZv85GXIKoCQ==}
-    engines: {node: '>=20.0.0'}
-    deprecated: The IoTEvents client was removed from the SDK.
 
   '@aws-sdk/client-iot-jobs-data-plane@3.1090.0':
     resolution: {integrity: sha512-io5UjyNHLAtUsat6YlvzMd/9gBMH/czLaJtMWV9w1YjT1U2ct5CWdp5mIZ2W+C6ZLnZWspGW6Ztw28eG5gPT9Q==}
@@ -2164,10 +2101,6 @@ packages:
     engines: {node: '>=20.0.0'}
     peerDependencies:
       '@aws-sdk/client-dynamodb': ^3.1088.0
-
-  '@aws-sdk/util-locate-window@3.965.8':
-    resolution: {integrity: sha512-uUbMs1cBZPafD0ohUj6EwNf0fPZ534NvBxHox4hjX+0Rxq5paSYUem7+hi833pYrzrcnBATKIYpR02MDXT5M9g==}
-    engines: {node: '>=20.0.0'}
 
   '@aws-sdk/xml-builder@3.972.36':
     resolution: {integrity: sha512-RdGmS1GLrtaTOLE1ElSluMldNrpk9Emq6uYs8SS8iHlu5xTAmM9rRkM91o48+rIRryBtyO9t+uLYCoMG6jVMVA==}
@@ -3193,10 +3126,6 @@ packages:
     resolution: {integrity: sha512-3zpg8yqqyXzoK2TsRDdkqVOj2RDBFfLXwCczOZ5c7TWB4eiaebfSCsbMjDPYB3PJ9ihV62QaeadZ+wLadZtNGA==}
     engines: {node: '>=18.0.0'}
 
-  '@smithy/is-array-buffer@2.2.0':
-    resolution: {integrity: sha512-GGP3O9QFD24uGeAXYUjwSTXARoqpZykHadOmA8G5vfJPK0/DC67qa//0qvqrJzL1xc8WQWX7/yc7fwudjPHPhA==}
-    engines: {node: '>=14.0.0'}
-
   '@smithy/middleware-compression@4.5.10':
     resolution: {integrity: sha512-D9UBcDP7mSKryhh7RiMiJ2LMkFBXd+8il2M1FTvZtbZ5aTT8yT7irIevNGI1r3G1E89Yll0Vy4jsq1dnWEF21A==}
     engines: {node: '>=18.0.0'}
@@ -3232,14 +3161,6 @@ packages:
   '@smithy/types@4.16.1':
     resolution: {integrity: sha512-0JFs3V2y2M9tKW5na/qxe69Zv+uxLMO7QBbhxF/FHu/Gp2NFZAAL9tWl9PU02xxo07pb3G9FTyjNc6D5uZrJIg==}
     engines: {node: '>=18.0.0'}
-
-  '@smithy/util-buffer-from@2.2.0':
-    resolution: {integrity: sha512-IJdWBbTcMQ6DA0gdNhh/BwrLkDR+ADW5Kr1aZmd4k3DIF6ezMV4R2NIAmT08wQJ3yUK82thHWmC/TnK/wpMMIA==}
-    engines: {node: '>=14.0.0'}
-
-  '@smithy/util-utf8@2.3.0':
-    resolution: {integrity: sha512-R8Rdn8Hy72KKcebgLiv8jQcQkXoLMOGGv5uI1/k0l+snqkOzQ1R0ChUBCxWMlBsFMekWjq0wRudIweFs7sKT5A==}
-    engines: {node: '>=14.0.0'}
 
   '@standard-schema/spec@1.0.0':
     resolution: {integrity: sha512-m2bOd0f2RT9k8QJx1JN85cZYyH1RqFBdlwtkSlf4tBDYLCiiZnv1fIIwacK6cqwXavOydf0NPToMQgpKq+dVlA==}
@@ -5944,32 +5865,6 @@ snapshots:
 
   '@antfu/utils@8.1.1': {}
 
-  '@aws-crypto/sha256-browser@5.2.0':
-    dependencies:
-      '@aws-crypto/sha256-js': 5.2.0
-      '@aws-crypto/supports-web-crypto': 5.2.0
-      '@aws-crypto/util': 5.2.0
-      '@aws-sdk/types': 3.974.2
-      '@aws-sdk/util-locate-window': 3.965.8
-      '@smithy/util-utf8': 2.3.0
-      tslib: 2.8.1
-
-  '@aws-crypto/sha256-js@5.2.0':
-    dependencies:
-      '@aws-crypto/util': 5.2.0
-      '@aws-sdk/types': 3.974.2
-      tslib: 2.8.1
-
-  '@aws-crypto/supports-web-crypto@5.2.0':
-    dependencies:
-      tslib: 2.8.1
-
-  '@aws-crypto/util@5.2.0':
-    dependencies:
-      '@aws-sdk/types': 3.974.2
-      '@smithy/util-utf8': 2.3.0
-      tslib: 2.8.1
-
   '@aws-lambda-powertools/commons@2.0.0': {}
 
   '@aws-lambda-powertools/logger@2.0.0':
@@ -6355,32 +6250,6 @@ snapshots:
 
   '@aws-sdk/client-iot-data-plane@3.1090.0':
     dependencies:
-      '@aws-sdk/core': 3.975.3
-      '@aws-sdk/credential-provider-node': 3.972.70
-      '@aws-sdk/types': 3.974.2
-      '@smithy/core': 3.29.5
-      '@smithy/fetch-http-handler': 5.6.7
-      '@smithy/node-http-handler': 4.9.7
-      '@smithy/types': 4.16.1
-      tslib: 2.8.1
-
-  '@aws-sdk/client-iot-events-data@3.1076.0':
-    dependencies:
-      '@aws-crypto/sha256-browser': 5.2.0
-      '@aws-crypto/sha256-js': 5.2.0
-      '@aws-sdk/core': 3.975.3
-      '@aws-sdk/credential-provider-node': 3.972.70
-      '@aws-sdk/types': 3.974.2
-      '@smithy/core': 3.29.5
-      '@smithy/fetch-http-handler': 5.6.7
-      '@smithy/node-http-handler': 4.9.7
-      '@smithy/types': 4.16.1
-      tslib: 2.8.1
-
-  '@aws-sdk/client-iot-events@3.1076.0':
-    dependencies:
-      '@aws-crypto/sha256-browser': 5.2.0
-      '@aws-crypto/sha256-js': 5.2.0
       '@aws-sdk/core': 3.975.3
       '@aws-sdk/credential-provider-node': 3.972.70
       '@aws-sdk/types': 3.974.2
@@ -6968,10 +6837,6 @@ snapshots:
   '@aws-sdk/util-dynamodb@3.996.7(@aws-sdk/client-dynamodb@3.1090.0)':
     dependencies:
       '@aws-sdk/client-dynamodb': 3.1090.0
-      tslib: 2.8.1
-
-  '@aws-sdk/util-locate-window@3.965.8':
-    dependencies:
       tslib: 2.8.1
 
   '@aws-sdk/xml-builder@3.972.36':
@@ -7955,10 +7820,6 @@ snapshots:
       '@smithy/types': 4.16.1
       tslib: 2.8.1
 
-  '@smithy/is-array-buffer@2.2.0':
-    dependencies:
-      tslib: 2.8.1
-
   '@smithy/middleware-compression@4.5.10':
     dependencies:
       '@smithy/core': 3.29.5
@@ -8004,16 +7865,6 @@ snapshots:
 
   '@smithy/types@4.16.1':
     dependencies:
-      tslib: 2.8.1
-
-  '@smithy/util-buffer-from@2.2.0':
-    dependencies:
-      '@smithy/is-array-buffer': 2.2.0
-      tslib: 2.8.1
-
-  '@smithy/util-utf8@2.3.0':
-    dependencies:
-      '@smithy/util-buffer-from': 2.2.0
       tslib: 2.8.1
 
   '@standard-schema/spec@1.0.0': {}
