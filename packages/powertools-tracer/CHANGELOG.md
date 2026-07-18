@@ -1,5 +1,11 @@
 # @effect-aws/powertools-tracer
 
+## 2.0.0-beta.5
+
+### Minor Changes
+
+- [#223](https://github.com/floydspace/effect-aws/pull/223) [`c12d05d`](https://github.com/floydspace/effect-aws/commit/c12d05d5ee92ae6c27a8e1259f75b9ba51b59cce) Thanks [@godu](https://github.com/godu)! - Fix breaking change introduced in effect 4-beta.66
+
 ## 2.0.0-beta.4
 
 ### Minor Changes

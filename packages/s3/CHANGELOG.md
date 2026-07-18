@@ -1,5 +1,16 @@
 # @effect-aws/s3
 
+## 1.0.0-beta.5
+
+### Minor Changes
+
+- [#223](https://github.com/floydspace/effect-aws/pull/223) [`c12d05d`](https://github.com/floydspace/effect-aws/commit/c12d05d5ee92ae6c27a8e1259f75b9ba51b59cce) Thanks [@godu](https://github.com/godu)! - Fix breaking change introduced in effect 4-beta.66
+
+### Patch Changes
+
+- Updated dependencies [[`b2ad129`](https://github.com/floydspace/effect-aws/commit/b2ad1294c3eb6c5a59bfe0aa879946c2d406c4c3)]:
+  - @effect-aws/client-s3@2.0.0-beta.6
+
 ## 1.0.0-beta.4
 
 ### Minor Changes
