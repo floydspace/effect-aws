@@ -1,5 +1,5 @@
 ---
-"@effect-aws/client-bedrock-agent": minor
+"@effect-aws/client-bedrock-agent": major
 ---
 
 add @effect-aws/client-bedrock-agent
