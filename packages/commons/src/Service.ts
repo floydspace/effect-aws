@@ -67,7 +67,9 @@ type ServiceFnOptions = {
  * @since 0.1.0
  * @category errors
  */
-export const catchServiceExceptions = (errorTags?: NonEmptyReadonlyArray<string>) => (e: unknown) => {
+export const catchServiceExceptions: (
+  errorTags?: NonEmptyReadonlyArray<string>,
+) => (e: unknown) => TaggedException<ServiceError> | Cause.TimeoutError | SdkError = (errorTags) => (e) => {
   if (e instanceof ServiceError && (!errorTags || errorTags.includes(e.name))) {
     class ServiceException extends Data.TaggedError(e.name)<TaggedException<ServiceError>> {}
 

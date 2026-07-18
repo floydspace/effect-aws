@@ -26,11 +26,11 @@
   },
   "devDependencies": {
     "@types/node": "ts5.4",
-    "effect": "4.0.0-beta.48",
+    "effect": "4.0.0-beta.93",
     "typescript": "^5.4.2"
   },
   "peerDependencies": {
-    "effect": ">=4.0.0 <5.0.0"
+    "effect": ">=4.0.0-beta.66 <5.0.0"
   },
   "dependencies": {
     "@aws-sdk/client-athena": "^3",

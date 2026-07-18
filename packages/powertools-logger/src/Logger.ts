@@ -156,7 +156,7 @@ const makeLoggerInstance = (logger: Logger) => {
   });
 };
 
-const PowerToolsLoggerEffect = Effect.map(Instance.LoggerInstance.asEffect(), makeLoggerInstance);
+const PowerToolsLoggerEffect = Effect.map(Instance.LoggerInstance, makeLoggerInstance);
 const PowerToolsLoggerLayer = Layer.merge(
   Log.layer([PowerToolsLoggerEffect]),
   Layer.succeed(References.MinimumLogLevel, "All"),

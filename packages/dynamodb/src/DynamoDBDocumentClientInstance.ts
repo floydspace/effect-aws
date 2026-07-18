@@ -23,7 +23,7 @@ export class DynamoDBDocumentClientInstance
  * @category constructors
  */
 export const make = Effect.all([
-  DynamoDBClientInstance.DynamoDBClientInstance.asEffect(),
+  DynamoDBClientInstance.DynamoDBClientInstance,
   DynamoDBDocumentServiceConfig.toTranslateConfig,
 ]).pipe(
   Effect.map(([client, config]) => DynamoDBDocumentClient.from(client, config)),

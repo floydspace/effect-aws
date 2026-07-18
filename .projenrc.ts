@@ -43,11 +43,11 @@ new Vitest(project, { sharedSetupFiles: ["vitest.setup.ts"] });
 project.addDevDeps("vitest-mock-extended");
 project.addDevDeps("aws-sdk-client-mock", "aws-sdk-client-mock-vitest@^6.2.1");
 
-const effectDeps = ["effect@4.0.0-beta.48"];
+const effectDeps = ["effect@4.0.0-beta.93"];
 
 project.addScripts({ "codegen-client": "tsx ./scripts/codegen-cli.ts" });
-project.addDeps(...effectDeps, "@effect/platform-node@4.0.0-beta.48");
-project.addDevDeps("@effect/language-service", "@effect/vitest@4.0.0-beta.48");
+project.addDeps(...effectDeps, "@effect/platform-node@4.0.0-beta.93");
+project.addDevDeps("@effect/language-service", "@effect/vitest@4.0.0-beta.93");
 project.tsconfigBase?.file.addOverride("compilerOptions.plugins", [
   { name: "@effect/language-service" },
 ]);
@@ -59,7 +59,7 @@ project.addTask("pages:build", { exec: "vitepress build pages" });
 project.addTask("pages:preview", { exec: "vitepress preview pages" });
 
 const commonDevDeps = [...effectDeps];
-const commonPeerDeps = ["effect@>=4.0.0 <5.0.0"];
+const commonPeerDeps = ["effect@>=4.0.0-beta.66 <5.0.0"];
 
 const commons = new TypeScriptLibProject({
   parent: project,
@@ -117,8 +117,8 @@ const lambda = new TypeScriptLibProject({
   parent: project,
   name: "lambda",
   description: "Effectful AWS Lambda handler",
-  devDeps: [...effectDeps, "@effect/platform-node-shared@4.0.0-beta.48", "@types/aws-lambda"],
-  peerDeps: ["effect@>=4.0.0 <5.0.0", "@effect/platform-node-shared@>=4.0.0 <5.0.0"],
+  devDeps: [...effectDeps, "@effect/platform-node-shared@4.0.0-beta.93", "@types/aws-lambda"],
+  peerDeps: ["effect@>=4.0.0-beta.66 <5.0.0", "@effect/platform-node-shared@>=4.0.0 <5.0.0"],
   addExamples: true,
 });
 
@@ -189,7 +189,7 @@ new TypeScriptLibProject({
     ...effectDeps,
     "@aws-sdk/client-s3@^3",
   ],
-  peerDeps: ["effect@>=4.0.0 <5.0.0"],
+  peerDeps: ["effect@>=4.0.0-beta.66 <5.0.0"],
   workspacePeerDeps: [s3Client],
   addExamples: true,
 });
@@ -200,7 +200,7 @@ new TypeScriptLibProject({
   description: "Effectful AWS HTTP handler",
   deps: ["@smithy/types", "@smithy/protocol-http", "@smithy/querystring-builder"],
   devDeps: [...effectDeps],
-  peerDeps: ["effect@>=4.0.0 <5.0.0"],
+  peerDeps: ["effect@>=4.0.0-beta.66 <5.0.0"],
   workspacePeerDeps: [commons],
 });
 
@@ -210,7 +210,7 @@ new TypeScriptLibProject({
   description: "Effectful AWS Aurora DSQL modules",
   deps: ["@aws-sdk/dsql-signer@^3"],
   devDeps: [...effectDeps],
-  peerDeps: ["effect@>=4.0.0 <5.0.0"],
+  peerDeps: ["effect@>=4.0.0-beta.66 <5.0.0"],
 });
 
 new TypeScriptLibProject({
@@ -219,7 +219,7 @@ new TypeScriptLibProject({
   description: "Effectful AWS CloudFront modules",
   deps: ["@aws-sdk/cloudfront-signer@^3"],
   devDeps: [...effectDeps],
-  peerDeps: ["effect@>=4.0.0 <5.0.0"],
+  peerDeps: ["effect@>=4.0.0-beta.66 <5.0.0"],
 });
 
 project.addGitIgnore("/.direnv"); // flake environment creates .direnv folder

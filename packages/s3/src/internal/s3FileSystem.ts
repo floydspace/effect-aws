@@ -213,7 +213,7 @@ export const layer = (config: S3FileSystemConfig) => Layer.effect(FileSystem.Fil
 
 /** @internal */
 export const layerConfig = (config: Config.Wrap<S3FileSystemConfig>) =>
-  Config.unwrap(config).asEffect().pipe(
+  Config.unwrap(config).pipe(
     Effect.flatMap(makeFileSystem),
     Layer.effect(FileSystem.FileSystem),
   );
