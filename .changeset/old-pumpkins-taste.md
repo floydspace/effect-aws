@@ -9,7 +9,6 @@
 "@effect-aws/client-timestream-write": patch
 "@effect-aws/client-bedrock-runtime": patch
 "@effect-aws/client-cloudwatch-logs": patch
-"@effect-aws/client-iot-events-data": patch
 "@effect-aws/client-secrets-manager": patch
 "@effect-aws/client-api-gateway-v2": patch
 "@effect-aws/client-cloudformation": patch
@@ -26,7 +25,6 @@
 "@effect-aws/client-cloudtrail": patch
 "@effect-aws/client-cloudwatch": patch
 "@effect-aws/client-codedeploy": patch
-"@effect-aws/client-iot-events": patch
 "@effect-aws/client-opensearch": patch
 "@effect-aws/powertools-logger": patch
 "@effect-aws/powertools-tracer": patch

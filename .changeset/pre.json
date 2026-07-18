@@ -31,8 +31,6 @@
     "@effect-aws/client-iam": "1.10.9",
     "@effect-aws/client-iot": "1.10.9",
     "@effect-aws/client-iot-data-plane": "1.10.9",
-    "@effect-aws/client-iot-events": "1.10.9",
-    "@effect-aws/client-iot-events-data": "1.10.9",
     "@effect-aws/client-iot-jobs-data-plane": "1.10.9",
     "@effect-aws/client-iot-wireless": "1.10.9",
     "@effect-aws/client-ivs": "1.10.9",

@@ -9,7 +9,6 @@
 "@effect-aws/client-timestream-write": major
 "@effect-aws/client-bedrock-runtime": major
 "@effect-aws/client-cloudwatch-logs": major
-"@effect-aws/client-iot-events-data": major
 "@effect-aws/client-secrets-manager": major
 "@effect-aws/client-api-gateway-v2": major
 "@effect-aws/client-cloudformation": major
@@ -26,7 +25,6 @@
 "@effect-aws/client-cloudtrail": major
 "@effect-aws/client-cloudwatch": major
 "@effect-aws/client-codedeploy": major
-"@effect-aws/client-iot-events": major
 "@effect-aws/client-opensearch": major
 "@effect-aws/powertools-logger": major
 "@effect-aws/powertools-tracer": major

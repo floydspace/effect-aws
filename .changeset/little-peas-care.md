@@ -9,7 +9,6 @@
 "@effect-aws/client-timestream-write": minor
 "@effect-aws/client-bedrock-runtime": minor
 "@effect-aws/client-cloudwatch-logs": minor
-"@effect-aws/client-iot-events-data": minor
 "@effect-aws/client-secrets-manager": minor
 "@effect-aws/client-api-gateway-v2": minor
 "@effect-aws/client-cloudformation": minor
@@ -26,7 +25,6 @@
 "@effect-aws/client-cloudtrail": minor
 "@effect-aws/client-cloudwatch": minor
 "@effect-aws/client-codedeploy": minor
-"@effect-aws/client-iot-events": minor
 "@effect-aws/client-opensearch": minor
 "@effect-aws/powertools-logger": minor
 "@effect-aws/powertools-tracer": minor
