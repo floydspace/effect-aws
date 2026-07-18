@@ -5,7 +5,7 @@ import {
   type TagResourceCommandInput,
 } from "@aws-sdk/client-scheduler";
 // @ts-ignore
-import * as runtimeConfig from "@aws-sdk/client-scheduler/dist-cjs/runtimeConfig";
+import * as runtimeConfig from "@aws-sdk/client-scheduler/dist-es/runtimeConfig";
 import { SchedulerService as Scheduler } from "@effect-aws/client-scheduler/SchedulerService";
 import * as SchedulerServiceConfig from "@effect-aws/client-scheduler/SchedulerServiceConfig";
 import { SdkError } from "@effect-aws/commons/Errors";

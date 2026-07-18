@@ -5,7 +5,7 @@ import {
   type InvokeModelCommandInput,
 } from "@aws-sdk/client-bedrock-runtime";
 // @ts-ignore
-import * as runtimeConfig from "@aws-sdk/client-bedrock-runtime/dist-cjs/runtimeConfig";
+import * as runtimeConfig from "@aws-sdk/client-bedrock-runtime/dist-es/runtimeConfig";
 import { BedrockRuntimeService as BedrockRuntime } from "@effect-aws/client-bedrock-runtime/BedrockRuntimeService";
 import * as BedrockRuntimeServiceConfig from "@effect-aws/client-bedrock-runtime/BedrockRuntimeServiceConfig";
 import { SdkError } from "@effect-aws/commons/Errors";

@@ -5,7 +5,7 @@ import {
   type PutEventsCommandInput,
 } from "@aws-sdk/client-eventbridge";
 // @ts-ignore
-import * as runtimeConfig from "@aws-sdk/client-eventbridge/dist-cjs/runtimeConfig";
+import * as runtimeConfig from "@aws-sdk/client-eventbridge/dist-es/runtimeConfig";
 import { EventBridgeService as EventBridge } from "@effect-aws/client-eventbridge/EventBridgeService";
 import * as EventBridgeServiceConfig from "@effect-aws/client-eventbridge/EventBridgeServiceConfig";
 import { SdkError } from "@effect-aws/commons/Errors";

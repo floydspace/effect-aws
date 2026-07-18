@@ -5,7 +5,7 @@ import {
   type ListClustersCommandInput,
 } from "@aws-sdk/client-dsql";
 // @ts-ignore
-import * as runtimeConfig from "@aws-sdk/client-dsql/dist-cjs/runtimeConfig";
+import * as runtimeConfig from "@aws-sdk/client-dsql/dist-es/runtimeConfig";
 import { DSQLService as DSQL } from "@effect-aws/client-dsql/DSQLService";
 import * as DSQLServiceConfig from "@effect-aws/client-dsql/DSQLServiceConfig";
 import { SdkError } from "@effect-aws/commons/Errors";

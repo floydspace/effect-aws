@@ -1173,6 +1173,7 @@ export interface RDSService$ {
     | DBClusterNotFoundFaultError
     | DBClusterParameterGroupNotFoundFaultError
     | DBClusterQuotaExceededFaultError
+    | DBClusterRoleQuotaExceededFaultError
     | DBInstanceNotFoundFaultError
     | DBSubnetGroupDoesNotCoverEnoughAZsError
     | DBSubnetGroupNotFoundFaultError
@@ -3297,6 +3298,7 @@ export interface RDSService$ {
     | DBClusterNotFoundFaultError
     | DBClusterParameterGroupNotFoundFaultError
     | DBClusterQuotaExceededFaultError
+    | DBClusterRoleQuotaExceededFaultError
     | DBSubnetGroupNotFoundFaultError
     | DomainNotFoundFaultError
     | InsufficientStorageClusterCapacityFaultError
@@ -3324,6 +3326,7 @@ export interface RDSService$ {
     | DBClusterAlreadyExistsFaultError
     | DBClusterParameterGroupNotFoundFaultError
     | DBClusterQuotaExceededFaultError
+    | DBClusterRoleQuotaExceededFaultError
     | DBClusterSnapshotNotFoundFaultError
     | DBSnapshotNotFoundFaultError
     | DBSubnetGroupDoesNotCoverEnoughAZsError
@@ -3361,6 +3364,7 @@ export interface RDSService$ {
     | DBClusterNotFoundFaultError
     | DBClusterParameterGroupNotFoundFaultError
     | DBClusterQuotaExceededFaultError
+    | DBClusterRoleQuotaExceededFaultError
     | DBClusterSnapshotNotFoundFaultError
     | DBSubnetGroupNotFoundFaultError
     | DomainNotFoundFaultError

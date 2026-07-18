@@ -35,9 +35,9 @@
     "effect": ">=4.0.0-beta.66 <5.0.0"
   },
   "dependencies": {
-    "@smithy/protocol-http": "^5.4.1",
-    "@smithy/querystring-builder": "^4.3.1",
-    "@smithy/types": "^4.14.1"
+    "@smithy/protocol-http": "^5.5.10",
+    "@smithy/querystring-builder": "^4.4.10",
+    "@smithy/types": "^4.16.1"
   },
   "main": "build/cjs/index.js",
   "license": "MIT",

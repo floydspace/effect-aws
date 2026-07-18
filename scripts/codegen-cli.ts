@@ -32,7 +32,7 @@ const cli = Effect.gen(function*() {
 
   const selectedPackages = yield* Prompt.multiSelect({
     message: "Which clients do you want to generate ?",
-    choices: packages.map((s) => ({ title: s, value: s })),
+    choices: packages.filter((s) => singularities[s]).map((s) => ({ title: s, value: s })),
   });
 
   const results = yield* Effect.forEach(selectedPackages, (packageName) =>

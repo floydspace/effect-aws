@@ -5,7 +5,7 @@ import {
   type StartExecutionCommandInput,
 } from "@aws-sdk/client-sfn";
 // @ts-ignore
-import * as runtimeConfig from "@aws-sdk/client-sfn/dist-cjs/runtimeConfig";
+import * as runtimeConfig from "@aws-sdk/client-sfn/dist-es/runtimeConfig";
 import { SFNService as SFN } from "@effect-aws/client-sfn/SFNService";
 import * as SFNServiceConfig from "@effect-aws/client-sfn/SFNServiceConfig";
 import { SdkError } from "@effect-aws/commons/Errors";

@@ -1,6 +1,6 @@
 import { SendMessageCommand, type SendMessageCommandInput, SQSClient, SQSServiceException } from "@aws-sdk/client-sqs";
 // @ts-ignore
-import * as runtimeConfig from "@aws-sdk/client-sqs/dist-cjs/runtimeConfig";
+import * as runtimeConfig from "@aws-sdk/client-sqs/dist-es/runtimeConfig";
 import { SQSService as SQS } from "@effect-aws/client-sqs/SQSService";
 import * as SQSServiceConfig from "@effect-aws/client-sqs/SQSServiceConfig";
 import { SdkError } from "@effect-aws/commons/Errors";

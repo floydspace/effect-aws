@@ -1,6 +1,7 @@
 import type {
   ConflictException,
   ForbiddenException,
+  GatewayTimeoutException,
   InternalFailureException,
   InvalidRequestException,
   MethodNotAllowedException,
@@ -16,6 +17,7 @@ import type { TaggedException } from "@effect-aws/commons/Errors";
 export const AllServiceErrors = [
   "ConflictException",
   "ForbiddenException",
+  "GatewayTimeoutException",
   "InternalFailureException",
   "InvalidRequestException",
   "MethodNotAllowedException",
@@ -29,6 +31,7 @@ export const AllServiceErrors = [
 
 export type ConflictError = TaggedException<ConflictException>;
 export type ForbiddenError = TaggedException<ForbiddenException>;
+export type GatewayTimeoutError = TaggedException<GatewayTimeoutException>;
 export type InternalFailureError = TaggedException<InternalFailureException>;
 export type InvalidRequestError = TaggedException<InvalidRequestException>;
 export type MethodNotAllowedError = TaggedException<MethodNotAllowedException>;

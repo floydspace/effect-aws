@@ -5,7 +5,7 @@ import {
   type ListRulesCommandInput,
 } from "@aws-sdk/client-cloudwatch-events";
 // @ts-ignore
-import * as runtimeConfig from "@aws-sdk/client-cloudwatch-events/dist-cjs/runtimeConfig";
+import * as runtimeConfig from "@aws-sdk/client-cloudwatch-events/dist-es/runtimeConfig";
 import { CloudWatchEventsService as CloudWatchEvents } from "@effect-aws/client-cloudwatch-events/CloudWatchEventsService";
 import * as CloudWatchEventsServiceConfig from "@effect-aws/client-cloudwatch-events/CloudWatchEventsServiceConfig";
 import { SdkError } from "@effect-aws/commons/Errors";

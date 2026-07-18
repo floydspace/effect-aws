@@ -43,6 +43,7 @@ import type {
   SchedulerNotRunningException,
   SchedulerRunningException,
   SchedulerTransitioningException,
+  SessionBusyException,
   TargetResourceNotFound,
   ThrottlingException,
   ValidationException,
@@ -95,6 +96,7 @@ export const AllServiceErrors = [
   "SchedulerNotRunningException",
   "SchedulerRunningException",
   "SchedulerTransitioningException",
+  "SessionBusyException",
   "TargetResourceNotFound",
   "ThrottlingException",
   "ValidationException",
@@ -147,6 +149,7 @@ export type ResourceNumberLimitExceededError = TaggedException<ResourceNumberLim
 export type SchedulerNotRunningError = TaggedException<SchedulerNotRunningException>;
 export type SchedulerRunningError = TaggedException<SchedulerRunningException>;
 export type SchedulerTransitioningError = TaggedException<SchedulerTransitioningException>;
+export type SessionBusyError = TaggedException<SessionBusyException>;
 export type TargetResourceNotFoundError = TaggedException<TargetResourceNotFound>;
 export type ThrottlingError = TaggedException<ThrottlingException>;
 export type ValidationError = TaggedException<ValidationException>;

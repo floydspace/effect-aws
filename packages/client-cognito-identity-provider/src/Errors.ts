@@ -25,12 +25,14 @@ import type {
   ManagedLoginBrandingExistsException,
   MFAMethodNotFoundException,
   NotAuthorizedException,
+  OperationNotEnabledException,
   PasswordHistoryPolicyViolationException,
   PasswordResetRequiredException,
   PreconditionNotMetException,
   RefreshTokenReuseException,
   ResourceNotFoundException,
   ScopeDoesNotExistException,
+  ServiceQuotaExceededException,
   SoftwareTokenMFANotFoundException,
   TermsExistsException,
   TierChangeNotAllowedException,
@@ -86,12 +88,14 @@ export const AllServiceErrors = [
   "MFAMethodNotFoundException",
   "ManagedLoginBrandingExistsException",
   "NotAuthorizedException",
+  "OperationNotEnabledException",
   "PasswordHistoryPolicyViolationException",
   "PasswordResetRequiredException",
   "PreconditionNotMetException",
   "RefreshTokenReuseException",
   "ResourceNotFoundException",
   "ScopeDoesNotExistException",
+  "ServiceQuotaExceededException",
   "SoftwareTokenMFANotFoundException",
   "TermsExistsException",
   "TierChangeNotAllowedException",
@@ -145,12 +149,14 @@ export type LimitExceededError = TaggedException<LimitExceededException>;
 export type MFAMethodNotFoundError = TaggedException<MFAMethodNotFoundException>;
 export type ManagedLoginBrandingExistsError = TaggedException<ManagedLoginBrandingExistsException>;
 export type NotAuthorizedError = TaggedException<NotAuthorizedException>;
+export type OperationNotEnabledError = TaggedException<OperationNotEnabledException>;
 export type PasswordHistoryPolicyViolationError = TaggedException<PasswordHistoryPolicyViolationException>;
 export type PasswordResetRequiredError = TaggedException<PasswordResetRequiredException>;
 export type PreconditionNotMetError = TaggedException<PreconditionNotMetException>;
 export type RefreshTokenReuseError = TaggedException<RefreshTokenReuseException>;
 export type ResourceNotFoundError = TaggedException<ResourceNotFoundException>;
 export type ScopeDoesNotExistError = TaggedException<ScopeDoesNotExistException>;
+export type ServiceQuotaExceededError = TaggedException<ServiceQuotaExceededException>;
 export type SoftwareTokenMFANotFoundError = TaggedException<SoftwareTokenMFANotFoundException>;
 export type TermsExistsError = TaggedException<TermsExistsException>;
 export type TierChangeNotAllowedError = TaggedException<TierChangeNotAllowedException>;

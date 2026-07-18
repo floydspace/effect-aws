@@ -34,6 +34,15 @@
       "path": "packages/client-bedrock-runtime/tsconfig.esm.json"
     },
     {
+      "path": "packages/client-bedrock-agent/tsconfig.esm.json"
+    },
+    {
+      "path": "packages/client-bedrock-agentcore/tsconfig.esm.json"
+    },
+    {
+      "path": "packages/client-bedrock-agentcore-control/tsconfig.esm.json"
+    },
+    {
       "path": "packages/client-cloudfront/tsconfig.esm.json"
     },
     {
@@ -79,6 +88,9 @@
       "path": "packages/client-ecs/tsconfig.esm.json"
     },
     {
+      "path": "packages/client-eks/tsconfig.esm.json"
+    },
+    {
       "path": "packages/client-elasticache/tsconfig.esm.json"
     },
     {
@@ -98,12 +110,6 @@
     },
     {
       "path": "packages/client-iot-data-plane/tsconfig.esm.json"
-    },
-    {
-      "path": "packages/client-iot-events/tsconfig.esm.json"
-    },
-    {
-      "path": "packages/client-iot-events-data/tsconfig.esm.json"
     },
     {
       "path": "packages/client-iot-jobs-data-plane/tsconfig.esm.json"

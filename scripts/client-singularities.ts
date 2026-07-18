@@ -54,6 +54,21 @@ export default {
     commandToTest: "InvokeModel",
     inputToTest: null,
   },
+  "client-bedrock-agent": {
+    description: "Effectful AWS Bedrock Agent client",
+    commandToTest: "ListAgents",
+    inputToTest: null,
+  },
+  "client-bedrock-agentcore": {
+    description: "Effectful AWS Bedrock AgentCore client",
+    commandToTest: "ListSessions",
+    inputToTest: null,
+  },
+  "client-bedrock-agentcore-control": {
+    description: "Effectful AWS Bedrock AgentCore Control client",
+    commandToTest: "ListAgentRuntimes",
+    inputToTest: null,
+  },
   "client-cloudfront": {
     description: "Effectful AWS CloudFront client",
     commandToTest: "ListCachePolicies",
@@ -132,6 +147,11 @@ export default {
     commandToTest: "ListClusters",
     inputToTest: null,
   },
+  "client-eks": {
+    description: "Effectful AWS EKS client",
+    commandToTest: "ListClusters",
+    inputToTest: null,
+  },
   "client-elasticache": {
     description: "Effectful AWS ElastiCache client",
     commandToTest: "ListTagsForResource",
@@ -167,16 +187,6 @@ export default {
   "client-iot-data-plane": {
     description: "Effectful AWS IoT Data Plane client",
     commandToTest: "Publish",
-    inputToTest: null,
-  },
-  "client-iot-events": {
-    description: "Effectful AWS IoT Events client",
-    commandToTest: "ListInputs",
-    inputToTest: null,
-  },
-  "client-iot-events-data": {
-    description: "Effectful AWS IoT Events Data client",
-    commandToTest: "DescribeAlarm",
     inputToTest: null,
   },
   "client-iot-jobs-data-plane": {

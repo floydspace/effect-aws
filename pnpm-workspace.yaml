@@ -8,6 +8,9 @@ packages:
   - packages/client-athena
   - packages/client-auto-scaling
   - packages/client-bedrock
+  - packages/client-bedrock-agent
+  - packages/client-bedrock-agentcore
+  - packages/client-bedrock-agentcore-control
   - packages/client-bedrock-runtime
   - packages/client-cloudformation
   - packages/client-cloudfront
@@ -24,6 +27,7 @@ packages:
   - packages/client-ec2
   - packages/client-ecr
   - packages/client-ecs
+  - packages/client-eks
   - packages/client-elasticache
   - packages/client-eventbridge
   - packages/client-firehose
@@ -31,8 +35,6 @@ packages:
   - packages/client-iam
   - packages/client-iot
   - packages/client-iot-data-plane
-  - packages/client-iot-events
-  - packages/client-iot-events-data
   - packages/client-iot-jobs-data-plane
   - packages/client-iot-wireless
   - packages/client-ivs

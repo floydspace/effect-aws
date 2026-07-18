@@ -49,6 +49,10 @@ export class Vitest extends Component {
         "  esbuild: {",
         '    target: "es2020"',
         "  },",
+        // Prefer ESM builds over CJS when resolving deps like @aws-sdk/*
+        "  resolve: {",
+        '    mainFields: ["module", "main"],',
+        "  },",
         "  test: {",
         ...(this.options.sharedSetupFiles?.length
           ? [

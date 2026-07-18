@@ -8,6 +8,9 @@ import {
   DeleteThingShadowCommand,
   type DeleteThingShadowCommandInput,
   type DeleteThingShadowCommandOutput,
+  GetConnectionCommand,
+  type GetConnectionCommandInput,
+  type GetConnectionCommandOutput,
   GetRetainedMessageCommand,
   type GetRetainedMessageCommandInput,
   type GetRetainedMessageCommandOutput,
@@ -22,10 +25,17 @@ import {
   ListRetainedMessagesCommand,
   type ListRetainedMessagesCommandInput,
   type ListRetainedMessagesCommandOutput,
+  ListSubscriptionsCommand,
+  type ListSubscriptionsCommandInput,
+  type ListSubscriptionsCommandOutput,
   paginateListRetainedMessages,
+  paginateListSubscriptions,
   PublishCommand,
   type PublishCommandInput,
   type PublishCommandOutput,
+  SendDirectMessageCommand,
+  type SendDirectMessageCommandInput,
+  type SendDirectMessageCommandOutput,
   UpdateThingShadowCommand,
   type UpdateThingShadowCommandInput,
   type UpdateThingShadowCommandOutput,
@@ -41,6 +51,7 @@ import type * as Stream from "effect/Stream";
 import type {
   ConflictError,
   ForbiddenError,
+  GatewayTimeoutError,
   InternalFailureError,
   InvalidRequestError,
   MethodNotAllowedError,
@@ -59,16 +70,20 @@ import * as IoTDataPlaneServiceConfig from "./IoTDataPlaneServiceConfig.js";
 const commands = {
   DeleteConnectionCommand,
   DeleteThingShadowCommand,
+  GetConnectionCommand,
   GetRetainedMessageCommand,
   GetThingShadowCommand,
   ListNamedShadowsForThingCommand,
   ListRetainedMessagesCommand,
+  ListSubscriptionsCommand,
   PublishCommand,
+  SendDirectMessageCommand,
   UpdateThingShadowCommand,
 };
 
 const paginators = {
   paginateListRetainedMessages,
+  paginateListSubscriptions,
 };
 
 export interface IoTDataPlaneService$ {
@@ -107,6 +122,23 @@ export interface IoTDataPlaneService$ {
     | ThrottlingError
     | UnauthorizedError
     | UnsupportedDocumentEncodingError
+  >;
+
+  /**
+   * @see {@link GetConnectionCommand}
+   */
+  getConnection(
+    args: GetConnectionCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetConnectionCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | ForbiddenError
+    | InternalFailureError
+    | InvalidRequestError
+    | ResourceNotFoundError
+    | ThrottlingError
   >;
 
   /**
@@ -201,6 +233,37 @@ export interface IoTDataPlaneService$ {
   >;
 
   /**
+   * @see {@link ListSubscriptionsCommand}
+   */
+  listSubscriptions(
+    args: ListSubscriptionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListSubscriptionsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | ForbiddenError
+    | InternalFailureError
+    | InvalidRequestError
+    | ResourceNotFoundError
+    | ThrottlingError
+  >;
+
+  listSubscriptionsStream(
+    args: ListSubscriptionsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListSubscriptionsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | ForbiddenError
+    | InternalFailureError
+    | InvalidRequestError
+    | ResourceNotFoundError
+    | ThrottlingError
+  >;
+
+  /**
    * @see {@link PublishCommand}
    */
   publish(
@@ -213,6 +276,26 @@ export interface IoTDataPlaneService$ {
     | InternalFailureError
     | InvalidRequestError
     | MethodNotAllowedError
+    | ThrottlingError
+    | UnauthorizedError
+  >;
+
+  /**
+   * @see {@link SendDirectMessageCommand}
+   */
+  sendDirectMessage(
+    args: SendDirectMessageCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    SendDirectMessageCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | ForbiddenError
+    | GatewayTimeoutError
+    | InternalFailureError
+    | InvalidRequestError
+    | RequestEntityTooLargeError
+    | ResourceNotFoundError
     | ThrottlingError
     | UnauthorizedError
   >;

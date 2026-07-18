@@ -1,6 +1,6 @@
 import { DescribeJobCommand, type DescribeJobCommandInput, IoTClient, IoTServiceException } from "@aws-sdk/client-iot";
 // @ts-ignore
-import * as runtimeConfig from "@aws-sdk/client-iot/dist-cjs/runtimeConfig";
+import * as runtimeConfig from "@aws-sdk/client-iot/dist-es/runtimeConfig";
 import { IoTService as IoT } from "@effect-aws/client-iot/IoTService";
 import * as IoTServiceConfig from "@effect-aws/client-iot/IoTServiceConfig";
 import { SdkError } from "@effect-aws/commons/Errors";

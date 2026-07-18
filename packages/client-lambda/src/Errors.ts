@@ -1,6 +1,10 @@
 import type {
+  AliasLimitExceededException,
   CallbackTimeoutException,
   CapacityProviderLimitExceededException,
+  CodeArtifactUserDeletedException,
+  CodeArtifactUserFailedException,
+  CodeArtifactUserPendingException,
   CodeSigningConfigNotFoundException,
   CodeStorageExceededException,
   CodeVerificationFailedException,
@@ -13,6 +17,7 @@ import type {
   EFSMountFailureException,
   EFSMountTimeoutException,
   ENILimitReachedException,
+  ENINotReadyException,
   FunctionVersionsPerCapacityProviderLimitExceededException,
   InvalidCodeSignatureException,
   InvalidParameterValueException,
@@ -25,10 +30,12 @@ import type {
   KMSDisabledException,
   KMSInvalidStateException,
   KMSNotFoundException,
+  ModeNotSupportedException,
   NoPublishedVersionException,
   PolicyLengthExceededException,
   PreconditionFailedException,
   ProvisionedConcurrencyConfigNotFoundException,
+  PublicPolicyException,
   RecursiveInvocationException,
   RequestTooLargeException,
   ResourceConflictException,
@@ -40,8 +47,10 @@ import type {
   S3FilesMountTimeoutException,
   SerializedRequestEntityTooLargeException,
   ServiceException,
+  ServiceQuotaExceededException,
   SnapStartException,
   SnapStartNotReadyException,
+  SnapStartRegenerationFailureException,
   SnapStartTimeoutException,
   SubnetIPAddressLimitReachedException,
   TooManyRequestsException,
@@ -50,8 +59,12 @@ import type {
 import type { TaggedException } from "@effect-aws/commons/Errors";
 
 export const AllServiceErrors = [
+  "AliasLimitExceededException",
   "CallbackTimeoutException",
   "CapacityProviderLimitExceededException",
+  "CodeArtifactUserDeletedException",
+  "CodeArtifactUserFailedException",
+  "CodeArtifactUserPendingException",
   "CodeSigningConfigNotFoundException",
   "CodeStorageExceededException",
   "CodeVerificationFailedException",
@@ -64,6 +77,7 @@ export const AllServiceErrors = [
   "EFSMountFailureException",
   "EFSMountTimeoutException",
   "ENILimitReachedException",
+  "ENINotReadyException",
   "FunctionVersionsPerCapacityProviderLimitExceededException",
   "InvalidCodeSignatureException",
   "InvalidParameterValueException",
@@ -76,10 +90,12 @@ export const AllServiceErrors = [
   "KMSDisabledException",
   "KMSInvalidStateException",
   "KMSNotFoundException",
+  "ModeNotSupportedException",
   "NoPublishedVersionException",
   "PolicyLengthExceededException",
   "PreconditionFailedException",
   "ProvisionedConcurrencyConfigNotFoundException",
+  "PublicPolicyException",
   "RecursiveInvocationException",
   "RequestTooLargeException",
   "ResourceConflictException",
@@ -91,16 +107,22 @@ export const AllServiceErrors = [
   "S3FilesMountTimeoutException",
   "SerializedRequestEntityTooLargeException",
   "ServiceException",
+  "ServiceQuotaExceededException",
   "SnapStartException",
   "SnapStartNotReadyException",
+  "SnapStartRegenerationFailureException",
   "SnapStartTimeoutException",
   "SubnetIPAddressLimitReachedException",
   "TooManyRequestsException",
   "UnsupportedMediaTypeException",
 ] as const;
 
+export type AliasLimitExceededError = TaggedException<AliasLimitExceededException>;
 export type CallbackTimeoutError = TaggedException<CallbackTimeoutException>;
 export type CapacityProviderLimitExceededError = TaggedException<CapacityProviderLimitExceededException>;
+export type CodeArtifactUserDeletedError = TaggedException<CodeArtifactUserDeletedException>;
+export type CodeArtifactUserFailedError = TaggedException<CodeArtifactUserFailedException>;
+export type CodeArtifactUserPendingError = TaggedException<CodeArtifactUserPendingException>;
 export type CodeSigningConfigNotFoundError = TaggedException<CodeSigningConfigNotFoundException>;
 export type CodeStorageExceededError = TaggedException<CodeStorageExceededException>;
 export type CodeVerificationFailedError = TaggedException<CodeVerificationFailedException>;
@@ -113,6 +135,7 @@ export type EFSMountConnectivityError = TaggedException<EFSMountConnectivityExce
 export type EFSMountFailureError = TaggedException<EFSMountFailureException>;
 export type EFSMountTimeoutError = TaggedException<EFSMountTimeoutException>;
 export type ENILimitReachedError = TaggedException<ENILimitReachedException>;
+export type ENINotReadyError = TaggedException<ENINotReadyException>;
 export type FunctionVersionsPerCapacityProviderLimitExceededError = TaggedException<
   FunctionVersionsPerCapacityProviderLimitExceededException
 >;
@@ -127,10 +150,12 @@ export type KMSAccessDeniedError = TaggedException<KMSAccessDeniedException>;
 export type KMSDisabledError = TaggedException<KMSDisabledException>;
 export type KMSInvalidStateError = TaggedException<KMSInvalidStateException>;
 export type KMSNotFoundError = TaggedException<KMSNotFoundException>;
+export type ModeNotSupportedError = TaggedException<ModeNotSupportedException>;
 export type NoPublishedVersionError = TaggedException<NoPublishedVersionException>;
 export type PolicyLengthExceededError = TaggedException<PolicyLengthExceededException>;
 export type PreconditionFailedError = TaggedException<PreconditionFailedException>;
 export type ProvisionedConcurrencyConfigNotFoundError = TaggedException<ProvisionedConcurrencyConfigNotFoundException>;
+export type PublicPolicyError = TaggedException<PublicPolicyException>;
 export type RecursiveInvocationError = TaggedException<RecursiveInvocationException>;
 export type RequestTooLargeError = TaggedException<RequestTooLargeException>;
 export type ResourceConflictError = TaggedException<ResourceConflictException>;
@@ -142,8 +167,10 @@ export type S3FilesMountFailureError = TaggedException<S3FilesMountFailureExcept
 export type S3FilesMountTimeoutError = TaggedException<S3FilesMountTimeoutException>;
 export type SerializedRequestEntityTooLargeError = TaggedException<SerializedRequestEntityTooLargeException>;
 export type ServiceError = TaggedException<ServiceException>;
+export type ServiceQuotaExceededError = TaggedException<ServiceQuotaExceededException>;
 export type SnapStartError = TaggedException<SnapStartException>;
 export type SnapStartNotReadyError = TaggedException<SnapStartNotReadyException>;
+export type SnapStartRegenerationFailureError = TaggedException<SnapStartRegenerationFailureException>;
 export type SnapStartTimeoutError = TaggedException<SnapStartTimeoutException>;
 export type SubnetIPAddressLimitReachedError = TaggedException<SubnetIPAddressLimitReachedException>;
 export type TooManyRequestsError = TaggedException<TooManyRequestsException>;

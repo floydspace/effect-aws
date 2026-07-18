@@ -5,7 +5,7 @@ import {
   TimestreamWriteServiceException,
 } from "@aws-sdk/client-timestream-write";
 // @ts-ignore
-import * as runtimeConfig from "@aws-sdk/client-timestream-write/dist-cjs/runtimeConfig";
+import * as runtimeConfig from "@aws-sdk/client-timestream-write/dist-es/runtimeConfig";
 import { TimestreamWriteService as TimestreamWrite } from "@effect-aws/client-timestream-write/TimestreamWriteService";
 import * as TimestreamWriteServiceConfig from "@effect-aws/client-timestream-write/TimestreamWriteServiceConfig";
 import { SdkError } from "@effect-aws/commons/Errors";

@@ -113,6 +113,9 @@ import {
   AttachClassicLinkVpcCommand,
   type AttachClassicLinkVpcCommandInput,
   type AttachClassicLinkVpcCommandOutput,
+  AttachImageWatermarkCommand,
+  type AttachImageWatermarkCommandInput,
+  type AttachImageWatermarkCommandOutput,
   AttachInternetGatewayCommand,
   type AttachInternetGatewayCommandInput,
   type AttachInternetGatewayCommandOutput,
@@ -194,6 +197,9 @@ import {
   CreateCapacityReservationBySplittingCommand,
   type CreateCapacityReservationBySplittingCommandInput,
   type CreateCapacityReservationBySplittingCommandOutput,
+  CreateCapacityReservationCancellationQuoteCommand,
+  type CreateCapacityReservationCancellationQuoteCommandInput,
+  type CreateCapacityReservationCancellationQuoteCommandOutput,
   CreateCapacityReservationCommand,
   type CreateCapacityReservationCommandInput,
   type CreateCapacityReservationCommandOutput,
@@ -806,6 +812,9 @@ import {
   DescribeAccountAttributesCommand,
   type DescribeAccountAttributesCommandInput,
   type DescribeAccountAttributesCommandOutput,
+  DescribeAccountVpcEncryptionControlCommand,
+  type DescribeAccountVpcEncryptionControlCommandInput,
+  type DescribeAccountVpcEncryptionControlCommandOutput,
   DescribeAddressesAttributeCommand,
   type DescribeAddressesAttributeCommandInput,
   type DescribeAddressesAttributeCommandOutput,
@@ -851,6 +860,9 @@ import {
   DescribeCapacityReservationBillingRequestsCommand,
   type DescribeCapacityReservationBillingRequestsCommandInput,
   type DescribeCapacityReservationBillingRequestsCommandOutput,
+  DescribeCapacityReservationCancellationQuotesCommand,
+  type DescribeCapacityReservationCancellationQuotesCommandInput,
+  type DescribeCapacityReservationCancellationQuotesCommandOutput,
   DescribeCapacityReservationFleetsCommand,
   type DescribeCapacityReservationFleetsCommandInput,
   type DescribeCapacityReservationFleetsCommandOutput,
@@ -1022,6 +1034,9 @@ import {
   DescribeIpamPoliciesCommand,
   type DescribeIpamPoliciesCommandInput,
   type DescribeIpamPoliciesCommandOutput,
+  DescribeIpamPoolAllocationsCommand,
+  type DescribeIpamPoolAllocationsCommandInput,
+  type DescribeIpamPoolAllocationsCommandOutput,
   DescribeIpamPoolsCommand,
   type DescribeIpamPoolsCommandInput,
   type DescribeIpamPoolsCommandOutput,
@@ -1361,6 +1376,9 @@ import {
   DetachClassicLinkVpcCommand,
   type DetachClassicLinkVpcCommandInput,
   type DetachClassicLinkVpcCommandOutput,
+  DetachImageWatermarkCommand,
+  type DetachImageWatermarkCommandInput,
+  type DetachImageWatermarkCommandOutput,
   DetachInternetGatewayCommand,
   type DetachInternetGatewayCommandInput,
   type DetachInternetGatewayCommandOutput,
@@ -1819,6 +1837,9 @@ import {
   LockSnapshotCommand,
   type LockSnapshotCommandInput,
   type LockSnapshotCommandOutput,
+  ModifyAccountVpcEncryptionControlCommand,
+  type ModifyAccountVpcEncryptionControlCommandInput,
+  type ModifyAccountVpcEncryptionControlCommandOutput,
   ModifyAddressAttributeCommand,
   type ModifyAddressAttributeCommandInput,
   type ModifyAddressAttributeCommandOutput,
@@ -1900,6 +1921,9 @@ import {
   ModifyIpamPolicyAllocationRulesCommand,
   type ModifyIpamPolicyAllocationRulesCommandInput,
   type ModifyIpamPolicyAllocationRulesCommandOutput,
+  ModifyIpamPoolAllocationCommand,
+  type ModifyIpamPoolAllocationCommandInput,
+  type ModifyIpamPoolAllocationCommandOutput,
   ModifyIpamPoolCommand,
   type ModifyIpamPoolCommandInput,
   type ModifyIpamPoolCommandOutput,
@@ -2026,6 +2050,9 @@ import {
   ModifyVpcEndpointConnectionNotificationCommand,
   type ModifyVpcEndpointConnectionNotificationCommandInput,
   type ModifyVpcEndpointConnectionNotificationCommandOutput,
+  ModifyVpcEndpointPayerResponsibilityCommand,
+  type ModifyVpcEndpointPayerResponsibilityCommandInput,
+  type ModifyVpcEndpointPayerResponsibilityCommandOutput,
   ModifyVpcEndpointServiceConfigurationCommand,
   type ModifyVpcEndpointServiceConfigurationCommandInput,
   type ModifyVpcEndpointServiceConfigurationCommandOutput,
@@ -2114,6 +2141,7 @@ import {
   paginateDescribeInstanceTypeOfferings,
   paginateDescribeInstanceTypes,
   paginateDescribeInternetGateways,
+  paginateDescribeIpamPoolAllocations,
   paginateDescribeIpamPools,
   paginateDescribeIpamPrefixListResolvers,
   paginateDescribeIpamPrefixListResolverTargets,
@@ -2512,6 +2540,7 @@ const commands = {
   AssociateTrunkInterfaceCommand,
   AssociateVpcCidrBlockCommand,
   AttachClassicLinkVpcCommand,
+  AttachImageWatermarkCommand,
   AttachInternetGatewayCommand,
   AttachNetworkInterfaceCommand,
   AttachVerifiedAccessTrustProviderCommand,
@@ -2540,6 +2569,7 @@ const commands = {
   CreateCapacityManagerDataExportCommand,
   CreateCapacityReservationCommand,
   CreateCapacityReservationBySplittingCommand,
+  CreateCapacityReservationCancellationQuoteCommand,
   CreateCapacityReservationFleetCommand,
   CreateCarrierGatewayCommand,
   CreateClientVpnEndpointCommand,
@@ -2743,6 +2773,7 @@ const commands = {
   DeregisterTransitGatewayMulticastGroupMembersCommand,
   DeregisterTransitGatewayMulticastGroupSourcesCommand,
   DescribeAccountAttributesCommand,
+  DescribeAccountVpcEncryptionControlCommand,
   DescribeAddressTransfersCommand,
   DescribeAddressesCommand,
   DescribeAddressesAttributeCommand,
@@ -2758,6 +2789,7 @@ const commands = {
   DescribeCapacityBlocksCommand,
   DescribeCapacityManagerDataExportsCommand,
   DescribeCapacityReservationBillingRequestsCommand,
+  DescribeCapacityReservationCancellationQuotesCommand,
   DescribeCapacityReservationFleetsCommand,
   DescribeCapacityReservationTopologyCommand,
   DescribeCapacityReservationsCommand,
@@ -2815,6 +2847,7 @@ const commands = {
   DescribeIpamByoasnCommand,
   DescribeIpamExternalResourceVerificationTokensCommand,
   DescribeIpamPoliciesCommand,
+  DescribeIpamPoolAllocationsCommand,
   DescribeIpamPoolsCommand,
   DescribeIpamPrefixListResolverTargetsCommand,
   DescribeIpamPrefixListResolversCommand,
@@ -2928,6 +2961,7 @@ const commands = {
   DescribeVpnConnectionsCommand,
   DescribeVpnGatewaysCommand,
   DetachClassicLinkVpcCommand,
+  DetachImageWatermarkCommand,
   DetachInternetGatewayCommand,
   DetachNetworkInterfaceCommand,
   DetachVerifiedAccessTrustProviderCommand,
@@ -3080,6 +3114,7 @@ const commands = {
   ListSnapshotsInRecycleBinCommand,
   ListVolumesInRecycleBinCommand,
   LockSnapshotCommand,
+  ModifyAccountVpcEncryptionControlCommand,
   ModifyAddressAttributeCommand,
   ModifyAvailabilityZoneGroupCommand,
   ModifyCapacityReservationCommand,
@@ -3108,6 +3143,7 @@ const commands = {
   ModifyIpamCommand,
   ModifyIpamPolicyAllocationRulesCommand,
   ModifyIpamPoolCommand,
+  ModifyIpamPoolAllocationCommand,
   ModifyIpamPrefixListResolverCommand,
   ModifyIpamPrefixListResolverTargetCommand,
   ModifyIpamResourceCidrCommand,
@@ -3149,6 +3185,7 @@ const commands = {
   ModifyVpcEncryptionControlCommand,
   ModifyVpcEndpointCommand,
   ModifyVpcEndpointConnectionNotificationCommand,
+  ModifyVpcEndpointPayerResponsibilityCommand,
   ModifyVpcEndpointServiceConfigurationCommand,
   ModifyVpcEndpointServicePayerResponsibilityCommand,
   ModifyVpcEndpointServicePermissionsCommand,
@@ -3290,6 +3327,7 @@ const paginators = {
   paginateDescribeInstanceTypes,
   paginateDescribeInstances,
   paginateDescribeInternetGateways,
+  paginateDescribeIpamPoolAllocations,
   paginateDescribeIpamPools,
   paginateDescribeIpamPrefixListResolverTargets,
   paginateDescribeIpamPrefixListResolvers,
@@ -3820,6 +3858,17 @@ export interface EC2Service$ {
   >;
 
   /**
+   * @see {@link AttachImageWatermarkCommand}
+   */
+  attachImageWatermark(
+    args: AttachImageWatermarkCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    AttachImageWatermarkCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link AttachInternetGatewayCommand}
    */
   attachInternetGateway(
@@ -4124,6 +4173,17 @@ export interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateCapacityReservationBySplittingCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link CreateCapacityReservationCancellationQuoteCommand}
+   */
+  createCapacityReservationCancellationQuote(
+    args: CreateCapacityReservationCancellationQuoteCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateCapacityReservationCancellationQuoteCommandOutput,
     Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
@@ -6361,6 +6421,17 @@ export interface EC2Service$ {
   >;
 
   /**
+   * @see {@link DescribeAccountVpcEncryptionControlCommand}
+   */
+  describeAccountVpcEncryptionControl(
+    args: DescribeAccountVpcEncryptionControlCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeAccountVpcEncryptionControlCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link DescribeAddressTransfersCommand}
    */
   describeAddressTransfers(
@@ -6586,6 +6657,17 @@ export interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     DescribeCapacityReservationBillingRequestsCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link DescribeCapacityReservationCancellationQuotesCommand}
+   */
+  describeCapacityReservationCancellationQuotes(
+    args: DescribeCapacityReservationCancellationQuotesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeCapacityReservationCancellationQuotesCommandOutput,
     Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
@@ -7408,6 +7490,22 @@ export interface EC2Service$ {
     DescribeIpamPoliciesCommandOutput,
     Cause.TimeoutError | SdkError | EC2ServiceError
   >;
+
+  /**
+   * @see {@link DescribeIpamPoolAllocationsCommand}
+   */
+  describeIpamPoolAllocations(
+    args: DescribeIpamPoolAllocationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeIpamPoolAllocationsCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  describeIpamPoolAllocationsStream(
+    args: DescribeIpamPoolAllocationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<DescribeIpamPoolAllocationsCommandOutput, Cause.TimeoutError | SdkError | EC2ServiceError>;
 
   /**
    * @see {@link DescribeIpamPoolsCommand}
@@ -9115,6 +9213,17 @@ export interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DetachClassicLinkVpcCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link DetachImageWatermarkCommand}
+   */
+  detachImageWatermark(
+    args: DetachImageWatermarkCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DetachImageWatermarkCommandOutput,
     Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
@@ -10965,6 +11074,17 @@ export interface EC2Service$ {
   >;
 
   /**
+   * @see {@link ModifyAccountVpcEncryptionControlCommand}
+   */
+  modifyAccountVpcEncryptionControl(
+    args: ModifyAccountVpcEncryptionControlCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ModifyAccountVpcEncryptionControlCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link ModifyAddressAttributeCommand}
    */
   modifyAddressAttribute(
@@ -11269,6 +11389,17 @@ export interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyIpamPoolCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link ModifyIpamPoolAllocationCommand}
+   */
+  modifyIpamPoolAllocation(
+    args: ModifyIpamPoolAllocationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ModifyIpamPoolAllocationCommandOutput,
     Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
@@ -11720,6 +11851,17 @@ export interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyVpcEndpointConnectionNotificationCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link ModifyVpcEndpointPayerResponsibilityCommand}
+   */
+  modifyVpcEndpointPayerResponsibility(
+    args: ModifyVpcEndpointPayerResponsibilityCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ModifyVpcEndpointPayerResponsibilityCommandOutput,
     Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 

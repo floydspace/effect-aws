@@ -5,7 +5,7 @@ import {
   type ListStacksCommandInput,
 } from "@aws-sdk/client-cloudformation";
 // @ts-ignore
-import * as runtimeConfig from "@aws-sdk/client-cloudformation/dist-cjs/runtimeConfig";
+import * as runtimeConfig from "@aws-sdk/client-cloudformation/dist-es/runtimeConfig";
 import { CloudFormationService as CloudFormation } from "@effect-aws/client-cloudformation/CloudFormationService";
 import * as CloudFormationServiceConfig from "@effect-aws/client-cloudformation/CloudFormationServiceConfig";
 import { SdkError } from "@effect-aws/commons/Errors";

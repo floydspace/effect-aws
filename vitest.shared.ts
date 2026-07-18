@@ -14,6 +14,9 @@ const config: UserConfig = {
   esbuild: {
     target: "es2020"
   },
+  resolve: {
+    mainFields: ["module", "main"],
+  },
   test: {
     setupFiles: [path.join(__dirname, "vitest.setup.ts")],
     include: ["test/**/*.test.ts"],
@@ -28,6 +31,9 @@ const config: UserConfig = {
       ...alias("client-auto-scaling"),
       ...alias("client-bedrock"),
       ...alias("client-bedrock-runtime"),
+      ...alias("client-bedrock-agent"),
+      ...alias("client-bedrock-agentcore"),
+      ...alias("client-bedrock-agentcore-control"),
       ...alias("client-cloudfront"),
       ...alias("client-cloudsearch"),
       ...alias("client-cloudformation"),
@@ -43,6 +49,7 @@ const config: UserConfig = {
       ...alias("client-ec2"),
       ...alias("client-ecr"),
       ...alias("client-ecs"),
+      ...alias("client-eks"),
       ...alias("client-elasticache"),
       ...alias("client-eventbridge"),
       ...alias("client-firehose"),
@@ -50,8 +57,6 @@ const config: UserConfig = {
       ...alias("client-iam"),
       ...alias("client-iot"),
       ...alias("client-iot-data-plane"),
-      ...alias("client-iot-events"),
-      ...alias("client-iot-events-data"),
       ...alias("client-iot-jobs-data-plane"),
       ...alias("client-iot-wireless"),
       ...alias("client-ivs"),

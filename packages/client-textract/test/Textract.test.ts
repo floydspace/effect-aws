@@ -5,7 +5,7 @@ import {
   TextractServiceException,
 } from "@aws-sdk/client-textract";
 // @ts-ignore
-import * as runtimeConfig from "@aws-sdk/client-textract/dist-cjs/runtimeConfig";
+import * as runtimeConfig from "@aws-sdk/client-textract/dist-es/runtimeConfig";
 import { TextractService as Textract } from "@effect-aws/client-textract/TextractService";
 import * as TextractServiceConfig from "@effect-aws/client-textract/TextractServiceConfig";
 import { SdkError } from "@effect-aws/commons/Errors";

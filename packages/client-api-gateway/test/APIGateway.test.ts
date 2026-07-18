@@ -5,7 +5,7 @@ import {
   type GetApiKeyCommandInput,
 } from "@aws-sdk/client-api-gateway";
 // @ts-ignore
-import * as runtimeConfig from "@aws-sdk/client-api-gateway/dist-cjs/runtimeConfig";
+import * as runtimeConfig from "@aws-sdk/client-api-gateway/dist-es/runtimeConfig";
 import { APIGatewayService as APIGateway } from "@effect-aws/client-api-gateway/APIGatewayService";
 import * as APIGatewayServiceConfig from "@effect-aws/client-api-gateway/APIGatewayServiceConfig";
 import { SdkError } from "@effect-aws/commons/Errors";

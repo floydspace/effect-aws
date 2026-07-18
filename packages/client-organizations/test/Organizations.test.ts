@@ -5,7 +5,7 @@ import {
   OrganizationsServiceException,
 } from "@aws-sdk/client-organizations";
 // @ts-ignore
-import * as runtimeConfig from "@aws-sdk/client-organizations/dist-cjs/runtimeConfig";
+import * as runtimeConfig from "@aws-sdk/client-organizations/dist-es/runtimeConfig";
 import { OrganizationsService as Organizations } from "@effect-aws/client-organizations/OrganizationsService";
 import * as OrganizationsServiceConfig from "@effect-aws/client-organizations/OrganizationsServiceConfig";
 import { SdkError } from "@effect-aws/commons/Errors";

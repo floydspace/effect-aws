@@ -2,6 +2,9 @@
  * @since 1.0.0
  */
 import {
+  AssociateGlossaryTermsCommand,
+  type AssociateGlossaryTermsCommandInput,
+  type AssociateGlossaryTermsCommandOutput,
   BatchCreatePartitionCommand,
   type BatchCreatePartitionCommandInput,
   type BatchCreatePartitionCommandOutput,
@@ -32,6 +35,9 @@ import {
   BatchGetDevEndpointsCommand,
   type BatchGetDevEndpointsCommandInput,
   type BatchGetDevEndpointsCommandOutput,
+  BatchGetIterableFormsCommand,
+  type BatchGetIterableFormsCommandInput,
+  type BatchGetIterableFormsCommandOutput,
   BatchGetJobsCommand,
   type BatchGetJobsCommandInput,
   type BatchGetJobsCommandOutput,
@@ -101,6 +107,12 @@ import {
   CreateDevEndpointCommand,
   type CreateDevEndpointCommandInput,
   type CreateDevEndpointCommandOutput,
+  CreateGlossaryCommand,
+  type CreateGlossaryCommandInput,
+  type CreateGlossaryCommandOutput,
+  CreateGlossaryTermCommand,
+  type CreateGlossaryTermCommandInput,
+  type CreateGlossaryTermCommandOutput,
   CreateGlueIdentityCenterConfigurationCommand,
   type CreateGlueIdentityCenterConfigurationCommandInput,
   type CreateGlueIdentityCenterConfigurationCommandOutput,
@@ -158,6 +170,15 @@ import {
   CreateWorkflowCommand,
   type CreateWorkflowCommandInput,
   type CreateWorkflowCommandOutput,
+  DeleteAssetCommand,
+  type DeleteAssetCommandInput,
+  type DeleteAssetCommandOutput,
+  DeleteAssetTypeCommand,
+  type DeleteAssetTypeCommandInput,
+  type DeleteAssetTypeCommandOutput,
+  DeleteAttachmentCommand,
+  type DeleteAttachmentCommandInput,
+  type DeleteAttachmentCommandOutput,
   DeleteBlueprintCommand,
   type DeleteBlueprintCommandInput,
   type DeleteBlueprintCommandOutput,
@@ -197,6 +218,15 @@ import {
   DeleteDevEndpointCommand,
   type DeleteDevEndpointCommandInput,
   type DeleteDevEndpointCommandOutput,
+  DeleteFormTypeCommand,
+  type DeleteFormTypeCommandInput,
+  type DeleteFormTypeCommandOutput,
+  DeleteGlossaryCommand,
+  type DeleteGlossaryCommandInput,
+  type DeleteGlossaryCommandOutput,
+  DeleteGlossaryTermCommand,
+  type DeleteGlossaryTermCommandInput,
+  type DeleteGlossaryTermCommandOutput,
   DeleteGlueIdentityCenterConfigurationCommand,
   type DeleteGlueIdentityCenterConfigurationCommandInput,
   type DeleteGlueIdentityCenterConfigurationCommandOutput,
@@ -272,6 +302,15 @@ import {
   DescribeIntegrationsCommand,
   type DescribeIntegrationsCommandInput,
   type DescribeIntegrationsCommandOutput,
+  DisassociateGlossaryTermsCommand,
+  type DisassociateGlossaryTermsCommandInput,
+  type DisassociateGlossaryTermsCommandOutput,
+  GetAssetCommand,
+  type GetAssetCommandInput,
+  type GetAssetCommandOutput,
+  GetAssetTypeCommand,
+  type GetAssetTypeCommandInput,
+  type GetAssetTypeCommandOutput,
   GetBlueprintCommand,
   type GetBlueprintCommandInput,
   type GetBlueprintCommandOutput,
@@ -329,6 +368,9 @@ import {
   GetCustomEntityTypeCommand,
   type GetCustomEntityTypeCommandInput,
   type GetCustomEntityTypeCommandOutput,
+  GetDashboardUrlCommand,
+  type GetDashboardUrlCommandInput,
+  type GetDashboardUrlCommandOutput,
   GetDatabaseCommand,
   type GetDatabaseCommandInput,
   type GetDatabaseCommandOutput,
@@ -368,6 +410,15 @@ import {
   GetEntityRecordsCommand,
   type GetEntityRecordsCommandInput,
   type GetEntityRecordsCommandOutput,
+  GetFormTypeCommand,
+  type GetFormTypeCommandInput,
+  type GetFormTypeCommandOutput,
+  GetGlossaryCommand,
+  type GetGlossaryCommandInput,
+  type GetGlossaryCommandOutput,
+  GetGlossaryTermCommand,
+  type GetGlossaryTermCommandInput,
+  type GetGlossaryTermCommandOutput,
   GetGlueIdentityCenterConfigurationCommand,
   type GetGlueIdentityCenterConfigurationCommandInput,
   type GetGlueIdentityCenterConfigurationCommandOutput,
@@ -452,6 +503,9 @@ import {
   GetSessionCommand,
   type GetSessionCommandInput,
   type GetSessionCommandOutput,
+  GetSessionEndpointCommand,
+  type GetSessionEndpointCommandInput,
+  type GetSessionEndpointCommandOutput,
   GetStatementCommand,
   type GetStatementCommandInput,
   type GetStatementCommandOutput,
@@ -514,6 +568,9 @@ import {
   ImportCatalogToGlueCommand,
   type ImportCatalogToGlueCommandInput,
   type ImportCatalogToGlueCommandOutput,
+  ListAssetTypesCommand,
+  type ListAssetTypesCommandInput,
+  type ListAssetTypesCommandOutput,
   ListBlueprintsCommand,
   type ListBlueprintsCommandInput,
   type ListBlueprintsCommandOutput,
@@ -556,9 +613,21 @@ import {
   ListEntitiesCommand,
   type ListEntitiesCommandInput,
   type ListEntitiesCommandOutput,
+  ListFormTypesCommand,
+  type ListFormTypesCommandInput,
+  type ListFormTypesCommandOutput,
+  ListGlossariesCommand,
+  type ListGlossariesCommandInput,
+  type ListGlossariesCommandOutput,
+  ListGlossaryTermsCommand,
+  type ListGlossaryTermsCommandInput,
+  type ListGlossaryTermsCommandOutput,
   ListIntegrationResourcePropertiesCommand,
   type ListIntegrationResourcePropertiesCommandInput,
   type ListIntegrationResourcePropertiesCommandOutput,
+  ListIterableFormsCommand,
+  type ListIterableFormsCommandInput,
+  type ListIterableFormsCommandOutput,
   ListJobsCommand,
   type ListJobsCommandInput,
   type ListJobsCommandOutput,
@@ -621,6 +690,7 @@ import {
   paginateGetUnfilteredPartitionsMetadata,
   paginateGetUserDefinedFunctions,
   paginateGetWorkflowRuns,
+  paginateListAssetTypes,
   paginateListBlueprints,
   paginateListColumnStatisticsTaskRuns,
   paginateListConnectionTypes,
@@ -632,6 +702,10 @@ import {
   paginateListDataQualityRulesets,
   paginateListDevEndpoints,
   paginateListEntities,
+  paginateListFormTypes,
+  paginateListGlossaries,
+  paginateListGlossaryTerms,
+  paginateListIterableForms,
   paginateListJobs,
   paginateListMaterializedViewRefreshTaskRuns,
   paginateListMLTransforms,
@@ -643,13 +717,26 @@ import {
   paginateListTriggers,
   paginateListUsageProfiles,
   paginateListWorkflows,
+  paginateSearchAssets,
   paginateSearchTables,
+  PutAssetCommand,
+  type PutAssetCommandInput,
+  type PutAssetCommandOutput,
+  PutAssetTypeCommand,
+  type PutAssetTypeCommandInput,
+  type PutAssetTypeCommandOutput,
+  PutAttachmentCommand,
+  type PutAttachmentCommandInput,
+  type PutAttachmentCommandOutput,
   PutDataCatalogEncryptionSettingsCommand,
   type PutDataCatalogEncryptionSettingsCommandInput,
   type PutDataCatalogEncryptionSettingsCommandOutput,
   PutDataQualityProfileAnnotationCommand,
   type PutDataQualityProfileAnnotationCommandInput,
   type PutDataQualityProfileAnnotationCommandOutput,
+  PutFormTypeCommand,
+  type PutFormTypeCommandInput,
+  type PutFormTypeCommandOutput,
   PutResourcePolicyCommand,
   type PutResourcePolicyCommandInput,
   type PutResourcePolicyCommandOutput,
@@ -680,6 +767,9 @@ import {
   RunStatementCommand,
   type RunStatementCommandInput,
   type RunStatementCommandOutput,
+  SearchAssetsCommand,
+  type SearchAssetsCommandInput,
+  type SearchAssetsCommandOutput,
   SearchTablesCommand,
   type SearchTablesCommandInput,
   type SearchTablesCommandOutput,
@@ -761,6 +851,9 @@ import {
   UntagResourceCommand,
   type UntagResourceCommandInput,
   type UntagResourceCommandOutput,
+  UpdateAssetCommand,
+  type UpdateAssetCommandInput,
+  type UpdateAssetCommandOutput,
   UpdateBlueprintCommand,
   type UpdateBlueprintCommandInput,
   type UpdateBlueprintCommandOutput,
@@ -797,6 +890,12 @@ import {
   UpdateDevEndpointCommand,
   type UpdateDevEndpointCommandInput,
   type UpdateDevEndpointCommandOutput,
+  UpdateGlossaryCommand,
+  type UpdateGlossaryCommandInput,
+  type UpdateGlossaryCommandOutput,
+  UpdateGlossaryTermCommand,
+  type UpdateGlossaryTermCommandInput,
+  type UpdateGlossaryTermCommandOutput,
   UpdateGlueIdentityCenterConfigurationCommand,
   type UpdateGlueIdentityCenterConfigurationCommandInput,
   type UpdateGlueIdentityCenterConfigurationCommandOutput,
@@ -900,6 +999,7 @@ import type {
   SchedulerRunningError,
   SchedulerTransitioningError,
   SdkError,
+  SessionBusyError,
   TargetResourceNotFoundError,
   ThrottlingError,
   ValidationError,
@@ -910,6 +1010,7 @@ import * as Instance from "./GlueClientInstance.js";
 import * as GlueServiceConfig from "./GlueServiceConfig.js";
 
 const commands = {
+  AssociateGlossaryTermsCommand,
   BatchCreatePartitionCommand,
   BatchDeleteConnectionCommand,
   BatchDeletePartitionCommand,
@@ -920,6 +1021,7 @@ const commands = {
   BatchGetCustomEntityTypesCommand,
   BatchGetDataQualityResultCommand,
   BatchGetDevEndpointsCommand,
+  BatchGetIterableFormsCommand,
   BatchGetJobsCommand,
   BatchGetPartitionCommand,
   BatchGetTableOptimizerCommand,
@@ -943,6 +1045,8 @@ const commands = {
   CreateDataQualityRulesetCommand,
   CreateDatabaseCommand,
   CreateDevEndpointCommand,
+  CreateGlossaryCommand,
+  CreateGlossaryTermCommand,
   CreateGlueIdentityCenterConfigurationCommand,
   CreateIntegrationCommand,
   CreateIntegrationResourcePropertyCommand,
@@ -962,6 +1066,9 @@ const commands = {
   CreateUsageProfileCommand,
   CreateUserDefinedFunctionCommand,
   CreateWorkflowCommand,
+  DeleteAssetCommand,
+  DeleteAssetTypeCommand,
+  DeleteAttachmentCommand,
   DeleteBlueprintCommand,
   DeleteCatalogCommand,
   DeleteClassifierCommand,
@@ -975,6 +1082,9 @@ const commands = {
   DeleteDataQualityRulesetCommand,
   DeleteDatabaseCommand,
   DeleteDevEndpointCommand,
+  DeleteFormTypeCommand,
+  DeleteGlossaryCommand,
+  DeleteGlossaryTermCommand,
   DeleteGlueIdentityCenterConfigurationCommand,
   DeleteIntegrationCommand,
   DeleteIntegrationResourcePropertyCommand,
@@ -1000,6 +1110,9 @@ const commands = {
   DescribeEntityCommand,
   DescribeInboundIntegrationsCommand,
   DescribeIntegrationsCommand,
+  DisassociateGlossaryTermsCommand,
+  GetAssetCommand,
+  GetAssetTypeCommand,
   GetBlueprintCommand,
   GetBlueprintRunCommand,
   GetBlueprintRunsCommand,
@@ -1019,6 +1132,7 @@ const commands = {
   GetCrawlerMetricsCommand,
   GetCrawlersCommand,
   GetCustomEntityTypeCommand,
+  GetDashboardUrlCommand,
   GetDataCatalogEncryptionSettingsCommand,
   GetDataQualityModelCommand,
   GetDataQualityModelResultCommand,
@@ -1032,6 +1146,9 @@ const commands = {
   GetDevEndpointCommand,
   GetDevEndpointsCommand,
   GetEntityRecordsCommand,
+  GetFormTypeCommand,
+  GetGlossaryCommand,
+  GetGlossaryTermCommand,
   GetGlueIdentityCenterConfigurationCommand,
   GetIntegrationResourcePropertyCommand,
   GetIntegrationTablePropertiesCommand,
@@ -1060,6 +1177,7 @@ const commands = {
   GetSecurityConfigurationCommand,
   GetSecurityConfigurationsCommand,
   GetSessionCommand,
+  GetSessionEndpointCommand,
   GetStatementCommand,
   GetTableCommand,
   GetTableOptimizerCommand,
@@ -1080,6 +1198,7 @@ const commands = {
   GetWorkflowRunPropertiesCommand,
   GetWorkflowRunsCommand,
   ImportCatalogToGlueCommand,
+  ListAssetTypesCommand,
   ListBlueprintsCommand,
   ListColumnStatisticsTaskRunsCommand,
   ListConnectionTypesCommand,
@@ -1094,7 +1213,11 @@ const commands = {
   ListDataQualityStatisticsCommand,
   ListDevEndpointsCommand,
   ListEntitiesCommand,
+  ListFormTypesCommand,
+  ListGlossariesCommand,
+  ListGlossaryTermsCommand,
   ListIntegrationResourcePropertiesCommand,
+  ListIterableFormsCommand,
   ListJobsCommand,
   ListMLTransformsCommand,
   ListMaterializedViewRefreshTaskRunsCommand,
@@ -1108,8 +1231,12 @@ const commands = {
   ListUsageProfilesCommand,
   ListWorkflowsCommand,
   ModifyIntegrationCommand,
+  PutAssetCommand,
+  PutAssetTypeCommand,
+  PutAttachmentCommand,
   PutDataCatalogEncryptionSettingsCommand,
   PutDataQualityProfileAnnotationCommand,
+  PutFormTypeCommand,
   PutResourcePolicyCommand,
   PutSchemaVersionMetadataCommand,
   PutWorkflowRunPropertiesCommand,
@@ -1120,6 +1247,7 @@ const commands = {
   ResetJobBookmarkCommand,
   ResumeWorkflowRunCommand,
   RunStatementCommand,
+  SearchAssetsCommand,
   SearchTablesCommand,
   StartBlueprintRunCommand,
   StartColumnStatisticsTaskRunCommand,
@@ -1147,6 +1275,7 @@ const commands = {
   TagResourceCommand,
   TestConnectionCommand,
   UntagResourceCommand,
+  UpdateAssetCommand,
   UpdateBlueprintCommand,
   UpdateCatalogCommand,
   UpdateClassifierCommand,
@@ -1159,6 +1288,8 @@ const commands = {
   UpdateDataQualityRulesetCommand,
   UpdateDatabaseCommand,
   UpdateDevEndpointCommand,
+  UpdateGlossaryCommand,
+  UpdateGlossaryTermCommand,
   UpdateGlueIdentityCenterConfigurationCommand,
   UpdateIntegrationResourcePropertyCommand,
   UpdateIntegrationTablePropertiesCommand,
@@ -1201,6 +1332,7 @@ const paginators = {
   paginateGetUnfilteredPartitionsMetadata,
   paginateGetUserDefinedFunctions,
   paginateGetWorkflowRuns,
+  paginateListAssetTypes,
   paginateListBlueprints,
   paginateListColumnStatisticsTaskRuns,
   paginateListConnectionTypes,
@@ -1212,6 +1344,10 @@ const paginators = {
   paginateListDataQualityRulesets,
   paginateListDevEndpoints,
   paginateListEntities,
+  paginateListFormTypes,
+  paginateListGlossaries,
+  paginateListGlossaryTerms,
+  paginateListIterableForms,
   paginateListJobs,
   paginateListMLTransforms,
   paginateListMaterializedViewRefreshTaskRuns,
@@ -1223,10 +1359,29 @@ const paginators = {
   paginateListTriggers,
   paginateListUsageProfiles,
   paginateListWorkflows,
+  paginateSearchAssets,
   paginateSearchTables,
 };
 
 export interface GlueService$ {
+  /**
+   * @see {@link AssociateGlossaryTermsCommand}
+   */
+  associateGlossaryTerms(
+    args: AssociateGlossaryTermsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    AssociateGlossaryTermsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | ConcurrentModificationError
+    | EntityNotFoundError
+    | InternalServiceError
+    | InvalidInputError
+    | ThrottlingError
+  >;
+
   /**
    * @see {@link BatchCreatePartitionCommand}
    */
@@ -1360,6 +1515,23 @@ export interface GlueService$ {
   ): Effect.Effect<
     BatchGetDevEndpointsCommandOutput,
     Cause.TimeoutError | SdkError | AccessDeniedError | InternalServiceError | InvalidInputError | OperationTimeoutError
+  >;
+
+  /**
+   * @see {@link BatchGetIterableFormsCommand}
+   */
+  batchGetIterableForms(
+    args: BatchGetIterableFormsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    BatchGetIterableFormsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | EntityNotFoundError
+    | InternalServiceError
+    | InvalidInputError
+    | ThrottlingError
   >;
 
   /**
@@ -1735,6 +1907,43 @@ export interface GlueService$ {
   >;
 
   /**
+   * @see {@link CreateGlossaryCommand}
+   */
+  createGlossary(
+    args: CreateGlossaryCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateGlossaryCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | AlreadyExistsError
+    | ConcurrentModificationError
+    | InternalServiceError
+    | InvalidInputError
+    | ThrottlingError
+  >;
+
+  /**
+   * @see {@link CreateGlossaryTermCommand}
+   */
+  createGlossaryTerm(
+    args: CreateGlossaryTermCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateGlossaryTermCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | AlreadyExistsError
+    | ConcurrentModificationError
+    | EntityNotFoundError
+    | InternalServiceError
+    | InvalidInputError
+    | ThrottlingError
+  >;
+
+  /**
    * @see {@link CreateGlueIdentityCenterConfigurationCommand}
    */
   createGlueIdentityCenterConfiguration(
@@ -1971,6 +2180,7 @@ export interface GlueService$ {
     | IdempotentParameterMismatchError
     | InternalServiceError
     | InvalidInputError
+    | OperationNotSupportedError
     | OperationTimeoutError
     | ResourceNumberLimitExceededError
     | ValidationError
@@ -2091,6 +2301,58 @@ export interface GlueService$ {
     | InvalidInputError
     | OperationTimeoutError
     | ResourceNumberLimitExceededError
+  >;
+
+  /**
+   * @see {@link DeleteAssetCommand}
+   */
+  deleteAsset(
+    args: DeleteAssetCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteAssetCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | ConcurrentModificationError
+    | InternalServiceError
+    | InvalidInputError
+    | ThrottlingError
+  >;
+
+  /**
+   * @see {@link DeleteAssetTypeCommand}
+   */
+  deleteAssetType(
+    args: DeleteAssetTypeCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteAssetTypeCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | ConcurrentModificationError
+    | InternalServiceError
+    | InvalidInputError
+    | ThrottlingError
+  >;
+
+  /**
+   * @see {@link DeleteAttachmentCommand}
+   */
+  deleteAttachment(
+    args: DeleteAttachmentCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteAttachmentCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | ConcurrentModificationError
+    | EntityNotFoundError
+    | InternalServiceError
+    | InvalidInputError
+    | ThrottlingError
   >;
 
   /**
@@ -2291,6 +2553,59 @@ export interface GlueService$ {
     | InternalServiceError
     | InvalidInputError
     | OperationTimeoutError
+  >;
+
+  /**
+   * @see {@link DeleteFormTypeCommand}
+   */
+  deleteFormType(
+    args: DeleteFormTypeCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteFormTypeCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | ConcurrentModificationError
+    | ConflictError
+    | InternalServiceError
+    | InvalidInputError
+    | ThrottlingError
+  >;
+
+  /**
+   * @see {@link DeleteGlossaryCommand}
+   */
+  deleteGlossary(
+    args: DeleteGlossaryCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteGlossaryCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | ConcurrentModificationError
+    | ConflictError
+    | InternalServiceError
+    | InvalidInputError
+    | ThrottlingError
+  >;
+
+  /**
+   * @see {@link DeleteGlossaryTermCommand}
+   */
+  deleteGlossaryTerm(
+    args: DeleteGlossaryTermCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteGlossaryTermCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | ConcurrentModificationError
+    | InternalServiceError
+    | InvalidInputError
+    | ThrottlingError
   >;
 
   /**
@@ -2736,6 +3051,58 @@ export interface GlueService$ {
   >;
 
   /**
+   * @see {@link DisassociateGlossaryTermsCommand}
+   */
+  disassociateGlossaryTerms(
+    args: DisassociateGlossaryTermsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DisassociateGlossaryTermsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | ConcurrentModificationError
+    | EntityNotFoundError
+    | InternalServiceError
+    | InvalidInputError
+    | ThrottlingError
+  >;
+
+  /**
+   * @see {@link GetAssetCommand}
+   */
+  getAsset(
+    args: GetAssetCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetAssetCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | EntityNotFoundError
+    | InternalServiceError
+    | InvalidInputError
+    | ThrottlingError
+  >;
+
+  /**
+   * @see {@link GetAssetTypeCommand}
+   */
+  getAssetType(
+    args: GetAssetTypeCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetAssetTypeCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | EntityNotFoundError
+    | InternalServiceError
+    | InvalidInputError
+    | ThrottlingError
+  >;
+
+  /**
    * @see {@link GetBlueprintCommand}
    */
   getBlueprint(
@@ -3047,6 +3414,23 @@ export interface GlueService$ {
   >;
 
   /**
+   * @see {@link GetDashboardUrlCommand}
+   */
+  getDashboardUrl(
+    args: GetDashboardUrlCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetDashboardUrlCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | EntityNotFoundError
+    | InternalServiceError
+    | InvalidInputError
+    | OperationNotSupportedError
+  >;
+
+  /**
    * @see {@link GetDataCatalogEncryptionSettingsCommand}
    */
   getDataCatalogEncryptionSettings(
@@ -3280,6 +3664,45 @@ export interface GlueService$ {
     | InvalidInputError
     | OperationTimeoutError
     | ValidationError
+  >;
+
+  /**
+   * @see {@link GetFormTypeCommand}
+   */
+  getFormType(
+    args: GetFormTypeCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetFormTypeCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | EntityNotFoundError
+    | InternalServiceError
+    | InvalidInputError
+    | ThrottlingError
+  >;
+
+  /**
+   * @see {@link GetGlossaryCommand}
+   */
+  getGlossary(
+    args: GetGlossaryCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetGlossaryCommandOutput,
+    Cause.TimeoutError | SdkError | AccessDeniedError | EntityNotFoundError | InternalServiceError | ThrottlingError
+  >;
+
+  /**
+   * @see {@link GetGlossaryTermCommand}
+   */
+  getGlossaryTerm(
+    args: GetGlossaryTermCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetGlossaryTermCommandOutput,
+    Cause.TimeoutError | SdkError | AccessDeniedError | EntityNotFoundError | InternalServiceError | ThrottlingError
   >;
 
   /**
@@ -3825,6 +4248,25 @@ export interface GlueService$ {
   >;
 
   /**
+   * @see {@link GetSessionEndpointCommand}
+   */
+  getSessionEndpoint(
+    args: GetSessionEndpointCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetSessionEndpointCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | EntityNotFoundError
+    | IllegalSessionStateError
+    | InternalServiceError
+    | InvalidInputError
+    | OperationNotSupportedError
+    | OperationTimeoutError
+  >;
+
+  /**
    * @see {@link GetStatementCommand}
    */
   getStatement(
@@ -4254,6 +4696,25 @@ export interface GlueService$ {
   >;
 
   /**
+   * @see {@link ListAssetTypesCommand}
+   */
+  listAssetTypes(
+    args: ListAssetTypesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListAssetTypesCommandOutput,
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServiceError | InvalidInputError | ThrottlingError
+  >;
+
+  listAssetTypesStream(
+    args: ListAssetTypesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListAssetTypesCommandOutput,
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServiceError | InvalidInputError | ThrottlingError
+  >;
+
+  /**
    * @see {@link ListBlueprintsCommand}
    */
   listBlueprints(
@@ -4526,6 +4987,63 @@ export interface GlueService$ {
   >;
 
   /**
+   * @see {@link ListFormTypesCommand}
+   */
+  listFormTypes(
+    args: ListFormTypesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListFormTypesCommandOutput,
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServiceError | InvalidInputError | ThrottlingError
+  >;
+
+  listFormTypesStream(
+    args: ListFormTypesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListFormTypesCommandOutput,
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServiceError | InvalidInputError | ThrottlingError
+  >;
+
+  /**
+   * @see {@link ListGlossariesCommand}
+   */
+  listGlossaries(
+    args: ListGlossariesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListGlossariesCommandOutput,
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServiceError | InvalidInputError | ThrottlingError
+  >;
+
+  listGlossariesStream(
+    args: ListGlossariesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListGlossariesCommandOutput,
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServiceError | InvalidInputError | ThrottlingError
+  >;
+
+  /**
+   * @see {@link ListGlossaryTermsCommand}
+   */
+  listGlossaryTerms(
+    args: ListGlossaryTermsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListGlossaryTermsCommandOutput,
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServiceError | InvalidInputError | ThrottlingError
+  >;
+
+  listGlossaryTermsStream(
+    args: ListGlossaryTermsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListGlossaryTermsCommandOutput,
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServiceError | InvalidInputError | ThrottlingError
+  >;
+
+  /**
    * @see {@link ListIntegrationResourcePropertiesCommand}
    */
   listIntegrationResourceProperties(
@@ -4542,6 +5060,37 @@ export interface GlueService$ {
     | InvalidInputError
     | ResourceNotFoundError
     | ValidationError
+  >;
+
+  /**
+   * @see {@link ListIterableFormsCommand}
+   */
+  listIterableForms(
+    args: ListIterableFormsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListIterableFormsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | EntityNotFoundError
+    | InternalServiceError
+    | InvalidInputError
+    | ThrottlingError
+  >;
+
+  listIterableFormsStream(
+    args: ListIterableFormsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListIterableFormsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | EntityNotFoundError
+    | InternalServiceError
+    | InvalidInputError
+    | ThrottlingError
   >;
 
   /**
@@ -4849,6 +5398,59 @@ export interface GlueService$ {
   >;
 
   /**
+   * @see {@link PutAssetCommand}
+   */
+  putAsset(
+    args: PutAssetCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    PutAssetCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | ConcurrentModificationError
+    | EntityNotFoundError
+    | InternalServiceError
+    | InvalidInputError
+    | ThrottlingError
+  >;
+
+  /**
+   * @see {@link PutAssetTypeCommand}
+   */
+  putAssetType(
+    args: PutAssetTypeCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    PutAssetTypeCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | ConcurrentModificationError
+    | InternalServiceError
+    | InvalidInputError
+    | ThrottlingError
+  >;
+
+  /**
+   * @see {@link PutAttachmentCommand}
+   */
+  putAttachment(
+    args: PutAttachmentCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    PutAttachmentCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | ConcurrentModificationError
+    | EntityNotFoundError
+    | InternalServiceError
+    | InvalidInputError
+    | ThrottlingError
+  >;
+
+  /**
    * @see {@link PutDataCatalogEncryptionSettingsCommand}
    */
   putDataCatalogEncryptionSettings(
@@ -4868,6 +5470,23 @@ export interface GlueService$ {
   ): Effect.Effect<
     PutDataQualityProfileAnnotationCommandOutput,
     Cause.TimeoutError | SdkError | EntityNotFoundError | InternalServiceError | InvalidInputError
+  >;
+
+  /**
+   * @see {@link PutFormTypeCommand}
+   */
+  putFormType(
+    args: PutFormTypeCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    PutFormTypeCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | ConcurrentModificationError
+    | InternalServiceError
+    | InvalidInputError
+    | ThrottlingError
   >;
 
   /**
@@ -5030,9 +5649,30 @@ export interface GlueService$ {
     | IllegalSessionStateError
     | InternalServiceError
     | InvalidInputError
+    | OperationNotSupportedError
     | OperationTimeoutError
     | ResourceNumberLimitExceededError
+    | SessionBusyError
     | ValidationError
+  >;
+
+  /**
+   * @see {@link SearchAssetsCommand}
+   */
+  searchAssets(
+    args: SearchAssetsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    SearchAssetsCommandOutput,
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServiceError | InvalidInputError | ThrottlingError
+  >;
+
+  searchAssetsStream(
+    args: SearchAssetsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    SearchAssetsCommandOutput,
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServiceError | InvalidInputError | ThrottlingError
   >;
 
   /**
@@ -5479,6 +6119,24 @@ export interface GlueService$ {
   >;
 
   /**
+   * @see {@link UpdateAssetCommand}
+   */
+  updateAsset(
+    args: UpdateAssetCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateAssetCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | ConcurrentModificationError
+    | EntityNotFoundError
+    | InternalServiceError
+    | InvalidInputError
+    | ThrottlingError
+  >;
+
+  /**
    * @see {@link UpdateBlueprintCommand}
    */
   updateBlueprint(
@@ -5688,6 +6346,44 @@ export interface GlueService$ {
     | InvalidInputError
     | OperationTimeoutError
     | ValidationError
+  >;
+
+  /**
+   * @see {@link UpdateGlossaryCommand}
+   */
+  updateGlossary(
+    args: UpdateGlossaryCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateGlossaryCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | AlreadyExistsError
+    | ConcurrentModificationError
+    | EntityNotFoundError
+    | InternalServiceError
+    | InvalidInputError
+    | ThrottlingError
+  >;
+
+  /**
+   * @see {@link UpdateGlossaryTermCommand}
+   */
+  updateGlossaryTerm(
+    args: UpdateGlossaryTermCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateGlossaryTermCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | AlreadyExistsError
+    | ConcurrentModificationError
+    | EntityNotFoundError
+    | InternalServiceError
+    | InvalidInputError
+    | ThrottlingError
   >;
 
   /**

@@ -51,6 +51,13 @@
 - Updated dependencies [[`57b06d0`](https://github.com/floydspace/effect-aws/commit/57b06d0474b35ae754e8e1b0a317e15669191779)]:
   - @effect-aws/client-s3@2.0.0-beta.0
 
+## 0.3.1
+
+### Patch Changes
+
+- Updated dependencies [[`b2ad129`](https://github.com/floydspace/effect-aws/commit/b2ad1294c3eb6c5a59bfe0aa879946c2d406c4c3)]:
+  - @effect-aws/client-s3@1.11.3
+
 ## 0.3.0
 
 ### Minor Changes

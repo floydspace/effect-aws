@@ -5,7 +5,7 @@ import {
   type ListApplicationsCommandInput,
 } from "@aws-sdk/client-codedeploy";
 // @ts-ignore
-import * as runtimeConfig from "@aws-sdk/client-codedeploy/dist-cjs/runtimeConfig";
+import * as runtimeConfig from "@aws-sdk/client-codedeploy/dist-es/runtimeConfig";
 import { CodeDeployService as CodeDeploy } from "@effect-aws/client-codedeploy/CodeDeployService";
 import * as CodeDeployServiceConfig from "@effect-aws/client-codedeploy/CodeDeployServiceConfig";
 import { SdkError } from "@effect-aws/commons/Errors";

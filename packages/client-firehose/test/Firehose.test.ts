@@ -5,7 +5,7 @@ import {
   type PutRecordCommandInput,
 } from "@aws-sdk/client-firehose";
 // @ts-ignore
-import * as runtimeConfig from "@aws-sdk/client-firehose/dist-cjs/runtimeConfig";
+import * as runtimeConfig from "@aws-sdk/client-firehose/dist-es/runtimeConfig";
 import { FirehoseService as Firehose } from "@effect-aws/client-firehose/FirehoseService";
 import * as FirehoseServiceConfig from "@effect-aws/client-firehose/FirehoseServiceConfig";
 import { SdkError } from "@effect-aws/commons/Errors";

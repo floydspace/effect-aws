@@ -39,6 +39,15 @@
       "path": "packages/client-bedrock-runtime"
     },
     {
+      "path": "packages/client-bedrock-agent"
+    },
+    {
+      "path": "packages/client-bedrock-agentcore"
+    },
+    {
+      "path": "packages/client-bedrock-agentcore-control"
+    },
+    {
       "path": "packages/client-cloudfront"
     },
     {
@@ -84,6 +93,9 @@
       "path": "packages/client-ecs"
     },
     {
+      "path": "packages/client-eks"
+    },
+    {
       "path": "packages/client-elasticache"
     },
     {
@@ -103,12 +115,6 @@
     },
     {
       "path": "packages/client-iot-data-plane"
-    },
-    {
-      "path": "packages/client-iot-events"
-    },
-    {
-      "path": "packages/client-iot-events-data"
     },
     {
       "path": "packages/client-iot-jobs-data-plane"

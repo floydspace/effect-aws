@@ -5,7 +5,7 @@ import {
   type ListPipelinesCommandInput,
 } from "@aws-sdk/client-data-pipeline";
 // @ts-ignore
-import * as runtimeConfig from "@aws-sdk/client-data-pipeline/dist-cjs/runtimeConfig";
+import * as runtimeConfig from "@aws-sdk/client-data-pipeline/dist-es/runtimeConfig";
 import { DataPipelineService as DataPipeline } from "@effect-aws/client-data-pipeline/DataPipelineService";
 import * as DataPipelineServiceConfig from "@effect-aws/client-data-pipeline/DataPipelineServiceConfig";
 import { SdkError } from "@effect-aws/commons/Errors";

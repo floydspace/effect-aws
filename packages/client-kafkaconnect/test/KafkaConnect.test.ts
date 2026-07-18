@@ -5,7 +5,7 @@ import {
   type ListConnectorsCommandInput,
 } from "@aws-sdk/client-kafkaconnect";
 // @ts-ignore
-import * as runtimeConfig from "@aws-sdk/client-kafkaconnect/dist-cjs/runtimeConfig";
+import * as runtimeConfig from "@aws-sdk/client-kafkaconnect/dist-es/runtimeConfig";
 import { KafkaConnectService as KafkaConnect } from "@effect-aws/client-kafkaconnect/KafkaConnectService";
 import * as KafkaConnectServiceConfig from "@effect-aws/client-kafkaconnect/KafkaConnectServiceConfig";
 import { SdkError } from "@effect-aws/commons/Errors";

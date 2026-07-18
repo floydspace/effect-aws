@@ -5,7 +5,7 @@ import {
   type ListCustomModelsCommandInput,
 } from "@aws-sdk/client-bedrock";
 // @ts-ignore
-import * as runtimeConfig from "@aws-sdk/client-bedrock/dist-cjs/runtimeConfig";
+import * as runtimeConfig from "@aws-sdk/client-bedrock/dist-es/runtimeConfig";
 import { BedrockService as Bedrock } from "@effect-aws/client-bedrock/BedrockService";
 import * as BedrockServiceConfig from "@effect-aws/client-bedrock/BedrockServiceConfig";
 import { SdkError } from "@effect-aws/commons/Errors";

@@ -23,6 +23,9 @@ import {
   CreateAssociationCommand,
   type CreateAssociationCommandInput,
   type CreateAssociationCommandOutput,
+  CreateCloudConnectorCommand,
+  type CreateCloudConnectorCommandInput,
+  type CreateCloudConnectorCommandOutput,
   CreateDocumentCommand,
   type CreateDocumentCommandInput,
   type CreateDocumentCommandOutput,
@@ -47,6 +50,9 @@ import {
   DeleteAssociationCommand,
   type DeleteAssociationCommandInput,
   type DeleteAssociationCommandOutput,
+  DeleteCloudConnectorCommand,
+  type DeleteCloudConnectorCommandInput,
+  type DeleteCloudConnectorCommandOutput,
   DeleteDocumentCommand,
   type DeleteDocumentCommandInput,
   type DeleteDocumentCommandOutput,
@@ -200,6 +206,9 @@ import {
   GetCalendarStateCommand,
   type GetCalendarStateCommandInput,
   type GetCalendarStateCommandOutput,
+  GetCloudConnectorCommand,
+  type GetCloudConnectorCommandInput,
+  type GetCloudConnectorCommandOutput,
   GetCommandInvocationCommand,
   type GetCommandInvocationCommandInput,
   type GetCommandInvocationCommandOutput,
@@ -281,6 +290,9 @@ import {
   ListAssociationVersionsCommand,
   type ListAssociationVersionsCommandInput,
   type ListAssociationVersionsCommandOutput,
+  ListCloudConnectorsCommand,
+  type ListCloudConnectorsCommandInput,
+  type ListCloudConnectorsCommandOutput,
   ListCommandInvocationsCommand,
   type ListCommandInvocationsCommandInput,
   type ListCommandInvocationsCommandOutput,
@@ -369,6 +381,7 @@ import {
   paginateGetResourcePolicies,
   paginateListAssociations,
   paginateListAssociationVersions,
+  paginateListCloudConnectors,
   paginateListCommandInvocations,
   paginateListCommands,
   paginateListComplianceItems,
@@ -382,6 +395,7 @@ import {
   paginateListOpsMetadata,
   paginateListResourceComplianceSummaries,
   paginateListResourceDataSync,
+  paginateValidateCloudConnector,
   PutComplianceItemsCommand,
   type PutComplianceItemsCommandInput,
   type PutComplianceItemsCommandOutput,
@@ -456,6 +470,9 @@ import {
   UpdateAssociationStatusCommand,
   type UpdateAssociationStatusCommandInput,
   type UpdateAssociationStatusCommandOutput,
+  UpdateCloudConnectorCommand,
+  type UpdateCloudConnectorCommandInput,
+  type UpdateCloudConnectorCommandOutput,
   UpdateDocumentCommand,
   type UpdateDocumentCommandInput,
   type UpdateDocumentCommandOutput,
@@ -492,6 +509,9 @@ import {
   UpdateServiceSettingCommand,
   type UpdateServiceSettingCommandInput,
   type UpdateServiceSettingCommandOutput,
+  ValidateCloudConnectorCommand,
+  type ValidateCloudConnectorCommandInput,
+  type ValidateCloudConnectorCommandOutput,
 } from "@aws-sdk/client-ssm";
 import * as Service from "@effect-aws/commons/Service";
 import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
@@ -517,6 +537,7 @@ import type {
   AutomationExecutionNotFoundError,
   AutomationStepNotFoundError,
   ComplianceTypeCountLimitExceededError,
+  ConflictError,
   CustomSchemaCountLimitExceededError,
   DocumentAlreadyExistsError,
   DocumentLimitExceededError,
@@ -655,6 +676,7 @@ const commands = {
   CreateActivationCommand,
   CreateAssociationCommand,
   CreateAssociationBatchCommand,
+  CreateCloudConnectorCommand,
   CreateDocumentCommand,
   CreateMaintenanceWindowCommand,
   CreateOpsItemCommand,
@@ -663,6 +685,7 @@ const commands = {
   CreateResourceDataSyncCommand,
   DeleteActivationCommand,
   DeleteAssociationCommand,
+  DeleteCloudConnectorCommand,
   DeleteDocumentCommand,
   DeleteInventoryCommand,
   DeleteMaintenanceWindowCommand,
@@ -714,6 +737,7 @@ const commands = {
   GetAccessTokenCommand,
   GetAutomationExecutionCommand,
   GetCalendarStateCommand,
+  GetCloudConnectorCommand,
   GetCommandInvocationCommand,
   GetConnectionStatusCommand,
   GetDefaultPatchBaselineCommand,
@@ -741,6 +765,7 @@ const commands = {
   LabelParameterVersionCommand,
   ListAssociationVersionsCommand,
   ListAssociationsCommand,
+  ListCloudConnectorsCommand,
   ListCommandInvocationsCommand,
   ListCommandsCommand,
   ListComplianceItemsCommand,
@@ -782,6 +807,7 @@ const commands = {
   UnlabelParameterVersionCommand,
   UpdateAssociationCommand,
   UpdateAssociationStatusCommand,
+  UpdateCloudConnectorCommand,
   UpdateDocumentCommand,
   UpdateDocumentDefaultVersionCommand,
   UpdateDocumentMetadataCommand,
@@ -794,6 +820,7 @@ const commands = {
   UpdatePatchBaselineCommand,
   UpdateResourceDataSyncCommand,
   UpdateServiceSettingCommand,
+  ValidateCloudConnectorCommand,
 };
 
 const paginators = {
@@ -834,6 +861,7 @@ const paginators = {
   paginateGetResourcePolicies,
   paginateListAssociationVersions,
   paginateListAssociations,
+  paginateListCloudConnectors,
   paginateListCommandInvocations,
   paginateListCommands,
   paginateListComplianceItems,
@@ -847,6 +875,7 @@ const paginators = {
   paginateListOpsMetadata,
   paginateListResourceComplianceSummaries,
   paginateListResourceDataSync,
+  paginateValidateCloudConnector,
 };
 
 export interface SSMService$ {
@@ -973,6 +1002,17 @@ export interface SSMService$ {
   >;
 
   /**
+   * @see {@link CreateCloudConnectorCommand}
+   */
+  createCloudConnector(
+    args: CreateCloudConnectorCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateCloudConnectorCommandOutput,
+    Cause.TimeoutError | SdkError | ConflictError | InternalServerError | ServiceQuotaExceededError
+  >;
+
+  /**
    * @see {@link CreateDocumentCommand}
    */
   createDocument(
@@ -1095,6 +1135,17 @@ export interface SSMService$ {
     | InvalidDocumentError
     | InvalidInstanceIdError
     | TooManyUpdatesError
+  >;
+
+  /**
+   * @see {@link DeleteCloudConnectorCommand}
+   */
+  deleteCloudConnector(
+    args: DeleteCloudConnectorCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteCloudConnectorCommandOutput,
+    Cause.TimeoutError | SdkError | ConflictError | InternalServerError | ResourceNotFoundError
   >;
 
   /**
@@ -2017,6 +2068,17 @@ export interface SSMService$ {
   >;
 
   /**
+   * @see {@link GetCloudConnectorCommand}
+   */
+  getCloudConnector(
+    args: GetCloudConnectorCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetCloudConnectorCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServerError | ResourceNotFoundError
+  >;
+
+  /**
    * @see {@link GetCommandInvocationCommand}
    */
   getCommandInvocation(
@@ -2451,6 +2513,22 @@ export interface SSMService$ {
     ListAssociationsCommandOutput,
     Cause.TimeoutError | SdkError | InternalServerError | InvalidNextTokenError
   >;
+
+  /**
+   * @see {@link ListCloudConnectorsCommand}
+   */
+  listCloudConnectors(
+    args: ListCloudConnectorsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListCloudConnectorsCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServerError
+  >;
+
+  listCloudConnectorsStream(
+    args: ListCloudConnectorsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<ListCloudConnectorsCommandOutput, Cause.TimeoutError | SdkError | InternalServerError>;
 
   /**
    * @see {@link ListCommandInvocationsCommand}
@@ -3243,6 +3321,17 @@ export interface SSMService$ {
   >;
 
   /**
+   * @see {@link UpdateCloudConnectorCommand}
+   */
+  updateCloudConnector(
+    args: UpdateCloudConnectorCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateCloudConnectorCommandOutput,
+    Cause.TimeoutError | SdkError | ConflictError | InternalServerError | ResourceNotFoundError
+  >;
+
+  /**
    * @see {@link UpdateDocumentCommand}
    */
   updateDocument(
@@ -3413,6 +3502,25 @@ export interface SSMService$ {
   ): Effect.Effect<
     UpdateServiceSettingCommandOutput,
     Cause.TimeoutError | SdkError | InternalServerError | ServiceSettingNotFoundError | TooManyUpdatesError
+  >;
+
+  /**
+   * @see {@link ValidateCloudConnectorCommand}
+   */
+  validateCloudConnector(
+    args: ValidateCloudConnectorCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ValidateCloudConnectorCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServerError | ResourceNotFoundError
+  >;
+
+  validateCloudConnectorStream(
+    args: ValidateCloudConnectorCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ValidateCloudConnectorCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServerError | ResourceNotFoundError
   >;
 }
 

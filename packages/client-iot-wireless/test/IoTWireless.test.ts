@@ -5,7 +5,7 @@ import {
   type ListDestinationsCommandInput,
 } from "@aws-sdk/client-iot-wireless";
 // @ts-ignore
-import * as runtimeConfig from "@aws-sdk/client-iot-wireless/dist-cjs/runtimeConfig";
+import * as runtimeConfig from "@aws-sdk/client-iot-wireless/dist-es/runtimeConfig";
 import { IoTWirelessService as IoTWireless } from "@effect-aws/client-iot-wireless/IoTWirelessService";
 import * as IoTWirelessServiceConfig from "@effect-aws/client-iot-wireless/IoTWirelessServiceConfig";
 import { SdkError } from "@effect-aws/commons/Errors";

@@ -5,7 +5,7 @@ import {
   type ListTrailsCommandInput,
 } from "@aws-sdk/client-cloudtrail";
 // @ts-ignore
-import * as runtimeConfig from "@aws-sdk/client-cloudtrail/dist-cjs/runtimeConfig";
+import * as runtimeConfig from "@aws-sdk/client-cloudtrail/dist-es/runtimeConfig";
 import { CloudTrailService as CloudTrail } from "@effect-aws/client-cloudtrail/CloudTrailService";
 import * as CloudTrailServiceConfig from "@effect-aws/client-cloudtrail/CloudTrailServiceConfig";
 import { SdkError } from "@effect-aws/commons/Errors";
