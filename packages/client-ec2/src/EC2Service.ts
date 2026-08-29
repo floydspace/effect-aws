@@ -56,6 +56,9 @@ import {
   AssociateAddressCommand,
   type AssociateAddressCommandInput,
   type AssociateAddressCommandOutput,
+  AssociateApplicationStatusCheckCommand,
+  type AssociateApplicationStatusCheckCommandInput,
+  type AssociateApplicationStatusCheckCommandOutput,
   AssociateCapacityReservationBillingOwnerCommand,
   type AssociateCapacityReservationBillingOwnerCommandInput,
   type AssociateCapacityReservationBillingOwnerCommandOutput,
@@ -140,6 +143,9 @@ import {
   AuthorizeSecurityGroupIngressCommand,
   type AuthorizeSecurityGroupIngressCommandInput,
   type AuthorizeSecurityGroupIngressCommandOutput,
+  BatchModifyIpamRoutingPolicyRegistrationsCommand,
+  type BatchModifyIpamRoutingPolicyRegistrationsCommandInput,
+  type BatchModifyIpamRoutingPolicyRegistrationsCommandOutput,
   BundleInstanceCommand,
   type BundleInstanceCommandInput,
   type BundleInstanceCommandOutput,
@@ -191,6 +197,9 @@ import {
   CopyVolumesCommand,
   type CopyVolumesCommandInput,
   type CopyVolumesCommandOutput,
+  CreateApplicationStatusCheckCommand,
+  type CreateApplicationStatusCheckCommandInput,
+  type CreateApplicationStatusCheckCommandOutput,
   CreateCapacityManagerDataExportCommand,
   type CreateCapacityManagerDataExportCommandInput,
   type CreateCapacityManagerDataExportCommandOutput,
@@ -275,6 +284,9 @@ import {
   CreateIpamExternalResourceVerificationTokenCommand,
   type CreateIpamExternalResourceVerificationTokenCommandInput,
   type CreateIpamExternalResourceVerificationTokenCommandOutput,
+  CreateIpamInternetRegistryAssociationCommand,
+  type CreateIpamInternetRegistryAssociationCommandInput,
+  type CreateIpamInternetRegistryAssociationCommandOutput,
   CreateIpamPolicyCommand,
   type CreateIpamPolicyCommandInput,
   type CreateIpamPolicyCommandOutput,
@@ -290,6 +302,9 @@ import {
   CreateIpamResourceDiscoveryCommand,
   type CreateIpamResourceDiscoveryCommandInput,
   type CreateIpamResourceDiscoveryCommandOutput,
+  CreateIpamRoutingPolicyRegistrationCommand,
+  type CreateIpamRoutingPolicyRegistrationCommandInput,
+  type CreateIpamRoutingPolicyRegistrationCommandOutput,
   CreateIpamScopeCommand,
   type CreateIpamScopeCommandInput,
   type CreateIpamScopeCommandOutput,
@@ -443,6 +458,9 @@ import {
   CreateTransitGatewayPolicyTableCommand,
   type CreateTransitGatewayPolicyTableCommandInput,
   type CreateTransitGatewayPolicyTableCommandOutput,
+  CreateTransitGatewayPolicyTableEntryCommand,
+  type CreateTransitGatewayPolicyTableEntryCommandInput,
+  type CreateTransitGatewayPolicyTableEntryCommandOutput,
   CreateTransitGatewayPrefixListReferenceCommand,
   type CreateTransitGatewayPrefixListReferenceCommandInput,
   type CreateTransitGatewayPrefixListReferenceCommandOutput,
@@ -506,6 +524,9 @@ import {
   CreateVpnGatewayCommand,
   type CreateVpnGatewayCommandInput,
   type CreateVpnGatewayCommandOutput,
+  DeleteApplicationStatusCheckCommand,
+  type DeleteApplicationStatusCheckCommandInput,
+  type DeleteApplicationStatusCheckCommandOutput,
   DeleteCapacityManagerDataExportCommand,
   type DeleteCapacityManagerDataExportCommandInput,
   type DeleteCapacityManagerDataExportCommandOutput,
@@ -560,6 +581,9 @@ import {
   DeleteIpamExternalResourceVerificationTokenCommand,
   type DeleteIpamExternalResourceVerificationTokenCommandInput,
   type DeleteIpamExternalResourceVerificationTokenCommandOutput,
+  DeleteIpamInternetRegistryAssociationCommand,
+  type DeleteIpamInternetRegistryAssociationCommandInput,
+  type DeleteIpamInternetRegistryAssociationCommandOutput,
   DeleteIpamPolicyCommand,
   type DeleteIpamPolicyCommandInput,
   type DeleteIpamPolicyCommandOutput,
@@ -575,6 +599,9 @@ import {
   DeleteIpamResourceDiscoveryCommand,
   type DeleteIpamResourceDiscoveryCommandInput,
   type DeleteIpamResourceDiscoveryCommandOutput,
+  DeleteIpamRoutingPolicyRegistrationCommand,
+  type DeleteIpamRoutingPolicyRegistrationCommandInput,
+  type DeleteIpamRoutingPolicyRegistrationCommandOutput,
   DeleteIpamScopeCommand,
   type DeleteIpamScopeCommandInput,
   type DeleteIpamScopeCommandOutput,
@@ -722,6 +749,9 @@ import {
   DeleteTransitGatewayPolicyTableCommand,
   type DeleteTransitGatewayPolicyTableCommandInput,
   type DeleteTransitGatewayPolicyTableCommandOutput,
+  DeleteTransitGatewayPolicyTableEntryCommand,
+  type DeleteTransitGatewayPolicyTableEntryCommandInput,
+  type DeleteTransitGatewayPolicyTableEntryCommandOutput,
   DeleteTransitGatewayPrefixListReferenceCommand,
   type DeleteTransitGatewayPrefixListReferenceCommandInput,
   type DeleteTransitGatewayPrefixListReferenceCommandOutput,
@@ -827,6 +857,15 @@ import {
   DescribeAggregateIdFormatCommand,
   type DescribeAggregateIdFormatCommandInput,
   type DescribeAggregateIdFormatCommandOutput,
+  DescribeApplicationStatusCheckAssociationsCommand,
+  type DescribeApplicationStatusCheckAssociationsCommandInput,
+  type DescribeApplicationStatusCheckAssociationsCommandOutput,
+  DescribeApplicationStatusChecksCommand,
+  type DescribeApplicationStatusChecksCommandInput,
+  type DescribeApplicationStatusChecksCommandOutput,
+  DescribeApplicationStatusCommand,
+  type DescribeApplicationStatusCommandInput,
+  type DescribeApplicationStatusCommandOutput,
   DescribeAvailabilityZonesCommand,
   type DescribeAvailabilityZonesCommandInput,
   type DescribeAvailabilityZonesCommandOutput,
@@ -1031,6 +1070,9 @@ import {
   DescribeIpamExternalResourceVerificationTokensCommand,
   type DescribeIpamExternalResourceVerificationTokensCommandInput,
   type DescribeIpamExternalResourceVerificationTokensCommandOutput,
+  DescribeIpamInternetRegistryAssociationsCommand,
+  type DescribeIpamInternetRegistryAssociationsCommandInput,
+  type DescribeIpamInternetRegistryAssociationsCommandOutput,
   DescribeIpamPoliciesCommand,
   type DescribeIpamPoliciesCommandInput,
   type DescribeIpamPoliciesCommandOutput,
@@ -1400,6 +1442,9 @@ import {
   DisableAllowedImagesSettingsCommand,
   type DisableAllowedImagesSettingsCommandInput,
   type DisableAllowedImagesSettingsCommandOutput,
+  DisableApplicationStatusCheckSuppressionCommand,
+  type DisableApplicationStatusCheckSuppressionCommandInput,
+  type DisableApplicationStatusCheckSuppressionCommandOutput,
   DisableAwsNetworkPerformanceMetricSubscriptionCommand,
   type DisableAwsNetworkPerformanceMetricSubscriptionCommandInput,
   type DisableAwsNetworkPerformanceMetricSubscriptionCommandOutput,
@@ -1460,6 +1505,9 @@ import {
   DisassociateAddressCommand,
   type DisassociateAddressCommandInput,
   type DisassociateAddressCommandOutput,
+  DisassociateApplicationStatusCheckCommand,
+  type DisassociateApplicationStatusCheckCommandInput,
+  type DisassociateApplicationStatusCheckCommandOutput,
   DisassociateCapacityReservationBillingOwnerCommand,
   type DisassociateCapacityReservationBillingOwnerCommandInput,
   type DisassociateCapacityReservationBillingOwnerCommandOutput,
@@ -1519,6 +1567,9 @@ import {
   EnableAllowedImagesSettingsCommand,
   type EnableAllowedImagesSettingsCommandInput,
   type EnableAllowedImagesSettingsCommandOutput,
+  EnableApplicationStatusCheckSuppressionCommand,
+  type EnableApplicationStatusCheckSuppressionCommandInput,
+  type EnableApplicationStatusCheckSuppressionCommandOutput,
   EnableAwsNetworkPerformanceMetricSubscriptionCommand,
   type EnableAwsNetworkPerformanceMetricSubscriptionCommandInput,
   type EnableAwsNetworkPerformanceMetricSubscriptionCommandOutput,
@@ -1549,6 +1600,9 @@ import {
   EnableInstanceSqlHaStandbyDetectionsCommand,
   type EnableInstanceSqlHaStandbyDetectionsCommandInput,
   type EnableInstanceSqlHaStandbyDetectionsCommandOutput,
+  EnableIpamInternetRegistryAssociationCommand,
+  type EnableIpamInternetRegistryAssociationCommandInput,
+  type EnableIpamInternetRegistryAssociationCommandOutput,
   EnableIpamOrganizationAdminAccountCommand,
   type EnableIpamOrganizationAdminAccountCommandInput,
   type EnableIpamOrganizationAdminAccountCommandOutput,
@@ -1690,6 +1744,15 @@ import {
   GetIpamDiscoveredResourceCidrsCommand,
   type GetIpamDiscoveredResourceCidrsCommandInput,
   type GetIpamDiscoveredResourceCidrsCommandOutput,
+  GetIpamDiscoveredRoutesCommand,
+  type GetIpamDiscoveredRoutesCommandInput,
+  type GetIpamDiscoveredRoutesCommandOutput,
+  GetIpamInternetRegistryAssociationAsnsCommand,
+  type GetIpamInternetRegistryAssociationAsnsCommandInput,
+  type GetIpamInternetRegistryAssociationAsnsCommandOutput,
+  GetIpamInternetRegistryAssociationCidrsCommand,
+  type GetIpamInternetRegistryAssociationCidrsCommandInput,
+  type GetIpamInternetRegistryAssociationCidrsCommandOutput,
   GetIpamPolicyAllocationRulesCommand,
   type GetIpamPolicyAllocationRulesCommandInput,
   type GetIpamPolicyAllocationRulesCommandOutput,
@@ -1714,6 +1777,18 @@ import {
   GetIpamResourceCidrsCommand,
   type GetIpamResourceCidrsCommandInput,
   type GetIpamResourceCidrsCommandOutput,
+  GetIpamRouteOriginAuthorizationsCommand,
+  type GetIpamRouteOriginAuthorizationsCommandInput,
+  type GetIpamRouteOriginAuthorizationsCommandOutput,
+  GetIpamRouteProtectionFindingsCommand,
+  type GetIpamRouteProtectionFindingsCommandInput,
+  type GetIpamRouteProtectionFindingsCommandOutput,
+  GetIpamRoutingPolicyRegistrationDeltasCommand,
+  type GetIpamRoutingPolicyRegistrationDeltasCommandInput,
+  type GetIpamRoutingPolicyRegistrationDeltasCommandOutput,
+  GetIpamRoutingPolicyRegistrationsCommand,
+  type GetIpamRoutingPolicyRegistrationsCommandInput,
+  type GetIpamRoutingPolicyRegistrationsCommandOutput,
   GetLaunchTemplateDataCommand,
   type GetLaunchTemplateDataCommandInput,
   type GetLaunchTemplateDataCommandOutput,
@@ -1843,6 +1918,9 @@ import {
   ModifyAddressAttributeCommand,
   type ModifyAddressAttributeCommandInput,
   type ModifyAddressAttributeCommandOutput,
+  ModifyApplicationStatusCheckCommand,
+  type ModifyApplicationStatusCheckCommandInput,
+  type ModifyApplicationStatusCheckCommandOutput,
   ModifyAvailabilityZoneGroupCommand,
   type ModifyAvailabilityZoneGroupCommandInput,
   type ModifyAvailabilityZoneGroupCommandOutput,
@@ -1939,6 +2017,9 @@ import {
   ModifyIpamResourceDiscoveryCommand,
   type ModifyIpamResourceDiscoveryCommandInput,
   type ModifyIpamResourceDiscoveryCommandOutput,
+  ModifyIpamRoutingPolicyRegistrationCommand,
+  type ModifyIpamRoutingPolicyRegistrationCommandInput,
+  type ModifyIpamRoutingPolicyRegistrationCommandOutput,
   ModifyIpamScopeCommand,
   type ModifyIpamScopeCommandInput,
   type ModifyIpamScopeCommandOutput,
@@ -1999,6 +2080,9 @@ import {
   ModifyTransitGatewayMeteringPolicyCommand,
   type ModifyTransitGatewayMeteringPolicyCommandInput,
   type ModifyTransitGatewayMeteringPolicyCommandOutput,
+  ModifyTransitGatewayPolicyTableEntryCommand,
+  type ModifyTransitGatewayPolicyTableEntryCommandInput,
+  type ModifyTransitGatewayPolicyTableEntryCommandOutput,
   ModifyTransitGatewayPrefixListReferenceCommand,
   type ModifyTransitGatewayPrefixListReferenceCommandInput,
   type ModifyTransitGatewayPrefixListReferenceCommandOutput,
@@ -2252,6 +2336,7 @@ import {
   paginateGetTransitGatewayAttachmentPropagations,
   paginateGetTransitGatewayMulticastDomainAssociations,
   paginateGetTransitGatewayPolicyTableAssociations,
+  paginateGetTransitGatewayPolicyTableEntries,
   paginateGetTransitGatewayPrefixListReferences,
   paginateGetTransitGatewayRouteTableAssociations,
   paginateGetTransitGatewayRouteTablePropagations,
@@ -2339,6 +2424,9 @@ import {
   ReplaceImageCriteriaInAllowedImagesSettingsCommand,
   type ReplaceImageCriteriaInAllowedImagesSettingsCommandInput,
   type ReplaceImageCriteriaInAllowedImagesSettingsCommandOutput,
+  ReplaceImageInstanceTypeSpecificationCommand,
+  type ReplaceImageInstanceTypeSpecificationCommandInput,
+  type ReplaceImageInstanceTypeSpecificationCommandOutput,
   ReplaceNetworkAclAssociationCommand,
   type ReplaceNetworkAclAssociationCommandInput,
   type ReplaceNetworkAclAssociationCommandOutput,
@@ -2521,6 +2609,7 @@ const commands = {
   AssignPrivateIpAddressesCommand,
   AssignPrivateNatGatewayAddressCommand,
   AssociateAddressCommand,
+  AssociateApplicationStatusCheckCommand,
   AssociateCapacityReservationBillingOwnerCommand,
   AssociateClientVpnTargetNetworkCommand,
   AssociateDhcpOptionsCommand,
@@ -2549,6 +2638,7 @@ const commands = {
   AuthorizeClientVpnIngressCommand,
   AuthorizeSecurityGroupEgressCommand,
   AuthorizeSecurityGroupIngressCommand,
+  BatchModifyIpamRoutingPolicyRegistrationsCommand,
   BundleInstanceCommand,
   CancelBundleTaskCommand,
   CancelCapacityReservationCommand,
@@ -2566,6 +2656,7 @@ const commands = {
   CopyImageCommand,
   CopySnapshotCommand,
   CopyVolumesCommand,
+  CreateApplicationStatusCheckCommand,
   CreateCapacityManagerDataExportCommand,
   CreateCapacityReservationCommand,
   CreateCapacityReservationBySplittingCommand,
@@ -2594,11 +2685,13 @@ const commands = {
   CreateInterruptibleCapacityReservationAllocationCommand,
   CreateIpamCommand,
   CreateIpamExternalResourceVerificationTokenCommand,
+  CreateIpamInternetRegistryAssociationCommand,
   CreateIpamPolicyCommand,
   CreateIpamPoolCommand,
   CreateIpamPrefixListResolverCommand,
   CreateIpamPrefixListResolverTargetCommand,
   CreateIpamResourceDiscoveryCommand,
+  CreateIpamRoutingPolicyRegistrationCommand,
   CreateIpamScopeCommand,
   CreateKeyPairCommand,
   CreateLaunchTemplateCommand,
@@ -2650,6 +2743,7 @@ const commands = {
   CreateTransitGatewayMulticastDomainCommand,
   CreateTransitGatewayPeeringAttachmentCommand,
   CreateTransitGatewayPolicyTableCommand,
+  CreateTransitGatewayPolicyTableEntryCommand,
   CreateTransitGatewayPrefixListReferenceCommand,
   CreateTransitGatewayRouteCommand,
   CreateTransitGatewayRouteTableCommand,
@@ -2671,6 +2765,7 @@ const commands = {
   CreateVpnConnectionCommand,
   CreateVpnConnectionRouteCommand,
   CreateVpnGatewayCommand,
+  DeleteApplicationStatusCheckCommand,
   DeleteCapacityManagerDataExportCommand,
   DeleteCarrierGatewayCommand,
   DeleteClientVpnEndpointCommand,
@@ -2689,11 +2784,13 @@ const commands = {
   DeleteInternetGatewayCommand,
   DeleteIpamCommand,
   DeleteIpamExternalResourceVerificationTokenCommand,
+  DeleteIpamInternetRegistryAssociationCommand,
   DeleteIpamPolicyCommand,
   DeleteIpamPoolCommand,
   DeleteIpamPrefixListResolverCommand,
   DeleteIpamPrefixListResolverTargetCommand,
   DeleteIpamResourceDiscoveryCommand,
+  DeleteIpamRoutingPolicyRegistrationCommand,
   DeleteIpamScopeCommand,
   DeleteKeyPairCommand,
   DeleteLaunchTemplateCommand,
@@ -2743,6 +2840,7 @@ const commands = {
   DeleteTransitGatewayMulticastDomainCommand,
   DeleteTransitGatewayPeeringAttachmentCommand,
   DeleteTransitGatewayPolicyTableCommand,
+  DeleteTransitGatewayPolicyTableEntryCommand,
   DeleteTransitGatewayPrefixListReferenceCommand,
   DeleteTransitGatewayRouteCommand,
   DeleteTransitGatewayRouteTableCommand,
@@ -2778,6 +2876,9 @@ const commands = {
   DescribeAddressesCommand,
   DescribeAddressesAttributeCommand,
   DescribeAggregateIdFormatCommand,
+  DescribeApplicationStatusCommand,
+  DescribeApplicationStatusCheckAssociationsCommand,
+  DescribeApplicationStatusChecksCommand,
   DescribeAvailabilityZonesCommand,
   DescribeAwsNetworkPerformanceMetricSubscriptionsCommand,
   DescribeBundleTasksCommand,
@@ -2846,6 +2947,7 @@ const commands = {
   DescribeInternetGatewaysCommand,
   DescribeIpamByoasnCommand,
   DescribeIpamExternalResourceVerificationTokensCommand,
+  DescribeIpamInternetRegistryAssociationsCommand,
   DescribeIpamPoliciesCommand,
   DescribeIpamPoolAllocationsCommand,
   DescribeIpamPoolsCommand,
@@ -2969,6 +3071,7 @@ const commands = {
   DetachVpnGatewayCommand,
   DisableAddressTransferCommand,
   DisableAllowedImagesSettingsCommand,
+  DisableApplicationStatusCheckSuppressionCommand,
   DisableAwsNetworkPerformanceMetricSubscriptionCommand,
   DisableCapacityManagerCommand,
   DisableEbsEncryptionByDefaultCommand,
@@ -2989,6 +3092,7 @@ const commands = {
   DisableVpcClassicLinkCommand,
   DisableVpcClassicLinkDnsSupportCommand,
   DisassociateAddressCommand,
+  DisassociateApplicationStatusCheckCommand,
   DisassociateCapacityReservationBillingOwnerCommand,
   DisassociateClientVpnTargetNetworkCommand,
   DisassociateEnclaveCertificateIamRoleCommand,
@@ -3008,6 +3112,7 @@ const commands = {
   DisassociateVpcCidrBlockCommand,
   EnableAddressTransferCommand,
   EnableAllowedImagesSettingsCommand,
+  EnableApplicationStatusCheckSuppressionCommand,
   EnableAwsNetworkPerformanceMetricSubscriptionCommand,
   EnableCapacityManagerCommand,
   EnableEbsEncryptionByDefaultCommand,
@@ -3018,6 +3123,7 @@ const commands = {
   EnableImageDeprecationCommand,
   EnableImageDeregistrationProtectionCommand,
   EnableInstanceSqlHaStandbyDetectionsCommand,
+  EnableIpamInternetRegistryAssociationCommand,
   EnableIpamOrganizationAdminAccountCommand,
   EnableIpamPolicyCommand,
   EnableReachabilityAnalyzerOrganizationSharingCommand,
@@ -3065,6 +3171,9 @@ const commands = {
   GetIpamDiscoveredAccountsCommand,
   GetIpamDiscoveredPublicAddressesCommand,
   GetIpamDiscoveredResourceCidrsCommand,
+  GetIpamDiscoveredRoutesCommand,
+  GetIpamInternetRegistryAssociationAsnsCommand,
+  GetIpamInternetRegistryAssociationCidrsCommand,
   GetIpamPolicyAllocationRulesCommand,
   GetIpamPolicyOrganizationTargetsCommand,
   GetIpamPoolAllocationsCommand,
@@ -3073,6 +3182,10 @@ const commands = {
   GetIpamPrefixListResolverVersionEntriesCommand,
   GetIpamPrefixListResolverVersionsCommand,
   GetIpamResourceCidrsCommand,
+  GetIpamRouteOriginAuthorizationsCommand,
+  GetIpamRouteProtectionFindingsCommand,
+  GetIpamRoutingPolicyRegistrationDeltasCommand,
+  GetIpamRoutingPolicyRegistrationsCommand,
   GetLaunchTemplateDataCommand,
   GetManagedPrefixListAssociationsCommand,
   GetManagedPrefixListEntriesCommand,
@@ -3116,6 +3229,7 @@ const commands = {
   LockSnapshotCommand,
   ModifyAccountVpcEncryptionControlCommand,
   ModifyAddressAttributeCommand,
+  ModifyApplicationStatusCheckCommand,
   ModifyAvailabilityZoneGroupCommand,
   ModifyCapacityReservationCommand,
   ModifyCapacityReservationFleetCommand,
@@ -3148,6 +3262,7 @@ const commands = {
   ModifyIpamPrefixListResolverTargetCommand,
   ModifyIpamResourceCidrCommand,
   ModifyIpamResourceDiscoveryCommand,
+  ModifyIpamRoutingPolicyRegistrationCommand,
   ModifyIpamScopeCommand,
   ModifyLaunchTemplateCommand,
   ModifyLocalGatewayRouteCommand,
@@ -3168,6 +3283,7 @@ const commands = {
   ModifyTrafficMirrorSessionCommand,
   ModifyTransitGatewayCommand,
   ModifyTransitGatewayMeteringPolicyCommand,
+  ModifyTransitGatewayPolicyTableEntryCommand,
   ModifyTransitGatewayPrefixListReferenceCommand,
   ModifyTransitGatewayVpcAttachmentCommand,
   ModifyVerifiedAccessEndpointCommand,
@@ -3225,6 +3341,7 @@ const commands = {
   ReleaseIpamPoolAllocationCommand,
   ReplaceIamInstanceProfileAssociationCommand,
   ReplaceImageCriteriaInAllowedImagesSettingsCommand,
+  ReplaceImageInstanceTypeSpecificationCommand,
   ReplaceNetworkAclAssociationCommand,
   ReplaceNetworkAclEntryCommand,
   ReplaceRouteCommand,
@@ -3438,6 +3555,7 @@ const paginators = {
   paginateGetTransitGatewayAttachmentPropagations,
   paginateGetTransitGatewayMulticastDomainAssociations,
   paginateGetTransitGatewayPolicyTableAssociations,
+  paginateGetTransitGatewayPolicyTableEntries,
   paginateGetTransitGatewayPrefixListReferences,
   paginateGetTransitGatewayRouteTableAssociations,
   paginateGetTransitGatewayRouteTablePropagations,
@@ -3649,6 +3767,17 @@ export interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AssociateAddressCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link AssociateApplicationStatusCheckCommand}
+   */
+  associateApplicationStatusCheck(
+    args: AssociateApplicationStatusCheckCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    AssociateApplicationStatusCheckCommandOutput,
     Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
@@ -3961,6 +4090,17 @@ export interface EC2Service$ {
   >;
 
   /**
+   * @see {@link BatchModifyIpamRoutingPolicyRegistrationsCommand}
+   */
+  batchModifyIpamRoutingPolicyRegistrations(
+    args: BatchModifyIpamRoutingPolicyRegistrationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    BatchModifyIpamRoutingPolicyRegistrationsCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link BundleInstanceCommand}
    */
   bundleInstance(
@@ -4144,6 +4284,17 @@ export interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CopyVolumesCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link CreateApplicationStatusCheckCommand}
+   */
+  createApplicationStatusCheck(
+    args: CreateApplicationStatusCheckCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateApplicationStatusCheckCommandOutput,
     Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
@@ -4456,6 +4607,17 @@ export interface EC2Service$ {
   >;
 
   /**
+   * @see {@link CreateIpamInternetRegistryAssociationCommand}
+   */
+  createIpamInternetRegistryAssociation(
+    args: CreateIpamInternetRegistryAssociationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateIpamInternetRegistryAssociationCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link CreateIpamPolicyCommand}
    */
   createIpamPolicy(
@@ -4507,6 +4669,17 @@ export interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateIpamResourceDiscoveryCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link CreateIpamRoutingPolicyRegistrationCommand}
+   */
+  createIpamRoutingPolicyRegistration(
+    args: CreateIpamRoutingPolicyRegistrationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateIpamRoutingPolicyRegistrationCommandOutput,
     Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
@@ -5072,6 +5245,17 @@ export interface EC2Service$ {
   >;
 
   /**
+   * @see {@link CreateTransitGatewayPolicyTableEntryCommand}
+   */
+  createTransitGatewayPolicyTableEntry(
+    args: CreateTransitGatewayPolicyTableEntryCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateTransitGatewayPolicyTableEntryCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link CreateTransitGatewayPrefixListReferenceCommand}
    */
   createTransitGatewayPrefixListReference(
@@ -5303,6 +5487,17 @@ export interface EC2Service$ {
   >;
 
   /**
+   * @see {@link DeleteApplicationStatusCheckCommand}
+   */
+  deleteApplicationStatusCheck(
+    args: DeleteApplicationStatusCheckCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteApplicationStatusCheckCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link DeleteCapacityManagerDataExportCommand}
    */
   deleteCapacityManagerDataExport(
@@ -5501,6 +5696,17 @@ export interface EC2Service$ {
   >;
 
   /**
+   * @see {@link DeleteIpamInternetRegistryAssociationCommand}
+   */
+  deleteIpamInternetRegistryAssociation(
+    args: DeleteIpamInternetRegistryAssociationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteIpamInternetRegistryAssociationCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link DeleteIpamPolicyCommand}
    */
   deleteIpamPolicy(
@@ -5552,6 +5758,17 @@ export interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteIpamResourceDiscoveryCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link DeleteIpamRoutingPolicyRegistrationCommand}
+   */
+  deleteIpamRoutingPolicyRegistration(
+    args: DeleteIpamRoutingPolicyRegistrationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteIpamRoutingPolicyRegistrationCommandOutput,
     Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
@@ -6095,6 +6312,17 @@ export interface EC2Service$ {
   >;
 
   /**
+   * @see {@link DeleteTransitGatewayPolicyTableEntryCommand}
+   */
+  deleteTransitGatewayPolicyTableEntry(
+    args: DeleteTransitGatewayPolicyTableEntryCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteTransitGatewayPolicyTableEntryCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link DeleteTransitGatewayPrefixListReferenceCommand}
    */
   deleteTransitGatewayPrefixListReference(
@@ -6486,6 +6714,39 @@ export interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeAggregateIdFormatCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link DescribeApplicationStatusCommand}
+   */
+  describeApplicationStatus(
+    args: DescribeApplicationStatusCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeApplicationStatusCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link DescribeApplicationStatusCheckAssociationsCommand}
+   */
+  describeApplicationStatusCheckAssociations(
+    args: DescribeApplicationStatusCheckAssociationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeApplicationStatusCheckAssociationsCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link DescribeApplicationStatusChecksCommand}
+   */
+  describeApplicationStatusChecks(
+    args: DescribeApplicationStatusChecksCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeApplicationStatusChecksCommandOutput,
     Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
@@ -7481,6 +7742,17 @@ export interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeIpamExternalResourceVerificationTokensCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link DescribeIpamInternetRegistryAssociationsCommand}
+   */
+  describeIpamInternetRegistryAssociations(
+    args: DescribeIpamInternetRegistryAssociationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeIpamInternetRegistryAssociationsCommandOutput,
     Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
@@ -9309,6 +9581,17 @@ export interface EC2Service$ {
   >;
 
   /**
+   * @see {@link DisableApplicationStatusCheckSuppressionCommand}
+   */
+  disableApplicationStatusCheckSuppression(
+    args: DisableApplicationStatusCheckSuppressionCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DisableApplicationStatusCheckSuppressionCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link DisableAwsNetworkPerformanceMetricSubscriptionCommand}
    */
   disableAwsNetworkPerformanceMetricSubscription(
@@ -9529,6 +9812,17 @@ export interface EC2Service$ {
   >;
 
   /**
+   * @see {@link DisassociateApplicationStatusCheckCommand}
+   */
+  disassociateApplicationStatusCheck(
+    args: DisassociateApplicationStatusCheckCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DisassociateApplicationStatusCheckCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link DisassociateCapacityReservationBillingOwnerCommand}
    */
   disassociateCapacityReservationBillingOwner(
@@ -9738,6 +10032,17 @@ export interface EC2Service$ {
   >;
 
   /**
+   * @see {@link EnableApplicationStatusCheckSuppressionCommand}
+   */
+  enableApplicationStatusCheckSuppression(
+    args: EnableApplicationStatusCheckSuppressionCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    EnableApplicationStatusCheckSuppressionCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link EnableAwsNetworkPerformanceMetricSubscriptionCommand}
    */
   enableAwsNetworkPerformanceMetricSubscription(
@@ -9844,6 +10149,17 @@ export interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     EnableInstanceSqlHaStandbyDetectionsCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link EnableIpamInternetRegistryAssociationCommand}
+   */
+  enableIpamInternetRegistryAssociation(
+    args: EnableIpamInternetRegistryAssociationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    EnableIpamInternetRegistryAssociationCommandOutput,
     Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
@@ -10418,6 +10734,39 @@ export interface EC2Service$ {
   ): Stream.Stream<GetIpamDiscoveredResourceCidrsCommandOutput, Cause.TimeoutError | SdkError | EC2ServiceError>;
 
   /**
+   * @see {@link GetIpamDiscoveredRoutesCommand}
+   */
+  getIpamDiscoveredRoutes(
+    args: GetIpamDiscoveredRoutesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetIpamDiscoveredRoutesCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link GetIpamInternetRegistryAssociationAsnsCommand}
+   */
+  getIpamInternetRegistryAssociationAsns(
+    args: GetIpamInternetRegistryAssociationAsnsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetIpamInternetRegistryAssociationAsnsCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link GetIpamInternetRegistryAssociationCidrsCommand}
+   */
+  getIpamInternetRegistryAssociationCidrs(
+    args: GetIpamInternetRegistryAssociationCidrsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetIpamInternetRegistryAssociationCidrsCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link GetIpamPolicyAllocationRulesCommand}
    */
   getIpamPolicyAllocationRules(
@@ -10537,6 +10886,50 @@ export interface EC2Service$ {
     args: GetIpamResourceCidrsCommandInput,
     options?: HttpHandlerOptions,
   ): Stream.Stream<GetIpamResourceCidrsCommandOutput, Cause.TimeoutError | SdkError | EC2ServiceError>;
+
+  /**
+   * @see {@link GetIpamRouteOriginAuthorizationsCommand}
+   */
+  getIpamRouteOriginAuthorizations(
+    args: GetIpamRouteOriginAuthorizationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetIpamRouteOriginAuthorizationsCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link GetIpamRouteProtectionFindingsCommand}
+   */
+  getIpamRouteProtectionFindings(
+    args: GetIpamRouteProtectionFindingsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetIpamRouteProtectionFindingsCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link GetIpamRoutingPolicyRegistrationDeltasCommand}
+   */
+  getIpamRoutingPolicyRegistrationDeltas(
+    args: GetIpamRoutingPolicyRegistrationDeltasCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetIpamRoutingPolicyRegistrationDeltasCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link GetIpamRoutingPolicyRegistrationsCommand}
+   */
+  getIpamRoutingPolicyRegistrations(
+    args: GetIpamRoutingPolicyRegistrationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetIpamRoutingPolicyRegistrationsCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
 
   /**
    * @see {@link GetLaunchTemplateDataCommand}
@@ -10821,6 +11214,11 @@ export interface EC2Service$ {
     Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
+  getTransitGatewayPolicyTableEntriesStream(
+    args: GetTransitGatewayPolicyTableEntriesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<GetTransitGatewayPolicyTableEntriesCommandOutput, Cause.TimeoutError | SdkError | EC2ServiceError>;
+
   /**
    * @see {@link GetTransitGatewayPrefixListReferencesCommand}
    */
@@ -11096,6 +11494,17 @@ export interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyAddressAttributeCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link ModifyApplicationStatusCheckCommand}
+   */
+  modifyApplicationStatusCheck(
+    args: ModifyApplicationStatusCheckCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ModifyApplicationStatusCheckCommandOutput,
     Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
@@ -11452,6 +11861,17 @@ export interface EC2Service$ {
   >;
 
   /**
+   * @see {@link ModifyIpamRoutingPolicyRegistrationCommand}
+   */
+  modifyIpamRoutingPolicyRegistration(
+    args: ModifyIpamRoutingPolicyRegistrationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ModifyIpamRoutingPolicyRegistrationCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  /**
    * @see {@link ModifyIpamScopeCommand}
    */
   modifyIpamScope(
@@ -11668,6 +12088,17 @@ export interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ModifyTransitGatewayMeteringPolicyCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link ModifyTransitGatewayPolicyTableEntryCommand}
+   */
+  modifyTransitGatewayPolicyTableEntry(
+    args: ModifyTransitGatewayPolicyTableEntryCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ModifyTransitGatewayPolicyTableEntryCommandOutput,
     Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
@@ -12295,6 +12726,17 @@ export interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ReplaceImageCriteriaInAllowedImagesSettingsCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link ReplaceImageInstanceTypeSpecificationCommand}
+   */
+  replaceImageInstanceTypeSpecification(
+    args: ReplaceImageInstanceTypeSpecificationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ReplaceImageInstanceTypeSpecificationCommandOutput,
     Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 

@@ -2,6 +2,9 @@
  * @since 1.0.0
  */
 import {
+  CreateDbBackupCommand,
+  type CreateDbBackupCommandInput,
+  type CreateDbBackupCommandOutput,
   CreateDbClusterCommand,
   type CreateDbClusterCommandInput,
   type CreateDbClusterCommandOutput,
@@ -11,12 +14,18 @@ import {
   CreateDbParameterGroupCommand,
   type CreateDbParameterGroupCommandInput,
   type CreateDbParameterGroupCommandOutput,
+  DeleteDbBackupCommand,
+  type DeleteDbBackupCommandInput,
+  type DeleteDbBackupCommandOutput,
   DeleteDbClusterCommand,
   type DeleteDbClusterCommandInput,
   type DeleteDbClusterCommandOutput,
   DeleteDbInstanceCommand,
   type DeleteDbInstanceCommandInput,
   type DeleteDbInstanceCommandOutput,
+  GetDbBackupCommand,
+  type GetDbBackupCommandInput,
+  type GetDbBackupCommandOutput,
   GetDbClusterCommand,
   type GetDbClusterCommandInput,
   type GetDbClusterCommandOutput,
@@ -26,6 +35,9 @@ import {
   GetDbParameterGroupCommand,
   type GetDbParameterGroupCommandInput,
   type GetDbParameterGroupCommandOutput,
+  ListDbBackupsCommand,
+  type ListDbBackupsCommandInput,
+  type ListDbBackupsCommandOutput,
   ListDbClustersCommand,
   type ListDbClustersCommandInput,
   type ListDbClustersCommandOutput,
@@ -41,6 +53,7 @@ import {
   ListTagsForResourceCommand,
   type ListTagsForResourceCommandInput,
   type ListTagsForResourceCommandOutput,
+  paginateListDbBackups,
   paginateListDbClusters,
   paginateListDbInstances,
   paginateListDbInstancesForCluster,
@@ -51,6 +64,9 @@ import {
   RebootDbInstanceCommand,
   type RebootDbInstanceCommandInput,
   type RebootDbInstanceCommandOutput,
+  RestoreFromDbBackupCommand,
+  type RestoreFromDbBackupCommandInput,
+  type RestoreFromDbBackupCommandOutput,
   TagResourceCommand,
   type TagResourceCommandInput,
   type TagResourceCommandOutput,
@@ -89,14 +105,18 @@ import * as Instance from "./TimestreamInfluxDBClientInstance.js";
 import * as TimestreamInfluxDBServiceConfig from "./TimestreamInfluxDBServiceConfig.js";
 
 const commands = {
+  CreateDbBackupCommand,
   CreateDbClusterCommand,
   CreateDbInstanceCommand,
   CreateDbParameterGroupCommand,
+  DeleteDbBackupCommand,
   DeleteDbClusterCommand,
   DeleteDbInstanceCommand,
+  GetDbBackupCommand,
   GetDbClusterCommand,
   GetDbInstanceCommand,
   GetDbParameterGroupCommand,
+  ListDbBackupsCommand,
   ListDbClustersCommand,
   ListDbInstancesCommand,
   ListDbInstancesForClusterCommand,
@@ -104,6 +124,7 @@ const commands = {
   ListTagsForResourceCommand,
   RebootDbClusterCommand,
   RebootDbInstanceCommand,
+  RestoreFromDbBackupCommand,
   TagResourceCommand,
   UntagResourceCommand,
   UpdateDbClusterCommand,
@@ -111,6 +132,7 @@ const commands = {
 };
 
 const paginators = {
+  paginateListDbBackups,
   paginateListDbClusters,
   paginateListDbInstances,
   paginateListDbInstancesForCluster,
@@ -122,6 +144,25 @@ const paginators = {
  * @category models
  */
 export interface TimestreamInfluxDBService$ {
+  /**
+   * @see {@link CreateDbBackupCommand}
+   */
+  createDbBackup(
+    args: CreateDbBackupCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateDbBackupCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ServiceQuotaExceededError
+    | ThrottlingError
+    | ValidationError
+  >;
+
   /**
    * @see {@link CreateDbClusterCommand}
    */
@@ -180,6 +221,24 @@ export interface TimestreamInfluxDBService$ {
   >;
 
   /**
+   * @see {@link DeleteDbBackupCommand}
+   */
+  deleteDbBackup(
+    args: DeleteDbBackupCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteDbBackupCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
    * @see {@link DeleteDbClusterCommand}
    */
   deleteDbCluster(
@@ -209,6 +268,23 @@ export interface TimestreamInfluxDBService$ {
     | SdkError
     | AccessDeniedError
     | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link GetDbBackupCommand}
+   */
+  getDbBackup(
+    args: GetDbBackupCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetDbBackupCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
     | InternalServerError
     | ResourceNotFoundError
     | ThrottlingError
@@ -257,6 +333,37 @@ export interface TimestreamInfluxDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDbParameterGroupCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link ListDbBackupsCommand}
+   */
+  listDbBackups(
+    args: ListDbBackupsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListDbBackupsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  listDbBackupsStream(
+    args: ListDbBackupsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListDbBackupsCommandOutput,
     | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
@@ -433,6 +540,25 @@ export interface TimestreamInfluxDBService$ {
     | ConflictError
     | InternalServerError
     | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link RestoreFromDbBackupCommand}
+   */
+  restoreFromDbBackup(
+    args: RestoreFromDbBackupCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    RestoreFromDbBackupCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ServiceQuotaExceededError
     | ThrottlingError
     | ValidationError
   >;

@@ -31,6 +31,9 @@ import {
   GetPrimaryEmailCommand,
   type GetPrimaryEmailCommandInput,
   type GetPrimaryEmailCommandOutput,
+  GetPrimaryEmailUpdateStatusCommand,
+  type GetPrimaryEmailUpdateStatusCommandInput,
+  type GetPrimaryEmailUpdateStatusCommandOutput,
   GetRegionOptStatusCommand,
   type GetRegionOptStatusCommandInput,
   type GetRegionOptStatusCommandOutput,
@@ -83,6 +86,7 @@ const commands = {
   GetContactInformationCommand,
   GetGovCloudAccountInformationCommand,
   GetPrimaryEmailCommand,
+  GetPrimaryEmailUpdateStatusCommand,
   GetRegionOptStatusCommand,
   ListRegionsCommand,
   PutAccountNameCommand,
@@ -240,6 +244,23 @@ export interface AccountService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPrimaryEmailCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | TooManyRequestsError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link GetPrimaryEmailUpdateStatusCommand}
+   */
+  getPrimaryEmailUpdateStatus(
+    args: GetPrimaryEmailUpdateStatusCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetPrimaryEmailUpdateStatusCommandOutput,
     | Cause.TimeoutError
     | SdkError
     | AccessDeniedError

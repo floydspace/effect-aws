@@ -34,6 +34,9 @@ import {
   DeleteBatchEvaluationCommand,
   type DeleteBatchEvaluationCommandInput,
   type DeleteBatchEvaluationCommandOutput,
+  DeleteCapacityProviderSessionCommand,
+  type DeleteCapacityProviderSessionCommandInput,
+  type DeleteCapacityProviderSessionCommandOutput,
   DeleteEventCommand,
   type DeleteEventCommandInput,
   type DeleteEventCommandOutput,
@@ -103,6 +106,9 @@ import {
   GetWorkloadAccessTokenForUserIdCommand,
   type GetWorkloadAccessTokenForUserIdCommandInput,
   type GetWorkloadAccessTokenForUserIdCommandOutput,
+  IngestDataCommand,
+  type IngestDataCommandInput,
+  type IngestDataCommandOutput,
   InvokeAgentRuntimeCommand,
   InvokeAgentRuntimeCommandCommand,
   type InvokeAgentRuntimeCommandCommandInput,
@@ -233,6 +239,7 @@ import type {
   SdkError,
   ServiceError,
   ServiceQuotaExceededError,
+  SubscriptionRequiredError,
   ThrottledError,
   ThrottlingError,
   UnauthorizedError,
@@ -251,6 +258,7 @@ const commands = {
   CreatePaymentSessionCommand,
   DeleteABTestCommand,
   DeleteBatchEvaluationCommand,
+  DeleteCapacityProviderSessionCommand,
   DeleteEventCommand,
   DeleteMemoryRecordCommand,
   DeletePaymentInstrumentCommand,
@@ -274,6 +282,7 @@ const commands = {
   GetWorkloadAccessTokenCommand,
   GetWorkloadAccessTokenForJWTCommand,
   GetWorkloadAccessTokenForUserIdCommand,
+  IngestDataCommand,
   InvokeAgentRuntimeCommand,
   InvokeAgentRuntimeCommandCommand,
   InvokeBrowserCommand,
@@ -451,7 +460,9 @@ export interface BedrockAgentCoreService$ {
     | AccessDeniedError
     | ConflictError
     | InternalServerError
+    | ResourceNotFoundError
     | ServiceQuotaExceededError
+    | SubscriptionRequiredError
     | ThrottlingError
     | ValidationError
   >;
@@ -470,6 +481,7 @@ export interface BedrockAgentCoreService$ {
     | ConflictError
     | InternalServerError
     | ServiceQuotaExceededError
+    | SubscriptionRequiredError
     | ThrottlingError
     | ValidationError
   >;
@@ -509,6 +521,23 @@ export interface BedrockAgentCoreService$ {
     | ResourceNotFoundError
     | ThrottlingError
     | UnauthorizedError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link DeleteCapacityProviderSessionCommand}
+   */
+  deleteCapacityProviderSession(
+    args: DeleteCapacityProviderSessionCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteCapacityProviderSessionCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
     | ValidationError
   >;
 
@@ -924,6 +953,24 @@ export interface BedrockAgentCoreService$ {
     | ResourceNotFoundError
     | ThrottlingError
     | UnauthorizedError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link IngestDataCommand}
+   */
+  ingestData(
+    args: IngestDataCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    IngestDataCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | ResourceNotFoundError
+    | ServiceError
+    | ServiceQuotaExceededError
+    | ThrottledError
     | ValidationError
   >;
 
@@ -1362,7 +1409,9 @@ export interface BedrockAgentCoreService$ {
     | AccessDeniedError
     | ConflictError
     | InternalServerError
+    | ResourceNotFoundError
     | ServiceQuotaExceededError
+    | SubscriptionRequiredError
     | ThrottlingError
     | ValidationError
   >;

@@ -32,6 +32,9 @@ import {
   BatchGetDataQualityResultCommand,
   type BatchGetDataQualityResultCommandInput,
   type BatchGetDataQualityResultCommandOutput,
+  BatchGetDataQualityRulesetEvaluationRunCommand,
+  type BatchGetDataQualityRulesetEvaluationRunCommandInput,
+  type BatchGetDataQualityRulesetEvaluationRunCommandOutput,
   BatchGetDevEndpointsCommand,
   type BatchGetDevEndpointsCommandInput,
   type BatchGetDevEndpointsCommandOutput,
@@ -380,6 +383,9 @@ import {
   GetDataCatalogEncryptionSettingsCommand,
   type GetDataCatalogEncryptionSettingsCommandInput,
   type GetDataCatalogEncryptionSettingsCommandOutput,
+  GetDataCatalogExportConfigurationCommand,
+  type GetDataCatalogExportConfigurationCommandInput,
+  type GetDataCatalogExportConfigurationCommandOutput,
   GetDataflowGraphCommand,
   type GetDataflowGraphCommandInput,
   type GetDataflowGraphCommandOutput,
@@ -731,6 +737,9 @@ import {
   PutDataCatalogEncryptionSettingsCommand,
   type PutDataCatalogEncryptionSettingsCommandInput,
   type PutDataCatalogEncryptionSettingsCommandOutput,
+  PutDataCatalogExportConfigurationCommand,
+  type PutDataCatalogExportConfigurationCommandInput,
+  type PutDataCatalogExportConfigurationCommandOutput,
   PutDataQualityProfileAnnotationCommand,
   type PutDataQualityProfileAnnotationCommandInput,
   type PutDataQualityProfileAnnotationCommandOutput,
@@ -1020,6 +1029,7 @@ const commands = {
   BatchGetCrawlersCommand,
   BatchGetCustomEntityTypesCommand,
   BatchGetDataQualityResultCommand,
+  BatchGetDataQualityRulesetEvaluationRunCommand,
   BatchGetDevEndpointsCommand,
   BatchGetIterableFormsCommand,
   BatchGetJobsCommand,
@@ -1134,6 +1144,7 @@ const commands = {
   GetCustomEntityTypeCommand,
   GetDashboardUrlCommand,
   GetDataCatalogEncryptionSettingsCommand,
+  GetDataCatalogExportConfigurationCommand,
   GetDataQualityModelCommand,
   GetDataQualityModelResultCommand,
   GetDataQualityResultCommand,
@@ -1235,6 +1246,7 @@ const commands = {
   PutAssetTypeCommand,
   PutAttachmentCommand,
   PutDataCatalogEncryptionSettingsCommand,
+  PutDataCatalogExportConfigurationCommand,
   PutDataQualityProfileAnnotationCommand,
   PutFormTypeCommand,
   PutResourcePolicyCommand,
@@ -1507,6 +1519,17 @@ export interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchGetDataQualityResultCommandOutput,
+    Cause.TimeoutError | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
+  >;
+
+  /**
+   * @see {@link BatchGetDataQualityRulesetEvaluationRunCommand}
+   */
+  batchGetDataQualityRulesetEvaluationRun(
+    args: BatchGetDataQualityRulesetEvaluationRunCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    BatchGetDataQualityRulesetEvaluationRunCommandOutput,
     Cause.TimeoutError | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
   >;
 
@@ -3443,6 +3466,17 @@ export interface GlueService$ {
   ): Effect.Effect<
     GetDataCatalogEncryptionSettingsCommandOutput,
     Cause.TimeoutError | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
+  >;
+
+  /**
+   * @see {@link GetDataCatalogExportConfigurationCommand}
+   */
+  getDataCatalogExportConfiguration(
+    args: GetDataCatalogExportConfigurationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetDataCatalogExportConfigurationCommandOutput,
+    Cause.TimeoutError | SdkError | EntityNotFoundError | InternalServiceError | InvalidInputError | ThrottlingError
   >;
 
   /**
@@ -5431,6 +5465,7 @@ export interface GlueService$ {
     | SdkError
     | AccessDeniedError
     | ConcurrentModificationError
+    | EntityNotFoundError
     | InternalServiceError
     | InvalidInputError
     | ThrottlingError
@@ -5463,6 +5498,23 @@ export interface GlueService$ {
   ): Effect.Effect<
     PutDataCatalogEncryptionSettingsCommandOutput,
     Cause.TimeoutError | SdkError | InternalServiceError | InvalidInputError | OperationTimeoutError
+  >;
+
+  /**
+   * @see {@link PutDataCatalogExportConfigurationCommand}
+   */
+  putDataCatalogExportConfiguration(
+    args: PutDataCatalogExportConfigurationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    PutDataCatalogExportConfigurationCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServiceError
+    | InvalidInputError
+    | ThrottlingError
   >;
 
   /**

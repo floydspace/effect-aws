@@ -249,6 +249,9 @@ import {
   PutAccountDetailsCommand,
   type PutAccountDetailsCommandInput,
   type PutAccountDetailsCommandOutput,
+  PutAccountPricingAttributesCommand,
+  type PutAccountPricingAttributesCommandInput,
+  type PutAccountPricingAttributesCommandOutput,
   PutAccountSendingAttributesCommand,
   type PutAccountSendingAttributesCommandInput,
   type PutAccountSendingAttributesCommandOutput,
@@ -462,6 +465,7 @@ const commands = {
   ListTenantsCommand,
   PutAccountDedicatedIpWarmupAttributesCommand,
   PutAccountDetailsCommand,
+  PutAccountPricingAttributesCommand,
   PutAccountSendingAttributesCommand,
   PutAccountSuppressionAttributesCommand,
   PutAccountVdmAttributesCommand,
@@ -1550,6 +1554,17 @@ export interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutAccountDetailsCommandOutput,
+    Cause.TimeoutError | SdkError | BadRequestError | ConflictError | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link PutAccountPricingAttributesCommand}
+   */
+  putAccountPricingAttributes(
+    args: PutAccountPricingAttributesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    PutAccountPricingAttributesCommandOutput,
     Cause.TimeoutError | SdkError | BadRequestError | ConflictError | TooManyRequestsError
   >;
 

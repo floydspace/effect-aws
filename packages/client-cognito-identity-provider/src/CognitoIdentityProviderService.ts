@@ -17,6 +17,9 @@ import {
   AdminCreateUserCommand,
   type AdminCreateUserCommandInput,
   type AdminCreateUserCommandOutput,
+  AdminDeleteSoftwareTokenCommand,
+  type AdminDeleteSoftwareTokenCommandInput,
+  type AdminDeleteSoftwareTokenCommandOutput,
   AdminDeleteUserAttributesCommand,
   type AdminDeleteUserAttributesCommandInput,
   type AdminDeleteUserAttributesCommandOutput,
@@ -38,6 +41,9 @@ import {
   AdminGetDeviceCommand,
   type AdminGetDeviceCommandInput,
   type AdminGetDeviceCommandOutput,
+  AdminGetUserAuthFactorsCommand,
+  type AdminGetUserAuthFactorsCommandInput,
+  type AdminGetUserAuthFactorsCommandOutput,
   AdminGetUserCommand,
   type AdminGetUserCommandInput,
   type AdminGetUserCommandOutput,
@@ -190,6 +196,9 @@ import {
   DescribeRiskConfigurationCommand,
   type DescribeRiskConfigurationCommandInput,
   type DescribeRiskConfigurationCommandOutput,
+  DescribeTermsByClientCommand,
+  type DescribeTermsByClientCommandInput,
+  type DescribeTermsByClientCommandOutput,
   DescribeTermsCommand,
   type DescribeTermsCommandInput,
   type DescribeTermsCommandOutput,
@@ -211,6 +220,9 @@ import {
   ForgotPasswordCommand,
   type ForgotPasswordCommandInput,
   type ForgotPasswordCommandOutput,
+  GetClientTokenCommand,
+  type GetClientTokenCommandInput,
+  type GetClientTokenCommandOutput,
   GetCSVHeaderCommand,
   type GetCSVHeaderCommandInput,
   type GetCSVHeaderCommandOutput,
@@ -478,6 +490,7 @@ const commands = {
   AdminAddUserToGroupCommand,
   AdminConfirmSignUpCommand,
   AdminCreateUserCommand,
+  AdminDeleteSoftwareTokenCommand,
   AdminDeleteUserCommand,
   AdminDeleteUserAttributesCommand,
   AdminDisableProviderForUserCommand,
@@ -486,6 +499,7 @@ const commands = {
   AdminForgetDeviceCommand,
   AdminGetDeviceCommand,
   AdminGetUserCommand,
+  AdminGetUserAuthFactorsCommand,
   AdminInitiateAuthCommand,
   AdminLinkProviderForUserCommand,
   AdminListDevicesCommand,
@@ -536,6 +550,7 @@ const commands = {
   DescribeResourceServerCommand,
   DescribeRiskConfigurationCommand,
   DescribeTermsCommand,
+  DescribeTermsByClientCommand,
   DescribeUserImportJobCommand,
   DescribeUserPoolCommand,
   DescribeUserPoolClientCommand,
@@ -543,6 +558,7 @@ const commands = {
   ForgetDeviceCommand,
   ForgotPasswordCommand,
   GetCSVHeaderCommand,
+  GetClientTokenCommand,
   GetDeviceCommand,
   GetGroupCommand,
   GetIdentityProviderByIdentifierCommand,
@@ -730,6 +746,26 @@ export interface CognitoIdentityProviderService$ {
   >;
 
   /**
+   * @see {@link AdminDeleteSoftwareTokenCommand}
+   */
+  adminDeleteSoftwareToken(
+    args: AdminDeleteSoftwareTokenCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    AdminDeleteSoftwareTokenCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InternalError
+    | InvalidParameterError
+    | NotAuthorizedError
+    | OperationNotEnabledError
+    | ResourceNotFoundError
+    | TooManyRequestsError
+    | UserNotConfirmedError
+    | UserNotFoundError
+  >;
+
+  /**
    * @see {@link AdminDeleteUserCommand}
    */
   adminDeleteUser(
@@ -872,6 +908,25 @@ export interface CognitoIdentityProviderService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AdminGetUserCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InternalError
+    | InvalidParameterError
+    | NotAuthorizedError
+    | OperationNotEnabledError
+    | ResourceNotFoundError
+    | TooManyRequestsError
+    | UserNotFoundError
+  >;
+
+  /**
+   * @see {@link AdminGetUserAuthFactorsCommand}
+   */
+  adminGetUserAuthFactors(
+    args: AdminGetUserAuthFactorsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    AdminGetUserAuthFactorsCommandOutput,
     | Cause.TimeoutError
     | SdkError
     | InternalError
@@ -1969,6 +2024,24 @@ export interface CognitoIdentityProviderService$ {
   >;
 
   /**
+   * @see {@link DescribeTermsByClientCommand}
+   */
+  describeTermsByClient(
+    args: DescribeTermsByClientCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeTermsByClientCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InternalError
+    | InvalidParameterError
+    | NotAuthorizedError
+    | OperationNotEnabledError
+    | ResourceNotFoundError
+    | TooManyRequestsError
+  >;
+
+  /**
    * @see {@link DescribeUserImportJobCommand}
    */
   describeUserImportJob(
@@ -2101,6 +2174,25 @@ export interface CognitoIdentityProviderService$ {
     GetCSVHeaderCommandOutput,
     | Cause.TimeoutError
     | SdkError
+    | InternalError
+    | InvalidParameterError
+    | NotAuthorizedError
+    | OperationNotEnabledError
+    | ResourceNotFoundError
+    | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link GetClientTokenCommand}
+   */
+  getClientToken(
+    args: GetClientTokenCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetClientTokenCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | ForbiddenError
     | InternalError
     | InvalidParameterError
     | NotAuthorizedError

@@ -229,6 +229,7 @@ import * as AutoScalingServiceConfig from "./AutoScalingServiceConfig.js";
 import type {
   ActiveInstanceRefreshNotFoundFaultError,
   AlreadyExistsFaultError,
+  IdempotentCallInProgressFaultError,
   IdempotentParameterMismatchError,
   InstanceRefreshInProgressFaultError,
   InvalidNextTokenError,
@@ -1029,7 +1030,11 @@ export interface AutoScalingService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     LaunchInstancesCommandOutput,
-    Cause.TimeoutError | SdkError | IdempotentParameterMismatchError | ResourceContentionFaultError
+    | Cause.TimeoutError
+    | SdkError
+    | IdempotentCallInProgressFaultError
+    | IdempotentParameterMismatchError
+    | ResourceContentionFaultError
   >;
 
   /**

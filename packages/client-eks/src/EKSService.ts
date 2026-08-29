@@ -2,6 +2,9 @@
  * @since 1.0.0
  */
 import {
+  ActivateCertificateAuthorityCommand,
+  type ActivateCertificateAuthorityCommandInput,
+  type ActivateCertificateAuthorityCommandOutput,
   AssociateAccessPolicyCommand,
   type AssociateAccessPolicyCommandInput,
   type AssociateAccessPolicyCommandOutput,
@@ -23,6 +26,9 @@ import {
   CreateCapabilityCommand,
   type CreateCapabilityCommandInput,
   type CreateCapabilityCommandOutput,
+  CreateCertificateAuthorityCommand,
+  type CreateCertificateAuthorityCommandInput,
+  type CreateCertificateAuthorityCommandOutput,
   CreateClusterCommand,
   type CreateClusterCommandInput,
   type CreateClusterCommandOutput,
@@ -47,6 +53,9 @@ import {
   DeleteCapabilityCommand,
   type DeleteCapabilityCommandInput,
   type DeleteCapabilityCommandOutput,
+  DeleteCertificateAuthorityCommand,
+  type DeleteCertificateAuthorityCommandInput,
+  type DeleteCertificateAuthorityCommandOutput,
   DeleteClusterCommand,
   type DeleteClusterCommandInput,
   type DeleteClusterCommandOutput,
@@ -80,6 +89,9 @@ import {
   DescribeCapabilityCommand,
   type DescribeCapabilityCommandInput,
   type DescribeCapabilityCommandOutput,
+  DescribeCertificateAuthorityCommand,
+  type DescribeCertificateAuthorityCommandInput,
+  type DescribeCertificateAuthorityCommandOutput,
   DescribeClusterCommand,
   type DescribeClusterCommandInput,
   type DescribeClusterCommandOutput,
@@ -133,6 +145,9 @@ import {
   ListCapabilitiesCommand,
   type ListCapabilitiesCommandInput,
   type ListCapabilitiesCommandOutput,
+  ListCertificateAuthoritiesCommand,
+  type ListCertificateAuthoritiesCommandInput,
+  type ListCertificateAuthoritiesCommandOutput,
   ListClustersCommand,
   type ListClustersCommandInput,
   type ListClustersCommandOutput,
@@ -167,6 +182,7 @@ import {
   paginateListAddons,
   paginateListAssociatedAccessPolicies,
   paginateListCapabilities,
+  paginateListCertificateAuthorities,
   paginateListClusters,
   paginateListEksAnywhereSubscriptions,
   paginateListFargateProfiles,
@@ -246,6 +262,7 @@ import type {
 import { AllServiceErrors } from "./Errors.js";
 
 const commands = {
+  ActivateCertificateAuthorityCommand,
   AssociateAccessPolicyCommand,
   AssociateEncryptionConfigCommand,
   AssociateIdentityProviderConfigCommand,
@@ -253,6 +270,7 @@ const commands = {
   CreateAccessEntryCommand,
   CreateAddonCommand,
   CreateCapabilityCommand,
+  CreateCertificateAuthorityCommand,
   CreateClusterCommand,
   CreateEksAnywhereSubscriptionCommand,
   CreateFargateProfileCommand,
@@ -261,6 +279,7 @@ const commands = {
   DeleteAccessEntryCommand,
   DeleteAddonCommand,
   DeleteCapabilityCommand,
+  DeleteCertificateAuthorityCommand,
   DeleteClusterCommand,
   DeleteEksAnywhereSubscriptionCommand,
   DeleteFargateProfileCommand,
@@ -272,6 +291,7 @@ const commands = {
   DescribeAddonConfigurationCommand,
   DescribeAddonVersionsCommand,
   DescribeCapabilityCommand,
+  DescribeCertificateAuthorityCommand,
   DescribeClusterCommand,
   DescribeClusterVersionsCommand,
   DescribeEksAnywhereSubscriptionCommand,
@@ -289,6 +309,7 @@ const commands = {
   ListAddonsCommand,
   ListAssociatedAccessPoliciesCommand,
   ListCapabilitiesCommand,
+  ListCertificateAuthoritiesCommand,
   ListClustersCommand,
   ListEksAnywhereSubscriptionsCommand,
   ListFargateProfilesCommand,
@@ -321,6 +342,7 @@ const paginators = {
   paginateListAddons,
   paginateListAssociatedAccessPolicies,
   paginateListCapabilities,
+  paginateListCertificateAuthorities,
   paginateListClusters,
   paginateListEksAnywhereSubscriptions,
   paginateListFargateProfiles,
@@ -336,6 +358,22 @@ const paginators = {
  * @category models
  */
 export interface EKSService$ {
+  /**
+   * @see {@link ActivateCertificateAuthorityCommand}
+   */
+  activateCertificateAuthority(
+    args: ActivateCertificateAuthorityCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ActivateCertificateAuthorityCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InvalidParameterError
+    | ResourceNotFoundError
+    | ServerError
+    | ServiceUnavailableError
+  >;
+
   /**
    * @see {@link AssociateAccessPolicyCommand}
    */
@@ -458,6 +496,24 @@ export interface EKSService$ {
     | ResourceLimitExceededError
     | ServerError
     | ThrottlingError
+  >;
+
+  /**
+   * @see {@link CreateCertificateAuthorityCommand}
+   */
+  createCertificateAuthority(
+    args: CreateCertificateAuthorityCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateCertificateAuthorityCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InvalidParameterError
+    | ResourceInUseError
+    | ResourceLimitExceededError
+    | ResourceNotFoundError
+    | ServerError
+    | ServiceUnavailableError
   >;
 
   /**
@@ -594,6 +650,23 @@ export interface EKSService$ {
     | ResourceInUseError
     | ResourceNotFoundError
     | ServerError
+  >;
+
+  /**
+   * @see {@link DeleteCertificateAuthorityCommand}
+   */
+  deleteCertificateAuthority(
+    args: DeleteCertificateAuthorityCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteCertificateAuthorityCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InvalidParameterError
+    | ResourceInUseError
+    | ResourceNotFoundError
+    | ServerError
+    | ServiceUnavailableError
   >;
 
   /**
@@ -750,6 +823,17 @@ export interface EKSService$ {
   ): Effect.Effect<
     DescribeCapabilityCommandOutput,
     Cause.TimeoutError | SdkError | AccessDeniedError | InvalidParameterError | ResourceNotFoundError | ServerError
+  >;
+
+  /**
+   * @see {@link DescribeCertificateAuthorityCommand}
+   */
+  describeCertificateAuthority(
+    args: DescribeCertificateAuthorityCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeCertificateAuthorityCommandOutput,
+    Cause.TimeoutError | SdkError | ResourceNotFoundError | ServerError | ServiceUnavailableError
   >;
 
   /**
@@ -1012,6 +1096,35 @@ export interface EKSService$ {
     args: ListCapabilitiesCommandInput,
     options?: HttpHandlerOptions,
   ): Stream.Stream<ListCapabilitiesCommandOutput, Cause.TimeoutError | SdkError | InvalidParameterError | ServerError>;
+
+  /**
+   * @see {@link ListCertificateAuthoritiesCommand}
+   */
+  listCertificateAuthorities(
+    args: ListCertificateAuthoritiesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListCertificateAuthoritiesCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InvalidParameterError
+    | ResourceNotFoundError
+    | ServerError
+    | ServiceUnavailableError
+  >;
+
+  listCertificateAuthoritiesStream(
+    args: ListCertificateAuthoritiesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListCertificateAuthoritiesCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InvalidParameterError
+    | ResourceNotFoundError
+    | ServerError
+    | ServiceUnavailableError
+  >;
 
   /**
    * @see {@link ListClustersCommand}

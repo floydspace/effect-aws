@@ -5,6 +5,9 @@ import {
   AddDatasetExamplesCommand,
   type AddDatasetExamplesCommandInput,
   type AddDatasetExamplesCommandOutput,
+  BatchPutGatewayRateLimitsCommand,
+  type BatchPutGatewayRateLimitsCommandInput,
+  type BatchPutGatewayRateLimitsCommandOutput,
   type BedrockAgentCoreControlClient,
   type BedrockAgentCoreControlClientConfig,
   CreateAgentRuntimeCommand,
@@ -22,6 +25,9 @@ import {
   CreateBrowserProfileCommand,
   type CreateBrowserProfileCommandInput,
   type CreateBrowserProfileCommandOutput,
+  CreateCapacityProviderCommand,
+  type CreateCapacityProviderCommandInput,
+  type CreateCapacityProviderCommandOutput,
   CreateCodeInterpreterCommand,
   type CreateCodeInterpreterCommandInput,
   type CreateCodeInterpreterCommandOutput,
@@ -40,6 +46,9 @@ import {
   CreateGatewayCommand,
   type CreateGatewayCommandInput,
   type CreateGatewayCommandOutput,
+  CreateGatewayRateLimitCommand,
+  type CreateGatewayRateLimitCommandInput,
+  type CreateGatewayRateLimitCommandOutput,
   CreateGatewayRuleCommand,
   type CreateGatewayRuleCommandInput,
   type CreateGatewayRuleCommandOutput,
@@ -100,6 +109,9 @@ import {
   DeleteBrowserProfileCommand,
   type DeleteBrowserProfileCommandInput,
   type DeleteBrowserProfileCommandOutput,
+  DeleteCapacityProviderCommand,
+  type DeleteCapacityProviderCommandInput,
+  type DeleteCapacityProviderCommandOutput,
   DeleteCodeInterpreterCommand,
   type DeleteCodeInterpreterCommandInput,
   type DeleteCodeInterpreterCommandOutput,
@@ -118,6 +130,9 @@ import {
   DeleteGatewayCommand,
   type DeleteGatewayCommandInput,
   type DeleteGatewayCommandOutput,
+  DeleteGatewayRateLimitCommand,
+  type DeleteGatewayRateLimitCommandInput,
+  type DeleteGatewayRateLimitCommandOutput,
   DeleteGatewayRuleCommand,
   type DeleteGatewayRuleCommandInput,
   type DeleteGatewayRuleCommandOutput,
@@ -181,6 +196,9 @@ import {
   GetBrowserProfileCommand,
   type GetBrowserProfileCommandInput,
   type GetBrowserProfileCommandOutput,
+  GetCapacityProviderCommand,
+  type GetCapacityProviderCommandInput,
+  type GetCapacityProviderCommandOutput,
   GetCodeInterpreterCommand,
   type GetCodeInterpreterCommandInput,
   type GetCodeInterpreterCommandOutput,
@@ -199,6 +217,9 @@ import {
   GetGatewayCommand,
   type GetGatewayCommandInput,
   type GetGatewayCommandOutput,
+  GetGatewayRateLimitCommand,
+  type GetGatewayRateLimitCommandInput,
+  type GetGatewayRateLimitCommandOutput,
   GetGatewayRuleCommand,
   type GetGatewayRuleCommandInput,
   type GetGatewayRuleCommandOutput,
@@ -268,6 +289,9 @@ import {
   ListAgentRuntimesCommand,
   type ListAgentRuntimesCommandInput,
   type ListAgentRuntimesCommandOutput,
+  ListAgentRuntimeVersionsByCapacityProviderCommand,
+  type ListAgentRuntimeVersionsByCapacityProviderCommandInput,
+  type ListAgentRuntimeVersionsByCapacityProviderCommandOutput,
   ListAgentRuntimeVersionsCommand,
   type ListAgentRuntimeVersionsCommandInput,
   type ListAgentRuntimeVersionsCommandOutput,
@@ -280,6 +304,9 @@ import {
   ListBrowsersCommand,
   type ListBrowsersCommandInput,
   type ListBrowsersCommandOutput,
+  ListCapacityProvidersCommand,
+  type ListCapacityProvidersCommandInput,
+  type ListCapacityProvidersCommandOutput,
   ListCodeInterpretersCommand,
   type ListCodeInterpretersCommandInput,
   type ListCodeInterpretersCommandOutput,
@@ -301,6 +328,9 @@ import {
   ListEvaluatorsCommand,
   type ListEvaluatorsCommandInput,
   type ListEvaluatorsCommandOutput,
+  ListGatewayRateLimitsCommand,
+  type ListGatewayRateLimitsCommandInput,
+  type ListGatewayRateLimitsCommandOutput,
   ListGatewayRulesCommand,
   type ListGatewayRulesCommandInput,
   type ListGatewayRulesCommandOutput,
@@ -373,9 +403,11 @@ import {
   paginateListAgentRuntimeEndpoints,
   paginateListAgentRuntimes,
   paginateListAgentRuntimeVersions,
+  paginateListAgentRuntimeVersionsByCapacityProvider,
   paginateListApiKeyCredentialProviders,
   paginateListBrowserProfiles,
   paginateListBrowsers,
+  paginateListCapacityProviders,
   paginateListCodeInterpreters,
   paginateListConfigurationBundles,
   paginateListConfigurationBundleVersions,
@@ -383,6 +415,7 @@ import {
   paginateListDatasets,
   paginateListDatasetVersions,
   paginateListEvaluators,
+  paginateListGatewayRateLimits,
   paginateListGatewayRules,
   paginateListGateways,
   paginateListGatewayTargets,
@@ -435,6 +468,9 @@ import {
   UpdateApiKeyCredentialProviderCommand,
   type UpdateApiKeyCredentialProviderCommandInput,
   type UpdateApiKeyCredentialProviderCommandOutput,
+  UpdateCapacityProviderCommand,
+  type UpdateCapacityProviderCommandInput,
+  type UpdateCapacityProviderCommandOutput,
   UpdateConfigurationBundleCommand,
   type UpdateConfigurationBundleCommandInput,
   type UpdateConfigurationBundleCommandOutput,
@@ -450,6 +486,9 @@ import {
   UpdateGatewayCommand,
   type UpdateGatewayCommandInput,
   type UpdateGatewayCommandOutput,
+  UpdateGatewayRateLimitCommand,
+  type UpdateGatewayRateLimitCommandInput,
+  type UpdateGatewayRateLimitCommandOutput,
   UpdateGatewayRuleCommand,
   type UpdateGatewayRuleCommandInput,
   type UpdateGatewayRuleCommandOutput,
@@ -518,9 +557,11 @@ import type {
   InternalServerError,
   ResourceLimitExceededError,
   ResourceNotFoundError,
+  RetryableConflictError,
   SdkError,
   ServiceError,
   ServiceQuotaExceededError,
+  SubscriptionRequiredError,
   ThrottledError,
   ThrottlingError,
   UnauthorizedError,
@@ -530,17 +571,20 @@ import { AllServiceErrors } from "./Errors.js";
 
 const commands = {
   AddDatasetExamplesCommand,
+  BatchPutGatewayRateLimitsCommand,
   CreateAgentRuntimeCommand,
   CreateAgentRuntimeEndpointCommand,
   CreateApiKeyCredentialProviderCommand,
   CreateBrowserCommand,
   CreateBrowserProfileCommand,
+  CreateCapacityProviderCommand,
   CreateCodeInterpreterCommand,
   CreateConfigurationBundleCommand,
   CreateDatasetCommand,
   CreateDatasetVersionCommand,
   CreateEvaluatorCommand,
   CreateGatewayCommand,
+  CreateGatewayRateLimitCommand,
   CreateGatewayRuleCommand,
   CreateGatewayTargetCommand,
   CreateHarnessCommand,
@@ -561,12 +605,14 @@ const commands = {
   DeleteApiKeyCredentialProviderCommand,
   DeleteBrowserCommand,
   DeleteBrowserProfileCommand,
+  DeleteCapacityProviderCommand,
   DeleteCodeInterpreterCommand,
   DeleteConfigurationBundleCommand,
   DeleteDatasetCommand,
   DeleteDatasetExamplesCommand,
   DeleteEvaluatorCommand,
   DeleteGatewayCommand,
+  DeleteGatewayRateLimitCommand,
   DeleteGatewayRuleCommand,
   DeleteGatewayTargetCommand,
   DeleteHarnessCommand,
@@ -588,12 +634,14 @@ const commands = {
   GetApiKeyCredentialProviderCommand,
   GetBrowserCommand,
   GetBrowserProfileCommand,
+  GetCapacityProviderCommand,
   GetCodeInterpreterCommand,
   GetConfigurationBundleCommand,
   GetConfigurationBundleVersionCommand,
   GetDatasetCommand,
   GetEvaluatorCommand,
   GetGatewayCommand,
+  GetGatewayRateLimitCommand,
   GetGatewayRuleCommand,
   GetGatewayTargetCommand,
   GetHarnessCommand,
@@ -617,10 +665,12 @@ const commands = {
   GetWorkloadIdentityCommand,
   ListAgentRuntimeEndpointsCommand,
   ListAgentRuntimeVersionsCommand,
+  ListAgentRuntimeVersionsByCapacityProviderCommand,
   ListAgentRuntimesCommand,
   ListApiKeyCredentialProvidersCommand,
   ListBrowserProfilesCommand,
   ListBrowsersCommand,
+  ListCapacityProvidersCommand,
   ListCodeInterpretersCommand,
   ListConfigurationBundleVersionsCommand,
   ListConfigurationBundlesCommand,
@@ -628,6 +678,7 @@ const commands = {
   ListDatasetVersionsCommand,
   ListDatasetsCommand,
   ListEvaluatorsCommand,
+  ListGatewayRateLimitsCommand,
   ListGatewayRulesCommand,
   ListGatewayTargetsCommand,
   ListGatewaysCommand,
@@ -661,11 +712,13 @@ const commands = {
   UpdateAgentRuntimeCommand,
   UpdateAgentRuntimeEndpointCommand,
   UpdateApiKeyCredentialProviderCommand,
+  UpdateCapacityProviderCommand,
   UpdateConfigurationBundleCommand,
   UpdateDatasetCommand,
   UpdateDatasetExamplesCommand,
   UpdateEvaluatorCommand,
   UpdateGatewayCommand,
+  UpdateGatewayRateLimitCommand,
   UpdateGatewayRuleCommand,
   UpdateGatewayTargetCommand,
   UpdateHarnessCommand,
@@ -687,10 +740,12 @@ const commands = {
 const paginators = {
   paginateListAgentRuntimeEndpoints,
   paginateListAgentRuntimeVersions,
+  paginateListAgentRuntimeVersionsByCapacityProvider,
   paginateListAgentRuntimes,
   paginateListApiKeyCredentialProviders,
   paginateListBrowserProfiles,
   paginateListBrowsers,
+  paginateListCapacityProviders,
   paginateListCodeInterpreters,
   paginateListConfigurationBundleVersions,
   paginateListConfigurationBundles,
@@ -698,6 +753,7 @@ const paginators = {
   paginateListDatasetVersions,
   paginateListDatasets,
   paginateListEvaluators,
+  paginateListGatewayRateLimits,
   paginateListGatewayRules,
   paginateListGatewayTargets,
   paginateListGateways,
@@ -735,6 +791,25 @@ export interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AddDatasetExamplesCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ServiceQuotaExceededError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link BatchPutGatewayRateLimitsCommand}
+   */
+  batchPutGatewayRateLimits(
+    args: BatchPutGatewayRateLimitsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    BatchPutGatewayRateLimitsCommandOutput,
     | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
@@ -837,6 +912,26 @@ export interface BedrockAgentCoreControlService$ {
     | AccessDeniedError
     | ConflictError
     | InternalServerError
+    | ServiceQuotaExceededError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link CreateCapacityProviderCommand}
+   */
+  createCapacityProvider(
+    args: CreateCapacityProviderCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateCapacityProviderCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | RetryableConflictError
     | ServiceQuotaExceededError
     | ThrottlingError
     | ValidationError
@@ -946,6 +1041,25 @@ export interface BedrockAgentCoreControlService$ {
     | AccessDeniedError
     | ConflictError
     | InternalServerError
+    | ServiceQuotaExceededError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link CreateGatewayRateLimitCommand}
+   */
+  createGatewayRateLimit(
+    args: CreateGatewayRateLimitCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateGatewayRateLimitCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
     | ServiceQuotaExceededError
     | ThrottlingError
     | ValidationError
@@ -1101,6 +1215,7 @@ export interface BedrockAgentCoreControlService$ {
     | InternalServerError
     | ResourceNotFoundError
     | ServiceQuotaExceededError
+    | SubscriptionRequiredError
     | ThrottlingError
     | ValidationError
   >;
@@ -1328,6 +1443,25 @@ export interface BedrockAgentCoreControlService$ {
   >;
 
   /**
+   * @see {@link DeleteCapacityProviderCommand}
+   */
+  deleteCapacityProvider(
+    args: DeleteCapacityProviderCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteCapacityProviderCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | RetryableConflictError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
    * @see {@link DeleteCodeInterpreterCommand}
    */
   deleteCodeInterpreter(
@@ -1426,6 +1560,24 @@ export interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteGatewayCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link DeleteGatewayRateLimitCommand}
+   */
+  deleteGatewayRateLimit(
+    args: DeleteGatewayRateLimitCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteGatewayRateLimitCommandOutput,
     | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
@@ -1810,6 +1962,23 @@ export interface BedrockAgentCoreControlService$ {
   >;
 
   /**
+   * @see {@link GetCapacityProviderCommand}
+   */
+  getCapacityProvider(
+    args: GetCapacityProviderCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetCapacityProviderCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
    * @see {@link GetCodeInterpreterCommand}
    */
   getCodeInterpreter(
@@ -1903,6 +2072,23 @@ export interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetGatewayCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link GetGatewayRateLimitCommand}
+   */
+  getGatewayRateLimit(
+    args: GetGatewayRateLimitCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetGatewayRateLimitCommandOutput,
     | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
@@ -2327,6 +2513,25 @@ export interface BedrockAgentCoreControlService$ {
   >;
 
   /**
+   * @see {@link ListAgentRuntimeVersionsByCapacityProviderCommand}
+   */
+  listAgentRuntimeVersionsByCapacityProvider(
+    args: ListAgentRuntimeVersionsByCapacityProviderCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListAgentRuntimeVersionsByCapacityProviderCommandOutput,
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+  >;
+
+  listAgentRuntimeVersionsByCapacityProviderStream(
+    args: ListAgentRuntimeVersionsByCapacityProviderCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListAgentRuntimeVersionsByCapacityProviderCommandOutput,
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+  >;
+
+  /**
    * @see {@link ListAgentRuntimesCommand}
    */
   listAgentRuntimes(
@@ -2413,6 +2618,25 @@ export interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListBrowsersCommandOutput,
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+  >;
+
+  /**
+   * @see {@link ListCapacityProvidersCommand}
+   */
+  listCapacityProviders(
+    args: ListCapacityProvidersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListCapacityProvidersCommandOutput,
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+  >;
+
+  listCapacityProvidersStream(
+    args: ListCapacityProvidersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListCapacityProvidersCommandOutput,
     Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
@@ -2585,6 +2809,37 @@ export interface BedrockAgentCoreControlService$ {
   ): Stream.Stream<
     ListEvaluatorsCommandOutput,
     Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+  >;
+
+  /**
+   * @see {@link ListGatewayRateLimitsCommand}
+   */
+  listGatewayRateLimits(
+    args: ListGatewayRateLimitsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListGatewayRateLimitsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  listGatewayRateLimitsStream(
+    args: ListGatewayRateLimitsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListGatewayRateLimitsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
   >;
 
   /**
@@ -3386,6 +3641,25 @@ export interface BedrockAgentCoreControlService$ {
   >;
 
   /**
+   * @see {@link UpdateCapacityProviderCommand}
+   */
+  updateCapacityProvider(
+    args: UpdateCapacityProviderCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateCapacityProviderCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | RetryableConflictError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
    * @see {@link UpdateConfigurationBundleCommand}
    */
   updateConfigurationBundle(
@@ -3474,6 +3748,24 @@ export interface BedrockAgentCoreControlService$ {
     | InternalServerError
     | ResourceNotFoundError
     | ServiceQuotaExceededError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link UpdateGatewayRateLimitCommand}
+   */
+  updateGatewayRateLimit(
+    args: UpdateGatewayRateLimitCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateGatewayRateLimitCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
     | ThrottlingError
     | ValidationError
   >;
@@ -3627,6 +3919,7 @@ export interface BedrockAgentCoreControlService$ {
     | InternalServerError
     | ResourceNotFoundError
     | ServiceQuotaExceededError
+    | SubscriptionRequiredError
     | ThrottlingError
     | ValidationError
   >;

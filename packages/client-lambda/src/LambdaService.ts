@@ -62,6 +62,9 @@ import {
   DeleteProvisionedConcurrencyConfigCommand,
   type DeleteProvisionedConcurrencyConfigCommandInput,
   type DeleteProvisionedConcurrencyConfigCommandOutput,
+  DeleteResourcePolicyCommand,
+  type DeleteResourcePolicyCommandInput,
+  type DeleteResourcePolicyCommandOutput,
   GetAccountSettingsCommand,
   type GetAccountSettingsCommandInput,
   type GetAccountSettingsCommandOutput,
@@ -125,6 +128,9 @@ import {
   GetProvisionedConcurrencyConfigCommand,
   type GetProvisionedConcurrencyConfigCommandInput,
   type GetProvisionedConcurrencyConfigCommandOutput,
+  GetResourcePolicyCommand,
+  type GetResourcePolicyCommandInput,
+  type GetResourcePolicyCommandOutput,
   GetRuntimeManagementConfigCommand,
   type GetRuntimeManagementConfigCommandInput,
   type GetRuntimeManagementConfigCommandOutput,
@@ -224,6 +230,9 @@ import {
   PutProvisionedConcurrencyConfigCommand,
   type PutProvisionedConcurrencyConfigCommandInput,
   type PutProvisionedConcurrencyConfigCommandOutput,
+  PutResourcePolicyCommand,
+  type PutResourcePolicyCommandInput,
+  type PutResourcePolicyCommandOutput,
   PutRuntimeManagementConfigCommand,
   type PutRuntimeManagementConfigCommandInput,
   type PutRuntimeManagementConfigCommandOutput,
@@ -368,6 +377,7 @@ const commands = {
   DeleteFunctionUrlConfigCommand,
   DeleteLayerVersionCommand,
   DeleteProvisionedConcurrencyConfigCommand,
+  DeleteResourcePolicyCommand,
   GetAccountSettingsCommand,
   GetAliasCommand,
   GetCapacityProviderCommand,
@@ -389,6 +399,7 @@ const commands = {
   GetLayerVersionPolicyCommand,
   GetPolicyCommand,
   GetProvisionedConcurrencyConfigCommand,
+  GetResourcePolicyCommand,
   GetRuntimeManagementConfigCommand,
   InvokeCommand,
   InvokeAsyncCommand,
@@ -416,6 +427,7 @@ const commands = {
   PutFunctionRecursionConfigCommand,
   PutFunctionScalingConfigCommand,
   PutProvisionedConcurrencyConfigCommand,
+  PutResourcePolicyCommand,
   PutRuntimeManagementConfigCommand,
   RemoveLayerVersionPermissionCommand,
   RemovePermissionCommand,
@@ -807,6 +819,24 @@ export interface LambdaService$ {
   >;
 
   /**
+   * @see {@link DeleteResourcePolicyCommand}
+   */
+  deleteResourcePolicy(
+    args: DeleteResourcePolicyCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteResourcePolicyCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InvalidParameterValueError
+    | PreconditionFailedError
+    | ResourceConflictError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
+
+  /**
    * @see {@link GetAccountSettingsCommand}
    */
   getAccountSettings(
@@ -1173,6 +1203,22 @@ export interface LambdaService$ {
     | SdkError
     | InvalidParameterValueError
     | ProvisionedConcurrencyConfigNotFoundError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link GetResourcePolicyCommand}
+   */
+  getResourcePolicy(
+    args: GetResourcePolicyCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetResourcePolicyCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InvalidParameterValueError
     | ResourceNotFoundError
     | ServiceError
     | TooManyRequestsError
@@ -1845,6 +1891,26 @@ export interface LambdaService$ {
     | Cause.TimeoutError
     | SdkError
     | InvalidParameterValueError
+    | ResourceConflictError
+    | ResourceNotFoundError
+    | ServiceError
+    | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link PutResourcePolicyCommand}
+   */
+  putResourcePolicy(
+    args: PutResourcePolicyCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    PutResourcePolicyCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InvalidParameterValueError
+    | PolicyLengthExceededError
+    | PreconditionFailedError
+    | PublicPolicyError
     | ResourceConflictError
     | ResourceNotFoundError
     | ServiceError

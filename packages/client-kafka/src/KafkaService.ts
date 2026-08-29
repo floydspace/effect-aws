@@ -8,6 +8,9 @@ import {
   BatchDisassociateScramSecretCommand,
   type BatchDisassociateScramSecretCommandInput,
   type BatchDisassociateScramSecretCommandOutput,
+  CreateChannelCommand,
+  type CreateChannelCommandInput,
+  type CreateChannelCommandOutput,
   CreateClusterCommand,
   type CreateClusterCommandInput,
   type CreateClusterCommandOutput,
@@ -26,6 +29,9 @@ import {
   CreateVpcConnectionCommand,
   type CreateVpcConnectionCommandInput,
   type CreateVpcConnectionCommandOutput,
+  DeleteChannelCommand,
+  type DeleteChannelCommandInput,
+  type DeleteChannelCommandOutput,
   DeleteClusterCommand,
   type DeleteClusterCommandInput,
   type DeleteClusterCommandOutput,
@@ -44,6 +50,9 @@ import {
   DeleteVpcConnectionCommand,
   type DeleteVpcConnectionCommandInput,
   type DeleteVpcConnectionCommandOutput,
+  DescribeChannelCommand,
+  type DescribeChannelCommandInput,
+  type DescribeChannelCommandOutput,
   DescribeClusterCommand,
   type DescribeClusterCommandInput,
   type DescribeClusterCommandOutput,
@@ -85,6 +94,9 @@ import {
   type GetCompatibleKafkaVersionsCommandOutput,
   type KafkaClient,
   type KafkaClientConfig,
+  ListChannelsCommand,
+  type ListChannelsCommandInput,
+  type ListChannelsCommandOutput,
   ListClientVpcConnectionsCommand,
   type ListClientVpcConnectionsCommandInput,
   type ListClientVpcConnectionsCommandOutput,
@@ -165,6 +177,9 @@ import {
   UpdateBrokerTypeCommand,
   type UpdateBrokerTypeCommandInput,
   type UpdateBrokerTypeCommandOutput,
+  UpdateChannelCommand,
+  type UpdateChannelCommandInput,
+  type UpdateChannelCommandOutput,
   UpdateClusterConfigurationCommand,
   type UpdateClusterConfigurationCommandInput,
   type UpdateClusterConfigurationCommandOutput,
@@ -231,18 +246,21 @@ import * as KafkaServiceConfig from "./KafkaServiceConfig.js";
 const commands = {
   BatchAssociateScramSecretCommand,
   BatchDisassociateScramSecretCommand,
+  CreateChannelCommand,
   CreateClusterCommand,
   CreateClusterV2Command,
   CreateConfigurationCommand,
   CreateReplicatorCommand,
   CreateTopicCommand,
   CreateVpcConnectionCommand,
+  DeleteChannelCommand,
   DeleteClusterCommand,
   DeleteClusterPolicyCommand,
   DeleteConfigurationCommand,
   DeleteReplicatorCommand,
   DeleteTopicCommand,
   DeleteVpcConnectionCommand,
+  DescribeChannelCommand,
   DescribeClusterCommand,
   DescribeClusterOperationCommand,
   DescribeClusterOperationV2Command,
@@ -256,6 +274,7 @@ const commands = {
   GetBootstrapBrokersCommand,
   GetClusterPolicyCommand,
   GetCompatibleKafkaVersionsCommand,
+  ListChannelsCommand,
   ListClientVpcConnectionsCommand,
   ListClusterOperationsCommand,
   ListClusterOperationsV2Command,
@@ -278,6 +297,7 @@ const commands = {
   UpdateBrokerCountCommand,
   UpdateBrokerStorageCommand,
   UpdateBrokerTypeCommand,
+  UpdateChannelCommand,
   UpdateClusterConfigurationCommand,
   UpdateClusterKafkaVersionCommand,
   UpdateConfigurationCommand,
@@ -342,6 +362,26 @@ export interface KafkaService$ {
     | Cause.TimeoutError
     | SdkError
     | BadRequestError
+    | ForbiddenError
+    | InternalServerError
+    | NotFoundError
+    | ServiceUnavailableError
+    | TooManyRequestsError
+    | UnauthorizedError
+  >;
+
+  /**
+   * @see {@link CreateChannelCommand}
+   */
+  createChannel(
+    args: CreateChannelCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateChannelCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | BadRequestError
+    | ConflictError
     | ForbiddenError
     | InternalServerError
     | NotFoundError
@@ -474,6 +514,25 @@ export interface KafkaService$ {
   >;
 
   /**
+   * @see {@link DeleteChannelCommand}
+   */
+  deleteChannel(
+    args: DeleteChannelCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteChannelCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | BadRequestError
+    | ForbiddenError
+    | InternalServerError
+    | NotFoundError
+    | ServiceUnavailableError
+    | TooManyRequestsError
+    | UnauthorizedError
+  >;
+
+  /**
    * @see {@link DeleteClusterCommand}
    */
   deleteCluster(
@@ -558,6 +617,25 @@ export interface KafkaService$ {
   ): Effect.Effect<
     DeleteVpcConnectionCommandOutput,
     Cause.TimeoutError | SdkError | BadRequestError | ForbiddenError | InternalServerError | NotFoundError
+  >;
+
+  /**
+   * @see {@link DescribeChannelCommand}
+   */
+  describeChannel(
+    args: DescribeChannelCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeChannelCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | BadRequestError
+    | ForbiddenError
+    | InternalServerError
+    | NotFoundError
+    | ServiceUnavailableError
+    | TooManyRequestsError
+    | UnauthorizedError
   >;
 
   /**
@@ -787,6 +865,25 @@ export interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetCompatibleKafkaVersionsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | BadRequestError
+    | ForbiddenError
+    | InternalServerError
+    | NotFoundError
+    | ServiceUnavailableError
+    | TooManyRequestsError
+    | UnauthorizedError
+  >;
+
+  /**
+   * @see {@link ListChannelsCommand}
+   */
+  listChannels(
+    args: ListChannelsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListChannelsCommandOutput,
     | Cause.TimeoutError
     | SdkError
     | BadRequestError
@@ -1277,6 +1374,25 @@ export interface KafkaService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateBrokerTypeCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | BadRequestError
+    | ForbiddenError
+    | InternalServerError
+    | NotFoundError
+    | ServiceUnavailableError
+    | TooManyRequestsError
+    | UnauthorizedError
+  >;
+
+  /**
+   * @see {@link UpdateChannelCommand}
+   */
+  updateChannel(
+    args: UpdateChannelCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateChannelCommandOutput,
     | Cause.TimeoutError
     | SdkError
     | BadRequestError

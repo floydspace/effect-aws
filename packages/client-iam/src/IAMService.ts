@@ -5,6 +5,9 @@ import {
   AcceptDelegationRequestCommand,
   type AcceptDelegationRequestCommandInput,
   type AcceptDelegationRequestCommandOutput,
+  AcquireRoleCommand,
+  type AcquireRoleCommandInput,
+  type AcquireRoleCommandOutput,
   AddClientIDToOpenIDConnectProviderCommand,
   type AddClientIDToOpenIDConnectProviderCommandInput,
   type AddClientIDToOpenIDConnectProviderCommandOutput,
@@ -194,6 +197,9 @@ import {
   GetAccountPasswordPolicyCommand,
   type GetAccountPasswordPolicyCommandInput,
   type GetAccountPasswordPolicyCommandOutput,
+  GetAccountPropertiesCommand,
+  type GetAccountPropertiesCommandInput,
+  type GetAccountPropertiesCommandOutput,
   GetAccountSummaryCommand,
   type GetAccountSummaryCommandInput,
   type GetAccountSummaryCommandOutput,
@@ -248,6 +254,9 @@ import {
   GetRolePolicyCommand,
   type GetRolePolicyCommandInput,
   type GetRolePolicyCommandOutput,
+  GetRoleTemplateVersionCommand,
+  type GetRoleTemplateVersionCommandInput,
+  type GetRoleTemplateVersionCommandOutput,
   GetSAMLProviderCommand,
   type GetSAMLProviderCommandInput,
   type GetSAMLProviderCommandOutput,
@@ -416,6 +425,9 @@ import {
   paginateListVirtualMFADevices,
   paginateSimulateCustomPolicy,
   paginateSimulatePrincipalPolicy,
+  PutAccountPropertiesCommand,
+  type PutAccountPropertiesCommandInput,
+  type PutAccountPropertiesCommandOutput,
   PutGroupPolicyCommand,
   type PutGroupPolicyCommandInput,
   type PutGroupPolicyCommandOutput,
@@ -598,6 +610,7 @@ import type {
   LimitExceededError,
   MalformedCertificateError,
   MalformedPolicyDocumentError,
+  NameConflictError,
   NoSuchEntityError,
   OpenIdIdpCommunicationError,
   OrganizationNotFoundError,
@@ -606,6 +619,8 @@ import type {
   PolicyEvaluationError,
   PolicyNotAttachableError,
   ReportGenerationLimitExceededError,
+  RoleModifiedError,
+  RoleTemplateDisabledError,
   SdkError,
   ServiceAccessNotEnabledError,
   ServiceFailureError,
@@ -619,6 +634,7 @@ import * as IAMServiceConfig from "./IAMServiceConfig.js";
 
 const commands = {
   AcceptDelegationRequestCommand,
+  AcquireRoleCommand,
   AddClientIDToOpenIDConnectProviderCommand,
   AddRoleToInstanceProfileCommand,
   AddUserToGroupCommand,
@@ -682,6 +698,7 @@ const commands = {
   GetAccessKeyLastUsedCommand,
   GetAccountAuthorizationDetailsCommand,
   GetAccountPasswordPolicyCommand,
+  GetAccountPropertiesCommand,
   GetAccountSummaryCommand,
   GetContextKeysForCustomPolicyCommand,
   GetContextKeysForPrincipalPolicyCommand,
@@ -700,6 +717,7 @@ const commands = {
   GetPolicyVersionCommand,
   GetRoleCommand,
   GetRolePolicyCommand,
+  GetRoleTemplateVersionCommand,
   GetSAMLProviderCommand,
   GetSSHPublicKeyCommand,
   GetServerCertificateCommand,
@@ -744,6 +762,7 @@ const commands = {
   ListUserTagsCommand,
   ListUsersCommand,
   ListVirtualMFADevicesCommand,
+  PutAccountPropertiesCommand,
   PutGroupPolicyCommand,
   PutRolePermissionsBoundaryCommand,
   PutRolePolicyCommand,
@@ -847,6 +866,28 @@ export interface IAMService$ {
   ): Effect.Effect<
     AcceptDelegationRequestCommandOutput,
     Cause.TimeoutError | SdkError | ConcurrentModificationError | NoSuchEntityError | ServiceFailureError
+  >;
+
+  /**
+   * @see {@link AcquireRoleCommand}
+   */
+  acquireRole(
+    args: AcquireRoleCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    AcquireRoleCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | ConcurrentModificationError
+    | EntityAlreadyExistsError
+    | InvalidInputError
+    | LimitExceededError
+    | MalformedPolicyDocumentError
+    | NameConflictError
+    | NoSuchEntityError
+    | RoleModifiedError
+    | RoleTemplateDisabledError
+    | ServiceFailureError
   >;
 
   /**
@@ -1758,6 +1799,17 @@ export interface IAMService$ {
   >;
 
   /**
+   * @see {@link GetAccountPropertiesCommand}
+   */
+  getAccountProperties(
+    args: GetAccountPropertiesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetAccountPropertiesCommandOutput,
+    Cause.TimeoutError | SdkError | InvalidInputError | ServiceFailureError
+  >;
+
+  /**
    * @see {@link GetAccountSummaryCommand}
    */
   getAccountSummary(
@@ -1963,6 +2015,17 @@ export interface IAMService$ {
   ): Effect.Effect<
     GetRolePolicyCommandOutput,
     Cause.TimeoutError | SdkError | NoSuchEntityError | ServiceFailureError
+  >;
+
+  /**
+   * @see {@link GetRoleTemplateVersionCommand}
+   */
+  getRoleTemplateVersion(
+    args: GetRoleTemplateVersionCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetRoleTemplateVersionCommandOutput,
+    Cause.TimeoutError | SdkError | InvalidInputError | NoSuchEntityError | ServiceFailureError
   >;
 
   /**
@@ -2660,6 +2723,17 @@ export interface IAMService$ {
     args: ListVirtualMFADevicesCommandInput,
     options?: HttpHandlerOptions,
   ): Stream.Stream<ListVirtualMFADevicesCommandOutput, Cause.TimeoutError | SdkError>;
+
+  /**
+   * @see {@link PutAccountPropertiesCommand}
+   */
+  putAccountProperties(
+    args: PutAccountPropertiesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    PutAccountPropertiesCommandOutput,
+    Cause.TimeoutError | SdkError | ConcurrentModificationError | InvalidInputError | ServiceFailureError
+  >;
 
   /**
    * @see {@link PutGroupPolicyCommand}

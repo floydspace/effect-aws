@@ -142,6 +142,9 @@ import {
   ScanCommand,
   type ScanCommandInput,
   type ScanCommandOutput,
+  SearchVectorsCommand,
+  type SearchVectorsCommandInput,
+  type SearchVectorsCommandOutput,
   TagResourceCommand,
   type TagResourceCommandInput,
   type TagResourceCommandOutput,
@@ -277,6 +280,7 @@ const commands = {
   RestoreTableFromBackupCommand,
   RestoreTableToPointInTimeCommand,
   ScanCommand,
+  SearchVectorsCommand,
   TagResourceCommand,
   TransactGetItemsCommand,
   TransactWriteItemsCommand,
@@ -997,6 +1001,22 @@ export interface DynamoDBService$ {
     | InternalServerError
     | InvalidEndpointError
     | ProvisionedThroughputExceededError
+    | RequestLimitExceededError
+    | ResourceNotFoundError
+    | ThrottlingError
+  >;
+
+  /**
+   * @see {@link SearchVectorsCommand}
+   */
+  searchVectors(
+    args: SearchVectorsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    SearchVectorsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InternalServerError
     | RequestLimitExceededError
     | ResourceNotFoundError
     | ThrottlingError

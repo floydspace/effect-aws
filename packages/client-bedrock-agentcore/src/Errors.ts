@@ -9,6 +9,7 @@ import type {
   RuntimeClientError as RuntimeClientException,
   ServiceException,
   ServiceQuotaExceededException,
+  SubscriptionRequiredException,
   ThrottledException,
   ThrottlingException,
   UnauthorizedException,
@@ -27,6 +28,7 @@ export const AllServiceErrors = [
   "RuntimeClientError",
   "ServiceException",
   "ServiceQuotaExceededException",
+  "SubscriptionRequiredException",
   "ThrottledException",
   "ThrottlingException",
   "UnauthorizedException",
@@ -43,6 +45,7 @@ export type RetryableConflictError = TaggedException<RetryableConflictException>
 export type RuntimeClientError = TaggedException<RuntimeClientException>;
 export type ServiceError = TaggedException<ServiceException>;
 export type ServiceQuotaExceededError = TaggedException<ServiceQuotaExceededException>;
+export type SubscriptionRequiredError = TaggedException<SubscriptionRequiredException>;
 export type ThrottledError = TaggedException<ThrottledException>;
 export type ThrottlingError = TaggedException<ThrottlingException>;
 export type UnauthorizedError = TaggedException<UnauthorizedException>;

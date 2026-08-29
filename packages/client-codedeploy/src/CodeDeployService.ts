@@ -511,6 +511,7 @@ export interface CodeDeployService$ {
     | InvalidApplicationNameError
     | InvalidComputePlatformError
     | InvalidTagsToAddError
+    | ThrottlingError
   >;
 
   /**
@@ -535,11 +536,14 @@ export interface CodeDeployService$ {
     | InvalidApplicationNameError
     | InvalidAutoRollbackConfigError
     | InvalidAutoScalingGroupError
+    | InvalidComputePlatformError
     | InvalidDeploymentConfigNameError
     | InvalidDeploymentGroupNameError
+    | InvalidECSServiceError
     | InvalidFileExistsBehaviorError
     | InvalidGitHubAccountTokenError
     | InvalidIgnoreApplicationStopFailuresValueError
+    | InvalidInputError
     | InvalidLoadBalancerInfoError
     | InvalidRevisionError
     | InvalidRoleError
@@ -940,7 +944,9 @@ export interface CodeDeployService$ {
     ListDeploymentInstancesCommandOutput,
     | Cause.TimeoutError
     | SdkError
+    | ApplicationDoesNotExistError
     | DeploymentDoesNotExistError
+    | DeploymentGroupDoesNotExistError
     | DeploymentIdRequiredError
     | DeploymentNotStartedError
     | InvalidComputePlatformError
@@ -959,7 +965,9 @@ export interface CodeDeployService$ {
     ListDeploymentInstancesCommandOutput,
     | Cause.TimeoutError
     | SdkError
+    | ApplicationDoesNotExistError
     | DeploymentDoesNotExistError
+    | DeploymentGroupDoesNotExistError
     | DeploymentIdRequiredError
     | DeploymentNotStartedError
     | InvalidComputePlatformError
@@ -981,7 +989,9 @@ export interface CodeDeployService$ {
     ListDeploymentTargetsCommandOutput,
     | Cause.TimeoutError
     | SdkError
+    | ApplicationDoesNotExistError
     | DeploymentDoesNotExistError
+    | DeploymentGroupDoesNotExistError
     | DeploymentIdRequiredError
     | DeploymentNotStartedError
     | InvalidDeploymentIdError
