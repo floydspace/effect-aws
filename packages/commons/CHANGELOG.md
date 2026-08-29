@@ -1,5 +1,11 @@
 # @effect-aws/commons
 
+## 1.0.0-beta.5
+
+### Patch Changes
+
+- [#229](https://github.com/floydspace/effect-aws/pull/229) [`401b544`](https://github.com/floydspace/effect-aws/commit/401b5448d4226763afac7ac88aa0798aa23ed068) Thanks [@godu](https://github.com/godu)! - add @effect-aws/client-elastic-load-balancing-v2
+
 ## 1.0.0-beta.4
 
 ### Minor Changes
