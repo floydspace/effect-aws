@@ -264,6 +264,10 @@ const paginators = {
   paginateListMetrics,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface CloudWatchService$ {
   /**
    * @see {@link AssociateDatasetKmsKeyCommand}

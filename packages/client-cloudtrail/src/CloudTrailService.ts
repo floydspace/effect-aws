@@ -376,6 +376,10 @@ const paginators = {
   paginateLookupEvents,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface CloudTrailService$ {
   /**
    * @see {@link AddTagsCommand}

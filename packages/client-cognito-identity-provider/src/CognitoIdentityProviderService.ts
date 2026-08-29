@@ -615,6 +615,10 @@ const paginators = {
   paginateListUsersInGroup,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface CognitoIdentityProviderService$ {
   /**
    * @see {@link AddCustomAttributesCommand}

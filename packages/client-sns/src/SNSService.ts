@@ -244,6 +244,10 @@ const paginators = {
   paginateListTopics,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface SNSService$ {
   /**
    * @see {@link AddPermissionCommand}

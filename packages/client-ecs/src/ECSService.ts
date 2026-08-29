@@ -382,6 +382,10 @@ const paginators = {
   paginateListTasks,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface ECSService$ {
   /**
    * @see {@link ContinueServiceDeploymentCommand}

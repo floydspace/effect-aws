@@ -117,6 +117,10 @@ const paginators = {
   paginateListTables,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface TimestreamWriteService$ {
   /**
    * @see {@link CreateBatchLoadTaskCommand}

@@ -91,6 +91,9 @@
       "path": "packages/client-eks/tsconfig.esm.json"
     },
     {
+      "path": "packages/client-elastic-load-balancing-v2/tsconfig.esm.json"
+    },
+    {
       "path": "packages/client-elasticache/tsconfig.esm.json"
     },
     {

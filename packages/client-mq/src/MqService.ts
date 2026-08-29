@@ -136,6 +136,10 @@ const paginators = {
   paginateListBrokers,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface MqService$ {
   /**
    * @see {@link CreateBrokerCommand}

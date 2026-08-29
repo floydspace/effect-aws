@@ -33,7 +33,11 @@ export async function generateClient([
   );
 
   const { sdkId } = serviceShape.traits["aws.api#service"];
-  const sdkName = String.capitalize(String.replaceAll(" ", "")(sdkId));
+  const sdkName = pipe(
+    String.split(sdkId, " "),
+    Array.map(String.capitalize),
+    Array.join(""),
+  );
 
   const awsClient = await import(
     `../packages/client-${serviceName}/node_modules/@aws-sdk/client-${originalServiceName}/dist-cjs/index.js`
@@ -461,6 +465,10 @@ const paginators = {
 ` :
         ""
     }
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface ${sdkName}Service$ {
 ${
       pipe(

@@ -878,6 +878,10 @@ const paginators = {
   paginateValidateCloudConnector,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface SSMService$ {
   /**
    * @see {@link AddTagsToResourceCommand}

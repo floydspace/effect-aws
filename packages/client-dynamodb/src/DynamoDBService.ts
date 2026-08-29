@@ -301,6 +301,10 @@ const paginators = {
   paginateScan,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface DynamoDBService$ {
   /**
    * @see {@link BatchExecuteStatementCommand}

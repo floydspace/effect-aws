@@ -114,6 +114,10 @@ const paginators = {
   paginateListWorkerConfigurations,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface KafkaConnectService$ {
   /**
    * @see {@link CreateConnectorCommand}

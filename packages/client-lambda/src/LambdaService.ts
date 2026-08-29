@@ -454,6 +454,10 @@ const paginators = {
   paginateListVersionsByFunction,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface LambdaService$ {
   /**
    * @see {@link AddLayerVersionPermissionCommand}

@@ -86,6 +86,10 @@ const paginators = {
   paginateListSubscriptions,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface IoTDataPlaneService$ {
   /**
    * @see {@link DeleteConnectionCommand}

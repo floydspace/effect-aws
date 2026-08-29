@@ -361,6 +361,10 @@ const paginators = {
   paginateListPrompts,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface BedrockAgentService$ {
   /**
    * @see {@link AssociateAgentCollaboratorCommand}

@@ -336,6 +336,10 @@ const paginators = {
   paginateListDeployments,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface CodeDeployService$ {
   /**
    * @see {@link AddTagsToOnPremisesInstancesCommand}

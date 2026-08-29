@@ -880,6 +880,10 @@ const paginators = {
   paginateListTrustStores,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface CloudFrontService$ {
   /**
    * @see {@link AssociateAliasCommand}

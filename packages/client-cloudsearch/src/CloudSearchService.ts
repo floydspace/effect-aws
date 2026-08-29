@@ -134,6 +134,10 @@ const commands = {
   UpdateServiceAccessPoliciesCommand,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface CloudSearchService$ {
   /**
    * @see {@link BuildSuggestersCommand}

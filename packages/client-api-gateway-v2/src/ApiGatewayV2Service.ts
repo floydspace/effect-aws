@@ -445,6 +445,10 @@ const paginators = {
   paginateListRoutingRules,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface ApiGatewayV2Service$ {
   /**
    * @see {@link CreateApiCommand}

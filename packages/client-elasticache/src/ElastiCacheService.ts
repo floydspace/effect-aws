@@ -440,6 +440,10 @@ const paginators = {
   paginateDescribeUsers,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface ElastiCacheService$ {
   /**
    * @see {@link AddTagsToResourceCommand}

@@ -96,6 +96,9 @@
       "path": "packages/client-eks"
     },
     {
+      "path": "packages/client-elastic-load-balancing-v2"
+    },
+    {
       "path": "packages/client-elasticache"
     },
     {

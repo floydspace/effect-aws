@@ -508,6 +508,10 @@ const paginators = {
   paginateListParts,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface S3Service$ {
   /**
    * @see {@link AbortMultipartUploadCommand}

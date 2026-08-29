@@ -117,6 +117,10 @@ const paginators = {
   paginateListDbParameterGroups,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface TimestreamInfluxDBService$ {
   /**
    * @see {@link CreateDbClusterCommand}

@@ -833,6 +833,10 @@ const paginators = {
   paginateSimulatePrincipalPolicy,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface IAMService$ {
   /**
    * @see {@link AcceptDelegationRequestCommand}

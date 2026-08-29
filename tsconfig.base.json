@@ -309,6 +309,15 @@
       "@effect-aws/client-eks/test/*": [
         "./packages/client-eks/test/*.js"
       ],
+      "@effect-aws/client-elastic-load-balancing-v2": [
+        "./packages/client-elastic-load-balancing-v2/src/index.js"
+      ],
+      "@effect-aws/client-elastic-load-balancing-v2/*": [
+        "./packages/client-elastic-load-balancing-v2/src/*.js"
+      ],
+      "@effect-aws/client-elastic-load-balancing-v2/test/*": [
+        "./packages/client-elastic-load-balancing-v2/test/*.js"
+      ],
       "@effect-aws/client-elasticache": [
         "./packages/client-elasticache/src/index.js"
       ],

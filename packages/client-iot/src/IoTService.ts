@@ -1275,6 +1275,10 @@ const paginators = {
   paginateListViolationEvents,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface IoTService$ {
   /**
    * @see {@link AcceptCertificateTransferCommand}

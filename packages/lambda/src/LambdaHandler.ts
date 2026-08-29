@@ -396,19 +396,17 @@ export const fromHttpApi = <LA, LE>(
  * @example
  * ```ts
  * import { LambdaHandler } from "@effect-aws/lambda"
- * import { HttpApi, HttpApiBuilder, HttpServer } from "@effect/platform"
+ * import { HttpServer } from "effect/unstable/http";
+ * import { HttpApi, HttpApiBuilder } from "effect/unstable/httpapi"
  * import { Layer } from "effect"
  *
  * class MyApi extends HttpApi.make("api") {}
  *
- * const MyApiLive = HttpApiBuilder.api(MyApi)
+ * const MyApiLive = HttpApiBuilder.layer(MyApi).pipe(
+ *   Layer.provide(HttpServer.layerServices),
+ * );
  *
- * export const handler = LambdaHandler.streamFromHttpApi(
- *   Layer.mergeAll(
- *     MyApiLive,
- *     HttpServer.layerContext
- *   )
- * )
+ * export const handler = LambdaHandler.streamFromHttpApi(MyApiLive)
  * ```
  *
  * @since 1.7.0

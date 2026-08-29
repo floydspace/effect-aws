@@ -32,6 +32,7 @@ export default defineConfig({
       "packages/client-ecr",
       "packages/client-ecs",
       "packages/client-eks",
+      "packages/client-elastic-load-balancing-v2",
       "packages/client-elasticache",
       "packages/client-eventbridge",
       "packages/client-firehose",

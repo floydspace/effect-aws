@@ -3449,6 +3449,10 @@ const paginators = {
   paginateSearchTransitGatewayRoutes,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface EC2Service$ {
   /**
    * @see {@link AcceptAddressTransferCommand}

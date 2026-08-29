@@ -54,6 +54,7 @@ const config: UserConfig = {
       ...alias("client-ecr"),
       ...alias("client-ecs"),
       ...alias("client-eks"),
+      ...alias("client-elastic-load-balancing-v2"),
       ...alias("client-elasticache"),
       ...alias("client-eventbridge"),
       ...alias("client-firehose"),

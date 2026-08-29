@@ -463,6 +463,10 @@ const paginators = {
   paginateListTypes,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface CloudFormationService$ {
   /**
    * @see {@link ActivateOrganizationsAccessCommand}

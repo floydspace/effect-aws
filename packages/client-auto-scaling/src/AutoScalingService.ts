@@ -327,6 +327,10 @@ const paginators = {
   paginateDescribeWarmPool,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface AutoScalingService$ {
   /**
    * @see {@link AttachInstancesCommand}

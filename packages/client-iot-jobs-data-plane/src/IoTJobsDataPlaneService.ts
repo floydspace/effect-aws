@@ -53,6 +53,10 @@ const commands = {
   UpdateJobExecutionCommand,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface IoTJobsDataPlaneService$ {
   /**
    * @see {@link DescribeJobExecutionCommand}

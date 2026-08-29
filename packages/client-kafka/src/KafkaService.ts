@@ -307,6 +307,10 @@ const paginators = {
   paginateListVpcConnections,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface KafkaService$ {
   /**
    * @see {@link BatchAssociateScramSecretCommand}

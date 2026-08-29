@@ -217,6 +217,10 @@ const paginators = {
   paginateListStreams,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface IvsService$ {
   /**
    * @see {@link BatchGetChannelCommand}

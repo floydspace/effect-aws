@@ -306,6 +306,10 @@ const paginators = {
   paginateListRetirableGrants,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface KMSService$ {
   /**
    * @see {@link CancelKeyDeletionCommand}

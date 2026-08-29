@@ -78,6 +78,10 @@ const commands = {
   UpdateDestinationCommand,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface FirehoseService$ {
   /**
    * @see {@link CreateDeliveryStreamCommand}

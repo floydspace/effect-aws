@@ -552,6 +552,10 @@ const paginators = {
   paginateListSourcesForS3TableIntegration,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface CloudWatchLogsService$ {
   /**
    * @see {@link AssociateKmsKeyCommand}

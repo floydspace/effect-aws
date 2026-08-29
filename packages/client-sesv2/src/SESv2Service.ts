@@ -521,6 +521,10 @@ const paginators = {
   paginateListTenants,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface SESv2Service$ {
   /**
    * @see {@link BatchGetMetricDataCommand}

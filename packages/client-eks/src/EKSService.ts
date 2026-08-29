@@ -331,6 +331,10 @@ const paginators = {
   paginateListUpdates,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface EKSService$ {
   /**
    * @see {@link AssociateAccessPolicyCommand}

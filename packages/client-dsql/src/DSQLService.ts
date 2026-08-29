@@ -100,6 +100,10 @@ const paginators = {
   paginateListStreams,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface DSQLService$ {
   /**
    * @see {@link CreateClusterCommand}

@@ -553,6 +553,10 @@ const paginators = {
   paginateGetVpcLinks,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface APIGatewayService$ {
   /**
    * @see {@link CreateApiKeyCommand}

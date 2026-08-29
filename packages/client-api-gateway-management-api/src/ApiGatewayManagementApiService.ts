@@ -32,6 +32,10 @@ const commands = {
   PostToConnectionCommand,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface ApiGatewayManagementApiService$ {
   /**
    * @see {@link DeleteConnectionCommand}

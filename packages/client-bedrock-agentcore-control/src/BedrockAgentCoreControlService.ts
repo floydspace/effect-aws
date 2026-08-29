@@ -722,6 +722,10 @@ const paginators = {
   paginateListWorkloadIdentities,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface BedrockAgentCoreControlService$ {
   /**
    * @see {@link AddDatasetExamplesCommand}

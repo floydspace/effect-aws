@@ -1363,6 +1363,10 @@ const paginators = {
   paginateSearchTables,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface GlueService$ {
   /**
    * @see {@link AssociateGlossaryTermsCommand}

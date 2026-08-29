@@ -237,6 +237,10 @@ const commands = {
   UpdateConnectionCommand,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface CloudWatchEventsService$ {
   /**
    * @see {@link ActivateEventSourceCommand}

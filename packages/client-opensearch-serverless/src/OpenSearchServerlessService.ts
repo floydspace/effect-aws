@@ -230,6 +230,10 @@ const paginators = {
   paginateListVpcEndpoints,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface OpenSearchServerlessService$ {
   /**
    * @see {@link BatchGetCollectionCommand}

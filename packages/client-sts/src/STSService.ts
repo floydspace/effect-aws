@@ -78,6 +78,10 @@ const commands = {
   GetWebIdentityTokenCommand,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface STSService$ {
   /**
    * @see {@link AssumeRoleCommand}

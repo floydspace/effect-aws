@@ -152,6 +152,11 @@ export default {
     commandToTest: "ListClusters",
     inputToTest: null,
   },
+  "client-elastic-load-balancing-v2": {
+    description: "Effectful AWS Elastic Load Balancing v2 client",
+    commandToTest: "DescribeLoadBalancers",
+    inputToTest: null,
+  },
   "client-elasticache": {
     description: "Effectful AWS ElastiCache client",
     commandToTest: "ListTagsForResource",

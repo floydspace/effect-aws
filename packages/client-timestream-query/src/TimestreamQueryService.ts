@@ -101,6 +101,10 @@ const paginators = {
   paginateQuery,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface TimestreamQueryService$ {
   /**
    * @see {@link CancelQueryCommand}

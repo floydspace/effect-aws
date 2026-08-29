@@ -84,6 +84,10 @@ const paginators = {
   paginateListSchedules,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface SchedulerService$ {
   /**
    * @see {@link CreateScheduleCommand}

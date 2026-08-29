@@ -364,6 +364,10 @@ const paginators = {
   paginateListTargetsForPolicy,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface OrganizationsService$ {
   /**
    * @see {@link AcceptHandshakeCommand}

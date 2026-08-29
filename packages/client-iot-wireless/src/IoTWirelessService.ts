@@ -503,6 +503,10 @@ const paginators = {
   paginateListWirelessGateways,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface IoTWirelessService$ {
   /**
    * @see {@link AssociateAwsAccountWithPartnerAccountCommand}

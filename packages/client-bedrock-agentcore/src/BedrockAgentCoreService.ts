@@ -322,6 +322,10 @@ const paginators = {
   paginateRetrieveMemoryRecords,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface BedrockAgentCoreService$ {
   /**
    * @see {@link BatchCreateMemoryRecordsCommand}

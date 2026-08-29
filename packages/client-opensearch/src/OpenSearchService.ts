@@ -455,6 +455,10 @@ const paginators = {
   paginateListVersions,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface OpenSearchService$ {
   /**
    * @see {@link AcceptInboundConnectionCommand}

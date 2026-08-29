@@ -148,6 +148,10 @@ const paginators = {
   paginateListAdapters,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface TextractService$ {
   /**
    * @see {@link AnalyzeDocumentCommand}

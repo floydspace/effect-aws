@@ -113,6 +113,10 @@ const paginators = {
   paginateQueryObjects,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface DataPipelineService$ {
   /**
    * @see {@link ActivatePipelineCommand}

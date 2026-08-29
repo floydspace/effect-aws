@@ -342,6 +342,10 @@ const paginators = {
   paginateListWorkGroups,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface AthenaService$ {
   /**
    * @see {@link BatchGetNamedQueryCommand}

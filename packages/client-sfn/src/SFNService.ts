@@ -217,6 +217,10 @@ const paginators = {
   paginateListStateMachines,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface SFNService$ {
   /**
    * @see {@link CreateActivityCommand}

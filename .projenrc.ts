@@ -34,6 +34,14 @@ new Changesets(project, {
 project.package.manifest.pnpm.patchedDependencies = {
   "@changesets/assemble-release-plan": "patches/@changesets__assemble-release-plan.patch",
 };
+// Ensure native optional dependencies (e.g. rolldown's platform bindings) are always
+// resolved for the current OS/CPU, avoiding "Cannot find native binding" failures in CI
+// (see https://github.com/npm/cli/issues/4828 / pnpm optional dependency resolution quirks).
+project.package.manifest.pnpm.supportedArchitectures = {
+  os: ["current"],
+  cpu: ["current"],
+  libc: ["current"],
+};
 
 new Docgen(project);
 new Readme(project, { org });

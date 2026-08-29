@@ -95,6 +95,10 @@ const paginators = {
   paginateListRegions,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface AccountService$ {
   /**
    * @see {@link AcceptPrimaryEmailUpdateCommand}

@@ -263,6 +263,10 @@ const commands = {
   UpdateEventBusCommand,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface EventBridgeService$ {
   /**
    * @see {@link ActivateEventSourceCommand}

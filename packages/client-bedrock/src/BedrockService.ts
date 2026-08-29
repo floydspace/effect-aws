@@ -506,6 +506,10 @@ const paginators = {
   paginateListProvisionedModelThroughputs,
 };
 
+/**
+ * @since 1.0.0
+ * @category models
+ */
 export interface BedrockService$ {
   /**
    * @see {@link BatchDeleteAdvancedPromptOptimizationJobCommand}
