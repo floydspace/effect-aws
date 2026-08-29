@@ -1,5 +1,11 @@
 # @effect-aws/powertools-logger
 
+## 2.0.0-beta.6
+
+### Minor Changes
+
+- [#230](https://github.com/floydspace/effect-aws/pull/230) [`19ceefd`](https://github.com/floydspace/effect-aws/commit/19ceefd251e2c78555dbb99ed2ffcd2a135b7d2a) Thanks [@github-actions](https://github.com/apps/github-actions)! - fix breaking change in logger implementation when updating to effect rc version
+
 ## 2.0.0-beta.5
 
 ### Minor Changes
@@ -57,7 +63,6 @@
 - [#122](https://github.com/floydspace/effect-aws/pull/122) [`64355df`](https://github.com/floydspace/effect-aws/commit/64355dfcbb55ef7ee8c2123599c87c1f87ebbc2e) Thanks [@floydspace](https://github.com/floydspace)! - refactor power tools logger
 
   ### Migration guide:
-
   1. Replace the `DefaultPowerToolsLoggerLayer` with `Logger.defaultLayer`.
   2. Replace the `PowerToolsLoggerLayer` with `Logger.layer`.
 
