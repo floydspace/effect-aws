@@ -51,6 +51,7 @@ export default defineConfig({
       "packages/client-opensearch-serverless",
       "packages/client-organizations",
       "packages/client-rds",
+      "packages/client-resource-groups-tagging-api",
       "packages/client-scheduler",
       "packages/client-secrets-manager",
       "packages/client-ses",

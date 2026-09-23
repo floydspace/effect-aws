@@ -252,6 +252,11 @@ export default {
     commandToTest: "DescribeDBClusters",
     inputToTest: null,
   },
+  "client-resource-groups-tagging-api": {
+    description: "Effectful AWS Resource Groups Tagging API client",
+    commandToTest: "GetResources",
+    inputToTest: null,
+  },
   "client-s3": {
     description: "Effectful AWS S3 client",
     commandToTest: "HeadObject",

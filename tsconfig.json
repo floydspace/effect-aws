@@ -153,6 +153,9 @@
       "path": "packages/client-rds"
     },
     {
+      "path": "packages/client-resource-groups-tagging-api"
+    },
+    {
       "path": "packages/client-scheduler"
     },
     {
