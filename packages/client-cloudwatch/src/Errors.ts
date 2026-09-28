@@ -17,6 +17,7 @@ import type {
   ResourceConflict,
   ResourceNotFound,
   ResourceNotFoundException,
+  ValidationException,
 } from "@aws-sdk/client-cloudwatch";
 import type { TaggedException } from "@effect-aws/commons/Errors";
 
@@ -39,6 +40,7 @@ export const AllServiceErrors = [
   "ResourceConflict",
   "ResourceNotFound",
   "ResourceNotFoundException",
+  "ValidationException",
 ] as const;
 
 export type ConcurrentModificationError = TaggedException<ConcurrentModificationException>;
@@ -59,4 +61,5 @@ export type MissingRequiredParameterError = TaggedException<MissingRequiredParam
 export type ResourceConflictError = TaggedException<ResourceConflict>;
 export type ResourceNotFoundError = TaggedException<ResourceNotFound>;
 export type ResourceNotFoundExceptionError = TaggedException<ResourceNotFoundException>;
+export type ValidationError = TaggedException<ValidationException>;
 export type SdkError = TaggedException<Error & { name: "SdkError" }>;

@@ -53,6 +53,9 @@ import {
   paginateListConnectors,
   paginateListCustomPlugins,
   paginateListWorkerConfigurations,
+  RestartConnectorCommand,
+  type RestartConnectorCommandInput,
+  type RestartConnectorCommandOutput,
   TagResourceCommand,
   type TagResourceCommandInput,
   type TagResourceCommandOutput,
@@ -102,6 +105,7 @@ const commands = {
   ListCustomPluginsCommand,
   ListTagsForResourceCommand,
   ListWorkerConfigurationsCommand,
+  RestartConnectorCommand,
   TagResourceCommand,
   UntagResourceCommand,
   UpdateConnectorCommand,
@@ -460,6 +464,25 @@ export interface KafkaConnectService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListWorkerConfigurationsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | BadRequestError
+    | ForbiddenError
+    | InternalServerError
+    | NotFoundError
+    | ServiceUnavailableError
+    | TooManyRequestsError
+    | UnauthorizedError
+  >;
+
+  /**
+   * @see {@link RestartConnectorCommand}
+   */
+  restartConnector(
+    args: RestartConnectorCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    RestartConnectorCommandOutput,
     | Cause.TimeoutError
     | SdkError
     | BadRequestError

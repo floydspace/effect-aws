@@ -7,6 +7,9 @@ import {
   type AssociateDatasetKmsKeyCommandOutput,
   type CloudWatchClient,
   type CloudWatchClientConfig,
+  CreateResourceMetricsConfigurationCommand,
+  type CreateResourceMetricsConfigurationCommandInput,
+  type CreateResourceMetricsConfigurationCommandOutput,
   DeleteAlarmMuteRuleCommand,
   type DeleteAlarmMuteRuleCommandInput,
   type DeleteAlarmMuteRuleCommandOutput,
@@ -25,6 +28,9 @@ import {
   DeleteMetricStreamCommand,
   type DeleteMetricStreamCommandInput,
   type DeleteMetricStreamCommandOutput,
+  DeleteResourceMetricsConfigurationCommand,
+  type DeleteResourceMetricsConfigurationCommandInput,
+  type DeleteResourceMetricsConfigurationCommandOutput,
   DescribeAlarmContributorsCommand,
   type DescribeAlarmContributorsCommandInput,
   type DescribeAlarmContributorsCommandOutput,
@@ -85,6 +91,9 @@ import {
   GetOTelEnrichmentCommand,
   type GetOTelEnrichmentCommandInput,
   type GetOTelEnrichmentCommandOutput,
+  GetResourceMetricsConfigurationCommand,
+  type GetResourceMetricsConfigurationCommandInput,
+  type GetResourceMetricsConfigurationCommandOutput,
   ListAlarmMuteRulesCommand,
   type ListAlarmMuteRulesCommandInput,
   type ListAlarmMuteRulesCommandOutput,
@@ -164,6 +173,12 @@ import {
   UntagResourceCommand,
   type UntagResourceCommandInput,
   type UntagResourceCommandOutput,
+  UpdateOTelEnrichmentCommand,
+  type UpdateOTelEnrichmentCommandInput,
+  type UpdateOTelEnrichmentCommandOutput,
+  UpdateResourceMetricsConfigurationCommand,
+  type UpdateResourceMetricsConfigurationCommandInput,
+  type UpdateResourceMetricsConfigurationCommandOutput,
 } from "@aws-sdk/client-cloudwatch";
 import * as Service from "@effect-aws/commons/Service";
 import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
@@ -195,17 +210,20 @@ import type {
   ResourceNotFoundError,
   ResourceNotFoundExceptionError,
   SdkError,
+  ValidationError,
 } from "./Errors.js";
 import { AllServiceErrors } from "./Errors.js";
 
 const commands = {
   AssociateDatasetKmsKeyCommand,
+  CreateResourceMetricsConfigurationCommand,
   DeleteAlarmMuteRuleCommand,
   DeleteAlarmsCommand,
   DeleteAnomalyDetectorCommand,
   DeleteDashboardsCommand,
   DeleteInsightRulesCommand,
   DeleteMetricStreamCommand,
+  DeleteResourceMetricsConfigurationCommand,
   DescribeAlarmContributorsCommand,
   DescribeAlarmHistoryCommand,
   DescribeAlarmsCommand,
@@ -226,6 +244,7 @@ const commands = {
   GetMetricStreamCommand,
   GetMetricWidgetImageCommand,
   GetOTelEnrichmentCommand,
+  GetResourceMetricsConfigurationCommand,
   ListAlarmMuteRulesCommand,
   ListDashboardsCommand,
   ListManagedInsightRulesCommand,
@@ -249,6 +268,8 @@ const commands = {
   StopOTelEnrichmentCommand,
   TagResourceCommand,
   UntagResourceCommand,
+  UpdateOTelEnrichmentCommand,
+  UpdateResourceMetricsConfigurationCommand,
 };
 
 const paginators = {
@@ -284,6 +305,17 @@ export interface CloudWatchService$ {
     | KmsKeyDisabledError
     | KmsKeyNotFoundError
     | ResourceNotFoundError
+  >;
+
+  /**
+   * @see {@link CreateResourceMetricsConfigurationCommand}
+   */
+  createResourceMetricsConfiguration(
+    args: CreateResourceMetricsConfigurationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateResourceMetricsConfigurationCommandOutput,
+    Cause.TimeoutError | SdkError | ConflictError | ResourceNotFoundError
   >;
 
   /**
@@ -360,6 +392,17 @@ export interface CloudWatchService$ {
     | InternalServiceFaultError
     | InvalidParameterValueError
     | MissingRequiredParameterError
+  >;
+
+  /**
+   * @see {@link DeleteResourceMetricsConfigurationCommand}
+   */
+  deleteResourceMetricsConfiguration(
+    args: DeleteResourceMetricsConfigurationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteResourceMetricsConfigurationCommandOutput,
+    Cause.TimeoutError | SdkError | ResourceNotFoundError
   >;
 
   /**
@@ -633,6 +676,17 @@ export interface CloudWatchService$ {
   ): Effect.Effect<
     GetOTelEnrichmentCommandOutput,
     Cause.TimeoutError | SdkError
+  >;
+
+  /**
+   * @see {@link GetResourceMetricsConfigurationCommand}
+   */
+  getResourceMetricsConfiguration(
+    args: GetResourceMetricsConfigurationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetResourceMetricsConfigurationCommandOutput,
+    Cause.TimeoutError | SdkError | ResourceNotFoundError
   >;
 
   /**
@@ -916,7 +970,7 @@ export interface CloudWatchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartOTelEnrichmentCommandOutput,
-    Cause.TimeoutError | SdkError
+    Cause.TimeoutError | SdkError | ValidationError
   >;
 
   /**
@@ -977,6 +1031,28 @@ export interface CloudWatchService$ {
     | InternalServiceFaultError
     | InvalidParameterValueError
     | ResourceNotFoundExceptionError
+  >;
+
+  /**
+   * @see {@link UpdateOTelEnrichmentCommand}
+   */
+  updateOTelEnrichment(
+    args: UpdateOTelEnrichmentCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateOTelEnrichmentCommandOutput,
+    Cause.TimeoutError | SdkError | ResourceNotFoundError | ValidationError
+  >;
+
+  /**
+   * @see {@link UpdateResourceMetricsConfigurationCommand}
+   */
+  updateResourceMetricsConfiguration(
+    args: UpdateResourceMetricsConfigurationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateResourceMetricsConfigurationCommandOutput,
+    Cause.TimeoutError | SdkError | ResourceNotFoundError
   >;
 }
 

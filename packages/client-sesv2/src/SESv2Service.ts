@@ -2,6 +2,9 @@
  * @since 1.0.0
  */
 import {
+  AssociateEmailIdentityCertificateCommand,
+  type AssociateEmailIdentityCertificateCommandInput,
+  type AssociateEmailIdentityCertificateCommandOutput,
   BatchGetMetricDataCommand,
   type BatchGetMetricDataCommandInput,
   type BatchGetMetricDataCommandOutput,
@@ -92,6 +95,9 @@ import {
   DeleteTenantResourceAssociationCommand,
   type DeleteTenantResourceAssociationCommandInput,
   type DeleteTenantResourceAssociationCommandOutput,
+  DisassociateEmailIdentityCertificateCommand,
+  type DisassociateEmailIdentityCertificateCommandInput,
+  type DisassociateEmailIdentityCertificateCommandOutput,
   GetAccountCommand,
   type GetAccountCommandInput,
   type GetAccountCommandOutput,
@@ -191,6 +197,9 @@ import {
   ListEmailIdentitiesCommand,
   type ListEmailIdentitiesCommandInput,
   type ListEmailIdentitiesCommandOutput,
+  ListEmailIdentityCertificatesCommand,
+  type ListEmailIdentityCertificatesCommandInput,
+  type ListEmailIdentityCertificatesCommandOutput,
   ListEmailTemplatesCommand,
   type ListEmailTemplatesCommandInput,
   type ListEmailTemplatesCommandOutput,
@@ -233,6 +242,7 @@ import {
   paginateListDeliverabilityTestReports,
   paginateListDomainDeliverabilityCampaigns,
   paginateListEmailIdentities,
+  paginateListEmailIdentityCertificates,
   paginateListEmailTemplates,
   paginateListExportJobs,
   paginateListImportJobs,
@@ -335,6 +345,9 @@ import {
   UntagResourceCommand,
   type UntagResourceCommandInput,
   type UntagResourceCommandOutput,
+  UpdateConfigurationSetCommand,
+  type UpdateConfigurationSetCommandInput,
+  type UpdateConfigurationSetCommandOutput,
   UpdateConfigurationSetEventDestinationCommand,
   type UpdateConfigurationSetEventDestinationCommandInput,
   type UpdateConfigurationSetEventDestinationCommandOutput,
@@ -389,6 +402,7 @@ import * as Instance from "./SESv2ClientInstance.js";
 import * as SESv2ServiceConfig from "./SESv2ServiceConfig.js";
 
 const commands = {
+  AssociateEmailIdentityCertificateCommand,
   BatchGetMetricDataCommand,
   CancelExportJobCommand,
   CreateConfigurationSetCommand,
@@ -419,6 +433,7 @@ const commands = {
   DeleteSuppressedDestinationCommand,
   DeleteTenantCommand,
   DeleteTenantResourceAssociationCommand,
+  DisassociateEmailIdentityCertificateCommand,
   GetAccountCommand,
   GetBlacklistReportsCommand,
   GetConfigurationSetCommand,
@@ -452,6 +467,7 @@ const commands = {
   ListDeliverabilityTestReportsCommand,
   ListDomainDeliverabilityCampaignsCommand,
   ListEmailIdentitiesCommand,
+  ListEmailIdentityCertificatesCommand,
   ListEmailTemplatesCommand,
   ListExportJobsCommand,
   ListImportJobsCommand,
@@ -493,6 +509,7 @@ const commands = {
   TagResourceCommand,
   TestRenderEmailTemplateCommand,
   UntagResourceCommand,
+  UpdateConfigurationSetCommand,
   UpdateConfigurationSetEventDestinationCommand,
   UpdateContactCommand,
   UpdateContactListCommand,
@@ -513,6 +530,7 @@ const paginators = {
   paginateListDeliverabilityTestReports,
   paginateListDomainDeliverabilityCampaigns,
   paginateListEmailIdentities,
+  paginateListEmailIdentityCertificates,
   paginateListEmailTemplates,
   paginateListExportJobs,
   paginateListImportJobs,
@@ -530,6 +548,17 @@ const paginators = {
  * @category models
  */
 export interface SESv2Service$ {
+  /**
+   * @see {@link AssociateEmailIdentityCertificateCommand}
+   */
+  associateEmailIdentityCertificate(
+    args: AssociateEmailIdentityCertificateCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    AssociateEmailIdentityCertificateCommandOutput,
+    Cause.TimeoutError | SdkError | AlreadyExistsError | BadRequestError | NotFoundError | TooManyRequestsError
+  >;
+
   /**
    * @see {@link BatchGetMetricDataCommand}
    */
@@ -905,6 +934,17 @@ export interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteTenantResourceAssociationCommandOutput,
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link DisassociateEmailIdentityCertificateCommand}
+   */
+  disassociateEmailIdentityCertificate(
+    args: DisassociateEmailIdentityCertificateCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DisassociateEmailIdentityCertificateCommandOutput,
     Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
@@ -1341,6 +1381,25 @@ export interface SESv2Service$ {
   ): Stream.Stream<
     ListEmailIdentitiesCommandOutput,
     Cause.TimeoutError | SdkError | BadRequestError | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link ListEmailIdentityCertificatesCommand}
+   */
+  listEmailIdentityCertificates(
+    args: ListEmailIdentityCertificatesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListEmailIdentityCertificatesCommandOutput,
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+  >;
+
+  listEmailIdentityCertificatesStream(
+    args: ListEmailIdentityCertificatesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListEmailIdentityCertificatesCommandOutput,
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1895,6 +1954,17 @@ export interface SESv2Service$ {
   ): Effect.Effect<
     UntagResourceCommandOutput,
     Cause.TimeoutError | SdkError | BadRequestError | ConcurrentModificationError | NotFoundError | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link UpdateConfigurationSetCommand}
+   */
+  updateConfigurationSet(
+    args: UpdateConfigurationSetCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateConfigurationSetCommandOutput,
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**

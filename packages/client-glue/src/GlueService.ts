@@ -631,6 +631,9 @@ import {
   ListIntegrationResourcePropertiesCommand,
   type ListIntegrationResourcePropertiesCommandInput,
   type ListIntegrationResourcePropertiesCommandOutput,
+  ListIntegrationTablePropertiesCommand,
+  type ListIntegrationTablePropertiesCommandInput,
+  type ListIntegrationTablePropertiesCommandOutput,
   ListIterableFormsCommand,
   type ListIterableFormsCommandInput,
   type ListIterableFormsCommandOutput,
@@ -1228,6 +1231,7 @@ const commands = {
   ListGlossariesCommand,
   ListGlossaryTermsCommand,
   ListIntegrationResourcePropertiesCommand,
+  ListIntegrationTablePropertiesCommand,
   ListIterableFormsCommand,
   ListJobsCommand,
   ListMLTransformsCommand,
@@ -5089,6 +5093,25 @@ export interface GlueService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListIntegrationResourcePropertiesCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | EntityNotFoundError
+    | InternalServerError
+    | InternalServiceError
+    | InvalidInputError
+    | ResourceNotFoundError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link ListIntegrationTablePropertiesCommand}
+   */
+  listIntegrationTableProperties(
+    args: ListIntegrationTablePropertiesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListIntegrationTablePropertiesCommandOutput,
     | Cause.TimeoutError
     | SdkError
     | AccessDeniedError

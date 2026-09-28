@@ -5,12 +5,18 @@ import {
   AddTagsToStreamCommand,
   type AddTagsToStreamCommandInput,
   type AddTagsToStreamCommandOutput,
+  CreateChannelCommand,
+  type CreateChannelCommandInput,
+  type CreateChannelCommandOutput,
   CreateStreamCommand,
   type CreateStreamCommandInput,
   type CreateStreamCommandOutput,
   DecreaseStreamRetentionPeriodCommand,
   type DecreaseStreamRetentionPeriodCommandInput,
   type DecreaseStreamRetentionPeriodCommandOutput,
+  DeleteChannelCommand,
+  type DeleteChannelCommandInput,
+  type DeleteChannelCommandOutput,
   DeleteResourcePolicyCommand,
   type DeleteResourcePolicyCommandInput,
   type DeleteResourcePolicyCommandOutput,
@@ -23,6 +29,9 @@ import {
   DescribeAccountSettingsCommand,
   type DescribeAccountSettingsCommandInput,
   type DescribeAccountSettingsCommandOutput,
+  DescribeChannelCommand,
+  type DescribeChannelCommandInput,
+  type DescribeChannelCommandOutput,
   DescribeLimitsCommand,
   type DescribeLimitsCommandInput,
   type DescribeLimitsCommandOutput,
@@ -55,6 +64,9 @@ import {
   type IncreaseStreamRetentionPeriodCommandOutput,
   type KinesisClient,
   type KinesisClientConfig,
+  ListChannelsCommand,
+  type ListChannelsCommandInput,
+  type ListChannelsCommandOutput,
   ListShardsCommand,
   type ListShardsCommandInput,
   type ListShardsCommandOutput,
@@ -73,6 +85,7 @@ import {
   MergeShardsCommand,
   type MergeShardsCommandInput,
   type MergeShardsCommandOutput,
+  paginateListChannels,
   paginateListStreamConsumers,
   paginateListStreams,
   PutRecordCommand,
@@ -111,6 +124,9 @@ import {
   UpdateAccountSettingsCommand,
   type UpdateAccountSettingsCommandInput,
   type UpdateAccountSettingsCommandOutput,
+  UpdateChannelCommand,
+  type UpdateChannelCommandInput,
+  type UpdateChannelCommandOutput,
   UpdateMaxRecordSizeCommand,
   type UpdateMaxRecordSizeCommandInput,
   type UpdateMaxRecordSizeCommandOutput,
@@ -120,6 +136,9 @@ import {
   UpdateStreamModeCommand,
   type UpdateStreamModeCommandInput,
   type UpdateStreamModeCommandOutput,
+  UpdateStreamRecordDistributionStrategyCommand,
+  type UpdateStreamRecordDistributionStrategyCommandInput,
+  type UpdateStreamRecordDistributionStrategyCommandOutput,
   UpdateStreamWarmThroughputCommand,
   type UpdateStreamWarmThroughputCommandInput,
   type UpdateStreamWarmThroughputCommandOutput,
@@ -134,6 +153,7 @@ import * as Layer from "effect/Layer";
 import type * as Stream from "effect/Stream";
 import type {
   AccessDeniedError,
+  DryRunOperationError,
   ExpiredIteratorError,
   ExpiredNextTokenError,
   InternalFailureError,
@@ -157,12 +177,15 @@ import * as KinesisServiceConfig from "./KinesisServiceConfig.js";
 
 const commands = {
   AddTagsToStreamCommand,
+  CreateChannelCommand,
   CreateStreamCommand,
   DecreaseStreamRetentionPeriodCommand,
+  DeleteChannelCommand,
   DeleteResourcePolicyCommand,
   DeleteStreamCommand,
   DeregisterStreamConsumerCommand,
   DescribeAccountSettingsCommand,
+  DescribeChannelCommand,
   DescribeLimitsCommand,
   DescribeStreamCommand,
   DescribeStreamConsumerCommand,
@@ -173,6 +196,7 @@ const commands = {
   GetResourcePolicyCommand,
   GetShardIteratorCommand,
   IncreaseStreamRetentionPeriodCommand,
+  ListChannelsCommand,
   ListShardsCommand,
   ListStreamConsumersCommand,
   ListStreamsCommand,
@@ -191,13 +215,16 @@ const commands = {
   TagResourceCommand,
   UntagResourceCommand,
   UpdateAccountSettingsCommand,
+  UpdateChannelCommand,
   UpdateMaxRecordSizeCommand,
   UpdateShardCountCommand,
   UpdateStreamModeCommand,
+  UpdateStreamRecordDistributionStrategyCommand,
   UpdateStreamWarmThroughputCommand,
 };
 
 const paginators = {
+  paginateListChannels,
   paginateListStreamConsumers,
   paginateListStreams,
 };
@@ -222,6 +249,30 @@ export interface KinesisService$ {
     | LimitExceededError
     | ResourceInUseError
     | ResourceNotFoundError
+  >;
+
+  /**
+   * @see {@link CreateChannelCommand}
+   */
+  createChannel(
+    args: CreateChannelCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateChannelCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | InvalidArgumentError
+    | KMSAccessDeniedError
+    | KMSDisabledError
+    | KMSInvalidStateError
+    | KMSNotFoundError
+    | KMSOptInRequiredError
+    | KMSThrottlingError
+    | LimitExceededError
+    | ResourceInUseError
+    | ResourceNotFoundError
+    | ValidationError
   >;
 
   /**
@@ -250,6 +301,23 @@ export interface KinesisService$ {
     | LimitExceededError
     | ResourceInUseError
     | ResourceNotFoundError
+  >;
+
+  /**
+   * @see {@link DeleteChannelCommand}
+   */
+  deleteChannel(
+    args: DeleteChannelCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteChannelCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | InvalidArgumentError
+    | LimitExceededError
+    | ResourceNotFoundError
+    | ValidationError
   >;
 
   /**
@@ -306,6 +374,23 @@ export interface KinesisService$ {
   ): Effect.Effect<
     DescribeAccountSettingsCommandOutput,
     Cause.TimeoutError | SdkError | LimitExceededError
+  >;
+
+  /**
+   * @see {@link DescribeChannelCommand}
+   */
+  describeChannel(
+    args: DescribeChannelCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeChannelCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | InvalidArgumentError
+    | LimitExceededError
+    | ResourceNotFoundError
+    | ValidationError
   >;
 
   /**
@@ -407,6 +492,7 @@ export interface KinesisService$ {
     | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
+    | DryRunOperationError
     | ExpiredIteratorError
     | InternalFailureError
     | InvalidArgumentError
@@ -448,6 +534,7 @@ export interface KinesisService$ {
     | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
+    | DryRunOperationError
     | InternalFailureError
     | InvalidArgumentError
     | ProvisionedThroughputExceededError
@@ -469,6 +556,37 @@ export interface KinesisService$ {
     | LimitExceededError
     | ResourceInUseError
     | ResourceNotFoundError
+  >;
+
+  /**
+   * @see {@link ListChannelsCommand}
+   */
+  listChannels(
+    args: ListChannelsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListChannelsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | ExpiredNextTokenError
+    | InvalidArgumentError
+    | LimitExceededError
+    | ValidationError
+  >;
+
+  listChannelsStream(
+    args: ListChannelsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListChannelsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | ExpiredNextTokenError
+    | InvalidArgumentError
+    | LimitExceededError
+    | ValidationError
   >;
 
   /**
@@ -601,6 +719,7 @@ export interface KinesisService$ {
     | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
+    | DryRunOperationError
     | InternalFailureError
     | InvalidArgumentError
     | KMSAccessDeniedError
@@ -624,6 +743,7 @@ export interface KinesisService$ {
     | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
+    | DryRunOperationError
     | InternalFailureError
     | InvalidArgumentError
     | KMSAccessDeniedError
@@ -755,6 +875,7 @@ export interface KinesisService$ {
     | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
+    | DryRunOperationError
     | InvalidArgumentError
     | LimitExceededError
     | ResourceInUseError
@@ -807,6 +928,24 @@ export interface KinesisService$ {
   >;
 
   /**
+   * @see {@link UpdateChannelCommand}
+   */
+  updateChannel(
+    args: UpdateChannelCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateChannelCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | InvalidArgumentError
+    | LimitExceededError
+    | ResourceInUseError
+    | ResourceNotFoundError
+    | ValidationError
+  >;
+
+  /**
    * @see {@link UpdateMaxRecordSizeCommand}
    */
   updateMaxRecordSize(
@@ -852,6 +991,24 @@ export interface KinesisService$ {
     UpdateStreamModeCommandOutput,
     | Cause.TimeoutError
     | SdkError
+    | InvalidArgumentError
+    | LimitExceededError
+    | ResourceInUseError
+    | ResourceNotFoundError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link UpdateStreamRecordDistributionStrategyCommand}
+   */
+  updateStreamRecordDistributionStrategy(
+    args: UpdateStreamRecordDistributionStrategyCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateStreamRecordDistributionStrategyCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
     | InvalidArgumentError
     | LimitExceededError
     | ResourceInUseError

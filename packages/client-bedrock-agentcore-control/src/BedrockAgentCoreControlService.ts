@@ -34,6 +34,9 @@ import {
   CreateConfigurationBundleCommand,
   type CreateConfigurationBundleCommandInput,
   type CreateConfigurationBundleCommandOutput,
+  CreateConsentPortalCommand,
+  type CreateConsentPortalCommandInput,
+  type CreateConsentPortalCommandOutput,
   CreateDatasetCommand,
   type CreateDatasetCommandInput,
   type CreateDatasetCommandOutput,
@@ -118,6 +121,9 @@ import {
   DeleteConfigurationBundleCommand,
   type DeleteConfigurationBundleCommandInput,
   type DeleteConfigurationBundleCommandOutput,
+  DeleteConsentPortalCommand,
+  type DeleteConsentPortalCommandInput,
+  type DeleteConsentPortalCommandOutput,
   DeleteDatasetCommand,
   type DeleteDatasetCommandInput,
   type DeleteDatasetCommandOutput,
@@ -208,6 +214,9 @@ import {
   GetConfigurationBundleVersionCommand,
   type GetConfigurationBundleVersionCommandInput,
   type GetConfigurationBundleVersionCommandOutput,
+  GetConsentPortalCommand,
+  type GetConsentPortalCommandInput,
+  type GetConsentPortalCommandOutput,
   GetDatasetCommand,
   type GetDatasetCommandInput,
   type GetDatasetCommandOutput,
@@ -316,6 +325,9 @@ import {
   ListConfigurationBundleVersionsCommand,
   type ListConfigurationBundleVersionsCommandInput,
   type ListConfigurationBundleVersionsCommandOutput,
+  ListConsentPortalsCommand,
+  type ListConsentPortalsCommandInput,
+  type ListConsentPortalsCommandOutput,
   ListDatasetExamplesCommand,
   type ListDatasetExamplesCommandInput,
   type ListDatasetExamplesCommandOutput,
@@ -411,6 +423,7 @@ import {
   paginateListCodeInterpreters,
   paginateListConfigurationBundles,
   paginateListConfigurationBundleVersions,
+  paginateListConsentPortals,
   paginateListDatasetExamples,
   paginateListDatasets,
   paginateListDatasetVersions,
@@ -441,6 +454,9 @@ import {
   PutResourcePolicyCommand,
   type PutResourcePolicyCommandInput,
   type PutResourcePolicyCommandOutput,
+  RotatePaymentConnectorCredentialsCommand,
+  type RotatePaymentConnectorCredentialsCommandInput,
+  type RotatePaymentConnectorCredentialsCommandOutput,
   SetTokenVaultCMKCommand,
   type SetTokenVaultCMKCommandInput,
   type SetTokenVaultCMKCommandOutput,
@@ -474,6 +490,9 @@ import {
   UpdateConfigurationBundleCommand,
   type UpdateConfigurationBundleCommandInput,
   type UpdateConfigurationBundleCommandOutput,
+  UpdateConsentPortalCommand,
+  type UpdateConsentPortalCommandInput,
+  type UpdateConsentPortalCommandOutput,
   UpdateDatasetCommand,
   type UpdateDatasetCommandInput,
   type UpdateDatasetCommandOutput,
@@ -580,6 +599,7 @@ const commands = {
   CreateCapacityProviderCommand,
   CreateCodeInterpreterCommand,
   CreateConfigurationBundleCommand,
+  CreateConsentPortalCommand,
   CreateDatasetCommand,
   CreateDatasetVersionCommand,
   CreateEvaluatorCommand,
@@ -608,6 +628,7 @@ const commands = {
   DeleteCapacityProviderCommand,
   DeleteCodeInterpreterCommand,
   DeleteConfigurationBundleCommand,
+  DeleteConsentPortalCommand,
   DeleteDatasetCommand,
   DeleteDatasetExamplesCommand,
   DeleteEvaluatorCommand,
@@ -638,6 +659,7 @@ const commands = {
   GetCodeInterpreterCommand,
   GetConfigurationBundleCommand,
   GetConfigurationBundleVersionCommand,
+  GetConsentPortalCommand,
   GetDatasetCommand,
   GetEvaluatorCommand,
   GetGatewayCommand,
@@ -674,6 +696,7 @@ const commands = {
   ListCodeInterpretersCommand,
   ListConfigurationBundleVersionsCommand,
   ListConfigurationBundlesCommand,
+  ListConsentPortalsCommand,
   ListDatasetExamplesCommand,
   ListDatasetVersionsCommand,
   ListDatasetsCommand,
@@ -703,6 +726,7 @@ const commands = {
   ListTagsForResourceCommand,
   ListWorkloadIdentitiesCommand,
   PutResourcePolicyCommand,
+  RotatePaymentConnectorCredentialsCommand,
   SetTokenVaultCMKCommand,
   StartPolicyGenerationCommand,
   SubmitRegistryRecordForApprovalCommand,
@@ -714,6 +738,7 @@ const commands = {
   UpdateApiKeyCredentialProviderCommand,
   UpdateCapacityProviderCommand,
   UpdateConfigurationBundleCommand,
+  UpdateConsentPortalCommand,
   UpdateDatasetCommand,
   UpdateDatasetExamplesCommand,
   UpdateEvaluatorCommand,
@@ -749,6 +774,7 @@ const paginators = {
   paginateListCodeInterpreters,
   paginateListConfigurationBundleVersions,
   paginateListConfigurationBundles,
+  paginateListConsentPortals,
   paginateListDatasetExamples,
   paginateListDatasetVersions,
   paginateListDatasets,
@@ -970,6 +996,26 @@ export interface BedrockAgentCoreControlService$ {
     | InternalServerError
     | ServiceQuotaExceededError
     | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link CreateConsentPortalCommand}
+   */
+  createConsentPortal(
+    args: CreateConsentPortalCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateConsentPortalCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ServiceQuotaExceededError
+    | ThrottlingError
+    | UnauthorizedError
     | ValidationError
   >;
 
@@ -1495,6 +1541,25 @@ export interface BedrockAgentCoreControlService$ {
     | InternalServerError
     | ResourceNotFoundError
     | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link DeleteConsentPortalCommand}
+   */
+  deleteConsentPortal(
+    args: DeleteConsentPortalCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteConsentPortalCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | UnauthorizedError
     | ValidationError
   >;
 
@@ -2026,6 +2091,24 @@ export interface BedrockAgentCoreControlService$ {
     | InternalServerError
     | ResourceNotFoundError
     | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link GetConsentPortalCommand}
+   */
+  getConsentPortal(
+    args: GetConsentPortalCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetConsentPortalCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | UnauthorizedError
     | ValidationError
   >;
 
@@ -2707,6 +2790,37 @@ export interface BedrockAgentCoreControlService$ {
   ): Stream.Stream<
     ListConfigurationBundlesCommandOutput,
     Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+  >;
+
+  /**
+   * @see {@link ListConsentPortalsCommand}
+   */
+  listConsentPortals(
+    args: ListConsentPortalsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListConsentPortalsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ThrottlingError
+    | UnauthorizedError
+    | ValidationError
+  >;
+
+  listConsentPortalsStream(
+    args: ListConsentPortalsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListConsentPortalsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ThrottlingError
+    | UnauthorizedError
+    | ValidationError
   >;
 
   /**
@@ -3471,6 +3585,24 @@ export interface BedrockAgentCoreControlService$ {
   >;
 
   /**
+   * @see {@link RotatePaymentConnectorCredentialsCommand}
+   */
+  rotatePaymentConnectorCredentials(
+    args: RotatePaymentConnectorCredentialsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    RotatePaymentConnectorCredentialsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
    * @see {@link SetTokenVaultCMKCommand}
    */
   setTokenVaultCMK(
@@ -3678,6 +3810,25 @@ export interface BedrockAgentCoreControlService$ {
   >;
 
   /**
+   * @see {@link UpdateConsentPortalCommand}
+   */
+  updateConsentPortal(
+    args: UpdateConsentPortalCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateConsentPortalCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | UnauthorizedError
+    | ValidationError
+  >;
+
+  /**
    * @see {@link UpdateDatasetCommand}
    */
   updateDataset(
@@ -3821,6 +3972,7 @@ export interface BedrockAgentCoreControlService$ {
     | ConflictError
     | InternalServerError
     | ResourceNotFoundError
+    | ServiceQuotaExceededError
     | ThrottlingError
     | ValidationError
   >;

@@ -1405,6 +1405,7 @@ export interface CloudTrailService$ {
     | Cause.TimeoutError
     | SdkError
     | CloudTrailARNInvalidError
+    | ConflictError
     | InsufficientEncryptionPolicyError
     | InsufficientS3BucketPolicyError
     | InvalidHomeRegionError

@@ -40,6 +40,9 @@ import {
   CreatePromptVersionCommand,
   type CreatePromptVersionCommandInput,
   type CreatePromptVersionCommandOutput,
+  CreateVpcConfigurationCommand,
+  type CreateVpcConfigurationCommandInput,
+  type CreateVpcConfigurationCommandOutput,
   DeleteAgentActionGroupCommand,
   type DeleteAgentActionGroupCommandInput,
   type DeleteAgentActionGroupCommandOutput,
@@ -76,6 +79,9 @@ import {
   DeleteResourcePolicyCommand,
   type DeleteResourcePolicyCommandInput,
   type DeleteResourcePolicyCommandOutput,
+  DeleteVpcConfigurationCommand,
+  type DeleteVpcConfigurationCommandInput,
+  type DeleteVpcConfigurationCommandOutput,
   DisassociateAgentCollaboratorCommand,
   type DisassociateAgentCollaboratorCommandInput,
   type DisassociateAgentCollaboratorCommandOutput,
@@ -127,6 +133,9 @@ import {
   GetResourcePolicyCommand,
   type GetResourcePolicyCommandInput,
   type GetResourcePolicyCommandOutput,
+  GetVpcConfigurationCommand,
+  type GetVpcConfigurationCommandInput,
+  type GetVpcConfigurationCommandOutput,
   IngestKnowledgeBaseDocumentsCommand,
   type IngestKnowledgeBaseDocumentsCommandInput,
   type IngestKnowledgeBaseDocumentsCommandOutput,
@@ -175,6 +184,9 @@ import {
   ListTagsForResourceCommand,
   type ListTagsForResourceCommandInput,
   type ListTagsForResourceCommandOutput,
+  ListVpcConfigurationsCommand,
+  type ListVpcConfigurationsCommandInput,
+  type ListVpcConfigurationsCommandOutput,
   paginateListAgentActionGroups,
   paginateListAgentAliases,
   paginateListAgentCollaborators,
@@ -189,6 +201,7 @@ import {
   paginateListKnowledgeBaseDocuments,
   paginateListKnowledgeBases,
   paginateListPrompts,
+  paginateListVpcConfigurations,
   PrepareAgentCommand,
   type PrepareAgentCommandInput,
   type PrepareAgentCommandOutput,
@@ -279,6 +292,7 @@ const commands = {
   CreateKnowledgeBaseCommand,
   CreatePromptCommand,
   CreatePromptVersionCommand,
+  CreateVpcConfigurationCommand,
   DeleteAgentCommand,
   DeleteAgentActionGroupCommand,
   DeleteAgentAliasCommand,
@@ -291,6 +305,7 @@ const commands = {
   DeleteKnowledgeBaseDocumentsCommand,
   DeletePromptCommand,
   DeleteResourcePolicyCommand,
+  DeleteVpcConfigurationCommand,
   DisassociateAgentCollaboratorCommand,
   DisassociateAgentKnowledgeBaseCommand,
   GetAgentCommand,
@@ -308,6 +323,7 @@ const commands = {
   GetKnowledgeBaseDocumentsCommand,
   GetPromptCommand,
   GetResourcePolicyCommand,
+  GetVpcConfigurationCommand,
   IngestKnowledgeBaseDocumentsCommand,
   ListAgentActionGroupsCommand,
   ListAgentAliasesCommand,
@@ -324,6 +340,7 @@ const commands = {
   ListKnowledgeBasesCommand,
   ListPromptsCommand,
   ListTagsForResourceCommand,
+  ListVpcConfigurationsCommand,
   PrepareAgentCommand,
   PrepareFlowCommand,
   PutResourcePolicyCommand,
@@ -359,6 +376,7 @@ const paginators = {
   paginateListKnowledgeBaseDocuments,
   paginateListKnowledgeBases,
   paginateListPrompts,
+  paginateListVpcConfigurations,
 };
 
 /**
@@ -591,6 +609,25 @@ export interface BedrockAgentService$ {
   >;
 
   /**
+   * @see {@link CreateVpcConfigurationCommand}
+   */
+  createVpcConfiguration(
+    args: CreateVpcConfigurationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateVpcConfigurationCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ServiceQuotaExceededError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
    * @see {@link DeleteAgentCommand}
    */
   deleteAgent(
@@ -795,6 +832,24 @@ export interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteResourcePolicyCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link DeleteVpcConfigurationCommand}
+   */
+  deleteVpcConfiguration(
+    args: DeleteVpcConfigurationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteVpcConfigurationCommandOutput,
     | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
@@ -1088,6 +1143,23 @@ export interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetResourcePolicyCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link GetVpcConfigurationCommand}
+   */
+  getVpcConfiguration(
+    args: GetVpcConfigurationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetVpcConfigurationCommandOutput,
     | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
@@ -1523,6 +1595,37 @@ export interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsForResourceCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link ListVpcConfigurationsCommand}
+   */
+  listVpcConfigurations(
+    args: ListVpcConfigurationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListVpcConfigurationsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  listVpcConfigurationsStream(
+    args: ListVpcConfigurationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListVpcConfigurationsCommandOutput,
     | Cause.TimeoutError
     | SdkError
     | AccessDeniedError

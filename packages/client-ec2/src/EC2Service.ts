@@ -212,6 +212,9 @@ import {
   CreateCapacityReservationCommand,
   type CreateCapacityReservationCommandInput,
   type CreateCapacityReservationCommandOutput,
+  CreateCapacityReservationDateChangeQuoteCommand,
+  type CreateCapacityReservationDateChangeQuoteCommandInput,
+  type CreateCapacityReservationDateChangeQuoteCommandOutput,
   CreateCapacityReservationFleetCommand,
   type CreateCapacityReservationFleetCommandInput,
   type CreateCapacityReservationFleetCommandOutput,
@@ -902,6 +905,9 @@ import {
   DescribeCapacityReservationCancellationQuotesCommand,
   type DescribeCapacityReservationCancellationQuotesCommandInput,
   type DescribeCapacityReservationCancellationQuotesCommandOutput,
+  DescribeCapacityReservationDateChangeQuotesCommand,
+  type DescribeCapacityReservationDateChangeQuotesCommandInput,
+  type DescribeCapacityReservationDateChangeQuotesCommandOutput,
   DescribeCapacityReservationFleetsCommand,
   type DescribeCapacityReservationFleetsCommandInput,
   type DescribeCapacityReservationFleetsCommandOutput,
@@ -2187,6 +2193,7 @@ import {
   paginateDescribeCapacityBlockStatus,
   paginateDescribeCapacityManagerDataExports,
   paginateDescribeCapacityReservationBillingRequests,
+  paginateDescribeCapacityReservationDateChangeQuotes,
   paginateDescribeCapacityReservationFleets,
   paginateDescribeCapacityReservations,
   paginateDescribeCarrierGateways,
@@ -2574,6 +2581,9 @@ import {
   UpdateSecurityGroupRuleDescriptionsIngressCommand,
   type UpdateSecurityGroupRuleDescriptionsIngressCommandInput,
   type UpdateSecurityGroupRuleDescriptionsIngressCommandOutput,
+  ValidateSecurityGroupQuotasForInterfaceCommand,
+  type ValidateSecurityGroupQuotasForInterfaceCommandInput,
+  type ValidateSecurityGroupQuotasForInterfaceCommandOutput,
   WithdrawByoipCidrCommand,
   type WithdrawByoipCidrCommandInput,
   type WithdrawByoipCidrCommandOutput,
@@ -2661,6 +2671,7 @@ const commands = {
   CreateCapacityReservationCommand,
   CreateCapacityReservationBySplittingCommand,
   CreateCapacityReservationCancellationQuoteCommand,
+  CreateCapacityReservationDateChangeQuoteCommand,
   CreateCapacityReservationFleetCommand,
   CreateCarrierGatewayCommand,
   CreateClientVpnEndpointCommand,
@@ -2891,6 +2902,7 @@ const commands = {
   DescribeCapacityManagerDataExportsCommand,
   DescribeCapacityReservationBillingRequestsCommand,
   DescribeCapacityReservationCancellationQuotesCommand,
+  DescribeCapacityReservationDateChangeQuotesCommand,
   DescribeCapacityReservationFleetsCommand,
   DescribeCapacityReservationTopologyCommand,
   DescribeCapacityReservationsCommand,
@@ -3391,6 +3403,7 @@ const commands = {
   UpdateInterruptibleCapacityReservationAllocationCommand,
   UpdateSecurityGroupRuleDescriptionsEgressCommand,
   UpdateSecurityGroupRuleDescriptionsIngressCommand,
+  ValidateSecurityGroupQuotasForInterfaceCommand,
   WithdrawByoipCidrCommand,
 };
 
@@ -3406,6 +3419,7 @@ const paginators = {
   paginateDescribeCapacityBlocks,
   paginateDescribeCapacityManagerDataExports,
   paginateDescribeCapacityReservationBillingRequests,
+  paginateDescribeCapacityReservationDateChangeQuotes,
   paginateDescribeCapacityReservationFleets,
   paginateDescribeCapacityReservations,
   paginateDescribeCarrierGateways,
@@ -4339,6 +4353,17 @@ export interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateCapacityReservationCancellationQuoteCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link CreateCapacityReservationDateChangeQuoteCommand}
+   */
+  createCapacityReservationDateChangeQuote(
+    args: CreateCapacityReservationDateChangeQuoteCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateCapacityReservationDateChangeQuoteCommandOutput,
     Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
@@ -6933,6 +6958,25 @@ export interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeCapacityReservationCancellationQuotesCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link DescribeCapacityReservationDateChangeQuotesCommand}
+   */
+  describeCapacityReservationDateChangeQuotes(
+    args: DescribeCapacityReservationDateChangeQuotesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeCapacityReservationDateChangeQuotesCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  describeCapacityReservationDateChangeQuotesStream(
+    args: DescribeCapacityReservationDateChangeQuotesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    DescribeCapacityReservationDateChangeQuotesCommandOutput,
     Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 
@@ -13291,6 +13335,17 @@ export interface EC2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateSecurityGroupRuleDescriptionsIngressCommandOutput,
+    Cause.TimeoutError | SdkError | EC2ServiceError
+  >;
+
+  /**
+   * @see {@link ValidateSecurityGroupQuotasForInterfaceCommand}
+   */
+  validateSecurityGroupQuotasForInterface(
+    args: ValidateSecurityGroupQuotasForInterfaceCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ValidateSecurityGroupQuotasForInterfaceCommandOutput,
     Cause.TimeoutError | SdkError | EC2ServiceError
   >;
 

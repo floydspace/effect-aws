@@ -459,7 +459,9 @@ export interface ElastiCacheService$ {
     | CacheParameterGroupNotFoundFaultError
     | CacheSecurityGroupNotFoundFaultError
     | CacheSubnetGroupNotFoundFaultError
+    | GlobalReplicationGroupNotFoundFaultError
     | InvalidARNFaultError
+    | InvalidParameterValueError
     | InvalidReplicationGroupStateFaultError
     | InvalidServerlessCacheSnapshotStateFaultError
     | InvalidServerlessCacheStateFaultError
@@ -660,6 +662,7 @@ export interface ElastiCacheService$ {
     | InvalidReplicationGroupStateFaultError
     | ReplicationGroupNotFoundFaultError
     | ServiceLinkedRoleNotFoundFaultError
+    | TagQuotaPerResourceExceededError
   >;
 
   /**
@@ -1608,7 +1611,9 @@ export interface ElastiCacheService$ {
     | CacheParameterGroupNotFoundFaultError
     | CacheSecurityGroupNotFoundFaultError
     | CacheSubnetGroupNotFoundFaultError
+    | GlobalReplicationGroupNotFoundFaultError
     | InvalidARNFaultError
+    | InvalidParameterValueError
     | InvalidReplicationGroupStateFaultError
     | InvalidServerlessCacheSnapshotStateFaultError
     | InvalidServerlessCacheStateFaultError
@@ -1858,7 +1863,9 @@ export interface ElastiCacheService$ {
     | CacheParameterGroupNotFoundFaultError
     | CacheSecurityGroupNotFoundFaultError
     | CacheSubnetGroupNotFoundFaultError
+    | GlobalReplicationGroupNotFoundFaultError
     | InvalidARNFaultError
+    | InvalidParameterValueError
     | InvalidReplicationGroupStateFaultError
     | InvalidServerlessCacheSnapshotStateFaultError
     | InvalidServerlessCacheStateFaultError
