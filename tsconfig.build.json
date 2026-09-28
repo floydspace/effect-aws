@@ -148,6 +148,9 @@
       "path": "packages/client-rds/tsconfig.esm.json"
     },
     {
+      "path": "packages/client-resource-groups-tagging-api/tsconfig.esm.json"
+    },
+    {
       "path": "packages/client-scheduler/tsconfig.esm.json"
     },
     {

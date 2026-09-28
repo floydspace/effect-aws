@@ -480,6 +480,15 @@
       "@effect-aws/client-rds/test/*": [
         "./packages/client-rds/test/*.js"
       ],
+      "@effect-aws/client-resource-groups-tagging-api": [
+        "./packages/client-resource-groups-tagging-api/src/index.js"
+      ],
+      "@effect-aws/client-resource-groups-tagging-api/*": [
+        "./packages/client-resource-groups-tagging-api/src/*.js"
+      ],
+      "@effect-aws/client-resource-groups-tagging-api/test/*": [
+        "./packages/client-resource-groups-tagging-api/test/*.js"
+      ],
       "@effect-aws/client-scheduler": [
         "./packages/client-scheduler/src/index.js"
       ],

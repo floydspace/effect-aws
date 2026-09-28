@@ -73,6 +73,7 @@ const config: UserConfig = {
       ...alias("client-opensearch-serverless"),
       ...alias("client-organizations"),
       ...alias("client-rds"),
+      ...alias("client-resource-groups-tagging-api"),
       ...alias("client-scheduler"),
       ...alias("client-secrets-manager"),
       ...alias("client-ses"),

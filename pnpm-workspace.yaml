@@ -49,6 +49,7 @@ packages:
   - packages/client-opensearch-serverless
   - packages/client-organizations
   - packages/client-rds
+  - packages/client-resource-groups-tagging-api
   - packages/client-s3
   - packages/client-scheduler
   - packages/client-secrets-manager
