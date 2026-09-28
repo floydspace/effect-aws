@@ -74,7 +74,8 @@
     "@effect-aws/client-bedrock-agentcore": "0.0.0",
     "@effect-aws/client-bedrock-agentcore-control": "0.0.0",
     "@effect-aws/client-eks": "1.11.3",
-    "@effect-aws/client-elastic-load-balancing-v2": "0.0.0"
+    "@effect-aws/client-elastic-load-balancing-v2": "0.0.0",
+    "@effect-aws/client-resource-groups-tagging-api": "0.0.0"
   },
   "changesets": [
     "add-client-bedrock-agent",
@@ -82,6 +83,7 @@
     "add-client-bedrock-agentcore",
     "add-client-eks",
     "add-client-elastic-load-balancing-v2",
+    "add-client-resource-groups-tagging-api",
     "cold-wasps-sell",
     "eighty-parents-bake",
     "funky-candies-smell",
@@ -92,6 +94,7 @@
     "old-pumpkins-taste",
     "polite-berries-wave",
     "pretty-gifts-guess",
+    "public-peaches-fix",
     "sour-parents-clean",
     "sweet-terms-enjoy",
     "ten-parents-unite",

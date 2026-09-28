@@ -1,5 +1,11 @@
 # @effect-aws/client-ec2
 
+## 2.0.0-beta.8
+
+### Patch Changes
+
+- [`971c4c9`](https://github.com/floydspace/effect-aws/commit/971c4c945c6b2e66c92c398120e3f073a7e44391) Thanks [@floydspace](https://github.com/floydspace)! - add new service methods
+
 ## 2.0.0-beta.7
 
 ### Minor Changes
