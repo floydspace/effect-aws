@@ -140,6 +140,7 @@ import * as Service from "@effect-aws/commons/Service";
 import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
 import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import type * as Stream from "effect/Stream";
@@ -216,9 +217,11 @@ const paginators = {
   paginateListStreams,
 };
 
-interface IvsService$ {
-  readonly _: unique symbol;
-
+/**
+ * @since 1.0.0
+ * @category models
+ */
+export interface IvsService$ {
   /**
    * @see {@link BatchGetChannelCommand}
    */
@@ -227,7 +230,7 @@ interface IvsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchGetChannelCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | ServiceUnavailableError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | ServiceUnavailableError | ValidationError
   >;
 
   /**
@@ -238,7 +241,7 @@ interface IvsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchGetStreamKeyCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | ServiceUnavailableError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | ServiceUnavailableError | ValidationError
   >;
 
   /**
@@ -249,7 +252,7 @@ interface IvsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchStartViewerSessionRevocationCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | PendingVerificationError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | PendingVerificationError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -260,7 +263,7 @@ interface IvsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateAdConfigurationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -280,7 +283,7 @@ interface IvsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateChannelCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | PendingVerificationError
@@ -297,7 +300,7 @@ interface IvsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreatePlaybackRestrictionPolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | PendingVerificationError
@@ -314,7 +317,7 @@ interface IvsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateRecordingConfigurationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -332,7 +335,7 @@ interface IvsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateStreamKeyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | PendingVerificationError
@@ -349,7 +352,7 @@ interface IvsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteAdConfigurationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -366,7 +369,7 @@ interface IvsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteChannelCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -383,7 +386,7 @@ interface IvsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeletePlaybackKeyPairCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | PendingVerificationError
@@ -399,7 +402,7 @@ interface IvsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeletePlaybackRestrictionPolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -416,7 +419,7 @@ interface IvsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteRecordingConfigurationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -433,7 +436,7 @@ interface IvsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteStreamKeyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | PendingVerificationError
@@ -449,12 +452,7 @@ interface IvsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAdConfigurationCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -465,7 +463,7 @@ interface IvsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetChannelCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -476,7 +474,7 @@ interface IvsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPlaybackKeyPairCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -487,7 +485,7 @@ interface IvsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPlaybackRestrictionPolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | PendingVerificationError
@@ -503,12 +501,7 @@ interface IvsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetRecordingConfigurationCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -519,7 +512,7 @@ interface IvsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetStreamCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ChannelNotBroadcastingError
@@ -535,7 +528,7 @@ interface IvsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetStreamKeyCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -546,7 +539,7 @@ interface IvsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetStreamSessionCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -557,7 +550,7 @@ interface IvsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ImportPlaybackKeyPairCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -574,7 +567,7 @@ interface IvsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     InsertAdBreakCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ChannelNotBroadcastingError
@@ -593,7 +586,7 @@ interface IvsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAdConfigurationsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ValidationError
   >;
 
   listAdConfigurationsStream(
@@ -601,7 +594,7 @@ interface IvsService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListAdConfigurationsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ValidationError
   >;
 
   /**
@@ -612,7 +605,7 @@ interface IvsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListChannelsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | ConflictError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | ConflictError | ValidationError
   >;
 
   listChannelsStream(
@@ -620,7 +613,7 @@ interface IvsService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListChannelsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | ConflictError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | ConflictError | ValidationError
   >;
 
   /**
@@ -631,7 +624,7 @@ interface IvsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListPlaybackKeyPairsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | ValidationError
   >;
 
   listPlaybackKeyPairsStream(
@@ -639,7 +632,7 @@ interface IvsService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListPlaybackKeyPairsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | ValidationError
   >;
 
   /**
@@ -650,7 +643,7 @@ interface IvsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListPlaybackRestrictionPoliciesCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | ConflictError | PendingVerificationError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | ConflictError | PendingVerificationError | ValidationError
   >;
 
   listPlaybackRestrictionPoliciesStream(
@@ -658,7 +651,7 @@ interface IvsService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListPlaybackRestrictionPoliciesCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | ConflictError | PendingVerificationError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | ConflictError | PendingVerificationError | ValidationError
   >;
 
   /**
@@ -669,7 +662,7 @@ interface IvsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListRecordingConfigurationsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ValidationError
   >;
 
   listRecordingConfigurationsStream(
@@ -677,7 +670,7 @@ interface IvsService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListRecordingConfigurationsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ValidationError
   >;
 
   /**
@@ -688,7 +681,7 @@ interface IvsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListStreamKeysCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | ResourceNotFoundError | ValidationError
   >;
 
   listStreamKeysStream(
@@ -696,7 +689,7 @@ interface IvsService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListStreamKeysCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -707,7 +700,7 @@ interface IvsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListStreamSessionsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | ResourceNotFoundError | ValidationError
   >;
 
   listStreamSessionsStream(
@@ -715,7 +708,7 @@ interface IvsService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListStreamSessionsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -726,13 +719,13 @@ interface IvsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListStreamsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | ValidationError
   >;
 
   listStreamsStream(
     args: ListStreamsCommandInput,
     options?: HttpHandlerOptions,
-  ): Stream.Stream<ListStreamsCommandOutput, Cause.TimeoutException | SdkError | AccessDeniedError | ValidationError>;
+  ): Stream.Stream<ListStreamsCommandOutput, Cause.TimeoutError | SdkError | AccessDeniedError | ValidationError>;
 
   /**
    * @see {@link ListTagsForResourceCommand}
@@ -742,7 +735,7 @@ interface IvsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsForResourceCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -753,7 +746,7 @@ interface IvsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutMetadataCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ChannelNotBroadcastingError
@@ -770,7 +763,7 @@ interface IvsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartViewerSessionRevocationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -788,7 +781,7 @@ interface IvsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StopStreamCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ChannelNotBroadcastingError
@@ -805,7 +798,7 @@ interface IvsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagResourceCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -816,7 +809,7 @@ interface IvsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -827,7 +820,7 @@ interface IvsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateAdConfigurationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -847,7 +840,7 @@ interface IvsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateChannelCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -864,7 +857,7 @@ interface IvsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdatePlaybackRestrictionPolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -896,10 +889,10 @@ export const makeIvsService = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class IvsService extends Effect.Tag("@effect-aws/client-ivs/IvsService")<
+export class IvsService extends Context.Service<
   IvsService,
   IvsService$
->() {
+>()("@effect-aws/client-ivs/IvsService") {
   static readonly defaultLayer = Layer.effect(this, makeIvsService).pipe(Layer.provide(Instance.layer));
   static readonly layer = (config: IvsService.Config) =>
     Layer.effect(this, makeIvsService).pipe(

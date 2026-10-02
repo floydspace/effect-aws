@@ -352,6 +352,7 @@ import * as Service from "@effect-aws/commons/Service";
 import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
 import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import type * as Stream from "effect/Stream";
@@ -507,9 +508,11 @@ const paginators = {
   paginateListParts,
 };
 
-interface S3Service$ {
-  readonly _: unique symbol;
-
+/**
+ * @since 1.0.0
+ * @category models
+ */
+export interface S3Service$ {
   /**
    * @see {@link AbortMultipartUploadCommand}
    */
@@ -518,7 +521,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AbortMultipartUploadCommandOutput,
-    Cause.TimeoutException | SdkError | NoSuchUploadError
+    Cause.TimeoutError | SdkError | NoSuchUploadError
   >;
 
   /**
@@ -529,7 +532,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CompleteMultipartUploadCommandOutput,
-    Cause.TimeoutException | SdkError
+    Cause.TimeoutError | SdkError
   >;
 
   /**
@@ -540,7 +543,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CopyObjectCommandOutput,
-    Cause.TimeoutException | SdkError | ObjectNotInActiveTierError
+    Cause.TimeoutError | SdkError | ObjectNotInActiveTierError
   >;
 
   /**
@@ -551,7 +554,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateBucketCommandOutput,
-    Cause.TimeoutException | SdkError | BucketAlreadyExistsError | BucketAlreadyOwnedByYouError
+    Cause.TimeoutError | SdkError | BucketAlreadyExistsError | BucketAlreadyOwnedByYouError
   >;
 
   /**
@@ -562,7 +565,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateBucketMetadataConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -573,7 +576,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateBucketMetadataTableConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -584,7 +587,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateMultipartUploadCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -595,7 +598,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateSessionCommandOutput,
-    Cause.TimeoutException | SdkError | NoSuchBucketError
+    Cause.TimeoutError | SdkError | NoSuchBucketError
   >;
 
   /**
@@ -606,7 +609,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteBucketCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -617,7 +620,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteBucketAnalyticsConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -628,7 +631,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteBucketCorsCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -639,7 +642,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteBucketEncryptionCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -650,7 +653,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteBucketIntelligentTieringConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -661,7 +664,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteBucketInventoryConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -672,7 +675,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteBucketLifecycleCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -683,7 +686,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteBucketMetadataConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -694,7 +697,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteBucketMetadataTableConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -705,7 +708,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteBucketMetricsConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -716,7 +719,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteBucketOwnershipControlsCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -727,7 +730,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteBucketPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -738,7 +741,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteBucketReplicationCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -749,7 +752,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteBucketTaggingCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -760,7 +763,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteBucketWebsiteCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -771,7 +774,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteObjectCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -782,7 +785,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteObjectAnnotationCommandOutput,
-    Cause.TimeoutException | SdkError | NoSuchBucketError | NoSuchKeyError
+    Cause.TimeoutError | SdkError | NoSuchBucketError | NoSuchKeyError
   >;
 
   /**
@@ -793,7 +796,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteObjectTaggingCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -804,7 +807,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteObjectsCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -815,7 +818,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeletePublicAccessBlockCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -826,7 +829,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetBucketAbacCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -837,7 +840,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetBucketAccelerateConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -848,7 +851,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetBucketAclCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -859,7 +862,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetBucketAnalyticsConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -870,7 +873,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetBucketCorsCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -881,7 +884,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetBucketEncryptionCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -892,7 +895,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetBucketIntelligentTieringConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -903,7 +906,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetBucketInventoryConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -914,7 +917,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetBucketLifecycleConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -925,7 +928,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetBucketLocationCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -936,7 +939,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetBucketLoggingCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -947,7 +950,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetBucketMetadataConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -958,7 +961,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetBucketMetadataTableConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -969,7 +972,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetBucketMetricsConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -980,7 +983,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetBucketNotificationConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -991,7 +994,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetBucketOwnershipControlsCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -1002,7 +1005,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetBucketPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -1013,7 +1016,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetBucketPolicyStatusCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -1024,7 +1027,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetBucketReplicationCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -1035,7 +1038,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetBucketRequestPaymentCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -1046,7 +1049,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetBucketTaggingCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -1057,7 +1060,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetBucketVersioningCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -1068,7 +1071,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetBucketWebsiteCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -1079,7 +1082,7 @@ interface S3Service$ {
     options?: { readonly presigned?: false } & HttpHandlerOptions,
   ): Effect.Effect<
     GetObjectCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidObjectStateError | NoSuchKeyError
+    Cause.TimeoutError | SdkError | InvalidObjectStateError | NoSuchKeyError
   >;
   getObject(
     args: GetObjectCommandInput,
@@ -1094,7 +1097,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetObjectAclCommandOutput,
-    Cause.TimeoutException | SdkError | NoSuchKeyError
+    Cause.TimeoutError | SdkError | NoSuchKeyError
   >;
 
   /**
@@ -1105,7 +1108,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetObjectAnnotationCommandOutput,
-    Cause.TimeoutException | SdkError | NoSuchAnnotationError | NoSuchBucketError | NoSuchKeyError
+    Cause.TimeoutError | SdkError | NoSuchAnnotationError | NoSuchBucketError | NoSuchKeyError
   >;
 
   /**
@@ -1116,7 +1119,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetObjectAttributesCommandOutput,
-    Cause.TimeoutException | SdkError | NoSuchKeyError
+    Cause.TimeoutError | SdkError | NoSuchKeyError
   >;
 
   /**
@@ -1127,7 +1130,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetObjectLegalHoldCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -1138,7 +1141,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetObjectLockConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -1149,7 +1152,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetObjectRetentionCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -1160,7 +1163,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetObjectTaggingCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -1171,7 +1174,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetObjectTorrentCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -1182,7 +1185,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPublicAccessBlockCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -1193,7 +1196,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     HeadBucketCommandOutput,
-    Cause.TimeoutException | SdkError | NotFoundError
+    Cause.TimeoutError | SdkError | NotFoundError
   >;
 
   /**
@@ -1204,7 +1207,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     HeadObjectCommandOutput,
-    Cause.TimeoutException | SdkError | NotFoundError
+    Cause.TimeoutError | SdkError | NotFoundError
   >;
 
   /**
@@ -1215,7 +1218,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListBucketAnalyticsConfigurationsCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -1226,7 +1229,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListBucketIntelligentTieringConfigurationsCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -1237,7 +1240,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListBucketInventoryConfigurationsCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -1248,7 +1251,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListBucketMetricsConfigurationsCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -1259,13 +1262,13 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListBucketsCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   listBucketsStream(
     args: ListBucketsCommandInput,
     options?: HttpHandlerOptions,
-  ): Stream.Stream<ListBucketsCommandOutput, Cause.TimeoutException | SdkError>;
+  ): Stream.Stream<ListBucketsCommandOutput, Cause.TimeoutError | SdkError>;
 
   /**
    * @see {@link ListDirectoryBucketsCommand}
@@ -1275,13 +1278,13 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDirectoryBucketsCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   listDirectoryBucketsStream(
     args: ListDirectoryBucketsCommandInput,
     options?: HttpHandlerOptions,
-  ): Stream.Stream<ListDirectoryBucketsCommandOutput, Cause.TimeoutException | SdkError>;
+  ): Stream.Stream<ListDirectoryBucketsCommandOutput, Cause.TimeoutError | SdkError>;
 
   /**
    * @see {@link ListMultipartUploadsCommand}
@@ -1291,7 +1294,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListMultipartUploadsCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -1302,7 +1305,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListObjectAnnotationsCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidPrefixError | NoSuchBucketError | NoSuchKeyError
+    Cause.TimeoutError | SdkError | InvalidPrefixError | NoSuchBucketError | NoSuchKeyError
   >;
 
   listObjectAnnotationsStream(
@@ -1310,7 +1313,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListObjectAnnotationsCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidPrefixError | NoSuchBucketError | NoSuchKeyError
+    Cause.TimeoutError | SdkError | InvalidPrefixError | NoSuchBucketError | NoSuchKeyError
   >;
 
   /**
@@ -1321,7 +1324,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListObjectVersionsCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -1332,7 +1335,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListObjectsCommandOutput,
-    Cause.TimeoutException | SdkError | NoSuchBucketError
+    Cause.TimeoutError | SdkError | NoSuchBucketError
   >;
 
   /**
@@ -1343,13 +1346,13 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListObjectsV2CommandOutput,
-    Cause.TimeoutException | SdkError | NoSuchBucketError
+    Cause.TimeoutError | SdkError | NoSuchBucketError
   >;
 
   listObjectsV2Stream(
     args: ListObjectsV2CommandInput,
     options?: HttpHandlerOptions,
-  ): Stream.Stream<ListObjectsV2CommandOutput, Cause.TimeoutException | SdkError | NoSuchBucketError>;
+  ): Stream.Stream<ListObjectsV2CommandOutput, Cause.TimeoutError | SdkError | NoSuchBucketError>;
 
   /**
    * @see {@link ListPartsCommand}
@@ -1359,13 +1362,13 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListPartsCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   listPartsStream(
     args: ListPartsCommandInput,
     options?: HttpHandlerOptions,
-  ): Stream.Stream<ListPartsCommandOutput, Cause.TimeoutException | SdkError>;
+  ): Stream.Stream<ListPartsCommandOutput, Cause.TimeoutError | SdkError>;
 
   /**
    * @see {@link PutBucketAbacCommand}
@@ -1375,7 +1378,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutBucketAbacCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -1386,7 +1389,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutBucketAccelerateConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -1397,7 +1400,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutBucketAclCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -1408,7 +1411,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutBucketAnalyticsConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -1419,7 +1422,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutBucketCorsCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -1430,7 +1433,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutBucketEncryptionCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -1441,7 +1444,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutBucketIntelligentTieringConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -1452,7 +1455,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutBucketInventoryConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -1463,7 +1466,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutBucketLifecycleConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -1474,7 +1477,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutBucketLoggingCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -1485,7 +1488,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutBucketMetricsConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -1496,7 +1499,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutBucketNotificationConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -1507,7 +1510,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutBucketOwnershipControlsCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -1518,7 +1521,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutBucketPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -1529,7 +1532,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutBucketReplicationCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -1540,7 +1543,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutBucketRequestPaymentCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -1551,7 +1554,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutBucketTaggingCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -1562,7 +1565,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutBucketVersioningCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -1573,7 +1576,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutBucketWebsiteCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -1584,7 +1587,7 @@ interface S3Service$ {
     options?: { readonly presigned?: false } & HttpHandlerOptions,
   ): Effect.Effect<
     PutObjectCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EncryptionTypeMismatchError
     | InvalidRequestError
@@ -1604,7 +1607,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutObjectAclCommandOutput,
-    Cause.TimeoutException | SdkError | NoSuchKeyError
+    Cause.TimeoutError | SdkError | NoSuchKeyError
   >;
 
   /**
@@ -1615,7 +1618,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutObjectAnnotationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AnnotationLimitExceededError
     | AnnotationNameTooLongError
@@ -1634,7 +1637,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutObjectLegalHoldCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -1645,7 +1648,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutObjectLockConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -1656,7 +1659,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutObjectRetentionCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -1667,7 +1670,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutObjectTaggingCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -1678,7 +1681,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutPublicAccessBlockCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -1689,7 +1692,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RenameObjectCommandOutput,
-    Cause.TimeoutException | SdkError | IdempotencyParameterMismatchError
+    Cause.TimeoutError | SdkError | IdempotencyParameterMismatchError
   >;
 
   /**
@@ -1700,7 +1703,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RestoreObjectCommandOutput,
-    Cause.TimeoutException | SdkError | ObjectAlreadyInActiveTierError
+    Cause.TimeoutError | SdkError | ObjectAlreadyInActiveTierError
   >;
 
   /**
@@ -1711,7 +1714,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SelectObjectContentCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -1722,7 +1725,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateBucketMetadataAnnotationTableConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -1733,7 +1736,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateBucketMetadataInventoryTableConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -1744,7 +1747,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateBucketMetadataJournalTableConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -1755,7 +1758,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateObjectEncryptionCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InvalidRequestError | NoSuchKeyError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InvalidRequestError | NoSuchKeyError
   >;
 
   /**
@@ -1766,7 +1769,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UploadPartCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -1777,7 +1780,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UploadPartCopyCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 
   /**
@@ -1788,7 +1791,7 @@ interface S3Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     WriteGetObjectResponseCommandOutput,
-    Cause.TimeoutException | SdkError | S3ServiceError
+    Cause.TimeoutError | SdkError | S3ServiceError
   >;
 }
 
@@ -1833,40 +1836,10 @@ export const makeS3Service = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class S3Service extends Effect.Tag("@effect-aws/client-s3/S3Service")<
+export class S3Service extends Context.Service<
   S3Service,
   S3Service$
->() {
-  // Explicitly declare the methods which have overloads, Effect Service can't infer them as service accessors currently
-  declare static readonly getObject: {
-    (
-      args: GetObjectCommandInput,
-      options?: { readonly presigned?: false } & HttpHandlerOptions,
-    ): Effect.Effect<
-      GetObjectCommandOutput,
-      SdkError | InvalidObjectStateError | NoSuchKeyError,
-      S3Service
-    >;
-    (
-      args: GetObjectCommandInput,
-      options?: { readonly presigned: true } & RequestPresigningArguments,
-    ): Effect.Effect<string, SdkError | S3ServiceError, S3Service>;
-  };
-  declare static readonly putObject: {
-    (
-      args: PutObjectCommandInput,
-      options?: { readonly presigned?: false } & HttpHandlerOptions,
-    ): Effect.Effect<
-      PutObjectCommandOutput,
-      SdkError | EncryptionTypeMismatchError | InvalidRequestError | InvalidWriteOffsetError | TooManyPartsError,
-      S3Service
-    >;
-    (
-      args: PutObjectCommandInput,
-      options?: { readonly presigned: true } & RequestPresigningArguments,
-    ): Effect.Effect<string, SdkError | S3ServiceError, S3Service>;
-  };
-
+>()("@effect-aws/client-s3/S3Service") {
   static readonly defaultLayer = Layer.effect(this, makeS3Service).pipe(Layer.provide(Instance.layer));
   static readonly layer = (config: S3Service.Config) =>
     Layer.effect(this, makeS3Service).pipe(

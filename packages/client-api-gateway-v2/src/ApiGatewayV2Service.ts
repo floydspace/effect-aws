@@ -319,6 +319,7 @@ import * as Service from "@effect-aws/commons/Service";
 import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
 import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import type * as Stream from "effect/Stream";
@@ -444,9 +445,11 @@ const paginators = {
   paginateListRoutingRules,
 };
 
-interface ApiGatewayV2Service$ {
-  readonly _: unique symbol;
-
+/**
+ * @since 1.0.0
+ * @category models
+ */
+export interface ApiGatewayV2Service$ {
   /**
    * @see {@link CreateApiCommand}
    */
@@ -455,7 +458,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateApiCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -466,7 +469,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateApiMappingCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -477,7 +480,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateAuthorizerCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -488,7 +491,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateDeploymentCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -499,7 +502,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateDomainNameCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | BadRequestError
@@ -516,7 +519,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateIntegrationCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -527,7 +530,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateIntegrationResponseCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -538,7 +541,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateModelCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -549,7 +552,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreatePortalCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | BadRequestError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | AccessDeniedError | BadRequestError | TooManyRequestsError
   >;
 
   /**
@@ -560,7 +563,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreatePortalProductCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | BadRequestError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | AccessDeniedError | BadRequestError | TooManyRequestsError
   >;
 
   /**
@@ -571,7 +574,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateProductPageCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | AccessDeniedError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -582,7 +585,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateProductRestEndpointPageCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | AccessDeniedError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -593,7 +596,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateRouteCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -604,7 +607,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateRouteResponseCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -615,7 +618,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateRoutingRuleCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -626,7 +629,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateStageCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -637,7 +640,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateVpcLinkCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | TooManyRequestsError
   >;
 
   /**
@@ -648,7 +651,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteAccessLogSettingsCommandOutput,
-    Cause.TimeoutException | SdkError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -659,7 +662,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteApiCommandOutput,
-    Cause.TimeoutException | SdkError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -670,7 +673,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteApiMappingCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -681,7 +684,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteAuthorizerCommandOutput,
-    Cause.TimeoutException | SdkError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -692,7 +695,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteCorsConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -703,7 +706,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDeploymentCommandOutput,
-    Cause.TimeoutException | SdkError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -714,7 +717,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDomainNameCommandOutput,
-    Cause.TimeoutException | SdkError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -725,7 +728,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteIntegrationCommandOutput,
-    Cause.TimeoutException | SdkError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -736,7 +739,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteIntegrationResponseCommandOutput,
-    Cause.TimeoutException | SdkError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -747,7 +750,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteModelCommandOutput,
-    Cause.TimeoutException | SdkError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -758,7 +761,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeletePortalCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | BadRequestError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | AccessDeniedError | BadRequestError | TooManyRequestsError
   >;
 
   /**
@@ -769,7 +772,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeletePortalProductCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | AccessDeniedError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -780,7 +783,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeletePortalProductSharingPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | AccessDeniedError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -791,7 +794,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteProductPageCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | AccessDeniedError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -802,7 +805,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteProductRestEndpointPageCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | AccessDeniedError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -813,7 +816,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteRouteCommandOutput,
-    Cause.TimeoutException | SdkError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -824,7 +827,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteRouteRequestParameterCommandOutput,
-    Cause.TimeoutException | SdkError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -835,7 +838,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteRouteResponseCommandOutput,
-    Cause.TimeoutException | SdkError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -846,7 +849,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteRouteSettingsCommandOutput,
-    Cause.TimeoutException | SdkError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -857,7 +860,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteRoutingRuleCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -868,7 +871,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteStageCommandOutput,
-    Cause.TimeoutException | SdkError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -879,7 +882,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteVpcLinkCommandOutput,
-    Cause.TimeoutException | SdkError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -890,7 +893,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisablePortalCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | BadRequestError
@@ -907,7 +910,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ExportApiCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -918,7 +921,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetApiCommandOutput,
-    Cause.TimeoutException | SdkError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -929,7 +932,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetApiMappingCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -940,7 +943,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetApiMappingsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -951,7 +954,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetApisCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -962,7 +965,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAuthorizerCommandOutput,
-    Cause.TimeoutException | SdkError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -973,7 +976,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAuthorizersCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -984,7 +987,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDeploymentCommandOutput,
-    Cause.TimeoutException | SdkError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -995,7 +998,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDeploymentsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1006,7 +1009,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDomainNameCommandOutput,
-    Cause.TimeoutException | SdkError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1017,7 +1020,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDomainNamesCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1028,7 +1031,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetIntegrationCommandOutput,
-    Cause.TimeoutException | SdkError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1039,7 +1042,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetIntegrationResponseCommandOutput,
-    Cause.TimeoutException | SdkError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1050,7 +1053,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetIntegrationResponsesCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1061,7 +1064,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetIntegrationsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1072,7 +1075,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetModelCommandOutput,
-    Cause.TimeoutException | SdkError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1083,7 +1086,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetModelTemplateCommandOutput,
-    Cause.TimeoutException | SdkError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1094,7 +1097,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetModelsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1105,7 +1108,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPortalCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | AccessDeniedError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1116,7 +1119,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPortalProductCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | AccessDeniedError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1127,7 +1130,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPortalProductSharingPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | AccessDeniedError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1138,7 +1141,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetProductPageCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | AccessDeniedError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1149,7 +1152,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetProductRestEndpointPageCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | AccessDeniedError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1160,7 +1163,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetRouteCommandOutput,
-    Cause.TimeoutException | SdkError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1171,7 +1174,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetRouteResponseCommandOutput,
-    Cause.TimeoutException | SdkError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1182,7 +1185,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetRouteResponsesCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1193,7 +1196,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetRoutesCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1204,7 +1207,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetRoutingRuleCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1215,7 +1218,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetStageCommandOutput,
-    Cause.TimeoutException | SdkError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1226,7 +1229,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetStagesCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1237,7 +1240,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetTagsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1248,7 +1251,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetVpcLinkCommandOutput,
-    Cause.TimeoutException | SdkError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1259,7 +1262,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetVpcLinksCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | TooManyRequestsError
   >;
 
   /**
@@ -1270,7 +1273,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ImportApiCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1281,7 +1284,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListPortalProductsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | BadRequestError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | AccessDeniedError | BadRequestError | TooManyRequestsError
   >;
 
   /**
@@ -1292,7 +1295,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListPortalsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | BadRequestError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | AccessDeniedError | BadRequestError | TooManyRequestsError
   >;
 
   /**
@@ -1303,7 +1306,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListProductPagesCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | AccessDeniedError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1314,7 +1317,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListProductRestEndpointPagesCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | AccessDeniedError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1325,7 +1328,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListRoutingRulesCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   listRoutingRulesStream(
@@ -1333,7 +1336,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListRoutingRulesCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1344,7 +1347,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PreviewPortalCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | BadRequestError
@@ -1361,7 +1364,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PublishPortalCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | BadRequestError
@@ -1378,7 +1381,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutPortalProductSharingPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | AccessDeniedError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1389,7 +1392,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutRoutingRuleCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1400,7 +1403,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ReimportApiCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1411,7 +1414,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ResetAuthorizersCacheCommandOutput,
-    Cause.TimeoutException | SdkError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1422,7 +1425,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagResourceCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1433,7 +1436,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1444,7 +1447,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateApiCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1455,7 +1458,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateApiMappingCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1466,7 +1469,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateAuthorizerCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1477,7 +1480,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateDeploymentCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1488,7 +1491,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateDomainNameCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1499,7 +1502,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateIntegrationCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1510,7 +1513,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateIntegrationResponseCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1521,7 +1524,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateModelCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1532,7 +1535,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdatePortalCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | BadRequestError
@@ -1549,7 +1552,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdatePortalProductCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | AccessDeniedError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1560,7 +1563,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateProductPageCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | AccessDeniedError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1571,7 +1574,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateProductRestEndpointPageCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | AccessDeniedError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1582,7 +1585,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateRouteCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1593,7 +1596,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateRouteResponseCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1604,7 +1607,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateStageCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | ConflictError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1615,7 +1618,7 @@ interface ApiGatewayV2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateVpcLinkCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 }
 
@@ -1641,10 +1644,10 @@ export const makeApiGatewayV2Service = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class ApiGatewayV2Service extends Effect.Tag("@effect-aws/client-api-gateway-v2/ApiGatewayV2Service")<
+export class ApiGatewayV2Service extends Context.Service<
   ApiGatewayV2Service,
   ApiGatewayV2Service$
->() {
+>()("@effect-aws/client-api-gateway-v2/ApiGatewayV2Service") {
   static readonly defaultLayer = Layer.effect(this, makeApiGatewayV2Service).pipe(Layer.provide(Instance.layer));
   static readonly layer = (config: ApiGatewayV2Service.Config) =>
     Layer.effect(this, makeApiGatewayV2Service).pipe(

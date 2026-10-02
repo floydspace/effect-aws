@@ -11,9 +11,9 @@ import * as CloudSearchServiceConfig from "./CloudSearchServiceConfig.js";
  * @since 1.0.0
  * @category tags
  */
-export class CloudSearchClientInstance extends Context.Tag(
+export class CloudSearchClientInstance extends Context.Service<CloudSearchClientInstance, CloudSearchClient>()(
   "@effect-aws/client-cloudsearch/CloudSearchClientInstance",
-)<CloudSearchClientInstance, CloudSearchClient>() {}
+) {}
 
 /**
  * @since 1.0.0
@@ -32,4 +32,4 @@ export const make = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const layer = Layer.scoped(CloudSearchClientInstance, make);
+export const layer = Layer.effect(CloudSearchClientInstance, make);

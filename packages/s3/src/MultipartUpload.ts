@@ -8,12 +8,12 @@ import type {
   S3ClientConfig,
 } from "@aws-sdk/client-s3";
 import { S3Service } from "@effect-aws/client-s3/S3Service";
-import type * as PlatformError from "@effect/platform/Error";
-import type * as FileSystem from "@effect/platform/FileSystem";
+import type * as ByteSize from "effect/ByteSize";
 import type * as Cause from "effect/Cause";
 import type * as Context from "effect/Context";
 import type * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
+import type * as PlatformError from "effect/PlatformError";
 import type * as Stream from "effect/Stream";
 import * as internal from "./internal/multipartUpload.js";
 
@@ -40,7 +40,7 @@ export interface UploadObjectOptions {
    * Default: 5 mb
    * The size in bytes for each individual part to be uploaded. Adjust the part size to ensure the number of parts does not exceed maxTotalParts. See 5mb is the minimum allowed part size.
    */
-  readonly partSize?: FileSystem.Size;
+  readonly partSize?: ByteSize.ByteSize;
 }
 
 /**
@@ -56,7 +56,7 @@ export interface MultipartUpload {
     options?: UploadObjectOptions,
   ) => Effect.Effect<
     CompleteMultipartUploadCommandOutput,
-    Cause.TimeoutException | internal.S3ServiceErrors | PlatformError.BadArgument | Cause.NoSuchElementException
+    Cause.TimeoutError | internal.S3ServiceErrors | PlatformError.BadArgument | Cause.NoSuchElementError
   >;
 }
 
@@ -64,7 +64,7 @@ export interface MultipartUpload {
  * @since 0.1.0
  * @category tag
  */
-export const MultipartUpload: Context.Tag<MultipartUpload, MultipartUpload> = internal.tag;
+export const MultipartUpload: Context.Service<MultipartUpload, MultipartUpload> = internal.tag;
 
 /**
  * Upload an object to S3 using multipart upload.
@@ -77,7 +77,7 @@ export const uploadObject: <E>(
   options?: UploadObjectOptions,
 ) => Effect.Effect<
   CompleteMultipartUploadCommandOutput,
-  Cause.TimeoutException | internal.S3ServiceErrors | PlatformError.BadArgument | Cause.NoSuchElementException | E,
+  Cause.TimeoutError | internal.S3ServiceErrors | PlatformError.BadArgument | Cause.NoSuchElementError | E,
   MultipartUpload
 > = internal.uploadObject;
 

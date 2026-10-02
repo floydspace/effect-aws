@@ -41,10 +41,12 @@ describe("CloudFrontSigner", () => {
   describe("getSignedUrl", () => {
     it("should generate a signed URL with canned policy", async () => {
       const result = await pipe(
-        CloudFrontSigner.getSignedUrl({
-          url: "https://d111111abcdef8.cloudfront.net/private-content/private.jpeg",
-          dateLessThan: new Date(Date.now() + 60 * 60 * 1000),
-        }),
+        CloudFrontSigner.use((svc) =>
+          svc.getSignedUrl({
+            url: "https://d111111abcdef8.cloudfront.net/private-content/private.jpeg",
+            dateLessThan: new Date(Date.now() + 60 * 60 * 1000),
+          })
+        ),
         Effect.provide(layer),
         Effect.runPromiseExit,
       );
@@ -76,10 +78,12 @@ describe("CloudFrontSigner", () => {
       });
 
       const result = await pipe(
-        CloudFrontSigner.getSignedUrl({
-          url,
-          policy,
-        }),
+        CloudFrontSigner.use((svc) =>
+          svc.getSignedUrl({
+            url,
+            policy,
+          })
+        ),
         Effect.provide(layer),
         Effect.runPromiseExit,
       );
@@ -109,9 +113,11 @@ describe("CloudFrontSigner", () => {
       });
 
       const result = await pipe(
-        CloudFrontSigner.getSignedUrl({
-          policy,
-        }),
+        CloudFrontSigner.use((svc) =>
+          svc.getSignedUrl({
+            policy,
+          })
+        ),
         Effect.provide(layer),
         Effect.runPromiseExit,
       );
@@ -131,10 +137,12 @@ describe("CloudFrontSigner", () => {
       });
 
       const result = await pipe(
-        CloudFrontSigner.getSignedUrl({
-          url: "https://d111111abcdef8.cloudfront.net/private-content/private.jpeg",
-          dateLessThan: new Date(Date.now() + 60 * 60 * 1000),
-        }),
+        CloudFrontSigner.use((svc) =>
+          svc.getSignedUrl({
+            url: "https://d111111abcdef8.cloudfront.net/private-content/private.jpeg",
+            dateLessThan: new Date(Date.now() + 60 * 60 * 1000),
+          })
+        ),
         Effect.provide(invalidLayer),
         Effect.runPromiseExit,
       );
@@ -149,10 +157,12 @@ describe("CloudFrontSigner", () => {
   describe("getSignedCookies", () => {
     it("should generate signed cookies with canned policy", async () => {
       const result = await pipe(
-        CloudFrontSigner.getSignedCookies({
-          url: "https://d111111abcdef8.cloudfront.net/private-content/*",
-          dateLessThan: new Date(Date.now() + 60 * 60 * 1000),
-        }),
+        CloudFrontSigner.use((svc) =>
+          svc.getSignedCookies({
+            url: "https://d111111abcdef8.cloudfront.net/private-content/*",
+            dateLessThan: new Date(Date.now() + 60 * 60 * 1000),
+          })
+        ),
         Effect.provide(layer),
         Effect.runPromiseExit,
       );
@@ -184,9 +194,11 @@ describe("CloudFrontSigner", () => {
       });
 
       const result = await pipe(
-        CloudFrontSigner.getSignedCookies({
-          policy,
-        }),
+        CloudFrontSigner.use((svc) =>
+          svc.getSignedCookies({
+            policy,
+          })
+        ),
         Effect.provide(layer),
         Effect.runPromiseExit,
       );

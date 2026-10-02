@@ -11,9 +11,9 @@ import * as SQSServiceConfig from "./SQSServiceConfig.js";
  * @since 1.0.0
  * @category tags
  */
-export class SQSClientInstance extends Context.Tag(
+export class SQSClientInstance extends Context.Service<SQSClientInstance, SQSClient>()(
   "@effect-aws/client-sqs/SQSClientInstance",
-)<SQSClientInstance, SQSClient>() {}
+) {}
 
 /**
  * @since 1.0.0
@@ -32,4 +32,4 @@ export const make = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const layer = Layer.scoped(SQSClientInstance, make);
+export const layer = Layer.effect(SQSClientInstance, make);

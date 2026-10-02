@@ -3,10 +3,9 @@
  */
 import type { CloudSearchClientConfig } from "@aws-sdk/client-cloudsearch";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
-import * as FiberRef from "effect/FiberRef";
 import { dual } from "effect/Function";
-import { globalValue } from "effect/GlobalValue";
 import * as Layer from "effect/Layer";
 import type { CloudSearchService } from "./CloudSearchService.js";
 
@@ -14,9 +13,9 @@ import type { CloudSearchService } from "./CloudSearchService.js";
  * @since 1.0.0
  * @category cloudsearch service config
  */
-const currentCloudSearchServiceConfig = globalValue(
+const currentCloudSearchServiceConfig = Context.Reference<CloudSearchService.Config>(
   "@effect-aws/client-cloudsearch/currentCloudSearchServiceConfig",
-  () => FiberRef.unsafeMake<CloudSearchService.Config>({}),
+  { defaultValue: () => ({}) },
 );
 
 /**
@@ -29,7 +28,7 @@ export const withCloudSearchServiceConfig: {
 } = dual(
   2,
   <A, E, R>(effect: Effect.Effect<A, E, R>, config: CloudSearchService.Config): Effect.Effect<A, E, R> =>
-    Effect.locally(effect, currentCloudSearchServiceConfig, config),
+    Effect.provideService(effect, currentCloudSearchServiceConfig, config),
 );
 
 /**
@@ -37,14 +36,14 @@ export const withCloudSearchServiceConfig: {
  * @category cloudsearch service config
  */
 export const setCloudSearchServiceConfig = (config: CloudSearchService.Config) =>
-  Layer.locallyScoped(currentCloudSearchServiceConfig, config);
+  Layer.succeed(currentCloudSearchServiceConfig, config);
 
 /**
  * @since 1.0.0
  * @category adapters
  */
 export const toCloudSearchClientConfig: Effect.Effect<CloudSearchClientConfig> = Effect.gen(function*() {
-  const { logger: serviceLogger, ...config } = yield* FiberRef.get(currentCloudSearchServiceConfig);
+  const { logger: serviceLogger, ...config } = yield* currentCloudSearchServiceConfig;
 
   const logger = serviceLogger === true
     ? yield* ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger)

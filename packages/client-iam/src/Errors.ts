@@ -21,6 +21,7 @@ import type {
   LimitExceededException,
   MalformedCertificateException,
   MalformedPolicyDocumentException,
+  NameConflictException,
   NoSuchEntityException,
   OpenIdIdpCommunicationErrorException,
   OrganizationNotFoundException,
@@ -29,6 +30,8 @@ import type {
   PolicyEvaluationException,
   PolicyNotAttachableException,
   ReportGenerationLimitExceededException,
+  RoleModifiedException,
+  RoleTemplateDisabledException,
   ServiceAccessNotEnabledException,
   ServiceFailureException,
   ServiceNotSupportedException,
@@ -60,6 +63,7 @@ export const AllServiceErrors = [
   "LimitExceededException",
   "MalformedCertificateException",
   "MalformedPolicyDocumentException",
+  "NameConflictException",
   "NoSuchEntityException",
   "OpenIdIdpCommunicationErrorException",
   "OrganizationNotFoundException",
@@ -68,6 +72,8 @@ export const AllServiceErrors = [
   "PolicyEvaluationException",
   "PolicyNotAttachableException",
   "ReportGenerationLimitExceededException",
+  "RoleModifiedException",
+  "RoleTemplateDisabledException",
   "ServiceAccessNotEnabledException",
   "ServiceFailureException",
   "ServiceNotSupportedException",
@@ -99,6 +105,7 @@ export type KeyPairMismatchError = TaggedException<KeyPairMismatchException>;
 export type LimitExceededError = TaggedException<LimitExceededException>;
 export type MalformedCertificateError = TaggedException<MalformedCertificateException>;
 export type MalformedPolicyDocumentError = TaggedException<MalformedPolicyDocumentException>;
+export type NameConflictError = TaggedException<NameConflictException>;
 export type NoSuchEntityError = TaggedException<NoSuchEntityException>;
 export type OpenIdIdpCommunicationError = TaggedException<OpenIdIdpCommunicationErrorException>;
 export type OrganizationNotFoundError = TaggedException<OrganizationNotFoundException>;
@@ -107,6 +114,8 @@ export type PasswordPolicyViolationError = TaggedException<PasswordPolicyViolati
 export type PolicyEvaluationError = TaggedException<PolicyEvaluationException>;
 export type PolicyNotAttachableError = TaggedException<PolicyNotAttachableException>;
 export type ReportGenerationLimitExceededError = TaggedException<ReportGenerationLimitExceededException>;
+export type RoleModifiedError = TaggedException<RoleModifiedException>;
+export type RoleTemplateDisabledError = TaggedException<RoleTemplateDisabledException>;
 export type ServiceAccessNotEnabledError = TaggedException<ServiceAccessNotEnabledException>;
 export type ServiceFailureError = TaggedException<ServiceFailureException>;
 export type ServiceNotSupportedError = TaggedException<ServiceNotSupportedException>;

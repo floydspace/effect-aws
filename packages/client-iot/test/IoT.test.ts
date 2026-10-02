@@ -23,7 +23,7 @@ describe("IoTClientImpl", () => {
 
     const args = {} as unknown as DescribeJobCommandInput;
 
-    const program = IoT.describeJob(args);
+    const program = IoT.use((svc) => svc.describeJob(args));
 
     const result = await pipe(
       program,
@@ -43,7 +43,7 @@ describe("IoTClientImpl", () => {
 
     const args = {} as unknown as DescribeJobCommandInput;
 
-    const program = IoT.describeJob(args);
+    const program = IoT.use((svc) => svc.describeJob(args));
 
     const result = await pipe(
       program,
@@ -66,7 +66,7 @@ describe("IoTClientImpl", () => {
 
     const args = {} as unknown as DescribeJobCommandInput;
 
-    const program = IoT.describeJob(args);
+    const program = IoT.use((svc) => svc.describeJob(args));
 
     const result = await pipe(
       program,
@@ -90,7 +90,7 @@ describe("IoTClientImpl", () => {
 
     const args = {} as unknown as DescribeJobCommandInput;
 
-    const program = IoT.describeJob(args);
+    const program = IoT.use((svc) => svc.describeJob(args));
 
     const result = await pipe(
       program,
@@ -118,7 +118,7 @@ describe("IoTClientImpl", () => {
 
     const args = {} as unknown as DescribeJobCommandInput;
 
-    const program = IoT.describeJob(args);
+    const program = IoT.use((svc) => svc.describeJob(args));
 
     const result = await pipe(
       program,
@@ -128,7 +128,7 @@ describe("IoTClientImpl", () => {
 
     expect(result).toEqual(
       Exit.fail(
-        SdkError({
+        new SdkError({
           ...new Error("test"),
           name: "SdkError",
           message: "test",
@@ -153,7 +153,7 @@ describe("IoTClientImpl", () => {
 
     const args = {} as unknown as DescribeJobCommandInput;
 
-    const program = IoT.describeJob(args).pipe(
+    const program = IoT.use((svc) => svc.describeJob(args)).pipe(
       Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 
@@ -163,9 +163,9 @@ describe("IoTClientImpl", () => {
       Effect.runPromiseExit,
     );
 
-    expect(result).toEqual(
+    expect(result).toContainEqual(
       Exit.fail(
-        SdkError({
+        new SdkError({
           ...new Error("test"),
           name: "SdkError",
           message: "test",

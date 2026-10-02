@@ -1,7 +1,7 @@
-import type * as Runtime from "effect/Runtime";
-import type * as Scope from "effect/Scope";
+import type { Context } from "effect/Context";
+import type { Scope } from "effect/Scope";
 
 export interface RuntimeOptions {
-  runtime: Runtime.Runtime<never>;
-  scope: Scope.Scope;
+  runtime: Context<never>;
+  scope: Scope;
 }

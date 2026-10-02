@@ -3,10 +3,9 @@
  */
 import type { IoTJobsDataPlaneClientConfig } from "@aws-sdk/client-iot-jobs-data-plane";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
-import * as FiberRef from "effect/FiberRef";
 import { dual } from "effect/Function";
-import { globalValue } from "effect/GlobalValue";
 import * as Layer from "effect/Layer";
 import type { IoTJobsDataPlaneService } from "./IoTJobsDataPlaneService.js";
 
@@ -14,9 +13,9 @@ import type { IoTJobsDataPlaneService } from "./IoTJobsDataPlaneService.js";
  * @since 1.0.0
  * @category iot-jobs-data-plane service config
  */
-const currentIoTJobsDataPlaneServiceConfig = globalValue(
+const currentIoTJobsDataPlaneServiceConfig = Context.Reference<IoTJobsDataPlaneService.Config>(
   "@effect-aws/client-iot-jobs-data-plane/currentIoTJobsDataPlaneServiceConfig",
-  () => FiberRef.unsafeMake<IoTJobsDataPlaneService.Config>({}),
+  { defaultValue: () => ({}) },
 );
 
 /**
@@ -29,7 +28,7 @@ export const withIoTJobsDataPlaneServiceConfig: {
 } = dual(
   2,
   <A, E, R>(effect: Effect.Effect<A, E, R>, config: IoTJobsDataPlaneService.Config): Effect.Effect<A, E, R> =>
-    Effect.locally(effect, currentIoTJobsDataPlaneServiceConfig, config),
+    Effect.provideService(effect, currentIoTJobsDataPlaneServiceConfig, config),
 );
 
 /**
@@ -37,14 +36,14 @@ export const withIoTJobsDataPlaneServiceConfig: {
  * @category iot-jobs-data-plane service config
  */
 export const setIoTJobsDataPlaneServiceConfig = (config: IoTJobsDataPlaneService.Config) =>
-  Layer.locallyScoped(currentIoTJobsDataPlaneServiceConfig, config);
+  Layer.succeed(currentIoTJobsDataPlaneServiceConfig, config);
 
 /**
  * @since 1.0.0
  * @category adapters
  */
 export const toIoTJobsDataPlaneClientConfig: Effect.Effect<IoTJobsDataPlaneClientConfig> = Effect.gen(function*() {
-  const { logger: serviceLogger, ...config } = yield* FiberRef.get(currentIoTJobsDataPlaneServiceConfig);
+  const { logger: serviceLogger, ...config } = yield* currentIoTJobsDataPlaneServiceConfig;
 
   const logger = serviceLogger === true
     ? yield* ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger)

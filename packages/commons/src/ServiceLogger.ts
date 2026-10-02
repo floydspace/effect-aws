@@ -3,7 +3,6 @@
  */
 import type { Logger } from "@smithy/types";
 import * as Effect from "effect/Effect";
-import * as Runtime from "effect/Runtime";
 
 /**
  * @since 0.1.0
@@ -65,8 +64,8 @@ export const defaultServiceLogger = make({
  */
 export const toClientLogger: (logger: ServiceLogger) => Effect.Effect<Logger> = (logger) =>
   Effect.gen(function*() {
-    const runtime = yield* Effect.runtime<never>();
-    const runSync = Runtime.runSync(runtime);
+    const runtime = yield* Effect.context<never>();
+    const runSync = Effect.runSyncWith(runtime);
 
     return {
       info: (...m) => logger.info(...m).pipe(runSync),

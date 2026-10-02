@@ -2,13 +2,12 @@
  * @since 0.1.0
  */
 import type { DsqlSignerConfig } from "@aws-sdk/dsql-signer";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Instance from "./DsqlSignerInstance.js";
 
 interface DsqlSigner$ {
-  readonly _: unique symbol;
-
   getDbConnectAdminAuthToken(): Effect.Effect<string>;
   getDbConnectAuthToken(): Effect.Effect<string>;
 }
@@ -30,10 +29,10 @@ export const makeDsqlSigner = Effect.gen(function*() {
  * @since 0.1.0
  * @category models
  */
-export class DsqlSigner extends Effect.Tag("@effect-aws/dsql/DsqlSigner")<
+export class DsqlSigner extends Context.Service<
   DsqlSigner,
   DsqlSigner$
->() {
+>()("@effect-aws/dsql/DsqlSigner") {
   /**
    * @since 0.1.0
    *

@@ -16,7 +16,7 @@ With default BedrockAgentClient instance:
 ```typescript
 import { BedrockAgent } from "@effect-aws/client-bedrock-agent";
 
-const program = BedrockAgent.listAgents(args);
+const program = BedrockAgent.use((svc) => svc.listAgents(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom BedrockAgentClient instance:
 ```typescript
 import { BedrockAgent } from "@effect-aws/client-bedrock-agent";
 
-const program = BedrockAgent.listAgents(args);
+const program = BedrockAgent.use((svc) => svc.listAgents(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom BedrockAgentClient configuration:
 ```typescript
 import { BedrockAgent } from "@effect-aws/client-bedrock-agent";
 
-const program = BedrockAgent.listAgents(args);
+const program = BedrockAgent.use((svc) => svc.listAgents(args));
 
 const result = await pipe(
   program,

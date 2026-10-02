@@ -3,10 +3,9 @@
  */
 import type { GlueClientConfig } from "@aws-sdk/client-glue";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
-import * as FiberRef from "effect/FiberRef";
 import { dual } from "effect/Function";
-import { globalValue } from "effect/GlobalValue";
 import * as Layer from "effect/Layer";
 import type { GlueService } from "./GlueService.js";
 
@@ -14,9 +13,9 @@ import type { GlueService } from "./GlueService.js";
  * @since 1.0.0
  * @category glue service config
  */
-const currentGlueServiceConfig = globalValue(
+const currentGlueServiceConfig = Context.Reference<GlueService.Config>(
   "@effect-aws/client-glue/currentGlueServiceConfig",
-  () => FiberRef.unsafeMake<GlueService.Config>({}),
+  { defaultValue: () => ({}) },
 );
 
 /**
@@ -29,22 +28,21 @@ export const withGlueServiceConfig: {
 } = dual(
   2,
   <A, E, R>(effect: Effect.Effect<A, E, R>, config: GlueService.Config): Effect.Effect<A, E, R> =>
-    Effect.locally(effect, currentGlueServiceConfig, config),
+    Effect.provideService(effect, currentGlueServiceConfig, config),
 );
 
 /**
  * @since 1.0.0
  * @category glue service config
  */
-export const setGlueServiceConfig = (config: GlueService.Config) =>
-  Layer.locallyScoped(currentGlueServiceConfig, config);
+export const setGlueServiceConfig = (config: GlueService.Config) => Layer.succeed(currentGlueServiceConfig, config);
 
 /**
  * @since 1.0.0
  * @category adapters
  */
 export const toGlueClientConfig: Effect.Effect<GlueClientConfig> = Effect.gen(function*() {
-  const { logger: serviceLogger, ...config } = yield* FiberRef.get(currentGlueServiceConfig);
+  const { logger: serviceLogger, ...config } = yield* currentGlueServiceConfig;
 
   const logger = serviceLogger === true
     ? yield* ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger)

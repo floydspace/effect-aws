@@ -3,10 +3,9 @@
  */
 import type { AutoScalingClientConfig } from "@aws-sdk/client-auto-scaling";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
-import * as FiberRef from "effect/FiberRef";
 import { dual } from "effect/Function";
-import { globalValue } from "effect/GlobalValue";
 import * as Layer from "effect/Layer";
 import type { AutoScalingService } from "./AutoScalingService.js";
 
@@ -14,9 +13,9 @@ import type { AutoScalingService } from "./AutoScalingService.js";
  * @since 1.0.0
  * @category auto-scaling service config
  */
-const currentAutoScalingServiceConfig = globalValue(
+const currentAutoScalingServiceConfig = Context.Reference<AutoScalingService.Config>(
   "@effect-aws/client-auto-scaling/currentAutoScalingServiceConfig",
-  () => FiberRef.unsafeMake<AutoScalingService.Config>({}),
+  { defaultValue: () => ({}) },
 );
 
 /**
@@ -29,7 +28,7 @@ export const withAutoScalingServiceConfig: {
 } = dual(
   2,
   <A, E, R>(effect: Effect.Effect<A, E, R>, config: AutoScalingService.Config): Effect.Effect<A, E, R> =>
-    Effect.locally(effect, currentAutoScalingServiceConfig, config),
+    Effect.provideService(effect, currentAutoScalingServiceConfig, config),
 );
 
 /**
@@ -37,14 +36,14 @@ export const withAutoScalingServiceConfig: {
  * @category auto-scaling service config
  */
 export const setAutoScalingServiceConfig = (config: AutoScalingService.Config) =>
-  Layer.locallyScoped(currentAutoScalingServiceConfig, config);
+  Layer.succeed(currentAutoScalingServiceConfig, config);
 
 /**
  * @since 1.0.0
  * @category adapters
  */
 export const toAutoScalingClientConfig: Effect.Effect<AutoScalingClientConfig> = Effect.gen(function*() {
-  const { logger: serviceLogger, ...config } = yield* FiberRef.get(currentAutoScalingServiceConfig);
+  const { logger: serviceLogger, ...config } = yield* currentAutoScalingServiceConfig;
 
   const logger = serviceLogger === true
     ? yield* ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger)

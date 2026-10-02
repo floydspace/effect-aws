@@ -3,10 +3,9 @@
  */
 import type { SFNClientConfig } from "@aws-sdk/client-sfn";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
-import * as FiberRef from "effect/FiberRef";
 import { dual } from "effect/Function";
-import { globalValue } from "effect/GlobalValue";
 import * as Layer from "effect/Layer";
 import type { SFNService } from "./SFNService.js";
 
@@ -14,9 +13,9 @@ import type { SFNService } from "./SFNService.js";
  * @since 1.0.0
  * @category sfn service config
  */
-const currentSFNServiceConfig = globalValue(
+const currentSFNServiceConfig = Context.Reference<SFNService.Config>(
   "@effect-aws/client-sfn/currentSFNServiceConfig",
-  () => FiberRef.unsafeMake<SFNService.Config>({}),
+  { defaultValue: () => ({}) },
 );
 
 /**
@@ -29,21 +28,21 @@ export const withSFNServiceConfig: {
 } = dual(
   2,
   <A, E, R>(effect: Effect.Effect<A, E, R>, config: SFNService.Config): Effect.Effect<A, E, R> =>
-    Effect.locally(effect, currentSFNServiceConfig, config),
+    Effect.provideService(effect, currentSFNServiceConfig, config),
 );
 
 /**
  * @since 1.0.0
  * @category sfn service config
  */
-export const setSFNServiceConfig = (config: SFNService.Config) => Layer.locallyScoped(currentSFNServiceConfig, config);
+export const setSFNServiceConfig = (config: SFNService.Config) => Layer.succeed(currentSFNServiceConfig, config);
 
 /**
  * @since 1.0.0
  * @category adapters
  */
 export const toSFNClientConfig: Effect.Effect<SFNClientConfig> = Effect.gen(function*() {
-  const { logger: serviceLogger, ...config } = yield* FiberRef.get(currentSFNServiceConfig);
+  const { logger: serviceLogger, ...config } = yield* currentSFNServiceConfig;
 
   const logger = serviceLogger === true
     ? yield* ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger)

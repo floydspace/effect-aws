@@ -79,10 +79,6 @@ export class MonorepoProject extends PnpmMonorepoProject {
             "references",
             ...depPaths.map((path) => ({ path: `${path}/${subproject.tsconfigEsm.fileName}` })),
           );
-          subproject.tsconfigCjs.file.addToArray(
-            "references",
-            ...depPaths.map((path) => ({ path: `${path}/${subproject.tsconfigCjs.fileName}` })),
-          );
         }
       }
     });

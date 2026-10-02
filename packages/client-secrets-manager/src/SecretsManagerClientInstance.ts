@@ -11,9 +11,9 @@ import * as SecretsManagerServiceConfig from "./SecretsManagerServiceConfig.js";
  * @since 1.0.0
  * @category tags
  */
-export class SecretsManagerClientInstance extends Context.Tag(
+export class SecretsManagerClientInstance extends Context.Service<SecretsManagerClientInstance, SecretsManagerClient>()(
   "@effect-aws/client-secrets-manager/SecretsManagerClientInstance",
-)<SecretsManagerClientInstance, SecretsManagerClient>() {}
+) {}
 
 /**
  * @since 1.0.0
@@ -32,4 +32,4 @@ export const make = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const layer = Layer.scoped(SecretsManagerClientInstance, make);
+export const layer = Layer.effect(SecretsManagerClientInstance, make);

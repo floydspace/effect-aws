@@ -3,10 +3,9 @@
  */
 import type { IAMClientConfig } from "@aws-sdk/client-iam";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
-import * as FiberRef from "effect/FiberRef";
 import { dual } from "effect/Function";
-import { globalValue } from "effect/GlobalValue";
 import * as Layer from "effect/Layer";
 import type { IAMService } from "./IAMService.js";
 
@@ -14,9 +13,9 @@ import type { IAMService } from "./IAMService.js";
  * @since 1.0.0
  * @category iam service config
  */
-const currentIAMServiceConfig = globalValue(
+const currentIAMServiceConfig = Context.Reference<IAMService.Config>(
   "@effect-aws/client-iam/currentIAMServiceConfig",
-  () => FiberRef.unsafeMake<IAMService.Config>({}),
+  { defaultValue: () => ({}) },
 );
 
 /**
@@ -29,21 +28,21 @@ export const withIAMServiceConfig: {
 } = dual(
   2,
   <A, E, R>(effect: Effect.Effect<A, E, R>, config: IAMService.Config): Effect.Effect<A, E, R> =>
-    Effect.locally(effect, currentIAMServiceConfig, config),
+    Effect.provideService(effect, currentIAMServiceConfig, config),
 );
 
 /**
  * @since 1.0.0
  * @category iam service config
  */
-export const setIAMServiceConfig = (config: IAMService.Config) => Layer.locallyScoped(currentIAMServiceConfig, config);
+export const setIAMServiceConfig = (config: IAMService.Config) => Layer.succeed(currentIAMServiceConfig, config);
 
 /**
  * @since 1.0.0
  * @category adapters
  */
 export const toIAMClientConfig: Effect.Effect<IAMClientConfig> = Effect.gen(function*() {
-  const { logger: serviceLogger, ...config } = yield* FiberRef.get(currentIAMServiceConfig);
+  const { logger: serviceLogger, ...config } = yield* currentIAMServiceConfig;
 
   const logger = serviceLogger === true
     ? yield* ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger)

@@ -16,7 +16,7 @@ With default ApiGatewayV2Client instance:
 ```typescript
 import { ApiGatewayV2 } from "@effect-aws/client-api-gateway-v2";
 
-const program = ApiGatewayV2.getApi(args);
+const program = ApiGatewayV2.use((svc) => svc.getApi(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom ApiGatewayV2Client instance:
 ```typescript
 import { ApiGatewayV2 } from "@effect-aws/client-api-gateway-v2";
 
-const program = ApiGatewayV2.getApi(args);
+const program = ApiGatewayV2.use((svc) => svc.getApi(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom ApiGatewayV2Client configuration:
 ```typescript
 import { ApiGatewayV2 } from "@effect-aws/client-api-gateway-v2";
 
-const program = ApiGatewayV2.getApi(args);
+const program = ApiGatewayV2.use((svc) => svc.getApi(args));
 
 const result = await pipe(
   program,

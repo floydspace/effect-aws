@@ -11,9 +11,9 @@ import * as GlueServiceConfig from "./GlueServiceConfig.js";
  * @since 1.0.0
  * @category tags
  */
-export class GlueClientInstance extends Context.Tag(
+export class GlueClientInstance extends Context.Service<GlueClientInstance, GlueClient>()(
   "@effect-aws/client-glue/GlueClientInstance",
-)<GlueClientInstance, GlueClient>() {}
+) {}
 
 /**
  * @since 1.0.0
@@ -32,4 +32,4 @@ export const make = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const layer = Layer.scoped(GlueClientInstance, make);
+export const layer = Layer.effect(GlueClientInstance, make);

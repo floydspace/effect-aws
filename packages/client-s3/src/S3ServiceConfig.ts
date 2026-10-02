@@ -3,10 +3,9 @@
  */
 import type { S3ClientConfig } from "@aws-sdk/client-s3";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
-import * as FiberRef from "effect/FiberRef";
 import { dual } from "effect/Function";
-import { globalValue } from "effect/GlobalValue";
 import * as Layer from "effect/Layer";
 import type { S3Service } from "./S3Service.js";
 
@@ -14,9 +13,9 @@ import type { S3Service } from "./S3Service.js";
  * @since 1.0.0
  * @category s3 service config
  */
-const currentS3ServiceConfig = globalValue(
+const currentS3ServiceConfig = Context.Reference<S3Service.Config>(
   "@effect-aws/client-s3/currentS3ServiceConfig",
-  () => FiberRef.unsafeMake<S3Service.Config>({}),
+  { defaultValue: () => ({}) },
 );
 
 /**
@@ -29,21 +28,21 @@ export const withS3ServiceConfig: {
 } = dual(
   2,
   <A, E, R>(effect: Effect.Effect<A, E, R>, config: S3Service.Config): Effect.Effect<A, E, R> =>
-    Effect.locally(effect, currentS3ServiceConfig, config),
+    Effect.provideService(effect, currentS3ServiceConfig, config),
 );
 
 /**
  * @since 1.0.0
  * @category s3 service config
  */
-export const setS3ServiceConfig = (config: S3Service.Config) => Layer.locallyScoped(currentS3ServiceConfig, config);
+export const setS3ServiceConfig = (config: S3Service.Config) => Layer.succeed(currentS3ServiceConfig, config);
 
 /**
  * @since 1.0.0
  * @category adapters
  */
 export const toS3ClientConfig: Effect.Effect<S3ClientConfig> = Effect.gen(function*() {
-  const { logger: serviceLogger, ...config } = yield* FiberRef.get(currentS3ServiceConfig);
+  const { logger: serviceLogger, ...config } = yield* currentS3ServiceConfig;
 
   const logger = serviceLogger === true
     ? yield* ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger)

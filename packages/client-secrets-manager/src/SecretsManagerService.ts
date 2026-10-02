@@ -81,6 +81,7 @@ import * as Service from "@effect-aws/commons/Service";
 import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
 import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import type * as Stream from "effect/Stream";
@@ -135,9 +136,11 @@ const paginators = {
   paginateListSecrets,
 };
 
-interface SecretsManagerService$ {
-  readonly _: unique symbol;
-
+/**
+ * @since 1.0.0
+ * @category models
+ */
+export interface SecretsManagerService$ {
   /**
    * @see {@link BatchGetSecretValueCommand}
    */
@@ -146,7 +149,7 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchGetSecretValueCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DecryptionError
     | InternalServiceError
@@ -161,7 +164,7 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     BatchGetSecretValueCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DecryptionError
     | InternalServiceError
@@ -179,7 +182,7 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelRotateSecretCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalServiceError
     | InvalidParameterError
@@ -195,7 +198,7 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateSecretCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DecryptionError
     | EncryptionError
@@ -217,7 +220,7 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteResourcePolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalServiceError
     | InvalidParameterError
@@ -233,7 +236,7 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteSecretCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalServiceError
     | InvalidParameterError
@@ -249,7 +252,7 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeSecretCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServiceError | InvalidParameterError | ResourceNotFoundError
+    Cause.TimeoutError | SdkError | InternalServiceError | InvalidParameterError | ResourceNotFoundError
   >;
 
   /**
@@ -260,7 +263,7 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetRandomPasswordCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServiceError | InvalidParameterError | InvalidRequestError
+    Cause.TimeoutError | SdkError | InternalServiceError | InvalidParameterError | InvalidRequestError
   >;
 
   /**
@@ -271,7 +274,7 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetResourcePolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalServiceError
     | InvalidParameterError
@@ -287,7 +290,7 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetSecretValueCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DecryptionError
     | InternalServiceError
@@ -304,7 +307,7 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListSecretVersionIdsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalServiceError
     | InvalidNextTokenError
@@ -317,7 +320,7 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListSecretVersionIdsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalServiceError
     | InvalidNextTokenError
@@ -333,7 +336,7 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListSecretsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalServiceError
     | InvalidNextTokenError
@@ -346,7 +349,7 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListSecretsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalServiceError
     | InvalidNextTokenError
@@ -362,7 +365,7 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutResourcePolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalServiceError
     | InvalidParameterError
@@ -380,7 +383,7 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutSecretValueCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DecryptionError
     | EncryptionError
@@ -400,7 +403,7 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RemoveRegionsFromReplicationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalServiceError
     | InvalidParameterError
@@ -416,7 +419,7 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ReplicateSecretToRegionsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalServiceError
     | InvalidParameterError
@@ -432,7 +435,7 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RestoreSecretCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalServiceError
     | InvalidParameterError
@@ -448,7 +451,7 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RotateSecretCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalServiceError
     | InvalidParameterError
@@ -464,7 +467,7 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StopReplicationToReplicaCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalServiceError
     | InvalidParameterError
@@ -480,7 +483,7 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagResourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalServiceError
     | InvalidParameterError
@@ -496,7 +499,7 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalServiceError
     | InvalidParameterError
@@ -512,7 +515,7 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateSecretCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DecryptionError
     | EncryptionError
@@ -534,7 +537,7 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateSecretVersionStageCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalServiceError
     | InvalidParameterError
@@ -551,7 +554,7 @@ interface SecretsManagerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ValidateResourcePolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalServiceError
     | InvalidParameterError
@@ -583,10 +586,10 @@ export const makeSecretsManagerService = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class SecretsManagerService extends Effect.Tag("@effect-aws/client-secrets-manager/SecretsManagerService")<
+export class SecretsManagerService extends Context.Service<
   SecretsManagerService,
   SecretsManagerService$
->() {
+>()("@effect-aws/client-secrets-manager/SecretsManagerService") {
   static readonly defaultLayer = Layer.effect(this, makeSecretsManagerService).pipe(Layer.provide(Instance.layer));
   static readonly layer = (config: SecretsManagerService.Config) =>
     Layer.effect(this, makeSecretsManagerService).pipe(

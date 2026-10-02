@@ -1,5 +1,6 @@
 import type {
   AccessDeniedException,
+  DryRunOperationException,
   ExpiredIteratorException,
   ExpiredNextTokenException,
   InternalFailureException,
@@ -20,6 +21,7 @@ import type { TaggedException } from "@effect-aws/commons/Errors";
 
 export const AllServiceErrors = [
   "AccessDeniedException",
+  "DryRunOperationException",
   "ExpiredIteratorException",
   "ExpiredNextTokenException",
   "InternalFailureException",
@@ -38,6 +40,7 @@ export const AllServiceErrors = [
 ] as const;
 
 export type AccessDeniedError = TaggedException<AccessDeniedException>;
+export type DryRunOperationError = TaggedException<DryRunOperationException>;
 export type ExpiredIteratorError = TaggedException<ExpiredIteratorException>;
 export type ExpiredNextTokenError = TaggedException<ExpiredNextTokenException>;
 export type InternalFailureError = TaggedException<InternalFailureException>;

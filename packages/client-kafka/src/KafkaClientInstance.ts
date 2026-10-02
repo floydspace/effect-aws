@@ -11,9 +11,9 @@ import * as KafkaServiceConfig from "./KafkaServiceConfig.js";
  * @since 1.0.0
  * @category tags
  */
-export class KafkaClientInstance extends Context.Tag(
+export class KafkaClientInstance extends Context.Service<KafkaClientInstance, KafkaClient>()(
   "@effect-aws/client-kafka/KafkaClientInstance",
-)<KafkaClientInstance, KafkaClient>() {}
+) {}
 
 /**
  * @since 1.0.0
@@ -32,4 +32,4 @@ export const make = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const layer = Layer.scoped(KafkaClientInstance, make);
+export const layer = Layer.effect(KafkaClientInstance, make);

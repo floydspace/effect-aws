@@ -11,9 +11,9 @@ import * as ECSServiceConfig from "./ECSServiceConfig.js";
  * @since 1.0.0
  * @category tags
  */
-export class ECSClientInstance extends Context.Tag(
+export class ECSClientInstance extends Context.Service<ECSClientInstance, ECSClient>()(
   "@effect-aws/client-ecs/ECSClientInstance",
-)<ECSClientInstance, ECSClient>() {}
+) {}
 
 /**
  * @since 1.0.0
@@ -32,4 +32,4 @@ export const make = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const layer = Layer.scoped(ECSClientInstance, make);
+export const layer = Layer.effect(ECSClientInstance, make);

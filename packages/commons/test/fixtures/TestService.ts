@@ -1,7 +1,9 @@
 import { type HttpHandlerOptions, Service } from "@effect-aws/commons";
 import { createPaginator } from "@smithy/core";
 import { Command } from "@smithy/smithy-client";
-import { Effect, Layer } from "effect";
+import * as Context from "effect/Context";
+import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
 import * as Instance from "./TestClientInstance.js";
 import * as TestServiceConfig from "./TestServiceConfig.js";
 
@@ -16,8 +18,6 @@ const paginators: Record<string, Service.PaginatorCtor<any>> = {
 };
 
 export interface TestService$ {
-  readonly _: unique symbol;
-
   test(args: any, options?: HttpHandlerOptions): Effect.Effect<any>;
 }
 
@@ -32,10 +32,10 @@ export const makeTestService = Effect.gen(function*() {
   );
 });
 
-export class TestService extends Effect.Tag("@effect-aws/commons/test/TestService")<
+export class TestService extends Context.Service<
   TestService,
   TestService$
->() {
+>()("@effect-aws/commons/test/TestService") {
   static readonly layer = (config: TestService.Config) =>
     Layer.effect(this, makeTestService).pipe(
       Layer.provide(Instance.layer),

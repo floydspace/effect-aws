@@ -16,7 +16,7 @@ With default EventBridgeClient instance:
 ```typescript
 import { EventBridge } from "@effect-aws/client-eventbridge";
 
-const program = EventBridge.putEvents(args);
+const program = EventBridge.use((svc) => svc.putEvents(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom EventBridgeClient instance:
 ```typescript
 import { EventBridge } from "@effect-aws/client-eventbridge";
 
-const program = EventBridge.putEvents(args);
+const program = EventBridge.use((svc) => svc.putEvents(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom EventBridgeClient configuration:
 ```typescript
 import { EventBridge } from "@effect-aws/client-eventbridge";
 
-const program = EventBridge.putEvents(args);
+const program = EventBridge.use((svc) => svc.putEvents(args));
 
 const result = await pipe(
   program,

@@ -11,9 +11,11 @@ import * as TimestreamWriteServiceConfig from "./TimestreamWriteServiceConfig.js
  * @since 1.0.0
  * @category tags
  */
-export class TimestreamWriteClientInstance extends Context.Tag(
-  "@effect-aws/client-timestream-write/TimestreamWriteClientInstance",
-)<TimestreamWriteClientInstance, TimestreamWriteClient>() {}
+export class TimestreamWriteClientInstance
+  extends Context.Service<TimestreamWriteClientInstance, TimestreamWriteClient>()(
+    "@effect-aws/client-timestream-write/TimestreamWriteClientInstance",
+  )
+{}
 
 /**
  * @since 1.0.0
@@ -32,4 +34,4 @@ export const make = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const layer = Layer.scoped(TimestreamWriteClientInstance, make);
+export const layer = Layer.effect(TimestreamWriteClientInstance, make);

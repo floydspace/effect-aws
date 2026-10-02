@@ -14,7 +14,7 @@ import * as ManagedRuntime from "effect/ManagedRuntime";
  * import { LambdaRuntime, LambdaContext } from "@effect-aws/lambda";
  * import { Effect, Logger } from "effect";
  *
- * const LambdaLayer = Logger.replace(Logger.defaultLogger, Logger.logfmtLogger);
+ * const LambdaLayer = Logger.layer([Logger.consoleLogFmt]);
  *
  * const lambdaRuntime = LambdaRuntime.fromLayer(LambdaLayer);
  *
@@ -29,7 +29,7 @@ export const fromLayer = <R, E>(
   layer: Layer.Layer<R, E>,
   options?: { readonly memoMap?: Layer.MemoMap },
 ): ManagedRuntime.ManagedRuntime<R, E> => {
-  const rt = ManagedRuntime.make(layer, options?.memoMap);
+  const rt = ManagedRuntime.make(layer, options);
 
   const signalHandler: NodeJS.SignalsListener = (signal) => {
     Effect.runFork(

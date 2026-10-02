@@ -16,7 +16,7 @@ With default SESv2Client instance:
 ```typescript
 import { SESv2 } from "@effect-aws/client-sesv2";
 
-const program = SESv2.sendEmail(args);
+const program = SESv2.use((svc) => svc.sendEmail(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom SESv2Client instance:
 ```typescript
 import { SESv2 } from "@effect-aws/client-sesv2";
 
-const program = SESv2.sendEmail(args);
+const program = SESv2.use((svc) => svc.sendEmail(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom SESv2Client configuration:
 ```typescript
 import { SESv2 } from "@effect-aws/client-sesv2";
 
-const program = SESv2.sendEmail(args);
+const program = SESv2.use((svc) => svc.sendEmail(args));
 
 const result = await pipe(
   program,

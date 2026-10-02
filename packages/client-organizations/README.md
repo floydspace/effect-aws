@@ -16,7 +16,7 @@ With default OrganizationsClient instance:
 ```typescript
 import { Organizations } from "@effect-aws/client-organizations";
 
-const program = Organizations.describeOrganization(args);
+const program = Organizations.use((svc) => svc.describeOrganization(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom OrganizationsClient instance:
 ```typescript
 import { Organizations } from "@effect-aws/client-organizations";
 
-const program = Organizations.describeOrganization(args);
+const program = Organizations.use((svc) => svc.describeOrganization(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom OrganizationsClient configuration:
 ```typescript
 import { Organizations } from "@effect-aws/client-organizations";
 
-const program = Organizations.describeOrganization(args);
+const program = Organizations.use((svc) => svc.describeOrganization(args));
 
 const result = await pipe(
   program,

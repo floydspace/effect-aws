@@ -11,9 +11,9 @@ import * as EventBridgeServiceConfig from "./EventBridgeServiceConfig.js";
  * @since 1.0.0
  * @category tags
  */
-export class EventBridgeClientInstance extends Context.Tag(
+export class EventBridgeClientInstance extends Context.Service<EventBridgeClientInstance, EventBridgeClient>()(
   "@effect-aws/client-eventbridge/EventBridgeClientInstance",
-)<EventBridgeClientInstance, EventBridgeClient>() {}
+) {}
 
 /**
  * @since 1.0.0
@@ -32,4 +32,4 @@ export const make = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const layer = Layer.scoped(EventBridgeClientInstance, make);
+export const layer = Layer.effect(EventBridgeClientInstance, make);

@@ -39,7 +39,6 @@ jspm_packages/
 !/tsconfig.dev.json
 !/tsconfig.examples.json
 !/tsconfig.esm.json
-!/tsconfig.cjs.json
 !/docgen.json
 docs/
 !/vitest.config.ts

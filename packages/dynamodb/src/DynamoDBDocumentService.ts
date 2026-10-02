@@ -47,7 +47,6 @@ import {
   TransactWriteCommand,
   UpdateCommand,
 } from "@aws-sdk/lib-dynamodb";
-import * as DynamoDBServiceConfig from "@effect-aws/client-dynamodb/DynamoDBServiceConfig";
 import type {
   ConditionalCheckFailedError,
   DuplicateItemError,
@@ -62,10 +61,12 @@ import type {
   TransactionCanceledError,
   TransactionConflictError,
   TransactionInProgressError,
-} from "@effect-aws/client-dynamodb/Errors";
+} from "@effect-aws/client-dynamodb";
+import * as DynamoDBServiceConfig from "@effect-aws/client-dynamodb/DynamoDBServiceConfig";
+import type { HttpHandlerOptions } from "@effect-aws/commons";
 import * as Service from "@effect-aws/commons/Service";
-import { type HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Instance from "./DynamoDBDocumentClientInstance.js";
@@ -88,8 +89,6 @@ const commands = {
 };
 
 interface DynamoDBDocumentService$ {
-  readonly _: unique symbol;
-
   /**
    * @see {@link BatchExecuteStatementCommand}
    */
@@ -98,7 +97,7 @@ interface DynamoDBDocumentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchExecuteStatementCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | RequestLimitExceededError
+    Cause.TimeoutError | SdkError | InternalServerError | RequestLimitExceededError
   >;
 
   /**
@@ -109,7 +108,7 @@ interface DynamoDBDocumentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchGetCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalServerError
     | InvalidEndpointError
@@ -126,7 +125,7 @@ interface DynamoDBDocumentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchWriteCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalServerError
     | InvalidEndpointError
@@ -144,7 +143,7 @@ interface DynamoDBDocumentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConditionalCheckFailedError
     | InternalServerError
@@ -164,7 +163,7 @@ interface DynamoDBDocumentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ExecuteStatementCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConditionalCheckFailedError
     | DuplicateItemError
@@ -184,7 +183,7 @@ interface DynamoDBDocumentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ExecuteTransactionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | IdempotentParameterMismatchError
     | InternalServerError
@@ -203,7 +202,7 @@ interface DynamoDBDocumentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalServerError
     | InvalidEndpointError
@@ -220,7 +219,7 @@ interface DynamoDBDocumentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConditionalCheckFailedError
     | InternalServerError
@@ -240,7 +239,7 @@ interface DynamoDBDocumentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     QueryCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalServerError
     | InvalidEndpointError
@@ -257,7 +256,7 @@ interface DynamoDBDocumentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ScanCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalServerError
     | InvalidEndpointError
@@ -274,7 +273,7 @@ interface DynamoDBDocumentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TransactGetCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalServerError
     | InvalidEndpointError
@@ -292,7 +291,7 @@ interface DynamoDBDocumentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TransactWriteCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | IdempotentParameterMismatchError
     | InternalServerError
@@ -312,7 +311,7 @@ interface DynamoDBDocumentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConditionalCheckFailedError
     | InternalServerError
@@ -341,9 +340,9 @@ export const makeDynamoDBDocumentService = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class DynamoDBDocumentService extends Effect.Tag(
+export class DynamoDBDocumentService extends Context.Service<DynamoDBDocumentService, DynamoDBDocumentService$>()(
   "@effect-aws/dynamodb/DynamoDBDocumentService",
-)<DynamoDBDocumentService, DynamoDBDocumentService$>() {
+) {
   static readonly defaultLayer = Layer.effect(this, makeDynamoDBDocumentService).pipe(Layer.provide(Instance.layer));
   static readonly layer = (config: DynamoDBDocumentService.Config) =>
     Layer.effect(this, makeDynamoDBDocumentService).pipe(

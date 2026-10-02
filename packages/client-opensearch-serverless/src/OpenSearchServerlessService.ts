@@ -154,6 +154,7 @@ import * as Service from "@effect-aws/commons/Service";
 import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
 import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import type * as Stream from "effect/Stream";
@@ -229,9 +230,11 @@ const paginators = {
   paginateListVpcEndpoints,
 };
 
-interface OpenSearchServerlessService$ {
-  readonly _: unique symbol;
-
+/**
+ * @since 1.0.0
+ * @category models
+ */
+export interface OpenSearchServerlessService$ {
   /**
    * @see {@link BatchGetCollectionCommand}
    */
@@ -240,7 +243,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchGetCollectionCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ValidationError
   >;
 
   /**
@@ -251,7 +254,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchGetCollectionGroupCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ValidationError
   >;
 
   /**
@@ -262,7 +265,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchGetEffectiveLifecyclePolicyCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ValidationError
   >;
 
   /**
@@ -273,7 +276,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchGetLifecyclePolicyCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ValidationError
   >;
 
   /**
@@ -284,7 +287,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchGetVpcEndpointCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ValidationError
   >;
 
   /**
@@ -295,12 +298,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateAccessPolicyCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | ConflictError
-    | InternalServerError
-    | ServiceQuotaExceededError
-    | ValidationError
+    Cause.TimeoutError | SdkError | ConflictError | InternalServerError | ServiceQuotaExceededError | ValidationError
   >;
 
   /**
@@ -311,7 +309,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateCollectionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConflictError
     | InternalServerError
@@ -328,12 +326,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateCollectionGroupCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | ConflictError
-    | InternalServerError
-    | ServiceQuotaExceededError
-    | ValidationError
+    Cause.TimeoutError | SdkError | ConflictError | InternalServerError | ServiceQuotaExceededError | ValidationError
   >;
 
   /**
@@ -344,7 +337,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateIndexCommandOutput,
-    Cause.TimeoutException | SdkError | ConflictError | InternalServerError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | ConflictError | InternalServerError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -355,12 +348,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateLifecyclePolicyCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | ConflictError
-    | InternalServerError
-    | ServiceQuotaExceededError
-    | ValidationError
+    Cause.TimeoutError | SdkError | ConflictError | InternalServerError | ServiceQuotaExceededError | ValidationError
   >;
 
   /**
@@ -371,12 +359,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateSecurityConfigCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | ConflictError
-    | InternalServerError
-    | ServiceQuotaExceededError
-    | ValidationError
+    Cause.TimeoutError | SdkError | ConflictError | InternalServerError | ServiceQuotaExceededError | ValidationError
   >;
 
   /**
@@ -387,12 +370,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateSecurityPolicyCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | ConflictError
-    | InternalServerError
-    | ServiceQuotaExceededError
-    | ValidationError
+    Cause.TimeoutError | SdkError | ConflictError | InternalServerError | ServiceQuotaExceededError | ValidationError
   >;
 
   /**
@@ -403,12 +381,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateVpcEndpointCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | ConflictError
-    | InternalServerError
-    | ServiceQuotaExceededError
-    | ValidationError
+    Cause.TimeoutError | SdkError | ConflictError | InternalServerError | ServiceQuotaExceededError | ValidationError
   >;
 
   /**
@@ -419,7 +392,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteAccessPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | ConflictError | InternalServerError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | ConflictError | InternalServerError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -430,7 +403,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteCollectionCommandOutput,
-    Cause.TimeoutException | SdkError | ConflictError | InternalServerError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | ConflictError | InternalServerError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -441,7 +414,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteCollectionGroupCommandOutput,
-    Cause.TimeoutException | SdkError | ConflictError | InternalServerError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | ConflictError | InternalServerError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -452,7 +425,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteIndexCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -463,7 +436,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteLifecyclePolicyCommandOutput,
-    Cause.TimeoutException | SdkError | ConflictError | InternalServerError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | ConflictError | InternalServerError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -474,7 +447,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteSecurityConfigCommandOutput,
-    Cause.TimeoutException | SdkError | ConflictError | InternalServerError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | ConflictError | InternalServerError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -485,7 +458,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteSecurityPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | ConflictError | InternalServerError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | ConflictError | InternalServerError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -496,7 +469,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteVpcEndpointCommandOutput,
-    Cause.TimeoutException | SdkError | ConflictError | InternalServerError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | ConflictError | InternalServerError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -507,7 +480,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAccessPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -518,7 +491,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAccountSettingsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ValidationError
   >;
 
   /**
@@ -529,7 +502,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetIndexCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -540,7 +513,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPoliciesStatsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError
+    Cause.TimeoutError | SdkError | InternalServerError
   >;
 
   /**
@@ -551,7 +524,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetSecurityConfigCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -562,7 +535,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetSecurityPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -573,7 +546,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAccessPoliciesCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ValidationError
   >;
 
   listAccessPoliciesStream(
@@ -581,7 +554,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListAccessPoliciesCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ValidationError
   >;
 
   /**
@@ -592,7 +565,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListCollectionGroupsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ValidationError
   >;
 
   listCollectionGroupsStream(
@@ -600,7 +573,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListCollectionGroupsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ValidationError
   >;
 
   /**
@@ -611,16 +584,13 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListCollectionsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ValidationError
   >;
 
   listCollectionsStream(
     args: ListCollectionsCommandInput,
     options?: HttpHandlerOptions,
-  ): Stream.Stream<
-    ListCollectionsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ValidationError
-  >;
+  ): Stream.Stream<ListCollectionsCommandOutput, Cause.TimeoutError | SdkError | InternalServerError | ValidationError>;
 
   /**
    * @see {@link ListLifecyclePoliciesCommand}
@@ -630,7 +600,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListLifecyclePoliciesCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ValidationError
   >;
 
   listLifecyclePoliciesStream(
@@ -638,7 +608,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListLifecyclePoliciesCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ValidationError
   >;
 
   /**
@@ -649,7 +619,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListSecurityConfigsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ValidationError
   >;
 
   listSecurityConfigsStream(
@@ -657,7 +627,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListSecurityConfigsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ValidationError
   >;
 
   /**
@@ -668,7 +638,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListSecurityPoliciesCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ValidationError
   >;
 
   listSecurityPoliciesStream(
@@ -676,7 +646,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListSecurityPoliciesCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ValidationError
   >;
 
   /**
@@ -687,7 +657,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsForResourceCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -698,7 +668,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListVpcEndpointsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ValidationError
   >;
 
   listVpcEndpointsStream(
@@ -706,7 +676,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListVpcEndpointsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ValidationError
   >;
 
   /**
@@ -717,7 +687,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagResourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConflictError
     | InternalServerError
@@ -734,7 +704,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
-    Cause.TimeoutException | SdkError | ConflictError | InternalServerError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | ConflictError | InternalServerError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -745,7 +715,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateAccessPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | ConflictError | InternalServerError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | ConflictError | InternalServerError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -756,7 +726,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateAccountSettingsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ServiceQuotaExceededError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ServiceQuotaExceededError | ValidationError
   >;
 
   /**
@@ -767,7 +737,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateCollectionCommandOutput,
-    Cause.TimeoutException | SdkError | ConflictError | InternalServerError | ValidationError
+    Cause.TimeoutError | SdkError | ConflictError | InternalServerError | ValidationError
   >;
 
   /**
@@ -778,12 +748,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateCollectionGroupCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | ConflictError
-    | InternalServerError
-    | ServiceQuotaExceededError
-    | ValidationError
+    Cause.TimeoutError | SdkError | ConflictError | InternalServerError | ServiceQuotaExceededError | ValidationError
   >;
 
   /**
@@ -794,7 +759,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateIndexCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -805,7 +770,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateLifecyclePolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConflictError
     | InternalServerError
@@ -822,7 +787,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateSecurityConfigCommandOutput,
-    Cause.TimeoutException | SdkError | ConflictError | InternalServerError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | ConflictError | InternalServerError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -833,7 +798,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateSecurityPolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConflictError
     | InternalServerError
@@ -850,7 +815,7 @@ interface OpenSearchServerlessService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateVpcEndpointCommandOutput,
-    Cause.TimeoutException | SdkError | ConflictError | InternalServerError | ValidationError
+    Cause.TimeoutError | SdkError | ConflictError | InternalServerError | ValidationError
   >;
 }
 
@@ -876,12 +841,10 @@ export const makeOpenSearchServerlessService = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class OpenSearchServerlessService
-  extends Effect.Tag("@effect-aws/client-opensearch-serverless/OpenSearchServerlessService")<
-    OpenSearchServerlessService,
-    OpenSearchServerlessService$
-  >()
-{
+export class OpenSearchServerlessService extends Context.Service<
+  OpenSearchServerlessService,
+  OpenSearchServerlessService$
+>()("@effect-aws/client-opensearch-serverless/OpenSearchServerlessService") {
   static readonly defaultLayer = Layer.effect(this, makeOpenSearchServerlessService).pipe(
     Layer.provide(Instance.layer),
   );

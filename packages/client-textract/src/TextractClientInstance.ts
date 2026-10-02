@@ -11,9 +11,9 @@ import * as TextractServiceConfig from "./TextractServiceConfig.js";
  * @since 1.0.0
  * @category tags
  */
-export class TextractClientInstance extends Context.Tag(
+export class TextractClientInstance extends Context.Service<TextractClientInstance, TextractClient>()(
   "@effect-aws/client-textract/TextractClientInstance",
-)<TextractClientInstance, TextractClient>() {}
+) {}
 
 /**
  * @since 1.0.0
@@ -32,4 +32,4 @@ export const make = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const layer = Layer.scoped(TextractClientInstance, make);
+export const layer = Layer.effect(TextractClientInstance, make);

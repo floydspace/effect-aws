@@ -5,6 +5,9 @@ import {
   AddDatasetExamplesCommand,
   type AddDatasetExamplesCommandInput,
   type AddDatasetExamplesCommandOutput,
+  BatchPutGatewayRateLimitsCommand,
+  type BatchPutGatewayRateLimitsCommandInput,
+  type BatchPutGatewayRateLimitsCommandOutput,
   type BedrockAgentCoreControlClient,
   type BedrockAgentCoreControlClientConfig,
   CreateAgentRuntimeCommand,
@@ -22,12 +25,18 @@ import {
   CreateBrowserProfileCommand,
   type CreateBrowserProfileCommandInput,
   type CreateBrowserProfileCommandOutput,
+  CreateCapacityProviderCommand,
+  type CreateCapacityProviderCommandInput,
+  type CreateCapacityProviderCommandOutput,
   CreateCodeInterpreterCommand,
   type CreateCodeInterpreterCommandInput,
   type CreateCodeInterpreterCommandOutput,
   CreateConfigurationBundleCommand,
   type CreateConfigurationBundleCommandInput,
   type CreateConfigurationBundleCommandOutput,
+  CreateConsentPortalCommand,
+  type CreateConsentPortalCommandInput,
+  type CreateConsentPortalCommandOutput,
   CreateDatasetCommand,
   type CreateDatasetCommandInput,
   type CreateDatasetCommandOutput,
@@ -40,6 +49,9 @@ import {
   CreateGatewayCommand,
   type CreateGatewayCommandInput,
   type CreateGatewayCommandOutput,
+  CreateGatewayRateLimitCommand,
+  type CreateGatewayRateLimitCommandInput,
+  type CreateGatewayRateLimitCommandOutput,
   CreateGatewayRuleCommand,
   type CreateGatewayRuleCommandInput,
   type CreateGatewayRuleCommandOutput,
@@ -100,12 +112,18 @@ import {
   DeleteBrowserProfileCommand,
   type DeleteBrowserProfileCommandInput,
   type DeleteBrowserProfileCommandOutput,
+  DeleteCapacityProviderCommand,
+  type DeleteCapacityProviderCommandInput,
+  type DeleteCapacityProviderCommandOutput,
   DeleteCodeInterpreterCommand,
   type DeleteCodeInterpreterCommandInput,
   type DeleteCodeInterpreterCommandOutput,
   DeleteConfigurationBundleCommand,
   type DeleteConfigurationBundleCommandInput,
   type DeleteConfigurationBundleCommandOutput,
+  DeleteConsentPortalCommand,
+  type DeleteConsentPortalCommandInput,
+  type DeleteConsentPortalCommandOutput,
   DeleteDatasetCommand,
   type DeleteDatasetCommandInput,
   type DeleteDatasetCommandOutput,
@@ -118,6 +136,9 @@ import {
   DeleteGatewayCommand,
   type DeleteGatewayCommandInput,
   type DeleteGatewayCommandOutput,
+  DeleteGatewayRateLimitCommand,
+  type DeleteGatewayRateLimitCommandInput,
+  type DeleteGatewayRateLimitCommandOutput,
   DeleteGatewayRuleCommand,
   type DeleteGatewayRuleCommandInput,
   type DeleteGatewayRuleCommandOutput,
@@ -181,6 +202,9 @@ import {
   GetBrowserProfileCommand,
   type GetBrowserProfileCommandInput,
   type GetBrowserProfileCommandOutput,
+  GetCapacityProviderCommand,
+  type GetCapacityProviderCommandInput,
+  type GetCapacityProviderCommandOutput,
   GetCodeInterpreterCommand,
   type GetCodeInterpreterCommandInput,
   type GetCodeInterpreterCommandOutput,
@@ -190,6 +214,9 @@ import {
   GetConfigurationBundleVersionCommand,
   type GetConfigurationBundleVersionCommandInput,
   type GetConfigurationBundleVersionCommandOutput,
+  GetConsentPortalCommand,
+  type GetConsentPortalCommandInput,
+  type GetConsentPortalCommandOutput,
   GetDatasetCommand,
   type GetDatasetCommandInput,
   type GetDatasetCommandOutput,
@@ -199,6 +226,9 @@ import {
   GetGatewayCommand,
   type GetGatewayCommandInput,
   type GetGatewayCommandOutput,
+  GetGatewayRateLimitCommand,
+  type GetGatewayRateLimitCommandInput,
+  type GetGatewayRateLimitCommandOutput,
   GetGatewayRuleCommand,
   type GetGatewayRuleCommandInput,
   type GetGatewayRuleCommandOutput,
@@ -268,6 +298,9 @@ import {
   ListAgentRuntimesCommand,
   type ListAgentRuntimesCommandInput,
   type ListAgentRuntimesCommandOutput,
+  ListAgentRuntimeVersionsByCapacityProviderCommand,
+  type ListAgentRuntimeVersionsByCapacityProviderCommandInput,
+  type ListAgentRuntimeVersionsByCapacityProviderCommandOutput,
   ListAgentRuntimeVersionsCommand,
   type ListAgentRuntimeVersionsCommandInput,
   type ListAgentRuntimeVersionsCommandOutput,
@@ -280,6 +313,9 @@ import {
   ListBrowsersCommand,
   type ListBrowsersCommandInput,
   type ListBrowsersCommandOutput,
+  ListCapacityProvidersCommand,
+  type ListCapacityProvidersCommandInput,
+  type ListCapacityProvidersCommandOutput,
   ListCodeInterpretersCommand,
   type ListCodeInterpretersCommandInput,
   type ListCodeInterpretersCommandOutput,
@@ -289,6 +325,9 @@ import {
   ListConfigurationBundleVersionsCommand,
   type ListConfigurationBundleVersionsCommandInput,
   type ListConfigurationBundleVersionsCommandOutput,
+  ListConsentPortalsCommand,
+  type ListConsentPortalsCommandInput,
+  type ListConsentPortalsCommandOutput,
   ListDatasetExamplesCommand,
   type ListDatasetExamplesCommandInput,
   type ListDatasetExamplesCommandOutput,
@@ -301,6 +340,9 @@ import {
   ListEvaluatorsCommand,
   type ListEvaluatorsCommandInput,
   type ListEvaluatorsCommandOutput,
+  ListGatewayRateLimitsCommand,
+  type ListGatewayRateLimitsCommandInput,
+  type ListGatewayRateLimitsCommandOutput,
   ListGatewayRulesCommand,
   type ListGatewayRulesCommandInput,
   type ListGatewayRulesCommandOutput,
@@ -373,16 +415,20 @@ import {
   paginateListAgentRuntimeEndpoints,
   paginateListAgentRuntimes,
   paginateListAgentRuntimeVersions,
+  paginateListAgentRuntimeVersionsByCapacityProvider,
   paginateListApiKeyCredentialProviders,
   paginateListBrowserProfiles,
   paginateListBrowsers,
+  paginateListCapacityProviders,
   paginateListCodeInterpreters,
   paginateListConfigurationBundles,
   paginateListConfigurationBundleVersions,
+  paginateListConsentPortals,
   paginateListDatasetExamples,
   paginateListDatasets,
   paginateListDatasetVersions,
   paginateListEvaluators,
+  paginateListGatewayRateLimits,
   paginateListGatewayRules,
   paginateListGateways,
   paginateListGatewayTargets,
@@ -408,6 +454,9 @@ import {
   PutResourcePolicyCommand,
   type PutResourcePolicyCommandInput,
   type PutResourcePolicyCommandOutput,
+  RotatePaymentConnectorCredentialsCommand,
+  type RotatePaymentConnectorCredentialsCommandInput,
+  type RotatePaymentConnectorCredentialsCommandOutput,
   SetTokenVaultCMKCommand,
   type SetTokenVaultCMKCommandInput,
   type SetTokenVaultCMKCommandOutput,
@@ -435,9 +484,15 @@ import {
   UpdateApiKeyCredentialProviderCommand,
   type UpdateApiKeyCredentialProviderCommandInput,
   type UpdateApiKeyCredentialProviderCommandOutput,
+  UpdateCapacityProviderCommand,
+  type UpdateCapacityProviderCommandInput,
+  type UpdateCapacityProviderCommandOutput,
   UpdateConfigurationBundleCommand,
   type UpdateConfigurationBundleCommandInput,
   type UpdateConfigurationBundleCommandOutput,
+  UpdateConsentPortalCommand,
+  type UpdateConsentPortalCommandInput,
+  type UpdateConsentPortalCommandOutput,
   UpdateDatasetCommand,
   type UpdateDatasetCommandInput,
   type UpdateDatasetCommandOutput,
@@ -450,6 +505,9 @@ import {
   UpdateGatewayCommand,
   type UpdateGatewayCommandInput,
   type UpdateGatewayCommandOutput,
+  UpdateGatewayRateLimitCommand,
+  type UpdateGatewayRateLimitCommandInput,
+  type UpdateGatewayRateLimitCommandOutput,
   UpdateGatewayRuleCommand,
   type UpdateGatewayRuleCommandInput,
   type UpdateGatewayRuleCommandOutput,
@@ -503,6 +561,7 @@ import * as Service from "@effect-aws/commons/Service";
 import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
 import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import type * as Stream from "effect/Stream";
@@ -517,9 +576,11 @@ import type {
   InternalServerError,
   ResourceLimitExceededError,
   ResourceNotFoundError,
+  RetryableConflictError,
   SdkError,
   ServiceError,
   ServiceQuotaExceededError,
+  SubscriptionRequiredError,
   ThrottledError,
   ThrottlingError,
   UnauthorizedError,
@@ -529,17 +590,21 @@ import { AllServiceErrors } from "./Errors.js";
 
 const commands = {
   AddDatasetExamplesCommand,
+  BatchPutGatewayRateLimitsCommand,
   CreateAgentRuntimeCommand,
   CreateAgentRuntimeEndpointCommand,
   CreateApiKeyCredentialProviderCommand,
   CreateBrowserCommand,
   CreateBrowserProfileCommand,
+  CreateCapacityProviderCommand,
   CreateCodeInterpreterCommand,
   CreateConfigurationBundleCommand,
+  CreateConsentPortalCommand,
   CreateDatasetCommand,
   CreateDatasetVersionCommand,
   CreateEvaluatorCommand,
   CreateGatewayCommand,
+  CreateGatewayRateLimitCommand,
   CreateGatewayRuleCommand,
   CreateGatewayTargetCommand,
   CreateHarnessCommand,
@@ -560,12 +625,15 @@ const commands = {
   DeleteApiKeyCredentialProviderCommand,
   DeleteBrowserCommand,
   DeleteBrowserProfileCommand,
+  DeleteCapacityProviderCommand,
   DeleteCodeInterpreterCommand,
   DeleteConfigurationBundleCommand,
+  DeleteConsentPortalCommand,
   DeleteDatasetCommand,
   DeleteDatasetExamplesCommand,
   DeleteEvaluatorCommand,
   DeleteGatewayCommand,
+  DeleteGatewayRateLimitCommand,
   DeleteGatewayRuleCommand,
   DeleteGatewayTargetCommand,
   DeleteHarnessCommand,
@@ -587,12 +655,15 @@ const commands = {
   GetApiKeyCredentialProviderCommand,
   GetBrowserCommand,
   GetBrowserProfileCommand,
+  GetCapacityProviderCommand,
   GetCodeInterpreterCommand,
   GetConfigurationBundleCommand,
   GetConfigurationBundleVersionCommand,
+  GetConsentPortalCommand,
   GetDatasetCommand,
   GetEvaluatorCommand,
   GetGatewayCommand,
+  GetGatewayRateLimitCommand,
   GetGatewayRuleCommand,
   GetGatewayTargetCommand,
   GetHarnessCommand,
@@ -616,17 +687,21 @@ const commands = {
   GetWorkloadIdentityCommand,
   ListAgentRuntimeEndpointsCommand,
   ListAgentRuntimeVersionsCommand,
+  ListAgentRuntimeVersionsByCapacityProviderCommand,
   ListAgentRuntimesCommand,
   ListApiKeyCredentialProvidersCommand,
   ListBrowserProfilesCommand,
   ListBrowsersCommand,
+  ListCapacityProvidersCommand,
   ListCodeInterpretersCommand,
   ListConfigurationBundleVersionsCommand,
   ListConfigurationBundlesCommand,
+  ListConsentPortalsCommand,
   ListDatasetExamplesCommand,
   ListDatasetVersionsCommand,
   ListDatasetsCommand,
   ListEvaluatorsCommand,
+  ListGatewayRateLimitsCommand,
   ListGatewayRulesCommand,
   ListGatewayTargetsCommand,
   ListGatewaysCommand,
@@ -651,6 +726,7 @@ const commands = {
   ListTagsForResourceCommand,
   ListWorkloadIdentitiesCommand,
   PutResourcePolicyCommand,
+  RotatePaymentConnectorCredentialsCommand,
   SetTokenVaultCMKCommand,
   StartPolicyGenerationCommand,
   SubmitRegistryRecordForApprovalCommand,
@@ -660,11 +736,14 @@ const commands = {
   UpdateAgentRuntimeCommand,
   UpdateAgentRuntimeEndpointCommand,
   UpdateApiKeyCredentialProviderCommand,
+  UpdateCapacityProviderCommand,
   UpdateConfigurationBundleCommand,
+  UpdateConsentPortalCommand,
   UpdateDatasetCommand,
   UpdateDatasetExamplesCommand,
   UpdateEvaluatorCommand,
   UpdateGatewayCommand,
+  UpdateGatewayRateLimitCommand,
   UpdateGatewayRuleCommand,
   UpdateGatewayTargetCommand,
   UpdateHarnessCommand,
@@ -686,17 +765,21 @@ const commands = {
 const paginators = {
   paginateListAgentRuntimeEndpoints,
   paginateListAgentRuntimeVersions,
+  paginateListAgentRuntimeVersionsByCapacityProvider,
   paginateListAgentRuntimes,
   paginateListApiKeyCredentialProviders,
   paginateListBrowserProfiles,
   paginateListBrowsers,
+  paginateListCapacityProviders,
   paginateListCodeInterpreters,
   paginateListConfigurationBundleVersions,
   paginateListConfigurationBundles,
+  paginateListConsentPortals,
   paginateListDatasetExamples,
   paginateListDatasetVersions,
   paginateListDatasets,
   paginateListEvaluators,
+  paginateListGatewayRateLimits,
   paginateListGatewayRules,
   paginateListGatewayTargets,
   paginateListGateways,
@@ -721,9 +804,11 @@ const paginators = {
   paginateListWorkloadIdentities,
 };
 
-interface BedrockAgentCoreControlService$ {
-  readonly _: unique symbol;
-
+/**
+ * @since 1.0.0
+ * @category models
+ */
+export interface BedrockAgentCoreControlService$ {
   /**
    * @see {@link AddDatasetExamplesCommand}
    */
@@ -732,7 +817,26 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AddDatasetExamplesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ServiceQuotaExceededError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link BatchPutGatewayRateLimitsCommand}
+   */
+  batchPutGatewayRateLimits(
+    args: BatchPutGatewayRateLimitsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    BatchPutGatewayRateLimitsCommandOutput,
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -751,7 +855,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateAgentRuntimeCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -769,7 +873,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateAgentRuntimeEndpointCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -788,7 +892,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateApiKeyCredentialProviderCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -811,7 +915,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateBrowserCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -829,11 +933,31 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateBrowserProfileCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
     | InternalServerError
+    | ServiceQuotaExceededError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link CreateCapacityProviderCommand}
+   */
+  createCapacityProvider(
+    args: CreateCapacityProviderCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateCapacityProviderCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | RetryableConflictError
     | ServiceQuotaExceededError
     | ThrottlingError
     | ValidationError
@@ -847,7 +971,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateCodeInterpreterCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -865,13 +989,33 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateConfigurationBundleCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
     | InternalServerError
     | ServiceQuotaExceededError
     | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link CreateConsentPortalCommand}
+   */
+  createConsentPortal(
+    args: CreateConsentPortalCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateConsentPortalCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ServiceQuotaExceededError
+    | ThrottlingError
+    | UnauthorizedError
     | ValidationError
   >;
 
@@ -883,7 +1027,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateDatasetCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -901,7 +1045,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateDatasetVersionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -920,7 +1064,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateEvaluatorCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -938,11 +1082,30 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateGatewayCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
     | InternalServerError
+    | ServiceQuotaExceededError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link CreateGatewayRateLimitCommand}
+   */
+  createGatewayRateLimit(
+    args: CreateGatewayRateLimitCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateGatewayRateLimitCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
     | ServiceQuotaExceededError
     | ThrottlingError
     | ValidationError
@@ -956,7 +1119,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateGatewayRuleCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -975,7 +1138,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateGatewayTargetCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -994,7 +1157,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateHarnessCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1012,7 +1175,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateHarnessEndpointCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1031,7 +1194,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateMemoryCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1050,7 +1213,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateOauth2CredentialProviderCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1073,7 +1236,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateOnlineEvaluationConfigCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1091,13 +1254,14 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreatePaymentConnectorCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
     | InternalServerError
     | ResourceNotFoundError
     | ServiceQuotaExceededError
+    | SubscriptionRequiredError
     | ThrottlingError
     | ValidationError
   >;
@@ -1110,7 +1274,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreatePaymentCredentialProviderCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1133,7 +1297,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreatePaymentManagerCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1151,7 +1315,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreatePolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1170,7 +1334,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreatePolicyEngineCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1188,7 +1352,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateRegistryCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1206,7 +1370,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateRegistryRecordCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1225,7 +1389,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateWorkloadIdentityCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1243,7 +1407,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteAgentRuntimeCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1260,7 +1424,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteAgentRuntimeEndpointCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1277,7 +1441,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteApiKeyCredentialProviderCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1295,7 +1459,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteBrowserCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1314,12 +1478,31 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteBrowserProfileCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
     | InternalServerError
     | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link DeleteCapacityProviderCommand}
+   */
+  deleteCapacityProvider(
+    args: DeleteCapacityProviderCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteCapacityProviderCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | RetryableConflictError
     | ThrottlingError
     | ValidationError
   >;
@@ -1332,7 +1515,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteCodeInterpreterCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1351,13 +1534,32 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteConfigurationBundleCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
     | InternalServerError
     | ResourceNotFoundError
     | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link DeleteConsentPortalCommand}
+   */
+  deleteConsentPortal(
+    args: DeleteConsentPortalCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteConsentPortalCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | UnauthorizedError
     | ValidationError
   >;
 
@@ -1369,7 +1571,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDatasetCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1387,7 +1589,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDatasetExamplesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1405,7 +1607,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteEvaluatorCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1423,7 +1625,25 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteGatewayCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link DeleteGatewayRateLimitCommand}
+   */
+  deleteGatewayRateLimit(
+    args: DeleteGatewayRateLimitCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteGatewayRateLimitCommandOutput,
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1441,7 +1661,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteGatewayRuleCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1459,7 +1679,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteGatewayTargetCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1477,7 +1697,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteHarnessCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1495,7 +1715,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteHarnessEndpointCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1513,7 +1733,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteMemoryCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1531,7 +1751,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteOauth2CredentialProviderCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1550,7 +1770,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteOnlineEvaluationConfigCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1568,7 +1788,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeletePaymentConnectorCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1585,7 +1805,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeletePaymentCredentialProviderCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1603,7 +1823,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeletePaymentManagerCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1620,7 +1840,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeletePolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1638,7 +1858,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeletePolicyEngineCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1656,7 +1876,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteRegistryCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1674,7 +1894,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteRegistryRecordCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1692,7 +1912,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteResourcePolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1709,7 +1929,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteWorkloadIdentityCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1727,7 +1947,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAgentRuntimeCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1744,7 +1964,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAgentRuntimeEndpointCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1761,7 +1981,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetApiKeyCredentialProviderCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | DecryptionError
@@ -1780,7 +2000,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetBrowserCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1797,7 +2017,24 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetBrowserProfileCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link GetCapacityProviderCommand}
+   */
+  getCapacityProvider(
+    args: GetCapacityProviderCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetCapacityProviderCommandOutput,
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1814,7 +2051,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetCodeInterpreterCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1831,7 +2068,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetConfigurationBundleCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1848,12 +2085,30 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetConfigurationBundleVersionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
     | ResourceNotFoundError
     | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link GetConsentPortalCommand}
+   */
+  getConsentPortal(
+    args: GetConsentPortalCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetConsentPortalCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | UnauthorizedError
     | ValidationError
   >;
 
@@ -1865,7 +2120,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDatasetCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1883,7 +2138,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetEvaluatorCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1900,7 +2155,24 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetGatewayCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link GetGatewayRateLimitCommand}
+   */
+  getGatewayRateLimit(
+    args: GetGatewayRateLimitCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetGatewayRateLimitCommandOutput,
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1917,7 +2189,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetGatewayRuleCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1934,7 +2206,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetGatewayTargetCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1951,7 +2223,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetHarnessCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1968,7 +2240,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetHarnessEndpointCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1985,7 +2257,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetMemoryCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ResourceNotFoundError
@@ -2002,7 +2274,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetOauth2CredentialProviderCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | DecryptionError
@@ -2021,7 +2293,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetOnlineEvaluationConfigCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -2038,7 +2310,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPaymentConnectorCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -2055,7 +2327,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPaymentCredentialProviderCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | DecryptionError
@@ -2074,7 +2346,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPaymentManagerCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -2091,7 +2363,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -2108,7 +2380,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPolicyEngineCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -2125,7 +2397,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPolicyEngineSummaryCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -2142,7 +2414,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPolicyGenerationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -2159,7 +2431,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPolicyGenerationSummaryCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -2176,7 +2448,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPolicySummaryCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -2193,7 +2465,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetRegistryCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -2210,7 +2482,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetRegistryRecordCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -2228,7 +2500,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetResourcePolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -2245,7 +2517,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetTokenVaultCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -2263,7 +2535,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetWorkloadIdentityCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -2281,7 +2553,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAgentRuntimeEndpointsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   listAgentRuntimeEndpointsStream(
@@ -2289,7 +2561,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListAgentRuntimeEndpointsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -2300,7 +2572,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAgentRuntimeVersionsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -2314,13 +2586,32 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListAgentRuntimeVersionsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
     | ResourceNotFoundError
     | ThrottlingError
     | ValidationError
+  >;
+
+  /**
+   * @see {@link ListAgentRuntimeVersionsByCapacityProviderCommand}
+   */
+  listAgentRuntimeVersionsByCapacityProvider(
+    args: ListAgentRuntimeVersionsByCapacityProviderCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListAgentRuntimeVersionsByCapacityProviderCommandOutput,
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+  >;
+
+  listAgentRuntimeVersionsByCapacityProviderStream(
+    args: ListAgentRuntimeVersionsByCapacityProviderCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListAgentRuntimeVersionsByCapacityProviderCommandOutput,
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -2331,7 +2622,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAgentRuntimesCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   listAgentRuntimesStream(
@@ -2339,7 +2630,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListAgentRuntimesCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -2350,7 +2641,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListApiKeyCredentialProvidersCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -2365,7 +2656,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListApiKeyCredentialProvidersCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -2383,7 +2674,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListBrowserProfilesCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   listBrowserProfilesStream(
@@ -2391,7 +2682,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListBrowserProfilesCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -2402,7 +2693,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListBrowsersCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   listBrowsersStream(
@@ -2410,7 +2701,26 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListBrowsersCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+  >;
+
+  /**
+   * @see {@link ListCapacityProvidersCommand}
+   */
+  listCapacityProviders(
+    args: ListCapacityProvidersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListCapacityProvidersCommandOutput,
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+  >;
+
+  listCapacityProvidersStream(
+    args: ListCapacityProvidersCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListCapacityProvidersCommandOutput,
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -2421,7 +2731,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListCodeInterpretersCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   listCodeInterpretersStream(
@@ -2429,7 +2739,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListCodeInterpretersCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -2440,7 +2750,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListConfigurationBundleVersionsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -2454,7 +2764,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListConfigurationBundleVersionsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -2471,7 +2781,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListConfigurationBundlesCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   listConfigurationBundlesStream(
@@ -2479,7 +2789,38 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListConfigurationBundlesCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+  >;
+
+  /**
+   * @see {@link ListConsentPortalsCommand}
+   */
+  listConsentPortals(
+    args: ListConsentPortalsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListConsentPortalsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ThrottlingError
+    | UnauthorizedError
+    | ValidationError
+  >;
+
+  listConsentPortalsStream(
+    args: ListConsentPortalsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListConsentPortalsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ThrottlingError
+    | UnauthorizedError
+    | ValidationError
   >;
 
   /**
@@ -2490,7 +2831,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDatasetExamplesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -2505,7 +2846,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListDatasetExamplesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -2523,7 +2864,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDatasetVersionsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -2537,7 +2878,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListDatasetVersionsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -2554,7 +2895,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDatasetsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   listDatasetsStream(
@@ -2562,7 +2903,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListDatasetsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -2573,7 +2914,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListEvaluatorsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   listEvaluatorsStream(
@@ -2581,7 +2922,38 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListEvaluatorsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+  >;
+
+  /**
+   * @see {@link ListGatewayRateLimitsCommand}
+   */
+  listGatewayRateLimits(
+    args: ListGatewayRateLimitsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListGatewayRateLimitsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  listGatewayRateLimitsStream(
+    args: ListGatewayRateLimitsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListGatewayRateLimitsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
   >;
 
   /**
@@ -2592,7 +2964,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListGatewayRulesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -2606,7 +2978,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListGatewayRulesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -2623,7 +2995,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListGatewayTargetsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -2637,7 +3009,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListGatewayTargetsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -2654,7 +3026,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListGatewaysCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   listGatewaysStream(
@@ -2662,7 +3034,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListGatewaysCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -2673,7 +3045,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListHarnessEndpointsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -2687,7 +3059,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListHarnessEndpointsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -2704,7 +3076,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListHarnessVersionsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -2718,7 +3090,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListHarnessVersionsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -2735,7 +3107,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListHarnessesCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   listHarnessesStream(
@@ -2743,7 +3115,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListHarnessesCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -2754,7 +3126,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListMemoriesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ResourceNotFoundError
@@ -2768,7 +3140,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListMemoriesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ResourceNotFoundError
@@ -2785,7 +3157,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListOauth2CredentialProvidersCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -2800,7 +3172,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListOauth2CredentialProvidersCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -2818,7 +3190,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListOnlineEvaluationConfigsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   listOnlineEvaluationConfigsStream(
@@ -2826,7 +3198,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListOnlineEvaluationConfigsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -2837,7 +3209,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListPaymentConnectorsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   listPaymentConnectorsStream(
@@ -2845,7 +3217,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListPaymentConnectorsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -2856,7 +3228,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListPaymentCredentialProvidersCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -2871,7 +3243,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListPaymentCredentialProvidersCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -2889,7 +3261,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListPaymentManagersCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   listPaymentManagersStream(
@@ -2897,7 +3269,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListPaymentManagersCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -2908,7 +3280,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListPoliciesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -2922,7 +3294,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListPoliciesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -2939,7 +3311,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListPolicyEngineSummariesCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   listPolicyEngineSummariesStream(
@@ -2947,7 +3319,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListPolicyEngineSummariesCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -2958,7 +3330,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListPolicyEnginesCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   listPolicyEnginesStream(
@@ -2966,7 +3338,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListPolicyEnginesCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -2977,7 +3349,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListPolicyGenerationAssetsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -2991,7 +3363,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListPolicyGenerationAssetsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -3008,7 +3380,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListPolicyGenerationSummariesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -3022,7 +3394,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListPolicyGenerationSummariesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -3039,7 +3411,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListPolicyGenerationsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -3053,7 +3425,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListPolicyGenerationsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -3070,7 +3442,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListPolicySummariesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -3084,7 +3456,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListPolicySummariesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -3101,7 +3473,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListRegistriesCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   listRegistriesStream(
@@ -3109,7 +3481,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListRegistriesCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -3120,7 +3492,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListRegistryRecordsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -3135,7 +3507,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListRegistryRecordsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -3153,7 +3525,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsForResourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -3170,7 +3542,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListWorkloadIdentitiesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -3185,7 +3557,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListWorkloadIdentitiesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -3203,9 +3575,27 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutResourcePolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link RotatePaymentConnectorCredentialsCommand}
+   */
+  rotatePaymentConnectorCredentials(
+    args: RotatePaymentConnectorCredentialsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    RotatePaymentConnectorCredentialsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
     | InternalServerError
     | ResourceNotFoundError
     | ThrottlingError
@@ -3220,7 +3610,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SetTokenVaultCMKCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConcurrentModificationError
@@ -3239,7 +3629,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartPolicyGenerationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -3258,7 +3648,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SubmitRegistryRecordForApprovalCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -3276,7 +3666,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SynchronizeGatewayTargetsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -3295,7 +3685,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagResourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -3313,7 +3703,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -3330,7 +3720,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateAgentRuntimeCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -3349,7 +3739,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateAgentRuntimeEndpointCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -3368,7 +3758,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateApiKeyCredentialProviderCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -3383,6 +3773,25 @@ interface BedrockAgentCoreControlService$ {
   >;
 
   /**
+   * @see {@link UpdateCapacityProviderCommand}
+   */
+  updateCapacityProvider(
+    args: UpdateCapacityProviderCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateCapacityProviderCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | RetryableConflictError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
    * @see {@link UpdateConfigurationBundleCommand}
    */
   updateConfigurationBundle(
@@ -3390,13 +3799,32 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateConfigurationBundleCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
     | InternalServerError
     | ResourceNotFoundError
     | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link UpdateConsentPortalCommand}
+   */
+  updateConsentPortal(
+    args: UpdateConsentPortalCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateConsentPortalCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | UnauthorizedError
     | ValidationError
   >;
 
@@ -3408,7 +3836,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateDatasetCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -3426,7 +3854,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateDatasetExamplesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -3445,7 +3873,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateEvaluatorCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -3464,13 +3892,31 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateGatewayCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
     | InternalServerError
     | ResourceNotFoundError
     | ServiceQuotaExceededError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link UpdateGatewayRateLimitCommand}
+   */
+  updateGatewayRateLimit(
+    args: UpdateGatewayRateLimitCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateGatewayRateLimitCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
     | ThrottlingError
     | ValidationError
   >;
@@ -3483,7 +3929,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateGatewayRuleCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -3501,7 +3947,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateGatewayTargetCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -3520,12 +3966,13 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateHarnessCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
     | InternalServerError
     | ResourceNotFoundError
+    | ServiceQuotaExceededError
     | ThrottlingError
     | ValidationError
   >;
@@ -3538,7 +3985,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateHarnessEndpointCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -3557,7 +4004,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateMemoryCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -3576,7 +4023,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateOauth2CredentialProviderCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -3598,7 +4045,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateOnlineEvaluationConfigCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -3617,13 +4064,14 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdatePaymentConnectorCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
     | InternalServerError
     | ResourceNotFoundError
     | ServiceQuotaExceededError
+    | SubscriptionRequiredError
     | ThrottlingError
     | ValidationError
   >;
@@ -3636,7 +4084,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdatePaymentCredentialProviderCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -3658,7 +4106,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdatePaymentManagerCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -3677,7 +4125,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdatePolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -3696,7 +4144,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdatePolicyEngineCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -3714,7 +4162,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateRegistryCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -3733,7 +4181,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateRegistryRecordCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -3751,7 +4199,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateRegistryRecordStatusCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -3769,7 +4217,7 @@ interface BedrockAgentCoreControlService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateWorkloadIdentityCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -3802,12 +4250,10 @@ export const makeBedrockAgentCoreControlService = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class BedrockAgentCoreControlService
-  extends Effect.Tag("@effect-aws/client-bedrock-agentcore-control/BedrockAgentCoreControlService")<
-    BedrockAgentCoreControlService,
-    BedrockAgentCoreControlService$
-  >()
-{
+export class BedrockAgentCoreControlService extends Context.Service<
+  BedrockAgentCoreControlService,
+  BedrockAgentCoreControlService$
+>()("@effect-aws/client-bedrock-agentcore-control/BedrockAgentCoreControlService") {
   static readonly defaultLayer = Layer.effect(this, makeBedrockAgentCoreControlService).pipe(
     Layer.provide(Instance.layer),
   );

@@ -86,6 +86,7 @@ import * as Service from "@effect-aws/commons/Service";
 import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
 import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import type * as Stream from "effect/Stream";
@@ -147,9 +148,11 @@ const paginators = {
   paginateListAdapters,
 };
 
-interface TextractService$ {
-  readonly _: unique symbol;
-
+/**
+ * @since 1.0.0
+ * @category models
+ */
+export interface TextractService$ {
   /**
    * @see {@link AnalyzeDocumentCommand}
    */
@@ -158,7 +161,7 @@ interface TextractService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AnalyzeDocumentCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | BadDocumentError
@@ -180,7 +183,7 @@ interface TextractService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AnalyzeExpenseCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | BadDocumentError
@@ -201,7 +204,7 @@ interface TextractService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AnalyzeIDCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | BadDocumentError
@@ -222,7 +225,7 @@ interface TextractService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateAdapterCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -244,7 +247,7 @@ interface TextractService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateAdapterVersionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -269,7 +272,7 @@ interface TextractService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteAdapterCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -289,7 +292,7 @@ interface TextractService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteAdapterVersionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -309,7 +312,7 @@ interface TextractService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DetectDocumentTextCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | BadDocumentError
@@ -330,7 +333,7 @@ interface TextractService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAdapterCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -349,7 +352,7 @@ interface TextractService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAdapterVersionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -368,7 +371,7 @@ interface TextractService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDocumentAnalysisCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -388,7 +391,7 @@ interface TextractService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDocumentTextDetectionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -408,7 +411,7 @@ interface TextractService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetExpenseAnalysisCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -428,7 +431,7 @@ interface TextractService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetLendingAnalysisCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -448,7 +451,7 @@ interface TextractService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetLendingAnalysisSummaryCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -468,7 +471,7 @@ interface TextractService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAdapterVersionsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -484,7 +487,7 @@ interface TextractService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListAdapterVersionsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -503,7 +506,7 @@ interface TextractService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAdaptersCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -518,7 +521,7 @@ interface TextractService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListAdaptersCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -536,7 +539,7 @@ interface TextractService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsForResourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -555,7 +558,7 @@ interface TextractService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartDocumentAnalysisCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | BadDocumentError
@@ -579,7 +582,7 @@ interface TextractService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartDocumentTextDetectionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | BadDocumentError
@@ -603,7 +606,7 @@ interface TextractService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartExpenseAnalysisCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | BadDocumentError
@@ -627,7 +630,7 @@ interface TextractService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartLendingAnalysisCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | BadDocumentError
@@ -651,7 +654,7 @@ interface TextractService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagResourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -671,7 +674,7 @@ interface TextractService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -690,7 +693,7 @@ interface TextractService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateAdapterCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -725,10 +728,10 @@ export const makeTextractService = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class TextractService extends Effect.Tag("@effect-aws/client-textract/TextractService")<
+export class TextractService extends Context.Service<
   TextractService,
   TextractService$
->() {
+>()("@effect-aws/client-textract/TextractService") {
   static readonly defaultLayer = Layer.effect(this, makeTextractService).pipe(Layer.provide(Instance.layer));
   static readonly layer = (config: TextractService.Config) =>
     Layer.effect(this, makeTextractService).pipe(

@@ -11,9 +11,9 @@ import * as IoTWirelessServiceConfig from "./IoTWirelessServiceConfig.js";
  * @since 1.0.0
  * @category tags
  */
-export class IoTWirelessClientInstance extends Context.Tag(
+export class IoTWirelessClientInstance extends Context.Service<IoTWirelessClientInstance, IoTWirelessClient>()(
   "@effect-aws/client-iot-wireless/IoTWirelessClientInstance",
-)<IoTWirelessClientInstance, IoTWirelessClient>() {}
+) {}
 
 /**
  * @since 1.0.0
@@ -32,4 +32,4 @@ export const make = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const layer = Layer.scoped(IoTWirelessClientInstance, make);
+export const layer = Layer.effect(IoTWirelessClientInstance, make);

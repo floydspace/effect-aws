@@ -3,10 +3,9 @@
  */
 import type { KinesisClientConfig } from "@aws-sdk/client-kinesis";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
-import * as FiberRef from "effect/FiberRef";
 import { dual } from "effect/Function";
-import { globalValue } from "effect/GlobalValue";
 import * as Layer from "effect/Layer";
 import type { KinesisService } from "./KinesisService.js";
 
@@ -14,9 +13,9 @@ import type { KinesisService } from "./KinesisService.js";
  * @since 1.0.0
  * @category kinesis service config
  */
-const currentKinesisServiceConfig = globalValue(
+const currentKinesisServiceConfig = Context.Reference<KinesisService.Config>(
   "@effect-aws/client-kinesis/currentKinesisServiceConfig",
-  () => FiberRef.unsafeMake<KinesisService.Config>({}),
+  { defaultValue: () => ({}) },
 );
 
 /**
@@ -29,7 +28,7 @@ export const withKinesisServiceConfig: {
 } = dual(
   2,
   <A, E, R>(effect: Effect.Effect<A, E, R>, config: KinesisService.Config): Effect.Effect<A, E, R> =>
-    Effect.locally(effect, currentKinesisServiceConfig, config),
+    Effect.provideService(effect, currentKinesisServiceConfig, config),
 );
 
 /**
@@ -37,14 +36,14 @@ export const withKinesisServiceConfig: {
  * @category kinesis service config
  */
 export const setKinesisServiceConfig = (config: KinesisService.Config) =>
-  Layer.locallyScoped(currentKinesisServiceConfig, config);
+  Layer.succeed(currentKinesisServiceConfig, config);
 
 /**
  * @since 1.0.0
  * @category adapters
  */
 export const toKinesisClientConfig: Effect.Effect<KinesisClientConfig> = Effect.gen(function*() {
-  const { logger: serviceLogger, ...config } = yield* FiberRef.get(currentKinesisServiceConfig);
+  const { logger: serviceLogger, ...config } = yield* currentKinesisServiceConfig;
 
   const logger = serviceLogger === true
     ? yield* ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger)

@@ -3,10 +3,9 @@
  */
 import type { SSMClientConfig } from "@aws-sdk/client-ssm";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
-import * as FiberRef from "effect/FiberRef";
 import { dual } from "effect/Function";
-import { globalValue } from "effect/GlobalValue";
 import * as Layer from "effect/Layer";
 import type { SSMService } from "./SSMService.js";
 
@@ -14,9 +13,9 @@ import type { SSMService } from "./SSMService.js";
  * @since 1.0.0
  * @category ssm service config
  */
-const currentSSMServiceConfig = globalValue(
+const currentSSMServiceConfig = Context.Reference<SSMService.Config>(
   "@effect-aws/client-ssm/currentSSMServiceConfig",
-  () => FiberRef.unsafeMake<SSMService.Config>({}),
+  { defaultValue: () => ({}) },
 );
 
 /**
@@ -29,21 +28,21 @@ export const withSSMServiceConfig: {
 } = dual(
   2,
   <A, E, R>(effect: Effect.Effect<A, E, R>, config: SSMService.Config): Effect.Effect<A, E, R> =>
-    Effect.locally(effect, currentSSMServiceConfig, config),
+    Effect.provideService(effect, currentSSMServiceConfig, config),
 );
 
 /**
  * @since 1.0.0
  * @category ssm service config
  */
-export const setSSMServiceConfig = (config: SSMService.Config) => Layer.locallyScoped(currentSSMServiceConfig, config);
+export const setSSMServiceConfig = (config: SSMService.Config) => Layer.succeed(currentSSMServiceConfig, config);
 
 /**
  * @since 1.0.0
  * @category adapters
  */
 export const toSSMClientConfig: Effect.Effect<SSMClientConfig> = Effect.gen(function*() {
-  const { logger: serviceLogger, ...config } = yield* FiberRef.get(currentSSMServiceConfig);
+  const { logger: serviceLogger, ...config } = yield* currentSSMServiceConfig;
 
   const logger = serviceLogger === true
     ? yield* ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger)

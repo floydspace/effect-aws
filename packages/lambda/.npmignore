@@ -16,5 +16,4 @@ tsconfig.tsbuildinfo
 /tsconfig.dev.json
 /tsconfig.examples.json
 /tsconfig.esm.json
-/tsconfig.cjs.json
 /.gitattributes

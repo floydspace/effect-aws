@@ -3,10 +3,9 @@
  */
 import type { OrganizationsClientConfig } from "@aws-sdk/client-organizations";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
-import * as FiberRef from "effect/FiberRef";
 import { dual } from "effect/Function";
-import { globalValue } from "effect/GlobalValue";
 import * as Layer from "effect/Layer";
 import type { OrganizationsService } from "./OrganizationsService.js";
 
@@ -14,9 +13,9 @@ import type { OrganizationsService } from "./OrganizationsService.js";
  * @since 1.0.0
  * @category organizations service config
  */
-const currentOrganizationsServiceConfig = globalValue(
+const currentOrganizationsServiceConfig = Context.Reference<OrganizationsService.Config>(
   "@effect-aws/client-organizations/currentOrganizationsServiceConfig",
-  () => FiberRef.unsafeMake<OrganizationsService.Config>({}),
+  { defaultValue: () => ({}) },
 );
 
 /**
@@ -29,7 +28,7 @@ export const withOrganizationsServiceConfig: {
 } = dual(
   2,
   <A, E, R>(effect: Effect.Effect<A, E, R>, config: OrganizationsService.Config): Effect.Effect<A, E, R> =>
-    Effect.locally(effect, currentOrganizationsServiceConfig, config),
+    Effect.provideService(effect, currentOrganizationsServiceConfig, config),
 );
 
 /**
@@ -37,14 +36,14 @@ export const withOrganizationsServiceConfig: {
  * @category organizations service config
  */
 export const setOrganizationsServiceConfig = (config: OrganizationsService.Config) =>
-  Layer.locallyScoped(currentOrganizationsServiceConfig, config);
+  Layer.succeed(currentOrganizationsServiceConfig, config);
 
 /**
  * @since 1.0.0
  * @category adapters
  */
 export const toOrganizationsClientConfig: Effect.Effect<OrganizationsClientConfig> = Effect.gen(function*() {
-  const { logger: serviceLogger, ...config } = yield* FiberRef.get(currentOrganizationsServiceConfig);
+  const { logger: serviceLogger, ...config } = yield* currentOrganizationsServiceConfig;
 
   const logger = serviceLogger === true
     ? yield* ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger)

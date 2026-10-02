@@ -42,6 +42,7 @@ import * as Service from "@effect-aws/commons/Service";
 import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
 import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import type {
@@ -77,9 +78,11 @@ const commands = {
   GetWebIdentityTokenCommand,
 };
 
-interface STSService$ {
-  readonly _: unique symbol;
-
+/**
+ * @since 1.0.0
+ * @category models
+ */
+export interface STSService$ {
   /**
    * @see {@link AssumeRoleCommand}
    */
@@ -88,7 +91,7 @@ interface STSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AssumeRoleCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ExpiredTokenError
     | MalformedPolicyDocumentError
@@ -104,7 +107,7 @@ interface STSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AssumeRoleWithSAMLCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ExpiredTokenError
     | IDPRejectedClaimError
@@ -122,7 +125,7 @@ interface STSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AssumeRoleWithWebIdentityCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ExpiredTokenError
     | IDPCommunicationError
@@ -141,7 +144,7 @@ interface STSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AssumeRootCommandOutput,
-    Cause.TimeoutException | SdkError | ExpiredTokenError | RegionDisabledError
+    Cause.TimeoutError | SdkError | ExpiredTokenError | RegionDisabledError
   >;
 
   /**
@@ -152,7 +155,7 @@ interface STSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DecodeAuthorizationMessageCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidAuthorizationMessageError
+    Cause.TimeoutError | SdkError | InvalidAuthorizationMessageError
   >;
 
   /**
@@ -163,7 +166,7 @@ interface STSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAccessKeyInfoCommandOutput,
-    Cause.TimeoutException | SdkError
+    Cause.TimeoutError | SdkError
   >;
 
   /**
@@ -174,7 +177,7 @@ interface STSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetCallerIdentityCommandOutput,
-    Cause.TimeoutException | SdkError
+    Cause.TimeoutError | SdkError
   >;
 
   /**
@@ -185,7 +188,7 @@ interface STSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDelegatedAccessTokenCommandOutput,
-    Cause.TimeoutException | SdkError | ExpiredTradeInTokenError | PackedPolicyTooLargeError | RegionDisabledError
+    Cause.TimeoutError | SdkError | ExpiredTradeInTokenError | PackedPolicyTooLargeError | RegionDisabledError
   >;
 
   /**
@@ -196,7 +199,7 @@ interface STSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetFederationTokenCommandOutput,
-    Cause.TimeoutException | SdkError | MalformedPolicyDocumentError | PackedPolicyTooLargeError | RegionDisabledError
+    Cause.TimeoutError | SdkError | MalformedPolicyDocumentError | PackedPolicyTooLargeError | RegionDisabledError
   >;
 
   /**
@@ -207,7 +210,7 @@ interface STSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetSessionTokenCommandOutput,
-    Cause.TimeoutException | SdkError | RegionDisabledError
+    Cause.TimeoutError | SdkError | RegionDisabledError
   >;
 
   /**
@@ -218,7 +221,7 @@ interface STSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetWebIdentityTokenCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | JWTPayloadSizeExceededError
     | OutboundWebIdentityFederationDisabledError
@@ -247,10 +250,10 @@ export const makeSTSService = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class STSService extends Effect.Tag("@effect-aws/client-sts/STSService")<
+export class STSService extends Context.Service<
   STSService,
   STSService$
->() {
+>()("@effect-aws/client-sts/STSService") {
   static readonly defaultLayer = Layer.effect(this, makeSTSService).pipe(Layer.provide(Instance.layer));
   static readonly layer = (config: STSService.Config) =>
     Layer.effect(this, makeSTSService).pipe(

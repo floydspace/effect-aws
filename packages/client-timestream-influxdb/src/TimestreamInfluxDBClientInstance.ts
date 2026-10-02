@@ -11,9 +11,11 @@ import * as TimestreamInfluxDBServiceConfig from "./TimestreamInfluxDBServiceCon
  * @since 1.0.0
  * @category tags
  */
-export class TimestreamInfluxDBClientInstance extends Context.Tag(
-  "@effect-aws/client-timestream-influxdb/TimestreamInfluxDBClientInstance",
-)<TimestreamInfluxDBClientInstance, TimestreamInfluxDBClient>() {}
+export class TimestreamInfluxDBClientInstance
+  extends Context.Service<TimestreamInfluxDBClientInstance, TimestreamInfluxDBClient>()(
+    "@effect-aws/client-timestream-influxdb/TimestreamInfluxDBClientInstance",
+  )
+{}
 
 /**
  * @since 1.0.0
@@ -32,4 +34,4 @@ export const make = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const layer = Layer.scoped(TimestreamInfluxDBClientInstance, make);
+export const layer = Layer.effect(TimestreamInfluxDBClientInstance, make);

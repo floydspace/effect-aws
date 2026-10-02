@@ -152,6 +152,11 @@ export default {
     commandToTest: "ListClusters",
     inputToTest: null,
   },
+  "client-elastic-load-balancing-v2": {
+    description: "Effectful AWS Elastic Load Balancing v2 client",
+    commandToTest: "DescribeLoadBalancers",
+    inputToTest: null,
+  },
   "client-elasticache": {
     description: "Effectful AWS ElastiCache client",
     commandToTest: "ListTagsForResource",
@@ -245,6 +250,11 @@ export default {
   "client-rds": {
     description: "Effectful AWS RDS client",
     commandToTest: "DescribeDBClusters",
+    inputToTest: null,
+  },
+  "client-resource-groups-tagging-api": {
+    description: "Effectful AWS Resource Groups Tagging API client",
+    commandToTest: "GetResources",
     inputToTest: null,
   },
   "client-s3": {

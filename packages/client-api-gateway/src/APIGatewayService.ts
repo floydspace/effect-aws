@@ -393,6 +393,7 @@ import * as Service from "@effect-aws/commons/Service";
 import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
 import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import type * as Stream from "effect/Stream";
@@ -552,9 +553,11 @@ const paginators = {
   paginateGetVpcLinks,
 };
 
-interface APIGatewayService$ {
-  readonly _: unique symbol;
-
+/**
+ * @since 1.0.0
+ * @category models
+ */
+export interface APIGatewayService$ {
   /**
    * @see {@link CreateApiKeyCommand}
    */
@@ -563,7 +566,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateApiKeyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -581,7 +584,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateAuthorizerCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -599,7 +602,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateBasePathMappingCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -617,7 +620,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateDeploymentCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -636,7 +639,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateDocumentationPartCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -654,7 +657,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateDocumentationVersionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -672,7 +675,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateDomainNameCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -689,7 +692,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateDomainNameAccessAssociationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -706,7 +709,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateModelCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -724,7 +727,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateRequestValidatorCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -742,7 +745,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateResourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -760,7 +763,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateRestApiCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -777,7 +780,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateStageCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -795,7 +798,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateUsagePlanCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -813,7 +816,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateUsagePlanKeyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -831,7 +834,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateVpcLinkCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -848,7 +851,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteApiKeyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -865,7 +868,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteAuthorizerCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -882,7 +885,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteBasePathMappingCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -899,7 +902,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteClientCertificateCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -916,7 +919,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDeploymentCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -934,7 +937,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDocumentationPartCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -951,7 +954,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDocumentationVersionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -968,7 +971,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDomainNameCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -985,7 +988,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDomainNameAccessAssociationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -1002,7 +1005,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteGatewayResponseCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -1019,7 +1022,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteIntegrationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -1036,7 +1039,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteIntegrationResponseCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -1053,7 +1056,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteMethodCommandOutput,
-    Cause.TimeoutException | SdkError | ConflictError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | ConflictError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   /**
@@ -1064,7 +1067,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteMethodResponseCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -1081,7 +1084,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteModelCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -1098,7 +1101,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteRequestValidatorCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -1115,7 +1118,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteResourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -1132,7 +1135,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteRestApiCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -1149,7 +1152,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteStageCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -1167,7 +1170,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteUsagePlanCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -1184,7 +1187,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteUsagePlanKeyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -1201,7 +1204,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteVpcLinkCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -1218,7 +1221,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     FlushStageAuthorizersCacheCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -1236,7 +1239,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     FlushStageCacheCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -1254,7 +1257,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GenerateClientCertificateCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -1271,7 +1274,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAccountCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   /**
@@ -1282,7 +1285,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetApiKeyCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   /**
@@ -1293,7 +1296,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetApiKeysCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   getApiKeysStream(
@@ -1301,7 +1304,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     GetApiKeysCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   /**
@@ -1312,7 +1315,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAuthorizerCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   /**
@@ -1323,7 +1326,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAuthorizersCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   /**
@@ -1334,7 +1337,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetBasePathMappingCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   /**
@@ -1345,7 +1348,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetBasePathMappingsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   getBasePathMappingsStream(
@@ -1353,7 +1356,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     GetBasePathMappingsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   /**
@@ -1364,7 +1367,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetClientCertificateCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   /**
@@ -1375,7 +1378,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetClientCertificatesCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   getClientCertificatesStream(
@@ -1383,7 +1386,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     GetClientCertificatesCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   /**
@@ -1394,7 +1397,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDeploymentCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | NotFoundError
@@ -1411,7 +1414,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDeploymentsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | NotFoundError
@@ -1425,7 +1428,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     GetDeploymentsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | NotFoundError
@@ -1442,7 +1445,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDocumentationPartCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   /**
@@ -1453,7 +1456,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDocumentationPartsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   /**
@@ -1464,7 +1467,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDocumentationVersionCommandOutput,
-    Cause.TimeoutException | SdkError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   /**
@@ -1475,7 +1478,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDocumentationVersionsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   /**
@@ -1486,7 +1489,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDomainNameCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   /**
@@ -1497,7 +1500,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDomainNameAccessAssociationsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   /**
@@ -1508,7 +1511,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDomainNamesCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   getDomainNamesStream(
@@ -1516,7 +1519,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     GetDomainNamesCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   /**
@@ -1527,7 +1530,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetExportCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -1545,7 +1548,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetGatewayResponseCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   /**
@@ -1556,7 +1559,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetGatewayResponsesCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   /**
@@ -1567,7 +1570,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetIntegrationCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   /**
@@ -1578,7 +1581,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetIntegrationResponseCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   /**
@@ -1589,7 +1592,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetMethodCommandOutput,
-    Cause.TimeoutException | SdkError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   /**
@@ -1600,7 +1603,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetMethodResponseCommandOutput,
-    Cause.TimeoutException | SdkError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   /**
@@ -1611,7 +1614,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetModelCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   /**
@@ -1622,7 +1625,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetModelTemplateCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   /**
@@ -1633,7 +1636,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetModelsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   getModelsStream(
@@ -1641,7 +1644,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     GetModelsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   /**
@@ -1652,7 +1655,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetRequestValidatorCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   /**
@@ -1663,7 +1666,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetRequestValidatorsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   /**
@@ -1674,7 +1677,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetResourceCommandOutput,
-    Cause.TimeoutException | SdkError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   /**
@@ -1685,7 +1688,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetResourcesCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   getResourcesStream(
@@ -1693,7 +1696,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     GetResourcesCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   /**
@@ -1704,7 +1707,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetRestApiCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   /**
@@ -1715,7 +1718,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetRestApisCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   getRestApisStream(
@@ -1723,7 +1726,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     GetRestApisCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   /**
@@ -1734,7 +1737,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetSdkCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -1752,7 +1755,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetSdkTypeCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   /**
@@ -1763,7 +1766,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetSdkTypesCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   /**
@@ -1774,7 +1777,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetStageCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -1792,7 +1795,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetStagesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -1810,7 +1813,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetTagsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   /**
@@ -1821,7 +1824,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetUsageCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   getUsageStream(
@@ -1829,7 +1832,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     GetUsageCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   /**
@@ -1840,7 +1843,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetUsagePlanCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   /**
@@ -1851,7 +1854,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetUsagePlanKeyCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   /**
@@ -1862,7 +1865,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetUsagePlanKeysCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   getUsagePlanKeysStream(
@@ -1870,7 +1873,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     GetUsagePlanKeysCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   /**
@@ -1881,7 +1884,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetUsagePlansCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   getUsagePlansStream(
@@ -1889,7 +1892,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     GetUsagePlansCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   /**
@@ -1900,7 +1903,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetVpcLinkCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   /**
@@ -1911,7 +1914,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetVpcLinksCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   getVpcLinksStream(
@@ -1919,7 +1922,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     GetVpcLinksCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   /**
@@ -1930,7 +1933,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ImportApiKeysCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -1948,7 +1951,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ImportDocumentationPartsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -1966,7 +1969,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ImportRestApiCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -1984,7 +1987,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutGatewayResponseCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -2002,7 +2005,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutIntegrationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -2020,7 +2023,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutIntegrationResponseCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -2038,7 +2041,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutMethodCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -2056,7 +2059,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutMethodResponseCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -2074,7 +2077,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutRestApiCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -2092,7 +2095,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RejectDomainNameAccessAssociationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -2109,7 +2112,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagResourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -2127,7 +2130,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TestInvokeAuthorizerCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   /**
@@ -2138,7 +2141,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TestInvokeMethodCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError | UnauthorizedError
   >;
 
   /**
@@ -2149,7 +2152,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -2167,7 +2170,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateAccountCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -2185,7 +2188,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateApiKeyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -2203,7 +2206,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateAuthorizerCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -2221,7 +2224,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateBasePathMappingCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -2239,7 +2242,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateClientCertificateCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -2257,7 +2260,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateDeploymentCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -2276,7 +2279,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateDocumentationPartCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -2294,7 +2297,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateDocumentationVersionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -2312,7 +2315,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateDomainNameCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -2330,7 +2333,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateGatewayResponseCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -2348,7 +2351,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateIntegrationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -2366,7 +2369,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateIntegrationResponseCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -2384,7 +2387,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateMethodCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -2401,7 +2404,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateMethodResponseCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -2419,7 +2422,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateModelCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -2437,7 +2440,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateRequestValidatorCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -2455,7 +2458,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateResourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -2472,7 +2475,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateRestApiCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -2490,7 +2493,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateStageCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -2508,7 +2511,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateUsageCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -2526,7 +2529,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateUsagePlanCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -2544,7 +2547,7 @@ interface APIGatewayService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateVpcLinkCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | ConflictError
@@ -2577,10 +2580,10 @@ export const makeAPIGatewayService = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class APIGatewayService extends Effect.Tag("@effect-aws/client-api-gateway/APIGatewayService")<
+export class APIGatewayService extends Context.Service<
   APIGatewayService,
   APIGatewayService$
->() {
+>()("@effect-aws/client-api-gateway/APIGatewayService") {
   static readonly defaultLayer = Layer.effect(this, makeAPIGatewayService).pipe(Layer.provide(Instance.layer));
   static readonly layer = (config: APIGatewayService.Config) =>
     Layer.effect(this, makeAPIGatewayService).pipe(

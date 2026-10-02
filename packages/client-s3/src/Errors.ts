@@ -71,8 +71,9 @@ export type ObjectNotInActiveTierError = TaggedException<ObjectNotInActiveTierEx
 export type TooManyPartsError = TaggedException<TooManyParts>;
 export type UnsupportedMediaTypeError = TaggedException<UnsupportedMediaType>;
 
-export type S3ServiceError = TaggedException<
-  S3ServiceException & { name: "S3ServiceError" }
->;
-export const S3ServiceError = Data.tagged<S3ServiceError>("S3ServiceError");
+export class S3ServiceError extends Data.TaggedError("S3ServiceError")<
+  TaggedException<
+    S3ServiceException & { name: "S3ServiceError" }
+  >
+> {}
 export type SdkError = TaggedException<Error & { name: "SdkError" }>;

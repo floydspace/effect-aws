@@ -312,6 +312,7 @@ import * as Service from "@effect-aws/commons/Service";
 import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
 import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import type * as Stream from "effect/Stream";
@@ -454,9 +455,11 @@ const paginators = {
   paginateListVersions,
 };
 
-interface OpenSearchService$ {
-  readonly _: unique symbol;
-
+/**
+ * @since 1.0.0
+ * @category models
+ */
+export interface OpenSearchService$ {
   /**
    * @see {@link AcceptInboundConnectionCommand}
    */
@@ -465,7 +468,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AcceptInboundConnectionCommandOutput,
-    Cause.TimeoutException | SdkError | DisabledOperationError | LimitExceededError | ResourceNotFoundError
+    Cause.TimeoutError | SdkError | DisabledOperationError | LimitExceededError | ResourceNotFoundError
   >;
 
   /**
@@ -476,7 +479,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AddDataSourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BaseError
     | DependencyFailureError
@@ -495,7 +498,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AddDirectQueryDataSourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BaseError
     | DisabledOperationError
@@ -513,7 +516,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AddTagsCommandOutput,
-    Cause.TimeoutException | SdkError | BaseError | InternalError | LimitExceededError | ValidationError
+    Cause.TimeoutError | SdkError | BaseError | InternalError | LimitExceededError | ValidationError
   >;
 
   /**
@@ -524,7 +527,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AssociatePackageCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | BaseError
@@ -542,7 +545,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AssociatePackagesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BaseError
     | ConflictError
@@ -560,7 +563,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AttachDataSourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -578,7 +581,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AuthorizeVpcEndpointAccessCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BaseError
     | DisabledOperationError
@@ -596,7 +599,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelDomainConfigChangeCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BaseError
     | DisabledOperationError
@@ -613,7 +616,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelServiceSoftwareUpdateCommandOutput,
-    Cause.TimeoutException | SdkError | BaseError | InternalError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | BaseError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -624,7 +627,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateApplicationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | BaseError
@@ -642,7 +645,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateDomainCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BaseError
     | DisabledOperationError
@@ -661,7 +664,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateIndexCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | DependencyFailureError
@@ -681,7 +684,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateOutboundConnectionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DisabledOperationError
     | InternalError
@@ -697,7 +700,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreatePackageCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | BaseError
@@ -716,7 +719,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateVpcEndpointCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BaseError
     | ConflictError
@@ -734,7 +737,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteApplicationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | BaseError
@@ -753,7 +756,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDataSourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BaseError
     | DependencyFailureError
@@ -771,7 +774,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDirectQueryDataSourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BaseError
     | DisabledOperationError
@@ -788,7 +791,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDomainCommandOutput,
-    Cause.TimeoutException | SdkError | BaseError | InternalError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | BaseError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -799,7 +802,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteInboundConnectionCommandOutput,
-    Cause.TimeoutException | SdkError | DisabledOperationError | ResourceNotFoundError
+    Cause.TimeoutError | SdkError | DisabledOperationError | ResourceNotFoundError
   >;
 
   /**
@@ -810,7 +813,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteIndexCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | DependencyFailureError
@@ -829,7 +832,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteOutboundConnectionCommandOutput,
-    Cause.TimeoutException | SdkError | DisabledOperationError | ResourceNotFoundError
+    Cause.TimeoutError | SdkError | DisabledOperationError | ResourceNotFoundError
   >;
 
   /**
@@ -840,7 +843,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeletePackageCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | BaseError
@@ -858,7 +861,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteVpcEndpointCommandOutput,
-    Cause.TimeoutException | SdkError | BaseError | DisabledOperationError | InternalError | ResourceNotFoundError
+    Cause.TimeoutError | SdkError | BaseError | DisabledOperationError | InternalError | ResourceNotFoundError
   >;
 
   /**
@@ -869,7 +872,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeregisterCapabilityCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -887,7 +890,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeDataSourceAttachmentCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | DisabledOperationError
@@ -904,7 +907,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeDomainCommandOutput,
-    Cause.TimeoutException | SdkError | BaseError | InternalError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | BaseError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -915,7 +918,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeDomainAutoTunesCommandOutput,
-    Cause.TimeoutException | SdkError | BaseError | InternalError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | BaseError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   describeDomainAutoTunesStream(
@@ -923,7 +926,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     DescribeDomainAutoTunesCommandOutput,
-    Cause.TimeoutException | SdkError | BaseError | InternalError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | BaseError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -934,7 +937,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeDomainChangeProgressCommandOutput,
-    Cause.TimeoutException | SdkError | BaseError | InternalError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | BaseError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -945,7 +948,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeDomainConfigCommandOutput,
-    Cause.TimeoutException | SdkError | BaseError | InternalError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | BaseError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -956,7 +959,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeDomainHealthCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BaseError
     | DisabledOperationError
@@ -973,7 +976,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeDomainNodesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BaseError
     | DependencyFailureError
@@ -991,7 +994,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeDomainsCommandOutput,
-    Cause.TimeoutException | SdkError | BaseError | InternalError | ValidationError
+    Cause.TimeoutError | SdkError | BaseError | InternalError | ValidationError
   >;
 
   /**
@@ -1002,7 +1005,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeDryRunProgressCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BaseError
     | DisabledOperationError
@@ -1019,7 +1022,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeInboundConnectionsCommandOutput,
-    Cause.TimeoutException | SdkError | DisabledOperationError | InvalidPaginationTokenError
+    Cause.TimeoutError | SdkError | DisabledOperationError | InvalidPaginationTokenError
   >;
 
   describeInboundConnectionsStream(
@@ -1027,7 +1030,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     DescribeInboundConnectionsCommandOutput,
-    Cause.TimeoutException | SdkError | DisabledOperationError | InvalidPaginationTokenError
+    Cause.TimeoutError | SdkError | DisabledOperationError | InvalidPaginationTokenError
   >;
 
   /**
@@ -1038,7 +1041,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeInsightDetailsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BaseError
     | DisabledOperationError
@@ -1056,7 +1059,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeInstanceTypeLimitsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BaseError
     | InternalError
@@ -1074,7 +1077,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeOutboundConnectionsCommandOutput,
-    Cause.TimeoutException | SdkError | DisabledOperationError | InvalidPaginationTokenError
+    Cause.TimeoutError | SdkError | DisabledOperationError | InvalidPaginationTokenError
   >;
 
   describeOutboundConnectionsStream(
@@ -1082,7 +1085,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     DescribeOutboundConnectionsCommandOutput,
-    Cause.TimeoutException | SdkError | DisabledOperationError | InvalidPaginationTokenError
+    Cause.TimeoutError | SdkError | DisabledOperationError | InvalidPaginationTokenError
   >;
 
   /**
@@ -1093,7 +1096,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribePackagesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | BaseError
@@ -1107,7 +1110,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     DescribePackagesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | BaseError
@@ -1124,7 +1127,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeReservedInstanceOfferingsCommandOutput,
-    Cause.TimeoutException | SdkError | DisabledOperationError | InternalError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | DisabledOperationError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   describeReservedInstanceOfferingsStream(
@@ -1132,7 +1135,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     DescribeReservedInstanceOfferingsCommandOutput,
-    Cause.TimeoutException | SdkError | DisabledOperationError | InternalError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | DisabledOperationError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -1143,7 +1146,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeReservedInstancesCommandOutput,
-    Cause.TimeoutException | SdkError | DisabledOperationError | InternalError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | DisabledOperationError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   describeReservedInstancesStream(
@@ -1151,7 +1154,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     DescribeReservedInstancesCommandOutput,
-    Cause.TimeoutException | SdkError | DisabledOperationError | InternalError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | DisabledOperationError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -1162,7 +1165,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeVpcEndpointsCommandOutput,
-    Cause.TimeoutException | SdkError | BaseError | DisabledOperationError | InternalError | ValidationError
+    Cause.TimeoutError | SdkError | BaseError | DisabledOperationError | InternalError | ValidationError
   >;
 
   /**
@@ -1173,7 +1176,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DetachDataSourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1191,7 +1194,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DissociatePackageCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | BaseError
@@ -1209,7 +1212,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DissociatePackagesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BaseError
     | ConflictError
@@ -1227,7 +1230,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetApplicationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | BaseError
@@ -1245,7 +1248,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetCapabilityCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | DisabledOperationError
@@ -1262,7 +1265,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetCompatibleVersionsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BaseError
     | DisabledOperationError
@@ -1279,7 +1282,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDataSourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BaseError
     | DependencyFailureError
@@ -1297,7 +1300,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDefaultApplicationSettingCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -1308,7 +1311,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDirectQueryDataSourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BaseError
     | DisabledOperationError
@@ -1325,7 +1328,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDomainMaintenanceStatusCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BaseError
     | DisabledOperationError
@@ -1342,7 +1345,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetIndexCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | DependencyFailureError
@@ -1361,7 +1364,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetMigrationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | DisabledOperationError
@@ -1378,7 +1381,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPackageVersionHistoryCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | BaseError
@@ -1392,7 +1395,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     GetPackageVersionHistoryCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | BaseError
@@ -1409,7 +1412,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetUpgradeHistoryCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BaseError
     | DisabledOperationError
@@ -1423,7 +1426,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     GetUpgradeHistoryCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BaseError
     | DisabledOperationError
@@ -1440,7 +1443,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetUpgradeStatusCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BaseError
     | DisabledOperationError
@@ -1457,7 +1460,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     InsightFeedbackCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BaseError
     | DisabledOperationError
@@ -1475,7 +1478,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListApplicationsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | BaseError
@@ -1490,7 +1493,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListApplicationsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | BaseError
@@ -1508,7 +1511,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDataSourceAttachmentsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | DisabledOperationError
@@ -1525,7 +1528,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDataSourcesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BaseError
     | DependencyFailureError
@@ -1543,7 +1546,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDirectQueryDataSourcesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BaseError
     | DisabledOperationError
@@ -1560,7 +1563,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDomainMaintenancesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BaseError
     | DisabledOperationError
@@ -1574,7 +1577,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListDomainMaintenancesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BaseError
     | DisabledOperationError
@@ -1591,7 +1594,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDomainNamesCommandOutput,
-    Cause.TimeoutException | SdkError | BaseError | ValidationError
+    Cause.TimeoutError | SdkError | BaseError | ValidationError
   >;
 
   /**
@@ -1602,7 +1605,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDomainsForPackageCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | BaseError
@@ -1616,7 +1619,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListDomainsForPackageCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | BaseError
@@ -1633,7 +1636,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListInsightsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BaseError
     | DisabledOperationError
@@ -1651,7 +1654,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListInstanceTypeDetailsCommandOutput,
-    Cause.TimeoutException | SdkError | BaseError | InternalError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | BaseError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   listInstanceTypeDetailsStream(
@@ -1659,7 +1662,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListInstanceTypeDetailsCommandOutput,
-    Cause.TimeoutException | SdkError | BaseError | InternalError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | BaseError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -1670,7 +1673,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListMigrationsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | DisabledOperationError | InternalError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | DisabledOperationError | InternalError | ValidationError
   >;
 
   /**
@@ -1681,7 +1684,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListPackagesForDomainCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | BaseError
@@ -1695,7 +1698,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListPackagesForDomainCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | BaseError
@@ -1712,7 +1715,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListScheduledActionsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BaseError
     | InternalError
@@ -1726,7 +1729,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListScheduledActionsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BaseError
     | InternalError
@@ -1743,7 +1746,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsCommandOutput,
-    Cause.TimeoutException | SdkError | BaseError | InternalError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | BaseError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -1754,7 +1757,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListVersionsCommandOutput,
-    Cause.TimeoutException | SdkError | BaseError | InternalError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | BaseError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   listVersionsStream(
@@ -1762,7 +1765,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListVersionsCommandOutput,
-    Cause.TimeoutException | SdkError | BaseError | InternalError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | BaseError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -1773,7 +1776,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListVpcEndpointAccessCommandOutput,
-    Cause.TimeoutException | SdkError | BaseError | DisabledOperationError | InternalError | ResourceNotFoundError
+    Cause.TimeoutError | SdkError | BaseError | DisabledOperationError | InternalError | ResourceNotFoundError
   >;
 
   /**
@@ -1784,7 +1787,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListVpcEndpointsCommandOutput,
-    Cause.TimeoutException | SdkError | BaseError | DisabledOperationError | InternalError
+    Cause.TimeoutError | SdkError | BaseError | DisabledOperationError | InternalError
   >;
 
   /**
@@ -1795,7 +1798,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListVpcEndpointsForDomainCommandOutput,
-    Cause.TimeoutException | SdkError | BaseError | DisabledOperationError | InternalError | ResourceNotFoundError
+    Cause.TimeoutError | SdkError | BaseError | DisabledOperationError | InternalError | ResourceNotFoundError
   >;
 
   /**
@@ -1806,7 +1809,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PurchaseReservedInstanceOfferingCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DisabledOperationError
     | InternalError
@@ -1824,7 +1827,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutDefaultApplicationSettingCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -1835,7 +1838,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RegisterCapabilityCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1854,7 +1857,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RejectInboundConnectionCommandOutput,
-    Cause.TimeoutException | SdkError | DisabledOperationError | ResourceNotFoundError
+    Cause.TimeoutError | SdkError | DisabledOperationError | ResourceNotFoundError
   >;
 
   /**
@@ -1865,7 +1868,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RemoveTagsCommandOutput,
-    Cause.TimeoutException | SdkError | BaseError | InternalError | ValidationError
+    Cause.TimeoutError | SdkError | BaseError | InternalError | ValidationError
   >;
 
   /**
@@ -1876,7 +1879,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RevokeVpcEndpointAccessCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BaseError
     | DisabledOperationError
@@ -1893,7 +1896,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RollbackServiceSoftwareUpdateCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BaseError
     | DisabledOperationError
@@ -1910,7 +1913,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartDomainMaintenanceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BaseError
     | DisabledOperationError
@@ -1927,7 +1930,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartMigrationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1945,7 +1948,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartServiceSoftwareUpdateCommandOutput,
-    Cause.TimeoutException | SdkError | BaseError | InternalError | ResourceNotFoundError | ValidationError
+    Cause.TimeoutError | SdkError | BaseError | InternalError | ResourceNotFoundError | ValidationError
   >;
 
   /**
@@ -1956,7 +1959,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateApplicationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | BaseError
@@ -1975,7 +1978,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateDataSourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BaseError
     | DependencyFailureError
@@ -1993,7 +1996,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateDirectQueryDataSourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BaseError
     | DisabledOperationError
@@ -2011,7 +2014,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateDomainConfigCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BaseError
     | InternalError
@@ -2029,7 +2032,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateIndexCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | DependencyFailureError
@@ -2048,7 +2051,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdatePackageCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | BaseError
@@ -2066,7 +2069,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdatePackageScopeCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BaseError
     | DisabledOperationError
@@ -2083,7 +2086,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateScheduledActionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BaseError
     | ConflictError
@@ -2102,7 +2105,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateVpcEndpointCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BaseError
     | ConflictError
@@ -2120,7 +2123,7 @@ interface OpenSearchService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpgradeDomainCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BaseError
     | DisabledOperationError
@@ -2153,10 +2156,10 @@ export const makeOpenSearchService = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class OpenSearchService extends Effect.Tag("@effect-aws/client-opensearch/OpenSearchService")<
+export class OpenSearchService extends Context.Service<
   OpenSearchService,
   OpenSearchService$
->() {
+>()("@effect-aws/client-opensearch/OpenSearchService") {
   static readonly defaultLayer = Layer.effect(this, makeOpenSearchService).pipe(Layer.provide(Instance.layer));
   static readonly layer = (config: OpenSearchService.Config) =>
     Layer.effect(this, makeOpenSearchService).pipe(

@@ -3,10 +3,9 @@
  */
 import type { ECSClientConfig } from "@aws-sdk/client-ecs";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
-import * as FiberRef from "effect/FiberRef";
 import { dual } from "effect/Function";
-import { globalValue } from "effect/GlobalValue";
 import * as Layer from "effect/Layer";
 import type { ECSService } from "./ECSService.js";
 
@@ -14,9 +13,9 @@ import type { ECSService } from "./ECSService.js";
  * @since 1.0.0
  * @category ecs service config
  */
-const currentECSServiceConfig = globalValue(
+const currentECSServiceConfig = Context.Reference<ECSService.Config>(
   "@effect-aws/client-ecs/currentECSServiceConfig",
-  () => FiberRef.unsafeMake<ECSService.Config>({}),
+  { defaultValue: () => ({}) },
 );
 
 /**
@@ -29,21 +28,21 @@ export const withECSServiceConfig: {
 } = dual(
   2,
   <A, E, R>(effect: Effect.Effect<A, E, R>, config: ECSService.Config): Effect.Effect<A, E, R> =>
-    Effect.locally(effect, currentECSServiceConfig, config),
+    Effect.provideService(effect, currentECSServiceConfig, config),
 );
 
 /**
  * @since 1.0.0
  * @category ecs service config
  */
-export const setECSServiceConfig = (config: ECSService.Config) => Layer.locallyScoped(currentECSServiceConfig, config);
+export const setECSServiceConfig = (config: ECSService.Config) => Layer.succeed(currentECSServiceConfig, config);
 
 /**
  * @since 1.0.0
  * @category adapters
  */
 export const toECSClientConfig: Effect.Effect<ECSClientConfig> = Effect.gen(function*() {
-  const { logger: serviceLogger, ...config } = yield* FiberRef.get(currentECSServiceConfig);
+  const { logger: serviceLogger, ...config } = yield* currentECSServiceConfig;
 
   const logger = serviceLogger === true
     ? yield* ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger)

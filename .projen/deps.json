@@ -67,7 +67,6 @@
     },
     {
       "name": "aws-sdk-client-mock-vitest",
-      "version": "^6.2.1",
       "type": "build"
     },
     {
@@ -117,11 +116,12 @@
       "type": "build"
     },
     {
-      "name": "vitepress",
+      "name": "vitepress-plugin-group-icons",
       "type": "build"
     },
     {
-      "name": "vitepress-plugin-group-icons",
+      "name": "vitepress",
+      "version": "2.0.0-alpha.19",
       "type": "build"
     },
     {
@@ -131,14 +131,6 @@
     {
       "name": "vitest-mock-extended",
       "type": "build"
-    },
-    {
-      "name": "@effect/cli",
-      "type": "runtime"
-    },
-    {
-      "name": "@effect/platform",
-      "type": "runtime"
     },
     {
       "name": "@effect/platform-node",

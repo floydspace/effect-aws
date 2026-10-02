@@ -3,10 +3,9 @@
  */
 import type { EventBridgeClientConfig } from "@aws-sdk/client-eventbridge";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
-import * as FiberRef from "effect/FiberRef";
 import { dual } from "effect/Function";
-import { globalValue } from "effect/GlobalValue";
 import * as Layer from "effect/Layer";
 import type { EventBridgeService } from "./EventBridgeService.js";
 
@@ -14,9 +13,9 @@ import type { EventBridgeService } from "./EventBridgeService.js";
  * @since 1.0.0
  * @category eventbridge service config
  */
-const currentEventBridgeServiceConfig = globalValue(
+const currentEventBridgeServiceConfig = Context.Reference<EventBridgeService.Config>(
   "@effect-aws/client-eventbridge/currentEventBridgeServiceConfig",
-  () => FiberRef.unsafeMake<EventBridgeService.Config>({}),
+  { defaultValue: () => ({}) },
 );
 
 /**
@@ -29,7 +28,7 @@ export const withEventBridgeServiceConfig: {
 } = dual(
   2,
   <A, E, R>(effect: Effect.Effect<A, E, R>, config: EventBridgeService.Config): Effect.Effect<A, E, R> =>
-    Effect.locally(effect, currentEventBridgeServiceConfig, config),
+    Effect.provideService(effect, currentEventBridgeServiceConfig, config),
 );
 
 /**
@@ -37,14 +36,14 @@ export const withEventBridgeServiceConfig: {
  * @category eventbridge service config
  */
 export const setEventBridgeServiceConfig = (config: EventBridgeService.Config) =>
-  Layer.locallyScoped(currentEventBridgeServiceConfig, config);
+  Layer.succeed(currentEventBridgeServiceConfig, config);
 
 /**
  * @since 1.0.0
  * @category adapters
  */
 export const toEventBridgeClientConfig: Effect.Effect<EventBridgeClientConfig> = Effect.gen(function*() {
-  const { logger: serviceLogger, ...config } = yield* FiberRef.get(currentEventBridgeServiceConfig);
+  const { logger: serviceLogger, ...config } = yield* currentEventBridgeServiceConfig;
 
   const logger = serviceLogger === true
     ? yield* ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger)

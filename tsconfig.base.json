@@ -309,6 +309,15 @@
       "@effect-aws/client-eks/test/*": [
         "./packages/client-eks/test/*.js"
       ],
+      "@effect-aws/client-elastic-load-balancing-v2": [
+        "./packages/client-elastic-load-balancing-v2/src/index.js"
+      ],
+      "@effect-aws/client-elastic-load-balancing-v2/*": [
+        "./packages/client-elastic-load-balancing-v2/src/*.js"
+      ],
+      "@effect-aws/client-elastic-load-balancing-v2/test/*": [
+        "./packages/client-elastic-load-balancing-v2/test/*.js"
+      ],
       "@effect-aws/client-elasticache": [
         "./packages/client-elasticache/src/index.js"
       ],
@@ -471,6 +480,15 @@
       "@effect-aws/client-rds/test/*": [
         "./packages/client-rds/test/*.js"
       ],
+      "@effect-aws/client-resource-groups-tagging-api": [
+        "./packages/client-resource-groups-tagging-api/src/index.js"
+      ],
+      "@effect-aws/client-resource-groups-tagging-api/*": [
+        "./packages/client-resource-groups-tagging-api/src/*.js"
+      ],
+      "@effect-aws/client-resource-groups-tagging-api/test/*": [
+        "./packages/client-resource-groups-tagging-api/test/*.js"
+      ],
       "@effect-aws/client-scheduler": [
         "./packages/client-scheduler/src/index.js"
       ],
@@ -614,15 +632,6 @@
       ],
       "@effect-aws/dynamodb/test/*": [
         "./packages/dynamodb/test/*.js"
-      ],
-      "@effect-aws/lib-dynamodb": [
-        "./packages/lib-dynamodb/src/index.js"
-      ],
-      "@effect-aws/lib-dynamodb/*": [
-        "./packages/lib-dynamodb/src/*.js"
-      ],
-      "@effect-aws/lib-dynamodb/test/*": [
-        "./packages/lib-dynamodb/test/*.js"
       ],
       "@effect-aws/lambda": [
         "./packages/lambda/src/index.js"

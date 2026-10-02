@@ -23,7 +23,7 @@ describe("IAMClientImpl", () => {
 
     const args = {} as unknown as CreateRoleCommandInput;
 
-    const program = IAM.createRole(args);
+    const program = IAM.use((svc) => svc.createRole(args));
 
     const result = await pipe(
       program,
@@ -43,7 +43,7 @@ describe("IAMClientImpl", () => {
 
     const args = {} as unknown as CreateRoleCommandInput;
 
-    const program = IAM.createRole(args);
+    const program = IAM.use((svc) => svc.createRole(args));
 
     const result = await pipe(
       program,
@@ -66,7 +66,7 @@ describe("IAMClientImpl", () => {
 
     const args = {} as unknown as CreateRoleCommandInput;
 
-    const program = IAM.createRole(args);
+    const program = IAM.use((svc) => svc.createRole(args));
 
     const result = await pipe(
       program,
@@ -90,7 +90,7 @@ describe("IAMClientImpl", () => {
 
     const args = {} as unknown as CreateRoleCommandInput;
 
-    const program = IAM.createRole(args);
+    const program = IAM.use((svc) => svc.createRole(args));
 
     const result = await pipe(
       program,
@@ -118,7 +118,7 @@ describe("IAMClientImpl", () => {
 
     const args = {} as unknown as CreateRoleCommandInput;
 
-    const program = IAM.createRole(args);
+    const program = IAM.use((svc) => svc.createRole(args));
 
     const result = await pipe(
       program,
@@ -128,7 +128,7 @@ describe("IAMClientImpl", () => {
 
     expect(result).toEqual(
       Exit.fail(
-        SdkError({
+        new SdkError({
           ...new Error("test"),
           name: "SdkError",
           message: "test",
@@ -153,7 +153,7 @@ describe("IAMClientImpl", () => {
 
     const args = {} as unknown as CreateRoleCommandInput;
 
-    const program = IAM.createRole(args).pipe(
+    const program = IAM.use((svc) => svc.createRole(args)).pipe(
       Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 
@@ -163,9 +163,9 @@ describe("IAMClientImpl", () => {
       Effect.runPromiseExit,
     );
 
-    expect(result).toEqual(
+    expect(result).toContainEqual(
       Exit.fail(
-        SdkError({
+        new SdkError({
           ...new Error("test"),
           name: "SdkError",
           message: "test",

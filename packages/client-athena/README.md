@@ -16,7 +16,7 @@ With default AthenaClient instance:
 ```typescript
 import { Athena } from "@effect-aws/client-athena";
 
-const program = Athena.startQueryExecution(args);
+const program = Athena.use((svc) => svc.startQueryExecution(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom AthenaClient instance:
 ```typescript
 import { Athena } from "@effect-aws/client-athena";
 
-const program = Athena.startQueryExecution(args);
+const program = Athena.use((svc) => svc.startQueryExecution(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom AthenaClient configuration:
 ```typescript
 import { Athena } from "@effect-aws/client-athena";
 
-const program = Athena.startQueryExecution(args);
+const program = Athena.use((svc) => svc.startQueryExecution(args));
 
 const result = await pipe(
   program,

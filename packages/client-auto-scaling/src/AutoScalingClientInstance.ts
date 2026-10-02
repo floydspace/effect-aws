@@ -11,9 +11,9 @@ import * as AutoScalingServiceConfig from "./AutoScalingServiceConfig.js";
  * @since 1.0.0
  * @category tags
  */
-export class AutoScalingClientInstance extends Context.Tag(
+export class AutoScalingClientInstance extends Context.Service<AutoScalingClientInstance, AutoScalingClient>()(
   "@effect-aws/client-auto-scaling/AutoScalingClientInstance",
-)<AutoScalingClientInstance, AutoScalingClient>() {}
+) {}
 
 /**
  * @since 1.0.0
@@ -32,4 +32,4 @@ export const make = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const layer = Layer.scoped(AutoScalingClientInstance, make);
+export const layer = Layer.effect(AutoScalingClientInstance, make);

@@ -26,11 +26,11 @@
   },
   "devDependencies": {
     "@types/node": "ts5.4",
-    "effect": "^3.16.4",
+    "effect": "^4.0.0",
     "typescript": "^5.4.2"
   },
   "peerDependencies": {
-    "effect": ">=3.0.4 <4.0.0"
+    "effect": ">=4.0.0-beta.66 <5.0.0"
   },
   "dependencies": {
     "@aws-sdk/client-iot-wireless": "^3",
@@ -43,7 +43,7 @@
     "access": "public",
     "directory": "dist"
   },
-  "version": "1.11.0",
+  "version": "2.0.0-beta.4",
   "types": "build/dts/index.d.ts",
   "type": "module",
   "module": "build/esm/index.js",

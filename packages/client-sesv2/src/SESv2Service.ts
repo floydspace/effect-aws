@@ -2,6 +2,9 @@
  * @since 1.0.0
  */
 import {
+  AssociateEmailIdentityCertificateCommand,
+  type AssociateEmailIdentityCertificateCommandInput,
+  type AssociateEmailIdentityCertificateCommandOutput,
   BatchGetMetricDataCommand,
   type BatchGetMetricDataCommandInput,
   type BatchGetMetricDataCommandOutput,
@@ -92,6 +95,9 @@ import {
   DeleteTenantResourceAssociationCommand,
   type DeleteTenantResourceAssociationCommandInput,
   type DeleteTenantResourceAssociationCommandOutput,
+  DisassociateEmailIdentityCertificateCommand,
+  type DisassociateEmailIdentityCertificateCommandInput,
+  type DisassociateEmailIdentityCertificateCommandOutput,
   GetAccountCommand,
   type GetAccountCommandInput,
   type GetAccountCommandOutput,
@@ -191,6 +197,9 @@ import {
   ListEmailIdentitiesCommand,
   type ListEmailIdentitiesCommandInput,
   type ListEmailIdentitiesCommandOutput,
+  ListEmailIdentityCertificatesCommand,
+  type ListEmailIdentityCertificatesCommandInput,
+  type ListEmailIdentityCertificatesCommandOutput,
   ListEmailTemplatesCommand,
   type ListEmailTemplatesCommandInput,
   type ListEmailTemplatesCommandOutput,
@@ -233,6 +242,7 @@ import {
   paginateListDeliverabilityTestReports,
   paginateListDomainDeliverabilityCampaigns,
   paginateListEmailIdentities,
+  paginateListEmailIdentityCertificates,
   paginateListEmailTemplates,
   paginateListExportJobs,
   paginateListImportJobs,
@@ -249,6 +259,9 @@ import {
   PutAccountDetailsCommand,
   type PutAccountDetailsCommandInput,
   type PutAccountDetailsCommandOutput,
+  PutAccountPricingAttributesCommand,
+  type PutAccountPricingAttributesCommandInput,
+  type PutAccountPricingAttributesCommandOutput,
   PutAccountSendingAttributesCommand,
   type PutAccountSendingAttributesCommandInput,
   type PutAccountSendingAttributesCommandOutput,
@@ -332,6 +345,9 @@ import {
   UntagResourceCommand,
   type UntagResourceCommandInput,
   type UntagResourceCommandOutput,
+  UpdateConfigurationSetCommand,
+  type UpdateConfigurationSetCommandInput,
+  type UpdateConfigurationSetCommandOutput,
   UpdateConfigurationSetEventDestinationCommand,
   type UpdateConfigurationSetEventDestinationCommandInput,
   type UpdateConfigurationSetEventDestinationCommandOutput,
@@ -361,6 +377,7 @@ import * as Service from "@effect-aws/commons/Service";
 import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
 import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import type * as Stream from "effect/Stream";
@@ -385,6 +402,7 @@ import * as Instance from "./SESv2ClientInstance.js";
 import * as SESv2ServiceConfig from "./SESv2ServiceConfig.js";
 
 const commands = {
+  AssociateEmailIdentityCertificateCommand,
   BatchGetMetricDataCommand,
   CancelExportJobCommand,
   CreateConfigurationSetCommand,
@@ -415,6 +433,7 @@ const commands = {
   DeleteSuppressedDestinationCommand,
   DeleteTenantCommand,
   DeleteTenantResourceAssociationCommand,
+  DisassociateEmailIdentityCertificateCommand,
   GetAccountCommand,
   GetBlacklistReportsCommand,
   GetConfigurationSetCommand,
@@ -448,6 +467,7 @@ const commands = {
   ListDeliverabilityTestReportsCommand,
   ListDomainDeliverabilityCampaignsCommand,
   ListEmailIdentitiesCommand,
+  ListEmailIdentityCertificatesCommand,
   ListEmailTemplatesCommand,
   ListExportJobsCommand,
   ListImportJobsCommand,
@@ -461,6 +481,7 @@ const commands = {
   ListTenantsCommand,
   PutAccountDedicatedIpWarmupAttributesCommand,
   PutAccountDetailsCommand,
+  PutAccountPricingAttributesCommand,
   PutAccountSendingAttributesCommand,
   PutAccountSuppressionAttributesCommand,
   PutAccountVdmAttributesCommand,
@@ -488,6 +509,7 @@ const commands = {
   TagResourceCommand,
   TestRenderEmailTemplateCommand,
   UntagResourceCommand,
+  UpdateConfigurationSetCommand,
   UpdateConfigurationSetEventDestinationCommand,
   UpdateContactCommand,
   UpdateContactListCommand,
@@ -508,6 +530,7 @@ const paginators = {
   paginateListDeliverabilityTestReports,
   paginateListDomainDeliverabilityCampaigns,
   paginateListEmailIdentities,
+  paginateListEmailIdentityCertificates,
   paginateListEmailTemplates,
   paginateListExportJobs,
   paginateListImportJobs,
@@ -520,8 +543,21 @@ const paginators = {
   paginateListTenants,
 };
 
-interface SESv2Service$ {
-  readonly _: unique symbol;
+/**
+ * @since 1.0.0
+ * @category models
+ */
+export interface SESv2Service$ {
+  /**
+   * @see {@link AssociateEmailIdentityCertificateCommand}
+   */
+  associateEmailIdentityCertificate(
+    args: AssociateEmailIdentityCertificateCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    AssociateEmailIdentityCertificateCommandOutput,
+    Cause.TimeoutError | SdkError | AlreadyExistsError | BadRequestError | NotFoundError | TooManyRequestsError
+  >;
 
   /**
    * @see {@link BatchGetMetricDataCommand}
@@ -531,7 +567,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchGetMetricDataCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | InternalServiceError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | InternalServiceError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -542,7 +578,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelExportJobCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -553,7 +589,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateConfigurationSetCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AlreadyExistsError
     | BadRequestError
@@ -571,7 +607,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateConfigurationSetEventDestinationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AlreadyExistsError
     | BadRequestError
@@ -588,7 +624,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateContactCommandOutput,
-    Cause.TimeoutException | SdkError | AlreadyExistsError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | AlreadyExistsError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -599,7 +635,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateContactListCommandOutput,
-    Cause.TimeoutException | SdkError | AlreadyExistsError | BadRequestError | LimitExceededError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | AlreadyExistsError | BadRequestError | LimitExceededError | TooManyRequestsError
   >;
 
   /**
@@ -610,7 +646,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateCustomVerificationEmailTemplateCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AlreadyExistsError
     | BadRequestError
@@ -627,7 +663,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateDedicatedIpPoolCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AlreadyExistsError
     | BadRequestError
@@ -644,7 +680,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateDeliverabilityTestReportCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccountSuspendedError
     | BadRequestError
@@ -665,7 +701,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateEmailIdentityCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AlreadyExistsError
     | BadRequestError
@@ -683,7 +719,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateEmailIdentityPolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AlreadyExistsError
     | BadRequestError
@@ -700,7 +736,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateEmailTemplateCommandOutput,
-    Cause.TimeoutException | SdkError | AlreadyExistsError | BadRequestError | LimitExceededError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | AlreadyExistsError | BadRequestError | LimitExceededError | TooManyRequestsError
   >;
 
   /**
@@ -711,7 +747,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateExportJobCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | LimitExceededError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | LimitExceededError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -722,7 +758,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateImportJobCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | LimitExceededError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | LimitExceededError | TooManyRequestsError
   >;
 
   /**
@@ -733,7 +769,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateMultiRegionEndpointCommandOutput,
-    Cause.TimeoutException | SdkError | AlreadyExistsError | BadRequestError | LimitExceededError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | AlreadyExistsError | BadRequestError | LimitExceededError | TooManyRequestsError
   >;
 
   /**
@@ -744,7 +780,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateTenantCommandOutput,
-    Cause.TimeoutException | SdkError | AlreadyExistsError | BadRequestError | LimitExceededError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | AlreadyExistsError | BadRequestError | LimitExceededError | TooManyRequestsError
   >;
 
   /**
@@ -755,7 +791,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateTenantResourceAssociationCommandOutput,
-    Cause.TimeoutException | SdkError | AlreadyExistsError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | AlreadyExistsError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -766,12 +802,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteConfigurationSetCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | BadRequestError
-    | ConcurrentModificationError
-    | NotFoundError
-    | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | ConcurrentModificationError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -782,7 +813,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteConfigurationSetEventDestinationCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -793,7 +824,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteContactCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -804,12 +835,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteContactListCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | BadRequestError
-    | ConcurrentModificationError
-    | NotFoundError
-    | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | ConcurrentModificationError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -820,7 +846,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteCustomVerificationEmailTemplateCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -831,12 +857,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDedicatedIpPoolCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | BadRequestError
-    | ConcurrentModificationError
-    | NotFoundError
-    | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | ConcurrentModificationError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -847,12 +868,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteEmailIdentityCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | BadRequestError
-    | ConcurrentModificationError
-    | NotFoundError
-    | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | ConcurrentModificationError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -863,7 +879,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteEmailIdentityPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -874,7 +890,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteEmailTemplateCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -885,12 +901,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteMultiRegionEndpointCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | BadRequestError
-    | ConcurrentModificationError
-    | NotFoundError
-    | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | ConcurrentModificationError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -901,7 +912,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteSuppressedDestinationCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -912,7 +923,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteTenantCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -923,7 +934,18 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteTenantResourceAssociationCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link DisassociateEmailIdentityCertificateCommand}
+   */
+  disassociateEmailIdentityCertificate(
+    args: DisassociateEmailIdentityCertificateCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DisassociateEmailIdentityCertificateCommandOutput,
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -934,7 +956,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAccountCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | TooManyRequestsError
   >;
 
   /**
@@ -945,7 +967,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetBlacklistReportsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -956,7 +978,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetConfigurationSetCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -967,7 +989,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetConfigurationSetEventDestinationsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -978,7 +1000,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetContactCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -989,7 +1011,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetContactListCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1000,7 +1022,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetCustomVerificationEmailTemplateCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1011,7 +1033,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDedicatedIpCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1022,7 +1044,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDedicatedIpPoolCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1033,7 +1055,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDedicatedIpsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   getDedicatedIpsStream(
@@ -1041,7 +1063,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     GetDedicatedIpsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1052,7 +1074,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDeliverabilityDashboardOptionsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | LimitExceededError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | LimitExceededError | TooManyRequestsError
   >;
 
   /**
@@ -1063,7 +1085,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDeliverabilityTestReportCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1074,7 +1096,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDomainDeliverabilityCampaignCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1085,7 +1107,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDomainStatisticsReportCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1096,7 +1118,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetEmailAddressInsightsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | TooManyRequestsError
   >;
 
   /**
@@ -1107,7 +1129,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetEmailIdentityCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1118,7 +1140,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetEmailIdentityPoliciesCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1129,7 +1151,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetEmailTemplateCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1140,7 +1162,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetExportJobCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1151,7 +1173,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetImportJobCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1162,7 +1184,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetMessageInsightsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1173,7 +1195,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetMultiRegionEndpointCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1184,7 +1206,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetReputationEntityCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1195,7 +1217,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetSuppressedDestinationCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1206,7 +1228,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetTenantCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1217,7 +1239,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListConfigurationSetsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | TooManyRequestsError
   >;
 
   listConfigurationSetsStream(
@@ -1225,7 +1247,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListConfigurationSetsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | TooManyRequestsError
   >;
 
   /**
@@ -1236,7 +1258,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListContactListsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | TooManyRequestsError
   >;
 
   listContactListsStream(
@@ -1244,7 +1266,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListContactListsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | TooManyRequestsError
   >;
 
   /**
@@ -1255,7 +1277,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListContactsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   listContactsStream(
@@ -1263,7 +1285,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListContactsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1274,7 +1296,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListCustomVerificationEmailTemplatesCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | TooManyRequestsError
   >;
 
   listCustomVerificationEmailTemplatesStream(
@@ -1282,7 +1304,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListCustomVerificationEmailTemplatesCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | TooManyRequestsError
   >;
 
   /**
@@ -1293,7 +1315,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDedicatedIpPoolsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | TooManyRequestsError
   >;
 
   listDedicatedIpPoolsStream(
@@ -1301,7 +1323,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListDedicatedIpPoolsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | TooManyRequestsError
   >;
 
   /**
@@ -1312,7 +1334,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDeliverabilityTestReportsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   listDeliverabilityTestReportsStream(
@@ -1320,7 +1342,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListDeliverabilityTestReportsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1331,7 +1353,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDomainDeliverabilityCampaignsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   listDomainDeliverabilityCampaignsStream(
@@ -1339,7 +1361,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListDomainDeliverabilityCampaignsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1350,7 +1372,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListEmailIdentitiesCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | TooManyRequestsError
   >;
 
   listEmailIdentitiesStream(
@@ -1358,7 +1380,26 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListEmailIdentitiesCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link ListEmailIdentityCertificatesCommand}
+   */
+  listEmailIdentityCertificates(
+    args: ListEmailIdentityCertificatesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListEmailIdentityCertificatesCommandOutput,
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+  >;
+
+  listEmailIdentityCertificatesStream(
+    args: ListEmailIdentityCertificatesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListEmailIdentityCertificatesCommandOutput,
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1369,7 +1410,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListEmailTemplatesCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | TooManyRequestsError
   >;
 
   listEmailTemplatesStream(
@@ -1377,7 +1418,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListEmailTemplatesCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | TooManyRequestsError
   >;
 
   /**
@@ -1388,16 +1429,13 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListExportJobsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | TooManyRequestsError
   >;
 
   listExportJobsStream(
     args: ListExportJobsCommandInput,
     options?: HttpHandlerOptions,
-  ): Stream.Stream<
-    ListExportJobsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | TooManyRequestsError
-  >;
+  ): Stream.Stream<ListExportJobsCommandOutput, Cause.TimeoutError | SdkError | BadRequestError | TooManyRequestsError>;
 
   /**
    * @see {@link ListImportJobsCommand}
@@ -1407,16 +1445,13 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListImportJobsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | TooManyRequestsError
   >;
 
   listImportJobsStream(
     args: ListImportJobsCommandInput,
     options?: HttpHandlerOptions,
-  ): Stream.Stream<
-    ListImportJobsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | TooManyRequestsError
-  >;
+  ): Stream.Stream<ListImportJobsCommandOutput, Cause.TimeoutError | SdkError | BadRequestError | TooManyRequestsError>;
 
   /**
    * @see {@link ListMultiRegionEndpointsCommand}
@@ -1426,7 +1461,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListMultiRegionEndpointsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | TooManyRequestsError
   >;
 
   listMultiRegionEndpointsStream(
@@ -1434,7 +1469,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListMultiRegionEndpointsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | TooManyRequestsError
   >;
 
   /**
@@ -1445,7 +1480,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListRecommendationsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   listRecommendationsStream(
@@ -1453,7 +1488,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListRecommendationsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1464,7 +1499,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListReputationEntitiesCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | TooManyRequestsError
   >;
 
   listReputationEntitiesStream(
@@ -1472,7 +1507,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListReputationEntitiesCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | TooManyRequestsError
   >;
 
   /**
@@ -1483,7 +1518,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListResourceTenantsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   listResourceTenantsStream(
@@ -1491,7 +1526,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListResourceTenantsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1502,7 +1537,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListSuppressedDestinationsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | InvalidNextTokenError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | InvalidNextTokenError | NotFoundError | TooManyRequestsError
   >;
 
   listSuppressedDestinationsStream(
@@ -1510,7 +1545,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListSuppressedDestinationsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | InvalidNextTokenError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | InvalidNextTokenError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1521,7 +1556,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsForResourceCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1532,7 +1567,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTenantResourcesCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   listTenantResourcesStream(
@@ -1540,7 +1575,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListTenantResourcesCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1551,16 +1586,13 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTenantsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | TooManyRequestsError
   >;
 
   listTenantsStream(
     args: ListTenantsCommandInput,
     options?: HttpHandlerOptions,
-  ): Stream.Stream<
-    ListTenantsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | TooManyRequestsError
-  >;
+  ): Stream.Stream<ListTenantsCommandOutput, Cause.TimeoutError | SdkError | BadRequestError | TooManyRequestsError>;
 
   /**
    * @see {@link PutAccountDedicatedIpWarmupAttributesCommand}
@@ -1570,7 +1602,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutAccountDedicatedIpWarmupAttributesCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | TooManyRequestsError
   >;
 
   /**
@@ -1581,7 +1613,18 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutAccountDetailsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | ConflictError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | ConflictError | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link PutAccountPricingAttributesCommand}
+   */
+  putAccountPricingAttributes(
+    args: PutAccountPricingAttributesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    PutAccountPricingAttributesCommandOutput,
+    Cause.TimeoutError | SdkError | BadRequestError | ConflictError | TooManyRequestsError
   >;
 
   /**
@@ -1592,7 +1635,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutAccountSendingAttributesCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | TooManyRequestsError
   >;
 
   /**
@@ -1603,7 +1646,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutAccountSuppressionAttributesCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | TooManyRequestsError
   >;
 
   /**
@@ -1614,7 +1657,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutAccountVdmAttributesCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | TooManyRequestsError
   >;
 
   /**
@@ -1625,7 +1668,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutConfigurationSetArchivingOptionsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1636,7 +1679,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutConfigurationSetDeliveryOptionsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1647,7 +1690,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutConfigurationSetReputationOptionsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1658,7 +1701,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutConfigurationSetSendingOptionsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1669,7 +1712,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutConfigurationSetSuppressionOptionsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1680,7 +1723,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutConfigurationSetTrackingOptionsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1691,7 +1734,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutConfigurationSetVdmOptionsCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1702,7 +1745,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutDedicatedIpInPoolCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1713,12 +1756,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutDedicatedIpPoolScalingAttributesCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | BadRequestError
-    | ConcurrentModificationError
-    | NotFoundError
-    | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | ConcurrentModificationError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1729,7 +1767,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutDedicatedIpWarmupAttributesCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1740,7 +1778,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutDeliverabilityDashboardOptionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AlreadyExistsError
     | BadRequestError
@@ -1757,7 +1795,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutEmailIdentityConfigurationSetAttributesCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1768,7 +1806,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutEmailIdentityDkimAttributesCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1779,7 +1817,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutEmailIdentityDkimSigningAttributesCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1790,7 +1828,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutEmailIdentityFeedbackAttributesCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1801,7 +1839,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutEmailIdentityMailFromAttributesCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1812,7 +1850,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutSuppressedDestinationCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1823,7 +1861,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutTenantSuppressionAttributesCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1834,7 +1872,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SendBulkEmailCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccountSuspendedError
     | BadRequestError
@@ -1854,7 +1892,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SendCustomVerificationEmailCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | BadRequestError
     | LimitExceededError
@@ -1873,7 +1911,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SendEmailCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccountSuspendedError
     | BadRequestError
@@ -1893,12 +1931,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagResourceCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | BadRequestError
-    | ConcurrentModificationError
-    | NotFoundError
-    | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | ConcurrentModificationError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1909,7 +1942,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TestRenderEmailTemplateCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1920,12 +1953,18 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | BadRequestError
-    | ConcurrentModificationError
-    | NotFoundError
-    | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | ConcurrentModificationError | NotFoundError | TooManyRequestsError
+  >;
+
+  /**
+   * @see {@link UpdateConfigurationSetCommand}
+   */
+  updateConfigurationSet(
+    args: UpdateConfigurationSetCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    UpdateConfigurationSetCommandOutput,
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1936,7 +1975,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateConfigurationSetEventDestinationCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1947,12 +1986,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateContactCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | BadRequestError
-    | ConcurrentModificationError
-    | NotFoundError
-    | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | ConcurrentModificationError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1963,12 +1997,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateContactListCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | BadRequestError
-    | ConcurrentModificationError
-    | NotFoundError
-    | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | ConcurrentModificationError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1979,7 +2008,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateCustomVerificationEmailTemplateCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -1990,7 +2019,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateEmailIdentityPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -2001,7 +2030,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateEmailTemplateCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError | TooManyRequestsError
   >;
 
   /**
@@ -2012,7 +2041,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateReputationEntityCustomerManagedStatusCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | ConflictError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | ConflictError | TooManyRequestsError
   >;
 
   /**
@@ -2023,7 +2052,7 @@ interface SESv2Service$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateReputationEntityPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | ConflictError | TooManyRequestsError
+    Cause.TimeoutError | SdkError | BadRequestError | ConflictError | TooManyRequestsError
   >;
 }
 
@@ -2049,10 +2078,10 @@ export const makeSESv2Service = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class SESv2Service extends Effect.Tag("@effect-aws/client-sesv2/SESv2Service")<
+export class SESv2Service extends Context.Service<
   SESv2Service,
   SESv2Service$
->() {
+>()("@effect-aws/client-sesv2/SESv2Service") {
   static readonly defaultLayer = Layer.effect(this, makeSESv2Service).pipe(Layer.provide(Instance.layer));
   static readonly layer = (config: SESv2Service.Config) =>
     Layer.effect(this, makeSESv2Service).pipe(

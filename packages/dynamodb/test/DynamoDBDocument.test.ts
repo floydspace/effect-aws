@@ -27,7 +27,7 @@ describe("DynamoDBDocumentClientImpl", () => {
       Item: { testAttr: "test" },
     };
 
-    const program = DynamoDBDocument.put(args);
+    const program = DynamoDBDocument.use((svc) => svc.put(args));
 
     const result = await pipe(
       program,
@@ -50,7 +50,7 @@ describe("DynamoDBDocumentClientImpl", () => {
       Item: { testAttr: "test" },
     };
 
-    const program = DynamoDBDocument.put(args);
+    const program = DynamoDBDocument.use((svc) => svc.put(args));
 
     const result = await pipe(
       program,
@@ -80,7 +80,7 @@ describe("DynamoDBDocumentClientImpl", () => {
       Item: { testAttr: "test" },
     };
 
-    const program = DynamoDBDocument.put(args);
+    const program = DynamoDBDocument.use((svc) => svc.put(args));
 
     const result = await pipe(
       program,
@@ -112,7 +112,7 @@ describe("DynamoDBDocumentClientImpl", () => {
       Item: { testAttr: "test" },
     };
 
-    const program = DynamoDBDocument.put(args);
+    const program = DynamoDBDocument.use((svc) => svc.put(args));
 
     const result = await pipe(
       program,
@@ -146,7 +146,7 @@ describe("DynamoDBDocumentClientImpl", () => {
       Item: { testAttr: "test" },
     };
 
-    const program = DynamoDBDocument.put(args, { requestTimeout: 1000 });
+    const program = DynamoDBDocument.use((svc) => svc.put(args, { requestTimeout: 1000 }));
 
     const result = await pipe(
       program,
@@ -156,7 +156,7 @@ describe("DynamoDBDocumentClientImpl", () => {
 
     expect(result).toEqual(
       Exit.fail(
-        SdkError({
+        new SdkError({
           ...new Error("test"),
           name: "SdkError",
           message: "test",

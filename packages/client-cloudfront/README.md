@@ -16,7 +16,7 @@ With default CloudFrontClient instance:
 ```typescript
 import { CloudFront } from "@effect-aws/client-cloudfront";
 
-const program = CloudFront.listCachePolicies(args);
+const program = CloudFront.use((svc) => svc.listCachePolicies(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom CloudFrontClient instance:
 ```typescript
 import { CloudFront } from "@effect-aws/client-cloudfront";
 
-const program = CloudFront.listCachePolicies(args);
+const program = CloudFront.use((svc) => svc.listCachePolicies(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom CloudFrontClient configuration:
 ```typescript
 import { CloudFront } from "@effect-aws/client-cloudfront";
 
-const program = CloudFront.listCachePolicies(args);
+const program = CloudFront.use((svc) => svc.listCachePolicies(args));
 
 const result = await pipe(
   program,

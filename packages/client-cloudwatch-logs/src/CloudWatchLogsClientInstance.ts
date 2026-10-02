@@ -11,9 +11,9 @@ import * as CloudWatchLogsServiceConfig from "./CloudWatchLogsServiceConfig.js";
  * @since 1.0.0
  * @category tags
  */
-export class CloudWatchLogsClientInstance extends Context.Tag(
+export class CloudWatchLogsClientInstance extends Context.Service<CloudWatchLogsClientInstance, CloudWatchLogsClient>()(
   "@effect-aws/client-cloudwatch-logs/CloudWatchLogsClientInstance",
-)<CloudWatchLogsClientInstance, CloudWatchLogsClient>() {}
+) {}
 
 /**
  * @since 1.0.0
@@ -32,4 +32,4 @@ export const make = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const layer = Layer.scoped(CloudWatchLogsClientInstance, make);
+export const layer = Layer.effect(CloudWatchLogsClientInstance, make);

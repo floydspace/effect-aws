@@ -3,10 +3,9 @@
  */
 import type { TimestreamQueryClientConfig } from "@aws-sdk/client-timestream-query";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
-import * as FiberRef from "effect/FiberRef";
 import { dual } from "effect/Function";
-import { globalValue } from "effect/GlobalValue";
 import * as Layer from "effect/Layer";
 import type { TimestreamQueryService } from "./TimestreamQueryService.js";
 
@@ -14,9 +13,9 @@ import type { TimestreamQueryService } from "./TimestreamQueryService.js";
  * @since 1.0.0
  * @category timestream-query service config
  */
-const currentTimestreamQueryServiceConfig = globalValue(
+const currentTimestreamQueryServiceConfig = Context.Reference<TimestreamQueryService.Config>(
   "@effect-aws/client-timestream-query/currentTimestreamQueryServiceConfig",
-  () => FiberRef.unsafeMake<TimestreamQueryService.Config>({}),
+  { defaultValue: () => ({}) },
 );
 
 /**
@@ -29,7 +28,7 @@ export const withTimestreamQueryServiceConfig: {
 } = dual(
   2,
   <A, E, R>(effect: Effect.Effect<A, E, R>, config: TimestreamQueryService.Config): Effect.Effect<A, E, R> =>
-    Effect.locally(effect, currentTimestreamQueryServiceConfig, config),
+    Effect.provideService(effect, currentTimestreamQueryServiceConfig, config),
 );
 
 /**
@@ -37,14 +36,14 @@ export const withTimestreamQueryServiceConfig: {
  * @category timestream-query service config
  */
 export const setTimestreamQueryServiceConfig = (config: TimestreamQueryService.Config) =>
-  Layer.locallyScoped(currentTimestreamQueryServiceConfig, config);
+  Layer.succeed(currentTimestreamQueryServiceConfig, config);
 
 /**
  * @since 1.0.0
  * @category adapters
  */
 export const toTimestreamQueryClientConfig: Effect.Effect<TimestreamQueryClientConfig> = Effect.gen(function*() {
-  const { logger: serviceLogger, ...config } = yield* FiberRef.get(currentTimestreamQueryServiceConfig);
+  const { logger: serviceLogger, ...config } = yield* currentTimestreamQueryServiceConfig;
 
   const logger = serviceLogger === true
     ? yield* ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger)

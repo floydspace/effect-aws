@@ -3,10 +3,9 @@
  */
 import type { AthenaClientConfig } from "@aws-sdk/client-athena";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
-import * as FiberRef from "effect/FiberRef";
 import { dual } from "effect/Function";
-import { globalValue } from "effect/GlobalValue";
 import * as Layer from "effect/Layer";
 import type { AthenaService } from "./AthenaService.js";
 
@@ -14,9 +13,9 @@ import type { AthenaService } from "./AthenaService.js";
  * @since 1.0.0
  * @category athena service config
  */
-const currentAthenaServiceConfig = globalValue(
+const currentAthenaServiceConfig = Context.Reference<AthenaService.Config>(
   "@effect-aws/client-athena/currentAthenaServiceConfig",
-  () => FiberRef.unsafeMake<AthenaService.Config>({}),
+  { defaultValue: () => ({}) },
 );
 
 /**
@@ -29,7 +28,7 @@ export const withAthenaServiceConfig: {
 } = dual(
   2,
   <A, E, R>(effect: Effect.Effect<A, E, R>, config: AthenaService.Config): Effect.Effect<A, E, R> =>
-    Effect.locally(effect, currentAthenaServiceConfig, config),
+    Effect.provideService(effect, currentAthenaServiceConfig, config),
 );
 
 /**
@@ -37,14 +36,14 @@ export const withAthenaServiceConfig: {
  * @category athena service config
  */
 export const setAthenaServiceConfig = (config: AthenaService.Config) =>
-  Layer.locallyScoped(currentAthenaServiceConfig, config);
+  Layer.succeed(currentAthenaServiceConfig, config);
 
 /**
  * @since 1.0.0
  * @category adapters
  */
 export const toAthenaClientConfig: Effect.Effect<AthenaClientConfig> = Effect.gen(function*() {
-  const { logger: serviceLogger, ...config } = yield* FiberRef.get(currentAthenaServiceConfig);
+  const { logger: serviceLogger, ...config } = yield* currentAthenaServiceConfig;
 
   const logger = serviceLogger === true
     ? yield* ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger)

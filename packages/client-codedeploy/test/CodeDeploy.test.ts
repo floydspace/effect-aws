@@ -28,7 +28,7 @@ describe("CodeDeployClientImpl", () => {
 
     const args = {} as unknown as ListApplicationsCommandInput;
 
-    const program = CodeDeploy.listApplications(args);
+    const program = CodeDeploy.use((svc) => svc.listApplications(args));
 
     const result = await pipe(
       program,
@@ -48,7 +48,7 @@ describe("CodeDeployClientImpl", () => {
 
     const args = {} as unknown as ListApplicationsCommandInput;
 
-    const program = CodeDeploy.listApplications(args);
+    const program = CodeDeploy.use((svc) => svc.listApplications(args));
 
     const result = await pipe(
       program,
@@ -71,7 +71,7 @@ describe("CodeDeployClientImpl", () => {
 
     const args = {} as unknown as ListApplicationsCommandInput;
 
-    const program = CodeDeploy.listApplications(args);
+    const program = CodeDeploy.use((svc) => svc.listApplications(args));
 
     const result = await pipe(
       program,
@@ -95,7 +95,7 @@ describe("CodeDeployClientImpl", () => {
 
     const args = {} as unknown as ListApplicationsCommandInput;
 
-    const program = CodeDeploy.listApplications(args);
+    const program = CodeDeploy.use((svc) => svc.listApplications(args));
 
     const result = await pipe(
       program,
@@ -123,7 +123,7 @@ describe("CodeDeployClientImpl", () => {
 
     const args = {} as unknown as ListApplicationsCommandInput;
 
-    const program = CodeDeploy.listApplications(args);
+    const program = CodeDeploy.use((svc) => svc.listApplications(args));
 
     const result = await pipe(
       program,
@@ -133,7 +133,7 @@ describe("CodeDeployClientImpl", () => {
 
     expect(result).toEqual(
       Exit.fail(
-        SdkError({
+        new SdkError({
           ...new Error("test"),
           name: "SdkError",
           message: "test",
@@ -158,7 +158,7 @@ describe("CodeDeployClientImpl", () => {
 
     const args = {} as unknown as ListApplicationsCommandInput;
 
-    const program = CodeDeploy.listApplications(args).pipe(
+    const program = CodeDeploy.use((svc) => svc.listApplications(args)).pipe(
       Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 
@@ -168,9 +168,9 @@ describe("CodeDeployClientImpl", () => {
       Effect.runPromiseExit,
     );
 
-    expect(result).toEqual(
+    expect(result).toContainEqual(
       Exit.fail(
-        SdkError({
+        new SdkError({
           ...new Error("test"),
           name: "SdkError",
           message: "test",

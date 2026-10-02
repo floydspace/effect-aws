@@ -20,5 +20,5 @@
 /tsconfig.base.json linguist-generated
 /tsconfig.build.json linguist-generated
 /tsconfig.json linguist-generated
+/vitest.config.ts linguist-generated
 /vitest.shared.ts linguist-generated
-/vitest.workspace.json linguist-generated

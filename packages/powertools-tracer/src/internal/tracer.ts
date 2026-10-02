@@ -31,7 +31,7 @@ export class XraySpan implements EffectTracer.Span {
     readonly tracer: TracerInterface,
     readonly name: string,
     readonly parent: Option.Option<EffectTracer.AnySpan>,
-    readonly context: Context.Context<never>,
+    readonly annotations: Context.Context<never>,
     readonly links: Array<EffectTracer.SpanLink>,
     startTime: bigint,
     readonly kind: EffectTracer.SpanKind,
@@ -52,6 +52,7 @@ export class XraySpan implements EffectTracer.Span {
       startTime,
     };
     this.sampled = false;
+    this.annotations = annotations;
   }
 
   addLinks(links: ReadonlyArray<EffectTracer.SpanLink>): void {
@@ -74,7 +75,7 @@ export class XraySpan implements EffectTracer.Span {
     if (exit._tag === "Success") {
       // noop
     } else {
-      if (Cause.isInterruptedOnly(exit.cause)) {
+      if (Cause.hasInterruptsOnly(exit.cause)) {
         this.span.addMetadata("span.message", Cause.pretty(exit.cause));
         this.span.addMetadata("span.label", "⚠︎ Interrupted");
         this.span.addAnnotation("status.interrupted", true);
@@ -86,7 +87,7 @@ export class XraySpan implements EffectTracer.Span {
             this.span.addError(error);
           }
 
-          if (Cause.isFailType(exit.cause)) {
+          if (Cause.hasFails(exit.cause)) {
             this.span.addErrorFlag();
           } else {
             this.span.addFaultFlag();
@@ -105,26 +106,23 @@ export class XraySpan implements EffectTracer.Span {
 }
 
 /** @internal */
-export const Tracer = Context.GenericTag<XrayTracer, TracerInterface>(
+export const Tracer = Context.Service<XrayTracer, TracerInterface>(
   "@effect-aws/powertools-tracer/Tracer/XrayTracer",
 );
 
 /** @internal */
 export const make = Effect.map(Tracer, (tracer) =>
   EffectTracer.make({
-    span(name, parent, context, links, startTime, kind) {
+    span: ({ annotations, kind, links, name, parent, startTime }) => {
       return new XraySpan(
         tracer,
         name,
         parent,
-        context,
+        annotations,
         links.slice(),
         startTime,
         kind,
       );
-    },
-    context(execution) {
-      return execution();
     },
   }));
 
@@ -132,7 +130,7 @@ export const make = Effect.map(Tracer, (tracer) =>
 export const layerTracer = (options?: TracerOptions) => Layer.sync(Tracer, () => new PowerTools.Tracer(options));
 
 /** @internal */
-export const layerWithoutXrayTracer = Layer.unwrapEffect(Effect.map(make, Layer.setTracer));
+export const layerWithoutXrayTracer = Layer.effect(EffectTracer.Tracer, make);
 
 /** @internal */
 export const layer = (options?: TracerOptions) => layerWithoutXrayTracer.pipe(Layer.provide(layerTracer(options)));

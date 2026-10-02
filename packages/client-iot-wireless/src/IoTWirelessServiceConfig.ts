@@ -3,10 +3,9 @@
  */
 import type { IoTWirelessClientConfig } from "@aws-sdk/client-iot-wireless";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
-import * as FiberRef from "effect/FiberRef";
 import { dual } from "effect/Function";
-import { globalValue } from "effect/GlobalValue";
 import * as Layer from "effect/Layer";
 import type { IoTWirelessService } from "./IoTWirelessService.js";
 
@@ -14,9 +13,9 @@ import type { IoTWirelessService } from "./IoTWirelessService.js";
  * @since 1.0.0
  * @category iot-wireless service config
  */
-const currentIoTWirelessServiceConfig = globalValue(
+const currentIoTWirelessServiceConfig = Context.Reference<IoTWirelessService.Config>(
   "@effect-aws/client-iot-wireless/currentIoTWirelessServiceConfig",
-  () => FiberRef.unsafeMake<IoTWirelessService.Config>({}),
+  { defaultValue: () => ({}) },
 );
 
 /**
@@ -29,7 +28,7 @@ export const withIoTWirelessServiceConfig: {
 } = dual(
   2,
   <A, E, R>(effect: Effect.Effect<A, E, R>, config: IoTWirelessService.Config): Effect.Effect<A, E, R> =>
-    Effect.locally(effect, currentIoTWirelessServiceConfig, config),
+    Effect.provideService(effect, currentIoTWirelessServiceConfig, config),
 );
 
 /**
@@ -37,14 +36,14 @@ export const withIoTWirelessServiceConfig: {
  * @category iot-wireless service config
  */
 export const setIoTWirelessServiceConfig = (config: IoTWirelessService.Config) =>
-  Layer.locallyScoped(currentIoTWirelessServiceConfig, config);
+  Layer.succeed(currentIoTWirelessServiceConfig, config);
 
 /**
  * @since 1.0.0
  * @category adapters
  */
 export const toIoTWirelessClientConfig: Effect.Effect<IoTWirelessClientConfig> = Effect.gen(function*() {
-  const { logger: serviceLogger, ...config } = yield* FiberRef.get(currentIoTWirelessServiceConfig);
+  const { logger: serviceLogger, ...config } = yield* currentIoTWirelessServiceConfig;
 
   const logger = serviceLogger === true
     ? yield* ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger)

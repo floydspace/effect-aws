@@ -16,7 +16,7 @@ With default GlueClient instance:
 ```typescript
 import { Glue } from "@effect-aws/client-glue";
 
-const program = Glue.listJobs(args);
+const program = Glue.use((svc) => svc.listJobs(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom GlueClient instance:
 ```typescript
 import { Glue } from "@effect-aws/client-glue";
 
-const program = Glue.listJobs(args);
+const program = Glue.use((svc) => svc.listJobs(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom GlueClient configuration:
 ```typescript
 import { Glue } from "@effect-aws/client-glue";
 
-const program = Glue.listJobs(args);
+const program = Glue.use((svc) => svc.listJobs(args));
 
 const result = await pipe(
   program,

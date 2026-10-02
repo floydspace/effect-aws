@@ -11,9 +11,9 @@ import * as DSQLServiceConfig from "./DSQLServiceConfig.js";
  * @since 1.0.0
  * @category tags
  */
-export class DSQLClientInstance extends Context.Tag(
+export class DSQLClientInstance extends Context.Service<DSQLClientInstance, DSQLClient>()(
   "@effect-aws/client-dsql/DSQLClientInstance",
-)<DSQLClientInstance, DSQLClient>() {}
+) {}
 
 /**
  * @since 1.0.0
@@ -32,4 +32,4 @@ export const make = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const layer = Layer.scoped(DSQLClientInstance, make);
+export const layer = Layer.effect(DSQLClientInstance, make);

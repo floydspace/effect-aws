@@ -11,9 +11,9 @@ import * as CloudFrontServiceConfig from "./CloudFrontServiceConfig.js";
  * @since 1.0.0
  * @category tags
  */
-export class CloudFrontClientInstance extends Context.Tag(
+export class CloudFrontClientInstance extends Context.Service<CloudFrontClientInstance, CloudFrontClient>()(
   "@effect-aws/client-cloudfront/CloudFrontClientInstance",
-)<CloudFrontClientInstance, CloudFrontClient>() {}
+) {}
 
 /**
  * @since 1.0.0
@@ -32,4 +32,4 @@ export const make = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const layer = Layer.scoped(CloudFrontClientInstance, make);
+export const layer = Layer.effect(CloudFrontClientInstance, make);

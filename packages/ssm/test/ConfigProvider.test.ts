@@ -2,7 +2,12 @@ import { InvalidKeyId, ParameterNotFound } from "@aws-sdk/client-ssm";
 import { SSM } from "@effect-aws/client-ssm";
 import { ConfigProvider } from "@effect-aws/ssm";
 import { Arg } from "@fluffy-spoon/substitute";
-import { Config, ConfigError, Effect, Exit, Layer, Redacted } from "effect";
+import * as Config from "effect/Config";
+import { SourceError } from "effect/ConfigProvider";
+import * as Effect from "effect/Effect";
+import * as Exit from "effect/Exit";
+import * as Layer from "effect/Layer";
+import * as Redacted from "effect/Redacted";
 import { describe, expect, it } from "vitest";
 import { SubstituteBuilder } from "./utils/index.js";
 
@@ -15,7 +20,7 @@ describe("fromParameterStore", () => {
 
     const serviceLayer = SSM.baseLayer(() => clientSubstitute);
 
-    const result = await Config.string("test").pipe(
+    const result = await Config.String("test").pipe(
       ConfigProvider.withParameterStoreConfigProvider(),
       Effect.provide(serviceLayer),
       Effect.runPromiseExit,
@@ -38,8 +43,9 @@ describe("fromParameterStore", () => {
     const serviceLayer = SSM.baseLayer(() => clientSubstitute);
     const configProviderLayer = Layer.provide(ConfigProvider.setParameterStoreConfigProvider(), serviceLayer);
 
-    const result = await Config.redacted("my-param-that-doesnt-exist").pipe(
+    const result = await Config.Redacted("my-param-that-doesnt-exist").pipe(
       Config.withDefault(Redacted.make("mocked-default-value")),
+    ).pipe(
       Effect.provide(configProviderLayer),
       Effect.map(Redacted.value),
       Effect.runPromiseExit,
@@ -61,8 +67,9 @@ describe("fromParameterStore", () => {
 
     const serviceLayer = SSM.baseLayer(() => clientSubstitute);
 
-    const result = await Config.redacted("test").pipe(
+    const result = await Config.Redacted("test").pipe(
       Config.withDefault(Redacted.make("mocked-default-value")),
+    ).pipe(
       ConfigProvider.withParameterStoreConfigProvider(),
       Effect.provide(serviceLayer),
       Effect.map(Redacted.value),
@@ -71,9 +78,16 @@ describe("fromParameterStore", () => {
 
     expect(result).toEqual(
       Exit.fail(
-        ConfigError.InvalidData(
-          ["test"],
-          "Invalid key ID when retrieving configuration from AWS Systems Manager Parameter Store",
+        new Config.ConfigError(
+          new SourceError(
+            {
+              message: "Invalid key ID when retrieving configuration from AWS Systems Manager Parameter Store",
+              cause: new InvalidKeyId({
+                $metadata: {},
+                message: "mocked-error",
+              }),
+            },
+          ),
         ),
       ),
     );
@@ -92,20 +106,35 @@ describe("fromParameterStore", () => {
 
     const serviceLayer = SSM.baseLayer(() => clientSubstitute);
 
-    const result = await Config.string("test").pipe(
+    const result = await Config.String("test").pipe(
       ConfigProvider.withParameterStoreConfigProvider(),
       Effect.provide(serviceLayer),
       Effect.runPromiseExit,
     );
 
-    expect(result).toEqual(
-      Exit.fail(
-        ConfigError.MissingData(
-          ["test"],
-          "Expected test parameter to exist in AWS Systems Manager Parameter Store",
-        ),
-      ),
-    );
+    // `Config.String`'s decode failure carries a schema AST built internally
+    // by `Config`'s (non-exported) cursor-decoding machinery, reconstructed
+    // above as `configStringAst`.
+    expect(result).toMatchInlineSnapshot(`
+      {
+        "_id": "Exit",
+        "_tag": "Failure",
+        "cause": {
+          "_id": "Cause",
+          "failures": [
+            {
+              "_tag": "Fail",
+              "error": ConfigError {
+                "_tag": "ConfigError",
+                "cause": [SchemaError: Expected string
+        at ["test"]],
+                "name": "ConfigError",
+              },
+            },
+          ],
+        },
+      }
+    `);
     clientSubstitute.received(1).send(Arg.any(), Arg.any());
   });
 
@@ -116,20 +145,32 @@ describe("fromParameterStore", () => {
 
     const serviceLayer = SSM.baseLayer(() => clientSubstitute);
 
-    const result = await Config.string("test").pipe(
+    const result = await Config.String("test").pipe(
       ConfigProvider.withParameterStoreConfigProvider(),
       Effect.provide(serviceLayer),
       Effect.runPromiseExit,
     );
 
-    expect(result).toEqual(
-      Exit.fail(
-        ConfigError.MissingData(
-          ["test"],
-          "Expected test to exist in AWS Systems Manager Parameter Store",
-        ),
-      ),
-    );
+    expect(result).toMatchInlineSnapshot(`
+      {
+        "_id": "Exit",
+        "_tag": "Failure",
+        "cause": {
+          "_id": "Cause",
+          "failures": [
+            {
+              "_tag": "Fail",
+              "error": ConfigError {
+                "_tag": "ConfigError",
+                "cause": [SchemaError: Expected string
+        at ["test"]],
+                "name": "ConfigError",
+              },
+            },
+          ],
+        },
+      }
+    `);
     clientSubstitute.received(1).send(Arg.any(), Arg.any());
   });
 });

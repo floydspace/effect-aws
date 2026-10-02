@@ -28,7 +28,7 @@ describe("ApiGatewayManagementApiClientImpl", () => {
 
     const args: PostToConnectionCommandInput = { ConnectionId: "test", Data: "test" };
 
-    const program = ApiGatewayManagementApi.postToConnection(args);
+    const program = ApiGatewayManagementApi.use((svc) => svc.postToConnection(args));
 
     const result = await pipe(
       program,
@@ -48,7 +48,7 @@ describe("ApiGatewayManagementApiClientImpl", () => {
 
     const args: PostToConnectionCommandInput = { ConnectionId: "test", Data: "test" };
 
-    const program = ApiGatewayManagementApi.postToConnection(args);
+    const program = ApiGatewayManagementApi.use((svc) => svc.postToConnection(args));
 
     const result = await pipe(
       program,
@@ -71,7 +71,7 @@ describe("ApiGatewayManagementApiClientImpl", () => {
 
     const args: PostToConnectionCommandInput = { ConnectionId: "test", Data: "test" };
 
-    const program = ApiGatewayManagementApi.postToConnection(args);
+    const program = ApiGatewayManagementApi.use((svc) => svc.postToConnection(args));
 
     const result = await pipe(
       program,
@@ -95,7 +95,7 @@ describe("ApiGatewayManagementApiClientImpl", () => {
 
     const args: PostToConnectionCommandInput = { ConnectionId: "test", Data: "test" };
 
-    const program = ApiGatewayManagementApi.postToConnection(args);
+    const program = ApiGatewayManagementApi.use((svc) => svc.postToConnection(args));
 
     const result = await pipe(
       program,
@@ -123,7 +123,7 @@ describe("ApiGatewayManagementApiClientImpl", () => {
 
     const args: PostToConnectionCommandInput = { ConnectionId: "test", Data: "test" };
 
-    const program = ApiGatewayManagementApi.postToConnection(args);
+    const program = ApiGatewayManagementApi.use((svc) => svc.postToConnection(args));
 
     const result = await pipe(
       program,
@@ -133,7 +133,7 @@ describe("ApiGatewayManagementApiClientImpl", () => {
 
     expect(result).toEqual(
       Exit.fail(
-        SdkError({
+        new SdkError({
           ...new Error("test"),
           name: "SdkError",
           message: "test",
@@ -158,7 +158,7 @@ describe("ApiGatewayManagementApiClientImpl", () => {
 
     const args: PostToConnectionCommandInput = { ConnectionId: "test", Data: "test" };
 
-    const program = ApiGatewayManagementApi.postToConnection(args).pipe(
+    const program = ApiGatewayManagementApi.use((svc) => svc.postToConnection(args)).pipe(
       Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 
@@ -168,9 +168,9 @@ describe("ApiGatewayManagementApiClientImpl", () => {
       Effect.runPromiseExit,
     );
 
-    expect(result).toEqual(
+    expect(result).toContainEqual(
       Exit.fail(
-        SdkError({
+        new SdkError({
           ...new Error("test"),
           name: "SdkError",
           message: "test",

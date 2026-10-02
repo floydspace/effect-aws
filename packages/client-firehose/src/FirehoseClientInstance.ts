@@ -11,9 +11,9 @@ import * as FirehoseServiceConfig from "./FirehoseServiceConfig.js";
  * @since 1.0.0
  * @category tags
  */
-export class FirehoseClientInstance extends Context.Tag(
+export class FirehoseClientInstance extends Context.Service<FirehoseClientInstance, FirehoseClient>()(
   "@effect-aws/client-firehose/FirehoseClientInstance",
-)<FirehoseClientInstance, FirehoseClient>() {}
+) {}
 
 /**
  * @since 1.0.0
@@ -32,4 +32,4 @@ export const make = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const layer = Layer.scoped(FirehoseClientInstance, make);
+export const layer = Layer.effect(FirehoseClientInstance, make);

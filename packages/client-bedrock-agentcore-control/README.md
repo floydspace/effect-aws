@@ -16,7 +16,7 @@ With default BedrockAgentCoreControlClient instance:
 ```typescript
 import { BedrockAgentCoreControl } from "@effect-aws/client-bedrock-agentcore-control";
 
-const program = BedrockAgentCoreControl.listAgentRuntimes(args);
+const program = BedrockAgentCoreControl.use((svc) => svc.listAgentRuntimes(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom BedrockAgentCoreControlClient instance:
 ```typescript
 import { BedrockAgentCoreControl } from "@effect-aws/client-bedrock-agentcore-control";
 
-const program = BedrockAgentCoreControl.listAgentRuntimes(args);
+const program = BedrockAgentCoreControl.use((svc) => svc.listAgentRuntimes(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom BedrockAgentCoreControlClient configuration:
 ```typescript
 import { BedrockAgentCoreControl } from "@effect-aws/client-bedrock-agentcore-control";
 
-const program = BedrockAgentCoreControl.listAgentRuntimes(args);
+const program = BedrockAgentCoreControl.use((svc) => svc.listAgentRuntimes(args));
 
 const result = await pipe(
   program,

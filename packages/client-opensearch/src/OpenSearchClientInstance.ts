@@ -11,9 +11,9 @@ import * as OpenSearchServiceConfig from "./OpenSearchServiceConfig.js";
  * @since 1.0.0
  * @category tags
  */
-export class OpenSearchClientInstance extends Context.Tag(
+export class OpenSearchClientInstance extends Context.Service<OpenSearchClientInstance, OpenSearchClient>()(
   "@effect-aws/client-opensearch/OpenSearchClientInstance",
-)<OpenSearchClientInstance, OpenSearchClient>() {}
+) {}
 
 /**
  * @since 1.0.0
@@ -32,4 +32,4 @@ export const make = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const layer = Layer.scoped(OpenSearchClientInstance, make);
+export const layer = Layer.effect(OpenSearchClientInstance, make);

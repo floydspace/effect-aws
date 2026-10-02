@@ -16,7 +16,7 @@ With default KafkaClient instance:
 ```typescript
 import { Kafka } from "@effect-aws/client-kafka";
 
-const program = Kafka.listClusters(args);
+const program = Kafka.use((svc) => svc.listClusters(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom KafkaClient instance:
 ```typescript
 import { Kafka } from "@effect-aws/client-kafka";
 
-const program = Kafka.listClusters(args);
+const program = Kafka.use((svc) => svc.listClusters(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom KafkaClient configuration:
 ```typescript
 import { Kafka } from "@effect-aws/client-kafka";
 
-const program = Kafka.listClusters(args);
+const program = Kafka.use((svc) => svc.listClusters(args));
 
 const result = await pipe(
   program,

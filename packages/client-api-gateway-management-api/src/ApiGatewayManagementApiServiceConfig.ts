@@ -3,10 +3,9 @@
  */
 import type { ApiGatewayManagementApiClientConfig } from "@aws-sdk/client-apigatewaymanagementapi";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
-import * as FiberRef from "effect/FiberRef";
 import { dual } from "effect/Function";
-import { globalValue } from "effect/GlobalValue";
 import * as Layer from "effect/Layer";
 import type { ApiGatewayManagementApiService } from "./ApiGatewayManagementApiService.js";
 
@@ -14,9 +13,9 @@ import type { ApiGatewayManagementApiService } from "./ApiGatewayManagementApiSe
  * @since 1.0.0
  * @category api-gateway-management-api service config
  */
-const currentApiGatewayManagementApiServiceConfig = globalValue(
+const currentApiGatewayManagementApiServiceConfig = Context.Reference<ApiGatewayManagementApiService.Config>(
   "@effect-aws/client-api-gateway-management-api/currentApiGatewayManagementApiServiceConfig",
-  () => FiberRef.unsafeMake<ApiGatewayManagementApiService.Config>({}),
+  { defaultValue: () => ({}) },
 );
 
 /**
@@ -29,7 +28,7 @@ export const withApiGatewayManagementApiServiceConfig: {
 } = dual(
   2,
   <A, E, R>(effect: Effect.Effect<A, E, R>, config: ApiGatewayManagementApiService.Config): Effect.Effect<A, E, R> =>
-    Effect.locally(effect, currentApiGatewayManagementApiServiceConfig, config),
+    Effect.provideService(effect, currentApiGatewayManagementApiServiceConfig, config),
 );
 
 /**
@@ -37,7 +36,7 @@ export const withApiGatewayManagementApiServiceConfig: {
  * @category api-gateway-management-api service config
  */
 export const setApiGatewayManagementApiServiceConfig = (config: ApiGatewayManagementApiService.Config) =>
-  Layer.locallyScoped(currentApiGatewayManagementApiServiceConfig, config);
+  Layer.succeed(currentApiGatewayManagementApiServiceConfig, config);
 
 /**
  * @since 1.0.0
@@ -45,7 +44,7 @@ export const setApiGatewayManagementApiServiceConfig = (config: ApiGatewayManage
  */
 export const toApiGatewayManagementApiClientConfig: Effect.Effect<ApiGatewayManagementApiClientConfig> = Effect.gen(
   function*() {
-    const { logger: serviceLogger, ...config } = yield* FiberRef.get(currentApiGatewayManagementApiServiceConfig);
+    const { logger: serviceLogger, ...config } = yield* currentApiGatewayManagementApiServiceConfig;
 
     const logger = serviceLogger === true
       ? yield* ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger)

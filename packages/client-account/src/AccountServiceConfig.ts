@@ -3,10 +3,9 @@
  */
 import type { AccountClientConfig } from "@aws-sdk/client-account";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
-import * as FiberRef from "effect/FiberRef";
 import { dual } from "effect/Function";
-import { globalValue } from "effect/GlobalValue";
 import * as Layer from "effect/Layer";
 import type { AccountService } from "./AccountService.js";
 
@@ -14,9 +13,9 @@ import type { AccountService } from "./AccountService.js";
  * @since 1.0.0
  * @category account service config
  */
-const currentAccountServiceConfig = globalValue(
+const currentAccountServiceConfig = Context.Reference<AccountService.Config>(
   "@effect-aws/client-account/currentAccountServiceConfig",
-  () => FiberRef.unsafeMake<AccountService.Config>({}),
+  { defaultValue: () => ({}) },
 );
 
 /**
@@ -29,7 +28,7 @@ export const withAccountServiceConfig: {
 } = dual(
   2,
   <A, E, R>(effect: Effect.Effect<A, E, R>, config: AccountService.Config): Effect.Effect<A, E, R> =>
-    Effect.locally(effect, currentAccountServiceConfig, config),
+    Effect.provideService(effect, currentAccountServiceConfig, config),
 );
 
 /**
@@ -37,14 +36,14 @@ export const withAccountServiceConfig: {
  * @category account service config
  */
 export const setAccountServiceConfig = (config: AccountService.Config) =>
-  Layer.locallyScoped(currentAccountServiceConfig, config);
+  Layer.succeed(currentAccountServiceConfig, config);
 
 /**
  * @since 1.0.0
  * @category adapters
  */
 export const toAccountClientConfig: Effect.Effect<AccountClientConfig> = Effect.gen(function*() {
-  const { logger: serviceLogger, ...config } = yield* FiberRef.get(currentAccountServiceConfig);
+  const { logger: serviceLogger, ...config } = yield* currentAccountServiceConfig;
 
   const logger = serviceLogger === true
     ? yield* ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger)

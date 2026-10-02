@@ -45,6 +45,7 @@ import * as Service from "@effect-aws/commons/Service";
 import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
 import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import type {
@@ -77,9 +78,11 @@ const commands = {
   UpdateDestinationCommand,
 };
 
-interface FirehoseService$ {
-  readonly _: unique symbol;
-
+/**
+ * @since 1.0.0
+ * @category models
+ */
+export interface FirehoseService$ {
   /**
    * @see {@link CreateDeliveryStreamCommand}
    */
@@ -88,7 +91,7 @@ interface FirehoseService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateDeliveryStreamCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidArgumentError
     | InvalidKMSResourceError
@@ -104,7 +107,7 @@ interface FirehoseService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDeliveryStreamCommandOutput,
-    Cause.TimeoutException | SdkError | ResourceInUseError | ResourceNotFoundError
+    Cause.TimeoutError | SdkError | ResourceInUseError | ResourceNotFoundError
   >;
 
   /**
@@ -115,7 +118,7 @@ interface FirehoseService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeDeliveryStreamCommandOutput,
-    Cause.TimeoutException | SdkError | ResourceNotFoundError
+    Cause.TimeoutError | SdkError | ResourceNotFoundError
   >;
 
   /**
@@ -126,7 +129,7 @@ interface FirehoseService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDeliveryStreamsCommandOutput,
-    Cause.TimeoutException | SdkError
+    Cause.TimeoutError | SdkError
   >;
 
   /**
@@ -137,7 +140,7 @@ interface FirehoseService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsForDeliveryStreamCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidArgumentError | LimitExceededError | ResourceNotFoundError
+    Cause.TimeoutError | SdkError | InvalidArgumentError | LimitExceededError | ResourceNotFoundError
   >;
 
   /**
@@ -148,7 +151,7 @@ interface FirehoseService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutRecordCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidArgumentError
     | InvalidKMSResourceError
@@ -165,7 +168,7 @@ interface FirehoseService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutRecordBatchCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidArgumentError
     | InvalidKMSResourceError
@@ -182,7 +185,7 @@ interface FirehoseService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartDeliveryStreamEncryptionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidArgumentError
     | InvalidKMSResourceError
@@ -199,7 +202,7 @@ interface FirehoseService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StopDeliveryStreamEncryptionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidArgumentError
     | LimitExceededError
@@ -215,7 +218,7 @@ interface FirehoseService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagDeliveryStreamCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidArgumentError
     | LimitExceededError
@@ -231,7 +234,7 @@ interface FirehoseService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagDeliveryStreamCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidArgumentError
     | LimitExceededError
@@ -247,7 +250,7 @@ interface FirehoseService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateDestinationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConcurrentModificationError
     | InvalidArgumentError
@@ -277,10 +280,10 @@ export const makeFirehoseService = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class FirehoseService extends Effect.Tag("@effect-aws/client-firehose/FirehoseService")<
+export class FirehoseService extends Context.Service<
   FirehoseService,
   FirehoseService$
->() {
+>()("@effect-aws/client-firehose/FirehoseService") {
   static readonly defaultLayer = Layer.effect(this, makeFirehoseService).pipe(Layer.provide(Instance.layer));
   static readonly layer = (config: FirehoseService.Config) =>
     Layer.effect(this, makeFirehoseService).pipe(

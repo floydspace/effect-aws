@@ -11,9 +11,9 @@ import * as DataPipelineServiceConfig from "./DataPipelineServiceConfig.js";
  * @since 1.0.0
  * @category tags
  */
-export class DataPipelineClientInstance extends Context.Tag(
+export class DataPipelineClientInstance extends Context.Service<DataPipelineClientInstance, DataPipelineClient>()(
   "@effect-aws/client-data-pipeline/DataPipelineClientInstance",
-)<DataPipelineClientInstance, DataPipelineClient>() {}
+) {}
 
 /**
  * @since 1.0.0
@@ -32,4 +32,4 @@ export const make = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const layer = Layer.scoped(DataPipelineClientInstance, make);
+export const layer = Layer.effect(DataPipelineClientInstance, make);

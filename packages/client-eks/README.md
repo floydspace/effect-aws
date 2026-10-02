@@ -16,7 +16,7 @@ With default EKSClient instance:
 ```typescript
 import { EKS } from "@effect-aws/client-eks";
 
-const program = EKS.listClusters(args);
+const program = EKS.use((svc) => svc.listClusters(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom EKSClient instance:
 ```typescript
 import { EKS } from "@effect-aws/client-eks";
 
-const program = EKS.listClusters(args);
+const program = EKS.use((svc) => svc.listClusters(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom EKSClient configuration:
 ```typescript
 import { EKS } from "@effect-aws/client-eks";
 
-const program = EKS.listClusters(args);
+const program = EKS.use((svc) => svc.listClusters(args));
 
 const result = await pipe(
   program,

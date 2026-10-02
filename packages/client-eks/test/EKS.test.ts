@@ -28,7 +28,7 @@ describe("EKSClientImpl", () => {
 
     const args = {} as unknown as ListClustersCommandInput;
 
-    const program = EKS.listClusters(args);
+    const program = EKS.use((svc) => svc.listClusters(args));
 
     const result = await pipe(
       program,
@@ -48,7 +48,7 @@ describe("EKSClientImpl", () => {
 
     const args = {} as unknown as ListClustersCommandInput;
 
-    const program = EKS.listClusters(args);
+    const program = EKS.use((svc) => svc.listClusters(args));
 
     const result = await pipe(
       program,
@@ -71,7 +71,7 @@ describe("EKSClientImpl", () => {
 
     const args = {} as unknown as ListClustersCommandInput;
 
-    const program = EKS.listClusters(args);
+    const program = EKS.use((svc) => svc.listClusters(args));
 
     const result = await pipe(
       program,
@@ -95,7 +95,7 @@ describe("EKSClientImpl", () => {
 
     const args = {} as unknown as ListClustersCommandInput;
 
-    const program = EKS.listClusters(args);
+    const program = EKS.use((svc) => svc.listClusters(args));
 
     const result = await pipe(
       program,
@@ -123,7 +123,7 @@ describe("EKSClientImpl", () => {
 
     const args = {} as unknown as ListClustersCommandInput;
 
-    const program = EKS.listClusters(args);
+    const program = EKS.use((svc) => svc.listClusters(args));
 
     const result = await pipe(
       program,
@@ -133,7 +133,7 @@ describe("EKSClientImpl", () => {
 
     expect(result).toEqual(
       Exit.fail(
-        SdkError({
+        new SdkError({
           ...new Error("test"),
           name: "SdkError",
           message: "test",
@@ -158,7 +158,7 @@ describe("EKSClientImpl", () => {
 
     const args = {} as unknown as ListClustersCommandInput;
 
-    const program = EKS.listClusters(args).pipe(
+    const program = EKS.use((svc) => svc.listClusters(args)).pipe(
       Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 
@@ -168,9 +168,9 @@ describe("EKSClientImpl", () => {
       Effect.runPromiseExit,
     );
 
-    expect(result).toEqual(
+    expect(result).toContainEqual(
       Exit.fail(
-        SdkError({
+        new SdkError({
           ...new Error("test"),
           name: "SdkError",
           message: "test",

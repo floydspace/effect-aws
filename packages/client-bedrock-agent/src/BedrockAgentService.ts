@@ -40,6 +40,9 @@ import {
   CreatePromptVersionCommand,
   type CreatePromptVersionCommandInput,
   type CreatePromptVersionCommandOutput,
+  CreateVpcConfigurationCommand,
+  type CreateVpcConfigurationCommandInput,
+  type CreateVpcConfigurationCommandOutput,
   DeleteAgentActionGroupCommand,
   type DeleteAgentActionGroupCommandInput,
   type DeleteAgentActionGroupCommandOutput,
@@ -76,6 +79,9 @@ import {
   DeleteResourcePolicyCommand,
   type DeleteResourcePolicyCommandInput,
   type DeleteResourcePolicyCommandOutput,
+  DeleteVpcConfigurationCommand,
+  type DeleteVpcConfigurationCommandInput,
+  type DeleteVpcConfigurationCommandOutput,
   DisassociateAgentCollaboratorCommand,
   type DisassociateAgentCollaboratorCommandInput,
   type DisassociateAgentCollaboratorCommandOutput,
@@ -127,6 +133,9 @@ import {
   GetResourcePolicyCommand,
   type GetResourcePolicyCommandInput,
   type GetResourcePolicyCommandOutput,
+  GetVpcConfigurationCommand,
+  type GetVpcConfigurationCommandInput,
+  type GetVpcConfigurationCommandOutput,
   IngestKnowledgeBaseDocumentsCommand,
   type IngestKnowledgeBaseDocumentsCommandInput,
   type IngestKnowledgeBaseDocumentsCommandOutput,
@@ -175,6 +184,9 @@ import {
   ListTagsForResourceCommand,
   type ListTagsForResourceCommandInput,
   type ListTagsForResourceCommandOutput,
+  ListVpcConfigurationsCommand,
+  type ListVpcConfigurationsCommandInput,
+  type ListVpcConfigurationsCommandOutput,
   paginateListAgentActionGroups,
   paginateListAgentAliases,
   paginateListAgentCollaborators,
@@ -189,6 +201,7 @@ import {
   paginateListKnowledgeBaseDocuments,
   paginateListKnowledgeBases,
   paginateListPrompts,
+  paginateListVpcConfigurations,
   PrepareAgentCommand,
   type PrepareAgentCommandInput,
   type PrepareAgentCommandOutput,
@@ -248,6 +261,7 @@ import * as Service from "@effect-aws/commons/Service";
 import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
 import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import type * as Stream from "effect/Stream";
@@ -278,6 +292,7 @@ const commands = {
   CreateKnowledgeBaseCommand,
   CreatePromptCommand,
   CreatePromptVersionCommand,
+  CreateVpcConfigurationCommand,
   DeleteAgentCommand,
   DeleteAgentActionGroupCommand,
   DeleteAgentAliasCommand,
@@ -290,6 +305,7 @@ const commands = {
   DeleteKnowledgeBaseDocumentsCommand,
   DeletePromptCommand,
   DeleteResourcePolicyCommand,
+  DeleteVpcConfigurationCommand,
   DisassociateAgentCollaboratorCommand,
   DisassociateAgentKnowledgeBaseCommand,
   GetAgentCommand,
@@ -307,6 +323,7 @@ const commands = {
   GetKnowledgeBaseDocumentsCommand,
   GetPromptCommand,
   GetResourcePolicyCommand,
+  GetVpcConfigurationCommand,
   IngestKnowledgeBaseDocumentsCommand,
   ListAgentActionGroupsCommand,
   ListAgentAliasesCommand,
@@ -323,6 +340,7 @@ const commands = {
   ListKnowledgeBasesCommand,
   ListPromptsCommand,
   ListTagsForResourceCommand,
+  ListVpcConfigurationsCommand,
   PrepareAgentCommand,
   PrepareFlowCommand,
   PutResourcePolicyCommand,
@@ -358,11 +376,14 @@ const paginators = {
   paginateListKnowledgeBaseDocuments,
   paginateListKnowledgeBases,
   paginateListPrompts,
+  paginateListVpcConfigurations,
 };
 
-interface BedrockAgentService$ {
-  readonly _: unique symbol;
-
+/**
+ * @since 1.0.0
+ * @category models
+ */
+export interface BedrockAgentService$ {
   /**
    * @see {@link AssociateAgentCollaboratorCommand}
    */
@@ -371,7 +392,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AssociateAgentCollaboratorCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -390,7 +411,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AssociateAgentKnowledgeBaseCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -409,7 +430,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateAgentCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -427,7 +448,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateAgentActionGroupCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -446,7 +467,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateAgentAliasCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -465,7 +486,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateDataSourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -484,7 +505,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateFlowCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -502,7 +523,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateFlowAliasCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -521,7 +542,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateFlowVersionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -540,7 +561,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateKnowledgeBaseCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -558,7 +579,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreatePromptCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -576,7 +597,26 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreatePromptVersionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ServiceQuotaExceededError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link CreateVpcConfigurationCommand}
+   */
+  createVpcConfiguration(
+    args: CreateVpcConfigurationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateVpcConfigurationCommandOutput,
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -595,7 +635,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteAgentCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -613,7 +653,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteAgentActionGroupCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -631,7 +671,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteAgentAliasCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -648,7 +688,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteAgentVersionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -666,7 +706,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDataSourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -684,7 +724,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteFlowCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -702,7 +742,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteFlowAliasCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -720,7 +760,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteFlowVersionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -738,7 +778,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteKnowledgeBaseCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -756,7 +796,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteKnowledgeBaseDocumentsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -774,7 +814,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeletePromptCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -792,7 +832,25 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteResourcePolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link DeleteVpcConfigurationCommand}
+   */
+  deleteVpcConfiguration(
+    args: DeleteVpcConfigurationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteVpcConfigurationCommandOutput,
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -810,7 +868,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisassociateAgentCollaboratorCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -828,7 +886,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisassociateAgentKnowledgeBaseCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -846,7 +904,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAgentCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -863,7 +921,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAgentActionGroupCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -880,7 +938,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAgentAliasCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -897,7 +955,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAgentCollaboratorCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -914,7 +972,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAgentKnowledgeBaseCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -931,7 +989,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAgentVersionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -948,7 +1006,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDataSourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -965,7 +1023,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetFlowCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -982,7 +1040,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetFlowAliasCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -999,7 +1057,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetFlowVersionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1016,7 +1074,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetIngestionJobCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1033,7 +1091,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetKnowledgeBaseCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1050,7 +1108,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetKnowledgeBaseDocumentsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1068,7 +1126,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPromptCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1085,7 +1143,24 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetResourcePolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link GetVpcConfigurationCommand}
+   */
+  getVpcConfiguration(
+    args: GetVpcConfigurationCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetVpcConfigurationCommandOutput,
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1102,7 +1177,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     IngestKnowledgeBaseDocumentsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1120,7 +1195,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAgentActionGroupsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1134,7 +1209,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListAgentActionGroupsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1151,7 +1226,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAgentAliasesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1165,7 +1240,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListAgentAliasesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1182,7 +1257,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAgentCollaboratorsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1196,7 +1271,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListAgentCollaboratorsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1213,7 +1288,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAgentKnowledgeBasesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1227,7 +1302,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListAgentKnowledgeBasesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1244,7 +1319,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAgentVersionsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1258,7 +1333,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListAgentVersionsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1275,7 +1350,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAgentsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   listAgentsStream(
@@ -1283,7 +1358,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListAgentsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1294,7 +1369,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDataSourcesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1308,7 +1383,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListDataSourcesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1325,7 +1400,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListFlowAliasesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1339,7 +1414,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListFlowAliasesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1356,7 +1431,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListFlowVersionsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1370,7 +1445,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListFlowVersionsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1387,7 +1462,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListFlowsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   listFlowsStream(
@@ -1395,7 +1470,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListFlowsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1406,7 +1481,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListIngestionJobsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1420,7 +1495,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListIngestionJobsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1437,7 +1512,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListKnowledgeBaseDocumentsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1452,7 +1527,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListKnowledgeBaseDocumentsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1470,7 +1545,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListKnowledgeBasesCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   listKnowledgeBasesStream(
@@ -1478,7 +1553,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListKnowledgeBasesCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1489,7 +1564,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListPromptsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1503,7 +1578,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListPromptsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1520,7 +1595,38 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsForResourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link ListVpcConfigurationsCommand}
+   */
+  listVpcConfigurations(
+    args: ListVpcConfigurationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListVpcConfigurationsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  listVpcConfigurationsStream(
+    args: ListVpcConfigurationsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListVpcConfigurationsCommandOutput,
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1537,7 +1643,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PrepareAgentCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1556,7 +1662,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PrepareFlowCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1575,7 +1681,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutResourcePolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1593,7 +1699,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartIngestionJobCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1612,7 +1718,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StopIngestionJobCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1630,7 +1736,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagResourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1648,7 +1754,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1665,7 +1771,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateAgentCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1684,7 +1790,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateAgentActionGroupCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1703,7 +1809,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateAgentAliasCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1722,7 +1828,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateAgentCollaboratorCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1741,7 +1847,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateAgentKnowledgeBaseCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1759,7 +1865,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateDataSourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1777,7 +1883,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateFlowCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1796,7 +1902,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateFlowAliasCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1815,7 +1921,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateKnowledgeBaseCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1833,7 +1939,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdatePromptCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1852,7 +1958,7 @@ interface BedrockAgentService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ValidateFlowDefinitionCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 }
 
@@ -1878,10 +1984,10 @@ export const makeBedrockAgentService = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class BedrockAgentService extends Effect.Tag("@effect-aws/client-bedrock-agent/BedrockAgentService")<
+export class BedrockAgentService extends Context.Service<
   BedrockAgentService,
   BedrockAgentService$
->() {
+>()("@effect-aws/client-bedrock-agent/BedrockAgentService") {
   static readonly defaultLayer = Layer.effect(this, makeBedrockAgentService).pipe(Layer.provide(Instance.layer));
   static readonly layer = (config: BedrockAgentService.Config) =>
     Layer.effect(this, makeBedrockAgentService).pipe(

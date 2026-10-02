@@ -9,6 +9,7 @@ import type {
   CloudfrontSignInputWithPolicy,
 } from "@aws-sdk/cloudfront-signer";
 import { getSignedCookies as awsGetSignedCookies, getSignedUrl as awsGetSignedUrl } from "@aws-sdk/cloudfront-signer";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 
@@ -35,8 +36,6 @@ export type GetSignedCookiesInput =
   | Omit<CloudfrontSignInputWithPolicy, keyof CloudfrontSignerCredentials>;
 
 interface CloudFrontSigner$ {
-  readonly _: unique symbol;
-
   /**
    * Creates a signed URL string using a canned or custom policy.
    *
@@ -76,9 +75,9 @@ const makeCloudFrontSigner = (
  * @since 0.1.0
  * @category models
  */
-export class CloudFrontSigner extends Effect.Tag(
-  "@effect-aws/cloudfront/CloudFrontSigner",
-)<CloudFrontSigner, CloudFrontSigner$>() {
+export class CloudFrontSigner
+  extends Context.Service<CloudFrontSigner, CloudFrontSigner$>()("@effect-aws/cloudfront/CloudFrontSigner")
+{
   /**
    * @since 0.1.0
    *

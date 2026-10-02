@@ -11,9 +11,9 @@ import * as SESv2ServiceConfig from "./SESv2ServiceConfig.js";
  * @since 1.0.0
  * @category tags
  */
-export class SESv2ClientInstance extends Context.Tag(
+export class SESv2ClientInstance extends Context.Service<SESv2ClientInstance, SESv2Client>()(
   "@effect-aws/client-sesv2/SESv2ClientInstance",
-)<SESv2ClientInstance, SESv2Client>() {}
+) {}
 
 /**
  * @since 1.0.0
@@ -32,4 +32,4 @@ export const make = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const layer = Layer.scoped(SESv2ClientInstance, make);
+export const layer = Layer.effect(SESv2ClientInstance, make);

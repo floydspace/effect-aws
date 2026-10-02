@@ -11,9 +11,9 @@ import * as KinesisServiceConfig from "./KinesisServiceConfig.js";
  * @since 1.0.0
  * @category tags
  */
-export class KinesisClientInstance extends Context.Tag(
+export class KinesisClientInstance extends Context.Service<KinesisClientInstance, KinesisClient>()(
   "@effect-aws/client-kinesis/KinesisClientInstance",
-)<KinesisClientInstance, KinesisClient>() {}
+) {}
 
 /**
  * @since 1.0.0
@@ -32,4 +32,4 @@ export const make = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const layer = Layer.scoped(KinesisClientInstance, make);
+export const layer = Layer.effect(KinesisClientInstance, make);

@@ -12,9 +12,11 @@ import * as DynamoDBDocumentServiceConfig from "./DynamoDBDocumentServiceConfig.
  * @since 1.0.0
  * @category tags
  */
-export class DynamoDBDocumentClientInstance extends Context.Tag(
-  "@effect-aws/dynamodb/DynamoDBDocumentClientInstance",
-)<DynamoDBDocumentClientInstance, DynamoDBDocumentClient>() {}
+export class DynamoDBDocumentClientInstance
+  extends Context.Service<DynamoDBDocumentClientInstance, DynamoDBDocumentClient>()(
+    "@effect-aws/dynamodb/DynamoDBDocumentClientInstance",
+  )
+{}
 
 /**
  * @since 1.0.0
@@ -31,6 +33,6 @@ export const make = Effect.all([
  * @since 1.0.0
  * @category layers
  */
-export const layer = Layer.scoped(DynamoDBDocumentClientInstance, make).pipe(
+export const layer = Layer.effect(DynamoDBDocumentClientInstance, make).pipe(
   Layer.provide(DynamoDBClientInstance.layer),
 );

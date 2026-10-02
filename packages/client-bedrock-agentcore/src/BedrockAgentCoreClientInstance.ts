@@ -11,9 +11,11 @@ import * as BedrockAgentCoreServiceConfig from "./BedrockAgentCoreServiceConfig.
  * @since 1.0.0
  * @category tags
  */
-export class BedrockAgentCoreClientInstance extends Context.Tag(
-  "@effect-aws/client-bedrock-agentcore/BedrockAgentCoreClientInstance",
-)<BedrockAgentCoreClientInstance, BedrockAgentCoreClient>() {}
+export class BedrockAgentCoreClientInstance
+  extends Context.Service<BedrockAgentCoreClientInstance, BedrockAgentCoreClient>()(
+    "@effect-aws/client-bedrock-agentcore/BedrockAgentCoreClientInstance",
+  )
+{}
 
 /**
  * @since 1.0.0
@@ -32,4 +34,4 @@ export const make = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const layer = Layer.scoped(BedrockAgentCoreClientInstance, make);
+export const layer = Layer.effect(BedrockAgentCoreClientInstance, make);

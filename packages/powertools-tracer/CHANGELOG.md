@@ -1,5 +1,41 @@
 # @effect-aws/powertools-tracer
 
+## 2.0.0-beta.5
+
+### Minor Changes
+
+- [#223](https://github.com/floydspace/effect-aws/pull/223) [`c12d05d`](https://github.com/floydspace/effect-aws/commit/c12d05d5ee92ae6c27a8e1259f75b9ba51b59cce) Thanks [@godu](https://github.com/godu)! - Fix breaking change introduced in effect 4-beta.66
+
+## 2.0.0-beta.4
+
+### Minor Changes
+
+- [#207](https://github.com/floydspace/effect-aws/pull/207) [`1e2f72e`](https://github.com/floydspace/effect-aws/commit/1e2f72e223a8db28517a3cd5d5ff70adc175d828) Thanks [@github-actions](https://github.com/apps/github-actions)! - Upgrade effect to beta.48 and resolve breaking change introduced by renaming ServiceMap to Context.
+
+## 2.0.0-beta.3
+
+### Minor Changes
+
+- [`2c118a8`](https://github.com/floydspace/effect-aws/commit/2c118a8d086a4ab397933b43f71fb0801f69bf14) Thanks [@floydspace](https://github.com/floydspace)! - upgrade to latest effect v4
+
+## 2.0.0-beta.2
+
+### Patch Changes
+
+- [`0d321e6`](https://github.com/floydspace/effect-aws/commit/0d321e6926ba30e58221483e764d1103078d76d5) Thanks [@floydspace](https://github.com/floydspace)! - remove unique symbol from service shape, discriminator is applyed as service identifier
+
+## 2.0.0-beta.1
+
+### Patch Changes
+
+- [`56d5efb`](https://github.com/floydspace/effect-aws/commit/56d5efb1dbf1d8b60720a95e1cc71013d1a390cd) Thanks [@floydspace](https://github.com/floydspace)! - use named imports instead of barrel
+
+## 2.0.0-beta.0
+
+### Major Changes
+
+- [#198](https://github.com/floydspace/effect-aws/pull/198) [`57b06d0`](https://github.com/floydspace/effect-aws/commit/57b06d0474b35ae754e8e1b0a317e15669191779) Thanks [@floydspace](https://github.com/floydspace)! - Migrate to effect v4
+
 ## 1.1.0
 
 ### Minor Changes

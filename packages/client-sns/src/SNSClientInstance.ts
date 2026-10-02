@@ -11,9 +11,9 @@ import * as SNSServiceConfig from "./SNSServiceConfig.js";
  * @since 1.0.0
  * @category tags
  */
-export class SNSClientInstance extends Context.Tag(
+export class SNSClientInstance extends Context.Service<SNSClientInstance, SNSClient>()(
   "@effect-aws/client-sns/SNSClientInstance",
-)<SNSClientInstance, SNSClient>() {}
+) {}
 
 /**
  * @since 1.0.0
@@ -32,4 +32,4 @@ export const make = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const layer = Layer.scoped(SNSClientInstance, make);
+export const layer = Layer.effect(SNSClientInstance, make);

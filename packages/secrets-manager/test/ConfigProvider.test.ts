@@ -2,7 +2,12 @@ import { InvalidRequestException, ResourceNotFoundException } from "@aws-sdk/cli
 import { SecretsManager } from "@effect-aws/client-secrets-manager";
 import { ConfigProvider } from "@effect-aws/secrets-manager";
 import { Arg } from "@fluffy-spoon/substitute";
-import { Config, ConfigError, Effect, Exit, Layer, Redacted } from "effect";
+import * as Config from "effect/Config";
+import { SourceError } from "effect/ConfigProvider";
+import * as Effect from "effect/Effect";
+import * as Exit from "effect/Exit";
+import * as Layer from "effect/Layer";
+import * as Redacted from "effect/Redacted";
 import { describe, expect, it } from "vitest";
 import { SubstituteBuilder } from "./utils/index.js";
 
@@ -15,7 +20,7 @@ describe("fromSecretsManager", () => {
 
     const serviceLayer = SecretsManager.baseLayer(() => clientSubstitute);
 
-    const result = await Config.string("test").pipe(
+    const result = await Config.String("test").pipe(
       ConfigProvider.withSecretsManagerConfigProvider(),
       Effect.provide(serviceLayer),
       Effect.runPromiseExit,
@@ -38,8 +43,9 @@ describe("fromSecretsManager", () => {
     const serviceLayer = SecretsManager.baseLayer(() => clientSubstitute);
     const configProviderLayer = Layer.provide(ConfigProvider.setSecretsManagerConfigProvider(), serviceLayer);
 
-    const result = await Config.redacted("my-secret-that-doesnt-exist").pipe(
+    const result = await Config.Redacted("my-secret-that-doesnt-exist").pipe(
       Config.withDefault(Redacted.make("mocked-default-value")),
+    ).pipe(
       Effect.provide(configProviderLayer),
       Effect.map(Redacted.value),
       Effect.runPromiseExit,
@@ -61,8 +67,9 @@ describe("fromSecretsManager", () => {
 
     const serviceLayer = SecretsManager.baseLayer(() => clientSubstitute);
 
-    const result = await Config.redacted("test").pipe(
+    const result = await Config.Redacted("test").pipe(
       Config.withDefault(Redacted.make("mocked-default-value")),
+    ).pipe(
       ConfigProvider.withSecretsManagerConfigProvider(),
       Effect.provide(serviceLayer),
       Effect.map(Redacted.value),
@@ -71,9 +78,16 @@ describe("fromSecretsManager", () => {
 
     expect(result).toEqual(
       Exit.fail(
-        ConfigError.InvalidData(
-          ["test"],
-          "Invalid request to AWS Secrets Manager",
+        new Config.ConfigError(
+          new SourceError(
+            {
+              message: "Failed to load configuration from AWS Secrets Manager",
+              cause: new InvalidRequestException({
+                $metadata: {},
+                message: "mocked-error",
+              }),
+            },
+          ),
         ),
       ),
     );
@@ -92,20 +106,32 @@ describe("fromSecretsManager", () => {
 
     const serviceLayer = SecretsManager.baseLayer(() => clientSubstitute);
 
-    const result = await Config.string("test").pipe(
+    const result = await Config.String("test").pipe(
       ConfigProvider.withSecretsManagerConfigProvider(),
       Effect.provide(serviceLayer),
       Effect.runPromiseExit,
     );
 
-    expect(result).toEqual(
-      Exit.fail(
-        ConfigError.MissingData(
-          ["test"],
-          "Expected test to exist in AWS Secrets Manager",
-        ),
-      ),
-    );
+    expect(result).toMatchInlineSnapshot(`
+      {
+        "_id": "Exit",
+        "_tag": "Failure",
+        "cause": {
+          "_id": "Cause",
+          "failures": [
+            {
+              "_tag": "Fail",
+              "error": ConfigError {
+                "_tag": "ConfigError",
+                "cause": [SchemaError: Expected string
+        at ["test"]],
+                "name": "ConfigError",
+              },
+            },
+          ],
+        },
+      }
+    `);
     clientSubstitute.received(1).send(Arg.any(), Arg.any());
   });
 
@@ -116,20 +142,32 @@ describe("fromSecretsManager", () => {
 
     const serviceLayer = SecretsManager.baseLayer(() => clientSubstitute);
 
-    const result = await Config.string("test").pipe(
+    const result = await Config.String("test").pipe(
       ConfigProvider.withSecretsManagerConfigProvider(),
       Effect.provide(serviceLayer),
       Effect.runPromiseExit,
     );
 
-    expect(result).toEqual(
-      Exit.fail(
-        ConfigError.MissingData(
-          ["test"],
-          "Expected test to exist in AWS Secrets Manager",
-        ),
-      ),
-    );
+    expect(result).toMatchInlineSnapshot(`
+      {
+        "_id": "Exit",
+        "_tag": "Failure",
+        "cause": {
+          "_id": "Cause",
+          "failures": [
+            {
+              "_tag": "Fail",
+              "error": ConfigError {
+                "_tag": "ConfigError",
+                "cause": [SchemaError: Expected string
+        at ["test"]],
+                "name": "ConfigError",
+              },
+            },
+          ],
+        },
+      }
+    `);
     clientSubstitute.received(1).send(Arg.any(), Arg.any());
   });
 });

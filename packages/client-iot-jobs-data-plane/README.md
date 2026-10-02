@@ -16,7 +16,7 @@ With default IoTJobsDataPlaneClient instance:
 ```typescript
 import { IoTJobsDataPlane } from "@effect-aws/client-iot-jobs-data-plane";
 
-const program = IoTJobsDataPlane.startCommandExecution(args);
+const program = IoTJobsDataPlane.use((svc) => svc.startCommandExecution(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom IoTJobsDataPlaneClient instance:
 ```typescript
 import { IoTJobsDataPlane } from "@effect-aws/client-iot-jobs-data-plane";
 
-const program = IoTJobsDataPlane.startCommandExecution(args);
+const program = IoTJobsDataPlane.use((svc) => svc.startCommandExecution(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom IoTJobsDataPlaneClient configuration:
 ```typescript
 import { IoTJobsDataPlane } from "@effect-aws/client-iot-jobs-data-plane";
 
-const program = IoTJobsDataPlane.startCommandExecution(args);
+const program = IoTJobsDataPlane.use((svc) => svc.startCommandExecution(args));
 
 const result = await pipe(
   program,

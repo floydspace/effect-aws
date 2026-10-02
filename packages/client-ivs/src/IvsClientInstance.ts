@@ -11,9 +11,9 @@ import * as IvsServiceConfig from "./IvsServiceConfig.js";
  * @since 1.0.0
  * @category tags
  */
-export class IvsClientInstance extends Context.Tag(
+export class IvsClientInstance extends Context.Service<IvsClientInstance, IvsClient>()(
   "@effect-aws/client-ivs/IvsClientInstance",
-)<IvsClientInstance, IvsClient>() {}
+) {}
 
 /**
  * @since 1.0.0
@@ -32,4 +32,4 @@ export const make = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const layer = Layer.scoped(IvsClientInstance, make);
+export const layer = Layer.effect(IvsClientInstance, make);

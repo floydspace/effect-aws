@@ -16,7 +16,7 @@ With default FirehoseClient instance:
 ```typescript
 import { Firehose } from "@effect-aws/client-firehose";
 
-const program = Firehose.putRecord(args);
+const program = Firehose.use((svc) => svc.putRecord(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom FirehoseClient instance:
 ```typescript
 import { Firehose } from "@effect-aws/client-firehose";
 
-const program = Firehose.putRecord(args);
+const program = Firehose.use((svc) => svc.putRecord(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom FirehoseClient configuration:
 ```typescript
 import { Firehose } from "@effect-aws/client-firehose";
 
-const program = Firehose.putRecord(args);
+const program = Firehose.use((svc) => svc.putRecord(args));
 
 const result = await pipe(
   program,

@@ -3,10 +3,9 @@
  */
 import type { OpenSearchServerlessClientConfig } from "@aws-sdk/client-opensearchserverless";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
-import * as FiberRef from "effect/FiberRef";
 import { dual } from "effect/Function";
-import { globalValue } from "effect/GlobalValue";
 import * as Layer from "effect/Layer";
 import type { OpenSearchServerlessService } from "./OpenSearchServerlessService.js";
 
@@ -14,9 +13,9 @@ import type { OpenSearchServerlessService } from "./OpenSearchServerlessService.
  * @since 1.0.0
  * @category opensearch-serverless service config
  */
-const currentOpenSearchServerlessServiceConfig = globalValue(
+const currentOpenSearchServerlessServiceConfig = Context.Reference<OpenSearchServerlessService.Config>(
   "@effect-aws/client-opensearch-serverless/currentOpenSearchServerlessServiceConfig",
-  () => FiberRef.unsafeMake<OpenSearchServerlessService.Config>({}),
+  { defaultValue: () => ({}) },
 );
 
 /**
@@ -29,7 +28,7 @@ export const withOpenSearchServerlessServiceConfig: {
 } = dual(
   2,
   <A, E, R>(effect: Effect.Effect<A, E, R>, config: OpenSearchServerlessService.Config): Effect.Effect<A, E, R> =>
-    Effect.locally(effect, currentOpenSearchServerlessServiceConfig, config),
+    Effect.provideService(effect, currentOpenSearchServerlessServiceConfig, config),
 );
 
 /**
@@ -37,7 +36,7 @@ export const withOpenSearchServerlessServiceConfig: {
  * @category opensearch-serverless service config
  */
 export const setOpenSearchServerlessServiceConfig = (config: OpenSearchServerlessService.Config) =>
-  Layer.locallyScoped(currentOpenSearchServerlessServiceConfig, config);
+  Layer.succeed(currentOpenSearchServerlessServiceConfig, config);
 
 /**
  * @since 1.0.0
@@ -45,7 +44,7 @@ export const setOpenSearchServerlessServiceConfig = (config: OpenSearchServerles
  */
 export const toOpenSearchServerlessClientConfig: Effect.Effect<OpenSearchServerlessClientConfig> = Effect.gen(
   function*() {
-    const { logger: serviceLogger, ...config } = yield* FiberRef.get(currentOpenSearchServerlessServiceConfig);
+    const { logger: serviceLogger, ...config } = yield* currentOpenSearchServerlessServiceConfig;
 
     const logger = serviceLogger === true
       ? yield* ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger)

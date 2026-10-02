@@ -16,7 +16,7 @@ With default IoTWirelessClient instance:
 ```typescript
 import { IoTWireless } from "@effect-aws/client-iot-wireless";
 
-const program = IoTWireless.listDestinations(args);
+const program = IoTWireless.use((svc) => svc.listDestinations(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom IoTWirelessClient instance:
 ```typescript
 import { IoTWireless } from "@effect-aws/client-iot-wireless";
 
-const program = IoTWireless.listDestinations(args);
+const program = IoTWireless.use((svc) => svc.listDestinations(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom IoTWirelessClient configuration:
 ```typescript
 import { IoTWireless } from "@effect-aws/client-iot-wireless";
 
-const program = IoTWireless.listDestinations(args);
+const program = IoTWireless.use((svc) => svc.listDestinations(args));
 
 const result = await pipe(
   program,

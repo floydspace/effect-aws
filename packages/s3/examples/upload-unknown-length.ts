@@ -1,5 +1,5 @@
 import { MultipartUpload } from "@effect-aws/s3";
-import { Effect } from "effect";
+import * as Effect from "effect/Effect";
 import { Readable } from "node:stream";
 
 async function* generateContents() {

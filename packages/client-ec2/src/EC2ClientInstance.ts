@@ -11,9 +11,9 @@ import * as EC2ServiceConfig from "./EC2ServiceConfig.js";
  * @since 1.0.0
  * @category tags
  */
-export class EC2ClientInstance extends Context.Tag(
+export class EC2ClientInstance extends Context.Service<EC2ClientInstance, EC2Client>()(
   "@effect-aws/client-ec2/EC2ClientInstance",
-)<EC2ClientInstance, EC2Client>() {}
+) {}
 
 /**
  * @since 1.0.0
@@ -32,4 +32,4 @@ export const make = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const layer = Layer.scoped(EC2ClientInstance, make);
+export const layer = Layer.effect(EC2ClientInstance, make);

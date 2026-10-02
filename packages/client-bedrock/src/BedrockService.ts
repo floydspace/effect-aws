@@ -352,6 +352,7 @@ import * as Service from "@effect-aws/commons/Service";
 import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
 import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import type * as Stream from "effect/Stream";
@@ -505,9 +506,11 @@ const paginators = {
   paginateListProvisionedModelThroughputs,
 };
 
-interface BedrockService$ {
-  readonly _: unique symbol;
-
+/**
+ * @since 1.0.0
+ * @category models
+ */
+export interface BedrockService$ {
   /**
    * @see {@link BatchDeleteAdvancedPromptOptimizationJobCommand}
    */
@@ -516,7 +519,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchDeleteAdvancedPromptOptimizationJobCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -527,7 +530,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     BatchDeleteEvaluationJobCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -545,7 +548,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelAutomatedReasoningPolicyBuildWorkflowCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -562,7 +565,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateAdvancedPromptOptimizationJobCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -582,7 +585,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateAutomatedReasoningPolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -602,7 +605,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateAutomatedReasoningPolicyTestCaseCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -621,7 +624,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateAutomatedReasoningPolicyVersionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -641,7 +644,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateCustomModelCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -661,7 +664,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateCustomModelDeploymentCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -680,7 +683,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateEvaluationJobCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -699,7 +702,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateFoundationModelAgreementCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -717,7 +720,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateGuardrailCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -737,7 +740,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateGuardrailVersionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -756,7 +759,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateInferenceProfileCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -776,7 +779,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateMarketplaceModelEndpointCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -795,12 +798,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateModelCopyJobCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | AccessDeniedError
-    | InternalServerError
-    | ResourceNotFoundError
-    | TooManyTagsError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ResourceNotFoundError | TooManyTagsError
   >;
 
   /**
@@ -811,7 +809,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateModelCustomizationJobCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -831,7 +829,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateModelImportJobCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -851,7 +849,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateModelInvocationJobCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -870,7 +868,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreatePromptRouterCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -890,7 +888,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateProvisionedModelThroughputCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -909,7 +907,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteAutomatedReasoningPolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -928,7 +926,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteAutomatedReasoningPolicyBuildWorkflowCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -947,7 +945,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteAutomatedReasoningPolicyTestCaseCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -966,7 +964,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteCustomModelCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -984,7 +982,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteCustomModelDeploymentCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1002,7 +1000,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteEnforcedGuardrailConfigurationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1019,7 +1017,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteFoundationModelAgreementCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1037,7 +1035,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteGuardrailCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1056,7 +1054,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteImportedModelCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1074,7 +1072,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteInferenceProfileCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1092,7 +1090,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteMarketplaceModelEndpointCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1109,7 +1107,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteModelInvocationLoggingConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError
   >;
 
   /**
@@ -1120,7 +1118,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeletePromptRouterCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1137,7 +1135,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteProvisionedModelThroughputCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -1155,7 +1153,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteResourcePolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1172,7 +1170,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeregisterMarketplaceModelEndpointCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1190,7 +1188,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ExportAutomatedReasoningPolicyVersionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1207,7 +1205,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAccountDataRetentionCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1218,7 +1216,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAdvancedPromptOptimizationJobCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1235,7 +1233,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAutomatedReasoningPolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1252,7 +1250,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAutomatedReasoningPolicyAnnotationsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1269,7 +1267,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAutomatedReasoningPolicyBuildWorkflowCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1286,7 +1284,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAutomatedReasoningPolicyBuildWorkflowResultAssetsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1303,7 +1301,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAutomatedReasoningPolicyNextScenarioCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1320,7 +1318,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAutomatedReasoningPolicyTestCaseCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1337,7 +1335,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAutomatedReasoningPolicyTestResultCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1354,7 +1352,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetCustomModelCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1371,7 +1369,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetCustomModelDeploymentCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1388,7 +1386,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetEvaluationJobCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1405,7 +1403,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetFoundationModelCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1422,7 +1420,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetFoundationModelAvailabilityCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1439,7 +1437,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetGuardrailCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1456,7 +1454,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetImportedModelCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1473,7 +1471,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetInferenceProfileCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1490,7 +1488,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetMarketplaceModelEndpointCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1507,7 +1505,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetModelCopyJobCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1524,7 +1522,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetModelCustomizationJobCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1541,7 +1539,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetModelImportJobCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1558,7 +1556,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetModelInvocationJobCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1575,7 +1573,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetModelInvocationLoggingConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError
   >;
 
   /**
@@ -1586,7 +1584,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPromptRouterCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1603,7 +1601,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetProvisionedModelThroughputCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1620,7 +1618,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetResourcePolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1637,7 +1635,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetUseCaseForModelAccessCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1648,7 +1646,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAdvancedPromptOptimizationJobsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   listAdvancedPromptOptimizationJobsStream(
@@ -1656,7 +1654,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListAdvancedPromptOptimizationJobsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1667,7 +1665,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAutomatedReasoningPoliciesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1681,7 +1679,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListAutomatedReasoningPoliciesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1698,7 +1696,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAutomatedReasoningPolicyBuildWorkflowsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1712,7 +1710,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListAutomatedReasoningPolicyBuildWorkflowsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1729,7 +1727,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAutomatedReasoningPolicyTestCasesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1743,7 +1741,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListAutomatedReasoningPolicyTestCasesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1760,7 +1758,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAutomatedReasoningPolicyTestResultsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1775,7 +1773,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListAutomatedReasoningPolicyTestResultsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1793,7 +1791,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListCustomModelDeploymentsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   listCustomModelDeploymentsStream(
@@ -1801,7 +1799,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListCustomModelDeploymentsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1812,7 +1810,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListCustomModelsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   listCustomModelsStream(
@@ -1820,7 +1818,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListCustomModelsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1831,7 +1829,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListEnforcedGuardrailsConfigurationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1845,7 +1843,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListEnforcedGuardrailsConfigurationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1862,7 +1860,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListEvaluationJobsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   listEvaluationJobsStream(
@@ -1870,7 +1868,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListEvaluationJobsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1881,7 +1879,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListFoundationModelAgreementOffersCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1898,7 +1896,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListFoundationModelsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1909,7 +1907,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListGuardrailsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1923,7 +1921,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListGuardrailsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1940,7 +1938,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListImportedModelsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   listImportedModelsStream(
@@ -1948,7 +1946,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListImportedModelsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1959,7 +1957,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListInferenceProfilesCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   listInferenceProfilesStream(
@@ -1967,7 +1965,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListInferenceProfilesCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -1978,7 +1976,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListMarketplaceModelEndpointsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -1992,7 +1990,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListMarketplaceModelEndpointsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -2009,7 +2007,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListModelCopyJobsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -2023,7 +2021,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListModelCopyJobsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -2040,7 +2038,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListModelCustomizationJobsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   listModelCustomizationJobsStream(
@@ -2048,7 +2046,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListModelCustomizationJobsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -2059,7 +2057,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListModelImportJobsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   listModelImportJobsStream(
@@ -2067,7 +2065,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListModelImportJobsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -2078,7 +2076,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListModelInvocationJobsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   listModelInvocationJobsStream(
@@ -2086,7 +2084,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListModelInvocationJobsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -2097,7 +2095,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListPromptRoutersCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   listPromptRoutersStream(
@@ -2105,7 +2103,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListPromptRoutersCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -2116,7 +2114,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListProvisionedModelThroughputsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   listProvisionedModelThroughputsStream(
@@ -2124,7 +2122,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListProvisionedModelThroughputsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -2135,7 +2133,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsForResourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -2152,7 +2150,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutAccountDataRetentionCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -2163,7 +2161,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutEnforcedGuardrailConfigurationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -2181,7 +2179,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutModelInvocationLoggingConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -2192,7 +2190,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutResourcePolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -2209,7 +2207,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutUseCaseForModelAccessCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -2220,7 +2218,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RegisterMarketplaceModelEndpointCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -2238,7 +2236,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartAutomatedReasoningPolicyBuildWorkflowCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -2258,7 +2256,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartAutomatedReasoningPolicyTestWorkflowCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -2276,7 +2274,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StopAdvancedPromptOptimizationJobCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -2294,7 +2292,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StopEvaluationJobCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -2312,7 +2310,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StopModelCustomizationJobCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -2330,7 +2328,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StopModelInvocationJobCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -2348,7 +2346,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagResourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -2366,7 +2364,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -2383,7 +2381,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateAutomatedReasoningPolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -2402,7 +2400,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateAutomatedReasoningPolicyAnnotationsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -2420,7 +2418,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateAutomatedReasoningPolicyTestCaseCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -2439,7 +2437,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateCustomModelDeploymentCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -2456,7 +2454,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateGuardrailCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -2475,7 +2473,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateMarketplaceModelEndpointCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -2494,7 +2492,7 @@ interface BedrockService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateProvisionedModelThroughputCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -2526,10 +2524,10 @@ export const makeBedrockService = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class BedrockService extends Effect.Tag("@effect-aws/client-bedrock/BedrockService")<
+export class BedrockService extends Context.Service<
   BedrockService,
   BedrockService$
->() {
+>()("@effect-aws/client-bedrock/BedrockService") {
   static readonly defaultLayer = Layer.effect(this, makeBedrockService).pipe(Layer.provide(Instance.layer));
   static readonly layer = (config: BedrockService.Config) =>
     Layer.effect(this, makeBedrockService).pipe(

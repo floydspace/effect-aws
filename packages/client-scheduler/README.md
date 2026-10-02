@@ -16,7 +16,7 @@ With default SchedulerClient instance:
 ```typescript
 import { Scheduler } from "@effect-aws/client-scheduler";
 
-const program = Scheduler.tagResource(args);
+const program = Scheduler.use((svc) => svc.tagResource(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom SchedulerClient instance:
 ```typescript
 import { Scheduler } from "@effect-aws/client-scheduler";
 
-const program = Scheduler.tagResource(args);
+const program = Scheduler.use((svc) => svc.tagResource(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom SchedulerClient configuration:
 ```typescript
 import { Scheduler } from "@effect-aws/client-scheduler";
 
-const program = Scheduler.tagResource(args);
+const program = Scheduler.use((svc) => svc.tagResource(args));
 
 const result = await pipe(
   program,

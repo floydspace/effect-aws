@@ -16,7 +16,7 @@ With default AccountClient instance:
 ```typescript
 import { Account } from "@effect-aws/client-account";
 
-const program = Account.listRegions(args);
+const program = Account.use((svc) => svc.listRegions(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom AccountClient instance:
 ```typescript
 import { Account } from "@effect-aws/client-account";
 
-const program = Account.listRegions(args);
+const program = Account.use((svc) => svc.listRegions(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom AccountClient configuration:
 ```typescript
 import { Account } from "@effect-aws/client-account";
 
-const program = Account.listRegions(args);
+const program = Account.use((svc) => svc.listRegions(args));
 
 const result = await pipe(
   program,

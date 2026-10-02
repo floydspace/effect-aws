@@ -3,10 +3,9 @@
  */
 import type { APIGatewayClientConfig } from "@aws-sdk/client-api-gateway";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
-import * as FiberRef from "effect/FiberRef";
 import { dual } from "effect/Function";
-import { globalValue } from "effect/GlobalValue";
 import * as Layer from "effect/Layer";
 import type { APIGatewayService } from "./APIGatewayService.js";
 
@@ -14,9 +13,9 @@ import type { APIGatewayService } from "./APIGatewayService.js";
  * @since 1.0.0
  * @category api-gateway service config
  */
-const currentAPIGatewayServiceConfig = globalValue(
+const currentAPIGatewayServiceConfig = Context.Reference<APIGatewayService.Config>(
   "@effect-aws/client-api-gateway/currentAPIGatewayServiceConfig",
-  () => FiberRef.unsafeMake<APIGatewayService.Config>({}),
+  { defaultValue: () => ({}) },
 );
 
 /**
@@ -29,7 +28,7 @@ export const withAPIGatewayServiceConfig: {
 } = dual(
   2,
   <A, E, R>(effect: Effect.Effect<A, E, R>, config: APIGatewayService.Config): Effect.Effect<A, E, R> =>
-    Effect.locally(effect, currentAPIGatewayServiceConfig, config),
+    Effect.provideService(effect, currentAPIGatewayServiceConfig, config),
 );
 
 /**
@@ -37,14 +36,14 @@ export const withAPIGatewayServiceConfig: {
  * @category api-gateway service config
  */
 export const setAPIGatewayServiceConfig = (config: APIGatewayService.Config) =>
-  Layer.locallyScoped(currentAPIGatewayServiceConfig, config);
+  Layer.succeed(currentAPIGatewayServiceConfig, config);
 
 /**
  * @since 1.0.0
  * @category adapters
  */
 export const toAPIGatewayClientConfig: Effect.Effect<APIGatewayClientConfig> = Effect.gen(function*() {
-  const { logger: serviceLogger, ...config } = yield* FiberRef.get(currentAPIGatewayServiceConfig);
+  const { logger: serviceLogger, ...config } = yield* currentAPIGatewayServiceConfig;
 
   const logger = serviceLogger === true
     ? yield* ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger)

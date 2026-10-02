@@ -11,9 +11,9 @@ import * as SSMServiceConfig from "./SSMServiceConfig.js";
  * @since 1.0.0
  * @category tags
  */
-export class SSMClientInstance extends Context.Tag(
+export class SSMClientInstance extends Context.Service<SSMClientInstance, SSMClient>()(
   "@effect-aws/client-ssm/SSMClientInstance",
-)<SSMClientInstance, SSMClient>() {}
+) {}
 
 /**
  * @since 1.0.0
@@ -32,4 +32,4 @@ export const make = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const layer = Layer.scoped(SSMClientInstance, make);
+export const layer = Layer.effect(SSMClientInstance, make);

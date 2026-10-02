@@ -11,9 +11,9 @@ import * as MqServiceConfig from "./MqServiceConfig.js";
  * @since 1.0.0
  * @category tags
  */
-export class MqClientInstance extends Context.Tag(
+export class MqClientInstance extends Context.Service<MqClientInstance, MqClient>()(
   "@effect-aws/client-mq/MqClientInstance",
-)<MqClientInstance, MqClient>() {}
+) {}
 
 /**
  * @since 1.0.0
@@ -32,4 +32,4 @@ export const make = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const layer = Layer.scoped(MqClientInstance, make);
+export const layer = Layer.effect(MqClientInstance, make);

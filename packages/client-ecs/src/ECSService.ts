@@ -249,6 +249,7 @@ import * as Service from "@effect-aws/commons/Service";
 import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
 import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import type * as Stream from "effect/Stream";
@@ -381,9 +382,11 @@ const paginators = {
   paginateListTasks,
 };
 
-interface ECSService$ {
-  readonly _: unique symbol;
-
+/**
+ * @since 1.0.0
+ * @category models
+ */
+export interface ECSService$ {
   /**
    * @see {@link ContinueServiceDeploymentCommand}
    */
@@ -392,7 +395,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ContinueServiceDeploymentCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -410,7 +413,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateCapacityProviderCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -430,7 +433,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateClusterCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -447,7 +450,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateDaemonCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -466,7 +469,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateExpressGatewayServiceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -486,7 +489,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateServiceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -507,7 +510,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateTaskSetCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -531,7 +534,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteAccountSettingCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | ClientError | InvalidParameterError | ServerError
+    Cause.TimeoutError | SdkError | AccessDeniedError | ClientError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -542,7 +545,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteAttributesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -560,7 +563,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteCapacityProviderCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -579,7 +582,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteClusterCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -601,7 +604,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDaemonCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -621,7 +624,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDaemonTaskDefinitionCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | ClientError | InvalidParameterError | ServerError
+    Cause.TimeoutError | SdkError | AccessDeniedError | ClientError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -632,7 +635,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteExpressGatewayServiceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -652,7 +655,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteServiceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -670,7 +673,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteTaskDefinitionsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | ClientError | InvalidParameterError | ServerError
+    Cause.TimeoutError | SdkError | AccessDeniedError | ClientError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -681,7 +684,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteTaskSetCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -703,7 +706,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeregisterContainerInstanceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -720,7 +723,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeregisterTaskDefinitionCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | ClientError | InvalidParameterError | ServerError
+    Cause.TimeoutError | SdkError | AccessDeniedError | ClientError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -731,7 +734,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeCapacityProvidersCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -749,7 +752,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeClustersCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | ClientError | InvalidParameterError | ServerError
+    Cause.TimeoutError | SdkError | AccessDeniedError | ClientError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -760,7 +763,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeContainerInstancesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -777,7 +780,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeDaemonCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -796,7 +799,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeDaemonDeploymentsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -814,7 +817,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeDaemonRevisionsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -832,7 +835,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeDaemonTaskDefinitionCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | ClientError | InvalidParameterError | ServerError
+    Cause.TimeoutError | SdkError | AccessDeniedError | ClientError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -843,7 +846,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeExpressGatewayServiceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -862,7 +865,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeServiceDeploymentsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -881,7 +884,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeServiceRevisionsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -900,7 +903,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeServicesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -917,7 +920,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeTaskDefinitionCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | ClientError | InvalidParameterError | ServerError
+    Cause.TimeoutError | SdkError | AccessDeniedError | ClientError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -928,7 +931,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeTaskSetsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -948,7 +951,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeTasksCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -965,7 +968,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DiscoverPollEndpointCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | ClientError | InvalidParameterError | ServerError
+    Cause.TimeoutError | SdkError | AccessDeniedError | ClientError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -976,7 +979,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ExecuteCommandCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -994,7 +997,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetTaskProtectionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -1013,7 +1016,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAccountSettingsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | ClientError | InvalidParameterError | ServerError
+    Cause.TimeoutError | SdkError | AccessDeniedError | ClientError | InvalidParameterError | ServerError
   >;
 
   listAccountSettingsStream(
@@ -1021,7 +1024,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListAccountSettingsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | ClientError | InvalidParameterError | ServerError
+    Cause.TimeoutError | SdkError | AccessDeniedError | ClientError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -1032,7 +1035,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAttributesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -1046,7 +1049,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListAttributesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -1063,7 +1066,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListClustersCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | ClientError | InvalidParameterError | ServerError
+    Cause.TimeoutError | SdkError | AccessDeniedError | ClientError | InvalidParameterError | ServerError
   >;
 
   listClustersStream(
@@ -1071,7 +1074,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListClustersCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | ClientError | InvalidParameterError | ServerError
+    Cause.TimeoutError | SdkError | AccessDeniedError | ClientError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -1082,7 +1085,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListContainerInstancesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -1096,7 +1099,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListContainerInstancesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -1113,7 +1116,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDaemonDeploymentsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -1131,7 +1134,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDaemonTaskDefinitionsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | ClientError | InvalidParameterError | ServerError
+    Cause.TimeoutError | SdkError | AccessDeniedError | ClientError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -1142,7 +1145,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDaemonsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -1160,7 +1163,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListServiceDeploymentsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -1179,7 +1182,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListServicesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -1193,7 +1196,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListServicesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -1210,7 +1213,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListServicesByNamespaceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -1224,7 +1227,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListServicesByNamespaceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -1241,7 +1244,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsForResourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -1258,7 +1261,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTaskDefinitionFamiliesCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | ClientError | InvalidParameterError | ServerError
+    Cause.TimeoutError | SdkError | AccessDeniedError | ClientError | InvalidParameterError | ServerError
   >;
 
   listTaskDefinitionFamiliesStream(
@@ -1266,7 +1269,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListTaskDefinitionFamiliesCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | ClientError | InvalidParameterError | ServerError
+    Cause.TimeoutError | SdkError | AccessDeniedError | ClientError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -1277,7 +1280,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTaskDefinitionsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | ClientError | InvalidParameterError | ServerError
+    Cause.TimeoutError | SdkError | AccessDeniedError | ClientError | InvalidParameterError | ServerError
   >;
 
   listTaskDefinitionsStream(
@@ -1285,7 +1288,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListTaskDefinitionsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | ClientError | InvalidParameterError | ServerError
+    Cause.TimeoutError | SdkError | AccessDeniedError | ClientError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -1296,7 +1299,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTasksCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -1311,7 +1314,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListTasksCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -1329,7 +1332,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutAccountSettingCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | ClientError | InvalidParameterError | ServerError
+    Cause.TimeoutError | SdkError | AccessDeniedError | ClientError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -1340,7 +1343,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutAccountSettingDefaultCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | ClientError | InvalidParameterError | ServerError
+    Cause.TimeoutError | SdkError | AccessDeniedError | ClientError | InvalidParameterError | ServerError
   >;
 
   /**
@@ -1351,7 +1354,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutAttributesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AttributeLimitExceededError
@@ -1370,7 +1373,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutClusterCapacityProvidersCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -1389,7 +1392,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RegisterContainerInstanceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -1406,7 +1409,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RegisterDaemonTaskDefinitionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -1423,7 +1426,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RegisterTaskDefinitionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -1440,7 +1443,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RunTaskCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | BlockedError
@@ -1462,7 +1465,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartTaskCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -1481,7 +1484,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StopServiceDeploymentCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -1500,7 +1503,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StopTaskCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -1517,7 +1520,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SubmitAttachmentStateChangesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -1534,7 +1537,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SubmitContainerStateChangeCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -1551,7 +1554,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SubmitTaskStateChangeCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -1568,7 +1571,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagResourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -1587,7 +1590,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -1605,7 +1608,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateCapacityProviderCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -1623,7 +1626,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateClusterCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -1641,7 +1644,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateClusterSettingsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -1659,7 +1662,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateContainerAgentCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -1679,7 +1682,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateContainerInstancesStateCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -1696,7 +1699,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateDaemonCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -1717,7 +1720,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateExpressGatewayServiceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -1737,7 +1740,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateServiceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -1760,7 +1763,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateServicePrimaryTaskSetCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -1781,7 +1784,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateTaskProtectionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -1800,7 +1803,7 @@ interface ECSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateTaskSetCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -1837,10 +1840,10 @@ export const makeECSService = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class ECSService extends Effect.Tag("@effect-aws/client-ecs/ECSService")<
+export class ECSService extends Context.Service<
   ECSService,
   ECSService$
->() {
+>()("@effect-aws/client-ecs/ECSService") {
   static readonly defaultLayer = Layer.effect(this, makeECSService).pipe(Layer.provide(Instance.layer));
   static readonly layer = (config: ECSService.Config) =>
     Layer.effect(this, makeECSService).pipe(

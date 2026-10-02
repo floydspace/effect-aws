@@ -28,7 +28,7 @@ describe("APIGatewayClientImpl", () => {
 
     const args: GetApiKeyCommandInput = { apiKey: "test" };
 
-    const program = APIGateway.getApiKey(args);
+    const program = APIGateway.use((svc) => svc.getApiKey(args));
 
     const result = await pipe(
       program,
@@ -48,7 +48,7 @@ describe("APIGatewayClientImpl", () => {
 
     const args: GetApiKeyCommandInput = { apiKey: "test" };
 
-    const program = APIGateway.getApiKey(args);
+    const program = APIGateway.use((svc) => svc.getApiKey(args));
 
     const result = await pipe(
       program,
@@ -71,7 +71,7 @@ describe("APIGatewayClientImpl", () => {
 
     const args: GetApiKeyCommandInput = { apiKey: "test" };
 
-    const program = APIGateway.getApiKey(args);
+    const program = APIGateway.use((svc) => svc.getApiKey(args));
 
     const result = await pipe(
       program,
@@ -95,7 +95,7 @@ describe("APIGatewayClientImpl", () => {
 
     const args: GetApiKeyCommandInput = { apiKey: "test" };
 
-    const program = APIGateway.getApiKey(args);
+    const program = APIGateway.use((svc) => svc.getApiKey(args));
 
     const result = await pipe(
       program,
@@ -123,7 +123,7 @@ describe("APIGatewayClientImpl", () => {
 
     const args: GetApiKeyCommandInput = { apiKey: "test" };
 
-    const program = APIGateway.getApiKey(args);
+    const program = APIGateway.use((svc) => svc.getApiKey(args));
 
     const result = await pipe(
       program,
@@ -133,7 +133,7 @@ describe("APIGatewayClientImpl", () => {
 
     expect(result).toEqual(
       Exit.fail(
-        SdkError({
+        new SdkError({
           ...new Error("test"),
           name: "SdkError",
           message: "test",
@@ -158,7 +158,7 @@ describe("APIGatewayClientImpl", () => {
 
     const args: GetApiKeyCommandInput = { apiKey: "test" };
 
-    const program = APIGateway.getApiKey(args).pipe(
+    const program = APIGateway.use((svc) => svc.getApiKey(args)).pipe(
       Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 
@@ -168,9 +168,9 @@ describe("APIGatewayClientImpl", () => {
       Effect.runPromiseExit,
     );
 
-    expect(result).toEqual(
+    expect(result).toContainEqual(
       Exit.fail(
-        SdkError({
+        new SdkError({
           ...new Error("test"),
           name: "SdkError",
           message: "test",

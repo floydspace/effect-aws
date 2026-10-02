@@ -16,7 +16,7 @@ With default OpenSearchServerlessClient instance:
 ```typescript
 import { OpenSearchServerless } from "@effect-aws/client-opensearch-serverless";
 
-const program = OpenSearchServerless.listCollections(args);
+const program = OpenSearchServerless.use((svc) => svc.listCollections(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom OpenSearchServerlessClient instance:
 ```typescript
 import { OpenSearchServerless } from "@effect-aws/client-opensearch-serverless";
 
-const program = OpenSearchServerless.listCollections(args);
+const program = OpenSearchServerless.use((svc) => svc.listCollections(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom OpenSearchServerlessClient configuration:
 ```typescript
 import { OpenSearchServerless } from "@effect-aws/client-opensearch-serverless";
 
-const program = OpenSearchServerless.listCollections(args);
+const program = OpenSearchServerless.use((svc) => svc.listCollections(args));
 
 const result = await pipe(
   program,

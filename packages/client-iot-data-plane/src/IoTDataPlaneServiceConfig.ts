@@ -3,10 +3,9 @@
  */
 import type { IoTDataPlaneClientConfig } from "@aws-sdk/client-iot-data-plane";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
-import * as FiberRef from "effect/FiberRef";
 import { dual } from "effect/Function";
-import { globalValue } from "effect/GlobalValue";
 import * as Layer from "effect/Layer";
 import type { IoTDataPlaneService } from "./IoTDataPlaneService.js";
 
@@ -14,9 +13,9 @@ import type { IoTDataPlaneService } from "./IoTDataPlaneService.js";
  * @since 1.0.0
  * @category iot-data-plane service config
  */
-const currentIoTDataPlaneServiceConfig = globalValue(
+const currentIoTDataPlaneServiceConfig = Context.Reference<IoTDataPlaneService.Config>(
   "@effect-aws/client-iot-data-plane/currentIoTDataPlaneServiceConfig",
-  () => FiberRef.unsafeMake<IoTDataPlaneService.Config>({}),
+  { defaultValue: () => ({}) },
 );
 
 /**
@@ -29,7 +28,7 @@ export const withIoTDataPlaneServiceConfig: {
 } = dual(
   2,
   <A, E, R>(effect: Effect.Effect<A, E, R>, config: IoTDataPlaneService.Config): Effect.Effect<A, E, R> =>
-    Effect.locally(effect, currentIoTDataPlaneServiceConfig, config),
+    Effect.provideService(effect, currentIoTDataPlaneServiceConfig, config),
 );
 
 /**
@@ -37,14 +36,14 @@ export const withIoTDataPlaneServiceConfig: {
  * @category iot-data-plane service config
  */
 export const setIoTDataPlaneServiceConfig = (config: IoTDataPlaneService.Config) =>
-  Layer.locallyScoped(currentIoTDataPlaneServiceConfig, config);
+  Layer.succeed(currentIoTDataPlaneServiceConfig, config);
 
 /**
  * @since 1.0.0
  * @category adapters
  */
 export const toIoTDataPlaneClientConfig: Effect.Effect<IoTDataPlaneClientConfig> = Effect.gen(function*() {
-  const { logger: serviceLogger, ...config } = yield* FiberRef.get(currentIoTDataPlaneServiceConfig);
+  const { logger: serviceLogger, ...config } = yield* currentIoTDataPlaneServiceConfig;
 
   const logger = serviceLogger === true
     ? yield* ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger)

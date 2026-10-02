@@ -3,10 +3,9 @@
  */
 import type { TimestreamInfluxDBClientConfig } from "@aws-sdk/client-timestream-influxdb";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
-import * as FiberRef from "effect/FiberRef";
 import { dual } from "effect/Function";
-import { globalValue } from "effect/GlobalValue";
 import * as Layer from "effect/Layer";
 import type { TimestreamInfluxDBService } from "./TimestreamInfluxDBService.js";
 
@@ -14,9 +13,9 @@ import type { TimestreamInfluxDBService } from "./TimestreamInfluxDBService.js";
  * @since 1.0.0
  * @category timestream-influxdb service config
  */
-const currentTimestreamInfluxDBServiceConfig = globalValue(
+const currentTimestreamInfluxDBServiceConfig = Context.Reference<TimestreamInfluxDBService.Config>(
   "@effect-aws/client-timestream-influxdb/currentTimestreamInfluxDBServiceConfig",
-  () => FiberRef.unsafeMake<TimestreamInfluxDBService.Config>({}),
+  { defaultValue: () => ({}) },
 );
 
 /**
@@ -29,7 +28,7 @@ export const withTimestreamInfluxDBServiceConfig: {
 } = dual(
   2,
   <A, E, R>(effect: Effect.Effect<A, E, R>, config: TimestreamInfluxDBService.Config): Effect.Effect<A, E, R> =>
-    Effect.locally(effect, currentTimestreamInfluxDBServiceConfig, config),
+    Effect.provideService(effect, currentTimestreamInfluxDBServiceConfig, config),
 );
 
 /**
@@ -37,14 +36,14 @@ export const withTimestreamInfluxDBServiceConfig: {
  * @category timestream-influxdb service config
  */
 export const setTimestreamInfluxDBServiceConfig = (config: TimestreamInfluxDBService.Config) =>
-  Layer.locallyScoped(currentTimestreamInfluxDBServiceConfig, config);
+  Layer.succeed(currentTimestreamInfluxDBServiceConfig, config);
 
 /**
  * @since 1.0.0
  * @category adapters
  */
 export const toTimestreamInfluxDBClientConfig: Effect.Effect<TimestreamInfluxDBClientConfig> = Effect.gen(function*() {
-  const { logger: serviceLogger, ...config } = yield* FiberRef.get(currentTimestreamInfluxDBServiceConfig);
+  const { logger: serviceLogger, ...config } = yield* currentTimestreamInfluxDBServiceConfig;
 
   const logger = serviceLogger === true
     ? yield* ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger)

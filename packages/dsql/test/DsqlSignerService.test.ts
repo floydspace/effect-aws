@@ -1,5 +1,6 @@
 import { DsqlSigner } from "@effect-aws/dsql";
-import { Effect, Exit } from "effect";
+import * as Effect from "effect/Effect";
+import * as Exit from "effect/Exit";
 import { pipe } from "effect/Function";
 import { describe, expect, it } from "vitest";
 
@@ -15,7 +16,7 @@ describe("DsqlSigner", () => {
     });
 
     const adminToken = await pipe(
-      DsqlSigner.getDbConnectAdminAuthToken(),
+      DsqlSigner.use((n) => n.getDbConnectAdminAuthToken()),
       Effect.provide(layer),
       Effect.runPromiseExit,
     );
@@ -25,7 +26,7 @@ describe("DsqlSigner", () => {
     );
 
     const token = await pipe(
-      DsqlSigner.getDbConnectAuthToken(),
+      DsqlSigner.use((n) => n.getDbConnectAuthToken()),
       Effect.provide(layer),
       Effect.runPromiseExit,
     );

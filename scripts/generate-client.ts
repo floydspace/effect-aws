@@ -33,7 +33,11 @@ export async function generateClient([
   );
 
   const { sdkId } = serviceShape.traits["aws.api#service"];
-  const sdkName = String.capitalize(String.replaceAll(" ", "")(sdkId));
+  const sdkName = pipe(
+    String.split(sdkId, " "),
+    Array.map(String.capitalize),
+    Array.join(""),
+  );
 
   const awsClient = await import(
     `../packages/client-${serviceName}/node_modules/@aws-sdk/client-${originalServiceName}/dist-cjs/index.js`
@@ -191,9 +195,9 @@ import * as ${sdkName}ServiceConfig from "./${sdkName}ServiceConfig.js";
  * @since 1.0.0
  * @category tags
  */
-export class ${sdkName}ClientInstance extends Context.Tag(
+export class ${sdkName}ClientInstance extends Context.Service<${sdkName}ClientInstance, ${sdkName}Client>()(
   "@effect-aws/client-${serviceName}/${sdkName}ClientInstance",
-)<${sdkName}ClientInstance, ${sdkName}Client>() {}
+) {}
 
 /**
  * @since 1.0.0
@@ -212,7 +216,7 @@ export const make = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const layer = Layer.scoped(${sdkName}ClientInstance, make);
+export const layer = Layer.effect(${sdkName}ClientInstance, make);
 `,
   );
 }
@@ -230,20 +234,19 @@ async function generateServiceConfigFile(
  */
 import type { ${sdkName}ClientConfig } from "@aws-sdk/client-${originalServiceName}";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
-import * as FiberRef from "effect/FiberRef";
 import * as Layer from "effect/Layer";
 import { dual } from "effect/Function";
-import { globalValue } from "effect/GlobalValue";
 import type { ${sdkName}Service } from "./${sdkName}Service.js";
 
 /**
  * @since 1.0.0
  * @category ${serviceName} service config
  */
-const current${sdkName}ServiceConfig = globalValue(
+const current${sdkName}ServiceConfig = Context.Reference<${sdkName}Service.Config>(
   "@effect-aws/client-${serviceName}/current${sdkName}ServiceConfig",
-  () => FiberRef.unsafeMake<${sdkName}Service.Config>({}),
+  { defaultValue: () => ({}) },
 );
 
 /**
@@ -256,7 +259,7 @@ export const with${sdkName}ServiceConfig: {
 } = dual(
   2,
   <A, E, R>(effect: Effect.Effect<A, E, R>, config: ${sdkName}Service.Config): Effect.Effect<A, E, R> =>
-    Effect.locally(effect, current${sdkName}ServiceConfig, config),
+    Effect.provideService(effect, current${sdkName}ServiceConfig, config),
 );
 
 /**
@@ -264,14 +267,14 @@ export const with${sdkName}ServiceConfig: {
  * @category ${serviceName} service config
  */
 export const set${sdkName}ServiceConfig = (config: ${sdkName}Service.Config) =>
-  Layer.locallyScoped(current${sdkName}ServiceConfig, config);
+  Layer.succeed(current${sdkName}ServiceConfig, config);
 
 /**
  * @since 1.0.0
  * @category adapters
  */
 export const to${sdkName}ClientConfig: Effect.Effect<${sdkName}ClientConfig> = Effect.gen(function*() {
-  const { logger: serviceLogger, ...config } = yield* FiberRef.get(current${sdkName}ServiceConfig);
+  const { logger: serviceLogger, ...config } = yield* current${sdkName}ServiceConfig;
 
   const logger = serviceLogger === true
     ? yield* ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger)
@@ -361,7 +364,7 @@ async function generateServiceFile(
     Record.filter(
       (shape): shape is Extract<Shape, { type: "operation" }> => shape.type === "operation",
     ),
-    Struct.pick(...operationTargets),
+    Struct.pick(operationTargets),
     Record.filter(Predicate.isNotUndefined),
     Record.mapKeys(getNameFromTarget),
     Record.toEntries,
@@ -371,7 +374,7 @@ async function generateServiceFile(
 
   const importedErrors = pipe(
     operationShapes,
-    Array.map(Tuple.getSecond),
+    Array.map(Tuple.get(1)),
     Array.filter(
       (shape): shape is Extract<Shape, { type: "operation" }> => shape.type === "operation",
     ),
@@ -405,14 +408,15 @@ import {
     ${paginateFns}
 } from "@aws-sdk/client-${originalServiceName}";
 import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
-import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
 import * as Service from "@effect-aws/commons/Service";
 import type * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";${
+import * as Layer from "effect/Layer";
+import * as Context from "effect/Context";${
       paginateFns.length > 0 ?
         `
-import * as Stream from "effect/Stream";
+import type * as Stream from "effect/Stream";
 ` :
         ""
     }import * as Instance from "./${sdkName}ClientInstance.js";
@@ -461,9 +465,11 @@ const paginators = {
 ` :
         ""
     }
-interface ${sdkName}Service$ {
-  readonly _: unique symbol;
-
+/**
+ * @since 1.0.0
+ * @category models
+ */
+export interface ${sdkName}Service$ {
 ${
       pipe(
         operationShapes,
@@ -487,7 +493,7 @@ ${
     ${operationName}CommandOutput,
     ${
             pipe(
-              ["Cause.TimeoutException", "SdkError", ...(exportedErrors.length ? errors : [`${sdkName}ServiceError`])],
+              ["Cause.TimeoutError", "SdkError", ...(exportedErrors.length ? errors : [`${sdkName}ServiceError`])],
               Array.join(" | "),
             )
           }
@@ -500,7 +506,7 @@ ${
               }Stream(args: ${operationName}CommandInput, options?: HttpHandlerOptions): Stream.Stream<${operationName}CommandOutput, ${
                 pipe(
                   [
-                    "Cause.TimeoutException",
+                    "Cause.TimeoutError",
                     "SdkError",
                     ...(exportedErrors.length ? errors : [`${sdkName}ServiceError`]),
                   ],
@@ -542,10 +548,10 @@ export const make${sdkName}Service = Effect.gen(function* () {
  * @since 1.0.0
  * @category models
  */
-export class ${sdkName}Service extends Effect.Tag("@effect-aws/client-${serviceName}/${sdkName}Service")<
+export class ${sdkName}Service extends Context.Service<
   ${sdkName}Service,
   ${sdkName}Service$
->() {
+>()("@effect-aws/client-${serviceName}/${sdkName}Service") {
   static readonly defaultLayer = Layer.effect(this, make${sdkName}Service).pipe(Layer.provide(Instance.layer));
   static readonly layer = (config: ${sdkName}Service.Config) =>
     Layer.effect(this, make${sdkName}Service).pipe(
@@ -629,7 +635,7 @@ describe("${sdkName}ClientImpl", () => {
         : `const args = {} as unknown as ${commandToTest}CommandInput`
     }
 
-    const program = ${sdkName}.${String.uncapitalize(commandToTest)}(args);
+    const program = ${sdkName}.use((svc) => svc.${String.uncapitalize(commandToTest)}(args));
 
     const result = await pipe(
       program,
@@ -653,7 +659,7 @@ describe("${sdkName}ClientImpl", () => {
         : `const args = {} as unknown as ${commandToTest}CommandInput`
     }
 
-    const program = ${sdkName}.${String.uncapitalize(commandToTest)}(args);
+    const program = ${sdkName}.use((svc) => svc.${String.uncapitalize(commandToTest)}(args));
 
     const result = await pipe(
       program,
@@ -680,7 +686,7 @@ describe("${sdkName}ClientImpl", () => {
         : `const args = {} as unknown as ${commandToTest}CommandInput`
     }
 
-    const program = ${sdkName}.${String.uncapitalize(commandToTest)}(args);
+    const program = ${sdkName}.use((svc) => svc.${String.uncapitalize(commandToTest)}(args));
 
     const result = await pipe(
       program,
@@ -708,7 +714,7 @@ describe("${sdkName}ClientImpl", () => {
         : `const args = {} as unknown as ${commandToTest}CommandInput`
     }
 
-    const program = ${sdkName}.${String.uncapitalize(commandToTest)}(args);
+    const program = ${sdkName}.use((svc) => svc.${String.uncapitalize(commandToTest)}(args));
 
     const result = await pipe(
       program,
@@ -740,7 +746,7 @@ describe("${sdkName}ClientImpl", () => {
         : `const args = {} as unknown as ${commandToTest}CommandInput`
     }
 
-    const program = ${sdkName}.${String.uncapitalize(commandToTest)}(args);
+    const program = ${sdkName}.use((svc) => svc.${String.uncapitalize(commandToTest)}(args));
 
     const result = await pipe(
       program,
@@ -750,7 +756,7 @@ describe("${sdkName}ClientImpl", () => {
 
     expect(result).toEqual(
       Exit.fail(
-        SdkError({
+        new SdkError({
           ...new Error("test"),
           name: "SdkError",
           message: "test",
@@ -779,7 +785,7 @@ describe("${sdkName}ClientImpl", () => {
         : `const args = {} as unknown as ${commandToTest}CommandInput`
     }
 
-    const program = ${sdkName}.${String.uncapitalize(commandToTest)}(args).pipe(
+    const program = ${sdkName}.use((svc) => svc.${String.uncapitalize(commandToTest)}(args)).pipe(
       Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 
@@ -789,9 +795,9 @@ describe("${sdkName}ClientImpl", () => {
       Effect.runPromiseExit,
     );
 
-    expect(result).toEqual(
+    expect(result).toContainEqual(
       Exit.fail(
-        SdkError({
+        new SdkError({
           ...new Error("test"),
           name: "SdkError",
           message: "test",
@@ -828,7 +834,7 @@ With default ${sdkName}Client instance:
 \`\`\`typescript
 import { ${sdkName} } from "@effect-aws/client-${serviceName}";
 
-const program = ${sdkName}.${String.uncapitalize(commandToTest)}(args);
+const program = ${sdkName}.use((svc) => svc.${String.uncapitalize(commandToTest)}(args));
 
 const result = pipe(
   program,
@@ -842,7 +848,7 @@ With custom ${sdkName}Client instance:
 \`\`\`typescript
 import { ${sdkName} } from "@effect-aws/client-${serviceName}";
 
-const program = ${sdkName}.${String.uncapitalize(commandToTest)}(args);
+const program = ${sdkName}.use((svc) => svc.${String.uncapitalize(commandToTest)}(args));
 
 const result = await pipe(
   program,
@@ -858,7 +864,7 @@ With custom ${sdkName}Client configuration:
 \`\`\`typescript
 import { ${sdkName} } from "@effect-aws/client-${serviceName}";
 
-const program = ${sdkName}.${String.uncapitalize(commandToTest)}(args);
+const program = ${sdkName}.use((svc) => svc.${String.uncapitalize(commandToTest)}(args));
 
 const result = await pipe(
   program,

@@ -2,6 +2,9 @@
  * @since 1.0.0
  */
 import {
+  CreateDbBackupCommand,
+  type CreateDbBackupCommandInput,
+  type CreateDbBackupCommandOutput,
   CreateDbClusterCommand,
   type CreateDbClusterCommandInput,
   type CreateDbClusterCommandOutput,
@@ -11,12 +14,18 @@ import {
   CreateDbParameterGroupCommand,
   type CreateDbParameterGroupCommandInput,
   type CreateDbParameterGroupCommandOutput,
+  DeleteDbBackupCommand,
+  type DeleteDbBackupCommandInput,
+  type DeleteDbBackupCommandOutput,
   DeleteDbClusterCommand,
   type DeleteDbClusterCommandInput,
   type DeleteDbClusterCommandOutput,
   DeleteDbInstanceCommand,
   type DeleteDbInstanceCommandInput,
   type DeleteDbInstanceCommandOutput,
+  GetDbBackupCommand,
+  type GetDbBackupCommandInput,
+  type GetDbBackupCommandOutput,
   GetDbClusterCommand,
   type GetDbClusterCommandInput,
   type GetDbClusterCommandOutput,
@@ -26,6 +35,9 @@ import {
   GetDbParameterGroupCommand,
   type GetDbParameterGroupCommandInput,
   type GetDbParameterGroupCommandOutput,
+  ListDbBackupsCommand,
+  type ListDbBackupsCommandInput,
+  type ListDbBackupsCommandOutput,
   ListDbClustersCommand,
   type ListDbClustersCommandInput,
   type ListDbClustersCommandOutput,
@@ -41,6 +53,7 @@ import {
   ListTagsForResourceCommand,
   type ListTagsForResourceCommandInput,
   type ListTagsForResourceCommandOutput,
+  paginateListDbBackups,
   paginateListDbClusters,
   paginateListDbInstances,
   paginateListDbInstancesForCluster,
@@ -51,6 +64,9 @@ import {
   RebootDbInstanceCommand,
   type RebootDbInstanceCommandInput,
   type RebootDbInstanceCommandOutput,
+  RestoreFromDbBackupCommand,
+  type RestoreFromDbBackupCommandInput,
+  type RestoreFromDbBackupCommandOutput,
   TagResourceCommand,
   type TagResourceCommandInput,
   type TagResourceCommandOutput,
@@ -70,6 +86,7 @@ import * as Service from "@effect-aws/commons/Service";
 import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
 import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import type * as Stream from "effect/Stream";
@@ -88,14 +105,18 @@ import * as Instance from "./TimestreamInfluxDBClientInstance.js";
 import * as TimestreamInfluxDBServiceConfig from "./TimestreamInfluxDBServiceConfig.js";
 
 const commands = {
+  CreateDbBackupCommand,
   CreateDbClusterCommand,
   CreateDbInstanceCommand,
   CreateDbParameterGroupCommand,
+  DeleteDbBackupCommand,
   DeleteDbClusterCommand,
   DeleteDbInstanceCommand,
+  GetDbBackupCommand,
   GetDbClusterCommand,
   GetDbInstanceCommand,
   GetDbParameterGroupCommand,
+  ListDbBackupsCommand,
   ListDbClustersCommand,
   ListDbInstancesCommand,
   ListDbInstancesForClusterCommand,
@@ -103,6 +124,7 @@ const commands = {
   ListTagsForResourceCommand,
   RebootDbClusterCommand,
   RebootDbInstanceCommand,
+  RestoreFromDbBackupCommand,
   TagResourceCommand,
   UntagResourceCommand,
   UpdateDbClusterCommand,
@@ -110,14 +132,36 @@ const commands = {
 };
 
 const paginators = {
+  paginateListDbBackups,
   paginateListDbClusters,
   paginateListDbInstances,
   paginateListDbInstancesForCluster,
   paginateListDbParameterGroups,
 };
 
-interface TimestreamInfluxDBService$ {
-  readonly _: unique symbol;
+/**
+ * @since 1.0.0
+ * @category models
+ */
+export interface TimestreamInfluxDBService$ {
+  /**
+   * @see {@link CreateDbBackupCommand}
+   */
+  createDbBackup(
+    args: CreateDbBackupCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateDbBackupCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ServiceQuotaExceededError
+    | ThrottlingError
+    | ValidationError
+  >;
 
   /**
    * @see {@link CreateDbClusterCommand}
@@ -127,7 +171,7 @@ interface TimestreamInfluxDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateDbClusterCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -146,7 +190,7 @@ interface TimestreamInfluxDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateDbInstanceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -165,13 +209,31 @@ interface TimestreamInfluxDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateDbParameterGroupCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
     | InternalServerError
     | ResourceNotFoundError
     | ServiceQuotaExceededError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link DeleteDbBackupCommand}
+   */
+  deleteDbBackup(
+    args: DeleteDbBackupCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteDbBackupCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
     | ThrottlingError
     | ValidationError
   >;
@@ -184,7 +246,7 @@ interface TimestreamInfluxDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDbClusterCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -202,10 +264,27 @@ interface TimestreamInfluxDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDbInstanceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link GetDbBackupCommand}
+   */
+  getDbBackup(
+    args: GetDbBackupCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetDbBackupCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
     | InternalServerError
     | ResourceNotFoundError
     | ThrottlingError
@@ -220,7 +299,7 @@ interface TimestreamInfluxDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDbClusterCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -237,7 +316,7 @@ interface TimestreamInfluxDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDbInstanceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -254,7 +333,38 @@ interface TimestreamInfluxDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDbParameterGroupCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link ListDbBackupsCommand}
+   */
+  listDbBackups(
+    args: ListDbBackupsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListDbBackupsCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  listDbBackupsStream(
+    args: ListDbBackupsCommandInput,
+    options?: HttpHandlerOptions,
+  ): Stream.Stream<
+    ListDbBackupsCommandOutput,
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -271,7 +381,7 @@ interface TimestreamInfluxDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDbClustersCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -285,7 +395,7 @@ interface TimestreamInfluxDBService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListDbClustersCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -302,7 +412,7 @@ interface TimestreamInfluxDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDbInstancesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -316,7 +426,7 @@ interface TimestreamInfluxDBService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListDbInstancesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -333,7 +443,7 @@ interface TimestreamInfluxDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDbInstancesForClusterCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -347,7 +457,7 @@ interface TimestreamInfluxDBService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListDbInstancesForClusterCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -364,7 +474,7 @@ interface TimestreamInfluxDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDbParameterGroupsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -378,7 +488,7 @@ interface TimestreamInfluxDBService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListDbParameterGroupsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -395,7 +505,7 @@ interface TimestreamInfluxDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsForResourceCommandOutput,
-    Cause.TimeoutException | SdkError | ResourceNotFoundError
+    Cause.TimeoutError | SdkError | ResourceNotFoundError
   >;
 
   /**
@@ -406,7 +516,7 @@ interface TimestreamInfluxDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RebootDbClusterCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -424,12 +534,31 @@ interface TimestreamInfluxDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RebootDbInstanceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
     | InternalServerError
     | ResourceNotFoundError
+    | ThrottlingError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link RestoreFromDbBackupCommand}
+   */
+  restoreFromDbBackup(
+    args: RestoreFromDbBackupCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    RestoreFromDbBackupCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | ConflictError
+    | InternalServerError
+    | ResourceNotFoundError
+    | ServiceQuotaExceededError
     | ThrottlingError
     | ValidationError
   >;
@@ -442,7 +571,7 @@ interface TimestreamInfluxDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagResourceCommandOutput,
-    Cause.TimeoutException | SdkError | ResourceNotFoundError | ServiceQuotaExceededError
+    Cause.TimeoutError | SdkError | ResourceNotFoundError | ServiceQuotaExceededError
   >;
 
   /**
@@ -453,7 +582,7 @@ interface TimestreamInfluxDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
-    Cause.TimeoutException | SdkError | ResourceNotFoundError
+    Cause.TimeoutError | SdkError | ResourceNotFoundError
   >;
 
   /**
@@ -464,7 +593,7 @@ interface TimestreamInfluxDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateDbClusterCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -482,7 +611,7 @@ interface TimestreamInfluxDBService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateDbInstanceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -515,12 +644,10 @@ export const makeTimestreamInfluxDBService = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class TimestreamInfluxDBService
-  extends Effect.Tag("@effect-aws/client-timestream-influxdb/TimestreamInfluxDBService")<
-    TimestreamInfluxDBService,
-    TimestreamInfluxDBService$
-  >()
-{
+export class TimestreamInfluxDBService extends Context.Service<
+  TimestreamInfluxDBService,
+  TimestreamInfluxDBService$
+>()("@effect-aws/client-timestream-influxdb/TimestreamInfluxDBService") {
   static readonly defaultLayer = Layer.effect(this, makeTimestreamInfluxDBService).pipe(Layer.provide(Instance.layer));
   static readonly layer = (config: TimestreamInfluxDBService.Config) =>
     Layer.effect(this, makeTimestreamInfluxDBService).pipe(

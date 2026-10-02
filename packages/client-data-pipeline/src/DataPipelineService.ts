@@ -69,6 +69,7 @@ import * as Service from "@effect-aws/commons/Service";
 import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
 import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import type * as Stream from "effect/Stream";
@@ -112,9 +113,11 @@ const paginators = {
   paginateQueryObjects,
 };
 
-interface DataPipelineService$ {
-  readonly _: unique symbol;
-
+/**
+ * @since 1.0.0
+ * @category models
+ */
+export interface DataPipelineService$ {
   /**
    * @see {@link ActivatePipelineCommand}
    */
@@ -123,7 +126,7 @@ interface DataPipelineService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ActivatePipelineCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalServiceError
     | InvalidRequestError
@@ -139,7 +142,7 @@ interface DataPipelineService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AddTagsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalServiceError
     | InvalidRequestError
@@ -155,7 +158,7 @@ interface DataPipelineService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreatePipelineCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServiceError | InvalidRequestError
+    Cause.TimeoutError | SdkError | InternalServiceError | InvalidRequestError
   >;
 
   /**
@@ -166,7 +169,7 @@ interface DataPipelineService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeactivatePipelineCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalServiceError
     | InvalidRequestError
@@ -182,7 +185,7 @@ interface DataPipelineService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeletePipelineCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServiceError | InvalidRequestError | PipelineNotFoundError
+    Cause.TimeoutError | SdkError | InternalServiceError | InvalidRequestError | PipelineNotFoundError
   >;
 
   /**
@@ -193,7 +196,7 @@ interface DataPipelineService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeObjectsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalServiceError
     | InvalidRequestError
@@ -206,7 +209,7 @@ interface DataPipelineService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     DescribeObjectsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalServiceError
     | InvalidRequestError
@@ -222,7 +225,7 @@ interface DataPipelineService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribePipelinesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalServiceError
     | InvalidRequestError
@@ -238,7 +241,7 @@ interface DataPipelineService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     EvaluateExpressionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalServiceError
     | InvalidRequestError
@@ -255,7 +258,7 @@ interface DataPipelineService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPipelineDefinitionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalServiceError
     | InvalidRequestError
@@ -271,7 +274,7 @@ interface DataPipelineService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListPipelinesCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServiceError | InvalidRequestError
+    Cause.TimeoutError | SdkError | InternalServiceError | InvalidRequestError
   >;
 
   listPipelinesStream(
@@ -279,7 +282,7 @@ interface DataPipelineService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListPipelinesCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServiceError | InvalidRequestError
+    Cause.TimeoutError | SdkError | InternalServiceError | InvalidRequestError
   >;
 
   /**
@@ -290,7 +293,7 @@ interface DataPipelineService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PollForTaskCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServiceError | InvalidRequestError | TaskNotFoundError
+    Cause.TimeoutError | SdkError | InternalServiceError | InvalidRequestError | TaskNotFoundError
   >;
 
   /**
@@ -301,7 +304,7 @@ interface DataPipelineService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutPipelineDefinitionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalServiceError
     | InvalidRequestError
@@ -317,7 +320,7 @@ interface DataPipelineService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     QueryObjectsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalServiceError
     | InvalidRequestError
@@ -330,7 +333,7 @@ interface DataPipelineService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     QueryObjectsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalServiceError
     | InvalidRequestError
@@ -346,7 +349,7 @@ interface DataPipelineService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RemoveTagsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalServiceError
     | InvalidRequestError
@@ -362,7 +365,7 @@ interface DataPipelineService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ReportTaskProgressCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalServiceError
     | InvalidRequestError
@@ -379,7 +382,7 @@ interface DataPipelineService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ReportTaskRunnerHeartbeatCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServiceError | InvalidRequestError
+    Cause.TimeoutError | SdkError | InternalServiceError | InvalidRequestError
   >;
 
   /**
@@ -390,7 +393,7 @@ interface DataPipelineService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SetStatusCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalServiceError
     | InvalidRequestError
@@ -406,7 +409,7 @@ interface DataPipelineService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SetTaskStatusCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalServiceError
     | InvalidRequestError
@@ -423,7 +426,7 @@ interface DataPipelineService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ValidatePipelineDefinitionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalServiceError
     | InvalidRequestError
@@ -454,10 +457,10 @@ export const makeDataPipelineService = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class DataPipelineService extends Effect.Tag("@effect-aws/client-data-pipeline/DataPipelineService")<
+export class DataPipelineService extends Context.Service<
   DataPipelineService,
   DataPipelineService$
->() {
+>()("@effect-aws/client-data-pipeline/DataPipelineService") {
   static readonly defaultLayer = Layer.effect(this, makeDataPipelineService).pipe(Layer.provide(Instance.layer));
   static readonly layer = (config: DataPipelineService.Config) =>
     Layer.effect(this, makeDataPipelineService).pipe(

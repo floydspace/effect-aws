@@ -3,10 +3,9 @@
  */
 import type { DataPipelineClientConfig } from "@aws-sdk/client-data-pipeline";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
-import * as FiberRef from "effect/FiberRef";
 import { dual } from "effect/Function";
-import { globalValue } from "effect/GlobalValue";
 import * as Layer from "effect/Layer";
 import type { DataPipelineService } from "./DataPipelineService.js";
 
@@ -14,9 +13,9 @@ import type { DataPipelineService } from "./DataPipelineService.js";
  * @since 1.0.0
  * @category data-pipeline service config
  */
-const currentDataPipelineServiceConfig = globalValue(
+const currentDataPipelineServiceConfig = Context.Reference<DataPipelineService.Config>(
   "@effect-aws/client-data-pipeline/currentDataPipelineServiceConfig",
-  () => FiberRef.unsafeMake<DataPipelineService.Config>({}),
+  { defaultValue: () => ({}) },
 );
 
 /**
@@ -29,7 +28,7 @@ export const withDataPipelineServiceConfig: {
 } = dual(
   2,
   <A, E, R>(effect: Effect.Effect<A, E, R>, config: DataPipelineService.Config): Effect.Effect<A, E, R> =>
-    Effect.locally(effect, currentDataPipelineServiceConfig, config),
+    Effect.provideService(effect, currentDataPipelineServiceConfig, config),
 );
 
 /**
@@ -37,14 +36,14 @@ export const withDataPipelineServiceConfig: {
  * @category data-pipeline service config
  */
 export const setDataPipelineServiceConfig = (config: DataPipelineService.Config) =>
-  Layer.locallyScoped(currentDataPipelineServiceConfig, config);
+  Layer.succeed(currentDataPipelineServiceConfig, config);
 
 /**
  * @since 1.0.0
  * @category adapters
  */
 export const toDataPipelineClientConfig: Effect.Effect<DataPipelineClientConfig> = Effect.gen(function*() {
-  const { logger: serviceLogger, ...config } = yield* FiberRef.get(currentDataPipelineServiceConfig);
+  const { logger: serviceLogger, ...config } = yield* currentDataPipelineServiceConfig;
 
   const logger = serviceLogger === true
     ? yield* ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger)

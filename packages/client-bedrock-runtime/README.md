@@ -16,7 +16,7 @@ With default BedrockRuntimeClient instance:
 ```typescript
 import { BedrockRuntime } from "@effect-aws/client-bedrock-runtime";
 
-const program = BedrockRuntime.invokeModel(args);
+const program = BedrockRuntime.use((svc) => svc.invokeModel(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom BedrockRuntimeClient instance:
 ```typescript
 import { BedrockRuntime } from "@effect-aws/client-bedrock-runtime";
 
-const program = BedrockRuntime.invokeModel(args);
+const program = BedrockRuntime.use((svc) => svc.invokeModel(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom BedrockRuntimeClient configuration:
 ```typescript
 import { BedrockRuntime } from "@effect-aws/client-bedrock-runtime";
 
-const program = BedrockRuntime.invokeModel(args);
+const program = BedrockRuntime.use((svc) => svc.invokeModel(args));
 
 const result = await pipe(
   program,

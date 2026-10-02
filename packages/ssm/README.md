@@ -7,7 +7,7 @@ This package provides a `fromParameterStore` [ConfigProvider](https://effect.web
 You can use it to read parameters from AWS Systems Manager Parameter Store as a `Config` schema.
 
 The config primitive name must match the parameter Name or ARN in Parameter Store.
-For example, `Config.string("my_parameter_name")` or `Config.string("arn:aws:ssm:eu-central-1:123456789012:parameter/my_parameter_name")`.
+For example, `Config.String("my_parameter_name")` or `Config.String("arn:aws:ssm:eu-central-1:123456789012:parameter/my_parameter_name")`.
 
 ## Installation
 
@@ -25,7 +25,7 @@ import { ConfigProvider } from "@effect-aws/ssm"
 import { Effect, Config, Console } from "effect"
 
 const program = Effect.gen(function* () {
-  const param: string = yield* Config.string("my_parameter_name")
+  const param: string = yield* Config.String("my_parameter_name")
 
   yield* Console.log("Parameter from Parameter Store: ", param)
 })
@@ -45,7 +45,7 @@ import { ConfigProvider } from "@effect-aws/ssm"
 import { Config, Console, Effect } from "effect"
 
 const program = Effect.gen(function* () {
-  const param: string = yield* Config.string("my_parameter_name")
+  const param: string = yield* Config.String("my_parameter_name")
 
   yield* Console.log("Parameter from Parameter Store: ", param)
 })

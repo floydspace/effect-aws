@@ -2,6 +2,9 @@
  * @since 1.0.0
  */
 import {
+  ActivateCertificateAuthorityCommand,
+  type ActivateCertificateAuthorityCommandInput,
+  type ActivateCertificateAuthorityCommandOutput,
   AssociateAccessPolicyCommand,
   type AssociateAccessPolicyCommandInput,
   type AssociateAccessPolicyCommandOutput,
@@ -23,6 +26,9 @@ import {
   CreateCapabilityCommand,
   type CreateCapabilityCommandInput,
   type CreateCapabilityCommandOutput,
+  CreateCertificateAuthorityCommand,
+  type CreateCertificateAuthorityCommandInput,
+  type CreateCertificateAuthorityCommandOutput,
   CreateClusterCommand,
   type CreateClusterCommandInput,
   type CreateClusterCommandOutput,
@@ -47,6 +53,9 @@ import {
   DeleteCapabilityCommand,
   type DeleteCapabilityCommandInput,
   type DeleteCapabilityCommandOutput,
+  DeleteCertificateAuthorityCommand,
+  type DeleteCertificateAuthorityCommandInput,
+  type DeleteCertificateAuthorityCommandOutput,
   DeleteClusterCommand,
   type DeleteClusterCommandInput,
   type DeleteClusterCommandOutput,
@@ -80,6 +89,9 @@ import {
   DescribeCapabilityCommand,
   type DescribeCapabilityCommandInput,
   type DescribeCapabilityCommandOutput,
+  DescribeCertificateAuthorityCommand,
+  type DescribeCertificateAuthorityCommandInput,
+  type DescribeCertificateAuthorityCommandOutput,
   DescribeClusterCommand,
   type DescribeClusterCommandInput,
   type DescribeClusterCommandOutput,
@@ -133,6 +145,9 @@ import {
   ListCapabilitiesCommand,
   type ListCapabilitiesCommandInput,
   type ListCapabilitiesCommandOutput,
+  ListCertificateAuthoritiesCommand,
+  type ListCertificateAuthoritiesCommandInput,
+  type ListCertificateAuthoritiesCommandOutput,
   ListClustersCommand,
   type ListClustersCommandInput,
   type ListClustersCommandOutput,
@@ -167,6 +182,7 @@ import {
   paginateListAddons,
   paginateListAssociatedAccessPolicies,
   paginateListCapabilities,
+  paginateListCertificateAuthorities,
   paginateListClusters,
   paginateListEksAnywhereSubscriptions,
   paginateListFargateProfiles,
@@ -219,6 +235,7 @@ import * as Service from "@effect-aws/commons/Service";
 import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
 import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import type * as Stream from "effect/Stream";
@@ -245,6 +262,7 @@ import type {
 import { AllServiceErrors } from "./Errors.js";
 
 const commands = {
+  ActivateCertificateAuthorityCommand,
   AssociateAccessPolicyCommand,
   AssociateEncryptionConfigCommand,
   AssociateIdentityProviderConfigCommand,
@@ -252,6 +270,7 @@ const commands = {
   CreateAccessEntryCommand,
   CreateAddonCommand,
   CreateCapabilityCommand,
+  CreateCertificateAuthorityCommand,
   CreateClusterCommand,
   CreateEksAnywhereSubscriptionCommand,
   CreateFargateProfileCommand,
@@ -260,6 +279,7 @@ const commands = {
   DeleteAccessEntryCommand,
   DeleteAddonCommand,
   DeleteCapabilityCommand,
+  DeleteCertificateAuthorityCommand,
   DeleteClusterCommand,
   DeleteEksAnywhereSubscriptionCommand,
   DeleteFargateProfileCommand,
@@ -271,6 +291,7 @@ const commands = {
   DescribeAddonConfigurationCommand,
   DescribeAddonVersionsCommand,
   DescribeCapabilityCommand,
+  DescribeCertificateAuthorityCommand,
   DescribeClusterCommand,
   DescribeClusterVersionsCommand,
   DescribeEksAnywhereSubscriptionCommand,
@@ -288,6 +309,7 @@ const commands = {
   ListAddonsCommand,
   ListAssociatedAccessPoliciesCommand,
   ListCapabilitiesCommand,
+  ListCertificateAuthoritiesCommand,
   ListClustersCommand,
   ListEksAnywhereSubscriptionsCommand,
   ListFargateProfilesCommand,
@@ -320,6 +342,7 @@ const paginators = {
   paginateListAddons,
   paginateListAssociatedAccessPolicies,
   paginateListCapabilities,
+  paginateListCertificateAuthorities,
   paginateListClusters,
   paginateListEksAnywhereSubscriptions,
   paginateListFargateProfiles,
@@ -330,8 +353,26 @@ const paginators = {
   paginateListUpdates,
 };
 
-interface EKSService$ {
-  readonly _: unique symbol;
+/**
+ * @since 1.0.0
+ * @category models
+ */
+export interface EKSService$ {
+  /**
+   * @see {@link ActivateCertificateAuthorityCommand}
+   */
+  activateCertificateAuthority(
+    args: ActivateCertificateAuthorityCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ActivateCertificateAuthorityCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InvalidParameterError
+    | ResourceNotFoundError
+    | ServerError
+    | ServiceUnavailableError
+  >;
 
   /**
    * @see {@link AssociateAccessPolicyCommand}
@@ -341,12 +382,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AssociateAccessPolicyCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InvalidParameterError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ServerError
+    Cause.TimeoutError | SdkError | InvalidParameterError | InvalidRequestError | ResourceNotFoundError | ServerError
   >;
 
   /**
@@ -357,7 +393,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AssociateEncryptionConfigCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ClientError
     | InvalidParameterError
@@ -376,7 +412,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AssociateIdentityProviderConfigCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ClientError
     | InvalidParameterError
@@ -395,7 +431,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelUpdateCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ClientError
     | InvalidParameterError
@@ -415,7 +451,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateAccessEntryCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | InvalidRequestError
@@ -433,7 +469,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateAddonCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ClientError
     | InvalidParameterError
@@ -451,7 +487,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateCapabilityCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InvalidParameterError
@@ -463,6 +499,24 @@ interface EKSService$ {
   >;
 
   /**
+   * @see {@link CreateCertificateAuthorityCommand}
+   */
+  createCertificateAuthority(
+    args: CreateCertificateAuthorityCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    CreateCertificateAuthorityCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InvalidParameterError
+    | ResourceInUseError
+    | ResourceLimitExceededError
+    | ResourceNotFoundError
+    | ServerError
+    | ServiceUnavailableError
+  >;
+
+  /**
    * @see {@link CreateClusterCommand}
    */
   createCluster(
@@ -470,7 +524,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateClusterCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ClientError
     | InvalidParameterError
@@ -489,7 +543,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateEksAnywhereSubscriptionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ClientError
     | InvalidParameterError
@@ -506,7 +560,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateFargateProfileCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ClientError
     | InvalidParameterError
@@ -524,7 +578,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateNodegroupCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ClientError
     | InvalidParameterError
@@ -543,7 +597,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreatePodIdentityAssociationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidParameterError
     | InvalidRequestError
@@ -561,7 +615,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteAccessEntryCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidRequestError | ResourceNotFoundError | ServerError
+    Cause.TimeoutError | SdkError | InvalidRequestError | ResourceNotFoundError | ServerError
   >;
 
   /**
@@ -572,7 +626,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteAddonCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ClientError
     | InvalidParameterError
@@ -589,13 +643,30 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteCapabilityCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InvalidParameterError
     | ResourceInUseError
     | ResourceNotFoundError
     | ServerError
+  >;
+
+  /**
+   * @see {@link DeleteCertificateAuthorityCommand}
+   */
+  deleteCertificateAuthority(
+    args: DeleteCertificateAuthorityCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DeleteCertificateAuthorityCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InvalidParameterError
+    | ResourceInUseError
+    | ResourceNotFoundError
+    | ServerError
+    | ServiceUnavailableError
   >;
 
   /**
@@ -606,7 +677,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteClusterCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ClientError
     | InvalidRequestError
@@ -624,7 +695,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteEksAnywhereSubscriptionCommandOutput,
-    Cause.TimeoutException | SdkError | ClientError | InvalidRequestError | ResourceNotFoundError | ServerError
+    Cause.TimeoutError | SdkError | ClientError | InvalidRequestError | ResourceNotFoundError | ServerError
   >;
 
   /**
@@ -635,7 +706,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteFargateProfileCommandOutput,
-    Cause.TimeoutException | SdkError | ClientError | InvalidParameterError | ResourceNotFoundError | ServerError
+    Cause.TimeoutError | SdkError | ClientError | InvalidParameterError | ResourceNotFoundError | ServerError
   >;
 
   /**
@@ -646,7 +717,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteNodegroupCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ClientError
     | InvalidParameterError
@@ -664,12 +735,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeletePodIdentityAssociationCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InvalidParameterError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ServerError
+    Cause.TimeoutError | SdkError | InvalidParameterError | InvalidRequestError | ResourceNotFoundError | ServerError
   >;
 
   /**
@@ -680,7 +746,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeregisterClusterCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -698,7 +764,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeAccessEntryCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidRequestError | ResourceNotFoundError | ServerError
+    Cause.TimeoutError | SdkError | InvalidRequestError | ResourceNotFoundError | ServerError
   >;
 
   /**
@@ -709,7 +775,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeAddonCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ClientError
     | InvalidParameterError
@@ -726,7 +792,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeAddonConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | ResourceNotFoundError | ServerError
+    Cause.TimeoutError | SdkError | InvalidParameterError | ResourceNotFoundError | ServerError
   >;
 
   /**
@@ -737,7 +803,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeAddonVersionsCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | ResourceNotFoundError | ServerError
+    Cause.TimeoutError | SdkError | InvalidParameterError | ResourceNotFoundError | ServerError
   >;
 
   describeAddonVersionsStream(
@@ -745,7 +811,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     DescribeAddonVersionsCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | ResourceNotFoundError | ServerError
+    Cause.TimeoutError | SdkError | InvalidParameterError | ResourceNotFoundError | ServerError
   >;
 
   /**
@@ -756,7 +822,18 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeCapabilityCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InvalidParameterError | ResourceNotFoundError | ServerError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InvalidParameterError | ResourceNotFoundError | ServerError
+  >;
+
+  /**
+   * @see {@link DescribeCertificateAuthorityCommand}
+   */
+  describeCertificateAuthority(
+    args: DescribeCertificateAuthorityCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    DescribeCertificateAuthorityCommandOutput,
+    Cause.TimeoutError | SdkError | ResourceNotFoundError | ServerError | ServiceUnavailableError
   >;
 
   /**
@@ -767,7 +844,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeClusterCommandOutput,
-    Cause.TimeoutException | SdkError | ClientError | ResourceNotFoundError | ServerError | ServiceUnavailableError
+    Cause.TimeoutError | SdkError | ClientError | ResourceNotFoundError | ServerError | ServiceUnavailableError
   >;
 
   /**
@@ -778,7 +855,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeClusterVersionsCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | InvalidRequestError | ServerError
+    Cause.TimeoutError | SdkError | InvalidParameterError | InvalidRequestError | ServerError
   >;
 
   describeClusterVersionsStream(
@@ -786,7 +863,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     DescribeClusterVersionsCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | InvalidRequestError | ServerError
+    Cause.TimeoutError | SdkError | InvalidParameterError | InvalidRequestError | ServerError
   >;
 
   /**
@@ -797,7 +874,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeEksAnywhereSubscriptionCommandOutput,
-    Cause.TimeoutException | SdkError | ClientError | ResourceNotFoundError | ServerError | ServiceUnavailableError
+    Cause.TimeoutError | SdkError | ClientError | ResourceNotFoundError | ServerError | ServiceUnavailableError
   >;
 
   /**
@@ -808,7 +885,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeFargateProfileCommandOutput,
-    Cause.TimeoutException | SdkError | ClientError | InvalidParameterError | ResourceNotFoundError | ServerError
+    Cause.TimeoutError | SdkError | ClientError | InvalidParameterError | ResourceNotFoundError | ServerError
   >;
 
   /**
@@ -819,7 +896,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeIdentityProviderConfigCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ClientError
     | InvalidParameterError
@@ -836,12 +913,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeInsightCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InvalidParameterError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ServerError
+    Cause.TimeoutError | SdkError | InvalidParameterError | InvalidRequestError | ResourceNotFoundError | ServerError
   >;
 
   /**
@@ -852,12 +924,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeInsightsRefreshCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InvalidParameterError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ServerError
+    Cause.TimeoutError | SdkError | InvalidParameterError | InvalidRequestError | ResourceNotFoundError | ServerError
   >;
 
   /**
@@ -868,7 +935,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeNodegroupCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ClientError
     | InvalidParameterError
@@ -885,12 +952,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribePodIdentityAssociationCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InvalidParameterError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ServerError
+    Cause.TimeoutError | SdkError | InvalidParameterError | InvalidRequestError | ResourceNotFoundError | ServerError
   >;
 
   /**
@@ -901,7 +963,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeUpdateCommandOutput,
-    Cause.TimeoutException | SdkError | ClientError | InvalidParameterError | ResourceNotFoundError | ServerError
+    Cause.TimeoutError | SdkError | ClientError | InvalidParameterError | ResourceNotFoundError | ServerError
   >;
 
   /**
@@ -912,7 +974,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisassociateAccessPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidRequestError | ResourceNotFoundError | ServerError
+    Cause.TimeoutError | SdkError | InvalidRequestError | ResourceNotFoundError | ServerError
   >;
 
   /**
@@ -923,7 +985,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisassociateIdentityProviderConfigCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ClientError
     | InvalidParameterError
@@ -942,12 +1004,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAccessEntriesCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InvalidParameterError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ServerError
+    Cause.TimeoutError | SdkError | InvalidParameterError | InvalidRequestError | ResourceNotFoundError | ServerError
   >;
 
   listAccessEntriesStream(
@@ -955,12 +1012,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListAccessEntriesCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InvalidParameterError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ServerError
+    Cause.TimeoutError | SdkError | InvalidParameterError | InvalidRequestError | ResourceNotFoundError | ServerError
   >;
 
   /**
@@ -971,13 +1023,13 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAccessPoliciesCommandOutput,
-    Cause.TimeoutException | SdkError | ServerError
+    Cause.TimeoutError | SdkError | ServerError
   >;
 
   listAccessPoliciesStream(
     args: ListAccessPoliciesCommandInput,
     options?: HttpHandlerOptions,
-  ): Stream.Stream<ListAccessPoliciesCommandOutput, Cause.TimeoutException | SdkError | ServerError>;
+  ): Stream.Stream<ListAccessPoliciesCommandOutput, Cause.TimeoutError | SdkError | ServerError>;
 
   /**
    * @see {@link ListAddonsCommand}
@@ -987,7 +1039,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAddonsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ClientError
     | InvalidParameterError
@@ -1001,7 +1053,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListAddonsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ClientError
     | InvalidParameterError
@@ -1018,7 +1070,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAssociatedAccessPoliciesCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidRequestError | ResourceNotFoundError | ServerError
+    Cause.TimeoutError | SdkError | InvalidRequestError | ResourceNotFoundError | ServerError
   >;
 
   listAssociatedAccessPoliciesStream(
@@ -1026,7 +1078,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListAssociatedAccessPoliciesCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidRequestError | ResourceNotFoundError | ServerError
+    Cause.TimeoutError | SdkError | InvalidRequestError | ResourceNotFoundError | ServerError
   >;
 
   /**
@@ -1037,15 +1089,41 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListCapabilitiesCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | ServerError
+    Cause.TimeoutError | SdkError | InvalidParameterError | ServerError
   >;
 
   listCapabilitiesStream(
     args: ListCapabilitiesCommandInput,
     options?: HttpHandlerOptions,
+  ): Stream.Stream<ListCapabilitiesCommandOutput, Cause.TimeoutError | SdkError | InvalidParameterError | ServerError>;
+
+  /**
+   * @see {@link ListCertificateAuthoritiesCommand}
+   */
+  listCertificateAuthorities(
+    args: ListCertificateAuthoritiesCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    ListCertificateAuthoritiesCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InvalidParameterError
+    | ResourceNotFoundError
+    | ServerError
+    | ServiceUnavailableError
+  >;
+
+  listCertificateAuthoritiesStream(
+    args: ListCertificateAuthoritiesCommandInput,
+    options?: HttpHandlerOptions,
   ): Stream.Stream<
-    ListCapabilitiesCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidParameterError | ServerError
+    ListCertificateAuthoritiesCommandOutput,
+    | Cause.TimeoutError
+    | SdkError
+    | InvalidParameterError
+    | ResourceNotFoundError
+    | ServerError
+    | ServiceUnavailableError
   >;
 
   /**
@@ -1056,7 +1134,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListClustersCommandOutput,
-    Cause.TimeoutException | SdkError | ClientError | InvalidParameterError | ServerError | ServiceUnavailableError
+    Cause.TimeoutError | SdkError | ClientError | InvalidParameterError | ServerError | ServiceUnavailableError
   >;
 
   listClustersStream(
@@ -1064,7 +1142,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListClustersCommandOutput,
-    Cause.TimeoutException | SdkError | ClientError | InvalidParameterError | ServerError | ServiceUnavailableError
+    Cause.TimeoutError | SdkError | ClientError | InvalidParameterError | ServerError | ServiceUnavailableError
   >;
 
   /**
@@ -1075,7 +1153,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListEksAnywhereSubscriptionsCommandOutput,
-    Cause.TimeoutException | SdkError | ClientError | InvalidParameterError | ServerError | ServiceUnavailableError
+    Cause.TimeoutError | SdkError | ClientError | InvalidParameterError | ServerError | ServiceUnavailableError
   >;
 
   listEksAnywhereSubscriptionsStream(
@@ -1083,7 +1161,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListEksAnywhereSubscriptionsCommandOutput,
-    Cause.TimeoutException | SdkError | ClientError | InvalidParameterError | ServerError | ServiceUnavailableError
+    Cause.TimeoutError | SdkError | ClientError | InvalidParameterError | ServerError | ServiceUnavailableError
   >;
 
   /**
@@ -1094,7 +1172,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListFargateProfilesCommandOutput,
-    Cause.TimeoutException | SdkError | ClientError | InvalidParameterError | ResourceNotFoundError | ServerError
+    Cause.TimeoutError | SdkError | ClientError | InvalidParameterError | ResourceNotFoundError | ServerError
   >;
 
   listFargateProfilesStream(
@@ -1102,7 +1180,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListFargateProfilesCommandOutput,
-    Cause.TimeoutException | SdkError | ClientError | InvalidParameterError | ResourceNotFoundError | ServerError
+    Cause.TimeoutError | SdkError | ClientError | InvalidParameterError | ResourceNotFoundError | ServerError
   >;
 
   /**
@@ -1113,7 +1191,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListIdentityProviderConfigsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ClientError
     | InvalidParameterError
@@ -1127,7 +1205,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListIdentityProviderConfigsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ClientError
     | InvalidParameterError
@@ -1144,12 +1222,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListInsightsCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InvalidParameterError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ServerError
+    Cause.TimeoutError | SdkError | InvalidParameterError | InvalidRequestError | ResourceNotFoundError | ServerError
   >;
 
   listInsightsStream(
@@ -1157,12 +1230,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListInsightsCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InvalidParameterError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ServerError
+    Cause.TimeoutError | SdkError | InvalidParameterError | InvalidRequestError | ResourceNotFoundError | ServerError
   >;
 
   /**
@@ -1173,7 +1241,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListNodegroupsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ClientError
     | InvalidParameterError
@@ -1187,7 +1255,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListNodegroupsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ClientError
     | InvalidParameterError
@@ -1204,12 +1272,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListPodIdentityAssociationsCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InvalidParameterError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ServerError
+    Cause.TimeoutError | SdkError | InvalidParameterError | InvalidRequestError | ResourceNotFoundError | ServerError
   >;
 
   listPodIdentityAssociationsStream(
@@ -1217,12 +1280,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListPodIdentityAssociationsCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InvalidParameterError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ServerError
+    Cause.TimeoutError | SdkError | InvalidParameterError | InvalidRequestError | ResourceNotFoundError | ServerError
   >;
 
   /**
@@ -1233,7 +1291,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsForResourceCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError
   >;
 
   /**
@@ -1244,7 +1302,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListUpdatesCommandOutput,
-    Cause.TimeoutException | SdkError | ClientError | InvalidParameterError | ResourceNotFoundError | ServerError
+    Cause.TimeoutError | SdkError | ClientError | InvalidParameterError | ResourceNotFoundError | ServerError
   >;
 
   listUpdatesStream(
@@ -1252,7 +1310,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListUpdatesCommandOutput,
-    Cause.TimeoutException | SdkError | ClientError | InvalidParameterError | ResourceNotFoundError | ServerError
+    Cause.TimeoutError | SdkError | ClientError | InvalidParameterError | ResourceNotFoundError | ServerError
   >;
 
   /**
@@ -1263,7 +1321,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RegisterClusterCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ClientError
@@ -1283,12 +1341,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartInsightsRefreshCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InvalidParameterError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ServerError
+    Cause.TimeoutError | SdkError | InvalidParameterError | InvalidRequestError | ResourceNotFoundError | ServerError
   >;
 
   /**
@@ -1299,7 +1352,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagResourceCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError
   >;
 
   /**
@@ -1310,7 +1363,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
-    Cause.TimeoutException | SdkError | BadRequestError | NotFoundError
+    Cause.TimeoutError | SdkError | BadRequestError | NotFoundError
   >;
 
   /**
@@ -1321,12 +1374,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateAccessEntryCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InvalidParameterError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ServerError
+    Cause.TimeoutError | SdkError | InvalidParameterError | InvalidRequestError | ResourceNotFoundError | ServerError
   >;
 
   /**
@@ -1337,7 +1385,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateAddonCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ClientError
     | InvalidParameterError
@@ -1355,7 +1403,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateCapabilityCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InvalidParameterError
@@ -1372,7 +1420,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateClusterConfigCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ClientError
     | InvalidParameterError
@@ -1391,7 +1439,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateClusterVersionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ClientError
     | InvalidParameterError
@@ -1411,7 +1459,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateEksAnywhereSubscriptionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ClientError
     | InvalidParameterError
@@ -1428,7 +1476,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateNodegroupConfigCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ClientError
     | InvalidParameterError
@@ -1446,7 +1494,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateNodegroupVersionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ClientError
     | InvalidParameterError
@@ -1464,12 +1512,7 @@ interface EKSService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdatePodIdentityAssociationCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InvalidParameterError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ServerError
+    Cause.TimeoutError | SdkError | InvalidParameterError | InvalidRequestError | ResourceNotFoundError | ServerError
   >;
 }
 
@@ -1495,10 +1538,10 @@ export const makeEKSService = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class EKSService extends Effect.Tag("@effect-aws/client-eks/EKSService")<
+export class EKSService extends Context.Service<
   EKSService,
   EKSService$
->() {
+>()("@effect-aws/client-eks/EKSService") {
   static readonly defaultLayer = Layer.effect(this, makeEKSService).pipe(Layer.provide(Instance.layer));
   static readonly layer = (config: EKSService.Config) =>
     Layer.effect(this, makeEKSService).pipe(

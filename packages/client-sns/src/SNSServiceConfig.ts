@@ -3,10 +3,9 @@
  */
 import type { SNSClientConfig } from "@aws-sdk/client-sns";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
-import * as FiberRef from "effect/FiberRef";
 import { dual } from "effect/Function";
-import { globalValue } from "effect/GlobalValue";
 import * as Layer from "effect/Layer";
 import type { SNSService } from "./SNSService.js";
 
@@ -14,9 +13,9 @@ import type { SNSService } from "./SNSService.js";
  * @since 1.0.0
  * @category sns service config
  */
-const currentSNSServiceConfig = globalValue(
+const currentSNSServiceConfig = Context.Reference<SNSService.Config>(
   "@effect-aws/client-sns/currentSNSServiceConfig",
-  () => FiberRef.unsafeMake<SNSService.Config>({}),
+  { defaultValue: () => ({}) },
 );
 
 /**
@@ -29,21 +28,21 @@ export const withSNSServiceConfig: {
 } = dual(
   2,
   <A, E, R>(effect: Effect.Effect<A, E, R>, config: SNSService.Config): Effect.Effect<A, E, R> =>
-    Effect.locally(effect, currentSNSServiceConfig, config),
+    Effect.provideService(effect, currentSNSServiceConfig, config),
 );
 
 /**
  * @since 1.0.0
  * @category sns service config
  */
-export const setSNSServiceConfig = (config: SNSService.Config) => Layer.locallyScoped(currentSNSServiceConfig, config);
+export const setSNSServiceConfig = (config: SNSService.Config) => Layer.succeed(currentSNSServiceConfig, config);
 
 /**
  * @since 1.0.0
  * @category adapters
  */
 export const toSNSClientConfig: Effect.Effect<SNSClientConfig> = Effect.gen(function*() {
-  const { logger: serviceLogger, ...config } = yield* FiberRef.get(currentSNSServiceConfig);
+  const { logger: serviceLogger, ...config } = yield* currentSNSServiceConfig;
 
   const logger = serviceLogger === true
     ? yield* ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger)

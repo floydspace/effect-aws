@@ -1,16 +1,9 @@
 import { LambdaHandler } from "@effect-aws/lambda";
-import {
-  FetchHttpClient,
-  HttpApi,
-  HttpApiBuilder,
-  HttpApiEndpoint,
-  HttpApiGroup,
-  HttpApiSchema,
-  HttpClient,
-  HttpClientResponse,
-  HttpServer,
-} from "@effect/platform";
-import { Effect, Layer, Schema } from "effect";
+import * as Effect from "effect/Effect";
+import { FetchHttpClient, HttpClient, HttpClientResponse, HttpServer } from "effect/http";
+import { HttpApi, HttpApiBuilder, HttpApiEndpoint, HttpApiGroup } from "effect/http-api";
+import * as Layer from "effect/Layer";
+import * as Schema from "effect/Schema";
 
 const YahooResponse = Schema.Struct({
   chart: Schema.Struct({
@@ -29,11 +22,11 @@ const YahooResponse = Schema.Struct({
   }),
 });
 
-const symbolParam = HttpApiSchema.param("symbol", Schema.String);
-
 const getQuote = HttpApiEndpoint.get(
   "getQuote",
-)`/quote/${symbolParam}`.addSuccess(YahooResponse);
+  `/quote/:symbol`,
+  { success: YahooResponse, params: { symbol: Schema.String } },
+);
 
 const quotesGroup = HttpApiGroup.make("quotes").add(getQuote);
 
@@ -43,31 +36,28 @@ const MyApi = HttpApi.make("MyApi").add(quotesGroup);
 const QuotesLive = HttpApiBuilder.group(
   MyApi,
   "quotes",
-  (handlers) =>
-    handlers.handle(
+  Effect.fnUntraced(function*(handlers) {
+    const http = yield* HttpClient.HttpClient;
+
+    return handlers.handle(
       "getQuote",
-      ({ path }) =>
-        HttpClient.get(`https://query2.finance.yahoo.com/v8/finance/chart/${path.symbol}`, {
+      ({ params }) =>
+        http.get(`https://query2.finance.yahoo.com/v8/finance/chart/${params.symbol}`, {
           urlParams: { interval: "1d" },
         }).pipe(
           Effect.andThen(HttpClientResponse.schemaBodyJson(YahooResponse)),
           Effect.orDie,
         ),
-    ),
+    );
+  }),
 );
 
 // Provide the implementation for the API
-const MyApiLive = HttpApiBuilder.api(MyApi).pipe(
+const MyApiLive = HttpApiBuilder.layer(MyApi).pipe(
   Layer.provide(QuotesLive),
   Layer.provide(FetchHttpClient.layer),
+  Layer.provide(HttpServer.layerServices),
 );
 
 // Create the Lambda handler
-export const handler = LambdaHandler.fromHttpApi(
-  Layer.mergeAll(
-    MyApiLive,
-    // you could also use NodeHttpServer.layerContext, depending on your
-    // server's platform
-    HttpServer.layerContext,
-  ),
-);
+export const handler = LambdaHandler.fromHttpApi(MyApiLive);

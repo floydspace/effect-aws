@@ -2,9 +2,8 @@
  * @since 0.1.0
  */
 import type { S3Service } from "@effect-aws/client-s3/S3Service";
-import type { FileSystem } from "@effect/platform/FileSystem";
 import type * as Config from "effect/Config";
-import type * as ConfigError from "effect/ConfigError";
+import type { FileSystem } from "effect/FileSystem";
 import type * as Layer from "effect/Layer";
 import * as internal from "./internal/s3FileSystem.js";
 
@@ -27,5 +26,5 @@ export const layer: (config: S3FileSystemConfig) => Layer.Layer<FileSystem, neve
  * @category layers
  */
 export const layerConfig: (
-  config: Config.Config.Wrap<S3FileSystemConfig>,
-) => Layer.Layer<FileSystem, ConfigError.ConfigError, S3Service> = internal.layerConfig;
+  config: Config.Wrap<S3FileSystemConfig>,
+) => Layer.Layer<FileSystem, Config.ConfigError, S3Service> = internal.layerConfig;

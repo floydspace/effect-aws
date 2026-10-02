@@ -216,6 +216,7 @@ import * as Service from "@effect-aws/commons/Service";
 import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
 import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import type * as Stream from "effect/Stream";
@@ -363,9 +364,11 @@ const paginators = {
   paginateListTargetsForPolicy,
 };
 
-interface OrganizationsService$ {
-  readonly _: unique symbol;
-
+/**
+ * @since 1.0.0
+ * @category models
+ */
+export interface OrganizationsService$ {
   /**
    * @see {@link AcceptHandshakeCommand}
    */
@@ -374,7 +377,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AcceptHandshakeCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AccessDeniedForDependencyError
@@ -399,7 +402,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AttachPolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -424,7 +427,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelHandshakeCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConcurrentModificationError
@@ -444,7 +447,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CloseAccountCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AccountAlreadyClosedError
@@ -467,7 +470,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateAccountCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -488,7 +491,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateGovCloudAccountCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -509,7 +512,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateOrganizationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AccessDeniedForDependencyError
@@ -529,7 +532,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateOrganizationalUnitCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -550,7 +553,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreatePolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -573,7 +576,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeclineHandshakeCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConcurrentModificationError
@@ -593,7 +596,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteOrganizationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -613,7 +616,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteOrganizationalUnitCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -633,7 +636,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeletePolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -654,7 +657,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteResourcePolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -674,7 +677,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeregisterDelegatedAdministratorCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AccountNotFoundError
@@ -696,7 +699,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeAccountCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AccountNotFoundError
@@ -714,7 +717,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeCreateAccountStatusCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -733,7 +736,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeEffectivePolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -754,7 +757,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeHandshakeCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConcurrentModificationError
@@ -772,7 +775,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeOrganizationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -789,7 +792,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeOrganizationalUnitCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -807,7 +810,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribePolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -826,7 +829,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeResourcePolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -845,7 +848,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeResponsibilityTransferCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -864,7 +867,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DetachPolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -888,7 +891,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisableAWSServiceAccessCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -908,7 +911,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisablePolicyTypeCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -931,7 +934,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     EnableAWSServiceAccessCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -951,7 +954,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     EnableAllFeaturesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -971,7 +974,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     EnablePolicyTypeCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -995,7 +998,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     InviteAccountToOrganizationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AccountOwnerNotVerifiedError
@@ -1018,7 +1021,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     InviteOrganizationToTransferResponsibilityCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -1040,7 +1043,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     LeaveOrganizationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AccountNotFoundError
@@ -1061,7 +1064,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAWSServiceAccessForOrganizationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -1077,7 +1080,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListAWSServiceAccessForOrganizationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -1096,7 +1099,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAccountsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -1110,7 +1113,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListAccountsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -1127,7 +1130,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAccountsForParentCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -1142,7 +1145,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListAccountsForParentCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -1160,7 +1163,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAccountsWithInvalidEffectivePolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -1177,7 +1180,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListAccountsWithInvalidEffectivePolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -1197,7 +1200,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListChildrenCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -1212,7 +1215,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListChildrenCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -1230,7 +1233,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListCreateAccountStatusCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -1245,7 +1248,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListCreateAccountStatusCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -1263,7 +1266,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDelegatedAdministratorsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -1279,7 +1282,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListDelegatedAdministratorsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -1298,7 +1301,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDelegatedServicesForAccountCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AccountNotFoundError
@@ -1316,7 +1319,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListDelegatedServicesForAccountCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AccountNotFoundError
@@ -1337,7 +1340,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListEffectivePolicyValidationErrorsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AccountNotFoundError
@@ -1355,7 +1358,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListEffectivePolicyValidationErrorsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AccountNotFoundError
@@ -1376,7 +1379,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListHandshakesForAccountCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConcurrentModificationError
@@ -1390,7 +1393,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListHandshakesForAccountCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConcurrentModificationError
@@ -1407,7 +1410,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListHandshakesForOrganizationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -1422,7 +1425,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListHandshakesForOrganizationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -1440,7 +1443,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListInboundResponsibilityTransfersCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -1460,7 +1463,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListOrganizationalUnitsForParentCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -1475,7 +1478,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListOrganizationalUnitsForParentCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -1493,7 +1496,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListOutboundResponsibilityTransfersCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -1512,7 +1515,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListParentsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -1527,7 +1530,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListParentsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -1545,7 +1548,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListPoliciesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -1560,7 +1563,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListPoliciesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -1578,7 +1581,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListPoliciesForTargetCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -1594,7 +1597,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListPoliciesForTargetCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -1613,7 +1616,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListRootsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -1627,7 +1630,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListRootsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -1644,7 +1647,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsForResourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -1659,7 +1662,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListTagsForResourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -1677,7 +1680,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTargetsForPolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -1693,7 +1696,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListTargetsForPolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -1712,7 +1715,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     MoveAccountCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AccountNotFoundError
@@ -1734,7 +1737,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutResourcePolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -1754,7 +1757,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RegisterDelegatedAdministratorCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AccountAlreadyRegisteredError
@@ -1776,7 +1779,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RemoveAccountFromOrganizationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AccountNotFoundError
@@ -1797,7 +1800,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagResourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -1817,7 +1820,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TerminateResponsibilityTransferCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -1840,7 +1843,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -1860,7 +1863,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateOrganizationalUnitCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -1880,7 +1883,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdatePolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -1904,7 +1907,7 @@ interface OrganizationsService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateResponsibilityTransferCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | AWSOrganizationsNotInUseError
@@ -1939,10 +1942,10 @@ export const makeOrganizationsService = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class OrganizationsService extends Effect.Tag("@effect-aws/client-organizations/OrganizationsService")<
+export class OrganizationsService extends Context.Service<
   OrganizationsService,
   OrganizationsService$
->() {
+>()("@effect-aws/client-organizations/OrganizationsService") {
   static readonly defaultLayer = Layer.effect(this, makeOrganizationsService).pipe(Layer.provide(Instance.layer));
   static readonly layer = (config: OrganizationsService.Config) =>
     Layer.effect(this, makeOrganizationsService).pipe(

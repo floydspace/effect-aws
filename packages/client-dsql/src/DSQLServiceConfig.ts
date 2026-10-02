@@ -3,10 +3,9 @@
  */
 import type { DSQLClientConfig } from "@aws-sdk/client-dsql";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
-import * as FiberRef from "effect/FiberRef";
 import { dual } from "effect/Function";
-import { globalValue } from "effect/GlobalValue";
 import * as Layer from "effect/Layer";
 import type { DSQLService } from "./DSQLService.js";
 
@@ -14,9 +13,9 @@ import type { DSQLService } from "./DSQLService.js";
  * @since 1.0.0
  * @category dsql service config
  */
-const currentDSQLServiceConfig = globalValue(
+const currentDSQLServiceConfig = Context.Reference<DSQLService.Config>(
   "@effect-aws/client-dsql/currentDSQLServiceConfig",
-  () => FiberRef.unsafeMake<DSQLService.Config>({}),
+  { defaultValue: () => ({}) },
 );
 
 /**
@@ -29,22 +28,21 @@ export const withDSQLServiceConfig: {
 } = dual(
   2,
   <A, E, R>(effect: Effect.Effect<A, E, R>, config: DSQLService.Config): Effect.Effect<A, E, R> =>
-    Effect.locally(effect, currentDSQLServiceConfig, config),
+    Effect.provideService(effect, currentDSQLServiceConfig, config),
 );
 
 /**
  * @since 1.0.0
  * @category dsql service config
  */
-export const setDSQLServiceConfig = (config: DSQLService.Config) =>
-  Layer.locallyScoped(currentDSQLServiceConfig, config);
+export const setDSQLServiceConfig = (config: DSQLService.Config) => Layer.succeed(currentDSQLServiceConfig, config);
 
 /**
  * @since 1.0.0
  * @category adapters
  */
 export const toDSQLClientConfig: Effect.Effect<DSQLClientConfig> = Effect.gen(function*() {
-  const { logger: serviceLogger, ...config } = yield* FiberRef.get(currentDSQLServiceConfig);
+  const { logger: serviceLogger, ...config } = yield* currentDSQLServiceConfig;
 
   const logger = serviceLogger === true
     ? yield* ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger)

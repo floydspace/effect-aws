@@ -16,7 +16,7 @@ With default TimestreamQueryClient instance:
 ```typescript
 import { TimestreamQuery } from "@effect-aws/client-timestream-query";
 
-const program = TimestreamQuery.listScheduledQueries(args);
+const program = TimestreamQuery.use((svc) => svc.listScheduledQueries(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom TimestreamQueryClient instance:
 ```typescript
 import { TimestreamQuery } from "@effect-aws/client-timestream-query";
 
-const program = TimestreamQuery.listScheduledQueries(args);
+const program = TimestreamQuery.use((svc) => svc.listScheduledQueries(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom TimestreamQueryClient configuration:
 ```typescript
 import { TimestreamQuery } from "@effect-aws/client-timestream-query";
 
-const program = TimestreamQuery.listScheduledQueries(args);
+const program = TimestreamQuery.use((svc) => svc.listScheduledQueries(args));
 
 const result = await pipe(
   program,

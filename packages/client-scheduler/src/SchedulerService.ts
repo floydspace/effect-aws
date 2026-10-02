@@ -47,6 +47,7 @@ import * as Service from "@effect-aws/commons/Service";
 import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
 import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import type * as Stream from "effect/Stream";
@@ -83,9 +84,11 @@ const paginators = {
   paginateListSchedules,
 };
 
-interface SchedulerService$ {
-  readonly _: unique symbol;
-
+/**
+ * @since 1.0.0
+ * @category models
+ */
+export interface SchedulerService$ {
   /**
    * @see {@link CreateScheduleCommand}
    */
@@ -94,7 +97,7 @@ interface SchedulerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateScheduleCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConflictError
     | InternalServerError
@@ -112,7 +115,7 @@ interface SchedulerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateScheduleGroupCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConflictError
     | InternalServerError
@@ -129,7 +132,7 @@ interface SchedulerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteScheduleCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConflictError
     | InternalServerError
@@ -146,7 +149,7 @@ interface SchedulerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteScheduleGroupCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConflictError
     | InternalServerError
@@ -163,7 +166,7 @@ interface SchedulerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetScheduleCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -174,7 +177,7 @@ interface SchedulerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetScheduleGroupCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -185,7 +188,7 @@ interface SchedulerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListScheduleGroupsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   listScheduleGroupsStream(
@@ -193,7 +196,7 @@ interface SchedulerService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListScheduleGroupsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -204,7 +207,7 @@ interface SchedulerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListSchedulesCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   listSchedulesStream(
@@ -212,7 +215,7 @@ interface SchedulerService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListSchedulesCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -223,7 +226,7 @@ interface SchedulerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsForResourceCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -234,7 +237,7 @@ interface SchedulerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagResourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConflictError
     | InternalServerError
@@ -251,7 +254,7 @@ interface SchedulerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConflictError
     | InternalServerError
@@ -268,7 +271,7 @@ interface SchedulerService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateScheduleCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConflictError
     | InternalServerError
@@ -300,10 +303,10 @@ export const makeSchedulerService = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class SchedulerService extends Effect.Tag("@effect-aws/client-scheduler/SchedulerService")<
+export class SchedulerService extends Context.Service<
   SchedulerService,
   SchedulerService$
->() {
+>()("@effect-aws/client-scheduler/SchedulerService") {
   static readonly defaultLayer = Layer.effect(this, makeSchedulerService).pipe(Layer.provide(Instance.layer));
   static readonly layer = (config: SchedulerService.Config) =>
     Layer.effect(this, makeSchedulerService).pipe(

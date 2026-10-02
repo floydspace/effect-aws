@@ -33,7 +33,6 @@ export class TypeScriptLibProject extends typescript.TypeScriptProject {
   public readonly tsconfigSrc: javascript.TypescriptConfig;
   public readonly tsconfigTst: javascript.TypescriptConfig;
   public readonly tsconfigEsm: javascript.TypescriptConfig;
-  public readonly tsconfigCjs: javascript.TypescriptConfig;
   public readonly tsconfigExamples?: javascript.TypescriptConfig;
 
   constructor({
@@ -112,16 +111,9 @@ export class TypeScriptLibProject extends typescript.TypeScriptProject {
     });
     this.tsconfigEsm.addExtends(this.tsconfigSrc);
 
-    // Add tsconfig for building cjs
-    this.tsconfigCjs = this.makeBaseTsconfig("tsconfig.cjs.json", "cjs", {
-      moduleResolution: javascript.TypeScriptModuleResolution.NODE,
-      module: "CommonJS",
-    });
-    this.tsconfigCjs.addExtends(this.tsconfigSrc);
-
     // Build both cjs and esm
     this.compileTask.reset(
-      `tsc -b ./${this.tsconfigCjs.fileName} ./${this.tsconfigEsm.fileName}`,
+      `tsc -b ./${this.tsconfigEsm.fileName}`,
     );
 
     this.addFields({

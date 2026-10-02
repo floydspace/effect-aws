@@ -3,10 +3,9 @@
  */
 import type { CloudWatchEventsClientConfig } from "@aws-sdk/client-cloudwatch-events";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
-import * as FiberRef from "effect/FiberRef";
 import { dual } from "effect/Function";
-import { globalValue } from "effect/GlobalValue";
 import * as Layer from "effect/Layer";
 import type { CloudWatchEventsService } from "./CloudWatchEventsService.js";
 
@@ -14,9 +13,9 @@ import type { CloudWatchEventsService } from "./CloudWatchEventsService.js";
  * @since 1.0.0
  * @category cloudwatch-events service config
  */
-const currentCloudWatchEventsServiceConfig = globalValue(
+const currentCloudWatchEventsServiceConfig = Context.Reference<CloudWatchEventsService.Config>(
   "@effect-aws/client-cloudwatch-events/currentCloudWatchEventsServiceConfig",
-  () => FiberRef.unsafeMake<CloudWatchEventsService.Config>({}),
+  { defaultValue: () => ({}) },
 );
 
 /**
@@ -29,7 +28,7 @@ export const withCloudWatchEventsServiceConfig: {
 } = dual(
   2,
   <A, E, R>(effect: Effect.Effect<A, E, R>, config: CloudWatchEventsService.Config): Effect.Effect<A, E, R> =>
-    Effect.locally(effect, currentCloudWatchEventsServiceConfig, config),
+    Effect.provideService(effect, currentCloudWatchEventsServiceConfig, config),
 );
 
 /**
@@ -37,14 +36,14 @@ export const withCloudWatchEventsServiceConfig: {
  * @category cloudwatch-events service config
  */
 export const setCloudWatchEventsServiceConfig = (config: CloudWatchEventsService.Config) =>
-  Layer.locallyScoped(currentCloudWatchEventsServiceConfig, config);
+  Layer.succeed(currentCloudWatchEventsServiceConfig, config);
 
 /**
  * @since 1.0.0
  * @category adapters
  */
 export const toCloudWatchEventsClientConfig: Effect.Effect<CloudWatchEventsClientConfig> = Effect.gen(function*() {
-  const { logger: serviceLogger, ...config } = yield* FiberRef.get(currentCloudWatchEventsServiceConfig);
+  const { logger: serviceLogger, ...config } = yield* currentCloudWatchEventsServiceConfig;
 
   const logger = serviceLogger === true
     ? yield* ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger)

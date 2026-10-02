@@ -2,7 +2,7 @@
  * @since 0.1.0
  */
 import type { CommandImpl, SmithyResolvedConfiguration } from "@smithy/smithy-client";
-import { ServiceException } from "@smithy/smithy-client";
+import { ServiceException as ServiceError } from "@smithy/smithy-client";
 import type {
   Client,
   HandlerOptions,
@@ -12,14 +12,13 @@ import type {
   Paginator,
   RequestHandler,
 } from "@smithy/types";
-import type * as Array from "effect/Array";
+import type { NonEmptyReadonlyArray } from "effect/Array";
 import * as Cause from "effect/Cause";
 import * as Data from "effect/Data";
 import * as Effect from "effect/Effect";
 import { pipe } from "effect/Function";
 import * as Option from "effect/Option";
 import * as Record from "effect/Record";
-import * as Runtime from "effect/Runtime";
 import * as Scope from "effect/Scope";
 import * as Stream from "effect/Stream";
 import * as String from "effect/String";
@@ -60,7 +59,7 @@ export type CommandCtor<I> = new(input: I, ...args: Array<any>) => CommandImpl<I
 export type PaginatorCtor<I> = (config: PaginationConfiguration, input: I, ...args: Array<any>) => Paginator<any>;
 
 type ServiceFnOptions = {
-  errorTags?: Array.NonEmptyReadonlyArray<string>;
+  errorTags?: NonEmptyReadonlyArray<string>;
   resolveClientConfig: Effect.Effect<LoggerResolvedConfig>;
 };
 
@@ -68,20 +67,22 @@ type ServiceFnOptions = {
  * @since 0.1.0
  * @category errors
  */
-export const catchServiceExceptions = (errorTags?: Array.NonEmptyReadonlyArray<string>) => (e: unknown) => {
-  if (e instanceof ServiceException && (!errorTags || errorTags.includes(e.name))) {
-    const ServiceException = Data.tagged<TaggedException<ServiceException>>(e.name);
+export const catchServiceExceptions: (
+  errorTags?: NonEmptyReadonlyArray<string>,
+) => (e: unknown) => TaggedException<ServiceError> | Cause.TimeoutError | SdkError = (errorTags) => (e) => {
+  if (e instanceof ServiceError && (!errorTags || errorTags.includes(e.name))) {
+    class ServiceException extends Data.TaggedError(e.name)<TaggedException<ServiceError>> {}
 
-    return ServiceException({ ...e, message: e.message, stack: e.stack });
+    return new ServiceException({ ...e, message: e.message, stack: e.stack });
   }
   if (e instanceof Error) {
-    if (Runtime.isFiberFailure(e) && Cause.isFailType(e[Runtime.FiberFailureCauseId])) {
-      return e[Runtime.FiberFailureCauseId].error;
-    }
+    // if (Runtime.isFiberFailure(e) && Cause.isFailType(e[Runtime.FiberFailureCauseId])) {
+    //   return e[Runtime.FiberFailureCauseId].error;
+    // }
     if (e.name === "TimeoutError") {
-      return new Cause.TimeoutException(e.message);
+      return new Cause.TimeoutError(e.message);
     }
-    return SdkError({ ...e, name: "SdkError", message: e.message, stack: e.stack });
+    return new SdkError({ ...e, name: "SdkError", message: e.message, stack: e.stack });
   }
   throw e;
 };
@@ -98,7 +99,7 @@ export const makeServiceFn = (
   return (args: any, options?: HttpHandlerOptions) =>
     Effect.gen(function*() {
       const config = yield* fnOptions.resolveClientConfig;
-      const runtime = yield* Effect.runtime();
+      const runtime = yield* Effect.context<never>();
 
       return yield* Effect.acquireUseRelease(
         Scope.make(),

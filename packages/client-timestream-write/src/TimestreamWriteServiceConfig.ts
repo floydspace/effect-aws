@@ -3,10 +3,9 @@
  */
 import type { TimestreamWriteClientConfig } from "@aws-sdk/client-timestream-write";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
-import * as FiberRef from "effect/FiberRef";
 import { dual } from "effect/Function";
-import { globalValue } from "effect/GlobalValue";
 import * as Layer from "effect/Layer";
 import type { TimestreamWriteService } from "./TimestreamWriteService.js";
 
@@ -14,9 +13,9 @@ import type { TimestreamWriteService } from "./TimestreamWriteService.js";
  * @since 1.0.0
  * @category timestream-write service config
  */
-const currentTimestreamWriteServiceConfig = globalValue(
+const currentTimestreamWriteServiceConfig = Context.Reference<TimestreamWriteService.Config>(
   "@effect-aws/client-timestream-write/currentTimestreamWriteServiceConfig",
-  () => FiberRef.unsafeMake<TimestreamWriteService.Config>({}),
+  { defaultValue: () => ({}) },
 );
 
 /**
@@ -29,7 +28,7 @@ export const withTimestreamWriteServiceConfig: {
 } = dual(
   2,
   <A, E, R>(effect: Effect.Effect<A, E, R>, config: TimestreamWriteService.Config): Effect.Effect<A, E, R> =>
-    Effect.locally(effect, currentTimestreamWriteServiceConfig, config),
+    Effect.provideService(effect, currentTimestreamWriteServiceConfig, config),
 );
 
 /**
@@ -37,14 +36,14 @@ export const withTimestreamWriteServiceConfig: {
  * @category timestream-write service config
  */
 export const setTimestreamWriteServiceConfig = (config: TimestreamWriteService.Config) =>
-  Layer.locallyScoped(currentTimestreamWriteServiceConfig, config);
+  Layer.succeed(currentTimestreamWriteServiceConfig, config);
 
 /**
  * @since 1.0.0
  * @category adapters
  */
 export const toTimestreamWriteClientConfig: Effect.Effect<TimestreamWriteClientConfig> = Effect.gen(function*() {
-  const { logger: serviceLogger, ...config } = yield* FiberRef.get(currentTimestreamWriteServiceConfig);
+  const { logger: serviceLogger, ...config } = yield* currentTimestreamWriteServiceConfig;
 
   const logger = serviceLogger === true
     ? yield* ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger)

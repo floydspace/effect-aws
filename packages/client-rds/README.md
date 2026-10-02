@@ -16,7 +16,7 @@ With default RDSClient instance:
 ```typescript
 import { RDS } from "@effect-aws/client-rds";
 
-const program = RDS.describeDBClusters(args);
+const program = RDS.use((svc) => svc.describeDBClusters(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom RDSClient instance:
 ```typescript
 import { RDS } from "@effect-aws/client-rds";
 
-const program = RDS.describeDBClusters(args);
+const program = RDS.use((svc) => svc.describeDBClusters(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom RDSClient configuration:
 ```typescript
 import { RDS } from "@effect-aws/client-rds";
 
-const program = RDS.describeDBClusters(args);
+const program = RDS.use((svc) => svc.describeDBClusters(args));
 
 const result = await pipe(
   program,

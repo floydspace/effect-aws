@@ -2,10 +2,9 @@
  * @since 1.0.0
  */
 import type { TranslateConfig } from "@aws-sdk/lib-dynamodb";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
-import * as FiberRef from "effect/FiberRef";
 import { dual } from "effect/Function";
-import { globalValue } from "effect/GlobalValue";
 import * as Layer from "effect/Layer";
 import type { DynamoDBDocumentService } from "./DynamoDBDocumentService.js";
 
@@ -13,9 +12,9 @@ import type { DynamoDBDocumentService } from "./DynamoDBDocumentService.js";
  * @since 1.0.0
  * @category dynamodb service config
  */
-const currentDynamoDBDocumentServiceConfig = globalValue(
+const currentDynamoDBDocumentServiceConfig = Context.Reference<DynamoDBDocumentService.Config>(
   "@effect-aws/dynamodb/currentDynamoDBDocumentServiceConfig",
-  () => FiberRef.unsafeMake<DynamoDBDocumentService.Config>({}),
+  { defaultValue: () => ({}) },
 );
 
 /**
@@ -28,7 +27,7 @@ export const withDynamoDBDocumentServiceConfig: {
 } = dual(
   2,
   <A, E, R>(effect: Effect.Effect<A, E, R>, config: DynamoDBDocumentService.Config): Effect.Effect<A, E, R> =>
-    Effect.locally(effect, currentDynamoDBDocumentServiceConfig, config),
+    Effect.provideService(effect, currentDynamoDBDocumentServiceConfig, config),
 );
 
 /**
@@ -36,10 +35,10 @@ export const withDynamoDBDocumentServiceConfig: {
  * @category dynamodb service config
  */
 export const setDynamoDBDocumentServiceConfig = (config: DynamoDBDocumentService.Config) =>
-  Layer.locallyScoped(currentDynamoDBDocumentServiceConfig, config);
+  Layer.succeed(currentDynamoDBDocumentServiceConfig, config);
 
 /**
  * @since 1.0.0
  * @category adapters
  */
-export const toTranslateConfig: Effect.Effect<TranslateConfig> = FiberRef.get(currentDynamoDBDocumentServiceConfig);
+export const toTranslateConfig: Effect.Effect<TranslateConfig> = currentDynamoDBDocumentServiceConfig;

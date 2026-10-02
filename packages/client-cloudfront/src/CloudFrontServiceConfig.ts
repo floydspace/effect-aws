@@ -3,10 +3,9 @@
  */
 import type { CloudFrontClientConfig } from "@aws-sdk/client-cloudfront";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
-import * as FiberRef from "effect/FiberRef";
 import { dual } from "effect/Function";
-import { globalValue } from "effect/GlobalValue";
 import * as Layer from "effect/Layer";
 import type { CloudFrontService } from "./CloudFrontService.js";
 
@@ -14,9 +13,9 @@ import type { CloudFrontService } from "./CloudFrontService.js";
  * @since 1.0.0
  * @category cloudfront service config
  */
-const currentCloudFrontServiceConfig = globalValue(
+const currentCloudFrontServiceConfig = Context.Reference<CloudFrontService.Config>(
   "@effect-aws/client-cloudfront/currentCloudFrontServiceConfig",
-  () => FiberRef.unsafeMake<CloudFrontService.Config>({}),
+  { defaultValue: () => ({}) },
 );
 
 /**
@@ -29,7 +28,7 @@ export const withCloudFrontServiceConfig: {
 } = dual(
   2,
   <A, E, R>(effect: Effect.Effect<A, E, R>, config: CloudFrontService.Config): Effect.Effect<A, E, R> =>
-    Effect.locally(effect, currentCloudFrontServiceConfig, config),
+    Effect.provideService(effect, currentCloudFrontServiceConfig, config),
 );
 
 /**
@@ -37,14 +36,14 @@ export const withCloudFrontServiceConfig: {
  * @category cloudfront service config
  */
 export const setCloudFrontServiceConfig = (config: CloudFrontService.Config) =>
-  Layer.locallyScoped(currentCloudFrontServiceConfig, config);
+  Layer.succeed(currentCloudFrontServiceConfig, config);
 
 /**
  * @since 1.0.0
  * @category adapters
  */
 export const toCloudFrontClientConfig: Effect.Effect<CloudFrontClientConfig> = Effect.gen(function*() {
-  const { logger: serviceLogger, ...config } = yield* FiberRef.get(currentCloudFrontServiceConfig);
+  const { logger: serviceLogger, ...config } = yield* currentCloudFrontServiceConfig;
 
   const logger = serviceLogger === true
     ? yield* ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger)

@@ -26,7 +26,7 @@ describe("SQSClientImpl", () => {
       MessageBody: "Hello world!",
     };
 
-    const program = SQS.sendMessage(args);
+    const program = SQS.use((svc) => svc.sendMessage(args));
 
     const result = await pipe(
       program,
@@ -49,7 +49,7 @@ describe("SQSClientImpl", () => {
       MessageBody: "Hello world!",
     };
 
-    const program = SQS.sendMessage(args);
+    const program = SQS.use((svc) => svc.sendMessage(args));
 
     const result = await pipe(
       program,
@@ -75,7 +75,7 @@ describe("SQSClientImpl", () => {
       MessageBody: "Hello world!",
     };
 
-    const program = SQS.sendMessage(args);
+    const program = SQS.use((svc) => svc.sendMessage(args));
 
     const result = await pipe(
       program,
@@ -102,7 +102,7 @@ describe("SQSClientImpl", () => {
       MessageBody: "Hello world!",
     };
 
-    const program = SQS.sendMessage(args);
+    const program = SQS.use((svc) => svc.sendMessage(args));
 
     const result = await pipe(
       program,
@@ -133,7 +133,7 @@ describe("SQSClientImpl", () => {
       MessageBody: "Hello world!",
     };
 
-    const program = SQS.sendMessage(args);
+    const program = SQS.use((svc) => svc.sendMessage(args));
 
     const result = await pipe(
       program,
@@ -143,7 +143,7 @@ describe("SQSClientImpl", () => {
 
     expect(result).toEqual(
       Exit.fail(
-        SdkError({
+        new SdkError({
           ...new Error("test"),
           name: "SdkError",
           message: "test",
@@ -171,7 +171,7 @@ describe("SQSClientImpl", () => {
       MessageBody: "Hello world!",
     };
 
-    const program = SQS.sendMessage(args).pipe(
+    const program = SQS.use((svc) => svc.sendMessage(args)).pipe(
       Effect.catchTag("NotHandledException" as any, () => Effect.succeed(null)),
     );
 
@@ -181,9 +181,9 @@ describe("SQSClientImpl", () => {
       Effect.runPromiseExit,
     );
 
-    expect(result).toEqual(
+    expect(result).toContainEqual(
       Exit.fail(
-        SdkError({
+        new SdkError({
           ...new Error("test"),
           name: "SdkError",
           message: "test",

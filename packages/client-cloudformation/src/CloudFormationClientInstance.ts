@@ -11,9 +11,9 @@ import * as CloudFormationServiceConfig from "./CloudFormationServiceConfig.js";
  * @since 1.0.0
  * @category tags
  */
-export class CloudFormationClientInstance extends Context.Tag(
+export class CloudFormationClientInstance extends Context.Service<CloudFormationClientInstance, CloudFormationClient>()(
   "@effect-aws/client-cloudformation/CloudFormationClientInstance",
-)<CloudFormationClientInstance, CloudFormationClient>() {}
+) {}
 
 /**
  * @since 1.0.0
@@ -32,4 +32,4 @@ export const make = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const layer = Layer.scoped(CloudFormationClientInstance, make);
+export const layer = Layer.effect(CloudFormationClientInstance, make);

@@ -31,6 +31,9 @@ import {
   GetPrimaryEmailCommand,
   type GetPrimaryEmailCommandInput,
   type GetPrimaryEmailCommandOutput,
+  GetPrimaryEmailUpdateStatusCommand,
+  type GetPrimaryEmailUpdateStatusCommandInput,
+  type GetPrimaryEmailUpdateStatusCommandOutput,
   GetRegionOptStatusCommand,
   type GetRegionOptStatusCommandInput,
   type GetRegionOptStatusCommandOutput,
@@ -55,6 +58,7 @@ import * as Service from "@effect-aws/commons/Service";
 import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
 import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import type * as Stream from "effect/Stream";
@@ -82,6 +86,7 @@ const commands = {
   GetContactInformationCommand,
   GetGovCloudAccountInformationCommand,
   GetPrimaryEmailCommand,
+  GetPrimaryEmailUpdateStatusCommand,
   GetRegionOptStatusCommand,
   ListRegionsCommand,
   PutAccountNameCommand,
@@ -94,9 +99,11 @@ const paginators = {
   paginateListRegions,
 };
 
-interface AccountService$ {
-  readonly _: unique symbol;
-
+/**
+ * @since 1.0.0
+ * @category models
+ */
+export interface AccountService$ {
   /**
    * @see {@link AcceptPrimaryEmailUpdateCommand}
    */
@@ -105,7 +112,7 @@ interface AccountService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AcceptPrimaryEmailUpdateCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -123,7 +130,7 @@ interface AccountService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteAlternateContactCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -140,7 +147,7 @@ interface AccountService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisableRegionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -157,7 +164,7 @@ interface AccountService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     EnableRegionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -174,7 +181,7 @@ interface AccountService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAccountInformationCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | TooManyRequestsError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | TooManyRequestsError | ValidationError
   >;
 
   /**
@@ -185,7 +192,7 @@ interface AccountService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAlternateContactCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -202,7 +209,7 @@ interface AccountService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetContactInformationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -219,7 +226,7 @@ interface AccountService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetGovCloudAccountInformationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -237,7 +244,24 @@ interface AccountService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPrimaryEmailCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
+    | SdkError
+    | AccessDeniedError
+    | InternalServerError
+    | ResourceNotFoundError
+    | TooManyRequestsError
+    | ValidationError
+  >;
+
+  /**
+   * @see {@link GetPrimaryEmailUpdateStatusCommand}
+   */
+  getPrimaryEmailUpdateStatus(
+    args: GetPrimaryEmailUpdateStatusCommandInput,
+    options?: HttpHandlerOptions,
+  ): Effect.Effect<
+    GetPrimaryEmailUpdateStatusCommandOutput,
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -254,7 +278,7 @@ interface AccountService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetRegionOptStatusCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | TooManyRequestsError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | TooManyRequestsError | ValidationError
   >;
 
   /**
@@ -265,7 +289,7 @@ interface AccountService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListRegionsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | TooManyRequestsError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | TooManyRequestsError | ValidationError
   >;
 
   listRegionsStream(
@@ -273,7 +297,7 @@ interface AccountService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListRegionsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | TooManyRequestsError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | TooManyRequestsError | ValidationError
   >;
 
   /**
@@ -284,7 +308,7 @@ interface AccountService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutAccountNameCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | TooManyRequestsError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | TooManyRequestsError | ValidationError
   >;
 
   /**
@@ -295,7 +319,7 @@ interface AccountService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutAlternateContactCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | TooManyRequestsError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | TooManyRequestsError | ValidationError
   >;
 
   /**
@@ -306,7 +330,7 @@ interface AccountService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutContactInformationCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InternalServerError | TooManyRequestsError | ValidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InternalServerError | TooManyRequestsError | ValidationError
   >;
 
   /**
@@ -317,7 +341,7 @@ interface AccountService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartPrimaryEmailUpdateCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -350,10 +374,10 @@ export const makeAccountService = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class AccountService extends Effect.Tag("@effect-aws/client-account/AccountService")<
+export class AccountService extends Context.Service<
   AccountService,
   AccountService$
->() {
+>()("@effect-aws/client-account/AccountService") {
   static readonly defaultLayer = Layer.effect(this, makeAccountService).pipe(Layer.provide(Instance.layer));
   static readonly layer = (config: AccountService.Config) =>
     Layer.effect(this, makeAccountService).pipe(

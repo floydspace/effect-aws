@@ -69,6 +69,7 @@ import * as Service from "@effect-aws/commons/Service";
 import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
 import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import type * as Stream from "effect/Stream";
@@ -116,9 +117,11 @@ const paginators = {
   paginateListTables,
 };
 
-interface TimestreamWriteService$ {
-  readonly _: unique symbol;
-
+/**
+ * @since 1.0.0
+ * @category models
+ */
+export interface TimestreamWriteService$ {
   /**
    * @see {@link CreateBatchLoadTaskCommand}
    */
@@ -127,7 +130,7 @@ interface TimestreamWriteService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateBatchLoadTaskCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -147,7 +150,7 @@ interface TimestreamWriteService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateDatabaseCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -166,7 +169,7 @@ interface TimestreamWriteService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateTableCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ConflictError
@@ -186,7 +189,7 @@ interface TimestreamWriteService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDatabaseCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -204,7 +207,7 @@ interface TimestreamWriteService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteTableCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -222,7 +225,7 @@ interface TimestreamWriteService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeBatchLoadTaskCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -239,7 +242,7 @@ interface TimestreamWriteService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeDatabaseCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -257,7 +260,7 @@ interface TimestreamWriteService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeEndpointsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -268,7 +271,7 @@ interface TimestreamWriteService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeTableCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -286,7 +289,7 @@ interface TimestreamWriteService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListBatchLoadTasksCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -300,7 +303,7 @@ interface TimestreamWriteService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListBatchLoadTasksCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -317,7 +320,7 @@ interface TimestreamWriteService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDatabasesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -331,7 +334,7 @@ interface TimestreamWriteService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListDatabasesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -348,7 +351,7 @@ interface TimestreamWriteService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTablesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -363,7 +366,7 @@ interface TimestreamWriteService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListTablesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -381,7 +384,7 @@ interface TimestreamWriteService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsForResourceCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidEndpointError | ResourceNotFoundError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | InvalidEndpointError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -392,7 +395,7 @@ interface TimestreamWriteService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ResumeBatchLoadTaskCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -410,7 +413,7 @@ interface TimestreamWriteService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagResourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidEndpointError
     | ResourceNotFoundError
@@ -427,7 +430,7 @@ interface TimestreamWriteService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidEndpointError
     | ResourceNotFoundError
@@ -444,7 +447,7 @@ interface TimestreamWriteService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateDatabaseCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -463,7 +466,7 @@ interface TimestreamWriteService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateTableCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -481,7 +484,7 @@ interface TimestreamWriteService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     WriteRecordsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InternalServerError
@@ -515,10 +518,10 @@ export const makeTimestreamWriteService = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class TimestreamWriteService extends Effect.Tag("@effect-aws/client-timestream-write/TimestreamWriteService")<
+export class TimestreamWriteService extends Context.Service<
   TimestreamWriteService,
   TimestreamWriteService$
->() {
+>()("@effect-aws/client-timestream-write/TimestreamWriteService") {
   static readonly defaultLayer = Layer.effect(this, makeTimestreamWriteService).pipe(Layer.provide(Instance.layer));
   static readonly layer = (config: TimestreamWriteService.Config) =>
     Layer.effect(this, makeTimestreamWriteService).pipe(

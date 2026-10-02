@@ -6,30 +6,27 @@ import type {
   EncryptionTypeMismatchError,
   InvalidRequestError,
   InvalidWriteOffsetError,
+  NoSuchUploadError,
   S3ServiceError,
   SdkError,
   TooManyPartsError,
-} from "@effect-aws/client-s3/Errors";
+} from "@effect-aws/client-s3";
 import { S3Service } from "@effect-aws/client-s3/S3Service";
-import * as PlatformError from "@effect/platform/Error";
-import * as FileSystem from "@effect/platform/FileSystem";
+import * as Array from "effect/Array";
+import * as ByteSize from "effect/ByteSize";
 import type * as Cause from "effect/Cause";
-import * as Chunk from "effect/Chunk";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import * as Option from "effect/Option";
-import * as Predicate from "effect/Predicate";
+import * as PlatformError from "effect/PlatformError";
 import * as Ref from "effect/Ref";
 import * as Sink from "effect/Sink";
 import * as Stream from "effect/Stream";
 import type { MultipartUpload, UploadObjectCommandInput, UploadObjectOptions } from "../MultipartUpload.js";
 
 /** @internal */
-const isStream = (u: unknown): u is Stream.Stream<unknown, unknown> => Predicate.hasProperty(u, Stream.StreamTypeId);
-
-/** @internal */
-export const tag = Context.GenericTag<MultipartUpload>("@effect-aws/s3/MultipartUpload");
+export const tag = Context.Service<MultipartUpload>("@effect-aws/s3/MultipartUpload");
 
 /** @internal */
 const handleBadArgument = (method: string) => (err: unknown) =>
@@ -42,7 +39,7 @@ const handleBadArgument = (method: string) => (err: unknown) =>
 /** @internal */
 async function* getChunkStream<T>(
   data: T,
-  partSize: FileSystem.Size,
+  partSize: ByteSize.ByteSize,
   getNextData: (data: T) => AsyncGenerator<Uint8Array>,
 ): AsyncGenerator<RawDataPart, void, undefined> {
   let partNumber = 1;
@@ -81,7 +78,7 @@ async function* getChunkStream<T>(
 /** @internal */
 async function* getChunkUint8Array(
   data: Uint8Array,
-  partSize: FileSystem.Size,
+  partSize: ByteSize.ByteSize,
 ): AsyncGenerator<RawDataPart, void, undefined> {
   let partNumber = 1;
   let startByte = 0;
@@ -144,9 +141,9 @@ async function* getDataReadableStream(data: ReadableStream): AsyncGenerator<Uint
 /** @internal */
 const getChunk = <E>(
   data: UploadObjectCommandInput<E>["Body"],
-  partSize: FileSystem.Size,
+  partSize: ByteSize.ByteSize,
 ): AsyncGenerator<RawDataPart, void, undefined> => {
-  if (isStream(data)) {
+  if (Stream.isStream(data)) {
     return getChunkStream(Stream.toReadableStream(data), partSize, getDataReadableStream);
   }
 
@@ -188,6 +185,7 @@ interface RawDataPart {
 
 type PutObjectError =
   | SdkError
+  | NoSuchUploadError
   | EncryptionTypeMismatchError
   | InvalidRequestError
   | InvalidWriteOffsetError
@@ -195,7 +193,7 @@ type PutObjectError =
 
 export type S3ServiceErrors = PutObjectError | S3ServiceError;
 
-const MIN_PART_SIZE = FileSystem.MiB(5);
+const MIN_PART_SIZE = ByteSize.mebibytes(5);
 
 /** @internal */
 export const make: Effect.Effect<MultipartUpload, never, S3Service> = Effect.gen(function*() {
@@ -205,12 +203,8 @@ export const make: Effect.Effect<MultipartUpload, never, S3Service> = Effect.gen
     partNumber: number,
     uploadId: string | undefined,
     params: PutObjectCommandInput,
-  ): Effect.Effect<CompletedPart, Cause.TimeoutException | SdkError | S3ServiceError> =>
+  ): Effect.Effect<CompletedPart, Cause.TimeoutError | SdkError | S3ServiceError> =>
     Effect.gen(function*() {
-      yield* Effect.annotateLogsScoped({
-        partSize: `${(params.Body as Buffer).length / 1024 / 1024} MiB`,
-      });
-
       yield* Effect.logTrace(`[MultipartUpload] uploading part ${partNumber}`);
 
       const partResult = yield* s3.uploadPart({
@@ -223,7 +217,7 @@ export const make: Effect.Effect<MultipartUpload, never, S3Service> = Effect.gen
       });
 
       if (!partResult.ETag) {
-        yield* Effect.dieMessage(
+        return yield* Effect.die(
           `Part ${partNumber} is missing ETag in UploadPart response. Missing Bucket CORS configuration for ETag header?`,
         );
       }
@@ -238,7 +232,12 @@ export const make: Effect.Effect<MultipartUpload, never, S3Service> = Effect.gen
         ...(partResult.ChecksumSHA1 && { ChecksumSHA1: partResult.ChecksumSHA1 }),
         ...(partResult.ChecksumSHA256 && { ChecksumSHA256: partResult.ChecksumSHA256 }),
       };
-    }).pipe(Effect.scoped);
+    }).pipe(
+      Effect.annotateLogs({
+        partSize: `${(params.Body as Buffer).length / 1024 / 1024} MiB`,
+      }),
+      Effect.scoped,
+    );
 
   const multipartUpload = (
     params: Omit<UploadObjectCommandInput, "Body">,
@@ -259,17 +258,17 @@ export const make: Effect.Effect<MultipartUpload, never, S3Service> = Effect.gen
             Stream.runCollect,
           ),
         ({ UploadId }, exit) =>
-          Exit.matchEffect(exit, {
+          Exit.match(exit, {
             onSuccess: (parts) =>
-              s3.completeMultipartUpload({ ...params, UploadId, MultipartUpload: { Parts: Chunk.toArray(parts) } })
+              s3.completeMultipartUpload({ ...params, UploadId, MultipartUpload: { Parts: parts } })
                 .pipe(
                   Effect.flatMap((result) => Ref.set(completeRef, result)),
                 ),
             onFailure: () => s3.abortMultipartUpload({ Bucket: params.Bucket, Key: params.Key, UploadId }),
-          }).pipe(Effect.orDie),
+          }),
       );
 
-      return yield* completeRef.pipe(Effect.flatMap(Effect.fromNullable));
+      return yield* Ref.get(completeRef).pipe(Effect.flatMap(Effect.fromNullishOr));
     });
 
   const uploadObject = <E>(
@@ -277,7 +276,7 @@ export const make: Effect.Effect<MultipartUpload, never, S3Service> = Effect.gen
     options?: UploadObjectOptions,
   ): Effect.Effect<
     CompleteMultipartUploadCommandOutput,
-    Cause.TimeoutException | S3ServiceErrors | PlatformError.BadArgument | Cause.NoSuchElementException
+    Cause.TimeoutError | S3ServiceErrors | PlatformError.BadArgument | Cause.NoSuchElementError
   > =>
     Effect.gen(function*() {
       const partSize = options?.partSize || MIN_PART_SIZE;
@@ -302,8 +301,8 @@ export const make: Effect.Effect<MultipartUpload, never, S3Service> = Effect.gen
       const dataStream = Stream.fromAsyncIterable(getChunk(Body, partSize), handleBadArgument("uploadObject"));
 
       const [doublet, tailStream] = yield* dataStream.pipe(Stream.peel(Sink.take(2)));
-      const firstPart = yield* Chunk.head(doublet);
-      const secondPart = Chunk.get(doublet, 1);
+      const firstPart = yield* Effect.fromOption(Array.head(doublet));
+      const secondPart = Array.get(doublet, 1);
 
       if (Option.isNone(secondPart)) {
         const result = yield* s3.putObject({ ...params, Body: firstPart.data });
@@ -332,6 +331,6 @@ export const uploadObject: <E>(
   options?: UploadObjectOptions,
 ) => Effect.Effect<
   CompleteMultipartUploadCommandOutput,
-  Cause.TimeoutException | S3ServiceErrors | PlatformError.BadArgument | Cause.NoSuchElementException,
+  Cause.TimeoutError | S3ServiceErrors | PlatformError.BadArgument | Cause.NoSuchElementError,
   MultipartUpload
-> = Effect.serviceFunctionEffect(tag, (_) => _.uploadObject);
+> = (args, options) => tag.use((_) => _.uploadObject(args, options));

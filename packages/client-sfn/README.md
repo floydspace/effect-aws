@@ -16,7 +16,7 @@ With default SFNClient instance:
 ```typescript
 import { SFN } from "@effect-aws/client-sfn";
 
-const program = SFN.startExecution(args);
+const program = SFN.use((svc) => svc.startExecution(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom SFNClient instance:
 ```typescript
 import { SFN } from "@effect-aws/client-sfn";
 
-const program = SFN.startExecution(args);
+const program = SFN.use((svc) => svc.startExecution(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom SFNClient configuration:
 ```typescript
 import { SFN } from "@effect-aws/client-sfn";
 
-const program = SFN.startExecution(args);
+const program = SFN.use((svc) => svc.startExecution(args));
 
 const result = await pipe(
   program,

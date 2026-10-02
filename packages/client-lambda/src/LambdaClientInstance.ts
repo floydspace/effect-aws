@@ -11,9 +11,9 @@ import * as LambdaServiceConfig from "./LambdaServiceConfig.js";
  * @since 1.0.0
  * @category tags
  */
-export class LambdaClientInstance extends Context.Tag(
+export class LambdaClientInstance extends Context.Service<LambdaClientInstance, LambdaClient>()(
   "@effect-aws/client-lambda/LambdaClientInstance",
-)<LambdaClientInstance, LambdaClient>() {}
+) {}
 
 /**
  * @since 1.0.0
@@ -32,4 +32,4 @@ export const make = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const layer = Layer.scoped(LambdaClientInstance, make);
+export const layer = Layer.effect(LambdaClientInstance, make);

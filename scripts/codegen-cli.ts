@@ -6,11 +6,17 @@
  * 3. Run `Run pnpm run eslint --fix` to fix the formatting.
  * 4. Commit the changes and enjoy.
  */
-import { Prompt } from "@effect/cli";
-import { FileSystem } from "@effect/platform";
-import { NodeContext, NodeHttpClient, NodeRuntime } from "@effect/platform-node";
-import { Array, Effect, Option, Record, String } from "effect";
+import { NodeRuntime, NodeServices } from "@effect/platform-node";
+import { Layer } from "effect";
+import * as Array from "effect/Array";
+import { Prompt } from "effect/cli";
+import * as Effect from "effect/Effect";
+import * as FileSystem from "effect/FileSystem";
 import { pipe } from "effect/Function";
+import { FetchHttpClient } from "effect/http";
+import * as Option from "effect/Option";
+import * as Record from "effect/Record";
+import * as String from "effect/String";
 import singularities from "./client-singularities.js";
 import { generateClient } from "./generate-client.js";
 import { fetchSdkManifest } from "./manifest.js";
@@ -25,7 +31,7 @@ const readClientPackageNames = Effect.gen(function*() {
 const cli = Effect.gen(function*() {
   const packages = yield* readClientPackageNames;
 
-  const selectedPackages = yield* Prompt.multiSelect({
+  const selectedPackages = yield* Prompt.MultiSelect({
     message: "Which clients do you want to generate ?",
     choices: packages.filter((s) => singularities[s]).map((s) => ({ title: s, value: s })),
   });
@@ -47,14 +53,14 @@ const cli = Effect.gen(function*() {
         Array.map((s) => pipe(String.split(s, "#"), Array.get(1), Option.getOrThrow)),
       );
 
-      const commandToTest = singularities[packageName]?.commandToTest ?? (yield* Prompt.select({
+      const commandToTest = singularities[packageName]?.commandToTest ?? (yield* Prompt.Select({
         message: `Which command do you want to test in ${packageName} ?`,
         choices: operationNames.map((s) => ({ title: s, value: s })),
       }));
 
       const inputToTest = singularities[packageName]?.inputToTest !== undefined
         ? (singularities[packageName].inputToTest ? JSON.stringify(singularities[packageName].inputToTest) : "")
-        : yield* Prompt.text({ message: `Which input do you want to test of ${commandToTest} ? (optional)` });
+        : yield* Prompt.String({ message: `Which input do you want to test of ${commandToTest} ? (optional)` });
 
       return [serviceName, awsServiceName, manifest, commandToTest, inputToTest] as const;
     }), { concurrency: 1 });
@@ -66,6 +72,5 @@ const cli = Effect.gen(function*() {
 });
 
 NodeRuntime.runMain(cli.pipe(
-  Effect.provide(NodeContext.layer),
-  Effect.provide(NodeHttpClient.layer),
+  Effect.provide(Layer.mergeAll(NodeServices.layer, FetchHttpClient.layer)),
 ));

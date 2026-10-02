@@ -3,10 +3,9 @@
  */
 import type { SESClientConfig } from "@aws-sdk/client-ses";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
-import * as FiberRef from "effect/FiberRef";
 import { dual } from "effect/Function";
-import { globalValue } from "effect/GlobalValue";
 import * as Layer from "effect/Layer";
 import type { SESService } from "./SESService.js";
 
@@ -14,9 +13,9 @@ import type { SESService } from "./SESService.js";
  * @since 1.0.0
  * @category ses service config
  */
-const currentSESServiceConfig = globalValue(
+const currentSESServiceConfig = Context.Reference<SESService.Config>(
   "@effect-aws/client-ses/currentSESServiceConfig",
-  () => FiberRef.unsafeMake<SESService.Config>({}),
+  { defaultValue: () => ({}) },
 );
 
 /**
@@ -29,21 +28,21 @@ export const withSESServiceConfig: {
 } = dual(
   2,
   <A, E, R>(effect: Effect.Effect<A, E, R>, config: SESService.Config): Effect.Effect<A, E, R> =>
-    Effect.locally(effect, currentSESServiceConfig, config),
+    Effect.provideService(effect, currentSESServiceConfig, config),
 );
 
 /**
  * @since 1.0.0
  * @category ses service config
  */
-export const setSESServiceConfig = (config: SESService.Config) => Layer.locallyScoped(currentSESServiceConfig, config);
+export const setSESServiceConfig = (config: SESService.Config) => Layer.succeed(currentSESServiceConfig, config);
 
 /**
  * @since 1.0.0
  * @category adapters
  */
 export const toSESClientConfig: Effect.Effect<SESClientConfig> = Effect.gen(function*() {
-  const { logger: serviceLogger, ...config } = yield* FiberRef.get(currentSESServiceConfig);
+  const { logger: serviceLogger, ...config } = yield* currentSESServiceConfig;
 
   const logger = serviceLogger === true
     ? yield* ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger)

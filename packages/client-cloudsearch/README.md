@@ -16,7 +16,7 @@ With default CloudSearchClient instance:
 ```typescript
 import { CloudSearch } from "@effect-aws/client-cloudsearch";
 
-const program = CloudSearch.describeDomains(args);
+const program = CloudSearch.use((svc) => svc.describeDomains(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom CloudSearchClient instance:
 ```typescript
 import { CloudSearch } from "@effect-aws/client-cloudsearch";
 
-const program = CloudSearch.describeDomains(args);
+const program = CloudSearch.use((svc) => svc.describeDomains(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom CloudSearchClient configuration:
 ```typescript
 import { CloudSearch } from "@effect-aws/client-cloudsearch";
 
-const program = CloudSearch.describeDomains(args);
+const program = CloudSearch.use((svc) => svc.describeDomains(args));
 
 const result = await pipe(
   program,

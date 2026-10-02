@@ -96,6 +96,9 @@
       "path": "packages/client-eks"
     },
     {
+      "path": "packages/client-elastic-load-balancing-v2"
+    },
+    {
       "path": "packages/client-elasticache"
     },
     {
@@ -150,6 +153,9 @@
       "path": "packages/client-rds"
     },
     {
+      "path": "packages/client-resource-groups-tagging-api"
+    },
+    {
       "path": "packages/client-scheduler"
     },
     {
@@ -196,9 +202,6 @@
     },
     {
       "path": "packages/dynamodb"
-    },
-    {
-      "path": "packages/lib-dynamodb"
     },
     {
       "path": "packages/lambda"

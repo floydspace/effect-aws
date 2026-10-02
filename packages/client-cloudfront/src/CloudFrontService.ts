@@ -527,6 +527,7 @@ import * as Service from "@effect-aws/commons/Service";
 import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
 import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import type * as Stream from "effect/Stream";
@@ -879,9 +880,11 @@ const paginators = {
   paginateListTrustStores,
 };
 
-interface CloudFrontService$ {
-  readonly _: unique symbol;
-
+/**
+ * @since 1.0.0
+ * @category models
+ */
+export interface CloudFrontService$ {
   /**
    * @see {@link AssociateAliasCommand}
    */
@@ -890,7 +893,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AssociateAliasCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | IllegalUpdateError
@@ -907,7 +910,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AssociateDistributionTenantWebACLCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityLimitExceededError
@@ -925,7 +928,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AssociateDistributionWebACLCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityLimitExceededError
@@ -943,7 +946,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CopyDistributionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | CNAMEAlreadyExistsError
@@ -1019,7 +1022,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateAnycastIpListCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityAlreadyExistsError
@@ -1037,7 +1040,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateCachePolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | CachePolicyAlreadyExistsError
@@ -1057,7 +1060,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateCloudFrontOriginAccessIdentityCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | CloudFrontOriginAccessIdentityAlreadyExistsError
     | InconsistentQuantitiesError
@@ -1074,7 +1077,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateConnectionFunctionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityAlreadyExistsError
@@ -1093,7 +1096,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateConnectionGroupCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityAlreadyExistsError
@@ -1111,7 +1114,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateContinuousDeploymentPolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ContinuousDeploymentPolicyAlreadyExistsError
@@ -1129,7 +1132,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateDistributionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | CNAMEAlreadyExistsError
@@ -1208,7 +1211,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateDistributionTenantCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | CNAMEAlreadyExistsError
@@ -1228,7 +1231,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateDistributionWithTagsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | CNAMEAlreadyExistsError
@@ -1307,7 +1310,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateFieldLevelEncryptionConfigCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | FieldLevelEncryptionConfigAlreadyExistsError
     | InconsistentQuantitiesError
@@ -1327,7 +1330,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateFieldLevelEncryptionProfileCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | FieldLevelEncryptionProfileAlreadyExistsError
     | FieldLevelEncryptionProfileSizeExceededError
@@ -1347,7 +1350,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateFunctionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | FunctionAlreadyExistsError
     | FunctionSizeLimitExceededError
@@ -1364,7 +1367,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateInvalidationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | BatchTooLargeError
@@ -1383,7 +1386,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateInvalidationForDistributionTenantCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | BatchTooLargeError
@@ -1402,7 +1405,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateKeyGroupCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidArgumentError
     | KeyGroupAlreadyExistsError
@@ -1418,7 +1421,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateKeyValueStoreCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityAlreadyExistsError
@@ -1436,7 +1439,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateMonitoringSubscriptionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | MonitoringSubscriptionAlreadyExistsError
@@ -1452,7 +1455,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateOriginAccessControlCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidArgumentError
     | OriginAccessControlAlreadyExistsError
@@ -1467,7 +1470,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateOriginRequestPolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InconsistentQuantitiesError
@@ -1487,7 +1490,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreatePublicKeyCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidArgumentError | PublicKeyAlreadyExistsError | TooManyPublicKeysError
+    Cause.TimeoutError | SdkError | InvalidArgumentError | PublicKeyAlreadyExistsError | TooManyPublicKeysError
   >;
 
   /**
@@ -1498,7 +1501,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateRealtimeLogConfigCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InvalidArgumentError
@@ -1514,7 +1517,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateResponseHeadersPolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InconsistentQuantitiesError
@@ -1534,7 +1537,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateStreamingDistributionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | CNAMEAlreadyExistsError
@@ -1559,7 +1562,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateStreamingDistributionWithTagsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | CNAMEAlreadyExistsError
@@ -1585,7 +1588,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateTrustStoreCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityAlreadyExistsError
@@ -1603,7 +1606,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateVpcOriginCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityAlreadyExistsError
@@ -1622,7 +1625,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteAnycastIpListCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | CannotDeleteEntityWhileInUseError
@@ -1642,7 +1645,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteCachePolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | CachePolicyInUseError
@@ -1660,7 +1663,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteCloudFrontOriginAccessIdentityCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | CloudFrontOriginAccessIdentityInUseError
@@ -1677,7 +1680,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteConnectionFunctionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | CannotDeleteEntityWhileInUseError
@@ -1696,7 +1699,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteConnectionGroupCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | CannotDeleteEntityWhileInUseError
@@ -1714,7 +1717,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteContinuousDeploymentPolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | ContinuousDeploymentPolicyInUseError
@@ -1732,7 +1735,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDistributionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | DistributionNotDisabledError
@@ -1750,7 +1753,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDistributionTenantCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityNotFoundError
@@ -1767,7 +1770,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteFieldLevelEncryptionConfigCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | FieldLevelEncryptionConfigInUseError
@@ -1784,7 +1787,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteFieldLevelEncryptionProfileCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | FieldLevelEncryptionProfileInUseError
@@ -1801,7 +1804,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteFunctionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | FunctionInUseError
     | InvalidIfMatchVersionError
@@ -1818,7 +1821,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteKeyGroupCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidIfMatchVersionError
     | NoSuchResourceError
@@ -1834,7 +1837,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteKeyValueStoreCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | CannotDeleteEntityWhileInUseError
@@ -1852,7 +1855,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteMonitoringSubscriptionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | NoSuchDistributionError
@@ -1868,7 +1871,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteOriginAccessControlCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InvalidIfMatchVersionError
@@ -1885,7 +1888,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteOriginRequestPolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | IllegalDeleteError
@@ -1903,7 +1906,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeletePublicKeyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InvalidIfMatchVersionError
@@ -1920,7 +1923,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteRealtimeLogConfigCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InvalidArgumentError
@@ -1936,7 +1939,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteResourcePolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityNotFoundError
@@ -1954,7 +1957,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteResponseHeadersPolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | IllegalDeleteError
@@ -1972,7 +1975,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteStreamingDistributionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InvalidIfMatchVersionError
@@ -1989,7 +1992,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteTrustStoreCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | CannotDeleteEntityWhileInUseError
@@ -2007,7 +2010,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteVpcOriginCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | CannotDeleteEntityWhileInUseError
@@ -2027,7 +2030,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeConnectionFunctionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityNotFoundError
@@ -2043,7 +2046,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeFunctionCommandOutput,
-    Cause.TimeoutException | SdkError | NoSuchFunctionExistsError | UnsupportedOperationError
+    Cause.TimeoutError | SdkError | NoSuchFunctionExistsError | UnsupportedOperationError
   >;
 
   /**
@@ -2054,7 +2057,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeKeyValueStoreCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityNotFoundError
@@ -2070,7 +2073,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisassociateDistributionTenantWebACLCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityNotFoundError
@@ -2087,7 +2090,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisassociateDistributionWebACLCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityNotFoundError
@@ -2104,7 +2107,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetAnycastIpListCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityNotFoundError
@@ -2120,7 +2123,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetCachePolicyCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | NoSuchCachePolicyError
+    Cause.TimeoutError | SdkError | AccessDeniedError | NoSuchCachePolicyError
   >;
 
   /**
@@ -2131,7 +2134,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetCachePolicyConfigCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | NoSuchCachePolicyError
+    Cause.TimeoutError | SdkError | AccessDeniedError | NoSuchCachePolicyError
   >;
 
   /**
@@ -2142,7 +2145,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetCloudFrontOriginAccessIdentityCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | NoSuchCloudFrontOriginAccessIdentityError
+    Cause.TimeoutError | SdkError | AccessDeniedError | NoSuchCloudFrontOriginAccessIdentityError
   >;
 
   /**
@@ -2153,7 +2156,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetCloudFrontOriginAccessIdentityConfigCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | NoSuchCloudFrontOriginAccessIdentityError
+    Cause.TimeoutError | SdkError | AccessDeniedError | NoSuchCloudFrontOriginAccessIdentityError
   >;
 
   /**
@@ -2164,7 +2167,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetConnectionFunctionCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | EntityNotFoundError | UnsupportedOperationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | EntityNotFoundError | UnsupportedOperationError
   >;
 
   /**
@@ -2175,7 +2178,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetConnectionGroupCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | EntityNotFoundError
+    Cause.TimeoutError | SdkError | AccessDeniedError | EntityNotFoundError
   >;
 
   /**
@@ -2186,7 +2189,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetConnectionGroupByRoutingEndpointCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | EntityNotFoundError
+    Cause.TimeoutError | SdkError | AccessDeniedError | EntityNotFoundError
   >;
 
   /**
@@ -2197,7 +2200,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetContinuousDeploymentPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | NoSuchContinuousDeploymentPolicyError
+    Cause.TimeoutError | SdkError | AccessDeniedError | NoSuchContinuousDeploymentPolicyError
   >;
 
   /**
@@ -2208,7 +2211,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetContinuousDeploymentPolicyConfigCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | NoSuchContinuousDeploymentPolicyError
+    Cause.TimeoutError | SdkError | AccessDeniedError | NoSuchContinuousDeploymentPolicyError
   >;
 
   /**
@@ -2219,7 +2222,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDistributionCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | NoSuchDistributionError
+    Cause.TimeoutError | SdkError | AccessDeniedError | NoSuchDistributionError
   >;
 
   /**
@@ -2230,7 +2233,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDistributionConfigCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | NoSuchDistributionError
+    Cause.TimeoutError | SdkError | AccessDeniedError | NoSuchDistributionError
   >;
 
   /**
@@ -2241,7 +2244,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDistributionTenantCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | EntityNotFoundError
+    Cause.TimeoutError | SdkError | AccessDeniedError | EntityNotFoundError
   >;
 
   /**
@@ -2252,7 +2255,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetDistributionTenantByDomainCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | EntityNotFoundError
+    Cause.TimeoutError | SdkError | AccessDeniedError | EntityNotFoundError
   >;
 
   /**
@@ -2263,7 +2266,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetFieldLevelEncryptionCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | NoSuchFieldLevelEncryptionConfigError
+    Cause.TimeoutError | SdkError | AccessDeniedError | NoSuchFieldLevelEncryptionConfigError
   >;
 
   /**
@@ -2274,7 +2277,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetFieldLevelEncryptionConfigCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | NoSuchFieldLevelEncryptionConfigError
+    Cause.TimeoutError | SdkError | AccessDeniedError | NoSuchFieldLevelEncryptionConfigError
   >;
 
   /**
@@ -2285,7 +2288,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetFieldLevelEncryptionProfileCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | NoSuchFieldLevelEncryptionProfileError
+    Cause.TimeoutError | SdkError | AccessDeniedError | NoSuchFieldLevelEncryptionProfileError
   >;
 
   /**
@@ -2296,7 +2299,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetFieldLevelEncryptionProfileConfigCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | NoSuchFieldLevelEncryptionProfileError
+    Cause.TimeoutError | SdkError | AccessDeniedError | NoSuchFieldLevelEncryptionProfileError
   >;
 
   /**
@@ -2307,7 +2310,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetFunctionCommandOutput,
-    Cause.TimeoutException | SdkError | NoSuchFunctionExistsError | UnsupportedOperationError
+    Cause.TimeoutError | SdkError | NoSuchFunctionExistsError | UnsupportedOperationError
   >;
 
   /**
@@ -2318,7 +2321,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetInvalidationCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | NoSuchDistributionError | NoSuchInvalidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | NoSuchDistributionError | NoSuchInvalidationError
   >;
 
   /**
@@ -2329,7 +2332,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetInvalidationForDistributionTenantCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | EntityNotFoundError | NoSuchInvalidationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | EntityNotFoundError | NoSuchInvalidationError
   >;
 
   /**
@@ -2340,7 +2343,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetKeyGroupCommandOutput,
-    Cause.TimeoutException | SdkError | NoSuchResourceError
+    Cause.TimeoutError | SdkError | NoSuchResourceError
   >;
 
   /**
@@ -2351,7 +2354,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetKeyGroupConfigCommandOutput,
-    Cause.TimeoutException | SdkError | NoSuchResourceError
+    Cause.TimeoutError | SdkError | NoSuchResourceError
   >;
 
   /**
@@ -2362,7 +2365,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetManagedCertificateDetailsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | EntityNotFoundError
+    Cause.TimeoutError | SdkError | AccessDeniedError | EntityNotFoundError
   >;
 
   /**
@@ -2373,7 +2376,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetMonitoringSubscriptionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | NoSuchDistributionError
@@ -2389,7 +2392,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetOriginAccessControlCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | NoSuchOriginAccessControlError
+    Cause.TimeoutError | SdkError | AccessDeniedError | NoSuchOriginAccessControlError
   >;
 
   /**
@@ -2400,7 +2403,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetOriginAccessControlConfigCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | NoSuchOriginAccessControlError
+    Cause.TimeoutError | SdkError | AccessDeniedError | NoSuchOriginAccessControlError
   >;
 
   /**
@@ -2411,7 +2414,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetOriginRequestPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | NoSuchOriginRequestPolicyError
+    Cause.TimeoutError | SdkError | AccessDeniedError | NoSuchOriginRequestPolicyError
   >;
 
   /**
@@ -2422,7 +2425,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetOriginRequestPolicyConfigCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | NoSuchOriginRequestPolicyError
+    Cause.TimeoutError | SdkError | AccessDeniedError | NoSuchOriginRequestPolicyError
   >;
 
   /**
@@ -2433,7 +2436,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPublicKeyCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | NoSuchPublicKeyError
+    Cause.TimeoutError | SdkError | AccessDeniedError | NoSuchPublicKeyError
   >;
 
   /**
@@ -2444,7 +2447,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPublicKeyConfigCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | NoSuchPublicKeyError
+    Cause.TimeoutError | SdkError | AccessDeniedError | NoSuchPublicKeyError
   >;
 
   /**
@@ -2455,7 +2458,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetRealtimeLogConfigCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InvalidArgumentError | NoSuchRealtimeLogConfigError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InvalidArgumentError | NoSuchRealtimeLogConfigError
   >;
 
   /**
@@ -2466,7 +2469,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetResourcePolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityNotFoundError
@@ -2482,7 +2485,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetResponseHeadersPolicyCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | NoSuchResponseHeadersPolicyError
+    Cause.TimeoutError | SdkError | AccessDeniedError | NoSuchResponseHeadersPolicyError
   >;
 
   /**
@@ -2493,7 +2496,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetResponseHeadersPolicyConfigCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | NoSuchResponseHeadersPolicyError
+    Cause.TimeoutError | SdkError | AccessDeniedError | NoSuchResponseHeadersPolicyError
   >;
 
   /**
@@ -2504,7 +2507,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetStreamingDistributionCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | NoSuchStreamingDistributionError
+    Cause.TimeoutError | SdkError | AccessDeniedError | NoSuchStreamingDistributionError
   >;
 
   /**
@@ -2515,7 +2518,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetStreamingDistributionConfigCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | NoSuchStreamingDistributionError
+    Cause.TimeoutError | SdkError | AccessDeniedError | NoSuchStreamingDistributionError
   >;
 
   /**
@@ -2526,7 +2529,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetTrustStoreCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | EntityNotFoundError | InvalidArgumentError
+    Cause.TimeoutError | SdkError | AccessDeniedError | EntityNotFoundError | InvalidArgumentError
   >;
 
   /**
@@ -2537,7 +2540,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetVpcOriginCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityNotFoundError
@@ -2553,7 +2556,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAnycastIpListsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityNotFoundError
@@ -2569,7 +2572,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListCachePoliciesCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InvalidArgumentError | NoSuchCachePolicyError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InvalidArgumentError | NoSuchCachePolicyError
   >;
 
   /**
@@ -2580,7 +2583,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListCloudFrontOriginAccessIdentitiesCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidArgumentError
+    Cause.TimeoutError | SdkError | InvalidArgumentError
   >;
 
   listCloudFrontOriginAccessIdentitiesStream(
@@ -2588,7 +2591,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListCloudFrontOriginAccessIdentitiesCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidArgumentError
+    Cause.TimeoutError | SdkError | InvalidArgumentError
   >;
 
   /**
@@ -2599,7 +2602,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListConflictingAliasesCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidArgumentError | NoSuchDistributionError
+    Cause.TimeoutError | SdkError | InvalidArgumentError | NoSuchDistributionError
   >;
 
   /**
@@ -2610,7 +2613,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListConnectionFunctionsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InvalidArgumentError | UnsupportedOperationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InvalidArgumentError | UnsupportedOperationError
   >;
 
   listConnectionFunctionsStream(
@@ -2618,7 +2621,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListConnectionFunctionsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InvalidArgumentError | UnsupportedOperationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InvalidArgumentError | UnsupportedOperationError
   >;
 
   /**
@@ -2629,7 +2632,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListConnectionGroupsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | EntityNotFoundError | InvalidArgumentError
+    Cause.TimeoutError | SdkError | AccessDeniedError | EntityNotFoundError | InvalidArgumentError
   >;
 
   listConnectionGroupsStream(
@@ -2637,7 +2640,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListConnectionGroupsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | EntityNotFoundError | InvalidArgumentError
+    Cause.TimeoutError | SdkError | AccessDeniedError | EntityNotFoundError | InvalidArgumentError
   >;
 
   /**
@@ -2648,7 +2651,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListContinuousDeploymentPoliciesCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InvalidArgumentError | NoSuchContinuousDeploymentPolicyError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InvalidArgumentError | NoSuchContinuousDeploymentPolicyError
   >;
 
   /**
@@ -2659,7 +2662,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDistributionTenantsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | EntityNotFoundError | InvalidArgumentError
+    Cause.TimeoutError | SdkError | AccessDeniedError | EntityNotFoundError | InvalidArgumentError
   >;
 
   listDistributionTenantsStream(
@@ -2667,7 +2670,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListDistributionTenantsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | EntityNotFoundError | InvalidArgumentError
+    Cause.TimeoutError | SdkError | AccessDeniedError | EntityNotFoundError | InvalidArgumentError
   >;
 
   /**
@@ -2678,7 +2681,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDistributionTenantsByCustomizationCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | EntityNotFoundError | InvalidArgumentError
+    Cause.TimeoutError | SdkError | AccessDeniedError | EntityNotFoundError | InvalidArgumentError
   >;
 
   listDistributionTenantsByCustomizationStream(
@@ -2686,7 +2689,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListDistributionTenantsByCustomizationCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | EntityNotFoundError | InvalidArgumentError
+    Cause.TimeoutError | SdkError | AccessDeniedError | EntityNotFoundError | InvalidArgumentError
   >;
 
   /**
@@ -2697,13 +2700,13 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDistributionsCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidArgumentError
+    Cause.TimeoutError | SdkError | InvalidArgumentError
   >;
 
   listDistributionsStream(
     args: ListDistributionsCommandInput,
     options?: HttpHandlerOptions,
-  ): Stream.Stream<ListDistributionsCommandOutput, Cause.TimeoutException | SdkError | InvalidArgumentError>;
+  ): Stream.Stream<ListDistributionsCommandOutput, Cause.TimeoutError | SdkError | InvalidArgumentError>;
 
   /**
    * @see {@link ListDistributionsByAnycastIpListIdCommand}
@@ -2713,7 +2716,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDistributionsByAnycastIpListIdCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityNotFoundError
@@ -2729,7 +2732,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDistributionsByCachePolicyIdCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InvalidArgumentError | NoSuchCachePolicyError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InvalidArgumentError | NoSuchCachePolicyError
   >;
 
   /**
@@ -2740,7 +2743,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDistributionsByConnectionFunctionCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | EntityNotFoundError | InvalidArgumentError
+    Cause.TimeoutError | SdkError | AccessDeniedError | EntityNotFoundError | InvalidArgumentError
   >;
 
   listDistributionsByConnectionFunctionStream(
@@ -2748,7 +2751,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListDistributionsByConnectionFunctionCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | EntityNotFoundError | InvalidArgumentError
+    Cause.TimeoutError | SdkError | AccessDeniedError | EntityNotFoundError | InvalidArgumentError
   >;
 
   /**
@@ -2759,7 +2762,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDistributionsByConnectionModeCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InvalidArgumentError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InvalidArgumentError
   >;
 
   listDistributionsByConnectionModeStream(
@@ -2767,7 +2770,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListDistributionsByConnectionModeCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InvalidArgumentError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InvalidArgumentError
   >;
 
   /**
@@ -2778,7 +2781,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDistributionsByKeyGroupCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidArgumentError | NoSuchResourceError
+    Cause.TimeoutError | SdkError | InvalidArgumentError | NoSuchResourceError
   >;
 
   /**
@@ -2789,7 +2792,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDistributionsByOriginRequestPolicyIdCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InvalidArgumentError | NoSuchOriginRequestPolicyError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InvalidArgumentError | NoSuchOriginRequestPolicyError
   >;
 
   /**
@@ -2800,7 +2803,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDistributionsByOwnedResourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityNotFoundError
@@ -2816,7 +2819,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDistributionsByRealtimeLogConfigCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidArgumentError
+    Cause.TimeoutError | SdkError | InvalidArgumentError
   >;
 
   /**
@@ -2827,7 +2830,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDistributionsByResponseHeadersPolicyIdCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InvalidArgumentError | NoSuchResponseHeadersPolicyError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InvalidArgumentError | NoSuchResponseHeadersPolicyError
   >;
 
   /**
@@ -2838,7 +2841,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDistributionsByTrustStoreCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | EntityNotFoundError | InvalidArgumentError
+    Cause.TimeoutError | SdkError | AccessDeniedError | EntityNotFoundError | InvalidArgumentError
   >;
 
   listDistributionsByTrustStoreStream(
@@ -2846,7 +2849,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListDistributionsByTrustStoreCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | EntityNotFoundError | InvalidArgumentError
+    Cause.TimeoutError | SdkError | AccessDeniedError | EntityNotFoundError | InvalidArgumentError
   >;
 
   /**
@@ -2857,7 +2860,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDistributionsByVpcOriginIdCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityNotFoundError
@@ -2873,7 +2876,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDistributionsByWebACLIdCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidArgumentError | InvalidWebACLIdError
+    Cause.TimeoutError | SdkError | InvalidArgumentError | InvalidWebACLIdError
   >;
 
   /**
@@ -2884,7 +2887,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDomainConflictsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | EntityNotFoundError | InvalidArgumentError
+    Cause.TimeoutError | SdkError | AccessDeniedError | EntityNotFoundError | InvalidArgumentError
   >;
 
   listDomainConflictsStream(
@@ -2892,7 +2895,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListDomainConflictsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | EntityNotFoundError | InvalidArgumentError
+    Cause.TimeoutError | SdkError | AccessDeniedError | EntityNotFoundError | InvalidArgumentError
   >;
 
   /**
@@ -2903,7 +2906,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListFieldLevelEncryptionConfigsCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidArgumentError
+    Cause.TimeoutError | SdkError | InvalidArgumentError
   >;
 
   /**
@@ -2914,7 +2917,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListFieldLevelEncryptionProfilesCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidArgumentError
+    Cause.TimeoutError | SdkError | InvalidArgumentError
   >;
 
   /**
@@ -2925,7 +2928,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListFunctionsCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidArgumentError | UnsupportedOperationError
+    Cause.TimeoutError | SdkError | InvalidArgumentError | UnsupportedOperationError
   >;
 
   /**
@@ -2936,7 +2939,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListInvalidationsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InvalidArgumentError | NoSuchDistributionError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InvalidArgumentError | NoSuchDistributionError
   >;
 
   listInvalidationsStream(
@@ -2944,7 +2947,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListInvalidationsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InvalidArgumentError | NoSuchDistributionError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InvalidArgumentError | NoSuchDistributionError
   >;
 
   /**
@@ -2955,7 +2958,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListInvalidationsForDistributionTenantCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | EntityNotFoundError | InvalidArgumentError
+    Cause.TimeoutError | SdkError | AccessDeniedError | EntityNotFoundError | InvalidArgumentError
   >;
 
   listInvalidationsForDistributionTenantStream(
@@ -2963,7 +2966,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListInvalidationsForDistributionTenantCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | EntityNotFoundError | InvalidArgumentError
+    Cause.TimeoutError | SdkError | AccessDeniedError | EntityNotFoundError | InvalidArgumentError
   >;
 
   /**
@@ -2974,7 +2977,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListKeyGroupsCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidArgumentError
+    Cause.TimeoutError | SdkError | InvalidArgumentError
   >;
 
   /**
@@ -2985,7 +2988,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListKeyValueStoresCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InvalidArgumentError | UnsupportedOperationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InvalidArgumentError | UnsupportedOperationError
   >;
 
   listKeyValueStoresStream(
@@ -2993,7 +2996,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListKeyValueStoresCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InvalidArgumentError | UnsupportedOperationError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InvalidArgumentError | UnsupportedOperationError
   >;
 
   /**
@@ -3004,13 +3007,13 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListOriginAccessControlsCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidArgumentError
+    Cause.TimeoutError | SdkError | InvalidArgumentError
   >;
 
   listOriginAccessControlsStream(
     args: ListOriginAccessControlsCommandInput,
     options?: HttpHandlerOptions,
-  ): Stream.Stream<ListOriginAccessControlsCommandOutput, Cause.TimeoutException | SdkError | InvalidArgumentError>;
+  ): Stream.Stream<ListOriginAccessControlsCommandOutput, Cause.TimeoutError | SdkError | InvalidArgumentError>;
 
   /**
    * @see {@link ListOriginRequestPoliciesCommand}
@@ -3020,7 +3023,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListOriginRequestPoliciesCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InvalidArgumentError | NoSuchOriginRequestPolicyError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InvalidArgumentError | NoSuchOriginRequestPolicyError
   >;
 
   /**
@@ -3031,13 +3034,13 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListPublicKeysCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidArgumentError
+    Cause.TimeoutError | SdkError | InvalidArgumentError
   >;
 
   listPublicKeysStream(
     args: ListPublicKeysCommandInput,
     options?: HttpHandlerOptions,
-  ): Stream.Stream<ListPublicKeysCommandOutput, Cause.TimeoutException | SdkError | InvalidArgumentError>;
+  ): Stream.Stream<ListPublicKeysCommandOutput, Cause.TimeoutError | SdkError | InvalidArgumentError>;
 
   /**
    * @see {@link ListRealtimeLogConfigsCommand}
@@ -3047,7 +3050,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListRealtimeLogConfigsCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InvalidArgumentError | NoSuchRealtimeLogConfigError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InvalidArgumentError | NoSuchRealtimeLogConfigError
   >;
 
   /**
@@ -3058,7 +3061,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListResponseHeadersPoliciesCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InvalidArgumentError | NoSuchResponseHeadersPolicyError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InvalidArgumentError | NoSuchResponseHeadersPolicyError
   >;
 
   /**
@@ -3069,13 +3072,13 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListStreamingDistributionsCommandOutput,
-    Cause.TimeoutException | SdkError | InvalidArgumentError
+    Cause.TimeoutError | SdkError | InvalidArgumentError
   >;
 
   listStreamingDistributionsStream(
     args: ListStreamingDistributionsCommandInput,
     options?: HttpHandlerOptions,
-  ): Stream.Stream<ListStreamingDistributionsCommandOutput, Cause.TimeoutException | SdkError | InvalidArgumentError>;
+  ): Stream.Stream<ListStreamingDistributionsCommandOutput, Cause.TimeoutError | SdkError | InvalidArgumentError>;
 
   /**
    * @see {@link ListTagsForResourceCommand}
@@ -3085,12 +3088,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsForResourceCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | AccessDeniedError
-    | InvalidArgumentError
-    | InvalidTaggingError
-    | NoSuchResourceError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InvalidArgumentError | InvalidTaggingError | NoSuchResourceError
   >;
 
   /**
@@ -3101,7 +3099,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTrustStoresCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | EntityNotFoundError | InvalidArgumentError
+    Cause.TimeoutError | SdkError | AccessDeniedError | EntityNotFoundError | InvalidArgumentError
   >;
 
   listTrustStoresStream(
@@ -3109,7 +3107,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListTrustStoresCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | EntityNotFoundError | InvalidArgumentError
+    Cause.TimeoutError | SdkError | AccessDeniedError | EntityNotFoundError | InvalidArgumentError
   >;
 
   /**
@@ -3120,7 +3118,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListVpcOriginsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityNotFoundError
@@ -3136,7 +3134,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PublishConnectionFunctionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityNotFoundError
@@ -3154,7 +3152,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PublishFunctionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidArgumentError
     | InvalidIfMatchVersionError
@@ -3171,7 +3169,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutResourcePolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityNotFoundError
@@ -3189,12 +3187,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagResourceCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | AccessDeniedError
-    | InvalidArgumentError
-    | InvalidTaggingError
-    | NoSuchResourceError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InvalidArgumentError | InvalidTaggingError | NoSuchResourceError
   >;
 
   /**
@@ -3205,7 +3198,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TestConnectionFunctionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | EntityNotFoundError
     | InvalidArgumentError
@@ -3223,7 +3216,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TestFunctionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidArgumentError
     | InvalidIfMatchVersionError
@@ -3240,12 +3233,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | AccessDeniedError
-    | InvalidArgumentError
-    | InvalidTaggingError
-    | NoSuchResourceError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InvalidArgumentError | InvalidTaggingError | NoSuchResourceError
   >;
 
   /**
@@ -3256,7 +3244,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateAnycastIpListCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityNotFoundError
@@ -3274,7 +3262,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateCachePolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | CachePolicyAlreadyExistsError
@@ -3297,7 +3285,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateCloudFrontOriginAccessIdentityCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | IllegalUpdateError
@@ -3317,7 +3305,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateConnectionFunctionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityNotFoundError
@@ -3336,7 +3324,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateConnectionGroupCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityAlreadyExistsError
@@ -3356,7 +3344,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateContinuousDeploymentPolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | InconsistentQuantitiesError
@@ -3375,7 +3363,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateDistributionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | CNAMEAlreadyExistsError
@@ -3454,7 +3442,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateDistributionTenantCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | CNAMEAlreadyExistsError
@@ -3475,7 +3463,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateDistributionWithStagingConfigCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | CNAMEAlreadyExistsError
@@ -3550,7 +3538,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateDomainAssociationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityNotFoundError
@@ -3568,7 +3556,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateFieldLevelEncryptionConfigCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | IllegalUpdateError
@@ -3591,7 +3579,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateFieldLevelEncryptionProfileCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | FieldLevelEncryptionProfileAlreadyExistsError
@@ -3615,7 +3603,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateFunctionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | FunctionSizeLimitExceededError
     | InvalidArgumentError
@@ -3633,7 +3621,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateKeyGroupCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidArgumentError
     | InvalidIfMatchVersionError
@@ -3651,7 +3639,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateKeyValueStoreCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityNotFoundError
@@ -3669,7 +3657,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateOriginAccessControlCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | IllegalUpdateError
@@ -3688,7 +3676,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateOriginRequestPolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | IllegalUpdateError
@@ -3711,7 +3699,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdatePublicKeyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | CannotChangeImmutablePublicKeyFieldsError
@@ -3730,7 +3718,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateRealtimeLogConfigCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | InvalidArgumentError | NoSuchRealtimeLogConfigError
+    Cause.TimeoutError | SdkError | AccessDeniedError | InvalidArgumentError | NoSuchRealtimeLogConfigError
   >;
 
   /**
@@ -3741,7 +3729,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateResponseHeadersPolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | IllegalUpdateError
@@ -3764,7 +3752,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateStreamingDistributionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | CNAMEAlreadyExistsError
@@ -3790,7 +3778,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateTrustStoreCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | EntityNotFoundError
@@ -3807,7 +3795,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateVpcOriginCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | AccessDeniedError
     | CannotUpdateEntityWhileInUseError
@@ -3830,7 +3818,7 @@ interface CloudFrontService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     VerifyDnsConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | AccessDeniedError | EntityNotFoundError | InvalidArgumentError
+    Cause.TimeoutError | SdkError | AccessDeniedError | EntityNotFoundError | InvalidArgumentError
   >;
 }
 
@@ -3856,10 +3844,10 @@ export const makeCloudFrontService = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class CloudFrontService extends Effect.Tag("@effect-aws/client-cloudfront/CloudFrontService")<
+export class CloudFrontService extends Context.Service<
   CloudFrontService,
   CloudFrontService$
->() {
+>()("@effect-aws/client-cloudfront/CloudFrontService") {
   static readonly defaultLayer = Layer.effect(this, makeCloudFrontService).pipe(Layer.provide(Instance.layer));
   static readonly layer = (config: CloudFrontService.Config) =>
     Layer.effect(this, makeCloudFrontService).pipe(

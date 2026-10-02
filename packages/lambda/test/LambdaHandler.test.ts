@@ -8,17 +8,12 @@ import type {
   SNSEvent,
 } from "@effect-aws/lambda";
 import { LambdaHandler } from "@effect-aws/lambda";
-import {
-  HttpApi,
-  HttpApiBuilder,
-  HttpApiEndpoint,
-  HttpApiGroup,
-  HttpApiSchema,
-  HttpApp,
-  HttpServer,
-  HttpServerResponse,
-} from "@effect/platform";
-import { Context, Effect, Layer } from "effect";
+import * as Context from "effect/Context";
+import * as Effect from "effect/Effect";
+import { HttpEffect, HttpServer, HttpServerResponse } from "effect/http";
+import { HttpApi, HttpApiBuilder, HttpApiEndpoint, HttpApiGroup, HttpApiSchema } from "effect/http-api";
+import * as Layer from "effect/Layer";
+import * as Schema from "effect/Schema";
 import { Writable } from "node:stream";
 import { describe, expect, it, vi } from "vitest";
 import { albEvent } from "./fixtures/alb-event.js";
@@ -49,7 +44,7 @@ describe("LambdaHandler", () => {
       interface FooService {
         bar: () => Effect.Effect<string>;
       }
-      const FooService = Context.GenericTag<FooService>("@services/FooService");
+      const FooService = Context.Service<FooService>("@services/FooService");
       const FooServiceLive = Layer.succeed(
         FooService,
         FooService.of({ bar: () => Effect.succeed("Not implemented") }),
@@ -61,7 +56,7 @@ describe("LambdaHandler", () => {
           return yield* service.bar();
         });
 
-      const handler = LambdaHandler.make(myEffectHandler, FooServiceLive);
+      const handler = LambdaHandler.make({ handler: myEffectHandler, layer: FooServiceLive });
 
       const result = await handler(event, context);
 
@@ -85,8 +80,8 @@ describe("LambdaHandler", () => {
       interface FooService {
         bar: () => Effect.Effect<string>;
       }
-      const FooService = Context.GenericTag<FooService>("@services/FooService");
-      const FooServiceLive = Layer.scoped(
+      const FooService = Context.Service<FooService>("@services/FooService");
+      const FooServiceLive = Layer.effect(
         FooService,
         Effect.gen(function*() {
           yield* resource;
@@ -127,7 +122,9 @@ describe("LambdaHandler", () => {
         awsRequestId: "8ad41330-f092-4037-bc7c-63ffb7d6d4e7",
       } as LambdaContext;
 
-      const hello = HttpApiEndpoint.get("hello")`/hello`.addSuccess(HttpApiSchema.Text());
+      const hello = HttpApiEndpoint.get("hello", `/hello`, {
+        success: Schema.String.pipe(HttpApiSchema.asText()),
+      });
 
       const quotesGroup = HttpApiGroup.make("hello").add(hello);
 
@@ -141,9 +138,9 @@ describe("LambdaHandler", () => {
             "hello",
             () =>
               Effect.gen(function*() {
-                yield* HttpApp.appendPreResponseHandler((_req, response) =>
+                yield* HttpEffect.appendPreResponseHandler((_req, response) =>
                   Effect.orDie(
-                    HttpServerResponse.setCookie(response, "cookie key", "cookie value"),
+                    HttpServerResponse.setCookie(response, "cookie-key", "cookie value"),
                   )
                 );
 
@@ -158,9 +155,12 @@ describe("LambdaHandler", () => {
           ),
       );
 
-      const MyApiLive = HttpApiBuilder.api(MyApi).pipe(Layer.provide(HelloLive));
+      const MyApiLive = HttpApiBuilder.layer(MyApi).pipe(
+        Layer.provide(HelloLive),
+        Layer.provide(HttpServer.layerServices),
+      );
 
-      const handler = LambdaHandler.fromHttpApi(Layer.mergeAll(MyApiLive, HttpServer.layerContext));
+      const handler = LambdaHandler.fromHttpApi(MyApiLive);
 
       const result = await handler(apiGatewayV1Event, context);
 
@@ -171,12 +171,12 @@ describe("LambdaHandler", () => {
           headers: {
             "content-length": "13",
             "content-type": "text/plain",
-            "set-cookie": "cookie key=cookie%20value",
+            "set-cookie": "cookie-key=cookie%20value",
           },
           multiValueHeaders: {
             "content-length": ["13"],
             "content-type": ["text/plain"],
-            "set-cookie": ["cookie key=cookie%20value"],
+            "set-cookie": ["cookie-key=cookie%20value"],
           },
           isBase64Encoded: false,
         } satisfies APIGatewayProxyResult,
@@ -191,7 +191,9 @@ describe("LambdaHandler", () => {
         awsRequestId: "8ad41330-f092-4037-bc7c-63ffb7d6d4e7",
       } as LambdaContext;
 
-      const hello = HttpApiEndpoint.post("hello")`/my/path`.addSuccess(HttpApiSchema.Text());
+      const hello = HttpApiEndpoint.post("hello", `/my/path`, {
+        success: Schema.String.pipe(HttpApiSchema.asText()),
+      });
 
       const quotesGroup = HttpApiGroup.make("hello").add(hello);
 
@@ -204,9 +206,9 @@ describe("LambdaHandler", () => {
           handlers.handle(
             "hello",
             () =>
-              HttpApp.appendPreResponseHandler((_req, response) =>
+              HttpEffect.appendPreResponseHandler((_req, response) =>
                 Effect.orDie(
-                  HttpServerResponse.setCookie(response, "cookie key", "cookie value"),
+                  HttpServerResponse.setCookie(response, "cookie-key", "cookie value"),
                 )
               ).pipe(
                 Effect.flatMap(() => Effect.succeed("Hello, World!")),
@@ -214,9 +216,12 @@ describe("LambdaHandler", () => {
           ),
       );
 
-      const MyApiLive = HttpApiBuilder.api(MyApi).pipe(Layer.provide(HelloLive));
+      const MyApiLive = HttpApiBuilder.layer(MyApi).pipe(
+        Layer.provide(HelloLive),
+        Layer.provide(HttpServer.layerServices),
+      );
 
-      const handler = LambdaHandler.fromHttpApi(Layer.mergeAll(MyApiLive, HttpServer.layerContext));
+      const handler = LambdaHandler.fromHttpApi(MyApiLive);
 
       const result = await handler(apiGatewayV2Event, context);
 
@@ -229,7 +234,7 @@ describe("LambdaHandler", () => {
             "content-type": "text/plain",
           },
           cookies: [
-            "cookie key=cookie%20value",
+            "cookie-key=cookie%20value",
           ],
           isBase64Encoded: false,
         } satisfies APIGatewayProxyResultV2,
@@ -244,7 +249,9 @@ describe("LambdaHandler", () => {
         awsRequestId: "8ad41330-f092-4037-bc7c-63ffb7d6d4e7",
       } as LambdaContext;
 
-      const hello = HttpApiEndpoint.post("hello")`/users`.addSuccess(HttpApiSchema.Text());
+      const hello = HttpApiEndpoint.post("hello", `/users`, {
+        success: Schema.String.pipe(HttpApiSchema.asText()),
+      });
 
       const quotesGroup = HttpApiGroup.make("hello").add(hello);
 
@@ -257,9 +264,9 @@ describe("LambdaHandler", () => {
           handlers.handle(
             "hello",
             () =>
-              HttpApp.appendPreResponseHandler((_req, response) =>
+              HttpEffect.appendPreResponseHandler((_req, response) =>
                 Effect.orDie(
-                  HttpServerResponse.setCookie(response, "cookie key", "cookie value"),
+                  HttpServerResponse.setCookie(response, "cookie-key", "cookie value"),
                 )
               ).pipe(
                 Effect.flatMap(() => Effect.succeed("Hello, World!")),
@@ -267,9 +274,12 @@ describe("LambdaHandler", () => {
           ),
       );
 
-      const MyApiLive = HttpApiBuilder.api(MyApi).pipe(Layer.provide(HelloLive));
+      const MyApiLive = HttpApiBuilder.layer(MyApi).pipe(
+        Layer.provide(HelloLive),
+        Layer.provide(HttpServer.layerServices),
+      );
 
-      const handler = LambdaHandler.fromHttpApi(Layer.mergeAll(MyApiLive, HttpServer.layerContext));
+      const handler = LambdaHandler.fromHttpApi(MyApiLive);
 
       const result = await handler(albEvent, context);
 
@@ -281,7 +291,7 @@ describe("LambdaHandler", () => {
           multiValueHeaders: {
             "content-length": ["13"],
             "content-type": ["text/plain"],
-            "set-cookie": ["cookie key=cookie%20value"],
+            "set-cookie": ["cookie-key=cookie%20value"],
           },
           isBase64Encoded: false,
         } satisfies ALBResult,
@@ -296,7 +306,9 @@ describe("LambdaHandler", () => {
         awsRequestId: "8ad41330-f092-4037-bc7c-63ffb7d6d4e7",
       } as LambdaContext;
 
-      const hello = HttpApiEndpoint.get("hello")`/no-route`.addSuccess(HttpApiSchema.Text());
+      const hello = HttpApiEndpoint.get("hello", `/no-route`, {
+        success: Schema.String.pipe(HttpApiSchema.asText()),
+      });
 
       const quotesGroup = HttpApiGroup.make("hello").add(hello);
 
@@ -308,9 +320,12 @@ describe("LambdaHandler", () => {
         (handlers) => handlers.handle("hello", () => Effect.succeed("Hello, World!")),
       );
 
-      const MyApiLive = HttpApiBuilder.api(MyApi).pipe(Layer.provide(HelloLive));
+      const MyApiLive = HttpApiBuilder.layer(MyApi).pipe(
+        Layer.provide(HelloLive),
+        Layer.provide(HttpServer.layerServices),
+      );
 
-      const handler = LambdaHandler.fromHttpApi(Layer.mergeAll(MyApiLive, HttpServer.layerContext));
+      const handler = LambdaHandler.fromHttpApi(MyApiLive);
 
       const result = await handler(albEvent, context);
 
@@ -375,7 +390,9 @@ describe("LambdaHandler", () => {
           awsRequestId: "8ad41330-f092-4037-bc7c-63ffb7d6d4e7",
         } as LambdaContext;
 
-        const hello = HttpApiEndpoint.post("hello")`/my/path`.addSuccess(HttpApiSchema.Text());
+        const hello = HttpApiEndpoint.post("hello", `/my/path`, {
+          success: Schema.String.pipe(HttpApiSchema.asText()),
+        });
 
         const quotesGroup = HttpApiGroup.make("hello").add(hello);
 
@@ -388,9 +405,9 @@ describe("LambdaHandler", () => {
             handlers.handle(
               "hello",
               () =>
-                HttpApp.appendPreResponseHandler((_req, response) =>
+                HttpEffect.appendPreResponseHandler((_req, response) =>
                   Effect.orDie(
-                    HttpServerResponse.setCookie(response, "cookie key", "cookie value"),
+                    HttpServerResponse.setCookie(response, "cookie-key", "cookie value"),
                   )
                 ).pipe(
                   Effect.flatMap(() => Effect.succeed("Hello, World!")),
@@ -398,9 +415,12 @@ describe("LambdaHandler", () => {
             ),
         );
 
-        const MyApiLive = HttpApiBuilder.api(MyApi).pipe(Layer.provide(HelloLive));
+        const MyApiLive = HttpApiBuilder.layer(MyApi).pipe(
+          Layer.provide(HelloLive),
+          Layer.provide(HttpServer.layerServices),
+        );
 
-        const handler = LambdaHandler.streamFromHttpApi(Layer.mergeAll(MyApiLive, HttpServer.layerContext));
+        const handler = LambdaHandler.streamFromHttpApi(MyApiLive);
 
         // Lambda Function URL events currently use the same payload format as APIGatewayProxyEventV2.
         const result = await handler(apiGatewayV2Event, context);
@@ -415,7 +435,7 @@ describe("LambdaHandler", () => {
             "content-type": "text/plain",
           },
           cookies: [
-            "cookie key=cookie%20value",
+            "cookie-key=cookie%20value",
           ],
         });
         expect(Buffer.concat(chunks).toString()).toBe("Hello, World!");

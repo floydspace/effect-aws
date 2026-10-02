@@ -16,7 +16,7 @@ With default BedrockAgentCoreClient instance:
 ```typescript
 import { BedrockAgentCore } from "@effect-aws/client-bedrock-agentcore";
 
-const program = BedrockAgentCore.listSessions(args);
+const program = BedrockAgentCore.use((svc) => svc.listSessions(args));
 
 const result = pipe(
   program,
@@ -30,7 +30,7 @@ With custom BedrockAgentCoreClient instance:
 ```typescript
 import { BedrockAgentCore } from "@effect-aws/client-bedrock-agentcore";
 
-const program = BedrockAgentCore.listSessions(args);
+const program = BedrockAgentCore.use((svc) => svc.listSessions(args));
 
 const result = await pipe(
   program,
@@ -46,7 +46,7 @@ With custom BedrockAgentCoreClient configuration:
 ```typescript
 import { BedrockAgentCore } from "@effect-aws/client-bedrock-agentcore";
 
-const program = BedrockAgentCore.listSessions(args);
+const program = BedrockAgentCore.use((svc) => svc.listSessions(args));
 
 const result = await pipe(
   program,

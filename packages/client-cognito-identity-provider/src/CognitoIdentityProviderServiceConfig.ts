@@ -3,10 +3,9 @@
  */
 import type { CognitoIdentityProviderClientConfig } from "@aws-sdk/client-cognito-identity-provider";
 import * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
-import * as FiberRef from "effect/FiberRef";
 import { dual } from "effect/Function";
-import { globalValue } from "effect/GlobalValue";
 import * as Layer from "effect/Layer";
 import type { CognitoIdentityProviderService } from "./CognitoIdentityProviderService.js";
 
@@ -14,9 +13,9 @@ import type { CognitoIdentityProviderService } from "./CognitoIdentityProviderSe
  * @since 1.0.0
  * @category cognito-identity-provider service config
  */
-const currentCognitoIdentityProviderServiceConfig = globalValue(
+const currentCognitoIdentityProviderServiceConfig = Context.Reference<CognitoIdentityProviderService.Config>(
   "@effect-aws/client-cognito-identity-provider/currentCognitoIdentityProviderServiceConfig",
-  () => FiberRef.unsafeMake<CognitoIdentityProviderService.Config>({}),
+  { defaultValue: () => ({}) },
 );
 
 /**
@@ -29,7 +28,7 @@ export const withCognitoIdentityProviderServiceConfig: {
 } = dual(
   2,
   <A, E, R>(effect: Effect.Effect<A, E, R>, config: CognitoIdentityProviderService.Config): Effect.Effect<A, E, R> =>
-    Effect.locally(effect, currentCognitoIdentityProviderServiceConfig, config),
+    Effect.provideService(effect, currentCognitoIdentityProviderServiceConfig, config),
 );
 
 /**
@@ -37,7 +36,7 @@ export const withCognitoIdentityProviderServiceConfig: {
  * @category cognito-identity-provider service config
  */
 export const setCognitoIdentityProviderServiceConfig = (config: CognitoIdentityProviderService.Config) =>
-  Layer.locallyScoped(currentCognitoIdentityProviderServiceConfig, config);
+  Layer.succeed(currentCognitoIdentityProviderServiceConfig, config);
 
 /**
  * @since 1.0.0
@@ -45,7 +44,7 @@ export const setCognitoIdentityProviderServiceConfig = (config: CognitoIdentityP
  */
 export const toCognitoIdentityProviderClientConfig: Effect.Effect<CognitoIdentityProviderClientConfig> = Effect.gen(
   function*() {
-    const { logger: serviceLogger, ...config } = yield* FiberRef.get(currentCognitoIdentityProviderServiceConfig);
+    const { logger: serviceLogger, ...config } = yield* currentCognitoIdentityProviderServiceConfig;
 
     const logger = serviceLogger === true
       ? yield* ServiceLogger.toClientLogger(ServiceLogger.defaultServiceLogger)

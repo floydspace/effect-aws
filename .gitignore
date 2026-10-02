@@ -42,11 +42,11 @@ jspm_packages/
 !/.changeset/config.json
 !/.github/workflows/release.yml
 !/README.md
-!/vitest.workspace.json
 /.direnv
 /docs
 .idea
 .DS_Store
 !/pnpm-workspace.yaml
 !/.projenrc.ts
+!/vitest.config.ts
 !/vitest.shared.ts

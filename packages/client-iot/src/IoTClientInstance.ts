@@ -11,9 +11,9 @@ import * as IoTServiceConfig from "./IoTServiceConfig.js";
  * @since 1.0.0
  * @category tags
  */
-export class IoTClientInstance extends Context.Tag(
+export class IoTClientInstance extends Context.Service<IoTClientInstance, IoTClient>()(
   "@effect-aws/client-iot/IoTClientInstance",
-)<IoTClientInstance, IoTClient>() {}
+) {}
 
 /**
  * @since 1.0.0
@@ -32,4 +32,4 @@ export const make = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const layer = Layer.scoped(IoTClientInstance, make);
+export const layer = Layer.effect(IoTClientInstance, make);

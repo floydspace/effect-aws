@@ -1,9 +1,5 @@
+import type { HttpHandlerOptions } from "@effect-aws/commons";
 import * as HttpHandler from "@effect-aws/commons/HttpHandler";
-import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
-import * as HttpBody from "@effect/platform/HttpBody";
-import * as HttpClient from "@effect/platform/HttpClient";
-import * as HttpClientRequest from "@effect/platform/HttpClientRequest";
-import type * as HttpMethod from "@effect/platform/HttpMethod";
 import type { HttpRequest } from "@smithy/protocol-http";
 import { HttpResponse } from "@smithy/protocol-http";
 import { buildQueryString } from "@smithy/querystring-builder";
@@ -11,12 +7,14 @@ import type { RequestHandlerOutput } from "@smithy/types";
 import type * as Cause from "effect/Cause";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
+import type { HttpMethod } from "effect/http";
+import { HttpBody, HttpClient, HttpClientError, HttpClientRequest } from "effect/http";
 import * as Option from "effect/Option";
 import type * as Scope from "effect/Scope";
 import * as Sink from "effect/Sink";
 import * as Stream from "effect/Stream";
 
-declare module "@effect/platform/HttpClientResponse" {
+declare module "effect/http" {
   interface HttpClientResponse {
     /**
      * @private
@@ -70,11 +68,11 @@ export const makeHttpClientRequestHandler = (config: HttpHandlerOptions) =>
         handlerOptions?: HttpHandlerOptions,
       ): Effect.Effect<
         RequestHandlerOutput<HttpResponse>,
-        Cause.TimeoutException,
+        Cause.TimeoutError,
         Scope.Scope
       > =>
         Effect.gen(function*() {
-          const requestTimeoutInMs = Option.fromNullable(handlerOptions?.requestTimeout ?? config.requestTimeout).pipe(
+          const requestTimeoutInMs = Option.fromNullishOr(handlerOptions?.requestTimeout ?? config.requestTimeout).pipe(
             Option.map(Duration.millis),
             Option.getOrElse(() => Duration.infinity),
           );
@@ -93,13 +91,14 @@ export const makeHttpClientRequestHandler = (config: HttpHandlerOptions) =>
             Effect.flatMap((res) =>
               tryToReadableStream(res.stream).pipe(
                 Effect.catchTag(
-                  "ResponseError",
-                  (error) => error.reason === "EmptyBody" ? res.arrayBuffer : Effect.fail(error),
+                  "HttpClientError",
+                  (error) =>
+                    error.reason instanceof HttpClientError.EmptyBodyError ? res.arrayBuffer : Effect.fail(error),
                 ),
                 Effect.map((body) =>
                   new HttpResponse({
                     headers: res.headers,
-                    reason: (res.original ?? res).source.statusText, // changed since @effect/platform@0.79.0
+                    // reason: (res.original ?? res).source.statusText, // changed since @effect/platform@0.79.0
                     statusCode: res.status,
                     body,
                   })

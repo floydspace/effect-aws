@@ -889,6 +889,7 @@ import * as Service from "@effect-aws/commons/Service";
 import type * as ServiceLogger from "@effect-aws/commons/ServiceLogger";
 import type { HttpHandlerOptions } from "@effect-aws/commons/Types";
 import type * as Cause from "effect/Cause";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import type * as Stream from "effect/Stream";
@@ -1274,9 +1275,11 @@ const paginators = {
   paginateListViolationEvents,
 };
 
-interface IoTService$ {
-  readonly _: unique symbol;
-
+/**
+ * @since 1.0.0
+ * @category models
+ */
+export interface IoTService$ {
   /**
    * @see {@link AcceptCertificateTransferCommand}
    */
@@ -1285,7 +1288,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AcceptCertificateTransferCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -1304,12 +1307,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AddThingToBillingGroupCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   /**
@@ -1320,12 +1318,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AddThingToThingGroupCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   /**
@@ -1336,7 +1329,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AssociateSbomWithPackageVersionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConflictError
     | InternalServerError
@@ -1354,7 +1347,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AssociateTargetsWithJobCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidRequestError
     | LimitExceededError
@@ -1371,7 +1364,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AttachPolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -1390,7 +1383,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AttachPrincipalPolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -1409,7 +1402,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AttachSecurityProfileCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -1427,7 +1420,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     AttachThingPrincipalCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -1445,12 +1438,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelAuditMitigationActionsTaskCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   /**
@@ -1461,12 +1449,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelAuditTaskCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   /**
@@ -1477,7 +1460,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelCertificateTransferCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -1496,12 +1479,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelDetectMitigationActionsTaskCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   /**
@@ -1512,7 +1490,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelJobCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidRequestError
     | LimitExceededError
@@ -1529,7 +1507,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CancelJobExecutionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidRequestError
     | InvalidStateTransitionError
@@ -1547,7 +1525,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ClearDefaultAuthorizerCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -1565,7 +1543,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ConfirmTopicRuleDestinationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConflictingResourceUpdateError
     | InternalError
@@ -1582,7 +1560,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateAuditSuppressionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -1599,7 +1577,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateAuthorizerCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -1618,7 +1596,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateBillingGroupCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -1634,7 +1612,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateCertificateFromCsrCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -1651,7 +1629,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateCertificateProviderCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -1670,7 +1648,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateCommandCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConflictError
     | InternalServerError
@@ -1687,7 +1665,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateCustomMetricCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -1704,7 +1682,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateDimensionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -1721,7 +1699,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateDomainConfigurationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | CertificateValidationError
     | InternalFailureError
@@ -1741,7 +1719,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateDynamicThingGroupCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidQueryError
@@ -1760,7 +1738,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateFleetMetricCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | IndexNotReadyError
     | InternalFailureError
@@ -1783,7 +1761,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateJobCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidRequestError
     | LimitExceededError
@@ -1801,7 +1779,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateJobTemplateCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConflictError
     | InternalFailureError
@@ -1819,7 +1797,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateKeysAndCertificateCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -1836,7 +1814,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateMitigationActionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -1853,7 +1831,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateOTAUpdateCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -1873,7 +1851,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreatePackageCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConflictError
     | InternalServerError
@@ -1890,7 +1868,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreatePackageVersionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConflictError
     | InternalServerError
@@ -1907,7 +1885,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreatePolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -1926,7 +1904,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreatePolicyVersionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -1946,7 +1924,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateProvisioningClaimCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -1964,7 +1942,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateProvisioningTemplateCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -1982,7 +1960,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateProvisioningTemplateVersionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConflictingResourceUpdateError
     | InternalFailureError
@@ -2001,7 +1979,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateRoleAliasCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -2020,7 +1998,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateScheduledAuditCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -2037,7 +2015,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateSecurityProfileCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -2053,7 +2031,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateStreamCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -2073,7 +2051,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateThingCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -2092,7 +2070,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateThingGroupCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -2108,7 +2086,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateThingTypeCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -2126,7 +2104,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateTopicRuleCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConflictingResourceUpdateError
     | InternalError
@@ -2145,7 +2123,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     CreateTopicRuleDestinationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConflictingResourceUpdateError
     | InternalError
@@ -2163,12 +2141,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteAccountAuditConfigurationCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   /**
@@ -2179,7 +2152,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteAuditSuppressionCommandOutput,
-    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
   >;
 
   /**
@@ -2190,7 +2163,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteAuthorizerCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DeleteConflictError
     | InternalFailureError
@@ -2209,12 +2182,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteBillingGroupCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ThrottlingError
-    | VersionConflictError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError | VersionConflictError
   >;
 
   /**
@@ -2225,7 +2193,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteCACertificateCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | CertificateStateError
     | InternalFailureError
@@ -2244,7 +2212,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteCertificateCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | CertificateStateError
     | DeleteConflictError
@@ -2264,7 +2232,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteCertificateProviderCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DeleteConflictError
     | InternalFailureError
@@ -2283,7 +2251,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteCommandCommandOutput,
-    Cause.TimeoutException | SdkError | ConflictError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | ConflictError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -2294,7 +2262,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteCommandExecutionCommandOutput,
-    Cause.TimeoutException | SdkError | ConflictError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | ConflictError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -2305,7 +2273,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteCustomMetricCommandOutput,
-    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
   >;
 
   /**
@@ -2316,7 +2284,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDimensionCommandOutput,
-    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
   >;
 
   /**
@@ -2327,7 +2295,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDomainConfigurationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -2345,12 +2313,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteDynamicThingGroupCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ThrottlingError
-    | VersionConflictError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError | VersionConflictError
   >;
 
   /**
@@ -2361,7 +2324,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteFleetMetricCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -2379,7 +2342,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteJobCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidRequestError
     | InvalidStateTransitionError
@@ -2397,7 +2360,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteJobExecutionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidRequestError
     | InvalidStateTransitionError
@@ -2414,12 +2377,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteJobTemplateCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   /**
@@ -2430,7 +2388,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteMitigationActionCommandOutput,
-    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
   >;
 
   /**
@@ -2441,7 +2399,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteOTAUpdateCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -2460,7 +2418,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeletePackageCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -2471,7 +2429,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeletePackageVersionCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -2482,7 +2440,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeletePolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DeleteConflictError
     | InternalFailureError
@@ -2501,7 +2459,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeletePolicyVersionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DeleteConflictError
     | InternalFailureError
@@ -2520,7 +2478,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteProvisioningTemplateCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConflictingResourceUpdateError
     | DeleteConflictError
@@ -2539,7 +2497,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteProvisioningTemplateVersionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConflictingResourceUpdateError
     | DeleteConflictError
@@ -2558,7 +2516,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteRegistrationCodeCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | ResourceNotFoundError
@@ -2575,7 +2533,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteRoleAliasCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DeleteConflictError
     | InternalFailureError
@@ -2594,12 +2552,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteScheduledAuditCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   /**
@@ -2610,12 +2563,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteSecurityProfileCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ThrottlingError
-    | VersionConflictError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError | VersionConflictError
   >;
 
   /**
@@ -2626,7 +2574,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteStreamCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | DeleteConflictError
     | InternalFailureError
@@ -2645,7 +2593,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteThingCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -2664,12 +2612,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteThingGroupCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ThrottlingError
-    | VersionConflictError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError | VersionConflictError
   >;
 
   /**
@@ -2680,7 +2623,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteThingTypeCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -2698,7 +2641,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteTopicRuleCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConflictingResourceUpdateError
     | InternalError
@@ -2715,7 +2658,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteTopicRuleDestinationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConflictingResourceUpdateError
     | InternalError
@@ -2732,7 +2675,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeleteV2LoggingLevelCommandOutput,
-    Cause.TimeoutException | SdkError | InternalError | InvalidRequestError | ServiceUnavailableError
+    Cause.TimeoutError | SdkError | InternalError | InvalidRequestError | ServiceUnavailableError
   >;
 
   /**
@@ -2743,7 +2686,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DeprecateThingTypeCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -2761,7 +2704,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeAccountAuditConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | InternalFailureError | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | ThrottlingError
   >;
 
   /**
@@ -2772,12 +2715,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeAuditFindingCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   /**
@@ -2788,12 +2726,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeAuditMitigationActionsTaskCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   /**
@@ -2804,12 +2737,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeAuditSuppressionCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   /**
@@ -2820,12 +2748,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeAuditTaskCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   /**
@@ -2836,7 +2759,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeAuthorizerCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -2854,12 +2777,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeBillingGroupCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   /**
@@ -2870,7 +2788,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeCACertificateCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -2888,7 +2806,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeCertificateCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -2906,7 +2824,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeCertificateProviderCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -2924,12 +2842,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeCustomMetricCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   /**
@@ -2940,7 +2853,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeDefaultAuthorizerCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -2958,12 +2871,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeDetectMitigationActionsTaskCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   /**
@@ -2974,12 +2882,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeDimensionCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   /**
@@ -2990,7 +2893,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeDomainConfigurationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -3008,7 +2911,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeEncryptionConfigurationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -3025,7 +2928,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeEndpointCommandOutput,
-    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError | UnauthorizedError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError | UnauthorizedError
   >;
 
   /**
@@ -3036,7 +2939,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeEventConfigurationsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalFailureError | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | ThrottlingError
   >;
 
   /**
@@ -3047,7 +2950,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeFleetMetricCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -3065,7 +2968,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeIndexCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -3083,7 +2986,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeJobCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidRequestError
     | ResourceNotFoundError
@@ -3099,7 +3002,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeJobExecutionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidRequestError
     | ResourceNotFoundError
@@ -3115,12 +3018,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeJobTemplateCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   /**
@@ -3131,12 +3029,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeManagedJobTemplateCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalServerError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalServerError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   /**
@@ -3147,12 +3040,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeMitigationActionCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   /**
@@ -3163,7 +3051,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeProvisioningTemplateCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -3180,7 +3068,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeProvisioningTemplateVersionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -3197,7 +3085,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeRoleAliasCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -3215,12 +3103,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeScheduledAuditCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   /**
@@ -3231,12 +3114,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeSecurityProfileCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   /**
@@ -3247,7 +3125,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeStreamCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -3265,7 +3143,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeThingCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -3283,12 +3161,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeThingGroupCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   /**
@@ -3299,7 +3172,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeThingRegistrationTaskCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -3316,7 +3189,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DescribeThingTypeCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -3334,7 +3207,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DetachPolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -3352,7 +3225,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DetachPrincipalPolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -3370,12 +3243,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DetachSecurityProfileCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   /**
@@ -3386,7 +3254,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DetachThingPrincipalCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -3404,7 +3272,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisableTopicRuleCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConflictingResourceUpdateError
     | InternalError
@@ -3421,7 +3289,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     DisassociateSbomFromPackageVersionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConflictError
     | InternalServerError
@@ -3438,7 +3306,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     EnableTopicRuleCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConflictingResourceUpdateError
     | InternalError
@@ -3455,12 +3323,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetBehaviorModelTrainingSummariesCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   getBehaviorModelTrainingSummariesStream(
@@ -3468,12 +3331,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     GetBehaviorModelTrainingSummariesCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   /**
@@ -3484,7 +3342,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetBucketsAggregationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | IndexNotReadyError
     | InternalFailureError
@@ -3505,7 +3363,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetCardinalityCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | IndexNotReadyError
     | InternalFailureError
@@ -3526,7 +3384,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetCommandCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -3537,7 +3395,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetCommandExecutionCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -3548,7 +3406,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetEffectivePoliciesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -3567,7 +3425,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetIndexingConfigurationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -3584,7 +3442,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetJobDocumentCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidRequestError
     | ResourceNotFoundError
@@ -3600,7 +3458,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetLoggingOptionsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalError | InvalidRequestError | ServiceUnavailableError
+    Cause.TimeoutError | SdkError | InternalError | InvalidRequestError | ServiceUnavailableError
   >;
 
   /**
@@ -3611,7 +3469,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetOTAUpdateCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -3629,7 +3487,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPackageCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -3640,7 +3498,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPackageConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalServerError | ThrottlingError
   >;
 
   /**
@@ -3651,7 +3509,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPackageVersionCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -3662,7 +3520,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPercentilesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | IndexNotReadyError
     | InternalFailureError
@@ -3683,7 +3541,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -3701,7 +3559,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetPolicyVersionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -3719,7 +3577,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetRegistrationCodeCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -3736,7 +3594,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetStatisticsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | IndexNotReadyError
     | InternalFailureError
@@ -3757,7 +3615,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetThingConnectivityDataCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | IndexNotReadyError
     | InternalFailureError
@@ -3776,12 +3634,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetTopicRuleCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalError
-    | InvalidRequestError
-    | ServiceUnavailableError
-    | UnauthorizedError
+    Cause.TimeoutError | SdkError | InternalError | InvalidRequestError | ServiceUnavailableError | UnauthorizedError
   >;
 
   /**
@@ -3792,12 +3645,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetTopicRuleDestinationCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalError
-    | InvalidRequestError
-    | ServiceUnavailableError
-    | UnauthorizedError
+    Cause.TimeoutError | SdkError | InternalError | InvalidRequestError | ServiceUnavailableError | UnauthorizedError
   >;
 
   /**
@@ -3808,7 +3656,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     GetV2LoggingOptionsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalError | NotConfiguredError | ServiceUnavailableError
+    Cause.TimeoutError | SdkError | InternalError | NotConfiguredError | ServiceUnavailableError
   >;
 
   /**
@@ -3819,12 +3667,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListActiveViolationsCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   listActiveViolationsStream(
@@ -3832,12 +3675,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListActiveViolationsCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   /**
@@ -3848,7 +3686,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAttachedPoliciesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -3864,7 +3702,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListAttachedPoliciesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -3883,7 +3721,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAuditFindingsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
   >;
 
   listAuditFindingsStream(
@@ -3891,7 +3729,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListAuditFindingsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
   >;
 
   /**
@@ -3902,7 +3740,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAuditMitigationActionsExecutionsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
   >;
 
   listAuditMitigationActionsExecutionsStream(
@@ -3910,7 +3748,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListAuditMitigationActionsExecutionsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
   >;
 
   /**
@@ -3921,7 +3759,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAuditMitigationActionsTasksCommandOutput,
-    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
   >;
 
   listAuditMitigationActionsTasksStream(
@@ -3929,7 +3767,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListAuditMitigationActionsTasksCommandOutput,
-    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
   >;
 
   /**
@@ -3940,7 +3778,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAuditSuppressionsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
   >;
 
   listAuditSuppressionsStream(
@@ -3948,7 +3786,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListAuditSuppressionsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
   >;
 
   /**
@@ -3959,7 +3797,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAuditTasksCommandOutput,
-    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
   >;
 
   listAuditTasksStream(
@@ -3967,7 +3805,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListAuditTasksCommandOutput,
-    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
   >;
 
   /**
@@ -3978,7 +3816,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListAuthorizersCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -3992,7 +3830,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListAuthorizersCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -4009,12 +3847,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListBillingGroupsCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   listBillingGroupsStream(
@@ -4022,12 +3855,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListBillingGroupsCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   /**
@@ -4038,7 +3866,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListCACertificatesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -4052,7 +3880,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListCACertificatesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -4069,7 +3897,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListCertificateProvidersCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -4086,7 +3914,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListCertificatesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -4100,7 +3928,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListCertificatesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -4117,7 +3945,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListCertificatesByCACommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -4131,7 +3959,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListCertificatesByCACommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -4148,7 +3976,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListCommandExecutionsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   listCommandExecutionsStream(
@@ -4156,7 +3984,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListCommandExecutionsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -4167,7 +3995,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListCommandsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   listCommandsStream(
@@ -4175,7 +4003,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListCommandsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -4186,7 +4014,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListCustomMetricsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
   >;
 
   listCustomMetricsStream(
@@ -4194,7 +4022,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListCustomMetricsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
   >;
 
   /**
@@ -4205,7 +4033,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDetectMitigationActionsExecutionsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
   >;
 
   listDetectMitigationActionsExecutionsStream(
@@ -4213,7 +4041,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListDetectMitigationActionsExecutionsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
   >;
 
   /**
@@ -4224,7 +4052,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDetectMitigationActionsTasksCommandOutput,
-    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
   >;
 
   listDetectMitigationActionsTasksStream(
@@ -4232,7 +4060,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListDetectMitigationActionsTasksCommandOutput,
-    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
   >;
 
   /**
@@ -4243,7 +4071,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDimensionsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
   >;
 
   listDimensionsStream(
@@ -4251,7 +4079,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListDimensionsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
   >;
 
   /**
@@ -4262,7 +4090,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListDomainConfigurationsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -4276,7 +4104,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListDomainConfigurationsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -4293,7 +4121,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListFleetMetricsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -4307,7 +4135,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListFleetMetricsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -4324,7 +4152,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListIndicesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -4338,7 +4166,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListIndicesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -4355,7 +4183,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListJobExecutionsForJobCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidRequestError
     | ResourceNotFoundError
@@ -4368,7 +4196,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListJobExecutionsForJobCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidRequestError
     | ResourceNotFoundError
@@ -4384,7 +4212,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListJobExecutionsForThingCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidRequestError
     | ResourceNotFoundError
@@ -4397,7 +4225,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListJobExecutionsForThingCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidRequestError
     | ResourceNotFoundError
@@ -4413,7 +4241,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListJobTemplatesCommandOutput,
-    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
   >;
 
   listJobTemplatesStream(
@@ -4421,7 +4249,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListJobTemplatesCommandOutput,
-    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
   >;
 
   /**
@@ -4432,7 +4260,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListJobsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidRequestError
     | ResourceNotFoundError
@@ -4445,7 +4273,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListJobsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidRequestError
     | ResourceNotFoundError
@@ -4461,12 +4289,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListManagedJobTemplatesCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalServerError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalServerError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   listManagedJobTemplatesStream(
@@ -4474,12 +4297,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListManagedJobTemplatesCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalServerError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalServerError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   /**
@@ -4490,12 +4308,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListMetricValuesCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   listMetricValuesStream(
@@ -4503,12 +4316,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListMetricValuesCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   /**
@@ -4519,7 +4327,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListMitigationActionsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
   >;
 
   listMitigationActionsStream(
@@ -4527,7 +4335,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListMitigationActionsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
   >;
 
   /**
@@ -4538,7 +4346,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListOTAUpdatesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -4552,7 +4360,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListOTAUpdatesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -4569,7 +4377,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListOutgoingCertificatesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -4583,7 +4391,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListOutgoingCertificatesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -4600,7 +4408,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListPackageVersionsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   listPackageVersionsStream(
@@ -4608,7 +4416,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListPackageVersionsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -4619,7 +4427,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListPackagesCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   listPackagesStream(
@@ -4627,7 +4435,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListPackagesCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -4638,7 +4446,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListPoliciesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -4652,7 +4460,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListPoliciesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -4669,7 +4477,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListPolicyPrincipalsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -4684,7 +4492,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListPolicyPrincipalsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -4702,7 +4510,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListPolicyVersionsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -4720,7 +4528,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListPrincipalPoliciesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -4735,7 +4543,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListPrincipalPoliciesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -4753,7 +4561,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListPrincipalThingsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -4768,7 +4576,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListPrincipalThingsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -4786,7 +4594,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListPrincipalThingsV2CommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -4801,7 +4609,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListPrincipalThingsV2CommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -4819,7 +4627,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListProvisioningTemplateVersionsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -4833,7 +4641,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListProvisioningTemplateVersionsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -4850,7 +4658,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListProvisioningTemplatesCommandOutput,
-    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError | UnauthorizedError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError | UnauthorizedError
   >;
 
   listProvisioningTemplatesStream(
@@ -4858,7 +4666,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListProvisioningTemplatesCommandOutput,
-    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError | UnauthorizedError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError | UnauthorizedError
   >;
 
   /**
@@ -4869,12 +4677,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListRelatedResourcesForAuditFindingCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   listRelatedResourcesForAuditFindingStream(
@@ -4882,12 +4685,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListRelatedResourcesForAuditFindingCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   /**
@@ -4898,7 +4696,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListRoleAliasesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -4912,7 +4710,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListRoleAliasesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -4929,7 +4727,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListSbomValidationResultsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   listSbomValidationResultsStream(
@@ -4937,7 +4735,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListSbomValidationResultsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | InternalServerError | ResourceNotFoundError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -4948,7 +4746,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListScheduledAuditsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
   >;
 
   listScheduledAuditsStream(
@@ -4956,7 +4754,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListScheduledAuditsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
   >;
 
   /**
@@ -4967,12 +4765,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListSecurityProfilesCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   listSecurityProfilesStream(
@@ -4980,12 +4773,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListSecurityProfilesCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   /**
@@ -4996,12 +4784,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListSecurityProfilesForTargetCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   listSecurityProfilesForTargetStream(
@@ -5009,12 +4792,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListSecurityProfilesForTargetCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   /**
@@ -5025,7 +4803,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListStreamsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -5039,7 +4817,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListStreamsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -5056,12 +4834,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTagsForResourceCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   listTagsForResourceStream(
@@ -5069,12 +4842,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListTagsForResourceCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   /**
@@ -5085,7 +4853,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTargetsForPolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -5101,7 +4869,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListTargetsForPolicyCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -5120,12 +4888,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTargetsForSecurityProfileCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   listTargetsForSecurityProfileStream(
@@ -5133,12 +4896,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListTargetsForSecurityProfileCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   /**
@@ -5149,12 +4907,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListThingGroupsCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   listThingGroupsStream(
@@ -5162,12 +4915,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListThingGroupsCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   /**
@@ -5178,12 +4926,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListThingGroupsForThingCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   listThingGroupsForThingStream(
@@ -5191,12 +4934,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListThingGroupsForThingCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   /**
@@ -5207,7 +4945,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListThingPrincipalsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -5222,7 +4960,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListThingPrincipalsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -5240,7 +4978,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListThingPrincipalsV2CommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -5255,7 +4993,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListThingPrincipalsV2CommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -5273,7 +5011,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListThingRegistrationTaskReportsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError | UnauthorizedError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError | UnauthorizedError
   >;
 
   listThingRegistrationTaskReportsStream(
@@ -5281,7 +5019,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListThingRegistrationTaskReportsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError | UnauthorizedError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError | UnauthorizedError
   >;
 
   /**
@@ -5292,7 +5030,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListThingRegistrationTasksCommandOutput,
-    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError | UnauthorizedError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError | UnauthorizedError
   >;
 
   listThingRegistrationTasksStream(
@@ -5300,7 +5038,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListThingRegistrationTasksCommandOutput,
-    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError | UnauthorizedError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError | UnauthorizedError
   >;
 
   /**
@@ -5311,7 +5049,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListThingTypesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -5325,7 +5063,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListThingTypesCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -5342,7 +5080,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListThingsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -5356,7 +5094,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListThingsCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -5373,12 +5111,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListThingsInBillingGroupCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   listThingsInBillingGroupStream(
@@ -5386,12 +5119,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListThingsInBillingGroupCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   /**
@@ -5402,12 +5130,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListThingsInThingGroupCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   listThingsInThingGroupStream(
@@ -5415,12 +5138,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListThingsInThingGroupCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   /**
@@ -5431,12 +5149,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTopicRuleDestinationsCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalError
-    | InvalidRequestError
-    | ServiceUnavailableError
-    | UnauthorizedError
+    Cause.TimeoutError | SdkError | InternalError | InvalidRequestError | ServiceUnavailableError | UnauthorizedError
   >;
 
   listTopicRuleDestinationsStream(
@@ -5444,12 +5157,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListTopicRuleDestinationsCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalError
-    | InvalidRequestError
-    | ServiceUnavailableError
-    | UnauthorizedError
+    Cause.TimeoutError | SdkError | InternalError | InvalidRequestError | ServiceUnavailableError | UnauthorizedError
   >;
 
   /**
@@ -5460,12 +5168,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListTopicRulesCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalError
-    | InvalidRequestError
-    | ServiceUnavailableError
-    | UnauthorizedError
+    Cause.TimeoutError | SdkError | InternalError | InvalidRequestError | ServiceUnavailableError | UnauthorizedError
   >;
 
   listTopicRulesStream(
@@ -5473,12 +5176,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListTopicRulesCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalError
-    | InvalidRequestError
-    | ServiceUnavailableError
-    | UnauthorizedError
+    Cause.TimeoutError | SdkError | InternalError | InvalidRequestError | ServiceUnavailableError | UnauthorizedError
   >;
 
   /**
@@ -5489,12 +5187,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListV2LoggingLevelsCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalError
-    | InvalidRequestError
-    | NotConfiguredError
-    | ServiceUnavailableError
+    Cause.TimeoutError | SdkError | InternalError | InvalidRequestError | NotConfiguredError | ServiceUnavailableError
   >;
 
   listV2LoggingLevelsStream(
@@ -5502,12 +5195,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListV2LoggingLevelsCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalError
-    | InvalidRequestError
-    | NotConfiguredError
-    | ServiceUnavailableError
+    Cause.TimeoutError | SdkError | InternalError | InvalidRequestError | NotConfiguredError | ServiceUnavailableError
   >;
 
   /**
@@ -5518,7 +5206,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ListViolationEventsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
   >;
 
   listViolationEventsStream(
@@ -5526,7 +5214,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Stream.Stream<
     ListViolationEventsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
   >;
 
   /**
@@ -5537,7 +5225,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     PutVerificationStateOnViolationCommandOutput,
-    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
   >;
 
   /**
@@ -5548,7 +5236,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RegisterCACertificateCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | CertificateValidationError
     | InternalFailureError
@@ -5570,7 +5258,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RegisterCertificateCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | CertificateConflictError
     | CertificateStateError
@@ -5591,7 +5279,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RegisterCertificateWithoutCACommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | CertificateStateError
     | CertificateValidationError
@@ -5611,7 +5299,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RegisterThingCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConflictingResourceUpdateError
     | InternalFailureError
@@ -5630,7 +5318,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RejectCertificateTransferCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -5649,12 +5337,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RemoveThingFromBillingGroupCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   /**
@@ -5665,12 +5348,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     RemoveThingFromThingGroupCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   /**
@@ -5681,7 +5359,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ReplaceTopicRuleCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConflictingResourceUpdateError
     | InternalError
@@ -5699,7 +5377,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SearchIndexCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | IndexNotReadyError
     | InternalFailureError
@@ -5719,7 +5397,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SetDefaultAuthorizerCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -5738,7 +5416,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SetDefaultPolicyVersionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -5756,7 +5434,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SetLoggingOptionsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalError | InvalidRequestError | ServiceUnavailableError
+    Cause.TimeoutError | SdkError | InternalError | InvalidRequestError | ServiceUnavailableError
   >;
 
   /**
@@ -5767,7 +5445,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SetV2LoggingLevelCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalError
     | InvalidRequestError
@@ -5784,7 +5462,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     SetV2LoggingOptionsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalError | InvalidRequestError | ServiceUnavailableError
+    Cause.TimeoutError | SdkError | InternalError | InvalidRequestError | ServiceUnavailableError
   >;
 
   /**
@@ -5795,7 +5473,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartAuditMitigationActionsTaskCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -5812,7 +5490,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartDetectMitigationActionsTaskCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -5829,12 +5507,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartOnDemandAuditTaskCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | LimitExceededError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | LimitExceededError | ThrottlingError
   >;
 
   /**
@@ -5845,7 +5518,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StartThingRegistrationTaskCommandOutput,
-    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError | UnauthorizedError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError | UnauthorizedError
   >;
 
   /**
@@ -5856,7 +5529,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     StopThingRegistrationTaskCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -5873,7 +5546,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TagResourceCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -5890,7 +5563,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TestAuthorizationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -5909,7 +5582,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TestInvokeAuthorizerCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -5928,7 +5601,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     TransferCertificateCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | CertificateStateError
     | InternalFailureError
@@ -5948,12 +5621,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UntagResourceCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   /**
@@ -5964,7 +5632,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateAccountAuditConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
   >;
 
   /**
@@ -5975,12 +5643,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateAuditSuppressionCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   /**
@@ -5991,7 +5654,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateAuthorizerCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -6010,7 +5673,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateBillingGroupCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -6027,7 +5690,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateCACertificateCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -6045,7 +5708,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateCertificateCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | CertificateStateError
     | InternalFailureError
@@ -6064,7 +5727,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateCertificateProviderCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -6082,7 +5745,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateCommandCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConflictError
     | InternalServerError
@@ -6099,12 +5762,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateCustomMetricCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   /**
@@ -6115,12 +5773,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateDimensionCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   /**
@@ -6131,7 +5784,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateDomainConfigurationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | CertificateValidationError
     | InternalFailureError
@@ -6150,7 +5803,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateDynamicThingGroupCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidQueryError
@@ -6168,7 +5821,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateEncryptionConfigurationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -6185,7 +5838,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateEventConfigurationsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
   >;
 
   /**
@@ -6196,7 +5849,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateFleetMetricCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | IndexNotReadyError
     | InternalFailureError
@@ -6218,7 +5871,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateIndexingConfigurationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -6235,7 +5888,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateJobCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InvalidRequestError
     | ResourceNotFoundError
@@ -6251,12 +5904,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateMitigationActionCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   /**
@@ -6267,7 +5915,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdatePackageCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConflictError
     | InternalServerError
@@ -6284,7 +5932,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdatePackageConfigurationCommandOutput,
-    Cause.TimeoutException | SdkError | ConflictError | InternalServerError | ThrottlingError | ValidationError
+    Cause.TimeoutError | SdkError | ConflictError | InternalServerError | ThrottlingError | ValidationError
   >;
 
   /**
@@ -6295,7 +5943,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdatePackageVersionCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConflictError
     | InternalServerError
@@ -6312,7 +5960,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateProvisioningTemplateCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConflictingResourceUpdateError
     | InternalFailureError
@@ -6329,7 +5977,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateRoleAliasCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -6347,12 +5995,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateScheduledAuditCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   /**
@@ -6363,7 +6006,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateSecurityProfileCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -6380,7 +6023,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateStreamCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -6399,7 +6042,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateThingCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -6418,7 +6061,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateThingGroupCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -6435,12 +6078,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateThingGroupsForThingCommandOutput,
-    | Cause.TimeoutException
-    | SdkError
-    | InternalFailureError
-    | InvalidRequestError
-    | ResourceNotFoundError
-    | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ResourceNotFoundError | ThrottlingError
   >;
 
   /**
@@ -6451,7 +6089,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateThingTypeCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | InternalFailureError
     | InvalidRequestError
@@ -6469,7 +6107,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     UpdateTopicRuleDestinationCommandOutput,
-    | Cause.TimeoutException
+    | Cause.TimeoutError
     | SdkError
     | ConflictingResourceUpdateError
     | InternalError
@@ -6486,7 +6124,7 @@ interface IoTService$ {
     options?: HttpHandlerOptions,
   ): Effect.Effect<
     ValidateSecurityProfileBehaviorsCommandOutput,
-    Cause.TimeoutException | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
+    Cause.TimeoutError | SdkError | InternalFailureError | InvalidRequestError | ThrottlingError
   >;
 }
 
@@ -6512,10 +6150,10 @@ export const makeIoTService = Effect.gen(function*() {
  * @since 1.0.0
  * @category models
  */
-export class IoTService extends Effect.Tag("@effect-aws/client-iot/IoTService")<
+export class IoTService extends Context.Service<
   IoTService,
   IoTService$
->() {
+>()("@effect-aws/client-iot/IoTService") {
   static readonly defaultLayer = Layer.effect(this, makeIoTService).pipe(Layer.provide(Instance.layer));
   static readonly layer = (config: IoTService.Config) =>
     Layer.effect(this, makeIoTService).pipe(

@@ -11,9 +11,9 @@ import * as RDSServiceConfig from "./RDSServiceConfig.js";
  * @since 1.0.0
  * @category tags
  */
-export class RDSClientInstance extends Context.Tag(
+export class RDSClientInstance extends Context.Service<RDSClientInstance, RDSClient>()(
   "@effect-aws/client-rds/RDSClientInstance",
-)<RDSClientInstance, RDSClient>() {}
+) {}
 
 /**
  * @since 1.0.0
@@ -32,4 +32,4 @@ export const make = Effect.flatMap(
  * @since 1.0.0
  * @category layers
  */
-export const layer = Layer.scoped(RDSClientInstance, make);
+export const layer = Layer.effect(RDSClientInstance, make);

@@ -16,7 +16,7 @@
     },
     {
       "name": "effect",
-      "version": ">=3.15.5 <4.0.0",
+      "version": ">=4.0.0-beta.66 <5.0.0",
       "type": "peer"
     },
     {
