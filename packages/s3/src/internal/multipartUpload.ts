@@ -13,11 +13,11 @@ import type {
 } from "@effect-aws/client-s3";
 import { S3Service } from "@effect-aws/client-s3/S3Service";
 import * as Array from "effect/Array";
+import * as ByteSize from "effect/ByteSize";
 import type * as Cause from "effect/Cause";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
-import * as FileSystem from "effect/FileSystem";
 import * as Option from "effect/Option";
 import * as PlatformError from "effect/PlatformError";
 import * as Ref from "effect/Ref";
@@ -39,7 +39,7 @@ const handleBadArgument = (method: string) => (err: unknown) =>
 /** @internal */
 async function* getChunkStream<T>(
   data: T,
-  partSize: FileSystem.Size,
+  partSize: ByteSize.ByteSize,
   getNextData: (data: T) => AsyncGenerator<Uint8Array>,
 ): AsyncGenerator<RawDataPart, void, undefined> {
   let partNumber = 1;
@@ -78,7 +78,7 @@ async function* getChunkStream<T>(
 /** @internal */
 async function* getChunkUint8Array(
   data: Uint8Array,
-  partSize: FileSystem.Size,
+  partSize: ByteSize.ByteSize,
 ): AsyncGenerator<RawDataPart, void, undefined> {
   let partNumber = 1;
   let startByte = 0;
@@ -141,7 +141,7 @@ async function* getDataReadableStream(data: ReadableStream): AsyncGenerator<Uint
 /** @internal */
 const getChunk = <E>(
   data: UploadObjectCommandInput<E>["Body"],
-  partSize: FileSystem.Size,
+  partSize: ByteSize.ByteSize,
 ): AsyncGenerator<RawDataPart, void, undefined> => {
   if (Stream.isStream(data)) {
     return getChunkStream(Stream.toReadableStream(data), partSize, getDataReadableStream);
@@ -193,7 +193,7 @@ type PutObjectError =
 
 export type S3ServiceErrors = PutObjectError | S3ServiceError;
 
-const MIN_PART_SIZE = FileSystem.MiB(5);
+const MIN_PART_SIZE = ByteSize.mebibytes(5);
 
 /** @internal */
 export const make: Effect.Effect<MultipartUpload, never, S3Service> = Effect.gen(function*() {
@@ -217,7 +217,7 @@ export const make: Effect.Effect<MultipartUpload, never, S3Service> = Effect.gen
       });
 
       if (!partResult.ETag) {
-        yield* Effect.die(
+        return yield* Effect.die(
           `Part ${partNumber} is missing ETag in UploadPart response. Missing Bucket CORS configuration for ETag header?`,
         );
       }

@@ -8,10 +8,10 @@ import type {
   S3ClientConfig,
 } from "@aws-sdk/client-s3";
 import { S3Service } from "@effect-aws/client-s3/S3Service";
+import type * as ByteSize from "effect/ByteSize";
 import type * as Cause from "effect/Cause";
 import type * as Context from "effect/Context";
 import type * as Effect from "effect/Effect";
-import type * as FileSystem from "effect/FileSystem";
 import * as Layer from "effect/Layer";
 import type * as PlatformError from "effect/PlatformError";
 import type * as Stream from "effect/Stream";
@@ -40,7 +40,7 @@ export interface UploadObjectOptions {
    * Default: 5 mb
    * The size in bytes for each individual part to be uploaded. Adjust the part size to ensure the number of parts does not exceed maxTotalParts. See 5mb is the minimum allowed part size.
    */
-  readonly partSize?: FileSystem.Size;
+  readonly partSize?: ByteSize.ByteSize;
 }
 
 /**

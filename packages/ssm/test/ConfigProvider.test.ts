@@ -20,7 +20,7 @@ describe("fromParameterStore", () => {
 
     const serviceLayer = SSM.baseLayer(() => clientSubstitute);
 
-    const result = await Config.string("test").pipe(
+    const result = await Config.String("test").pipe(
       ConfigProvider.withParameterStoreConfigProvider(),
       Effect.provide(serviceLayer),
       Effect.runPromiseExit,
@@ -43,7 +43,7 @@ describe("fromParameterStore", () => {
     const serviceLayer = SSM.baseLayer(() => clientSubstitute);
     const configProviderLayer = Layer.provide(ConfigProvider.setParameterStoreConfigProvider(), serviceLayer);
 
-    const result = await Config.redacted("my-param-that-doesnt-exist").pipe(
+    const result = await Config.Redacted("my-param-that-doesnt-exist").pipe(
       Config.withDefault(Redacted.make("mocked-default-value")),
     ).pipe(
       Effect.provide(configProviderLayer),
@@ -67,7 +67,7 @@ describe("fromParameterStore", () => {
 
     const serviceLayer = SSM.baseLayer(() => clientSubstitute);
 
-    const result = await Config.redacted("test").pipe(
+    const result = await Config.Redacted("test").pipe(
       Config.withDefault(Redacted.make("mocked-default-value")),
     ).pipe(
       ConfigProvider.withParameterStoreConfigProvider(),
@@ -106,13 +106,13 @@ describe("fromParameterStore", () => {
 
     const serviceLayer = SSM.baseLayer(() => clientSubstitute);
 
-    const result = await Config.string("test").pipe(
+    const result = await Config.String("test").pipe(
       ConfigProvider.withParameterStoreConfigProvider(),
       Effect.provide(serviceLayer),
       Effect.runPromiseExit,
     );
 
-    // `Config.string`'s decode failure carries a schema AST built internally
+    // `Config.String`'s decode failure carries a schema AST built internally
     // by `Config`'s (non-exported) cursor-decoding machinery, reconstructed
     // above as `configStringAst`.
     expect(result).toMatchInlineSnapshot(`
@@ -145,7 +145,7 @@ describe("fromParameterStore", () => {
 
     const serviceLayer = SSM.baseLayer(() => clientSubstitute);
 
-    const result = await Config.string("test").pipe(
+    const result = await Config.String("test").pipe(
       ConfigProvider.withParameterStoreConfigProvider(),
       Effect.provide(serviceLayer),
       Effect.runPromiseExit,

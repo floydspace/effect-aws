@@ -26,7 +26,6 @@
     },
     {
       "name": "@effect/vitest",
-      "version": "4.0.0-rc.112",
       "type": "build"
     },
     {
@@ -135,12 +134,10 @@
     },
     {
       "name": "@effect/platform-node",
-      "version": "4.0.0-rc.112",
       "type": "runtime"
     },
     {
       "name": "effect",
-      "version": "4.0.0-rc.112",
       "type": "runtime"
     }
   ],

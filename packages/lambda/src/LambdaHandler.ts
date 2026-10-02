@@ -4,11 +4,11 @@
 import type * as Cause from "effect/Cause";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
+import type { HttpMiddleware } from "effect/http";
+import { HttpRouter } from "effect/http";
 import * as Layer from "effect/Layer";
 import type * as PlatformError from "effect/PlatformError";
 import * as Predicate from "effect/Predicate";
-import type { HttpMiddleware } from "effect/unstable/http";
-import { HttpRouter } from "effect/unstable/http";
 import { Readable } from "node:stream";
 import { getEventSource } from "./internal/index.js";
 import * as internal from "./internal/lambdaHandler.js";

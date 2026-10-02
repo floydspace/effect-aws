@@ -27,7 +27,7 @@
   "devDependencies": {
     "@effect-aws/client-dynamodb": "workspace:^",
     "@types/node": "ts5.4",
-    "effect": "4.0.0-rc.112",
+    "effect": "^4.0.0",
     "typescript": "^5.4.2"
   },
   "peerDependencies": {

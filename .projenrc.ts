@@ -51,11 +51,11 @@ new Vitest(project, { sharedSetupFiles: ["vitest.setup.ts"] });
 project.addDevDeps("vitest-mock-extended");
 project.addDevDeps("aws-sdk-client-mock", "aws-sdk-client-mock-vitest");
 
-const effectDeps = ["effect@4.0.0-rc.112"];
+const effectDeps = ["effect"];
 
 project.addScripts({ "codegen-client": "tsx ./scripts/codegen-cli.ts" });
-project.addDeps(...effectDeps, "@effect/platform-node@4.0.0-rc.112");
-project.addDevDeps("@effect/language-service", "@effect/vitest@4.0.0-rc.112");
+project.addDeps(...effectDeps, "@effect/platform-node");
+project.addDevDeps("@effect/language-service", "@effect/vitest");
 project.tsconfigBase?.file.addOverride("compilerOptions.plugins", [
   { name: "@effect/language-service" },
 ]);
@@ -125,7 +125,7 @@ const lambda = new TypeScriptLibProject({
   parent: project,
   name: "lambda",
   description: "Effectful AWS Lambda handler",
-  devDeps: [...effectDeps, "@effect/platform-node-shared@4.0.0-rc.112", "@types/aws-lambda"],
+  devDeps: [...effectDeps, "@effect/platform-node-shared", "@types/aws-lambda"],
   peerDeps: ["effect@>=4.0.0-beta.66 <5.0.0", "@effect/platform-node-shared@>=4.0.0 <5.0.0"],
   addExamples: true,
 });
@@ -180,11 +180,7 @@ new TypeScriptLibProject({
   parent: project,
   name: "ssm",
   description: "Effectful AWS SSM functions",
-  devDeps: [
-    ...effectDeps,
-    "@aws-sdk/client-ssm@^3",
-    "@fluffy-spoon/substitute",
-  ],
+  devDeps: [...effectDeps, "@aws-sdk/client-ssm@^3", "@fluffy-spoon/substitute"],
   peerDeps: commonPeerDeps,
   workspacePeerDeps: [ssmClient],
 });

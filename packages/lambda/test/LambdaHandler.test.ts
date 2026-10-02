@@ -10,10 +10,10 @@ import type {
 import { LambdaHandler } from "@effect-aws/lambda";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
+import { HttpEffect, HttpServer, HttpServerResponse } from "effect/http";
+import { HttpApi, HttpApiBuilder, HttpApiEndpoint, HttpApiGroup, HttpApiSchema } from "effect/http-api";
 import * as Layer from "effect/Layer";
 import * as Schema from "effect/Schema";
-import { HttpEffect, HttpServer, HttpServerResponse } from "effect/unstable/http";
-import { HttpApi, HttpApiBuilder, HttpApiEndpoint, HttpApiGroup, HttpApiSchema } from "effect/unstable/httpapi";
 import { Writable } from "node:stream";
 import { describe, expect, it, vi } from "vitest";
 import { albEvent } from "./fixtures/alb-event.js";

@@ -7,7 +7,7 @@ This package provides a `fromSecretsManager` [ConfigProvider](https://effect.web
 You can use it to read secrets from AWS Secrets Manager as a `Config` schema.
 
 The config primitive name must match the secret Name or ARN in Secrets Manager.
-For example, `Config.string("my_secret_name")` or `Config.string("arn:aws:secretsmanager:eu-central-1:123456789012:secret:my_secret_name-AbCdEf")`.
+For example, `Config.String("my_secret_name")` or `Config.String("arn:aws:secretsmanager:eu-central-1:123456789012:secret:my_secret_name-AbCdEf")`.
 
 ## Installation
 
@@ -25,7 +25,7 @@ import { ConfigProvider } from "@effect-aws/secrets-manager"
 import { Effect, Config, Console } from "effect"
 
 const program = Effect.gen(function* () {
-  const secret: string = yield* Config.string("my_secret_name")
+  const secret: string = yield* Config.String("my_secret_name")
 
   yield* Console.log("Secret from Secrets Manager: ", secret)
 })
@@ -45,7 +45,7 @@ import { ConfigProvider } from "@effect-aws/secrets-manager"
 import { Config, Console, Effect, Layer } from "effect"
 
 const program = Effect.gen(function* () {
-  const secret: string = yield* Config.string("my_secret_name")
+  const secret: string = yield* Config.String("my_secret_name")
 
   yield* Console.log("Secret from Secrets Manager: ", secret)
 })

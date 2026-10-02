@@ -7,14 +7,14 @@ import type { RequestHandlerOutput } from "@smithy/types";
 import type * as Cause from "effect/Cause";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
+import type { HttpMethod } from "effect/http";
+import { HttpBody, HttpClient, HttpClientError, HttpClientRequest } from "effect/http";
 import * as Option from "effect/Option";
 import type * as Scope from "effect/Scope";
 import * as Sink from "effect/Sink";
 import * as Stream from "effect/Stream";
-import type { HttpMethod } from "effect/unstable/http";
-import { HttpBody, HttpClient, HttpClientError, HttpClientRequest } from "effect/unstable/http";
 
-declare module "effect/unstable/http" {
+declare module "effect/http" {
   interface HttpClientResponse {
     /**
      * @private
