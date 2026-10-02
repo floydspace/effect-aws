@@ -1,6 +1,6 @@
 import * as Effect from "effect/Effect";
+import { HttpClient, HttpClientResponse } from "effect/http";
 import * as Schema from "effect/Schema";
-import { HttpClient, HttpClientResponse } from "effect/unstable/http";
 
 const OperationShape = Schema.Struct({
   type: Schema.Literal("operation"),

@@ -1,9 +1,9 @@
 import { LambdaHandler } from "@effect-aws/lambda";
 import * as Effect from "effect/Effect";
+import { FetchHttpClient, HttpClient, HttpClientResponse, HttpServer } from "effect/http";
+import { HttpApi, HttpApiBuilder, HttpApiEndpoint, HttpApiGroup } from "effect/http-api";
 import * as Layer from "effect/Layer";
 import * as Schema from "effect/Schema";
-import { FetchHttpClient, HttpClient, HttpClientResponse, HttpServer } from "effect/unstable/http";
-import { HttpApi, HttpApiBuilder, HttpApiEndpoint, HttpApiGroup } from "effect/unstable/httpapi";
 
 const YahooResponse = Schema.Struct({
   chart: Schema.Struct({

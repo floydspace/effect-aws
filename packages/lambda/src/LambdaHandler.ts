@@ -363,8 +363,8 @@ export const httpApiStreamHandler: EffectStreamifyHandler<
  * @example
  * ```ts
  * import { LambdaHandler } from "@effect-aws/lambda"
- * import { HttpServer } from "effect/unstable/http";
- * import { HttpApi, HttpApiBuilder } from "effect/unstable/httpapi"
+ * import { HttpServer } from "effect/http";
+ * import { HttpApi, HttpApiBuilder } from "effect/http-api"
  * import { Layer } from "effect"
  *
  * class MyApi extends HttpApi.make("api") {}
@@ -396,8 +396,8 @@ export const fromHttpApi = <LA, LE>(
  * @example
  * ```ts
  * import { LambdaHandler } from "@effect-aws/lambda"
- * import { HttpServer } from "effect/unstable/http";
- * import { HttpApi, HttpApiBuilder } from "effect/unstable/httpapi"
+ * import { HttpServer } from "effect/http";
+ * import { HttpApi, HttpApiBuilder } from "effect/http-api"
  * import { Layer } from "effect"
  *
  * class MyApi extends HttpApi.make("api") {}
