@@ -1,10 +1,9 @@
 /**
  * @since 1.0.0
  */
-import * as Console from "effect/Console";
-import * as Effect from "effect/Effect";
 import type * as Layer from "effect/Layer";
 import * as ManagedRuntime from "effect/ManagedRuntime";
+import { disposeOnTermination } from "./internal/runtime.js";
 
 /**
  * Makes a managed runtime from a layer asynchronously, designed for AWS Lambda.
@@ -31,20 +30,7 @@ export const fromLayer = <R, E>(
 ): ManagedRuntime.ManagedRuntime<R, E> => {
   const rt = ManagedRuntime.make(layer, options);
 
-  const signalHandler: NodeJS.SignalsListener = (signal) => {
-    Effect.runFork(
-      Effect.gen(function*() {
-        yield* Console.log(`[runtime] ${signal} received`);
-        yield* Console.log("[runtime] cleaning up");
-        yield* rt.disposeEffect;
-        yield* Console.log("[runtime] exiting");
-        yield* Effect.sync(() => process.exit(0));
-      }),
-    );
-  };
-
-  process.on("SIGTERM", signalHandler);
-  process.on("SIGINT", signalHandler);
+  disposeOnTermination(() => rt.disposeEffect);
 
   return rt;
 };

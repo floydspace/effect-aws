@@ -4,18 +4,20 @@
 import type * as Cause from "effect/Cause";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
-import type { HttpMiddleware } from "effect/http";
-import { HttpRouter } from "effect/http";
+import { compose } from "effect/Function";
+import type { HttpServerRequest } from "effect/http";
+import { HttpEffect, HttpMiddleware, HttpRouter } from "effect/http";
 import * as Layer from "effect/Layer";
 import type * as PlatformError from "effect/PlatformError";
 import * as Predicate from "effect/Predicate";
+import type * as Scope from "effect/Scope";
 import { Readable } from "node:stream";
 import { getEventSource } from "./internal/index.js";
 import * as internal from "./internal/lambdaHandler.js";
+import { makeRunPromise } from "./internal/runtime.js";
 import { pipeline, pipeTo } from "./internal/stream.js";
 import type { EventSource, ResponseValues } from "./internal/types.js";
 import { encodeBase64, isContentEncodingBinary, isContentTypeBinary } from "./internal/utils.js";
-import * as LambdaRuntime from "./LambdaRuntime.js";
 import type {
   ALBEvent,
   ALBResult,
@@ -134,10 +136,10 @@ export const make: {
       handlerOrOptions(event, context).pipe(Effect.runPromise as <E>(effect: Effect.Effect<A, E, R>) => Promise<A>);
   }
 
-  const runtime = LambdaRuntime.fromLayer(handlerOrOptions.layer, { memoMap: handlerOrOptions.memoMap });
+  const runPromise = makeRunPromise(handlerOrOptions.layer, { memoMap: handlerOrOptions.memoMap });
   return async (event, context) => {
     context.callbackWaitsForEmptyEventLoop = false;
-    return handlerOrOptions.handler(event, context).pipe(runtime.runPromise);
+    return handlerOrOptions.handler(event, context).pipe(runPromise);
   };
 };
 
@@ -188,12 +190,12 @@ export const stream: {
     );
   }
 
-  const runtime = LambdaRuntime.fromLayer(handlerOrOptions.layer, { memoMap: handlerOrOptions.memoMap });
+  const runPromise = makeRunPromise(handlerOrOptions.layer, { memoMap: handlerOrOptions.memoMap });
   return global.awslambda?.streamifyResponse(async (event, responseStream, context) => {
     context.callbackWaitsForEmptyEventLoop = false;
     return handlerOrOptions.handler(event, context).pipe(
       pipeTo(responseStream, { end: true }),
-      runtime.runPromise,
+      runPromise,
     );
   });
 };
@@ -259,13 +261,21 @@ const responseHeaders = (res: Response) => {
 export const makeWebHandler = <LA, LE>(
   httpRouter: Layer.Layer<LA, LE, HttpRouter.HttpRouter>,
   options?: HttpApiOptions,
-) => {
-  const layer = Layer.provide(httpRouter, HttpRouter.layer);
-  return Effect.acquireRelease(
-    Effect.sync(() => HttpRouter.toWebHandler(layer, options)),
-    ({ dispose }) => Effect.promise(() => dispose()),
-  ).pipe(Effect.map(({ handler }) => handler));
-};
+) =>
+  Effect.gen(function*() {
+    // Built here rather than inside `HttpRouter.toWebHandler`, so a failed build fails this effect instead of
+    // every request.
+    const httpEffect = yield* HttpRouter.toHttpEffect(httpRouter);
+    const services = yield* Effect.context<never>();
+    const middleware = options?.middleware
+      ? compose(options.middleware, HttpMiddleware.logger)
+      : HttpMiddleware.logger;
+    return HttpEffect.toWebHandlerWith<
+      never,
+      Scope.Scope | HttpServerRequest.HttpServerRequest,
+      LambdaHandler.Event | LambdaContext
+    >(services)(httpEffect, middleware);
+  });
 
 /**
  * Construct an `EffectHandler` from an `HttpApi` instance.
@@ -417,10 +427,10 @@ export const streamFromHttpApi = <LA, LE>(
   options?: HttpApiOptions,
 ): Handler<LambdaHandler.Event, void> => {
   const WebHandlerLive = Layer.effect(WebHandler, makeWebHandler(layer, options));
-  const runtime = LambdaRuntime.fromLayer(WebHandlerLive, { memoMap: options?.memoMap });
+  const runPromise = makeRunPromise(WebHandlerLive, { memoMap: options?.memoMap });
 
   return global.awslambda?.streamifyResponse(async (event, responseStream, context) => {
     context.callbackWaitsForEmptyEventLoop = false;
-    return httpApiStreamHandler(event, responseStream, context).pipe(runtime.runPromise);
+    return httpApiStreamHandler(event, responseStream, context).pipe(runPromise);
   });
 };
