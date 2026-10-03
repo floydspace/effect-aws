@@ -59,7 +59,8 @@ export class TypeScriptLibProject extends typescript.TypeScriptProject {
       depsUpgrade: false, // Updates are handled by monorepo task
       eslint: false,
       jest: false,
-      libdir: "build",
+      libdir: "dist",
+      npmignoreEnabled: false, // `files` lists what is published
       disableTsconfigDev: true, // no dev ts files
       ...options,
       name: `@${parent?.name}/${options.name}`,
@@ -77,9 +78,10 @@ export class TypeScriptLibProject extends typescript.TypeScriptProject {
       this.addDevDeps(...workspacePeerDeps.map((dep) => `${dep.package.packageName}@workspace:^`));
     }
 
-    this.package.addField("main", `${this.libdir}/cjs/index.js`);
-    this.package.addField("types", `${this.libdir}/dts/index.d.ts`);
+    this.package.addField("main", `./${this.libdir}/index.js`);
+    this.package.addField("types", `./${this.libdir}/index.d.ts`);
     this.package.addField("type", "module");
+    this.gitignore.exclude("/build/");
 
     this.tsconfigSrc = this.makeTsconfig("tsconfig.src.json", this.srcdir);
     this.tsconfigTst = this.makeTsconfig("tsconfig.dev.json", this.testdir, {
@@ -104,21 +106,31 @@ export class TypeScriptLibProject extends typescript.TypeScriptProject {
       });
     }
 
-    // Add tsconfig for building esm
+    // The published build: ESM, with each declaration next to its module
     this.tsconfigEsm = this.makeBaseTsconfig("tsconfig.esm.json", "esm", {
-      declarationDir: `${this.libdir}/dts`,
+      outDir: this.libdir,
       stripInternal: true,
     });
     this.tsconfigEsm.addExtends(this.tsconfigSrc);
 
-    // Build both cjs and esm
     this.compileTask.reset(
       `tsc -b ./${this.tsconfigEsm.fileName}`,
     );
 
     this.addFields({
-      // Reference to esm index for root imports
-      module: `${this.libdir}/esm/index.js`,
+      exports: {
+        "./package.json": "./package.json",
+        ".": `./${this.libdir}/index.js`,
+        "./*": `./${this.libdir}/*.js`,
+        "./internal/*": null,
+      },
+      files: [
+        "src/**/*.ts",
+        `${this.libdir}/**/*.js`,
+        `${this.libdir}/**/*.js.map`,
+        `${this.libdir}/**/*.d.ts`,
+        `${this.libdir}/**/*.d.ts.map`,
+      ],
       publishConfig: { access: "public" },
       sideEffects: [],
     });
@@ -133,7 +145,7 @@ export class TypeScriptLibProject extends typescript.TypeScriptProject {
       fileName,
       compilerOptions: {
         tsBuildInfoFile: `.tsbuildinfo/${srcdir}.tsbuildinfo`,
-        ...(noEmit ? { noEmit } : { outDir: `${this.libdir}/${srcdir}` }),
+        ...(noEmit ? { noEmit } : { outDir: `build/${srcdir}` }),
         ...extraCompilerOptions,
       },
     });

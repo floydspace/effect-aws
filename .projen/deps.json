@@ -9,10 +9,6 @@
       "type": "build"
     },
     {
-      "name": "@effect/build-utils",
-      "type": "build"
-    },
-    {
       "name": "@effect/docgen",
       "type": "build"
     },

@@ -26,9 +26,6 @@ importers:
       '@changesets/cli':
         specifier: ^2.27.12
         version: 2.31.1(@types/node@25.9.3)
-      '@effect/build-utils':
-        specifier: ^0.8.3
-        version: 0.8.9
       '@effect/docgen':
         specifier: ^0.5.2
         version: 0.5.2(tsx@4.23.12)(typescript@5.9.3)
@@ -124,7 +121,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -135,7 +132,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-api-gateway:
     dependencies:
@@ -144,7 +140,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -155,7 +151,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-api-gateway-management-api:
     dependencies:
@@ -164,7 +159,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -175,7 +170,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-api-gateway-v2:
     dependencies:
@@ -184,7 +178,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -195,7 +189,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-athena:
     dependencies:
@@ -204,7 +197,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -215,7 +208,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-auto-scaling:
     dependencies:
@@ -224,7 +216,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -235,7 +227,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-bedrock:
     dependencies:
@@ -244,7 +235,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -255,7 +246,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-bedrock-agent:
     dependencies:
@@ -264,7 +254,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -275,7 +265,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-bedrock-agentcore:
     dependencies:
@@ -284,7 +273,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -295,7 +284,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-bedrock-agentcore-control:
     dependencies:
@@ -304,7 +292,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -315,7 +303,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-bedrock-runtime:
     dependencies:
@@ -324,7 +311,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -335,7 +322,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-cloudformation:
     dependencies:
@@ -344,7 +330,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -355,7 +341,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-cloudfront:
     dependencies:
@@ -364,7 +349,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -375,7 +360,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-cloudsearch:
     dependencies:
@@ -384,7 +368,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -395,7 +379,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-cloudtrail:
     dependencies:
@@ -404,7 +387,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -415,7 +398,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-cloudwatch:
     dependencies:
@@ -424,7 +406,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -435,7 +417,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-cloudwatch-events:
     dependencies:
@@ -444,7 +425,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -455,7 +436,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-cloudwatch-logs:
     dependencies:
@@ -464,7 +444,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -475,7 +455,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-codedeploy:
     dependencies:
@@ -484,7 +463,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -495,7 +474,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-cognito-identity-provider:
     dependencies:
@@ -504,7 +482,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -515,7 +493,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-data-pipeline:
     dependencies:
@@ -524,7 +501,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -535,7 +512,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-dsql:
     dependencies:
@@ -544,7 +520,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -555,7 +531,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-dynamodb:
     dependencies:
@@ -564,7 +539,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -575,7 +550,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-ec2:
     dependencies:
@@ -584,7 +558,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -595,7 +569,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-ecr:
     dependencies:
@@ -604,7 +577,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -615,7 +588,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-ecs:
     dependencies:
@@ -624,7 +596,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -635,7 +607,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-eks:
     dependencies:
@@ -644,7 +615,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -655,7 +626,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-elastic-load-balancing-v2:
     dependencies:
@@ -664,7 +634,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -675,7 +645,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-elasticache:
     dependencies:
@@ -684,7 +653,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -695,7 +664,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-eventbridge:
     dependencies:
@@ -704,7 +672,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -715,7 +683,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-firehose:
     dependencies:
@@ -724,7 +691,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -735,7 +702,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-glue:
     dependencies:
@@ -744,7 +710,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -755,7 +721,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-iam:
     dependencies:
@@ -764,7 +729,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -775,7 +740,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-iot:
     dependencies:
@@ -784,7 +748,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -795,7 +759,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-iot-data-plane:
     dependencies:
@@ -804,7 +767,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -815,7 +778,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-iot-jobs-data-plane:
     dependencies:
@@ -824,7 +786,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -835,7 +797,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-iot-wireless:
     dependencies:
@@ -844,7 +805,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -855,7 +816,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-ivs:
     dependencies:
@@ -864,7 +824,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -875,7 +835,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-kafka:
     dependencies:
@@ -884,7 +843,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -895,7 +854,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-kafkaconnect:
     dependencies:
@@ -904,7 +862,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -915,7 +873,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-kinesis:
     dependencies:
@@ -924,7 +881,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -935,7 +892,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-kms:
     dependencies:
@@ -944,7 +900,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -955,7 +911,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-lambda:
     dependencies:
@@ -964,7 +919,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -975,7 +930,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-mq:
     dependencies:
@@ -984,7 +938,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -995,7 +949,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-opensearch:
     dependencies:
@@ -1004,7 +957,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -1015,7 +968,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-opensearch-serverless:
     dependencies:
@@ -1024,7 +976,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -1035,7 +987,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-organizations:
     dependencies:
@@ -1044,7 +995,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -1055,7 +1006,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-rds:
     dependencies:
@@ -1064,7 +1014,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -1075,7 +1025,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-resource-groups-tagging-api:
     dependencies:
@@ -1084,7 +1033,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -1095,7 +1044,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-s3:
     dependencies:
@@ -1110,7 +1058,7 @@ importers:
         version: 3.974.6
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -1121,7 +1069,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-scheduler:
     dependencies:
@@ -1130,7 +1077,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -1141,7 +1088,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-secrets-manager:
     dependencies:
@@ -1150,7 +1096,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -1161,7 +1107,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-ses:
     dependencies:
@@ -1170,7 +1115,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -1181,7 +1126,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-sesv2:
     dependencies:
@@ -1190,7 +1134,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -1201,7 +1145,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-sfn:
     dependencies:
@@ -1210,7 +1153,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -1221,7 +1164,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-sns:
     dependencies:
@@ -1230,7 +1172,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -1241,7 +1183,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-sqs:
     dependencies:
@@ -1250,7 +1191,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -1261,7 +1202,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-ssm:
     dependencies:
@@ -1270,7 +1210,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -1281,7 +1221,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-sts:
     dependencies:
@@ -1290,7 +1229,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -1301,7 +1240,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-textract:
     dependencies:
@@ -1310,7 +1248,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -1321,7 +1259,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-timestream-influxdb:
     dependencies:
@@ -1330,7 +1267,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -1341,7 +1278,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-timestream-query:
     dependencies:
@@ -1350,7 +1286,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -1361,7 +1297,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/client-timestream-write:
     dependencies:
@@ -1370,7 +1305,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@types/node':
         specifier: ts5.4
@@ -1381,7 +1316,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/cloudfront:
     dependencies:
@@ -1398,7 +1332,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/commons:
     dependencies:
@@ -1427,7 +1360,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/dsql:
     dependencies:
@@ -1444,7 +1376,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/dynamodb:
     dependencies:
@@ -1456,11 +1387,11 @@ importers:
         version: 3.1141.0(@aws-sdk/client-dynamodb@3.1141.0)
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
     devDependencies:
       '@effect-aws/client-dynamodb':
         specifier: workspace:^
-        version: link:../client-dynamodb/dist
+        version: link:../client-dynamodb
       '@types/node':
         specifier: ts5.4
         version: 25.9.3
@@ -1470,7 +1401,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/http-handler:
     dependencies:
@@ -1486,7 +1416,7 @@ importers:
     devDependencies:
       '@effect-aws/commons':
         specifier: workspace:^
-        version: link:../commons/dist
+        version: link:../commons
       '@types/node':
         specifier: ts5.4
         version: 25.9.3
@@ -1496,7 +1426,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/lambda:
     devDependencies:
@@ -1515,7 +1444,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/powertools-logger:
     devDependencies:
@@ -1534,7 +1462,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/powertools-tracer:
     dependencies:
@@ -1550,7 +1477,7 @@ importers:
         version: 2.0.0
       '@effect-aws/lambda':
         specifier: workspace:^
-        version: link:../lambda/dist
+        version: link:../lambda
       '@types/aws-lambda':
         specifier: ^8.10.159
         version: 8.10.162
@@ -1563,7 +1490,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/s3:
     devDependencies:
@@ -1572,7 +1498,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/client-s3':
         specifier: workspace:^
-        version: link:../client-s3/dist
+        version: link:../client-s3
       '@types/node':
         specifier: ts5.4
         version: 25.9.3
@@ -1582,7 +1508,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/secrets-manager:
     devDependencies:
@@ -1591,7 +1516,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/client-secrets-manager':
         specifier: workspace:^
-        version: link:../client-secrets-manager/dist
+        version: link:../client-secrets-manager
       '@fluffy-spoon/substitute':
         specifier: ^1.208.0
         version: 1.208.0
@@ -1604,7 +1529,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
   packages/ssm:
     devDependencies:
@@ -1613,7 +1537,7 @@ importers:
         version: 3.1141.0
       '@effect-aws/client-ssm':
         specifier: workspace:^
-        version: link:../client-ssm/dist
+        version: link:../client-ssm
       '@fluffy-spoon/substitute':
         specifier: ^1.208.0
         version: 1.208.0
@@ -1626,7 +1550,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
-    publishDirectory: dist
 
 packages:
 
@@ -2202,11 +2125,6 @@ packages:
   '@dprint/typescript@0.91.8':
     resolution: {integrity: sha512-tuKn4leCPItox1O4uunHcQF0QllDCvPWklnNQIh2PiWWVtRAGltJJnM4Cwj5AciplosD1Hiz7vAY3ew3crLb3A==}
 
-  '@effect/build-utils@0.8.9':
-    resolution: {integrity: sha512-wzunjr8pyNjghLueo5ePQD7vaM3qeO2H/jF57hNYbQM/rxfipBWYKukoqWyp04qGZ+V86FyOHb8zD5+PMZvH2A==}
-    engines: {node: '>=16.17.1'}
-    hasBin: true
-
   '@effect/docgen@0.5.2':
     resolution: {integrity: sha512-gqBxAhp58R18vT5+ORobWRQ/2MaF5vH0k1zggSct54J41k8TKF5mYIW1qG5tkOVCejet+8K5MKsWK3gzIkaoMw==}
     engines: {node: '>=18.0.0'}
@@ -2675,36 +2593,42 @@ packages:
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [linux]
+    libc: [glibc]
 
   '@rolldown/binding-linux-arm64-musl@1.2.6':
     resolution: {integrity: sha512-muWCk27FVBEZtv0MsK8gnfSmgczA8KQ0uRVJbTABKhkRfQc38aUrcb7fhi3BNiyseFmgcRsoMfQsSNJ+DbZdSw==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [linux]
+    libc: [musl]
 
   '@rolldown/binding-linux-ppc64-gnu@1.2.6':
     resolution: {integrity: sha512-eWDoSfU7Co2qj3vgB3Dt4lj1mG6CoWbcJQkRMP3XJplyCMtuaq3LHvPFjS9QIPvMGWVadJC04Xiy0IdcVPtnwQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [ppc64]
     os: [linux]
+    libc: [glibc]
 
   '@rolldown/binding-linux-s390x-gnu@1.2.6':
     resolution: {integrity: sha512-2bWNjRSIayvupRKxXUY2tWG9fYdoUlTqWywHRvE8Eq3GvuQ+f2HeIkve697fIt+IQs/PV8yFsdWuhp1aJ1PdnA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [s390x]
     os: [linux]
+    libc: [glibc]
 
   '@rolldown/binding-linux-x64-gnu@1.2.6':
     resolution: {integrity: sha512-KekI0gS0wLxe1UBSQSjenBVwou/JkcQPDzBPICGZjxUv9k3RteHDPBQaiOicZUFKRIH2wKEimGwVpnJsbPzu7w==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
 
   '@rolldown/binding-linux-x64-musl@1.2.6':
     resolution: {integrity: sha512-TvtPnfVr+HtyGiDmPK4VWmlNm7QhNNAcK5Q9A7aOXsI8545yCyaoMaicXrFZ72JzeYjaUVk7yT243zT0jzjFKQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [linux]
+    libc: [musl]
 
   '@rolldown/binding-openharmony-arm64@1.2.6':
     resolution: {integrity: sha512-iOo0VEay2XFhaCcH0sps5XIimkSuOnNaZrf6+ZkoSOQBJPKNU48RkmJv0/lSpipexu5P+ouFgafe5IGr/DiQfg==}
@@ -3053,51 +2977,61 @@ packages:
     resolution: {integrity: sha512-zJc0H99FEPoFfSrNpa91HYfxzfAJCr502oxNK1cfdC9hlaFI43RT+JFCann9JUgZmLzzntChHyn13Sgn9ljHNg==}
     cpu: [arm64]
     os: [linux]
+    libc: [glibc]
 
   '@unrs/resolver-binding-linux-arm64-musl@1.12.2':
     resolution: {integrity: sha512-KQ3Lki6l+Pz1k/eBipN41ES+YUK30beLGb9YqcB1O542cyLCNE6GaxrfcY3T6EezmGGk84wb5XyO9loTM9tkcA==}
     cpu: [arm64]
     os: [linux]
+    libc: [musl]
 
   '@unrs/resolver-binding-linux-loong64-gnu@1.12.2':
     resolution: {integrity: sha512-3SJGEh1DborhG6pyxvhPzCT4bbSIVihsvgJc13P1bHG7KLdNDaF9T3gsTwFc7Jw/5Y5/iWOjkEx7Zy0NvCGX3Q==}
     cpu: [loong64]
     os: [linux]
+    libc: [glibc]
 
   '@unrs/resolver-binding-linux-loong64-musl@1.12.2':
     resolution: {integrity: sha512-jiuG/Obbel7uw1PwHNFfrkiKhLAF6mnyZ6aWlOAVN9WqKm8v0OFGnciJIHu8+CMvXLQ8AD51LPzAoUfT21D5Ew==}
     cpu: [loong64]
     os: [linux]
+    libc: [musl]
 
   '@unrs/resolver-binding-linux-ppc64-gnu@1.12.2':
     resolution: {integrity: sha512-q7xRvVpmcfeL+LlZg8Pbbo6QaTZwDU5BaGZbwfhkEsXJn3Was8xYfE0RBH266xZt0rM6B7i8xAYIvjthuUIWHg==}
     cpu: [ppc64]
     os: [linux]
+    libc: [glibc]
 
   '@unrs/resolver-binding-linux-riscv64-gnu@1.12.2':
     resolution: {integrity: sha512-0CVdx6lcnT3Q9inOH8tsMIOJ6ImndllMjqJHg8RLVdB7Vq4SfkEXl9mCSsVNuNA4MCYycRicCUxPCabVHJRr6A==}
     cpu: [riscv64]
     os: [linux]
+    libc: [glibc]
 
   '@unrs/resolver-binding-linux-riscv64-musl@1.12.2':
     resolution: {integrity: sha512-iOwlRo9vnp6R6ohHQS11n0NnfdXx/omhkocmIfaPRpQhKZ+3BDMkkdRVh53qjkFkpPddf+FETA28NwGN7l5l+w==}
     cpu: [riscv64]
     os: [linux]
+    libc: [musl]
 
   '@unrs/resolver-binding-linux-s390x-gnu@1.12.2':
     resolution: {integrity: sha512-HYJtLfXq94q8iZNFT1lknx258wlkkWhZeUXJRqzKBBUJ00CvZ+N33zgbCqimLjsyw5Va6uUxhVa12mI+kaveEw==}
     cpu: [s390x]
     os: [linux]
+    libc: [glibc]
 
   '@unrs/resolver-binding-linux-x64-gnu@1.12.2':
     resolution: {integrity: sha512-mPsUhunKKDih5O96Y6enDQyHc1SqBPlY1E/SfMWDM3EdJ95Z9CArPeCVwCCqbP45ljvivdEk8Fxn+SIb1rDAJQ==}
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
 
   '@unrs/resolver-binding-linux-x64-musl@1.12.2':
     resolution: {integrity: sha512-azrt6+5ydLd8Vt210AAFis/lZevSfPw93EJRIJG+xPu4WCJ8K0kppCTpMyLPcKT7H15M4Jnt2tMp5bOvCkRC6A==}
     cpu: [x64]
     os: [linux]
+    libc: [musl]
 
   '@unrs/resolver-binding-openharmony-arm64@1.12.2':
     resolution: {integrity: sha512-YZ9hP4O0X9PQb8eO980qmLNGH4zT3I9+SZTdt0Pr0YyuGQhYKoOZkV02VzrzyOZJ5xIJ3UFIenKkUkGg8GjgWQ==}
@@ -4413,24 +4347,28 @@ packages:
     engines: {node: '>= 12.0.0'}
     cpu: [arm64]
     os: [linux]
+    libc: [glibc]
 
   lightningcss-linux-arm64-musl@1.33.0:
     resolution: {integrity: sha512-yiO5ROMuYQgXbC60yjZU5CYSFZGKXL0HFATXt9mHJn1+zW55oCtMI9NfcVhYLMFDL7gV7oBPon/EmMMGg2OvtQ==}
     engines: {node: '>= 12.0.0'}
     cpu: [arm64]
     os: [linux]
+    libc: [musl]
 
   lightningcss-linux-x64-gnu@1.33.0:
     resolution: {integrity: sha512-ar+Ju7LmcN0Jo4FpL4hpFybwNG9/3A/Br5KW2n2jyODg3MEZXaDYADdemoNS+BDNfMgKvylJLj4S5tyRActuAg==}
     engines: {node: '>= 12.0.0'}
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
 
   lightningcss-linux-x64-musl@1.33.0:
     resolution: {integrity: sha512-RYiYbkokw0trfKqqzfF55lginwEPrD3OJDfTuJzFs1MK6iFnDenaz1fqLLtX4ITG3OktJQXOeTaw1awrBAlZPw==}
     engines: {node: '>= 12.0.0'}
     cpu: [x64]
     os: [linux]
+    libc: [musl]
 
   lightningcss-win32-arm64-msvc@1.33.0:
     resolution: {integrity: sha512-1K+MPfLSFVpphzpdbfkhlWk6wBrTObBzS2T6db10PNOZgR9GoVsAWzwNyuhUYYbTp23j+4RrncfujZ4uAzXvwA==}
@@ -4770,10 +4708,6 @@ packages:
   pify@4.0.1:
     resolution: {integrity: sha512-uB80kBFb/tfd68bVleG9T5GGsGPjJrLAUpR5PZIrhBnIaRTQRjqdJSsIKkOP6OAIFbj7GOrcudc5pNjZ+geV2g==}
     engines: {node: '>=6'}
-
-  pkg-entry-points@1.1.2:
-    resolution: {integrity: sha512-bmmM+SdLXNNetFr4o53QiiZRZicls2apmzj8HRpo4bU+3nJHiPO/omv8TXHIOzTcirua3YBAwTlKE+7zkICh4g==}
-    engines: {node: '>=20.19.5'}
 
   possible-typed-array-names@1.1.0:
     resolution: {integrity: sha512-/+5VFTchJDoVj3bhoqi6UeymcD00DAwb1nJwamzPvHEszJ4FpF6SNNbUbOS8yI56qHzdV8eK0qEfOSiodkTdxg==}
@@ -6802,11 +6736,6 @@ snapshots:
   '@dprint/formatter@0.4.1': {}
 
   '@dprint/typescript@0.91.8': {}
-
-  '@effect/build-utils@0.8.9':
-    dependencies:
-      micromatch: 4.0.8
-      pkg-entry-points: 1.1.2
 
   '@effect/docgen@0.5.2(tsx@4.23.12)(typescript@5.9.3)':
     dependencies:
@@ -9425,8 +9354,6 @@ snapshots:
   picomatch@4.0.7: {}
 
   pify@4.0.1: {}
-
-  pkg-entry-points@1.1.2: {}
 
   possible-typed-array-names@1.1.0: {}
 
