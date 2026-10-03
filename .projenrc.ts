@@ -1,7 +1,7 @@
 import { Changesets } from "@floydspace/projen-components";
 import path from "node:path";
 import { YamlFile } from "projen";
-import { BuildUtils, Docgen, Eslint, MonorepoProject, TypeScriptLibProject, Vitest } from "./projenrc/index.js";
+import { Docgen, Eslint, MonorepoProject, TypeScriptLibProject, Vitest } from "./projenrc/index.js";
 import { Readme } from "./projenrc/readme.js";
 import singularities from "./scripts/client-singularities.js";
 import { normalizePackageName } from "./scripts/utils.js";
@@ -22,8 +22,6 @@ const project = new MonorepoProject({
 });
 
 new YamlFile(project, ".github/FUNDING.yml", { obj: { github: org } });
-
-new BuildUtils(project);
 
 new Changesets(project, {
   repo,

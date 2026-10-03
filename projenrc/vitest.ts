@@ -55,7 +55,7 @@ export class Vitest extends Component {
         "",
         "const alias = (pkg: string, dir = pkg) => {",
         "  const name = `@effect-aws/${pkg}`",
-        '  const target = process.env.TEST_DIST !== undefined ? "dist/dist/esm" : "src"',
+        '  const target = process.env.TEST_DIST !== undefined ? "dist" : "src"',
         "  return ({",
         `    [\`\${name}/test\`]: path.join(import.meta.dirname, "packages", dir, "test"),`,
         `    [\`\${name}\`]: path.join(import.meta.dirname, "packages", dir, target)`,

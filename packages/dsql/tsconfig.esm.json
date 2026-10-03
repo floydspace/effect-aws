@@ -3,8 +3,7 @@
   "extends": "./tsconfig.src.json",
   "compilerOptions": {
     "tsBuildInfoFile": ".tsbuildinfo/esm.tsbuildinfo",
-    "outDir": "build/esm",
-    "declarationDir": "build/dts",
+    "outDir": "dist",
     "stripInternal": true
   }
 }

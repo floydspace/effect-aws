@@ -5,7 +5,6 @@
 !/.projen/files.json
 !/package.json
 !/LICENSE
-!/.npmignore
 logs
 *.log
 npm-debug.log*
@@ -33,8 +32,9 @@ jspm_packages/
 !/test/
 !/tsconfig.json
 !/src/
-/build
+/dist
 /dist/
+/build/
 !/tsconfig.src.json
 !/tsconfig.dev.json
 !/tsconfig.esm.json
