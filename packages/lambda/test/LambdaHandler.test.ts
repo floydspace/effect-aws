@@ -63,6 +63,38 @@ describe("LambdaHandler", () => {
       expect(result).toBe("Not implemented");
     });
 
+    it("should build the layer again after a failed build", async () => {
+      const event: SNSEvent = { Records: [] };
+      const context = {} as LambdaContext;
+
+      interface FooService {
+        bar: () => Effect.Effect<string>;
+      }
+      const FooService = Context.Service<FooService>("@services/FooService");
+      let builds = 0;
+      const FooServiceLive = Layer.effect(
+        FooService,
+        Effect.suspend(() =>
+          ++builds === 1
+            ? Effect.fail(new Error("transient"))
+            : Effect.succeed(FooService.of({ bar: () => Effect.succeed("Not implemented") }))
+        ),
+      );
+
+      const myEffectHandler: EffectHandler<SNSEvent, FooService> = () =>
+        Effect.gen(function*() {
+          const service = yield* FooService;
+          return yield* service.bar();
+        });
+
+      const handler = LambdaHandler.make({ handler: myEffectHandler, layer: FooServiceLive });
+
+      await expect(handler(event, context)).rejects.toThrow("transient");
+      expect(await handler(event, context)).toBe("Not implemented");
+      expect(await handler(event, context)).toBe("Not implemented");
+      expect(builds).toBe(2);
+    });
+
     it("should gracefully shutdown the runtime", async () => {
       const event: SNSEvent = { Records: [] };
       const context = {} as LambdaContext;
@@ -338,6 +370,45 @@ describe("LambdaHandler", () => {
           isBase64Encoded: false,
         } satisfies ALBResult,
       );
+    });
+    it("should build the api again after a failed build", async () => {
+      const context = {
+        functionVersion: "$LATEST",
+        functionName: "demo-effect-app-dev-api",
+        invokedFunctionArn: "arn:aws:lambda:eu-fake-1:000000000000:function:demo-effect-app-dev-api",
+        awsRequestId: "8ad41330-f092-4037-bc7c-63ffb7d6d4e7",
+      } as LambdaContext;
+
+      const hello = HttpApiEndpoint.get("hello", `/hello`, {
+        success: Schema.String.pipe(HttpApiSchema.asText()),
+      });
+
+      const MyApi = HttpApi.make("MyApi").add(HttpApiGroup.make("hello").add(hello));
+
+      const HelloLive = HttpApiBuilder.group(
+        MyApi,
+        "hello",
+        (handlers) => handlers.handle("hello", () => Effect.succeed("Hello, World!")),
+      );
+
+      let builds = 0;
+      const FlakyLive = Layer.effectDiscard(
+        Effect.suspend(() => ++builds === 1 ? Effect.fail(new Error("transient")) : Effect.void),
+      );
+
+      const MyApiLive = HttpApiBuilder.layer(MyApi).pipe(
+        Layer.provide(HelloLive),
+        Layer.provide(HttpServer.layerServices),
+        Layer.provide(FlakyLive),
+      );
+
+      const handler = LambdaHandler.fromHttpApi(MyApiLive);
+
+      await expect(handler(apiGatewayV1Event, context)).rejects.toThrow("transient");
+      const result = await handler(apiGatewayV1Event, context);
+
+      expect(result).toMatchObject({ statusCode: 200, body: "Hello, World!" });
+      expect(builds).toBe(2);
     });
   });
 
