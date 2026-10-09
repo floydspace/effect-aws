@@ -90,6 +90,29 @@ The Effect AWS monorepo is organized into clients (having same name as native AW
 
 # Documentation
 
+## AWS SDK types
+
+Each `@effect-aws/client-*` package exports its SDK types through a type-only
+`Types` namespace. Models, command inputs, and command outputs can be imported
+from the Effect client package:
+
+```typescript
+import type { Types } from "@effect-aws/client-timestream-write";
+
+const dimensions: Array<Types.Dimension> = [{ Name: "region", Value: "eu-west-1" }];
+const record: Types._Record = {
+  Dimensions: dimensions,
+  MeasureName: "temperature",
+  MeasureValue: "21.5",
+  MeasureValueType: "DOUBLE",
+  Time: "1700000000",
+  TimeUnit: "SECONDS",
+};
+```
+
+`Types` is erased at runtime. Existing Effect error types remain at the package
+root, while their SDK counterparts are available under `Types`.
+
 ## API Reference
 
 For a complete API reference of the `effect-aws` packages, see the [Effect AWS API documentation](https://floydspace.github.io/effect-aws).
