@@ -1,6 +1,10 @@
 {
   "dependencies": [
     {
+      "name": "@effect/platform-node",
+      "type": "build"
+    },
+    {
       "name": "@effect/platform-node-shared",
       "type": "build"
     },
@@ -24,6 +28,11 @@
     },
     {
       "name": "@effect/platform-node-shared",
+      "version": ">=4.0.0 <5.0.0",
+      "type": "peer"
+    },
+    {
+      "name": "@effect/platform-node",
       "version": ">=4.0.0 <5.0.0",
       "type": "peer"
     },
