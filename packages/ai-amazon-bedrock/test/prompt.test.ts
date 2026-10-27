@@ -369,5 +369,57 @@ describe("prepareMessages", () => {
 
         expect(result.messages[1].content).toEqual([{ text: "Prefill" }, { cachePoint: { type: "default" } }]);
       }));
+
+    it.effect("keeps a part cache point instead of adding the message one after it", () =>
+      Effect.gen(function*() {
+        const result = yield* prepare([
+          {
+            role: "user",
+            content: [
+              { type: "text", text: "Document" },
+              { type: "text", text: "Question", options: { bedrock: { cachePoint: { type: "default", ttl: "1h" } } } },
+            ],
+            options: { bedrock: { cachePoint: { type: "default" } } },
+          },
+        ]);
+
+        expect(result.messages[0].content).toEqual([
+          { text: "Document" },
+          { text: "Question" },
+          { cachePoint: { type: "default", ttl: "1h" } },
+        ]);
+      }));
+
+    it.effect("places a message cache point after the last block that isn't reasoning", () =>
+      Effect.gen(function*() {
+        const cachePoint = { bedrock: { cachePoint: { type: "default" } } } as const;
+        const result = yield* prepare([
+          { role: "user", content: "First" },
+          {
+            role: "assistant",
+            content: [
+              { type: "text", text: "Draft" },
+              { type: "reasoning", text: "Hmm", options: { bedrock: { signature: "sig" } } },
+            ],
+            options: cachePoint,
+          },
+          { role: "user", content: "Second" },
+          {
+            role: "assistant",
+            content: [{ type: "reasoning", text: "Only thinking", options: { bedrock: { signature: "sig" } } }],
+            options: cachePoint,
+          },
+          { role: "user", content: "Third" },
+        ]);
+
+        expect(result.messages[1].content).toEqual([
+          { text: "Draft" },
+          { cachePoint: { type: "default" } },
+          { reasoningContent: { reasoningText: { text: "Hmm", signature: "sig" } } },
+        ]);
+        expect(result.messages[3].content).toEqual([
+          { reasoningContent: { reasoningText: { text: "Only thinking", signature: "sig" } } },
+        ]);
+      }));
   });
 });

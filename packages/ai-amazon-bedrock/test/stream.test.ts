@@ -228,6 +228,24 @@ describe("streamText", () => {
       expect(error.reason).toMatchObject({ _tag: "NetworkError", description: "socket hang up" });
     }));
 
+  it.effect("fails with a non-retryable InvalidResponseError when the response has no event stream", () =>
+    Effect.gen(function*() {
+      clientMock.on(ConverseStreamCommand).resolves({ $metadata: { requestId: "req-stream" } });
+
+      const error = yield* LanguageModel.streamText({ prompt: "Hi" }).pipe(
+        Stream.runDrain,
+        Effect.flip,
+        provideModel(),
+      );
+
+      expect(error.method).toBe("streamText");
+      expect(error.reason).toMatchObject({
+        _tag: "InvalidResponseError",
+        description: "Amazon Bedrock returned no event stream",
+      });
+      expect(error.isRetryable).toBe(false);
+    }));
+
   it.effect("fails with ToolNotFoundError for a call to a tool outside the toolkit", () =>
     Effect.gen(function*() {
       clientMock.on(ConverseStreamCommand).callsFake(async () => streamOutput(makeToolStreamEvents("GetTime")));

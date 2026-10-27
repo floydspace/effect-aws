@@ -16,7 +16,7 @@ all come from the SDK, and the request and response types stay in step with the 
 npm install --save @effect-aws/ai-amazon-bedrock @effect-aws/client-bedrock-runtime effect
 ```
 
-Requires `effect` 4.0.5 or later.
+Requires `effect` 4.0.6 or later.
 
 ## Usage
 
@@ -246,6 +246,9 @@ const program = LanguageModel.generateText({
 
 `cachePoint.ttl` accepts `"5m"` (the default) or `"1h"` on models that support it. Cache reads and writes are
 reported in `response.usage.inputTokens.cacheRead` and `cacheWrite`.
+
+Reasoning can't be cached, so reasoning parts don't take a `cachePoint`, and a message's cache point goes after its
+last content that isn't reasoning. When that content already has a cache point of its own, the message's is left out.
 
 ### Reasoning
 

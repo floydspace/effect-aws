@@ -81,6 +81,14 @@ declare module "effect/ai/AiError" {
    * @since 0.1.0
    * @stability unstable
    */
+  export interface InvalidResponseErrorMetadata {
+    readonly bedrock?: AmazonBedrockErrorMetadata | null;
+  }
+
+  /**
+   * @since 0.1.0
+   * @stability unstable
+   */
   export interface InternalProviderErrorMetadata {
     readonly bedrock?: AmazonBedrockErrorMetadata | null;
   }

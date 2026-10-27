@@ -27,12 +27,12 @@
   "devDependencies": {
     "@effect-aws/client-bedrock-runtime": "workspace:^",
     "@types/node": "ts5.4",
-    "effect": "^4.0.5",
+    "effect": "^4.0.6",
     "typescript": "^5.4.2"
   },
   "peerDependencies": {
     "@effect-aws/client-bedrock-runtime": "workspace:^",
-    "effect": "^4.0.5"
+    "effect": "^4.0.6"
   },
   "dependencies": {
     "@aws-sdk/client-bedrock-runtime": "^3.983.0"

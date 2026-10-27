@@ -83,6 +83,25 @@ const pushCachePoint = (
   }
 };
 
+// Reasoning can't be cached, so a message's cache point goes after its last
+// other block, and a cache point a part already put there wins.
+const insertMessageCachePoint = (blocks: Array<ContentBlock>, options: OptionsWithCachePoint): void => {
+  const cachePoint = toCachePointBlock(options);
+  if (Predicate.isUndefined(cachePoint)) {
+    return;
+  }
+  for (let i = blocks.length - 1; i >= 0; i--) {
+    const block = blocks[i];
+    if (Predicate.isNotUndefined(block.reasoningContent)) {
+      continue;
+    }
+    if (Predicate.isUndefined(block.cachePoint)) {
+      blocks.splice(i + 1, 0, { cachePoint });
+    }
+    return;
+  }
+};
+
 const decodeBase64 = (data: string, description: string) => {
   const result = Base64.decode(data);
   return Result.isSuccess(result)
@@ -225,7 +244,7 @@ export const prepareMessages = Effect.fnUntraced(
       if (blocks.length === 0) {
         return;
       }
-      pushCachePoint(blocks, options);
+      insertMessageCachePoint(blocks, options);
       const last = messages[messages.length - 1];
       if (last?.role === role && last.content !== undefined) {
         for (const block of blocks) {
@@ -297,11 +316,10 @@ export const prepareMessages = Effect.fnUntraced(
               }
               case "reasoning": {
                 const block = yield* toReasoningBlock(part);
-                if (Predicate.isUndefined(block)) {
-                  continue;
+                if (Predicate.isNotUndefined(block)) {
+                  blocks.push(block);
                 }
-                blocks.push(block);
-                break;
+                continue;
               }
               case "tool-call": {
                 blocks.push({

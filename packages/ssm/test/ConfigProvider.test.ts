@@ -121,7 +121,7 @@ describe("fromParameterStore", () => {
         "_tag": "Failure",
         "cause": {
           "_id": "Cause",
-          "failures": [
+          "reasons": [
             {
               "_tag": "Fail",
               "error": ConfigError {
@@ -157,7 +157,7 @@ describe("fromParameterStore", () => {
         "_tag": "Failure",
         "cause": {
           "_id": "Cause",
-          "failures": [
+          "reasons": [
             {
               "_tag": "Fail",
               "error": ConfigError {

@@ -486,6 +486,40 @@ describe.skipIf(!isLive)("live Amazon Bedrock", () => {
 
         expect(second.text).toMatch(/400/);
       }, TIMEOUT * 2);
+
+      it.runIf(signed && supports("promptCache"))(
+        "continues the conversation when a cached assistant turn ends with reasoning",
+        async () => {
+          const first = await run(model, LanguageModel.generateText({ prompt: question }), config);
+          const reasoning = first.content.filter((part) => part.type === "reasoning");
+          expect(reasoning.length).toBeGreaterThan(0);
+
+          // Bedrock rejects a cache point straight after a reasoning block,
+          // which is where this turn's cache point would otherwise go.
+          const second = await run(
+            model,
+            LanguageModel.generateText({
+              prompt: [
+                { role: "user", content: question },
+                {
+                  role: "assistant",
+                  content: reasoning.map((part) => ({
+                    type: "reasoning" as const,
+                    text: part.text,
+                    options: part.metadata,
+                  })),
+                  options: { bedrock: { cachePoint: { type: "default" } } },
+                },
+                { role: "user", content: followUp },
+              ],
+            }),
+            config,
+          );
+
+          expect(second.text).toMatch(/400/);
+        },
+        TIMEOUT * 2,
+      );
     }
   });
 });

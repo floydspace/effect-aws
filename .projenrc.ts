@@ -118,9 +118,9 @@ new TypeScriptLibProject({
   // Converse `outputConfig` (native structured output) first shipped in 3.983.0,
   // which also has `ToolSpecification.strict`
   deps: ["@aws-sdk/client-bedrock-runtime@^3.983.0"],
-  // `toolCallValidation` and `gen_ai.provider.name` telemetry need 4.0.5
-  devDeps: ["effect@^4.0.5"],
-  peerDeps: ["effect@^4.0.5"],
+  // `AiError.InvalidResponseError` first shipped in 4.0.6
+  devDeps: ["effect@^4.0.6"],
+  peerDeps: ["effect@^4.0.6"],
   workspacePeerDeps: [bedrockRuntimeClient],
   addExamples: true,
 });

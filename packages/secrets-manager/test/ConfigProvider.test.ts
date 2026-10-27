@@ -118,7 +118,7 @@ describe("fromSecretsManager", () => {
         "_tag": "Failure",
         "cause": {
           "_id": "Cause",
-          "failures": [
+          "reasons": [
             {
               "_tag": "Fail",
               "error": ConfigError {
@@ -154,7 +154,7 @@ describe("fromSecretsManager", () => {
         "_tag": "Failure",
         "cause": {
           "_id": "Cause",
-          "failures": [
+          "reasons": [
             {
               "_tag": "Fail",
               "error": ConfigError {

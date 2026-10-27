@@ -149,7 +149,8 @@ export type CachePoint = {
 };
 
 /**
- * Bedrock options shared by every prompt message and content part.
+ * Bedrock options shared by every prompt message and every content part except
+ * reasoning, which can't be cached.
  *
  * @since 0.1.0
  * @stability unstable
@@ -158,6 +159,9 @@ export type CachePoint = {
 export type CachePointOptions = {
   /**
    * Appends a cache point after this message or part.
+   *
+   * A message's cache point goes after its last content that isn't reasoning,
+   * and is left out when a part's cache point is already there.
    */
   readonly cachePoint?: CachePoint | null | undefined;
 };
@@ -263,7 +267,7 @@ declare module "effect/ai/Prompt" {
    * @stability unstable
    */
   export interface ReasoningPartOptions extends ProviderOptions {
-    readonly bedrock?: (CachePointOptions & ReasoningMetadata) | null | undefined;
+    readonly bedrock?: ReasoningMetadata | null | undefined;
   }
 
   /**
@@ -518,7 +522,7 @@ export const make = Effect.fnUntraced(function*({ config: providerConfig, model 
           return yield* AiError.make({
             module: MODULE,
             method: context.method,
-            reason: new AiError.InvalidOutputError({ description: "Amazon Bedrock returned no event stream" }),
+            reason: new AiError.InvalidResponseError({ description: "Amazon Bedrock returned no event stream" }),
           });
         }
         return makeStreamResponse({
