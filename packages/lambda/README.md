@@ -1,13 +1,13 @@
 # @effect-aws/lambda
 
-Clean way to write AWS Lambda handlers using [Effect](https://www.effect.website/).
+Clean way to write AWS Lambda Event Function handlers and Web Function servers using [Effect](https://www.effect.website/).
 
 [![npm version](https://img.shields.io/npm/v/%40effect-aws%2Flambda?color=brightgreen&label=npm%20package)](https://www.npmjs.com/package/@effect-aws/lambda)
 [![npm downloads](https://img.shields.io/npm/dm/%40effect-aws%2Flambda)](https://www.npmjs.com/package/@effect-aws/lambda)
 
 It provides a `LambdaHandler.make` function that takes an `EffectHandler` and returns a native promise Lambda handler function.
 
-The implementation supports defining global runtime layer with graceful shutdown. So all finalizers defined by `acquireRelease` will be called on lambda downscaling.
+The implementation supports defining a global runtime layer with graceful shutdown. Finalizers defined by `acquireRelease` run when a shutdown signal is received, subject to Lambda's cleanup deadline. Graceful shutdown is not guaranteed in all failure modes.
 
 ## Installation
 
@@ -16,6 +16,55 @@ npm install --save @effect-aws/lambda
 ```
 
 ## Usage
+
+### Lambda Web Functions
+
+[Lambda Web Functions](https://docs.aws.amazon.com/lambda/latest/dg/web-functions.html) run a normal HTTP server. Use `LambdaWebFunction.layer` with Effect's `HttpRouter` or `HttpApi` to listen on the address supplied by Lambda:
+
+```bash
+npm install @effect-aws/lambda effect @effect/platform-node @effect/platform-node-shared
+```
+
+```typescript
+import * as LambdaWebFunction from "@effect-aws/lambda/LambdaWebFunction"
+import { NodeRuntime } from "@effect/platform-node"
+import { Effect, Layer } from "effect"
+import { HttpRouter, HttpServerResponse } from "effect/http"
+
+const Routes = HttpRouter.use((router) =>
+  router.add("GET", "/", Effect.succeed(HttpServerResponse.text("Hello from Lambda Web Functions!")))
+)
+
+HttpRouter.serve(Routes).pipe(
+  Layer.provide(LambdaWebFunction.layer),
+  Layer.launch,
+  NodeRuntime.runMain
+)
+```
+
+For a schema-first API, pass your `HttpApiBuilder.layer(...)` with its handler layers to `HttpRouter.serve` in place of `Routes`. The server supports normal HTTP response streaming and concurrent requests. Keep request-specific state in Effect's request context rather than shared mutable globals.
+
+Web Function support is available through the `@effect-aws/lambda/LambdaWebFunction` subpath. It requires the optional `@effect/platform-node` peer dependency and a compatible Effect version (`@effect/platform-node@4.0.0` requires `effect@^4.0.0`). Existing Event Function users can continue importing from `@effect-aws/lambda` without installing `@effect/platform-node`.
+
+`LambdaWebFunction.endpoint` reads and validates `AWS_LAMBDA_HTTP_ENDPOINT` using Effect's `ConfigProvider`. Missing or malformed values fail with `ConfigError`; there is no implicit listen-address fallback. Set it explicitly to run locally:
+
+```bash
+AWS_LAMBDA_HTTP_ENDPOINT=127.0.0.1:3000 node index.js
+```
+
+Compile or bundle your entry point to `index.js` at the root of your deployment package, including its runtime dependencies. For ESM output, include a `package.json` with `"type": "module"`. Web Functions use Node.js 24 on Arm64 at launch. Deploy the prepared directory with the Web Functions-enabled AWS CLI:
+
+```bash
+aws lambda-web deploy --name my-effect-app --code ./dist
+```
+
+Lambda supplies the listen address in production. The server must start listening within 10 seconds. `NodeRuntime.runMain` handles `SIGTERM` and closes the layer's scope; the helper limits HTTP request draining to 500 milliseconds to leave time for other finalizers within Lambda's one-second cleanup window. Cleanup remains best-effort.
+
+Web Functions do not use exported Lambda event handlers, Function URL `RESPONSE_STREAM` configuration, or `LambdaHandler.context()`. Their management APIs belong to the separate `@aws-sdk/client-lambda-web` SDK package, which is not required to serve HTTP requests.
+
+### Lambda Event Functions
+
+`LambdaHandler.make`, `LambdaHandler.fromHttpApi`, and the streaming adapters below target Event Functions, including API Gateway integrations and Lambda Function URLs.
 
 Without dependencies:
 
