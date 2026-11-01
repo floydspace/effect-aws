@@ -84,6 +84,7 @@ function sidebar() {
         { text: "Secrets Manager", link: "/docs/secrets-manager" },
         { text: "Systems Manager", link: "/docs/ssm" },
         { text: "Http Handler", link: "/docs/http-handler" },
+        { text: "Bedrock AI", link: "/docs/ai-amazon-bedrock" },
       ],
     },
     {

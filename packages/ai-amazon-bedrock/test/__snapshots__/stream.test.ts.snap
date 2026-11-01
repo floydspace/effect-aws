@@ -1,0 +1,245 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`makeStreamResponse > converts a response with signed and redacted reasoning 1`] = `
+[
+  {
+    "id": "req-stream",
+    "modelId": "eu.anthropic.claude-sonnet-4-5-20250929-v1:0",
+    "timestamp": "1970-01-01T00:00:00.000Z",
+    "type": "response-metadata",
+  },
+  {
+    "id": "0",
+    "type": "reasoning-start",
+  },
+  {
+    "delta": "Let me ",
+    "id": "0",
+    "type": "reasoning-delta",
+  },
+  {
+    "delta": "think.",
+    "id": "0",
+    "type": "reasoning-delta",
+  },
+  {
+    "delta": "",
+    "id": "0",
+    "metadata": {
+      "bedrock": {
+        "signature": "sig-1",
+      },
+    },
+    "type": "reasoning-delta",
+  },
+  {
+    "id": "0",
+    "type": "reasoning-end",
+  },
+  {
+    "id": "1",
+    "type": "reasoning-start",
+  },
+  {
+    "delta": "",
+    "id": "1",
+    "metadata": {
+      "bedrock": {
+        "redactedContent": "AQID",
+      },
+    },
+    "type": "reasoning-delta",
+  },
+  {
+    "id": "1",
+    "type": "reasoning-end",
+  },
+  {
+    "id": "2",
+    "type": "text-start",
+  },
+  {
+    "delta": "42",
+    "id": "2",
+    "type": "text-delta",
+  },
+  {
+    "id": "2",
+    "type": "text-end",
+  },
+  {
+    "metadata": {
+      "bedrock": {
+        "additionalModelResponseFields": null,
+        "latencyMs": 300,
+        "serviceTier": null,
+        "stopReason": "end_turn",
+        "trace": null,
+        "usage": {
+          "cacheReadInputTokens": 1000,
+          "inputTokens": 5,
+          "outputTokens": 50,
+          "totalTokens": 1055,
+        },
+      },
+    },
+    "reason": "stop",
+    "type": "finish",
+    "usage": {
+      "inputTokens": {
+        "cacheRead": 1000,
+        "cacheWrite": 0,
+        "total": 1005,
+        "uncached": 5,
+      },
+      "outputTokens": {
+        "reasoning": undefined,
+        "text": undefined,
+        "total": 50,
+      },
+    },
+  },
+]
+`;
+
+exports[`makeStreamResponse > converts a response with text and a tool call 1`] = `
+[
+  {
+    "id": "req-stream",
+    "modelId": "eu.anthropic.claude-sonnet-4-5-20250929-v1:0",
+    "timestamp": "1970-01-01T00:00:00.000Z",
+    "type": "response-metadata",
+  },
+  {
+    "id": "0",
+    "type": "text-start",
+  },
+  {
+    "delta": "Checking.",
+    "id": "0",
+    "type": "text-delta",
+  },
+  {
+    "id": "0",
+    "type": "text-end",
+  },
+  {
+    "id": "tool-1",
+    "name": "GetWeather",
+    "type": "tool-params-start",
+  },
+  {
+    "delta": "{"city":",
+    "id": "tool-1",
+    "type": "tool-params-delta",
+  },
+  {
+    "delta": ""Paris"}",
+    "id": "tool-1",
+    "type": "tool-params-delta",
+  },
+  {
+    "id": "tool-1",
+    "type": "tool-params-end",
+  },
+  {
+    "id": "tool-1",
+    "name": "GetWeather",
+    "params": {
+      "city": "Paris",
+    },
+    "type": "tool-call",
+  },
+  {
+    "metadata": {
+      "bedrock": {
+        "additionalModelResponseFields": null,
+        "latencyMs": 90,
+        "serviceTier": null,
+        "stopReason": "tool_use",
+        "trace": null,
+        "usage": {
+          "inputTokens": 20,
+          "outputTokens": 10,
+          "totalTokens": 30,
+        },
+      },
+    },
+    "reason": "tool-calls",
+    "type": "finish",
+    "usage": {
+      "inputTokens": {
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "total": 20,
+        "uncached": 20,
+      },
+      "outputTokens": {
+        "reasoning": undefined,
+        "text": undefined,
+        "total": 10,
+      },
+    },
+  },
+]
+`;
+
+exports[`makeStreamResponse > converts a text-only response 1`] = `
+[
+  {
+    "id": "req-stream",
+    "modelId": "eu.anthropic.claude-sonnet-4-5-20250929-v1:0",
+    "timestamp": "1970-01-01T00:00:00.000Z",
+    "type": "response-metadata",
+  },
+  {
+    "id": "0",
+    "type": "text-start",
+  },
+  {
+    "delta": "Hel",
+    "id": "0",
+    "type": "text-delta",
+  },
+  {
+    "delta": "lo",
+    "id": "0",
+    "type": "text-delta",
+  },
+  {
+    "id": "0",
+    "type": "text-end",
+  },
+  {
+    "metadata": {
+      "bedrock": {
+        "additionalModelResponseFields": null,
+        "latencyMs": 80,
+        "serviceTier": null,
+        "stopReason": "end_turn",
+        "trace": null,
+        "usage": {
+          "inputTokens": 12,
+          "outputTokens": 3,
+          "totalTokens": 15,
+        },
+      },
+    },
+    "reason": "stop",
+    "type": "finish",
+    "usage": {
+      "inputTokens": {
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "total": 12,
+        "uncached": 12,
+      },
+      "outputTokens": {
+        "reasoning": undefined,
+        "text": undefined,
+        "total": 3,
+      },
+    },
+  },
+]
+`;

@@ -67,6 +67,7 @@ export default defineConfig({
       "packages/client-timestream-influxdb",
       "packages/client-kafka",
       "packages/client-kafkaconnect",
+      "packages/ai-amazon-bedrock",
       "packages/dynamodb",
       "packages/lambda",
       "packages/powertools-logger",

@@ -201,6 +201,9 @@
       "path": "packages/client-kafkaconnect"
     },
     {
+      "path": "packages/ai-amazon-bedrock"
+    },
+    {
       "path": "packages/dynamodb"
     },
     {

@@ -196,6 +196,9 @@
       "path": "packages/client-kafkaconnect/tsconfig.esm.json"
     },
     {
+      "path": "packages/ai-amazon-bedrock/tsconfig.esm.json"
+    },
+    {
       "path": "packages/dynamodb/tsconfig.esm.json"
     },
     {

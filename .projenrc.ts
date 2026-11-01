@@ -106,9 +106,24 @@ allClients.forEach((name) => {
   });
 });
 
+const bedrockRuntimeClient = TypeScriptLibProject.childOf(project, "client-bedrock-runtime");
 const dynamodbClient = TypeScriptLibProject.childOf(project, "client-dynamodb");
 const secretsManagerClient = TypeScriptLibProject.childOf(project, "client-secrets-manager");
 const ssmClient = TypeScriptLibProject.childOf(project, "client-ssm");
+
+new TypeScriptLibProject({
+  parent: project,
+  name: "ai-amazon-bedrock",
+  description: "Effectful Amazon Bedrock provider for Effect AI",
+  // Converse `outputConfig` (native structured output) first shipped in 3.983.0,
+  // which also has `ToolSpecification.strict`
+  deps: ["@aws-sdk/client-bedrock-runtime@^3.983.0"],
+  // `AiError.InvalidResponseError` first shipped in 4.0.6
+  devDeps: ["effect@^4.0.6"],
+  peerDeps: ["effect@^4.0.6"],
+  workspacePeerDeps: [bedrockRuntimeClient],
+  addExamples: true,
+});
 
 new TypeScriptLibProject({
   parent: project,

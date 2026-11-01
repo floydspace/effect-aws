@@ -53,6 +53,9 @@ export class Readme extends Component {
             normalizeServiceName(pkgName.replace(/^client-/, ""))
           }) | ${genBadges(pkgName)} | [README](https://github.com/${repo}/blob/main/packages/${pkgName}/README.md) |`
         ),
+        `| \`@${project.name}/ai-amazon-bedrock\`        | Effectful [Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/conversation-inference.html) provider for [Effect AI](https://effect.website/docs/ai/introduction/) | ${
+          genBadges("ai-amazon-bedrock")
+        } | [README](https://github.com/${repo}/blob/main/packages/ai-amazon-bedrock/README.md) |`,
         `| \`@${project.name}/dynamodb\`                 | Effectful AWS DynamoDB library & functions                                                               | ${
           genBadges("dynamodb")
         } | [README](https://github.com/${repo}/blob/main/packages/dynamodb/README.md) |`,

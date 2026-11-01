@@ -3,7 +3,7 @@ import * as Effect from "effect/Effect";
 import * as Logger from "effect/Logger";
 import * as LogLevel from "effect/LogLevel";
 import { beforeEach, describe, expect, vi } from "vitest";
-import { mockHandlerOutput } from "./fixtures/TestClientInstance.js";
+import { mockHandlerOutput, TestClient } from "./fixtures/TestClientInstance.js";
 import { TestService } from "./fixtures/TestService.js";
 
 const mockLogFn = vi.fn();
@@ -56,6 +56,46 @@ describe("Service", () => {
           }
         })])),
       ),
+  );
+
+  it.effect(
+    "should abort the request when the caller's abortSignal fires after the effect completes",
+    () =>
+      Effect.gen(function*() {
+        const sendSpy = vi.spyOn(TestClient.prototype, "send");
+        const controller = new AbortController();
+
+        yield* TestService.use((n) => n.test({}, { abortSignal: controller.signal }));
+
+        const sendOptions = sendSpy.mock.calls[0][1] as { abortSignal?: AbortSignal } | undefined;
+        expect(sendOptions?.abortSignal?.aborted).toBe(false);
+
+        controller.abort("stop");
+
+        expect(sendOptions?.abortSignal?.aborted).toBe(true);
+        expect(sendOptions?.abortSignal?.reason).toBe("stop");
+        sendSpy.mockRestore();
+      }).pipe(Effect.provide(TestService.layer({}))),
+  );
+
+  it.effect(
+    "should abort the request when a legacy onabort-style signal fires",
+    () =>
+      Effect.gen(function*() {
+        const sendSpy = vi.spyOn(TestClient.prototype, "send");
+        const legacySignal: { aborted: boolean; onabort: (() => void) | null } = { aborted: false, onabort: null };
+
+        yield* TestService.use((n) => n.test({}, { abortSignal: legacySignal }));
+
+        const sendOptions = sendSpy.mock.calls[0][1] as { abortSignal?: AbortSignal } | undefined;
+        expect(sendOptions?.abortSignal?.aborted).toBe(false);
+
+        legacySignal.aborted = true;
+        legacySignal.onabort?.();
+
+        expect(sendOptions?.abortSignal?.aborted).toBe(true);
+        sendSpy.mockRestore();
+      }).pipe(Effect.provide(TestService.layer({}))),
   );
 
   it.effect(

@@ -89,6 +89,7 @@ const config: UserConfig = {
       ...alias("client-timestream-influxdb"),
       ...alias("client-kafka"),
       ...alias("client-kafkaconnect"),
+      ...alias("ai-amazon-bedrock"),
       ...alias("dynamodb"),
       ...alias("lambda"),
       ...alias("powertools-logger"),

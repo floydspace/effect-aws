@@ -87,6 +87,33 @@ export const catchServiceExceptions: (
   throw e;
 };
 
+type AbortSignalLike = NonNullable<HttpHandlerOptions["abortSignal"]>;
+
+// Legacy SDK abort signals only support `onabort`, like the SDK's own handlers expect.
+const onAbort = (signal: AbortSignalLike, listener: () => void): void => {
+  if ("addEventListener" in signal && typeof signal.addEventListener === "function") {
+    signal.addEventListener("abort", listener, { once: true });
+  } else {
+    signal.onabort = listener;
+  }
+};
+
+const anyAbortSignal = (signal: AbortSignal, other: AbortSignalLike | undefined): AbortSignal => {
+  if (other === undefined) {
+    return signal;
+  }
+  const controller = new AbortController();
+  const abort = (source: AbortSignalLike) => controller.abort("reason" in source ? source.reason : undefined);
+  for (const source of [signal, other]) {
+    if (source.aborted) {
+      abort(source);
+      break;
+    }
+    onAbort(source, () => abort(source));
+  }
+  return controller.signal;
+};
+
 /**
  * @since 0.1.0
  * @category constructors
@@ -106,7 +133,10 @@ export const makeServiceFn = (
         (scope) =>
           Effect.tryPromise({
             try: (abortSignal) =>
-              client.send(new CommandCtor(args, config, { runtime, scope }), { ...(options ?? {}), abortSignal }),
+              client.send(new CommandCtor(args, config, { runtime, scope }), {
+                ...(options ?? {}),
+                abortSignal: anyAbortSignal(abortSignal, options?.abortSignal),
+              }),
             catch: catchServiceExceptions(fnOptions.errorTags),
           }),
         Scope.close,

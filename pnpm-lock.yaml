@@ -15,10 +15,10 @@ importers:
     dependencies:
       '@effect/platform-node':
         specifier: ^4.0.0
-        version: 4.0.0(effect@4.0.0)(redis@6.3.0)
+        version: 4.0.0(effect@4.0.6)(redis@6.3.0)
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
     devDependencies:
       '@changesets/changelog-github':
         specifier: ^0.5.0
@@ -40,7 +40,7 @@ importers:
         version: 0.87.3
       '@effect/vitest':
         specifier: ^4.0.0
-        version: 4.0.0(effect@4.0.0)(vitest@4.1.11)
+        version: 4.0.0(effect@4.0.6)(vitest@4.1.11)
       '@eslint/compat':
         specifier: ^1.2.5
         version: 1.4.1(eslint@9.39.5)
@@ -117,6 +117,26 @@ importers:
         specifier: ^5.1.1
         version: 5.1.1(typescript@5.9.3)(vitest@4.1.11)
 
+  packages/ai-amazon-bedrock:
+    dependencies:
+      '@aws-sdk/client-bedrock-runtime':
+        specifier: ^3.983.0
+        version: 3.1141.0
+    devDependencies:
+      '@effect-aws/client-bedrock-runtime':
+        specifier: workspace:^
+        version: link:../client-bedrock-runtime/dist
+      '@types/node':
+        specifier: ts5.4
+        version: 25.9.3
+      effect:
+        specifier: ^4.0.6
+        version: 4.0.6
+      typescript:
+        specifier: ^5.4.2
+        version: 5.9.3
+    publishDirectory: dist
+
   packages/client-account:
     dependencies:
       '@aws-sdk/client-account':
@@ -131,7 +151,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -151,7 +171,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -171,7 +191,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -191,7 +211,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -211,7 +231,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -231,7 +251,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -251,7 +271,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -271,7 +291,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -291,7 +311,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -311,7 +331,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -331,7 +351,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -351,7 +371,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -371,7 +391,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -391,7 +411,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -411,7 +431,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -431,7 +451,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -451,7 +471,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -471,7 +491,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -491,7 +511,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -511,7 +531,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -531,7 +551,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -551,7 +571,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -571,7 +591,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -591,7 +611,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -611,7 +631,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -631,7 +651,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -651,7 +671,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -671,7 +691,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -691,7 +711,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -711,7 +731,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -731,7 +751,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -751,7 +771,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -771,7 +791,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -791,7 +811,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -811,7 +831,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -831,7 +851,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -851,7 +871,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -871,7 +891,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -891,7 +911,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -911,7 +931,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -931,7 +951,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -951,7 +971,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -971,7 +991,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -991,7 +1011,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -1011,7 +1031,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -1031,7 +1051,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -1051,7 +1071,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -1071,7 +1091,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -1091,7 +1111,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -1117,7 +1137,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -1137,7 +1157,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -1157,7 +1177,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -1177,7 +1197,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -1197,7 +1217,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -1217,7 +1237,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -1237,7 +1257,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -1257,7 +1277,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -1277,7 +1297,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -1297,7 +1317,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -1317,7 +1337,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -1337,7 +1357,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -1357,7 +1377,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -1377,7 +1397,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -1394,7 +1414,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -1423,7 +1443,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -1440,7 +1460,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -1466,7 +1486,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -1492,7 +1512,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -1505,7 +1525,7 @@ importers:
         version: 4.0.0(effect@4.0.0)(redis@6.3.0)
       '@effect/platform-node-shared':
         specifier: 4.0.0
-        version: 4.0.0(effect@4.0.0)
+        version: 4.0.0(effect@4.0.6)
       '@types/aws-lambda':
         specifier: ^8.10.159
         version: 8.10.162
@@ -1514,7 +1534,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -1533,7 +1553,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -1562,7 +1582,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -1581,7 +1601,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -1603,7 +1623,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -1625,7 +1645,7 @@ importers:
         version: 25.9.3
       effect:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.6
       typescript:
         specifier: ^5.4.2
         version: 5.9.3
@@ -3626,8 +3646,8 @@ packages:
   eastasianwidth@0.2.0:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
 
-  effect@4.0.0:
-    resolution: {integrity: sha512-ooc1TG5t+FfzgYnFz2ff6BBKyZ7EwBRVXC7c4RhQUAD6/TZ2gTXXMeb4WX7a19ozQo4J73/QW+S00YAIresoMQ==}
+  effect@4.0.6:
+    resolution: {integrity: sha512-Tc3mkzuLR6t6P9dhLt0D2GrxYtmU5td4XEJEiXCmILz53IRIfJyHsKZWjTA3xEjiwpNTtXBgI4iqYPxMztBDrw==}
 
   electron-to-chromium@1.5.416:
     resolution: {integrity: sha512-K6bvB2BjnNrugtIih6ewlbBI9DXa976jIdiIlRLHhBoEI9a4JaQjjHyF+A1IQI543aQYR4LnmOrT/K5fZj0aPA==}
@@ -6844,28 +6864,28 @@ snapshots:
       repeat-string: 1.6.1
       strip-color: 0.1.0
 
-  '@effect/platform-node-shared@4.0.0(effect@4.0.0)':
+  '@effect/platform-node-shared@4.0.0(effect@4.0.6)':
     dependencies:
       '@types/ws': 8.18.1
-      effect: 4.0.0
+      effect: 4.0.6
       ws: 8.22.0
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
 
-  '@effect/platform-node@4.0.0(effect@4.0.0)(redis@6.3.0)':
+  '@effect/platform-node@4.0.0(effect@4.0.6)(redis@6.3.0)':
     dependencies:
-      '@effect/platform-node-shared': 4.0.0(effect@4.0.0)
-      effect: 4.0.0
+      '@effect/platform-node-shared': 4.0.0(effect@4.0.6)
+      effect: 4.0.6
       redis: 6.3.0
       undici: 8.11.2
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
 
-  '@effect/vitest@4.0.0(effect@4.0.0)(vitest@4.1.11)':
+  '@effect/vitest@4.0.0(effect@4.0.6)(vitest@4.1.11)':
     dependencies:
-      effect: 4.0.0
+      effect: 4.0.6
       vitest: 4.1.11(@types/node@25.9.3)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@25.9.3)(esbuild@0.28.2)(tsx@4.23.12))
 
   '@emnapi/core@1.10.0':
@@ -8134,7 +8154,7 @@ snapshots:
 
   eastasianwidth@0.2.0: {}
 
-  effect@4.0.0: {}
+  effect@4.0.6: {}
 
   electron-to-chromium@1.5.416: {}
 

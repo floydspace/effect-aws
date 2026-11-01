@@ -624,6 +624,15 @@
       "@effect-aws/client-kafkaconnect/test/*": [
         "./packages/client-kafkaconnect/test/*.js"
       ],
+      "@effect-aws/ai-amazon-bedrock": [
+        "./packages/ai-amazon-bedrock/src/index.js"
+      ],
+      "@effect-aws/ai-amazon-bedrock/*": [
+        "./packages/ai-amazon-bedrock/src/*.js"
+      ],
+      "@effect-aws/ai-amazon-bedrock/test/*": [
+        "./packages/ai-amazon-bedrock/test/*.js"
+      ],
       "@effect-aws/dynamodb": [
         "./packages/dynamodb/src/index.js"
       ],
