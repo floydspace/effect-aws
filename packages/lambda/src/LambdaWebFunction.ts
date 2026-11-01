@@ -6,19 +6,38 @@
 import * as NodeHttpServer from "@effect/platform-node/NodeHttpServer";
 import * as Config from "effect/Config";
 import * as Schema from "effect/Schema";
+import * as SchemaGetter from "effect/SchemaGetter";
 import { createServer } from "node:http";
 import { isIPv6 } from "node:net";
 
-const Endpoint = Schema.TemplateLiteralParser([
-  Schema.String.check(
-    Schema.isPattern(/^(?:[a-zA-Z0-9._-]+|\[[a-fA-F0-9:.]+\])$/),
-    Schema.makeFilter((host) => !host.startsWith("[") || isIPv6(host.slice(1, -1))),
+const Hostname = Schema.String.check(
+  Schema.isPattern(/^[a-zA-Z0-9._-]+$/),
+);
+
+// IPv6 literals are bracketed in `host:port`, e.g. "[::1]:3000"; decoding yields the bare address.
+const BracketedIPv6 = Schema.String.check(Schema.isPattern(/^\[.+\]$/)).pipe(
+  Schema.decodeTo(
+    Schema.String.check(Schema.makeFilter(isIPv6)),
+    {
+      decode: SchemaGetter.transform((value) => value.slice(1, -1)),
+      encode: SchemaGetter.transform((address) => `[${address}]`),
+    },
   ),
-  ":",
-  Schema.String.check(Schema.isPattern(/^\d+$/)).pipe(
-    Schema.decodeTo(Schema.NumberFromString.check(Schema.isInt(), Schema.isBetween({ minimum: 0, maximum: 65535 }))),
+);
+
+const Host = Schema.Union([Hostname, BracketedIPv6]);
+
+// The digits-only pattern stops NumberFromString from accepting values like " 3000" or "3e3".
+const Port = Schema.String.check(Schema.isPattern(/^\d+$/)).pipe(
+  Schema.decodeTo(
+    Schema.NumberFromString.check(
+      Schema.isInt(),
+      Schema.isBetween({ minimum: 0, maximum: 65535 }),
+    ),
   ),
-]);
+);
+
+const Endpoint = Schema.TemplateLiteralParser([Host, ":", Port]);
 
 /**
  * Reads the listen address supplied by Lambda. Set `AWS_LAMBDA_HTTP_ENDPOINT`
@@ -32,10 +51,7 @@ export const endpoint = Config.schema(
   Endpoint,
   "AWS_LAMBDA_HTTP_ENDPOINT",
 ).pipe(
-  Config.map(([host, , port]) => ({
-    host: host.startsWith("[") ? host.slice(1, -1) : host,
-    port,
-  })),
+  Config.map(([host, , port]) => ({ host, port })),
 );
 
 /**
