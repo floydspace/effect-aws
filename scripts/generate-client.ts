@@ -88,7 +88,7 @@ export async function generateClient([
     originalServiceName,
   );
 
-  await generateIndexFile(`./packages/client-${serviceName}/src/index.ts`, sdkName);
+  await generateIndexFile(`./packages/client-${serviceName}/src/index.ts`, sdkName, originalServiceName);
 
   await generateServiceFile(
     `./packages/client-${serviceName}/src/${sdkName}Service.ts`,
@@ -286,13 +286,21 @@ export const to${sdkName}ClientConfig: Effect.Effect<${sdkName}ClientConfig> = E
   );
 }
 
-async function generateIndexFile(filePath: string, sdkName: string) {
+export async function generateIndexFile(filePath: string, sdkName: string, originalServiceName: string) {
   await writeFile(
     filePath,
     `/**
  * @since 1.0.0
  */
 import { ${sdkName}Service } from "./${sdkName}Service.js";
+
+/**
+ * AWS SDK types for this client, including models, command inputs, and command outputs.
+ *
+ * @since 2.1.0
+ * @category types
+ */
+export type * as Types from "@aws-sdk/client-${originalServiceName}";
 
 /**
  * @since 1.0.0

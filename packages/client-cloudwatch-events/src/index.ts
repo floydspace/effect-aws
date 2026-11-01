@@ -4,6 +4,14 @@
 import { CloudWatchEventsService } from "./CloudWatchEventsService.js";
 
 /**
+ * AWS SDK types for this client, including models, command inputs, and command outputs.
+ *
+ * @since 2.1.0
+ * @category types
+ */
+export type * as Types from "@aws-sdk/client-cloudwatch-events";
+
+/**
  * @since 1.0.0
  */
 export * from "./Errors.js";
