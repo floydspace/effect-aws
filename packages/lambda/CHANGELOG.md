@@ -1,5 +1,11 @@
 # @effect-aws/lambda
 
+## 2.1.0
+
+### Minor Changes
+
+- [#240](https://github.com/floydspace/effect-aws/pull/240) [`2f88fdc`](https://github.com/floydspace/effect-aws/commit/2f88fdc1466c6d1e0a149c02182b6a6193f147d3) Thanks [@yotamishak](https://github.com/yotamishak)! - Add the opt-in @effect-aws/lambda/LambdaWebFunction subpath with endpoint configuration and a server layer for AWS Lambda Web Functions using AWS_LAMBDA_HTTP_ENDPOINT. The new helper uses @effect/platform-node as an optional peer dependency; existing Event Function imports do not require it.
+
 ## 2.0.0
 
 ### Major Changes
